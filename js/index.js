@@ -66,18 +66,34 @@
       this.$chatHistoryList.append(this.templateResponse(contextResponse));
       this.scrollToBottom();
     },
+    susiapipath: '/api/susi.json?callback=p&q=',
+    localhost:'http://127.0.0.1:9000',
+    remotehost:'https://loklak.org',
     getSusiResponse: function(queryString) {
       var _super = this;
       $.ajax({
-        url: 'https://loklak.org/api/susi.json?callback=p&q='+encodeURIComponent(queryString),
+        url: (window.location.protocol == 'file:' ? _super.localhost : _super.remotehost) + _super.susiapipath + encodeURIComponent(queryString),
         dataType: 'jsonp',
         jsonpCallback: 'p',
         jsonp: 'callback',
         crossDomain: true,
-        timeout: 10000,
+        timeout: window.location.protocol == 'file:' ? 1000 : 10000,
         success: function (data) {
           _super.processSusiData(data);
-        }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+          $.ajax({
+            url: _super.remotehost + _super.susiapipath + encodeURIComponent(queryString),
+            dataType: 'jsonp',
+            jsonpCallback: 'p',
+            jsonp: 'callback',
+            crossDomain: true,
+            success: function (data) {
+              data.answers[0].actions[0].expression = '* ' + data.answers[0].actions[0].expression
+              _super.processSusiData(data);
+            }
+          });
+        } 
       });
     }
   };
