@@ -77,6 +77,7 @@
         jsonpCallback: 'p',
         jsonp: 'callback',
         crossDomain: true,
+        async: false,
         timeout: window.location.protocol == 'file:' ? 1000 : 10000,
         success: function (data) {
           _super.processSusiData(data);
@@ -88,6 +89,7 @@
             jsonpCallback: 'p',
             jsonp: 'callback',
             crossDomain: true,
+            async: false,
             success: function (data) {
               data.answers[0].actions[0].expression = '* ' + data.answers[0].actions[0].expression
               _super.processSusiData(data);
