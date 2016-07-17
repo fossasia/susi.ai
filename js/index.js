@@ -60,7 +60,7 @@
     getSusiResponse: function(queryString) {
       var _super = this;
       $.ajax({
-        url: 'http://loklak.org/api/susi.json?callback=p&q='+encodeURIComponent(queryString),
+        url: 'https://loklak.org:9443/api/susi.json?callback=p&q='+encodeURIComponent(queryString),
         dataType: 'jsonp',
         jsonpCallback: 'p',
         jsonp: 'callback',
