@@ -2,6 +2,7 @@
   
   var chat = {
     messageToSend: '',
+    templateResponse: Handlebars.compile( $("#message-response-template").html()),
     init: function() {
       this.cacheDOM();
       this.bindEvents();
@@ -62,8 +63,7 @@
         response: data.answers[0].actions[0].expression,
         time: this.getCurrentTime()
       };
-      var templateResponse = Handlebars.compile( $("#message-response-template").html());
-      this.$chatHistoryList.append(templateResponse(contextResponse));
+      this.$chatHistoryList.append(this.templateResponse(contextResponse));
       this.scrollToBottom();
     },
     getSusiResponse: function(queryString) {
