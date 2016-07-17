@@ -54,8 +54,17 @@
        this.$chatHistory.scrollTop(this.$chatHistory[0].scrollHeight);
     },
     getCurrentTime: function() {
-      return new Date().toLocaleTimeString().
-              replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+        return new Date().toLocaleTimeString().
+                replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+    },
+    processSusiData: function(data) {
+      var contextResponse = { 
+        response: data.answers[0].actions[0].expression,
+        time: this.getCurrentTime()
+      };
+      var templateResponse = Handlebars.compile( $("#message-response-template").html());
+      this.$chatHistoryList.append(templateResponse(contextResponse));
+      this.scrollToBottom();
     },
     getSusiResponse: function(queryString) {
       var _super = this;
@@ -67,13 +76,7 @@
         crossDomain: true,
         timeout: 10000,
         success: function (data) {
-	  var contextResponse = { 
-	      response: data.answers[0].actions[0].expression,
-	      time: _super.getCurrentTime()
-	  };
-          var templateResponse = Handlebars.compile( $("#message-response-template").html());
-          _super.$chatHistoryList.append(templateResponse(contextResponse));
-          _super.scrollToBottom();
+          _super.processSusiData(data);
         }
       });
     }
