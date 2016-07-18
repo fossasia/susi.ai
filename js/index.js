@@ -59,8 +59,23 @@
                 replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
     },
     processSusiData: function(data) {
+      var replacedText = data.answers[0].actions[0].expression;
+      var replacePattern1, replacePattern2, replacePattern3;
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">Click Here</a>');
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">Click Here</a>');
+
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">Click Here</a>');
+
       var contextResponse = { 
-        response: data.answers[0].actions[0].expression,
+        response: replacedText,
         time: this.getCurrentTime()
       };
       this.$chatHistoryList.append(this.templateResponse(contextResponse));
