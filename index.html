@@ -69,12 +69,16 @@
         <span class="message-data-name"><i class="fa fa-circle online"></i> Susi</span>
         <span class="message-data-time">{{time}}, Today</span>
       </div>
-      <pre class="message my-message">{{{response}}}</pre>
+      <pre class="message my-message">{{{response}}}<div id="container-graph"></div> </pre>
     </li>
     </script>
     <script src='js/jquery.min.js'></script>
     <script src='js/handlebars.min.js'></script>
     <script src='js/list.min.js'></script>
-    <script src='js/index.js'></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>
