@@ -61,24 +61,40 @@
     processSusiData: function(data) {
       var replacedText = data.answers[0].actions[0].expression;
       var replacePattern1, replacePattern2, replacePattern3;
+      var tableData = data.answers[0].data;
+      var index = 0;
+      if(data.answers[0].actions[1].type == "table") {
+        replacedText += "<ol style='list-style-type:decimal'>";
+        for (index = 0; index < tableData.length; index++) {
+          var tableTitle = tableData[index].title;
+          replacedText += "<li>" +tableTitle + "</li>";
+        }
+        replacedText += "</ol>";
 
-      //URLs starting with http://, https://, or ftp://
-      replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-      replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">Click Here</a>');
+      } else {
 
-      //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-      replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-      replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">Click Here</a>');
+        //URLs starting with http://, https://, or ftp://
+        replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+        replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">Here is a map</a>');
 
-      //Change email addresses to mailto:: links.
-      replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-      replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">Click Here</a>');
+        //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+        replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+        replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$3$</a>');
+
+        //Change email addresses to mailto:: links.
+        replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+        replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$3$</a>');
+      }
 
       var contextResponse = { 
-        response: replacedText,
-        time: this.getCurrentTime()
+          response: replacedText,
+          time: this.getCurrentTime()
       };
+
       this.$chatHistoryList.append(this.templateResponse(contextResponse));
+      if(data.answers[0].actions[1].type == "piecharts") {
+          this.drawGraph(data);
+      }
       this.scrollToBottom();
     },
     susiapipath: '/api/susi.json?callback=p&q=',
@@ -87,7 +103,7 @@
     getSusiResponse: function(queryString) {
       var _super = this;
       $.ajax({
-        url: (window.location.protocol == 'file:' ? _super.localhost : _super.remotehost) + _super.susiapipath + encodeURIComponent(queryString),
+        url: (window.location.protocol == 'file:' ? _super.remotehost : _super.remotehost) + _super.susiapipath + encodeURIComponent(queryString),
         dataType: 'jsonp',
         jsonpCallback: 'p',
         jsonp: 'callback',
@@ -112,9 +128,35 @@
           });
         } 
       });
+    },
+    drawGraph: function(data) {
+    $('#container-graph').highcharts({
+      chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer'
+        }
+      },
+      series: [{
+        name: 'Presidents',
+        colorByPoint: true,
+          data: [
+            {
+              "y": data.answers[0].data[i].percent,
+              "name":  data.answers[0].data[i].president
+            },
+          ]
+        }
+      }]
+    });
     }
   };
-
   
   chat.init();
   
