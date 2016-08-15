@@ -63,6 +63,8 @@
       var replacePattern1, replacePattern2, replacePattern3;
       var tableData = data.answers[0].data;
       var index = 0;
+      var mapType = false;
+      var lat, lng;
       var SpecialResponseChoice = data.answers[0].actions.length;
       if (SpecialResponseChoice >= 2) {
         if(data.answers[0].actions[1].type == "table") {
@@ -76,8 +78,14 @@
       }
 
       //URLs starting with http://, https://, or ftp://
+      if (tableData[0].hasOwnProperty('lat') || tableData[0].hasOwnProperty('lon')) {
+        // Need to give out a map.
+        mapType = true;
+        lat = tableData[0]['lat'];
+        lng = tableData[0]['lon'];
+      }
       replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-      replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">Here is a map</a>');
+      replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">Click Here!</a>');
 
       //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
       replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
@@ -89,7 +97,9 @@
 
       var contextResponse = { 
         response: replacedText,
-        time: this.getCurrentTime()
+        time: this.getCurrentTime(),
+        lat: lat,
+        lng: lng
       };
 
       this.$chatHistoryList.append(this.templateResponse(contextResponse));
@@ -97,6 +107,9 @@
         if (data.answers[0].actions[1].type == "piechart") {
           this.drawGraph(data);
         }
+      }
+      if (mapType == true) {
+        this.drawMap(lat, lng);
       }
       this.scrollToBottom();
     },
@@ -131,6 +144,18 @@
           });
         } 
       });
+    },
+    drawMap: function(lat, lng) {
+      var idGen = 'mapid-'+lat+'-'+lng;
+      var mymap = L.map(idGen).setView([lat, lng], 13);
+
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+        maxZoom: 18,
+        attribution: '',
+        id: 'mapbox.streets'
+      }).addTo(mymap);
+      L.marker([lat, lng]).addTo(mymap)
+        .bindPopup("<b>Hello!</b><br />I'm Here.").openPopup();
     },
 
     drawGraph: function(data) {
