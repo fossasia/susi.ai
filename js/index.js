@@ -77,13 +77,14 @@
         }
       }
 
-      //URLs starting with http://, https://, or ftp://
       if (tableData[0].hasOwnProperty('lat') || tableData[0].hasOwnProperty('lon')) {
         // Need to give out a map.
         mapType = true;
         lat = tableData[0]['lat'];
         lng = tableData[0]['lon'];
       }
+
+      //URLs starting with http://, https://, or ftp://
       replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
       replacedText = replacedText.replace(replacePattern1, '<a href="$1" target="_blank">Click Here!</a>');
 
