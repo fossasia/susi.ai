@@ -114,9 +114,9 @@
       }
       this.scrollToBottom();
     },
-    susiapipath: '/api/susi.json?callback=p&q=',
-    localhost:'http://127.0.0.1:9000',
-    remotehost:'https://loklak.org',
+    susiapipath: '/susi/chat.json?callback=p&q=',
+    localhost:'http://127.0.0.1:4000',
+    remotehost:'http://api.asksusi.com',
     getSusiResponse: function(queryString) {
       var _super = this;
       $.ajax({
