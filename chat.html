@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="artwork/favicon.png">
+    <title>Susi</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <!-- Do not change the fontawesome url-->
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src='js/jquery.min.js'></script>
+  </head>
+  <body style="padding-top: 5px;">
+    <a href="https://github.com/fossasia/susi_server/tree/development/conf/susi"><img style="position:absolute; top:20; right:0; border:0;" src="images/forkme_right_green_007200.png" alt="add AI rules on github" title="add AI rules on github"></a>
+    <div class="container clearfix">
+      <div class="people-list" id="people-list">
+        <ul class="list">
+          <li class="clearfix">
+            <img src="images/susi.gif" style="height: 55px;" alt="avatar" />
+            <div class="about">
+              <div class="name">Susi</div>
+              <div class="status"><i class="fa fa-circle online"></i> online</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="chat">
+        <div class="chat-header clearfix">
+          <img src="images/susi.gif" style="height: 55px;" alt="avatar" />
+          <div class="chat-about">
+            <div class="chat-with">Chat with Susi</div>
+            <div class="chat-num-messages">Preparing witty responses, Just for you!
+            <br/>Download the <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk">Susi Android App</a>!</div>
+          </div>
+          <i class="fa fa-star"></i>
+        </div> 
+        <!-- end chat-header -->
+        <div class="chat-history">
+          <ul>
+          </ul>
+        </div> 
+        <!-- end chat-history -->
+        <div class="chat-message clearfix">
+          <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+          <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+          <i class="fa fa-file-image-o"></i>
+          <button>Send</button>
+        </div> 
+        <!-- end chat-message -->
+      </div> 
+      <!-- end chat -->
+    </div> 
+    <!-- end container -->
+    <script type="text/x-handlebars-template">
+    <li>
+      <i class="fa fa-circle online"></i>
+      <i class="fa fa-circle online" style="color: #AED2A6"></i>
+      <i class="fa fa-circle online" style="color:#DAE9DA"></i>
+    </li>
+    </script>
+    <script id="message-template" type="text/x-handlebars-template">
+    <li class="clearfix">
+      <div class="message-data align-right">
+        <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
+        <span class="message-data-name" >you</span> <i class="fa fa-circle me"></i>
+        </div>
+      <pre class="message other-message float-right">{{messageOutput}}</pre>
+    </li>
+    </script>
+    <script id="message-response-template" type="text/x-handlebars-template">
+    <li>
+      <div class="message-data">
+        <span class="message-data-name"><i class="fa fa-circle online"></i> Susi</span>
+        <span class="message-data-time">{{time}}, Today</span>
+      </div>
+      {{#if lat}}
+        <pre class="message my-message">{{{response}}}
+        <div id="mapid-{{lat}}-{{lng}}" style="width: 100%; height: 180px"></div>
+        </pre>
+      {{else}}
+        <pre class="message my-message">{{{response}}}<div id="container-graph"></div></pre>
+      {{/if}}
+    </li>
+    </script>
+    <script src='js/handlebars.min.js'></script>
+    <script src='js/list.min.js'></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/drilldown.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
