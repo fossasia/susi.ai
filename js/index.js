@@ -100,7 +100,8 @@
         response: replacedText,
         time: this.getCurrentTime(),
         lat: lat,
-        lng: lng
+        lng: lng,
+        TheUniqueIDForTime: new Date().getTime()
       };
 
       this.$chatHistoryList.append(this.templateResponse(contextResponse));
@@ -110,7 +111,7 @@
         }
       }
       if (mapType == true) {
-        this.drawMap(lat, lng);
+        this.drawMap(lat, lng, contextResponse.TheUniqueIDForTime);
       }
       this.scrollToBottom();
     },
@@ -146,8 +147,8 @@
         } 
       });
     },
-    drawMap: function(lat, lng) {
-      var idGen = 'mapid-'+lat+'-'+lng;
+    drawMap: function(lat, lng, time) {
+      var idGen = 'mapid-'+lat+'-'+lng+'-'+time;
       var mymap = L.map(idGen).setView([lat, lng], 13);
 
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
