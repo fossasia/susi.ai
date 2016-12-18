@@ -6,12 +6,25 @@
     <title>Susi</title>
     <link rel="stylesheet" href="css/reset.css">
     <!-- Do not change the fontawesome url-->
-    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="css/semantic.min.css" type="text/css" />
+    <script async defer src="https://use.fontawesome.com/579dcd2e61.js"></script>
     <link rel="stylesheet" href="css/leaflet.css" />
     <link rel="stylesheet" href="css/style.css">
     <script src='js/jquery.min.js'></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
-  <body style="padding-top: 5px;">
+  <body>
+    <div class="ui menu">
+			<div class="menu-title item">Susi</div>
+			<div class="right menu">
+				<div class="item">
+					<a class="github-button" href="https://github.com/fossasia/susi_server" data-icon="octicon-star" data-style="mega" data-count-href="/fossasia/susi_server/stargazers" data-count-api="/repos/fossasia/susi_server#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star fossasia/susi_server on GitHub">Star</a>
+				</div>
+				<div class="item"><a href="http://api.asksusi.com/">API</a></div>
+				<div class="item"><a href="/chat">Live Demo</a></div>
+			</div>
+		</div>
     <noscript>
        The browser that you are using has blocked the JavaScript that this page is trying to run!
        Please upgrade to a modern graphical based browser, or if you still want to use the text-
@@ -19,45 +32,46 @@
        <a href="http://elinks.or.cz/documentation/manual.html#ecmascript" style="text-decoration: none;">instructions</a>
        on how to setup your text-based browser to run JavaScript.
     </noscript>
-    <a href="https://github.com/fossasia/susi_server/tree/development/conf/susi"><img style="position:absolute; top:20; right:0; border:0;" src="images/forkme_right_green_007200.png" alt="add AI rules on github" title="add AI rules on github"></a>
-    <div class="container clearfix">
-      <div class="people-list" id="people-list">
-        <ul class="list">
-          <li class="clearfix">
-            <img src="images/susi.gif" style="height: 55px;" alt="avatar" />
-            <div class="about">
-              <div class="name">Susi</div>
-              <div class="status"><i class="fa fa-circle online"></i> online</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="chat">
-        <div class="chat-header clearfix">
-          <img src="images/susi.gif" style="height: 55px;" alt="avatar" />
-          <div class="chat-about">
-            <div class="chat-with">Chat with Susi</div>
-            <div class="chat-num-messages">Preparing witty responses, Just for you!
-            <br/>Download the <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk">Susi Android App</a>!</div>
+    <div class="ui grid container">
+      <div class="sixteen wide mobile eight wide tablet six wide computer column">
+        <div class="ui orange segment">
+          <div class="people-list" id="people-list">
+            <ul class="list">
+              <li class="clearfix">
+                <img src="images/susi.gif" style="height: 55px;" alt="avatar" />
+                <div class="about">
+                  <div class="name">Susi</div>
+                  <div class="status"><i class="fa fa-circle online"></i> online</div>
+                </div>
+              </li>
+            </ul>
           </div>
-          <i class="fa fa-star"></i>
+        </div>
+      </div>
+      <div class="sixteen wide mobile eight wide tablet ten wide computer column">
+        <div class="chat ui center aligned segment">
+          <div class="chat-header clearfix">
+            <div class="chat-about">
+              <div class="chat-num-messages">Let's start chatting!</div>
+            </div>
+          </div> 
+          <!-- end chat-header -->
+          <div class="chat-history">
+            <ul>
+            </ul>
+          </div> 
+          <!-- end chat-history -->
+          <div class="chat-message clearfix">
+            <textarea name="message-to-send" class="ui fluid input" autofocus id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+            <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+            <i class="fa fa-file-image-o"></i>
+            <button>Send</button>
+          </div> 
+          <!-- end chat-message -->
         </div> 
-        <!-- end chat-header -->
-        <div class="chat-history">
-          <ul>
-          </ul>
-        </div> 
-        <!-- end chat-history -->
-        <div class="chat-message clearfix">
-          <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
-          <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-          <i class="fa fa-file-image-o"></i>
-          <button>Send</button>
-        </div> 
-        <!-- end chat-message -->
-      </div> 
-      <!-- end chat -->
-    </div> 
+        <!-- end chat -->
+      </div>
+    </div>
     <!-- end container -->
     <script type="text/x-handlebars-template">
     <li>
@@ -72,7 +86,7 @@
         <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
         <span class="message-data-name" >you</span> <i class="fa fa-circle me"></i>
         </div>
-      <pre class="message other-message float-right">{{messageOutput}}</pre>
+      <pre class="ui blue segment float-right">{{messageOutput}}</pre>
     </li>
     </script>
     <script id="message-response-template" type="text/x-handlebars-template">
@@ -82,7 +96,7 @@
         <span class="message-data-time">{{time}}, Today</span>
       </div>
       {{#if lat}}
-        <pre class="message my-message">{{{response}}}
+        <pre class="ui green segment">{{{response}}}
         <div id="mapid-{{lat}}-{{lng}}-{{TheUniqueIDForTime}}" style="width: 100%; height: 180px"></div>
         </pre>
       {{else}}
