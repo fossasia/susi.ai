@@ -1,5 +1,8 @@
 # asksusi_com
 
+[![Join the chat at https://gitter.im/fossasia/susi_server](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fossasia/susi_server)
+[![Twitter Follow](https://img.shields.io/twitter/follow/asksusi.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/asksusi)
+
 # What is Susi?
 
 Susi is an artificial intelligence combining pattern matching, internet data, data flow principles and inference engine principles. It will have some reflection abilities and it will be able to remember the users input to produce deductions and a personalized feed-back.
