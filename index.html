@@ -1,21 +1,21 @@
 <html ng-app="susi">
 	<head>
 		 <!-- MetaData: -->
-<meta http-equiv="language" content="english, en">
-        <meta name="keywords" content="ai,artificial intelligence,app,apk,open source,download,github,api,susi,susi ai,FOSSASIA">
-		<!-- Titel: -->
+		<meta http-equiv="language" content="english, en">
+        	<meta name="keywords" content="ai,artificial intelligence,app,apk,open source,download,github,api,susi,susi ai,FOSSASIA">
+		<!-- Title l: -->
 		<title>Susi - Open Source Personal Intelligence</title>
 		<!-- CSS Imports: -->
 		<link rel="stylesheet" href="./css/semantic.min.css">
 		<link rel="stylesheet" href="./css/custom.css">
 		<!-- JavaScripts Import -->
-    	<script src="./js/angular.min.js"></script>
+    		<script src="./js/angular.min.js"></script>
 		<script src="./js/angular-route.min.js"></script>
 		<script src="./js/main.js"></script>
 		<script async defer src="https://buttons.github.io/buttons.js"></script>
 		<script async defer src="https://use.fontawesome.com/579dcd2e61.js"></script>
-	 <!-- materialDeign Import for footer: -->
-      <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+	 	<!-- Material Design Import for footer: -->
+      		<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
 	</head>
 	<body ng-controller="mainController">
 		<!--Navbar: -->
@@ -26,27 +26,29 @@
 				<div class="item"><a href="/chat">Live Demo</a></div>
 			</div>
 			<div class="right menu">
-<div class="item">
-			<a class="github-button" href="https://github.com/fossasia/susi_server" data-icon="octicon-star" data-style="mega" data-count-href="/fossasia/susi_server/stargazers" data-count-api="/repos/fossasia/susi_server#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star fossasia/susi_server on GitHub">Star</a>
+				<div class="item">
+					<a class="github-button" href="https://github.com/fossasia/susi_server" data-icon="octicon-star" data-style="mega" data-count-href="/fossasia/susi_server/stargazers" data-count-api="/repos/fossasia/susi_server#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star fossasia/susi_server on GitHub">Star</a>
 				</div>
-				<div class="item"><a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk">Download</a></div>
+				<div class="item">
+					<a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk">Download</a>
+				</div>
 			</div>
 		</div>
 		<!--Footer:-->
-				<div id="fussbereich">
-<footer class="mdl-mini-footer">
-  <div class="mdl-mini-footer__left-section">
-    <div class="mdl-logo">AskSusi</div>
-    <ul class="mdl-mini-footer__link-list">
-      <li><a href="https://github.com/fossasia/susi_server">GitHub</a></li>
-        <li><a href="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai">PlayStore</a></li>
-        <li><a href="https://twitter.com/0rb1t3r"> Twitter</a></li>
-    <li><a href="https://fossasia.org/">Fossasia</a></li>
-    </ul>
-  </div>
-</footer>
-            <style>
-            * {
+		<div id="fussbereich">
+	<footer class="mdl-mini-footer">
+  		<div class="mdl-mini-footer__left-section">
+    			<div class="mdl-logo">AskSusi</div>
+    			<ul class="mdl-mini-footer__link-list">
+				<li><a href="https://github.com/fossasia/susi_server">GitHub</a></li>
+        			<li><a href="https://twitter.com/0rb1t3r"> Twitter</a></li>
+    				<li><a href="https://fossasia.org/">Fossasia</a></li>
+    			</ul>
+  		</div>
+	</footer>
+			
+<style>
+* {
     margin: 0;
     padding: 0;
 }
@@ -71,7 +73,7 @@ html, body {
     height: 2em;
 }
 		    
-            </style>
+</style>
     </div>
 		<div class="ui container" ng-view></div>
 	</body>
