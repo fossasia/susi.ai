@@ -8,6 +8,7 @@ app.config(function($routeProvider) {
 	  .when("/chat", {
 	    templateUrl : "chat.htm"
 	  });
+	  
 });
 app.controller('mainController', function($scope){
 
