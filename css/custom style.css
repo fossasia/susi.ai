@@ -1,0 +1,27 @@
+*{
+  box-sizing: border-box;
+}
+
+.ui.menu {
+  font-family: 'Questrial', sans-serif;
+}
+
+.menu-title {
+  font-size: 1.5em;
+}
+
+#text{
+  margin-left:8%;
+  margin-top:5%;
+}
+
+#image{
+  margin-top:5%;
+  margin-left:10%;
+  padding:0%;
+  width:40%;
+}
+
+img{
+  width:100%;
+}
