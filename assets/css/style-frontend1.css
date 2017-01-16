@@ -83,7 +83,15 @@ p {
     background-size: cover;
     color: #333;
 }
+.logo-top-menu-left {
+    padding-left: 35px;
+    padding-top: 6px;
+}
 
+.navbar-toggle {
+    background-color: #3bc0c3 !important;
+    border: 1px solid rgb(247, 247, 247) !important;
+}
 .btn-signup {
     padding: 10px 20px !important;
     border-radius: 3px;
@@ -169,7 +177,7 @@ p {
     border-radius: 0px;
     background-color:#fafafa;
     padding-top: 10px;
-    padding-right: 65px;
+    padding-right: 70px;
 }
 
 .navbar-custom ul li a {
