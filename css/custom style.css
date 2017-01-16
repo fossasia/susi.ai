@@ -15,11 +15,27 @@
   margin-top:5%;
 }
 
+.big{
+  font-size:1.7em;
+}
+
+.medium{
+  font-size:1.5em;
+}
+
+#download, #download1{
+  border-radius:0.4em;
+}
+
+#github, #github1{
+  border-radius:0.4em;
+}
+
 #image{
   margin-top:5%;
-  margin-left:10%;
+  margin-left:0%;
   padding:0%;
-  width:40%;
+  width:46%;
 }
 
 img{
