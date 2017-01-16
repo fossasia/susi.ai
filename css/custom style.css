@@ -11,17 +11,22 @@
 }
 
 #text{
-  margin-left:8%;
+  margin-left:3%;
   margin-top:5%;
   word-wrap:wrap;
+  width:50%;
 }
 
 .big{
   font-size:1.7em;
+  word-wrap:wrap;
+  width:60%;
 }
 
 .medium{
   font-size:1.5em;
+  word-wrap:wrap;
+  width:60%;
 }
 
 #download, #download1{
@@ -36,7 +41,7 @@
   margin-top:5%;
   margin-left:0%;
   padding:0%;
-  width:46%;
+  width:47%;
 }
 
 img{
