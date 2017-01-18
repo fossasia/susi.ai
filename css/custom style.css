@@ -4,6 +4,7 @@
 
 .ui.menu {
   font-family: 'Questrial', sans-serif;
+  box-radius:0px;
 }
 
 .menu-title {
@@ -19,13 +20,13 @@
 
 .big{
   font-size:1.7em;
-  word-wrap:wrap;
+  word-wrap:break-word;
   width:60%;
 }
 
 .medium{
   font-size:1.5em;
-  word-wrap:wrap;
+  word-wrap:break-word;
   width:60%;
 }
 
