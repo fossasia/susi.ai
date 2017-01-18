@@ -29,11 +29,11 @@
   width:60%;
 }
 
-#download, #download1{
+.ui.primary.button{
   border-radius:0.4em;
 }
 
-#github, #github1{
+.ui.secondary.button{
   border-radius:0.4em;
 }
 
