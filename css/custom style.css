@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Cuprum";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Cuprum"), local("Cuprum-Regular"), url("https://fonts.gstatic.com/s/cuprum/v7/rZj40-VH1f1Wt0yg6Fkbcw.woff2") format("woff2");
+  unicode-range: U+0-FF, U+131, U+152-153, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
 *{
   box-sizing: border-box;
 }
@@ -34,6 +42,7 @@ margin-bottom:5rem;
   font-size:1.5em;
   word-wrap:break-word;
   width:60%;
+  font-family:Cuprum;
 }
 
 .ui.primary.button{
