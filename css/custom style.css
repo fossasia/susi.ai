@@ -4,7 +4,13 @@
 
 .ui.menu {
   font-family: 'Questrial', sans-serif;
-  box-radius:0px;
+  border-radius:0px;
+}
+
+@-moz-document url-prefix() {
+.ui.inverted.grey.menu {
+margin-bottom:4rem;
+}
 }
 
 .menu-title {
