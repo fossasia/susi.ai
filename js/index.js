@@ -151,7 +151,7 @@
       var idGen = 'mapid-'+lat+'-'+lng+'-'+time;
       var mymap = L.map(idGen).setView([lat, lng], 13);
 
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoib3JiaXRlciIsImEiOiJjajAyODk4d24wN2RvMndwM3Fwb28yZHhvIn0.s5T089Va4dztDLevo9iXXA', {
         maxZoom: 18,
         attribution: '',
         id: 'mapbox.streets'
