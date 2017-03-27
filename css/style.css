@@ -37,7 +37,8 @@
   height: 20rem;
 }
 .chat .chat-history .message-data {
-  margin-bottom: 15px;
+  margin-top: 1.5rem;
+  margin-bottom: -0.5rem;
 }
 .chat .chat-history .message-data-time {
   color: #a8aab1;
