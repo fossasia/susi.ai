@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import TextField from 'material-ui/TextField';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { Row, Col } from 'react-bootstrap';
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+          <Row className="show-grid">
+            <Col sm={2} md={4} className="contact"><h5>contact</h5><br /></Col>
+            <Col sm={10} md={8} className="chat grid-border"><h5>chat</h5><br />
+              <div className="history"></div>
+              <div className="message top-border">
+                <MuiThemeProvider>
+                  <TextField hintText="Ask Susi"
+                    fullWidth={true} multiLine={true}
+                    rows={2} rowsMax={4}
+                  />
+                </MuiThemeProvider>
+              </div>
+            </Col>
+
+
+          </Row>{/*show-grid ends here*/}
+
       </div>
     );
   }
