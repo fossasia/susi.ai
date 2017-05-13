@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "material-ui": "^0.18.0",
     "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
+    "react-tap-event-plugin": "^2.0.1",
     "surge": "^0.19.0"
   },
   "devDependencies": {
