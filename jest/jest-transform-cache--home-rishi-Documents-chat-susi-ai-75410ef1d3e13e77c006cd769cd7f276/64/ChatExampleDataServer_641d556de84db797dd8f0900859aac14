@@ -1,0 +1,71 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+getMessages = getMessages; /* istanbul ignore next */exports.
+
+
+
+
+
+
+postMessage = postMessage; /* istanbul ignore next */exports.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+postSUSIMessage = postSUSIMessage;let NETWORK_LATENCY = 1000;let messages = [{ id: 'm_2', threadID: 't_1', threadName: 'SUSI', authorName: 'SUSI', text: '', timestamp: Date.now() - 89999 }];let threadNameMap = function () {let map = {};messages.forEach(({ threadID, threadName }) => {map[threadID] = threadName;});return map;}();function getMessages(callback) {setTimeout(() => {callback(messages);}, NETWORK_LATENCY);};function postMessage(message, callback) {let timestamp = Date.now();let id = 'm_' + timestamp;let threadID = message.threadID;let createdMessage = { id, threadID, threadName: threadNameMap[threadID], authorName: message.authorName, text: message.text, timestamp };messages.push(createdMessage);setTimeout(() => {callback(createdMessage);}, NETWORK_LATENCY);};function postSUSIMessage(message, callback) {
+
+  let timestamp = Date.now();
+  let id = 'm_' + timestamp;
+  let threadID = message.threadID;
+
+  let receivedSUSIMessage = {
+    id,
+    threadID,
+    threadName: "SUSI",
+    authorName: "SUSI",
+    text: message.text,
+    timestamp };
+
+  messages.push(receivedSUSIMessage);
+  setTimeout(() => {
+    callback(receivedSUSIMessage);
+  }, NETWORK_LATENCY);
+
+}

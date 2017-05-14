@@ -1,13 +1,12 @@
+import ChatApp from './components/ChatApp.react';
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
+
+ChatWebAPIUtils.getAllMessages();
 
 ReactDOM.render(
-  <App />  ,
+  <ChatApp /> ,
   document.getElementById('root')
 );
