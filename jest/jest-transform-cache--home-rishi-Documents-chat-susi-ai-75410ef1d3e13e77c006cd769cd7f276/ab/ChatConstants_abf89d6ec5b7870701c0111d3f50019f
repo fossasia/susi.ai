@@ -1,0 +1,11 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });var /* istanbul ignore next */_keymirror = require('keymirror'); /* istanbul ignore next */var _keymirror2 = _interopRequireDefault(_keymirror);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}exports.default =
+
+{
+
+  ActionTypes: /* istanbul ignore next */(0, _keymirror2.default)({
+    CLICK_THREAD: null,
+    CREATE_MESSAGE: null,
+    RECEIVE_RAW_CREATED_MESSAGE: null,
+    CREATE_SUSI_MESSAGE: null,
+    RECEIVE_SUSI_MESSAGE: null,
+    RECEIVE_RAW_MESSAGES: null }) };

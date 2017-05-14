@@ -1,0 +1,25 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/rishi/Documents/chat.susi.ai/src/components/MessageListItem.react.js';var /* istanbul ignore next */_react = require('react'); /* istanbul ignore next */var _react2 = _interopRequireDefault(_react);
+var /* istanbul ignore next */_propTypes = require('prop-types'); /* istanbul ignore next */function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class MessageListItem extends /* istanbul ignore next */_react2.default.Component {
+
+  render() {/* istanbul ignore next */let
+    message = this.props.message;
+    return (
+      /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'li', /* istanbul ignore next */{ className: 'message-list-item', __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: this },
+        /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'h5', /* istanbul ignore next */{ className: 'message-author-name', __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: this }, message.authorName),
+        /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'message-time', __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: this },
+          message.date.toLocaleTimeString()),
+
+        /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'message-text', __source: { fileName: _jsxFileName, lineNumber: 14 }, __self: this }, message.text)));
+
+
+  }}
+
+;
+
+MessageListItem.propTypes = {
+  message: /* istanbul ignore next */_propTypes.PropTypes.object }; /* istanbul ignore next */exports.default =
+
+
+MessageListItem;

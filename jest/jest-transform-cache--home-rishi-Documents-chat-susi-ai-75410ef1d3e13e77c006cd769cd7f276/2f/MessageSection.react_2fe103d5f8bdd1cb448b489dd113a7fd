@@ -1,0 +1,77 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/rishi/Documents/chat.susi.ai/src/components/MessageSection.react.js';
+var /* istanbul ignore next */_MessageComposer = require('./MessageComposer.react'); /* istanbul ignore next */var _MessageComposer2 = _interopRequireDefault(_MessageComposer);
+var /* istanbul ignore next */_MessageListItem = require('./MessageListItem.react'); /* istanbul ignore next */var _MessageListItem2 = _interopRequireDefault(_MessageListItem);
+var /* istanbul ignore next */_MessageStore = require('../stores/MessageStore'); /* istanbul ignore next */var _MessageStore2 = _interopRequireDefault(_MessageStore);
+var /* istanbul ignore next */_react = require('react'); /* istanbul ignore next */var _react2 = _interopRequireDefault(_react);
+var /* istanbul ignore next */_ThreadStore = require('../stores/ThreadStore'); /* istanbul ignore next */var _ThreadStore2 = _interopRequireDefault(_ThreadStore);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function getStateFromStores() {
+  return {
+    messages: /* istanbul ignore next */_MessageStore2.default.getAllForCurrentThread(),
+    thread: /* istanbul ignore next */_ThreadStore2.default.getCurrent() };
+
+}
+
+function getMessageListItem(message) {
+  return (
+    /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */_MessageListItem2.default, /* istanbul ignore next */{
+      key: message.id,
+      message: message, __source: { fileName: _jsxFileName, lineNumber: 17 }, __self: this }));
+
+
+}
+
+class MessageSection extends /* istanbul ignore next */_react2.default.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = getStateFromStores();
+  }
+
+  componentDidMount() {
+    this._scrollToBottom();
+    /* istanbul ignore next */_MessageStore2.default.addChangeListener(this._onChange.bind(this));
+    /* istanbul ignore next */_ThreadStore2.default.addChangeListener(this._onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    /* istanbul ignore next */_MessageStore2.default.removeChangeListener(this._onChange.bind(this));
+    /* istanbul ignore next */_ThreadStore2.default.removeChangeListener(this._onChange.bind(this));
+  }
+
+  render() {
+    let messageListItems = this.state.messages.map(getMessageListItem);
+    if (this.state.thread) {
+      return (
+        /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'message-section', __source: { fileName: _jsxFileName, lineNumber: 46 }, __self: this },
+          /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'h3', /* istanbul ignore next */{ className: 'message-thread-heading', __source: { fileName: _jsxFileName, lineNumber: 47 }, __self: this }, this.state.thread.name),
+          /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'ul', /* istanbul ignore next */{ className: 'message-list', ref: 'messageList', __source: { fileName: _jsxFileName, lineNumber: 48 }, __self: this },
+            messageListItems),
+
+          /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */_MessageComposer2.default, /* istanbul ignore next */{ threadID: this.state.thread.id, __source: { fileName: _jsxFileName, lineNumber: 51 }, __self: this })));
+
+
+    } else {
+      return (/* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'message-section', __source: { fileName: _jsxFileName, lineNumber: 55 }, __self: this }));
+    }
+  }
+
+  componentDidUpdate() {
+    this._scrollToBottom();
+  }
+
+  _scrollToBottom() {
+    let ul = this.refs.messageList;
+    if (ul) {
+      ul.scrollTop = ul.scrollHeight;
+    }
+  }
+
+  /**
+     * Event handler for 'change' events coming from the MessageStore
+     */
+  _onChange() {
+    this.setState(getStateFromStores());
+  }} /* istanbul ignore next */exports.default = MessageSection;
+
+;
