@@ -1,0 +1,24 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.
+
+
+
+createMessage = createMessage; /* istanbul ignore next */exports.
+
+
+
+
+
+
+
+
+receiveSUSIMessage = receiveSUSIMessage; /* istanbul ignore next */exports.
+
+
+
+
+
+getAllMessages = getAllMessages;var /* istanbul ignore next */_actions = require('../actions'); /* istanbul ignore next */var Actions = _interopRequireWildcard(_actions);var /* istanbul ignore next */_ChatExampleDataServer = require('../ChatExampleDataServer'); /* istanbul ignore next */var ChatExampleDataServer = _interopRequireWildcard(_ChatExampleDataServer); /* istanbul ignore next */function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function createMessage(message) {ChatExampleDataServer.postMessage(message, createdMessage => {Actions.receiveCreatedMessage(createdMessage, message.id);});ChatExampleDataServer.postSUSIMessage(message, createdMessage => {Actions.createSUSIMessage(createdMessage, message.threadID);});};function receiveSUSIMessage(message) {ChatExampleDataServer.postSUSIMessage(message, receivedSUSIMessage => {Actions.postSUSIMessage(message, message.id);});}function getAllMessages() {
+  ChatExampleDataServer.getMessages(messages => {
+    Actions.receiveAll(messages);
+  });
+};
