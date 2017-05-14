@@ -1,0 +1,3 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });var /* istanbul ignore next */_flux = require('flux'); /* istanbul ignore next */exports.default =
+
+new /* istanbul ignore next */_flux.Dispatcher();
