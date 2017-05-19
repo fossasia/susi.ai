@@ -28,6 +28,7 @@ export function getSUSIMessageData(createdMessage, currentThreadID) {
     authorName: 'SUSI', // hard coded for the example
     date: new Date(timestamp),
     text: '',
+    response: {},
     isRead: true
   };
 
@@ -41,6 +42,7 @@ export function getSUSIMessageData(createdMessage, currentThreadID) {
     async: false,
     success: function (response) {
        receivedMessage.text = response.answers[0].actions[0].expression;
+       receivedMessage.response = response;
       },
     error: function(errorThrown) { 
       console.log(errorThrown);      
