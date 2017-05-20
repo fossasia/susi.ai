@@ -1,5 +1,5 @@
 
-let NETWORK_LATENCY = 1300;
+let NETWORK_LATENCY = 300;
 
 let messages = [
   {
@@ -7,7 +7,7 @@ let messages = [
     threadID: 't_1',
     threadName: 'SUSI',
     authorName: 'SUSI',
-    text: '',
+    text:null,
     timestamp: Date.now() - 89999
   }];
 
@@ -51,21 +51,12 @@ export function postMessage(message, callback) {
 
 export function postSUSIMessage(message, callback) {
 
-  let timestamp = Date.now();
-  let id = 'm_' + timestamp;
-  let threadID = message.threadID;
+  messages.push(message);
 
-   let receivedSUSIMessage = {
-    id,
-    threadID,
-    threadName: "SUSI",
-    authorName: "SUSI",
-    text: message.text,
-    timestamp
-  };
-  messages.push(receivedSUSIMessage);
+
   setTimeout(() => {
-    callback(receivedSUSIMessage);
+    callback(message);
   }, NETWORK_LATENCY);
+
 
 }

@@ -2,6 +2,7 @@ import ChatAppDispatcher from './dispatcher/ChatAppDispatcher';
 import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
 import * as ChatMessageUtils from './utils/ChatMessageUtils';
 import ChatConstants from './constants/ChatConstants';
+import $ from 'jquery';
 
 let ActionTypes = ChatConstants.ActionTypes;
 
@@ -38,18 +39,41 @@ export function receiveAll(rawMessages) {
 };
 
 export function createSUSIMessage(createdMessage, currentThreadID) {
-  let message = ChatMessageUtils.getSUSIMessageData(createdMessage, currentThreadID);
-  ChatAppDispatcher.dispatch({
-    type: ActionTypes.CREATE_SUSI_MESSAGE,
-    message
-  });
-  ChatWebAPIUtils.receiveSUSIMessage(message);
-};
+   var timestamp = Date.now();
 
-export function postSUSIMessage(receivedSUSIMessage, tempMessageID) {
-  ChatAppDispatcher.dispatch({
-    type: ActionTypes.RECEIVE_SUSI_MESSAGE,
-    rawMessage: receivedSUSIMessage,
-    tempMessageID
+  let receivedMessage =  {
+    id: 'm_' + timestamp,
+    threadID: currentThreadID,
+    authorName: 'SUSI', // hard coded for the example
+    text: '',
+    date: new Date(timestamp),
+    isRead: true,
+  };
+  //Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
+  $.ajax({
+    url: 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text,
+    dataType: 'jsonp',
+    jsonpCallback: 'p',
+    jsonp: 'callback',
+    crossDomain: true,
+    timeout: 3000,
+    async: false,
+    success: function (response) {
+       receivedMessage.text = response.answers[0].actions[0].expression;
+        let message =  ChatMessageUtils.getSUSIMessageData(receivedMessage, currentThreadID);
+
+        ChatAppDispatcher.dispatch({
+          type: ActionTypes.CREATE_SUSI_MESSAGE,
+          message
+        });
+      },
+    error: function(errorThrown) { 
+      console.log(errorThrown);
+      receivedMessage.text = "Please check your internet connection";    
+
+    }
   });
-}
+
+
+
+};
