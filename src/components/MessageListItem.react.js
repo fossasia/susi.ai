@@ -50,13 +50,11 @@ class MessageListItem extends React.Component {
         let lat, lng;
         if (tableData[0].hasOwnProperty('lat') || tableData[0].hasOwnProperty('lon')) {
           // Need to give out a map.
-          console.log("draw map");
           mapType = true;
           lat = tableData[0]['lat'];
           lng = tableData[0]['lon'];
         }
         if (mapType === true) {
-          console.log("draw map")
           let mymap = drawMap(lat,lng);
           return (
                   <li className="message-list-item">
