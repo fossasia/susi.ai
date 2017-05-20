@@ -25,12 +25,10 @@ function drawMap(lat,lng){
 }
 
 class ExtendedMarker extends Marker {
-  // "Hijack" the component lifecycle.
+  
   componentDidMount() {
-    // Call the Marker class componentDidMount (to make sure everything behaves as normal)
     super.componentDidMount();
     
-    // Access the marker element and open the popup.
     this.leafletElement.openPopup();
   }
 }
