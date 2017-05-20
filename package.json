@@ -9,11 +9,13 @@
     "flux": "^3.1.2",
     "jquery": "^3.2.1",
     "keymirror": "^0.1.1",
+    "leaflet": "^1.0.3",
     "material-ui": "^0.18.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
+    "react-leaflet": "^1.1.6",
     "react-linkify": "^0.2.1",
     "react-tap-event-plugin": "^2.0.1",
     "surge": "^0.19.0"
