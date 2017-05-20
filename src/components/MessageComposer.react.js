@@ -11,7 +11,9 @@ class MessageComposer extends React.Component {
     super(props);
     this.state = {text: ''};
   }
-
+  componentDidMount(){
+    this.nameInput.focus();
+  }
   render() {
     return (
       <textarea
@@ -20,6 +22,7 @@ class MessageComposer extends React.Component {
         value={this.state.text}
         onChange={this._onChange.bind(this)}
         onKeyDown={this._onKeyDown.bind(this)}
+        ref={(textarea)=> { this.nameInput = textarea; }}
       />
     );
   }
