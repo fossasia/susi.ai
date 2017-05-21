@@ -103,7 +103,6 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
       let { rawMessage, tempMessageID } = action;
       delete _messages[tempMessageID];
       let message = ChatMessageUtils.convertRawMessage(rawMessage);
-      console.log(message);
       _messages[message.id] = message;
       MessageStore.emitChange();
       break;
@@ -115,15 +114,7 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
       break;
     }
 
-    case ActionTypes.RECEIVE_SUSI_MESSAGE: {
-      let { rawMessage, tempMessageID } = action;
-      delete _messages[tempMessageID];
-      let message = rawMessage;
-      console.log(message);
-      _messages[message.id] = message;
-      MessageStore.emitChange();
-      break;
-    }
+
     default:
       // do nothing
   }
