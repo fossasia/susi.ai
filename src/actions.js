@@ -46,6 +46,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     threadID: currentThreadID,
     authorName: 'SUSI', // hard coded for the example
     text: '',
+    response: {},
     date: new Date(timestamp),
     isRead: true,
   };
@@ -60,6 +61,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     async: false,
     success: function (response) {
        receivedMessage.text = response.answers[0].actions[0].expression;
+       receivedMessage.response = response;
         let message =  ChatMessageUtils.getSUSIMessageData(receivedMessage, currentThreadID);
 
         ChatAppDispatcher.dispatch({

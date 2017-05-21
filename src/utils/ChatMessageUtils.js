@@ -26,13 +26,13 @@ export function getSUSIMessageData(message, currentThreadID) {
     threadID: currentThreadID,
     authorName: 'SUSI', // hard coded for the example
     text: message.text,
+    response: message.response,
     date: new Date(timestamp),
     isRead: true,
     responseTime: message.responseTime
-  };
+  };    
 
-  return receivedMessage;
-  
+  return receivedMessage;  
 }
 
 
