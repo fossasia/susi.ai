@@ -6,6 +6,7 @@ import $ from 'jquery';
 
 let ActionTypes = ChatConstants.ActionTypes;
 
+
 export function createMessage(text, currentThreadID) {
   let message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
   ChatAppDispatcher.dispatch({
