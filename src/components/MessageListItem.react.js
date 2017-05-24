@@ -2,6 +2,15 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import Linkify from 'react-linkify';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export const parseAndReplace = (text) => {return <Linkify properties={{target:"_blank"}}>{text}</Linkify>;}
 
@@ -15,7 +24,7 @@ function drawMap(lat,lng){
       />
       <ExtendedMarker position={position}>
         <Popup>
-          <span>Hello! <br/> I'm here.</span>
+          <span>Hello! <br/> I am here.</span>
         </Popup>
       </ExtendedMarker>
     </Map>
@@ -45,6 +54,41 @@ class MessageListItem extends React.Component {
         let tableData = data.answers[0].data;
         let mapType = false;
         let lat, lng;
+
+        let SpecialResponseChoice = data.answers[0].actions[0];
+        if (SpecialResponseChoice.type === "table") {
+            let coloumns = data.answers[0].actions[0].columns;
+            let tableheader = Object.keys(coloumns).map(key =>{
+              return(<TableHeaderColumn>{coloumns[key]}</TableHeaderColumn>);
+            });
+            let rows = data.answers[0].data.map(eachrow => {
+              let rowcols = Object.keys(coloumns).map(key =>{
+                return(<TableRowColumn><Linkify properties={{target:"_blank"}}>{eachrow[key]}</Linkify></TableRowColumn>);
+              });
+              return(
+                <TableRow>{rowcols}</TableRow>
+              );
+            });
+
+            let table =
+            <MuiThemeProvider>
+              <Table selectable={false}>
+              <TableHeader displaySelectAll={false} adjustForCheckbox={false}><TableRow>{tableheader}</TableRow></TableHeader>
+              <TableBody displayRowCheckbox={false}>{rows}</TableBody>
+              </Table>
+            </MuiThemeProvider>
+
+            return(
+              <li className="message-list-item">
+                <h5 className="message-author-name">{message.authorName}</h5>
+                <div className="message-time">
+                  {message.date.toLocaleTimeString()}
+                </div>
+                <div>{table}</div>
+              </li>
+            );
+        }
+
         if (tableData[0].hasOwnProperty('lat') || tableData[0].hasOwnProperty('lon')) {
           // Need to give out a map.
           mapType = true;
