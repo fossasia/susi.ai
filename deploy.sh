@@ -14,16 +14,15 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
-# Deceyption of the deploy_key.enc
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
 ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
 ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
 ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
-openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in deploy_key.enc -out deploy_key -d
+openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in deploy_key.enc -out ../deploy_key -d
 
-chmod 600 deploy_key
+chmod 600 ../deploy_key
 eval `ssh-agent -s`
-ssh-add deploy_key
+ssh-add ../deploy_key
 
 # Cloning the repository to repo/ directory,
 # Creating gh-pages branch if it doesn't exists else moving to that branch
@@ -47,12 +46,15 @@ git checkout $SOURCE_BRANCH
 
 # Actual building and setup of current push or PR.
 npm install
-npm run predeploy
+npm run build
+mv build ../build/
+
 git checkout $TARGET_BRANCH
-mv build/* .
+rm -rf node_modules/
+mv ../build/* .
 
 # Staging the new build for commit; and then commiting the lastest build
-git add .
+git add -A
 git commit --amend --no-edit --allow-empty
 
 # Deploying only if the build has changed
