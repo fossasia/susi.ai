@@ -92,3 +92,11 @@ textarea {
   width: 80%;
   margin: 0 auto;
 }
+
+.map-marker-icon {
+  background: url('./images/map_marker_icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 25px;
+  height: 25px;
+}
