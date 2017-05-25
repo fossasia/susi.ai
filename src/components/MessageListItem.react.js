@@ -11,20 +11,25 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { divIcon } from 'leaflet';
 
 export const parseAndReplace = (text) => {return <Linkify properties={{target:"_blank"}}>{text}</Linkify>;}
 
 function drawMap(lat,lng){
   let position = [lat, lng];
+  const icon = divIcon({
+    className: 'map-marker-icon',
+    iconSize: [35, 35]
+  });
   const map = (
    <Map center={position} zoom={13}>
       <TileLayer
         attribution=''
         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
       />
-      <ExtendedMarker position={position}>
+      <ExtendedMarker position={position} icon={icon}>
         <Popup>
-          <span>Hello! <br/> I am here.</span>
+          <span><strong>Hello!</strong> <br/> I am here.</span>
         </Popup>
       </ExtendedMarker>
     </Map>
