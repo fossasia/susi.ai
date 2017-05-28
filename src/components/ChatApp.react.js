@@ -13,6 +13,3 @@ export default class ChatApp extends React.Component {
   }
 
 };
-
-
-
