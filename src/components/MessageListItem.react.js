@@ -89,7 +89,7 @@ class MessageListItem extends React.Component {
                 <div className="message-time">
                   {message.date.toLocaleTimeString()}
                 </div>
-                <div>{table}</div>
+                <div><div className="message-text">{table}</div></div>
               </li>
             );
         }

@@ -43,12 +43,20 @@ export default class MessageSection extends React.Component {
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
       return (
-        <div className="message-section">
-          <h3 className="message-thread-heading">{this.state.thread.name}</h3>
+        <div>
+        <header className="message-thread-heading">
+          <nav>
+            <h1>{this.state.thread.name}</h1>
+          </nav>
+        </header>
+        <div className="message-pane">
+        <div className="message-section">          
           <ul className="message-list" ref="messageList">
             {messageListItems}
           </ul>
-          <MessageComposer threadID={this.state.thread.id}/>
+          <div className="compose"><MessageComposer threadID={this.state.thread.id}/></div>
+        </div>
+        </div>
         </div>
       );
     } else {
