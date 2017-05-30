@@ -44,24 +44,28 @@ export default class MessageSection extends React.Component {
     if (this.state.thread) {
       return (
         <div>
-        <header className="message-thread-heading">
-          <nav>
-            <h1>{this.state.thread.name}</h1>
-          </nav>
-        </header>
-        <div className="message-pane">
-        <div className="message-section">          
-          <ul className="message-list" ref="messageList">
-            {messageListItems}
-          </ul>
-          <div className="compose"><MessageComposer threadID={this.state.thread.id}/></div>
-        </div>
-        </div>
+          <header className="message-thread-heading">
+            <nav>
+              <h1>{this.state.thread.name}</h1>
+            </nav>
+          </header>
+          <div className="message-pane">
+            <div className="message-section">
+              <ul
+                className="message-list"
+                ref={(c) => { this.messageList = c; }}>
+                {messageListItems}
+              </ul>
+              <div className="compose">
+                <MessageComposer threadID={this.state.thread.id}/>
+              </div>
+            </div>
+          </div>
         </div>
       );
-    } else {
-      return <div className="message-section"></div>;
     }
+
+    return <div className="message-section"></div>;
   }
 
   componentDidUpdate() {
@@ -69,7 +73,7 @@ export default class MessageSection extends React.Component {
   }
 
   _scrollToBottom() {
-    let ul = this.refs.messageList;
+    let ul = this.messageList;
     if (ul) {
       ul.scrollTop = ul.scrollHeight;
     }

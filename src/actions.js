@@ -6,7 +6,6 @@ import $ from 'jquery';
 
 let ActionTypes = ChatConstants.ActionTypes;
 
-
 export function createMessage(text, currentThreadID) {
   let message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
   ChatAppDispatcher.dispatch({
@@ -51,7 +50,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     date: new Date(timestamp),
     isRead: true,
   };
-  //Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
+  // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
   $.ajax({
     url: 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text,
     dataType: 'jsonp',
@@ -63,20 +62,19 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     success: function (response) {
        receivedMessage.text = response.answers[0].actions[0].expression;
        receivedMessage.response = response;
-        let message =  ChatMessageUtils.getSUSIMessageData(receivedMessage, currentThreadID);
+        let message =  ChatMessageUtils.getSUSIMessageData(
+          receivedMessage, currentThreadID
+        );
 
         ChatAppDispatcher.dispatch({
           type: ActionTypes.CREATE_SUSI_MESSAGE,
           message
         });
       },
-    error: function(errorThrown) { 
+    error: function(errorThrown) {
       console.log(errorThrown);
-      receivedMessage.text = "Please check your internet connection";    
+      receivedMessage.text = 'Please check your internet connection';
 
     }
   });
-
-
-
 };

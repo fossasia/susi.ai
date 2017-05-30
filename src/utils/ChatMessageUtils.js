@@ -11,7 +11,7 @@ export function getCreatedMessageData(text, currentThreadID) {
   return {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
-    authorName: 'You', 
+    authorName: 'You',
     date: new Date(timestamp),
     text: text,
     isRead: true
@@ -30,9 +30,9 @@ export function getSUSIMessageData(message, currentThreadID) {
     date: new Date(timestamp),
     isRead: true,
     responseTime: message.responseTime
-  };    
+  };
 
-  return receivedMessage;  
+  return receivedMessage;
 }
 
 
