@@ -41,7 +41,7 @@ class MessageComposer extends React.Component {
       this.setState({text: ''});
     }
   }
-  
+
 
 };
 

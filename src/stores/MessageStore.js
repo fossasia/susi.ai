@@ -9,17 +9,6 @@ let CHANGE_EVENT = 'change';
 
 let _messages = {};
 
-function _addMessages(rawMessages) {
-  rawMessages.forEach(message => {
-    if (!_messages[message.id]) {
-      _messages[message.id] = ChatMessageUtils.convertRawMessage(
-        message,
-        ThreadStore.getCurrentID()
-      );
-    }
-  });
-}
-
 function _markAllInThreadRead(threadID) {
   for (let id in _messages) {
     if (_messages[id].threadID === threadID) {

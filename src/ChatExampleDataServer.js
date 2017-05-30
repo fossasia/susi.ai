@@ -58,5 +58,4 @@ export function postSUSIMessage(message, callback) {
     callback(message);
   }, NETWORK_LATENCY);
 
-
 }

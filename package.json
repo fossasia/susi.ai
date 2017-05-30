@@ -22,6 +22,9 @@
   },
   "devDependencies": {
     "enzyme": "^2.8.2",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-jsx": "0.0.2",
+    "eslint-plugin-react": "^7.0.1",
     "gh-pages": "^1.0.0",
     "react-scripts": "0.9.5",
     "react-test-renderer": "^15.5.4"
@@ -29,7 +32,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "lint-js": "eslint *.js \"src/**/*.js\"",
+    "lint": "npm run lint-js",
+    "precommit": "npm run lint",
+    "prepush": "npm run lint",
+    "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "surge"
