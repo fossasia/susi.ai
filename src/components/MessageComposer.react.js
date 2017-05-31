@@ -1,11 +1,11 @@
 
 import * as Actions from '../actions';
-import React from 'react';
+import React,{Component} from 'react';
 import { PropTypes } from 'prop-types';
 
 let ENTER_KEY_CODE = 13;
 
-class MessageComposer extends React.Component {
+class MessageComposer extends Component {
 
   constructor(props) {
     super(props);

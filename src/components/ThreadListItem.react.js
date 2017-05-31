@@ -1,10 +1,10 @@
 
 import * as Actions from '../actions';
-import React from 'react';
+import React,{Component} from 'react';
 import { PropTypes } from 'prop-types';
 import classNames from 'classnames';
 
-class ThreadListItem extends React.Component {
+class ThreadListItem extends Component {
 
   render() {
     let thread = this.props.thread;
