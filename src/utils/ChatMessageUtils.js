@@ -27,6 +27,8 @@ export function getSUSIMessageData(message, currentThreadID) {
     authorName: 'SUSI', // hard coded for the example
     text: message.text,
     response: message.response,
+    actions: message.actions,
+    websearchresults: message.websearchresults,
     date: new Date(timestamp),
     isRead: true,
     responseTime: message.responseTime
@@ -34,5 +36,4 @@ export function getSUSIMessageData(message, currentThreadID) {
 
   return receivedMessage;
 }
-
 

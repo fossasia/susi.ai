@@ -196,3 +196,29 @@ textarea {
   height: 25px;
 }
 
+.websearchtile{
+  width: 100%;
+  height: 150px;
+}
+
+.websearchtile-auto{
+  width: 100%;
+  height: auto;
+}
+.websearchtile-img{
+  width: 30%;
+  height: 100%;
+  float: left;
+}
+
+.websearchtile-text{
+  padding: 1% 1% 2% 35%;
+}
+
+.websearchtile-auto-text{
+  padding: 1% 1% 2% 2%;
+}
+
+.websearchtile-category{
+  color: #999999;
+}
