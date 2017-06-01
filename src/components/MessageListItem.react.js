@@ -166,8 +166,12 @@ class MessageListItem extends React.Component {
   render() {
     let {message} = this.props;
     let stringWithLinks = this.props.message.text;
-    let imgText = imageParse(stringWithLinks);
-    let replacedText = parseAndReplace(imgText);
+    let replacedText = '';
+    if(stringWithLinks){
+       let imgText = imageParse(stringWithLinks);
+       replacedText = parseAndReplace(imgText);
+    };
+    let messageContainerClasses = 'message-container ' + message.authorName;
 
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
@@ -180,13 +184,13 @@ class MessageListItem extends React.Component {
             let table = drawTable(coloumns,data.answers[0].data);
             return (
                 <li className='message-list-item'>
-                  <h5 className='message-author-name'>{message.authorName}</h5>
+                  <section className={messageContainerClasses}>
+                  <div className='message-text'>{replacedText}</div>
+                  <div><div className='message-text'>{table}</div></div>
                   <div className='message-time'>
                     {message.date.toLocaleTimeString()}
                   </div>
-                  <div className='message-text'>{replacedText}</div>
-                  <br/>
-                  <div><div className='message-text'>{table}</div></div>
+                  </section>
                 </li>
               );
         }
@@ -198,15 +202,13 @@ class MessageListItem extends React.Component {
           let mymap = drawMap(lat,lng,zoom);
           return (
                   <li className='message-list-item'>
-                    <h5 className='message-author-name'>
-                      {message.authorName}
-                    </h5>
+                    <section className={messageContainerClasses}>
+                    <div className='message-text'>{replacedText}</div>
+                    <div>{mymap}</div>
                     <div className='message-time'>
                       {message.date.toLocaleTimeString()}
                     </div>
-                    <div className='message-text'>{replacedText}</div>
-                    <br/>
-                    <div>{mymap}</div>
+                    </section>
                   </li>
                 );
         }
@@ -215,13 +217,13 @@ class MessageListItem extends React.Component {
           let WebSearchTiles = drawWebSearchTiles(results);
           return (
             <li className='message-list-item'>
-              <h5 className='message-author-name'>{message.authorName}</h5>
+              <section className={messageContainerClasses}>
+              <div className='message-text'>{replacedText}</div>
+              <div><div className='message-text'>{WebSearchTiles}</div></div>
               <div className='message-time'>
                 {message.date.toLocaleTimeString()}
               </div>
-              <div className='message-text'>{replacedText}</div>
-              <br/>
-              <div><div className='message-text'>{WebSearchTiles}</div></div>
+              </section>
             </li>
           );
         }
@@ -230,11 +232,12 @@ class MessageListItem extends React.Component {
 
     return (
       <li className='message-list-item'>
-        <h5 className='message-author-name'>{message.authorName}</h5>
+        <section  className={messageContainerClasses}>
+        <div className='message-text'>{replacedText}</div>
         <div className='message-time'>
           {message.date.toLocaleTimeString()}
         </div>
-        <div className='message-text'>{replacedText}</div>
+        </section>
       </li>
     );
   }
