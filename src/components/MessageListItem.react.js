@@ -166,8 +166,11 @@ class MessageListItem extends React.Component {
   render() {
     let {message} = this.props;
     let stringWithLinks = this.props.message.text;
-    let imgText = imageParse(stringWithLinks);
-    let replacedText = parseAndReplace(imgText);
+    let replacedText = '';
+    if(stringWithLinks){
+      let imgText = imageParse(stringWithLinks);
+      replacedText = parseAndReplace(imgText);
+    }
 
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
