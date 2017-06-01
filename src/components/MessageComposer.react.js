@@ -23,6 +23,7 @@ class MessageComposer extends Component {
         onChange={this._onChange.bind(this)}
         onKeyDown={this._onKeyDown.bind(this)}
         ref={(textarea)=> { this.nameInput = textarea; }}
+        placeholder="Type a message..."
       />
     );
   }
