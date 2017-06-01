@@ -47,6 +47,8 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     authorName: 'SUSI', // hard coded for the example
     text: '',
     response: {},
+    actions:[],
+    websearchresults:[],
     date: new Date(timestamp),
     isRead: true,
   };
@@ -60,21 +62,62 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     timeout: 3000,
     async: false,
     success: function (response) {
-       receivedMessage.text = response.answers[0].actions[0].expression;
-       receivedMessage.response = response;
-        let message =  ChatMessageUtils.getSUSIMessageData(
-          receivedMessage, currentThreadID
-        );
-
-        ChatAppDispatcher.dispatch({
-          type: ActionTypes.CREATE_SUSI_MESSAGE,
-          message
+        receivedMessage.text = response.answers[0].actions[0].expression;
+        receivedMessage.response = response;
+        let actions = [];
+        response.answers[0].actions.forEach((actionobj) =>{
+          actions.push(actionobj.type);
         });
+        receivedMessage.actions = actions;
+        if (actions.indexOf('websearch')>=0) {
+          let actionIndex = actions.indexOf('websearch');
+          let query = response.answers[0].actions[actionIndex].query;
+          $.ajax({
+            url: 'http://api.duckduckgo.com/?format=json&q='+query,
+            dataType: 'jsonp',
+            crossDomain: true,
+            timeout: 3000,
+            async: false,
+            success: function (data) {
+              receivedMessage.websearchresults = data.RelatedTopics;
+              if(data.AbstractText){
+                let abstractTile = {
+                  Text:'',
+                  FirstURL:'',
+                  Icon:{URL:''},
+                }
+                abstractTile.Text = data.AbstractText;
+                abstractTile.FirstURL = data.AbstractURL;
+                abstractTile.Icon.URL = data.Image;
+                console.log(abstractTile);
+                receivedMessage.websearchresults.unshift(abstractTile);
+              }
+              let message =  ChatMessageUtils.getSUSIMessageData(
+                receivedMessage, currentThreadID);
+              ChatAppDispatcher.dispatch({
+                type: ActionTypes.CREATE_SUSI_MESSAGE,
+                message
+              });
+            },
+            error: function(errorThrown) {
+              console.log(errorThrown);
+              receivedMessage.text = 'Please check your internet connection';
+            }
+          });
+        }
+        else{
+          let message =  ChatMessageUtils.getSUSIMessageData(
+            receivedMessage, currentThreadID);
+
+          ChatAppDispatcher.dispatch({
+            type: ActionTypes.CREATE_SUSI_MESSAGE,
+            message
+          });
+        }
       },
     error: function(errorThrown) {
       console.log(errorThrown);
       receivedMessage.text = 'Please check your internet connection';
-
     }
   });
 };
