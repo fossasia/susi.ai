@@ -20,6 +20,29 @@ export function parseAndReplace(text) {
   </Linkify>;
 }
 
+function imageParse(stringWithLinks){
+  let replacePattern = new RegExp([
+                      '((?:https?:\\/\\/)(?:[a-zA-Z]{1}',
+                      '(?:[\\w-]+\\.)+(?:[\\w]{2,5}))',
+                      '(?::[\\d]{1,5})?\\/(?:[^\\s/]+\\/)',
+                      '*(?:[^\\s]+\\.(?:jpe?g|gif|png))',
+                      '(?:\\?\\w+=\\w+(?:&\\w+=\\w+)*)?)'
+                      ].join(''),'gim');
+  let splits = stringWithLinks.split(replacePattern);
+  let result = [];
+  splits.forEach((item,key)=>{
+    let checkmatch = item.match(replacePattern);
+    if(checkmatch){
+      result.push(
+        <img key={key} src={checkmatch}
+            style={{width:'95%',height:'auto'}} alt=''/>)
+    }
+    else{
+      result.push(item);
+    }
+  });
+  return result;
+}
 
 function drawWebSearchTiles(tilesData){
   let resultTiles = tilesData.map((tile,i) => {
@@ -143,7 +166,8 @@ class MessageListItem extends React.Component {
   render() {
     let {message} = this.props;
     let stringWithLinks = this.props.message.text;
-    let replacedText = parseAndReplace(stringWithLinks);
+    let imgText = imageParse(stringWithLinks);
+    let replacedText = parseAndReplace(imgText);
 
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
