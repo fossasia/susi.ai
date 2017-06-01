@@ -103,6 +103,12 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
       break;
     }
 
+    case ActionTypes.STORE_HISTORY_MESSAGE: {
+      let message = action.message;
+      _messages[message.id] = message;
+      MessageStore.emitChange();
+      break;
+    }
 
     default:
       // do nothing
