@@ -2,7 +2,7 @@
 import MessageComposer from './MessageComposer.react';
 import MessageListItem from './MessageListItem.react';
 import MessageStore from '../stores/MessageStore';
-import React from 'react';
+import React,{Component} from 'react';
 import ThreadStore from '../stores/ThreadStore';
 
 function getStateFromStores() {
@@ -21,7 +21,7 @@ function getMessageListItem(message) {
   );
 }
 
-export default class MessageSection extends React.Component {
+export default class MessageSection extends Component {
 
   constructor(props) {
     super(props);

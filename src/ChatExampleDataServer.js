@@ -1,4 +1,3 @@
-
 let NETWORK_LATENCY = 300;
 
 let messages = [

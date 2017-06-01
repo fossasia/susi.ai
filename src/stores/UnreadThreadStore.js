@@ -1,4 +1,3 @@
-
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
 import { EventEmitter } from 'events';

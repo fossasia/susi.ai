@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React,{Component} from 'react';
 import ThreadListItem from '../components/ThreadListItem.react';
 import ThreadStore from '../stores/ThreadStore';
 import UnreadThreadStore from '../stores/UnreadThreadStore';
@@ -12,7 +12,7 @@ function getStateFromStores() {
   };
 }
 
-export default class ThreadSection extends React.Component {
+export default class ThreadSection extends Component {
 
   constructor(props) {
     super(props);
