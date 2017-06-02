@@ -18,3 +18,7 @@ export function getAllMessages() {
     Actions.receiveAll(messages);
   });
 };
+
+export function getHistory(){
+	Actions.getHistory();
+}
