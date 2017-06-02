@@ -1,17 +1,16 @@
 
 .chatapp {
-  font-family: 'Muli', 'Helvetica Neue', helvetica, arial;
   max-width: 760px;
   margin: 20px auto;
   overflow: hidden;
 }
 
 .message-list {
-  background: #eceff1;
+  background: #f5f4f7;
   position: fixed;
-  top: 56px;
+  top: 60px;
   left: 0;
-  bottom: 56px;
+  bottom: 60px;
   right: 0;
   width: 100vw;
   max-width: 700px;
@@ -23,7 +22,7 @@
 }
 
 .message-section {
-  background: #eceff1;
+  background: #eef1f6;
   position: fixed;
   top: 56px;
   left: 0;
@@ -51,7 +50,7 @@ nav h1 {
     margin: 0 auto;
     font-size: 20px;
     line-height: 56px;
-    font-weight: 500;
+    font-weight: 900;
     color: #fff;
 }
 nav .actions {
@@ -76,14 +75,28 @@ header{
 }
 
 .message-list-item, .thread-list-item {
-  list-style: none;
-  padding: 12px 14px 14px;
+  display: flex;
+}
+.message-container::after {
+    background: #fff;
+    transform: rotate(-135deg);
+    left: 100%;
+    top: 40px;
+    border-color: #fff;
 }
 
-.thread-list-item {
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
+.message-container::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin-left: 0;
+    box-sizing: border-box;
+    border: 8px solid #000;
+    border-color: transparent transparent #fff #fff;
+    transform-origin: 0 0;
 }
+
 
 .thread-list:hover .thread-list-item:hover {
   background-color: #f8f8ff;
@@ -102,22 +115,42 @@ header{
 
 .message-author-name,
 .thread-name {
-  color: #38c3ea;
-  float: left;
-  font-size: 13px;
-  margin: 0;
+    margin: 0;
+    font-size: 14px;
+    padding: 0;
 }
 
+.message-container.SUSI{
+    margin-right: auto;
+    margin-left: 12px;
+    background: #d3e2f4;
+}
+.message-container.You{
+  background: #fff;
+}
+.message-container.SUSI>h5,.message-container.SUSI>.message-text {
+    padding-right: 16px;
+}
+.message-container.SUSI::after {
+    transform: rotate(-315deg);
+    left: 0;
+    top: 16px;
+    border-color: transparent transparent #d3e2f4 #d3e2f4;
+    background: #d3e2f4;
+
+}
 .message-time, .thread-time {
-  color: #38c3ea;
-  float: right;
-  font-size: 12px;
+    font-size: 12px;
+    color: #90a4ae;
+    margin: 0;
+    padding: 0;
+    text-align: right;
 }
 
 .message-text, .thread-last-message {
-  clear: both;
   font-size: 14px;
-  padding-top: 10px;
+  margin: 0;
+  padding: 0;
 }
 .message-pane{
   margin: 0 auto;
@@ -163,7 +196,7 @@ header{
   text-align: left;
   color: inherit;
   outline: 0;
-  font-family: 'Muli', 'Helvetica Neue', helvetica, arial;
+  font-family: 'Lato', sans-serif;
 }
 textarea {
   resize: none;
@@ -196,6 +229,19 @@ textarea {
   height: 25px;
 }
 
+.message-container{
+  position: relative;
+  min-width: 80px;
+  max-width: 80%;
+  font-size: 17px;
+  line-height: 22px;
+  padding: 8px;
+  padding-bottom: 4px;
+  margin: 4px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: 12px;
+}
 .websearchtile{
   width: 100%;
   height: 150px;
@@ -221,4 +267,10 @@ textarea {
 
 .websearchtile-category{
   color: #999999;
+}
+a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block
 }
