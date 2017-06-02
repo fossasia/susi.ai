@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
 
+ChatWebAPIUtils.getHistory();
 ChatWebAPIUtils.getAllMessages();
 
 ReactDOM.render(
