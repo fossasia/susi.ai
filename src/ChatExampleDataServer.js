@@ -6,13 +6,13 @@ let messages = [
     threadID: 't_1',
     threadName: 'SUSI',
     authorName: 'SUSI',
-    text:null,
+    text: null,
     timestamp: Date.now() - 89999
   }];
 
 let threadNameMap = (function () {
   let map = {};
-  messages.forEach(({threadID, threadName}) => {
+  messages.forEach(({ threadID, threadName }) => {
     map[threadID] = threadName;
   });
   return map;
