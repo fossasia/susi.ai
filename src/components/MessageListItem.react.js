@@ -172,7 +172,6 @@ class MessageListItem extends React.Component {
        replacedText = parseAndReplace(imgText);
     };
     let messageContainerClasses = 'message-container ' + message.authorName;
-
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
         let data = this.props.message.response;
