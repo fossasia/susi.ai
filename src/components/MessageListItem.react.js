@@ -13,6 +13,7 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
+import ReactSwipe from 'react-swipe';
 
 export function parseAndReplace(text) {
   return <Linkify properties={{target: '_blank'}}>
@@ -70,9 +71,6 @@ function drawWebSearchTiles(tilesData){
               </div>
             </Paper>
           </MuiThemeProvider>
-          <div>
-            <br/>
-          </div>
         </div>
       );
    }
@@ -90,9 +88,6 @@ function drawWebSearchTiles(tilesData){
           </div>
         </Paper>
       </MuiThemeProvider>
-      <div>
-        <br/>
-      </div>
     </div>
     );
 
@@ -238,7 +233,12 @@ class MessageListItem extends React.Component {
               <section className={messageContainerClasses}>
               <div className='message-text'>{replacedText}</div>
               <br/>
-              <div><div className='message-text'>{WebSearchTiles}</div></div>
+              <div><div className='message-text'>
+                <ReactSwipe className='carousel' key={WebSearchTiles.length}
+                  swipeOptions={{continuous: false}}>
+                  {WebSearchTiles}
+                </ReactSwipe>
+              </div></div>
               <div className='message-time'>
                 {message.date.toLocaleTimeString()}
               </div>
