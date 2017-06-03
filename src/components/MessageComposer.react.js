@@ -2,8 +2,19 @@
 import * as Actions from '../actions';
 import React,{Component} from 'react';
 import { PropTypes } from 'prop-types';
+import Send from 'material-ui/svg-icons/content/send';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
+
+const style = {
+    mini: true,
+    top: '1px',
+    right: '5px',
+    position: 'absolute',
+};
 
 class MessageComposer extends Component {
 
@@ -16,16 +27,31 @@ class MessageComposer extends Component {
   }
   render() {
     return (
-      <textarea
-        className="message-composer"
-        name="message"
-        value={this.state.text}
-        onChange={this._onChange.bind(this)}
-        onKeyDown={this._onKeyDown.bind(this)}
-        ref={(textarea)=> { this.nameInput = textarea; }}
-        placeholder="Type a message..."
-      />
+      <div className="message-composer">
+        <textarea
+          name="message"
+          value={this.state.text}
+          onChange={this._onChange.bind(this)}
+          onKeyDown={this._onKeyDown.bind(this)}
+          ref={(textarea)=> { this.nameInput = textarea; }}
+          placeholder="Type a message..."
+        />
+        <FloatingActionButton
+          backgroundColor='	#607D8B'
+          onTouchTap={this._onClickButton.bind(this)}
+          style={style}>
+          <Send />
+        </FloatingActionButton>
+      </div>
     );
+  }
+
+  _onClickButton(){
+    let text = this.state.text.trim();
+    if (text) {
+      Actions.createMessage(text, this.props.threadID);
+    }
+    this.setState({text: ''});
   }
 
   _onChange(event, value) {
