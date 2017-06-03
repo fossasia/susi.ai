@@ -196,12 +196,18 @@ header{
   text-align: left;
   color: inherit;
   outline: 0;
-  font-family: 'Lato', sans-serif;
 }
 textarea {
+  border: none;
+  font-family: 'Lato', sans-serif;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  width: 90%;
   resize: none;
 }
-
 .leaflet-container {
   height: 150px;
   width: 80%;
