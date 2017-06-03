@@ -216,6 +216,22 @@ class MessageListItem extends React.Component {
         }
         if (actions.indexOf('websearch')>=0) {
           let results = this.props.message.websearchresults;
+          if(results.length === 0){
+            let noResultFound = 'NO Results Found'
+            return (
+              <li className='message-list-item'>
+                <section className={messageContainerClasses}>
+                <div className='message-text'>{replacedText}</div>
+                <br/>
+                <div><div className='message-text'>
+                  <center>{noResultFound}</center></div></div>
+                <div className='message-time'>
+                  {message.date.toLocaleTimeString()}
+                </div>
+                </section>
+              </li>
+            );
+          }
           let WebSearchTiles = drawWebSearchTiles(results);
           return (
             <li className='message-list-item'>
