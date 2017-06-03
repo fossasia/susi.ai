@@ -56,8 +56,10 @@ function drawWebSearchTiles(tilesData){
       return(
         <div key={i}>
           <MuiThemeProvider>
-            <Paper zDepth={2} className='websearchtile'>
-              <img src={tile.Icon.URL} className='websearchtile-img' alt=''/>
+            <Paper zDepth={0} className='websearchtile'>
+              <div className='websearchtile-img-container'>
+                <img src={tile.Icon.URL} className='websearchtile-img' alt=''/>
+              </div>
               <div className='websearchtile-text'>
                 <p className='websearchtile-category'>
                   Category: <strong>{category}</strong>
@@ -72,13 +74,13 @@ function drawWebSearchTiles(tilesData){
             <br/>
           </div>
         </div>
-        );
+      );
    }
    return(
     <div key={i}>
       <MuiThemeProvider>
-        <Paper zDepth={2} className='websearchtile-auto'>
-          <div className='websearchtile-auto-text'>
+        <Paper zDepth={0} className='websearchtile'>
+          <div className='websearchtile-text'>
             <p className='websearchtile-category'>
               Category: <strong>{category}</strong>
             </p>
@@ -93,6 +95,7 @@ function drawWebSearchTiles(tilesData){
       </div>
     </div>
     );
+
   });
 
   return resultTiles;
@@ -218,6 +221,7 @@ class MessageListItem extends React.Component {
             <li className='message-list-item'>
               <section className={messageContainerClasses}>
               <div className='message-text'>{replacedText}</div>
+              <br/>
               <div><div className='message-text'>{WebSearchTiles}</div></div>
               <div className='message-time'>
                 {message.date.toLocaleTimeString()}
