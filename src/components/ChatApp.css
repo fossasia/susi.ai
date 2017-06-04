@@ -1,4 +1,15 @@
-
+.dark-body{
+  background-repeat: no-repeat;
+background: #183850;
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTgzODUwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMjUlIiBzdG9wLWNvbG9yPSIjMTgzODUwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMTkyYzNlIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNzUlIiBzdG9wLWNvbG9yPSIjMjIyNTRjIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzIyMjU0YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+background: -moz-linear-gradient(-45deg, #183850 0%, #183850 25%, #192c3e 50%, #22254c 75%, #22254c 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#183850), color-stop(25%,#183850), color-stop(50%,#192c3e), color-stop(75%,#22254c), color-stop(100%,#22254c));
+background: -webkit-linear-gradient(-45deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+background: -o-linear-gradient(-45deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+background: -ms-linear-gradient(-45deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+background: linear-gradient(135deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', endColorstr='#22254c',GradientType=1 );
+}
 .chatapp {
   max-width: 760px;
   margin: 20px auto;
@@ -20,7 +31,10 @@
   margin: 0 auto;
   height: auto;
 }
+.dark .message-list {
+background: rgba(30, 87, 153, 0.02);
 
+}
 .message-section {
   background: #eef1f6;
   position: fixed;
@@ -34,6 +48,18 @@
   overflow-x: hidden;
   overflow-y: hidden;
   box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+.dark .message-section{
+background-repeat: no-repeat;
+background: #183850;
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTgzODUwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMjUlIiBzdG9wLWNvbG9yPSIjMTgzODUwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMTkyYzNlIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNzUlIiBzdG9wLWNvbG9yPSIjMjIyNTRjIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzIyMjU0YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+background: -moz-linear-gradient(-45deg, #183850 0%, #183850 25%, #192c3e 50%, #22254c 75%, #22254c 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#183850), color-stop(25%,#183850), color-stop(50%,#192c3e), color-stop(75%,#22254c), color-stop(100%,#22254c));
+background: -webkit-linear-gradient(-45deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+background: -o-linear-gradient(-45deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+background: -ms-linear-gradient(-45deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+background: linear-gradient(135deg, #183850 0%,#183850 25%,#192c3e 50%,#22254c 75%,#22254c 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', endColorstr='#22254c',GradientType=1 );
 }
 nav {
     margin: 0 auto;
@@ -51,6 +77,9 @@ nav h1 {
     font-size: 20px;
     line-height: 56px;
     font-weight: 900;
+    color: #fff;
+}
+.dark nav h1{
     color: #fff;
 }
 nav .actions {
@@ -73,30 +102,31 @@ header{
   user-select: none;
   -webkit-user-select: none;
 }
-
+.dark header{
+  background: #19324c;
+}
 .message-list-item, .thread-list-item {
   display: flex;
+  margin: 5px;
 }
-.message-container::after {
-    background: #fff;
-    transform: rotate(-135deg);
-    left: 100%;
-    top: 40px;
-    border-color: #fff;
-}
+
 
 .message-container::after {
     content: "";
     position: absolute;
-    width: 0;
-    height: 0;
-    margin-left: 0;
     box-sizing: border-box;
-    border: 8px solid #000;
+    left: 100%;
+    top: 40px;
+    transform: rotate(-135deg);
+    border: 8px solid;
     border-color: transparent transparent #fff #fff;
     transform-origin: 0 0;
 }
+ .dark .message-container::after{
+    border-color: rgb(26, 66, 86) #1a4257 rgb(26, 66, 86) rgb(26, 66, 86);
+    background: rgba(25, 147, 147, 0.2);
 
+}
 
 .thread-list:hover .thread-list-item:hover {
   background-color: #f8f8ff;
@@ -125,8 +155,17 @@ header{
     margin-left: 12px;
     background: #d3e2f4;
 }
+.dark .message-container.SUSI{
+    border-color:rgba(25, 147, 147, 0.2);
+  background:rgba(25, 147, 147, 0.2);
+      color: #0EC879;
+}
 .message-container.You{
   background: #fff;
+}
+.dark .message-container.You{
+  background: rgba(25, 147, 147, 0.2);
+      color: #0AD5C1;
 }
 .message-container.SUSI>h5,.message-container.SUSI>.message-text {
     padding-right: 16px;
@@ -137,7 +176,10 @@ header{
     top: 16px;
     border-color: transparent transparent #d3e2f4 #d3e2f4;
     background: #d3e2f4;
-
+}
+.dark .message-container.SUSI::after{
+  border-color:#194b5e #194b5e rgb(25, 75, 94) rgb(25, 75, 94);
+  background:rgba(25, 147, 147, 0.2);
 }
 .message-time, .thread-time {
     font-size: 12px;
@@ -146,7 +188,9 @@ header{
     padding: 0;
     text-align: right;
 }
-
+.dark .message-time, .thread-time{
+  color: #7eaaaf;
+}
 .message-text, .thread-last-message {
   font-size: 14px;
   margin: 0;
@@ -181,6 +225,12 @@ header{
     overflow-x: hidden;
     overflow-y: hidden;
 }
+.dark .compose{
+  background: rgba(30, 87, 153, 0.02);
+      color: #0AD5C1;
+
+
+}
 .message-composer {
   width: 100%;
   margin: 0 8px 0 0;
@@ -196,6 +246,14 @@ header{
   text-align: left;
   color: inherit;
   outline: 0;
+}
+.dark .message-composer{
+  width: 90%;
+  margin: 0 auto;
+  border-top: 1px solid rgba(240, 240, 240, 0.56);
+}
+.dark textarea{
+  color: #0AD5C1;
 }
 textarea {
   border: none;
@@ -298,4 +356,23 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+}
+.dark a{
+  color: #80a9a5;
+}
+.theme-button{
+  line-height: 52px;
+  background: #19324c;
+  height: 56px;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+.dark .theme-button{
+  line-height: 52px;
+  background: #607d8b;
+  height: 56px;
+  padding: 0 10px;
+  color:#fff;
 }
