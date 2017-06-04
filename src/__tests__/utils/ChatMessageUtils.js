@@ -15,7 +15,6 @@ it('check getSUSIMessageData util', () => {
     const getSUSIMessageData = ChatMessageUtils.getSUSIMessageData(
         message, 't_1'
     );
-    expect(getSUSIMessageData.id).toBe(message.id);
     expect(getSUSIMessageData.threadID).toBe(message.threadID);
     expect(getSUSIMessageData.authorName).toBe(message.authorName);
     expect(getSUSIMessageData.text).toBe(message.text);
@@ -37,7 +36,6 @@ it('check getCreatedMessageData util', () => {
     const chatMessage = ChatMessageUtils.getCreatedMessageData(
         messageText, currentThreadID
     );
-    expect(chatMessage.id).toBe(message.id);
     expect(chatMessage.threadID).toBe(message.threadID);
     expect(chatMessage.authorName).toBe(message.authorName);
     expect(chatMessage.text).toBe(message.text);
@@ -58,7 +56,6 @@ it('check convertRawMessage util', () => {
         rawMessage, currentThreadID
     );
 
-    expect(convertRawMessage.id).toBe(rawMessage.id);
     expect(convertRawMessage.threadID).toBe(rawMessage.threadID);
     expect(convertRawMessage.authorName).toBe(rawMessage.authorName);
     expect(convertRawMessage.threadName).toBe(rawMessage.threadName);
