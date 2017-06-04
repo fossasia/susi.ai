@@ -248,12 +248,13 @@ header{
   outline: 0;
 }
 .dark .message-composer{
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   border-top: 1px solid rgba(240, 240, 240, 0.56);
 }
-.dark textarea{
+.dark .message-composer textarea{
   color: #0AD5C1;
+  background: rgba(0, 0, 0, 0.01);
 }
 textarea {
   border: none;
