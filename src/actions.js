@@ -52,9 +52,11 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     date: new Date(timestamp),
     isRead: true,
   };
+  // Fetching local browser language
+  var locale = document.documentElement.getAttribute('lang');
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
   $.ajax({
-    url: 'http://api.asksusi.com/susi/chat.json?q=' + createdMessage.text,
+    url: 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale,
     dataType: 'jsonp',
     jsonpCallback: 'p',
     jsonp: 'callback',
