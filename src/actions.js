@@ -224,3 +224,9 @@ export function themeChanged(theme) {
     theme
   });
 };
+
+export function ToggleSearch() {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.SEARCH_MODE
+  });
+};

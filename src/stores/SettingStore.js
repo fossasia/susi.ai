@@ -1,35 +1,55 @@
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
 import { EventEmitter } from 'events';
+
 let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
-class SettingStore extends EventEmitter {
-    constructor() {
-        super();
-        this.theme = true;
-    }
-    getTheme() {
-        return this.theme;
-    }
-    changeTheme(themeChanges) {
-        this.theme = !this.theme;
-        this.emit(CHANGE_EVENT);
-    }
-    handleActions(action) {
-        switch (action.type) {
+let _searchMode = false;
+let _theme = true;
 
-            case ActionTypes.THEME_CHANGED: {
-                this.changeTheme(action.theme);
-                break;
-            }
-            default: {
-                // do nothing
-            }
+let SettingStore = {
+    ...EventEmitter.prototype,
+
+    emitChange() {
+        this.emit(CHANGE_EVENT);
+    },
+
+    getSearchMode() {
+        return _searchMode;
+    },
+
+    getTheme() {
+        return _theme;
+    },
+
+    addChangeListener(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
+
+    removeChangeListener(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    },
+
+};
+
+SettingStore.dispatchToken = ChatAppDispatcher.register(action => {
+
+    switch (action.type) {
+        case ActionTypes.SEARCH_MODE: {
+            _searchMode = !_searchMode;
+            SettingStore.emitChange();
+            break;
+        }
+        case ActionTypes.THEME_CHANGED: {
+            _theme = !_theme;
+            SettingStore.emitChange();
+            break;
+        }
+        default: {
+            // do nothing
         }
     }
-}
-const settingStore = new SettingStore();
-ChatAppDispatcher.register(settingStore.handleActions.bind(settingStore));
-export default settingStore;
+});
 
+export default SettingStore;

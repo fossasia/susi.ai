@@ -14,6 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
 import ReactSwipe from 'react-swipe';
+import Highlighter from 'react-highlight-words';
 
 export function parseAndReplace(text) {
   return <Linkify properties={{target: '_blank'}}>
@@ -165,10 +166,47 @@ class MessageListItem extends React.Component {
     let {message} = this.props;
     let stringWithLinks = this.props.message.text;
     let replacedText = '';
-    if(stringWithLinks){
-       let imgText = imageParse(stringWithLinks);
-       replacedText = parseAndReplace(imgText);
-    };
+    let markMsgID = this.props.markID;
+    if(this.props.message.hasOwnProperty('mark')
+       && markMsgID) {
+      let matchString = this.props.message.mark;
+      if(stringWithLinks){
+        let imgText = imageParse(stringWithLinks);
+        let markedText = [];
+        let matchStringarr = [];
+        matchStringarr.push(matchString);
+        imgText.forEach((part,key)=>{
+          if(typeof(part) === 'string'){
+            if(this.props.message.id === markMsgID){
+              markedText.push(
+              <Highlighter key={key}
+                searchWords={matchStringarr}
+                textToHighlight={part}
+                highlightStyle={{backgroundColor:'orange'}}
+              />  );
+            }
+            else{
+             markedText.push(
+              <Highlighter key={key}
+                searchWords={matchStringarr}
+                textToHighlight={part}
+              />  );
+            }
+          }
+          else{
+            markedText.push(part);
+          }
+        });
+        replacedText = markedText;
+      };
+    }
+    else{
+      if(stringWithLinks){
+         let imgText = imageParse(stringWithLinks);
+         replacedText = parseAndReplace(imgText);
+      };
+    }
+
     let messageContainerClasses = 'message-container ' + message.authorName;
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
@@ -264,7 +302,8 @@ class MessageListItem extends React.Component {
 };
 
 MessageListItem.propTypes = {
-  message: PropTypes.object
+  message: PropTypes.object,
+  markID: PropTypes.string
 };
 
 export default MessageListItem;

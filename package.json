@@ -15,6 +15,7 @@
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
+    "react-highlight-words": "^0.7.2",
     "react-leaflet": "^1.1.6",
     "react-linkify": "^0.2.1",
     "react-swipe": "^5.0.8",
