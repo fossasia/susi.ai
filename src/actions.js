@@ -230,3 +230,9 @@ export function ToggleSearch() {
     type: ActionTypes.SEARCH_MODE
   });
 };
+
+export function ToggleHistory() {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.SHOW_HISTORY_CHANGED
+  });
+};

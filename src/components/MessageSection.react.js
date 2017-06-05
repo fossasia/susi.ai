@@ -2,6 +2,7 @@ import MessageComposer from './MessageComposer.react';
 import MessageListItem from './MessageListItem.react';
 import SearchSection from './SearchSection.react';
 import MessageStore from '../stores/MessageStore';
+import HistoryStore from '../stores/HistoryStore';
 import React, { Component } from 'react';
 import ThreadStore from '../stores/ThreadStore';
 import * as Actions from '../actions';
@@ -18,7 +19,9 @@ function getStateFromStores() {
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     darkTheme: SettingStore.getTheme(),
-    search: SettingStore.getSearchMode()
+    search: SettingStore.getSearchMode(),
+    history: HistoryStore.getAllForCurrentThread(),
+    showHistory: SettingStore.getHistoryMode()
   };
 }
 
@@ -29,6 +32,19 @@ function getMessageListItem(message) {
       message={message}
     />
   );
+}
+
+function getAllWithHistory(messages,history){
+  let allmsgs = history.concat(messages);
+  allmsgs.sort((a, b) => {
+    if (a.date < b.date) {
+      return -1;
+    } else if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
+  });
+  return allmsgs;
 }
 
 export default class MessageSection extends Component {
@@ -55,6 +71,10 @@ export default class MessageSection extends Component {
     Actions.themeChanged(!this.state.darkTheme);
   }
 
+  toggleHistory(){
+    Actions.ToggleHistory();
+  }
+
   componentWillMount() {
     SettingStore.on('change', () => {
       this.setState({
@@ -78,12 +98,38 @@ export default class MessageSection extends Component {
       backgroundCol = '#607d8b';
 
     }
-    let messageListItems = this.state.messages.map(getMessageListItem);
+    let allMsgs = this.state.messages;
+    let toggleHistoryOption = 'Show History';
+    if(this.state.showHistory){
+      allMsgs = getAllWithHistory(this.state.messages,this.state.history);
+      toggleHistoryOption = 'Hide History';
+    }
+    let messageListItems = allMsgs.map(getMessageListItem);
     if (this.state.thread) {
       if(!this.state.search){
+        const Logged = (props) => (
+            <IconMenu
+              {...props}
+              iconButtonElement={
+                <IconButton iconStyle={{fill: 'white'}}>
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+            >
+              <MenuItem primaryText='Change Theme'
+                        onClick={() => { change() }} />
+              <MenuItem primaryText={toggleHistoryOption}
+                       onClick={() => { ToggleHistory() }} />
+            </IconMenu>
+          );
+
+        Logged.muiName = 'IconMenu';
+
         const rightButtons = (
           <div>
-            <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+            <IconButton tooltip='SVG Icon' iconStyle={{fill: 'white'}}
               onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
@@ -159,22 +205,13 @@ export default class MessageSection extends Component {
   }
 
 };
+
 function change() {
   let messageSection = new MessageSection();
   messageSection.themeChanger();
 }
-const Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton iconStyle={{fill: 'white'}}><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-  >
-    <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
 
-  </IconMenu>
-);
-
-Logged.muiName = 'IconMenu';
+function ToggleHistory(){
+  let messageSection = new MessageSection();
+  messageSection.toggleHistory();
+}
