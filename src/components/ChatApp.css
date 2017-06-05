@@ -79,6 +79,9 @@ nav h1 {
     font-weight: 900;
     color: #fff;
 }
+.app-bar h1{
+  text-align: center;
+}
 .dark nav h1{
     color: #fff;
 }
@@ -102,9 +105,7 @@ header{
   user-select: none;
   -webkit-user-select: none;
 }
-.dark header{
-  background: #19324c;
-}
+
 .message-list-item, .thread-list-item {
   display: flex;
   margin: 5px;

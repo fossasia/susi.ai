@@ -6,8 +6,12 @@ import React, { Component } from 'react';
 import ThreadStore from '../stores/ThreadStore';
 import * as Actions from '../actions';
 import SettingStore from '../stores/SettingStore';
-import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';
+import AppBar from 'material-ui/AppBar';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 function getStateFromStores() {
   return {
@@ -66,24 +70,35 @@ export default class MessageSection extends Component {
   }
   render() {
     let topBackground = this.state.darkTheme ? '' : 'dark';
+    var backgroundCol;
+    if (topBackground === 'dark') {
+      backgroundCol = '#19324c';
+    }
+    else {
+      backgroundCol = '#607d8b';
 
+    }
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
       if(!this.state.search){
+        const rightButtons = (
+          <div>
+            <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+              onTouchTap={this._onClickSearch.bind(this)}>
+              <SearchIcon />
+            </IconButton>
+            <Logged />
+          </div>);
         return (
           <div className={topBackground}>
             <header className='message-thread-heading' >
-              <nav>
-                <h1>{this.state.thread.name}</h1>
-                <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
-                  onTouchTap={this._onClickSearch.bind(this)}>
-                  <SearchIcon />
-                </IconButton>
-                <div className='theme-button'
-                 onClick={this.themeChanger.bind(this)}>
-                 Change Theme
-                </div>
-              </nav>
+              <AppBar
+                title={this.state.thread.name}
+                iconElementLeft={<IconButton></IconButton>}
+                iconElementRight={rightButtons}
+                style={{ background: backgroundCol }}
+                className="app-bar"
+              />
             </header>
 
             <div className='message-pane'>
@@ -95,19 +110,19 @@ export default class MessageSection extends Component {
                 </ul>
                 <div className='compose'>
                   <MessageComposer
-                   threadID={this.state.thread.id}
-                   theme={this.state.darkTheme} />
+                    threadID={this.state.thread.id}
+                    theme={this.state.darkTheme} />
                 </div>
               </div>
             </div>
           </div>
-
         );
       }
       if(this.state.search){
         return (
           <SearchSection messages={this.state.messages}
-            theme={this.state.darkTheme} />
+            theme={this.state.darkTheme}
+          />
         );
       }
     }
@@ -144,3 +159,22 @@ export default class MessageSection extends Component {
   }
 
 };
+function change() {
+  let messageSection = new MessageSection();
+  messageSection.themeChanger();
+}
+const Logged = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton iconStyle={{fill: 'white'}}><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+  >
+    <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+
+  </IconMenu>
+);
+
+Logged.muiName = 'IconMenu';

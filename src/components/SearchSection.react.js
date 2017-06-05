@@ -8,6 +8,7 @@ import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
 import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 import * as Actions from '../actions';
 import $ from 'jquery';
+import AppBar from 'material-ui/AppBar';
 
 function getMessageListItem(msgRefs,messages,markID) {
   return messages.map((message)=>{
@@ -76,26 +77,49 @@ class SearchSection extends Component {
     let messageListItems = getMessageListItem(this.msgRefs,
                                   markedMessages,markID,this.state,this.node);
     let topBackground = this.props.theme ? '' : 'dark';
+    var backgroundCol;
+    if (topBackground === 'dark') {
+      backgroundCol = '#19324c';
+    }
+    else {
+      backgroundCol = '#607d8b';
+
+    }
+
+    const searchField = (
+      <TextField hintText="Search..." inputStyle={{color:'white'}}
+      hintStyle={{color:'white'}}
+      onChange={e => this._searchMsg(e)}
+     />
+    );
+    const searchButton = (
+    <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+      onTouchTap={this._onClickExit.bind(this)}>
+      <ExitIcon />
+    </IconButton>
+    );
+    const scrollSearchButtons = (
+      <div>
+        <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+          onTouchTap={this._onClickPrev.bind(this)}>
+          <UpIcon />
+        </IconButton>
+        <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+          onTouchTap={this._onClickRecent.bind(this)}>
+          <DownIcon />
+        </IconButton>
+      </div>
+    );
     return (
       <div className={topBackground}>
         <header className="message-thread-heading">
-          <nav>
-          	<IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
-              onTouchTap={this._onClickPrev.bind(this)}>
-              <UpIcon />
-            </IconButton>
-            <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
-              onTouchTap={this._onClickRecent.bind(this)}>
-              <DownIcon />
-            </IconButton>
-            <TextField hintText="Search..." inputStyle={{color:'white'}}
-            hintStyle={{color:'white'}}
-            onChange={e => this._searchMsg(e)} />
-            <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
-              onTouchTap={this._onClickExit.bind(this)}>
-              <ExitIcon />
-            </IconButton>
-          </nav>
+          <AppBar
+            title={searchField}
+            iconElementLeft={scrollSearchButtons}
+            iconElementRight={searchButton}
+            style={{ background: backgroundCol }}
+            className="app-bar"
+          />
         </header>
         <div className="message-pane">
           <div className="message-section">
