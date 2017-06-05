@@ -6,6 +6,11 @@ import React, { Component } from 'react';
 import ThreadStore from '../stores/ThreadStore';
 import * as Actions from '../actions';
 import SettingStore from '../stores/SettingStore';
+import AppBar from 'material-ui/AppBar';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 function getStateFromStores() {
   return {
@@ -59,20 +64,27 @@ export default class MessageSection extends Component {
   }
   render() {
     let topBackground = this.state.darkTheme ? '' : 'dark';
+    var backgroundCol;
+    if (topBackground === 'dark') {
+      backgroundCol = '#19324c';
+    }
+    else {
+      backgroundCol = '#607d8b';
 
+    }
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
       return (
         <div className={topBackground}>
           <header className='message-thread-heading' >
-            <nav>
-              <h1>{this.state.thread.name}</h1>
-              <div className='theme-button'
-               onClick={this.themeChanger.bind(this)}>
-               Change Theme
-               </div>
+            <AppBar
+              title={this.state.thread.name}
+              iconElementLeft={<IconButton></IconButton>}
+              iconElementRight={<Logged />}
+              style={{ background: backgroundCol }}
+              className="app-bar"
+            />
 
-            </nav>
           </header>
 
           <div className='message-pane'>
@@ -84,8 +96,9 @@ export default class MessageSection extends Component {
               </ul>
               <div className='compose'>
                 <MessageComposer
-                 threadID={this.state.thread.id}
-                 theme={this.state.darkTheme} />
+                  threadID={this.state.thread.id}
+                  theme={this.state.darkTheme} />
+
               </div>
             </div>
           </div>
@@ -116,3 +129,22 @@ export default class MessageSection extends Component {
   }
 
 };
+function change() {
+  let messageSection = new MessageSection();
+  messageSection.themeChanger();
+}
+const Logged = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+  >
+    <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+
+  </IconMenu>
+);
+
+Logged.muiName = 'IconMenu';
