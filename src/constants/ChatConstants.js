@@ -10,7 +10,8 @@ export default {
     RECEIVE_SUSI_MESSAGE: null,
     RECEIVE_RAW_MESSAGES: null,
     STORE_HISTORY_MESSAGE: null,
-    THEME_CHANGED:null
+    THEME_CHANGED:null,
+    SEARCH_MODE: null
   })
 
 };
