@@ -8,6 +8,7 @@ let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
 let _messages = {};
+let _showLoading = false;
 
 function _markAllInThreadRead(threadID) {
   for (let id in _messages) {
@@ -42,6 +43,10 @@ let MessageStore = {
   getAll() {
     return _messages;
 
+  },
+
+  getLoadStatus(){
+    return _showLoading;
   },
 
   /**
@@ -84,6 +89,7 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
     case ActionTypes.CREATE_MESSAGE: {
       let message = action.message;
       _messages[message.id] = message;
+      _showLoading = true;
       MessageStore.emitChange();
       break;
     }
@@ -99,6 +105,7 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
     case ActionTypes.CREATE_SUSI_MESSAGE: {
       let message = action.message;
       _messages[message.id] = message;
+      _showLoading = false;
       MessageStore.emitChange();
       break;
     }

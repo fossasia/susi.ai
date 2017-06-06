@@ -12,9 +12,9 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-
 import PropTypes from 'prop-types';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
+import loadingGIF from './images/loading.gif'
 
 
 function getStateFromStores() {
@@ -22,7 +22,8 @@ function getStateFromStores() {
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     darkTheme: SettingStore.getTheme(),
-    search: SettingStore.getSearchMode()
+    search: SettingStore.getSearchMode(),
+    showLoading: MessageStore.getLoadStatus()
   };
 }
 
@@ -33,6 +34,20 @@ function getMessageListItem(message) {
       message={message}
     />
   );
+}
+
+function getLoadingGIF(){
+  let messageContainerClasses = 'message-container SUSI';
+  const LoadingComponent = (
+    <li className='message-list-item'>
+      <section className={messageContainerClasses}>
+        <img src={loadingGIF}
+          style={{height:'10px',width:'auto'}}
+          alt='please wait..'/>
+      </section>
+    </li>
+  );
+  return LoadingComponent;
 }
 /**
  * Specify how the URL gets decoded here. This is an object that takes the prop
@@ -91,6 +106,7 @@ class MessageSection extends Component {
     })
   }
   render() {
+
     const {
       dream
     } = this.props;
@@ -133,6 +149,7 @@ class MessageSection extends Component {
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}>
                   {messageListItems}
+                  {this.state.showLoading && getLoadingGIF()}
                 </ul>
                 <div className='compose'>
                   <MessageComposer
