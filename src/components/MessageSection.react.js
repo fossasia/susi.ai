@@ -13,6 +13,10 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
+import PropTypes from 'prop-types';
+import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
+
+
 function getStateFromStores() {
   return {
     messages: MessageStore.getAllForCurrentThread(),
@@ -30,8 +34,26 @@ function getMessageListItem(message) {
     />
   );
 }
+/**
+ * Specify how the URL gets decoded here. This is an object that takes the prop
+ * name as a key, and a query param specifier as the value. The query param
+ * specifier can have a `type`, indicating how to decode the value from the
+ * URL, and a `queryParam` field that indicates which key in the query
+ * parameters should be read (this defaults to the prop name if not provided).
+ */
+const urlPropsQueryConfig = {
+  dream: { type: UrlQueryParamTypes.string }
+};
 
-export default class MessageSection extends Component {
+class MessageSection extends Component {
+
+  static propTypes = {
+    dream: PropTypes.string
+  }
+
+  static defaultProps = {
+    dream: ''
+  }
 
   constructor(props) {
     super(props);
@@ -69,6 +91,10 @@ export default class MessageSection extends Component {
     })
   }
   render() {
+    const {
+      dream
+    } = this.props;
+
     let topBackground = this.state.darkTheme ? '' : 'dark';
     var backgroundCol;
     if (topBackground === 'dark') {
@@ -111,7 +137,8 @@ export default class MessageSection extends Component {
                 <div className='compose'>
                   <MessageComposer
                     threadID={this.state.thread.id}
-                    theme={this.state.darkTheme} />
+                    theme={this.state.darkTheme}
+                    dream={dream} />
                 </div>
               </div>
             </div>
@@ -178,3 +205,5 @@ const Logged = (props) => (
 );
 
 Logged.muiName = 'IconMenu';
+
+export default addUrlProps({ urlPropsQueryConfig })(MessageSection);
