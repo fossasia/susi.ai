@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import loadingGIF from './images/loading.gif'
 
@@ -36,6 +37,7 @@ function getMessageListItem(message) {
   );
 }
 
+
 function getLoadingGIF(){
   let messageContainerClasses = 'message-container SUSI';
   const LoadingComponent = (
@@ -49,13 +51,7 @@ function getLoadingGIF(){
   );
   return LoadingComponent;
 }
-/**
- * Specify how the URL gets decoded here. This is an object that takes the prop
- * name as a key, and a query param specifier as the value. The query param
- * specifier can have a `type`, indicating how to decode the value from the
- * URL, and a `queryParam` field that indicates which key in the query
- * parameters should be read (this defaults to the prop name if not provided).
- */
+
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
@@ -217,6 +213,7 @@ const Logged = (props) => (
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   >
     <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+    <MenuItem primaryText="Login" containerElement={<Link to="/login" />} />
 
   </IconMenu>
 );
