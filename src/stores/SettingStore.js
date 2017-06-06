@@ -7,6 +7,7 @@ let CHANGE_EVENT = 'change';
 
 let _searchMode = false;
 let _theme = true;
+let _showHistory = false;
 
 let SettingStore = {
     ...EventEmitter.prototype,
@@ -21,6 +22,10 @@ let SettingStore = {
 
     getTheme() {
         return _theme;
+    },
+
+    getHistoryMode(){
+        return _showHistory;
     },
 
     addChangeListener(callback) {
@@ -43,6 +48,11 @@ SettingStore.dispatchToken = ChatAppDispatcher.register(action => {
         }
         case ActionTypes.THEME_CHANGED: {
             _theme = !_theme;
+            SettingStore.emitChange();
+            break;
+        }
+        case ActionTypes.SHOW_HISTORY_CHANGED: {
+            _showHistory = !_showHistory;
             SettingStore.emitChange();
             break;
         }
