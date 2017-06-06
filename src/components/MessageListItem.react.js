@@ -98,11 +98,20 @@ function drawWebSearchTiles(tilesData){
 }
 
 function drawTable(coloumns,tableData){
-  let tableheader = Object.keys(coloumns).map((key,i) =>{
+  let parseKeys;
+  let showColName = true;
+  if(coloumns.constructor === Array){
+    parseKeys = coloumns;
+    showColName = false;
+  }
+  else{
+    parseKeys = Object.keys(coloumns);
+  }
+  let tableheader = parseKeys.map((key,i) =>{
     return(<TableHeaderColumn key={i}>{coloumns[key]}</TableHeaderColumn>);
   });
   let rows = tableData.map((eachrow,j) => {
-    let rowcols = Object.keys(coloumns).map((key,i) =>{
+    let rowcols = parseKeys.map((key,i) =>{
       return(
         <TableRowColumn key={i}>
           <Linkify properties={{target:'_blank'}}>
@@ -120,7 +129,7 @@ function drawTable(coloumns,tableData){
   <MuiThemeProvider>
     <Table selectable={false}>
     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-      <TableRow>{tableheader}</TableRow>
+      { showColName && <TableRow>{tableheader}</TableRow>}
     </TableHeader>
     <TableBody displayRowCheckbox={false}>{rows}</TableBody>
     </Table>
@@ -221,6 +230,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item'>
                   <section className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
+                  <br />
                   <div><div className='message-text'>{table}</div></div>
                   <div className='message-time'>
                     {message.date.toLocaleTimeString()}
