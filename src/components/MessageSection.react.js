@@ -13,7 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 
 
@@ -100,10 +100,10 @@ class MessageSection extends Component {
     }
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
-      if(!this.state.search){
+      if (!this.state.search) {
         const rightButtons = (
           <div>
-            <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+            <IconButton tooltip="SVG Icon" iconStyle={{ fill: 'white' }}
               onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
@@ -139,7 +139,7 @@ class MessageSection extends Component {
           </div>
         );
       }
-      if(this.state.search){
+      if (this.state.search) {
         return (
           <SearchSection messages={this.state.messages}
             theme={this.state.darkTheme}
@@ -168,7 +168,7 @@ class MessageSection extends Component {
     }
   }
 
-  _onClickSearch(){
+  _onClickSearch() {
     Actions.ToggleSearch();
   }
 
@@ -188,13 +188,14 @@ const Logged = (props) => (
   <IconMenu
     {...props}
     iconButtonElement={
-      <IconButton iconStyle={{fill: 'white'}}><MoreVertIcon /></IconButton>
+      <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
     }
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   >
     <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
     <MenuItem primaryText="Login" containerElement={<Link to="/login" />} />
+    <MenuItem primaryText="Sign Up" containerElement={<Link to="/signup" />} />
 
   </IconMenu>
 );
