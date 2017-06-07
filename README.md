@@ -30,6 +30,7 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 * **Step 1:** Fork chat.susi.ai repository and clone it to your desktop
 * **Step 2:** Then cd into that cloned folder
 * **Step 3:** Install all the dependencies by running :```$ npm install```
-* **Step 4:** Deploy locally by running : ```$ npm run build ```
+* **Step 4:** Run on http://localhost:3000 by running :```$ npm run start```
+* **Step 4:** Build locally by running : ```$ npm run build ```
 * **Step 5:** To deploy at a url use : ```$ npm run deploy ```
 
