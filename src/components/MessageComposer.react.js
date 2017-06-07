@@ -22,6 +22,9 @@ class MessageComposer extends Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
+    if(props.dream!==''){
+      this.state= {text: 'dream '+ props.dream}
+    }
   }
   componentDidMount(){
     this.nameInput.focus();
@@ -74,7 +77,8 @@ class MessageComposer extends Component {
 };
 
 MessageComposer.propTypes = {
-  threadID: PropTypes.string.isRequired
+  threadID: PropTypes.string.isRequired,
+  dream: PropTypes.string
 };
 
 export default MessageComposer;

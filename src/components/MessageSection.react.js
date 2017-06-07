@@ -12,13 +12,19 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
+import loadingGIF from './images/loading.gif'
+
 
 function getStateFromStores() {
   return {
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     darkTheme: SettingStore.getTheme(),
-    search: SettingStore.getSearchMode()
+    search: SettingStore.getSearchMode(),
+    showLoading: MessageStore.getLoadStatus()
   };
 }
 
@@ -31,7 +37,34 @@ function getMessageListItem(message) {
   );
 }
 
-export default class MessageSection extends Component {
+
+function getLoadingGIF(){
+  let messageContainerClasses = 'message-container SUSI';
+  const LoadingComponent = (
+    <li className='message-list-item'>
+      <section className={messageContainerClasses}>
+        <img src={loadingGIF}
+          style={{height:'10px',width:'auto'}}
+          alt='please wait..'/>
+      </section>
+    </li>
+  );
+  return LoadingComponent;
+}
+
+const urlPropsQueryConfig = {
+  dream: { type: UrlQueryParamTypes.string }
+};
+
+class MessageSection extends Component {
+
+  static propTypes = {
+    dream: PropTypes.string
+  }
+
+  static defaultProps = {
+    dream: ''
+  }
 
   constructor(props) {
     super(props);
@@ -69,6 +102,11 @@ export default class MessageSection extends Component {
     })
   }
   render() {
+
+    const {
+      dream
+    } = this.props;
+
     let topBackground = this.state.darkTheme ? '' : 'dark';
     var backgroundCol;
     if (topBackground === 'dark') {
@@ -80,7 +118,7 @@ export default class MessageSection extends Component {
     }
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
-      if(!this.state.search){
+      if (!this.state.search) {
         const rightButtons = (
           <div>
             <IconButton tooltip="Search" iconStyle={{fill: 'white'}}
@@ -107,18 +145,20 @@ export default class MessageSection extends Component {
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}>
                   {messageListItems}
+                  {this.state.showLoading && getLoadingGIF()}
                 </ul>
                 <div className='compose'>
                   <MessageComposer
                     threadID={this.state.thread.id}
-                    theme={this.state.darkTheme} />
+                    theme={this.state.darkTheme}
+                    dream={dream} />
                 </div>
               </div>
             </div>
           </div>
         );
       }
-      if(this.state.search){
+      if (this.state.search) {
         return (
           <SearchSection messages={this.state.messages}
             theme={this.state.darkTheme}
@@ -147,7 +187,7 @@ export default class MessageSection extends Component {
     }
   }
 
-  _onClickSearch(){
+  _onClickSearch() {
     Actions.ToggleSearch();
   }
 
@@ -167,14 +207,18 @@ const Logged = (props) => (
   <IconMenu
     {...props}
     iconButtonElement={
-      <IconButton iconStyle={{fill: 'white'}}><MoreVertIcon /></IconButton>
+      <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
     }
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   >
     <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+    <MenuItem primaryText="Login" containerElement={<Link to="/login" />} />
+    <MenuItem primaryText="Sign Up" containerElement={<Link to="/signup" />} />
 
   </IconMenu>
 );
 
 Logged.muiName = 'IconMenu';
+
+export default addUrlProps({ urlPropsQueryConfig })(MessageSection);

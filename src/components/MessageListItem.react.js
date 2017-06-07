@@ -98,11 +98,20 @@ function drawWebSearchTiles(tilesData){
 }
 
 function drawTable(coloumns,tableData){
-  let tableheader = Object.keys(coloumns).map((key,i) =>{
+  let parseKeys;
+  let showColName = true;
+  if(coloumns.constructor === Array){
+    parseKeys = coloumns;
+    showColName = false;
+  }
+  else{
+    parseKeys = Object.keys(coloumns);
+  }
+  let tableheader = parseKeys.map((key,i) =>{
     return(<TableHeaderColumn key={i}>{coloumns[key]}</TableHeaderColumn>);
   });
   let rows = tableData.map((eachrow,j) => {
-    let rowcols = Object.keys(coloumns).map((key,i) =>{
+    let rowcols = parseKeys.map((key,i) =>{
       return(
         <TableRowColumn key={i}>
           <Linkify properties={{target:'_blank'}}>
@@ -120,7 +129,7 @@ function drawTable(coloumns,tableData){
   <MuiThemeProvider>
     <Table selectable={false}>
     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-      <TableRow>{tableheader}</TableRow>
+      { showColName && <TableRow>{tableheader}</TableRow>}
     </TableHeader>
     <TableBody displayRowCheckbox={false}>{rows}</TableBody>
     </Table>
@@ -212,15 +221,65 @@ class MessageListItem extends React.Component {
       if(Object.keys(this.props.message.response).length > 0){
         let data = this.props.message.response;
         let actions = this.props.message.actions;
-
-        if (actions.indexOf('table')>=0) {
-            let actionIndex = actions.indexOf('table');
-            let coloumns = data.answers[0].actions[actionIndex].columns;
-            let table = drawTable(coloumns,data.answers[0].data);
-            return (
-                <li className='message-list-item'>
+        let listItems = []
+        actions.forEach((action,index)=>{
+          switch(action){
+            case 'answer': {
+              listItems.push(
+                <li className='message-list-item' key={action+index}>
+                  <section  className={messageContainerClasses}>
+                  <div className='message-text'>{replacedText}</div>
+                  <div className='message-time'>
+                    {message.date.toLocaleTimeString()}
+                  </div>
+                  </section>
+                </li>
+              );
+              break
+            }
+            case 'anchor': {
+              let link = data.answers[0].actions[index].link;
+              let text = data.answers[0].actions[index].text;
+              listItems.push(
+                <li className='message-list-item' key={action+index}>
+                  <section  className={messageContainerClasses}>
+                  <div className='message-text'>
+                    <a href={link} target='_blank'
+                      rel='noopener noreferrer'>{text}</a>
+                  </div>
+                  <div className='message-time'>
+                    {message.date.toLocaleTimeString()}
+                  </div>
+                  </section>
+                </li>
+              );
+              break
+            }
+            case 'map': {
+              let lat = parseFloat(data.answers[0].actions[index].latitude);
+              let lng = parseFloat(data.answers[0].actions[index].longitude);
+              let zoom = parseFloat(data.answers[0].actions[index].zoom);
+              let mymap = drawMap(lat,lng,zoom);
+              listItems.push(
+                <li className='message-list-item' key={action+index}>
+                  <section className={messageContainerClasses}>
+                  <div>{mymap}</div>
+                  <div className='message-time'>
+                    {message.date.toLocaleTimeString()}
+                  </div>
+                  </section>
+                </li>
+              );
+              break
+            }
+            case 'table': {
+              let coloumns = data.answers[0].actions[index].columns;
+              let table = drawTable(coloumns,data.answers[0].data);
+              listItems.push(
+                <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
+                  <br />
                   <div><div className='message-text'>{table}</div></div>
                   <div className='message-time'>
                     {message.date.toLocaleTimeString()}
@@ -228,62 +287,51 @@ class MessageListItem extends React.Component {
                   </section>
                 </li>
               );
-        }
-        if (actions.indexOf('map')>=0) {
-          let actionIndex = actions.indexOf('map');
-          let lat = parseFloat(data.answers[0].actions[actionIndex].latitude);
-          let lng = parseFloat(data.answers[0].actions[actionIndex].longitude);
-          let zoom = parseFloat(data.answers[0].actions[actionIndex].zoom);
-          let mymap = drawMap(lat,lng,zoom);
-          return (
-                  <li className='message-list-item'>
+              break
+            }
+            case 'websearch': {
+              let results = this.props.message.websearchresults;
+              if(results.length === 0){
+                let noResultFound = 'NO Results Found'
+                listItems.push(
+                  <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
-                    <div className='message-text'>{replacedText}</div>
-                    <div>{mymap}</div>
+                    <div><div className='message-text'>
+                      <center>{noResultFound}</center></div></div>
                     <div className='message-time'>
                       {message.date.toLocaleTimeString()}
                     </div>
                     </section>
                   </li>
                 );
-        }
-        if (actions.indexOf('websearch')>=0) {
-          let results = this.props.message.websearchresults;
-          if(results.length === 0){
-            let noResultFound = 'NO Results Found'
-            return (
-              <li className='message-list-item'>
-                <section className={messageContainerClasses}>
-                <div className='message-text'>{replacedText}</div>
-                <br/>
-                <div><div className='message-text'>
-                  <center>{noResultFound}</center></div></div>
-                <div className='message-time'>
-                  {message.date.toLocaleTimeString()}
-                </div>
-                </section>
-              </li>
-            );
+              }
+              else{
+                let WebSearchTiles = drawWebSearchTiles(results);
+                listItems.push(
+                  <li className='message-list-item' key={action+index}>
+                    <section className={messageContainerClasses}>
+                    <div><div className='message-text'>
+                      <ReactSwipe className='carousel'
+                        key={WebSearchTiles.length}
+                        swipeOptions={{continuous: false}}>
+                        {WebSearchTiles}
+                      </ReactSwipe>
+                    </div></div>
+                    <div className='message-time'>
+                      {message.date.toLocaleTimeString()}
+                    </div>
+                    </section>
+                  </li>
+                );
+              }
+              break
+            }
+            default:
+              // do nothing
           }
-          let WebSearchTiles = drawWebSearchTiles(results);
-          return (
-            <li className='message-list-item'>
-              <section className={messageContainerClasses}>
-              <div className='message-text'>{replacedText}</div>
-              <br/>
-              <div><div className='message-text'>
-                <ReactSwipe className='carousel' key={WebSearchTiles.length}
-                  swipeOptions={{continuous: false}}>
-                  {WebSearchTiles}
-                </ReactSwipe>
-              </div></div>
-              <div className='message-time'>
-                {message.date.toLocaleTimeString()}
-              </div>
-              </section>
-            </li>
-          );
-        }
+        });
+
+        return (<div>{listItems}</div>);
       }
     }
 
