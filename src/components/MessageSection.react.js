@@ -15,6 +15,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
+import loadingGIF from './images/loading.gif'
 
 
 function getStateFromStores() {
@@ -22,7 +23,8 @@ function getStateFromStores() {
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     darkTheme: SettingStore.getTheme(),
-    search: SettingStore.getSearchMode()
+    search: SettingStore.getSearchMode(),
+    showLoading: MessageStore.getLoadStatus()
   };
 }
 
@@ -33,6 +35,21 @@ function getMessageListItem(message) {
       message={message}
     />
   );
+}
+
+
+function getLoadingGIF(){
+  let messageContainerClasses = 'message-container SUSI';
+  const LoadingComponent = (
+    <li className='message-list-item'>
+      <section className={messageContainerClasses}>
+        <img src={loadingGIF}
+          style={{height:'10px',width:'auto'}}
+          alt='please wait..'/>
+      </section>
+    </li>
+  );
+  return LoadingComponent;
 }
 
 const urlPropsQueryConfig = {
@@ -85,6 +102,7 @@ class MessageSection extends Component {
     })
   }
   render() {
+
     const {
       dream
     } = this.props;
@@ -127,6 +145,7 @@ class MessageSection extends Component {
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}>
                   {messageListItems}
+                  {this.state.showLoading && getLoadingGIF()}
                 </ul>
                 <div className='compose'>
                   <MessageComposer
