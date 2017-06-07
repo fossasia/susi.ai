@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import './SignUp.css';
-
+import PasswordField from 'material-ui-password-field'
 
 export default class SignUp extends Component {
 
@@ -25,19 +25,18 @@ export default class SignUp extends Component {
                             <TextField
                             name="email"
                             type="email"
-                            hintText="Email" />
+                            floatingLabelText="Email" />
                         </div>
                         <div>
-                            <TextField
-                            name="password"
-                            type="password"
-                            hintText="Password" />
+                            <PasswordField
+                            name='password'
+                            floatingLabelText='Password'/>
+
                         </div>
                         <div>
-                            <TextField
-                            name="confirm_password"
-                            type="password"
-                            hintText="Confirm Password" />
+                            <PasswordField
+                            name='confirm_password'
+                            floatingLabelText='Confirm Password'/>
                         </div>
                         <div>
                             <RaisedButton label="Sign Up" primary={true} />

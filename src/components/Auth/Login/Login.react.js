@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router-dom';
 import './Login.css';
-
+import PasswordField from 'material-ui-password-field'
 
 export default class Login extends Component {
 
@@ -22,10 +22,14 @@ export default class Login extends Component {
 			 <h1>Login to SUSI</h1>
 			<form>
 	      <div>
-	        <TextField name="email"  hintText="Email"/>
+	        <TextField
+	        name="email"
+	        floatingLabelText="Email"/>
 	      </div>
 	      <div>
-	        <TextField name="password" type="password" hintText="Password"/>
+	        <PasswordField
+	        name='password'
+	        floatingLabelText='Password'/>
 	      </div>
 	      <div>
 	        <RaisedButton label="Login" primary={true}  />
