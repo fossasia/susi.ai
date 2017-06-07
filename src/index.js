@@ -1,6 +1,8 @@
 import ChatApp from './components/ChatApp.react';
 import Login from './components/Auth/Login/Login.react';
 import SignUp from './components/Auth/SignUp/SignUp.react';
+import ForgotPassword from
+	'./components/Auth/ForgotPassword/ForgotPassword.react';
 
 import './index.css';
 import React from 'react';
@@ -25,7 +27,7 @@ const App = () => (
 				<Route exact path="/" component={ChatApp} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/signup" component={SignUp} />
-
+				<Route exact path="/forgotpwd" component={ForgotPassword} />
 			</Switch>
 		</MuiThemeProvider>
 	</Router>
