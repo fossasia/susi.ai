@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import Linkify from 'react-linkify';
+import Emojify from 'react-emojione';
 import {
   Table,
   TableBody,
@@ -40,7 +41,7 @@ function imageParse(stringWithLinks){
             style={{width:'95%',height:'auto'}} alt=''/>)
     }
     else{
-      result.push(item);
+      result.push(<Emojify  key={key}>{item}</Emojify>);
     }
   });
   return result;
