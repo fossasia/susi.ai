@@ -41,7 +41,7 @@ function imageParse(stringWithLinks){
             style={{width:'95%',height:'auto'}} alt=''/>)
     }
     else{
-      result.push(<Emojify  key={key}>{item}</Emojify>);
+      result.push(item);
     }
   });
   return result;
@@ -216,7 +216,7 @@ class MessageListItem extends React.Component {
          replacedText = parseAndReplace(imgText);
       };
     }
-
+    replacedText = <Emojify>{replacedText}</Emojify>
     let messageContainerClasses = 'message-container ' + message.authorName;
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
