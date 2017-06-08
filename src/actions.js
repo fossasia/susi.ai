@@ -73,7 +73,12 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
       receivedMessage.actions = actions;
       if (actions.indexOf('websearch') >= 0) {
         let actionIndex = actions.indexOf('websearch');
-        let query = response.answers[0].actions[actionIndex].query;
+        let actionJson = response.answers[0].actions[actionIndex];
+        let query = actionJson.query;
+        let count = -1;
+        if(actionJson.hasOwnProperty('count')){
+          count = actionJson.count;
+        }
         $.ajax({
           url: 'http://api.duckduckgo.com/?format=json&q=' + query,
           dataType: 'jsonp',
@@ -81,17 +86,42 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
           timeout: 3000,
           async: false,
           success: function (data) {
-            receivedMessage.websearchresults = data.RelatedTopics;
-            if (data.AbstractText) {
+            if(count === -1){
+              count = data.RelatedTopics.length+1;
+            }
+            if(count > 0 && data.AbstractText){
               let abstractTile = {
-                Text: '',
-                FirstURL: '',
-                Icon: { URL: '' },
+                title: '',
+                description: '',
+                link: '',
+                icon: '',
               }
-              abstractTile.Text = data.AbstractText;
-              abstractTile.FirstURL = data.AbstractURL;
-              abstractTile.Icon.URL = data.Image;
-              receivedMessage.websearchresults.unshift(abstractTile);
+              abstractTile.title = data.Heading;
+              abstractTile.description = data.AbstractText;
+              abstractTile.link = data.AbstractURL;
+              abstractTile.icon = data.Image;
+              receivedMessage.websearchresults.push(abstractTile);
+              count--;
+            }
+            for(var tileKey=0;
+            tileKey<data.RelatedTopics.length && count > 0;
+            tileKey++) {
+              let tileData = data.RelatedTopics[tileKey];
+              if(!tileData.hasOwnProperty('Name')){
+                let websearchTile = {
+                  title: '',
+                  description: '',
+                  link: '',
+                  icon: '',
+                };
+                websearchTile.title =
+                  tileData.Result.match(/<a [^>]+>([^<]+)<\/a>/)[1];
+                websearchTile.description = tileData.Text;
+                websearchTile.link = tileData.FirstURL;
+                websearchTile.icon = tileData.Icon.URL;
+                receivedMessage.websearchresults.push(websearchTile);
+                count--;
+              }
             }
             let message = ChatMessageUtils.getSUSIMessageData(
               receivedMessage, currentThreadID);
