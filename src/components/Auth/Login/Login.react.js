@@ -30,6 +30,13 @@ export default class Login extends Component {
 	      <div>
 	        <RaisedButton label="Login" primary={true}  />
 	      </div>
+	      <br/>
+	      <div>
+	      	<Link to='/forgotpwd'
+	      	className="forgotpwdlink">
+	      	<b>Forgot Password?</b>
+	      	</Link>
+	      </div>
 	      <h1>OR</h1>
 	      <div>
 	        <RaisedButton
