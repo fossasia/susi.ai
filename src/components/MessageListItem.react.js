@@ -47,55 +47,63 @@ function imageParse(stringWithLinks){
   return result;
 }
 
-function drawWebSearchTiles(tilesData){
+function drawTiles(tilesData){
   let resultTiles = tilesData.map((tile,i) => {
-    let category = 'Popular';
-    if(tile.hasOwnProperty('Name')){
-      category = tile.Name;
-      tile = tile.Topics[0];
-    }
-
-    if(tile.Icon.URL){
       return(
         <div key={i}>
           <MuiThemeProvider>
-            <Paper zDepth={0} className='websearchtile'>
-              <div className='websearchtile-img-container'>
-                <img src={tile.Icon.URL} className='websearchtile-img' alt=''/>
-              </div>
-              <div className='websearchtile-text'>
-                <p className='websearchtile-category'>
-                  Category: <strong>{category}</strong>
+            <Paper zDepth={0} className='tile'>
+              {tile.icon &&
+                (<div className='tile-img-container'>
+                  <img src={tile.icon}
+                  className='tile-img' alt=''/>
+                  </div>
+                )}
+              <div className='tile-text'>
+                <p className='tile-title'>
+                  <strong>{tile.title}</strong>
                 </p>
-                {tile.Text}<br/>
-                <a href={tile.FirstURL} target='_blank'
+                {tile.description}<br/>
+                <a href={tile.link} target='_blank'
                   rel='noopener noreferrer'>Know more</a>
               </div>
             </Paper>
           </MuiThemeProvider>
         </div>
       );
-   }
-   return(
-    <div key={i}>
-      <MuiThemeProvider>
-        <Paper zDepth={0} className='websearchtile'>
-          <div className='websearchtile-text'>
-            <p className='websearchtile-category'>
-              Category: <strong>{category}</strong>
-            </p>
-            {tile.Text}<br/>
-            <a href={tile.FirstURL} target='_blank'
-              rel='noopener noreferrer'>Know more</a>
-          </div>
-        </Paper>
-      </MuiThemeProvider>
-    </div>
-    );
-
   });
-
   return resultTiles;
+}
+
+function renderTiles(tiles){
+  if(tiles.length === 0){
+    let noResultFound = 'NO Results Found';
+    return(<center>{noResultFound}</center>);
+  }
+  let resultTiles = drawTiles(tiles);
+  return(<ReactSwipe className='carousel'
+    key={resultTiles.length}
+    swipeOptions={{continuous: false}}>
+    {resultTiles}
+  </ReactSwipe>);
+}
+
+function getRSSTiles(rssKeys,rssData,count){
+  let parseKeys = Object.keys(rssKeys);
+  let rssTiles = [];
+  let tilesLimit = rssData.length;
+  if(count > -1){
+    tilesLimit = Math.min(count,rssData.length);
+  }
+  for(var i=0; i<tilesLimit; i++){
+    let respData = rssData[i];
+    let tileData = {};
+    parseKeys.forEach((rssKey,j)=>{
+      tileData[rssKey] = respData[rssKeys[rssKey]];
+    });
+    rssTiles.push(tileData);
+  }
+  return rssTiles;
 }
 
 function drawTable(coloumns,tableData){
@@ -290,33 +298,20 @@ class MessageListItem extends React.Component {
               );
               break
             }
-            case 'websearch': {
-              let results = this.props.message.websearchresults;
-              if(results.length === 0){
-                let noResultFound = 'NO Results Found'
-                listItems.push(
-                  <li className='message-list-item' key={action+index}>
-                    <section className={messageContainerClasses}>
-                    <div><div className='message-text'>
-                      <center>{noResultFound}</center></div></div>
-                    <div className='message-time'>
-                      {message.date.toLocaleTimeString()}
-                    </div>
-                    </section>
-                  </li>
-                );
+            case 'rss':{
+              let rssKeys = Object.assign({}, data.answers[0].actions[index]);
+              delete rssKeys.type;
+              let count = -1;
+              if(rssKeys.hasOwnProperty('count')){
+                count = rssKeys.count;
+                delete rssKeys.count;
               }
-              else{
-                let WebSearchTiles = drawWebSearchTiles(results);
-                listItems.push(
+              let rssTiles = getRSSTiles(rssKeys,data.answers[0].data,count);
+              listItems.push(
                   <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
                     <div><div className='message-text'>
-                      <ReactSwipe className='carousel'
-                        key={WebSearchTiles.length}
-                        swipeOptions={{continuous: false}}>
-                        {WebSearchTiles}
-                      </ReactSwipe>
+                      {renderTiles(rssTiles)}
                     </div></div>
                     <div className='message-time'>
                       {message.date.toLocaleTimeString()}
@@ -324,9 +319,25 @@ class MessageListItem extends React.Component {
                     </section>
                   </li>
                 );
-              }
-              break
+              break;
             }
+            case 'websearch': {
+              let websearchTiles = this.props.message.websearchresults;
+              listItems.push(
+                  <li className='message-list-item' key={action+index}>
+                    <section className={messageContainerClasses}>
+                    <div><div className='message-text'>
+                      {renderTiles(websearchTiles)}
+                    </div></div>
+                    <div className='message-time'>
+                      {message.date.toLocaleTimeString()}
+                    </div>
+                    </section>
+                  </li>
+                );
+              break;
+            }
+
             default:
               // do nothing
           }
