@@ -286,8 +286,6 @@ class MessageListItem extends React.Component {
               listItems.push(
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
-                  <div className='message-text'>{replacedText}</div>
-                  <br />
                   <div><div className='message-text'>{table}</div></div>
                   <div className='message-time'>
                     {message.date.toLocaleTimeString()}
