@@ -107,7 +107,7 @@ function getRSSTiles(rssKeys,rssData,count){
   return rssTiles;
 }
 
-f
+
 function drawTable(coloumns,tableData,count){
   let parseKeys;
   let showColName = true;
