@@ -134,9 +134,17 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
 };
 
 export function getHistory() {
-
+  let url = '';
+  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
+    url = 'http://api.susi.ai/susi/memory.json';
+    console.log(url);
+  }
+    else{
+      url = 'http://api.susi.ai/susi/memory.json?access_token='+cookies.get('loggedIn');
+      console.log(url);
+    }
   $.ajax({
-    url: 'http://api.susi.ai/susi/memory.json',
+    url: url,
     dataType: 'jsonp',
     crossDomain: true,
     timeout: 3000,
