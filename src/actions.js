@@ -4,6 +4,9 @@ import * as ChatMessageUtils from './utils/ChatMessageUtils';
 import ChatConstants from './constants/ChatConstants';
 import $ from 'jquery';
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
 
 export function createMessage(text, currentThreadID) {
@@ -21,7 +24,6 @@ export function receiveCreatedMessage(createdMessage, tempMessageID) {
     rawMessage: createdMessage,
     tempMessageID
   });
-
 };
 
 export function clickThread(threadID) {
@@ -37,7 +39,6 @@ export function receiveAll(rawMessages) {
     rawMessages
   });
 };
-
 export function createSUSIMessage(createdMessage, currentThreadID) {
   var timestamp = Date.now();
 
@@ -52,11 +53,20 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     date: new Date(timestamp),
     isRead: true,
   };
+
+  let url = '';
   // Fetching local browser language
   var locale = document.documentElement.getAttribute('lang');
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
+  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
+    url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale;
+  }
+    else{
+      url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale+'&access_token='+cookies.get('loggedIn');
+    }
+    console.log(url);
   $.ajax({
-    url: 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale,
+    url: url,
     dataType: 'jsonp',
     jsonpCallback: 'p',
     jsonp: 'callback',
