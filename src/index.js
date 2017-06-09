@@ -26,6 +26,7 @@ const App = () => (
 				<Route exact path="/signup" component={SignUp} />
 				<Route exact path="/logout" component={Logout} />
 				<Route exact path="/forgotpwd" component={ForgotPassword} />
+
 			</Switch>
 		</MuiThemeProvider>
 	</Router>
