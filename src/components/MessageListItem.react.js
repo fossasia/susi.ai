@@ -75,6 +75,7 @@ function drawTiles(tilesData){
   return resultTiles;
 }
 
+
 function renderTiles(tiles){
   if(tiles.length === 0){
     let noResultFound = 'NO Results Found';
@@ -106,7 +107,8 @@ function getRSSTiles(rssKeys,rssData,count){
   return rssTiles;
 }
 
-function drawTable(coloumns,tableData){
+f
+function drawTable(coloumns,tableData,count){
   let parseKeys;
   let showColName = true;
   if(coloumns.constructor === Array){
@@ -119,7 +121,13 @@ function drawTable(coloumns,tableData){
   let tableheader = parseKeys.map((key,i) =>{
     return(<TableHeaderColumn key={i}>{coloumns[key]}</TableHeaderColumn>);
   });
-  let rows = tableData.map((eachrow,j) => {
+  let rowCount = tableData.length;
+  if(count > -1){
+    rowCount = Math.min(count,tableData.length);
+  }
+  let rows = [];
+  for (var j=0; j < rowCount; j++) {
+    let eachrow = tableData[j];
     let rowcols = parseKeys.map((key,i) =>{
       return(
         <TableRowColumn key={i}>
@@ -129,10 +137,10 @@ function drawTable(coloumns,tableData){
         </TableRowColumn>
       );
     });
-    return(
+    rows.push(
       <TableRow key={j}>{rowcols}</TableRow>
     );
-  });
+  }
 
   const table =
   <MuiThemeProvider>
@@ -283,12 +291,11 @@ class MessageListItem extends React.Component {
             }
             case 'table': {
               let coloumns = data.answers[0].actions[index].columns;
-              let table = drawTable(coloumns,data.answers[0].data);
+              let count = data.answers[0].actions[index].count;
+              let table = drawTable(coloumns,data.answers[0].data,count);
               listItems.push(
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
-                  <div className='message-text'>{replacedText}</div>
-                  <br />
                   <div><div className='message-text'>{table}</div></div>
                   <div className='message-time'>
                     {message.date.toLocaleTimeString()}

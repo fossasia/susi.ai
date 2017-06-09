@@ -15,8 +15,13 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import loadingGIF from './images/loading.gif'
+import loadingGIF from './images/loading.gif';
+import Cookies from 'universal-cookie';
+import Login from './Auth/Login/Login.react';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
 
+const cookies = new Cookies();
 
 function getStateFromStores() {
   return {
@@ -55,7 +60,17 @@ function getLoadingGIF(){
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
-
+let Logged = (props) => (
+    <IconMenu
+      {...props}
+      iconButtonElement={
+        <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+    >
+    </IconMenu>
+    )
 class MessageSection extends Component {
 
   static propTypes = {
@@ -66,16 +81,62 @@ class MessageSection extends Component {
     dream: ''
   }
 
+  state = {
+    open: false
+  };
+
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
   }
-
+  handleOpen = () => {
+      this.setState({open: true});
+  };
+  handleClose = () => {
+    this.setState({open: false});
+  };
   componentDidMount() {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange.bind(this));
     ThreadStore.addChangeListener(this._onChange.bind(this));
     SettingStore.addChangeListener(this._onChange.bind(this));
+    // Check Logged in
+    if(cookies.get('loggedIn')){
+    Logged = (props) => (
+    <IconMenu
+      {...props}
+      iconButtonElement={
+        <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+    >
+            <MenuItem primaryText="Chat Anonymously"
+            containerElement={<Link to="/logout" />} />
+            <MenuItem primaryText="Logout"
+            containerElement={<Link to="/logout" />} />
+            <MenuItem primaryText="Change Theme"
+            onClick={() => { change() }} />
+            </IconMenu>)
+    return <Logged />
+  }
+  // If Not Logged In
+  Logged = (props) => (
+    <IconMenu
+      {...props}
+      iconButtonElement={
+        <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+    >
+        <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
+        <MenuItem primaryText="Sign Up"
+        containerElement={<Link to="/signup" />} />
+        <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+      </IconMenu>)
+
+    return <Logged />
   }
 
   componentWillUnmount() {
@@ -116,12 +177,19 @@ class MessageSection extends Component {
       backgroundCol = '#607d8b';
 
     }
+    const actions = <RaisedButton
+            label="Cancel"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this.handleClose}
+    />;
+
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
       if (!this.state.search) {
         const rightButtons = (
           <div>
-            <IconButton tooltip="SVG Icon" iconStyle={{ fill: 'white' }}
+            <IconButton tooltip="Search" iconStyle={{fill: 'white'}}
               onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
@@ -155,6 +223,14 @@ class MessageSection extends Component {
                 </div>
               </div>
             </div>
+            <Dialog
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            autoScrollBodyContent={true}
+            onRequestClose={this.handleClose}>
+                      <div><Login /></div>
+            </Dialog>
           </div>
         );
       }
@@ -203,21 +279,7 @@ function change() {
   let messageSection = new MessageSection();
   messageSection.themeChanger();
 }
-const Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-  >
-    <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
-    <MenuItem primaryText="Login" containerElement={<Link to="/login" />} />
-    <MenuItem primaryText="Sign Up" containerElement={<Link to="/signup" />} />
 
-  </IconMenu>
-);
 
 Logged.muiName = 'IconMenu';
 
