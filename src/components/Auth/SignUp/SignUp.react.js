@@ -61,14 +61,14 @@ export default class SignUp extends Component {
         if (event.target.name === 'email') {
             email = event.target.value.trim();
             let validEmail =
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
             state.value = email;
             state.isEmail = validEmail;
             state.emailError = !(email && validEmail)
         }
         else if (event.target.name === 'password') {
             password = event.target.value;
-            let validPassword = password.length >= 6 ;
+            let validPassword = password.length >= 6;
             state.passwordValue = password;
             state.passwordError = !(password && validPassword);
         }
@@ -87,7 +87,7 @@ export default class SignUp extends Component {
         else if (this.state.passwordError) {
             this.emailErrorMessage = '';
             this.passwordErrorMessage
-            = 'Password should contains minimum 6 characters';
+                = 'Password should contains minimum 6 characters';
             this.passwordConfirmErrorMessage = '';
 
         }
@@ -176,17 +176,18 @@ export default class SignUp extends Component {
                         </div>
                         <div>
                             <RaisedButton
-                            label="Sign Up"
-                            type="submit"
-                            primary={true} />
+                                label="Sign Up"
+                                type="submit"
+                                primary={true} />
                         </div>
                         <h1>OR</h1>
                         <div>
                             <h4>If you have an Account Please Login</h4>
-                            <RaisedButton
-                                label='Login'
-                                containerElement={<Link to={'/login'} />}
-                                primary={true} />
+                            <Link to={'/login'} >
+                                <RaisedButton
+                                    label='Login'
+                                    primary={true} />
+                            </Link>
                         </div>
                     </form>
                 </Paper>
@@ -206,5 +207,5 @@ export default class SignUp extends Component {
     };
 }
 SignUp.propTypes = {
-  history: PropTypes.object
+    history: PropTypes.object
 }
