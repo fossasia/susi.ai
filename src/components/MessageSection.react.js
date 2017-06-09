@@ -189,7 +189,7 @@ class MessageSection extends Component {
       if (!this.state.search) {
         const rightButtons = (
           <div>
-            <IconButton tooltip="SVG Icon" iconStyle={{ fill: 'white' }}
+            <IconButton tooltip="Search" iconStyle={{fill: 'white'}}
               onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
