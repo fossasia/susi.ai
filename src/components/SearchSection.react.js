@@ -93,18 +93,18 @@ class SearchSection extends Component {
      />
     );
     const searchButton = (
-    <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+    <IconButton tooltip="Back" iconStyle={{fill: 'white'}}
       onTouchTap={this._onClickExit.bind(this)}>
       <ExitIcon />
     </IconButton>
     );
     const scrollSearchButtons = (
       <div>
-        <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+        <IconButton tooltip="Previous" iconStyle={{fill: 'white'}}
           onTouchTap={this._onClickPrev.bind(this)}>
           <UpIcon />
         </IconButton>
-        <IconButton tooltip="SVG Icon" iconStyle={{fill: 'white'}}
+        <IconButton tooltip="Next" iconStyle={{fill: 'white'}}
           onTouchTap={this._onClickRecent.bind(this)}>
           <DownIcon />
         </IconButton>
