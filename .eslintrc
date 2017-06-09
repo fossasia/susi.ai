@@ -20,7 +20,8 @@
     "document": true,
     "console": true,
     // Only for development purposes
-    "setTimeout": true
+    "setTimeout": true,
+    "window" : true
   },
   "rules": {
     // Enforce the spacing around the * in generator functions.
