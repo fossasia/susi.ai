@@ -13,10 +13,13 @@
     "leaflet": "^1.0.3",
     "material-ui": "^0.18.0",
     "material-ui-password-field": "^1.2.0",
+    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
+    "react-cookie": "^2.0.7",
     "react-dom": "^15.5.4",
+    "react-emojione": "^3.1.10",
     "react-highlight-words": "^0.7.2",
     "react-leaflet": "^1.1.6",
     "react-linkify": "^0.2.1",
@@ -26,7 +29,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "react-url-query": "^1.1.4",
     "surge": "^0.19.0",
-    "swipe-js-iso": "^2.0.3"
+    "swipe-js-iso": "^2.0.3",
+    "universal-cookie": "^2.0.8"
   },
   "devDependencies": {
     "enzyme": "^2.8.2",
