@@ -328,15 +328,20 @@ textarea {
 
 .tile-text{
   position: relative;
-  padding: 0 2% 2% 2%;
+  padding: 2% 2% 0 2%;
   margin: 0 auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 200%;
 }
 
 .tile-title{
   color: #999999;
+  font-size: 120%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tile-img-container{
@@ -351,6 +356,14 @@ textarea {
   display:flex;
   align-items:center;
   justify-content:center;
+}
+
+.tile-anchor{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  float: right;
 }
 
 a {
