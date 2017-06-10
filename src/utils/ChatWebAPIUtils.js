@@ -22,3 +22,7 @@ export function getAllMessages() {
 export function getHistory(){
 	Actions.getHistory();
 }
+
+export function getLocation(){
+  Actions.getLocation();
+}
