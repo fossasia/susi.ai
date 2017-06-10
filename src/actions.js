@@ -9,6 +9,8 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
 
+let _Location = null;
+
 export function createMessage(text, currentThreadID) {
   let message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
   ChatAppDispatcher.dispatch({
@@ -39,6 +41,28 @@ export function receiveAll(rawMessages) {
     rawMessages
   });
 };
+
+export function getLocation(){
+  $.ajax({
+    url: 'http://ipinfo.io/json',
+    dataType: 'jsonp',
+    crossDomain: true,
+    timeout: 3000,
+    async: false,
+    success: function (response) {
+      let loc = response.loc.split(',');
+      _Location = {
+        lat: loc[0],
+        lng: loc[1],
+      };
+    },
+    error: function(errorThrown){
+      console.log(errorThrown);
+      _Location = null;
+    }
+  });
+}
+
 export function createSUSIMessage(createdMessage, currentThreadID) {
   var timestamp = Date.now();
 
@@ -61,10 +85,12 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
   if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
     url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale;
   }
-    else{
-      url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale+'&access_token='+cookies.get('loggedIn');
-    }
-    console.log(url);
+  else{
+    url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale+'&access_token='+cookies.get('loggedIn');
+  }
+  if(_Location){
+    url = url+'&latitude='+_Location.lat+'&longitude='+_Location.lng;
+  }
   $.ajax({
     url: url,
     dataType: 'jsonp',
@@ -164,9 +190,17 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
 };
 
 export function getHistory() {
-
+  let url = '';
+  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
+    url = 'http://api.susi.ai/susi/memory.json';
+    console.log(url);
+  }
+    else{
+      url = 'http://api.susi.ai/susi/memory.json?access_token='+cookies.get('loggedIn');
+      console.log(url);
+    }
   $.ajax({
-    url: 'http://api.susi.ai/susi/memory.json',
+    url: url,
     dataType: 'jsonp',
     crossDomain: true,
     timeout: 3000,
