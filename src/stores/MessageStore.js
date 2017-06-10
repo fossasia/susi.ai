@@ -2,7 +2,7 @@ import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
 import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import { EventEmitter } from 'events';
-import ThreadStore from '../stores/ThreadStore';
+import ThreadStore from './ThreadStore';
 
 let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';

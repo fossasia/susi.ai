@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
 import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
-import * as Actions from '../actions';
+import * as Actions from '../../actions';
 import $ from 'jquery';
 import AppBar from 'material-ui/AppBar';
 
