@@ -163,7 +163,9 @@ class MessageSection extends Component {
     })
   }
   render() {
-
+    const bodyStyle ={
+      'padding' : 0
+    }
     const {
       dream
     } = this.props;
@@ -228,6 +230,7 @@ class MessageSection extends Component {
             modal={false}
             open={this.state.open}
             autoScrollBodyContent={true}
+            bodyStyle={bodyStyle}
             onRequestClose={this.handleClose}>
                       <div><Login /></div>
             </Dialog>
