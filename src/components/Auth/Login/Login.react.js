@@ -7,6 +7,7 @@ import './Login.css';
 import $ from 'jquery';
 import { PropTypes } from 'prop-types';
 import Cookies from 'universal-cookie';
+import SettingStore from '../../../stores/SettingStore';
 
 const cookies = new Cookies();
 class Login extends Component {
@@ -102,7 +103,13 @@ class Login extends Component {
 								hintText="Password" />
 						</div>
 						<div>
-							<RaisedButton label="Login" type="submit" primary={true} />
+							<RaisedButton
+								label="Login"
+								type="submit"
+								labelColor="#fff"
+								backgroundColor={
+									SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+							/>
 						</div>
 						<span>{this.state.msg}</span>
 						<h1>OR</h1>
@@ -116,7 +123,10 @@ class Login extends Component {
 							<Link to={'/'} >
 								<RaisedButton
 									label='Chat Anonymously'
-									primary={true} />
+									labelColor="#fff"
+									backgroundColor={
+										SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+								/>
 							</Link>
 						</div>
 					</form>
