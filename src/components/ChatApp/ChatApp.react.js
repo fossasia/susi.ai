@@ -14,11 +14,9 @@ export default class ChatApp extends React.Component {
    }
 
   render() {
-
     return (
-
       <div className='chatapp'>
-        <MessageSection />
+        <MessageSection {...this.props}/>
       </div>
     );
   }

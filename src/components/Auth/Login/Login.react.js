@@ -109,6 +109,7 @@ class Login extends Component {
 		let state = this.state;
 		if (state.success) {
 			cookies.set('loggedIn', loggedIn, { path: '/', maxAge: time });
+			this.props.history.push('/',{showLogin:false});
 			window.location.reload();
 		}
 		else {
