@@ -1,6 +1,6 @@
 import SignUp from './components/Auth/SignUp/SignUp.react';
 import Logout from './components/Auth/Logout.react';
-import ChatApp from './components/ChatApp.react';
+import ChatApp from './components/ChatApp/ChatApp.react';
 import ForgotPassword from
 	'./components/Auth/ForgotPassword/ForgotPassword.react';
 import NotFound from './components/NotFound/NotFound.react'
