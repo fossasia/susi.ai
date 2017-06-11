@@ -47,7 +47,8 @@ export default class SignUp extends Component {
                 passwordConfirmError: true,
                 passwordValue: '',
                 msg: '',
-                success: false
+                success: false,
+                validForm: false
 
             });
         }
@@ -80,6 +81,14 @@ export default class SignUp extends Component {
             state.passwordConfirmError = !(validPassword && confirmPassword);
         }
 
+        if (!this.state.emailError
+            && !this.state.passwordError
+            && !this.state.passwordConfirmError){
+            state.validForm = true;
+        }
+        else{
+            state.validForm = false;
+        }
         this.setState(state);
         if (this.state.emailError) {
             this.emailErrorMessage = 'Enter a valid Email Address';
@@ -178,7 +187,8 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
-                                primary={true} />
+                                primary={true}
+                                disabled={!this.state.validForm} />
                         </div>
                         <h1>OR</h1>
                         <div>
