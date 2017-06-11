@@ -9,15 +9,15 @@ import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 import * as Actions from '../../actions';
 import $ from 'jquery';
 import AppBar from 'material-ui/AppBar';
+import ScrollArea from 'react-scrollbar';
 
-function getMessageListItem(msgRefs,messages,markID) {
+function getMessageListItem(messages,markID) {
   return messages.map((message)=>{
     return (
       <MessageListItem
         key={message.id}
         message={message}
         markID={markID}
-        ref={(ref)=>{ msgRefs[message.id] = ref;}}
       />
     );
   });
@@ -26,7 +26,8 @@ function getMessageListItem(msgRefs,messages,markID) {
 function searchMsgs(messages,matchString){
   let markingData = {
     allmsgs : [],
-    markedIDs  :[]
+    markedIDs  :[],
+    markedIndices :[],
   };
   messages.forEach((msg,id)=>{
     let orgMsgText = msg.text;
@@ -37,6 +38,7 @@ function searchMsgs(messages,matchString){
       if(match !== -1){
         msgCopy.mark = matchString;
         markingData.markedIDs.unshift(msgCopy.id);
+        markingData.markedIndices.unshift(id);
       }
     }
     markingData.allmsgs.push(msgCopy);
@@ -51,11 +53,11 @@ class SearchSection extends Component {
     this.state = {
       markedMsgs: this.props.messages,
       markedIDs: [],
+      markedIndices: [],
       scrollLimit: 0,
       scrollIndex: -1,
       scrollID: null
     };
-    this.msgRefs = {};
   }
 
   componentDidMount() {
@@ -74,8 +76,8 @@ class SearchSection extends Component {
   render() {
     let markID = this.state.scrollID;
     let markedMessages = this.state.markedMsgs;
-    let messageListItems = getMessageListItem(this.msgRefs,
-                                  markedMessages,markID,this.state,this.node);
+    let messageListItems = getMessageListItem(
+                                  markedMessages,markID);
     let topBackground = this.props.theme ? '' : 'dark';
     var backgroundCol;
     if (topBackground === 'dark') {
@@ -126,7 +128,10 @@ class SearchSection extends Component {
             <ul
               className="message-list"
               ref={(c) => { this.messageList = c; }}>
+              <ScrollArea
+                ref={(ref) => { this.scrollarea = ref; }}>
               {messageListItems}
+            </ScrollArea>
             </ul>
           </div>
         </div>
@@ -139,15 +144,14 @@ class SearchSection extends Component {
       this._scrollToBottom();
     }
     else{
-      // let markedIDs = this.state.markedIDs;
-      // let limit = this.state.scrollLimit;
-      // let ul = this.messageList;
-      // if(markedIDs && ul && limit > 0){
-      //   let id = markedIDs[this.state.scrollIndex];
-      //   let match = this.msgRefs[id];
-      //   const domNode = ReactDOM.findDOMNode(match);
-      //   domNode.scrollIntoView();
-      // }
+      let markedIDs = this.state.markedIDs;
+      let markedIndices = this.state.markedIndices;
+      let limit = this.state.scrollLimit;
+      let ul = this.messageList;
+      if(markedIDs && ul && limit > 0){
+        let currentID = markedIndices[this.state.scrollIndex];
+        this.scrollarea.content.childNodes[currentID].scrollIntoView();
+      }
     }
   }
 
@@ -196,6 +200,7 @@ class SearchSection extends Component {
       this.setState({
         markedMsgs:markingData.allmsgs,
         markedIDs:markingData.markedIDs,
+        markedIndices:markingData.markedIndices,
         scrollLimit: markingData.markedIDs.length,
         scrollIndex: 0,
         scrollID: markingData.markedIDs[0]
@@ -205,6 +210,7 @@ class SearchSection extends Component {
       this.setState({
         markedMsgs:markingData.allmsgs,
         markedIDs:markingData.markedIDs,
+        markedIndices:markingData.markedIndices,
         scrollLimit: markingData.markedIDs.length,
         scrollIndex: -1,
         scrollID: null

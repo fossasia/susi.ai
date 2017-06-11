@@ -24,6 +24,7 @@
     "react-linkify": "^0.2.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-scrollbar": "^0.5.1",
     "react-swipe": "^5.0.8",
     "react-tap-event-plugin": "^2.0.1",
     "react-url-query": "^1.1.4",
