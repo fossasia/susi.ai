@@ -1,9 +1,13 @@
-.loginForm{
-	margin: 20px auto;
-}
-
 .forgotpwdlink{
 	text-decoration: none;
 	color: #999999;
 	margin-bottom: 20px;
+}
+.loginForm{
+	margin: 0 auto;
+}
+@media screen and (max-width: 768px) {
+	.loginForm h1{
+		font-size: 16px;
+	}
 }

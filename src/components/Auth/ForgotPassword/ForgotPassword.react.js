@@ -81,8 +81,7 @@ class ForgotPassword extends Component {
 
 		const styles = {
 			'margin': '60px auto',
-			'width': '500px',
-			'padding': '20px',
+			'padding': '10px',
 			'textAlign': 'center'
 		}
 		const actions =

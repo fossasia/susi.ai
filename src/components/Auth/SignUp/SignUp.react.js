@@ -133,10 +133,9 @@ export default class SignUp extends Component {
     }
     render() {
         const styles = {
-            'margin': '60px auto',
-            'width': '500px',
-            'padding': '20px',
-            'textAlign': 'center'
+            'textAlign': 'center',
+            'padding': '10px',
+            'margin' : '60px auto'
         }
         const actions =
             <FlatButton
@@ -172,7 +171,8 @@ export default class SignUp extends Component {
                                 type="password"
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
-                                hintText="Confirm Password" />
+                                hintText="Confirm Password"
+                                className="input-field" />
                         </div>
                         <div>
                             <RaisedButton
