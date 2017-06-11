@@ -288,7 +288,7 @@ textarea {
 }
 
 .map-marker-icon {
-  background: url('./images/map_marker_icon.png');
+  background: url('../images/map_marker_icon.png');
   background-size: contain;
   background-repeat: no-repeat;
   width: 25px;
