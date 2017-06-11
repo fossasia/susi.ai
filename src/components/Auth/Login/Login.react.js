@@ -79,14 +79,13 @@ class Login extends Component {
 
 	render() {
 		const styles = {
-			'margin': '20px auto',
-			'padding': '10px',
-			'textAlign': 'center'
+			'textAlign': 'center',
+			'padding' : '10px'
 		}
 
 
 		return (
-			<div>
+			 <div className="loginForm">
 				<Paper zDepth={0} style={styles}>
 					<h1>Login to SUSI</h1>
 					<form onSubmit={this.handleSubmit}>
