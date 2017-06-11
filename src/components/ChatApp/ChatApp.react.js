@@ -3,7 +3,7 @@ import MessageSection from './MessageSection.react';
 import React from 'react';
 import './Carousel.css';
 import './ChatApp.css';
-import history from '../history';
+import history from '../../history';
 
 
 export default class ChatApp extends React.Component {

@@ -1,11 +1,11 @@
 import MessageComposer from './MessageComposer.react';
 import MessageListItem from './MessageListItem.react';
 import SearchSection from './SearchSection.react';
-import MessageStore from '../stores/MessageStore';
+import MessageStore from '../../stores/MessageStore';
 import React, { Component } from 'react';
-import ThreadStore from '../stores/ThreadStore';
-import * as Actions from '../actions';
-import SettingStore from '../stores/SettingStore';
+import ThreadStore from '../../stores/ThreadStore';
+import * as Actions from '../../actions';
+import SettingStore from '../../stores/SettingStore';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,9 +15,9 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import loadingGIF from './images/loading.gif';
+import loadingGIF from '../images/loading.gif';
 import Cookies from 'universal-cookie';
-import Login from './Auth/Login/Login.react';
+import Login from '../Auth/Login/Login.react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -163,7 +163,9 @@ class MessageSection extends Component {
     })
   }
   render() {
-
+    const bodyStyle ={
+      'padding' : 0
+    }
     const {
       dream
     } = this.props;
@@ -228,6 +230,7 @@ class MessageSection extends Component {
             modal={false}
             open={this.state.open}
             autoScrollBodyContent={true}
+            bodyStyle={bodyStyle}
             onRequestClose={this.handleClose}>
                       <div><Login /></div>
             </Dialog>
