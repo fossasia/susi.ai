@@ -16,11 +16,16 @@ class Login extends Component {
 			email: '',
 			password: '',
 			isFilled: false,
-			success: false
+			success: false,
+			validForm: false,
+			emailError: true,
+            passwordError: true
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleOnSubmit = this.handleOnSubmit.bind(this);
+		this.emailErrorMessage = '';
+        this.passwordErrorMessage = '';
 	}
 
 	handleSubmit(e) {
@@ -59,8 +64,46 @@ class Login extends Component {
 			});
 		}
 	}
-	handleChange(e) {
-		this.setState({ [e.target.name]: e.target.value });
+	handleChange(event) {
+		let email;
+        let password;
+        let state = this.state
+        if (event.target.name === 'email') {
+            email = event.target.value.trim();
+            let validEmail =
+                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+            state.email = email;
+            state.emailError = !(email && validEmail)
+        }
+        else if (event.target.name === 'password') {
+            password = event.target.value;
+            let validPassword = password.length >= 6;
+            state.password = password;
+            state.passwordError = !(password && validPassword);
+        }
+
+        if (this.state.emailError) {
+            this.emailErrorMessage = 'Enter a valid Email Address';
+        }
+        else{
+        	this.emailErrorMessage='';
+        }
+
+        if (this.state.passwordError) {
+            this.passwordErrorMessage
+                = 'Minimum 6 characters required';
+        }
+        else{
+        	this.passwordErrorMessage='';
+        }
+
+        if(!state.emailError && !state.passwordError){
+        	state.validForm = true;
+        }
+        else{
+        	state.validForm = false;
+        }
+		this.setState(state);
 	}
 	handleOnSubmit(loggedIn, time) {
 		let state = this.state;
@@ -93,16 +136,22 @@ class Login extends Component {
 							<TextField name="email"
 								value={this.state.email}
 								onChange={this.handleChange}
+								errorText={this.emailErrorMessage}
 								hintText="Email" />
 						</div>
 						<div>
 							<TextField name="password" type="password"
 								value={this.state.password}
 								onChange={this.handleChange}
+								errorText={this.passwordErrorMessage}
 								hintText="Password" />
 						</div>
 						<div>
-							<RaisedButton label="Login" type="submit" primary={true} />
+							<RaisedButton
+								label="Login"
+								type="submit"
+								primary={true}
+								disabled={!this.state.validForm} />
 						</div>
 						<span>{this.state.msg}</span>
 						<h1>OR</h1>
