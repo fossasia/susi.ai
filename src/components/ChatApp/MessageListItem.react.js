@@ -14,8 +14,8 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
-import ReactSwipe from 'react-swipe';
 import Highlighter from 'react-highlight-words';
+import {Carousel} from 'react-responsive-carousel';
 
 export function parseAndReplace(text) {
   return <Linkify properties={{target: '_blank'}}>
@@ -65,7 +65,8 @@ function drawTiles(tilesData){
                 </p>
                 {tile.description}<br/>
                 <a href={tile.link} target='_blank'
-                  rel='noopener noreferrer'>Know more</a>
+                  rel='noopener noreferrer'
+                  className='tile-anchor'>Know more</a>
               </div>
             </Paper>
           </MuiThemeProvider>
@@ -82,11 +83,17 @@ function renderTiles(tiles){
     return(<center>{noResultFound}</center>);
   }
   let resultTiles = drawTiles(tiles);
-  return(<ReactSwipe className='carousel'
-    key={resultTiles.length}
-    swipeOptions={{continuous: false}}>
-    {resultTiles}
-  </ReactSwipe>);
+  return(
+    <Carousel
+    showThumbs={false}
+    infiniteLoop={true}
+    emulateTouch={true}
+    showStatus={false}
+    transitionTime={200}
+    axis={'horizontal'}>
+      {resultTiles}
+    </Carousel>
+  );
 }
 
 function getRSSTiles(rssKeys,rssData,count){
