@@ -35,6 +35,7 @@ class ForgotPassword extends Component {
 		      value: '',
 		      isEmail: false,
 		      msg:'',
+		      validForm: false,
 		      success:false
 		    });
   		}
@@ -46,6 +47,12 @@ class ForgotPassword extends Component {
 	    let state = this.state;
 	    state.value = email;
 	    state.isEmail = validEmail;
+	    if(state.isEmail && state.value){
+	    	state.validForm = true;
+	    }
+	    else{
+	    	state.validForm = false;
+	    }
 	    this.setState(state);
 	};
 
@@ -113,9 +120,10 @@ class ForgotPassword extends Component {
           			</div>
 					<div>
 						<RaisedButton
-						type="submit"
-						label="Reset"
-						primary={true}  />
+							type="submit"
+							label="Reset"
+							primary={true}
+							disabled={!this.state.validForm} />
 					</div>
 				</form>
 			</Paper>
