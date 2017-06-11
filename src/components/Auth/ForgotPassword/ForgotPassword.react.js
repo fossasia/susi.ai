@@ -28,7 +28,7 @@ class ForgotPassword extends Component {
   	handleClose(){
   		let state = this.state;
   		if(state.success){
-  			this.props.history.push('/login');
+		   this.props.history.push('/',{showLogin:true});
   		}
   		else{
   			this.setState({
