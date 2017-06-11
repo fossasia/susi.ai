@@ -22,14 +22,13 @@
     "react-highlight-words": "^0.7.2",
     "react-leaflet": "^1.1.6",
     "react-linkify": "^0.2.1",
+    "react-responsive-carousel": "^3.1.19",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-scrollbar": "^0.5.1",
-    "react-swipe": "^5.0.8",
     "react-tap-event-plugin": "^2.0.1",
     "react-url-query": "^1.1.4",
     "surge": "^0.19.0",
-    "swipe-js-iso": "^2.0.3",
     "universal-cookie": "^2.0.8"
   },
   "devDependencies": {

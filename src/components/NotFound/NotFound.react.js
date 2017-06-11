@@ -37,7 +37,8 @@ export default class NotFound extends Component {
                         <a className='susilogo'  >
                             <img
                                 src={LogoImg}
-                                to={'/'} />
+                                to={'/'}
+                                alt='Page Not Found'  />
                         </a>
                     </h2>
                     <h1>404</h1>
