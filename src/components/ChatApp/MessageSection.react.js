@@ -89,12 +89,15 @@ class MessageSection extends Component {
     super(props);
     this.state = getStateFromStores();
   }
+
   handleOpen = () => {
       this.setState({open: true});
   };
+
   handleClose = () => {
     this.setState({open: false});
   };
+
   componentDidMount() {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange.bind(this));
@@ -150,6 +153,16 @@ class MessageSection extends Component {
   }
 
   componentWillMount() {
+
+    if(this.props.location){
+      if(this.props.location.state){
+        if(this.props.location.state.hasOwnProperty('showLogin')){
+          let showLogin = this.props.location.state.showLogin;
+          this.setState({open:showLogin});
+        }
+      }
+    }
+
     SettingStore.on('change', () => {
       this.setState({
         darkTheme: SettingStore.getTheme()
@@ -162,7 +175,9 @@ class MessageSection extends Component {
       }
     })
   }
+
   render() {
+
     const bodyStyle ={
       'padding' : 0
     }
@@ -232,7 +247,7 @@ class MessageSection extends Component {
             autoScrollBodyContent={true}
             bodyStyle={bodyStyle}
             onRequestClose={this.handleClose}>
-                      <div><Login /></div>
+                      <div><Login {...this.props} /></div>
             </Dialog>
           </div>
         );
@@ -285,5 +300,9 @@ function change() {
 
 
 Logged.muiName = 'IconMenu';
+
+MessageSection.propTypes = {
+  location: PropTypes.object,
+};
 
 export default addUrlProps({ urlPropsQueryConfig })(MessageSection);
