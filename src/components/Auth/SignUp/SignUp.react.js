@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import './SignUp.css';
+import PasswordField from 'material-ui-password-field'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types'
@@ -87,7 +88,7 @@ export default class SignUp extends Component {
         else if (this.state.passwordError) {
             this.emailErrorMessage = '';
             this.passwordErrorMessage
-                = 'Password should contains minimum 6 characters';
+                = 'Minimum 6 characters required';
             this.passwordConfirmErrorMessage = '';
 
         }
@@ -156,23 +157,21 @@ export default class SignUp extends Component {
                                 type="email"
                                 onChange={this.handleChange}
                                 errorText={this.emailErrorMessage}
-                                hintText="Email" />
+                                floatingLabelText="Email" />
                         </div>
                         <div>
-                            <TextField
+                            <PasswordField
                                 name="password"
-                                type="password"
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
-                                hintText="Password" />
+                                floatingLabelText="Password" />
                         </div>
                         <div>
-                            <TextField
+                            <PasswordField
                                 name="confirmPassword"
-                                type="password"
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
-                                hintText="Confirm Password" />
+                                floatingLabelText="Confirm Password" />
                         </div>
                         <div>
                             <RaisedButton

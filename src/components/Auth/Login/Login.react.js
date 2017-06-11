@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import './Login.css';
+import PasswordField from 'material-ui-password-field'
 import $ from 'jquery';
 import { PropTypes } from 'prop-types';
 import Cookies from 'universal-cookie';
@@ -84,7 +85,6 @@ class Login extends Component {
 			'textAlign': 'center'
 		}
 
-
 		return (
 			<div>
 				<Paper zDepth={0} style={styles}>
@@ -94,13 +94,14 @@ class Login extends Component {
 							<TextField name="email"
 								value={this.state.email}
 								onChange={this.handleChange}
-								hintText="Email" />
+								floatingLabelText="Email" />
 						</div>
 						<div>
-							<TextField name="password" type="password"
-								value={this.state.password}
+					        <PasswordField
+						        name='password'
+						        value={this.state.password}
 								onChange={this.handleChange}
-								hintText="Password" />
+						        floatingLabelText='Password'/>
 						</div>
 						<div>
 							<RaisedButton label="Login" type="submit" primary={true} />
