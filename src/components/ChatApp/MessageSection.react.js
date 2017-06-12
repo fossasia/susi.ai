@@ -29,7 +29,8 @@ function getStateFromStores() {
     thread: ThreadStore.getCurrent(),
     darkTheme: SettingStore.getTheme(),
     search: SettingStore.getSearchMode(),
-    showLoading: MessageStore.getLoadStatus()
+    showLoading: MessageStore.getLoadStatus(),
+    open:false
   };
 }
 

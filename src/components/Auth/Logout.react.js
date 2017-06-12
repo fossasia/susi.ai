@@ -1,9 +1,9 @@
-import React from 'react';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 var deleteCookie = function(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
-class Logout extends React.Component {
+class Logout extends Component {
 
   constructor(props){
     super(props);
