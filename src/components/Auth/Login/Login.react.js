@@ -8,6 +8,7 @@ import PasswordField from 'material-ui-password-field'
 import $ from 'jquery';
 import { PropTypes } from 'prop-types';
 import Cookies from 'universal-cookie';
+import SettingStore from '../../../stores/SettingStore';
 
 const cookies = new Cookies();
 class Login extends Component {
@@ -20,13 +21,13 @@ class Login extends Component {
 			success: false,
 			validForm: false,
 			emailError: true,
-            passwordError: true
+			passwordError: true
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleOnSubmit = this.handleOnSubmit.bind(this);
 		this.emailErrorMessage = '';
-        this.passwordErrorMessage = '';
+		this.passwordErrorMessage = '';
 	}
 
 	handleSubmit(e) {
@@ -67,50 +68,50 @@ class Login extends Component {
 	}
 	handleChange(event) {
 		let email;
-        let password;
-        let state = this.state
-        if (event.target.name === 'email') {
-            email = event.target.value.trim();
-            let validEmail =
-                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-            state.email = email;
-            state.emailError = !(email && validEmail)
-        }
-        else if (event.target.name === 'password') {
-            password = event.target.value;
-            let validPassword = password.length >= 6;
-            state.password = password;
-            state.passwordError = !(password && validPassword);
-        }
+		let password;
+		let state = this.state
+		if (event.target.name === 'email') {
+			email = event.target.value.trim();
+			let validEmail =
+				/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+			state.email = email;
+			state.emailError = !(email && validEmail)
+		}
+		else if (event.target.name === 'password') {
+			password = event.target.value;
+			let validPassword = password.length >= 6;
+			state.password = password;
+			state.passwordError = !(password && validPassword);
+		}
 
-        if (this.state.emailError) {
-            this.emailErrorMessage = 'Enter a valid Email Address';
-        }
-        else{
-        	this.emailErrorMessage='';
-        }
+		if (this.state.emailError) {
+			this.emailErrorMessage = 'Enter a valid Email Address';
+		}
+		else {
+			this.emailErrorMessage = '';
+		}
 
-        if (this.state.passwordError) {
-            this.passwordErrorMessage
-                = 'Minimum 6 characters required';
-        }
-        else{
-        	this.passwordErrorMessage='';
-        }
+		if (this.state.passwordError) {
+			this.passwordErrorMessage
+				= 'Minimum 6 characters required';
+		}
+		else {
+			this.passwordErrorMessage = '';
+		}
 
-        if(!state.emailError && !state.passwordError){
-        	state.validForm = true;
-        }
-        else{
-        	state.validForm = false;
-        }
+		if (!state.emailError && !state.passwordError) {
+			state.validForm = true;
+		}
+		else {
+			state.validForm = false;
+		}
 		this.setState(state);
 	}
 	handleOnSubmit(loggedIn, time) {
 		let state = this.state;
 		if (state.success) {
 			cookies.set('loggedIn', loggedIn, { path: '/', maxAge: time });
-			this.props.history.push('/',{showLogin:false});
+			this.props.history.push('/', { showLogin: false });
 			window.location.reload();
 		}
 		else {
@@ -125,11 +126,11 @@ class Login extends Component {
 	render() {
 		const styles = {
 			'textAlign': 'center',
-			'padding' : '10px'
+			'padding': '10px'
 		}
 
 		return (
-			 <div className="loginForm">
+			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
 					<h1>Login to SUSI</h1>
 					<form onSubmit={this.handleSubmit}>
@@ -141,18 +142,20 @@ class Login extends Component {
 								floatingLabelText="Email" />
 						</div>
 						<div>
-					        <PasswordField
-						        name='password'
-						        value={this.state.password}
+							<PasswordField
+								name='password'
+								value={this.state.password}
 								onChange={this.handleChange}
 								errorText={this.passwordErrorMessage}
-						        floatingLabelText='Password'/>
+								floatingLabelText='Password' />
 						</div>
 						<div>
 							<RaisedButton
 								label="Login"
 								type="submit"
-								primary={true}
+								backgroundColor={
+									SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+								labelColor="#fff"
 								disabled={!this.state.validForm} />
 						</div>
 						<span>{this.state.msg}</span>
@@ -167,7 +170,9 @@ class Login extends Component {
 							<Link to={'/'} >
 								<RaisedButton
 									label='Chat Anonymously'
-									primary={true} />
+									backgroundColor={
+										SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+									labelColor="#fff" />
 							</Link>
 						</div>
 					</form>
