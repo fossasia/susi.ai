@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import './SignUp.css';
-import PasswordField from 'material-ui-password-field'
+import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import Login from '../Login/Login.react';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -22,7 +22,8 @@ export default class SignUp extends Component {
             passwordConfirmError: true,
             passwordValue: '',
             msg: '',
-            success: false
+            success: false,
+            open:false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -31,6 +32,11 @@ export default class SignUp extends Component {
         this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
         this.passwordConfirmErrorMessage = '';
+    if(document.cookie.split('=')[0]==='loggedIn'){
+            this.props.history.push('/');
+    window.location.reload();
+
+      }
     }
 
     handleClose() {
@@ -141,79 +147,92 @@ export default class SignUp extends Component {
         }
 
     }
-    render() {
-        const styles = {
-            'textAlign': 'center',
-            'padding': '10px',
-            'margin' : '60px auto'
-        }
-        const actions =
-            <FlatButton
-                label="OK"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />;
+    handleOpen = () => {
+        this.setState({ open: true });
+    };
+    handleClose = () => {
+        this.setState({ open: false });
+    }
+        render() {
+            const styles = {
+                'margin': '60px auto',
+                'width': '500px',
+                'padding': '20px',
+                'textAlign': 'center'
+            }
+            const actions =
+                <FlatButton
+                    label="OK"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                />;
 
-        return (
-            <div className="signUpForm">
-                <Paper zDepth={1} style={styles}>
-                    <h1>Sign Up with SUSI</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div>
-                            <TextField
-                                name="email"
-                                type="email"
-                                onChange={this.handleChange}
-                                errorText={this.emailErrorMessage}
-                                floatingLabelText="Email" />
-                        </div>
-                        <div>
-                            <PasswordField
+            return (
+                <div className="signUpForm">
+                    <Paper zDepth={1} style={styles}>
+                        <h1>Sign Up with SUSI</h1>
+                        <form onSubmit={this.handleSubmit}>
+                            <div>
+                                <TextField
+                                    name="email"
+                                    type="email"
+                                    onChange={this.handleChange}
+                                    errorText={this.emailErrorMessage}
+                                    hintText="Email" />
+                            </div>
+                            <div>
+                              <PasswordField
                                 name="password"
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
                                 floatingLabelText="Password" />
-                        </div>
-                        <div>
-                            <PasswordField
+                            </div>
+                            <div>
+                              <PasswordField
                                 name="confirmPassword"
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
                                 floatingLabelText="Confirm Password" />
-                        </div>
-                        <div>
-                            <RaisedButton
-                                label="Sign Up"
-                                type="submit"
-                                primary={true}
-                                disabled={!this.state.validForm} />
-                        </div>
-                        <h1>OR</h1>
-                        <div>
-                            <h4>If you have an Account Please Login</h4>
-                            <Link to={'/login'} >
+                            </div>
+                            <div>
                                 <RaisedButton
+                                    label="Sign Up"
+                                    type="submit"
+                                    primary={true} />
+                            </div>
+                            <h1>OR</h1>
+                            <div>
+                                <h4>If you have an Account Please Login</h4>
+                                <RaisedButton
+                                    onTouchTap={this.handleOpen}
                                     label='Login'
                                     primary={true} />
-                            </Link>
-                        </div>
-                    </form>
-                </Paper>
-                {this.state.msg && (
-                    <div><Dialog
+                            </div>
+                        </form>
+                    </Paper>
+                    {this.state.msg && (
+                        <div><Dialog
+                            actions={actions}
+                            modal={false}
+                            open={true}
+                            onRequestClose={this.handleClose}
+                        >
+                            {this.state.msg}
+                        </Dialog></div>
+                    )
+                    }
+                    <Dialog
                         actions={actions}
                         modal={false}
-                        open={true}
-                        onRequestClose={this.handleClose}
-                    >
-                        {this.state.msg}
-                    </Dialog></div>
-                )
-                }
-            </div>
-        );
-    };
-}
-SignUp.propTypes = {
-    history: PropTypes.object
-}
+                        open={this.state.open}
+                        autoScrollBodyContent={true}
+                        onRequestClose={this.handleClose}>
+                        <div><Login {...this.props} /></div>
+                    </Dialog>
+                </div>
+            );
+        };
+    }
+    SignUp.propTypes = {
+        history: PropTypes.object
+    }
