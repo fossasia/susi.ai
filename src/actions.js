@@ -81,16 +81,17 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
   let url = '';
   // Fetching local browser language
   var locale = document.documentElement.getAttribute('lang');
-  // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
   if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
-    url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale;
+    url = 'http://api.susi.ai/susi/chat.json?q='+createdMessage.text+'&language='+locale;
   }
   else{
-    url = 'http://api.asksusi.com/susi/chat.json?q='+createdMessage.text+'&language='+locale+'&access_token='+cookies.get('loggedIn');
+    url = 'http://api.susi.ai/susi/chat.json?q='+createdMessage.text+'&language='+locale+'&access_token='+cookies.get('loggedIn');
   }
+  // Send location info of client if available
   if(_Location){
     url = url+'&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
+  // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
   $.ajax({
     url: url,
     dataType: 'jsonp',
