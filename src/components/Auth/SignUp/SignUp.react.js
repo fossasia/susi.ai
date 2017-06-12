@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import Login from '../Login/Login.react';
+import SettingStore from '../../../stores/SettingStore';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export default class SignUp extends Component {
             passwordValue: '',
             msg: '',
             success: false,
-            open:false
+            open: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -32,11 +33,11 @@ export default class SignUp extends Component {
         this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
         this.passwordConfirmErrorMessage = '';
-    if(document.cookie.split('=')[0]==='loggedIn'){
+        if (document.cookie.split('=')[0] === 'loggedIn') {
             this.props.history.push('/');
-    window.location.reload();
+            window.location.reload();
 
-      }
+        }
     }
 
     handleClose() {
@@ -90,10 +91,10 @@ export default class SignUp extends Component {
 
         if (!this.state.emailError
             && !this.state.passwordError
-            && !this.state.passwordConfirmError){
+            && !this.state.passwordConfirmError) {
             state.validForm = true;
         }
-        else{
+        else {
             state.validForm = false;
         }
         this.setState(state);
@@ -186,53 +187,57 @@ export default class SignUp extends Component {
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
                                 floatingLabelText="Password" />
-                            </div>
-                            <div>
-                              <PasswordField
+                        </div>
+                        <div>
+                            <PasswordField
                                 name="confirmPassword"
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
                                 floatingLabelText="Confirm Password" />
-                            </div>
-                            <div>
-                                <RaisedButton
-                                    label="Sign Up"
-                                    type="submit"
-                                    primary={true} />
-                            </div>
-                            <h1>OR</h1>
-                            <div>
-                                <h4>If you have an Account Please Login</h4>
-                                <RaisedButton
-                                    onTouchTap={this.handleOpen}
-                                    label='Login'
-                                    primary={true} />
-                            </div>
-                        </form>
-                    </Paper>
-                    {this.state.msg && (
-                        <div><Dialog
-                            actions={actions}
-                            modal={false}
-                            open={true}
-                            onRequestClose={this.handleClose}
-                        >
-                            {this.state.msg}
-                        </Dialog></div>
-                    )
-                    }
-                    <Dialog
+                        </div>
+                        <div>
+                            <RaisedButton
+                                label="Sign Up"
+                                type="submit"
+                                backgroundColor={
+SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                labelColor="#fff" />
+                        </div>
+                        <h1>OR</h1>
+                        <div>
+                            <h4>If you have an Account Please Login</h4>
+                            <RaisedButton
+                                onTouchTap={this.handleOpen}
+                                label='Login'
+                                backgroundColor={
+SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                labelColor="#fff" />
+                        </div>
+                    </form>
+                </Paper>
+                {this.state.msg && (
+                    <div><Dialog
                         actions={actions}
                         modal={false}
-                        open={this.state.open}
-                        autoScrollBodyContent={true}
-                        onRequestClose={this.handleClose}>
-                        <div><Login {...this.props} /></div>
-                    </Dialog>
-                </div>
-            );
-        };
-    }
-    SignUp.propTypes = {
-        history: PropTypes.object
-    }
+                        open={true}
+                        onRequestClose={this.handleClose}
+                    >
+                        {this.state.msg}
+                    </Dialog></div>
+                )
+                }
+                <Dialog
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    autoScrollBodyContent={true}
+                    onRequestClose={this.handleClose}>
+                    <div><Login {...this.props} /></div>
+                </Dialog>
+            </div>
+        );
+    };
+}
+SignUp.propTypes = {
+    history: PropTypes.object
+}
