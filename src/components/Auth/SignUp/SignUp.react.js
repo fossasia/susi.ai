@@ -156,7 +156,7 @@ export default class SignUp extends Component {
         render() {
             const styles = {
                 'margin': '60px auto',
-                'width': '500px',
+                'width': '100%',
                 'padding': '20px',
                 'textAlign': 'center'
             }
