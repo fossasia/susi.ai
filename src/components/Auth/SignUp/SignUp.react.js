@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import Login from '../Login/Login.react';
+import SettingStore from '../../../stores/SettingStore';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -163,10 +164,13 @@ export default class SignUp extends Component {
         const fieldStyle = {
             'width': '256px'
         }
+
         const actions =
             <FlatButton
                 label="OK"
-                primary={true}
+                backgroundColor={
+                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                labelColor="#fff"
                 onTouchTap={this.handleClose}
             />;
 
@@ -203,7 +207,10 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
-                                primary={true} />
+
+                                backgroundColor={
+SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                labelColor="#fff" />
                         </div>
                         <h1>OR</h1>
                         <div>
@@ -211,7 +218,10 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 onTouchTap={this.handleOpen}
                                 label='Login'
-                                primary={true} />
+
+                                backgroundColor={
+SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                labelColor="#fff" />
                         </div>
                     </form>
                 </Paper>
