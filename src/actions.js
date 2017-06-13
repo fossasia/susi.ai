@@ -3,6 +3,7 @@ import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
 import * as ChatMessageUtils from './utils/ChatMessageUtils';
 import ChatConstants from './constants/ChatConstants';
 import $ from 'jquery';
+import UserPreferencesStore from './stores/UserPreferencesStore';
 
 import Cookies from 'universal-cookie';
 
@@ -305,3 +306,24 @@ export function ToggleSearch() {
     type: ActionTypes.SEARCH_MODE
   });
 };
+
+
+export function getDefaults() {
+  return UserPreferencesStore.getPreferences();
+}
+
+export function setDefaults() {
+  let preferences =  getDefaults();
+  let theme = preferences.Theme;
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.SET_DEFAULT_THEME,
+    theme
+  });
+}
+
+export function setDefaultTheme(defaultTheme){
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.DEFAULT_THEME_CHANGED,
+    defaultTheme
+  });
+}
