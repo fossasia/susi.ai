@@ -170,7 +170,9 @@ class Login extends Component {
 							errorText={this.customServerMessage}
 							floatingLabelText="Custom URL" />;
 		const hidden = this.state.checked ? serverURL : '';
+
 		const styles = {
+
 			'textAlign': 'center',
 			'padding': '10px'
 		}
@@ -212,7 +214,7 @@ class Login extends Component {
 							<div>
 							<RadioButtonGroup style={{display: 'flex',
 							  marginTop: '10px',
-							  maxWidth:'200px',
+							  maxWidth:'100%',
 							  flexWrap: 'wrap',
 							margin: 'auto'}}
 							 name="server" onChange={this.handleChange}
