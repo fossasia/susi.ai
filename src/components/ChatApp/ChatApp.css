@@ -15,7 +15,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin: 20px auto;
   overflow: hidden;
 }
-
+.app-bar{
+  background-image: url('../images/susi-white.svg');
+  margin: 0 auto;
+  background-size: 120px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .message-list {
   background: #f5f4f7;
   position: fixed;
