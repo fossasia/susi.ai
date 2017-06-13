@@ -154,37 +154,35 @@ export default class SignUp extends Component {
     handleClose = () => {
         this.setState({ open: false });
     }
-    render() {
-        const styles = {
-            'margin': '60px auto',
-            'width': '500px',
-            'padding': '20px',
-            'textAlign': 'center'
-        }
-        const actions =
-            <FlatButton
-                label="OK"
-                backgroundColor={
-                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
-                labelColor="#fff"
-                onTouchTap={this.handleClose}
-            />;
+        render() {
+            const styles = {
+                'margin': '60px auto',
+                'width': '100%',
+                'padding': '20px',
+                'textAlign': 'center'
+            }
+            const actions =
+                <FlatButton
+                    label="OK"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                />;
 
-        return (
-            <div className="signUpForm">
-                <Paper zDepth={1} style={styles}>
-                    <h1>Sign Up with SUSI</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div>
-                            <TextField
-                                name="email"
-                                type="email"
-                                onChange={this.handleChange}
-                                errorText={this.emailErrorMessage}
-                                hintText="Email" />
-                        </div>
-                        <div>
-                            <PasswordField
+            return (
+                <div className="signUpForm">
+                    <Paper zDepth={1} style={styles}>
+                        <h1>Sign Up with SUSI</h1>
+                        <form onSubmit={this.handleSubmit}>
+                            <div>
+                                <TextField
+                                    name="email"
+                                    type="email"
+                                    onChange={this.handleChange}
+                                    errorText={this.emailErrorMessage}
+                                    hintText="Email" />
+                            </div>
+                            <div>
+                              <PasswordField
                                 name="password"
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
