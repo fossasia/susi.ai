@@ -24,6 +24,12 @@ class ForgotPassword extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
+	}
+
+	handleCancel(){
+		this.props.history.push('/', { showLogin: false });
+		window.location.reload();
 	}
 
 	handleClose() {
@@ -131,6 +137,15 @@ class ForgotPassword extends Component {
 								disabled={!this.state.validForm} />
 						</div>
 					</form>
+					<br/>
+					<RaisedButton
+				      label="Cancel"
+				      backgroundColor={
+				        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+				      labelColor="#fff"
+				      keyboardFocused={true}
+				      onTouchTap={this.handleCancel}
+				    />
 				</Paper>
 				{this.state.msg && (
 					<div><Dialog
