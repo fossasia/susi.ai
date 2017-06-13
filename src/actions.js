@@ -76,6 +76,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     websearchresults: [],
     date: new Date(timestamp),
     isRead: true,
+    type: 'message'
   };
   let BASE_URL = '';
   if(cookies.get('serverUrl')==='http://api.susi.ai' || cookies.get('serverUrl')===null || cookies.get('serverUrl')=== undefined) {
@@ -239,6 +240,7 @@ export function getHistory() {
           websearchresults: [],
           date: '',
           isRead: true,
+          type: 'message'
         };
 
         let userMsg = {
@@ -247,7 +249,8 @@ export function getHistory() {
           authorName: 'You',
           date: '',
           text: '',
-          isRead: true
+          isRead: true,
+          type: 'message'
         };
 
         let query = cognition.query;
