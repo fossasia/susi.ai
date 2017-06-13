@@ -157,6 +157,38 @@ header{
     padding: 0;
 }
 
+.container-date{
+    background: #999999;
+    color: #fff;
+    position: relative;
+    min-width: 80px;
+    max-width: 80%;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dark .container-date{
+    background: rgba(25, 147, 147, 0.2);
+    color: #0AD5C1;
+    position: relative;
+    min-width: 80px;
+    max-width: 80%;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .message-container.SUSI{
     margin-right: auto;
     margin-left: 12px;
