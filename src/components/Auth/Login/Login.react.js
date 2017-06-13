@@ -167,7 +167,7 @@ class Login extends Component {
 							</Link>
 						</div>
 						<div>
-							<Link to={'/'} >
+							<Link to={'/logout'} >
 								<RaisedButton
 									label='Chat Anonymously'
 									backgroundColor={
@@ -178,6 +178,7 @@ class Login extends Component {
 					</form>
 				</Paper>
 			</div>);
+
 	};
 }
 
