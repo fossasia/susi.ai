@@ -154,17 +154,22 @@ export default class SignUp extends Component {
     handleClose = () => {
         this.setState({ open: false });
     }
+
         render() {
+
             const styles = {
                 'margin': '60px auto',
                 'width': '100%',
                 'padding': '20px',
                 'textAlign': 'center'
             }
+
             const actions =
                 <FlatButton
-                    label="OK"
-                    primary={true}
+                    label="Cancel"
+                    backgroundColor={
+                        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                    labelStyle={{color:'#fff'}}
                     onTouchTap={this.handleClose}
                 />;
 
@@ -238,6 +243,7 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
         );
     };
 }
+
 SignUp.propTypes = {
     history: PropTypes.object
 }
