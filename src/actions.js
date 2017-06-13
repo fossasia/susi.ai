@@ -77,16 +77,30 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     websearchresults: [],
     date: new Date(timestamp),
     isRead: true,
+    type: 'message'
   };
-
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')==='http://api.susi.ai' || cookies.get('serverUrl')===null || cookies.get('serverUrl')=== undefined) {
+    BASE_URL = 'http://api.susi.ai';
+  }
+  else{
+      BASE_URL= cookies.get('serverUrl');
+    }
   let url = '';
   // Fetching local browser language
   var locale = document.documentElement.getAttribute('lang');
-  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
-    url = 'http://api.susi.ai/susi/chat.json?q='+createdMessage.text+'&language='+locale;
+  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined) {
+
+    url = BASE_URL+'/susi/chat.json?q='+createdMessage.text+'&language='+locale;
+    console.log(url);
   }
   else{
-    url = 'http://api.susi.ai/susi/chat.json?q='+createdMessage.text+'&language='+locale+'&access_token='+cookies.get('loggedIn');
+    url = BASE_URL+'/susi/chat.json?q='
+    +createdMessage.text+'&language='
+    +locale+'&access_token='
+    +cookies.get('loggedIn');
+    console.log(url);
+    url = 'http://api.susi.ai/susi/chat.json?q='+createdMessage.text+'&language='+locale;
   }
   // Send location info of client if available
   if(_Location){
@@ -192,13 +206,20 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
 };
 
 export function getHistory() {
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')==='http://api.susi.ai' || cookies.get('serverUrl')===null || cookies.get('serverUrl')=== undefined){
+    BASE_URL = 'http://api.susi.ai';
+  }
+  else{
+      BASE_URL= cookies.get('serverUrl');
+    }
   let url = '';
   if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
-    url = 'http://api.susi.ai/susi/memory.json';
+    url = BASE_URL+'/susi/memory.json';
     console.log(url);
   }
     else{
-      url = 'http://api.susi.ai/susi/memory.json?access_token='+cookies.get('loggedIn');
+      url = BASE_URL+'/susi/memory.json?access_token='+cookies.get('loggedIn');
       console.log(url);
     }
   $.ajax({
@@ -220,6 +241,7 @@ export function getHistory() {
           websearchresults: [],
           date: '',
           isRead: true,
+          type: 'message'
         };
 
         let userMsg = {
@@ -228,7 +250,8 @@ export function getHistory() {
           authorName: 'You',
           date: '',
           text: '',
-          isRead: true
+          isRead: true,
+          type: 'message'
         };
 
         let query = cognition.query;
