@@ -197,6 +197,19 @@ class MessageListItem extends React.Component {
 
   render() {
     let {message} = this.props;
+
+    if(this.props.message.type === 'date'){
+      return(
+        <li className='message-list-item'>
+          <section  className='container-date'>
+          <div className='message-text'>
+            {message.date.toLocaleDateString()}
+          </div>
+          </section>
+        </li>
+      );
+    }
+
     let stringWithLinks = this.props.message.text;
     let replacedText = '';
     let markMsgID = this.props.markID;
