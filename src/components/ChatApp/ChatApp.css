@@ -15,7 +15,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin: 20px auto;
   overflow: hidden;
 }
-
+.app-bar{
+  background-image: url('../images/susi-white.svg');
+  margin: 0 auto;
+  background-size: 120px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .message-list {
   background: #f5f4f7;
   position: fixed;
@@ -149,6 +155,38 @@ header{
     margin: 0;
     font-size: 14px;
     padding: 0;
+}
+
+.container-date{
+    background: #999999;
+    color: #fff;
+    position: relative;
+    min-width: 80px;
+    max-width: 80%;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dark .container-date{
+    background: rgba(25, 147, 147, 0.2);
+    color: #0AD5C1;
+    position: relative;
+    min-width: 80px;
+    max-width: 80%;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .message-container.SUSI{
