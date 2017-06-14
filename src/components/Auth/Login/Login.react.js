@@ -172,7 +172,7 @@ class Login extends Component {
 		const hidden = this.state.checked ? serverURL : '';
 
 		const styles = {
-
+			'width': '100%',
 			'textAlign': 'center',
 			'padding': '10px'
 		}
@@ -214,7 +214,7 @@ class Login extends Component {
 							<div>
 							<RadioButtonGroup style={{display: 'flex',
 							  marginTop: '10px',
-							  maxWidth:'100%',
+							  maxWidth:'200px',
 							  flexWrap: 'wrap',
 							margin: 'auto'}}
 							 name="server" onChange={this.handleChange}
