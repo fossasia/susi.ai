@@ -46,6 +46,24 @@ SettingStore.dispatchToken = ChatAppDispatcher.register(action => {
             SettingStore.emitChange();
             break;
         }
+        case ActionTypes.SET_DEFAULT_THEME: {
+            let defaultTheme = action.theme;
+            switch (defaultTheme) {
+                case 'light': {
+                    _theme = true;
+                    break;
+                }
+                case 'dark': {
+                    _theme = false;
+                    break;
+                }
+                default: {
+                    // do nothing
+                }
+            }
+            SettingStore.emitChange();
+            break;
+        }
         default: {
             // do nothing
         }
