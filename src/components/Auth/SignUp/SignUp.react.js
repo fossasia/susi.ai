@@ -154,17 +154,24 @@ export default class SignUp extends Component {
     handleClose = () => {
         this.setState({ open: false });
     }
+
         render() {
+
             const styles = {
                 'margin': '60px auto',
                 'width': '100%',
                 'padding': '20px',
                 'textAlign': 'center'
             }
+            const fieldStyle = {
+                'width': '256px'
+            }
             const actions =
                 <FlatButton
-                    label="OK"
-                    primary={true}
+                    label="Cancel"
+                    backgroundColor={
+                        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                    labelStyle={{color:'#fff'}}
                     onTouchTap={this.handleClose}
                 />;
 
@@ -184,6 +191,7 @@ export default class SignUp extends Component {
                             <div>
                               <PasswordField
                                 name="password"
+                                style={fieldStyle}
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
                                 floatingLabelText="Password" />
@@ -191,6 +199,7 @@ export default class SignUp extends Component {
                         <div>
                             <PasswordField
                                 name="confirmPassword"
+                                style={fieldStyle}
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
                                 floatingLabelText="Confirm Password" />
@@ -199,6 +208,7 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
+
                                 backgroundColor={
 SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
@@ -209,6 +219,7 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                             <RaisedButton
                                 onTouchTap={this.handleOpen}
                                 label='Login'
+
                                 backgroundColor={
 SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
@@ -238,6 +249,7 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
         );
     };
 }
+
 SignUp.propTypes = {
     history: PropTypes.object
 }
