@@ -26,3 +26,11 @@ export function getHistory(){
 export function getLocation(){
   Actions.getLocation();
 }
+
+export function getDefaults(){
+  Actions.getDefaults();
+}
+
+export function setPreferences(){
+  Actions.setDefaults();
+}
