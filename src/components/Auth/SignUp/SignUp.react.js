@@ -163,7 +163,9 @@ export default class SignUp extends Component {
                 'padding': '20px',
                 'textAlign': 'center'
             }
-
+            const fieldStyle = {
+                'width': '256px'
+            }
             const actions =
                 <FlatButton
                     label="Cancel"
@@ -189,6 +191,7 @@ export default class SignUp extends Component {
                             <div>
                               <PasswordField
                                 name="password"
+                                style={fieldStyle}
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
                                 floatingLabelText="Password" />
@@ -196,6 +199,7 @@ export default class SignUp extends Component {
                         <div>
                             <PasswordField
                                 name="confirmPassword"
+                                style={fieldStyle}
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
                                 floatingLabelText="Confirm Password" />
@@ -204,6 +208,7 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
+
                                 backgroundColor={
 SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
@@ -214,6 +219,7 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                             <RaisedButton
                                 onTouchTap={this.handleOpen}
                                 label='Login'
+
                                 backgroundColor={
 SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />

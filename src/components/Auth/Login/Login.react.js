@@ -174,6 +174,10 @@ class Login extends Component {
 			'textAlign': 'center',
 			'padding': '10px'
 		}
+		const fieldStyle={
+			'width':'256px'
+		}
+
 		const radioButtonStyles = {
 		  block: {
 		    maxWidth: 250,
@@ -195,9 +199,11 @@ class Login extends Component {
 								floatingLabelText="Email" />
 						</div>
 						<div>
-							<PasswordField
-								name='password'
-								value={this.state.password}
+					        <PasswordField
+						        name='password'
+								style={fieldStyle}
+						        value={this.state.password}
+
 								onChange={this.handleChange}
 								errorText={this.passwordErrorMessage}
 								floatingLabelText='Password' />
