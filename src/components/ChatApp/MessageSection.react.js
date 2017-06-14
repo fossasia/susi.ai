@@ -214,6 +214,7 @@ class MessageSection extends Component {
       backgroundColor={
         SettingStore.getTheme() ? '#607D8B' : '#19314B'}
       labelColor="#fff"
+      width='200px'
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
@@ -257,13 +258,15 @@ class MessageSection extends Component {
               </div>
             </div>
             <Dialog
+            className='dialogStyle'
               actions={actions}
               modal={false}
               open={this.state.open}
               autoScrollBodyContent={true}
               bodyStyle={bodyStyle}
+              contentStyle={{width: '35%',minWidth: '300px'}}
               onRequestClose={this.handleClose}>
-              <div><Login {...this.props} /></div>
+              <Login {...this.props} />
             </Dialog>
             <Dialog
               actions={actions}

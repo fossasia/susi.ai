@@ -155,41 +155,42 @@ export default class SignUp extends Component {
         this.setState({ open: false });
     }
 
-        render() {
+    render() {
 
-            const styles = {
-                'margin': '60px auto',
-                'width': '100%',
-                'padding': '20px',
-                'textAlign': 'center'
-            }
+        const styles = {
+            'margin': '60px auto',
+            'width': '100%',
+            'padding': '20px',
+            'textAlign': 'center'
+        }
+
             const fieldStyle = {
                 'width': '256px'
             }
-            const actions =
-                <FlatButton
-                    label="Cancel"
-                    backgroundColor={
-                        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
-                    labelStyle={{color:'#fff'}}
-                    onTouchTap={this.handleClose}
-                />;
+        const actions =
+            <FlatButton
+                label="Cancel"
+                backgroundColor={
+                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                labelStyle={{ color: '#fff' }}
+                onTouchTap={this.handleClose}
+            />;
 
-            return (
-                <div className="signUpForm">
-                    <Paper zDepth={1} style={styles}>
-                        <h1>Sign Up with SUSI</h1>
-                        <form onSubmit={this.handleSubmit}>
-                            <div>
-                                <TextField
-                                    name="email"
-                                    type="email"
-                                    onChange={this.handleChange}
-                                    errorText={this.emailErrorMessage}
-                                    hintText="Email" />
-                            </div>
-                            <div>
-                              <PasswordField
+        return (
+            <div className="signUpForm">
+                <Paper zDepth={1} style={styles}>
+                    <h1>Sign Up with SUSI</h1>
+                    <form onSubmit={this.handleSubmit}>
+                        <div>
+                            <TextField
+                                name="email"
+                                type="email"
+                                onChange={this.handleChange}
+                                errorText={this.emailErrorMessage}
+                                hintText="Email" />
+                        </div>
+                        <div>
+                            <PasswordField
                                 name="password"
                                 style={fieldStyle}
                                 onChange={this.handleChange}
@@ -210,7 +211,7 @@ export default class SignUp extends Component {
                                 type="submit"
 
                                 backgroundColor={
-SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                         <h1>OR</h1>
@@ -221,7 +222,7 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 label='Login'
 
                                 backgroundColor={
-SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                     </form>
@@ -242,7 +243,9 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                     modal={false}
                     open={this.state.open}
                     autoScrollBodyContent={true}
-                    onRequestClose={this.handleClose}>
+                    onRequestClose={this.handleClose}
+                    contentStyle={{ width: '35%', minWidth: '300px' }}
+                >
                     <div><Login {...this.props} /></div>
                 </Dialog>
             </div>
