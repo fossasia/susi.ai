@@ -6,6 +6,9 @@
 .loginForm{
 	margin: 0 auto;
 }
+.sty{
+	width: 256px;
+}
 @media screen and (max-width: 768px) {
 	.loginForm h1{
 		font-size: 16px;

@@ -1,6 +1,7 @@
 import MessageComposer from './MessageComposer.react';
 import MessageListItem from './MessageListItem.react';
 import SearchSection from './SearchSection.react';
+import Settings from './Settings.react';
 import MessageStore from '../../stores/MessageStore';
 import React, { Component } from 'react';
 import ThreadStore from '../../stores/ThreadStore';
@@ -30,7 +31,8 @@ function getStateFromStores() {
     darkTheme: SettingStore.getTheme(),
     search: SettingStore.getSearchMode(),
     showLoading: MessageStore.getLoadStatus(),
-    open: false
+    open: false,
+    showSettings: false
   };
 }
 
@@ -97,8 +99,15 @@ class MessageSection extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({
+      open: false,
+      showSettings: false
+    });
   };
+
+  handleSettings = () => {
+    this.setState({showSettings: true});
+  }
 
   componentDidMount() {
     this._scrollToBottom();
@@ -117,6 +126,8 @@ class MessageSection extends Component {
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
+          <MenuItem primaryText="Settings"
+            onClick={this.handleSettings} />
           <MenuItem primaryText="Chat Anonymously"
             containerElement={<Link to="/logout" />} />
           <MenuItem primaryText="Logout"
@@ -256,6 +267,17 @@ class MessageSection extends Component {
               contentStyle={{width: '35%',minWidth: '300px'}}
               onRequestClose={this.handleClose}>
               <Login {...this.props} />
+            </Dialog>
+            <Dialog
+              actions={actions}
+              modal={false}
+              open={this.state.showSettings}
+              autoScrollBodyContent={true}
+              bodyStyle={bodyStyle}
+              onRequestClose={this.handleClose}>
+              <div>
+                <Settings {...this.props} />
+              </div>
             </Dialog>
           </div>
         );
