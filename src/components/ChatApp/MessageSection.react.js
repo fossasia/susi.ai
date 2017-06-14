@@ -63,6 +63,7 @@ function getLoadingGIF() {
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
+
 let Logged = (props) => (
   <IconMenu
     {...props}
@@ -232,10 +233,9 @@ class MessageSection extends Component {
           <div className={topBackground}>
             <header className='message-thread-heading' >
               <AppBar
-                title={this.state.thread.name}
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
-                style={{ background: backgroundCol }}
+                style={{ backgroundColor: backgroundCol }}
                 className="app-bar"
               />
             </header>
