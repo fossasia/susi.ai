@@ -1,5 +1,5 @@
 
-import * as Actions from '../../actions';
+import * as Actions from '../../actions/';
 import React,{Component} from 'react';
 import { PropTypes } from 'prop-types';
 import Send from 'material-ui/svg-icons/content/send';
