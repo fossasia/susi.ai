@@ -5,7 +5,7 @@ import Settings from './Settings.react';
 import MessageStore from '../../stores/MessageStore';
 import React, { Component } from 'react';
 import ThreadStore from '../../stores/ThreadStore';
-import * as Actions from '../../actions';
+import * as Actions from '../../actions/';
 import SettingStore from '../../stores/SettingStore';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AppBar from 'material-ui/AppBar';
