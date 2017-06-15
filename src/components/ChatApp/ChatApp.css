@@ -305,6 +305,7 @@ textarea {
   box-shadow: none;
   width: 90%;
   resize: none;
+  font-size: 14px;
 }
 .leaflet-container {
   height: 150px;
@@ -431,5 +432,7 @@ a {
 }
 .dialogStyle div{
     margin: 0 auto;
-
+}
+em{
+  background-color: orange;
 }

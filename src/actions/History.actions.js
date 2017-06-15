@@ -7,6 +7,7 @@ const cookies = new Cookies();
 
 let ActionTypes = ChatConstants.ActionTypes;
 
+
 export function getHistory() {
   let BASE_URL = '';
   if(cookies.get('serverUrl')==='http://api.susi.ai' || cookies.get('serverUrl')===null || cookies.get('serverUrl')=== undefined){

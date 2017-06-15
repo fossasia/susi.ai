@@ -11,6 +11,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
+import ArrowDropLeft from 'material-ui/svg-icons/navigation/arrow-back';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
@@ -132,8 +133,20 @@ class MessageSection extends Component {
             containerElement={<Link to="/logout" />} />
           <MenuItem primaryText="Logout"
             containerElement={<Link to="/logout" />} />
-          <MenuItem primaryText="Change Theme"
-            onClick={() => { change() }} />
+            <MenuItem
+              primaryText="Change Theme"
+              leftIcon={<ArrowDropLeft />}
+              menuItems={[
+                <MenuItem
+                  key="light"
+                  primaryText="Light Theme"
+                  onClick={() => { changeLight() }} />,
+                <MenuItem
+                  key="dark"
+                  primaryText="Dark Theme"
+                  onClick={() => {changeDark() }} />
+                ]}
+              />
         </IconMenu>)
       return <Logged />
     }
@@ -151,7 +164,20 @@ class MessageSection extends Component {
         <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
         <MenuItem primaryText="Sign Up"
           containerElement={<Link to="/signup" />} />
-        <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+        <MenuItem
+          primaryText="Change Theme"
+          leftIcon={<ArrowDropLeft />}
+          menuItems={[
+            <MenuItem
+              key="light"
+              primaryText="Light Theme"
+              onClick={() => { changeLight() }} />,
+            <MenuItem
+              key="dark"
+              primaryText="Dark Theme"
+              onClick={() => {changeDark() }} />
+            ]}
+          />
       </IconMenu>)
 
     return <Logged />
@@ -163,8 +189,16 @@ class MessageSection extends Component {
     SettingStore.removeChangeListener(this._onChange.bind(this));
   }
 
-  themeChanger(event) {
-    Actions.themeChanged(!this.state.darkTheme);
+  themeChangerLight(event) {
+    if(!this.state.darkTheme){
+      Actions.themeChanged(!this.state.darkTheme);
+    }
+  }
+
+  themeChangerDark(event) {
+    if(this.state.darkTheme){
+      Actions.themeChanged(!this.state.darkTheme);
+    }
   }
 
   componentWillMount() {
@@ -323,9 +357,13 @@ class MessageSection extends Component {
   }
 
 };
-function change() {
+function changeLight() {
   let messageSection = new MessageSection();
-  messageSection.themeChanger();
+  messageSection.themeChangerLight();
+}
+function changeDark() {
+  let messageSection = new MessageSection();
+  messageSection.themeChangerDark();
 }
 
 
