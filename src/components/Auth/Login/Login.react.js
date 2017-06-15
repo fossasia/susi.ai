@@ -172,7 +172,9 @@ class Login extends Component {
 							errorText={this.customServerMessage}
 							floatingLabelText="Custom URL" />;
 		const hidden = this.state.checked ? serverURL : '';
+
 		const styles = {
+			'width': '100%',
 			'textAlign': 'center',
 			'padding': '10px'
 		}
