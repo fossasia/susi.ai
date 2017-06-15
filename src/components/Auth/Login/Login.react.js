@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import PasswordField from 'material-ui-password-field'
 import $ from 'jquery';
-import { PropTypes } from 'prop-types';
+import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SettingStore from '../../../stores/SettingStore';
@@ -85,8 +85,10 @@ class Login extends Component {
 		let email;
         let password;
         let serverUrl;
-        let state = this.state
+        let state = this.state;
+        console.log(event.target.name);
         if (event.target.name === 'email') {
+			console.log('hey');
             email = event.target.value.trim();
             let validEmail =
                 /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
@@ -170,7 +172,9 @@ class Login extends Component {
 							errorText={this.customServerMessage}
 							floatingLabelText="Custom URL" />;
 		const hidden = this.state.checked ? serverURL : '';
+
 		const styles = {
+			'width': '100%',
 			'textAlign': 'center',
 			'padding': '10px'
 		}
