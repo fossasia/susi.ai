@@ -39,7 +39,7 @@
 }
 
 .carousel .control-prev.control-arrow:before {
- border-right: 7px solid #fff;
+ border-right: 7px solid #607d8b;
 }
 
 .carousel .control-next.control-arrow {
@@ -47,7 +47,7 @@
 }
 
 .carousel .control-next.control-arrow:before {
-  border-left: 7px solid #fff;
+  border-left: 7px solid #607d8b;
 }
 
 .carousel {

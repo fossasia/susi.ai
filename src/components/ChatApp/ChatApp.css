@@ -350,6 +350,8 @@ textarea {
 .tile{
   width: 100%;
   height: 100px;
+  padding-left: 10px;
+  padding-right: 5px;
 }
 
 .tile-img{
