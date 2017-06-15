@@ -1,5 +1,5 @@
 
-import * as Actions from '../actions';
+import * as Actions from '../actions/';
 import * as ChatDataServer from '../ChatDataServer';
 
 /*
