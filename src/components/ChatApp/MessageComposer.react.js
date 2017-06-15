@@ -1,7 +1,7 @@
 
-import * as Actions from '../../actions';
+import * as Actions from '../../actions/';
 import React,{Component} from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import Send from 'material-ui/svg-icons/content/send';
 import SettingStore from '../../stores/SettingStore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';

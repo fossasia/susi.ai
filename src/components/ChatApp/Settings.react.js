@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import SettingStore from '../../stores/SettingStore';
-import * as Actions from '../../actions';
+import * as Actions from '../../actions/';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
