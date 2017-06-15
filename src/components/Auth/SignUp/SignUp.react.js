@@ -24,7 +24,8 @@ export default class SignUp extends Component {
             passwordValue: '',
             msg: '',
             success: false,
-            open: false
+            open: false,
+            validForm: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -118,6 +119,13 @@ export default class SignUp extends Component {
             this.passwordErrorMessage = '';
             this.passwordConfirmErrorMessage = '';
         }
+        if(this.state.emailError||
+        this.state.passwordError||
+        this.state.passwordConfirmError){
+            this.setState({validForm: false});
+        }else{
+            this.setState({validForm: true});
+        }
     };
 
     handleSubmit(event) {
@@ -164,9 +172,9 @@ export default class SignUp extends Component {
             'textAlign': 'center'
         }
 
-            const fieldStyle = {
-                'width': '256px'
-            }
+        const fieldStyle = {
+            'width': '256px'
+        }
         const actions =
             <FlatButton
                 label="Cancel"
@@ -209,7 +217,7 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
-
+                                disabled={!this.state.validForm}
                                 backgroundColor={
                                     SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
