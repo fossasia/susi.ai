@@ -24,7 +24,8 @@ export default class SignUp extends Component {
             passwordValue: '',
             msg: '',
             success: false,
-            open: false
+            open: false,
+            validForm: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -118,6 +119,13 @@ export default class SignUp extends Component {
             this.passwordErrorMessage = '';
             this.passwordConfirmErrorMessage = '';
         }
+        if(this.state.emailError||
+        this.state.passwordError||
+        this.state.passwordConfirmError){
+            this.setState({validForm: false});
+        }else{
+            this.setState({validForm: true});
+        }
     };
 
     handleSubmit(event) {
@@ -155,41 +163,42 @@ export default class SignUp extends Component {
         this.setState({ open: false });
     }
 
-        render() {
+    render() {
 
-            const styles = {
-                'margin': '60px auto',
-                'width': '100%',
-                'padding': '20px',
-                'textAlign': 'center'
-            }
-            const fieldStyle = {
-                'width': '256px'
-            }
-            const actions =
-                <FlatButton
-                    label="Cancel"
-                    backgroundColor={
-                        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
-                    labelStyle={{color:'#fff'}}
-                    onTouchTap={this.handleClose}
-                />;
+        const styles = {
+            'margin': '60px auto',
+            'width': '100%',
+            'padding': '20px',
+            'textAlign': 'center'
+        }
 
-            return (
-                <div className="signUpForm">
-                    <Paper zDepth={1} style={styles}>
-                        <h1>Sign Up with SUSI</h1>
-                        <form onSubmit={this.handleSubmit}>
-                            <div>
-                                <TextField
-                                    name="email"
-                                    type="email"
-                                    onChange={this.handleChange}
-                                    errorText={this.emailErrorMessage}
-                                    hintText="Email" />
-                            </div>
-                            <div>
-                              <PasswordField
+        const fieldStyle = {
+            'width': '256px'
+        }
+        const actions =
+            <FlatButton
+                label="Cancel"
+                backgroundColor={
+                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                labelStyle={{ color: '#fff' }}
+                onTouchTap={this.handleClose}
+            />;
+
+        return (
+            <div className="signUpForm">
+                <Paper zDepth={1} style={styles}>
+                    <h1>Sign Up with SUSI</h1>
+                    <form onSubmit={this.handleSubmit}>
+                        <div>
+                            <TextField
+                                name="email"
+                                type="email"
+                                onChange={this.handleChange}
+                                errorText={this.emailErrorMessage}
+                                hintText="Email" />
+                        </div>
+                        <div>
+                            <PasswordField
                                 name="password"
                                 style={fieldStyle}
                                 onChange={this.handleChange}
@@ -208,9 +217,9 @@ export default class SignUp extends Component {
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
-
+                                disabled={!this.state.validForm}
                                 backgroundColor={
-SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                         <h1>OR</h1>
@@ -221,7 +230,7 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 label='Login'
 
                                 backgroundColor={
-SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                     </form>
@@ -242,7 +251,9 @@ SettingStore.getTheme() ? '#607D8B' : '#19314B'}
                     modal={false}
                     open={this.state.open}
                     autoScrollBodyContent={true}
-                    onRequestClose={this.handleClose}>
+                    onRequestClose={this.handleClose}
+                    contentStyle={{ width: '35%', minWidth: '300px' }}
+                >
                     <div><Login {...this.props} /></div>
                 </Dialog>
             </div>
