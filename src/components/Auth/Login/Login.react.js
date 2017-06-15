@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import PasswordField from 'material-ui-password-field'
 import $ from 'jquery';
-import { PropTypes } from 'prop-types';
+import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SettingStore from '../../../stores/SettingStore';

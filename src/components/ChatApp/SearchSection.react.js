@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import MessageListItem from './MessageListItem.react';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
