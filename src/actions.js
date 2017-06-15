@@ -338,15 +338,27 @@ export function getDefaults() {
 export function setDefaults() {
   let preferences =  getDefaults();
   let theme = preferences.Theme;
+  let server = preferences.Server;
   ChatAppDispatcher.dispatch({
     type: ActionTypes.SET_DEFAULT_THEME,
     theme
   });
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.SET_DEFAULT_SERVER,
+    server
+  })
 }
 
 export function setDefaultTheme(defaultTheme){
   ChatAppDispatcher.dispatch({
     type: ActionTypes.DEFAULT_THEME_CHANGED,
     defaultTheme
+  });
+}
+
+export function setDefaultServer(defaultServer){
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.DEFAULT_SERVER_CHANGED,
+    defaultServer
   });
 }
