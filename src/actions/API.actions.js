@@ -3,6 +3,7 @@ import $ from 'jquery';
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
+import UserPreferencesStore from '../stores/UserPreferencesStore';
 
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
@@ -45,33 +46,38 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     isRead: true,
     type: 'message'
   };
+
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
   let BASE_URL = '';
-  if(cookies.get('serverUrl')==='http://api.susi.ai' || cookies.get('serverUrl')===null || cookies.get('serverUrl')=== undefined) {
-    BASE_URL = 'http://api.susi.ai';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
   }
   else{
-      BASE_URL= cookies.get('serverUrl');
-    }
+    BASE_URL= cookies.get('serverUrl');
+  }
   let url = '';
   // Fetching local browser language
   var locale = document.documentElement.getAttribute('lang');
-  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined) {
-
-    url = BASE_URL+'/susi/chat.json?q='+createdMessage.text+'&language='+locale;
-    console.log(url);
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    url = BASE_URL+'/susi/chat.json?q='+
+          createdMessage.text+
+          '&language='+locale;
   }
   else{
     url = BASE_URL+'/susi/chat.json?q='
-    +createdMessage.text+'&language='
-    +locale+'&access_token='
-    +cookies.get('loggedIn');
-    console.log(url);
-    url = 'http://api.susi.ai/susi/chat.json?q='+createdMessage.text+'&language='+locale;
+          +createdMessage.text+'&language='
+          +locale+'&access_token='
+          +cookies.get('loggedIn');
   }
   // Send location info of client if available
   if(_Location){
     url = url+'&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
+  console.log(url);
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
   $.ajax({
     url: url,
