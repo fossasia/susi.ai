@@ -139,7 +139,9 @@ function drawTable(coloumns,tableData,count){
       return(
         <TableRowColumn key={i}>
           <Linkify properties={{target:'_blank'}}>
-            {eachrow[key]}
+            <abbr title={eachrow[key]}>
+              {eachrow[key]}
+            </abbr>
           </Linkify>
         </TableRowColumn>
       );
