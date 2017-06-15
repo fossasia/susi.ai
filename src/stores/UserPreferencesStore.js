@@ -6,7 +6,8 @@ let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
 let _defaults = {
-    Theme: 'light'
+    Theme: 'light',
+    Server: 'http://api.susi.ai'
 };
 
 let UserPreferencesStore = {
@@ -37,6 +38,13 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
         case ActionTypes.DEFAULT_THEME_CHANGED: {
             let newDefaultTheme = action.defaultTheme;
             _defaults.Theme = newDefaultTheme;
+            console.log(_defaults);
+            UserPreferencesStore.emitChange();
+            break;
+        }
+        case ActionTypes.DEFAULT_SERVER_CHANGED: {
+            let newDefaultServer = action.defaultServer;
+            _defaults.Server = newDefaultServer;
             console.log(_defaults);
             UserPreferencesStore.emitChange();
             break;
