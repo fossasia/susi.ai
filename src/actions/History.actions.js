@@ -2,6 +2,7 @@ import Cookies from 'universal-cookie';
 import $ from 'jquery';
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
+import UserPreferencesStore from '../stores/UserPreferencesStore';
 
 const cookies = new Cookies();
 
@@ -9,22 +10,29 @@ let ActionTypes = ChatConstants.ActionTypes;
 
 
 export function getHistory() {
+
   let BASE_URL = '';
-  if(cookies.get('serverUrl')==='http://api.susi.ai' || cookies.get('serverUrl')===null || cookies.get('serverUrl')=== undefined){
-    BASE_URL = 'http://api.susi.ai';
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined){
+    BASE_URL = defaultServerURL;
   }
   else{
-      BASE_URL= cookies.get('serverUrl');
-    }
-  let url = '';
-  if(cookies.get('loggedIn')===null || cookies.get('loggedIn')===undefined){
-    url = BASE_URL+'/susi/memory.json';
-    console.log(url);
+    BASE_URL= cookies.get('serverUrl');
   }
-    else{
-      url = BASE_URL+'/susi/memory.json?access_token='+cookies.get('loggedIn');
-      console.log(url);
-    }
+
+  let url = '';
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined){
+    url = BASE_URL+'/susi/memory.json';
+  }
+  else{
+    url = BASE_URL+'/susi/memory.json?access_token='+cookies.get('loggedIn');
+  }
+  console.log(url);
   $.ajax({
     url: url,
     dataType: 'jsonp',
