@@ -7,7 +7,8 @@ let CHANGE_EVENT = 'change';
 
 let _defaults = {
     Theme: 'light',
-    Server: 'http://api.susi.ai'
+    Server: 'http://api.susi.ai',
+    StandardServer: 'http://api.susi.ai'
 };
 
 let UserPreferencesStore = {
