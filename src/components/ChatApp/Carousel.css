@@ -39,7 +39,7 @@
 }
 
 .carousel .control-prev.control-arrow:before {
- border-right: 8px solid #fff;
+ border-right: 7px solid #607d8b;
 }
 
 .carousel .control-next.control-arrow {
@@ -47,7 +47,7 @@
 }
 
 .carousel .control-next.control-arrow:before {
-  border-left: 8px solid #fff;
+  border-left: 7px solid #607d8b;
 }
 
 .carousel {
@@ -146,7 +146,7 @@
 }
 
 .carousel.carousel-slider .control-arrow:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .carousel .slider-wrapper {
@@ -253,7 +253,7 @@
 .carousel .control-dots {
   position: absolute;
   bottom: 0;
-  margin: 10px 0;
+  margin: 0;
   text-align: center;
   width: 100%;
 }
@@ -271,11 +271,11 @@
   transition: opacity 0.25s ease-in;
   opacity: 0.3;
   filter: alpha(opacity=30);
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
-  background: #708090;
-  border-radius: 50%;
-  width: 8px;
-  height: 8px;
+  box-shadow: 1px 1px 2px black;
+  background: #607d8b;
+  border-radius: 70%;
+  width: 7px;
+  height: 7px;
   cursor: pointer;
   display: inline-block;
   margin: 0 8px;
