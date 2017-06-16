@@ -10,6 +10,7 @@ import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SettingStore from '../../../stores/SettingStore';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 const cookies = new Cookies();
 class Login extends Component {
@@ -40,27 +41,36 @@ class Login extends Component {
 
 		var email = this.state.email.trim();
 		var password = this.state.password.trim();
-		var serverUrl = this.state.serverUrl;
-		if(serverUrl === ''){
-			cookies.set('serverUrl', 'http://api.susi.ai', { path: '/' });
-			console.log(cookies.get('serverUrl'));
+
+		let defaults = UserPreferencesStore.getPreferences();
+		let BASE_URL = defaults.Server;
+
+		let serverUrl = this.state.serverUrl;
+		if(serverUrl.slice(-1) === '/'){
+			serverUrl = serverUrl.slice(0,-1);
 		}
-		else {
-			console.log(serverUrl);
-			cookies.set('serverUrl', serverUrl, { path: '/' });
-			console.log(cookies.get('serverUrl'));
+		if(serverUrl !== ''){
+			BASE_URL = serverUrl;
 		}
+		console.log(BASE_URL);
+
 		if (!email || !password) { return this.state.isFilled; }
 
 		let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+		let loginEndPoint =
+			BASE_URL+'/aaa/login.json?type=access-token&login=' +
+			this.state.email + '&password=' + this.state.password;
+		console.log(loginEndPoint);
 		if (email && validEmail) {
 			$.ajax({
-				url: 'http://api.susi.ai/aaa/login.json?type=access-token&login=' + this.state.email + '&password=' + this.state.password,
+				url: loginEndPoint,
 				dataType: 'jsonp',
 				jsonpCallback: 'p',
 				jsonp: 'callback',
 				crossDomain: true,
 				success: function (response) {
+					cookies.set('serverUrl', BASE_URL, { path: '/' });
+					console.log(cookies.get('serverUrl'));
 					let accessToken = response.access_token;
 					let state = this.state;
 					let time = response.valid_seconds;
@@ -86,9 +96,8 @@ class Login extends Component {
         let password;
         let serverUrl;
         let state = this.state;
-        console.log(event.target.name);
+
         if (event.target.name === 'email') {
-			console.log('hey');
             email = event.target.value.trim();
             let validEmail =
                 /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
@@ -114,7 +123,7 @@ class Login extends Component {
         	let validServerUrl =
 /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
         	.test(serverUrl);
-			state.serverUrl = validServerUrl;
+			state.serverUrl = serverUrl;
 			state.serverFieldError = !(serverUrl && validServerUrl);
         }
 

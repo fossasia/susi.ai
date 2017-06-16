@@ -8,6 +8,8 @@ import './ForgotPassword.css';
 import $ from 'jquery';
 import PropTypes from 'prop-types'
 import SettingStore from '../../../stores/SettingStore';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 class ForgotPassword extends Component {
 
@@ -15,16 +17,23 @@ class ForgotPassword extends Component {
 		super(props);
 
 		this.state = {
-			value: '',
-			isEmail: false,
+			email: '',
 			msg: '',
-			success: false
+			success: false,
+			serverUrl: '',
+			checked:false,
+			serverFieldError: false,
+			emailError: true,
+			validEmail:true,
+			validForm:false
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.handleCancel = this.handleCancel.bind(this);
+		this.emailErrorMessage = '';
+		this.customServerMessage = '';
 	}
 
 	handleCancel(){
@@ -39,37 +48,96 @@ class ForgotPassword extends Component {
 		}
 		else {
 			this.setState({
-				value: '',
-				isEmail: false,
+				email: '',
 				msg: '',
+				success: false,
+				serverUrl: '',
+				checked:false,
+				serverFieldError: false,
+				emailError: true,
+				validEmail:false,
 				validForm: false,
-				success: false
 			});
 		}
 	};
 
 	handleChange(event) {
-		let email = event.target.value.trim();
-		let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-		let state = this.state;
-		state.value = email;
-		state.isEmail = validEmail;
-		if (state.isEmail && state.value) {
+		let email;
+        let serverUrl;
+        let state = this.state;
+		if (event.target.name === 'email') {
+			email = event.target.value.trim();
+			let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+			state.email = email;
+			state.validEmail = validEmail;
+			state.emailError = !(validEmail && email);
+		}
+		else if (event.target.value === 'customServer') {
+        	state.checked = true;
+        	state.serverFieldError = true;
+        }
+		else if (event.target.value === 'standardServer') {
+			state.checked = false;
+			state.serverFieldError = false;
+		}
+		else if (event.target.name === 'serverUrl'){
+        	serverUrl = event.target.value;
+        	let validServerUrl =
+/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
+        	.test(serverUrl);
+			state.serverUrl = serverUrl;
+			state.serverFieldError = !(serverUrl && validServerUrl);
+        }
+
+        if(state.emailError){
+        	if (!state.email) {
+				this.emailErrorMessage = 'This Field Is Required';
+			}
+			else if (!state.validEmail) {
+				this.emailErrorMessage = 'Invalid Email';
+			}
+        }
+		else{
+			this.emailErrorMessage = '';
+		}
+
+        if (state.serverFieldError) {
+        	this.customServerMessage
+        	= 'Enter a valid URL';
+        }
+        else{
+        	this.customServerMessage = '';
+        }
+
+        if (!state.emailError && !state.serverFieldError) {
 			state.validForm = true;
 		}
 		else {
 			state.validForm = false;
 		}
-		this.setState(state);
+        this.setState(state);
 	};
 
 	handleSubmit(event) {
 		event.preventDefault();
-		let email = this.state.value.trim();
+
+		let email = this.state.email.trim();
 		let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+
+		let defaults = UserPreferencesStore.getPreferences();
+		let BASE_URL = defaults.Server;
+
+		let serverUrl = this.state.serverUrl;
+		if(serverUrl.slice(-1) === '/'){
+            serverUrl = serverUrl.slice(0,-1);
+        }
+		if(serverUrl !== ''){
+			BASE_URL = serverUrl;
+		}
+		console.log(BASE_URL);
 		if (email && validEmail) {
 			$.ajax({
-				url: 'http://api.susi.ai/aaa/recoverpassword.json?forgotemail=' + email,
+				url: BASE_URL+'/aaa/recoverpassword.json?forgotemail=' + email,
 				dataType: 'jsonp',
 				crossDomain: true,
 				timeout: 3000,
@@ -93,6 +161,21 @@ class ForgotPassword extends Component {
 
 	render() {
 
+		const serverURL = <TextField name="serverUrl"
+							onChange={this.handleChange}
+							errorText={this.customServerMessage}
+							floatingLabelText="Custom URL" />;
+		const hidden = this.state.checked ? serverURL : '';
+
+		const radioButtonStyles = {
+		  block: {
+		    maxWidth: 250,
+		  },
+		  radioButton: {
+		    marginBottom: 16,
+		  },
+		};
+
 		const styles = {
 			'margin': '60px auto',
 			'padding': '10px',
@@ -103,17 +186,10 @@ class ForgotPassword extends Component {
 				label="OK"
 				backgroundColor={
 					SettingStore.getTheme() ? '#607D8B' : '#19314B'}
-				labelColor="#fff"
+				labelStyle={{ color: '#fff' }}
 				onTouchTap={this.handleClose}
 			/>;
 
-		let errorMsg = '';
-		if (!this.state.value) {
-			errorMsg = 'This Field Is Required';
-		}
-		else if (!this.state.isEmail) {
-			errorMsg = 'Invalid Email';
-		}
 		return (
 			<div className="forgotPwdForm">
 				<Paper zDepth={1} style={styles}>
@@ -123,9 +199,37 @@ class ForgotPassword extends Component {
 							<TextField
 								name="email"
 								floatingLabelText="Email"
-								errorText={errorMsg}
-								value={this.state.value}
+								errorText={this.emailErrorMessage}
+								value={this.state.email}
 								onChange={this.handleChange} />
+						</div>
+						<br/>
+						<div>
+							<div>
+							<RadioButtonGroup style={{display: 'flex',
+							  marginTop: '10px',
+							  maxWidth:'200px',
+							  flexWrap: 'wrap',
+							  margin: 'auto'}}
+							 name="server" onChange={this.handleChange}
+							 defaultSelected="standardServer">
+							<RadioButton
+							       value="customServer"
+							       label="Custom Server"
+							       labelPosition="left"
+							       style={radioButtonStyles.radioButton}
+							     />
+							<RadioButton
+							       value="standardServer"
+							       label="Standard Server"
+							       labelPosition="left"
+							       style={radioButtonStyles.radioButton}
+							     />
+							</RadioButtonGroup>
+							</div>
+						</div>
+						<div>
+						{hidden}
 						</div>
 						<div>
 							<RaisedButton
