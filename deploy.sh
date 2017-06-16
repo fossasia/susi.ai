@@ -48,11 +48,11 @@ git checkout $SOURCE_BRANCH
 npm install
 npm run build
 mv build ../build/
-cp index.html 404.html
 
 git checkout $TARGET_BRANCH
 rm -rf node_modules/
 mv ../build/* .
+cp index.html 404.html
 
 # Staging the new build for commit; and then commiting the lastest build
 git add -A
