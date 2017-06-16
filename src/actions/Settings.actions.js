@@ -1,7 +1,9 @@
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
+
 let ActionTypes = ChatConstants.ActionTypes;
+
 export function getDefaults() {
   return UserPreferencesStore.getPreferences();
 }
@@ -22,6 +24,13 @@ export function setDefaultTheme(defaultTheme){
   });
 }
 
+export function setDefaultServer(defaultServer){
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.DEFAULT_SERVER_CHANGED,
+    defaultServer
+  });
+}
+
 export function themeChanged(theme) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.THEME_CHANGED,
@@ -34,5 +43,3 @@ export function ToggleSearch() {
     type: ActionTypes.SEARCH_MODE
   });
 };
-
-
