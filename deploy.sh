@@ -48,6 +48,7 @@ git checkout $SOURCE_BRANCH
 npm install
 npm run build
 mv build ../build/
+cp index.html 404.html
 
 git checkout $TARGET_BRANCH
 rm -rf node_modules/
