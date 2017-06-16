@@ -11,7 +11,11 @@ export default {
     RECEIVE_RAW_MESSAGES: null,
     STORE_HISTORY_MESSAGE: null,
     THEME_CHANGED:null,
-    SEARCH_MODE: null
+    SEARCH_MODE: null,
+    DEFAULT_THEME_CHANGED: null,
+    SET_DEFAULT_THEME: null,
+    SET_DEFAULT_SERVER: null,
+    DEFAULT_SERVER_CHANGED: null
   })
 
 };

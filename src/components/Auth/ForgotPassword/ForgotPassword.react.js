@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -7,137 +7,268 @@ import FlatButton from 'material-ui/FlatButton';
 import './ForgotPassword.css';
 import $ from 'jquery';
 import PropTypes from 'prop-types'
+import SettingStore from '../../../stores/SettingStore';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 class ForgotPassword extends Component {
 
 	constructor(props) {
-	    super(props);
+		super(props);
 
-	    this.state = {
-	      value: '',
-	      isEmail: false,
-	      msg:'',
-	      success:false
-	    };
+		this.state = {
+			email: '',
+			msg: '',
+			success: false,
+			serverUrl: '',
+			checked:false,
+			serverFieldError: false,
+			emailError: true,
+			validEmail:true,
+			validForm:false
+		};
 
-	    this.handleChange = this.handleChange.bind(this);
-    	this.handleSubmit = this.handleSubmit.bind(this);
-    	this.handleClose = this.handleClose.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
+		this.emailErrorMessage = '';
+		this.customServerMessage = '';
 	}
 
-  	handleClose(){
-  		let state = this.state;
-  		if(state.success){
-  			this.props.history.push('/login');
-  		}
-  		else{
-  			this.setState({
-		      value: '',
-		      isEmail: false,
-		      msg:'',
-		      success:false
-		    });
-  		}
-  	};
+	handleCancel(){
+		this.props.history.push('/', { showLogin: false });
+		window.location.reload();
+	}
 
-	handleChange(event){
-	    let email = event.target.value.trim();
-	    let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-	    let state = this.state;
-	    state.value = email;
-	    state.isEmail = validEmail;
-	    this.setState(state);
+	handleClose() {
+		let state = this.state;
+		if (state.success) {
+			this.props.history.push('/', { showLogin: true });
+		}
+		else {
+			this.setState({
+				email: '',
+				msg: '',
+				success: false,
+				serverUrl: '',
+				checked:false,
+				serverFieldError: false,
+				emailError: true,
+				validEmail:false,
+				validForm: false,
+			});
+		}
+	};
+
+	handleChange(event) {
+		let email;
+        let serverUrl;
+        let state = this.state;
+		if (event.target.name === 'email') {
+			email = event.target.value.trim();
+			let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+			state.email = email;
+			state.validEmail = validEmail;
+			state.emailError = !(validEmail && email);
+		}
+		else if (event.target.value === 'customServer') {
+        	state.checked = true;
+        	state.serverFieldError = true;
+        }
+		else if (event.target.value === 'standardServer') {
+			state.checked = false;
+			state.serverFieldError = false;
+		}
+		else if (event.target.name === 'serverUrl'){
+        	serverUrl = event.target.value;
+        	let validServerUrl =
+/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
+        	.test(serverUrl);
+			state.serverUrl = serverUrl;
+			state.serverFieldError = !(serverUrl && validServerUrl);
+        }
+
+        if(state.emailError){
+        	if (!state.email) {
+				this.emailErrorMessage = 'This Field Is Required';
+			}
+			else if (!state.validEmail) {
+				this.emailErrorMessage = 'Invalid Email';
+			}
+        }
+		else{
+			this.emailErrorMessage = '';
+		}
+
+        if (state.serverFieldError) {
+        	this.customServerMessage
+        	= 'Enter a valid URL';
+        }
+        else{
+        	this.customServerMessage = '';
+        }
+
+        if (!state.emailError && !state.serverFieldError) {
+			state.validForm = true;
+		}
+		else {
+			state.validForm = false;
+		}
+        this.setState(state);
 	};
 
 	handleSubmit(event) {
-	    event.preventDefault();
-	    let email = this.state.value.trim();
-	    let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-	    if(email && validEmail){
-	    	$.ajax({
-			    url: 'http://api.susi.ai/aaa/recoverpassword.json?forgotemail='+email,
-			    dataType: 'jsonp',
-			    crossDomain: true,
-			    timeout: 3000,
-			    async: false,
-			    success: function (response) {
-			    	let msg = response.message;
-			    	let state = this.state;
-			    	state.msg = msg;
-			    	state.success = true;
-			    	this.setState(state);
-			    }.bind(this),
-			    error: function (errorThrown) {
-			    	let msg = 'Failed. Try Again';
-			    	let state = this.state;
-			    	state.msg = msg;
-			    	this.setState(state);
-			    }.bind(this)
-			  });
-	    }
-  	}
+		event.preventDefault();
+
+		let email = this.state.email.trim();
+		let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+
+		let defaults = UserPreferencesStore.getPreferences();
+		let BASE_URL = defaults.Server;
+
+		let serverUrl = this.state.serverUrl;
+		if(serverUrl.slice(-1) === '/'){
+            serverUrl = serverUrl.slice(0,-1);
+        }
+		if(serverUrl !== ''){
+			BASE_URL = serverUrl;
+		}
+		console.log(BASE_URL);
+		if (email && validEmail) {
+			$.ajax({
+				url: BASE_URL+'/aaa/recoverpassword.json?forgotemail=' + email,
+				dataType: 'jsonp',
+				crossDomain: true,
+				timeout: 3000,
+				async: false,
+				success: function (response) {
+					let msg = response.message;
+					let state = this.state;
+					state.msg = msg;
+					state.success = true;
+					this.setState(state);
+				}.bind(this),
+				error: function (errorThrown) {
+					let msg = 'Failed. Try Again';
+					let state = this.state;
+					state.msg = msg;
+					this.setState(state);
+				}.bind(this)
+			});
+		}
+	}
 
 	render() {
 
+		const serverURL = <TextField name="serverUrl"
+							onChange={this.handleChange}
+							errorText={this.customServerMessage}
+							floatingLabelText="Custom URL" />;
+		const hidden = this.state.checked ? serverURL : '';
+
+		const radioButtonStyles = {
+		  block: {
+		    maxWidth: 250,
+		  },
+		  radioButton: {
+		    marginBottom: 16,
+		  },
+		};
+
 		const styles = {
 			'margin': '60px auto',
-			'width': '500px',
-			'padding': '20px',
+			'padding': '10px',
 			'textAlign': 'center'
 		}
 		const actions =
-		      <FlatButton
-		        label="OK"
-		        primary={true}
-		        onTouchTap={this.handleClose}
-		      /> ;
+			<FlatButton
+				label="OK"
+				backgroundColor={
+					SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+				labelStyle={{ color: '#fff' }}
+				onTouchTap={this.handleClose}
+			/>;
 
-		let errorMsg = '';
-		if(!this.state.value){
-			errorMsg = 'This Field Is Required';
-		}
-		else if(!this.state.isEmail){
-			errorMsg = 'Invalid Email';
-		}
-		return(
-		<div className="forgotPwdForm">
-			<Paper zDepth={1} style={styles}>
-				<h1>Forgot Password?</h1>
-				<form onSubmit={this.handleSubmit}>
-					<div>
-						<TextField
-						name="email"
-						floatingLabelText="Email"
-						errorText={errorMsg}
-						value={this.state.value}
-          				onChange={this.handleChange}/>
-          			</div>
-					<div>
-						<RaisedButton
-						type="submit"
-						label="Reset"
-						primary={true}  />
-					</div>
-				</form>
-			</Paper>
-			{this.state.msg && (
-				<div><Dialog
-		          actions={actions}
-		          modal={false}
-		          open={true}
-		          onRequestClose={this.handleClose}
-		        >
-		        {this.state.msg}
-		        </Dialog></div>
+		return (
+			<div className="forgotPwdForm">
+				<Paper zDepth={1} style={styles}>
+					<h1>Forgot Password?</h1>
+					<form onSubmit={this.handleSubmit}>
+						<div>
+							<TextField
+								name="email"
+								floatingLabelText="Email"
+								errorText={this.emailErrorMessage}
+								value={this.state.email}
+								onChange={this.handleChange} />
+						</div>
+						<br/>
+						<div>
+							<div>
+							<RadioButtonGroup style={{display: 'flex',
+							  marginTop: '10px',
+							  maxWidth:'200px',
+							  flexWrap: 'wrap',
+							  margin: 'auto'}}
+							 name="server" onChange={this.handleChange}
+							 defaultSelected="standardServer">
+							<RadioButton
+							       value="customServer"
+							       label="Custom Server"
+							       labelPosition="left"
+							       style={radioButtonStyles.radioButton}
+							     />
+							<RadioButton
+							       value="standardServer"
+							       label="Standard Server"
+							       labelPosition="left"
+							       style={radioButtonStyles.radioButton}
+							     />
+							</RadioButtonGroup>
+							</div>
+						</div>
+						<div>
+						{hidden}
+						</div>
+						<div>
+							<RaisedButton
+								type="submit"
+								label="Reset"
+								backgroundColor={
+									SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+								labelColor="#fff"
+								disabled={!this.state.validForm} />
+						</div>
+					</form>
+					<br/>
+					<RaisedButton
+				      label="Cancel"
+				      backgroundColor={
+				        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+				      labelColor="#fff"
+				      keyboardFocused={true}
+				      onTouchTap={this.handleCancel}
+				    />
+				</Paper>
+				{this.state.msg && (
+					<div><Dialog
+						actions={actions}
+						modal={false}
+						open={true}
+						onRequestClose={this.handleClose}
+					>
+						{this.state.msg}
+					</Dialog></div>
 				)
-			}
-	    </div>
-	    );
+				}
+			</div>
+		);
 	};
 }
 
 ForgotPassword.propTypes = {
-  history: PropTypes.object
+	history: PropTypes.object
 };
 
 export default ForgotPassword;

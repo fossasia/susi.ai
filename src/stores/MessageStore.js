@@ -2,7 +2,7 @@ import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
 import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import { EventEmitter } from 'events';
-import ThreadStore from '../stores/ThreadStore';
+import ThreadStore from './ThreadStore';
 
 let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
@@ -16,6 +16,34 @@ function _markAllInThreadRead(threadID) {
       _messages[id].isRead = true;
     }
   }
+}
+
+function _addDates(allMsgs){
+  let msgsWithDates = [];
+  let currDate = null;
+  allMsgs.forEach((message)=>{
+    if(currDate === null){
+      let dateMsg = {
+          id: 'd_'+Date.parse(message.date),
+          threadID: 't_1',
+          date: message.date,
+          type: 'date',
+        };
+      msgsWithDates.push(dateMsg);
+    }
+    else if(currDate.getDate() !== message.date.getDate()){
+      let dateMsg = {
+          id: 'd_'+Date.parse(message.date),
+          threadID: 't_1',
+          date: message.date,
+          type: 'date',
+        };
+      msgsWithDates.push(dateMsg);
+    }
+    currDate = message.date;
+    msgsWithDates.push(message);
+  });
+  return msgsWithDates;
 }
 
 let MessageStore = {
@@ -62,7 +90,8 @@ let MessageStore = {
     threadMessages.sort((a, b) => {
       if (a.date < b.date) {
         return -1;
-      } else if (a.date > b.date) {
+      }
+      else if (a.date > b.date) {
         return 1;
       }
       return 0;
@@ -71,7 +100,7 @@ let MessageStore = {
   },
 
   getAllForCurrentThread() {
-    return this.getAllForThread(ThreadStore.getCurrentID());
+    return _addDates(this.getAllForThread(ThreadStore.getCurrentID()));
   }
 
 };

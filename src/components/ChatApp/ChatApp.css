@@ -15,7 +15,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin: 20px auto;
   overflow: hidden;
 }
-
+.app-bar{
+  background-image: url('../images/susi-white.svg');
+  margin: 0 auto;
+  background-size: 120px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .message-list {
   background: #f5f4f7;
   position: fixed;
@@ -151,6 +157,38 @@ header{
     padding: 0;
 }
 
+.container-date{
+    background: #999999;
+    color: #fff;
+    position: relative;
+    min-width: 80px;
+    max-width: 80%;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dark .container-date{
+    background: rgba(25, 147, 147, 0.2);
+    color: #0AD5C1;
+    position: relative;
+    min-width: 80px;
+    max-width: 80%;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .message-container.SUSI{
     margin-right: auto;
     margin-left: 12px;
@@ -267,6 +305,7 @@ textarea {
   box-shadow: none;
   width: 90%;
   resize: none;
+  font-size: 14px;
 }
 .leaflet-container {
   height: 150px;
@@ -288,7 +327,7 @@ textarea {
 }
 
 .map-marker-icon {
-  background: url('./images/map_marker_icon.png');
+  background: url('../images/map_marker_icon.png');
   background-size: contain;
   background-repeat: no-repeat;
   width: 25px;
@@ -312,6 +351,8 @@ textarea {
 .tile{
   width: 100%;
   height: 100px;
+  padding-left: 10px;
+  padding-right: 5px;
 }
 
 .tile-img{
@@ -328,15 +369,20 @@ textarea {
 
 .tile-text{
   position: relative;
-  padding: 0 2% 2% 2%;
+  padding: 2% 2% 0 2%;
   margin: 0 auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 200%;
 }
 
 .tile-title{
   color: #999999;
+  font-size: 120%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tile-img-container{
@@ -351,6 +397,14 @@ textarea {
   display:flex;
   align-items:center;
   justify-content:center;
+}
+
+.tile-anchor{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  float: right;
 }
 
 a {
@@ -377,4 +431,10 @@ a {
   height: 56px;
   padding: 0 10px;
   color:#fff;
+}
+.dialogStyle div{
+    margin: 0 auto;
+}
+em{
+  background-color: orange;
 }

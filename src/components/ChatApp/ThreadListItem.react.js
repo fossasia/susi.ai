@@ -1,7 +1,7 @@
 
-import * as Actions from '../actions';
+import * as Actions from '../../actions/';
 import React,{Component} from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class ThreadListItem extends Component {
