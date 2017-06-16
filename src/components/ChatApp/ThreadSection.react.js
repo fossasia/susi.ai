@@ -1,8 +1,8 @@
 
 import React,{Component} from 'react';
-import ThreadListItem from '../components/ThreadListItem.react';
-import ThreadStore from '../stores/ThreadStore';
-import UnreadThreadStore from '../stores/UnreadThreadStore';
+import ThreadListItem from './ThreadListItem.react';
+import ThreadStore from '../../stores/ThreadStore';
+import UnreadThreadStore from '../../stores/UnreadThreadStore';
 
 function getStateFromStores() {
   return {

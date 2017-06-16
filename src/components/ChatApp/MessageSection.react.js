@@ -1,23 +1,25 @@
 import MessageComposer from './MessageComposer.react';
 import MessageListItem from './MessageListItem.react';
 import SearchSection from './SearchSection.react';
-import MessageStore from '../stores/MessageStore';
+import Settings from './Settings.react';
+import MessageStore from '../../stores/MessageStore';
 import React, { Component } from 'react';
-import ThreadStore from '../stores/ThreadStore';
-import * as Actions from '../actions';
-import SettingStore from '../stores/SettingStore';
+import ThreadStore from '../../stores/ThreadStore';
+import * as Actions from '../../actions/';
+import SettingStore from '../../stores/SettingStore';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
+import ArrowDropLeft from 'material-ui/svg-icons/navigation/arrow-back';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import loadingGIF from './images/loading.gif';
+import loadingGIF from '../images/loading.gif';
 import Cookies from 'universal-cookie';
-import Login from './Auth/Login/Login.react';
+import Login from '../Auth/Login/Login.react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -29,7 +31,9 @@ function getStateFromStores() {
     thread: ThreadStore.getCurrent(),
     darkTheme: SettingStore.getTheme(),
     search: SettingStore.getSearchMode(),
-    showLoading: MessageStore.getLoadStatus()
+    showLoading: MessageStore.getLoadStatus(),
+    open: false,
+    showSettings: false
   };
 }
 
@@ -43,14 +47,14 @@ function getMessageListItem(message) {
 }
 
 
-function getLoadingGIF(){
+function getLoadingGIF() {
   let messageContainerClasses = 'message-container SUSI';
   const LoadingComponent = (
     <li className='message-list-item'>
       <section className={messageContainerClasses}>
         <img src={loadingGIF}
-          style={{height:'10px',width:'auto'}}
-          alt='please wait..'/>
+          style={{ height: '10px', width: 'auto' }}
+          alt='please wait..' />
       </section>
     </li>
   );
@@ -60,17 +64,18 @@ function getLoadingGIF(){
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
+
 let Logged = (props) => (
-    <IconMenu
-      {...props}
-      iconButtonElement={
-        <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-      }
-      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-    >
-    </IconMenu>
-    )
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+  >
+  </IconMenu>
+)
 class MessageSection extends Component {
 
   static propTypes = {
@@ -89,51 +94,90 @@ class MessageSection extends Component {
     super(props);
     this.state = getStateFromStores();
   }
+
   handleOpen = () => {
-      this.setState({open: true});
+    this.setState({ open: true });
   };
+
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({
+      open: false,
+      showSettings: false
+    });
   };
+
+  handleSettings = () => {
+    this.setState({showSettings: true});
+  }
+
   componentDidMount() {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange.bind(this));
     ThreadStore.addChangeListener(this._onChange.bind(this));
     SettingStore.addChangeListener(this._onChange.bind(this));
     // Check Logged in
-    if(cookies.get('loggedIn')){
+    if (cookies.get('loggedIn')) {
+      Logged = (props) => (
+        <IconMenu
+          {...props}
+          iconButtonElement={
+            <IconButton iconStyle={{ fill: 'white' }}>
+              <MoreVertIcon /></IconButton>
+          }
+          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        >
+          <MenuItem primaryText="Settings"
+            onClick={this.handleSettings} />
+          <MenuItem primaryText="Chat Anonymously"
+            containerElement={<Link to="/logout" />} />
+          <MenuItem primaryText="Logout"
+            containerElement={<Link to="/logout" />} />
+            <MenuItem
+              primaryText="Change Theme"
+              leftIcon={<ArrowDropLeft />}
+              menuItems={[
+                <MenuItem
+                  key="light"
+                  primaryText="Light Theme"
+                  onClick={() => { changeLight() }} />,
+                <MenuItem
+                  key="dark"
+                  primaryText="Dark Theme"
+                  onClick={() => {changeDark() }} />
+                ]}
+              />
+        </IconMenu>)
+      return <Logged />
+    }
+    // If Not Logged In
     Logged = (props) => (
-    <IconMenu
-      {...props}
-      iconButtonElement={
-        <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-      }
-      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-    >
-            <MenuItem primaryText="Chat Anonymously"
-            containerElement={<Link to="/logout" />} />
-            <MenuItem primaryText="Logout"
-            containerElement={<Link to="/logout" />} />
-            <MenuItem primaryText="Change Theme"
-            onClick={() => { change() }} />
-            </IconMenu>)
-    return <Logged />
-  }
-  // If Not Logged In
-  Logged = (props) => (
-    <IconMenu
-      {...props}
-      iconButtonElement={
-        <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-      }
-      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-    >
+      <IconMenu
+        {...props}
+        iconButtonElement={
+          <IconButton iconStyle={{ fill: 'white' }}>
+            <MoreVertIcon /></IconButton>
+        }
+        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+      >
         <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
         <MenuItem primaryText="Sign Up"
-        containerElement={<Link to="/signup" />} />
-        <MenuItem primaryText="Change Theme" onClick={() => { change() }} />
+          containerElement={<Link to="/signup" />} />
+        <MenuItem
+          primaryText="Change Theme"
+          leftIcon={<ArrowDropLeft />}
+          menuItems={[
+            <MenuItem
+              key="light"
+              primaryText="Light Theme"
+              onClick={() => { changeLight() }} />,
+            <MenuItem
+              key="dark"
+              primaryText="Dark Theme"
+              onClick={() => {changeDark() }} />
+            ]}
+          />
       </IconMenu>)
 
     return <Logged />
@@ -145,11 +189,29 @@ class MessageSection extends Component {
     SettingStore.removeChangeListener(this._onChange.bind(this));
   }
 
-  themeChanger(event) {
-    Actions.themeChanged(!this.state.darkTheme);
+  themeChangerLight(event) {
+    if(!this.state.darkTheme){
+      Actions.themeChanged(!this.state.darkTheme);
+    }
+  }
+
+  themeChangerDark(event) {
+    if(this.state.darkTheme){
+      Actions.themeChanged(!this.state.darkTheme);
+    }
   }
 
   componentWillMount() {
+
+    if (this.props.location) {
+      if (this.props.location.state) {
+        if (this.props.location.state.hasOwnProperty('showLogin')) {
+          let showLogin = this.props.location.state.showLogin;
+          this.setState({ open: showLogin });
+        }
+      }
+    }
+
     SettingStore.on('change', () => {
       this.setState({
         darkTheme: SettingStore.getTheme()
@@ -162,8 +224,12 @@ class MessageSection extends Component {
       }
     })
   }
+
   render() {
 
+    const bodyStyle = {
+      'padding': 0
+    }
     const {
       dream
     } = this.props;
@@ -178,10 +244,13 @@ class MessageSection extends Component {
 
     }
     const actions = <RaisedButton
-            label="Cancel"
-            primary={true}
-            keyboardFocused={true}
-            onTouchTap={this.handleClose}
+      label="Cancel"
+      backgroundColor={
+        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={true}
+      onTouchTap={this.handleClose}
     />;
 
     let messageListItems = this.state.messages.map(getMessageListItem);
@@ -189,7 +258,7 @@ class MessageSection extends Component {
       if (!this.state.search) {
         const rightButtons = (
           <div>
-            <IconButton tooltip="Search" iconStyle={{fill: 'white'}}
+            <IconButton tooltip="Search" iconStyle={{ fill: 'white' }}
               onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
@@ -199,10 +268,9 @@ class MessageSection extends Component {
           <div className={topBackground}>
             <header className='message-thread-heading' >
               <AppBar
-                title={this.state.thread.name}
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
-                style={{ background: backgroundCol }}
+                style={{ backgroundColor: backgroundCol }}
                 className="app-bar"
               />
             </header>
@@ -224,12 +292,26 @@ class MessageSection extends Component {
               </div>
             </div>
             <Dialog
-            actions={actions}
-            modal={false}
-            open={this.state.open}
-            autoScrollBodyContent={true}
-            onRequestClose={this.handleClose}>
-                      <div><Login /></div>
+            className='dialogStyle'
+              actions={actions}
+              modal={false}
+              open={this.state.open}
+              autoScrollBodyContent={true}
+              bodyStyle={bodyStyle}
+              contentStyle={{width: '35%',minWidth: '300px'}}
+              onRequestClose={this.handleClose}>
+              <Login {...this.props} />
+            </Dialog>
+            <Dialog
+              actions={actions}
+              modal={false}
+              open={this.state.showSettings}
+              autoScrollBodyContent={true}
+              bodyStyle={bodyStyle}
+              onRequestClose={this.handleClose}>
+              <div>
+                <Settings {...this.props} />
+              </div>
             </Dialog>
           </div>
         );
@@ -275,12 +357,20 @@ class MessageSection extends Component {
   }
 
 };
-function change() {
+function changeLight() {
   let messageSection = new MessageSection();
-  messageSection.themeChanger();
+  messageSection.themeChangerLight();
+}
+function changeDark() {
+  let messageSection = new MessageSection();
+  messageSection.themeChangerDark();
 }
 
 
 Logged.muiName = 'IconMenu';
+
+MessageSection.propTypes = {
+  location: PropTypes.object,
+};
 
 export default addUrlProps({ urlPropsQueryConfig })(MessageSection);

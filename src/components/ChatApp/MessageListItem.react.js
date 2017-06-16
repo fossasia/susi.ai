@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import Linkify from 'react-linkify';
 import Emojify from 'react-emojione';
@@ -14,8 +14,8 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
-import ReactSwipe from 'react-swipe';
-import Highlighter from 'react-highlight-words';
+import {Carousel} from 'react-responsive-carousel';
+import TextHighlight from 'react-text-highlight';
 
 export function parseAndReplace(text) {
   return <Linkify properties={{target: '_blank'}}>
@@ -65,7 +65,8 @@ function drawTiles(tilesData){
                 </p>
                 {tile.description}<br/>
                 <a href={tile.link} target='_blank'
-                  rel='noopener noreferrer'>Know more</a>
+                  rel='noopener noreferrer'
+                  className='tile-anchor'>Know more</a>
               </div>
             </Paper>
           </MuiThemeProvider>
@@ -82,11 +83,17 @@ function renderTiles(tiles){
     return(<center>{noResultFound}</center>);
   }
   let resultTiles = drawTiles(tiles);
-  return(<ReactSwipe className='carousel'
-    key={resultTiles.length}
-    swipeOptions={{continuous: false}}>
-    {resultTiles}
-  </ReactSwipe>);
+  return(
+    <Carousel
+    showThumbs={false}
+    infiniteLoop={true}
+    emulateTouch={true}
+    showStatus={false}
+    transitionTime={200}
+    axis={'horizontal'}>
+      {resultTiles}
+    </Carousel>
+  );
 }
 
 function getRSSTiles(rssKeys,rssData,count){
@@ -132,7 +139,9 @@ function drawTable(coloumns,tableData,count){
       return(
         <TableRowColumn key={i}>
           <Linkify properties={{target:'_blank'}}>
-            {eachrow[key]}
+            <abbr title={eachrow[key]}>
+              {eachrow[key]}
+            </abbr>
           </Linkify>
         </TableRowColumn>
       );
@@ -190,12 +199,26 @@ class MessageListItem extends React.Component {
 
   render() {
     let {message} = this.props;
+
+    if(this.props.message.type === 'date'){
+      return(
+        <li className='message-list-item'>
+          <section  className='container-date'>
+          <div className='message-text'>
+            {message.date.toLocaleDateString()}
+          </div>
+          </section>
+        </li>
+      );
+    }
+
     let stringWithLinks = this.props.message.text;
     let replacedText = '';
     let markMsgID = this.props.markID;
     if(this.props.message.hasOwnProperty('mark')
        && markMsgID) {
-      let matchString = this.props.message.mark;
+      let matchString = this.props.message.mark.matchText;
+      let isCaseSensitive = this.props.message.mark.isCaseSensitive;
       if(stringWithLinks){
         let imgText = imageParse(stringWithLinks);
         let markedText = [];
@@ -205,18 +228,24 @@ class MessageListItem extends React.Component {
           if(typeof(part) === 'string'){
             if(this.props.message.id === markMsgID){
               markedText.push(
-              <Highlighter key={key}
-                searchWords={matchStringarr}
-                textToHighlight={part}
-                highlightStyle={{backgroundColor:'orange'}}
-              />  );
+              <TextHighlight
+                key={key}
+                highlight={matchString}
+                text={part}
+                markTag='em'
+                caseSensitive={isCaseSensitive}
+              />
+              );
             }
             else{
              markedText.push(
-              <Highlighter key={key}
-                searchWords={matchStringarr}
-                textToHighlight={part}
-              />  );
+              <TextHighlight
+                key={key}
+                highlight={matchString}
+                text={part}
+                caseSensitive={isCaseSensitive}
+              />
+              );
             }
           }
           else{

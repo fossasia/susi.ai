@@ -2,26 +2,36 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import './SignUp.css';
+import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import SettingStore from '../../../stores/SettingStore';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import Login from '../Login/Login.react';
 
 export default class SignUp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            value: '',
+            email: '',
             isEmail: false,
             emailError: true,
             passwordError: true,
             passwordConfirmError: true,
             passwordValue: '',
+            confirmPasswordValue: '',
             msg: '',
-            success: false
+            success: false,
+            open: false,
+            validForm: false,
+            serverUrl: '',
+            checked:false,
+            serverFieldError: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,25 +40,37 @@ export default class SignUp extends Component {
         this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
         this.passwordConfirmErrorMessage = '';
+        this.customServerMessage = '';
+
+        if (document.cookie.split('=')[0] === 'loggedIn') {
+            this.props.history.push('/');
+            window.location.reload();
+
+        }
     }
 
     handleClose() {
         let state = this.state;
+
         if (state.success) {
-            this.props.history.push('/login');
+            this.props.history.push('/', { showLogin: true });
         }
         else {
             this.setState({
-
-                value: '',
+                email: '',
                 isEmail: false,
                 emailError: true,
                 passwordError: true,
                 passwordConfirmError: true,
                 passwordValue: '',
+                confirmPasswordValue: '',
                 msg: '',
-                success: false
-
+                success: false,
+                validForm: false,
+                serverUrl: '',
+                checked:false,
+                serverFieldError: false,
+                open: false
             });
         }
     };
@@ -57,12 +79,13 @@ export default class SignUp extends Component {
         let email;
         let password;
         let confirmPassword;
+        let serverUrl;
         let state = this.state
         if (event.target.name === 'email') {
             email = event.target.value.trim();
             let validEmail =
                 /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-            state.value = email;
+            state.email = email;
             state.isEmail = validEmail;
             state.emailError = !(email && validEmail)
         }
@@ -76,18 +99,44 @@ export default class SignUp extends Component {
             password = this.state.passwordValue;
             confirmPassword = event.target.value;
             let validPassword = confirmPassword === password;
-
+            state.confirmPasswordValue = confirmPassword;
             state.passwordConfirmError = !(validPassword && confirmPassword);
+        }
+        else if (event.target.value === 'customServer') {
+            state.checked = true;
+            state.serverFieldError = true;
+        }
+        else if (event.target.value === 'standardServer') {
+            state.checked = false;
+            state.serverFieldError = false;
+        }
+        else if (event.target.name === 'serverUrl'){
+            serverUrl = event.target.value;
+            let validServerUrl =
+/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
+            .test(serverUrl);
+            state.serverUrl = serverUrl;
+            state.serverFieldError = !(serverUrl && validServerUrl);
+        }
+
+        if (!this.state.emailError
+            && !this.state.passwordError
+            && !this.state.passwordConfirmError) {
+            state.validForm = true;
+        }
+        else {
+            state.validForm = false;
         }
 
         this.setState(state);
+
         if (this.state.emailError) {
             this.emailErrorMessage = 'Enter a valid Email Address';
         }
         else if (this.state.passwordError) {
             this.emailErrorMessage = '';
             this.passwordErrorMessage
-                = 'Password should contains minimum 6 characters';
+                = 'Minimum 6 characters required';
             this.passwordConfirmErrorMessage = '';
 
         }
@@ -101,13 +150,47 @@ export default class SignUp extends Component {
             this.passwordErrorMessage = '';
             this.passwordConfirmErrorMessage = '';
         }
+
+        if (this.state.serverFieldError) {
+            this.customServerMessage = 'Enter a valid URL';
+        }
+        else{
+            this.customServerMessage = '';
+        }
+
+        if(this.state.emailError||
+        this.state.passwordError||
+        this.state.passwordConfirmError||
+        this.state.serverFieldError){
+            this.setState({validForm: false});
+        }
+        else{
+            this.setState({validForm: true});
+        }
     };
 
     handleSubmit(event) {
         event.preventDefault();
-        if (!this.state.emailError && !this.state.passwordConfirmError) {
+
+        let defaults = UserPreferencesStore.getPreferences();
+        let BASE_URL = defaults.Server;
+
+        let serverUrl = this.state.serverUrl;
+        if(serverUrl.slice(-1) === '/'){
+            serverUrl = serverUrl.slice(0,-1);
+        }
+        if(serverUrl !== ''){
+            BASE_URL = serverUrl;
+        }
+        console.log(BASE_URL);
+        let signupEndPoint =
+            BASE_URL+'/aaa/signup.json?signup=' + this.state.email +
+            '&password=' + this.state.passwordValue;
+        console.log(signupEndPoint);
+        if (!this.state.emailError && !this.state.passwordConfirmError
+            && !this.state.serverFieldError) {
             $.ajax({
-                url: 'http://api.susi.ai/aaa/signup.json?signup=' + this.state.value + '&password=' + this.state.passwordValue,
+                url: signupEndPoint,
                 dataType: 'jsonp',
                 crossDomain: true,
                 timeout: 3000,
@@ -124,6 +207,7 @@ export default class SignUp extends Component {
                     let msg = 'Failed. Try Again';
                     let state = this.state;
                     state.msg = msg;
+                    state.success = false;
                     this.setState(state);
 
                 }.bind(this)
@@ -131,17 +215,47 @@ export default class SignUp extends Component {
         }
 
     }
+
+    handleOpen = () => {
+        this.setState({ open: true });
+    };
+
     render() {
+
+        const serverURL = <TextField name="serverUrl"
+                            onChange={this.handleChange}
+                            value={this.state.serverUrl}
+                            errorText={this.customServerMessage}
+                            floatingLabelText="Custom URL" />;
+
+        const hidden = this.state.checked ? serverURL : '';
+
+        const radioButtonStyles = {
+          block: {
+            maxWidth: 250,
+          },
+          radioButton: {
+            marginBottom: 16,
+          },
+        };
+
         const styles = {
             'margin': '60px auto',
-            'width': '500px',
+            'width': '100%',
             'padding': '20px',
             'textAlign': 'center'
         }
+
+        const fieldStyle = {
+            'width': '256px'
+        }
+
         const actions =
             <FlatButton
                 label="OK"
-                primary={true}
+                backgroundColor={
+                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                labelStyle={{ color: '#fff' }}
                 onTouchTap={this.handleClose}
             />;
 
@@ -153,41 +267,75 @@ export default class SignUp extends Component {
                         <div>
                             <TextField
                                 name="email"
-                                type="email"
+                                value={this.state.email}
                                 onChange={this.handleChange}
                                 errorText={this.emailErrorMessage}
-                                hintText="Email" />
+                                floatingLabelText="Email" />
                         </div>
                         <div>
-                            <TextField
+                            <PasswordField
                                 name="password"
-                                type="password"
+                                style={fieldStyle}
+                                value={this.state.passwordValue}
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
-                                hintText="Password" />
+                                floatingLabelText="Password" />
                         </div>
                         <div>
-                            <TextField
+                            <PasswordField
                                 name="confirmPassword"
-                                type="password"
+                                style={fieldStyle}
+                                value={this.state.confirmPasswordValue}
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
-                                hintText="Confirm Password" />
+                                floatingLabelText="Confirm Password" />
+                        </div>
+                        <div>
+                            <div>
+                            <RadioButtonGroup style={{display: 'flex',
+                              marginTop: '10px',
+                              maxWidth:'200px',
+                              flexWrap: 'wrap',
+                              margin: 'auto'}}
+                             name="server" onChange={this.handleChange}
+                             defaultSelected="standardServer">
+                            <RadioButton
+                                   value="customServer"
+                                   label="Custom Server"
+                                   labelPosition="left"
+                                   style={radioButtonStyles.radioButton}
+                                 />
+                            <RadioButton
+                                   value="standardServer"
+                                   label="Standard Server"
+                                   labelPosition="left"
+                                   style={radioButtonStyles.radioButton}
+                                 />
+                            </RadioButtonGroup>
+                            </div>
+                        </div>
+                        <div>
+                        {hidden}
                         </div>
                         <div>
                             <RaisedButton
                                 label="Sign Up"
                                 type="submit"
-                                primary={true} />
+                                disabled={!this.state.validForm}
+                                backgroundColor={
+                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                labelColor="#fff" />
                         </div>
                         <h1>OR</h1>
                         <div>
                             <h4>If you have an Account Please Login</h4>
-                            <Link to={'/login'} >
-                                <RaisedButton
-                                    label='Login'
-                                    primary={true} />
-                            </Link>
+                            <RaisedButton
+                                onTouchTap={this.handleOpen}
+                                label='Login'
+
+                                backgroundColor={
+                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                labelColor="#fff" />
                         </div>
                     </form>
                 </Paper>
@@ -200,12 +348,22 @@ export default class SignUp extends Component {
                     >
                         {this.state.msg}
                     </Dialog></div>
-                )
-                }
+                )}
+                <Dialog
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    autoScrollBodyContent={true}
+                    onRequestClose={this.handleClose}
+                    contentStyle={{ width: '35%', minWidth: '300px' }}
+                >
+                    <div><Login {...this.props} /></div>
+                </Dialog>
             </div>
         );
     };
 }
+
 SignUp.propTypes = {
     history: PropTypes.object
 }

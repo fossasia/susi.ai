@@ -1,20 +1,20 @@
 
-import * as Actions from '../actions';
-import * as ChatExampleDataServer from '../ChatExampleDataServer';
+import * as Actions from '../actions/';
+import * as ChatDataServer from '../ChatDataServer';
 
 /*
   The createMessage function receives the client's message and calls for
   a SUSI Message creation using Actions.createSUSIMessage()
 */
 export function createMessage(message) {
-  ChatExampleDataServer.postMessage(message, createdMessage => {
+  ChatDataServer.postMessage(message, createdMessage => {
     Actions.receiveCreatedMessage(createdMessage, message.id);
     Actions.createSUSIMessage(createdMessage, message.threadID);
   });
 };
 
 export function getAllMessages() {
-  ChatExampleDataServer.getMessages(messages => {
+  ChatDataServer.getMessages(messages => {
     Actions.receiveAll(messages);
   });
 };
@@ -25,4 +25,12 @@ export function getHistory(){
 
 export function getLocation(){
   Actions.getLocation();
+}
+
+export function getDefaults(){
+  Actions.getDefaults();
+}
+
+export function setPreferences(){
+  Actions.setDefaults();
 }
