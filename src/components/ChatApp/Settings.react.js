@@ -8,18 +8,23 @@ import * as Actions from '../../actions/';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 class Settings extends Component {
 
 	constructor(props) {
 		super(props);
+		let defaults = UserPreferencesStore.getPreferences();
+		let defaultServer = defaults.Server;
+		let defaultTheme = defaults.Theme;
+		console.log(defaultTheme);
 		this.state = {
-			theme: 'light',
-			server: 'http://api.susi.ai',
+			theme: defaultTheme,
+			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
             checked: false,
-			validForm: false
+			validForm: true
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -31,12 +36,19 @@ class Settings extends Component {
 		e.preventDefault();
 		let newDefaultTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
+		if(newDefaultServer.slice(-1)==='/'){
+			newDefaultServer = newDefaultServer.slice(0,-1);
+		}
+		console.log(newDefaultServer);
 		Actions.setDefaultTheme(newDefaultTheme);
 		Actions.setDefaultServer(newDefaultServer);
 		this.props.history.push('/');
 		window.location.reload();
 	}
-	 handleSelectChange = (event, index, value) => this.setState({theme:value});
+
+	handleSelectChange(event, index, value){
+		this.setState({theme:value});
+	}
 
 	handleChange(event) {
         let state = this.state;
@@ -48,19 +60,20 @@ class Settings extends Component {
 		else if (event.target.value === 'standardServer') {
 			state.checked = false;
 			state.serverFieldError = false;
+			let defaults = UserPreferencesStore.getPreferences();
+			let standardServerURL = defaults.StandardServer;
+			state.server = standardServerURL;
 		}
 		else if (event.target.name === 'serverUrl'){
-			console.log(event.target.value);
         	serverUrl = event.target.value;
         	let validServerUrl =
 /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
         	.test(serverUrl);
 			state.server = serverUrl;
-			console.log(state)
 			state.serverFieldError = !(serverUrl && validServerUrl);
         }
 
-        if (this.state.serverFieldError) {
+        if (state.serverFieldError) {
         	this.customServerMessage
         	= 'Enter a valid URL';
         }
@@ -68,14 +81,13 @@ class Settings extends Component {
         	this.customServerMessage = '';
         }
 
-    	if (!state.serverFieldError)
+    	if (!state.serverFieldError || !state.checked)
     	{
     		state.validForm = true;
     	}
         else {
         	state.validForm = false;
         }
-        console.log(state);
 		this.setState(state);
 	};
 
@@ -85,6 +97,7 @@ class Settings extends Component {
 			'textAlign': 'center',
 			'padding': '10px'
 		}
+
 		const radioButtonStyles = {
 		  block: {
 		    maxWidth: 250,
