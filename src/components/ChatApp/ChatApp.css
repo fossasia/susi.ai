@@ -1,3 +1,6 @@
+body {
+  background: #fff;
+}
 .dark-body{
   background-repeat: no-repeat;
 background: #183850;
@@ -22,6 +25,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   background-repeat: no-repeat;
   background-position: center;
 }
+.circleChoose{
+  margin: 0 auto;
+  position: relative;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
 .message-list {
   background: #f5f4f7;
   position: fixed;
@@ -42,7 +53,7 @@ background: rgba(30, 87, 153, 0.02);
 
 }
 .message-section {
-  background: #eef1f6;
+  background: #f5f4f7;
   position: fixed;
   top: 56px;
   left: 0;
@@ -252,7 +263,7 @@ header{
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    background: #fff;
+    background: var(--compose);
     box-shadow: 0 -1px 4px 0 rgba(0,0,0,.12);
     z-index: 2;
     transform: translateY(0);
@@ -305,7 +316,11 @@ textarea {
   box-shadow: none;
   width: 90%;
   resize: none;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-top: 4px;
   font-size: 14px;
+  background: #fff;
 }
 .leaflet-container {
   height: 150px;
