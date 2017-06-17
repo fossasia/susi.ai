@@ -32,7 +32,6 @@ export function getHistory() {
   else{
     url = BASE_URL+'/susi/memory.json?access_token='+cookies.get('loggedIn');
   }
-  console.log(url);
   $.ajax({
     url: url,
     dataType: 'jsonp',
