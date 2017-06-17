@@ -22,6 +22,7 @@ import Cookies from 'universal-cookie';
 import Login from '../Auth/Login/Login.react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import { CirclePicker } from 'react-color';
 
 const cookies = new Cookies();
 
@@ -33,7 +34,13 @@ function getStateFromStores() {
     search: SettingStore.getSearchMode(),
     showLoading: MessageStore.getLoadStatus(),
     open: false,
-    showSettings: false
+    showSettings: false,
+    showThemeChanger: false,
+    header: '#607d8b',
+    pane: '',
+    textarea: '',
+    composer:'',
+    body:''
   };
 }
 
@@ -76,6 +83,8 @@ let Logged = (props) => (
   >
   </IconMenu>
 )
+
+
 class MessageSection extends Component {
 
   static propTypes = {
@@ -89,11 +98,38 @@ class MessageSection extends Component {
   state = {
     open: false
   };
-
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
   }
+
+  handleColorChange = (name,color) => {
+    // Current Changes
+  }
+
+  handleChangeComplete = (name, color) => {
+     // Send these Settings to Server
+     let state = this.state;
+     if(name === 'header'){
+       state.header = color.hex;
+     }
+     else if(name === 'body'){
+       state.body= color.hex;
+       document.body.style.setProperty('background', color.hex);
+     }
+     else if(name ===  'pane') {
+       state.pane = color.hex;
+     }
+     else if(name === 'composer'){
+       state.composer = color.hex;
+
+     }
+     else if(name === 'textarea') {
+       state.textarea = color.hex;
+
+     }
+     this.setState(state);
+  };
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -102,9 +138,14 @@ class MessageSection extends Component {
   handleClose = () => {
     this.setState({
       open: false,
-      showSettings: false
+      showSettings: false,
+      showThemeChanger: false
     });
   };
+
+  handleThemeChanger = () => {
+    this.setState({showThemeChanger: true})
+  }
 
   handleSettings = () => {
     this.setState({showSettings: true});
@@ -144,7 +185,10 @@ class MessageSection extends Component {
                 <MenuItem
                   key="dark"
                   primaryText="Dark Theme"
-                  onClick={() => {changeDark() }} />
+                  onClick={() => {changeDark() }} />,
+                 <MenuItem primaryText="Custom Theme"
+                 key="custom"
+                  onClick={this.handleThemeChanger} />
                 ]}
               />
         </IconMenu>)
@@ -175,7 +219,10 @@ class MessageSection extends Component {
             <MenuItem
               key="dark"
               primaryText="Dark Theme"
-              onClick={() => {changeDark() }} />
+              onClick={() => {changeDark() }} />,
+            <MenuItem primaryText="Custom Theme"
+            key="custom"
+              onClick={this.handleThemeChanger} />
             ]}
           />
       </IconMenu>)
@@ -228,16 +275,17 @@ class MessageSection extends Component {
   render() {
 
     const bodyStyle = {
-      'padding': 0
+      'padding': 0,
+      textAlign: 'center'
     }
     const {
       dream
     } = this.props;
-
-    let topBackground = this.state.darkTheme ? '' : 'dark';
     var backgroundCol;
+    let topBackground = this.state.darkTheme ? '' : 'dark';
+
     if (topBackground === 'dark') {
-      backgroundCol = '#19324c';
+      backgroundCol =  '#19324c';
     }
     else {
       backgroundCol = '#607d8b';
@@ -252,6 +300,27 @@ class MessageSection extends Component {
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
+    const componentsList = [
+      {'id':1, 'component':'header', 'name': 'Header'},
+      {'id':2, 'component': 'pane', 'name': 'Message Pane'},
+      {'id':3, 'component':'body', 'name': 'Body'},
+      {'id':4, 'component':'composer', 'name': 'Composer'},
+      {'id':5, 'component':'textarea', 'name': 'Textarea'}
+    ];
+
+    const components = componentsList.map((component) => {
+        return <div key={component.id} className='circleChoose'>
+                  <h4>Change color of {component.name}:</h4>
+                  <CirclePicker  color={component}
+        onChangeComplete={ this.handleChangeComplete.bind(this,component.component) }
+        onChange={this.handleColorChange.bind(this,component.id)}>
+        </CirclePicker></div>
+    })
+
+    backgroundCol = this.state.header;
+    var body = this.state.body;
+    var pane = this.state.pane;
+    var composer = this.state.composer;
 
     let messageListItems = this.state.messages.map(getMessageListItem);
     if (this.state.thread) {
@@ -265,13 +334,14 @@ class MessageSection extends Component {
             <Logged />
           </div>);
         return (
-          <div className={topBackground}>
-            <header className='message-thread-heading' >
+          <div className={topBackground} style={{background:body}}>
+            <header className='message-thread-heading'
+            style={{ backgroundColor: backgroundCol }}>
               <AppBar
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
-                style={{ backgroundColor: backgroundCol }}
                 className="app-bar"
+                style={{ backgroundColor: backgroundCol }}
               />
             </header>
 
@@ -279,15 +349,17 @@ class MessageSection extends Component {
               <div className='message-section'>
                 <ul
                   className='message-list'
-                  ref={(c) => { this.messageList = c; }}>
+                  ref={(c) => { this.messageList = c; }}
+                  style={{background:pane}}>
                   {messageListItems}
                   {this.state.showLoading && getLoadingGIF()}
                 </ul>
-                <div className='compose'>
+                <div className='compose' style={{background:composer}}>
                   <MessageComposer
                     threadID={this.state.thread.id}
                     theme={this.state.darkTheme}
-                    dream={dream} />
+                    dream={dream}
+                    textarea={this.state.textarea} />
                 </div>
               </div>
             </div>
@@ -311,6 +383,17 @@ class MessageSection extends Component {
               onRequestClose={this.handleClose}>
               <div>
                 <Settings {...this.props} />
+              </div>
+            </Dialog>
+            <Dialog
+              actions={actions}
+              modal={false}
+              open={this.state.showThemeChanger}
+              autoScrollBodyContent={true}
+              bodyStyle={bodyStyle}
+              onRequestClose={this.handleClose}>
+              <div>
+                {components}
               </div>
             </Dialog>
           </div>
