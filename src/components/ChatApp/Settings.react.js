@@ -17,7 +17,6 @@ class Settings extends Component {
 		let defaults = UserPreferencesStore.getPreferences();
 		let defaultServer = defaults.Server;
 		let defaultTheme = defaults.Theme;
-		console.log(defaultTheme);
 		this.state = {
 			theme: defaultTheme,
 			server: defaultServer,
@@ -127,7 +126,7 @@ class Settings extends Component {
 			          <MenuItem value={'light'} primaryText="Light" />
 			          <MenuItem value={'dark'} primaryText="Dark" />
 			        </DropDownMenu>
-					</div>
+			        </div>
 					<div>
 					<h4>Default Server:</h4>
 					<RadioButtonGroup style={{display: 'flex',

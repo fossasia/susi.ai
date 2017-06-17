@@ -31,7 +31,7 @@ class MessageComposer extends Component {
   }
   render() {
     return (
-      <div className="message-composer">
+      <div className="message-composer" >
         <textarea
           name="message"
           value={this.state.text}
@@ -39,6 +39,7 @@ class MessageComposer extends Component {
           onKeyDown={this._onKeyDown.bind(this)}
           ref={(textarea)=> { this.nameInput = textarea; }}
           placeholder="Type a message..."
+          style={{background:this.props.textarea}}
         />
         <FloatingActionButton
           backgroundColor={SettingStore.getTheme()?'#607D8B':'#19314B'}
@@ -78,7 +79,8 @@ class MessageComposer extends Component {
 
 MessageComposer.propTypes = {
   threadID: PropTypes.string.isRequired,
-  dream: PropTypes.string
+  dream: PropTypes.string,
+  textarea: PropTypes.string
 };
 
 export default MessageComposer;
