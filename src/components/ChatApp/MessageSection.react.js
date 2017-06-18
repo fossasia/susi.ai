@@ -23,7 +23,7 @@ import Login from '../Auth/Login/Login.react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
-
+import HardwareComponent from './HardwareComponent';
 const cookies = new Cookies();
 
 function getStateFromStores() {
@@ -36,6 +36,7 @@ function getStateFromStores() {
     open: false,
     showSettings: false,
     showThemeChanger: false,
+    showHardware: false,
     header: '#607d8b',
     pane: '',
     textarea: '',
@@ -140,7 +141,8 @@ class MessageSection extends Component {
     this.setState({
       open: false,
       showSettings: false,
-      showThemeChanger: false
+      showThemeChanger: false,
+      showHardware: false
     });
   };
 
@@ -150,6 +152,9 @@ class MessageSection extends Component {
 
   handleSettings = () => {
     this.setState({showSettings: true});
+  }
+  handleHardware = () => {
+    this.setState({showHardware: true});
   }
 
   componentDidMount() {
@@ -173,6 +178,8 @@ class MessageSection extends Component {
             onClick={this.handleSettings} />
           <MenuItem primaryText="Chat Anonymously"
             containerElement={<Link to="/logout" />} />
+          <MenuItem primaryText="Connect to SUSI Hardware"
+            onClick={this.handleHardware} />
           <MenuItem primaryText="Logout"
             containerElement={<Link to="/logout" />} />
             <MenuItem
@@ -209,6 +216,8 @@ class MessageSection extends Component {
         <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
         <MenuItem primaryText="Sign Up"
           containerElement={<Link to="/signup" />} />
+        <MenuItem primaryText="Connect to SUSI Hardware"
+            onClick={this.handleHardware} />
         <MenuItem
           primaryText="Change Theme"
           leftIcon={<ArrowDropLeft />}
@@ -387,6 +396,17 @@ class MessageSection extends Component {
               onRequestClose={this.handleClose}>
               <div>
                 <Settings {...this.props} />
+              </div>
+            </Dialog>
+            <Dialog
+              actions={actions}
+              modal={false}
+              open={this.state.showHardware}
+              autoScrollBodyContent={true}
+              bodyStyle={bodyStyle}
+              onRequestClose={this.handleClose}>
+              <div>
+                <HardwareComponent {...this.props}/>
               </div>
             </Dialog>
             <Dialog
