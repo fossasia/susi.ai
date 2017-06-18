@@ -76,7 +76,8 @@ let Logged = (props) => (
   <IconMenu
     {...props}
     iconButtonElement={
-      <IconButton iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+      <IconButton
+      iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
     }
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -326,9 +327,10 @@ class MessageSection extends Component {
     if (this.state.thread) {
       if (!this.state.search) {
         const rightButtons = (
-          <div>
-            <IconButton tooltip="Search" iconStyle={{ fill: 'white' }}
-              onTouchTap={this._onClickSearch.bind(this)}>
+          <div style={{marginTop: '-4px'}}>
+            <IconButton tooltip="Search"
+            iconStyle={{ fill: 'white' }}
+            onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
             <Logged />
@@ -341,7 +343,9 @@ class MessageSection extends Component {
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
                 className="app-bar"
-                style={{ backgroundColor: backgroundCol }}
+                style={{ backgroundColor: backgroundCol,
+                height: '56px' }}
+                titleStyle={{height:'56px'}}
               />
             </header>
 
