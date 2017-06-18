@@ -4,7 +4,7 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import Send from 'material-ui/svg-icons/content/send';
 import SettingStore from '../../stores/SettingStore';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
@@ -12,8 +12,8 @@ let ENTER_KEY_CODE = 13;
 
 const style = {
     mini: true,
-    top: '1px',
-    right: '5px',
+    top: '4px',
+    right:'3px',
     position: 'absolute',
 };
 
@@ -41,12 +41,13 @@ class MessageComposer extends Component {
           placeholder="Type a message..."
           style={{background:this.props.textarea}}
         />
-        <FloatingActionButton
-          backgroundColor={SettingStore.getTheme()?'#607D8B':'#19314B'}
+        <IconButton
+          iconStyle={{fill:SettingStore.getTheme()?'#607D8B':'#fff',
+          marginTop:'6px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
           <Send />
-        </FloatingActionButton>
+        </IconButton>
       </div>
     );
   }

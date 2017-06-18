@@ -21,7 +21,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
 .app-bar{
   background-image: url('../images/susi-white.svg');
   margin: 0 auto;
-  background-size: 120px;
+  background-size: 100px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -38,7 +38,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   position: fixed;
   top: 60px;
   left: 0;
-  bottom: 60px;
+  bottom: 74px;
   right: 0;
   width: 100vw;
   max-width: 700px;
@@ -274,17 +274,17 @@ header{
     max-width: 700px;
     overflow-x: hidden;
     overflow-y: hidden;
+    height: 75px;
 }
 .dark .compose{
   background: rgba(30, 87, 153, 0.02);
-      color: #0AD5C1;
-
-
+  color: #0AD5C1;
 }
+
 .message-composer {
   width: 100%;
   margin: 0 8px 0 0;
-  padding: 12px 14px 12px 14px;
+  padding: 8px 9px 8px 9px;
   font-size: 14px;
   border: none;
   background: 0 0;
@@ -306,6 +306,7 @@ header{
   color: #0AD5C1;
   background: rgba(0, 0, 0, 0.01);
 }
+
 textarea {
   border: none;
   font-family: 'Lato', sans-serif;
@@ -314,13 +315,20 @@ textarea {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  width: 90%;
+  width: 92%;
   resize: none;
-  border-radius: 4px;
-  padding-left: 4px;
-  padding-top: 4px;
+  border-radius: 6px;
+  padding-left: 10px;
+  padding-top: 10px;
   font-size: 14px;
+  height: 72%;
   background: #fff;
+  margin-top: 3px;
+}
+@media only screen and (min-width: 0px) and (max-width: 768px){
+  textarea{
+    width: 87%;
+  }
 }
 .leaflet-container {
   height: 150px;
@@ -356,7 +364,7 @@ textarea {
   font-size: 17px;
   line-height: 22px;
   padding: 8px;
-  padding-bottom: 4px;
+  padding-bottom: 3px;
   margin: 4px;
   border-radius: 8px;
   margin-left: auto;
