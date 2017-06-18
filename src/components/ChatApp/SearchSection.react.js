@@ -120,11 +120,12 @@ class SearchSection extends Component {
         hintStyle={{color:'white'}}
         onChange={e => this._searchMsg(e)}
         value={this.state.searchText}
+        style={{marginTop:'-4px'}}
      />
     );
 
     const Options = (
-    <div>
+    <div style={{marginTop:'-4px'}}>
       <IconButton
         tooltip="Back"
         iconStyle={{fill: 'white'}}
@@ -156,7 +157,7 @@ class SearchSection extends Component {
     );
 
     const scrollSearchButtons = (
-      <div>
+      <div style={{marginTop:'-4px'}}>
         <IconButton
           tooltip="Previous"
           iconStyle={{fill: 'white'}}
