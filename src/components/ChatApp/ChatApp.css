@@ -55,7 +55,7 @@ background: rgba(30, 87, 153, 0.02);
 .message-section {
   background: #f5f4f7;
   position: fixed;
-  top: 56px;
+  top: 46px;
   left: 0;
   bottom: 0;
   right: 0;
@@ -115,7 +115,7 @@ header{
   top: 0;
   left: 0;
   z-index: 1000;
-  height: 56px;
+  height: 46px;
   width: 100vw;
   background: #607d8b;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);

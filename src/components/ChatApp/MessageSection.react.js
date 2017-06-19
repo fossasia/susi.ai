@@ -336,7 +336,7 @@ class MessageSection extends Component {
     if (this.state.thread) {
       if (!this.state.search) {
         const rightButtons = (
-          <div style={{marginTop: '-4px'}}>
+          <div style={{marginTop: '-7px'}}>
             <IconButton tooltip="Search"
             iconStyle={{ fill: 'white' }}
             onTouchTap={this._onClickSearch.bind(this)}>
@@ -353,8 +353,8 @@ class MessageSection extends Component {
                 iconElementRight={rightButtons}
                 className="app-bar"
                 style={{ backgroundColor: backgroundCol,
-                height: '56px' }}
-                titleStyle={{height:'56px'}}
+                height: '46px' }}
+                titleStyle={{height:'46px'}}
               />
             </header>
 
