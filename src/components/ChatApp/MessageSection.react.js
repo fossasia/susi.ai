@@ -321,7 +321,7 @@ class MessageSection extends Component {
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
                   <h4>Change color of {component.name}:</h4>
-                  <CirclePicker  color={component}
+                  <CirclePicker  color={component} width={'100%'}
         onChangeComplete={ this.handleChangeComplete.bind(this,component.component) }
         onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker></div>
@@ -415,8 +415,9 @@ class MessageSection extends Component {
               open={this.state.showThemeChanger}
               autoScrollBodyContent={true}
               bodyStyle={bodyStyle}
+              contentStyle={{width: '35%',minWidth: '300px'}}
               onRequestClose={this.handleClose}>
-              <div>
+              <div className='settingsComponents'>
                 {components}
               </div>
             </Dialog>
