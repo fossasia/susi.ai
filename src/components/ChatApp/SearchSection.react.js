@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MessageListItem from './MessageListItem.react';
 import TextField from 'material-ui/TextField';
@@ -14,8 +14,8 @@ import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
 import Toggle from 'material-ui/Toggle';
 
-function getMessageListItem(messages,markID) {
-  return messages.map((message)=>{
+function getMessageListItem(messages, markID) {
+  return messages.map((message) => {
     return (
       <MessageListItem
         key={message.id}
@@ -26,26 +26,26 @@ function getMessageListItem(messages,markID) {
   });
 }
 
-function searchMsgs(messages,matchString,isCaseSensitive){
+function searchMsgs(messages, matchString, isCaseSensitive) {
   let markingData = {
-    allmsgs : [],
-    markedIDs  :[],
-    markedIndices :[],
+    allmsgs: [],
+    markedIDs: [],
+    markedIndices: [],
   };
-  messages.forEach((msg,id)=>{
+  messages.forEach((msg, id) => {
     let orgMsgText = msg.text;
     let msgCopy = $.extend(true, {}, msg);
     let msgText = orgMsgText;
-    if(orgMsgText){
-      if(!isCaseSensitive){
+    if (orgMsgText) {
+      if (!isCaseSensitive) {
         matchString = matchString.toLowerCase();
         msgText = msgText.toLowerCase();
       }
       let match = msgText.indexOf(matchString);
-      if(match !== -1){
+      if (match !== -1) {
         msgCopy.mark = {
-         matchText: matchString,
-         isCaseSensitive: isCaseSensitive
+          matchText: matchString,
+          isCaseSensitive: isCaseSensitive
         };
         markingData.markedIDs.unshift(msgCopy.id);
         markingData.markedIndices.unshift(id);
@@ -69,7 +69,7 @@ class SearchSection extends Component {
       scrollID: null,
       caseSensitive: false,
       open: false,
-      searchText:''
+      searchText: ''
     };
     this.handleOptions = this.handleOptions.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -102,7 +102,7 @@ class SearchSection extends Component {
     let markID = this.state.scrollID;
     let markedMessages = this.state.markedMsgs;
     let messageListItems = getMessageListItem(
-                                  markedMessages,markID);
+      markedMessages, markID);
     let topBackground = this.props.theme ? '' : 'dark';
     var backgroundCol;
     if (topBackground === 'dark') {
@@ -114,59 +114,62 @@ class SearchSection extends Component {
     }
 
     const searchField = (
-      <TextField
-        hintText="Search..."
-        inputStyle={{color:'white'}}
-        hintStyle={{color:'white'}}
-        onChange={e => this._searchMsg(e)}
-        value={this.state.searchText}
-        style={{marginTop:'-4px'}}
-     />
+      <div style={{ lineHeight: '46px' }}>
+        <TextField
+          className="search"
+          hintText="Search..."
+          inputStyle={{ color: 'white' }}
+          hintStyle={{ color: 'white' }}
+          onChange={e => this._searchMsg(e)}
+          value={this.state.searchText}
+          style={{ marginTop: '-4px' }}
+        />
+      </div>
     );
 
     const Options = (
-    <div style={{marginTop:'-4px'}}>
-      <IconButton
-        tooltip="Back"
-        iconStyle={{fill: 'white'}}
-        onTouchTap={this._onClickExit.bind(this)}>
-        <ExitIcon />
-      </IconButton>
-      <IconButton
-        tooltip="Options"
-        iconStyle={{ fill: 'white' }}
-        onTouchTap={this.handleOptions}>
-        <MoreVertIcon />
-      </IconButton>
-      <Popover
-        open={this.state.open}
-        anchorEl={this.state.anchorEl}
-        anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-        onRequestClose={this.handleRequestClose}
-      >
-        <Toggle
-          label="Case Sensitive"
-          style={toggleStyles.toggle}
-          labelPosition="right"
-          onToggle={this.handleToggle}
-          toggled={this.state.caseSensitive}
-        />
-      </Popover>
-    </div>
+      <div style={{ marginTop: '-8px' }}>
+        <IconButton
+          tooltip="Back"
+          iconStyle={{ fill: 'white' }}
+          onTouchTap={this._onClickExit.bind(this)}>
+          <ExitIcon />
+        </IconButton>
+        <IconButton
+          tooltip="Options"
+          iconStyle={{ fill: 'white' }}
+          onTouchTap={this.handleOptions}>
+          <MoreVertIcon />
+        </IconButton>
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+          onRequestClose={this.handleRequestClose}
+        >
+          <Toggle
+            label="Case Sensitive"
+            style={toggleStyles.toggle}
+            labelPosition="right"
+            onToggle={this.handleToggle}
+            toggled={this.state.caseSensitive}
+          />
+        </Popover>
+      </div>
     );
 
     const scrollSearchButtons = (
-      <div style={{marginTop:'-4px'}}>
+      <div style={{ marginTop: '-8px' }}>
         <IconButton
           tooltip="Previous"
-          iconStyle={{fill: 'white'}}
+          iconStyle={{ fill: 'white' }}
           onTouchTap={this._onClickPrev.bind(this)}>
           <UpIcon />
         </IconButton>
         <IconButton
           tooltip="Recent"
-          iconStyle={{fill: 'white'}}
+          iconStyle={{ fill: 'white' }}
           onTouchTap={this._onClickRecent.bind(this)}>
           <DownIcon />
         </IconButton>
@@ -180,8 +183,9 @@ class SearchSection extends Component {
             title={searchField}
             iconElementLeft={scrollSearchButtons}
             iconElementRight={Options}
-            style={{ background: backgroundCol }}
+            style={{ background: backgroundCol, height: '46px' }}
             className="app-bar"
+
           />
         </header>
         <div className="message-pane">
@@ -191,8 +195,8 @@ class SearchSection extends Component {
               ref={(c) => { this.messageList = c; }}>
               <ScrollArea
                 ref={(ref) => { this.scrollarea = ref; }}>
-              {messageListItems}
-            </ScrollArea>
+                {messageListItems}
+              </ScrollArea>
             </ul>
           </div>
         </div>
@@ -201,28 +205,28 @@ class SearchSection extends Component {
   }
 
   componentDidUpdate() {
-    if(this.state.scrollIndex === -1
-        || this.state.scrollIndex === null ){
+    if (this.state.scrollIndex === -1
+      || this.state.scrollIndex === null) {
       this._scrollToBottom();
     }
-    else{
+    else {
       let markedIDs = this.state.markedIDs;
       let markedIndices = this.state.markedIndices;
       let limit = this.state.scrollLimit;
       let ul = this.messageList;
-      if(markedIDs && ul && limit > 0){
+      if (markedIDs && ul && limit > 0) {
         let currentID = markedIndices[this.state.scrollIndex];
         this.scrollarea.content.childNodes[currentID].scrollIntoView();
       }
     }
   }
 
-  _onClickPrev(){
+  _onClickPrev() {
     let newIndex = this.state.scrollIndex + 1;
     let indexLimit = this.state.scrollLimit;
     let markedIDs = this.state.markedIDs;
     let ul = this.messageList;
-    if(markedIDs && ul && newIndex < indexLimit){
+    if (markedIDs && ul && newIndex < indexLimit) {
       let currState = this.state;
       currState.scrollIndex = newIndex;
       currState.scrollID = markedIDs[newIndex];
@@ -230,7 +234,7 @@ class SearchSection extends Component {
     }
   }
 
-  handleOptions(event){
+  handleOptions(event) {
     event.preventDefault();
 
     this.setState({
@@ -239,7 +243,7 @@ class SearchSection extends Component {
     });
   }
 
-  handleToggle(event, isInputChecked){
+  handleToggle(event, isInputChecked) {
     this.setState({
       markedMsgs: this.props.messages,
       markedIDs: [],
@@ -249,21 +253,21 @@ class SearchSection extends Component {
       scrollID: null,
       caseSensitive: isInputChecked,
       open: true,
-      searchText:''
+      searchText: ''
     });
   }
 
-  handleRequestClose(){
+  handleRequestClose() {
     this.setState({
       open: false,
     });
   };
 
-  _onClickRecent(){
+  _onClickRecent() {
     let newIndex = this.state.scrollIndex - 1;
     let markedIDs = this.state.markedIDs;
     let ul = this.messageList;
-    if(markedIDs && ul && newIndex >= 0 ){
+    if (markedIDs && ul && newIndex >= 0) {
       let currState = this.state;
       currState.scrollIndex = newIndex;
       currState.scrollID = markedIDs[newIndex];
@@ -278,19 +282,19 @@ class SearchSection extends Component {
     }
   }
 
-  _onClickExit(){
+  _onClickExit() {
     Actions.ToggleSearch(!this.state.search);
   }
 
   _searchMsg(e) {
     let matchString = e.target.value.trim();
     let messages = this.props.messages;
-    let markingData = searchMsgs(messages,matchString,this.state.caseSensitive);
-    if(matchString){
+    let markingData = searchMsgs(messages, matchString, this.state.caseSensitive);
+    if (matchString) {
       this.setState({
-        markedMsgs:markingData.allmsgs,
-        markedIDs:markingData.markedIDs,
-        markedIndices:markingData.markedIndices,
+        markedMsgs: markingData.allmsgs,
+        markedIDs: markingData.markedIDs,
+        markedIndices: markingData.markedIndices,
         scrollLimit: markingData.markedIDs.length,
         scrollIndex: 0,
         scrollID: markingData.markedIDs[0],
@@ -299,11 +303,11 @@ class SearchSection extends Component {
         searchText: matchString
       });
     }
-    else{
+    else {
       this.setState({
-        markedMsgs:markingData.allmsgs,
-        markedIDs:markingData.markedIDs,
-        markedIndices:markingData.markedIndices,
+        markedMsgs: markingData.allmsgs,
+        markedIDs: markingData.markedIDs,
+        markedIndices: markingData.markedIndices,
         scrollLimit: markingData.markedIDs.length,
         scrollIndex: -1,
         scrollID: null,
