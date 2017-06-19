@@ -461,3 +461,8 @@ a {
 em{
   background-color: orange;
 }
+.settingsComponents{
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+}
