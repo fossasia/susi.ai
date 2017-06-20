@@ -22,6 +22,10 @@ let UserPreferencesStore = {
         return _defaults;
     },
 
+    getTheme(){
+        return _defaults.Theme;
+    },
+
     addChangeListener(callback) {
         this.on(CHANGE_EVENT, callback);
     },
@@ -36,9 +40,8 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     switch (action.type) {
 
-        case ActionTypes.DEFAULT_THEME_CHANGED: {
-            let newDefaultTheme = action.defaultTheme;
-            _defaults.Theme = newDefaultTheme;
+        case ActionTypes.THEME_CHANGED: {
+            _defaults.Theme = action.theme;
             console.log(_defaults);
             UserPreferencesStore.emitChange();
             break;

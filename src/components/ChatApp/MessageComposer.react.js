@@ -1,9 +1,8 @@
-
 import * as Actions from '../../actions/';
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import Send from 'material-ui/svg-icons/content/send';
-import SettingStore from '../../stores/SettingStore';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -42,7 +41,7 @@ class MessageComposer extends Component {
           style={{background:this.props.textarea}}
         />
         <IconButton
-          iconStyle={{fill:SettingStore.getTheme()?'#607D8B':'#fff',
+          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
           marginTop:'6px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
