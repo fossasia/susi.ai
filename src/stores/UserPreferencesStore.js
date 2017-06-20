@@ -42,14 +42,12 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
         case ActionTypes.THEME_CHANGED: {
             _defaults.Theme = action.theme;
-            console.log(_defaults);
             UserPreferencesStore.emitChange();
             break;
         }
         case ActionTypes.DEFAULT_SERVER_CHANGED: {
             let newDefaultServer = action.defaultServer;
             _defaults.Server = newDefaultServer;
-            console.log(_defaults);
             UserPreferencesStore.emitChange();
             break;
         }
