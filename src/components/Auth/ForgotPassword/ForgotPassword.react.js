@@ -7,7 +7,6 @@ import FlatButton from 'material-ui/FlatButton';
 import './ForgotPassword.css';
 import $ from 'jquery';
 import PropTypes from 'prop-types'
-import SettingStore from '../../../stores/SettingStore';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
@@ -28,20 +27,16 @@ class ForgotPassword extends Component {
 			validForm:false
 		};
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleClose = this.handleClose.bind(this);
-		this.handleCancel = this.handleCancel.bind(this);
 		this.emailErrorMessage = '';
 		this.customServerMessage = '';
 	}
 
-	handleCancel(){
+	handleCancel = () => {
 		this.props.history.push('/', { showLogin: false });
 		window.location.reload();
 	}
 
-	handleClose() {
+	handleClose = () => {
 		let state = this.state;
 		if (state.success) {
 			this.props.history.push('/', { showLogin: true });
@@ -61,7 +56,7 @@ class ForgotPassword extends Component {
 		}
 	};
 
-	handleChange(event) {
+	handleChange = (event) => {
 		let email;
         let serverUrl;
         let state = this.state;
@@ -118,7 +113,7 @@ class ForgotPassword extends Component {
         this.setState(state);
 	};
 
-	handleSubmit(event) {
+	handleSubmit = (event) => {
 		event.preventDefault();
 
 		let email = this.state.email.trim();
@@ -185,7 +180,7 @@ class ForgotPassword extends Component {
 			<FlatButton
 				label="OK"
 				backgroundColor={
-					SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+					UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 				labelStyle={{ color: '#fff' }}
 				onTouchTap={this.handleClose}
 			/>;
@@ -236,7 +231,7 @@ class ForgotPassword extends Component {
 								type="submit"
 								label="Reset"
 								backgroundColor={
-									SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+									UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 								labelColor="#fff"
 								disabled={!this.state.validForm} />
 						</div>
@@ -245,7 +240,7 @@ class ForgotPassword extends Component {
 					<RaisedButton
 				      label="Cancel"
 				      backgroundColor={
-				        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+				        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 				      labelColor="#fff"
 				      keyboardFocused={true}
 				      onTouchTap={this.handleCancel}
