@@ -7,11 +7,11 @@ import React, { Component } from 'react';
 import ThreadStore from '../../stores/ThreadStore';
 import * as Actions from '../../actions/';
 import SettingStore from '../../stores/SettingStore';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import ArrowDropLeft from 'material-ui/svg-icons/navigation/arrow-back';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
@@ -30,14 +30,14 @@ function getStateFromStores() {
   return {
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
-    darkTheme: SettingStore.getTheme(),
+    currTheme: UserPreferencesStore.getTheme(),
     search: SettingStore.getSearchMode(),
     showLoading: MessageStore.getLoadStatus(),
     open: false,
     showSettings: false,
     showThemeChanger: false,
     showHardware: false,
-    header: '#607d8b',
+    header: UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B',
     pane: '',
     textarea: '',
     composer:'',
@@ -53,7 +53,6 @@ function getMessageListItem(message) {
     />
   );
 }
-
 
 function getLoadingGIF() {
   let messageContainerClasses = 'message-container SUSI';
@@ -91,15 +90,16 @@ class MessageSection extends Component {
 
   static propTypes = {
     dream: PropTypes.string
-  }
+  };
 
   static defaultProps = {
     dream: ''
-  }
+  };
 
   state = {
     open: false
   };
+
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
@@ -131,11 +131,11 @@ class MessageSection extends Component {
 
      }
      this.setState(state);
-  };
+  }
 
   handleOpen = () => {
     this.setState({ open: true });
-  };
+  }
 
   handleClose = () => {
     this.setState({
@@ -144,17 +144,45 @@ class MessageSection extends Component {
       showThemeChanger: false,
       showHardware: false
     });
-  };
+  }
 
   handleThemeChanger = () => {
-    this.setState({showThemeChanger: true})
+    this.setState({showThemeChanger: true});
   }
 
   handleSettings = () => {
     this.setState({showSettings: true});
   }
+
   handleHardware = () => {
     this.setState({showHardware: true});
+  }
+
+  changeTheme = (newTheme) => {
+    if(this.state.currTheme !== newTheme){
+      let headerColor = '';
+      switch(newTheme){
+        case 'light': {
+            headerColor = '#607d8b';
+            break;
+        }
+        case 'dark': {
+            headerColor = '#19324c';
+            break;
+        }
+        default: {
+            // do nothing
+        }
+      }
+      this.setState({header: headerColor});
+      Actions.themeChanged(newTheme);
+    }
+  }
+
+  implementSettings = (values) => {
+    this.setState({showSettings: false});
+    this.changeTheme(values.theme);
+    // Actions.setDefaultServer(values.server);
   }
 
   componentDidMount() {
@@ -176,29 +204,15 @@ class MessageSection extends Component {
         >
           <MenuItem primaryText="Settings"
             onClick={this.handleSettings} />
-          <MenuItem primaryText="Chat Anonymously"
-            containerElement={<Link to="/logout" />} />
+          <MenuItem primaryText="Custom Theme"
+            key="custom"
+            onClick={this.handleThemeChanger} />
           <MenuItem primaryText="Connect to SUSI Hardware"
             onClick={this.handleHardware} />
+          <MenuItem primaryText="Chat Anonymously"
+            containerElement={<Link to="/logout" />} />
           <MenuItem primaryText="Logout"
             containerElement={<Link to="/logout" />} />
-            <MenuItem
-              primaryText="Change Theme"
-              leftIcon={<ArrowDropLeft />}
-              menuItems={[
-                <MenuItem
-                  key="light"
-                  primaryText="Light Theme"
-                  onClick={() => { changeLight() }} />,
-                <MenuItem
-                  key="dark"
-                  primaryText="Dark Theme"
-                  onClick={() => {changeDark() }} />,
-                 <MenuItem primaryText="Custom Theme"
-                 key="custom"
-                  onClick={this.handleThemeChanger} />
-                ]}
-              />
         </IconMenu>)
       return <Logged />
     }
@@ -213,28 +227,13 @@ class MessageSection extends Component {
         targetOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
+        <MenuItem primaryText="Settings"
+          onClick={this.handleSettings} />
+        <MenuItem primaryText="Connect to SUSI Hardware"
+          onClick={this.handleHardware} />
         <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
         <MenuItem primaryText="Sign Up"
           containerElement={<Link to="/signup" />} />
-        <MenuItem primaryText="Connect to SUSI Hardware"
-            onClick={this.handleHardware} />
-        <MenuItem
-          primaryText="Change Theme"
-          leftIcon={<ArrowDropLeft />}
-          menuItems={[
-            <MenuItem
-              key="light"
-              primaryText="Light Theme"
-              onClick={() => { changeLight() }} />,
-            <MenuItem
-              key="dark"
-              primaryText="Dark Theme"
-              onClick={() => {changeDark() }} />,
-            <MenuItem primaryText="Custom Theme"
-            key="custom"
-              onClick={this.handleThemeChanger} />
-            ]}
-          />
       </IconMenu>)
     return <Logged />
   }
@@ -243,18 +242,6 @@ class MessageSection extends Component {
     MessageStore.removeChangeListener(this._onChange.bind(this));
     ThreadStore.removeChangeListener(this._onChange.bind(this));
     SettingStore.removeChangeListener(this._onChange.bind(this));
-  }
-
-  themeChangerLight(event) {
-    if(!this.state.darkTheme){
-      Actions.themeChanged(!this.state.darkTheme);
-    }
-  }
-
-  themeChangerDark(event) {
-    if(this.state.darkTheme){
-      Actions.themeChanged(!this.state.darkTheme);
-    }
   }
 
   componentWillMount() {
@@ -268,15 +255,22 @@ class MessageSection extends Component {
       }
     }
 
-    SettingStore.on('change', () => {
+    UserPreferencesStore.on('change', () => {
       this.setState({
-        darkTheme: SettingStore.getTheme()
+        currTheme: UserPreferencesStore.getTheme()
       })
-      if (!this.state.darkTheme) {
-        document.body.className = 'white-body';
-      }
-      else {
-        document.body.className = 'dark-body';
+      switch(this.state.currTheme){
+        case 'light':{
+          document.body.className = 'white-body';
+          break;
+        }
+        case 'dark':{
+          document.body.className = 'dark-body';
+          break;
+        }
+        default: {
+            // do nothing
+        }
       }
     })
   }
@@ -290,17 +284,33 @@ class MessageSection extends Component {
     const {
       dream
     } = this.props;
-    let topBackground = this.state.darkTheme ? '' : 'dark';
-    var header = this.state.darkTheme ? '#607d8b' : '#19324c'
+
+    var backgroundCol;
+    let topBackground = this.state.currTheme;
+    switch(topBackground){
+      case 'light':{
+        backgroundCol = '#607d8b';
+        break;
+      }
+      case 'dark':{
+        backgroundCol =  '#19324c';
+        break;
+      }
+      default: {
+          // do nothing
+      }
+    }
+
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
+
     const componentsList = [
       {'id':1, 'component':'header', 'name': 'Header'},
       {'id':2, 'component': 'pane', 'name': 'Message Pane'},
@@ -337,12 +347,12 @@ class MessageSection extends Component {
         return (
           <div className={topBackground} style={{background:body}}>
             <header className='message-thread-heading'
-            style={{ backgroundColor: header }}>
+            style={{ backgroundColor: backgroundCol }}>
               <AppBar
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
                 className="app-bar"
-                style={{ backgroundColor: header,
+                style={{ backgroundColor: backgroundCol,
                 height: '46px' }}
                 titleStyle={{height:'46px'}}
               />
@@ -360,14 +370,13 @@ class MessageSection extends Component {
                 <div className='compose' style={{background:composer}}>
                   <MessageComposer
                     threadID={this.state.thread.id}
-                    theme={this.state.darkTheme}
                     dream={dream}
                     textarea={this.state.textarea} />
                 </div>
               </div>
             </div>
             <Dialog
-            className='dialogStyle'
+              className='dialogStyle'
               actions={actions}
               modal={false}
               open={this.state.open}
@@ -385,7 +394,8 @@ class MessageSection extends Component {
               bodyStyle={bodyStyle}
               onRequestClose={this.handleClose}>
               <div>
-                <Settings {...this.props} />
+                <Settings {...this.props}
+                  onSettingsSubmit={this.implementSettings} />
               </div>
             </Dialog>
             <Dialog
@@ -396,7 +406,7 @@ class MessageSection extends Component {
               bodyStyle={bodyStyle}
               onRequestClose={this.handleClose}>
               <div>
-                <HardwareComponent {...this.props}/>
+                <HardwareComponent {...this.props} />
               </div>
             </Dialog>
             <Dialog
@@ -417,7 +427,7 @@ class MessageSection extends Component {
       if (this.state.search) {
         return (
           <SearchSection messages={this.state.messages}
-            theme={this.state.darkTheme}
+            theme={this.state.currTheme}
           />
         );
       }
@@ -427,11 +437,18 @@ class MessageSection extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.darkTheme) {
-      document.body.className = 'white-body';
-    }
-    else {
-      document.body.className = 'dark-body';
+    switch(this.state.currTheme){
+      case 'light':{
+        document.body.className = 'white-body';
+        break;
+      }
+      case 'dark':{
+        document.body.className = 'dark-body';
+        break;
+      }
+      default: {
+          // do nothing
+      }
     }
     this._scrollToBottom();
   }
@@ -455,15 +472,6 @@ class MessageSection extends Component {
   }
 
 };
-function changeLight() {
-  let messageSection = new MessageSection();
-  messageSection.themeChangerLight();
-}
-function changeDark() {
-  let messageSection = new MessageSection();
-  messageSection.themeChangerDark();
-}
-
 
 Logged.muiName = 'IconMenu';
 
