@@ -160,6 +160,21 @@ class MessageSection extends Component {
 
   changeTheme = (newTheme) => {
     if(this.state.currTheme !== newTheme){
+      let headerColor = '';
+      switch(newTheme){
+        case 'light': {
+            headerColor = '#607d8b';
+            break;
+        }
+        case 'dark': {
+            headerColor = '#19324c';
+            break;
+        }
+        default: {
+            // do nothing
+        }
+      }
+      this.setState({header: headerColor});
       Actions.themeChanged(newTheme);
     }
   }
@@ -220,7 +235,6 @@ class MessageSection extends Component {
         <MenuItem primaryText="Sign Up"
           containerElement={<Link to="/signup" />} />
       </IconMenu>)
-
     return <Logged />
   }
 
@@ -270,6 +284,7 @@ class MessageSection extends Component {
     const {
       dream
     } = this.props;
+
     var backgroundCol;
     let topBackground = this.state.currTheme;
     switch(topBackground){
@@ -313,7 +328,6 @@ class MessageSection extends Component {
         </CirclePicker></div>
     })
 
-    backgroundCol = this.state.header;
     var body = this.state.body;
     var pane = this.state.pane;
     var composer = this.state.composer;
