@@ -9,10 +9,10 @@ import $ from 'jquery';
 import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import SettingStore from '../../../stores/SettingStore';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 const cookies = new Cookies();
+
 class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -28,15 +28,12 @@ class Login extends Component {
             serverFieldError: false,
             checked: false
 		};
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleOnSubmit = this.handleOnSubmit.bind(this);
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
         this.customServerMessage = '';
 	}
 
-	handleSubmit(e) {
+	handleSubmit = (e) => {
 		e.preventDefault();
 
 		var email = this.state.email.trim();
@@ -60,7 +57,7 @@ class Login extends Component {
 		let loginEndPoint =
 			BASE_URL+'/aaa/login.json?type=access-token&login=' +
 			this.state.email + '&password=' + this.state.password;
-		console.log(loginEndPoint);
+
 		if (email && validEmail) {
 			$.ajax({
 				url: loginEndPoint,
@@ -91,7 +88,8 @@ class Login extends Component {
 			});
 		}
 	}
-	handleChange(event) {
+
+	handleChange = (event) => {
 		let email;
         let password;
         let serverUrl;
@@ -148,10 +146,10 @@ class Login extends Component {
         else{
         	this.customServerMessage = '';
         }
-    if (!state.emailError && !state.passwordError && !state.serverFieldError)
-    {
-    	state.validForm = true;
-    }
+	    if (!state.emailError && !state.passwordError && !state.serverFieldError)
+	    {
+	    	state.validForm = true;
+	    }
         else {
         	state.validForm = false;
         }
@@ -159,7 +157,7 @@ class Login extends Component {
 		this.setState(state);
 	}
 
-	handleOnSubmit(loggedIn, time) {
+	handleOnSubmit = (loggedIn, time) => {
 		let state = this.state;
 		if (state.success) {
 			cookies.set('loggedIn', loggedIn, { path: '/', maxAge: time });
@@ -227,7 +225,7 @@ class Login extends Component {
 							  marginTop: '10px',
 							  maxWidth:'200px',
 							  flexWrap: 'wrap',
-							margin: 'auto'}}
+							  margin: 'auto'}}
 							 name="server" onChange={this.handleChange}
 							 defaultSelected="standardServer">
 							<RadioButton
@@ -253,7 +251,7 @@ class Login extends Component {
 								label="Login"
 								type="submit"
 								backgroundColor={
-									SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+									UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 								labelColor="#fff"
 								disabled={!this.state.validForm} />
 						</div>
@@ -270,7 +268,7 @@ class Login extends Component {
 								<RaisedButton
 									label='Chat Anonymously'
 									backgroundColor={
-										SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+										UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 									labelColor="#fff" />
 							</Link>
 						</div>
