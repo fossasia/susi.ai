@@ -2,8 +2,7 @@ import * as Actions from './ChatApp.actions'
 
 let webSocket = null
 
-// This function tries to connect to WebSocket. 
-// returns true if successful, false if not
+// This function tries to connect to WebSocket Server running on Susi Hardware Device
 export function connectToWebSocket(serverUrl) {
     try {
         if(webSocket!=null && webSocket.OPEN){
@@ -11,14 +10,14 @@ export function connectToWebSocket(serverUrl) {
         }
         webSocket = new WebSocket(serverUrl);
         webSocket.onmessage = function incoming(message) {
-            console.log("Message Recieved from Susi Hardware: " + message);
-            Actions.createMessage(message.data, "t_1");
+            console.log('Message Recieved from Susi Hardware: ' + message);
+            Actions.createMessage(message.data, 't_1');
         }
         webSocket.onopen = function connected() {
-            alert("Connection Successful");
+            alert('Connection Successful');
         }
         webSocket.onerror = function error() {
-            alert("Connection Error. Please verify that Susi Hardware is running on address you mentioned.")
+            alert('Connection Error. Please verify that Susi Hardware is running on address you mentioned.')
         }
 
         return true;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import * as Actions from '../../actions/';
-import SettingStore from '../../stores/SettingStore';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 class HardwareComponent extends Component {
 
@@ -29,7 +29,7 @@ class HardwareComponent extends Component {
 		console.log(this.state);
 		console.log(serverUrl);
 		if(! Actions.connectToWebSocket(serverUrl) ) {
-			alert("Connection Error. Please verify that Susi Hardware is running on address you mentioned.");
+			alert('Connection Error. Please verify that Susi Hardware is running on address you mentioned.');
 		}
 	}
 
@@ -64,31 +64,31 @@ class HardwareComponent extends Component {
 
 	render() {
 
-	const styles = {
-		'textAlign': 'center',
-		'padding': '10px'
-	}
+		const styles = {
+			'textAlign': 'center',
+			'padding': '10px'
+		}
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
 					<h1>Enter Socket Web Address</h1>
 					<form onSubmit={this.handleSubmit}>
-						<div>
-							<TextField name="serverUrl"
-								onChange={this.handleChange}
-								errorText={this.customServerMessage}
-								floatingLabelText="Websocket URL" />
-						</div>
-						<div>
-							<RaisedButton
-								label="Connect"
-								type="submit"
-								disabled={!this.state.validForm}
-								backgroundColor={
-									SettingStore.getTheme() ? '#607D8B' : '#19314B'}
-								labelColor="#fff"
-							/>
-						</div>
+					<div>
+					<TextField name="serverUrl"
+									onChange={this.handleChange}
+									errorText={this.customServerMessage}
+									floatingLabelText="Websocket URL" />
+					</div>
+					<div>
+						<RaisedButton
+							label="Connect"
+							type="submit"
+							disabled={!this.state.validForm}
+							backgroundColor={
+								UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+							labelColor="#fff"
+						/>
+					</div>
 					</form>
 				</Paper>
 			</div>);
