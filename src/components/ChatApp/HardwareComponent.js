@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import SettingStore from '../../stores/SettingStore';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 class HardwareComponent extends Component {
 
@@ -16,17 +16,15 @@ class HardwareComponent extends Component {
 			validForm: true,
 			open: false
 		};
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
 		this.customServerMessage = '';
 	}
 
-	handleSubmit(e){
+	handleSubmit = (e) => {
 		e.preventDefault();
 		// Handle Hardware Logic
 	}
 
-	handleChange(event) {
+	handleChange = (event) => {
         let state = this.state;
         let serverUrl;
         if (event.target.name === 'serverUrl'){
@@ -79,7 +77,7 @@ class HardwareComponent extends Component {
 							type="submit"
 							disabled={!this.state.validForm}
 							backgroundColor={
-								SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+								UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 							labelColor="#fff"
 						/>
 					</div>

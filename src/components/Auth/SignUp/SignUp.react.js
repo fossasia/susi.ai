@@ -8,7 +8,6 @@ import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
-import SettingStore from '../../../stores/SettingStore';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Login from '../Login/Login.react';
@@ -34,9 +33,6 @@ export default class SignUp extends Component {
             serverFieldError: false,
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClose = this.handleClose.bind(this);
         this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
         this.passwordConfirmErrorMessage = '';
@@ -49,7 +45,7 @@ export default class SignUp extends Component {
         }
     }
 
-    handleClose() {
+    handleClose = () => {
         let state = this.state;
 
         if (state.success) {
@@ -73,9 +69,9 @@ export default class SignUp extends Component {
                 open: false
             });
         }
-    };
+    }
 
-    handleChange(event) {
+    handleChange = (event) => {
         let email;
         let password;
         let confirmPassword;
@@ -167,9 +163,9 @@ export default class SignUp extends Component {
         else{
             this.setState({validForm: true});
         }
-    };
+    }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
 
         let defaults = UserPreferencesStore.getPreferences();
@@ -186,7 +182,7 @@ export default class SignUp extends Component {
         let signupEndPoint =
             BASE_URL+'/aaa/signup.json?signup=' + this.state.email +
             '&password=' + this.state.passwordValue;
-        console.log(signupEndPoint);
+
         if (!this.state.emailError && !this.state.passwordConfirmError
             && !this.state.serverFieldError) {
             $.ajax({
@@ -254,7 +250,7 @@ export default class SignUp extends Component {
             <FlatButton
                 label="OK"
                 backgroundColor={
-                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                    UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
                 labelStyle={{ color: '#fff' }}
                 onTouchTap={this.handleClose}
             />;
@@ -323,7 +319,8 @@ export default class SignUp extends Component {
                                 type="submit"
                                 disabled={!this.state.validForm}
                                 backgroundColor={
-                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                    UserPreferencesStore.getTheme()==='light'
+                                    ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                         <h1>OR</h1>
@@ -334,7 +331,8 @@ export default class SignUp extends Component {
                                 label='Login'
 
                                 backgroundColor={
-                                    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                    UserPreferencesStore.getTheme()==='light'
+                                    ? '#607D8B' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                     </form>

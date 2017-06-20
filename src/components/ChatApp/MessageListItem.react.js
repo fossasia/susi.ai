@@ -145,10 +145,11 @@ function getRSSTiles(rssKeys,rssData,count){
   return rssTiles;
 }
 
-
+// Create a Table as SUSI Response
 function drawTable(coloumns,tableData,count){
   let parseKeys;
   let showColName = true;
+  // Check the dataType specifying table columns
   if(coloumns.constructor === Array){
     parseKeys = coloumns;
     showColName = false;
@@ -156,9 +157,11 @@ function drawTable(coloumns,tableData,count){
   else{
     parseKeys = Object.keys(coloumns);
   }
+  // Create the Table Header
   let tableheader = parseKeys.map((key,i) =>{
     return(<TableHeaderColumn key={i}>{coloumns[key]}</TableHeaderColumn>);
   });
+  // Calculate #rows in table
   let rowCount = tableData.length;
   if(count > -1){
     rowCount = Math.min(count,tableData.length);
@@ -166,22 +169,34 @@ function drawTable(coloumns,tableData,count){
   let rows = [];
   for (var j=0; j < rowCount; j++) {
     let eachrow = tableData[j];
-    let rowcols = parseKeys.map((key,i) =>{
+    // Check if the data object can be populated as a table row
+    let validRow = true;
+    for (var keyInd=0; keyInd < parseKeys.length; keyInd++) {
+      var colKey = parseKeys[keyInd];
+      if(!eachrow.hasOwnProperty(colKey)){
+        validRow = false;
+        break;
+      }
+    };
+    // Populate a Table Row
+    if(validRow){
+      let rowcols = parseKeys.map((key,i) =>{
       return(
-        <TableRowColumn key={i}>
-          <Linkify properties={{target:'_blank'}}>
-            <abbr title={eachrow[key]}>
-              {processText(eachrow[key])}
-            </abbr>
-          </Linkify>
-        </TableRowColumn>
+          <TableRowColumn key={i}>
+            <Linkify properties={{target:'_blank'}}>
+              <abbr title={eachrow[key]}>
+                {processText(eachrow[key])}
+              </abbr>
+            </Linkify>
+          </TableRowColumn>
+        );
+      });
+      rows.push(
+        <TableRow key={j}>{rowcols}</TableRow>
       );
-    });
-    rows.push(
-      <TableRow key={j}>{rowcols}</TableRow>
-    );
+    }
   }
-
+  // Populate the Table
   const table =
   <MuiThemeProvider>
     <Table selectable={false}>

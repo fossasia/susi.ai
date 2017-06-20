@@ -3,8 +3,6 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import SettingStore from '../../stores/SettingStore';
-import * as Actions from '../../actions/';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
@@ -25,31 +23,28 @@ class Settings extends Component {
             checked: false,
 			validForm: true
 		};
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSelectChange = this.handleSelectChange.bind(this);
+
 		this.customServerMessage = '';
 	}
 
-	handleSubmit(e){
-		e.preventDefault();
-		let newDefaultTheme = this.state.theme;
+	handleSubmit = () => {
+		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
-		console.log(newDefaultServer);
-		Actions.setDefaultTheme(newDefaultTheme);
-		Actions.setDefaultServer(newDefaultServer);
-		this.props.history.push('/');
-		window.location.reload();
+		let vals = {
+			theme: newTheme,
+			server: newDefaultServer
+		}
+		this.props.onSettingsSubmit(vals);
 	}
 
-	handleSelectChange(event, index, value){
+	handleSelectChange= (event, index, value) => {
 		this.setState({theme:value});
 	}
 
-	handleChange(event) {
+	handleChange = (event) => {
         let state = this.state;
         let serverUrl;
         if (event.target.value === 'customServer') {
@@ -73,8 +68,7 @@ class Settings extends Component {
         }
 
         if (state.serverFieldError) {
-        	this.customServerMessage
-        	= 'Enter a valid URL';
+        	this.customServerMessage = 'Enter a valid URL';
         }
         else{
         	this.customServerMessage = '';
@@ -107,70 +101,70 @@ class Settings extends Component {
 		};
 
 		const serverURL = <TextField name="serverUrl"
-									onChange={this.handleChange}
-									errorText={this.customServerMessage}
-									floatingLabelText="Custom URL" />;
+							onChange={this.handleChange}
+							errorText={this.customServerMessage}
+							floatingLabelText="Custom URL" />;
 		const hidden = this.state.checked ? serverURL : '';
 
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
 					<h1>Settings</h1>
-					<form onSubmit={this.handleSubmit}>
 					<div>
-					<h4>Default Theme:</h4>
-					<DropDownMenu
-						label='Default Theme'
-						value={this.state.theme}
-						onChange={this.handleSelectChange}>
-			          <MenuItem value={'light'} primaryText="Light" />
-			          <MenuItem value={'dark'} primaryText="Dark" />
-			        </DropDownMenu>
+						<h4>Theme:</h4>
+						<DropDownMenu
+							label='Default Theme'
+							value={this.state.theme}
+							onChange={this.handleSelectChange}>
+				          <MenuItem value={'light'} primaryText="Light" />
+				          <MenuItem value={'dark'} primaryText="Dark" />
+				        </DropDownMenu>
 			        </div>
 					<div>
-					<h4>Default Server:</h4>
-					<RadioButtonGroup style={{display: 'flex',
-					  marginTop: '10px',
-					  maxWidth:'200px',
-					  flexWrap: 'wrap',
-					margin: 'auto'}}
-					 name="server" onChange={this.handleChange}
-					 defaultSelected="standardServer">
-					<RadioButton
-					       value="customServer"
-					       label="Custom Server"
-					       labelPosition="left"
-					       style={radioButtonStyles.radioButton}
-					     />
-					<RadioButton
-					       value="standardServer"
-					       label="Standard Server"
-					       labelPosition="left"
-					       style={radioButtonStyles.radioButton}
-					     />
-					</RadioButtonGroup>
+						<h4>Server:</h4>
+						<RadioButtonGroup style={{display: 'flex',
+						  marginTop: '10px',
+						  maxWidth:'200px',
+						  flexWrap: 'wrap',
+						  margin: 'auto'}}
+						 name="server" onChange={this.handleChange}
+						 defaultSelected="standardServer">
+						<RadioButton
+						       value="customServer"
+						       label="Custom Server"
+						       labelPosition="left"
+						       style={radioButtonStyles.radioButton}
+						     />
+						<RadioButton
+						       value="standardServer"
+						       label="Standard Server"
+						       labelPosition="left"
+						       style={radioButtonStyles.radioButton}
+						     />
+						</RadioButtonGroup>
 					</div>
 					<div>
-					{hidden}
+						{hidden}
 					</div>
 					<div>
 						<RaisedButton
-							label="Set Defaults"
-							type="submit"
+							label="Save"
 							disabled={!this.state.validForm}
 							backgroundColor={
-								SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+								UserPreferencesStore.getTheme()==='light'
+								? '#607D8B' : '#19314B'}
 							labelColor="#fff"
+							onClick={this.handleSubmit}
 						/>
 					</div>
-					</form>
 				</Paper>
 			</div>);
 	}
 }
 
 Settings.propTypes = {
-	history: PropTypes.object
+	history: PropTypes.object,
+	onSettingsSubmit: PropTypes.func
 };
 
 export default Settings;

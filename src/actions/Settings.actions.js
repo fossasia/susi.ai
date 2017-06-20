@@ -17,13 +17,6 @@ export function setDefaults() {
   });
 }
 
-export function setDefaultTheme(defaultTheme){
-  ChatAppDispatcher.dispatch({
-    type: ActionTypes.DEFAULT_THEME_CHANGED,
-    defaultTheme
-  });
-}
-
 export function setDefaultServer(defaultServer){
   ChatAppDispatcher.dispatch({
     type: ActionTypes.DEFAULT_SERVER_CHANGED,

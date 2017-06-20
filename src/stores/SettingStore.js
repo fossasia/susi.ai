@@ -6,7 +6,6 @@ let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
 let _searchMode = false;
-let _theme = true;
 
 let SettingStore = {
     ...EventEmitter.prototype,
@@ -17,10 +16,6 @@ let SettingStore = {
 
     getSearchMode() {
         return _searchMode;
-    },
-
-    getTheme() {
-        return _theme;
     },
 
     addChangeListener(callback) {
@@ -38,29 +33,6 @@ SettingStore.dispatchToken = ChatAppDispatcher.register(action => {
     switch (action.type) {
         case ActionTypes.SEARCH_MODE: {
             _searchMode = !_searchMode;
-            SettingStore.emitChange();
-            break;
-        }
-        case ActionTypes.THEME_CHANGED: {
-            _theme = !_theme;
-            SettingStore.emitChange();
-            break;
-        }
-        case ActionTypes.SET_DEFAULT_THEME: {
-            let defaultTheme = action.theme;
-            switch (defaultTheme) {
-                case 'light': {
-                    _theme = true;
-                    break;
-                }
-                case 'dark': {
-                    _theme = false;
-                    break;
-                }
-                default: {
-                    // do nothing
-                }
-            }
             SettingStore.emitChange();
             break;
         }

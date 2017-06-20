@@ -13,6 +13,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
 import Toggle from 'material-ui/Toggle';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 function getMessageListItem(messages, markID) {
   return messages.map((message) => {
@@ -69,7 +70,8 @@ class SearchSection extends Component {
       scrollID: null,
       caseSensitive: false,
       open: false,
-      searchText: ''
+      searchText:'',
+      currTheme: UserPreferencesStore.getTheme(),
     };
     this.handleOptions = this.handleOptions.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -81,11 +83,18 @@ class SearchSection extends Component {
   }
 
   componentWillMount() {
-    if (this.props.theme) {
-      document.body.className = 'white-body';
-    }
-    else {
-      document.body.className = 'dark-body';
+    switch(this.state.currTheme){
+      case 'light':{
+        document.body.className = 'white-body';
+        break;
+      }
+      case 'dark':{
+        document.body.className = 'dark-body';
+        break;
+      }
+      default: {
+          // do nothing
+      }
     }
   }
 
@@ -102,15 +111,21 @@ class SearchSection extends Component {
     let markID = this.state.scrollID;
     let markedMessages = this.state.markedMsgs;
     let messageListItems = getMessageListItem(
-      markedMessages, markID);
-    let topBackground = this.props.theme ? '' : 'dark';
+                                  markedMessages,markID);
+    let topBackground = this.state.currTheme;
     var backgroundCol;
-    if (topBackground === 'dark') {
-      backgroundCol = '#19324c';
-    }
-    else {
-      backgroundCol = '#607d8b';
-
+    switch(topBackground){
+      case 'light':{
+        backgroundCol = '#607d8b';
+        break;
+      }
+      case 'dark':{
+        backgroundCol =  '#19324c';
+        break;
+      }
+      default: {
+          // do nothing
+      }
     }
 
     const searchField = (
@@ -321,7 +336,6 @@ class SearchSection extends Component {
 
 SearchSection.propTypes = {
   messages: PropTypes.array,
-  theme: PropTypes.bool
 };
 
 export default SearchSection;
