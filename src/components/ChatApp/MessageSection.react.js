@@ -236,7 +236,6 @@ class MessageSection extends Component {
             ]}
           />
       </IconMenu>)
-
     return <Logged />
   }
 
@@ -291,16 +290,8 @@ class MessageSection extends Component {
     const {
       dream
     } = this.props;
-    var backgroundCol;
     let topBackground = this.state.darkTheme ? '' : 'dark';
-
-    if (topBackground === 'dark') {
-      backgroundCol =  '#19324c';
-    }
-    else {
-      backgroundCol = '#607d8b';
-
-    }
+    var header = this.state.darkTheme ? '#607d8b' : '#19324c'
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
@@ -327,7 +318,6 @@ class MessageSection extends Component {
         </CirclePicker></div>
     })
 
-    backgroundCol = this.state.header;
     var body = this.state.body;
     var pane = this.state.pane;
     var composer = this.state.composer;
@@ -347,12 +337,12 @@ class MessageSection extends Component {
         return (
           <div className={topBackground} style={{background:body}}>
             <header className='message-thread-heading'
-            style={{ backgroundColor: backgroundCol }}>
+            style={{ backgroundColor: header }}>
               <AppBar
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
                 className="app-bar"
-                style={{ backgroundColor: backgroundCol,
+                style={{ backgroundColor: header,
                 height: '46px' }}
                 titleStyle={{height:'46px'}}
               />
