@@ -17,12 +17,41 @@ import Paper from 'material-ui/Paper';
 import {Carousel} from 'react-responsive-carousel';
 import TextHighlight from 'react-text-highlight';
 
+// Linkify the text
 export function parseAndReplace(text) {
   return <Linkify properties={{target: '_blank'}}>
     {text}
   </Linkify>;
 }
 
+// Decode HTML Spl Chars
+function parseHTMLSplChars(text) {
+  if(text){
+    let map = {
+      '&amp;': '&',
+      '&lt;': '<',
+      '&gt;': '>',
+      '&quot;': '"',
+      '&#039;': "'"
+    };
+    return text.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g,
+                      function(splChar) {return map[splChar];});
+  }
+  return text;
+}
+
+// Proccess the text for HTML Spl Chars, Images, Links and Emojis
+function processText(text){
+  if(text){
+    let htmlText = parseHTMLSplChars(text);
+    let imgText = imageParse(htmlText);
+    let replacedText = parseAndReplace(imgText);
+    return <Emojify>{replacedText}</Emojify>;
+  };
+  return text;
+}
+
+// Parse text for Image URLs
 function imageParse(stringWithLinks){
   let replacePattern = new RegExp([
                       '((?:https?:\\/\\/)(?:[a-zA-Z]{1}',
@@ -47,6 +76,7 @@ function imageParse(stringWithLinks){
   return result;
 }
 
+// Draw Tiles for Websearch RSS data
 function drawTiles(tilesData){
   let resultTiles = tilesData.map((tile,i) => {
       return(
@@ -61,9 +91,9 @@ function drawTiles(tilesData){
                 )}
               <div className='tile-text'>
                 <p className='tile-title'>
-                  <strong>{tile.title}</strong>
+                  <strong>{processText(tile.title)}</strong>
                 </p>
-                {tile.description}<br/>
+                {processText(tile.description)}<br/>
                 <a href={tile.link} target='_blank'
                   rel='noopener noreferrer'
                   className='tile-anchor'>Know more</a>
@@ -76,7 +106,7 @@ function drawTiles(tilesData){
   return resultTiles;
 }
 
-
+// Render Websearch RSS tiles
 function renderTiles(tiles){
   if(tiles.length === 0){
     let noResultFound = 'NO Results Found';
@@ -96,6 +126,7 @@ function renderTiles(tiles){
   );
 }
 
+// Fetch RSS data
 function getRSSTiles(rssKeys,rssData,count){
   let parseKeys = Object.keys(rssKeys);
   let rssTiles = [];
@@ -140,7 +171,7 @@ function drawTable(coloumns,tableData,count){
         <TableRowColumn key={i}>
           <Linkify properties={{target:'_blank'}}>
             <abbr title={eachrow[key]}>
-              {eachrow[key]}
+              {processText(eachrow[key])}
             </abbr>
           </Linkify>
         </TableRowColumn>
@@ -164,6 +195,7 @@ function drawTable(coloumns,tableData,count){
   return table;
 }
 
+// Draw a Map
 function drawMap(lat,lng,zoom){
   let position = [lat, lng];
   const icon = divIcon({
@@ -186,6 +218,7 @@ function drawMap(lat,lng,zoom){
   return map;
 }
 
+// Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
 
   componentDidMount() {
@@ -220,7 +253,8 @@ class MessageListItem extends React.Component {
       let matchString = this.props.message.mark.matchText;
       let isCaseSensitive = this.props.message.mark.isCaseSensitive;
       if(stringWithLinks){
-        let imgText = imageParse(stringWithLinks);
+        let htmlText = parseHTMLSplChars(stringWithLinks);
+        let imgText = imageParse(htmlText);
         let markedText = [];
         let matchStringarr = [];
         matchStringarr.push(matchString);
@@ -252,16 +286,14 @@ class MessageListItem extends React.Component {
             markedText.push(part);
           }
         });
-        replacedText = markedText;
+        replacedText = <Emojify>{markedText}</Emojify>;
       };
     }
     else{
       if(stringWithLinks){
-         let imgText = imageParse(stringWithLinks);
-         replacedText = parseAndReplace(imgText);
+        replacedText = processText(stringWithLinks);
       };
     }
-    replacedText = <Emojify>{replacedText}</Emojify>;
     let messageContainerClasses = 'message-container ' + message.authorName;
     if(this.props.message.hasOwnProperty('response')){
       if(Object.keys(this.props.message.response).length > 0){
