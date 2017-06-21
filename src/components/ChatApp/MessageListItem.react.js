@@ -16,6 +16,9 @@ import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
 import {Carousel} from 'react-responsive-carousel';
 import TextHighlight from 'react-text-highlight';
+import {AllHtmlEntities} from 'html-entities';
+
+const entities = new AllHtmlEntities();
 
 // Linkify the text
 export function parseAndReplace(text) {
@@ -24,26 +27,10 @@ export function parseAndReplace(text) {
   </Linkify>;
 }
 
-// Decode HTML Spl Chars
-function parseHTMLSplChars(text) {
-  if(text){
-    let map = {
-      '&amp;': '&',
-      '&lt;': '<',
-      '&gt;': '>',
-      '&quot;': '"',
-      '&#039;': "'"
-    };
-    return text.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g,
-                      function(splChar) {return map[splChar];});
-  }
-  return text;
-}
-
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
 function processText(text){
   if(text){
-    let htmlText = parseHTMLSplChars(text);
+    let htmlText = entities.decode(text);
     let imgText = imageParse(htmlText);
     let replacedText = parseAndReplace(imgText);
     return <Emojify>{replacedText}</Emojify>;
@@ -268,7 +255,7 @@ class MessageListItem extends React.Component {
       let matchString = this.props.message.mark.matchText;
       let isCaseSensitive = this.props.message.mark.isCaseSensitive;
       if(stringWithLinks){
-        let htmlText = parseHTMLSplChars(stringWithLinks);
+        let htmlText = entities.decode(stringWithLinks);
         let imgText = imageParse(htmlText);
         let markedText = [];
         let matchStringarr = [];
