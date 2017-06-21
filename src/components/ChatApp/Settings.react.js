@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class Settings extends Component {
 
@@ -25,6 +28,10 @@ class Settings extends Component {
 		};
 
 		this.customServerMessage = '';
+	}
+
+	handleServer = () => {
+		this.props.onServerChange();
 	}
 
 	handleSubmit = () => {
@@ -87,8 +94,13 @@ class Settings extends Component {
 	render() {
 
 		const styles = {
-			'textAlign': 'center',
-			'padding': '10px'
+			'textAlign': 'left',
+			'paddingLeft': '25%'
+		}
+
+		const subHeaderStyle = {
+			color: UserPreferencesStore.getTheme()==='light'
+								? '#607D8B' : '#19314B'
 		}
 
 		const radioButtonStyles = {
@@ -107,11 +119,13 @@ class Settings extends Component {
 		const hidden = this.state.checked ? serverURL : '';
 
 		return (
-			<div className="loginForm">
-				<Paper zDepth={0} style={styles}>
-					<h1>Settings</h1>
+			<div className="settingsForm">
+				<Paper zDepth={0}>
+					<h1>Chat Settings</h1>
+					<div style={styles}>
 					<div>
-						<h4>Theme:</h4>
+					<h4 style={subHeaderStyle}>Chat Settings</h4>
+						<h3 style={{float:'left'}}>Select Theme</h3>
 						<DropDownMenu
 							label='Default Theme'
 							value={this.state.theme}
@@ -120,13 +134,23 @@ class Settings extends Component {
 				          <MenuItem value={'dark'} primaryText="Dark" />
 				        </DropDownMenu>
 			        </div>
+			        {cookies.get('loggedIn') ?
+			        <div>
+			        <h4 style={subHeaderStyle}>Server Settings:</h4>
+			        <h3 onClick={this.handleServer}
+			        	style={{cursor: 'pointer'}}>
+			        	Select Server<br/>
+			        	<span style={{fontSize:'80%',
+			        	fontWeight:'normal'
+			    		}}>Select backend server for the app
+			    		</span>
+			    	</h3>
+			       	</div>
+			       	:
 					<div>
-						<h4>Server:</h4>
-						<RadioButtonGroup style={{display: 'flex',
-						  marginTop: '10px',
-						  maxWidth:'200px',
-						  flexWrap: 'wrap',
-						  margin: 'auto'}}
+						<h4 style={subHeaderStyle}>Server Settings:</h4>
+						<h3>Choose Server</h3>
+						<RadioButtonGroup
 						 name="server" onChange={this.handleChange}
 						 defaultSelected="standardServer">
 						<RadioButton
@@ -142,9 +166,9 @@ class Settings extends Component {
 						       style={radioButtonStyles.radioButton}
 						     />
 						</RadioButtonGroup>
-					</div>
-					<div>
 						{hidden}
+					</div>
+					}
 					</div>
 					<div>
 						<RaisedButton
@@ -164,7 +188,8 @@ class Settings extends Component {
 
 Settings.propTypes = {
 	history: PropTypes.object,
-	onSettingsSubmit: PropTypes.func
+	onSettingsSubmit: PropTypes.func,
+	onServerChange: PropTypes.func
 };
 
 export default Settings;

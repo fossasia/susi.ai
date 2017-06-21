@@ -22,7 +22,6 @@ class Logout extends Component {
 
       return  null
 
-
   }
 
 };
