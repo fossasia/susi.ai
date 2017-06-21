@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import './NotFound.css';
 import LogoImg from '../images/susi.svg';
-import SettingStore from '../../stores/SettingStore';
+import userPreferencesStore from '../../stores/UserPreferencesStore';
 import Dialog from 'material-ui/Dialog';
 import Login from '../Auth/Login/Login.react';
 
@@ -25,7 +25,7 @@ export default class NotFound extends Component {
         const actions = <RaisedButton
             label="Cancel"
             backgroundColor={
-                SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
             labelColor='#fff'
             keyboardFocused={true}
             onTouchTap={this.handleClose}
@@ -49,7 +49,7 @@ export default class NotFound extends Component {
                                 className='notfound-button'
                                 label='Chat With SUSI'
 backgroundColor={
-    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+    userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor='#fff'
                             />
                         </Link>
@@ -58,7 +58,7 @@ backgroundColor={
                                 className='notfound-button'
                                 label='SignUp to SUSI'
 backgroundColor={
-    SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+    userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor='#fff'
                             />
                         </Link>
@@ -67,7 +67,7 @@ backgroundColor={
                             label='SignIn to SUSI'
                             onTouchTap={this.handleOpen}
                             backgroundColor={
-                                SettingStore.getTheme() ? '#607D8B' : '#19314B'}
+                                userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                             labelColor='#fff'
                         />
                     </div>
