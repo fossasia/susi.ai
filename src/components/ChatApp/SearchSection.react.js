@@ -302,7 +302,7 @@ class SearchSection extends Component {
   }
 
   _searchMsg(e) {
-    let matchString = e.target.value.trim();
+    let matchString = e.target.value;
     let messages = this.props.messages;
     let markingData = searchMsgs(messages, matchString, this.state.caseSensitive);
     if (matchString) {
