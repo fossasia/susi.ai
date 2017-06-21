@@ -1,26 +1,12 @@
-import UserPreferencesStore from '../stores/UserPreferencesStore';
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
 
 let ActionTypes = ChatConstants.ActionTypes;
 
-export function getDefaults() {
-  return UserPreferencesStore.getPreferences();
-}
-
-export function setDefaults() {
-  let preferences =  getDefaults();
-  let theme = preferences.Theme;
+export function serverChanged(server){
   ChatAppDispatcher.dispatch({
-    type: ActionTypes.SET_DEFAULT_THEME,
-    theme
-  });
-}
-
-export function setDefaultServer(defaultServer){
-  ChatAppDispatcher.dispatch({
-    type: ActionTypes.DEFAULT_SERVER_CHANGED,
-    defaultServer
+    type: ActionTypes.SERVER_CHANGED,
+    server
   });
 }
 
