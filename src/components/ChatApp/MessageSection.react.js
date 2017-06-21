@@ -24,6 +24,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
 import HardwareComponent from './HardwareComponent';
+
 const cookies = new Cookies();
 
 function getStateFromStores() {
@@ -37,6 +38,7 @@ function getStateFromStores() {
     showSettings: false,
     showThemeChanger: false,
     showHardware: false,
+    showServerChangeDialog: false,
     header: UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B',
     pane: '',
     textarea: '',
@@ -179,10 +181,33 @@ class MessageSection extends Component {
     }
   }
 
+  serverSettingChanged = () => {
+    this.setState({
+      showSettings: false,
+      showServerChangeDialog: true
+    });
+  }
+
+  handleServerToggle = (changeServer) => {
+    if(changeServer){
+      // Logout the user and show the login screen again
+      this.props.history.push('/logout');
+      this.setState({
+        open:true
+      });
+    }
+    else{
+      // Go back to settings dialog
+      this.setState({
+        showSettings: true,
+        showServerChangeDialog: false
+      });
+    }
+  }
+
   implementSettings = (values) => {
     this.setState({showSettings: false});
     this.changeTheme(values.theme);
-    // Actions.setDefaultServer(values.server);
   }
 
   componentDidMount() {
@@ -311,6 +336,29 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
+    const serverDialogActions = [
+    <RaisedButton
+      key={'Cancel'}
+      label="Cancel"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={false}
+      onTouchTap={this.handleServerToggle.bind(this,false)}
+      style={{margin: '6px'}}
+    />,
+    <RaisedButton
+      key={'OK'}
+      label="OK"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={false}
+      onTouchTap={this.handleServerToggle.bind(this,true)}
+    />];
+
     const componentsList = [
       {'id':1, 'component':'header', 'name': 'Header'},
       {'id':2, 'component': 'pane', 'name': 'Message Pane'},
@@ -395,7 +443,21 @@ class MessageSection extends Component {
               onRequestClose={this.handleClose}>
               <div>
                 <Settings {...this.props}
-                  onSettingsSubmit={this.implementSettings} />
+                  onSettingsSubmit={this.implementSettings}
+                  onServerChange={this.serverSettingChanged} />
+              </div>
+            </Dialog>
+            <Dialog
+              actions={serverDialogActions}
+              modal={false}
+              open={this.state.showServerChangeDialog}
+              autoScrollBodyContent={true}
+              bodyStyle={bodyStyle}
+              onRequestClose={this.handleServerToggle.bind(this,false)}
+            >
+              <div>
+                <h3>Change Server</h3>
+                Please login again to change SUSI server
               </div>
             </Dialog>
             <Dialog
@@ -477,6 +539,7 @@ Logged.muiName = 'IconMenu';
 
 MessageSection.propTypes = {
   location: PropTypes.object,
+  history: PropTypes.object
 };
 
 export default addUrlProps({ urlPropsQueryConfig })(MessageSection);

@@ -5,10 +5,7 @@ import {  createMessage,
           receiveCreatedMessage,
           clickThread,
           receiveAll } from './ChatApp.actions';
-import {  getDefaults,
-          setDefaults,
-          setDefaultTheme,
-          setDefaultServer,
+import {  serverChanged,
           ToggleSearch,
           themeChanged} from './Settings.actions';
 
@@ -21,9 +18,6 @@ export {  createMessage,
           clickThread,
           receiveAll }
 
-export { getDefaults,
-         setDefaults,
-         setDefaultTheme,
-         setDefaultServer,
+export { serverChanged,
          ToggleSearch,
          themeChanged }

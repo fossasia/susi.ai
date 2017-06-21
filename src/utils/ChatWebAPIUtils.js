@@ -1,4 +1,3 @@
-
 import * as Actions from '../actions/';
 import * as ChatDataServer from '../ChatDataServer';
 
@@ -25,12 +24,4 @@ export function getHistory(){
 
 export function getLocation(){
   Actions.getLocation();
-}
-
-export function getDefaults(){
-  Actions.getDefaults();
-}
-
-export function setPreferences(){
-  Actions.setDefaults();
 }
