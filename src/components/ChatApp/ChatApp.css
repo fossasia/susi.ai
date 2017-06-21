@@ -466,3 +466,22 @@ em{
   text-align: center;
   margin: 0 auto;
 }
+
+.settingsForm{
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  .settingsForm {
+    font-size: 14px;
+  }
+  .settingsForm h1{
+    font-size: 18px;
+  }
+  .settingsForm h3{
+    font-size: 16px;
+  }
+  .settingsForm h4{
+    font-size: 14px;
+  }
+}
