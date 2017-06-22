@@ -33,6 +33,9 @@ class Settings extends Component {
 	handleServer = () => {
 		this.props.onServerChange();
 	}
+	handleHardware = () => {
+		this.props.onHardwareSettings();
+	}
 
 	handleSubmit = () => {
 		let newTheme = this.state.theme;
@@ -145,7 +148,7 @@ class Settings extends Component {
 			    		}}>Select backend server for the app
 			    		</span>
 			    	</h3>
-			       	</div>
+			    	</div>
 			       	:
 					<div>
 						<h4 style={subHeaderStyle}>Server Settings:</h4>
@@ -169,8 +172,19 @@ class Settings extends Component {
 						{hidden}
 					</div>
 					}
-					</div>
-					<div>
+			    	<div>
+			    	<h4 style={subHeaderStyle}>Connect to SUSI Hardware:</h4>
+			        <h3 onClick={this.handleHardware}
+			        	style={{cursor: 'pointer'}}>
+			        	Add address to connect to Hardware<br/>
+			        	<span style={{fontSize:'80%',
+			        	fontWeight:'normal'
+			    		}}>
+			    		</span>
+			    	</h3>
+			    	</div>
+			    	</div>
+			    	<div>
 						<RaisedButton
 							label="Save"
 							disabled={!this.state.validForm}
@@ -189,7 +203,8 @@ class Settings extends Component {
 Settings.propTypes = {
 	history: PropTypes.object,
 	onSettingsSubmit: PropTypes.func,
-	onServerChange: PropTypes.func
+	onServerChange: PropTypes.func,
+	onHardwareSettings: PropTypes.func
 };
 
 export default Settings;
