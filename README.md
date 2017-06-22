@@ -34,3 +34,8 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 * **Step 5:** Build locally by running : ```$ npm run build ```
 * **Step 6:** To deploy at a url use : ```$ npm run deploy ```
 
+### How to connect to Susi Hardware?
+* **Step 1:** Configure your Susi Hardware Device using instructions on https://github.com/fossasia/susi_hardware
+* **Step 2:** Go to settings > Connect to Susi Hardware
+* **Step 3:** Add the default WebSocket URL for your Susi Hardwre Device. If you are using webchat on the same device as Susi Hardware, it will be ws://127.0.0.1:9001 . Default port is 9001, unless configured otherwise.
+* **Step 4:** On successful connection, you will get a confirmation alert. After that, all your queries to your Susi Hardware Device and their results will show up on Susi Webchat.
