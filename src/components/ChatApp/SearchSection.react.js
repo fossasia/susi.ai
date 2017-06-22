@@ -107,6 +107,10 @@ class SearchSection extends Component {
         height: '30px'
       }
     };
+    const searchstyle = {
+      WebkitTextFillColor: 'white',
+      color: 'white'
+    }
 
     let markID = this.state.scrollID;
     let markedMessages = this.state.markedMsgs;
@@ -131,10 +135,9 @@ class SearchSection extends Component {
     const searchField = (
       <div style={{ lineHeight: '46px' }}>
         <TextField
-          className="search"
           hintText="Search..."
-          inputStyle={{ color: 'white' }}
-          hintStyle={{ color: 'white' }}
+          className="search"
+          inputStyle={searchstyle}
           onChange={e => this._searchMsg(e)}
           value={this.state.searchText}
           style={{ marginTop: '-4px' }}
