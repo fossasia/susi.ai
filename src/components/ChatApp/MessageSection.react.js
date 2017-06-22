@@ -16,6 +16,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import HardwareComponent from './HardwareComponent';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import loadingGIF from '../images/loading.gif';
 import Cookies from 'universal-cookie';
@@ -23,7 +24,6 @@ import Login from '../Auth/Login/Login.react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
-import HardwareComponent from './HardwareComponent';
 
 const cookies = new Cookies();
 
@@ -37,6 +37,7 @@ function getStateFromStores() {
     open: false,
     showSettings: false,
     showThemeChanger: false,
+    showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
     header: UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B',
@@ -156,8 +157,20 @@ class MessageSection extends Component {
     this.setState({showSettings: true});
   }
 
-  handleHardware = () => {
-    this.setState({showHardware: true});
+  handleHardwareToggle = () => {
+      this.setState({
+        showSettings: true,
+        showServerChangeDialog: false,
+        showHardwareChangeDialog: false
+      });
+  }
+
+  hardwareSettingChanged = () => {
+    this.setState({
+      showSettings: false,
+      showServerChangeDialog: false,
+      showHardwareChangeDialog: true
+    });
   }
 
   changeTheme = (newTheme) => {
@@ -184,6 +197,7 @@ class MessageSection extends Component {
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
+      showHardware: false,
       showServerChangeDialog: true
     });
   }
@@ -200,7 +214,8 @@ class MessageSection extends Component {
       // Go back to settings dialog
       this.setState({
         showSettings: true,
-        showServerChangeDialog: false
+        showServerChangeDialog: false,
+        showHardwareChangeDialog: false
       });
     }
   }
@@ -232,8 +247,6 @@ class MessageSection extends Component {
           <MenuItem primaryText="Custom Theme"
             key="custom"
             onClick={this.handleThemeChanger} />
-          <MenuItem primaryText="Connect to SUSI Hardware"
-            onClick={this.handleHardware} />
           <MenuItem primaryText="Chat Anonymously"
             containerElement={<Link to="/logout" />} />
           <MenuItem primaryText="Logout"
@@ -254,8 +267,6 @@ class MessageSection extends Component {
       >
         <MenuItem primaryText="Settings"
           onClick={this.handleSettings} />
-        <MenuItem primaryText="Connect to SUSI Hardware"
-          onClick={this.handleHardware} />
         <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
         <MenuItem primaryText="Sign Up"
           containerElement={<Link to="/signup" />} />
@@ -358,6 +369,19 @@ class MessageSection extends Component {
       keyboardFocused={false}
       onTouchTap={this.handleServerToggle.bind(this,true)}
     />];
+    const hardwareActions = [
+    <RaisedButton
+      key={'Cancel'}
+      label="Cancel"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={false}
+      onTouchTap={this.handleHardwareToggle}
+      style={{margin: '6px'}}
+    />
+    ]
 
     const componentsList = [
       {'id':1, 'component':'header', 'name': 'Header'},
@@ -444,7 +468,8 @@ class MessageSection extends Component {
               <div>
                 <Settings {...this.props}
                   onSettingsSubmit={this.implementSettings}
-                  onServerChange={this.serverSettingChanged} />
+                  onServerChange={this.serverSettingChanged}
+                  onHardwareSettings={this.hardwareSettingChanged} />
               </div>
             </Dialog>
             <Dialog
@@ -461,12 +486,12 @@ class MessageSection extends Component {
               </div>
             </Dialog>
             <Dialog
-              actions={actions}
+              actions={hardwareActions}
               modal={false}
-              open={this.state.showHardware}
+              open={this.state.showHardwareChangeDialog}
               autoScrollBodyContent={true}
               bodyStyle={bodyStyle}
-              onRequestClose={this.handleClose}>
+              onRequestClose={this.handleHardwareToggle.bind(this, false)}>
               <div>
                 <HardwareComponent {...this.props} />
               </div>
