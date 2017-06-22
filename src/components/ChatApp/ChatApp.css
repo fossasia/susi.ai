@@ -52,6 +52,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
 background: rgba(30, 87, 153, 0.02);
 
 }
+
+.search{
+  -webkit-text-fill-color: white;
+}
+
 .message-section {
   background: #f5f4f7;
   position: fixed;
