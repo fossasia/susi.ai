@@ -14,7 +14,7 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
-import {Carousel} from 'react-responsive-carousel';
+import Slider from 'react-slick';
 import TextHighlight from 'react-text-highlight';
 import {AllHtmlEntities} from 'html-entities';
 
@@ -70,6 +70,7 @@ function drawTiles(tilesData){
         <div key={i}>
           <MuiThemeProvider>
             <Paper zDepth={0} className='tile'>
+              <a rel='noopener noreferrer' href={tile.link} target='_blank'>
               {tile.icon &&
                 (<div className='tile-img-container'>
                   <img src={tile.icon}
@@ -81,10 +82,8 @@ function drawTiles(tilesData){
                   <strong>{processText(tile.title)}</strong>
                 </p>
                 {processText(tile.description)}<br/>
-                <a href={tile.link} target='_blank'
-                  rel='noopener noreferrer'
-                  className='tile-anchor'>Know more</a>
               </div>
+              </a>
             </Paper>
           </MuiThemeProvider>
         </div>
@@ -100,16 +99,18 @@ function renderTiles(tiles){
     return(<center>{noResultFound}</center>);
   }
   let resultTiles = drawTiles(tiles);
+   var settings = {
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        swipeToSlide:true,
+        swipe:true,
+        arrows:false
+      };
   return(
-    <Carousel
-    showThumbs={false}
-    infiniteLoop={true}
-    emulateTouch={true}
-    showStatus={false}
-    transitionTime={200}
-    axis={'horizontal'}>
-      {resultTiles}
-    </Carousel>
+    <Slider {...settings}>
+           {resultTiles}
+    </Slider>
   );
 }
 
