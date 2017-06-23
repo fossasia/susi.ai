@@ -14,6 +14,7 @@
     }
   },
   "env": {
+    "browser": true,
     "jasmine": true
   },
   "globals": {
@@ -51,7 +52,7 @@
     // Don't enforce the maximum depth that blocks can be nested.
     "max-depth": 0,
     // Maximum length of a line.
-    "max-len": [2, 90, 2, {"ignoreUrls": true}],
+    "max-len": [2, 90, 2, { "ignoreStrings": true, "ignoreUrls": true}],
     // Maximum depth callbacks can be nested.
     "max-nested-callbacks": [2, 3],
     // Don't limit the number of parameters that can be used in a function.
