@@ -4,6 +4,7 @@ import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
+import * as Actions from './HardwareConnect.actions'
 
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
@@ -88,6 +89,9 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     timeout: 3000,
     async: false,
     success: function (response) {
+      // send susi response to connected Hardware Device
+      Actions.sendToHardwareDevice(response);
+
       receivedMessage.text = response.answers[0].actions[0].expression;
       receivedMessage.response = response;
       let actions = [];
