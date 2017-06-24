@@ -1,7 +1,6 @@
 
 import MessageSection from './MessageSection.react';
 import React from 'react';
-import './Carousel.css';
 import './ChatApp.css';
 import history from '../../history';
 
