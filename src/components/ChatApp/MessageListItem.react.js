@@ -28,12 +28,23 @@ export function parseAndReplace(text) {
 }
 
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
-function processText(text){
+function processText(text,type){
   if(text){
-    let htmlText = entities.decode(text);
-    let imgText = imageParse(htmlText);
-    let replacedText = parseAndReplace(imgText);
-    return <Emojify>{replacedText}</Emojify>;
+  	let processedText = '';
+  	switch(type){
+  		case 'websearch-rss':{
+  			let htmlText = entities.decode(text);
+		    processedText = <Emojify>{htmlText}</Emojify>;
+  			break;
+  		}
+  		default:{
+  			let htmlText = entities.decode(text);
+		    let imgText = imageParse(htmlText);
+		    let replacedText = parseAndReplace(imgText);
+		    processedText = <Emojify>{replacedText}</Emojify>;
+  		}
+  	}
+  	return processedText;
   };
   return text;
 }
@@ -70,20 +81,24 @@ function drawTiles(tilesData){
         <div key={i}>
           <MuiThemeProvider>
             <Paper zDepth={0} className='tile'>
-              <a rel='noopener noreferrer' href={tile.link} target='_blank'>
-              {tile.icon &&
-                (<div className='tile-img-container'>
-                  <img src={tile.icon}
-                  className='tile-img' alt=''/>
-                  </div>
-                )}
-              <div className='tile-text'>
-                <p className='tile-title'>
-                  <strong>{processText(tile.title)}</strong>
-                </p>
-                {processText(tile.description)}<br/>
-              </div>
-              </a>
+            	<a rel='noopener noreferrer'
+              	href={tile.link} target='_blank'
+              	className='tile-anchor'>
+              		{tile.icon &&
+	                (<div className='tile-img-container'>
+	                  	<img src={tile.icon}
+	                  	className='tile-img' alt=''/>
+	                  </div>
+	                )}
+	                <div className='tile-text'>
+	                	<p className='tile-title'>
+	                		<strong>
+	                  			{processText(tile.title,'websearch-rss')}
+	                  		</strong>
+	                  	</p>
+	                	{processText(tile.description,'websearch-rss')}
+	              	</div>
+              	</a>
             </Paper>
           </MuiThemeProvider>
         </div>
@@ -109,7 +124,7 @@ function renderTiles(tiles){
       };
   return(
     <Slider {...settings}>
-           {resultTiles}
+    	{resultTiles}
     </Slider>
   );
 }
