@@ -141,6 +141,7 @@ class SearchSection extends Component {
           onChange={e => this._searchMsg(e)}
           value={this.state.searchText}
           style={{ marginTop: '-4px' }}
+          autoFocus
         />
       </div>
     );
