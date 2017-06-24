@@ -132,8 +132,7 @@ class Settings extends Component {
 					<h1>Chat Settings</h1>
 					<div style={styles}>
 					<div>
-					<h4 style={subHeaderStyle}>Chat Settings</h4>
-						<h3 style={{float:'left'}}>Select Theme</h3>
+						<h4 style={subHeaderStyle}>Select Theme:</h4>
 						<DropDownMenu
 							label='Default Theme'
 							value={this.state.theme}
@@ -145,14 +144,11 @@ class Settings extends Component {
 			        {cookies.get('loggedIn') ?
 			        <div>
 			        <h4 style={subHeaderStyle}>Server Settings:</h4>
-			        <h3 onClick={this.handleServer}
-			        	style={{cursor: 'pointer'}}>
-			        	Select Server<br/>
-			        	<span style={{fontSize:'80%',
-			        	fontWeight:'normal'
-			    		}}>Select backend server for the app
-			    		</span>
-			    	</h3>
+								<FlatButton
+									style={Buttonstyles}
+									label="Select backend server for the app"
+									onClick={this.handleServer} />
+
 			    	</div>
 			       	:
 					<div>
