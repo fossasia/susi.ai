@@ -28,6 +28,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.app-bar-search{
+  background-image: url('../images/susi-white.svg');
+  margin: 0 auto;
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 768px){
+  .app-bar-search{
+    background-image: none;
+  }  
+}
+
+
 .circleChoose{
   margin: 0 auto;
   position: relative;
@@ -496,4 +512,48 @@ em{
   .settingsForm h4{
     font-size: 14px;
   }
+}
+
+/*Clearing Floats*/
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+
+.cf:after{
+    clear:both;
+}
+
+.cf{
+    zoom:1;
+} 
+
+.search-wrapper input[type=text] {
+  width: 40%;
+  height: 35px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  font-color: white;
+  border: none;
+  background-color: white;
+  background-image: url('../images/searchicon.png');
+  background-position: center left;
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  font-size: 16px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  float: right;
+  cursor: pointer;
+}
+
+.search-wrapper:hover > input[type=text] {
+  width: 60%;
+  cursor: auto;
+}
+
+input[type=text]:focus{
+  width: 60%;
+  cursor: auto; 
 }

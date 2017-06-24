@@ -1,6 +1,5 @@
 import MessageComposer from './MessageComposer.react';
 import MessageListItem from './MessageListItem.react';
-import SearchSection from './SearchSection.react';
 import Settings from './Settings.react';
 import MessageStore from '../../stores/MessageStore';
 import React, { Component } from 'react';
@@ -9,7 +8,6 @@ import * as Actions from '../../actions/';
 import SettingStore from '../../stores/SettingStore';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import SearchIcon from 'material-ui/svg-icons/action/search';
-import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -24,6 +22,12 @@ import Login from '../Auth/Login/Login.react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
+import $ from 'jquery';
+import ScrollArea from 'react-scrollbar';
+import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
+import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
+import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 
 const cookies = new Cookies();
 
@@ -44,17 +48,73 @@ function getStateFromStores() {
     pane: '',
     textarea: '',
     composer:'',
-    body:''
+    body:'',
+    showSearchField:false,
+    searchState: {
+      markedMsgs: [],
+      markedIDs: [],
+      markedIndices: [],
+      scrollLimit: 0,
+      scrollIndex: -1,
+      scrollID: null,
+      caseSensitive: false,
+      open: false,
+      searchText:'',
+    }
   };
 }
 
-function getMessageListItem(message) {
-  return (
-    <MessageListItem
-      key={message.id}
-      message={message}
-    />
-  );
+function getMessageListItem(messages, markID) {
+  if(markID){
+    return messages.map((message) => {
+      return (
+        <MessageListItem
+          key={message.id}
+          message={message}
+          markID={markID}
+        />
+      );
+    });
+  }
+
+  return messages.map((message) => {
+    return (
+      <MessageListItem
+        key={message.id}
+        message={message}
+      />
+    );
+  });
+}
+
+function searchMsgs(messages, matchString, isCaseSensitive) {
+  let markingData = {
+    allmsgs: [],
+    markedIDs: [],
+    markedIndices: [],
+  };
+  messages.forEach((msg, id) => {
+    let orgMsgText = msg.text;
+    let msgCopy = $.extend(true, {}, msg);
+    let msgText = orgMsgText;
+    if (orgMsgText) {
+      if (!isCaseSensitive) {
+        matchString = matchString.toLowerCase();
+        msgText = msgText.toLowerCase();
+      }
+      let match = msgText.indexOf(matchString);
+      if (match !== -1) {
+        msgCopy.mark = {
+          matchText: matchString,
+          isCaseSensitive: isCaseSensitive
+        };
+        markingData.markedIDs.unshift(msgCopy.id);
+        markingData.markedIndices.unshift(id);
+      }
+    }
+    markingData.allmsgs.push(msgCopy);
+  });
+  return markingData;
 }
 
 function getLoadingGIF() {
@@ -223,6 +283,45 @@ class MessageSection extends Component {
   implementSettings = (values) => {
     this.setState({showSettings: false});
     this.changeTheme(values.theme);
+  }
+
+  searchTextChanged = (event) => {
+    let matchString = event.target.value;
+    let messages = this.state.messages;
+    let markingData = searchMsgs(messages, matchString,
+                              this.state.searchState.caseSensitive);
+    if(matchString){
+      let searchState = {
+        markedMsgs: markingData.allmsgs,
+        markedIDs: markingData.markedIDs,
+        markedIndices: markingData.markedIndices,
+        scrollLimit: markingData.markedIDs.length,
+        scrollIndex: 0,
+        scrollID: markingData.markedIDs[0],
+        caseSensitive: this.state.searchState.caseSensitive,
+        open: false,
+        searchText: matchString
+      };
+      this.setState({
+        searchState: searchState
+      });
+    }
+    else {
+      let searchState = {
+        markedMsgs: markingData.allmsgs,
+        markedIDs: markingData.markedIDs,
+        markedIndices: markingData.markedIndices,
+        scrollLimit: markingData.markedIDs.length,
+        scrollIndex: -1,
+        scrollID: null,
+        caseSensitive: this.state.caseSensitive,
+        open: false,
+        searchText: ''
+      }
+      this.setState({
+        searchState: searchState
+      });
+    }
   }
 
   componentDidMount() {
@@ -404,32 +503,73 @@ class MessageSection extends Component {
     var pane = this.state.pane;
     var composer = this.state.composer;
 
-    let messageListItems = this.state.messages.map(getMessageListItem);
+    let messageListItems = [];
+    if(this.state.search){
+      let markID = this.state.searchState.scrollID;
+      let markedMessages = this.state.searchState.markedMsgs;
+      messageListItems = getMessageListItem(markedMessages,markID);
+    }
+    else{
+      messageListItems = getMessageListItem(this.state.messages);
+    }
+
     if (this.state.thread) {
-      if (!this.state.search) {
-        const rightButtons = (
-          <div style={{marginTop: '-7px'}}>
-            <IconButton tooltip="Search"
-            iconStyle={{ fill: 'white' }}
-            onTouchTap={this._onClickSearch.bind(this)}>
-              <SearchIcon />
-            </IconButton>
-            <Logged />
-          </div>);
+
+        let appBarClass = 'app-bar';
+        if(this.state.showSearchField){
+          appBarClass = 'app-bar-search';
+        }
+
         return (
           <div className={topBackground} style={{background:body}}>
             <header className='message-thread-heading'
             style={{ backgroundColor: backgroundCol }}>
-              <AppBar
-                iconElementLeft={<IconButton></IconButton>}
-                iconElementRight={rightButtons}
-                className="app-bar"
+              <Toolbar
+                className={appBarClass}
                 style={{ backgroundColor: backgroundCol,
-                height: '46px' }}
-                titleStyle={{height:'46px'}}
-              />
+                height: '46px' }}>
+                  <ToolbarGroup >
+                  </ToolbarGroup>
+                  <ToolbarGroup lastChild={true}>
+                  {this.state.showSearchField ?
+                    <form className="search-wrapper cf">
+                    <IconButton
+                      className="searchToggleUp"
+                      tooltip="Previous"
+                      iconStyle={{ fill: 'white' }}
+                      onTouchTap={this._onClickPrev.bind(this)}>
+                      <UpIcon />
+                    </IconButton>
+                    <IconButton
+                      className="searchToggleDown"
+                      tooltip="Recent"
+                      iconStyle={{ fill: 'white' }}
+                      onTouchTap={this._onClickRecent.bind(this)}>
+                      <DownIcon />
+                    </IconButton>
+                    <IconButton
+                      tooltip="Back"
+                      iconStyle={{ fill: 'white' }}
+                      onTouchTap={this._onClickExit.bind(this)}>
+                      <ExitIcon />
+                    </IconButton>
+                    <input type="text"
+                    placeholder="Search..."
+                    onChange={this.searchTextChanged}/>
+                    </form>
+                    :
+                    <IconButton tooltip="Search"
+                    iconStyle={{ fill: 'white' }}
+                    onTouchTap={this._onClickSearch.bind(this)}>
+                      <SearchIcon />
+                    </IconButton>
+                  }
+                    <Logged />
+                  </ToolbarGroup>
+              </Toolbar>
             </header>
-
+            {!this.state.search ? (
+            <div>
             <div className='message-pane'>
               <div className='message-section'>
                 <ul
@@ -508,16 +648,24 @@ class MessageSection extends Component {
                 {components}
               </div>
             </Dialog>
+            </div>)
+            : (
+            <div className='message-pane'>
+              <div className='message-section'>
+                <ul
+                  className="message-list"
+                  ref={(c) => { this.messageList = c; }}
+                  style={{background:pane}}>
+                  <ScrollArea
+                    ref={(ref) => { this.scrollarea = ref; }}>
+                    {messageListItems}
+                  </ScrollArea>
+                </ul>
+              </div>
+            </div>
+            )}
           </div>
         );
-      }
-      if (this.state.search) {
-        return (
-          <SearchSection messages={this.state.messages}
-            theme={this.state.currTheme}
-          />
-        );
-      }
     }
 
     return <div className='message-section'></div>;
@@ -537,7 +685,26 @@ class MessageSection extends Component {
           // do nothing
       }
     }
-    this._scrollToBottom();
+
+    if(this.state.search){
+      if (this.state.searchState.scrollIndex === -1
+        || this.state.searchState.scrollIndex === null) {
+        this._scrollToBottom();
+      }
+      else {
+        let markedIDs = this.state.searchState.markedIDs;
+        let markedIndices = this.state.searchState.markedIndices;
+        let limit = this.state.searchState.scrollLimit;
+        let ul = this.messageList;
+        if (markedIDs && ul && limit > 0) {
+          let currentID = markedIndices[this.state.searchState.scrollIndex];
+          this.scrollarea.content.childNodes[currentID].scrollIntoView();
+        }
+      }
+    }
+    else{
+      this._scrollToBottom();
+    }
   }
 
   _scrollToBottom() {
@@ -547,8 +714,50 @@ class MessageSection extends Component {
     }
   }
 
+  _onClickPrev() {
+    let newIndex = this.state.searchState.scrollIndex + 1;
+    let indexLimit = this.state.searchState.scrollLimit;
+    let markedIDs = this.state.searchState.markedIDs;
+    let ul = this.messageList;
+    if (markedIDs && ul && newIndex < indexLimit) {
+      let currState = this.state.searchState;
+      currState.scrollIndex = newIndex;
+      currState.scrollID = markedIDs[newIndex];
+      this.setState({
+        searchState: currState
+      });
+    }
+  }
+
+  _onClickRecent() {
+    let newIndex = this.state.searchState.scrollIndex - 1;
+    let markedIDs = this.state.searchState.markedIDs;
+    let ul = this.messageList;
+    if (markedIDs && ul && newIndex >= 0) {
+      let currState = this.state.searchState;
+      currState.scrollIndex = newIndex;
+      currState.scrollID = markedIDs[newIndex];
+      this.setState({
+        searchState: currState
+      });
+    }
+  }
+
   _onClickSearch() {
-    Actions.ToggleSearch();
+    let searchState = this.state.searchState;
+    searchState.markedMsgs = this.state.messages;
+    this.setState({
+      search: true,
+      searchState: searchState,
+      showSearchField:true
+    });
+  }
+
+  _onClickExit(){
+   this.setState({
+      search: false,
+      showSearchField:false
+    });
   }
 
   /**
