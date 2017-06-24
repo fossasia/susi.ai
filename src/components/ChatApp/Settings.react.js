@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
+import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -101,6 +102,10 @@ class Settings extends Component {
 			'paddingLeft': '25%'
 		}
 
+		const Buttonstyles = {
+			marginBottom: 16,
+		}
+
 		const subHeaderStyle = {
 			color: UserPreferencesStore.getTheme()==='light'
 								? '#607D8B' : '#19314B'
@@ -174,14 +179,10 @@ class Settings extends Component {
 					}
 			    	<div>
 			    	<h4 style={subHeaderStyle}>Connect to SUSI Hardware:</h4>
-			        <h3 onClick={this.handleHardware}
-			        	style={{cursor: 'pointer'}}>
-			        	Add address to connect to Hardware<br/>
-			        	<span style={{fontSize:'80%',
-			        	fontWeight:'normal'
-			    		}}>
-			    		</span>
-			    	</h3>
+							<FlatButton
+								style={Buttonstyles}
+								label="Add address to connect to Hardware"
+								onClick={this.handleHardware} />
 			    	</div>
 			    	</div>
 			    	<div>
