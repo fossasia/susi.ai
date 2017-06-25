@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
+import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -101,6 +102,10 @@ class Settings extends Component {
 			'paddingLeft': '25%'
 		}
 
+		const Buttonstyles = {
+			marginBottom: 16,
+		}
+
 		const subHeaderStyle = {
 			color: UserPreferencesStore.getTheme()==='light'
 								? '#607D8B' : '#19314B'
@@ -127,8 +132,7 @@ class Settings extends Component {
 					<h1>Chat Settings</h1>
 					<div style={styles}>
 					<div>
-					<h4 style={subHeaderStyle}>Chat Settings</h4>
-						<h3 style={{float:'left'}}>Select Theme</h3>
+						<h4 style={subHeaderStyle}>Select Theme:</h4>
 						<DropDownMenu
 							label='Default Theme'
 							value={this.state.theme}
@@ -140,14 +144,11 @@ class Settings extends Component {
 			        {cookies.get('loggedIn') ?
 			        <div>
 			        <h4 style={subHeaderStyle}>Server Settings:</h4>
-			        <h3 onClick={this.handleServer}
-			        	style={{cursor: 'pointer'}}>
-			        	Select Server<br/>
-			        	<span style={{fontSize:'80%',
-			        	fontWeight:'normal'
-			    		}}>Select backend server for the app
-			    		</span>
-			    	</h3>
+								<FlatButton
+									style={Buttonstyles}
+									label="Select backend server for the app"
+									onClick={this.handleServer} />
+
 			    	</div>
 			       	:
 					<div>
@@ -174,14 +175,10 @@ class Settings extends Component {
 					}
 			    	<div>
 			    	<h4 style={subHeaderStyle}>Connect to SUSI Hardware:</h4>
-			        <h3 onClick={this.handleHardware}
-			        	style={{cursor: 'pointer'}}>
-			        	Add address to connect to Hardware<br/>
-			        	<span style={{fontSize:'80%',
-			        	fontWeight:'normal'
-			    		}}>
-			    		</span>
-			    	</h3>
+							<FlatButton
+								style={Buttonstyles}
+								label="Add address to connect to Hardware"
+								onClick={this.handleHardware} />
 			    	</div>
 			    	</div>
 			    	<div>
