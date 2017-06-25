@@ -311,7 +311,10 @@ class MessageListItem extends React.Component {
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
                   <div className='message-time'>
-                    {message.date.toLocaleTimeString()}
+                    {message.date.toLocaleString(
+                      'en-US',
+                      { hour: 'numeric',minute:'numeric', hour12: true }
+                    )}
                   </div>
                   </section>
                 </li>
@@ -329,7 +332,10 @@ class MessageListItem extends React.Component {
                       rel='noopener noreferrer'>{text}</a>
                   </div>
                   <div className='message-time'>
-                    {message.date.toLocaleTimeString()}
+                    {message.date.toLocaleString(
+                      'en-US',
+                      { hour: 'numeric',minute:'numeric', hour12: true }
+                    )}
                   </div>
                   </section>
                 </li>
@@ -346,7 +352,10 @@ class MessageListItem extends React.Component {
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
                   <div className='message-time'>
-                    {message.date.toLocaleTimeString()}
+                    {message.date.toLocaleString(
+                      'en-US',
+                      { hour: 'numeric',minute:'numeric', hour12: true }
+                    )}
                   </div>
                   </section>
                 </li>
@@ -362,7 +371,10 @@ class MessageListItem extends React.Component {
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
                   <div className='message-time'>
-                    {message.date.toLocaleTimeString()}
+                    {message.date.toLocaleString(
+                      'en-US',
+                      { hour: 'numeric',minute:'numeric', hour12: true }
+                    )}
                   </div>
                   </section>
                 </li>
@@ -385,7 +397,10 @@ class MessageListItem extends React.Component {
                       {renderTiles(rssTiles)}
                     </div></div>
                     <div className='message-time'>
-                      {message.date.toLocaleTimeString()}
+                      {message.date.toLocaleString(
+                        'en-US',
+                        { hour: 'numeric',minute:'numeric', hour12: true }
+                      )}
                     </div>
                     </section>
                   </li>
@@ -401,7 +416,10 @@ class MessageListItem extends React.Component {
                       {renderTiles(websearchTiles)}
                     </div></div>
                     <div className='message-time'>
-                      {message.date.toLocaleTimeString()}
+                      {message.date.toLocaleString(
+                        'en-US',
+                        { hour: 'numeric',minute:'numeric', hour12: true }
+                      )}
                     </div>
                     </section>
                   </li>
@@ -423,7 +441,10 @@ class MessageListItem extends React.Component {
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
         <div className='message-time'>
-          {message.date.toLocaleTimeString()}
+          {message.date.toLocaleString(
+            'en-US',
+            { hour: 'numeric',minute:'numeric', hour12: true }
+          )}
         </div>
         </section>
       </li>
