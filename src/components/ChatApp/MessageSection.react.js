@@ -7,7 +7,6 @@ import ThreadStore from '../../stores/ThreadStore';
 import * as Actions from '../../actions/';
 import SettingStore from '../../stores/SettingStore';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import SearchIcon from 'material-ui/svg-icons/action/search';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -24,10 +23,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import ScrollArea from 'react-scrollbar';
-import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
-import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
+import ExpandingSearchField from './SearchField.react'
 
 const cookies = new Cookies();
 
@@ -49,7 +46,6 @@ function getStateFromStores() {
     textarea: '',
     composer:'',
     body:'',
-    showSearchField:false,
     searchState: {
       markedMsgs: [],
       markedIDs: [],
@@ -516,7 +512,7 @@ class MessageSection extends Component {
     if (this.state.thread) {
 
         let appBarClass = 'app-bar';
-        if(this.state.showSearchField){
+        if(this.state.search){
           appBarClass = 'app-bar-search';
         }
 
@@ -531,39 +527,14 @@ class MessageSection extends Component {
                   <ToolbarGroup >
                   </ToolbarGroup>
                   <ToolbarGroup lastChild={true}>
-                  {this.state.showSearchField ?
-                    <form className="search-wrapper cf">
-                    <IconButton
-                      className="searchToggleUp"
-                      tooltip="Previous"
-                      iconStyle={{ fill: 'white' }}
-                      onTouchTap={this._onClickPrev.bind(this)}>
-                      <UpIcon />
-                    </IconButton>
-                    <IconButton
-                      className="searchToggleDown"
-                      tooltip="Recent"
-                      iconStyle={{ fill: 'white' }}
-                      onTouchTap={this._onClickRecent.bind(this)}>
-                      <DownIcon />
-                    </IconButton>
-                    <IconButton
-                      tooltip="Back"
-                      iconStyle={{ fill: 'white' }}
-                      onTouchTap={this._onClickExit.bind(this)}>
-                      <ExitIcon />
-                    </IconButton>
-                    <input type="text"
-                    placeholder="Search..."
-                    onChange={this.searchTextChanged}/>
-                    </form>
-                    :
-                    <IconButton tooltip="Search"
-                    iconStyle={{ fill: 'white' }}
-                    onTouchTap={this._onClickSearch.bind(this)}>
-                      <SearchIcon />
-                    </IconButton>
-                  }
+                    <div style={{marginTop:'-7px'}}>
+                      <ExpandingSearchField
+                       onTextChange={this.searchTextChanged}
+                       activateSearch={this._onClickSearch.bind(this)}
+                       exitSearch={this._onClickExit.bind(this)}
+                       scrollRecent={this._onClickRecent.bind(this)}
+                       scrollPrev={this._onClickPrev.bind(this)}/>
+                    </div>
                     <Logged />
                   </ToolbarGroup>
               </Toolbar>
@@ -749,14 +720,12 @@ class MessageSection extends Component {
     this.setState({
       search: true,
       searchState: searchState,
-      showSearchField:true
     });
   }
 
   _onClickExit(){
-   this.setState({
+    this.setState({
       search: false,
-      showSearchField:false
     });
   }
 
