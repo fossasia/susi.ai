@@ -397,8 +397,9 @@ textarea {
 
 .tile{
   width: 100%;
-  padding-left: 10px;
-  padding-right: 5px;
+  height: 100px;
+  padding-left: 7%;
+  padding-right: 2%;
 }
 .slick-slide{
   margin: 0 10px;
@@ -425,7 +426,6 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 200%;
 }
 
 .tile-title{
@@ -451,11 +451,7 @@ textarea {
 }
 
 .tile-anchor{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  float: right;
+  text-decoration: none;
 }
 
 a {
