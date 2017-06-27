@@ -444,9 +444,11 @@ a {
   text-overflow: ellipsis;
   display: block;
 }
+
 .dark a{
   color: #80a9a5;
 }
+
 .theme-button{
   line-height: 52px;
   background: #19324c;
@@ -456,6 +458,7 @@ a {
   font-size: 13px;
   cursor: pointer;
 }
+
 .dark .theme-button{
   line-height: 52px;
   background: #607d8b;
@@ -463,9 +466,11 @@ a {
   padding: 0 10px;
   color:#fff;
 }
+
 .dialogStyle div{
     margin: 0 auto;
 }
+
 em{
   background-color: orange;
 }
@@ -479,7 +484,16 @@ em{
   margin: 0 auto;
 }
 
-@media screen and (max-width: 768px) {
+.settingsDialog {
+  text-align: left;
+  padding-left: 25%;
+}
+
+.settingsBtns {
+  margin-bottom: 16px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 768px){
   .settingsForm {
     font-size: 14px;
   }
@@ -491,5 +505,14 @@ em{
   }
   .settingsForm h4{
     font-size: 14px;
+  }
+  .settingsDialog {
+    text-align: left;
+    padding-left: 10%;
+    line-height: 80%;
+  }
+  .settingsBtns{
+    margin-bottom: 16px;
+    width: 85%;
   }
 }
