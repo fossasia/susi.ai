@@ -97,11 +97,6 @@ class Settings extends Component {
 
 	render() {
 
-		const styles = {
-			'textAlign': 'left',
-			'paddingLeft': '25%'
-		}
-
 		const Buttonstyles = {
 			marginBottom: 16,
 		}
@@ -130,7 +125,7 @@ class Settings extends Component {
 			<div className="settingsForm">
 				<Paper zDepth={0}>
 					<h1>Chat Settings</h1>
-					<div style={styles}>
+					<div className='settingsDialog'>
 					<div>
 						<h4 style={subHeaderStyle}>Select Theme:</h4>
 						<DropDownMenu
@@ -144,10 +139,11 @@ class Settings extends Component {
 			        {cookies.get('loggedIn') ?
 			        <div>
 			        <h4 style={subHeaderStyle}>Server Settings:</h4>
-								<FlatButton
-									style={Buttonstyles}
-									label="Select backend server for the app"
-									onClick={this.handleServer} />
+						<FlatButton
+							className='settingsBtns'
+							style={Buttonstyles}
+							label="Select backend server for the app"
+							onClick={this.handleServer} />
 
 			    	</div>
 			       	:
@@ -175,10 +171,11 @@ class Settings extends Component {
 					}
 			    	<div>
 			    	<h4 style={subHeaderStyle}>Connect to SUSI Hardware:</h4>
-							<FlatButton
-								style={Buttonstyles}
-								label="Add address to connect to Hardware"
-								onClick={this.handleHardware} />
+						<FlatButton
+							className='settingsBtns'
+							style={Buttonstyles}
+							label="Add address to connect to Hardware"
+							onClick={this.handleHardware} />
 			    	</div>
 			    	</div>
 			    	<div>
