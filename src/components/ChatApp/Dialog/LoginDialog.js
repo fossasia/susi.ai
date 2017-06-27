@@ -1,48 +1,57 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import userPreferencesStore from '../../../stores/UserPreferencesStore';
+
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Login from '../../Auth/Login/Login.react';
 import PropTypes from 'prop-types';
 
 export default class LoginDialog extends React.Component {
+
+
     constructor(props) {
         super(props);
-        console.log(props.open)
-        this.state={open:this.props.open}
-        console.log(this.state)
-
     }
     handleClose = () => {
-                    //  console.log(this.props.open)
-this.setState({open:false});
+       this.props.switchDialog(false);
     };
 
     render() {
-       // this.getInitState();
+        this.state = { open: this.props.open }
         const actions = <RaisedButton
             label="Cancel"
             backgroundColor={
-                userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
-            labelColor='#fff'
+                UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B'}
+            labelColor="#fff"
+            width='200px'
             keyboardFocused={true}
             onTouchTap={this.handleClose}
         />;
-                    console.log(this.state.open);
+
+        const bodyStyle = {
+            'padding': 0,
+            textAlign: 'center'
+        }
+        console.log(this.state.open);
 
         return (
             <Dialog
+                className='dialogStyle'
                 actions={actions}
                 modal={false}
-                open={this.state.open}
+                open={this.props.open}
                 autoScrollBodyContent={true}
+                bodyStyle={bodyStyle}
+                contentStyle={{ width: '35%', minWidth: '300px' }}
                 onRequestClose={this.handleClose}>
-                <div><Login /></div>
+                <Login {...this.props} />
             </Dialog>
         );
     }
 
 };
 LoginDialog.propTypes = {
-    open: PropTypes.bool
+
+    open: PropTypes.bool,
+    switchDialog: PropTypes.func
 };

@@ -20,7 +20,7 @@ import HardwareComponent from './HardwareComponent';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import loadingGIF from '../images/loading.gif';
 import Cookies from 'universal-cookie';
-import Login from '../Auth/Login/Login.react';
+import LoginDialog from './Dialog/LoginDialog';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
@@ -40,11 +40,11 @@ function getStateFromStores() {
     showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
-    header: UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B',
+    header: UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B',
     pane: '',
     textarea: '',
-    composer:'',
-    body:''
+    composer: '',
+    body: ''
   };
 }
 
@@ -80,7 +80,7 @@ let Logged = (props) => (
     {...props}
     iconButtonElement={
       <IconButton
-      iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+        iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
     }
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -108,32 +108,32 @@ class MessageSection extends Component {
     this.state = getStateFromStores();
   }
 
-  handleColorChange = (name,color) => {
+  handleColorChange = (name, color) => {
     // Current Changes
   }
 
   handleChangeComplete = (name, color) => {
-     // Send these Settings to Server
-     let state = this.state;
-     if(name === 'header'){
-       state.header = color.hex;
-     }
-     else if(name === 'body'){
-       state.body= color.hex;
-       document.body.style.setProperty('background', color.hex);
-     }
-     else if(name ===  'pane') {
-       state.pane = color.hex;
-     }
-     else if(name === 'composer'){
-       state.composer = color.hex;
+    // Send these Settings to Server
+    let state = this.state;
+    if (name === 'header') {
+      state.header = color.hex;
+    }
+    else if (name === 'body') {
+      state.body = color.hex;
+      document.body.style.setProperty('background', color.hex);
+    }
+    else if (name === 'pane') {
+      state.pane = color.hex;
+    }
+    else if (name === 'composer') {
+      state.composer = color.hex;
 
-     }
-     else if(name === 'textarea') {
-       state.textarea = color.hex;
+    }
+    else if (name === 'textarea') {
+      state.textarea = color.hex;
 
-     }
-     this.setState(state);
+    }
+    this.setState(state);
   }
 
   handleOpen = () => {
@@ -150,19 +150,19 @@ class MessageSection extends Component {
   }
 
   handleThemeChanger = () => {
-    this.setState({showThemeChanger: true});
+    this.setState({ showThemeChanger: true });
   }
 
   handleSettings = () => {
-    this.setState({showSettings: true});
+    this.setState({ showSettings: true });
   }
 
   handleHardwareToggle = () => {
-      this.setState({
-        showSettings: true,
-        showServerChangeDialog: false,
-        showHardwareChangeDialog: false
-      });
+    this.setState({
+      showSettings: true,
+      showServerChangeDialog: false,
+      showHardwareChangeDialog: false
+    });
   }
 
   hardwareSettingChanged = () => {
@@ -174,22 +174,22 @@ class MessageSection extends Component {
   }
 
   changeTheme = (newTheme) => {
-    if(this.state.currTheme !== newTheme){
+    if (this.state.currTheme !== newTheme) {
       let headerColor = '';
-      switch(newTheme){
+      switch (newTheme) {
         case 'light': {
-            headerColor = '#607d8b';
-            break;
+          headerColor = '#607d8b';
+          break;
         }
         case 'dark': {
-            headerColor = '#19324c';
-            break;
+          headerColor = '#19324c';
+          break;
         }
         default: {
-            // do nothing
+          // do nothing
         }
       }
-      this.setState({header: headerColor});
+      this.setState({ header: headerColor });
       Actions.themeChanged(newTheme);
     }
   }
@@ -203,14 +203,14 @@ class MessageSection extends Component {
   }
 
   handleServerToggle = (changeServer) => {
-    if(changeServer){
+    if (changeServer) {
       // Logout the user and show the login screen again
       this.props.history.push('/logout');
       this.setState({
-        open:true
+        open: true
       });
     }
-    else{
+    else {
       // Go back to settings dialog
       this.setState({
         showSettings: true,
@@ -221,7 +221,7 @@ class MessageSection extends Component {
   }
 
   implementSettings = (values) => {
-    this.setState({showSettings: false});
+    this.setState({ showSettings: false });
     this.changeTheme(values.theme);
   }
 
@@ -295,22 +295,24 @@ class MessageSection extends Component {
       this.setState({
         currTheme: UserPreferencesStore.getTheme()
       })
-      switch(this.state.currTheme){
-        case 'light':{
+      switch (this.state.currTheme) {
+        case 'light': {
           document.body.className = 'white-body';
           break;
         }
-        case 'dark':{
+        case 'dark': {
           document.body.className = 'dark-body';
           break;
         }
         default: {
-            // do nothing
+          // do nothing
         }
       }
     })
   }
-
+  switchDialog = (dialogState) => {
+    this.setState({ open: dialogState });
+  };
   render() {
 
     const bodyStyle = {
@@ -323,24 +325,24 @@ class MessageSection extends Component {
 
     var backgroundCol;
     let topBackground = this.state.currTheme;
-    switch(topBackground){
-      case 'light':{
+    switch (topBackground) {
+      case 'light': {
         backgroundCol = '#607d8b';
         break;
       }
-      case 'dark':{
-        backgroundCol =  '#19324c';
+      case 'dark': {
+        backgroundCol = '#19324c';
         break;
       }
       default: {
-          // do nothing
+        // do nothing
       }
     }
 
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -348,55 +350,55 @@ class MessageSection extends Component {
     />;
 
     const serverDialogActions = [
-    <RaisedButton
-      key={'Cancel'}
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleServerToggle.bind(this,false)}
-      style={{margin: '6px'}}
-    />,
-    <RaisedButton
-      key={'OK'}
-      label="OK"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleServerToggle.bind(this,true)}
-    />];
+      <RaisedButton
+        key={'Cancel'}
+        label="Cancel"
+        backgroundColor={
+          UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B'}
+        labelColor="#fff"
+        width='200px'
+        keyboardFocused={false}
+        onTouchTap={this.handleServerToggle.bind(this, false)}
+        style={{ margin: '6px' }}
+      />,
+      <RaisedButton
+        key={'OK'}
+        label="OK"
+        backgroundColor={
+          UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B'}
+        labelColor="#fff"
+        width='200px'
+        keyboardFocused={false}
+        onTouchTap={this.handleServerToggle.bind(this, true)}
+      />];
     const hardwareActions = [
-    <RaisedButton
-      key={'Cancel'}
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleHardwareToggle}
-      style={{margin: '6px'}}
-    />
+      <RaisedButton
+        key={'Cancel'}
+        label="Cancel"
+        backgroundColor={
+          UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B'}
+        labelColor="#fff"
+        width='200px'
+        keyboardFocused={false}
+        onTouchTap={this.handleHardwareToggle}
+        style={{ margin: '6px' }}
+      />
     ]
 
     const componentsList = [
-      {'id':1, 'component':'header', 'name': 'Header'},
-      {'id':2, 'component': 'pane', 'name': 'Message Pane'},
-      {'id':3, 'component':'body', 'name': 'Body'},
-      {'id':4, 'component':'composer', 'name': 'Composer'},
-      {'id':5, 'component':'textarea', 'name': 'Textarea'}
+      { 'id': 1, 'component': 'header', 'name': 'Header' },
+      { 'id': 2, 'component': 'pane', 'name': 'Message Pane' },
+      { 'id': 3, 'component': 'body', 'name': 'Body' },
+      { 'id': 4, 'component': 'composer', 'name': 'Composer' },
+      { 'id': 5, 'component': 'textarea', 'name': 'Textarea' }
     ];
 
     const components = componentsList.map((component) => {
-        return <div key={component.id} className='circleChoose'>
-                  <h4>Change color of {component.name}:</h4>
-                  <CirclePicker  color={component} width={'100%'}
-        onChangeComplete={ this.handleChangeComplete.bind(this,component.component) }
-        onChange={this.handleColorChange.bind(this,component.id)}>
+      return <div key={component.id} className='circleChoose'>
+        <h4>Change color of {component.name}:</h4>
+        <CirclePicker color={component} width={'100%'}
+          onChangeComplete={this.handleChangeComplete.bind(this, component.component)}
+          onChange={this.handleColorChange.bind(this, component.id)}>
         </CirclePicker></div>
     })
 
@@ -408,25 +410,27 @@ class MessageSection extends Component {
     if (this.state.thread) {
       if (!this.state.search) {
         const rightButtons = (
-          <div style={{marginTop: '-7px'}}>
+          <div style={{ marginTop: '-7px' }}>
             <IconButton tooltip="Search"
-            iconStyle={{ fill: 'white' }}
-            onTouchTap={this._onClickSearch.bind(this)}>
+              iconStyle={{ fill: 'white' }}
+              onTouchTap={this._onClickSearch.bind(this)}>
               <SearchIcon />
             </IconButton>
             <Logged />
           </div>);
         return (
-          <div className={topBackground} style={{background:body}}>
+          <div className={topBackground} style={{ background: body }}>
             <header className='message-thread-heading'
-            style={{ backgroundColor: backgroundCol }}>
+              style={{ backgroundColor: backgroundCol }}>
               <AppBar
                 iconElementLeft={<IconButton></IconButton>}
                 iconElementRight={rightButtons}
                 className="app-bar"
-                style={{ backgroundColor: backgroundCol,
-                height: '46px' }}
-                titleStyle={{height:'46px'}}
+                style={{
+                  backgroundColor: backgroundCol,
+                  height: '46px'
+                }}
+                titleStyle={{ height: '46px' }}
               />
             </header>
 
@@ -435,11 +439,11 @@ class MessageSection extends Component {
                 <ul
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}
-                  style={{background:pane}}>
+                  style={{ background: pane }}>
                   {messageListItems}
                   {this.state.showLoading && getLoadingGIF()}
                 </ul>
-                <div className='compose' style={{background:composer}}>
+                <div className='compose' style={{ background: composer }}>
                   <MessageComposer
                     threadID={this.state.thread.id}
                     dream={dream}
@@ -447,17 +451,8 @@ class MessageSection extends Component {
                 </div>
               </div>
             </div>
-            <Dialog
-              className='dialogStyle'
-              actions={actions}
-              modal={false}
-              open={this.state.open}
-              autoScrollBodyContent={true}
-              bodyStyle={bodyStyle}
-              contentStyle={{width: '35%',minWidth: '300px'}}
-              onRequestClose={this.handleClose}>
-              <Login {...this.props} />
-            </Dialog>
+            <LoginDialog open={this.state.open} switchDialog={this.switchDialog} />
+
             <Dialog
               actions={actions}
               modal={false}
@@ -478,7 +473,7 @@ class MessageSection extends Component {
               open={this.state.showServerChangeDialog}
               autoScrollBodyContent={true}
               bodyStyle={bodyStyle}
-              onRequestClose={this.handleServerToggle.bind(this,false)}
+              onRequestClose={this.handleServerToggle.bind(this, false)}
             >
               <div>
                 <h3>Change Server</h3>
@@ -502,7 +497,7 @@ class MessageSection extends Component {
               open={this.state.showThemeChanger}
               autoScrollBodyContent={true}
               bodyStyle={bodyStyle}
-              contentStyle={{width: '35%',minWidth: '300px'}}
+              contentStyle={{ width: '35%', minWidth: '300px' }}
               onRequestClose={this.handleClose}>
               <div className='settingsComponents'>
                 {components}
@@ -524,17 +519,17 @@ class MessageSection extends Component {
   }
 
   componentDidUpdate() {
-    switch(this.state.currTheme){
-      case 'light':{
+    switch (this.state.currTheme) {
+      case 'light': {
         document.body.className = 'white-body';
         break;
       }
-      case 'dark':{
+      case 'dark': {
         document.body.className = 'dark-body';
         break;
       }
       default: {
-          // do nothing
+        // do nothing
       }
     }
     this._scrollToBottom();
