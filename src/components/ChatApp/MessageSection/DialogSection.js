@@ -81,6 +81,7 @@ export default class DialogSection extends Component {
     );
   }
 }
+
 DialogSection.propTypes = {
     openLogin: PropTypes.bool,
     openSetting: PropTypes.bool,
