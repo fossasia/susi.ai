@@ -12,7 +12,8 @@ export default {
     STORE_HISTORY_MESSAGE: null,
     THEME_CHANGED:null,
     SEARCH_MODE: null,
-    SERVER_CHANGED: null
+    SERVER_CHANGED: null,
+    INIT_SETTINGS: null,
   })
 
 };

@@ -17,6 +17,7 @@ import {
 	hashHistory
 } from 'react-router-dom';
 
+ChatWebAPIUtils.getSettings();
 ChatWebAPIUtils.getLocation();
 ChatWebAPIUtils.getHistory();
 ChatWebAPIUtils.getAllMessages();
