@@ -10,7 +10,6 @@ let ActionTypes = ChatConstants.ActionTypes;
 
 
 export function getHistory() {
-
   let BASE_URL = '';
   let defaults = UserPreferencesStore.getPreferences();
   let defaultServerURL = defaults.Server;
@@ -102,9 +101,10 @@ export function getHistory() {
                 susiMsg.websearchresults.unshift(abstractTile);
               }
             },
-            error: function (errorThrown) {
-              console.log(errorThrown);
-              susiMsg.text = 'Please check your internet connection';
+            error: function(xhr, status, error) {
+              if (status === 'timeout') {
+                console.log('Please check your internet connection');
+              }
             }
           });
         }
@@ -122,8 +122,10 @@ export function getHistory() {
         });
       });
     },
-    error: function (errorThrown) {
-      console.log(errorThrown);
+    error: function(xhr, status, error) {
+         if (status === 'timeout') {
+                console.log('Please check your internet connection');
+        }
     }
   });
 }
