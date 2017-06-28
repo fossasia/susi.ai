@@ -5,6 +5,7 @@ import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import * as Actions from './HardwareConnect.actions'
+import * as SettingsActions from './Settings.actions';
 
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
@@ -186,3 +187,84 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     }
   });
 };
+
+
+// Get Settings From Server
+export function getSettings(){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
+
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+
+  url = BASE_URL+'/aaa/listUserSettings.json?'
+          +'access_token='+cookies.get('loggedIn');
+
+  console.log(url);
+  $.ajax({
+    url: url,
+    dataType: 'jsonp',
+    crossDomain: true,
+    timeout: 3000,
+    async: false,
+    success: function (response) {
+      console.log(response);
+      SettingsActions.initialiseSettings(response.settings);
+    },
+    error: function(errorThrown){
+      console.log(errorThrown);
+    }
+  });
+}
+
+// Push Theme to server
+export function setThemeSettings(newTheme){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
+
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+
+  url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=theme&value='+newTheme
+          +'&access_token='+cookies.get('loggedIn');
+
+  console.log(url);
+  $.ajax({
+    url: url,
+    dataType: 'jsonp',
+    crossDomain: true,
+    timeout: 3000,
+    async: false,
+    success: function (response) {
+      console.log(response);
+    },
+    error: function(errorThrown){
+      console.log(errorThrown);
+    }
+  });
+}
