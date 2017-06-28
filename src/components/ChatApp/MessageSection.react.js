@@ -25,6 +25,8 @@ import $ from 'jquery';
 import ScrollArea from 'react-scrollbar';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react'
+import Popover from 'material-ui/Popover';
+import Toggle from 'material-ui/Toggle';
 
 const cookies = new Cookies();
 
@@ -408,10 +410,19 @@ class MessageSection extends Component {
 
   render() {
 
+    const toggleStyles = {
+      toggle: {
+        margin: '2px',
+        width: '160px',
+        height: '30px'
+      }
+    };
+
     const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
     }
+
     const {
       dream
     } = this.props;
@@ -529,13 +540,39 @@ class MessageSection extends Component {
                   <ToolbarGroup lastChild={true}>
                     <div style={{marginTop:'-7px'}}>
                       <ExpandingSearchField
+                       searchText={this.state.searchState.searchText}
                        onTextChange={this.searchTextChanged}
                        activateSearch={this._onClickSearch.bind(this)}
                        exitSearch={this._onClickExit.bind(this)}
                        scrollRecent={this._onClickRecent.bind(this)}
                        scrollPrev={this._onClickPrev.bind(this)}/>
                     </div>
-                    <Logged />
+                    {!this.state.search ?
+                      (<Logged />) :
+                      (<div>
+                      <IconButton
+                        tooltip="Options"
+                        iconStyle={{ fill: 'white' }}
+                        onTouchTap={this.handleOptions.bind(this)}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Popover
+                        open={this.state.searchState.open}
+                        anchorEl={this.state.searchState.anchorEl}
+                        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                        onRequestClose={this.handleRequestClose.bind(this)}
+                      >
+                        <Toggle
+                          label="Case Sensitive"
+                          style={toggleStyles.toggle}
+                          labelPosition="right"
+                          onToggle={this.handleToggle.bind(this)}
+                          toggled={this.state.searchState.caseSensitive}
+                        />
+                      </Popover>
+                      </div>)
+                    }
                   </ToolbarGroup>
               </Toolbar>
             </header>
@@ -678,14 +715,14 @@ class MessageSection extends Component {
     }
   }
 
-  _scrollToBottom() {
+  _scrollToBottom = () => {
     let ul = this.messageList;
     if (ul) {
       ul.scrollTop = ul.scrollHeight;
     }
   }
 
-  _onClickPrev() {
+  _onClickPrev = () => {
     let newIndex = this.state.searchState.scrollIndex + 1;
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
@@ -700,7 +737,7 @@ class MessageSection extends Component {
     }
   }
 
-  _onClickRecent() {
+  _onClickRecent = () => {
     let newIndex = this.state.searchState.scrollIndex - 1;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
@@ -714,7 +751,7 @@ class MessageSection extends Component {
     }
   }
 
-  _onClickSearch() {
+  _onClickSearch = () => {
     let searchState = this.state.searchState;
     searchState.markedMsgs = this.state.messages;
     this.setState({
@@ -723,11 +760,46 @@ class MessageSection extends Component {
     });
   }
 
-  _onClickExit(){
+  _onClickExit = () => {
     this.setState({
       search: false,
     });
   }
+
+  handleOptions = (event) => {
+    event.preventDefault();
+    let searchState = this.state.searchState;
+    searchState.open = true;
+    searchState.anchorEl = event.currentTarget;
+    this.setState({
+      searchState: searchState,
+    });
+  }
+
+  handleToggle = (event, isInputChecked) => {
+    let searchState = {
+      markedMsgs: this.state.messages,
+      markedIDs: [],
+      markedIndices: [],
+      scrollLimit: 0,
+      scrollIndex: -1,
+      scrollID: null,
+      caseSensitive: isInputChecked,
+      open: true,
+      searchText: ''
+    }
+    this.setState({
+      searchState: searchState
+    });
+  }
+
+  handleRequestClose = () => {
+    let searchState = this.state.searchState;
+    searchState.open = false;
+    this.setState({
+      searchState: searchState,
+    });
+  };
 
   /**
    * Event handler for 'change' events coming from the MessageStore
