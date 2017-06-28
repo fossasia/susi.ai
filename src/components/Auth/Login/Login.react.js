@@ -79,11 +79,22 @@ class Login extends Component {
 					this.setState(state);
 					this.handleOnSubmit(accessToken, time);
 				}.bind(this),
-				error: function (errorThrown) {
-					let msg = 'Login Failed. Try Again';
-					let state = this.state;
-					state.msg = msg;
-					this.setState(state);
+				error: function ( jqXHR, textStatus, errorThrown) {
+			        let msg = '';
+			        let jsonValue =  jqXHR.status;
+			        if (jsonValue === 404) {
+		              msg = 'Login Failed. Try Again';
+			        }
+			        else {
+    	              msg = 'Some error occurred. Try Again';
+			        }
+			        if (status == 'timeout') {
+			          msg = 'Please check your internet connection';
+			        }
+
+			        let state = this.state;
+			        state.msg = msg;
+			        this.setState(state);
 				}.bind(this)
 			});
 		}

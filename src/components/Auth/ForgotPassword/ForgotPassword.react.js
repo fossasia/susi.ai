@@ -137,6 +137,14 @@ class ForgotPassword extends Component {
 				crossDomain: true,
 				timeout: 3000,
 				async: false,
+				statusCode: {
+				    422: function() {
+				      let msg = 'Email does not exist';
+					  let state = this.state;
+					  state.msg = msg;
+					  this.setState(state);
+				    }
+				},
 				success: function (response) {
 					let msg = response.message;
 					let state = this.state;
@@ -144,8 +152,18 @@ class ForgotPassword extends Component {
 					state.success = true;
 					this.setState(state);
 				}.bind(this),
-				error: function (errorThrown) {
-					let msg = 'Failed. Try Again';
+				error: function (jqXHR, textStatus, errorThrown) {
+			        let jsonValue =  jqXHR.status;
+			        let msg = '';
+			        if (jsonValue === 404) {
+		              msg = 'Email does not exist';
+			        }
+			        else {
+					 msg = 'Failed. Try Again';
+					}
+					if (status == 'timeout') {
+					 msg = 'Please check your internet connection';
+					}
 					let state = this.state;
 					state.msg = msg;
 					this.setState(state);
