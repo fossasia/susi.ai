@@ -25,3 +25,7 @@ export function getHistory(){
 export function getLocation(){
   Actions.getLocation();
 }
+
+export function getSettings(){
+  Actions.getSettings();
+}
