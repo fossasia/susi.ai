@@ -9,9 +9,6 @@ import PropTypes from 'prop-types';
 export default class LoginDialog extends React.Component {
 
 
-    constructor(props) {
-        super(props);
-    }
     handleClose = () => {
        this.props.switchDialog(false);
     };
