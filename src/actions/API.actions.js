@@ -26,9 +26,10 @@ export function getLocation(){
         lng: loc[1],
       };
     },
-    error: function(errorThrown){
-      console.log(errorThrown);
-      _Location = null;
+    error: function(xhr, status, error) {
+      if (xhr.status === 404 || status === 'error') {
+        _Location = null;
+      }
     }
   });
 }
@@ -159,9 +160,13 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
               message
             });
           },
-          error: function (errorThrown) {
-            console.log(errorThrown);
-            receivedMessage.text = 'Please check your internet connection';
+          error: function(xhr, status, error) {
+              if (xhr.status === 404) {
+                receivedMessage.text = 'Some error occurred while sending your message!';
+              }
+              if (status === 'timeout') {
+                receivedMessage.text = 'Please check your internet connection';
+              }
           }
         });
       }
@@ -175,9 +180,10 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
         });
       }
     },
-    error: function (errorThrown) {
-      console.log(errorThrown);
-      receivedMessage.text = 'Please check your internet connection';
+    error: function (xhr, status, error) {
+      if (status === 'timeout') {
+        receivedMessage.text = 'Please check your internet connection';
+      }
     }
   });
 };
