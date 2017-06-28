@@ -3,10 +3,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import './NotFound.css';
 import LogoImg from '../images/susi.svg';
-import userPreferencesStore from '../../stores/UserPreferencesStore';
-import Dialog from 'material-ui/Dialog';
-import Login from '../Auth/Login/Login.react';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import LoginDialog from '../ChatApp/Dialog/LoginDialog';
 
 export default class NotFound extends Component {
     constructor(props) {
@@ -22,20 +20,11 @@ export default class NotFound extends Component {
     handleClose = () => {
         this.setState({ open: false });
     };
+      switchDialog = (dialogState) => {
+    this.setState({ open: dialogState });
+  };
     render() {
-    const actions = <RaisedButton
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={true}
-      onTouchTap={this.handleClose}
-    />;
-    const bodyStyle = {
-            'padding': 0,
-            textAlign: 'center'
-        }
+
         return (
             <div>
                 <div className='container-fluid not-found-banner'>
@@ -55,7 +44,7 @@ export default class NotFound extends Component {
                                 className='notfound-button'
                                 label='Chat With SUSI'
                                 backgroundColor={
-                                userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor='#fff'
                             />
                         </Link>
@@ -64,7 +53,7 @@ export default class NotFound extends Component {
                                 className='notfound-button'
                                 label='SignUp to SUSI'
                                 backgroundColor={
-                                userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor='#fff'
                             />
                         </Link>
@@ -73,22 +62,13 @@ export default class NotFound extends Component {
                             label='SignIn to SUSI'
                             onTouchTap={this.handleOpen}
                             backgroundColor={
-                                userPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                             labelColor='#fff'
                         />
                     </div>
                 </div>
-                <Dialog
-                    className='dialogStyle'
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    autoScrollBodyContent={true}
-                    bodyStyle={bodyStyle}
-                    contentStyle={{ width: '35%', minWidth: '300px' }}
-                    onRequestClose={this.handleClose}>
-                    <Login {...this.props} />
-                </Dialog>
+            <LoginDialog open={this.state.open} switchDialog={this.switchDialog} />
+
             </div>
 
         );
