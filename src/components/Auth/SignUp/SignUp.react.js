@@ -178,7 +178,6 @@ export default class SignUp extends Component {
         if(serverUrl !== ''){
             BASE_URL = serverUrl;
         }
-        console.log(BASE_URL);
         let signupEndPoint =
             BASE_URL+'/aaa/signup.json?signup=' + this.state.email +
             '&password=' + this.state.passwordValue;
@@ -191,6 +190,14 @@ export default class SignUp extends Component {
                 crossDomain: true,
                 timeout: 3000,
                 async: false,
+                statusCode: {
+                    422: function() {
+                      let msg = 'Email already taken. Please try with another email.';
+                      let state = this.state;
+                      state.msg = msg;
+                      this.setState(state);
+                    }
+                },
                 success: function (response) {
                     let msg = response.message;
                     let state = this.state;
@@ -199,13 +206,22 @@ export default class SignUp extends Component {
                     this.setState(state);
 
                 }.bind(this),
-                error: function (errorThrown) {
-                    let msg = 'Failed. Try Again';
+                error: function(jqXHR, textStatus, errorThrown) {
+                    let jsonValue =  jqXHR.status;
+                    let msg
+                    if (jsonValue === 404) {
+                      msg = 'Email already taken. Please try with another email.';
+                    }
+                    else {
+                    msg = 'Failed. Try Again';
+                    }
+                    if (status == 'timeout') {
+                      msg = 'Please check your internet connection';
+                    }
+
                     let state = this.state;
                     state.msg = msg;
-                    state.success = false;
                     this.setState(state);
-
                 }.bind(this)
             });
         }
