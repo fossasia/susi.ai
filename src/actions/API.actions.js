@@ -163,7 +163,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
               if (xhr.status === 404) {
                 receivedMessage.text = 'Some error occurred while sending your message!';
               }
-              if (status == 'timeout') {
+              if (status === 'timeout') {
                 receivedMessage.text = 'Please check your internet connection';
               }
           }
@@ -180,7 +180,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
       }
     },
     error: function (xhr, status, error) {
-      if (status == 'timeout') {
+      if (status === 'timeout') {
         receivedMessage.text = 'Please check your internet connection';
       }
     }

@@ -88,7 +88,7 @@ class Login extends Component {
 			        else {
     	              msg = 'Some error occurred. Try Again';
 			        }
-			        if (status == 'timeout') {
+			        if (status === 'timeout') {
 			          msg = 'Please check your internet connection';
 			        }
 
