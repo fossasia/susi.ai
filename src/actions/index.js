@@ -1,18 +1,29 @@
 // imports
-import {  getLocation, createSUSIMessage } from './API.actions';
+import {  getLocation,
+          getSettings,
+          createSUSIMessage } from './API.actions';
+
 import {  getHistory } from './History.actions';
+
 import {  createMessage,
           receiveCreatedMessage,
           clickThread,
           receiveAll } from './ChatApp.actions';
+
 import {  serverChanged,
           ToggleSearch,
-          themeChanged} from './Settings.actions';
-import { connectToWebSocket, sendToHardwareDevice } from './HardwareConnect.actions';
+          initialiseSettings,
+          themeChanged  } from './Settings.actions';
+
+import {  connectToWebSocket,
+          sendToHardwareDevice } from './HardwareConnect.actions';
 
 
 // exports
-export { getLocation, createSUSIMessage }
+export {  getLocation,
+          getSettings,
+          createSUSIMessage }
+
 export { getHistory }
 
 export {  createMessage,
@@ -22,6 +33,7 @@ export {  createMessage,
 
 export { serverChanged,
          ToggleSearch,
+         initialiseSettings,
          themeChanged }
 
 export { connectToWebSocket, sendToHardwareDevice }
