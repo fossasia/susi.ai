@@ -47,21 +47,26 @@ class ExpandingSearchField extends Component{
     render() {
 
     const baseStyles = {
+
         open: {
-            width: 150,
+            width: 125,
         },
+
         closed: {
             width: 0,
         },
+
         smallIcon: {
             fill: 'white'
         },
+
         icon: {
             width: 40,
             height: 40,
             padding: 5,
             top: 10
         },
+
         frame: {
         }
     };
@@ -95,6 +100,7 @@ class ExpandingSearchField extends Component{
                     hintText="Search..."
                     inputStyle={searchStyle}
                     style={textStyle}
+                    value={this.props.searchText}
                     onChange={(event) => this.onChange(event)}
                     autoFocus/>
                 <IconButton
@@ -128,6 +134,7 @@ class ExpandingSearchField extends Component{
                 </IconButton>
                 <TextField
                     name='search'
+                    value=''
                     style={textStyle}
                     inputStyle={searchStyle} />
             </div>
@@ -141,6 +148,7 @@ ExpandingSearchField.propTypes = {
     onTextChange: PropTypes.func,
     scrollRecent: PropTypes.func,
     scrollPrev: PropTypes.func,
+    searchText: PropTypes.string,
 };
 
 export default ExpandingSearchField;
