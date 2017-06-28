@@ -215,7 +215,7 @@ export default class SignUp extends Component {
                     else {
                     msg = 'Failed. Try Again';
                     }
-                    if (status == 'timeout') {
+                    if (status === 'timeout') {
                       msg = 'Please check your internet connection';
                     }
 
