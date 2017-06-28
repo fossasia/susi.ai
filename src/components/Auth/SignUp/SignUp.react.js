@@ -10,7 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import Login from '../Login/Login.react';
+import LoginDialog from '../../ChatApp/Dialog/LoginDialog';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -231,7 +231,9 @@ export default class SignUp extends Component {
     handleOpen = () => {
         this.setState({ open: true });
     };
-
+    switchDialog=(dialogState)=>{
+        this.setState({open:dialogState});
+    };
     render() {
 
         const serverURL = <TextField name="serverUrl"
@@ -363,16 +365,7 @@ export default class SignUp extends Component {
                         {this.state.msg}
                     </Dialog></div>
                 )}
-                <Dialog
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    autoScrollBodyContent={true}
-                    onRequestClose={this.handleClose}
-                    contentStyle={{ width: '35%', minWidth: '300px' }}
-                >
-                    <div><Login {...this.props} /></div>
-                </Dialog>
+                <LoginDialog open={this.state.open} switchDialog={this.switchDialog} />
             </div>
         );
     };
