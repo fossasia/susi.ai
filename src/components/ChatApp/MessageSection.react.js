@@ -44,7 +44,6 @@ function getStateFromStores() {
     header: UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B',
     pane: '',
     textarea: '',
-''
     composer:'',
     body:'',
     searchState: {
