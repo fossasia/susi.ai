@@ -1,7 +1,7 @@
 import * as Actions from '../../actions/';
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import Dictaphone from './Speech';
+import SpeechRecognition from 'react-speech-recognition';
 import Send from 'material-ui/svg-icons/content/send';
 import Mic from 'material-ui/svg-icons/av/mic';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
@@ -22,8 +22,7 @@ class MessageComposer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {text: '',
-                  speech: false};
+    this.state = {text: '',speech: false};
 
     if(props.dream!==''){
       this.state= {text: 'dream '+ props.dream}
@@ -33,11 +32,40 @@ class MessageComposer extends Component {
     this.nameInput.focus();
   }
 
+
   render() {
 
+    const {
+      transcript,
+      resetTranscript,
+      browserSupportsSpeechRecognition,
+      recognition } = this.props
+
+    if (!browserSupportsSpeechRecognition) {
+      return null
+    }
+
+    if(this.state.speech) {
+      return(
+        <div className="message-composer" >
+            <textarea readOnly
+              value={transcript}
+              placeholder="Say a message and hit Send button" />
+              <IconButton
+                iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
+                marginTop:'6px'}}
+                onTouchTap={()=>{
+                    this.handleToUpdate(transcript);
+                    resetTranscript();
+                    recognition.abort();
+                  }}
+                style={style}>
+                <Send />
+              </IconButton>
+        </div>);
+    }
     return (
       <div className="message-composer" >
-        <div>{this.checkSpeech()}</div>
         <textarea
           autoFocus="true"
           name="message"
@@ -58,21 +86,15 @@ class MessageComposer extends Component {
       </div>
     );
   }
-  checkSpeech() {
-    if(this.state.speech) {
-      return <Dictaphone text={this.text} speech={this.state.speech} />;
+
+  handleToUpdate(someArg){
+    let text = someArg.trim();
+    if (text) {
+      Actions.createMessage(text, this.props.threadID);
     }
-  }
-
-  // returnIcon() {
-  //   if( this.state.text!=='' ){
-  //     return <Send />
-  //   }
-  //   else {
-  //     return <Mic />
-  //   }
-  // }
-
+    Button = <Mic />
+    this.setState({speech:false});
+    }
 
   _onClickButton(){
     if(this.state.text==='') {
@@ -84,7 +106,7 @@ class MessageComposer extends Component {
       if (text) {
         Actions.createMessage(text, this.props.threadID);
       }
-    this.setState({text: ''});
+    this.setState({text: '',speech: false});
     Button = <Mic />
     }
   }
@@ -101,7 +123,7 @@ class MessageComposer extends Component {
       if (text) {
         Actions.createMessage(text, this.props.threadID);
       }
-      this.setState({text: ''});
+      this.setState({text: '',speech: false});
       Button = <Mic />
     }
   }
@@ -110,7 +132,12 @@ class MessageComposer extends Component {
 MessageComposer.propTypes = {
   threadID: PropTypes.string.isRequired,
   dream: PropTypes.string,
-  textarea: PropTypes.string
+  textarea: PropTypes.string,
+  // Props injected by SpeechRecognition
+  recognition: PropTypes.object,
+  transcript: PropTypes.string,
+  resetTranscript: PropTypes.func,
+  browserSupportsSpeechRecognition: PropTypes.bool,
 };
 
-export default MessageComposer;
+export default SpeechRecognition(MessageComposer);
