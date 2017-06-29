@@ -11,7 +11,6 @@ export default {
     RECEIVE_RAW_MESSAGES: null,
     STORE_HISTORY_MESSAGE: null,
     THEME_CHANGED:null,
-    SEARCH_MODE: null,
     SERVER_CHANGED: null,
     INIT_SETTINGS: null,
   })
