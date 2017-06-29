@@ -1,4 +1,3 @@
-
 import MessageComposer from '../MessageComposer.react';
 import MessageListItem from '../MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
@@ -7,24 +6,15 @@ import ThreadStore from '../../../stores/ThreadStore';
 import * as Actions from '../../../actions/';
 import SettingStore from '../../../stores/SettingStore';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import loadingGIF from '../../images/loading.gif';
-import Cookies from 'universal-cookie';
 import DialogSection from './DialogSection';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import ScrollArea from 'react-scrollbar';
-import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import ExpandingSearchField from '../SearchField.react'
-
-const cookies = new Cookies();
+import TopBar from '../TopBar.react';
 
 function getStateFromStores() {
   return {
@@ -128,20 +118,6 @@ function getLoadingGIF() {
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
-
-let Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton
-      iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-  >
-  </IconMenu>
-)
-
 
 class MessageSection extends Component {
 
@@ -323,48 +299,6 @@ class MessageSection extends Component {
     MessageStore.addChangeListener(this._onChange.bind(this));
     ThreadStore.addChangeListener(this._onChange.bind(this));
     SettingStore.addChangeListener(this._onChange.bind(this));
-    // Check Logged in
-    if (cookies.get('loggedIn')) {
-      Logged = (props) => (
-        <IconMenu
-          {...props}
-          iconButtonElement={
-            <IconButton iconStyle={{ fill: 'white' }}>
-              <MoreVertIcon /></IconButton>
-          }
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        >
-          <MenuItem primaryText="Settings"
-            onClick={this.handleSettings} />
-          <MenuItem primaryText="Custom Theme"
-            key="custom"
-            onClick={this.handleThemeChanger} />
-          <MenuItem primaryText="Chat Anonymously"
-            containerElement={<Link to="/logout" />} />
-          <MenuItem primaryText="Logout"
-            containerElement={<Link to="/logout" />} />
-        </IconMenu>)
-      return <Logged />
-    }
-    // If Not Logged In
-    Logged = (props) => (
-      <IconMenu
-        {...props}
-        iconButtonElement={
-          <IconButton iconStyle={{ fill: 'white' }}>
-            <MoreVertIcon /></IconButton>
-        }
-        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      >
-        <MenuItem primaryText="Settings"
-          onClick={this.handleSettings} />
-        <MenuItem primaryText="Login" onTouchTap={this.handleOpen} />
-        <MenuItem primaryText="Sign Up"
-          containerElement={<Link to="/signup" />} />
-      </IconMenu>)
-    return <Logged />
   }
 
   componentWillUnmount() {
@@ -410,6 +344,7 @@ class MessageSection extends Component {
       'padding': 0,
       textAlign: 'center'
     }
+
     const {
       dream
     } = this.props;
@@ -509,33 +444,26 @@ class MessageSection extends Component {
 
     if (this.state.thread) {
 
-        let appBarClass = 'app-bar';
-        if(this.state.search){
-          appBarClass = 'app-bar-search';
-        }
-
         return (
           <div className={topBackground} style={{background:body}}>
             <header className='message-thread-heading'
             style={{ backgroundColor: backgroundCol }}>
-              <Toolbar
-                className={appBarClass}
-                style={{ backgroundColor: backgroundCol,
-                height: '46px' }}>
-                  <ToolbarGroup >
-                  </ToolbarGroup>
-                  <ToolbarGroup lastChild={true}>
-                    <div style={{marginTop:'-7px'}}>
-                      <ExpandingSearchField
-                       onTextChange={this.searchTextChanged}
-                       activateSearch={this._onClickSearch.bind(this)}
-                       exitSearch={this._onClickExit.bind(this)}
-                       scrollRecent={this._onClickRecent.bind(this)}
-                       scrollPrev={this._onClickPrev.bind(this)}/>
-                    </div>
-                    <Logged />
-                  </ToolbarGroup>
-              </Toolbar>
+              <TopBar
+                {...this.props}
+                handleSettings={this.handleSettings}
+                handleThemeChanger={this.handleThemeChanger}
+                handleOpen={this.handleOpen}
+                handleOptions={this.handleOptions}
+                handleRequestClose={this.handleRequestClose}
+                handleToggle={this.handleToggle}
+                searchTextChanged={this.searchTextChanged}
+                _onClickSearch={this._onClickSearch}
+                _onClickExit={this._onClickExit}
+                _onClickRecent={this._onClickRecent}
+                _onClickPrev={this._onClickPrev}
+                search={this.state.search}
+                searchState={this.state.searchState}
+              />
             </header>
             {!this.state.search ? (
             <div>
@@ -635,14 +563,14 @@ class MessageSection extends Component {
     }
   }
 
-  _scrollToBottom() {
+  _scrollToBottom = () => {
     let ul = this.messageList;
     if (ul) {
       ul.scrollTop = ul.scrollHeight;
     }
   }
 
-  _onClickPrev() {
+  _onClickPrev = () => {
     let newIndex = this.state.searchState.scrollIndex + 1;
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
@@ -657,7 +585,7 @@ class MessageSection extends Component {
     }
   }
 
-  _onClickRecent() {
+  _onClickRecent = () => {
     let newIndex = this.state.searchState.scrollIndex - 1;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
@@ -671,7 +599,7 @@ class MessageSection extends Component {
     }
   }
 
-  _onClickSearch() {
+  _onClickSearch = () => {
     let searchState = this.state.searchState;
     searchState.markedMsgs = this.state.messages;
     this.setState({
@@ -680,11 +608,49 @@ class MessageSection extends Component {
     });
   }
 
-  _onClickExit(){
+  _onClickExit = () => {
+    let searchState = this.state.searchState;
+    searchState.searchText = '';
     this.setState({
       search: false,
+      searchState: searchState,
     });
   }
+
+  handleOptions = (event) => {
+    event.preventDefault();
+    let searchState = this.state.searchState;
+    searchState.open = true;
+    searchState.anchorEl = event.currentTarget;
+    this.setState({
+      searchState: searchState,
+    });
+  }
+
+  handleToggle = (event, isInputChecked) => {
+    let searchState = {
+      markedMsgs: this.state.messages,
+      markedIDs: [],
+      markedIndices: [],
+      scrollLimit: 0,
+      scrollIndex: -1,
+      scrollID: null,
+      caseSensitive: isInputChecked,
+      open: true,
+      searchText: ''
+    }
+    this.setState({
+      searchState: searchState
+    });
+  }
+
+  handleRequestClose = () => {
+    let searchState = this.state.searchState;
+    searchState.open = false;
+    this.setState({
+      searchState: searchState,
+    });
+  };
 
   /**
    * Event handler for 'change' events coming from the MessageStore
@@ -694,8 +660,6 @@ class MessageSection extends Component {
   }
 
 };
-
-Logged.muiName = 'IconMenu';
 
 MessageSection.propTypes = {
   location: PropTypes.object,
