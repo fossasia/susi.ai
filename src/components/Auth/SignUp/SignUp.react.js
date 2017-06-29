@@ -365,7 +365,9 @@ export default class SignUp extends Component {
                         {this.state.msg}
                     </Dialog></div>
                 )}
-                <LoginDialog open={this.state.open} switchDialog={this.switchDialog} />
+                <LoginDialog {...this.props}
+                open={this.state.open}
+                switchDialog={this.switchDialog} />
             </div>
         );
     };
