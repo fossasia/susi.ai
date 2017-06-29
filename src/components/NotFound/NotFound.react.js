@@ -67,7 +67,9 @@ export default class NotFound extends Component {
                         />
                     </div>
                 </div>
-            <LoginDialog open={this.state.open} switchDialog={this.switchDialog} />
+            <LoginDialog {...this.props}
+            open={this.state.open}
+            switchDialog={this.switchDialog} />
 
             </div>
 
