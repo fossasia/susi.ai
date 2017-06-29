@@ -1,14 +1,16 @@
 import * as Actions from '../../actions/';
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
+import Dictaphone from './Speech';
 import Send from 'material-ui/svg-icons/content/send';
+import Mic from 'material-ui/svg-icons/av/mic';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
-
+let Button = <Mic />
 const style = {
     mini: true,
     top: '4px',
@@ -20,7 +22,9 @@ class MessageComposer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {text: '',
+                  speech: false};
+
     if(props.dream!==''){
       this.state= {text: 'dream '+ props.dream}
     }
@@ -28,10 +32,14 @@ class MessageComposer extends Component {
   componentDidMount(){
     this.nameInput.focus();
   }
+
   render() {
+
     return (
       <div className="message-composer" >
+        <div>{this.checkSpeech()}</div>
         <textarea
+          autoFocus="true"
           name="message"
           value={this.state.text}
           onChange={this._onChange.bind(this)}
@@ -45,22 +53,45 @@ class MessageComposer extends Component {
           marginTop:'6px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
-          <Send />
+          {Button}
         </IconButton>
       </div>
     );
   }
+  checkSpeech() {
+    if(this.state.speech) {
+      return <Dictaphone text={this.text} speech={this.state.speech} />;
+    }
+  }
+
+  // returnIcon() {
+  //   if( this.state.text!=='' ){
+  //     return <Send />
+  //   }
+  //   else {
+  //     return <Mic />
+  //   }
+  // }
+
 
   _onClickButton(){
-    let text = this.state.text.trim();
-    if (text) {
-      Actions.createMessage(text, this.props.threadID);
+    if(this.state.text==='') {
+      this.setState({speech: true});
+      Button = <Send />
     }
+    else {
+      let text = this.state.text.trim();
+      if (text) {
+        Actions.createMessage(text, this.props.threadID);
+      }
     this.setState({text: ''});
+    Button = <Mic />
+    }
   }
 
   _onChange(event, value) {
     this.setState({text: event.target.value});
+    Button = <Send />
   }
 
   _onKeyDown(event) {
@@ -71,10 +102,9 @@ class MessageComposer extends Component {
         Actions.createMessage(text, this.props.threadID);
       }
       this.setState({text: ''});
+      Button = <Mic />
     }
   }
-
-
 };
 
 MessageComposer.propTypes = {
