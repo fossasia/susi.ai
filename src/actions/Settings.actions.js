@@ -19,12 +19,6 @@ export function themeChanged(theme) {
   Actions.setThemeSettings(theme);
 };
 
-export function ToggleSearch() {
-  ChatAppDispatcher.dispatch({
-    type: ActionTypes.SEARCH_MODE
-  });
-};
-
 export function initialiseSettings(settings) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.INIT_SETTINGS,
