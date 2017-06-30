@@ -4,7 +4,6 @@ import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
 import ThreadStore from '../../../stores/ThreadStore';
 import * as Actions from '../../../actions/';
-import SettingStore from '../../../stores/SettingStore';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import PropTypes from 'prop-types';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
@@ -21,7 +20,7 @@ function getStateFromStores() {
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     currTheme: UserPreferencesStore.getTheme(),
-    search: SettingStore.getSearchMode(),
+    search: false,
     showLoading: MessageStore.getLoadStatus(),
     open: false,
     showSettings: false,
@@ -284,7 +283,7 @@ class MessageSection extends Component {
         scrollLimit: markingData.markedIDs.length,
         scrollIndex: -1,
         scrollID: null,
-        caseSensitive: this.state.caseSensitive,
+        caseSensitive: this.state.searchState.caseSensitive,
         open: false,
         searchText: ''
       }
@@ -298,13 +297,11 @@ class MessageSection extends Component {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange.bind(this));
     ThreadStore.addChangeListener(this._onChange.bind(this));
-    SettingStore.addChangeListener(this._onChange.bind(this));
   }
 
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
     ThreadStore.removeChangeListener(this._onChange.bind(this));
-    SettingStore.removeChangeListener(this._onChange.bind(this));
   }
 
   componentWillMount() {
