@@ -17,6 +17,7 @@ import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
 import TextHighlight from 'react-text-highlight';
 import {AllHtmlEntities} from 'html-entities';
+import $ from 'jquery';
 
 const entities = new AllHtmlEntities();
 
@@ -361,7 +362,37 @@ class MessageListItem extends React.Component {
               let lat = parseFloat(data.answers[0].actions[index].latitude);
               let lng = parseFloat(data.answers[0].actions[index].longitude);
               let zoom = parseFloat(data.answers[0].actions[index].zoom);
-              let mymap = drawMap(lat,lng,zoom);
+              let mymap;
+              let mapNotFound = 'Map was not made';
+              if(isNaN(lat) || isNaN(lng)){
+                $.ajax({
+                  url: 'https://cors-anywhere.herokuapp.com/http://freegeoip.net/json/',
+                  timeout: 3000,
+                  async: true,
+                  success: function (response) {
+                    mymap = drawMap(response.latitude,response.longitude,zoom);
+                    listItems.push(
+                      <li className='message-list-item' key={action+index}>
+                        <section className={messageContainerClasses}>
+                        <div>{mymap}</div>
+                        <div className='message-time'>
+                          {message.date.toLocaleString(
+                            'en-US',
+                            { hour: 'numeric',minute:'numeric', hour12: true }
+                          )}
+                        </div>
+                        </section>
+                      </li>
+                      );
+                  },
+                  error: function(xhr, status, error) {
+                    mymap = mapNotFound;
+                  }
+                });
+              }
+              else{
+              mymap = drawMap(lat,lng,zoom);
+              }
               listItems.push(
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
@@ -374,7 +405,7 @@ class MessageListItem extends React.Component {
                   </div>
                   </section>
                 </li>
-              );
+                );
               break
             }
             case 'table': {
