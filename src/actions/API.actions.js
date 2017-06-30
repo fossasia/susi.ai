@@ -14,17 +14,15 @@ let _Location = null;
 // Get Location
 export function getLocation(){
   $.ajax({
-    url: 'http://ipinfo.io/json',
-    dataType: 'jsonp',
-    crossDomain: true,
+    url: 'https://cors-anywhere.herokuapp.com/http://freegeoip.net/json/',
     timeout: 3000,
-    async: false,
+    async: true,
     success: function (response) {
-      let loc = response.loc.split(',');
       _Location = {
-        lat: loc[0],
-        lng: loc[1],
+        lat: response.latitude,
+        lng: response.longitude,
       };
+      console.log(_Location);
     },
     error: function(xhr, status, error) {
       if (xhr.status === 404 || status === 'error') {
@@ -66,11 +64,13 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
   var locale = document.documentElement.getAttribute('lang');
   if(cookies.get('loggedIn')===null||
     cookies.get('loggedIn')===undefined) {
+    console.log(createdMessage.text);
     url = BASE_URL+'/susi/chat.json?q='+
           createdMessage.text+
           '&language='+locale;
   }
   else{
+    console.log(createdMessage.text);
     url = BASE_URL+'/susi/chat.json?q='
           +createdMessage.text+'&language='
           +locale+'&access_token='
