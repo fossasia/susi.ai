@@ -1,6 +1,8 @@
 // imports
 import {  getLocation,
           getSettings,
+          setThemeSettings,
+          setEnterAsSendSettings,
           createSUSIMessage } from './API.actions';
 
 import {  getHistory } from './History.actions';
@@ -13,6 +15,7 @@ import {  createMessage,
 import {  serverChanged,
           ToggleSearch,
           initialiseSettings,
+          enterAsSendChanged,
           themeChanged  } from './Settings.actions';
 
 import {  connectToWebSocket,
@@ -22,6 +25,8 @@ import {  connectToWebSocket,
 // exports
 export {  getLocation,
           getSettings,
+          setThemeSettings,
+          setEnterAsSendSettings,
           createSUSIMessage }
 
 export { getHistory }
@@ -34,6 +39,7 @@ export {  createMessage,
 export { serverChanged,
          ToggleSearch,
          initialiseSettings,
+         enterAsSendChanged,
          themeChanged }
 
 export { connectToWebSocket, sendToHardwareDevice }
