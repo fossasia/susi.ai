@@ -19,6 +19,14 @@ export function themeChanged(theme) {
   Actions.setThemeSettings(theme);
 };
 
+export function enterAsSendChanged(enterAsSend) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.ENTER_AS_SEND_CHANGED,
+    enterAsSend
+  });
+  Actions.setEnterAsSendSettings(enterAsSend);
+}
+
 export function initialiseSettings(settings) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.INIT_SETTINGS,
