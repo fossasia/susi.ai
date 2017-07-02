@@ -12,6 +12,7 @@ export default {
     STORE_HISTORY_MESSAGE: null,
     THEME_CHANGED:null,
     SERVER_CHANGED: null,
+    ENTER_AS_SEND_CHANGED: null,
     INIT_SETTINGS: null,
   })
 

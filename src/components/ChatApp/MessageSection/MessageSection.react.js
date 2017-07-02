@@ -223,6 +223,10 @@ class MessageSection extends Component {
     }
   }
 
+  changeEnterAsSend = (enterAsSend) => {
+    Actions.enterAsSendChanged(enterAsSend);
+  }
+
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -252,6 +256,7 @@ class MessageSection extends Component {
   implementSettings = (values) => {
     this.setState({showSettings: false});
     this.changeTheme(values.theme);
+    this.changeEnterAsSend(values.enterAsSend);
   }
 
   searchTextChanged = (event) => {
