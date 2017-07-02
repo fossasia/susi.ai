@@ -1,5 +1,5 @@
 import MessageComposer from '../MessageComposer.react';
-import MessageListItem from '../MessageListItem.react';
+import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
 import ThreadStore from '../../../stores/ThreadStore';
