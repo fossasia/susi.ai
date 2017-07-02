@@ -28,6 +28,7 @@
     "react-router-dom": "^4.1.1",
     "react-scrollbar": "^0.5.1",
     "react-slick": "^0.14.11",
+    "react-speech-recognition": "^1.0.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-text-highlight": "^0.2.0",
     "react-url-query": "^1.1.4",
@@ -44,12 +45,15 @@
     "react-test-renderer": "^15.5.4"
   },
   "peerDependencies": {
-     "react": "^0.14.0 || ^15.0.1",
-     "react-dom": "^0.14.0 || ^15.0.1"
-   },
-   "jest": {
-     "setupFiles": ["./src/setupTests.js", "./src/node_modules/react-scripts/config/polyfills.js"]
-   },
+    "react": "^0.14.0 || ^15.0.1",
+    "react-dom": "^0.14.0 || ^15.0.1"
+  },
+  "jest": {
+    "setupFiles": [
+      "./src/setupTests.js",
+      "./src/node_modules/react-scripts/config/polyfills.js"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
