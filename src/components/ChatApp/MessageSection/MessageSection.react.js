@@ -23,6 +23,7 @@ function getStateFromStores() {
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     open: false,
+    showForgotPassword: false,
     showSettings: false,
     showThemeChanger: false,
     showHardwareChangeDialog: false,
@@ -192,6 +193,21 @@ class MessageSection extends Component {
         showServerChangeDialog: false,
         showHardwareChangeDialog: false
       });
+  }
+
+  handleForgotPassword = (toShow) => {
+    if(toShow){
+      this.setState({
+        showForgotPassword: true,
+        open: false,
+      });
+    }
+    else{
+      this.setState({
+        showForgotPassword: false,
+        open: true,
+      });
+    }
   }
 
   hardwareSettingChanged = () => {
@@ -399,6 +415,7 @@ class MessageSection extends Component {
       keyboardFocused={false}
       onTouchTap={this.handleServerToggle.bind(this,true)}
     />];
+
     const hardwareActions = [
     <RaisedButton
       key={'Cancel'}
@@ -490,6 +507,7 @@ class MessageSection extends Component {
             <DialogSection
               {...this.props}
               openLogin={this.state.open}
+              openForgotPassword={this.state.showForgotPassword}
               openSetting={this.state.showSettings}
               openServerChange={this.state.showServerChangeDialog}
               openHardwareChange={this.state.showHardwareChangeDialog}
@@ -499,6 +517,7 @@ class MessageSection extends Component {
               actions={actions}
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
+              onForgotPassword={this.handleForgotPassword}
               onRequestClose={()=>this.handleClose}
               onRequestCloseServerChange={()=>this.handleServerToggle.bind(this,false)}
               onRequestCloseHardwareChange={

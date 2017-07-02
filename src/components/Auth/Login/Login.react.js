@@ -184,6 +184,10 @@ class Login extends Component {
 		}
 	}
 
+	showForgotPassword = () => {
+		this.props.showForgotPassword(true);
+	}
+
 	render() {
 		const serverURL = <TextField name="serverUrl"
 							onChange={this.handleChange}
@@ -268,12 +272,11 @@ class Login extends Component {
 						</div>
 						<span>{this.state.msg}</span>
 						<h1>OR</h1>
-						<div>
-							<Link to='/forgotpwd'
-								className="forgotpwdlink">
+						<div className="forgotpwdlink"
+							onClick={this.showForgotPassword}>
 								<b>Forgot Password?</b>
-							</Link>
 						</div>
+						<br/>
 						<div>
 							<Link to={'/logout'} >
 								<RaisedButton
@@ -291,7 +294,8 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-	history: PropTypes.object
+	history: PropTypes.object,
+	showForgotPassword: PropTypes.func,
 };
 
 
