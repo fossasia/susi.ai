@@ -169,10 +169,16 @@ class MessageSection extends Component {
   handleOpen = () => {
     this.setState({ open: true });
   }
+  handleSignUp = () => {
+    this.setState({
+      showSignUp: true
+    })
+  }
 
   handleClose = () => {
     this.setState({
       open: false,
+      showSignUp: false,
       showSettings: false,
       showThemeChanger: false,
       showHardware: false
@@ -472,6 +478,7 @@ class MessageSection extends Component {
                 handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
                 handleOpen={this.handleOpen}
+                handleSignUp={this.handleSignUp}
                 handleOptions={this.handleOptions}
                 handleRequestClose={this.handleRequestClose}
                 handleToggle={this.handleToggle}
@@ -509,6 +516,7 @@ class MessageSection extends Component {
               openLogin={this.state.open}
               openForgotPassword={this.state.showForgotPassword}
               openSetting={this.state.showSettings}
+              openSignUp={this.state.showSignUp}
               openServerChange={this.state.showServerChangeDialog}
               openHardwareChange={this.state.showHardwareChangeDialog}
               openThemeChanger={this.state.showThemeChanger}

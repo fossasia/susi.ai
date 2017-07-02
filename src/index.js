@@ -1,4 +1,3 @@
-import SignUp from './components/Auth/SignUp/SignUp.react';
 import Logout from './components/Auth/Logout.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
 import NotFound from './components/NotFound/NotFound.react'
@@ -24,7 +23,6 @@ const App = () => (
 		<MuiThemeProvider>
 			<Switch>
 				<Route exact path="/" component={ChatApp} />
-				<Route exact path="/signup" component={SignUp} />
 				<Route exact path="/logout" component={Logout} />
 				<Route exact path="*" component={NotFound} />
 
