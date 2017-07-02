@@ -12,7 +12,7 @@ import DialogSection from './DialogSection';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
 import $ from 'jquery';
-import ScrollArea from 'react-scrollbar';
+import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
 
 function getStateFromStores() {
@@ -341,7 +341,6 @@ class MessageSection extends Component {
       'padding': 0,
       textAlign: 'center'
     }
-
     const {
       dream
     } = this.props;
@@ -470,8 +469,15 @@ class MessageSection extends Component {
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}
                   style={{background:pane}}>
-                  {messageListItems}
-                  {this.state.showLoading && getLoadingGIF()}
+
+                  <Scrollbars
+                    ref={(ref) => { this.scrollarea = ref; }}
+                    autoHide
+                    autoHideTimeout={1000}
+                    autoHideDuration={200}>
+                    {messageListItems}
+                    {this.state.showLoading && getLoadingGIF()}
+                  </Scrollbars>
                 </ul>
                 <div className='compose' style={{background:composer}}>
                   <MessageComposer
@@ -509,10 +515,15 @@ class MessageSection extends Component {
                    className="message-list"
                    ref={(c) => { this.messageList = c; }}
                    style={{background:pane}}>
-                   <ScrollArea
-                     ref={(ref) => { this.scrollarea = ref; }}>
-                     {messageListItems}
-                   </ScrollArea>
+
+                   <Scrollbars
+                      autoHide
+                      autoHideTimeout={1000}
+                      autoHideDuration={200}
+                      ref={(ref) => { this.scrollarea = ref; }}>
+                       {messageListItems}
+                   </Scrollbars>
+
                  </ul>
                </div>
              </div>
@@ -551,7 +562,7 @@ class MessageSection extends Component {
         let ul = this.messageList;
         if (markedIDs && ul && limit > 0) {
           let currentID = markedIndices[this.state.searchState.scrollIndex];
-          this.scrollarea.content.childNodes[currentID].scrollIntoView();
+          this.scrollarea.view.childNodes[currentID].scrollIntoView();
         }
       }
     }
@@ -561,102 +572,103 @@ class MessageSection extends Component {
   }
 
   _scrollToBottom = () => {
-    let ul = this.messageList;
-    if (ul) {
-      ul.scrollTop = ul.scrollHeight;
-    }
+  let ul = this.scrollarea;
+  if (ul) {
+    ul.scrollTop(ul.getScrollHeight());
   }
+}
 
-  _onClickPrev = () => {
-    let newIndex = this.state.searchState.scrollIndex + 1;
-    let indexLimit = this.state.searchState.scrollLimit;
-    let markedIDs = this.state.searchState.markedIDs;
-    let ul = this.messageList;
-    if (markedIDs && ul && newIndex < indexLimit) {
-      let currState = this.state.searchState;
-      currState.scrollIndex = newIndex;
-      currState.scrollID = markedIDs[newIndex];
-      this.setState({
-        searchState: currState
-      });
-    }
-  }
-
-  _onClickRecent = () => {
-    let newIndex = this.state.searchState.scrollIndex - 1;
-    let markedIDs = this.state.searchState.markedIDs;
-    let ul = this.messageList;
-    if (markedIDs && ul && newIndex >= 0) {
-      let currState = this.state.searchState;
-      currState.scrollIndex = newIndex;
-      currState.scrollID = markedIDs[newIndex];
-      this.setState({
-        searchState: currState
-      });
-    }
-  }
-
-  _onClickSearch = () => {
-    let searchState = this.state.searchState;
-    searchState.markedMsgs = this.state.messages;
+_onClickPrev = () => {
+  let newIndex = this.state.searchState.scrollIndex + 1;
+  let indexLimit = this.state.searchState.scrollLimit;
+  let markedIDs = this.state.searchState.markedIDs;
+  let ul = this.messageList;
+  if (markedIDs && ul && newIndex < indexLimit) {
+    let currState = this.state.searchState;
+    currState.scrollIndex = newIndex;
+    currState.scrollID = markedIDs[newIndex];
     this.setState({
-      search: true,
-      searchState: searchState,
+      searchState: currState
     });
   }
+}
 
-  _onClickExit = () => {
-    let searchState = this.state.searchState;
-    searchState.searchText = '';
+_onClickRecent = () => {
+  let newIndex = this.state.searchState.scrollIndex - 1;
+  let markedIDs = this.state.searchState.markedIDs;
+  let ul = this.messageList;
+  if (markedIDs && ul && newIndex >= 0) {
+    let currState = this.state.searchState;
+    currState.scrollIndex = newIndex;
+    currState.scrollID = markedIDs[newIndex];
     this.setState({
-      search: false,
-      searchState: searchState,
+      searchState: currState
     });
   }
+}
 
-  handleOptions = (event) => {
-    event.preventDefault();
-    let searchState = this.state.searchState;
-    searchState.open = true;
-    searchState.anchorEl = event.currentTarget;
-    this.setState({
-      searchState: searchState,
-    });
+_onClickSearch = () => {
+  let searchState = this.state.searchState;
+  searchState.markedMsgs = this.state.messages;
+  this.setState({
+    search: true,
+    searchState: searchState,
+  });
+}
+
+_onClickExit = () => {
+  let searchState = this.state.searchState;
+  searchState.searchText = '';
+  this.setState({
+    search: false,
+    searchState: searchState,
+  });
+}
+
+handleOptions = (event) => {
+  event.preventDefault();
+  let searchState = this.state.searchState;
+  searchState.open = true;
+  searchState.anchorEl = event.currentTarget;
+  this.setState({
+    searchState: searchState,
+  });
+}
+
+handleToggle = (event, isInputChecked) => {
+  let searchState = {
+    markedMsgs: this.state.messages,
+    markedIDs: [],
+    markedIndices: [],
+    scrollLimit: 0,
+    scrollIndex: -1,
+    scrollID: null,
+    caseSensitive: isInputChecked,
+    open: true,
+    searchText: ''
   }
+  this.setState({
+    searchState: searchState
+  });
+}
 
-  handleToggle = (event, isInputChecked) => {
-    let searchState = {
-      markedMsgs: this.state.messages,
-      markedIDs: [],
-      markedIndices: [],
-      scrollLimit: 0,
-      scrollIndex: -1,
-      scrollID: null,
-      caseSensitive: isInputChecked,
-      open: true,
-      searchText: ''
-    }
-    this.setState({
-      searchState: searchState
-    });
-  }
+handleRequestClose = () => {
+  let searchState = this.state.searchState;
+  searchState.open = false;
+  this.setState({
+    searchState: searchState,
+  });
+};
 
-  handleRequestClose = () => {
-    let searchState = this.state.searchState;
-    searchState.open = false;
-    this.setState({
-      searchState: searchState,
-    });
-  };
-
-  /**
-   * Event handler for 'change' events coming from the MessageStore
-   */
-  _onChange() {
-    this.setState(getStateFromStores());
-  }
+/**
+ * Event handler for 'change' events coming from the MessageStore
+ */
+_onChange() {
+  this.setState(getStateFromStores());
+}
 
 };
+
 
 MessageSection.propTypes = {
   location: PropTypes.object,
