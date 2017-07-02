@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Cookies from 'universal-cookie';
+import Toggle from 'material-ui/Toggle';
 
 const cookies = new Cookies();
 
@@ -19,8 +20,10 @@ class Settings extends Component {
 		let defaults = UserPreferencesStore.getPreferences();
 		let defaultServer = defaults.Server;
 		let defaultTheme = defaults.Theme;
+		let defaultEnterAsSend = defaults.EnterAsSend;
 		this.state = {
 			theme: defaultTheme,
+			enterAsSend: defaultEnterAsSend,
 			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
@@ -41,18 +44,26 @@ class Settings extends Component {
 	handleSubmit = () => {
 		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
+		let newEnterAsSend = this.state.enterAsSend;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
 		let vals = {
 			theme: newTheme,
-			server: newDefaultServer
+			server: newDefaultServer,
+			enterAsSend: newEnterAsSend,
 		}
 		this.props.onSettingsSubmit(vals);
 	}
 
 	handleSelectChange= (event, index, value) => {
 		this.setState({theme:value});
+	}
+
+	handleEnterAsSend = (event, isInputChecked) => {
+		this.setState({
+			enterAsSend: isInputChecked,
+		});
 	}
 
 	handleChange = (event) => {
@@ -126,8 +137,9 @@ class Settings extends Component {
 				<Paper zDepth={0}>
 					<h1>Chat Settings</h1>
 					<div className='settingsDialog'>
+					<h4 style={subHeaderStyle}>ChatApp Settings</h4>
 					<div>
-						<h4 style={subHeaderStyle}>Select Theme:</h4>
+						<h4 style={{float:'left'}}>Select Theme</h4>
 						<DropDownMenu
 							label='Default Theme'
 							value={this.state.theme}
@@ -136,9 +148,16 @@ class Settings extends Component {
 				          <MenuItem value={'dark'} primaryText="Dark" />
 				        </DropDownMenu>
 			        </div>
+			        <div>
+			        	<h4 style={{'marginBottom':'0px'}}>Enter As Send</h4>
+			        	<Toggle style={{maxWidth:'70%'}}
+			        		label='Send message by pressing ENTER'
+			        		onToggle={this.handleEnterAsSend}
+							toggled={this.state.enterAsSend}/>
+			        </div>
 			        {cookies.get('loggedIn') ?
 			        <div>
-			        <h4 style={subHeaderStyle}>Server Settings:</h4>
+			        <h4 style={subHeaderStyle}>Server Settings</h4>
 						<FlatButton
 							className='settingsBtns'
 							style={Buttonstyles}
@@ -148,7 +167,7 @@ class Settings extends Component {
 			    	</div>
 			       	:
 					<div>
-						<h4 style={subHeaderStyle}>Server Settings:</h4>
+						<h4 style={subHeaderStyle}>Server Settings</h4>
 						<h3>Choose Server</h3>
 						<RadioButtonGroup
 						 name="server" onChange={this.handleChange}
