@@ -22,7 +22,6 @@ export function getLocation(){
         lat: response.latitude,
         lng: response.longitude,
       };
-      console.log(_Location);
     },
     error: function(xhr, status, error) {
       if (xhr.status === 404 || status === 'error') {
@@ -251,6 +250,46 @@ export function setThemeSettings(newTheme){
 
   url = BASE_URL+'/aaa/changeUserSettings.json?'
           +'key=theme&value='+newTheme
+          +'&access_token='+cookies.get('loggedIn');
+
+  console.log(url);
+  $.ajax({
+    url: url,
+    dataType: 'jsonp',
+    crossDomain: true,
+    timeout: 3000,
+    async: false,
+    success: function (response) {
+      console.log(response);
+    },
+    error: function(errorThrown){
+      console.log(errorThrown);
+    }
+  });
+}
+
+// Push EnterAsSend to server
+export function setEnterAsSendSettings(newEnterAsSend){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
+
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+
+  url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=enter_send&value='+newEnterAsSend
           +'&access_token='+cookies.get('loggedIn');
 
   console.log(url);

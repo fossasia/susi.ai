@@ -1,5 +1,5 @@
 import MessageComposer from '../MessageComposer.react';
-import MessageListItem from '../MessageListItem.react';
+import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
 import ThreadStore from '../../../stores/ThreadStore';
@@ -23,6 +23,7 @@ function getStateFromStores() {
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     open: false,
+    showForgotPassword: false,
     showSettings: false,
     showThemeChanger: false,
     showHardwareChangeDialog: false,
@@ -168,10 +169,16 @@ class MessageSection extends Component {
   handleOpen = () => {
     this.setState({ open: true });
   }
+  handleSignUp = () => {
+    this.setState({
+      showSignUp: true
+    })
+  }
 
   handleClose = () => {
     this.setState({
       open: false,
+      showSignUp: false,
       showSettings: false,
       showThemeChanger: false,
       showHardware: false
@@ -192,6 +199,21 @@ class MessageSection extends Component {
         showServerChangeDialog: false,
         showHardwareChangeDialog: false
       });
+  }
+
+  handleForgotPassword = (toShow) => {
+    if(toShow){
+      this.setState({
+        showForgotPassword: true,
+        open: false,
+      });
+    }
+    else{
+      this.setState({
+        showForgotPassword: false,
+        open: true,
+      });
+    }
   }
 
   hardwareSettingChanged = () => {
@@ -223,6 +245,10 @@ class MessageSection extends Component {
     }
   }
 
+  changeEnterAsSend = (enterAsSend) => {
+    Actions.enterAsSendChanged(enterAsSend);
+  }
+
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -252,6 +278,7 @@ class MessageSection extends Component {
   implementSettings = (values) => {
     this.setState({showSettings: false});
     this.changeTheme(values.theme);
+    this.changeEnterAsSend(values.enterAsSend);
   }
 
   searchTextChanged = (event) => {
@@ -393,6 +420,7 @@ class MessageSection extends Component {
       keyboardFocused={false}
       onTouchTap={this.handleServerToggle.bind(this,true)}
     />];
+
     const hardwareActions = [
     <RaisedButton
       key={'Cancel'}
@@ -449,6 +477,7 @@ class MessageSection extends Component {
                 handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
                 handleOpen={this.handleOpen}
+                handleSignUp={this.handleSignUp}
                 handleOptions={this.handleOptions}
                 handleRequestClose={this.handleRequestClose}
                 handleToggle={this.handleToggle}
@@ -491,7 +520,9 @@ class MessageSection extends Component {
             <DialogSection
               {...this.props}
               openLogin={this.state.open}
+              openForgotPassword={this.state.showForgotPassword}
               openSetting={this.state.showSettings}
+              openSignUp={this.state.showSignUp}
               openServerChange={this.state.showServerChangeDialog}
               openHardwareChange={this.state.showHardwareChangeDialog}
               openThemeChanger={this.state.showThemeChanger}
@@ -500,6 +531,7 @@ class MessageSection extends Component {
               actions={actions}
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
+              onForgotPassword={this.handleForgotPassword}
               onRequestClose={()=>this.handleClose}
               onRequestCloseServerChange={()=>this.handleServerToggle.bind(this,false)}
               onRequestCloseHardwareChange={

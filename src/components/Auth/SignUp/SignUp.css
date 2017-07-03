@@ -1,14 +1,16 @@
+.forgotpwdlink{
+	text-decoration: none;
+	color: #999999;
+	margin-bottom: 20px;
+}
 .signUpForm{
-	padding: 10px;
-	width: 400px;
 	margin: 0 auto;
+}
+.sty{
+	width: 256px;
 }
 @media screen and (max-width: 768px) {
 	.signUpForm h1{
 		font-size: 16px;
-	}
-	.signUpForm {
-		width: 320px;
-		margin: 0 auto;
 	}
 }

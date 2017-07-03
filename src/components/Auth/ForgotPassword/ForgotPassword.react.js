@@ -31,15 +31,13 @@ class ForgotPassword extends Component {
 		this.customServerMessage = '';
 	}
 
-	handleCancel = () => {
-		this.props.history.push('/', { showLogin: false });
-		window.location.reload();
-	}
-
 	handleClose = () => {
 		let state = this.state;
 		if (state.success) {
-			this.props.history.push('/', { showLogin: true });
+			this.setState({
+				msg: '',
+			});
+			this.props.showForgotPassword(false);
 		}
 		else {
 			this.setState({
@@ -190,10 +188,11 @@ class ForgotPassword extends Component {
 		};
 
 		const styles = {
-			'margin': '60px auto',
+			'width': '100%',
 			'padding': '10px',
 			'textAlign': 'center'
 		}
+
 		const actions =
 			<FlatButton
 				label="OK"
@@ -205,7 +204,7 @@ class ForgotPassword extends Component {
 
 		return (
 			<div className="forgotPwdForm">
-				<Paper zDepth={1} style={styles}>
+				<Paper zDepth={0} style={styles}>
 					<h1>Forgot Password?</h1>
 					<form onSubmit={this.handleSubmit}>
 						<div>
@@ -254,15 +253,6 @@ class ForgotPassword extends Component {
 								disabled={!this.state.validForm} />
 						</div>
 					</form>
-					<br/>
-					<RaisedButton
-				      label="Cancel"
-				      backgroundColor={
-				        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-				      labelColor="#fff"
-				      keyboardFocused={true}
-				      onTouchTap={this.handleCancel}
-				    />
 				</Paper>
 				{this.state.msg && (
 					<div><Dialog
@@ -281,7 +271,7 @@ class ForgotPassword extends Component {
 }
 
 ForgotPassword.propTypes = {
-	history: PropTypes.object
+	showForgotPassword: PropTypes.func
 };
 
 export default ForgotPassword;

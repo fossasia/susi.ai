@@ -25,9 +25,11 @@ class MessageComposer extends Component {
       this.state= {text: 'dream '+ props.dream}
     }
   }
+
   componentDidMount(){
     this.nameInput.focus();
   }
+
   render() {
     return (
       <div className="message-composer" >
@@ -54,6 +56,10 @@ class MessageComposer extends Component {
   _onClickButton(){
     let text = this.state.text.trim();
     if (text) {
+      let EnterAsSend = UserPreferencesStore.getEnterAsSend();
+      if(!EnterAsSend){
+        text = text.split('\n').join(' ');
+      }
       Actions.createMessage(text, this.props.threadID);
     }
     this.setState({text: ''});
@@ -65,15 +71,17 @@ class MessageComposer extends Component {
 
   _onKeyDown(event) {
     if (event.keyCode === ENTER_KEY_CODE) {
-      event.preventDefault();
-      let text = this.state.text.trim();
-      if (text) {
-        Actions.createMessage(text, this.props.threadID);
+      let EnterAsSend = UserPreferencesStore.getEnterAsSend();
+      if(EnterAsSend){
+        event.preventDefault();
+        let text = this.state.text.trim();
+        if (text) {
+          Actions.createMessage(text, this.props.threadID);
+        }
+        this.setState({text: ''});
       }
-      this.setState({text: ''});
     }
   }
-
 
 };
 
