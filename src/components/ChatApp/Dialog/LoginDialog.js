@@ -29,7 +29,6 @@ export default class LoginDialog extends React.Component {
             'padding': 0,
             textAlign: 'center'
         }
-        console.log(this.state.open);
 
         return (
             <Dialog

@@ -1,6 +1,7 @@
 import Dialog from 'material-ui/Dialog';
 import React, { Component } from 'react';
 import Login from '../../Auth/Login/Login.react';
+import SignUp from '../../Auth/SignUp/SignUp.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import Settings from '../Settings.react';
 import PropTypes from 'prop-types';
@@ -29,6 +30,7 @@ export default class DialogSection extends Component {
     return(
       <div>
 
+        {/* Login */}
         <Dialog
           className='dialogStyle'
           actions={this.props.actions}
@@ -38,8 +40,7 @@ export default class DialogSection extends Component {
           bodyStyle={this.props.bodyStyle}
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
-          <Login {...this.props}
-            showForgotPassword={this.showForgotPassword} />
+          <Login {...this.props} />
         </Dialog>
 
       {/* Forgot Password */}
@@ -56,6 +57,22 @@ export default class DialogSection extends Component {
             showForgotPassword={this.showForgotPassword} />
         </Dialog>
 
+      {/* SignUp */}
+      <Dialog
+          className='dialogStyle'
+          actions={this.props.actions}
+          modal={false}
+          open={this.props.openSignUp}
+          autoScrollBodyContent={true}
+          bodyStyle={this.props.bodyStyle}
+          contentStyle={{width: '35%',minWidth: '300px'}}
+          onRequestClose={this.props.onRequestClose()}>
+          <SignUp
+          {...this.props}
+          />
+        </Dialog>
+
+      {/* Settings */}
         <Dialog
           actions={this.props.actions}
           modal={false}
@@ -70,7 +87,7 @@ export default class DialogSection extends Component {
               onHardwareSettings={this.props.onHardwareSettings()} />
           </div>
         </Dialog>
-
+      {/* Change Server */}
         <Dialog
           actions={this.props.ServerChangeActions}
           modal={false}
@@ -83,7 +100,7 @@ export default class DialogSection extends Component {
             Please login again to change SUSI server
           </div>
         </Dialog>
-
+      {/* Hardware Connection */}
         <Dialog
           HardwareActions={this.props.HardwareActions}
           modal={false}
@@ -95,7 +112,7 @@ export default class DialogSection extends Component {
             <HardwareComponent {...this.props} />
           </div>
         </Dialog>
-
+      {/* ThemeChanger */}
         <Dialog
           actions={this.props.actions}
           modal={false}
@@ -117,6 +134,7 @@ export default class DialogSection extends Component {
 DialogSection.propTypes = {
     openLogin: PropTypes.bool,
     openForgotPassword: PropTypes.bool,
+    openSignUp: PropTypes.bool,
     openSetting: PropTypes.bool,
     openServerChange: PropTypes.bool,
     openHardwareChange: PropTypes.bool,
@@ -132,5 +150,6 @@ DialogSection.propTypes = {
     onRequestClose: PropTypes.func,
     onSettingsSubmit: PropTypes.func,
     onServerChange: PropTypes.func,
-    onHardwareSettings: PropTypes.func
+    onHardwareSettings: PropTypes.func,
+    onSignedUp: PropTypes.func
 };

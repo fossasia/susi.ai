@@ -22,7 +22,6 @@ export function getLocation(){
         lat: response.latitude,
         lng: response.longitude,
       };
-      console.log(_Location);
     },
     error: function(xhr, status, error) {
       if (xhr.status === 404 || status === 'error') {
