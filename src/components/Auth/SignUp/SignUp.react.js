@@ -30,7 +30,8 @@ export default class SignUp extends Component {
             validForm: false,
             serverUrl: '',
             checked:false,
-            serverFieldError: false,
+            msgOpen: false,
+            serverFieldError: false
         };
 
         this.emailErrorMessage = '';
@@ -39,17 +40,18 @@ export default class SignUp extends Component {
         this.customServerMessage = '';
 
         if (document.cookie.split('=')[0] === 'loggedIn') {
-            this.props.history.push('/');
             window.location.reload();
-
         }
     }
 
     handleClose = () => {
         let state = this.state;
-
         if (state.success) {
-            this.props.history.push('/', { showLogin: true });
+            this.setState({
+                open: false,
+                showLogin: true,
+                showSignUp:false
+            });
         }
         else {
             this.setState({
@@ -66,7 +68,8 @@ export default class SignUp extends Component {
                 serverUrl: '',
                 checked:false,
                 serverFieldError: false,
-                open: false
+                open: false,
+                msgOpen: false
             });
         }
     }
@@ -203,6 +206,7 @@ export default class SignUp extends Component {
                     let state = this.state;
                     state.msg = msg;
                     state.success = true;
+                    state.msgOpen = true;
                     this.setState(state);
 
                 }.bind(this),
@@ -229,8 +233,26 @@ export default class SignUp extends Component {
     }
 
     handleOpen = () => {
-        this.setState({ open: true });
+        this.setState(
+            {
+            open: true,
+            msgOpen: false,
+            email: '',
+            isEmail: false,
+            emailError: true,
+            passwordError: true,
+            passwordConfirmError: true,
+            passwordValue: '',
+            confirmPasswordValue: '',
+            msg: '',
+            success: false,
+            validForm: false,
+            serverUrl: '',
+            checked:false,
+            serverFieldError: false
+        });
     };
+
     switchDialog=(dialogState)=>{
         this.setState({open:dialogState});
     };
@@ -254,14 +276,12 @@ export default class SignUp extends Component {
         };
 
         const styles = {
-            'margin': '60px auto',
             'width': '100%',
-            'padding': '20px',
-            'textAlign': 'center'
+            'textAlign': 'center',
+            'padding': '10px'
         }
-
-        const fieldStyle = {
-            'width': '256px'
+        const fieldStyle={
+            'width':'256px'
         }
 
         const actions =
@@ -270,12 +290,12 @@ export default class SignUp extends Component {
                 backgroundColor={
                     UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
                 labelStyle={{ color: '#fff' }}
-                onTouchTap={this.handleClose}
+                onTouchTap={this.handleOpen}
             />;
 
         return (
             <div className="signUpForm">
-                <Paper zDepth={1} style={styles}>
+                <Paper zDepth={0} style={styles}>
                     <h1>Sign Up with SUSI</h1>
                     <form onSubmit={this.handleSubmit}>
                         <div>
@@ -359,8 +379,8 @@ export default class SignUp extends Component {
                     <div><Dialog
                         actions={actions}
                         modal={false}
-                        open={true}
-                        onRequestClose={this.handleClose}
+                        open={this.state.msgOpen}
+                        onRequestClose={this.handleOpen}
                     >
                         {this.state.msg}
                     </Dialog></div>

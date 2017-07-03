@@ -71,8 +71,7 @@ class TopBar extends Component {
 				<MenuItem primaryText="Settings"
 					onClick={this.props.handleSettings} />
 				<MenuItem primaryText="Login" onTouchTap={this.props.handleOpen} />
-				<MenuItem primaryText="Sign Up"
-					containerElement={<Link to="/signup" />} />
+				<MenuItem primaryText="Sign Up" onTouchTap={this.props.handleSignUp} />
 			</IconMenu>)
 
 		return <Logged />
@@ -166,6 +165,7 @@ TopBar.propTypes = {
 	handleSettings: PropTypes.func,
 	handleThemeChanger: PropTypes.func,
 	handleOpen: PropTypes.func,
+	handleSignUp:PropTypes.func,
 	handleOptions: PropTypes.func,
 	handleRequestClose: PropTypes.func,
 	handleToggle: PropTypes.func,
