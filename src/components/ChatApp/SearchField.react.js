@@ -97,7 +97,7 @@ class ExpandingSearchField extends Component{
                 <TextField
                     name='search'
                     className='search'
-                    hintText="Search..."
+                    placeholder="Search..."
                     inputStyle={searchStyle}
                     style={textStyle}
                     value={this.props.searchText}
