@@ -49,7 +49,7 @@ class ExpandingSearchField extends Component{
     const baseStyles = {
 
         open: {
-            width: 125,
+            width: 180,
         },
 
         closed: {
@@ -69,6 +69,7 @@ class ExpandingSearchField extends Component{
 
         frame: {
         }
+
     };
 
     const searchStyle = {
@@ -87,8 +88,9 @@ class ExpandingSearchField extends Component{
 
     if(this.state.isOpen){
         return (
-            <div style={divStyle}>
+            <div style={divStyle} className='searchComponent'>
                 <IconButton
+                    className='displayNone'
                     iconStyle={baseStyles.smallIcon}
                     style={baseStyles.icon}
                     onClick={this.onClick}>
@@ -96,7 +98,7 @@ class ExpandingSearchField extends Component{
                 </IconButton>
                 <TextField
                     name='search'
-                    className='search'
+                    className='search displayNone'
                     placeholder="Search..."
                     inputStyle={searchStyle}
                     style={textStyle}
@@ -104,18 +106,21 @@ class ExpandingSearchField extends Component{
                     onChange={(event) => this.onChange(event)}
                     autoFocus/>
                 <IconButton
+                    className='displayNone'
                     iconStyle={baseStyles.smallIcon}
                     style={baseStyles.icon}
                     onClick={this.onClickPrev}>
                     <UpIcon />
                 </IconButton>
                 <IconButton
+                    className='displayNone'
                     iconStyle={baseStyles.smallIcon}
                     style={baseStyles.icon}
                     onClick={this.onClickRecent}>
                     <DownIcon />
                 </IconButton>
                 <IconButton
+                    className='displayCloseNone'
                     iconStyle={baseStyles.smallIcon}
                     style={baseStyles.icon}
                     onClick={this.onClick}>
@@ -128,6 +133,7 @@ class ExpandingSearchField extends Component{
     return (
             <div style={divStyle}>
                 <IconButton
+                    className='displayNone displayCloseNone'
                     iconStyle={baseStyles.smallIcon}
                     style={baseStyles.icon}
                     onClick={this.onClick}>
