@@ -102,7 +102,9 @@ class TopBar extends Component {
 				// do nothing
 			}
 		}
-
+		if(this.props.backgroundColor!==''){
+			backgroundCol=this.props.backgroundColor;
+		}
 		let appBarClass = 'app-bar';
 		if (this.props.search) {
 			appBarClass = 'app-bar-search';
@@ -176,6 +178,7 @@ TopBar.propTypes = {
 	_onClickPrev: PropTypes.func,
 	search: PropTypes.bool,
 	searchState: PropTypes.object,
+	backgroundColor:PropTypes.string,
 };
 
 export default TopBar;
