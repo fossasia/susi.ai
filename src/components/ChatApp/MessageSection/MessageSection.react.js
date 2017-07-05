@@ -458,7 +458,7 @@ class MessageSection extends Component {
     var body = this.state.body;
     var pane = this.state.pane;
     var composer = this.state.composer;
-
+    var header= this.state.header;
     let messageListItems = [];
     if(this.state.search){
       let markID = this.state.searchState.scrollID;
@@ -476,6 +476,7 @@ class MessageSection extends Component {
             <header className='message-thread-heading'
             style={{ backgroundColor: backgroundCol }}>
               <TopBar
+                backgroundColor={header}
                 {...this.props}
                 handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
