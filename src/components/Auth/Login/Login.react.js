@@ -24,9 +24,9 @@ class Login extends Component {
 			success: false,
 			validForm: false,
 			emailError: true,
-            passwordError: true,
-            serverFieldError: false,
-            checked: false
+      passwordError: false,
+      serverFieldError: false,
+      checked: false
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
@@ -123,11 +123,11 @@ class Login extends Component {
         	state.checked = true;
         	state.serverFieldError = true;
         }
-		else if (event.target.value === 'standardServer') {
-			state.checked = false;
-			state.serverFieldError = false;
-		}
-		else if (event.target.name === 'serverUrl'){
+				else if (event.target.value === 'standardServer') {
+					state.checked = false;
+					state.serverFieldError = false;
+				}
+				else if (event.target.name === 'serverUrl'){
         	serverUrl = event.target.value;
         	let validServerUrl =
 /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
