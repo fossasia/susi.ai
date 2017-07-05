@@ -122,6 +122,7 @@ class ExpandingSearchField extends Component{
                     <ExitIcon />
                 </IconButton>
             </div>
+
         );
     }
     return (
@@ -134,7 +135,7 @@ class ExpandingSearchField extends Component{
                 </IconButton>
                 <TextField
                     name='search'
-                    value=''
+                    value={this.props.searchText}
                     style={textStyle}
                     inputStyle={searchStyle} />
             </div>
