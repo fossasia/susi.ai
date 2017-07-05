@@ -244,6 +244,8 @@ export default class SignUp extends Component {
 
                     let state = this.state;
                     state.msg = msg;
+                 state.msgOpen = true;
+
                     this.setState(state);
                 }.bind(this)
             });
@@ -271,7 +273,12 @@ export default class SignUp extends Component {
             serverFieldError: false
         });
     };
-
+    closealert=()=>{
+        this.setState(
+                {
+                msgOpen: false
+            });
+    }
     render() {
 
         const serverURL = <TextField name="serverUrl"
@@ -306,7 +313,7 @@ export default class SignUp extends Component {
                 backgroundColor={
                     UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
                 labelStyle={{ color: '#fff' }}
-                onTouchTap={this.handleOpen}
+                onTouchTap={this.closealert}
             />;
         const loginActions = <RaisedButton
           label="Cancel"
@@ -413,7 +420,7 @@ export default class SignUp extends Component {
                         actions={actions}
                         modal={false}
                         open={this.state.msgOpen}
-                        onRequestClose={this.handleOpen}
+                        onRequestClose={this.closealert}
                     >
                         {this.state.msg}
                     </Dialog></div>
