@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import LoginDialog from '../../ChatApp/Dialog/LoginDialog';
+import zxcvbn from 'zxcvbn';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -61,6 +62,8 @@ export default class SignUp extends Component {
                 passwordError: true,
                 passwordConfirmError: true,
                 passwordValue: '',
+                passwordStrength: '',
+                passwordScore: -1,
                 confirmPasswordValue: '',
                 msg: '',
                 success: false,
@@ -91,8 +94,24 @@ export default class SignUp extends Component {
         else if (event.target.name === 'password') {
             password = event.target.value;
             let validPassword = password.length >= 6;
-            state.passwordValue = password;
+            state.passwordValue=password;
             state.passwordError = !(password && validPassword);
+            if(validPassword) {
+              let result = zxcvbn(password);
+              state.passwordScore=result.score;
+              let strength = [
+                'Worst',
+                'Bad',
+                'Weak',
+                'Good',
+                'Strong'
+              ];
+              state.passwordStrength=strength[result.score];
+            }
+            else {
+              state.passwordStrength='';
+              state.passwordScore=-1;
+            }
         }
         else if (event.target.name === 'confirmPassword') {
             password = this.state.passwordValue;
@@ -293,6 +312,8 @@ export default class SignUp extends Component {
                 onTouchTap={this.handleOpen}
             />;
 
+          const PasswordClass=[`is-strength-${this.state.passwordScore}`];
+
         return (
             <div className="signUpForm">
                 <Paper zDepth={0} style={styles}>
@@ -306,7 +327,7 @@ export default class SignUp extends Component {
                                 errorText={this.emailErrorMessage}
                                 floatingLabelText="Email" />
                         </div>
-                        <div>
+                        <div className={PasswordClass.join(' ')}>
                             <PasswordField
                                 name="password"
                                 style={fieldStyle}
@@ -314,6 +335,12 @@ export default class SignUp extends Component {
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
                                 floatingLabelText="Password" />
+                              <div className="ReactPasswordStrength-strength-bar" />
+                              <div>
+                                <p>
+                                  {this.state.passwordStrength}
+                                </p>
+                              </div>
                         </div>
                         <div>
                             <PasswordField
