@@ -5,15 +5,20 @@ import TextHighlight from 'react-text-highlight';
 import {AllHtmlEntities} from 'html-entities';
 import $ from 'jquery';
 import { imageParse, processText,
-  renderTiles, drawMap,
-  drawTable, getRSSTiles } from './helperFunctions.react.js';
-const entities = new AllHtmlEntities();
+  renderTiles, drawMap, drawTable,
+  getRSSTiles, renderMessageFooter } from './helperFunctions.react.js';
 
+const entities = new AllHtmlEntities();
 
 class MessageListItem extends React.Component {
 
   render() {
     let {message} = this.props;
+
+    let latestUserMsgID = null;
+    if(this.props.latestUserMsgID){
+      latestUserMsgID = this.props.latestUserMsgID;
+    }
 
     if(this.props.message.type === 'date'){
       return(
@@ -89,12 +94,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
-                  <div className='message-time'>
-                    {message.date.toLocaleString(
-                      'en-US',
-                      { hour: 'numeric',minute:'numeric', hour12: true }
-                    )}
-                  </div>
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
               );
@@ -110,12 +110,7 @@ class MessageListItem extends React.Component {
                     <a href={link} target='_blank'
                       rel='noopener noreferrer'>{text}</a>
                   </div>
-                  <div className='message-time'>
-                    {message.date.toLocaleString(
-                      'en-US',
-                      { hour: 'numeric',minute:'numeric', hour12: true }
-                    )}
-                  </div>
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
               );
@@ -138,12 +133,7 @@ class MessageListItem extends React.Component {
                       <li className='message-list-item' key={action+index}>
                         <section className={messageContainerClasses}>
                         <div>{mymap}</div>
-                        <div className='message-time'>
-                          {message.date.toLocaleString(
-                            'en-US',
-                            { hour: 'numeric',minute:'numeric', hour12: true }
-                          )}
-                        </div>
+                          {renderMessageFooter(message,latestUserMsgID)}
                         </section>
                       </li>
                       );
@@ -160,12 +150,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
-                  <div className='message-time'>
-                    {message.date.toLocaleString(
-                      'en-US',
-                      { hour: 'numeric',minute:'numeric', hour12: true }
-                    )}
-                  </div>
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
                 );
@@ -179,12 +164,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
-                  <div className='message-time'>
-                    {message.date.toLocaleString(
-                      'en-US',
-                      { hour: 'numeric',minute:'numeric', hour12: true }
-                    )}
-                  </div>
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
               );
@@ -205,12 +185,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(rssTiles)}
                     </div></div>
-                    <div className='message-time'>
-                      {message.date.toLocaleString(
-                        'en-US',
-                        { hour: 'numeric',minute:'numeric', hour12: true }
-                      )}
-                    </div>
+                      {renderMessageFooter(message,latestUserMsgID)}
                     </section>
                   </li>
                 );
@@ -224,12 +199,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(websearchTiles)}
                     </div></div>
-                    <div className='message-time'>
-                      {message.date.toLocaleString(
-                        'en-US',
-                        { hour: 'numeric',minute:'numeric', hour12: true }
-                      )}
-                    </div>
+                      {renderMessageFooter(message,latestUserMsgID)}
                     </section>
                   </li>
                 );
@@ -249,12 +219,7 @@ class MessageListItem extends React.Component {
       <li className='message-list-item'>
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
-        <div className='message-time'>
-          {message.date.toLocaleString(
-            'en-US',
-            { hour: 'numeric',minute:'numeric', hour12: true }
-          )}
-        </div>
+          {renderMessageFooter(message,latestUserMsgID)}
         </section>
       </li>
     );
@@ -264,7 +229,8 @@ class MessageListItem extends React.Component {
 
 MessageListItem.propTypes = {
   message: PropTypes.object,
-  markID: PropTypes.string
+  markID: PropTypes.string,
+  latestUserMsgID: PropTypes.string,
 };
 
 export default MessageListItem;

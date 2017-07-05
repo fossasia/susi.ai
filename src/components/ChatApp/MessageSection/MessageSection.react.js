@@ -49,7 +49,8 @@ function getStateFromStores() {
   };
 }
 
-function getMessageListItem(messages, markID) {
+function getMessageListItem(messages, showLoading, markID) {
+  // markID indicates search mode on
   if(markID){
     return messages.map((message) => {
       return (
@@ -61,12 +62,22 @@ function getMessageListItem(messages, markID) {
       );
     });
   }
+  // Get message ID waiting for server response
+  let latestUserMsgID = null;
+  if(showLoading && messages){
+    let msgCount = messages.length;
+    if(msgCount>0){
+      let latestUserMsg = messages[msgCount-1];
+      latestUserMsgID = latestUserMsg.id;
+    }
+  }
 
   return messages.map((message) => {
     return (
       <MessageListItem
         key={message.id}
         message={message}
+        latestUserMsgID={latestUserMsgID}
       />
     );
   });
@@ -458,15 +469,15 @@ class MessageSection extends Component {
     var body = this.state.body;
     var pane = this.state.pane;
     var composer = this.state.composer;
-
+    var header= this.state.header;
     let messageListItems = [];
     if(this.state.search){
       let markID = this.state.searchState.scrollID;
       let markedMessages = this.state.searchState.markedMsgs;
-      messageListItems = getMessageListItem(markedMessages,markID);
+      messageListItems = getMessageListItem(markedMessages,false,markID);
     }
     else{
-      messageListItems = getMessageListItem(this.state.messages);
+      messageListItems = getMessageListItem(this.state.messages,this.state.showLoading);
     }
 
     if (this.state.thread) {
@@ -476,6 +487,7 @@ class MessageSection extends Component {
             <header className='message-thread-heading'
             style={{ backgroundColor: backgroundCol }}>
               <TopBar
+                backgroundColor={header}
                 {...this.props}
                 handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
