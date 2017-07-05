@@ -298,6 +298,7 @@ header{
 }
 
 .message-time, .thread-time {
+  list-style-type: none;
   font-size: 12px;
   color: #90a4ae;
   margin: 0;

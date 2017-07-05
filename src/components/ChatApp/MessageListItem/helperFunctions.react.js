@@ -15,6 +15,10 @@ import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
 import {AllHtmlEntities} from 'html-entities';
+import TickIcon from 'material-ui/svg-icons/action/done';
+import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+
 const entities = new AllHtmlEntities();
 
 // Keeps the Map Popup open initially
@@ -27,6 +31,50 @@ class ExtendedMarker extends Marker {
   }
 }
 
+// Returns the message time and status indicator
+export function renderMessageFooter(message,latestMsgID){
+
+  let statusIndicator = null;
+
+  let footerStyle = {
+    display: 'block',
+    float: 'left'
+  }
+
+  if(message.authorName === 'You'){
+    let indicatorStyle = {
+      height:'13px'
+    }
+    statusIndicator = (
+      <li className='message-time' style={footerStyle}>
+        <TickIcon style={indicatorStyle}
+          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
+      </li>);
+    if(message.id === latestMsgID){
+      statusIndicator = (
+        <li className='message-time' style={footerStyle}>
+          <ClockIcon style={indicatorStyle}
+            color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
+        </li>);
+    }
+  }
+
+  if(message.authorName === 'SUSI'){
+    footerStyle = {};
+  }
+
+  return(
+    <ul>
+      <li className='message-time' style={footerStyle}>
+        {message.date.toLocaleString(
+          'en-US',
+          { hour: 'numeric',minute:'numeric', hour12: true }
+        )}
+      </li>
+      {statusIndicator}
+    </ul>
+  );
+}
 
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
 export function processText(text,type){
