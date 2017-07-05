@@ -14,7 +14,6 @@ import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
-
 function getStateFromStores() {
   return {
     messages: MessageStore.getAllForCurrentThread(),
