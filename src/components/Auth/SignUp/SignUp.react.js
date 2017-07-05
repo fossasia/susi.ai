@@ -10,7 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import LoginDialog from '../../ChatApp/Dialog/LoginDialog';
+import Login from '../../Auth/Login/Login.react';
 import zxcvbn from 'zxcvbn';
 
 export default class SignUp extends Component {
@@ -28,6 +28,7 @@ export default class SignUp extends Component {
             msg: '',
             success: false,
             open: false,
+            openLogin: false,
             validForm: false,
             serverUrl: '',
             checked:false,
@@ -50,7 +51,6 @@ export default class SignUp extends Component {
         if (state.success) {
             this.setState({
                 open: false,
-                showLogin: true,
                 showSignUp:false
             });
         }
@@ -272,9 +272,6 @@ export default class SignUp extends Component {
         });
     };
 
-    switchDialog=(dialogState)=>{
-        this.setState({open:dialogState});
-    };
     render() {
 
         const serverURL = <TextField name="serverUrl"
@@ -311,6 +308,15 @@ export default class SignUp extends Component {
                 labelStyle={{ color: '#fff' }}
                 onTouchTap={this.handleOpen}
             />;
+        const loginActions = <RaisedButton
+          label="Cancel"
+          backgroundColor={
+            UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+          labelColor="#fff"
+          width='200px'
+          keyboardFocused={true}
+          onTouchTap={this.handleClose}
+        />;
 
           const PasswordClass=[`is-strength-${this.state.passwordScore}`];
 
@@ -412,9 +418,15 @@ export default class SignUp extends Component {
                         {this.state.msg}
                     </Dialog></div>
                 )}
-                <LoginDialog {...this.props}
-                open={this.state.open}
-                switchDialog={this.switchDialog} />
+                <Dialog
+                  className='dialogStyle'
+                  actions={loginActions}
+                  modal={false}
+                  open={this.state.open}
+                  autoScrollBodyContent={true}
+                  contentStyle={{width: '35%',minWidth: '300px'}}>
+                  <Login {...this.props} />
+                </Dialog>
             </div>
         );
     };
