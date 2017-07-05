@@ -40,7 +40,8 @@ export default class DialogSection extends Component {
           bodyStyle={this.props.bodyStyle}
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
-          <Login {...this.props} />
+          <Login {...this.props}
+            showForgotPassword={this.showForgotPassword}/>
         </Dialog>
 
       {/* Forgot Password */}

@@ -22,7 +22,8 @@ function getStateFromStores() {
     currTheme: UserPreferencesStore.getTheme(),
     search: false,
     showLoading: MessageStore.getLoadStatus(),
-    open: false,
+    showLogin: false,
+    showSignUp: false,
     showForgotPassword: false,
     showSettings: false,
     showThemeChanger: false,
@@ -141,7 +142,7 @@ class MessageSection extends Component {
   };
 
   state = {
-    open: false
+    showLogin: false
   };
 
   constructor(props) {
@@ -178,7 +179,9 @@ class MessageSection extends Component {
   }
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({
+      showLogin: true
+    });
   }
   handleSignUp = () => {
     this.setState({
@@ -188,7 +191,7 @@ class MessageSection extends Component {
 
   handleClose = () => {
     this.setState({
-      open: false,
+      showLogin: false,
       showSignUp: false,
       showSettings: false,
       showThemeChanger: false,
@@ -216,13 +219,13 @@ class MessageSection extends Component {
     if(toShow){
       this.setState({
         showForgotPassword: true,
-        open: false,
+        showLogin: false,
       });
     }
     else{
       this.setState({
         showForgotPassword: false,
-        open: true,
+        showLogin: true,
       });
     }
   }
@@ -273,7 +276,7 @@ class MessageSection extends Component {
       // Logout the user and show the login screen again
       this.props.history.push('/logout');
       this.setState({
-        open:true
+        showLogin:true
       });
     }
     else{
@@ -348,7 +351,7 @@ class MessageSection extends Component {
       if (this.props.location.state) {
         if (this.props.location.state.hasOwnProperty('showLogin')) {
           let showLogin = this.props.location.state.showLogin;
-          this.setState({ open: showLogin });
+          this.setState({ showLogin: showLogin });
         }
       }
     }
@@ -466,7 +469,7 @@ class MessageSection extends Component {
     var body = this.state.body;
     var pane = this.state.pane;
     var composer = this.state.composer;
-
+    var header= this.state.header;
     let messageListItems = [];
     if(this.state.search){
       let markID = this.state.searchState.scrollID;
@@ -484,6 +487,7 @@ class MessageSection extends Component {
             <header className='message-thread-heading'
             style={{ backgroundColor: backgroundCol }}>
               <TopBar
+                backgroundColor={header}
                 {...this.props}
                 handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
@@ -530,7 +534,7 @@ class MessageSection extends Component {
 
             <DialogSection
               {...this.props}
-              openLogin={this.state.open}
+              openLogin={this.state.showLogin}
               openForgotPassword={this.state.showForgotPassword}
               openSetting={this.state.showSettings}
               openSignUp={this.state.showSignUp}
