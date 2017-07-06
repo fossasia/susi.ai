@@ -1,4 +1,5 @@
 import MessageComposer from '../MessageComposer.react';
+import Snackbar from 'material-ui/Snackbar';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
@@ -16,6 +17,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
 function getStateFromStores() {
   return {
+    SnackbarOpen: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     currTheme: UserPreferencesStore.getTheme(),
@@ -272,10 +274,43 @@ class MessageSection extends Component {
     }
   }
 
+  handleActionTouchTap = () => {
+    this.setState({
+      SnackbarOpen: false,
+    });
+    switch(this.state.currTheme){
+      case 'light': {
+          this.changeTheme('dark');
+          break;
+      }
+      case 'dark': {
+          this.changeTheme('light');
+          break;
+      }
+      default: {
+          // do nothing
+      }
+    }
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      SnackbarOpen: false,
+    });
+  };
+
   implementSettings = (values) => {
     this.setState({showSettings: false});
+    if(values.theme!==this.state.currTheme){
+      this.setState({SnackbarOpen: true});
+    }
     this.changeTheme(values.theme);
     this.changeEnterAsSend(values.enterAsSend);
+    setTimeout(() => {
+       this.setState({
+           SnackbarOpen: false
+       });
+   }, 2500);
   }
 
   searchTextChanged = (event) => {
@@ -513,6 +548,14 @@ class MessageSection extends Component {
                     dream={dream}
                     textarea={this.state.textarea} />
                 </div>
+                <Snackbar
+                  open={this.state.SnackbarOpen}
+                  message={'Theme Changed'}
+                  action="undo"
+                  autoHideDuration={4000}
+                  onActionTouchTap={this.handleActionTouchTap}
+                  onRequestClose={this.handleRequestClose}
+                />
               </div>
             </div>
 
