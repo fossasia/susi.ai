@@ -22,7 +22,7 @@ const loadingStyle = {
     fill: '#607d8b',
     marginTop: '10px'
 }
-let Button = <Mic />, speechRecog;
+let Button, speechRecog;
 // Getting the Speech Recognition to test whether possible
 const SpeechRecognition = window.SpeechRecognition
       || window.webkitSpeechRecognition
@@ -164,7 +164,9 @@ class MessageComposer extends Component {
           Actions.createMessage(text, this.props.threadID);
         }
         this.setState({text: ''});
-        Button = <Mic />
+        if(speechRecog){
+          Button = <Mic />
+        }
       }
     }
   }
