@@ -86,6 +86,7 @@ export default class NotFound extends Component {
                                 UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
                                 labelColor='#fff'
                         />
+                        <br/>
                         <RaisedButton
                             className='notfound-button'
                             label='SignIn to SUSI'

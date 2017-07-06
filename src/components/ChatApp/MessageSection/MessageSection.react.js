@@ -23,7 +23,6 @@ function getStateFromStores() {
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
     showSignUp: false,
-    showForgotPassword: false,
     showSettings: false,
     showThemeChanger: false,
     showHardwareChangeDialog: false,
@@ -214,21 +213,6 @@ class MessageSection extends Component {
       });
   }
 
-  handleForgotPassword = (toShow) => {
-    if(toShow){
-      this.setState({
-        showForgotPassword: true,
-        showLogin: false,
-      });
-    }
-    else{
-      this.setState({
-        showForgotPassword: false,
-        showLogin: true,
-      });
-    }
-  }
-
   hardwareSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -381,6 +365,7 @@ class MessageSection extends Component {
       'padding': 0,
       textAlign: 'center'
     }
+
     const {
       dream
     } = this.props;
@@ -534,7 +519,6 @@ class MessageSection extends Component {
             <DialogSection
               {...this.props}
               openLogin={this.state.showLogin}
-              openForgotPassword={this.state.showForgotPassword}
               openSetting={this.state.showSettings}
               openSignUp={this.state.showSignUp}
               openServerChange={this.state.showServerChangeDialog}
@@ -545,7 +529,6 @@ class MessageSection extends Component {
               actions={actions}
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
-              onForgotPassword={this.handleForgotPassword}
               onRequestClose={()=>this.handleClose}
               onRequestCloseServerChange={()=>this.handleServerToggle.bind(this,false)}
               onRequestCloseHardwareChange={
