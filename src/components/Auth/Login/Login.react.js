@@ -10,6 +10,8 @@ import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
+import Dialog from 'material-ui/Dialog';
 
 const cookies = new Cookies();
 
@@ -24,9 +26,10 @@ class Login extends Component {
 			success: false,
 			validForm: false,
 			emailError: true,
-      passwordError: false,
-      serverFieldError: false,
-      checked: false
+			passwordError: false,
+			serverFieldError: false,
+			checked: false,
+			showForgotPassword: false
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
@@ -184,8 +187,17 @@ class Login extends Component {
 		}
 	}
 
-	showForgotPassword = () => {
-		this.props.showForgotPassword(true);
+	showForgotPassword = (toShow) => {
+		if(toShow){
+			this.setState({
+				showForgotPassword: true,
+			});
+		}
+		else{
+			this.setState({
+				showForgotPassword: false,
+			});
+		}
 	}
 
 	render() {
@@ -212,6 +224,17 @@ class Login extends Component {
 		    marginBottom: 16,
 		  },
 		};
+
+		const ForgotPwdAction = <RaisedButton
+			label="Cancel"
+			backgroundColor={
+				UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+			labelColor="#fff"
+			width='200px'
+			keyboardFocused={true}
+			onTouchTap={this.showForgotPassword.bind(this,false)}
+	    />;
+
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
@@ -288,6 +311,17 @@ class Login extends Component {
 						</div>
 					</form>
 				</Paper>
+				<Dialog
+					className='dialogStyle'
+					actions={ForgotPwdAction}
+					modal={false}
+					open={this.state.showForgotPassword}
+					autoScrollBodyContent={true}
+					contentStyle={{width: '35%',minWidth: '300px'}}
+					onRequestClose={this.showForgotPassword.bind(this,false)}>
+					<ForgotPassword {...this.props}
+						showForgotPassword={this.showForgotPassword}/>
+				</Dialog>
 			</div>);
 
 	};
