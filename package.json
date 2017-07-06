@@ -25,6 +25,7 @@
     "react-emojione": "^3.1.10",
     "react-leaflet": "^1.1.6",
     "react-linkify": "^0.2.1",
+    "react-loading": "^0.1.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-slick": "^0.14.11",
