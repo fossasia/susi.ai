@@ -83,7 +83,7 @@ export default class DialogSection extends Component {
         </Dialog>
       {/* ThemeChanger */}
         <Dialog
-          actions={this.props.actions}
+          actions={this.props.CustomSettingsDone}
           modal={false}
           open={this.props.openThemeChanger}
           autoScrollBodyContent={true}
@@ -109,6 +109,7 @@ DialogSection.propTypes = {
     openThemeChanger: PropTypes.bool,
     ServerChangeActions: PropTypes.array,
     HardwareActions: PropTypes.array,
+    CustomSettingsDone: PropTypes.object,
     ThemeChangerComponents: PropTypes.array,
     actions: PropTypes.object,
     bodyStyle: PropTypes.object,

@@ -436,6 +436,16 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
+  const CustomSettingsDone = <RaisedButton
+      label="Done"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={true}
+      onTouchTap={this.handleClose}
+    />;
+
     const serverDialogActions = [
     <RaisedButton
       key={'Cancel'}
@@ -585,6 +595,7 @@ class MessageSection extends Component {
               ThemeChangerComponents={components}
               bodyStyle={bodyStyle}
               actions={actions}
+              CustomSettingsDone={CustomSettingsDone}
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
               onRequestClose={()=>this.handleClose}
