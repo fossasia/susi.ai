@@ -71,7 +71,7 @@ export default class DialogSection extends Component {
         </Dialog>
       {/* Hardware Connection */}
         <Dialog
-          HardwareActions={this.props.HardwareActions}
+          actions={this.props.HardwareActions}
           modal={false}
           open={this.props.openHardwareChange}
           autoScrollBodyContent={true}
