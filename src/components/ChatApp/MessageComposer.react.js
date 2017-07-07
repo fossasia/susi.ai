@@ -164,6 +164,9 @@ class MessageComposer extends Component {
           Actions.createMessage(text, this.props.threadID);
         }
         this.setState({text: ''});
+        if(speechRecog){
+          Button = <Mic />
+        }
       }
     }
   }
