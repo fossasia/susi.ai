@@ -1,4 +1,5 @@
 import MessageComposer from '../MessageComposer.react';
+import Snackbar from 'material-ui/Snackbar';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
@@ -14,8 +15,11 @@ import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
+import TextField from 'material-ui/TextField';
+
 function getStateFromStores() {
   return {
+    SnackbarOpen: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     currTheme: UserPreferencesStore.getTheme(),
@@ -33,6 +37,7 @@ function getStateFromStores() {
     textarea: '',
     composer:'',
     body:'',
+    bodyBackgroundImage:'',
     searchState: {
       markedMsgs: [],
       markedIDs: [],
@@ -151,7 +156,10 @@ class MessageSection extends Component {
   handleColorChange = (name,color) => {
     // Current Changes
   }
-
+  handleChangeBackgroundImage(backImage){
+    document.body.style.setProperty('background', 'url('+ backImage+')');
+    this.setState({bodyBackgroundImage:backImage});
+  }
   handleChangeComplete = (name, color) => {
      // Send these Settings to Server
      let state = this.state;
@@ -272,10 +280,43 @@ class MessageSection extends Component {
     }
   }
 
+  handleActionTouchTap = () => {
+    this.setState({
+      SnackbarOpen: false,
+    });
+    switch(this.state.currTheme){
+      case 'light': {
+          this.changeTheme('dark');
+          break;
+      }
+      case 'dark': {
+          this.changeTheme('light');
+          break;
+      }
+      default: {
+          // do nothing
+      }
+    }
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      SnackbarOpen: false,
+    });
+  };
+
   implementSettings = (values) => {
     this.setState({showSettings: false});
+    if(values.theme!==this.state.currTheme){
+      this.setState({SnackbarOpen: true});
+    }
     this.changeTheme(values.theme);
     this.changeEnterAsSend(values.enterAsSend);
+    setTimeout(() => {
+       this.setState({
+           SnackbarOpen: false
+       });
+   }, 2500);
   }
 
   searchTextChanged = (event) => {
@@ -360,7 +401,6 @@ class MessageSection extends Component {
   }
 
   render() {
-
     const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
@@ -445,9 +485,19 @@ class MessageSection extends Component {
         return <div key={component.id} className='circleChoose'>
                   <h4>Change color of {component.name}:</h4>
                   <CirclePicker  color={component} width={'100%'}
-        onChangeComplete={ this.handleChangeComplete.bind(this,component.component) }
+        onChangeComplete={ this.handleChangeComplete.bind(this,
+        component.component) }
         onChange={this.handleColorChange.bind(this,component.id)}>
-        </CirclePicker></div>
+        </CirclePicker>
+				<TextField name="backgroundImg"
+          style={{display:component.component==='body'?'block':'none'}}
+          ref={(input) => { this.backImage = input }}
+          onChange={
+            (e,value)=>
+            this.handleChangeBackgroundImage(value) }
+          value={this.state.bodyBackgroundImage}
+					floatingLabelText="Background Image URL" />
+        </div>
     })
 
     var body = this.state.body;
@@ -513,6 +563,14 @@ class MessageSection extends Component {
                     dream={dream}
                     textarea={this.state.textarea} />
                 </div>
+                <Snackbar
+                  open={this.state.SnackbarOpen}
+                  message={'Theme Changed'}
+                  action="undo"
+                  autoHideDuration={4000}
+                  onActionTouchTap={this.handleActionTouchTap}
+                  onRequestClose={this.handleRequestClose}
+                />
               </div>
             </div>
 
