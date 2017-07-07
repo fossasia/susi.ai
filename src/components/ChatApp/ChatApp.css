@@ -28,7 +28,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   background-repeat: no-repeat;
   background-position: center;
 }
-
+.voice-output{
+  font-family: 'Lato', sans-serif;
+}
+.mic-container{
+  border: 1px solid #eee;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  cursor: pointer;
+  left: 0;
+  pointer-events: none;
+  right: 0;
+  top: 0;
+  transition: background-color 0.218s,border 0.218s,box-shadow 0.218s;
+  width: 150px;
+  margin: 0 auto;
+  height: 150px;
+}
 .circleChoose{
   margin: 0 auto;
   position: relative;
