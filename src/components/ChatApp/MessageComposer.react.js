@@ -7,7 +7,7 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import VoiceRecognition from './VoiceRecognition';
-import ReactLoading from 'react-loading';
+import Dialog from 'material-ui/Dialog';
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
@@ -17,10 +17,21 @@ const style = {
     right:'3px',
     position: 'absolute',
 };
-const loadingStyle = {
-    width: '50px',
-    fill: '#607d8b',
-    marginTop: '10px'
+const customContentStyle = {
+  width: '100%',
+  maxWidth: 'none',
+  textAlign : 'center',
+  background: '#fff',
+};
+const iconStyles = {
+  display: 'inline-block',
+  color: '#ccc',
+  fill: 'currentcolor',
+  height: '70px',
+  width: '70px',
+  userSelect: 'none',
+  transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+  marginTop: '36px'
 }
 let Button, speechRecog;
 // Getting the Speech Recognition to test whether possible
@@ -46,7 +57,8 @@ class MessageComposer extends Component {
       text: '',
       start: false,
       stop: false,
-      loading: false
+      open: false,
+      result:''
     };
     if(props.dream!==''){
       this.state= {text: 'dream '+ props.dream}
@@ -54,23 +66,19 @@ class MessageComposer extends Component {
   }
 
   onStart = () => {
-    this.setState({ start: true, stop: false, loading: true})
+    this.setState({ start: true, stop: false, open:true})
   }
 
   onEnd = () => {
-    this.setState({ start: false, stop: false, loading: false})
+    this.setState({ start: false, stop: false, open: false})
   }
-  onError = () => {
-    speechRecog = false;
-  }
-  onResult = ({ finalTranscript }) => {
-    const result = finalTranscript
-    console.log(result);
-
-    this.setState({ start: false, stop: false, loading: false})
+  onResult = ({finalTranscript }) => {
+    let result = finalTranscript;
+    this.setState({ result:result});
+    setTimeout(()=>this.setState({ start: false, stop: false, open:false}),400);
     Actions.createMessage(result, this.props.threadID);
+    setTimeout(()=>this.setState({result: ''}), 500);
     Button = <Mic />
-
   }
 
   componentDidMount(){
@@ -79,6 +87,7 @@ class MessageComposer extends Component {
 
   render() {
     return (
+      <div>
       <div className="message-composer" >
         {this.state.start && (
           <VoiceRecognition
@@ -99,28 +108,38 @@ class MessageComposer extends Component {
           placeholder="Type a message..."
           style={{background:this.props.textarea}}
         />
-        {this.state.loading ?
-        <div style={style}>
-        <ReactLoading style={loadingStyle} type='bubbles' color='#607d8b' />
-        </div>
-        : <IconButton
+        <IconButton
           iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
           marginTop:'6px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
           {Button}
-        </IconButton>}
+        </IconButton>
       </div>
+        <Dialog
+          modal={true}
+          open={this.state.open}
+          contentStyle={customContentStyle}
+        >
+          <div className='mic-container'>
+          <Mic style={iconStyles}/>
+          </div>
+          <h1 className='voice-output'>
+          {this.state.result !=='' ? this.state.result :
+          'Speak Now...'}
+          </h1>
+        </Dialog>
+        </div>
     );
   }
 
   _onClickButton(){
     if(this.state.text === ''){
       if(speechRecog){
-      this.setState({ start: true, loading: true})
+      this.setState({ start: true })
       }
       else {
-        this.setState({ start: false, loading: false})
+        this.setState({ start: false })
       }
     }
     else{
@@ -164,6 +183,9 @@ class MessageComposer extends Component {
           Actions.createMessage(text, this.props.threadID);
         }
         this.setState({text: ''});
+        if(speechRecog){
+          Button = <Mic />
+        }
       }
     }
   }
