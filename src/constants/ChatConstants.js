@@ -13,6 +13,7 @@ export default {
     THEME_CHANGED:null,
     SERVER_CHANGED: null,
     ENTER_AS_SEND_CHANGED: null,
+    MIC_INPUT_CHANGED: null,
     INIT_SETTINGS: null,
   })
 

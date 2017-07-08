@@ -253,19 +253,7 @@ export function setThemeSettings(newTheme){
           +'&access_token='+cookies.get('loggedIn');
 
   console.log(url);
-  $.ajax({
-    url: url,
-    dataType: 'jsonp',
-    crossDomain: true,
-    timeout: 3000,
-    async: false,
-    success: function (response) {
-      console.log(response);
-    },
-    error: function(errorThrown){
-      console.log(errorThrown);
-    }
-  });
+  makeServerCall(url);
 }
 
 // Push EnterAsSend to server
@@ -293,6 +281,38 @@ export function setEnterAsSendSettings(newEnterAsSend){
           +'&access_token='+cookies.get('loggedIn');
 
   console.log(url);
+  makeServerCall(url);
+}
+
+// Push MicInput to server
+export function setMicInputSettings(newMicInput){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
+
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+
+  url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=mic_input&value='+newMicInput
+          +'&access_token='+cookies.get('loggedIn');
+
+  console.log(url);
+  makeServerCall(url);
+}
+
+export function makeServerCall(url){
   $.ajax({
     url: url,
     dataType: 'jsonp',

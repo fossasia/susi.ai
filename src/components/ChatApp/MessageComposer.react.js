@@ -35,22 +35,8 @@ const iconStyles = {
   transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   marginTop: '36px'
 }
-let Button, speechRecog;
-// Getting the Speech Recognition to test whether possible
-const SpeechRecognition = window.SpeechRecognition
-      || window.webkitSpeechRecognition
-      || window.mozSpeechRecognition
-      || window.msSpeechRecognition
-      || window.oSpeechRecognition
-// Setting buttons accordingly
-if (SpeechRecognition != null) {
-  Button = <Mic />
-  speechRecog = true;
-}
-else {
-  Button = <Send />;
-  speechRecog = false;
-}
+
+
 class MessageComposer extends Component {
 
   constructor(props) {
@@ -60,7 +46,7 @@ class MessageComposer extends Component {
       start: false,
       stop: false,
       open: false,
-      result:''
+      result:'',
     };
     if(props.dream!==''){
       this.state= {text: 'dream '+ props.dream}
@@ -74,13 +60,64 @@ class MessageComposer extends Component {
   onEnd = () => {
     this.setState({ start: false, stop: false, open: false})
   }
+
   onResult = ({finalTranscript }) => {
     let result = finalTranscript;
     this.setState({ result:result});
     setTimeout(()=>this.setState({ start: false, stop: false, open:false}),400);
     Actions.createMessage(result, this.props.threadID);
     setTimeout(()=>this.setState({result: ''}), 500);
-    Button = <Mic />
+    this.Button = <Mic />
+  }
+
+  componentWillMount(){
+    let micInputSetting = UserPreferencesStore.getMicInput();
+    if(micInputSetting){
+      // Getting the Speech Recognition to test whether possible
+      const SpeechRecognition = window.SpeechRecognition
+            || window.webkitSpeechRecognition
+            || window.mozSpeechRecognition
+            || window.msSpeechRecognition
+            || window.oSpeechRecognition
+      // Setting buttons accordingly
+      if (SpeechRecognition != null) {
+        this.Button = <Mic />
+        this.speechRecog = true;
+      }
+      else {
+        this.Button = <Send />;
+        this.speechRecog = false;
+      }
+    }
+    else{
+      this.Button = <Send />;
+      this.speechRecog = false;
+    }
+  }
+
+  componentDidUpdate(){
+    let micInputSetting = UserPreferencesStore.getMicInput();
+    if(micInputSetting){
+      // Getting the Speech Recognition to test whether possible
+      const SpeechRecognition = window.SpeechRecognition
+            || window.webkitSpeechRecognition
+            || window.mozSpeechRecognition
+            || window.msSpeechRecognition
+            || window.oSpeechRecognition
+      // Setting buttons accordingly
+      if (SpeechRecognition != null) {
+        this.Button = <Mic />
+        this.speechRecog = true;
+      }
+      else {
+        this.Button = <Send />;
+        this.speechRecog = false;
+      }
+    }
+    else{
+      this.Button = <Send />;
+      this.speechRecog = false;
+    }
   }
 
   componentDidMount(){
@@ -88,6 +125,7 @@ class MessageComposer extends Component {
   }
 
   render() {
+
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
@@ -97,6 +135,7 @@ class MessageComposer extends Component {
       keyboardFocused={true}
       onTouchTap={this.onEnd}
     />;
+
     return (
       <div className="message-composer" >
         {this.state.start && (
@@ -123,7 +162,7 @@ class MessageComposer extends Component {
           marginTop:'6px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
-          {Button}
+          {this.Button}
         </IconButton>
 
         <Dialog
@@ -132,7 +171,7 @@ class MessageComposer extends Component {
           open={this.state.open}
           contentStyle={customContentStyle}>
           <div className='mic-container'>
-          <Mic style={iconStyles}/>
+            <Mic style={iconStyles}/>
           </div>
           <h1 className='voice-output'>
           {this.state.result !=='' ? this.state.result :
@@ -145,7 +184,7 @@ class MessageComposer extends Component {
 
   _onClickButton(){
     if(this.state.text === ''){
-      if(speechRecog){
+      if(this.speechRecog){
       this.setState({ start: true })
       }
       else {
@@ -161,24 +200,24 @@ class MessageComposer extends Component {
       }
       Actions.createMessage(text, this.props.threadID);
     }
-    if(speechRecog){
-      Button = <Mic />
+    if(this.speechRecog){
+      this.Button = <Mic />
     }
     this.setState({text: ''});
     }
    }
 
   _onChange(event, value) {
-    if(speechRecog){
-    if(event.target.value !== ''){
-      Button = <Send />
+    if(this.speechRecog){
+      if(event.target.value !== ''){
+        this.Button = <Send />
+      }
+      else{
+        this.Button = <Mic />
+      }
     }
     else{
-      Button = <Mic />
-    }
-    }
-    else{
-      Button = <Send />
+      this.Button = <Send />
     }
     this.setState({text: event.target.value});
   }
@@ -193,8 +232,8 @@ class MessageComposer extends Component {
           Actions.createMessage(text, this.props.threadID);
         }
         this.setState({text: ''});
-        if(speechRecog){
-          Button = <Mic />
+        if(this.speechRecog){
+          this.Button = <Mic />
         }
       }
     }

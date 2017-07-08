@@ -260,7 +260,17 @@ class MessageSection extends Component {
   }
 
   changeEnterAsSend = (enterAsSend) => {
-    Actions.enterAsSendChanged(enterAsSend);
+    let currEnterAsSend =  UserPreferencesStore.getEnterAsSend();
+    if(currEnterAsSend !== enterAsSend){
+      Actions.enterAsSendChanged(enterAsSend);
+    }
+  }
+
+  changeMicInput = (micInput) => {
+    let currMicInput = UserPreferencesStore.getMicInput();
+    if(currMicInput !== micInput){
+      Actions.micInputChanged(micInput);
+    }
   }
 
   serverSettingChanged = () => {
@@ -321,6 +331,7 @@ class MessageSection extends Component {
     }
     this.changeTheme(values.theme);
     this.changeEnterAsSend(values.enterAsSend);
+    this.changeMicInput(values.micInput);
     setTimeout(() => {
        this.setState({
            SnackbarOpen: false

@@ -27,6 +27,14 @@ export function enterAsSendChanged(enterAsSend) {
   Actions.setEnterAsSendSettings(enterAsSend);
 }
 
+export function micInputChanged(micInput) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.MIC_INPUT_CHANGED,
+    micInput
+  });
+  Actions.setMicInputSettings(micInput);
+}
+
 export function initialiseSettings(settings) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.INIT_SETTINGS,
