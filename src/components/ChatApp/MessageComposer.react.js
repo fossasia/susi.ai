@@ -87,7 +87,6 @@ class MessageComposer extends Component {
 
   render() {
     return (
-      <div>
       <div className="message-composer" >
         {this.state.start && (
           <VoiceRecognition
@@ -115,12 +114,11 @@ class MessageComposer extends Component {
           style={style}>
           {Button}
         </IconButton>
-      </div>
+
         <Dialog
           modal={true}
           open={this.state.open}
-          contentStyle={customContentStyle}
-        >
+          contentStyle={customContentStyle}>
           <div className='mic-container'>
           <Mic style={iconStyles}/>
           </div>
