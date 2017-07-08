@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import VoiceRecognition from './VoiceRecognition';
 import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
+
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
@@ -86,6 +88,15 @@ class MessageComposer extends Component {
   }
 
   render() {
+    const actions = <RaisedButton
+      label="Cancel"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={true}
+      onTouchTap={this.onEnd}
+    />;
     return (
       <div>
       <div className="message-composer" >
@@ -117,6 +128,7 @@ class MessageComposer extends Component {
         </IconButton>
       </div>
         <Dialog
+          actions={actions}
           modal={true}
           open={this.state.open}
           contentStyle={customContentStyle}
