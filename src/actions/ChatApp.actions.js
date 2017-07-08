@@ -5,8 +5,8 @@ import ChatConstants from '../constants/ChatConstants';
 
 let ActionTypes = ChatConstants.ActionTypes;
 
-export function createMessage(text, currentThreadID) {
-  let message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
+export function createMessage(text, currentThreadID, voice) {
+  let message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID, voice);
   ChatAppDispatcher.dispatch({
     type: ActionTypes.CREATE_MESSAGE,
     message

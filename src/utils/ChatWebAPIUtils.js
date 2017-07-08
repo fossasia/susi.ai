@@ -8,7 +8,7 @@ import * as ChatDataServer from '../ChatDataServer';
 export function createMessage(message) {
   ChatDataServer.postMessage(message, createdMessage => {
     Actions.receiveCreatedMessage(createdMessage, message.id);
-    Actions.createSUSIMessage(createdMessage, message.threadID);
+    Actions.createSUSIMessage(createdMessage, message.threadID, message.voice);
   });
 };
 
