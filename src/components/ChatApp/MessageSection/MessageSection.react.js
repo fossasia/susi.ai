@@ -38,6 +38,7 @@ function getStateFromStores() {
     composer:'',
     body:'',
     bodyBackgroundImage:'',
+    messageBackgroundImage:'',
     searchState: {
       markedMsgs: [],
       markedIDs: [],
@@ -157,8 +158,14 @@ class MessageSection extends Component {
     // Current Changes
   }
   handleChangeBackgroundImage(backImage){
-    document.body.style.setProperty('background', 'url('+ backImage+')');
+    document.body.style.setProperty('background-image', 'url('+ backImage+')');
+    document.body.style.setProperty('background-repeat', 'no-repeat');
+    document.body.style.setProperty('background-size', 'cover');
     this.setState({bodyBackgroundImage:backImage});
+  }
+
+  handleChangeMessageBackground(backImage){
+    this.setState({messageBackgroundImage:backImage});
   }
   handleChangeComplete = (name, color) => {
      // Send these Settings to Server
@@ -406,6 +413,12 @@ class MessageSection extends Component {
       textAlign: 'center'
     }
 
+    const messageBackgroundStyles = {
+        backgroundImage: `url(${this.state.messageBackgroundImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%'
+    }
+
     const {
       dream
     } = this.props;
@@ -484,19 +497,29 @@ class MessageSection extends Component {
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
                   <h4>Change color of {component.name}:</h4>
-                  <CirclePicker  color={component} width={'100%'}
-        onChangeComplete={ this.handleChangeComplete.bind(this,
-        component.component) }
-        onChange={this.handleColorChange.bind(this,component.id)}>
+        <CirclePicker  color={component} width={'100%'}
+          onChangeComplete={ this.handleChangeComplete.bind(this,
+          component.component) }
+          onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
-				<TextField name="backgroundImg"
+				<TextField
+          name="backgroundImg"
           style={{display:component.component==='body'?'block':'none'}}
           ref={(input) => { this.backImage = input }}
           onChange={
             (e,value)=>
             this.handleChangeBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
-					floatingLabelText="Background Image URL" />
+					floatingLabelText="Body Background Image URL" />
+        <TextField
+          name="messageImg"
+            style={{display:component.component==='body'?'block':'none'}}
+            ref={(input) => { this.backImage = input }}
+            onChange={
+              (e,value)=>
+              this.handleChangeMessageBackground(value) }
+            value={this.state.messageBackgroundImage}
+  					floatingLabelText="Message Background Image URL" />
         </div>
     })
 
@@ -546,7 +569,7 @@ class MessageSection extends Component {
                 <ul
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}
-                  style={{background:pane}}>
+                  style={messageBackgroundStyles}>
 
                   <Scrollbars
                     ref={(ref) => { this.scrollarea = ref; }}
