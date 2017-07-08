@@ -78,7 +78,7 @@ class MessageComposer extends Component {
     let result = finalTranscript;
     this.setState({ result:result});
     setTimeout(()=>this.setState({ start: false, stop: false, open:false}),400);
-    Actions.createMessage(result, this.props.threadID);
+    Actions.createMessage(result, this.props.threadID, true);
     setTimeout(()=>this.setState({result: ''}), 500);
     Button = <Mic />
   }
@@ -159,7 +159,7 @@ class MessageComposer extends Component {
       if(!EnterAsSend){
         text = text.split('\n').join(' ');
       }
-      Actions.createMessage(text, this.props.threadID);
+      Actions.createMessage(text, this.props.threadID, false);
     }
     if(speechRecog){
       Button = <Mic />
@@ -190,7 +190,7 @@ class MessageComposer extends Component {
         event.preventDefault();
         let text = this.state.text.trim();
         if (text) {
-          Actions.createMessage(text, this.props.threadID);
+          Actions.createMessage(text, this.props.threadID, false);
         }
         this.setState({text: ''});
         if(speechRecog){
