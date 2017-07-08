@@ -38,6 +38,8 @@ function getStateFromStores() {
     composer:'',
     body:'',
     bodyBackgroundImage:'',
+    snackopen: false,
+    snackMessage: 'It seems you are offline!',
     messageBackgroundImage:'',
     searchState: {
       markedMsgs: [],
@@ -369,6 +371,21 @@ class MessageSection extends Component {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange.bind(this));
     ThreadStore.addChangeListener(this._onChange.bind(this));
+    window.addEventListener('offline', this.handleOffline.bind(this));
+    window.addEventListener('online', this.handleOnline.bind(this));
+  }
+
+  handleOffline() {
+    this.setState({
+      snackopen: true,
+      snackMessage: 'It seems you are offline!'
+    })
+  }
+  handleOnline() {
+    this.setState({
+      snackopen: true,
+      snackMessage: 'Welcome back!'
+    })
   }
 
   componentWillUnmount() {
@@ -649,6 +666,11 @@ class MessageSection extends Component {
                </div>
              </div>
              )}
+             <Snackbar
+              autoHideDuration={4000}
+              open={this.state.snackopen}
+              message={this.state.snackMessage}
+              />
            </div>
          );
      }
