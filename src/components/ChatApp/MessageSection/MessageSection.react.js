@@ -158,7 +158,9 @@ class MessageSection extends Component {
     // Current Changes
   }
   handleChangeBackgroundImage(backImage){
-    document.body.style.setProperty('background', 'url('+ backImage+')');
+    document.body.style.setProperty('background-image', 'url('+ backImage+')');
+    document.body.style.setProperty('background-repeat', 'no-repeat');
+    document.body.style.setProperty('background-size', 'cover');
     this.setState({bodyBackgroundImage:backImage});
   }
 
@@ -412,7 +414,9 @@ class MessageSection extends Component {
     }
 
     const messageBackgroundStyles = {
-        backgroundImage: `url(${this.state.messageBackgroundImage})`
+        backgroundImage: `url(${this.state.messageBackgroundImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%'
     }
 
     const {
