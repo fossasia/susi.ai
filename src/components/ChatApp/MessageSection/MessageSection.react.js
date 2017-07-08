@@ -436,7 +436,7 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-  const CustomSettingsDone = <RaisedButton
+  const customSettingsDone = <RaisedButton
       label="Done"
       backgroundColor={
         UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
@@ -595,7 +595,7 @@ class MessageSection extends Component {
               ThemeChangerComponents={components}
               bodyStyle={bodyStyle}
               actions={actions}
-              CustomSettingsDone={CustomSettingsDone}
+              customSettingsDone={customSettingsDone}
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
               onRequestClose={()=>this.handleClose}
