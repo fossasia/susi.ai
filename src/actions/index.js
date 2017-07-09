@@ -2,6 +2,7 @@
 import {  getLocation,
           getSettings,
           setThemeSettings,
+          setMicInputSettings,
           setEnterAsSendSettings,
           createSUSIMessage } from './API.actions';
 
@@ -16,6 +17,7 @@ import {  serverChanged,
           ToggleSearch,
           initialiseSettings,
           enterAsSendChanged,
+          micInputChanged,
           themeChanged  } from './Settings.actions';
 
 import {  connectToWebSocket,
@@ -26,6 +28,7 @@ import {  connectToWebSocket,
 export {  getLocation,
           getSettings,
           setThemeSettings,
+          setMicInputSettings,
           setEnterAsSendSettings,
           createSUSIMessage }
 
@@ -40,6 +43,7 @@ export { serverChanged,
          ToggleSearch,
          initialiseSettings,
          enterAsSendChanged,
+         micInputChanged,
          themeChanged }
 
 export { connectToWebSocket, sendToHardwareDevice }

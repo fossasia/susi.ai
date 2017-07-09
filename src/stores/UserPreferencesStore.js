@@ -10,6 +10,7 @@ let _defaults = {
     Server: 'http://api.susi.ai',
     StandardServer: 'http://api.susi.ai',
     EnterAsSend: true,
+    MicInput: true,
 };
 
 let UserPreferencesStore = {
@@ -29,6 +30,10 @@ let UserPreferencesStore = {
 
     getEnterAsSend(){
         return _defaults.EnterAsSend;
+    },
+
+    getMicInput(){
+        return _defaults.MicInput;
     },
 
     addChangeListener(callback) {
@@ -60,6 +65,11 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             UserPreferencesStore.emitChange();
             break;
         }
+        case ActionTypes.MIC_INPUT_CHANGED: {
+            _defaults.MicInput = action.micInput;
+            UserPreferencesStore.emitChange();
+            break;
+        }
         case ActionTypes.INIT_SETTINGS: {
             let settings = action.settings;
             if(settings.hasOwnProperty('theme')){
@@ -81,6 +91,23 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                     }
                 }
                 _defaults.EnterAsSend = initEnterAsSend;
+            }
+            if(settings.hasOwnProperty('mic_input')){
+                let initMicInput = true;
+                switch(settings.mic_input){
+                    case 'true':{
+                        initMicInput = true;
+                        break;
+                    }
+                    case 'false':{
+                        initMicInput = false;
+                        break;
+                    }
+                    default: {
+                        // do nothing
+                    }
+                }
+                _defaults.MicInput = initMicInput;
             }
             console.log(_defaults);
             UserPreferencesStore.emitChange();

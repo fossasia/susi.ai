@@ -21,9 +21,11 @@ class Settings extends Component {
 		let defaultServer = defaults.Server;
 		let defaultTheme = defaults.Theme;
 		let defaultEnterAsSend = defaults.EnterAsSend;
+		let defaultMicInput = defaults.MicInput;
 		this.state = {
 			theme: defaultTheme,
 			enterAsSend: defaultEnterAsSend,
+			micInput: defaultMicInput,
 			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
@@ -37,6 +39,7 @@ class Settings extends Component {
 	handleServer = () => {
 		this.props.onServerChange();
 	}
+
 	handleHardware = () => {
 		this.props.onHardwareSettings();
 	}
@@ -45,6 +48,7 @@ class Settings extends Component {
 		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
 		let newEnterAsSend = this.state.enterAsSend;
+		let newMicInput = this.state.micInput;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
@@ -52,6 +56,7 @@ class Settings extends Component {
 			theme: newTheme,
 			server: newDefaultServer,
 			enterAsSend: newEnterAsSend,
+			micInput: newMicInput,
 		}
 		this.props.onSettingsSubmit(vals);
 	}
@@ -63,6 +68,12 @@ class Settings extends Component {
 	handleEnterAsSend = (event, isInputChecked) => {
 		this.setState({
 			enterAsSend: isInputChecked,
+		});
+	}
+
+	handleMicInput = (event, isInputChecked) => {
+		this.setState({
+			micInput: isInputChecked,
 		});
 	}
 
@@ -154,6 +165,14 @@ class Settings extends Component {
 			        		label='Send message by pressing ENTER'
 			        		onToggle={this.handleEnterAsSend}
 							toggled={this.state.enterAsSend}/>
+			        </div>
+			        <h4 style={subHeaderStyle}>Mic Settings</h4>
+			        <div>
+			        	<h4 style={{'marginBottom':'0px'}}>Mic Input</h4>
+			        	<Toggle style={{maxWidth:'70%'}}
+			        		label='Enable mic to give voice input'
+			        		onToggle={this.handleMicInput}
+							toggled={this.state.micInput}/>
 			        </div>
 			        {cookies.get('loggedIn') ?
 			        <div>
