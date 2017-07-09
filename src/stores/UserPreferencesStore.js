@@ -11,6 +11,7 @@ let _defaults = {
     StandardServer: 'http://api.susi.ai',
     EnterAsSend: true,
     MicInput: true,
+    SpeechOutput: true,
 };
 
 let UserPreferencesStore = {
@@ -34,6 +35,10 @@ let UserPreferencesStore = {
 
     getMicInput(){
         return _defaults.MicInput;
+    },
+
+    getSpeechOutput(){
+        return _defaults.SpeechOutput;
     },
 
     addChangeListener(callback) {
@@ -67,6 +72,11 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
         }
         case ActionTypes.MIC_INPUT_CHANGED: {
             _defaults.MicInput = action.micInput;
+            UserPreferencesStore.emitChange();
+            break;
+        }
+        case ActionTypes.SPEECH_OUTPUT_CHANGED: {
+            _defaults.SpeechOutput = action.speechOutput;
             UserPreferencesStore.emitChange();
             break;
         }
@@ -108,6 +118,23 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                     }
                 }
                 _defaults.MicInput = initMicInput;
+            }
+            if(settings.hasOwnProperty('speech_output')){
+                let initSpeechOutput = true;
+                switch(settings.speech_output){
+                    case 'true':{
+                        initSpeechOutput = true;
+                        break;
+                    }
+                    case 'false':{
+                        initSpeechOutput = false;
+                        break;
+                    }
+                    default: {
+                        // do nothing
+                    }
+                }
+                _defaults.SpeechOutput = initSpeechOutput;
             }
             console.log(_defaults);
             UserPreferencesStore.emitChange();

@@ -4,6 +4,7 @@ import {  getLocation,
           setThemeSettings,
           setMicInputSettings,
           setEnterAsSendSettings,
+          setSpeechOutputSettings,
           createSUSIMessage } from './API.actions';
 
 import {  getHistory } from './History.actions';
@@ -11,6 +12,7 @@ import {  getHistory } from './History.actions';
 import {  createMessage,
           receiveCreatedMessage,
           clickThread,
+          resetVoice,
           receiveAll } from './ChatApp.actions';
 
 import {  serverChanged,
@@ -18,6 +20,7 @@ import {  serverChanged,
           initialiseSettings,
           enterAsSendChanged,
           micInputChanged,
+          speechOutputChanged,
           themeChanged  } from './Settings.actions';
 
 import {  connectToWebSocket,
@@ -30,6 +33,7 @@ export {  getLocation,
           setThemeSettings,
           setMicInputSettings,
           setEnterAsSendSettings,
+          setSpeechOutputSettings,
           createSUSIMessage }
 
 export { getHistory }
@@ -37,6 +41,7 @@ export { getHistory }
 export {  createMessage,
           receiveCreatedMessage,
           clickThread,
+          resetVoice,
           receiveAll }
 
 export { serverChanged,
@@ -44,6 +49,7 @@ export { serverChanged,
          initialiseSettings,
          enterAsSendChanged,
          micInputChanged,
+         speechOutputChanged,
          themeChanged }
 
 export { connectToWebSocket, sendToHardwareDevice }
