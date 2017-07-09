@@ -8,9 +8,26 @@ import { imageParse, processText,
   renderTiles, drawMap, drawTable,
   getRSSTiles, renderMessageFooter } from './helperFunctions.react.js';
 
+import VoicePlayer from './VoicePlayer';
+
 const entities = new AllHtmlEntities();
 
 class MessageListItem extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      play: false
+    }
+  }
+
+  onStart = () => {
+    this.setState({ play: true });
+  }
+
+  onEnd = () => {
+    this.setState({ play: false });
+  }
 
   render() {
     let {message} = this.props;
@@ -211,7 +228,15 @@ class MessageListItem extends React.Component {
           }
         });
 
-        return (<div>{listItems}</div>);
+        return (<div>{listItems}
+              {this.props.message.voice && (
+                <VoicePlayer
+                  play
+                  text={this.props.message.text}
+                  onStart={this.onStart}
+                  onEnd={this.onEnd}
+                />)}
+              </div>);
       }
     }
 

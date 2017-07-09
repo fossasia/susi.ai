@@ -44,7 +44,7 @@ class TopBar extends Component {
 					}
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-				>
+					>
 					<MenuItem primaryText="Settings"
 						onClick={this.props.handleSettings} />
 					<MenuItem primaryText="Custom Theme"

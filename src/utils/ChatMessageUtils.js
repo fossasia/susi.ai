@@ -6,7 +6,7 @@ export function convertRawMessage(rawMessage, currentThreadID) {
   };
 };
 
-export function getCreatedMessageData(text, currentThreadID) {
+export function getCreatedMessageData(text, currentThreadID, voice) {
   var timestamp = Date.now();
   return {
     id: 'm_' + timestamp,
@@ -15,7 +15,8 @@ export function getCreatedMessageData(text, currentThreadID) {
     date: new Date(timestamp),
     text: text,
     isRead: true,
-    type: 'message'
+    type: 'message',
+    voice: voice
   };
 };
 
@@ -33,7 +34,8 @@ export function getSUSIMessageData(message, currentThreadID) {
     date: new Date(timestamp),
     isRead: true,
     responseTime: message.responseTime,
-    type: 'message'
+    type: 'message',
+    voice: message.voice
   };
 
   return receivedMessage;
