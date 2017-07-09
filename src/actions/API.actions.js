@@ -31,9 +31,8 @@ export function getLocation(){
   });
 }
 
-export function createSUSIMessage(createdMessage, currentThreadID) {
+export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   var timestamp = Date.now();
-
   let receivedMessage = {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
@@ -44,8 +43,9 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
     websearchresults: [],
     date: new Date(timestamp),
     isRead: true,
-    type: 'message'
-  };
+    type: 'message',
+    voice: voice
+    };
 
   let defaults = UserPreferencesStore.getPreferences();
   let defaultServerURL = defaults.Server;
@@ -152,6 +152,7 @@ export function createSUSIMessage(createdMessage, currentThreadID) {
                 count--;
               }
             }
+            console.log(receivedMessage);
             let message = ChatMessageUtils.getSUSIMessageData(
               receivedMessage, currentThreadID);
             ChatAppDispatcher.dispatch({
