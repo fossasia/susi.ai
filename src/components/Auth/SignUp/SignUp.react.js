@@ -244,7 +244,7 @@ export default class SignUp extends Component {
 
                     let state = this.state;
                     state.msg = msg;
-                 state.msgOpen = true;
+                    state.msgOpen = true;
 
                     this.setState(state);
                 }.bind(this)

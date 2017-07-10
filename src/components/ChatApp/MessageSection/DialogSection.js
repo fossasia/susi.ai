@@ -2,6 +2,7 @@ import Dialog from 'material-ui/Dialog';
 import React, { Component } from 'react';
 import Login from '../../Auth/Login/Login.react';
 import SignUp from '../../Auth/SignUp/SignUp.react';
+import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import Settings from '../Settings.react';
 import PropTypes from 'prop-types';
 import HardwareComponent from '../HardwareComponent';
@@ -36,9 +37,20 @@ export default class DialogSection extends Component {
           bodyStyle={this.props.bodyStyle}
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
-          <SignUp
-          {...this.props}
-          />
+          <SignUp {...this.props} />
+        </Dialog>
+
+      {/* Change Password */}
+      <Dialog
+          className='dialogStyle'
+          actions={this.props.actions}
+          modal={false}
+          open={this.props.openChangePassword}
+          autoScrollBodyContent={true}
+          bodyStyle={this.props.bodyStyle}
+          contentStyle={{width: '35%',minWidth: '300px'}}
+          onRequestClose={this.props.onRequestClose()}>
+          <ChangePassword {...this.props} />
         </Dialog>
 
       {/* Settings */}
@@ -103,6 +115,7 @@ export default class DialogSection extends Component {
 DialogSection.propTypes = {
     openLogin: PropTypes.bool,
     openSignUp: PropTypes.bool,
+    openChangePassword: PropTypes.bool,
     openSetting: PropTypes.bool,
     openServerChange: PropTypes.bool,
     openHardwareChange: PropTypes.bool,
