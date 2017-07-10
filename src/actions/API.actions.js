@@ -313,6 +313,34 @@ export function setMicInputSettings(newMicInput){
   makeServerCall(url);
 }
 
+// Push SpeechOutput to server
+export function setSpeechOutputSettings(newSpeechOutput){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
+
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+
+  url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_output&value='+newSpeechOutput
+          +'&access_token='+cookies.get('loggedIn');
+
+  console.log(url);
+  makeServerCall(url);
+}
+
 export function makeServerCall(url){
   $.ajax({
     url: url,

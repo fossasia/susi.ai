@@ -14,7 +14,9 @@ export default {
     SERVER_CHANGED: null,
     ENTER_AS_SEND_CHANGED: null,
     MIC_INPUT_CHANGED: null,
+    SPEECH_OUTPUT_CHANGED: null,
     INIT_SETTINGS: null,
+    RESET_MESSAGE_VOICE: null,
   })
 
 };

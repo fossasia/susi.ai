@@ -22,10 +22,12 @@ class Settings extends Component {
 		let defaultTheme = defaults.Theme;
 		let defaultEnterAsSend = defaults.EnterAsSend;
 		let defaultMicInput = defaults.MicInput;
+		let defaultSpeechOutput = defaults.SpeechOutput;
 		this.state = {
 			theme: defaultTheme,
 			enterAsSend: defaultEnterAsSend,
 			micInput: defaultMicInput,
+			speechOutput: defaultSpeechOutput,
 			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
@@ -49,6 +51,7 @@ class Settings extends Component {
 		let newDefaultServer = this.state.server;
 		let newEnterAsSend = this.state.enterAsSend;
 		let newMicInput = this.state.micInput;
+		let newSpeechOutput = this.state.speechOutput;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
@@ -57,6 +60,7 @@ class Settings extends Component {
 			server: newDefaultServer,
 			enterAsSend: newEnterAsSend,
 			micInput: newMicInput,
+			speechOutput: newSpeechOutput,
 		}
 		this.props.onSettingsSubmit(vals);
 	}
@@ -74,6 +78,12 @@ class Settings extends Component {
 	handleMicInput = (event, isInputChecked) => {
 		this.setState({
 			micInput: isInputChecked,
+		});
+	}
+
+	handleSpeechOutput = (event, isInputChecked) => {
+		this.setState({
+			speechOutput: isInputChecked,
 		});
 	}
 
@@ -173,6 +183,14 @@ class Settings extends Component {
 			        		label='Enable mic to give voice input'
 			        		onToggle={this.handleMicInput}
 							toggled={this.state.micInput}/>
+			        </div>
+			        <h4 style={subHeaderStyle}>Speech Settings</h4>
+			        <div>
+			        	<h4 style={{'marginBottom':'0px'}}>Speech Output</h4>
+			        	<Toggle style={{maxWidth:'70%'}}
+			        		label='Enable speech output only for speech input'
+			        		onToggle={this.handleSpeechOutput}
+							toggled={this.state.speechOutput}/>
 			        </div>
 			        {cookies.get('loggedIn') ?
 			        <div>
