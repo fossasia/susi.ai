@@ -607,6 +607,7 @@ em{
 .search{
   -webkit-text-fill-color: white;
   color: white;
+  ;
 }
 
 .app-bar-search{
@@ -617,8 +618,32 @@ em{
   background-position: center;
 }
 
-@media only screen and (min-width: 0px) and (max-width: 860px){
+@media only screen and (max-width: 860px){
   .app-bar-search{
     background-image: none;
   }
+  .search{
+    width: 100px !important;
+  }
 }
+@media only screen and (max-width: 480px){
+  .search{
+    width: 100px !important;
+  }
+}
+@media only screen and (max-width: 360px){
+  .search{
+    width: 65px !important;
+  }
+} 
+
+@media only screen and (max-width: 300px){
+  .displayNone{
+    display: none !important;
+  }
+  .displayCloseNone{
+      position: relative;
+      top:6px  !important;
+  }
+}
+
