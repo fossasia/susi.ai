@@ -297,6 +297,7 @@ header{
 }
 
 .message-container.SUSI>h5,.message-container.SUSI>.message-text {
+  overflow-wrap: break-word;
   padding-right: 16px;
 }
 
