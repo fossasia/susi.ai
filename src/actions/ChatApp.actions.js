@@ -35,3 +35,9 @@ export function receiveAll(rawMessages) {
     rawMessages
   });
 };
+
+export function resetVoice() {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.RESET_MESSAGE_VOICE,
+  });
+};

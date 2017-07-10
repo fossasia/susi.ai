@@ -55,7 +55,7 @@ function getStateFromStores() {
   };
 }
 
-function getMessageListItem(messages, showLoading, markID) {
+function getMessageListItem(messages, showLoading, speechOutput, markID) {
   // markID indicates search mode on
   if(markID){
     return messages.map((message) => {
@@ -84,6 +84,7 @@ function getMessageListItem(messages, showLoading, markID) {
         key={message.id}
         message={message}
         latestUserMsgID={latestUserMsgID}
+        speechOutput={speechOutput}
       />
     );
   });
@@ -159,6 +160,7 @@ class MessageSection extends Component {
   handleColorChange = (name,color) => {
     // Current Changes
   }
+
   handleChangeBackgroundImage(backImage){
     document.body.style.setProperty('background-image', 'url('+ backImage+')');
     document.body.style.setProperty('background-repeat', 'no-repeat');
@@ -169,6 +171,7 @@ class MessageSection extends Component {
   handleChangeMessageBackground(backImage){
     this.setState({messageBackgroundImage:backImage});
   }
+
   handleChangeComplete = (name, color) => {
      // Send these Settings to Server
      let state = this.state;
@@ -198,6 +201,7 @@ class MessageSection extends Component {
       showLogin: true
     });
   }
+
   handleSignUp = () => {
     this.setState({
       showSignUp: true
@@ -273,6 +277,16 @@ class MessageSection extends Component {
     }
   }
 
+  changeSpeechOutput = (speechOutput) => {
+    let currSpeechOutput = UserPreferencesStore.getSpeechOutput();
+    if(currSpeechOutput !== speechOutput){
+      Actions.speechOutputChanged(speechOutput);
+    }
+    if(speechOutput){
+      Actions.resetVoice();
+    }
+  }
+
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -332,6 +346,7 @@ class MessageSection extends Component {
     this.changeTheme(values.theme);
     this.changeEnterAsSend(values.enterAsSend);
     this.changeMicInput(values.micInput);
+    this.changeSpeechOutput(values.speechOutput);
     setTimeout(() => {
        this.setState({
            SnackbarOpen: false
@@ -436,6 +451,7 @@ class MessageSection extends Component {
   }
 
   render() {
+
     const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
@@ -561,6 +577,8 @@ class MessageSection extends Component {
         </div>
     })
 
+    let speechOutput = UserPreferencesStore.getSpeechOutput();
+
     var body = this.state.body;
     var pane = this.state.pane;
     var composer = this.state.composer;
@@ -569,10 +587,11 @@ class MessageSection extends Component {
     if(this.state.search){
       let markID = this.state.searchState.scrollID;
       let markedMessages = this.state.searchState.markedMsgs;
-      messageListItems = getMessageListItem(markedMessages,false,markID);
+      messageListItems = getMessageListItem(markedMessages,false,false,markID);
     }
     else{
-      messageListItems = getMessageListItem(this.state.messages,this.state.showLoading);
+      messageListItems = getMessageListItem(this.state.messages,
+                            this.state.showLoading,speechOutput);
     }
 
     if (this.state.thread) {

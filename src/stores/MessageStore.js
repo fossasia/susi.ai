@@ -101,6 +101,19 @@ let MessageStore = {
 
   getAllForCurrentThread() {
     return _addDates(this.getAllForThread(ThreadStore.getCurrentID()));
+  },
+
+  resetVoiceForThread(threadID) {
+    for (let id in _messages) {
+      if ((_messages[id].threadID === threadID) &&
+          (_messages[id].authorName === 'SUSI')) {
+          _messages[id].voice = false;
+      }
+    }
+  },
+
+  resetVoiceForCurrentThread(){
+    this.resetVoiceForThread(ThreadStore.getCurrentID());
   }
 
 };
@@ -131,8 +144,10 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
       MessageStore.emitChange();
       break;
     }
+
     case ActionTypes.CREATE_SUSI_MESSAGE: {
       let message = action.message;
+      MessageStore.resetVoiceForThread(message.threadID);
       _messages[message.id] = message;
       _showLoading = false;
       MessageStore.emitChange();
@@ -142,6 +157,12 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
     case ActionTypes.STORE_HISTORY_MESSAGE: {
       let message = action.message;
       _messages[message.id] = message;
+      MessageStore.emitChange();
+      break;
+    }
+
+    case ActionTypes.RESET_MESSAGE_VOICE: {
+      MessageStore.resetVoiceForCurrentThread();
       MessageStore.emitChange();
       break;
     }

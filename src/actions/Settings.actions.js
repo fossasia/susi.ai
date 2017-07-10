@@ -35,6 +35,14 @@ export function micInputChanged(micInput) {
   Actions.setMicInputSettings(micInput);
 }
 
+export function speechOutputChanged(speechOutput) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.SPEECH_OUTPUT_CHANGED,
+    speechOutput
+  });
+  Actions.setSpeechOutputSettings(speechOutput);
+}
+
 export function initialiseSettings(settings) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.INIT_SETTINGS,
