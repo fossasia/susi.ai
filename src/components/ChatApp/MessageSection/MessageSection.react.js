@@ -27,6 +27,7 @@ function getStateFromStores() {
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
     showSignUp: false,
+    showChangePassword: false,
     showSettings: false,
     showThemeChanger: false,
     showHardwareChangeDialog: false,
@@ -198,16 +199,24 @@ class MessageSection extends Component {
       showLogin: true
     });
   }
+
   handleSignUp = () => {
     this.setState({
       showSignUp: true
-    })
+    });
+  }
+
+  handleChangePassword = () => {
+    this.setState({
+      showChangePassword: true
+    });
   }
 
   handleClose = () => {
     this.setState({
       showLogin: false,
       showSignUp: false,
+      showChangePassword: false,
       showSettings: false,
       showThemeChanger: false,
       showHardware: false
@@ -588,6 +597,7 @@ class MessageSection extends Component {
                 handleThemeChanger={this.handleThemeChanger}
                 handleOpen={this.handleOpen}
                 handleSignUp={this.handleSignUp}
+                handleChangePassword={this.handleChangePassword}
                 handleOptions={this.handleOptions}
                 handleRequestClose={this.handleRequestClose}
                 handleToggle={this.handleToggle}
@@ -640,6 +650,7 @@ class MessageSection extends Component {
               openLogin={this.state.showLogin}
               openSetting={this.state.showSettings}
               openSignUp={this.state.showSignUp}
+              openChangePassword={this.state.showChangePassword}
               openServerChange={this.state.showServerChangeDialog}
               openHardwareChange={this.state.showHardwareChangeDialog}
               openThemeChanger={this.state.showThemeChanger}
