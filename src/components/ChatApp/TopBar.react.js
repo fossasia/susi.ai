@@ -50,6 +50,7 @@ class TopBar extends Component {
 					<MenuItem primaryText="Custom Theme"
 						key="custom"
 						onClick={this.props.handleThemeChanger} />
+					<MenuItem primaryText="Change Password" onTouchTap={this.props.handleChangePassword} />
 					<MenuItem primaryText="Chat Anonymously"
 						containerElement={<Link to="/logout" />} />
 					<MenuItem primaryText="Logout"
@@ -167,7 +168,8 @@ TopBar.propTypes = {
 	handleSettings: PropTypes.func,
 	handleThemeChanger: PropTypes.func,
 	handleOpen: PropTypes.func,
-	handleSignUp:PropTypes.func,
+	handleSignUp: PropTypes.func,
+	handleChangePassword: PropTypes.func,
 	handleOptions: PropTypes.func,
 	handleRequestClose: PropTypes.func,
 	handleToggle: PropTypes.func,
