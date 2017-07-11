@@ -148,6 +148,14 @@ class MessageComposer extends Component {
             stop={this.state.stop}
           />
         )}
+
+        <IconButton
+          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
+          marginTop:'6px'}}
+          onTouchTap={this.props.skillDialogOpen}
+          style={style}>
+          ::
+        </IconButton>
         <textarea
           name="message"
           value={this.state.text}
@@ -163,6 +171,13 @@ class MessageComposer extends Component {
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
           {this.Button}
+        </IconButton>
+        <IconButton
+          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
+          marginTop:'6px'}}
+          onTouchTap={this.props.skillDialogOpen}
+          style={style}>
+          ::
         </IconButton>
 
         <Dialog
@@ -242,6 +257,7 @@ class MessageComposer extends Component {
 };
 
 MessageComposer.propTypes = {
+  skillDialogOpen: PropTypes.func,
   threadID: PropTypes.string.isRequired,
   dream: PropTypes.string,
   textarea: PropTypes.string
