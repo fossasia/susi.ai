@@ -507,6 +507,7 @@ class MessageSection extends Component {
       width: '30%',
       margin: '1.6%',
       border: 'none',
+      outline: 'none',
       borderRadius: '15%',
       paddingBottom: '30%',
       float: 'left',

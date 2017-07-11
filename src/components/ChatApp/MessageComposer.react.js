@@ -3,6 +3,7 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import Send from 'material-ui/svg-icons/content/send';
 import Mic from 'material-ui/svg-icons/av/mic';
+import DashBoard from'material-ui/svg-icons/action/dashboard';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -153,8 +154,8 @@ class MessageComposer extends Component {
           iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
           marginTop:'6px'}}
           onTouchTap={this.props.skillDialogOpen}
-          style={style}>
-          ::
+          style={{position: 'absolute',marginLeft:0}}>
+          <DashBoard />
         </IconButton>
         <textarea
           name="message"
@@ -171,13 +172,6 @@ class MessageComposer extends Component {
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
           {this.Button}
-        </IconButton>
-        <IconButton
-          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
-          marginTop:'6px'}}
-          onTouchTap={this.props.skillDialogOpen}
-          style={style}>
-          ::
         </IconButton>
 
         <Dialog

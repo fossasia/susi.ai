@@ -434,9 +434,10 @@ textarea {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  width: 92%;
+  width: 85%;
   resize: none;
   border-radius: 6px;
+  margin-left: 40px;
   padding-left: 10px;
   padding-top: 10px;
   font-size: 14px;
