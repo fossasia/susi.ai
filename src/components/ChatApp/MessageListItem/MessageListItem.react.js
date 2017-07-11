@@ -230,9 +230,8 @@ class MessageListItem extends React.Component {
         });
 
         return (<div>{listItems}
-              {(this.props.message.voice && this.props.speechOutput)
-              && (
-                <VoicePlayer
+              { this.props.message.voice &&
+               (<VoicePlayer
                   play
                   text={this.props.message.text}
                   onStart={this.onStart}
@@ -258,7 +257,6 @@ MessageListItem.propTypes = {
   message: PropTypes.object,
   markID: PropTypes.string,
   latestUserMsgID: PropTypes.string,
-  speechOutput: PropTypes.bool,
 };
 
 export default MessageListItem;

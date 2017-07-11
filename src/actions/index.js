@@ -5,6 +5,7 @@ import {  getLocation,
           setMicInputSettings,
           setEnterAsSendSettings,
           setSpeechOutputSettings,
+          setSpeechOutputAlwaysSettings,
           createSUSIMessage } from './API.actions';
 
 import {  getHistory } from './History.actions';
@@ -21,6 +22,7 @@ import {  serverChanged,
           enterAsSendChanged,
           micInputChanged,
           speechOutputChanged,
+          speechOutputAlwaysChanged,
           themeChanged  } from './Settings.actions';
 
 import {  connectToWebSocket,
@@ -34,6 +36,7 @@ export {  getLocation,
           setMicInputSettings,
           setEnterAsSendSettings,
           setSpeechOutputSettings,
+          setSpeechOutputAlwaysSettings,
           createSUSIMessage }
 
 export { getHistory }
@@ -50,6 +53,7 @@ export { serverChanged,
          enterAsSendChanged,
          micInputChanged,
          speechOutputChanged,
+         speechOutputAlwaysChanged,
          themeChanged }
 
 export { connectToWebSocket, sendToHardwareDevice }

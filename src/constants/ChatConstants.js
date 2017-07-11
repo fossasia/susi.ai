@@ -15,6 +15,7 @@ export default {
     ENTER_AS_SEND_CHANGED: null,
     MIC_INPUT_CHANGED: null,
     SPEECH_OUTPUT_CHANGED: null,
+    SPEECH_OUTPUT_ALWAYS_CHANGED: null,
     INIT_SETTINGS: null,
     RESET_MESSAGE_VOICE: null,
   })

@@ -341,6 +341,34 @@ export function setSpeechOutputSettings(newSpeechOutput){
   makeServerCall(url);
 }
 
+// Push SpeechOutputAlways to server
+export function setSpeechOutputAlwaysSettings(newSpeechOutputAlways){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
+
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+
+  url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_always&value='+newSpeechOutputAlways
+          +'&access_token='+cookies.get('loggedIn');
+
+  console.log(url);
+  makeServerCall(url);
+}
+
 export function makeServerCall(url){
   $.ajax({
     url: url,
