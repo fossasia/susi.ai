@@ -550,13 +550,6 @@ class MessageSection extends Component {
       'padding': 0,
       textAlign: 'center'
     }
-
-    const messageBackgroundStyles = {
-        backgroundImage: `url(${this.state.messageBackgroundImage})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%'
-    }
-
     const {
       dream
     } = this.props;
@@ -727,6 +720,11 @@ class MessageSection extends Component {
 
     if (this.state.thread) {
 
+    const messageBackgroundStyles = { background: pane,
+                    backgroundImage: `url(${this.state.messageBackgroundImage})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '100% 100%'
+                    }
         return (
           <div className={topBackground} style={{background:body}}>
             <header className='message-thread-heading'
@@ -822,7 +820,7 @@ class MessageSection extends Component {
                  <ul
                    className="message-list"
                    ref={(c) => { this.messageList = c; }}
-                   style={{background:pane}}>
+                    style={this.messageBackgroundStyle}>
 
                    <Scrollbars
                       autoHide
