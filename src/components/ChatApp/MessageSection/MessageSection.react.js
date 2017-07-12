@@ -1,5 +1,6 @@
 import MessageComposer from '../MessageComposer.react';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
@@ -19,6 +20,10 @@ import TextField from 'material-ui/TextField';
 
 function getStateFromStores() {
   return {
+    skillDialogOpen: false,
+    horoscopeSkillOpen: false,
+    zodiacSign: '',
+    shadow: 2,
     SnackbarOpen: false,
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
@@ -302,6 +307,14 @@ class MessageSection extends Component {
     });
   }
 
+  handleCloseSkill = () => {
+    this.setState({skillDialogOpen:false});
+  }
+
+  handleCloseHoroscope = () => {
+    this.setState({horoscopeSkillOpen:false,skillDialogOpen: true});
+  }
+
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
   }
@@ -534,12 +547,75 @@ class MessageSection extends Component {
     })
   }
 
+  skillDialogOpen = () => {
+    this.setState({skillDialogOpen: true});
+  }
+
+  handleHoroscopeSkill = (sign) => {
+    this.setState({zodiacSign: sign});
+  }
+
+  horoscopeSkillOpen = () => {
+    this.setState({skillDialogOpen: false,horoscopeSkillOpen: true});
+  }
+
+  quoteSkill = () => {
+    Actions.createMessage('tell me a quote',this.state.thread.id, false);
+    this.setState({skillDialogOpen: false});
+  }
+
+  locationSkill = () => {
+    Actions.createMessage('where am i',this.state.thread.id, false);
+    this.setState({skillDialogOpen: false});
+  }
+
+  horoscopeSkill = () => {
+    let horoscopeMessage = `horoscope for ${this.state.zodiacSign}`;
+    Actions.createMessage(horoscopeMessage,this.state.thread.id, false);
+    this.setState({skillDialogOpen: false,zodiacSign: ''});
+  }
+
+  coinSkill = () => {
+    Actions.createMessage('flip a coin',this.state.thread.id, false);
+    this.setState({skillDialogOpen: false});
+  }
+
+  gifSkill = () => {
+    Actions.createMessage('random gif',this.state.thread.id, false);
+    this.setState({skillDialogOpen: false});
+  }
+
+  jokeSkill = () => {
+    Actions.createMessage('tell me a joke',this.state.thread.id, false);
+    this.setState({skillDialogOpen: false});
+  }
+
+  onMouseOver = () => this.setState({ shadow: 4 });
+  onMouseOut = () => this.setState({ shadow: 2 });
+
   render() {
 
     const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
     }
+
+    const style = {
+      height: 100,
+      textAlign: 'center',
+      lineHeight: 10,
+      width: '30%',
+      margin: '1.6%',
+      border: 'none',
+      outline: 'none',
+      borderRadius: '15%',
+      paddingBottom: '30%',
+      float: 'left',
+      backgroundColor:
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B',
+      display: 'inline-block',
+    };
+
 
     const messageBackgroundStyles = {
         backgroundImage: `url(${this.state.messageBackgroundImage})`,
@@ -576,6 +652,39 @@ class MessageSection extends Component {
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
+
+  const skillActions = <RaisedButton
+      label="Cancel"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={true}
+      onTouchTap={this.handleCloseSkill}
+    />;
+
+  const horoscopeActions = <div>
+        <RaisedButton
+          className="horoscope_button"
+          label="Get horoscope"
+          backgroundColor={
+            UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+          labelColor="#fff"
+          width='200px'
+          keyboardFocused={false}
+          onTouchTap={this.horoscopeSkill}
+        />
+        <RaisedButton
+          className="horoscope_button"
+          label="Cancel"
+          backgroundColor={
+            UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+          labelColor="#fff"
+          width='200px'
+          keyboardFocused={false}
+          onTouchTap={this.handleCloseHoroscope}
+        />
+  </div>;
 
   const customSettingsDone = <RaisedButton
       label="Done"
@@ -733,6 +842,69 @@ class MessageSection extends Component {
             {!this.state.search ? (
             <div>
             <div className='message-pane'>
+              <Dialog
+                actions={skillActions}
+                modal={true}
+                open={this.state.skillDialogOpen}
+                contentStyle={{width: '35%',minWidth: '250px'}}
+                autoScrollBodyContent={true}>
+                <p>Here are some things you can do</p>
+                <div
+                  className="skill_container">
+                  <button
+                    onTouchTap={this.quoteSkill}
+                    style={style}
+                    className="skill_box">
+                    Get a quote
+                  </button>
+                  <button
+                    onTouchTap={this.locationSkill}
+                    style={style}
+                    className="skill_box">
+                    Get your location
+                  </button>
+                  <button
+                    onTouchTap={this.horoscopeSkillOpen}
+                    style={style}
+                    className="skill_box">
+                    Get horoscopes
+                  </button>
+                  <button
+                    onTouchTap={this.coinSkill}
+                    style={style}
+                    className="skill_box">
+                    Flip a coin
+                  </button>
+                  <button
+                    onTouchTap={this.gifSkill}
+                    style={style}
+                    className="skill_box">
+                    Get random GIF
+                  </button>
+                  <button
+                    onTouchTap={this.jokeSkill}
+                    style={style}
+                    className="skill_box">
+                    Get a joke
+                  </button>
+
+                </div>
+              </Dialog>
+              <Dialog
+                actions={horoscopeActions}
+                modal={true}
+                open={this.state.horoscopeSkillOpen}
+                contentStyle={{width: '35%',minWidth: '250px'}}
+                autoScrollBodyContent={true}>
+                <p>Enter your Zodiac Sign</p>
+                  <TextField
+                    value={this.state.zodiacSign}
+                    onChange={
+                      (e,value)=>
+                      this.handleHoroscopeSkill(value) }
+          					floatingLabelText="Zodiac Sign" />
+              </Dialog>
+
               <div className='message-section'>
                 <ul
                   className='message-list'
@@ -751,6 +923,7 @@ class MessageSection extends Component {
                 <div className='compose' style={{background:composer}}>
                   <MessageComposer
                     threadID={this.state.thread.id}
+                    skillDialogOpen={this.skillDialogOpen}
                     dream={dream}
                     textarea={this.state.textarea} />
                 </div>
