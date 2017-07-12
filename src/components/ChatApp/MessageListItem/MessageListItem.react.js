@@ -6,7 +6,8 @@ import {AllHtmlEntities} from 'html-entities';
 import $ from 'jquery';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
-  getRSSTiles, renderMessageFooter } from './helperFunctions.react.js';
+  getRSSTiles, renderMessageFooter,
+  renderFeedback } from './helperFunctions.react.js';
 
 import VoicePlayer from './VoicePlayer';
 
@@ -37,7 +38,10 @@ class MessageListItem extends React.Component {
     if(this.props.latestUserMsgID){
       latestUserMsgID = this.props.latestUserMsgID;
     }
-
+    let latestSUSIMsgID = null;
+    if(this.props.latestSUSIMsgID){
+      latestSUSIMsgID = this.props.latestSUSIMsgID;
+    }
     if(this.props.message.type === 'date'){
       return(
         <li className='message-list-item'>
@@ -113,6 +117,7 @@ class MessageListItem extends React.Component {
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
+                    {renderFeedback(message, latestSUSIMsgID)}
                   </section>
                 </li>
               );
@@ -129,6 +134,7 @@ class MessageListItem extends React.Component {
                       rel='noopener noreferrer'>{text}</a>
                   </div>
                     {renderMessageFooter(message,latestUserMsgID)}
+                    {renderFeedback(message, latestSUSIMsgID)}
                   </section>
                 </li>
               );
@@ -152,6 +158,7 @@ class MessageListItem extends React.Component {
                         <section className={messageContainerClasses}>
                         <div>{mymap}</div>
                           {renderMessageFooter(message,latestUserMsgID)}
+                          {renderFeedback(message, latestSUSIMsgID)}
                         </section>
                       </li>
                       );
@@ -169,6 +176,7 @@ class MessageListItem extends React.Component {
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
+                    {renderFeedback(message, latestSUSIMsgID)}
                   </section>
                 </li>
                 );
@@ -183,6 +191,7 @@ class MessageListItem extends React.Component {
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
                     {renderMessageFooter(message,latestUserMsgID)}
+                    {renderFeedback(message, latestSUSIMsgID)}
                   </section>
                 </li>
               );
@@ -204,6 +213,7 @@ class MessageListItem extends React.Component {
                       {renderTiles(rssTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}
+                      {renderFeedback(message, latestSUSIMsgID)}
                     </section>
                   </li>
                 );
@@ -218,6 +228,7 @@ class MessageListItem extends React.Component {
                       {renderTiles(websearchTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}
+                      {renderFeedback(message, latestSUSIMsgID)}
                     </section>
                   </li>
                 );
@@ -246,6 +257,7 @@ class MessageListItem extends React.Component {
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
           {renderMessageFooter(message,latestUserMsgID)}
+          {renderFeedback(message, latestSUSIMsgID)}
         </section>
       </li>
     );
@@ -257,6 +269,7 @@ MessageListItem.propTypes = {
   message: PropTypes.object,
   markID: PropTypes.string,
   latestUserMsgID: PropTypes.string,
+  latestSUSIMsgID: PropTypes.string
 };
 
 export default MessageListItem;

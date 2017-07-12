@@ -11,6 +11,12 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Popover from 'material-ui/Popover';
 import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Exit from 'material-ui/svg-icons/action/exit-to-app';
+import Chat from 'material-ui/svg-icons/communication/chat';
+import SignUp from 'material-ui/svg-icons/action/account-circle';
+import Edit from 'material-ui/svg-icons/image/edit';
+import Lock from 'material-ui/svg-icons/action/lock-outline';
 
 const cookies = new Cookies();
 
@@ -44,17 +50,23 @@ class TopBar extends Component {
 					}
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-					>
+				>
 					<MenuItem primaryText="Settings"
-						onClick={this.props.handleSettings} />
+					onClick={this.props.handleSettings}
+					rightIcon={<Settings/>}/>
 					<MenuItem primaryText="Custom Theme"
 						key="custom"
-						onClick={this.props.handleThemeChanger} />
-					<MenuItem primaryText="Change Password" onTouchTap={this.props.handleChangePassword} />
+					onClick={this.props.handleThemeChanger}
+					rightIcon={<Edit/>}/>
+					<MenuItem primaryText="Change Password"
+					onTouchTap={this.props.handleChangePassword}
+					rightIcon={<Lock/>}/>
 					<MenuItem primaryText="Chat Anonymously"
-						containerElement={<Link to="/logout" />} />
+					containerElement={<Link to="/logout" />}
+					rightIcon={<Chat/>}/>
 					<MenuItem primaryText="Logout"
-						containerElement={<Link to="/logout" />} />
+					containerElement={<Link to="/logout" />}
+					rightIcon={<Exit />}/>
 				</IconMenu>)
 			return <Logged />
 		}
@@ -70,9 +82,13 @@ class TopBar extends Component {
 				anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
 			>
 				<MenuItem primaryText="Settings"
-					onClick={this.props.handleSettings} />
-				<MenuItem primaryText="Login" onTouchTap={this.props.handleOpen} />
-				<MenuItem primaryText="Sign Up" onTouchTap={this.props.handleSignUp} />
+				onClick={this.props.handleSettings}
+				rightIcon={<Settings/>} />
+				<MenuItem primaryText="Login" onTouchTap={this.props.handleOpen}
+				 />
+				<MenuItem primaryText="Sign Up"
+				onTouchTap={this.props.handleSignUp}
+				rightIcon={<SignUp/>} />
 			</IconMenu>)
 
 		return <Logged />
@@ -89,6 +105,9 @@ class TopBar extends Component {
 		};
 
 		var backgroundCol;
+		if(this.props.backgroundColor!==''){
+			backgroundCol=this.props.backgroundColor;
+		}
 		let topBackground = UserPreferencesStore.getTheme();
 		switch (topBackground) {
 			case 'light': {
@@ -103,9 +122,7 @@ class TopBar extends Component {
 				// do nothing
 			}
 		}
-		if(this.props.backgroundColor!==''){
-			backgroundCol=this.props.backgroundColor;
-		}
+
 		let appBarClass = 'app-bar';
 		if (this.props.search) {
 			appBarClass = 'app-bar-search';

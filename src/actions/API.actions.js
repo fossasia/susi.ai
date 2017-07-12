@@ -63,13 +63,13 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   var locale = document.documentElement.getAttribute('lang');
   if(cookies.get('loggedIn')===null||
     cookies.get('loggedIn')===undefined) {
-    console.log(createdMessage.text);
+    // console.log(createdMessage.text);
     url = BASE_URL+'/susi/chat.json?q='+
           createdMessage.text+
           '&language='+locale;
   }
   else{
-    console.log(createdMessage.text);
+    // console.log(createdMessage.text);
     url = BASE_URL+'/susi/chat.json?q='
           +createdMessage.text+'&language='
           +locale+'&access_token='

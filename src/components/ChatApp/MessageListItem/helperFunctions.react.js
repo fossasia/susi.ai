@@ -14,12 +14,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
-import {AllHtmlEntities} from 'html-entities';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-
-const entities = new AllHtmlEntities();
+import Parser from 'html-react-parser';
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -30,7 +30,42 @@ class ExtendedMarker extends Marker {
     this.leafletElement.openPopup();
   }
 }
+// Return the Feedback State
+export function renderFeedback(message, latestSUSIMsgID) {
 
+  let feedbackButtons = null;
+  let feedbackStyle = {
+    display: 'block',
+    position: 'relative',
+    float: 'right'
+  }
+  if(message.authorName === 'SUSI'){
+    let feedbackIndicator = {
+      height:'16px',
+      cursor: 'pointer'
+    }
+
+    if(message.id === latestSUSIMsgID){
+      feedbackButtons = (
+      <li className='message-time' style={feedbackStyle}>
+        <ThumbUp style={feedbackIndicator}
+          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
+        <ThumbDown style={feedbackIndicator}
+          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
+      </li>);
+    }
+  }
+  if(message.authorName === 'SUSI'){
+    feedbackStyle = {};
+  }
+  return(
+    <div>
+      {feedbackButtons}
+    </div>
+  );
+
+
+}
 // Returns the message time and status indicator
 export function renderMessageFooter(message,latestMsgID){
 
@@ -82,13 +117,12 @@ export function processText(text,type){
   	let processedText = '';
   	switch(type){
   		case 'websearch-rss':{
-  			let htmlText = entities.decode(text);
+  			let htmlText = Parser(text);
 		    processedText = <Emojify>{htmlText}</Emojify>;
   			break;
   		}
   		default:{
-  			let htmlText = entities.decode(text);
-		    let imgText = imageParse(htmlText);
+		    let imgText = imageParse(text);
 		    let replacedText = parseAndReplace(imgText);
 		    processedText = <Emojify>{replacedText}</Emojify>;
   		}
@@ -116,7 +150,7 @@ export function imageParse(stringWithLinks){
             style={{width:'95%',height:'auto'}} alt=''/>)
     }
     else{
-      result.push(item);
+      result.push(Parser(item));
     }
   });
   return result;

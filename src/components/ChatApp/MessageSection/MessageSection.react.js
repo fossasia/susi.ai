@@ -20,6 +20,7 @@ import TextField from 'material-ui/TextField';
 function getStateFromStores() {
   return {
     SnackbarOpen: false,
+    SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     currTheme: UserPreferencesStore.getTheme(),
@@ -69,6 +70,16 @@ function getMessageListItem(messages, showLoading, markID) {
       );
     });
   }
+
+  // Get message ID of SUSI's Message
+  let latestSUSIMsgID = null;
+  if(messages){
+    let msgCount = messages.length;
+    if(msgCount>0){
+      let latestSUSIMsg = messages[msgCount-1];
+      latestSUSIMsgID = latestSUSIMsg.id;
+    }
+  }
   // Get message ID waiting for server response
   let latestUserMsgID = null;
   if(showLoading && messages){
@@ -85,6 +96,7 @@ function getMessageListItem(messages, showLoading, markID) {
         key={message.id}
         message={message}
         latestUserMsgID={latestUserMsgID}
+        latestSUSIMsgID={latestSUSIMsgID}
       />
     );
   });
@@ -161,14 +173,14 @@ class MessageSection extends Component {
     // Current Changes
   }
 
-  handleChangeBackgroundImage(backImage){
+  handleChangeBackgroundImage = (backImage) => {
     document.body.style.setProperty('background-image', 'url('+ backImage+')');
     document.body.style.setProperty('background-repeat', 'no-repeat');
     document.body.style.setProperty('background-size', 'cover');
     this.setState({bodyBackgroundImage:backImage});
   }
 
-  handleChangeMessageBackground(backImage){
+  handleChangeMessageBackground = (backImage) => {
     this.setState({messageBackgroundImage:backImage});
   }
 
@@ -212,6 +224,70 @@ class MessageSection extends Component {
     this.setState({
       showChangePassword: true
     });
+  }
+  handleRemoveUrlBody = () => {
+    if(!this.state.bodyBackgroundImage){
+      this.setState({SnackbarOpenBackground: true});
+      setTimeout(() => {
+         this.setState({
+             SnackbarOpenBackground: false
+         });
+     }, 2500);
+    }
+    else{
+      this.setState({
+        bodyBackgroundImage: ''
+      });
+    }
+  }
+
+  handleRemoveUrlMessage = () => {
+    if(!this.state.messageBackgroundImage){
+      this.setState({SnackbarOpenBackground: true});
+      setTimeout(() => {
+         this.setState({
+             SnackbarOpenBackground: false
+         });
+     }, 2500);
+    }
+    else{
+      this.setState({
+        messageBackgroundImage:''
+      });
+    }
+  }
+
+  handleRemoveUrlBody = () => {
+    if(!this.state.bodyBackgroundImage){
+      this.setState({SnackbarOpenBackground: true});
+      setTimeout(() => {
+         this.setState({
+             SnackbarOpenBackground: false
+         });
+     }, 2500);
+    }
+    else{
+      this.setState({
+        bodyBackgroundImage: ''
+      });
+      this.handleChangeBackgroundImage('');
+    }
+  }
+
+  handleRemoveUrlMessage = () => {
+    if(!this.state.messageBackgroundImage){
+      this.setState({SnackbarOpenBackground: true});
+      setTimeout(() => {
+         this.setState({
+             SnackbarOpenBackground: false
+         });
+     }, 2500);
+    }
+    else{
+      this.setState({
+        messageBackgroundImage:''
+      });
+    }
   }
 
   handleClose = () => {
@@ -574,24 +650,50 @@ class MessageSection extends Component {
           component.component) }
           onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
-				<TextField
-          name="backgroundImg"
-          style={{display:component.component==='body'?'block':'none'}}
-          ref={(input) => { this.backImage = input }}
-          onChange={
-            (e,value)=>
-            this.handleChangeBackgroundImage(value) }
-          value={this.state.bodyBackgroundImage}
-					floatingLabelText="Body Background Image URL" />
-        <TextField
-          name="messageImg"
+          <TextField
+            name="backgroundImg"
             style={{display:component.component==='body'?'block':'none'}}
             ref={(input) => { this.backImage = input }}
             onChange={
               (e,value)=>
-              this.handleChangeMessageBackground(value) }
-            value={this.state.messageBackgroundImage}
-  					floatingLabelText="Message Background Image URL" />
+              this.handleChangeBackgroundImage(value) }
+            value={this.state.bodyBackgroundImage}
+  					floatingLabelText="Body Background Image URL" />
+            <RaisedButton
+                name="removeBackgroundBody"
+                key={'RemoveBody'}
+                label="Remove URL"
+                style={{
+                  display:component.component==='body'?'block':'none',
+                  width: '150px'
+                }}
+                backgroundColor={
+                  UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+                labelColor="#fff"
+                keyboardFocused={true}
+                onTouchTap={this.handleRemoveUrlBody} />
+            <TextField
+              name="messageImg"
+              style={{display:component.component==='body'?'block':'none'}}
+              ref={(input) => { this.backImage = input }}
+              onChange={
+                (e,value)=>
+                this.handleChangeMessageBackground(value) }
+              value={this.state.messageBackgroundImage}
+  				    floatingLabelText="Message Background Image URL" />
+            <RaisedButton
+              name="removeBackgroundMessage"
+              key={'RemoveMessage'}
+              label="Remove URL"
+              style={{
+                display:component.component==='body'?'block':'none',
+                width: '150px'
+              }}
+              backgroundColor={
+                UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+              labelColor="#fff"
+              keyboardFocused={true}
+              onTouchTap={this.handleRemoveUrlMessage} />
         </div>
     })
 
@@ -672,6 +774,11 @@ class MessageSection extends Component {
                   autoHideDuration={4000}
                   onActionTouchTap={this.handleActionTouchTap}
                   onRequestClose={this.handleRequestClose}
+                />
+                <Snackbar
+                  open={this.state.SnackbarOpenBackground}
+                  message={'Please enter a valid URL first'}
+                  autoHideDuration={4000}
                 />
               </div>
             </div>
