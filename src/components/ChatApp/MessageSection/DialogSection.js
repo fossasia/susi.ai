@@ -55,7 +55,6 @@ export default class DialogSection extends Component {
 
       {/* Settings */}
         <Dialog
-          actions={this.props.actions}
           modal={false}
           open={this.props.openSetting}
           autoScrollBodyContent={true}
@@ -65,7 +64,8 @@ export default class DialogSection extends Component {
             <Settings {...this.props}
               onSettingsSubmit={this.props.onSettingsSubmit()}
               onServerChange={this.props.onServerChange()}
-              onHardwareSettings={this.props.onHardwareSettings()} />
+              onHardwareSettings={this.props.onHardwareSettings()}
+              actions={this.props.actions}/>
           </div>
         </Dialog>
       {/* Change Server */}
