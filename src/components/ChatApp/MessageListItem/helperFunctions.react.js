@@ -14,12 +14,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
 import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
-import {AllHtmlEntities} from 'html-entities';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-
-const entities = new AllHtmlEntities();
+import Parser from 'html-react-parser';
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -82,13 +80,12 @@ export function processText(text,type){
   	let processedText = '';
   	switch(type){
   		case 'websearch-rss':{
-  			let htmlText = entities.decode(text);
+  			let htmlText = Parser(text);
 		    processedText = <Emojify>{htmlText}</Emojify>;
   			break;
   		}
   		default:{
-  			let htmlText = entities.decode(text);
-		    let imgText = imageParse(htmlText);
+		    let imgText = imageParse(text);
 		    let replacedText = parseAndReplace(imgText);
 		    processedText = <Emojify>{replacedText}</Emojify>;
   		}
@@ -116,7 +113,7 @@ export function imageParse(stringWithLinks){
             style={{width:'95%',height:'auto'}} alt=''/>)
     }
     else{
-      result.push(item);
+      result.push(Parser(item));
     }
   });
   return result;
