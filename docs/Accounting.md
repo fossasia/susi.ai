@@ -23,7 +23,7 @@ For all the accounting features, users can choose between standard server or the
 
 Let `BASE_URL` be Standard or Personal SUSI Servers URL.
 
-**Signup**
+##### Signup
 The first step is registering with SUSI. User is asked for :
 >- Email
 >- Password
@@ -33,7 +33,7 @@ Signup endpoint : `BASE_URL+'/aaa/signup.json?signup=EMAIL&password=PASSWORD;`
 
 User is then sent a verification link to confirm the sign up. And upon verifying through mail, the sign up process is completed.
 
-**Login**
+##### Login
  Once the user has registered with the server, he can directly login using :
  >- Email
  >- Password
@@ -41,7 +41,7 @@ User is then sent a verification link to confirm the sign up. And upon verifying
  
 Login endpoint : `BASE_URL+'/aaa/login.json?type=access-token&login=EMAIL&password=PASSWORD';`
 
-**Password Recovery**
+##### Password Recovery
 Incase the user forgets his password, he can use the `Forgot Password` option to reset his password.
 The Password recovery service uses :
 >- Email
@@ -54,7 +54,18 @@ Upon clicking that link, the user is redirected to a reset password service app 
 >- New Password
 
 Reset password Redirect : `BASE_URL+'/apps/resetpass/index.html?token=TOKEN'`
+'
+##### Change Password
+Incase the user wants to change his password, he can login using his current password and preferred server and use the `Change Password` option to set a new password for his account.
+This service is different from `Password Recovery` service where the user has forgot his password and wants a new password. Here the user knows his current password and wants to change it.
+The Change Password service uses:
+>- Email
+>- Current Password
+>- New Password
 
+Change Password endpoint : `BASE_URL+'/aaa/changepassword.json? 'changepassword=EMAIL&password=PASSWORD&newpassword=NEW_PASSWORD &access_token=ACCESS_TOKEN'`
+
+Upon successfully changing password, the user is prompted to login again and is logged out automatically.
 
 ## Storing User Settings in Server
 
