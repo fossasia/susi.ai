@@ -70,6 +70,16 @@ function getMessageListItem(messages, showLoading, speechOutput, markID) {
       );
     });
   }
+
+  // Get message ID of SUSI's Message
+  let latestSUSIMsgID = null;
+  if(messages){
+    let msgCount = messages.length;
+    if(msgCount>0){
+      let latestSUSIMsg = messages[msgCount-1];
+      latestSUSIMsgID = latestSUSIMsg.id;
+    }
+  }
   // Get message ID waiting for server response
   let latestUserMsgID = null;
   if(showLoading && messages){
@@ -86,6 +96,7 @@ function getMessageListItem(messages, showLoading, speechOutput, markID) {
         key={message.id}
         message={message}
         latestUserMsgID={latestUserMsgID}
+        latestSUSIMsgID={latestSUSIMsgID}
         speechOutput={speechOutput}
       />
     );

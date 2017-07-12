@@ -16,6 +16,8 @@ import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
 
@@ -28,7 +30,42 @@ class ExtendedMarker extends Marker {
     this.leafletElement.openPopup();
   }
 }
+// Return the Feedback State
+export function renderFeedback(message, latestSUSIMsgID) {
 
+  let feedbackButtons = null;
+  let feedbackStyle = {
+    display: 'block',
+    position: 'relative',
+    float: 'right'
+  }
+  if(message.authorName === 'SUSI'){
+    let feedbackIndicator = {
+      height:'16px',
+      cursor: 'pointer'
+    }
+
+    if(message.id === latestSUSIMsgID){
+      feedbackButtons = (
+      <li className='message-time' style={feedbackStyle}>
+        <ThumbUp style={feedbackIndicator}
+          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
+        <ThumbDown style={feedbackIndicator}
+          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
+      </li>);
+    }
+  }
+  if(message.authorName === 'SUSI'){
+    feedbackStyle = {};
+  }
+  return(
+    <div>
+      {feedbackButtons}
+    </div>
+  );
+
+
+}
 // Returns the message time and status indicator
 export function renderMessageFooter(message,latestMsgID){
 
