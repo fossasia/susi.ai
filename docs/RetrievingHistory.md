@@ -1,4 +1,4 @@
-#Retrieving User Chat History
+# Retrieving User Chat History
 
 Whenever a user logs in he must be able to view his chat history in the chat client.
 A user might also be using multiple chat clients, so the history across all platforms must be in sync.
