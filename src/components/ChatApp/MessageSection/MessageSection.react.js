@@ -650,9 +650,19 @@ class MessageSection extends Component {
           component.component) }
           onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
-          <TextField
-            name="backgroundImg"
-            style={{display:component.component==='body'?'block':'none'}}
+
+				<TextField
+          name="backgroundImg"
+          style={{display:component.component==='body'?'block':'none'}}
+          ref={(input) => { this.backImage = input }}
+          onChange={
+            (e,value)=>
+            this.handleChangeBackgroundImage(value) }
+          value={this.state.bodyBackgroundImage}
+					floatingLabelText="Body Background Image URL" />
+        <TextField
+          name="messageImg"
+            style={{display:component.component==='pane'?'block':'none'}}
             ref={(input) => { this.backImage = input }}
             onChange={
               (e,value)=>
