@@ -43,6 +43,14 @@ export function speechOutputChanged(speechOutput) {
   Actions.setSpeechOutputSettings(speechOutput);
 }
 
+export function speechOutputAlwaysChanged(speechOutputAlways) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.SPEECH_OUTPUT_ALWAYS_CHANGED,
+    speechOutputAlways
+  });
+  Actions.setSpeechOutputAlwaysSettings(speechOutputAlways);
+}
+
 export function initialiseSettings(settings) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.INIT_SETTINGS,

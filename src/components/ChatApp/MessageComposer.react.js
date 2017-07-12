@@ -65,7 +65,11 @@ class MessageComposer extends Component {
     let result = finalTranscript;
     this.setState({ result:result});
     setTimeout(()=>this.setState({ start: false, stop: false, open:false}),400);
-    Actions.createMessage(result, this.props.threadID, true);
+    let voiceResponse = false;
+    if(this.props.speechOutputAlways || this.props.speechOutput){
+      voiceResponse = true;
+    }
+    Actions.createMessage(result, this.props.threadID, voiceResponse);
     setTimeout(()=>this.setState({result: ''}), 500);
     this.Button = <Mic />
   }
@@ -198,7 +202,7 @@ class MessageComposer extends Component {
       if(!EnterAsSend){
         text = text.split('\n').join(' ');
       }
-      Actions.createMessage(text, this.props.threadID, false);
+      Actions.createMessage(text, this.props.threadID, this.props.speechOutputAlways);
     }
     if(this.speechRecog){
       this.Button = <Mic />
@@ -229,7 +233,7 @@ class MessageComposer extends Component {
         event.preventDefault();
         let text = this.state.text.trim();
         if (text) {
-          Actions.createMessage(text, this.props.threadID, false);
+          Actions.createMessage(text, this.props.threadID, this.props.speechOutputAlways);
         }
         this.setState({text: ''});
         if(this.speechRecog){
@@ -244,7 +248,9 @@ class MessageComposer extends Component {
 MessageComposer.propTypes = {
   threadID: PropTypes.string.isRequired,
   dream: PropTypes.string,
-  textarea: PropTypes.string
+  textarea: PropTypes.string,
+  speechOutput: PropTypes.bool,
+  speechOutputAlways: PropTypes.bool,
 };
 
 export default MessageComposer;
