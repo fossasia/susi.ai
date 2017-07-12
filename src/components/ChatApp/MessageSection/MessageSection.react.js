@@ -57,7 +57,7 @@ function getStateFromStores() {
   };
 }
 
-function getMessageListItem(messages, showLoading, speechOutput, markID) {
+function getMessageListItem(messages, showLoading, markID) {
   // markID indicates search mode on
   if(markID){
     return messages.map((message) => {
@@ -97,7 +97,6 @@ function getMessageListItem(messages, showLoading, speechOutput, markID) {
         message={message}
         latestUserMsgID={latestUserMsgID}
         latestSUSIMsgID={latestSUSIMsgID}
-        speechOutput={speechOutput}
       />
     );
   });
@@ -371,6 +370,16 @@ class MessageSection extends Component {
     }
   }
 
+  changeSpeechOutputAlways = (speechOutputAlways) => {
+    let currSpeechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
+    if(currSpeechOutputAlways !== speechOutputAlways){
+      Actions.speechOutputAlwaysChanged(speechOutputAlways);
+    }
+    if(speechOutputAlways){
+      Actions.resetVoice();
+    }
+  }
+
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -431,6 +440,7 @@ class MessageSection extends Component {
     this.changeEnterAsSend(values.enterAsSend);
     this.changeMicInput(values.micInput);
     this.changeSpeechOutput(values.speechOutput);
+    this.changeSpeechOutputAlways(values.speechOutputAlways);
     setTimeout(() => {
        this.setState({
            SnackbarOpen: false
@@ -688,6 +698,7 @@ class MessageSection extends Component {
     })
 
     let speechOutput = UserPreferencesStore.getSpeechOutput();
+    let speechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
 
     var body = this.state.body;
     var pane = this.state.pane;
@@ -697,11 +708,11 @@ class MessageSection extends Component {
     if(this.state.search){
       let markID = this.state.searchState.scrollID;
       let markedMessages = this.state.searchState.markedMsgs;
-      messageListItems = getMessageListItem(markedMessages,false,false,markID);
+      messageListItems = getMessageListItem(markedMessages,false,markID);
     }
     else{
       messageListItems = getMessageListItem(this.state.messages,
-                            this.state.showLoading,speechOutput);
+                                            this.state.showLoading);
     }
 
     if (this.state.thread) {
@@ -752,7 +763,9 @@ class MessageSection extends Component {
                   <MessageComposer
                     threadID={this.state.thread.id}
                     dream={dream}
-                    textarea={this.state.textarea} />
+                    textarea={this.state.textarea}
+                    speechOutput={speechOutput}
+                    speechOutputAlways={speechOutputAlways} />
                 </div>
                 <Snackbar
                   open={this.state.SnackbarOpen}

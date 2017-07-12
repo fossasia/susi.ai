@@ -23,11 +23,13 @@ class Settings extends Component {
 		let defaultEnterAsSend = defaults.EnterAsSend;
 		let defaultMicInput = defaults.MicInput;
 		let defaultSpeechOutput = defaults.SpeechOutput;
+		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
 		this.state = {
 			theme: defaultTheme,
 			enterAsSend: defaultEnterAsSend,
 			micInput: defaultMicInput,
 			speechOutput: defaultSpeechOutput,
+			speechOutputAlways: defaultSpeechOutputAlways,
 			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
@@ -52,6 +54,7 @@ class Settings extends Component {
 		let newEnterAsSend = this.state.enterAsSend;
 		let newMicInput = this.state.micInput;
 		let newSpeechOutput = this.state.speechOutput;
+		let newSpeechOutputAlways = this.state.speechOutputAlways;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
@@ -61,6 +64,7 @@ class Settings extends Component {
 			enterAsSend: newEnterAsSend,
 			micInput: newMicInput,
 			speechOutput: newSpeechOutput,
+			speechOutputAlways: newSpeechOutputAlways,
 		}
 		this.props.onSettingsSubmit(vals);
 	}
@@ -84,6 +88,12 @@ class Settings extends Component {
 	handleSpeechOutput = (event, isInputChecked) => {
 		this.setState({
 			speechOutput: isInputChecked,
+		});
+	}
+
+	handleSpeechOutputAlways = (event, isInputChecked) => {
+		this.setState({
+			speechOutputAlways: isInputChecked,
 		});
 	}
 
@@ -191,6 +201,13 @@ class Settings extends Component {
 			        		label='Enable speech output only for speech input'
 			        		onToggle={this.handleSpeechOutput}
 							toggled={this.state.speechOutput}/>
+			        </div>
+			        <div>
+			        	<h4 style={{'marginBottom':'0px'}}>Speech Output Always ON</h4>
+			        	<Toggle style={{maxWidth:'70%'}}
+			        		label='Enable speech output regardless of input type'
+			        		onToggle={this.handleSpeechOutputAlways}
+							toggled={this.state.speechOutputAlways}/>
 			        </div>
 			        {cookies.get('loggedIn') ?
 			        <div>
