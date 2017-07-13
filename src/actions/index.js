@@ -6,6 +6,7 @@ import {  getLocation,
           setEnterAsSendSettings,
           setSpeechOutputSettings,
           setSpeechOutputAlwaysSettings,
+          sendFeedback,
           createSUSIMessage } from './API.actions';
 
 import {  getHistory } from './History.actions';
@@ -14,6 +15,7 @@ import {  createMessage,
           receiveCreatedMessage,
           clickThread,
           resetVoice,
+          saveFeedback,
           receiveAll } from './ChatApp.actions';
 
 import {  serverChanged,
@@ -45,6 +47,7 @@ export {  createMessage,
           receiveCreatedMessage,
           clickThread,
           resetVoice,
+          saveFeedback,
           receiveAll }
 
 export { serverChanged,
@@ -54,6 +57,7 @@ export { serverChanged,
          micInputChanged,
          speechOutputChanged,
          speechOutputAlwaysChanged,
+         sendFeedback,
          themeChanged }
 
 export { connectToWebSocket, sendToHardwareDevice }
