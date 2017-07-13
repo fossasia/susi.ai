@@ -7,7 +7,7 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import VoiceRecognition from './VoiceRecognition';
-import Dialog from 'material-ui/Dialog';
+import Modal from 'react-modal';
 import RaisedButton from 'material-ui/RaisedButton';
 
 injectTapEventPlugin();
@@ -19,21 +19,15 @@ const style = {
     right:'3px',
     position: 'absolute',
 };
-const customContentStyle = {
-  width: '100%',
-  maxWidth: 'none',
-  textAlign : 'center',
-  background: '#fff',
-};
 const iconStyles = {
-  display: 'inline-block',
-  color: '#ccc',
+  color: '#fff',
   fill: 'currentcolor',
-  height: '70px',
-  width: '70px',
+  height: '45px',
+  width: '45px',
+  marginLeft: '28px',
+  marginTop: '27px',
   userSelect: 'none',
-  transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-  marginTop: '36px'
+  transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
 }
 
 
@@ -47,6 +41,7 @@ class MessageComposer extends Component {
       stop: false,
       open: false,
       result:'',
+      animate: false
     };
     if(props.dream!==''){
       this.state= {text: 'dream '+ props.dream}
@@ -54,24 +49,36 @@ class MessageComposer extends Component {
   }
 
   onStart = () => {
-    this.setState({ start: true, stop: false, open:true})
+    this.setState({ start: true, stop: false, open:true,
+      animate:true})
   }
 
   onEnd = () => {
-    this.setState({ start: false, stop: false, open: false})
+    this.setState({ start: false, stop: false, open: false,
+      animate:false})
   }
 
-  onResult = ({finalTranscript }) => {
-    let result = finalTranscript;
-    this.setState({ result:result});
-    setTimeout(()=>this.setState({ start: false, stop: false, open:false}),400);
+  onResult = ({interimTranscript,finalTranscript }) => {
+    let result = interimTranscript;
     let voiceResponse = false;
-    if(this.props.speechOutputAlways || this.props.speechOutput){
-      voiceResponse = true;
+    this.setState({result:result});
+    if(finalTranscript) {
+      result = finalTranscript;
+      this.setState({
+      start: false,
+      result:result,
+      stop: false,
+      open:false,
+      animate:false
+      });
+      if(this.props.speechOutputAlways || this.props.speechOutput){
+        voiceResponse = true;
+      }
+      Actions.createMessage(result, this.props.threadID, voiceResponse);
+      setTimeout(()=>this.setState({result: ''}),400);
+      this.Button = <Mic />
     }
-    Actions.createMessage(result, this.props.threadID, voiceResponse);
-    setTimeout(()=>this.setState({result: ''}), 500);
-    this.Button = <Mic />
+
   }
 
   componentWillMount(){
@@ -129,17 +136,6 @@ class MessageComposer extends Component {
   }
 
   render() {
-
-    const actions = <RaisedButton
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={true}
-      onTouchTap={this.onEnd}
-    />;
-
     return (
       <div className="message-composer" >
         {this.state.start && (
@@ -169,19 +165,30 @@ class MessageComposer extends Component {
           {this.Button}
         </IconButton>
 
-        <Dialog
-          actions={actions}
-          modal={true}
-          open={this.state.open}
-          contentStyle={customContentStyle}>
-          <div className='mic-container'>
-            <Mic style={iconStyles}/>
-          </div>
+        <Modal
+          isOpen={this.state.open}
+          className="Modal"
+          contentLabel="Speak Now"
+          overlayClassName="Overlay">
+          <div className='voice-response'>
           <h1 className='voice-output'>
           {this.state.result !=='' ? this.state.result :
           'Speak Now...'}
           </h1>
-        </Dialog>
+          <div className={this.state.animate? 'mic-container active':'mic-container'}>
+            <Mic style={iconStyles}/>
+          </div>
+          </div>
+          <RaisedButton
+            label="Cancel"
+            backgroundColor={
+              UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+            labelColor="#fff"
+            width='200px'
+            keyboardFocused={true}
+            onTouchTap={this.onEnd}
+              />
+        </Modal>
         </div>
     );
   }
