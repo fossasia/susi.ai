@@ -8,6 +8,7 @@ let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
 let _messages = {};
+let _feedback = {};
 let _showLoading = false;
 
 function _markAllInThreadRead(threadID) {
@@ -75,6 +76,10 @@ let MessageStore = {
 
   getLoadStatus(){
     return _showLoading;
+  },
+
+  getFeedback(){
+    return _feedback;
   },
 
   /**
@@ -150,6 +155,7 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
       MessageStore.resetVoiceForThread(message.threadID);
       _messages[message.id] = message;
       _showLoading = false;
+      _feedback = {};
       MessageStore.emitChange();
       break;
     }
@@ -163,6 +169,13 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.RESET_MESSAGE_VOICE: {
       MessageStore.resetVoiceForCurrentThread();
+      MessageStore.emitChange();
+      break;
+    }
+
+    case ActionTypes.FEEDBACK_RECEIVED: {
+      _feedback = action.feedback;
+      console.log(_feedback);
       MessageStore.emitChange();
       break;
     }

@@ -4,6 +4,7 @@ import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
+import MessageStore from '../stores/MessageStore';
 import * as Actions from './HardwareConnect.actions'
 import * as SettingsActions from './Settings.actions';
 
@@ -365,6 +366,33 @@ export function setSpeechOutputAlwaysSettings(newSpeechOutputAlways){
           +'key=speech_always&value='+newSpeechOutputAlways
           +'&access_token='+cookies.get('loggedIn');
 
+  console.log(url);
+  makeServerCall(url);
+}
+
+export function sendFeedback(){
+  let feedback = MessageStore.getFeedback();
+  console.log(feedback);
+  if(Object.keys(feedback).length === 0 && feedback.constructor === Object){
+    return;
+  }
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = BASE_URL+'/cms/rateSkill.json?'+
+            'model='+feedback.model+
+            '&group='+feedback.group+
+            '&language='+feedback.language+
+            '&skill='+feedback.skill+
+            '&rating='+feedback.rating;
   console.log(url);
   makeServerCall(url);
 }
