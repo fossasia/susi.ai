@@ -654,21 +654,11 @@ class MessageSection extends Component {
 				<TextField
           name="backgroundImg"
           style={{display:component.component==='body'?'block':'none'}}
-          ref={(input) => { this.backImage = input }}
           onChange={
             (e,value)=>
             this.handleChangeBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
 					floatingLabelText="Body Background Image URL" />
-        <TextField
-          name="messageImg"
-            style={{display:component.component==='pane'?'block':'none'}}
-            ref={(input) => { this.backImage = input }}
-            onChange={
-              (e,value)=>
-              this.handleChangeBackgroundImage(value) }
-            value={this.state.bodyBackgroundImage}
-  					floatingLabelText="Body Background Image URL" />
             <RaisedButton
                 name="removeBackgroundBody"
                 key={'RemoveBody'}
@@ -682,21 +672,20 @@ class MessageSection extends Component {
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
-            <TextField
+        <TextField
               name="messageImg"
-              style={{display:component.component==='body'?'block':'none'}}
-              ref={(input) => { this.backImage = input }}
+              style={{display:component.component==='pane'?'block':'none'}}
               onChange={
                 (e,value)=>
                 this.handleChangeMessageBackground(value) }
               value={this.state.messageBackgroundImage}
   				    floatingLabelText="Message Background Image URL" />
-            <RaisedButton
+        <RaisedButton
               name="removeBackgroundMessage"
               key={'RemoveMessage'}
               label="Remove URL"
               style={{
-                display:component.component==='body'?'block':'none',
+                display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
               backgroundColor={
@@ -704,6 +693,7 @@ class MessageSection extends Component {
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
+
         </div>
     })
 
