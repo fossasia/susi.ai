@@ -35,62 +35,106 @@ let Logged = (props) => (
 
 class TopBar extends Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			showOptions: false,
+			anchorEl: null,
+		};
+	}
+
+	showOptions = (event) => {
+	  event.preventDefault();
+	  this.setState({
+	    showOptions: true,
+	    anchorEl: event.currentTarget,
+	  });
+	}
+
+	closeOptions = () => {
+	  this.setState({
+	    showOptions: false,
+	  });
+	};
+
 	componentDidMount() {
+
 		this.setState({
-			search: false,
-		});
+	      search: false,
+	    });
+
 		// Check Logged in
 		if (cookies.get('loggedIn')) {
 			Logged = (props) => (
-				<IconMenu
+			<div>
+				<IconButton
 					{...props}
-					iconButtonElement={
-						<IconButton iconStyle={{ fill: 'white' }}>
-							<MoreVertIcon /></IconButton>
-					}
+					tooltip="Options"
+					iconStyle={{ fill: 'white' }}
+					onTouchTap={this.showOptions}>
+					<MoreVertIcon />
+				</IconButton>
+				<Popover
+					{...props}
+					style={{marginLeft:'-15px'}}
+					open={this.state.showOptions}
+					anchorEl={this.state.anchorEl}
+					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-					anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText="Settings"
-					onClick={this.props.handleSettings}
-					rightIcon={<Settings/>}/>
+						onClick={this.props.handleSettings}
+						rightIcon={<Settings/>}/>
 					<MenuItem primaryText="Custom Theme"
 						key="custom"
-					onClick={this.props.handleThemeChanger}
-					rightIcon={<Edit/>}/>
+						onClick={this.props.handleThemeChanger}
+						rightIcon={<Edit/>}/>
 					<MenuItem primaryText="Change Password"
-					onTouchTap={this.props.handleChangePassword}
-					rightIcon={<Lock/>}/>
+						onTouchTap={this.props.handleChangePassword}
+						rightIcon={<Lock/>}/>
 					<MenuItem primaryText="Chat Anonymously"
-					containerElement={<Link to="/logout" />}
-					rightIcon={<Chat/>}/>
+						containerElement={<Link to="/logout" />}
+						rightIcon={<Chat/>}/>
 					<MenuItem primaryText="Logout"
-					containerElement={<Link to="/logout" />}
-					rightIcon={<Exit />}/>
-				</IconMenu>)
-			return <Logged />
+						containerElement={<Link to="/logout" />}
+						rightIcon={<Exit />}/>
+				</Popover>
+			</div>
+		)
+		return <Logged />
 		}
+
 		// If Not Logged In
 		Logged = (props) => (
-			<IconMenu
-				{...props}
-				iconButtonElement={
-					<IconButton iconStyle={{ fill: 'white' }}>
-						<MoreVertIcon /></IconButton>
-				}
-				targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-				anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-			>
-				<MenuItem primaryText="Settings"
-				onClick={this.props.handleSettings}
-				rightIcon={<Settings/>} />
-				<MenuItem primaryText="Login" onTouchTap={this.props.handleOpen}
-				 />
-				<MenuItem primaryText="Sign Up"
-				onTouchTap={this.props.handleSignUp}
-				rightIcon={<SignUp/>} />
-			</IconMenu>)
-
+			<div>
+				<IconButton
+					{...props}
+					tooltip="Options"
+					iconStyle={{ fill: 'white' }}
+					onTouchTap={this.showOptions}>
+					<MoreVertIcon />
+				</IconButton>
+				<Popover
+					{...props}
+					style={{marginLeft:'-15px'}}
+					open={this.state.showOptions}
+					anchorEl={this.state.anchorEl}
+					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+					onRequestClose={this.closeOptions}
+				>
+					<MenuItem primaryText="Settings"
+						onClick={this.props.handleSettings}
+						rightIcon={<Settings/>} />
+					<MenuItem primaryText="Login"
+						onTouchTap={this.props.handleOpen} />
+					<MenuItem primaryText="Sign Up"
+						onTouchTap={this.props.handleSignUp}
+						rightIcon={<SignUp/>} />
+				</Popover>
+			</div>
+		)
 		return <Logged />
 	}
 
@@ -108,6 +152,7 @@ class TopBar extends Component {
 		if(this.props.backgroundColor!==''){
 			backgroundCol=this.props.backgroundColor;
 		}
+
 		let topBackground = UserPreferencesStore.getTheme();
 		switch (topBackground) {
 			case 'light': {
@@ -159,8 +204,8 @@ class TopBar extends Component {
 							<Popover
 								open={this.props.searchState.open}
 								anchorEl={this.props.searchState.anchorEl}
-								anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-								targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+								anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+								targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 								onRequestClose={this.props.handleRequestClose}
 							>
 								<Toggle
