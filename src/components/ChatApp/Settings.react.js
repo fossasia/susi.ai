@@ -5,11 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Cookies from 'universal-cookie';
 import Toggle from 'material-ui/Toggle';
+import CustomServerComponent from './CustomServerComponent.react';
 
 const cookies = new Cookies();
 
@@ -18,7 +17,7 @@ class Settings extends Component {
 	constructor(props) {
 		super(props);
 		let defaults = UserPreferencesStore.getPreferences();
-		let defaultServer = defaults.Server;
+		let defaultServer = defaults.StandardServer;
 		let defaultTheme = defaults.Theme;
 		let defaultEnterAsSend = defaults.EnterAsSend;
 		let defaultMicInput = defaults.MicInput;
@@ -33,7 +32,7 @@ class Settings extends Component {
 			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
-            checked: false,
+            showServerField: false,
 			validForm: true
 		};
 
@@ -97,14 +96,17 @@ class Settings extends Component {
 		});
 	}
 
+	handleServerBtn = () => {
+		this.setState({
+			showServerField: true,
+			serverFieldError: true,
+		});
+	}
+
 	handleChange = (event) => {
         let state = this.state;
         let serverUrl;
-        if (event.target.value === 'customServer') {
-        	state.checked = true;
-        	state.serverFieldError = true;
-        }
-		else if (event.target.value === 'standardServer') {
+		if (event.target.value === 'standardServer') {
 			state.checked = false;
 			state.serverFieldError = false;
 			let defaults = UserPreferencesStore.getPreferences();
@@ -140,28 +142,13 @@ class Settings extends Component {
 	render() {
 
 		const Buttonstyles = {
-			marginBottom: 16,
+			marginBottom: 10,
 		}
 
 		const subHeaderStyle = {
 			color: UserPreferencesStore.getTheme()==='light'
 								? '#607D8B' : '#19314B'
 		}
-
-		const radioButtonStyles = {
-		  block: {
-		    maxWidth: 250,
-		  },
-		  radioButton: {
-		    marginBottom: 16,
-		  },
-		};
-
-		const serverURL = <TextField name="serverUrl"
-							onChange={this.handleChange}
-							errorText={this.customServerMessage}
-							floatingLabelText="Custom URL" />;
-		const hidden = this.state.checked ? serverURL : '';
 
 		return (
 			<div className="settingsForm">
@@ -222,24 +209,12 @@ class Settings extends Component {
 			       	:
 					<div>
 						<h4 style={subHeaderStyle}>Server Settings</h4>
-						<h3>Choose Server</h3>
-						<RadioButtonGroup
-						 name="server" onChange={this.handleChange}
-						 defaultSelected="standardServer">
-						<RadioButton
-						       value="customServer"
-						       label="Custom Server"
-						       labelPosition="left"
-						       style={radioButtonStyles.radioButton}
-						     />
-						<RadioButton
-						       value="standardServer"
-						       label="Standard Server"
-						       labelPosition="left"
-						       style={radioButtonStyles.radioButton}
-						     />
-						</RadioButtonGroup>
-						{hidden}
+						<CustomServerComponent
+							activateCustomServer={this.handleServerBtn}
+							exitCustomServer={this.handleServerBtn}
+							onServerURLChange={this.handleChange}
+							errorText={this.customServerMessage}
+							serverURL={this.state.server}/>
 					</div>
 					}
 			    	<div>
@@ -247,13 +222,14 @@ class Settings extends Component {
 						<FlatButton
 							className='settingsBtns'
 							style={Buttonstyles}
-							label="Add address to connect to Hardware"
+							label="Connect to Hardware"
 							onClick={this.handleHardware} />
 			    	</div>
 			    	</div>
-			    	<div>
+			    	<div style={{paddingBottom: '1%'}}>
 						<RaisedButton
 							label="Save"
+							style={{marginRight:'5px'}}
 							disabled={!this.state.validForm}
 							backgroundColor={
 								UserPreferencesStore.getTheme()==='light'
@@ -261,6 +237,7 @@ class Settings extends Component {
 							labelColor="#fff"
 							onClick={this.handleSubmit}
 						/>
+						{this.props.actions}
 					</div>
 				</Paper>
 			</div>);
@@ -269,6 +246,7 @@ class Settings extends Component {
 
 Settings.propTypes = {
 	history: PropTypes.object,
+	actions: PropTypes.node,
 	onSettingsSubmit: PropTypes.func,
 	onServerChange: PropTypes.func,
 	onHardwareSettings: PropTypes.func
