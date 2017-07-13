@@ -30,6 +30,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
 .voice-output{
   font-family: 'Lato', sans-serif;
 }
+.voice-response{
+  display: flex;
+  flex-wrap: wrap;
+}
 .mic-container{
   border: 1px solid #eee;
   border-radius: 100%;
@@ -37,12 +41,40 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   cursor: pointer;
   left: 0;
   pointer-events: none;
-  right: 0;
-  top: 0;
   transition: background-color 0.218s,border 0.218s,box-shadow 0.218s;
-  width: 150px;
-  margin: 0 auto;
-  height: 150px;
+  width: 100px;
+  height: 100px;
+  background-color:#FE2222;
+  margin :0 auto;
+}
+.active{
+  animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+}
+
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0.3; }
+}
+.Modal{
+  top:0;
+  width: 100%;
+  min-width:100%;
+  border-radius: 0px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  padding: 50px 50px 50px 126px;
+  background: #fff;
+  z-index: 10000;
+  position: absolute;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+.Overlay{
+  z-index: 10000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .circleChoose{
   margin: 0 auto;
@@ -418,6 +450,9 @@ textarea {
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
     width: 87%;
+  }
+  .Modal{
+    padding: 5px 5px 5px 20px;
   }
 }
 

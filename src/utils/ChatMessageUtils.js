@@ -37,7 +37,6 @@ export function getSUSIMessageData(message, currentThreadID) {
     type: 'message',
     voice: message.voice
   };
-
   return receivedMessage;
 }
 

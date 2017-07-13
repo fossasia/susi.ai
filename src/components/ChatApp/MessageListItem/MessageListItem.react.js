@@ -33,7 +33,6 @@ class MessageListItem extends React.Component {
   render() {
 
     let {message} = this.props;
-
     let latestUserMsgID = null;
     if(this.props.latestUserMsgID){
       latestUserMsgID = this.props.latestUserMsgID;
@@ -254,11 +253,15 @@ class MessageListItem extends React.Component {
           }
         });
 
+        let voiceOutput;
+        if(this.props.message.text!==undefined){
+          voiceOutput = this.props.message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+        }
         return (<div>{listItems}
               { this.props.message.voice &&
                (<VoicePlayer
                   play
-                  text={this.props.message.text}
+                  text={voiceOutput}
                   onStart={this.onStart}
                   onEnd={this.onEnd}
                 />)}
