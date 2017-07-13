@@ -21,7 +21,7 @@ class VoiceRecognition extends Component {
   createRecognition = (SpeechRecognition) => {
     const defaults = {
       continuous: true,
-      interimResults: false,
+      interimResults: true,
       lang: 'en-US'
     }
 
@@ -47,7 +47,6 @@ class VoiceRecognition extends Component {
         interimTranscript += event.results[i][0].transcript
       }
     }
-
     this.props.onResult({ interimTranscript, finalTranscript })
   }
 

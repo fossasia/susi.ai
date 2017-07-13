@@ -174,7 +174,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       else {
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
-
         ChatAppDispatcher.dispatch({
           type: ActionTypes.CREATE_SUSI_MESSAGE,
           message

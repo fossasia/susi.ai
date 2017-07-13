@@ -10,7 +10,6 @@ class VoicePlayer extends Component {
     } else {
       console.warn('The current browser does not support the speechSynthesis API.')
     }
-
     this.state = {
       started: false,
       playing: false
