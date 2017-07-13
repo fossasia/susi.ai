@@ -108,3 +108,34 @@ The server returns a JSON object with a message indicating if the settings were 
 }
 ```
 Whenever user settings are changed, the client updates the changed settings on the server so that the state is maintained across all chat clients
+
+The current settings and notations implemented are :
+
+- **Theme**:
+      -- Used to change theme of the ChatApp.
+      -- SETTING_NAME : `theme`
+      -- SETTING_VALUE : `light/dark`
+
+- **Enter As Send**:
+      -- Used for multi line queries input.
+      -- SETTING_NAME : `enter_send`
+      -- SETTING_VALUE : `true/false`
+      -- True means pressing enter will send message. False means pressing enter adds a new line.
+
+- **Mic Input**
+     -- Used to enable speech input.
+     -- SETTING_NAME :  `mic_input`
+     -- SETTING_VALUE : `true/false`
+      -- True means default input method is speech but supports keyboard input too. False means the only input method shown is keyboard input.
+
+- **Speech Output**
+     -- Used to enable speech output when input type is speech
+     -- SETTING_NAME :  `speech_output`
+     -- SETTING_VALUE : `true/false`
+      -- Upon speech input, True means we get a speech output & False means we don't get a speech output.
+
+- **Speech Output Always ON**
+     -- Used to enable speech output irrespective input type.
+     -- SETTING_NAME :  `speech_always`
+     -- SETTING_VALUE : `true/false`
+      -- Upon speech/keyboard input, True means we get a speech output & False means we don't get a speech output unless ***Speech Output*** is set to ***true*** & the ***input type is speech***.
