@@ -66,6 +66,8 @@ class Settings extends Component {
 			speechOutput: newSpeechOutput,
 			speechOutputAlways: newSpeechOutputAlways,
 		}
+		// Store in cookies for anonymous user
+		cookies.set('settings', vals);
 		this.props.onSettingsSubmit(vals);
 	}
 
