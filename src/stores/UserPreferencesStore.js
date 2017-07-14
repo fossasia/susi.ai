@@ -129,7 +129,6 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 }
                 _defaults.SpeechOutputAlways = initSpeechOutputAlways;
             }
-            console.log(_defaults);
             UserPreferencesStore.emitChange();
             break;
         }

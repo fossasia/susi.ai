@@ -194,14 +194,14 @@ class MessageSection extends Component {
        state.body= color.hex;
        document.body.style.setProperty('background', color.hex);
      }
-     else if(name ===  'pane') {
+     else if(name ===  'pane'){
        state.pane = color.hex;
      }
      else if(name === 'composer'){
        state.composer = color.hex;
 
      }
-     else if(name === 'textarea') {
+     else if(name === 'textarea'){
        state.textarea = color.hex;
 
      }
@@ -432,6 +432,7 @@ class MessageSection extends Component {
   };
 
   implementSettings = (values) => {
+
     this.setState({showSettings: false});
     if(values.theme!==this.state.currTheme){
       this.setState({SnackbarOpen: true});
@@ -644,14 +645,14 @@ class MessageSection extends Component {
           onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
 
-				<TextField
+        <TextField
           name="backgroundImg"
           style={{display:component.component==='body'?'block':'none'}}
           onChange={
             (e,value)=>
             this.handleChangeBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
-					floatingLabelText="Body Background Image URL" />
+          floatingLabelText="Body Background Image URL" />
             <RaisedButton
                 name="removeBackgroundBody"
                 key={'RemoveBody'}
@@ -672,7 +673,7 @@ class MessageSection extends Component {
                 (e,value)=>
                 this.handleChangeMessageBackground(value) }
               value={this.state.messageBackgroundImage}
-  				    floatingLabelText="Message Background Image URL" />
+              floatingLabelText="Message Background Image URL" />
         <RaisedButton
               name="removeBackgroundMessage"
               key={'RemoveMessage'}
