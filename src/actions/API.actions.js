@@ -198,11 +198,6 @@ export function getSettings(){
       // Check if the settings are set in the cookie
       SettingsActions.initialiseSettings(settings);
     }
-    // Logging in for the first time so load defaults
-    else{
-      let defaults = UserPreferencesStore.getPreferences();
-      SettingsActions.initialiseSettings(defaults);
-    }
   }
   else{
     let defaults = UserPreferencesStore.getPreferences();
