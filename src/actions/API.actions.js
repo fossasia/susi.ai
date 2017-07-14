@@ -221,7 +221,9 @@ export function getSettings(){
     async: false,
     success: function (response) {
       console.log(response);
-      SettingsActions.initialiseSettings(response.settings);
+      if(response.hasOwnProperty('settings')){
+        SettingsActions.initialiseSettings(response.settings);
+      }
     },
     error: function(errorThrown){
       console.log(errorThrown);
