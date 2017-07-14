@@ -8,10 +8,10 @@ import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Login from '../../Auth/Login/Login.react';
 import zxcvbn from 'zxcvbn';
+import Toggle from 'material-ui/Toggle';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -89,7 +89,7 @@ export default class SignUp extends Component {
                 /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
             state.email = email;
             state.isEmail = validEmail;
-            state.emailError = !(email && validEmail)
+            state.emailError = !(email || validEmail)
         }
         else if (event.target.name === 'password') {
             password = event.target.value;
@@ -121,12 +121,14 @@ export default class SignUp extends Component {
             state.passwordConfirmError = !(validPassword && confirmPassword);
         }
         else if (event.target.value === 'customServer') {
-            state.checked = true;
-            state.serverFieldError = true;
-        }
-        else if (event.target.value === 'standardServer') {
-            state.checked = false;
-            state.serverFieldError = false;
+            state.checked?state.checked=false:state.checked=true;
+
+            if(state.checked){
+                let defaults = UserPreferencesStore.getPreferences();
+                state.serverUrl=defaults.Server
+                state.serverFieldError = false;
+            }
+
         }
         else if (event.target.name === 'serverUrl'){
             serverUrl = event.target.value;
@@ -280,23 +282,21 @@ export default class SignUp extends Component {
             });
     }
     render() {
-
-        const serverURL = <TextField name="serverUrl"
+        const customUrlStyle= {
+            width:'202px',
+            textAlign:'left',
+            margin:'-35px 0 0px 5px',
+        }
+        const serverURL = <TextField
+                            name="serverUrl"
+                            className="serverUrl"
                             onChange={this.handleChange}
                             value={this.state.serverUrl}
                             errorText={this.customServerMessage}
-                            floatingLabelText="Custom URL" />;
+                            floatingLabelText="Custom URL"
+                            style={customUrlStyle} />;
 
         const hidden = this.state.checked ? serverURL : '';
-
-        const radioButtonStyles = {
-          block: {
-            maxWidth: 250,
-          },
-          radioButton: {
-            marginBottom: 16,
-          },
-        };
 
         const styles = {
             'width': '100%',
@@ -366,31 +366,30 @@ export default class SignUp extends Component {
                         </div>
                         <div>
                             <div>
-                            <RadioButtonGroup style={{display: 'flex',
-                              marginTop: '10px',
-                              maxWidth:'200px',
-                              flexWrap: 'wrap',
-                              margin: 'auto'}}
-                             name="server" onChange={this.handleChange}
-                             defaultSelected="standardServer">
-                            <RadioButton
-                                   value="customServer"
-                                   label="Custom Server"
-                                   labelPosition="left"
-                                   style={radioButtonStyles.radioButton}
-                                 />
-                            <RadioButton
-                                   value="standardServer"
-                                   label="Standard Server"
-                                   labelPosition="left"
-                                   style={radioButtonStyles.radioButton}
-                                 />
-                            </RadioButtonGroup>
+                            <Toggle
+                            labelPosition="right"
+                            id={'uniqueId'}
+                            labelStyle={{ zIndex: 3 }}
+                            label={this.state.checked?(
+                                        <label htmlFor={'uniqueId'}>
+                                                <div>
+                                                    {hidden}
+                                                </div>
+                                        </label>
+                            ):'Use Custom Server'}
+                            defaultToggled={false}
+                            onToggle={this.handleChange}
+                            style={{display: 'flex',
+                                marginTop: '10px',
+                                maxWidth:'245px',
+                                flexWrap: 'wrap',
+                                height:'28px',
+                                margin: '30px auto 0px auto'}}
+                                value="customServer"
+                            />
                             </div>
                         </div>
-                        <div>
-                        {hidden}
-                        </div>
+
                         <div>
                             <RaisedButton
                                 label="Sign Up"
@@ -399,7 +398,8 @@ export default class SignUp extends Component {
                                 backgroundColor={
                                     UserPreferencesStore.getTheme()==='light'
                                     ? '#607D8B' : '#19314B'}
-                                labelColor="#fff" />
+                                labelColor="#fff"
+                                style={{margin:'15px 0 0 0 '}} />
                         </div>
                         <h1>OR</h1>
                         <div>
