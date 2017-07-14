@@ -189,44 +189,57 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
 };
 
 
-// Get Settings From Server
+// Get Settings From Server or Cookies if not loggedIn
 export function getSettings(){
-  let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
-  let BASE_URL = '';
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined) {
-    BASE_URL = defaultServerURL;
+  if(cookies.get('loggedIn')===null||
+      cookies.get('loggedIn')===undefined){
+    let settings = cookies.get('settings');
+    if(settings!==undefined){
+      // Check if the settings are set in the cookie
+      SettingsActions.initialiseSettings(settings);
+    }
+    // Logging in for the first time so load defaults
+    else{
+      let defaults = UserPreferencesStore.getPreferences();
+      SettingsActions.initialiseSettings(defaults);
+    }
   }
   else{
-    BASE_URL= cookies.get('serverUrl');
-  }
-  let url = '';
-
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined) {
-    return;
-  }
-
-  url = BASE_URL+'/aaa/listUserSettings.json?'
-          +'access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  $.ajax({
-    url: url,
-    dataType: 'jsonp',
-    crossDomain: true,
-    timeout: 3000,
-    async: false,
-    success: function (response) {
-      console.log(response);
-      SettingsActions.initialiseSettings(response.settings);
-    },
-    error: function(errorThrown){
-      console.log(errorThrown);
+    let defaults = UserPreferencesStore.getPreferences();
+    let defaultServerURL = defaults.Server;
+    let BASE_URL = '';
+    if(cookies.get('serverUrl')===defaultServerURL||
+      cookies.get('serverUrl')===null||
+      cookies.get('serverUrl')=== undefined) {
+      BASE_URL = defaultServerURL;
     }
-  });
+    else{
+      BASE_URL= cookies.get('serverUrl');
+    }
+    let url = '';
+
+    if(cookies.get('loggedIn')===null||
+      cookies.get('loggedIn')===undefined) {
+      return;
+    }
+
+    url = BASE_URL+'/aaa/listUserSettings.json?'
+            +'access_token='+cookies.get('loggedIn');
+
+    $.ajax({
+      url: url,
+      dataType: 'jsonp',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function (response) {
+        SettingsActions.initialiseSettings(response.settings);
+      },
+      error: function(errorThrown){
+        console.log(errorThrown);
+      }
+    });
+  }
 }
 
 // Push Theme to server
