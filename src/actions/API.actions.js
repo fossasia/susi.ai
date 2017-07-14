@@ -217,7 +217,6 @@ export function getSettings(){
       BASE_URL= cookies.get('serverUrl');
     }
     let url = '';
-
     if(cookies.get('loggedIn')===null||
       cookies.get('loggedIn')===undefined) {
       return;
@@ -233,7 +232,9 @@ export function getSettings(){
       timeout: 3000,
       async: false,
       success: function (response) {
-        SettingsActions.initialiseSettings(response.settings);
+        if(response.hasOwnProperty('settings')){
+          SettingsActions.initialiseSettings(response.settings);
+        }
       },
       error: function(errorThrown){
         console.log(errorThrown);
