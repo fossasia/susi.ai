@@ -77,6 +77,7 @@ export function renderMessageFooter(message,latestMsgID){
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
 export function processText(text,type){
   if(text){
+    text = text.toString();
   	let processedText = '';
   	switch(type){
   		case 'websearch-rss':{
