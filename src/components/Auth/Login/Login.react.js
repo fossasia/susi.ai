@@ -80,7 +80,7 @@ class Login extends Component {
 					state.msg = response.message;
 					state.time = time;
 					this.setState(state);
-					this.handleOnSubmit(accessToken, time);
+					this.handleOnSubmit(accessToken, time,email);
 				}.bind(this),
 				error: function ( jqXHR, textStatus, errorThrown) {
 			        let msg = '';
@@ -171,10 +171,11 @@ class Login extends Component {
 		this.setState(state);
 	}
 
-	handleOnSubmit = (loggedIn, time) => {
+	handleOnSubmit = (loggedIn, time, email) => {
 		let state = this.state;
 		if (state.success) {
 			cookies.set('loggedIn', loggedIn, { path: '/', maxAge: time });
+			cookies.set('email', email, { path: '/', maxAge: time });
 			this.props.history.push('/', { showLogin: false });
 			window.location.reload();
 		}
