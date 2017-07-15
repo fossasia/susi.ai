@@ -66,8 +66,12 @@ class Settings extends Component {
 			speechOutput: newSpeechOutput,
 			speechOutputAlways: newSpeechOutputAlways,
 		}
+
+		let settings = Object.assign({}, vals);
+		settings.LocalStorage = true;
 		// Store in cookies for anonymous user
-		cookies.set('settings', vals);
+		cookies.set('settings',settings);
+
 		this.props.onSettingsSubmit(vals);
 	}
 
