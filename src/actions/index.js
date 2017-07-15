@@ -25,6 +25,8 @@ import {  serverChanged,
           micInputChanged,
           speechOutputChanged,
           speechOutputAlwaysChanged,
+          speechRateChanged,
+          speechPitchChanged,
           themeChanged  } from './Settings.actions';
 
 import {  connectToWebSocket,
@@ -57,6 +59,8 @@ export { serverChanged,
          micInputChanged,
          speechOutputChanged,
          speechOutputAlwaysChanged,
+         speechRateChanged,
+         speechPitchChanged,
          sendFeedback,
          themeChanged }
 

@@ -26,9 +26,7 @@ class VoicePlayer extends Component {
     }
 
     let speech = new SpeechSynthesisUtterance()
-
     Object.assign(speech, defaults, this.props)
-
     return speech
   }
 
@@ -97,6 +95,8 @@ class VoicePlayer extends Component {
 VoicePlayer.propTypes = {
   play: PropTypes.bool,
   text: PropTypes.string,
+  rate: PropTypes.number,
+  pitch: PropTypes.number,
   onStart: PropTypes.func,
   onEnd: PropTypes.func
 };

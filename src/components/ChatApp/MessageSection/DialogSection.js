@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Login from '../../Auth/Login/Login.react';
 import SignUp from '../../Auth/SignUp/SignUp.react';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
-import Settings from '../Settings.react';
+import Settings from '../Settings/Settings.react';
 import PropTypes from 'prop-types';
 import HardwareComponent from '../HardwareComponent';
 

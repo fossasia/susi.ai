@@ -7,9 +7,11 @@ import MenuItem from 'material-ui/MenuItem';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Cookies from 'universal-cookie';
 import Toggle from 'material-ui/Toggle';
+import Dialog from 'material-ui/Dialog';
+import TextToSpeechSettings from './TextToSpeechSettings.react';
 
 const cookies = new Cookies();
 
@@ -24,6 +26,8 @@ class Settings extends Component {
 		let defaultMicInput = defaults.MicInput;
 		let defaultSpeechOutput = defaults.SpeechOutput;
 		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+		let defaultSpeechRate = defaults.SpeechRate;
+		let defaultSpeechPitch = defaults.SpeechPitch;
 		this.state = {
 			theme: defaultTheme,
 			enterAsSend: defaultEnterAsSend,
@@ -34,7 +38,10 @@ class Settings extends Component {
 			serverUrl: '',
             serverFieldError: false,
             checked: false,
-			validForm: true
+			validForm: true,
+			showLanguageSettings: false,
+			speechRate: defaultSpeechRate,
+			speechPitch: defaultSpeechPitch,
 		};
 
 		this.customServerMessage = '';
@@ -55,6 +62,8 @@ class Settings extends Component {
 		let newMicInput = this.state.micInput;
 		let newSpeechOutput = this.state.speechOutput;
 		let newSpeechOutputAlways = this.state.speechOutputAlways;
+		let newSpeechRate = this.state.speechRate;
+		let newSpeechPitch = this.state.speechPitch;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
@@ -65,6 +74,8 @@ class Settings extends Component {
 			micInput: newMicInput,
 			speechOutput: newSpeechOutput,
 			speechOutputAlways: newSpeechOutputAlways,
+			rate: newSpeechRate,
+			pitch: newSpeechPitch,
 		}
 
 		let settings = Object.assign({}, vals);
@@ -100,6 +111,20 @@ class Settings extends Component {
 	handleSpeechOutputAlways = (event, isInputChecked) => {
 		this.setState({
 			speechOutputAlways: isInputChecked,
+		});
+	}
+
+	handleLanguage = (toShow) => {
+		this.setState({
+			showLanguageSettings: toShow,
+		});
+	}
+
+	handleTextToSpeech = (settings) => {
+		this.setState({
+			speechRate: settings.rate,
+			speechPitch: settings.pitch,
+			showLanguageSettings: false,
 		});
 	}
 
@@ -215,6 +240,14 @@ class Settings extends Component {
 			        		onToggle={this.handleSpeechOutputAlways}
 							toggled={this.state.speechOutputAlways}/>
 			        </div>
+			        <div>
+			    		<h4 style={{'marginBottom':'0px'}}>Language</h4>
+						<FlatButton
+							className='settingsBtns'
+							style={Buttonstyles}
+							label="Select a Language"
+							onClick={this.handleLanguage.bind(this,true)} />
+			    	</div>
 			        {cookies.get('loggedIn') ?
 			        <div>
 			        <h4 style={subHeaderStyle}>Server Settings</h4>
@@ -269,6 +302,16 @@ class Settings extends Component {
 						/>
 					</div>
 				</Paper>
+				<Dialog
+		          modal={false}
+		          autoScrollBodyContent={true}
+		          open={this.state.showLanguageSettings}
+		          onRequestClose={this.handleLanguage.bind(this,false)}>
+		          <TextToSpeechSettings
+		          	rate={this.state.speechRate}
+		          	pitch={this.state.speechPitch}
+		          	ratePitchSettings={this.handleTextToSpeech}/>
+		        </Dialog>
 			</div>);
 	}
 }
