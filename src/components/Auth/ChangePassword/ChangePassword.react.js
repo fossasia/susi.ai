@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import $ from 'jquery';
 import './ChangePassword.css';
@@ -19,9 +18,6 @@ export default class ChangePassword extends Component {
         super(props);
 
         this.state = {
-            email: '',
-            isEmail: false,
-            emailError: true,
             passwordError: true,
             newPasswordError: true,
             newPasswordConfirmError: true,
@@ -49,9 +45,6 @@ export default class ChangePassword extends Component {
         }
         else {
             this.setState({
-                email: '',
-                isEmail: false,
-                emailError: true,
                 passwordError: true,
                 newPasswordError: true,
                 newPasswordConfirmError: true,
@@ -69,20 +62,12 @@ export default class ChangePassword extends Component {
     }
 
     handleChange = (event) => {
-        let email;
         let password;
         let newPassword;
         let confirmNewPassword;
-        let state = this.state
-        if (event.target.name === 'email') {
-            email = event.target.value.trim();
-            let validEmail =
-                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-            state.email = email;
-            state.isEmail = validEmail;
-            state.emailError = !(email && validEmail)
-        }
-        else if(event.target.name === 'password'){
+        let state = this.state;
+
+        if(event.target.name === 'password'){
             password = event.target.value;
             let validPassword = password.length >= 6;
             state.passwordValue = password;
@@ -118,8 +103,7 @@ export default class ChangePassword extends Component {
             state.newPasswordConfirmError = !(validNewPassword && confirmNewPassword);
         }
 
-        if (!this.state.emailError
-            && !this.state.passwordError
+        if (!this.state.passwordError
             && !this.state.newPasswordError
             && !this.state.newPasswordConfirmError) {
             state.validForm = true;
@@ -130,10 +114,7 @@ export default class ChangePassword extends Component {
 
         this.setState(state);
 
-        if (this.state.emailError) {
-            this.emailErrorMessage = 'Enter a valid Email Address';
-        }
-        else if (this.state.passwordError) {
+        if (this.state.passwordError) {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = 'Minimum 6 characters required';
             this.newPasswordErrorMessage = '';
@@ -168,8 +149,7 @@ export default class ChangePassword extends Component {
             this.newPasswordConfirmErrorMessage = '';
         }
 
-        if(this.state.emailError||
-        this.state.passwordError||
+        if(this.state.passwordError||
         this.state.newPasswordError||
         this.state.newPasswordConfirmError||
         state.newPasswordValue===state.passwordValue){
@@ -195,14 +175,20 @@ export default class ChangePassword extends Component {
             BASE_URL= cookies.get('serverUrl');
         }
 
+        let email = '';
+ 		    if(cookies.get('email')) {
+ 			      email = cookies.get('email');
+            console.log(email);
+ 		    }
+
         let changePasswordEndPoint =
             BASE_URL+'/aaa/changepassword.json?'+
-            'changepassword=' + this.state.email +
+            'changepassword=' + email +
             '&password=' + this.state.passwordValue +
             '&newpassword=' + this.state.newPasswordValue +
             '&access_token='+cookies.get('loggedIn');
 
-        if (!this.state.emailError && !this.state.passwordError
+        if (!this.state.passwordError
             && !this.state.newPasswordConfirmError) {
             $.ajax({
                 url: changePasswordEndPoint,
@@ -269,14 +255,6 @@ export default class ChangePassword extends Component {
                 <Paper zDepth={0} style={styles}>
                     <h1>Change Password</h1>
                     <form onSubmit={this.handleSubmit}>
-                        <div>
-                            <TextField
-                                name="email"
-                                value={this.state.email}
-                                onChange={this.handleChange}
-                                errorText={this.emailErrorMessage}
-                                floatingLabelText="Email" />
-                        </div>
                         <div>
                             <PasswordField
                                 name="password"

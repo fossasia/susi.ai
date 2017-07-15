@@ -15,6 +15,7 @@ class Logout extends Component {
   componentDidMount(){
     deleteCookie('loggedIn');
     deleteCookie('serverUrl');
+    deleteCookie('email');
     this.props.history.push('/');
     window.location.reload();
   }

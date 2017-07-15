@@ -7,8 +7,8 @@ import $ from 'jquery';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
   getRSSTiles, renderMessageFooter,
-  renderFeedback } from './helperFunctions.react.js';
-
+} from './helperFunctions.react.js';
+import Feedback from './Feedback.react';
 import VoicePlayer from './VoicePlayer';
 
 const entities = new AllHtmlEntities();
@@ -18,7 +18,7 @@ class MessageListItem extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      play: false
+      play: false,
     }
   }
 
@@ -33,7 +33,6 @@ class MessageListItem extends React.Component {
   render() {
 
     let {message} = this.props;
-
     let latestUserMsgID = null;
     if(this.props.latestUserMsgID){
       latestUserMsgID = this.props.latestUserMsgID;
@@ -117,7 +116,9 @@ class MessageListItem extends React.Component {
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
-                    {renderFeedback(message, latestSUSIMsgID)}
+                    <Feedback
+                      message={message}
+                      latestSUSIMsgID={latestSUSIMsgID}/>
                   </section>
                 </li>
               );
@@ -134,7 +135,9 @@ class MessageListItem extends React.Component {
                       rel='noopener noreferrer'>{text}</a>
                   </div>
                     {renderMessageFooter(message,latestUserMsgID)}
-                    {renderFeedback(message, latestSUSIMsgID)}
+                    <Feedback
+                      message={message}
+                      latestSUSIMsgID={latestSUSIMsgID}/>
                   </section>
                 </li>
               );
@@ -158,7 +161,9 @@ class MessageListItem extends React.Component {
                         <section className={messageContainerClasses}>
                         <div>{mymap}</div>
                           {renderMessageFooter(message,latestUserMsgID)}
-                          {renderFeedback(message, latestSUSIMsgID)}
+                          <Feedback
+                            message={message}
+                            latestSUSIMsgID={latestSUSIMsgID}/>
                         </section>
                       </li>
                       );
@@ -176,7 +181,9 @@ class MessageListItem extends React.Component {
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
-                    {renderFeedback(message, latestSUSIMsgID)}
+                    <Feedback
+                      message={message}
+                      latestSUSIMsgID={latestSUSIMsgID}/>
                   </section>
                 </li>
                 );
@@ -191,7 +198,9 @@ class MessageListItem extends React.Component {
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
                     {renderMessageFooter(message,latestUserMsgID)}
-                    {renderFeedback(message, latestSUSIMsgID)}
+                    <Feedback
+                      message={message}
+                      latestSUSIMsgID={latestSUSIMsgID}/>
                   </section>
                 </li>
               );
@@ -213,7 +222,9 @@ class MessageListItem extends React.Component {
                       {renderTiles(rssTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}
-                      {renderFeedback(message, latestSUSIMsgID)}
+                      <Feedback
+                        message={message}
+                        latestSUSIMsgID={latestSUSIMsgID}/>
                     </section>
                   </li>
                 );
@@ -228,7 +239,9 @@ class MessageListItem extends React.Component {
                       {renderTiles(websearchTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}
-                      {renderFeedback(message, latestSUSIMsgID)}
+                      <Feedback
+                        message={message}
+                        latestSUSIMsgID={latestSUSIMsgID}/>
                     </section>
                   </li>
                 );
@@ -240,11 +253,15 @@ class MessageListItem extends React.Component {
           }
         });
 
+        let voiceOutput;
+        if(this.props.message.text!==undefined){
+          voiceOutput = this.props.message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+        }
         return (<div>{listItems}
               { this.props.message.voice &&
                (<VoicePlayer
                   play
-                  text={this.props.message.text}
+                  text={voiceOutput}
                   onStart={this.onStart}
                   onEnd={this.onEnd}
                 />)}
@@ -257,7 +274,9 @@ class MessageListItem extends React.Component {
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
           {renderMessageFooter(message,latestUserMsgID)}
-          {renderFeedback(message, latestSUSIMsgID)}
+          <Feedback
+            message={message}
+            latestSUSIMsgID={latestSUSIMsgID}/>
         </section>
       </li>
     );

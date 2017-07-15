@@ -4,6 +4,7 @@ import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
+import MessageStore from '../stores/MessageStore';
 import * as Actions from './HardwareConnect.actions'
 import * as SettingsActions from './Settings.actions';
 
@@ -173,7 +174,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       else {
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
-
         ChatAppDispatcher.dispatch({
           type: ActionTypes.CREATE_SUSI_MESSAGE,
           message
@@ -189,44 +189,53 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
 };
 
 
-// Get Settings From Server
+// Get Settings From Server or Cookies if not loggedIn
 export function getSettings(){
-  let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
-  let BASE_URL = '';
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined) {
-    BASE_URL = defaultServerURL;
+  if(cookies.get('loggedIn')===null||
+      cookies.get('loggedIn')===undefined){
+    let settings = cookies.get('settings');
+    if(settings!==undefined){
+      // Check if the settings are set in the cookie
+      SettingsActions.initialiseSettings(settings);
+    }
   }
   else{
-    BASE_URL= cookies.get('serverUrl');
-  }
-  let url = '';
-
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined) {
-    return;
-  }
-
-  url = BASE_URL+'/aaa/listUserSettings.json?'
-          +'access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  $.ajax({
-    url: url,
-    dataType: 'jsonp',
-    crossDomain: true,
-    timeout: 3000,
-    async: false,
-    success: function (response) {
-      console.log(response);
-      SettingsActions.initialiseSettings(response.settings);
-    },
-    error: function(errorThrown){
-      console.log(errorThrown);
+    let defaults = UserPreferencesStore.getPreferences();
+    let defaultServerURL = defaults.Server;
+    let BASE_URL = '';
+    if(cookies.get('serverUrl')===defaultServerURL||
+      cookies.get('serverUrl')===null||
+      cookies.get('serverUrl')=== undefined) {
+      BASE_URL = defaultServerURL;
     }
-  });
+    else{
+      BASE_URL= cookies.get('serverUrl');
+    }
+    let url = '';
+    if(cookies.get('loggedIn')===null||
+      cookies.get('loggedIn')===undefined) {
+      return;
+    }
+
+    url = BASE_URL+'/aaa/listUserSettings.json?'
+            +'access_token='+cookies.get('loggedIn');
+
+    $.ajax({
+      url: url,
+      dataType: 'jsonp',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function (response) {
+        if(response.hasOwnProperty('settings')){
+          SettingsActions.initialiseSettings(response.settings);
+        }
+      },
+      error: function(errorThrown){
+        console.log(errorThrown);
+      }
+    });
+  }
 }
 
 // Push Theme to server
@@ -365,6 +374,33 @@ export function setSpeechOutputAlwaysSettings(newSpeechOutputAlways){
           +'key=speech_always&value='+newSpeechOutputAlways
           +'&access_token='+cookies.get('loggedIn');
 
+  console.log(url);
+  makeServerCall(url);
+}
+
+export function sendFeedback(){
+  let feedback = MessageStore.getFeedback();
+  console.log(feedback);
+  if(Object.keys(feedback).length === 0 && feedback.constructor === Object){
+    return;
+  }
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.Server;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = BASE_URL+'/cms/rateSkill.json?'+
+            'model='+feedback.model+
+            '&group='+feedback.group+
+            '&language='+feedback.language+
+            '&skill='+feedback.skill+
+            '&rating='+feedback.rating;
   console.log(url);
   makeServerCall(url);
 }

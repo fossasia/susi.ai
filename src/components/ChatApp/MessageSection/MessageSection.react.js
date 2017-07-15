@@ -194,14 +194,14 @@ class MessageSection extends Component {
        state.body= color.hex;
        document.body.style.setProperty('background', color.hex);
      }
-     else if(name ===  'pane') {
+     else if(name ===  'pane'){
        state.pane = color.hex;
      }
      else if(name === 'composer'){
        state.composer = color.hex;
 
      }
-     else if(name === 'textarea') {
+     else if(name === 'textarea'){
        state.textarea = color.hex;
 
      }
@@ -432,6 +432,7 @@ class MessageSection extends Component {
   };
 
   implementSettings = (values) => {
+
     this.setState({showSettings: false});
     if(values.theme!==this.state.currTheme){
       this.setState({SnackbarOpen: true});
@@ -550,13 +551,6 @@ class MessageSection extends Component {
       'padding': 0,
       textAlign: 'center'
     }
-
-    const messageBackgroundStyles = {
-        backgroundImage: `url(${this.state.messageBackgroundImage})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%'
-    }
-
     const {
       dream
     } = this.props;
@@ -651,24 +645,14 @@ class MessageSection extends Component {
           onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
 
-				<TextField
+        <TextField
           name="backgroundImg"
           style={{display:component.component==='body'?'block':'none'}}
-          ref={(input) => { this.backImage = input }}
           onChange={
             (e,value)=>
             this.handleChangeBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
-					floatingLabelText="Body Background Image URL" />
-        <TextField
-          name="messageImg"
-            style={{display:component.component==='pane'?'block':'none'}}
-            ref={(input) => { this.backImage = input }}
-            onChange={
-              (e,value)=>
-              this.handleChangeBackgroundImage(value) }
-            value={this.state.bodyBackgroundImage}
-  					floatingLabelText="Body Background Image URL" />
+          floatingLabelText="Body Background Image URL" />
             <RaisedButton
                 name="removeBackgroundBody"
                 key={'RemoveBody'}
@@ -682,21 +666,20 @@ class MessageSection extends Component {
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
-            <TextField
+        <TextField
               name="messageImg"
-              style={{display:component.component==='body'?'block':'none'}}
-              ref={(input) => { this.backImage = input }}
+              style={{display:component.component==='pane'?'block':'none'}}
               onChange={
                 (e,value)=>
                 this.handleChangeMessageBackground(value) }
               value={this.state.messageBackgroundImage}
-  				    floatingLabelText="Message Background Image URL" />
-            <RaisedButton
+              floatingLabelText="Message Background Image URL" />
+        <RaisedButton
               name="removeBackgroundMessage"
               key={'RemoveMessage'}
               label="Remove URL"
               style={{
-                display:component.component==='body'?'block':'none',
+                display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
               backgroundColor={
@@ -704,6 +687,7 @@ class MessageSection extends Component {
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
+
         </div>
     })
 
@@ -727,6 +711,11 @@ class MessageSection extends Component {
 
     if (this.state.thread) {
 
+    const messageBackgroundStyles = { background: pane,
+                    backgroundImage: `url(${this.state.messageBackgroundImage})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '100% 100%'
+                    }
         return (
           <div className={topBackground} style={{background:body}}>
             <header className='message-thread-heading'
@@ -822,7 +811,7 @@ class MessageSection extends Component {
                  <ul
                    className="message-list"
                    ref={(c) => { this.messageList = c; }}
-                   style={{background:pane}}>
+                    style={this.messageBackgroundStyle}>
 
                    <Scrollbars
                       autoHide
