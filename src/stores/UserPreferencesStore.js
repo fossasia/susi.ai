@@ -120,36 +120,45 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
         case ActionTypes.INIT_SETTINGS: {
             let settings = action.settings;
-            if(settings.hasOwnProperty('theme')){
+            if(settings.hasOwnProperty('LocalStorage')){
                 _defaults.Theme = settings.theme;
+                _defaults.EnterAsSend = settings.enterAsSend;
+                _defaults.MicInput = settings.micInput;
+                _defaults.SpeechOutput = settings.speechOutput;
+                _defaults.SpeechOutputAlways = settings.speechOutputAlways;
             }
-            if(settings.hasOwnProperty('enter_send')){
-                let initEnterAsSend = true;
-                if(settings.enter_as_send === 'false'){
-                    initEnterAsSend = false;
+            else{
+                if(settings.hasOwnProperty('theme')){
+                    _defaults.Theme = settings.theme;
                 }
-                _defaults.EnterAsSend = initEnterAsSend;
-            }
-            if(settings.hasOwnProperty('mic_input')){
-                let initMicInput = true;
-                if(settings.mic_input === 'false'){
-                    initMicInput = false;
+                if(settings.hasOwnProperty('enter_send')){
+                    let initEnterAsSend = true;
+                    if(settings.enter_send === 'false'){
+                        initEnterAsSend = false;
+                    }
+                    _defaults.EnterAsSend = initEnterAsSend;
                 }
-                _defaults.MicInput = initMicInput;
-            }
-            if(settings.hasOwnProperty('speech_output')){
-                let initSpeechOutput = true;
-                if(settings.speech_output === 'false'){
-                    initSpeechOutput = false;
+                if(settings.hasOwnProperty('mic_input')){
+                    let initMicInput = true;
+                    if(settings.mic_input === 'false'){
+                        initMicInput = false;
+                    }
+                    _defaults.MicInput = initMicInput;
                 }
-                _defaults.SpeechOutput = initSpeechOutput;
-            }
-            if(settings.hasOwnProperty('speech_always')){
-                let initSpeechOutputAlways = false;
-                if(settings.speech_always === 'true'){
-                    initSpeechOutputAlways = true;
+                if(settings.hasOwnProperty('speech_output')){
+                    let initSpeechOutput = true;
+                    if(settings.speech_output === 'false'){
+                        initSpeechOutput = false;
+                    }
+                    _defaults.SpeechOutput = initSpeechOutput;
                 }
-                _defaults.SpeechOutputAlways = initSpeechOutputAlways;
+                if(settings.hasOwnProperty('speech_always')){
+                    let initSpeechOutputAlways = false;
+                    if(settings.speech_always === 'true'){
+                        initSpeechOutputAlways = true;
+                    }
+                    _defaults.SpeechOutputAlways = initSpeechOutputAlways;
+                }
             }
             UserPreferencesStore.emitChange();
             break;
