@@ -19,6 +19,8 @@ export default {
     INIT_SETTINGS: null,
     RESET_MESSAGE_VOICE: null,
     FEEDBACK_RECEIVED: null,
+    SPEECH_RATE_CHANGED: null,
+    SPEECH_PITCH_CHANGED: null,
   })
 
 };

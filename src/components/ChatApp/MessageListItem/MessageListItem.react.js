@@ -10,6 +10,7 @@ import { imageParse, processText,
 } from './helperFunctions.react.js';
 import Feedback from './Feedback.react';
 import VoicePlayer from './VoicePlayer';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 const entities = new AllHtmlEntities();
 
@@ -262,6 +263,8 @@ class MessageListItem extends React.Component {
                (<VoicePlayer
                   play
                   text={voiceOutput}
+                  rate={UserPreferencesStore.getSpeechRate()}
+                  pitch={UserPreferencesStore.getSpeechPitch()}
                   onStart={this.onStart}
                   onEnd={this.onEnd}
                 />)}

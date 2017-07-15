@@ -380,6 +380,20 @@ class MessageSection extends Component {
     }
   }
 
+  changeSpeechRate = (rate) => {
+    let currSpeechRate = UserPreferencesStore.getSpeechRate();
+    if(currSpeechRate !== rate){
+      Actions.speechRateChanged(rate);
+    }
+  }
+
+  changeSpeechPitch = (pitch) => {
+    let currSpeechPitch = UserPreferencesStore.getSpeechPitch();
+    if(currSpeechPitch !== pitch){
+      Actions.speechPitchChanged(pitch);
+    }
+  }
+
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -442,6 +456,8 @@ class MessageSection extends Component {
     this.changeMicInput(values.micInput);
     this.changeSpeechOutput(values.speechOutput);
     this.changeSpeechOutputAlways(values.speechOutputAlways);
+    this.changeSpeechRate(values.rate);
+    this.changeSpeechPitch(values.pitch);
     setTimeout(() => {
        this.setState({
            SnackbarOpen: false

@@ -13,6 +13,8 @@ let _defaults = {
     MicInput: true,
     SpeechOutput: true,
     SpeechOutputAlways: false,
+    SpeechRate: 1,
+    SpeechPitch: 1,
 };
 
 let UserPreferencesStore = {
@@ -44,6 +46,14 @@ let UserPreferencesStore = {
 
     getSpeechOutputAlways(){
         return _defaults.SpeechOutputAlways;
+    },
+
+    getSpeechRate(){
+        return _defaults.SpeechRate;
+    },
+
+    getSpeechPitch(){
+        return _defaults.SpeechPitch;
     },
 
     addChangeListener(callback) {
@@ -92,6 +102,18 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
         case ActionTypes.SPEECH_OUTPUT_ALWAYS_CHANGED: {
             _defaults.SpeechOutputAlways = action.speechOutputAlways;
+            UserPreferencesStore.emitChange();
+            break;
+        }
+
+        case ActionTypes.SPEECH_RATE_CHANGED: {
+            _defaults.SpeechRate = action.rate;
+            UserPreferencesStore.emitChange();
+            break;
+        }
+
+        case ActionTypes.SPEECH_PITCH_CHANGED: {
+            _defaults.SpeechPitch = action.pitch;
             UserPreferencesStore.emitChange();
             break;
         }
