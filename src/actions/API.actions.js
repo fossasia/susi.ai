@@ -380,6 +380,9 @@ export function setSpeechOutputAlwaysSettings(newSpeechOutputAlways){
 
 export function sendFeedback(){
   let feedback = MessageStore.getFeedback();
+  if(feedback===null){
+    return;
+  }
   console.log(feedback);
   if(Object.keys(feedback).length === 0 && feedback.constructor === Object){
     return;
