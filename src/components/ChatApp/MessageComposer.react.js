@@ -15,7 +15,7 @@ injectTapEventPlugin();
 let ENTER_KEY_CODE = 13;
 const style = {
     mini: true,
-    top: '4px',
+    top: '10px',
     right:'3px',
     position: 'absolute',
 };
@@ -158,8 +158,9 @@ class MessageComposer extends Component {
           style={{background:this.props.textarea}}
         />
         <IconButton
+          className="send_button"
           iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
-          marginTop:'6px'}}
+          marginTop:'2px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
           {this.Button}
