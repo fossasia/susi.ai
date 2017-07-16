@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import MessageStore from '../../../stores/MessageStore';
 
 class VoicePlayer extends Component {
   constructor (props) {
@@ -22,9 +23,8 @@ class VoicePlayer extends Component {
       volume: 1,
       rate: 1,
       pitch: 1,
-      lang: 'en-US'
+      lang: MessageStore.getLang()
     }
-
     let speech = new SpeechSynthesisUtterance()
     Object.assign(speech, defaults, this.props)
     return speech

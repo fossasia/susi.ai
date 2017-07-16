@@ -30,8 +30,8 @@ export function getLocation(){
       }
     }
   });
-}
 
+}
 export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   var timestamp = Date.now();
   let receivedMessage = {
@@ -45,7 +45,8 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     date: new Date(timestamp),
     isRead: true,
     type: 'message',
-    voice: voice
+    voice: voice,
+    lang: 'en-US'
     };
 
   let defaults = UserPreferencesStore.getPreferences();
@@ -95,6 +96,13 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       Actions.sendToHardwareDevice(response);
 
       receivedMessage.text = response.answers[0].actions[0].expression;
+      if(receivedMessage.lang===undefined){
+        receivedMessage.lang = document.documentElement.getAttribute('lang');
+      }
+      else{
+        // Setting Language received from User
+        receivedMessage.lang = response.answers[0].actions[0].language;
+      }
       receivedMessage.response = response;
       let actions = [];
       response.answers[0].actions.forEach((actionobj) => {
