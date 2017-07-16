@@ -90,7 +90,7 @@ class Feedback extends React.Component {
 
 		let feedbackButtons = null;
 		let feedbackStyle = {
-			display: 'block',
+			display: (this.state.positiveCount >= 0)?'block':'none',
 			position: 'relative',
 			float: 'right'
 		}
