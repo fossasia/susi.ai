@@ -51,7 +51,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;
 }
 
-@keyframes blinker {  
+@keyframes blinker {
   from { opacity: 1; }
   to { opacity: 0.3; }
 }
@@ -66,6 +66,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   z-index: 10000;
   position: absolute;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+.send_button{
+  align-content: center;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.send_button:hover{
+  box-shadow: 0 3px 13px rgba(0, 0, 0, 0.3);
 }
 
 .Overlay{
@@ -670,7 +678,7 @@ em{
   .search{
     width: 65px !important;
   }
-} 
+}
 
 @media only screen and (max-width: 300px){
   .displayNone{
@@ -681,4 +689,3 @@ em{
       top:6px  !important;
   }
 }
-
