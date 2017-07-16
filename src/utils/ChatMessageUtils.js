@@ -35,7 +35,8 @@ export function getSUSIMessageData(message, currentThreadID) {
     isRead: true,
     responseTime: message.responseTime,
     type: 'message',
-    voice: message.voice
+    voice: message.voice,
+    lang: message.lang
   };
   return receivedMessage;
 }
