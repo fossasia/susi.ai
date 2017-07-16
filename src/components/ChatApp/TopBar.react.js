@@ -127,6 +127,9 @@ class TopBar extends Component {
 					<MenuItem primaryText="Settings"
 						onClick={this.props.handleSettings}
 						rightIcon={<Settings/>} />
+					<MenuItem primaryText="Overview"
+					containerElement={<Link to="/overview" />}
+					/>
 					<MenuItem primaryText="Login"
 						onTouchTap={this.props.handleOpen} />
 					<MenuItem primaryText="Sign Up"

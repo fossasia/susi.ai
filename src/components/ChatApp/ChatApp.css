@@ -559,7 +559,7 @@ textarea {
   text-decoration: none;
 }
 
-a {
+.message-text a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
