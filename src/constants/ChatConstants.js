@@ -10,17 +10,11 @@ export default {
     RECEIVE_SUSI_MESSAGE: null,
     RECEIVE_RAW_MESSAGES: null,
     STORE_HISTORY_MESSAGE: null,
-    THEME_CHANGED:null,
     SERVER_CHANGED: null,
-    ENTER_AS_SEND_CHANGED: null,
-    MIC_INPUT_CHANGED: null,
-    SPEECH_OUTPUT_CHANGED: null,
-    SPEECH_OUTPUT_ALWAYS_CHANGED: null,
     INIT_SETTINGS: null,
+    SETTINGS_CHANGED: null,
     RESET_MESSAGE_VOICE: null,
     FEEDBACK_RECEIVED: null,
-    SPEECH_RATE_CHANGED: null,
-    SPEECH_PITCH_CHANGED: null,
   })
 
 };
