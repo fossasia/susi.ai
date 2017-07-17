@@ -212,18 +212,21 @@ class MessageSection extends Component {
     this.setState({
       showLogin: true
     });
+    this.child.closeOptions();
   }
 
   handleSignUp = () => {
     this.setState({
       showSignUp: true
     });
+    this.child.closeOptions();
   }
 
   handleChangePassword = () => {
     this.setState({
       showChangePassword: true
     });
+    this.child.closeOptions();
   }
   handleRemoveUrlBody = () => {
     if(!this.state.bodyBackgroundImage){
@@ -303,10 +306,12 @@ class MessageSection extends Component {
 
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
+    this.child.closeOptions();
   }
 
   handleSettings = () => {
     this.setState({showSettings: true});
+    this.child.closeOptions();
   }
 
   handleHardwareToggle = () => {
@@ -315,6 +320,8 @@ class MessageSection extends Component {
         showServerChangeDialog: false,
         showHardwareChangeDialog: false
       });
+      this.child.closeOptions();
+
   }
 
   hardwareSettingChanged = () => {
@@ -323,6 +330,8 @@ class MessageSection extends Component {
       showServerChangeDialog: false,
       showHardwareChangeDialog: true
     });
+    this.child.closeOptions();
+
   }
 
   changeTheme = (newTheme) => {
@@ -400,6 +409,8 @@ class MessageSection extends Component {
       showHardware: false,
       showServerChangeDialog: true
     });
+    this.child.closeOptions();
+
   }
 
   handleServerToggle = (changeServer) => {
@@ -417,6 +428,8 @@ class MessageSection extends Component {
         showServerChangeDialog: false,
         showHardwareChangeDialog: false
       });
+          this.child.closeOptions();
+
     }
   }
 
@@ -739,6 +752,7 @@ class MessageSection extends Component {
               <TopBar
                 backgroundColor={header}
                 {...this.props}
+                ref={instance => { this.child = instance; }}
                 handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
                 handleOpen={this.handleOpen}
