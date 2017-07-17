@@ -5,39 +5,41 @@ import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 
-class Feedback extends React.Component {
+let originalPositiveCount;
+let originalNegativeCount;
 
-	parseSkill = () => {
-		let message = this.props.message;
-		let rating ={};
-		if(message.authorName === 'SUSI'){
-			if(message.response.answers[0].skills!==undefined){
-				let skill = message.response.answers[0].skills[0];
-				console.log(skill);
-				let parsed = skill.split('/');
-				if(parsed.length === 7){
-					rating.model = parsed[3];
-					rating.group = parsed[4];
-					rating.language = parsed[5];
-					rating.skill = parsed[6].slice(0,-4);
-				}
-			}
-			else {
-				return null
-			}
-		}
-		return rating;
-	}
+class Feedback extends React.Component {
 
 	constructor(props){
 		super(props);
+		originalPositiveCount = this.props.message.positiveFeedback;
+		originalNegativeCount = this.props.message.negativeFeedback;
 
 	    this.state = {
 	    	ratingGiven: false,
 	    	positive: false,
 	    	negative: false,
-	    	skill: this.parseSkill()
+	    	skill: this.parseSkill(),
+				positiveCount: originalPositiveCount,
+				negativeCount: originalNegativeCount
 	    }
+	}
+
+
+	parseSkill = () => {
+		let message = this.props.message;
+		let rating ={};
+		if(message.authorName === 'SUSI'){
+			let skill = message.response.answers[0].skills[0];
+			let parsed = skill.split('/');
+			if(parsed.length === 7){
+				rating.model = parsed[3];
+				rating.group = parsed[4];
+				rating.language = parsed[5];
+				rating.skill = parsed[6].slice(0,-4);
+			}
+		}
+		return rating;
 	}
 
 	rateSkill = (rating) => {
@@ -45,6 +47,7 @@ class Feedback extends React.Component {
 		switch(rating){
 			case 'positive':{
 				this.setState({
+					positiveCount: parseInt(originalPositiveCount,10)+1,
 					ratingGiven: true,
 					positive: true,
 					negative: false,
@@ -53,6 +56,7 @@ class Feedback extends React.Component {
 			}
 			case 'negative':{
 				this.setState({
+					negativeCount: parseInt(originalNegativeCount,10)+1,
 					ratingGiven: true,
 					positive: false,
 					negative: true,
@@ -67,6 +71,12 @@ class Feedback extends React.Component {
 				});
 			}
 		}
+		if( this.state.positive && this.state.positiveCount !== originalPositiveCount) {
+				this.setState({positiveCount: parseInt(this.props.message.positiveFeedback,10)});
+		}
+		if( this.state.negative && this.state.negativeCount !== originalNegativeCount) {
+				this.setState({negativeCount: parseInt(this.props.message.negativeFeedback,10)});
+		}
 		let feedback = this.state.skill;
 		if(!(Object.keys(feedback).length === 0 && feedback.constructor === Object)){
 			feedback.rating = rating;
@@ -80,7 +90,7 @@ class Feedback extends React.Component {
 
 		let feedbackButtons = null;
 		let feedbackStyle = {
-			display: 'block',
+			display: (this.state.positiveCount >= 0)?'block':'none',
 			position: 'relative',
 			float: 'right'
 		}
@@ -108,10 +118,12 @@ class Feedback extends React.Component {
 							onClick={this.rateSkill.bind(this,'positive')}
 							style={feedbackIndicator}
 							color={positiveFeedbackColor}/>
+						<span>{this.state.positiveCount}</span>
 						<ThumbDown
 							onClick={this.rateSkill.bind(this,'negative')}
 							style={feedbackIndicator}
 							color={negativeFeedbackColor}/>
+						<span>{this.state.negativeCount}</span>
 					</li>
 				);
 			}
