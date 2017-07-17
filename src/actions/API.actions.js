@@ -209,7 +209,7 @@ export function getSettings(){
   }
   else{
     let defaults = UserPreferencesStore.getPreferences();
-    let defaultServerURL = defaults.Server;
+    let defaultServerURL = defaults.StandardServer;
     let BASE_URL = '';
     if(cookies.get('serverUrl')===defaultServerURL||
       cookies.get('serverUrl')===null||
@@ -246,10 +246,10 @@ export function getSettings(){
   }
 }
 
-// Push Theme to server
-export function setThemeSettings(newTheme){
+// Update Changed Settings on server
+export function pushSettingsToServer(settings){
   let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
+  let defaultServerURL = defaults.StandardServer;
   let BASE_URL = '';
   if(cookies.get('serverUrl')===defaultServerURL||
     cookies.get('serverUrl')===null||
@@ -266,124 +266,54 @@ export function setThemeSettings(newTheme){
     return;
   }
 
-  url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=theme&value='+newTheme
+  Object.keys(settings).forEach((key) => {
+    console.log(key, settings[key]);
+    switch(key){
+      case 'Theme':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=theme&value='+settings.Theme
           +'&access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  makeServerCall(url);
-}
-
-// Push EnterAsSend to server
-export function setEnterAsSendSettings(newEnterAsSend){
-  let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
-  let BASE_URL = '';
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined) {
-    BASE_URL = defaultServerURL;
-  }
-  else{
-    BASE_URL= cookies.get('serverUrl');
-  }
-  let url = '';
-
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined) {
-    return;
-  }
-
-  url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=enter_send&value='+newEnterAsSend
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      case 'EnterAsSend':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=enter_send&value='+settings.EnterAsSend
           +'&access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  makeServerCall(url);
-}
-
-// Push MicInput to server
-export function setMicInputSettings(newMicInput){
-  let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
-  let BASE_URL = '';
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined) {
-    BASE_URL = defaultServerURL;
-  }
-  else{
-    BASE_URL= cookies.get('serverUrl');
-  }
-  let url = '';
-
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined) {
-    return;
-  }
-
-  url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=mic_input&value='+newMicInput
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      case 'MicInput':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=mic_input&value='+settings.MicInput
           +'&access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  makeServerCall(url);
-}
-
-// Push SpeechOutput to server
-export function setSpeechOutputSettings(newSpeechOutput){
-  let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
-  let BASE_URL = '';
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined) {
-    BASE_URL = defaultServerURL;
-  }
-  else{
-    BASE_URL= cookies.get('serverUrl');
-  }
-  let url = '';
-
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined) {
-    return;
-  }
-
-  url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_output&value='+newSpeechOutput
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      case 'SpeechOutput':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_output&value='+settings.SpeechOutput
           +'&access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  makeServerCall(url);
-}
-
-// Push SpeechOutputAlways to server
-export function setSpeechOutputAlwaysSettings(newSpeechOutputAlways){
-  let defaults = UserPreferencesStore.getPreferences();
-  let defaultServerURL = defaults.Server;
-  let BASE_URL = '';
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined) {
-    BASE_URL = defaultServerURL;
-  }
-  else{
-    BASE_URL= cookies.get('serverUrl');
-  }
-  let url = '';
-
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined) {
-    return;
-  }
-
-  url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_always&value='+newSpeechOutputAlways
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      case 'SpeechOutputAlways':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_always&value='+settings.SpeechOutputAlways
           +'&access_token='+cookies.get('loggedIn');
-
-  console.log(url);
-  makeServerCall(url);
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      default: {
+        // do nothing
+      }
+    }
+  });
 }
 
 export function sendFeedback(){
