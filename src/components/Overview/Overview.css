@@ -1,0 +1,410 @@
+.custom-app-bar{
+  background-image: url('../images/susi-white.svg');
+  margin: 0 auto;
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.muidocs-icon-navigation-expand-more{
+	display: none !important;
+    visibility: hidden;
+	color: #757575 !important;
+	fill: #757575 !important;
+}
+@media screen and (max-width: 800px){
+	.muidocs-icon-navigation-expand-more{
+		display: block !important;
+        visibility: visible;
+	}
+}
+
+.app-logo{
+	height: 24px;
+    width: 74px;
+}
+.section {
+	border-bottom: 1px solid #dfdfdf;
+}
+.bubble {
+    max-width: 370px;
+    padding: 12.1px 16.5px 12.1px;
+}
+
+ .bubble.hero__bubble {
+    max-width: 280px;
+}
+.section-container {
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 100px 20px 120px;
+    position: relative;
+    text-align: center;
+}
+.section-container {
+    padding-top: 120px;
+}
+.section-container{
+    max-width: 940px;
+}
+.section-container {
+    padding-top: 80px;
+}
+@media only screen and (max-width: 800px){
+.section-container {
+    padding: 60px 20px;
+}
+}
+@media only screen and (max-width: 1139px){
+.section-container {
+    padding: 100px 40px;
+}
+}
+@media only screen and (max-width: 800px){
+ .bubble {
+    max-width: 180px;
+}
+}
+ .bubble {
+    max-width: 220px;
+}
+@media only screen and (max-width: 800px){
+.hero h1 {
+    font-size: 36px;
+    line-height: 42px;
+}
+}
+.hero h1 {
+    font-size: 42px;
+    font-weight: 100;
+    margin: 0 auto;
+    max-width: 880px;
+    font-family: 'Roboto', sans-serif;
+}
+
+@media only screen and (max-width: 800px){
+.hero p,.description__text {
+    font-size: 16px;
+    line-height: 24px;
+}
+}
+.hero p{
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 32px;
+    margin: 15px auto;
+    max-width: 430px;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.description__text {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 32px;
+    max-width: 440px;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.section_copy{
+    margin: 0 auto;
+    max-width: none;
+    padding: 100px 20px 100px 90px;
+    position: relative;
+    max-width: 1170px;
+    align-items: center;
+    box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid #dfdfdf;
+}
+.bots{
+    display: flex;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    max-width: 300px;
+}
+.conversation__description .description__heading {
+    font-size: 42px;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.android-mockup{
+    max-width: 45%;
+    margin-left: 35%;
+}
+.bots-mockup{
+    padding: 10px;
+}
+
+
+@media only screen and (max-width: 800px){
+.conversation__description .description__heading {
+    margin-top: 0;
+    max-width: 100%;
+}
+.section_copy{
+    padding: 60px 0px;
+}
+.img-container {
+    padding-right: 20px;
+}
+.android-mockup{
+    max-width: 100%;
+    margin-left: 0%;
+    text-align: center;
+}
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.watchStyle{
+    position: absolute;
+    margin-top: 2px;
+    left: 52px;
+    right: 0px;
+    font-weight: 600;
+}
+@media only screen and (min-width: 542px) and (max-width: 799px){
+    .android-mockup{
+    max-width: 50%;
+    margin-left: 0%;
+    text-align: center;
+}
+}
+@media only screen and (max-width: 1080px){
+.section_copy {
+    max-width: 940px;
+    padding-left: 20px;
+}
+}
+.conversation__description .description__heading {
+    margin-bottom: 10px;
+}
+@media only screen and (max-width: 1139px){
+.conversation__description .description__heading {
+    font-size: 36px;
+}
+}
+.conversation__description .description__heading {
+    font-size: 43px;
+    font-weight: 100;
+    margin: 20px 0;
+}
+.custom_description{
+    width: 55%;
+    font-family: 'Roboto', sans-serif;
+}
+.shield{
+    width:250px;
+    padding: 10px;
+    margin-right:100px;
+    margin-bottom: 60px;
+}
+.alignLeft{
+    flex:1 50%;
+    display: flex;
+    flex-flow: row wrap;
+}
+.alignRight{
+    flex: 2 50%;
+    display: flex;
+    flex-flow: row wrap;
+    flex-direction: row-reverse;
+}
+.susi-test{
+    margin-right: 156px;
+    text-align: left;
+}
+.Video-Modal{
+    position: absolute;
+    top: 46px;
+    left: 40px;
+    right: 40px;
+    background-color: #fff;
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
+}
+.footer-container a{
+    color: #414141;
+    margin: 0 14px;
+    font-size: 1em;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+.Video-Overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.07);    
+}
+.footer-container{
+    padding: 30px 10% 20px;
+    display: flex;
+}
+@media only screen and (min-width: 801px) and (max-width: 1095px){
+    .conversation__description{
+        width: 100%;
+    }
+    .description__text{
+        max-width: 100%;
+    }
+    .bots{
+        max-width: 500px;
+    }
+    .img-container{
+        width: 100%;
+        text-align: center;
+    }
+    .img-conatainer img{
+        margin:auto;
+        width: 50%;
+    }
+    .alignLeft{
+    flex:1 100%;
+    }
+    .alignRight{
+        flex:1 100%;
+        clear: left;
+    }
+    .android-mockup {
+        max-width: 50%;
+        margin-left: 0%;
+    }
+}
+@media only screen and (max-width: 800px){
+.conversation__description .description__heading {
+    font-size: 36px;
+    margin-top: 0;
+}
+.susi-test{
+    margin-right: 0px;
+    width: 100%;
+}
+    .conversation__description{
+        width: 100%;
+    }
+    .description__text{
+        max-width: 100%;
+    }
+    .bots{
+        max-width: 500px;
+    }
+    .img-container{
+        max-width: 100%;
+       text-align: center;
+    }
+    .img-conatainer img{
+        margin:auto;
+    }
+.shield{
+    margin-right:0px;
+    margin-bottom: 200px;
+}
+.alignLeft,.alignRight{
+    flex:1 100%;
+    display: block;
+    padding-left: 0;
+    list-style: none;
+    list-style-type: none;
+}
+.alignLeft li,.alignRight li{
+    float: left;
+    padding: 0 30px 15px 0;
+}
+.footer-container{
+    display: block;
+}
+
+.alignLeft a, .alignRight a{
+    margin-left: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+.Video-Modal{
+    left: 20px;
+    right: 20px;
+    width: 90%;
+}
+
+}
+.alignLeft,.alignRight{
+    list-style: none;
+    list-style-type: none;
+}
+.leftDiv a,.rightDiv a {
+    color:#3367d6 !important;
+    font-family: 'Roboto', sans-serif;
+}
+.footer-container a:hover {
+    text-decoration: none;
+    color:#757575;;
+}
+
+
+.video-container {
+position: relative;
+padding-bottom: 56.25%;
+padding-top: 30px; height: 0; overflow: hidden;
+}
+ 
+.video-container iframe,
+.video-container object,
+.video-container embed {
+position: absolute;
+top: 0;
+left: 0;
+border: 0;
+width: 100%;
+height: 100%;
+}
+.susi-logo{
+    margin-right: 20px;
+    height: 28px;
+    margin-top:13px;
+}
+
+.footer{
+    background: #f6f6f6;
+    margin-top: 40px;
+    min-height: 80px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.playstore {
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    background: url('../images/google-play.svg') center center no-repeat;
+    background-size: contain;
+    float: left;
+    height: 45px;
+    margin: 0 10px 10px 0;
+    width: 152px;
+}
+.appstore {
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    background: url('../images/app-store.svg') center center no-repeat;
+    background-size: cover;
+    float: left;
+    height: 45px;
+    width: 152px;
+    margin-bottom: 20px;
+}
