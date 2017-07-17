@@ -23,6 +23,7 @@
     "react-custom-scrollbars": "^4.1.2",
     "react-dom": "^15.5.4",
     "react-emojione": "^3.1.10",
+    "react-headroom": "^2.1.6",
     "react-leaflet": "^1.1.6",
     "react-linkify": "^0.2.1",
     "react-modal": "^2.2.2",
