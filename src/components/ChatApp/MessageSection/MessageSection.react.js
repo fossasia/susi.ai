@@ -334,75 +334,6 @@ class MessageSection extends Component {
 
   }
 
-  changeTheme = (newTheme) => {
-    if(this.state.currTheme !== newTheme){
-      let headerColor = '';
-      switch(newTheme){
-        case 'light': {
-            headerColor = '#607d8b';
-            break;
-        }
-        case 'dark': {
-            headerColor = '#19324c';
-            break;
-        }
-        default: {
-            // do nothing
-        }
-      }
-      this.setState({header: headerColor});
-      Actions.themeChanged(newTheme);
-    }
-  }
-
-  changeEnterAsSend = (enterAsSend) => {
-    let currEnterAsSend =  UserPreferencesStore.getEnterAsSend();
-    if(currEnterAsSend !== enterAsSend){
-      Actions.enterAsSendChanged(enterAsSend);
-    }
-  }
-
-  changeMicInput = (micInput) => {
-    let currMicInput = UserPreferencesStore.getMicInput();
-    if(currMicInput !== micInput){
-      Actions.micInputChanged(micInput);
-    }
-  }
-
-  changeSpeechOutput = (speechOutput) => {
-    let currSpeechOutput = UserPreferencesStore.getSpeechOutput();
-    if(currSpeechOutput !== speechOutput){
-      Actions.speechOutputChanged(speechOutput);
-    }
-    if(speechOutput){
-      Actions.resetVoice();
-    }
-  }
-
-  changeSpeechOutputAlways = (speechOutputAlways) => {
-    let currSpeechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
-    if(currSpeechOutputAlways !== speechOutputAlways){
-      Actions.speechOutputAlwaysChanged(speechOutputAlways);
-    }
-    if(speechOutputAlways){
-      Actions.resetVoice();
-    }
-  }
-
-  changeSpeechRate = (rate) => {
-    let currSpeechRate = UserPreferencesStore.getSpeechRate();
-    if(currSpeechRate !== rate){
-      Actions.speechRateChanged(rate);
-    }
-  }
-
-  changeSpeechPitch = (pitch) => {
-    let currSpeechPitch = UserPreferencesStore.getSpeechPitch();
-    if(currSpeechPitch !== pitch){
-      Actions.speechPitchChanged(pitch);
-    }
-  }
-
   serverSettingChanged = () => {
     this.setState({
       showSettings: false,
@@ -439,24 +370,28 @@ class MessageSection extends Component {
     });
     switch(this.state.currTheme){
       case 'light': {
-          this.changeTheme('dark');
+          this.settingsChanged({
+            Theme: 'dark'
+          });
           break;
       }
       case 'dark': {
-          this.changeTheme('light');
+          this.settingsChanged({
+            Theme: 'light'
+          });
           break;
       }
       default: {
           // do nothing
       }
     }
-  };
+  }
 
   handleRequestClose = () => {
     this.setState({
       SnackbarOpen: false,
     });
-  };
+  }
 
   implementSettings = (values) => {
 
@@ -464,13 +399,53 @@ class MessageSection extends Component {
     if(values.theme!==this.state.currTheme){
       this.setState({SnackbarOpen: true});
     }
-    this.changeTheme(values.theme);
-    this.changeEnterAsSend(values.enterAsSend);
-    this.changeMicInput(values.micInput);
-    this.changeSpeechOutput(values.speechOutput);
-    this.changeSpeechOutputAlways(values.speechOutputAlways);
-    this.changeSpeechRate(values.rate);
-    this.changeSpeechPitch(values.pitch);
+
+    let currSettings = UserPreferencesStore.getPreferences();
+    let settingsChanged = {};
+    let resetVoice = false;
+    if(currSettings.Theme !== values.theme){
+      settingsChanged.Theme = values.theme;
+      let headerColor = '';
+      switch(values.Theme){
+        case 'light': {
+            headerColor = '#607d8b';
+            break;
+        }
+        case 'dark': {
+            headerColor = '#19324c';
+            break;
+        }
+        default: {
+            // do nothing
+        }
+      }
+      this.setState({header: headerColor});
+    }
+    if(currSettings.EnterAsSend !== values.enterAsSend){
+      settingsChanged.EnterAsSend = values.enterAsSend;
+    }
+    if(currSettings.MicInput !== values.micInput){
+      settingsChanged.MicInput = values.micInput;
+    }
+    if(currSettings.SpeechOutput !== values.speechOutput){
+      settingsChanged.SpeechOutput = values.speechOutput;
+      resetVoice = true;
+    }
+    if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
+      settingsChanged.SpeechOutputAlways = values.speechOutputAlways;
+      resetVoice = true;
+    }
+    if(currSettings.SpeechRate !== values.rate){
+      settingsChanged.SpeechRate = values.rate;
+    }
+    if(currSettings.SpeechPitch !== values.pitch){
+      settingsChanged.SpeechPitch = values.pitch;
+    }
+    Actions.settingsChanged(settingsChanged);
+    if(resetVoice){
+      Actions.resetVoice();
+    }
+
     setTimeout(() => {
        this.setState({
            SnackbarOpen: false

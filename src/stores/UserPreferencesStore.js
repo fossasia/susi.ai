@@ -70,50 +70,18 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     switch (action.type) {
 
-        case ActionTypes.THEME_CHANGED: {
-            _defaults.Theme = action.theme;
-            UserPreferencesStore.emitChange();
-            break;
-        }
-
         case ActionTypes.SERVER_CHANGED: {
             _defaults.Server = action.server;
             UserPreferencesStore.emitChange();
             break;
         }
 
-        case ActionTypes.ENTER_AS_SEND_CHANGED: {
-            _defaults.EnterAsSend = action.enterAsSend;
-            UserPreferencesStore.emitChange();
-            break;
-        }
-
-        case ActionTypes.MIC_INPUT_CHANGED: {
-            _defaults.MicInput = action.micInput;
-            UserPreferencesStore.emitChange();
-            break;
-        }
-
-        case ActionTypes.SPEECH_OUTPUT_CHANGED: {
-            _defaults.SpeechOutput = action.speechOutput;
-            UserPreferencesStore.emitChange();
-            break;
-        }
-
-        case ActionTypes.SPEECH_OUTPUT_ALWAYS_CHANGED: {
-            _defaults.SpeechOutputAlways = action.speechOutputAlways;
-            UserPreferencesStore.emitChange();
-            break;
-        }
-
-        case ActionTypes.SPEECH_RATE_CHANGED: {
-            _defaults.SpeechRate = action.rate;
-            UserPreferencesStore.emitChange();
-            break;
-        }
-
-        case ActionTypes.SPEECH_PITCH_CHANGED: {
-            _defaults.SpeechPitch = action.pitch;
+        case ActionTypes.SETTINGS_CHANGED: {
+            let settings = action.settings;
+            Object.keys(settings).forEach((key) => {
+                console.log(key, settings[key]);
+                _defaults[key] = settings[key];
+            });
             UserPreferencesStore.emitChange();
             break;
         }
