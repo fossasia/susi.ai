@@ -120,11 +120,19 @@ export default class ChangePassword extends Component {
             this.newPasswordErrorMessage = '';
             this.newPasswordConfirmErrorMessage = '';
         }
-        else if (this.state.newPasswordError) {
+        else if (this.state.newPasswordError||
+          state.newPasswordValue===state.passwordValue) {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = '';
-            this.newPasswordErrorMessage
-                = 'Minimum 6 characters required';
+            if(state.newPasswordValue===state.passwordValue){
+              this.newPasswordErrorMessage
+                  = 'Same as current password';
+              state.newPasswordStrength = '';
+              state.newPasswordScore = -1;
+            }else{
+              this.newPasswordErrorMessage
+                  = 'Minimum 6 characters required';
+            }
             this.newPasswordConfirmErrorMessage = '';
 
         }
@@ -143,7 +151,8 @@ export default class ChangePassword extends Component {
 
         if(this.state.passwordError||
         this.state.newPasswordError||
-        this.state.newPasswordConfirmError){
+        this.state.newPasswordConfirmError||
+        state.newPasswordValue===state.passwordValue){
             this.setState({validForm: false});
         }
         else{
