@@ -69,7 +69,6 @@ class TopBar extends Component {
 			<div>
 				<IconButton
 					{...props}
-					tooltip="Options"
 					iconStyle={{ fill: 'white' }}
 					onTouchTap={this.showOptions}>
 					<MoreVertIcon />
@@ -110,7 +109,6 @@ class TopBar extends Component {
 			<div>
 				<IconButton
 					{...props}
-					tooltip="Options"
 					iconStyle={{ fill: 'white' }}
 					onTouchTap={this.showOptions}>
 					<MoreVertIcon />
@@ -196,7 +194,6 @@ class TopBar extends Component {
 						(<Logged />) :
 						(<div>
 							<IconButton
-								tooltip="Options"
 								iconStyle={{ fill: 'white' }}
 								onTouchTap={this.props.handleOptions}>
 								<MoreVertIcon />
