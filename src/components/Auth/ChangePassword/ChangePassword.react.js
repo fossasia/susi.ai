@@ -114,13 +114,13 @@ export default class ChangePassword extends Component {
 
         this.setState(state);
 
-        if (this.state.passwordError) {
+        if (this.state.passwordError && event.target.name === 'password') {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = 'Minimum 6 characters required';
             this.newPasswordErrorMessage = '';
             this.newPasswordConfirmErrorMessage = '';
         }
-        else if (this.state.newPasswordError) {
+        else if (this.state.newPasswordError && event.target.name === 'newPassword') {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = '';
             this.newPasswordErrorMessage
@@ -128,7 +128,7 @@ export default class ChangePassword extends Component {
             this.newPasswordConfirmErrorMessage = '';
 
         }
-        else if (this.state.newPasswordConfirmError) {
+        else if (this.state.newPasswordConfirmError && event.target.name === 'confirmNewPassword') {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = '';
             this.newPasswordErrorMessage = '';
