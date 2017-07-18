@@ -163,7 +163,7 @@ class Overview extends Component {
                   what the weather’s like when you get there.</p>
                 </div>
                 <div className='img-container'>
-                  <img src='susi-test.gif' className='susi-test' />
+                  <img src='susi-test.gif' alt='susi-test' className='susi-test' />
                 </div>
               </div>
               <div className="section_copy">
