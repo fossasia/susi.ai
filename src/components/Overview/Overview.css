@@ -6,24 +6,24 @@
   background-position: center;
 }
 .muidocs-icon-navigation-expand-more{
-	display: none !important;
+    display: none !important;
     visibility: hidden;
-	color: #757575 !important;
-	fill: #757575 !important;
+    color: #757575 !important;
+    fill: #757575 !important;
 }
 @media screen and (max-width: 800px){
-	.muidocs-icon-navigation-expand-more{
-		display: block !important;
+    .muidocs-icon-navigation-expand-more{
+        display: block !important;
         visibility: visible;
-	}
+    }
 }
 
 .app-logo{
-	height: 24px;
+    height: 24px;
     width: 74px;
 }
 .section {
-	border-bottom: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
 }
 .bubble {
     max-width: 370px;
@@ -222,6 +222,7 @@ img {
 .susi-test{
     margin-right: 156px;
     text-align: left;
+    max-width: 313px;
 }
 .Video-Modal{
     position: absolute;
@@ -290,7 +291,7 @@ img {
 }
 .susi-test{
     margin-right: 0px;
-    width: 100%;
+    max-width: 100%;
 }
     .conversation__description{
         width: 100%;
