@@ -1,6 +1,7 @@
 import React from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import Linkify from 'react-linkify';
+import Feedback from './Feedback.react';
 import Emojify from 'react-emojione';
 import {
   Table,
@@ -30,7 +31,7 @@ class ExtendedMarker extends Marker {
 }
 
 // Returns the message time and status indicator
-export function renderMessageFooter(message,latestMsgID){
+export function renderMessageFooter(message,latestMsgID,latestSUSIMsgID){
 
   let statusIndicator = null;
 
@@ -47,7 +48,8 @@ export function renderMessageFooter(message,latestMsgID){
       <li className='message-time' style={footerStyle}>
         <TickIcon style={indicatorStyle}
           color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
-      </li>);
+      </li>
+    );
     if(message.id === latestMsgID){
       statusIndicator = (
         <li className='message-time' style={footerStyle}>
@@ -68,6 +70,9 @@ export function renderMessageFooter(message,latestMsgID){
           'en-US',
           { hour: 'numeric',minute:'numeric', hour12: true }
         )}
+        <Feedback
+          message={message}
+          latestSUSIMsgID={latestSUSIMsgID}/>
       </li>
       {statusIndicator}
     </ul>
@@ -288,4 +293,3 @@ export function drawMap(lat,lng,zoom){
   );
   return map;
 }
-

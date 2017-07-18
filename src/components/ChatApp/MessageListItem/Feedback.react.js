@@ -5,26 +5,17 @@ import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 
-let originalPositiveCount;
-let originalNegativeCount;
-
 class Feedback extends React.Component {
 
 	constructor(props){
 		super(props);
-		originalPositiveCount = this.props.message.positiveFeedback;
-		originalNegativeCount = this.props.message.negativeFeedback;
-
 	    this.state = {
 	    	ratingGiven: false,
 	    	positive: false,
 	    	negative: false,
-	    	skill: this.parseSkill(),
-				positiveCount: originalPositiveCount,
-				negativeCount: originalNegativeCount
+	    	skill: this.parseSkill()
 	    }
 	}
-
 
 	parseSkill = () => {
 		let message = this.props.message;
@@ -47,7 +38,6 @@ class Feedback extends React.Component {
 		switch(rating){
 			case 'positive':{
 				this.setState({
-					positiveCount: parseInt(originalPositiveCount,10)+1,
 					ratingGiven: true,
 					positive: true,
 					negative: false,
@@ -56,7 +46,6 @@ class Feedback extends React.Component {
 			}
 			case 'negative':{
 				this.setState({
-					negativeCount: parseInt(originalNegativeCount,10)+1,
 					ratingGiven: true,
 					positive: false,
 					negative: true,
@@ -71,12 +60,6 @@ class Feedback extends React.Component {
 				});
 			}
 		}
-		if( this.state.positive && this.state.positiveCount !== originalPositiveCount) {
-				this.setState({positiveCount: parseInt(this.props.message.positiveFeedback,10)});
-		}
-		if( this.state.negative && this.state.negativeCount !== originalNegativeCount) {
-				this.setState({negativeCount: parseInt(this.props.message.negativeFeedback,10)});
-		}
 		let feedback = this.state.skill;
 		if(!(Object.keys(feedback).length === 0 && feedback.constructor === Object)){
 			feedback.rating = rating;
@@ -86,11 +69,10 @@ class Feedback extends React.Component {
 
 	render(){
 		let message = this.props.message;
-		let latestSUSIMsgID = this.props.latestSUSIMsgID;
 
 		let feedbackButtons = null;
 		let feedbackStyle = {
-			display: (this.state.positiveCount >= 0)?'block':'none',
+			display:'block',
 			position: 'relative',
 			float: 'right'
 		}
@@ -111,30 +93,26 @@ class Feedback extends React.Component {
 				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#0000ff' : '#00ff7f';
 			}
 
-			if(message.id === latestSUSIMsgID){
 				feedbackButtons = (
-					<li className='message-time' style={feedbackStyle}>
+					<span className='message-time' style={feedbackStyle}>
 						<ThumbUp
 							onClick={this.rateSkill.bind(this,'positive')}
 							style={feedbackIndicator}
 							color={positiveFeedbackColor}/>
-						<span>{this.state.positiveCount}</span>
 						<ThumbDown
 							onClick={this.rateSkill.bind(this,'negative')}
 							style={feedbackIndicator}
 							color={negativeFeedbackColor}/>
-						<span>{this.state.negativeCount}</span>
-					</li>
+					</span>
 				);
-			}
 		}
 		if(message.authorName === 'You'){
 			feedbackStyle = {};
 		}
 		return(
-			<div>
+			<span>
 				{feedbackButtons}
-			</div>
+			</span>
 		);
 	}
 }
