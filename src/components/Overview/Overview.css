@@ -1,10 +1,10 @@
 .custom-app-bar{
   background-image: url('../images/susi-white.svg');
-  margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: 20px 9px;
 }
+
 .muidocs-icon-navigation-expand-more{
     display: none !important;
     visibility: hidden;
@@ -168,9 +168,9 @@ img {
 .watchStyle{
     position: absolute;
     margin-top: 2px;
-    left: 52px;
+    left: 31px;
     right: 0px;
-    font-weight: 600;
+    font-weight: 600;;
 }
 @media only screen and (min-width: 542px) and (max-width: 799px){
     .android-mockup{

@@ -18,6 +18,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import HeadRoom from 'react-headroom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Menu from 'material-ui/Menu';
 
 class Overview extends Component {
 
@@ -98,7 +99,11 @@ class Overview extends Component {
       width='200px'
       keyboardFocused={true}
       onTouchTap={this.handleClose}
-    />;
+/>;
+    const menuItem={
+      color:'#fff',
+      fontWeight:'300'
+    }
     return (
             <div>
               <HeadRoom>
@@ -107,11 +112,15 @@ class Overview extends Component {
                 style={{
                   backgroundColor: '#607d8b',
                   boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #E6E6E6',
-                  height: '46px'
+                  height: '46px',
                 }}>
                 <ToolbarGroup >
                 </ToolbarGroup>
                 <ToolbarGroup lastChild={true} >
+                  <MenuItem style={menuItem} primaryText="Overview" href="/overview" />
+                  <MenuItem style={menuItem} primaryText="Docs" href="/docs"/>
+                  <MenuItem style={menuItem} primaryText="Blog" href="/blog"/>
+                  <MenuItem style={menuItem} primaryText="Team" href="/Team"/>
                 <div>
                 <IconButton
                   iconStyle={{ fill: '#fff', marginLeft:'-25px' }}
@@ -146,9 +155,9 @@ class Overview extends Component {
                   <h1>Meet SUSI, Your Personal Assistant.</h1>
                   <p>Ask it questions. Tell it to do things. Always ready to help.</p>
                   <a onClick={this.handleVideo} style={{color:'#3367d6',
-                  marginLeft: '-35px',marginTop:'20px'}}>
+                  cursor:'pointer',position:'relative'}}>
                     <PlayCircle style={{fill:'#3367d6',
-                    marginRight:'5px'}} /><span className='watchStyle'>Watch</span>
+                    marginRight:'50px'}} /><span className='watchStyle'>Watch</span>
                   </a>
                 </div>
               </div>
