@@ -8,7 +8,6 @@ import { imageParse, processText,
   renderTiles, drawMap, drawTable,
   getRSSTiles, renderMessageFooter,
 } from './helperFunctions.react.js';
-import Feedback from './Feedback.react';
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
@@ -116,10 +115,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
-                    {renderMessageFooter(message,latestUserMsgID)}
-                    <Feedback
-                      message={message}
-                      latestSUSIMsgID={latestSUSIMsgID}/>
+                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                   </section>
                 </li>
               );
@@ -135,10 +131,7 @@ class MessageListItem extends React.Component {
                     <a href={link} target='_blank'
                       rel='noopener noreferrer'>{text}</a>
                   </div>
-                    {renderMessageFooter(message,latestUserMsgID)}
-                    <Feedback
-                      message={message}
-                      latestSUSIMsgID={latestSUSIMsgID}/>
+                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                   </section>
                 </li>
               );
@@ -161,10 +154,7 @@ class MessageListItem extends React.Component {
                       <li className='message-list-item' key={action+index}>
                         <section className={messageContainerClasses}>
                         <div>{mymap}</div>
-                          {renderMessageFooter(message,latestUserMsgID)}
-                          <Feedback
-                            message={message}
-                            latestSUSIMsgID={latestSUSIMsgID}/>
+                          {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                         </section>
                       </li>
                       );
@@ -181,10 +171,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
-                    {renderMessageFooter(message,latestUserMsgID)}
-                    <Feedback
-                      message={message}
-                      latestSUSIMsgID={latestSUSIMsgID}/>
+                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                   </section>
                 </li>
                 );
@@ -198,10 +185,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
-                    {renderMessageFooter(message,latestUserMsgID)}
-                    <Feedback
-                      message={message}
-                      latestSUSIMsgID={latestSUSIMsgID}/>
+                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                   </section>
                 </li>
               );
@@ -222,10 +206,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(rssTiles)}
                     </div></div>
-                      {renderMessageFooter(message,latestUserMsgID)}
-                      <Feedback
-                        message={message}
-                        latestSUSIMsgID={latestSUSIMsgID}/>
+                      {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                     </section>
                   </li>
                 );
@@ -239,10 +220,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(websearchTiles)}
                     </div></div>
-                      {renderMessageFooter(message,latestUserMsgID)}
-                      <Feedback
-                        message={message}
-                        latestSUSIMsgID={latestSUSIMsgID}/>
+                      {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
                     </section>
                   </li>
                 );
@@ -276,10 +254,7 @@ class MessageListItem extends React.Component {
       <li className='message-list-item'>
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
-          {renderMessageFooter(message,latestUserMsgID)}
-          <Feedback
-            message={message}
-            latestSUSIMsgID={latestSUSIMsgID}/>
+          {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
         </section>
       </li>
     );
