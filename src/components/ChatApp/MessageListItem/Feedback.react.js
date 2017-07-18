@@ -72,6 +72,7 @@ class Feedback extends React.Component {
 
 		let feedbackButtons = null;
 		let feedbackStyle = {
+			top: 5,
 			display:'block',
 			position: 'relative',
 			float: 'right'
