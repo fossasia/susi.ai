@@ -18,7 +18,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import HeadRoom from 'react-headroom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
-import Menu from 'material-ui/Menu';
 
 class Overview extends Component {
 
@@ -192,7 +191,7 @@ class Overview extends Component {
               </div>
               <div className="section_copy">
                 <div className="conversation__description">
-                  <div className="description__heading">For all Devices</div>
+                  <div className="description__heading">For your Smartphone</div>
                   <p className="description__text">SUSI is available for <b>Android</b>
                    &nbsp;and <b>iOS devices</b>.
                    Download the App to have access to SUSI on the go.</p>
@@ -205,39 +204,71 @@ class Overview extends Component {
                   <img src='android-mockup.jpg' alt='Android Mockup' className='android-mockup' />
                 </div>
               </div>
+
               <div className="section_copy">
-                <div className="conversation__description custom_description">
-                  <div className="description__heading">Integrate
-                  SUSI with your
-                  favorite chat services and social networks.</div>
-                  <p className="description__text"><b>SUSI.AI</b> already runs on many chat
-                  services and social networks. We are developing plugins for all
-                  major services including
-                   &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>.
-                   Just set up SUSI on your channel and add
-                   &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.</p>
-                   </div>
-                <div className='img-container'>
-                  <img src='bots.jpg' alt='Android Mockup' className='bots-mockup' />
+                <div className="column_section">
+                  <div className="conversation__description custom_description">
+                    <div className='img-container'>
+                      <img src='bots.jpg' alt='Android Mockup' className='bots-mockup' />
+                    </div>
+                    <div className="description__heading">On many Platforms</div>
+                    <p className="description__text"><b className="inLineLogo"></b> already runs on many chat
+                    services and social networks. We are developing plugins for all
+                    major services including
+                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>.
+                    Just set up SUSI on your channel and add
+                    &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+                    </p>
+                    </div>
                 </div>
-              </div>
-              <div className="section_copy">
-                <div className="conversation__description">
+                <div className="column_section">
+                  <div className="conversation__description custom_description">
+                    <div className='img-container'>
+                      <img src='all_devices.png' alt='Android Mockup' className='bots-mockup' />
+                    </div>
+                    <div className="description__heading">For all Devices</div>
+                    <p className="description__text"><b className="inLineLogo"></b>
+                    is available for android, iOS devices and also you can use it from <Link to="http://susi.ai">http://susi.ai</Link>
+                    </p>
+                    </div>
+
+                </div>
+                <div className="column_section">
+                  <div className="conversation__description custom_description">
+                    <div className='img-container'>
+                      <img src='many_languages.png' alt='Android Mockup' className='bots-mockup' />
+                    </div>
+                    <div className="description__heading">Use it in many Languages</div>
+                    <p className="description__text">You can use<b className="inLineLogo"></b> in DIfferent
+                     languages
+                    </p>
+                    </div>
+
+                </div>
+              </div>{/* section_copy ends */}
+
+               <div className="section_copy safty_and_secure">
+                  <div className="conversation__description">
+
                   <div className="description__heading">Safe and secure.</div>
-                  <p className="description__text"><b>SUSI.AI</b> is <b>Open Source</b>. The code is
-                  always available for security reviews and can be improved by
-                  anyone with the knowledge and understanding online.</p>
+                    <p className="description__text"><span className="inLineLogo"></span> is <b>
+                    <Link style={{textDecoration:'none',color:'#000'}}
+                    target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is
+                    always available for security reviews and can be improved by
+                    anyone with the knowledge and understanding online.</p>
+
+                  </div>
+                  <div className='img-container'>
+                    <img src='shield.svg' alt='Android Mockup'className='shield'  />
+                  </div>
                 </div>
-                <div className='img-container'>
-                  <img src='shield.svg' alt='Android Mockup'className='shield'  />
-                </div>
-              </div>
+
               <div className='footer'>
                 <div className='footer-container'>
                 <img src='susi.svg' alt='SUSI' className='susi-logo' />
