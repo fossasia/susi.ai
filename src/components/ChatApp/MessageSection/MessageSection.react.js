@@ -771,19 +771,6 @@ class MessageSection extends Component {
                     speechOutput={speechOutput}
                     speechOutputAlways={speechOutputAlways} />
                 </div>
-                <Snackbar
-                  open={this.state.SnackbarOpen}
-                  message={'Theme Changed'}
-                  action="undo"
-                  autoHideDuration={4000}
-                  onActionTouchTap={this.handleActionTouchTap}
-                  onRequestClose={this.handleRequestClose}
-                />
-                <Snackbar
-                  open={this.state.SnackbarOpenBackground}
-                  message={'Please enter a valid URL first'}
-                  autoHideDuration={4000}
-                />
               </div>
             </div>
 
@@ -830,6 +817,19 @@ class MessageSection extends Component {
                </div>
              </div>
              )}
+             <Snackbar
+               open={this.state.SnackbarOpenBackground}
+               message={'Please enter a valid URL first'}
+               autoHideDuration={4000}
+             />
+             <Snackbar
+               open={this.state.SnackbarOpen}
+               message={'Theme Changed'}
+               action="undo"
+               autoHideDuration={4000}
+               onActionTouchTap={this.handleActionTouchTap}
+               onRequestClose={this.handleRequestClose}
+             />
              <Snackbar
               autoHideDuration={4000}
               open={this.state.snackopen}
