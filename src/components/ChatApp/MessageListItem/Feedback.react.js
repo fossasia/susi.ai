@@ -7,6 +7,28 @@ import * as Actions from '../../../actions/';
 
 class Feedback extends React.Component {
 
+	parseSkill = () => {
+		let message = this.props.message;
+		let rating ={};
+		if(message.authorName === 'SUSI'){
+			if(message.response.answers[0].skills!==undefined){
+				let skill = message.response.answers[0].skills[0];
+				console.log(skill);
+				let parsed = skill.split('/');
+				if(parsed.length === 7){
+					rating.model = parsed[3];
+					rating.group = parsed[4];
+					rating.language = parsed[5];
+					rating.skill = parsed[6].slice(0,-4);
+				}
+			}
+			else {
+				return null
+			}
+		}
+		return rating;
+	}
+
 	constructor(props){
 		super(props);
 	    this.state = {
@@ -15,22 +37,6 @@ class Feedback extends React.Component {
 	    	negative: false,
 	    	skill: this.parseSkill()
 	    }
-	}
-
-	parseSkill = () => {
-		let message = this.props.message;
-		let rating ={};
-		if(message.authorName === 'SUSI'){
-			let skill = message.response.answers[0].skills[0];
-			let parsed = skill.split('/');
-			if(parsed.length === 7){
-				rating.model = parsed[3];
-				rating.group = parsed[4];
-				rating.language = parsed[5];
-				rating.skill = parsed[6].slice(0,-4);
-			}
-		}
-		return rating;
 	}
 
 	rateSkill = (rating) => {
