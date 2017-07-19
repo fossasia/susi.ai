@@ -303,14 +303,14 @@ export default class SignUp extends Component {
             <FlatButton
                 label="OK"
                 backgroundColor={
-                    UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+                    UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
                 labelStyle={{ color: '#fff' }}
                 onTouchTap={this.handleClose}
             />;
         const loginActions = <RaisedButton
           label="Cancel"
           backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+            UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
           labelColor="#fff"
           width='200px'
           keyboardFocused={true}
@@ -383,7 +383,7 @@ export default class SignUp extends Component {
 
                                 backgroundColor={
                                     UserPreferencesStore.getTheme()==='light'
-                                    ? '#607D8B' : '#19314B'}
+                                    ? '#0084ff' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                     </form>

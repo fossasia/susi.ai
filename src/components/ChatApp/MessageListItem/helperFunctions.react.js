@@ -45,14 +45,14 @@ export function renderMessageFooter(message,latestMsgID){
       height:'13px'
     }
     statusIndicator = (
-      <li className='message-time' style={footerStyle}>
+      <li className='response-time' style={footerStyle}>
         <TickIcon style={indicatorStyle}
           color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
       </li>
     );
     if(message.id === latestMsgID){
       statusIndicator = (
-        <li className='message-time' style={footerStyle}>
+        <li className='response-time' style={footerStyle}>
           <ClockIcon style={indicatorStyle}
             color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
         </li>);

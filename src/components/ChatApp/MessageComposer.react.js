@@ -168,7 +168,7 @@ class MessageComposer extends Component {
         />
         <IconButton
           className="send_button"
-          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#607D8B':'#fff',
+          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#0084ff':'#fff',
           marginTop:'2px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
@@ -192,6 +192,7 @@ class MessageComposer extends Component {
           </div>
           <Close style={closingStyle} onTouchTap={this.onEnd} />
           </div>
+
         </Modal>
         </div>
     );

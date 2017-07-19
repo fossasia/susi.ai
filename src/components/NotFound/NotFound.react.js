@@ -39,7 +39,7 @@ export default class NotFound extends Component {
         const loginActions = <RaisedButton
           label="Cancel"
           backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+            UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
           labelColor="#fff"
           width='200px'
           keyboardFocused={true}
@@ -48,7 +48,7 @@ export default class NotFound extends Component {
         const signUpActions = <RaisedButton
           label="Cancel"
           backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+            UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
           labelColor="#fff"
           width='200px'
           keyboardFocused={true}
@@ -74,7 +74,7 @@ export default class NotFound extends Component {
                                 className='notfound-button'
                                 label='Chat With SUSI'
                                 backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#0084ff' : '#19314B'}
                                 labelColor='#fff'
                             />
                         </Link>
@@ -83,7 +83,7 @@ export default class NotFound extends Component {
                                 label='SignUp to SUSI'
                                 onTouchTap={this.handleOpen}
                                 backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#0084ff' : '#19314B'}
                                 labelColor='#fff'
                         />
                         <br/>
@@ -92,7 +92,7 @@ export default class NotFound extends Component {
                             label='SignIn to SUSI'
                             onTouchTap={this.handleLoginOpen}
                             backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#607D8B' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#0084ff' : '#19314B'}
                             labelColor='#fff'
                         />
                     </div>

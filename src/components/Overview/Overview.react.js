@@ -140,7 +140,7 @@ class Overview extends Component {
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -163,6 +163,7 @@ class Overview extends Component {
 
       >
       <MenuItem primaryText="Login"
+
                     onTouchTap={this.handleLogin} />
       <MenuItem primaryText="Sign Up"
                     onTouchTap={this.handleSignUp}
