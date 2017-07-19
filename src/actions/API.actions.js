@@ -270,7 +270,6 @@ export function pushSettingsToServer(settings){
   }
 
   Object.keys(settings).forEach((key) => {
-    console.log(key, settings[key]);
     switch(key){
       case 'Theme':{
         url = BASE_URL+'/aaa/changeUserSettings.json?'
@@ -307,6 +306,22 @@ export function pushSettingsToServer(settings){
       case 'SpeechOutputAlways':{
         url = BASE_URL+'/aaa/changeUserSettings.json?'
           +'key=speech_always&value='+settings.SpeechOutputAlways
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      case 'SpeechRate':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_rate&value='+settings.SpeechRate
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
+      case 'SpeechPitch':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_pitch&value='+settings.SpeechPitch
           +'&access_token='+cookies.get('loggedIn');
         console.log(url);
         makeServerCall(url);
