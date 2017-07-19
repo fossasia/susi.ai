@@ -386,6 +386,39 @@ height: 100%;
 .column_section  .description__text{
     line-height: 40px;
 }
+.headroom {
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.headroom--unfixed {
+  position: relative;
+  transform: translateY(100%);
+}
+.headroom--scrolled {
+  transition: transform 200ms ease-in-out;
+}
+.headroom--unpinned {
+  position: fixed;
+  transform: translateY(-100%);
+}
+.headroom--pinned {
+  position: fixed;
+  transform: translateY(0%);
+}
+.opensource{
+    float: left;
+}
+.opensource img{
+    height: 170px;
+}
+.github_logo{
+    float: left;
+}
+.github_logo img{
+    height: 140px;
+}
 @media only screen and (max-width: 800px){
 
 .conversation__description .description__heading {
