@@ -228,10 +228,10 @@ class Overview extends Component {
                     </div>
                 </div>
                 <div className="column_section">
-                  <div className="conversation__description custom_description">
-                    <div className='img-container'>
+                  <div className='img-container'>
                       <img src='all_devices.png' alt='Android Mockup' className='bots-mockup' />
-                    </div>
+                  </div>
+                  <div className="conversation__description custom_description">
                     <div className="description__heading">For all Devices</div>
                     <p className="description__text"><b className="inLineLogo"></b>
                     is available for android, iOS devices and also you can use it from <Link to="http://susi.ai">http://susi.ai</Link>

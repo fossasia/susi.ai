@@ -181,7 +181,7 @@ img {
 }
 @media only screen and (min-width: 542px) and (max-width: 799px){
     .android-mockup{
-    max-width: 50%;
+    max-width: 100%;
     margin-left: 0%;
     text-align: center;
 }
@@ -300,64 +300,7 @@ img {
         margin-left: 0%;
     }
 }
-@media only screen and (max-width: 800px){
-.conversation__description .description__heading {
-    font-size: 36px;
-    margin-top: 0;
-}
-.susi-test{
-    margin-right: 0px;
-    max-width: 100%;
-}
-    .conversation__description{
-        width: 50%;
-    }
-    .description__text{
-        max-width: 100%;
-    }
-    .bots{
-        max-width: 500px;
-    }
-    .img-container{
-        max-width: 100%;
-       text-align: center;
-    }
-    .img-conatainer img{
-        margin:auto;
-    }
-.shield{
-    margin: 0 auto;
 
-}
-.alignLeft,.alignRight{
-    flex:1 100%;
-    display: block;
-    padding-left: 0;
-    list-style: none;
-    list-style-type: none;
-}
-.alignLeft li,.alignRight li{
-    float: left;
-    padding: 0 30px 15px 0;
-}
-.footer-container{
-    display: block;
-}
-
-.alignLeft a, .alignRight a{
-    margin-left: 0px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-}
-.Video-Modal{
-    left: 20px;
-    right: 20px;
-    width: 90%;
-}
-
-}
 .alignLeft,.alignRight{
     list-style: none;
     list-style-type: none;
@@ -435,10 +378,72 @@ height: 100%;
 }
 .column_section .img-container{
     width: 100%;
+    text-align: center;
 }
 .column_section .custom_description .description__heading{
     font: 300 24px/32px Roboto,sans-serif;
 }
 .column_section  .description__text{
     line-height: 40px;
+}
+@media only screen and (max-width: 800px){
+
+.conversation__description .description__heading {
+    font-size: 36px;
+    margin-top: 0;
+}
+.susi-test{
+    margin-right: 0px;
+    max-width: 100%;
+}
+    .conversation__description{
+        width: 100%;
+    }
+    .description__text{
+        max-width: 100%;
+    }
+    .bots{
+        max-width: 500px;
+    }
+    .img-container{
+        max-width: 100%;
+       margin: 0 auto;
+    }
+    .img-conatainer img{
+        margin:auto;
+    }
+    .shield{
+        margin: 0 auto 140px auto;
+    }
+    .column_section{
+        width: 100%;
+    }
+    .alignLeft,.alignRight{
+        flex:1 100%;
+        display: block;
+        padding-left: 0;
+        list-style: none;
+        list-style-type: none;
+    }
+    .alignLeft li,.alignRight li{
+        float: left;
+        padding: 0 30px 15px 0;
+    }
+    .footer-container{
+        display: block;
+    }
+
+    .alignLeft a, .alignRight a{
+        margin-left: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+    .Video-Modal{
+        left: 20px;
+        right: 20px;
+        width: 90%;
+    }
+
 }
