@@ -296,9 +296,9 @@ export default class SignUp extends Component {
     }
     render() {
         const customUrlStyle= {
-            width:'202px',
+            width:'175px',
             textAlign:'left',
-            margin:'-35px 0 0px 5px',
+            margin:'-35px 0 0px 30px',
         }
         const serverURL = <TextField
                             name="serverUrl"
