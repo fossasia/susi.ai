@@ -50,7 +50,12 @@ export function getHistory() {
           websearchresults: [],
           date: '',
           isRead: true,
-          type: 'message'
+          type: 'message',
+          lang: 'en-US',
+          feedback: {
+              isRated: true,
+              rating: null,
+            }
         };
 
         let userMsg = {
