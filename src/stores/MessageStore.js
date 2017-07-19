@@ -117,6 +117,7 @@ let MessageStore = {
       if ((_messages[id].threadID === threadID) &&
           (_messages[id].authorName === 'SUSI')) {
           _messages[id].voice = false;
+          _messages[id].feedback.isRated = true;
       }
     }
   },
@@ -181,7 +182,6 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.FEEDBACK_RECEIVED: {
       _feedback = action.feedback;
-      console.log(_feedback);
       MessageStore.emitChange();
       break;
     }

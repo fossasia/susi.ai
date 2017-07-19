@@ -31,7 +31,7 @@ class ExtendedMarker extends Marker {
 }
 
 // Returns the message time and status indicator
-export function renderMessageFooter(message,latestMsgID,latestSUSIMsgID){
+export function renderMessageFooter(message,latestMsgID){
 
   let statusIndicator = null;
 
@@ -71,8 +71,7 @@ export function renderMessageFooter(message,latestMsgID,latestSUSIMsgID){
           { hour: 'numeric',minute:'numeric', hour12: true }
         )}
         <Feedback
-          message={message}
-          latestSUSIMsgID={latestSUSIMsgID}/>
+          message={message} />
       </li>
       {statusIndicator}
     </ul>

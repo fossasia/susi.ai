@@ -13,7 +13,6 @@ class Feedback extends React.Component {
 		if(message.authorName === 'SUSI'){
 			if(message.response.answers[0].skills!==undefined){
 				let skill = message.response.answers[0].skills[0];
-				console.log(skill);
 				let parsed = skill.split('/');
 				if(parsed.length === 7){
 					rating.model = parsed[3];
@@ -40,7 +39,6 @@ class Feedback extends React.Component {
 	}
 
 	rateSkill = (rating) => {
-		console.log(rating);
 		switch(rating){
 			case 'positive':{
 				this.setState({
@@ -69,6 +67,7 @@ class Feedback extends React.Component {
 		let feedback = this.state.skill;
 		if(!(Object.keys(feedback).length === 0 && feedback.constructor === Object)){
 			feedback.rating = rating;
+			this.props.message.feedback.rating = rating;
 			Actions.saveFeedback(feedback);
 		}
 	}
@@ -112,6 +111,19 @@ class Feedback extends React.Component {
 							color={negativeFeedbackColor}/>
 					</span>
 				);
+			if(message.feedback.isRated){
+				feedbackIndicator.cursor = 'auto';
+				feedbackButtons = (
+					<span className='message-time' style={feedbackStyle}>
+						<ThumbUp
+							style={feedbackIndicator}
+							color={positiveFeedbackColor}/>
+						<ThumbDown
+							style={feedbackIndicator}
+							color={negativeFeedbackColor}/>
+					</span>
+				);
+			}
 		}
 		if(message.authorName === 'You'){
 			feedbackStyle = {};
@@ -126,7 +138,6 @@ class Feedback extends React.Component {
 
 Feedback.propTypes = {
   message: PropTypes.object,
-  latestSUSIMsgID: PropTypes.string
 };
 
 export default Feedback;
