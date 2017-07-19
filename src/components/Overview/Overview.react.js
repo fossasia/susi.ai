@@ -212,7 +212,7 @@ class Overview extends Component {
                       <img src='bots.jpg' alt='Android Mockup' className='bots-mockup' />
                     </div>
                     <div className="description__heading">On many Platforms</div>
-                    <p className="description__text"><b className="inLineLogo"></b> already runs on many chat
+                    <p className="description__text"><b>SUSI.AI</b> already runs on many chat
                     services and social networks. We are developing plugins for all
                     major services including
                     &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
@@ -233,8 +233,7 @@ class Overview extends Component {
                   </div>
                   <div className="conversation__description custom_description">
                     <div className="description__heading">For all Devices</div>
-                    <p className="description__text"><b className="inLineLogo"></b>
-                    is available for android, iOS devices and also you can use it from <Link to="http://susi.ai">http://susi.ai</Link>
+                    <p className="description__text"><b >SUSI.AI</b> is available for android, iOS devices and also you can use it from <Link to="http://chat.susi.ai">http://chat.susi.ai</Link>
                     </p>
                     </div>
 
@@ -245,7 +244,7 @@ class Overview extends Component {
                       <img src='many_languages.png' alt='Android Mockup' className='bots-mockup' />
                     </div>
                     <div className="description__heading">Use it in many Languages</div>
-                    <p className="description__text">You can use<b className="inLineLogo"></b> in DIfferent
+                    <p className="description__text">You can use <b>SUSI.AI</b> in DIfferent
                      languages
                     </p>
                     </div>
