@@ -243,6 +243,40 @@ header{
   margin: 5px;
 }
 
+@-webkit-keyframes SUSI {
+  from {opacity: 0.6;
+    transform: translate3d(0,5px,0);}
+    to {opacity:  1;
+      transform: none;}
+}
+
+@keyframes SUSI {
+ from {opacity: 0.6;
+    transform: translate3d(0,5px,0);}
+    to {opacity:  1;
+      transform: none;}
+}
+.message-container.SUSI{
+  animation-iteration-count: 1;
+  animation: SUSI 700ms  ease-out;
+}
+@-webkit-keyframes You {
+  from {opacity: 0.6;
+    transform: translate3d(0,5px,0);}
+    to {opacity:  1;
+      transform: none;}
+}
+
+@keyframes You {
+ from {opacity: 0.6;
+    transform: translate3d(0,5px,0);}
+    to {opacity:  1;
+      transform: none;}
+}
+.message-container.You{
+  animation-iteration-count: 1;
+  animation: You 700ms  ease;
+}
 .message-container::after {
   content: "";
   position: absolute;
@@ -392,7 +426,7 @@ header{
   background: var(--compose);
   box-shadow: 0 -1px 4px 0 rgba(0,0,0,.12);
   z-index: 2;
-  transform: translateY(0);
+    transform: translate3d(0140px,0);
   transition: transform .25s cubic-bezier(0,0,.3,1) .3s;
   pointer-events: auto;
   opacity: 1;
