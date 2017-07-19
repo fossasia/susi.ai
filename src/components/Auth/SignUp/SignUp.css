@@ -3,18 +3,13 @@
 	color: #999999;
 	margin-bottom: 20px;
 }
+
 .signUpForm{
 	margin: 0 auto;
 }
+
 .sty{
 	width: 256px;
-}
-.serverUrl{
-	float: left;
-    position: relative;
-    display: block;
-	width: calc(100% - 46px);
-	margin: -15px 0 10px -30px;
 }
 
 @media screen and (max-width: 768px) {

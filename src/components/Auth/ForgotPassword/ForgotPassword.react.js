@@ -7,8 +7,8 @@ import FlatButton from 'material-ui/FlatButton';
 import './ForgotPassword.css';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import Toggle from 'material-ui/Toggle';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import CustomServer from '../../ChatApp/CustomServer.react';
 
 class ForgotPassword extends Component {
 
@@ -58,14 +58,10 @@ class ForgotPassword extends Component {
         let state = this.state;
         let serverUrl
         if (event.target.value === 'customServer') {
-            state.checked?state.checked=false:state.checked=true;
-
-            if(state.checked){
-                let defaults = UserPreferencesStore.getPreferences();
-                state.serverUrl=defaults.Server
-                state.serverFieldError = false;
-            }
-
+            state.checked = !state.checked;
+            let defaults = UserPreferencesStore.getPreferences();
+            state.serverUrl = defaults.StandardServer;
+            state.serverFieldError = false;
         }
         else if (event.target.name === 'serverUrl'){
             serverUrl = event.target.value;
@@ -75,12 +71,6 @@ class ForgotPassword extends Component {
             state.serverUrl = serverUrl;
             state.serverFieldError = !(serverUrl && validServerUrl);
         }
-				if (!state.emailError && !state.serverFieldError) {
-						state.validForm = true;
-				}
-				else {
-					state.validForm = false;
-				}
         this.setState(state);
 
         if (this.state.serverFieldError) {
@@ -90,11 +80,18 @@ class ForgotPassword extends Component {
             this.customServerMessage = '';
         }
 
+        if(this.state.emailError||
+        this.state.serverFieldError){
+            this.setState({validForm: false});
+        }
+        else{
+            this.setState({validForm: true});
+        }
     }
 
 	handleChange = (event) => {
 		let email;
-    let state = this.state;
+    	let state = this.state;
 		if (event.target.name === 'email') {
 			email = event.target.value.trim();
 			let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
@@ -193,28 +190,11 @@ class ForgotPassword extends Component {
 
 	render() {
 
-		const customUrlStyle= {
-					 width:'175px',
-					 textAlign:'left',
-					 margin:'-35px 0 0px 30px',
-			 }
-			 const serverURL = <TextField
-													 name="serverUrl"
-													 className="serverUrl"
-													 onChange={this.handleServeChange}
-													 onTouchTap={this.handleServeChange}
-													 value={this.state.serverUrl}
-													 errorText={this.customServerMessage}
-													 floatingLabelText="Custom URL"
-													 style={customUrlStyle} />;
-
-			 const hidden = this.state.checked ? serverURL : '';
-
-			 const styles = {
-					 'width': '100%',
-					 'textAlign': 'center',
-					 'padding': '10px'
-			 }
+		const styles = {
+			'width': '100%',
+			'textAlign': 'center',
+			'padding': '10px'
+		}
 
 		const actions =
 			<FlatButton
@@ -238,30 +218,13 @@ class ForgotPassword extends Component {
 								value={this.state.email}
 								onChange={this.handleChange} />
 						</div>
-						<br/>
 						<div>
-            	<Toggle
-                labelPosition="right"
-          			id={'uniqueId'}
-            		labelStyle={{ zIndex: 3 }}
-                label={this.state.checked?(
-                	<label htmlFor={'uniqueId'}>
-                    <div>
-                    	{hidden}
-                    </div>
-                  </label>
-                  ):'Use Custom Server'}
-                defaultToggled={false}
-                onToggle={this.handleServeChange}
-                style={{display: 'flex',
-                marginTop: '10px',
-                maxWidth:'245px',
-                flexWrap: 'wrap',
-                height:'28px',
-                margin: '30px auto 0px auto'}}
-                value="customServer"
-            	/>
-						</div>
+                            <CustomServer
+                                checked={this.state.checked}
+                                serverUrl={this.state.serverUrl}
+                                customServerMessage={this.customServerMessage}
+                                onServerChange={this.handleServeChange}/>
+                        </div>
 						<div>
 							<RaisedButton
 								type="submit"
@@ -269,7 +232,7 @@ class ForgotPassword extends Component {
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 								labelColor="#fff"
-	              style={{margin:'25px 0 0 0 '}}
+	              				style={{margin:'25px 0 0 0 '}}
 								disabled={!this.state.validForm} />
 						</div>
 					</form>
