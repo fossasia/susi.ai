@@ -304,6 +304,7 @@ export default class SignUp extends Component {
                             name="serverUrl"
                             className="serverUrl"
                             onChange={this.handleServeChange}
+                            onTouchTap={this.handleServeChange}
                             value={this.state.serverUrl}
                             errorText={this.customServerMessage}
                             floatingLabelText="Custom URL"
