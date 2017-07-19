@@ -79,7 +79,6 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
         case ActionTypes.SETTINGS_CHANGED: {
             let settings = action.settings;
             Object.keys(settings).forEach((key) => {
-                console.log(key, settings[key]);
                 _defaults[key] = settings[key];
             });
             UserPreferencesStore.emitChange();
@@ -94,6 +93,8 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.MicInput = settings.micInput;
                 _defaults.SpeechOutput = settings.speechOutput;
                 _defaults.SpeechOutputAlways = settings.speechOutputAlways;
+                _defaults.SpeechRate = settings.rate;
+                _defaults.SpeechPitch = settings.pitch;
             }
             else{
                 if(settings.hasOwnProperty('theme')){
@@ -126,6 +127,22 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                         initSpeechOutputAlways = true;
                     }
                     _defaults.SpeechOutputAlways = initSpeechOutputAlways;
+                }
+                if(settings.hasOwnProperty('speech_rate')){
+                    let initSpeechRate = parseFloat(settings.speech_rate);
+                    if(!isNaN(initSpeechRate)){
+                        if(initSpeechRate >= 0.1 && initSpeechRate <=5){
+                            _defaults.SpeechRate = initSpeechRate;
+                        }
+                    }
+                }
+                if(settings.hasOwnProperty('speech_pitch')){
+                    let initSpeechPitch = parseFloat(settings.speech_pitch);
+                    if(!isNaN(initSpeechPitch)){
+                        if(initSpeechPitch >= 0 && initSpeechPitch <=2){
+                            _defaults.SpeechPitch = initSpeechPitch;
+                        }
+                    }
                 }
             }
             UserPreferencesStore.emitChange();
