@@ -37,10 +37,7 @@ class MessageListItem extends React.Component {
     if(this.props.latestUserMsgID){
       latestUserMsgID = this.props.latestUserMsgID;
     }
-    let latestSUSIMsgID = null;
-    if(this.props.latestSUSIMsgID){
-      latestSUSIMsgID = this.props.latestSUSIMsgID;
-    }
+
     if(this.props.message.type === 'date'){
       return(
         <li className='message-list-item'>
@@ -115,7 +112,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
-                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
               );
@@ -131,7 +128,7 @@ class MessageListItem extends React.Component {
                     <a href={link} target='_blank'
                       rel='noopener noreferrer'>{text}</a>
                   </div>
-                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
               );
@@ -154,7 +151,7 @@ class MessageListItem extends React.Component {
                       <li className='message-list-item' key={action+index}>
                         <section className={messageContainerClasses}>
                         <div>{mymap}</div>
-                          {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                          {renderMessageFooter(message,latestUserMsgID)}
                         </section>
                       </li>
                       );
@@ -171,7 +168,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
-                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
                 );
@@ -185,7 +182,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
-                    {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID)}
                   </section>
                 </li>
               );
@@ -206,7 +203,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(rssTiles)}
                     </div></div>
-                      {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                      {renderMessageFooter(message,latestUserMsgID)}
                     </section>
                   </li>
                 );
@@ -220,7 +217,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(websearchTiles)}
                     </div></div>
-                      {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+                      {renderMessageFooter(message,latestUserMsgID)}
                     </section>
                   </li>
                 );
@@ -254,7 +251,7 @@ class MessageListItem extends React.Component {
       <li className='message-list-item'>
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
-          {renderMessageFooter(message,latestUserMsgID,latestSUSIMsgID)}
+          {renderMessageFooter(message,latestUserMsgID)}
         </section>
       </li>
     );
@@ -266,7 +263,6 @@ MessageListItem.propTypes = {
   message: PropTypes.object,
   markID: PropTypes.string,
   latestUserMsgID: PropTypes.string,
-  latestSUSIMsgID: PropTypes.string
 };
 
 export default MessageListItem;

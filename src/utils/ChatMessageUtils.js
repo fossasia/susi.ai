@@ -37,8 +37,7 @@ export function getSUSIMessageData(message, currentThreadID) {
     type: 'message',
     voice: message.voice,
     lang: message.lang,
-    positiveFeedback: message.positiveFeedback,
-    negativeFeedback: message.negativeFeedback
+    feedback: message.feedback,
   };
   return receivedMessage;
 }
