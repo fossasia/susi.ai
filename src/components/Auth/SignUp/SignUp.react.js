@@ -76,12 +76,43 @@ export default class SignUp extends Component {
             });
         }
     }
+    handleServeChange=(event)=>{
+        let state = this.state;
+        let serverUrl
+        if (event.target.value === 'customServer') {
+            state.checked?state.checked=false:state.checked=true;
+
+            if(state.checked){
+                let defaults = UserPreferencesStore.getPreferences();
+                state.serverUrl=defaults.Server
+                state.serverFieldError = false;
+            }
+
+        }
+        else if (event.target.name === 'serverUrl'){
+            serverUrl = event.target.value;
+            let validServerUrl =
+/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
+            .test(serverUrl);
+            state.serverUrl = serverUrl;
+            state.serverFieldError = !(serverUrl && validServerUrl);
+        }
+                        this.setState(state);
+
+        if (this.state.serverFieldError) {
+            this.customServerMessage = 'Enter a valid URL';
+        }
+        else{
+            this.customServerMessage = '';
+        }
+
+    }
 
     handleChange = (event) => {
         let email;
         let password;
         let confirmPassword;
-        let serverUrl;
+        // let serverUrl;
         let state = this.state
         if (event.target.name === 'email') {
             email = event.target.value.trim();
@@ -120,24 +151,6 @@ export default class SignUp extends Component {
             state.confirmPasswordValue = confirmPassword;
             state.passwordConfirmError = !(validPassword && confirmPassword);
         }
-        else if (event.target.value === 'customServer') {
-            state.checked?state.checked=false:state.checked=true;
-
-            if(state.checked){
-                let defaults = UserPreferencesStore.getPreferences();
-                state.serverUrl=defaults.Server
-                state.serverFieldError = false;
-            }
-
-        }
-        else if (event.target.name === 'serverUrl'){
-            serverUrl = event.target.value;
-            let validServerUrl =
-/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
-            .test(serverUrl);
-            state.serverUrl = serverUrl;
-            state.serverFieldError = !(serverUrl && validServerUrl);
-        }
 
         if (!this.state.emailError
             && !this.state.passwordError
@@ -171,12 +184,12 @@ export default class SignUp extends Component {
             this.passwordConfirmErrorMessage = '';
         }
 
-        if (this.state.serverFieldError) {
+/*         if (this.state.serverFieldError) {
             this.customServerMessage = 'Enter a valid URL';
         }
         else{
             this.customServerMessage = '';
-        }
+        } */
 
         if(this.state.emailError||
         this.state.passwordError||
@@ -290,7 +303,7 @@ export default class SignUp extends Component {
         const serverURL = <TextField
                             name="serverUrl"
                             className="serverUrl"
-                            onChange={this.handleChange}
+                            onChange={this.handleServeChange}
                             value={this.state.serverUrl}
                             errorText={this.customServerMessage}
                             floatingLabelText="Custom URL"
@@ -378,7 +391,7 @@ export default class SignUp extends Component {
                                         </label>
                             ):'Use Custom Server'}
                             defaultToggled={false}
-                            onToggle={this.handleChange}
+                            onToggle={this.handleServeChange}
                             style={{display: 'flex',
                                 marginTop: '10px',
                                 maxWidth:'245px',
@@ -399,7 +412,7 @@ export default class SignUp extends Component {
                                     UserPreferencesStore.getTheme()==='light'
                                     ? '#607D8B' : '#19314B'}
                                 labelColor="#fff"
-                                style={{margin:'15px 0 0 0 '}} />
+                                style={{margin:'25px 0 0 0 '}} />
                         </div>
                         <h1>OR</h1>
                         <div>
