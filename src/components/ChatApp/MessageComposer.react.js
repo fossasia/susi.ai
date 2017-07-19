@@ -8,8 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import VoiceRecognition from './VoiceRecognition';
 import Modal from 'react-modal';
-import RaisedButton from 'material-ui/RaisedButton';
-
+import ReactFitText from 'react-fittext';
+import Close from 'material-ui/svg-icons/navigation/close';
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
@@ -22,14 +22,23 @@ const style = {
 const iconStyles = {
   color: '#fff',
   fill: 'currentcolor',
-  height: '45px',
-  width: '45px',
-  marginLeft: '28px',
-  marginTop: '27px',
+  height: '40px',
+  width: '40px',
+  marginTop: '20px',
   userSelect: 'none',
   transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
 }
 
+const closingStyle ={
+      position: 'absolute',
+      zIndex: 120000,
+      fill: '#444',
+      width: '20px',
+      height: '20px',
+      right: '0px',
+      top: '0px',
+      cursor:'pointer'
+}
 
 class MessageComposer extends Component {
 
@@ -61,7 +70,7 @@ class MessageComposer extends Component {
   onResult = ({interimTranscript,finalTranscript }) => {
     let result = interimTranscript;
     let voiceResponse = false;
-    this.setState({result:result});
+    this.setState({result:result, color: '#ccc'});
     if(finalTranscript) {
       result = finalTranscript;
       this.setState({
@@ -69,7 +78,8 @@ class MessageComposer extends Component {
       result:result,
       stop: false,
       open:false,
-      animate:false
+      animate:false,
+      color: '#000'
       });
       if(this.props.speechOutputAlways || this.props.speechOutput){
         voiceResponse = true;
@@ -78,7 +88,6 @@ class MessageComposer extends Component {
       setTimeout(()=>this.setState({result: ''}),400);
       this.Button = <Mic />
     }
-
   }
 
   componentWillMount(){
@@ -172,23 +181,17 @@ class MessageComposer extends Component {
           contentLabel="Speak Now"
           overlayClassName="Overlay">
           <div className='voice-response'>
-          <h1 className='voice-output'>
+          <ReactFitText compressor={0.5} minFontSize={12} maxFontSize={26}>
+          <h1 style={{color:this.state.color}} className='voice-output'>
           {this.state.result !=='' ? this.state.result :
           'Speak Now...'}
           </h1>
+          </ReactFitText>
           <div className={this.state.animate? 'mic-container active':'mic-container'}>
             <Mic style={iconStyles}/>
           </div>
+          <Close style={closingStyle} onTouchTap={this.onEnd} />
           </div>
-          <RaisedButton
-            label="Cancel"
-            backgroundColor={
-              UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
-            labelColor="#fff"
-            width='200px'
-            keyboardFocused={true}
-            onTouchTap={this.onEnd}
-              />
         </Modal>
         </div>
     );

@@ -27,12 +27,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   background-repeat: no-repeat;
   background-position: center;
 }
-.voice-output{
-  font-family: 'Lato', sans-serif;
-}
+
 .voice-response{
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+      max-width: 745px;
+    margin: 0 auto;
+    text-align: center;
 }
 .mic-container{
   border: 1px solid #eee;
@@ -42,10 +44,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   left: 0;
   pointer-events: none;
   transition: background-color 0.218s,border 0.218s,box-shadow 0.218s;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-color:#FE2222;
-  margin :0 auto;
 }
 .active{
   animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;
@@ -61,7 +62,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   min-width:100%;
   border-radius: 0px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  padding: 50px 50px 50px 126px;
+  padding: 25px;
   background: #fff;
   z-index: 10000;
   position: absolute;
@@ -237,7 +238,13 @@ header{
   user-select: none;
   -webkit-user-select: none;
 }
-
+.text-container{
+  width: 400px;
+  display: block;
+}
+.text-container h1{
+  font-size: 4vw;
+}
 .message-list-item, .thread-list-item {
   display: flex;
   margin: 5px;
@@ -454,14 +461,40 @@ textarea {
   background: #fff;
   margin-top: 3px;
 }
+.voice-output{
+  font-family: 'Lato', sans-serif;
+  width: 500px;
+  font-size: 100%;
+  max-width: 400px;
+  text-align: left;
+  padding-right: 20px;
+}
 
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
     width: 87%;
   }
   .Modal{
-    padding: 5px 5px 5px 20px;
+    padding: 25px 0px 25px 0px;
   }
+  .voice-output{
+    width: 100%;
+    text-align: center;
+    padding-right: 0px;
+    margin: 0 auto;
+  }
+  .mic-container{
+    margin:14px auto;
+    text-align: center;
+  }
+  .voice-response{
+  display: block;
+  flex-wrap: row;
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
 }
 
 .leaflet-container {
