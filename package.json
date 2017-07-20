@@ -14,6 +14,7 @@
     "leaflet": "^1.0.3",
     "material-ui": "^0.18.0",
     "material-ui-password-field": "^1.2.0",
+    "material-ui-responsive-menu": "^1.1.17",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

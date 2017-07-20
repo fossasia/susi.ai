@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import './Overview.css';
 import PropTypes  from 'prop-types';
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Signup from 'material-ui/svg-icons/action/account-circle';
-import Popover from 'material-ui/Popover';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Dialog from 'material-ui/Dialog';
 import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
@@ -18,6 +16,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import HeadRoom from 'react-headroom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
+import IconMenu from 'material-ui/IconMenu';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import FlatButton from 'material-ui/FlatButton';
 
 class Overview extends Component {
 
@@ -28,7 +30,8 @@ class Overview extends Component {
         showOptions: false,
         login:false,
         signup:false,
-        video:false
+        video:false,
+        openDrawer: false
       };
     }
     showOptions = (event) => {
@@ -75,6 +78,9 @@ class Overview extends Component {
         // access to player in all event handlers via event.target
         event.target.pauseVideo();
     }
+    handleDrawer = () => this.setState({openDrawer: !this.state.openDrawer});
+    handleDrawerClose = () => this.setState({openDrawer: false});
+
     render() {
     const bodyStyle = {
       'padding': 0,
@@ -99,54 +105,68 @@ class Overview extends Component {
       keyboardFocused={true}
       onTouchTap={this.handleClose}
 />;
-    const menuItem={
-      color:'#fff',
-      fontWeight:'300'
-    }
-    return (
-            <div>
-              <HeadRoom disableInlineStyles>
-              <Toolbar
-                className='custom-app-bar'
-                style={{
-                  backgroundColor: '#607d8b',
-                  boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #E6E6E6',
-                  height: '46px',
-                }}>
-                <ToolbarGroup >
-                </ToolbarGroup>
-                <ToolbarGroup lastChild={true} >
-                  <MenuItem style={menuItem} primaryText="Overview" href="/overview" />
-                  <MenuItem style={menuItem} primaryText="Docs" href="/docs"/>
-                  <MenuItem style={menuItem} primaryText="Blog" href="/blog"/>
-                  <MenuItem style={menuItem} primaryText="Team" href="/Team"/>
-                <div>
-                <IconButton
-                  iconStyle={{ fill: '#fff', marginLeft:'-25px' }}
-                  onTouchTap={this.showOptions}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Popover
-                  style={{marginLeft:'-25px'}}
-                  open={this.state.showOptions}
-                  anchorEl={this.state.anchorEl}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  onRequestClose={this.closeOptions}
-                >
-                  <MenuItem primaryText="Login"
+
+    const TopMenu = (props) => (
+    <div>
+      <div className="top-menu">
+      <FlatButton label="Overview"  href="/overview" style={{color:'#fff'}} className="topMenu-item"/>
+      <FlatButton label="Docs" href="/docs" style={{color:'#fff'}} className="topMenu-item"/>
+      <FlatButton label="Blog"  href="/blog" style={{color:'#fff'}} className="topMenu-item"/>
+      <FlatButton label="Team"  href="/team" style={{color:'#fff'}} className="topMenu-item"/>
+      </div>
+      <IconMenu
+        {...props}
+        iconButtonElement={
+          <IconButton iconStyle={{color:'#fff'}} ><MoreVertIcon /></IconButton>
+        }
+
+      >
+      <MenuItem primaryText="Login"
                     onTouchTap={this.handleLogin} />
-                  <MenuItem primaryText="Sign Up"
+      <MenuItem primaryText="Sign Up"
                     onTouchTap={this.handleSignUp}
                     rightIcon={<Signup/>} />
-                  <MenuItem primaryText="Chat"
+      <MenuItem primaryText="Chat"
                     containerElement={<Link to="/logout" />}
                     rightIcon={<Chat/>}/>
-                </Popover>
-                </div>
-                </ToolbarGroup>
-              </Toolbar>
+      </IconMenu>
+    </div>
+    );
+
+
+    return (
+            <div>
+
+              <HeadRoom>
+              <AppBar
+                className="topAppBar"
+                title={<img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/>}
+                style={{backgroundColor:'#607d8b'}}
+                onLeftIconButtonTouchTap={this.handleDrawer}
+                iconElementRight={<TopMenu />}
+              />
+
               </HeadRoom>
+
+            <Drawer
+              docked={false}
+              width={200}
+              open={this.state.openDrawer}
+              onRequestChange={(openDrawer) => this.setState({openDrawer})}
+            >
+              <AppBar
+                title={<img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/>}
+                style={{backgroundColor:'#607d8b'}}
+                onTouchTap={this.handleDrawerClose}/>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/blog">Blog</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/teams">teams</Link></MenuItem>
+            </Drawer>
+
+
               <div className='section'>
               <div className='section-container'>
                 <div className="hero">

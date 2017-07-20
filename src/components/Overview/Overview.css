@@ -1,15 +1,22 @@
-.custom-app-bar{
-  background-image: url('../images/susi-white.svg');
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: 20px 8px;
-}
 
+.siteTitle{
+  height: 30px;
+  margin-top: 17px;
+  display: block;
+}
+.iconMenuStyles{
+    margin: 10px 0 0 0;
+}
 .muidocs-icon-navigation-expand-more{
-    display: none !important;
-    visibility: hidden;
+    display: block !important;
+    visibility: visible;
     color: #757575 !important;
     fill: #757575 !important;
+}
+.top-menu{
+    margin: 5px -10px 0px 0;
+    float: left;
+    color: #fff;
 }
 @media screen and (max-width: 800px){
     .muidocs-icon-navigation-expand-more{
@@ -152,8 +159,32 @@
 .img-container{
     width: 50%;
 }
+.topAppBar button{
+    display: none !important;
+}
+.topAppBar div div div button {
+    display: block !important;
+    visibility: visible;
+}
+.drawerItem div{
+    border-left: 3px solid #607d8b;
+    display: block;
+    width: 100%;
+    margin:1px 0 1px 0;
+}
+.drawerItem a{
+    text-decoration: none;
+    color: #000;
+}
 
 @media only screen and (max-width: 800px){
+
+    .topMenu-item{
+        display: none !important;
+    }
+    .topAppBar button{
+        display: block  !important;
+    }
     .conversation__description .description__heading {
         margin-top: 0;
         max-width: 100%;
