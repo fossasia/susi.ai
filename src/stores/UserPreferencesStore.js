@@ -13,6 +13,7 @@ let _defaults = {
     MicInput: true,
     SpeechOutput: true,
     SpeechOutputAlways: false,
+    FeedbackState : true,
     SpeechRate: 1,
     SpeechPitch: 1,
 };
@@ -46,6 +47,9 @@ let UserPreferencesStore = {
 
     getSpeechOutputAlways(){
         return _defaults.SpeechOutputAlways;
+    },
+    getFeedbackState(){
+        return _defaults.FeedbackState;
     },
 
     getSpeechRate(){
@@ -93,6 +97,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.MicInput = settings.micInput;
                 _defaults.SpeechOutput = settings.speechOutput;
                 _defaults.SpeechOutputAlways = settings.speechOutputAlways;
+                _defaults.FeedbackState= settings.feedbackState;
                 _defaults.SpeechRate = settings.rate;
                 _defaults.SpeechPitch = settings.pitch;
             }
@@ -124,9 +129,17 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('speech_always')){
                     let initSpeechOutputAlways = false;
                     if(settings.speech_always === 'true'){
-                        initSpeechOutputAlways = true;
+                    initSpeechOutputAlways = true;
                     }
                     _defaults.SpeechOutputAlways = initSpeechOutputAlways;
+                }
+                if(settings.hasOwnProperty('feedback_state')){
+                    let initFeedbackState = true;
+                    if(settings.feedback_state === 'false'){
+                        console.log('a',settings.feedback_state)
+                        initFeedbackState = false;
+                    }
+                    _defaults.FeedbackState = initFeedbackState;
                 }
                 if(settings.hasOwnProperty('speech_rate')){
                     let initSpeechRate = parseFloat(settings.speech_rate);

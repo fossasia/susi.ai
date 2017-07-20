@@ -26,6 +26,7 @@ class Settings extends Component {
 		let defaultMicInput = defaults.MicInput;
 		let defaultSpeechOutput = defaults.SpeechOutput;
 		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+		let defaultFeedbackState= defaults.FeedbackState;
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		this.state = {
@@ -34,6 +35,7 @@ class Settings extends Component {
 			micInput: defaultMicInput,
 			speechOutput: defaultSpeechOutput,
 			speechOutputAlways: defaultSpeechOutputAlways,
+			feedbackState : defaultFeedbackState,
 			server: defaultServer,
 			serverUrl: '',
             serverFieldError: false,
@@ -62,6 +64,7 @@ class Settings extends Component {
 		let newMicInput = this.state.micInput;
 		let newSpeechOutput = this.state.speechOutput;
 		let newSpeechOutputAlways = this.state.speechOutputAlways;
+		let newFeedbackState = this.state.feedbackState;
 		let newSpeechRate = this.state.speechRate;
 		let newSpeechPitch = this.state.speechPitch;
 		if(newDefaultServer.slice(-1)==='/'){
@@ -74,6 +77,7 @@ class Settings extends Component {
 			micInput: newMicInput,
 			speechOutput: newSpeechOutput,
 			speechOutputAlways: newSpeechOutputAlways,
+			feedbackState : newFeedbackState,
 			rate: newSpeechRate,
 			pitch: newSpeechPitch,
 		}
@@ -111,6 +115,12 @@ class Settings extends Component {
 	handleSpeechOutputAlways = (event, isInputChecked) => {
 		this.setState({
 			speechOutputAlways: isInputChecked,
+		});
+	}
+
+	handleFeedbackState = (event, isInputChecked) => {
+		this.setState({
+			feedbackState: isInputChecked,
 		});
 	}
 
@@ -239,6 +249,13 @@ class Settings extends Component {
 			        		label='Enable speech output regardless of input type'
 			        		onToggle={this.handleSpeechOutputAlways}
 							toggled={this.state.speechOutputAlways}/>
+			        </div>
+			        <div>
+			        	<h4 style={{'marginBottom':'0px'}}>Turn off the feedback system</h4>
+			        	<Toggle style={{maxWidth:'70%'}}
+			        		label='Turn off the feedback system'
+			        		onToggle={this.handleFeedbackState}
+							toggled={this.state.feedbackState}/>
 			        </div>
 			        <div>
 			    		<h4 style={{'marginBottom':'0px'}}>Language</h4>
