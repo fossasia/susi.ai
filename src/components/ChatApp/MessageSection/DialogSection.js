@@ -37,7 +37,8 @@ export default class DialogSection extends Component {
           bodyStyle={this.props.bodyStyle}
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
-          <SignUp {...this.props} />
+          <SignUp {...this.props}
+            onRequestClose={this.props.onRequestClose()}/>
         </Dialog>
 
       {/* Change Password */}

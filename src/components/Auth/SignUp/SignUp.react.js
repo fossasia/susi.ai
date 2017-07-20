@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Login from '../../Auth/Login/Login.react';
 import zxcvbn from 'zxcvbn';
-import Toggle from 'material-ui/Toggle';
+import CustomServer from '../../ChatApp/CustomServer.react';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -50,9 +50,9 @@ export default class SignUp extends Component {
         let state = this.state;
         if (state.success) {
             this.setState({
-                open: false,
-                showSignUp:false
+                msgOpen: false,
             });
+            this.props.onRequestClose();
         }
         else {
             this.setState({
@@ -76,18 +76,15 @@ export default class SignUp extends Component {
             });
         }
     }
+
     handleServeChange=(event)=>{
         let state = this.state;
         let serverUrl
         if (event.target.value === 'customServer') {
-            state.checked?state.checked=false:state.checked=true;
-
-            if(state.checked){
-                let defaults = UserPreferencesStore.getPreferences();
-                state.serverUrl=defaults.Server
-                state.serverFieldError = false;
-            }
-
+            state.checked = !state.checked;
+            let defaults = UserPreferencesStore.getPreferences();
+            state.serverUrl = defaults.StandardServer;
+            state.serverFieldError = false;
         }
         else if (event.target.name === 'serverUrl'){
             serverUrl = event.target.value;
@@ -97,7 +94,7 @@ export default class SignUp extends Component {
             state.serverUrl = serverUrl;
             state.serverFieldError = !(serverUrl && validServerUrl);
         }
-                        this.setState(state);
+        this.setState(state);
 
         if (this.state.serverFieldError) {
             this.customServerMessage = 'Enter a valid URL';
@@ -106,6 +103,15 @@ export default class SignUp extends Component {
             this.customServerMessage = '';
         }
 
+        if(this.state.emailError||
+        this.state.passwordError||
+        this.state.passwordConfirmError||
+        this.state.serverFieldError){
+            this.setState({validForm: false});
+        }
+        else{
+            this.setState({validForm: true});
+        }
     }
 
     handleChange = (event) => {
@@ -184,13 +190,6 @@ export default class SignUp extends Component {
             this.passwordConfirmErrorMessage = '';
         }
 
-/*         if (this.state.serverFieldError) {
-            this.customServerMessage = 'Enter a valid URL';
-        }
-        else{
-            this.customServerMessage = '';
-        } */
-
         if(this.state.emailError||
         this.state.passwordError||
         this.state.passwordConfirmError||
@@ -260,7 +259,7 @@ export default class SignUp extends Component {
                     let state = this.state;
                     state.msg = msg;
                     state.msgOpen = true;
-
+                    state.success = false;
                     this.setState(state);
                 }.bind(this)
             });
@@ -288,29 +287,8 @@ export default class SignUp extends Component {
             serverFieldError: false
         });
     };
-    closealert=()=>{
-        this.setState(
-                {
-                msgOpen: false
-            });
-    }
-    render() {
-        const customUrlStyle= {
-            width:'175px',
-            textAlign:'left',
-            margin:'-35px 0 0px 30px',
-        }
-        const serverURL = <TextField
-                            name="serverUrl"
-                            className="serverUrl"
-                            onChange={this.handleServeChange}
-                            onTouchTap={this.handleServeChange}
-                            value={this.state.serverUrl}
-                            errorText={this.customServerMessage}
-                            floatingLabelText="Custom URL"
-                            style={customUrlStyle} />;
 
-        const hidden = this.state.checked ? serverURL : '';
+    render() {
 
         const styles = {
             'width': '100%',
@@ -327,7 +305,7 @@ export default class SignUp extends Component {
                 backgroundColor={
                     UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
                 labelStyle={{ color: '#fff' }}
-                onTouchTap={this.closealert}
+                onTouchTap={this.handleClose}
             />;
         const loginActions = <RaisedButton
           label="Cancel"
@@ -339,7 +317,7 @@ export default class SignUp extends Component {
           onTouchTap={this.handleClose}
         />;
 
-          const PasswordClass=[`is-strength-${this.state.passwordScore}`];
+        const PasswordClass=[`is-strength-${this.state.passwordScore}`];
 
         return (
             <div className="signUpForm">
@@ -379,31 +357,12 @@ export default class SignUp extends Component {
                                 floatingLabelText="Confirm Password" />
                         </div>
                         <div>
-                            <div>
-                            <Toggle
-                            labelPosition="right"
-                            id={'uniqueId'}
-                            labelStyle={{ zIndex: 3 }}
-                            label={this.state.checked?(
-                                        <label htmlFor={'uniqueId'}>
-                                                <div>
-                                                    {hidden}
-                                                </div>
-                                        </label>
-                            ):'Use Custom Server'}
-                            defaultToggled={false}
-                            onToggle={this.handleServeChange}
-                            style={{display: 'flex',
-                                marginTop: '10px',
-                                maxWidth:'245px',
-                                flexWrap: 'wrap',
-                                height:'28px',
-                                margin: '30px auto 0px auto'}}
-                                value="customServer"
-                            />
-                            </div>
+                            <CustomServer
+                                checked={this.state.checked}
+                                serverUrl={this.state.serverUrl}
+                                customServerMessage={this.customServerMessage}
+                                onServerChange={this.handleServeChange}/>
                         </div>
-
                         <div>
                             <RaisedButton
                                 label="Sign Up"
@@ -434,7 +393,7 @@ export default class SignUp extends Component {
                         actions={actions}
                         modal={false}
                         open={this.state.msgOpen}
-                        onRequestClose={this.closealert}
+                        onRequestClose={this.handleClose}
                     >
                         {this.state.msg}
                     </Dialog></div>
@@ -454,5 +413,6 @@ export default class SignUp extends Component {
 }
 
 SignUp.propTypes = {
-    history: PropTypes.object
+    history: PropTypes.object,
+    onRequestClose: PropTypes.func,
 }
