@@ -48,6 +48,7 @@ let UserPreferencesStore = {
     getSpeechOutputAlways(){
         return _defaults.SpeechOutputAlways;
     },
+
     getFeedbackState(){
         return _defaults.FeedbackState;
     },
@@ -69,6 +70,16 @@ let UserPreferencesStore = {
     },
 
 };
+function checkFalse(value, valueToCheck){
+    let result;
+    if(value === valueToCheck){
+        result = false;
+    }
+    else{
+        result = true;
+    }
+    return result
+}
 
 UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
@@ -106,25 +117,13 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                     _defaults.Theme = settings.theme;
                 }
                 if(settings.hasOwnProperty('enter_send')){
-                    let initEnterAsSend = true;
-                    if(settings.enter_send === 'false'){
-                        initEnterAsSend = false;
-                    }
-                    _defaults.EnterAsSend = initEnterAsSend;
+                    _defaults.EnterAsSend = checkFalse(settings.enter_send ,'false');;
                 }
                 if(settings.hasOwnProperty('mic_input')){
-                    let initMicInput = true;
-                    if(settings.mic_input === 'false'){
-                        initMicInput = false;
-                    }
-                    _defaults.MicInput = initMicInput;
+                    _defaults.MicInput =  checkFalse(settings.mic_input ,'false');
                 }
                 if(settings.hasOwnProperty('speech_output')){
-                    let initSpeechOutput = true;
-                    if(settings.speech_output === 'false'){
-                        initSpeechOutput = false;
-                    }
-                    _defaults.SpeechOutput = initSpeechOutput;
+                    _defaults.SpeechOutput = checkFalse(settings.speech_output,'false');
                 }
                 if(settings.hasOwnProperty('speech_always')){
                     let initSpeechOutputAlways = false;
@@ -134,12 +133,8 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                     _defaults.SpeechOutputAlways = initSpeechOutputAlways;
                 }
                 if(settings.hasOwnProperty('feedback_state')){
-                    let initFeedbackState = true;
-                    if(settings.feedback_state === 'false'){
-                        console.log('a',settings.feedback_state)
-                        initFeedbackState = false;
-                    }
-                    _defaults.FeedbackState = initFeedbackState;
+
+                    _defaults.FeedbackState = checkFalse(settings.feedback_state, 'false');
                 }
                 if(settings.hasOwnProperty('speech_rate')){
                     let initSpeechRate = parseFloat(settings.speech_rate);
