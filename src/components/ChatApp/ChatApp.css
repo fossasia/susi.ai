@@ -714,6 +714,14 @@ em{
   }
 }
 
+.serverUrl{
+  float: left;
+  position: relative;
+  display: block;
+  width: calc(100% - 46px);
+  margin: -15px 0 10px -30px;
+ }
+
 .search{
   -webkit-text-fill-color: white;
   color: white;

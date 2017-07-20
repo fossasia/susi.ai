@@ -8,10 +8,10 @@ import PasswordField from 'material-ui-password-field'
 import $ from 'jquery';
 import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import Dialog from 'material-ui/Dialog';
+import CustomServer from '../../ChatApp/CustomServer.react';
 
 const cookies = new Cookies();
 
@@ -87,7 +87,7 @@ class Login extends Component {
 			        let jsonValue =  jqXHR.status;
 			        if (jsonValue === 404) {
 		              msg = 'Login Failed. Try Again';
-			        }
+			 	       }
 			        else {
     	              msg = 'Some error occurred. Try Again';
 			        }
@@ -103,10 +103,45 @@ class Login extends Component {
 		}
 	}
 
+	handleServeChange = (event) => {
+        let state = this.state;
+        let serverUrl
+        if (event.target.value === 'customServer') {
+            state.checked = !state.checked;
+            let defaults = UserPreferencesStore.getPreferences();
+            state.serverUrl = defaults.StandardServer;
+            state.serverFieldError = false;
+        }
+        else if (event.target.name === 'serverUrl'){
+            serverUrl = event.target.value;
+            let validServerUrl =
+/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
+            .test(serverUrl);
+            state.serverUrl = serverUrl;
+            state.serverFieldError = !(serverUrl && validServerUrl);
+        }
+        this.setState(state);
+
+        if (this.state.serverFieldError) {
+            this.customServerMessage = 'Enter a valid URL';
+        }
+        else{
+            this.customServerMessage = '';
+        }
+
+        if(this.state.emailError||
+        this.state.passwordError||
+        this.state.serverFieldError){
+            this.setState({validForm: false});
+        }
+        else{
+            this.setState({validForm: true});
+        }
+    }
+
 	handleChange = (event) => {
 		let email;
         let password;
-        let serverUrl;
         let state = this.state;
 
         if (event.target.name === 'email') {
@@ -122,23 +157,6 @@ class Login extends Component {
             state.password = password;
             state.passwordError = !(password && validPassword);
         }
-        else if (event.target.value === 'customServer') {
-        	state.checked = true;
-        	state.serverFieldError = true;
-        }
-				else if (event.target.value === 'standardServer') {
-					state.checked = false;
-					state.serverFieldError = false;
-				}
-				else if (event.target.name === 'serverUrl'){
-        	serverUrl = event.target.value;
-        	let validServerUrl =
-/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
-        	.test(serverUrl);
-			state.serverUrl = serverUrl;
-			state.serverFieldError = !(serverUrl && validServerUrl);
-        }
-
 		if (this.state.emailError) {
 			this.emailErrorMessage = 'Enter a valid Email Address';
 		}
@@ -153,13 +171,7 @@ class Login extends Component {
         else{
         	this.passwordErrorMessage='';
         }
-        if (this.state.serverFieldError) {
-        	this.customServerMessage
-        	= 'Enter a valid URL';
-        }
-        else{
-        	this.customServerMessage = '';
-        }
+
 	    if (!state.emailError && !state.passwordError && !state.serverFieldError)
 	    {
 	    	state.validForm = true;
@@ -202,11 +214,6 @@ class Login extends Component {
 	}
 
 	render() {
-		const serverURL = <TextField name="serverUrl"
-							onChange={this.handleChange}
-							errorText={this.customServerMessage}
-							floatingLabelText="Custom URL" />;
-		const hidden = this.state.checked ? serverURL : '';
 
 		const styles = {
 			'width': '100%',
@@ -216,15 +223,6 @@ class Login extends Component {
 		const fieldStyle={
 			'width':'256px'
 		}
-
-		const radioButtonStyles = {
-		  block: {
-		    maxWidth: 250,
-		  },
-		  radioButton: {
-		    marginBottom: 16,
-		  },
-		};
 
 		const ForgotPwdAction = <RaisedButton
 			label="Cancel"
@@ -259,32 +257,12 @@ class Login extends Component {
 								floatingLabelText='Password' />
 						</div>
 						<div>
-							<div>
-							<RadioButtonGroup style={{display: 'flex',
-							  marginTop: '10px',
-							  maxWidth:'200px',
-							  flexWrap: 'wrap',
-							  margin: 'auto'}}
-							 name="server" onChange={this.handleChange}
-							 defaultSelected="standardServer">
-							<RadioButton
-							       value="customServer"
-							       label="Custom Server"
-							       labelPosition="left"
-							       style={radioButtonStyles.radioButton}
-							     />
-							<RadioButton
-							       value="standardServer"
-							       label="Standard Server"
-							       labelPosition="left"
-							       style={radioButtonStyles.radioButton}
-							     />
-							</RadioButtonGroup>
-							</div>
-						</div>
-						<div>
-						{hidden}
-						</div>
+                            <CustomServer
+                                checked={this.state.checked}
+                                serverUrl={this.state.serverUrl}
+                                customServerMessage={this.customServerMessage}
+                                onServerChange={this.handleServeChange}/>
+                        </div>
 						<div>
 							<RaisedButton
 								label="Login"
@@ -292,7 +270,8 @@ class Login extends Component {
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
 								labelColor="#fff"
-								disabled={!this.state.validForm} />
+								disabled={!this.state.validForm}
+								style={{margin:'25px 0 0 0 '}}/>
 						</div>
 						<span>{this.state.msg}</span>
 						<h1>OR</h1>
