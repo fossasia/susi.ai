@@ -463,7 +463,10 @@ height: 100%;
     }
 }
 @media only screen and (max-width: 800px){
-
+    .opensource-logos{
+        width: 480px;
+        margin: 0 auto;
+    }
     .conversation__description .description__heading {
         font-size: 36px;
         margin-top: 0;
@@ -522,4 +525,16 @@ height: 100%;
         width: 90%;
     }
 
+}
+@media only screen and (max-width: 480px){
+   .github_logo img{
+        height: 70px;
+    }
+    .opensource img{
+        height: 150px;
+    }
+    .opensource-logos{
+        width: 170px;
+        margin: 0 auto;
+    }
 }

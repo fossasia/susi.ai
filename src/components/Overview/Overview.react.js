@@ -281,16 +281,18 @@ class Overview extends Component {
                     target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is
                     always available for security reviews and can be improved by
                     anyone with the knowledge and understanding online.</p>
-                    <span className="opensource">
-                      <Link to="https://opensource.org/" target="_blank">
-                      <img src='opensource.png' alt='osi' />
-                      </Link>
-                    </span>
-                    <span className="github_logo">
-                      <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
-                      <img src='github-logo.png' alt='ghlogo' />
-                      </Link>
-                    </span>
+                    <div className="opensource-logos">
+                      <span className="opensource">
+                        <Link to="https://opensource.org/" target="_blank">
+                        <img src='opensource.png' alt='osi' />
+                        </Link>
+                      </span>
+                      <span className="github_logo">
+                        <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
+                        <img src='github-logo.png' alt='ghlogo' />
+                        </Link>
+                      </span>
+                    </div>
                   </div>
                   <div className='img-container'>
                     <img src='shield.svg' alt='Android Mockup'className='shield'  />
