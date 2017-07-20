@@ -370,7 +370,7 @@ height: 100%;
 }
 .headroom--unfixed {
   position: relative;
-  transform: translateY(100%);
+  transform: translateY(0%);
 }
 .headroom--scrolled {
   transition: transform 200ms ease-in-out;
