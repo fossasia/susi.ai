@@ -430,6 +430,12 @@ height: 100%;
     height: 140PX;
 }
 @media only screen and (min-width: 801px) and (max-width: 1095px){
+    .susi-test{
+        text-align: left;
+        width: 50%;
+        margin-left: 0%;
+        max-width: 313px;
+    }
     .conversation__description{
         width: 50%;
     }
@@ -463,6 +469,7 @@ height: 100%;
     }
 }
 @media only screen and (max-width: 800px){
+    
     .opensource-logos{
         width: 480px;
         margin: 0 auto;
@@ -472,8 +479,10 @@ height: 100%;
         margin-top: 0;
     }
     .susi-test{
-        margin-right: 0px;
-        max-width: 100%;
+        text-align: left;
+        width: 100%;
+        margin-left: 0%;
+        max-width: 400px;
     }
     .conversation__description{
         width: 100%;
