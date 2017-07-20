@@ -137,7 +137,7 @@ export function drawTiles(tilesData){
       return(
         <div key={i}>
           <MuiThemeProvider>
-            <Paper zDepth={0} className='tile'>
+            <Paper zDepth={0} className='tile' style={{background:'#e0e0e0'}}>
               <a rel='noopener noreferrer'
                 href={tile.link} target='_blank'
                 className='tile-anchor'>

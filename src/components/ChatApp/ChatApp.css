@@ -754,6 +754,11 @@ em{
   background-repeat: no-repeat;
   background-position: center;
 }
+.tile-title strong span{
+  font-family: "Product Sans", sans-serif;
+  font-weight: 300;
+  color: #001d38;
+}
 
 @media only screen and (max-width: 860px){
   .app-bar-search{
