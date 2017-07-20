@@ -171,14 +171,14 @@ export default class ChangePassword extends Component {
  			      email = cookies.get('email');
             console.log(email);
  		    }
-
         let changePasswordEndPoint =
-            BASE_URL+'/aaa/changepassword.json?'+
+            '/aaa/changepassword.json?'+
             'changepassword=' + email +
-            '&password=' + this.state.passwordValue +
-            '&newpassword=' + this.state.newPasswordValue +
+            '&password=' + encodeURIComponent(this.state.passwordValue) +
+            '&newpassword=' + encodeURIComponent(this.state.newPasswordValue) +
             '&access_token='+cookies.get('loggedIn');
-
+        changePasswordEndPoint = BASE_URL+ changePasswordEndPoint;
+        console.log(changePasswordEndPoint);
         if (!this.state.passwordError
             && !this.state.newPasswordConfirmError) {
             $.ajax({
@@ -187,6 +187,10 @@ export default class ChangePassword extends Component {
                 crossDomain: true,
                 timeout: 3000,
                 async: false,
+                headers: {
+                          'Accept': 'application/json, application/xml, text/play, text/html',
+                          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+                },
                 statusCode: {
                     422: function() {
                       let msg = 'Invalid Credentials. Please check your Email or Password.';

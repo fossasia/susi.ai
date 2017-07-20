@@ -217,7 +217,7 @@ export default class SignUp extends Component {
         }
         let signupEndPoint =
             BASE_URL+'/aaa/signup.json?signup=' + this.state.email +
-            '&password=' + this.state.passwordValue;
+            '&password=' + encodeURIComponent(this.state.passwordValue);
 
         if (!this.state.emailError && !this.state.passwordConfirmError
             && !this.state.serverFieldError) {
