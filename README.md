@@ -50,13 +50,13 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 * Chat bubbles Colour- 
     * Chat bubbles of SUSI- ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
     * Chat bubbles of User-  ![#e0e0e0](https://placehold.it/15/e0e0e0/000000?text=+) `#e0e0e0`
-* Top Bar Colour-  ![#0084ff](https://placehold.it/15/0084ff/000000?text=+) `#0084ff`
-* Buttons Colour- ![#0084ff](https://placehold.it/15/0084ff/000000?text=+) `#0084ff`
+* Top Bar Colour-  ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
+* Buttons Colour- ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
 * Colour of search result- ![#ff5e00](https://placehold.it/15/ff5e00/000000?text=+) `#ff5e00`
 
 * Toggle Colour- 
     * thumbOnColor- ![#5ab1fc](https://placehold.it/15/5ab1fc/000000?text=+) `#5ab1fc`
-    * trackOnColor- ![#0084ff](https://placehold.it/15/0084ff/000000?text=+) `#0084ff`
+    * trackOnColor- ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
 
 * User Feedback Colour-
     * Thumbs Up Colour-

@@ -39,7 +39,7 @@ export default class NotFound extends Component {
         const loginActions = <RaisedButton
           label="Cancel"
           backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+            UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
           labelColor="#fff"
           width='200px'
           keyboardFocused={true}
@@ -48,7 +48,7 @@ export default class NotFound extends Component {
         const signUpActions = <RaisedButton
           label="Cancel"
           backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+            UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
           labelColor="#fff"
           width='200px'
           keyboardFocused={true}
@@ -69,30 +69,31 @@ export default class NotFound extends Component {
                     <h1>404</h1>
                     <h2>Page not found</h2>
                     <div className='button-wrapper'>
-                        <Link to={'/'} className='actionButton'>
-                            <RaisedButton
-                                className='notfound-button'
-                                label='Chat With SUSI'
-                                backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#0084ff' : '#19314B'}
-                                labelColor='#fff'
-                            />
-                        </Link>
+                      <Link to={'/'} className='actionButton'>
+                          <RaisedButton
+                              className='notfound-button'
+                              label='Chat With SUSI'
+                              backgroundColor={
+                              UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}
+                              labelColor='#fff'
+                          />
+                      </Link>
+                      <br />
                         <RaisedButton
                                 className='notfound-button'
                                 label='SignUp to SUSI'
                                 onTouchTap={this.handleOpen}
                                 backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#0084ff' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}
                                 labelColor='#fff'
                         />
-                        <br/>
+                      <br />
                         <RaisedButton
                             className='notfound-button'
                             label='SignIn to SUSI'
                             onTouchTap={this.handleLoginOpen}
                             backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#0084ff' : '#19314B'}
+                                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}
                             labelColor='#fff'
                         />
                     </div>
