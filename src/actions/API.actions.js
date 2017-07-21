@@ -311,6 +311,14 @@ export function pushSettingsToServer(settings){
         makeServerCall(url);
         break;
       }
+      case 'FeedbackState':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=feedback_state&value='+settings.FeedbackState
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
       case 'SpeechRate':{
         url = BASE_URL+'/aaa/changeUserSettings.json?'
           +'key=speech_rate&value='+settings.SpeechRate

@@ -425,6 +425,9 @@ class MessageSection extends Component {
       settingsChanged.SpeechOutputAlways = values.speechOutputAlways;
       resetVoice = true;
     }
+    if(currSettings.FeedbackState !== values.feedbackState){
+      settingsChanged.FeedbackState = values.feedbackState;
+    }
     if(currSettings.SpeechRate !== values.rate){
       settingsChanged.SpeechRate = values.rate;
     }

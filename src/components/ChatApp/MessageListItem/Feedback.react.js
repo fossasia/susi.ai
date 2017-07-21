@@ -74,10 +74,13 @@ class Feedback extends React.Component {
 
 	render(){
 		let message = this.props.message;
-
+		let defaultFeedback= UserPreferencesStore.getFeedbackState();
 		let feedbackButtons = null;
 		let feedbackStyle = {
-			position: 'relative'
+			top: 5,
+			display: defaultFeedback?'block':'none',
+			position: 'relative',
+			float: 'right'
 		}
 
 		if(message.authorName === 'SUSI'){
