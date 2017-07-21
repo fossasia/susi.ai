@@ -69,16 +69,16 @@ export default class NotFound extends Component {
                     <h1>404</h1>
                     <h2>Page not found</h2>
                     <div className='button-wrapper'>
-                        <Link to={'/'} className='actionButton'>
-                            <RaisedButton
-                                className='notfound-button'
-                                label='Chat With SUSI'
-                                backgroundColor={
-                                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}
-                                labelColor='#fff'
-                            />
-                        </Link>
-                        <br/>
+                      <Link to={'/'} className='actionButton'>
+                          <RaisedButton
+                              className='notfound-button'
+                              label='Chat With SUSI'
+                              backgroundColor={
+                              UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}
+                              labelColor='#fff'
+                          />
+                      </Link>
+                      <br />
                         <RaisedButton
                                 className='notfound-button'
                                 label='SignUp to SUSI'
@@ -87,7 +87,7 @@ export default class NotFound extends Component {
                                 UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}
                                 labelColor='#fff'
                         />
-                        <br/>
+                      <br />
                         <RaisedButton
                             className='notfound-button'
                             label='SignIn to SUSI'
