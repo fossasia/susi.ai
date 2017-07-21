@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import './Overview.css';
 import PropTypes  from 'prop-types';
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Signup from 'material-ui/svg-icons/action/account-circle';
-import Popover from 'material-ui/Popover';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Dialog from 'material-ui/Dialog';
 import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
@@ -15,22 +13,68 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import { Link } from 'react-router-dom';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
-import HeadRoom from 'react-headroom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
+import IconMenu from 'material-ui/IconMenu';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import FlatButton from 'material-ui/FlatButton';
+import $ from 'jquery'
 
 class Overview extends Component {
 
     constructor(props) {
+        //  var st = $(window).scrollTop();
+       // console.log('st const', st )
       super(props);
       this.state = {
         open: false,
         showOptions: false,
         login:false,
         signup:false,
-        video:false
+        video:false,
+        openDrawer: false
       };
     }
+    componentDidMount(){
+      var didScroll;
+      var lastScrollTop = 0;
+      var delta = 5;
+      var navbarHeight = $('header').outerHeight();
+      $(window).scroll(function(event){
+          didScroll = true;
+      });
+
+      setInterval(function() {
+          if (didScroll) {
+              hasScrolled();
+              didScroll = false;
+          }
+      }, 2500);
+
+      function hasScrolled() {
+          var st = $(window).scrollTop();
+
+          // Make sure they scroll more than delta
+          if(Math.abs(lastScrollTop - st) <= delta){
+
+              return;
+          }
+
+          // If they scrolled down and are past the navbar, add class .nav-up.
+          // This is necessary so you never see what is "behind" the navbar.
+          if (st > lastScrollTop && st > navbarHeight){
+              // Scroll Down
+              $('header').removeClass('nav-down').addClass('nav-up');
+          } else if(st + $(window).height() < $(document).height()) {
+                  $('header').removeClass('nav-up').addClass('nav-down');
+              }
+
+          lastScrollTop = st;
+      }
+
+    }
+
     showOptions = (event) => {
       event.preventDefault();
       this.setState({
@@ -75,6 +119,9 @@ class Overview extends Component {
         // access to player in all event handlers via event.target
         event.target.pauseVideo();
     }
+    handleDrawer = () => this.setState({openDrawer: !this.state.openDrawer});
+    handleDrawerClose = () => this.setState({openDrawer: false});
+
     render() {
     const bodyStyle = {
       'padding': 0,
@@ -98,47 +145,71 @@ class Overview extends Component {
       width='200px'
       keyboardFocused={true}
       onTouchTap={this.handleClose}
-    />;
-    return (
-            <div>
-              <HeadRoom>
-              <Toolbar
-                className='custom-app-bar'
-                style={{
-                  backgroundColor: '#607d8b',
-                  boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #E6E6E6',
-                  height: '46px'
-                }}>
-                <ToolbarGroup >
-                </ToolbarGroup>
-                <ToolbarGroup lastChild={true} >
-                <div>
-                <IconButton
-                  iconStyle={{ fill: '#fff', marginLeft:'-25px' }}
-                  onTouchTap={this.showOptions}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Popover
-                  style={{marginLeft:'-25px'}}
-                  open={this.state.showOptions}
-                  anchorEl={this.state.anchorEl}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  onRequestClose={this.closeOptions}
-                >
-                  <MenuItem primaryText="Login"
+/>;
+
+    const TopMenu = (props) => (
+    <div>
+      <div className="top-menu">
+      <FlatButton label="Overview"  href="/overview" style={{color:'#fff'}} className="topMenu-item"/>
+      <FlatButton label="Docs" href="/docs" style={{color:'#fff'}} className="topMenu-item"/>
+      <FlatButton label="Blog"  href="/blog" style={{color:'#fff'}} className="topMenu-item"/>
+      <FlatButton label="Team"  href="/team" style={{color:'#fff'}} className="topMenu-item"/>
+      </div>
+      <IconMenu
+        {...props}
+        iconButtonElement={
+          <IconButton iconStyle={{color:'#fff'}} ><MoreVertIcon /></IconButton>
+        }
+
+      >
+      <MenuItem primaryText="Login"
                     onTouchTap={this.handleLogin} />
-                  <MenuItem primaryText="Sign Up"
+      <MenuItem primaryText="Sign Up"
                     onTouchTap={this.handleSignUp}
                     rightIcon={<Signup/>} />
-                  <MenuItem primaryText="Chat"
+      <MenuItem primaryText="Chat"
                     containerElement={<Link to="/logout" />}
                     rightIcon={<Chat/>}/>
-                </Popover>
-                </div>
-                </ToolbarGroup>
-              </Toolbar>
-              </HeadRoom>
+      </IconMenu>
+    </div>
+    );
+
+
+    return (
+            <div>
+
+{/*               <HeadRoom>
+ */}
+              <header className="nav-down" id="headerSection">
+              <AppBar
+                className="topAppBar"
+                title={<img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/>}
+                style={{backgroundColor:'#607d8b'}}
+                onLeftIconButtonTouchTap={this.handleDrawer}
+                iconElementRight={<TopMenu />}
+              />
+              </header>
+{/*               </HeadRoom>
+ */}
+            <Drawer
+              docked={false}
+              width={200}
+              open={this.state.openDrawer}
+              onRequestChange={(openDrawer) => this.setState({openDrawer})}
+            >
+              <AppBar
+                title={<img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/>}
+                style={{backgroundColor:'#607d8b'}}
+                onTouchTap={this.handleDrawerClose}/>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/blog">Blog</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/teams">teams</Link></MenuItem>
+            </Drawer>
+
+
               <div className='section'>
               <div className='section-container'>
                 <div className="hero">
@@ -146,9 +217,9 @@ class Overview extends Component {
                   <h1>Meet SUSI, Your Personal Assistant.</h1>
                   <p>Ask it questions. Tell it to do things. Always ready to help.</p>
                   <a onClick={this.handleVideo} style={{color:'#3367d6',
-                  marginLeft: '-35px',marginTop:'20px'}}>
+                  cursor:'pointer',position:'relative'}}>
                     <PlayCircle style={{fill:'#3367d6',
-                    marginRight:'5px'}} /><span className='watchStyle'>Watch</span>
+                    marginRight:'50px'}} /><span className='watchStyle'>Watch</span>
                   </a>
                 </div>
               </div>
@@ -183,7 +254,7 @@ class Overview extends Component {
               </div>
               <div className="section_copy">
                 <div className="conversation__description">
-                  <div className="description__heading">For all Devices</div>
+                  <div className="description__heading">For your Smartphone</div>
                   <p className="description__text">SUSI is available for <b>Android</b>
                    &nbsp;and <b>iOS devices</b>.
                    Download the App to have access to SUSI on the go.</p>
@@ -196,39 +267,81 @@ class Overview extends Component {
                   <img src='android-mockup.jpg' alt='Android Mockup' className='android-mockup' />
                 </div>
               </div>
+
               <div className="section_copy">
-                <div className="conversation__description custom_description">
-                  <div className="description__heading">Integrate
-                  SUSI with your
-                  favorite chat services and social networks.</div>
-                  <p className="description__text"><b>SUSI.AI</b> already runs on many chat
-                  services and social networks. We are developing plugins for all
-                  major services including
-                   &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-                   &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>.
-                   Just set up SUSI on your channel and add
-                   &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.</p>
-                   </div>
-                <div className='img-container'>
-                  <img src='bots.jpg' alt='Android Mockup' className='bots-mockup' />
+                <div className="column_section">
+                  <div className="conversation__description custom_description">
+                    <div className='img-container'>
+                      <img src='bots.jpg' alt='Android Mockup' className='bots-mockup' />
+                    </div>
+                    <div className="description__heading">On many Platforms</div>
+                    <p className="description__text"><b>SUSI.AI</b> already runs on many chat
+                    services and social networks. We are developing plugins for all
+                    major services including
+                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
+                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>.
+                    Just set up SUSI on your channel and add
+                    &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+                    </p>
+                    </div>
                 </div>
-              </div>
-              <div className="section_copy">
-                <div className="conversation__description">
+                <div className="column_section">
+                  <div className='img-container'>
+                      <img src='all_devices.png' alt='Android Mockup' className='bots-mockup' />
+                  </div>
+                  <div className="conversation__description custom_description">
+                    <div className="description__heading">For all Devices</div>
+                    <p className="description__text"><b >SUSI.AI</b> is available for android, iOS devices and also you can use it from <Link to="http://chat.susi.ai">http://chat.susi.ai</Link>
+                    </p>
+                    </div>
+
+                </div>
+                <div className="column_section">
+                  <div className="conversation__description custom_description">
+                    <div className='img-container'>
+                      <img src='many_languages.png' alt='Android Mockup' className='bots-mockup' />
+                    </div>
+                    <div className="description__heading">Use it in many Languages</div>
+                    <p className="description__text">You can use <b>SUSI.AI</b> in DIfferent
+                     languages
+                    </p>
+                    </div>
+
+                </div>
+              </div>{/* section_copy ends */}
+
+               <div className="section_copy safty_and_secure">
+                  <div className="conversation__description">
+
                   <div className="description__heading">Safe and secure.</div>
-                  <p className="description__text"><b>SUSI.AI</b> is <b>Open Source</b>. The code is
-                  always available for security reviews and can be improved by
-                  anyone with the knowledge and understanding online.</p>
+                    <p className="description__text"><span className="inLineLogo"></span> is <b>
+                    <Link style={{textDecoration:'none',color:'#000'}}
+                    target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is
+                    always available for security reviews and can be improved by
+                    anyone with the knowledge and understanding online.</p>
+                    <div className="opensource-logos">
+                      <span className="opensource">
+                        <Link to="https://opensource.org/" target="_blank">
+                        <img src='opensource.png' alt='osi' />
+                        </Link>
+                      </span>
+                      <span className="github_logo">
+                        <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
+                        <img src='github-logo.png' alt='ghlogo' />
+                        </Link>
+                      </span>
+                    </div>
+                  </div>
+                  <div className='img-container'>
+                    <img src='shield.svg' alt='Android Mockup'className='shield'  />
+                  </div>
                 </div>
-                <div className='img-container'>
-                  <img src='shield.svg' alt='Android Mockup'className='shield'  />
-                </div>
-              </div>
+
               <div className='footer'>
                 <div className='footer-container'>
                 <img src='susi.svg' alt='SUSI' className='susi-logo' />
