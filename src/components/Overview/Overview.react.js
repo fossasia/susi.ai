@@ -20,10 +20,15 @@ import IconMenu from 'material-ui/IconMenu';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
+import $ from 'jquery'
+
+
 
 class Overview extends Component {
 
     constructor(props) {
+        //  var st = $(window).scrollTop();
+       // console.log('st const', st )
       super(props);
       this.state = {
         open: false,
@@ -33,6 +38,44 @@ class Overview extends Component {
         video:false,
         openDrawer: false
       };
+    }
+    componentDidMount(){
+      var didScroll;
+      var lastScrollTop = 0;
+      var delta = 5;
+      var navbarHeight = $('header').outerHeight();
+      $(window).scroll(function(event){
+          didScroll = true;
+      });
+
+      setInterval(function() {
+          if (didScroll) {
+              hasScrolled();
+              didScroll = false;
+          }
+      }, 2500);
+
+      function hasScrolled() {
+          var st = $(window).scrollTop();
+
+          // Make sure they scroll more than delta
+          if(Math.abs(lastScrollTop - st) <= delta){
+
+              return;
+          }
+
+          // If they scrolled down and are past the navbar, add class .nav-up.
+          // This is necessary so you never see what is "behind" the navbar.
+          if (st > lastScrollTop && st > navbarHeight){
+              // Scroll Down
+              $('header').removeClass('nav-down').addClass('nav-up');
+          } else if(st + $(window).height() < $(document).height()) {
+                  $('header').removeClass('nav-up').addClass('nav-down');
+              }
+
+          lastScrollTop = st;
+      }
+
     }
     showOptions = (event) => {
       event.preventDefault();
@@ -137,7 +180,9 @@ class Overview extends Component {
     return (
             <div>
 
-              <HeadRoom>
+{/*               <HeadRoom>
+ */}
+              <header className="nav-down" id="headerSection">
               <AppBar
                 className="topAppBar"
                 title={<img src="susi-white.svg" alt="susi-logo"
@@ -146,9 +191,9 @@ class Overview extends Component {
                 onLeftIconButtonTouchTap={this.handleDrawer}
                 iconElementRight={<TopMenu />}
               />
-
-              </HeadRoom>
-
+              </header>
+{/*               </HeadRoom>
+ */}
             <Drawer
               docked={false}
               width={200}

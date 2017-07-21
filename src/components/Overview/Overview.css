@@ -429,6 +429,18 @@ height: 100%;
 .opensource img{
     height: 140PX;
 }
+header {
+    background: #f5b335;
+    height: 40px;
+    position: fixed;
+    top: 0;
+    transition: top 0.5s ease-in-out;
+    width: 100%;
+}
+
+.nav-up {
+    top: -100px;
+}
 @media only screen and (min-width: 801px) and (max-width: 1095px){
     .susi-test{
         text-align: left;
