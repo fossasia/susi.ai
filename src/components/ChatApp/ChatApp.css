@@ -267,6 +267,17 @@ header{
   border-radius: 16.5px;
   font-family: "Product Sans", sans-serif;
 }
+.message-container::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  left: 100%;
+  top: 40px;
+  transform: rotate(-135deg);
+  border: 8px solid;
+  border-color: transparent transparent #e0e0e0 #e0e0e0;
+  transform-origin: 0 0;
+}
 
 @-webkit-keyframes SUSI {
   from {opacity: 0.6;
@@ -282,6 +293,7 @@ header{
       transform: none;}
 }
 .message-container.SUSI{
+  border: none;
   animation-iteration-count: 1;
   animation: SUSI 700ms  ease-out;
 }
@@ -392,13 +404,13 @@ header{
   padding-right: 16px;
 }
 
-/* .message-container.SUSI::after {
+.message-container.SUSI::after {
   transform: rotate(-315deg);
   left: 0;
   top: 16px;
-  border-color: transparent transparent #e0e0e0 #e0e0e0;
+  border-color: transparent transparent #fff #fff;
   background: #fff;
-} */
+} 
 
 .dark .message-container.SUSI::after{
   border-color:#194b5e #194b5e rgb(25, 75, 94) rgb(25, 75, 94);
