@@ -238,25 +238,6 @@ header{
   user-select: none;
   -webkit-user-select: none;
 }
-.feedback{
-  position: absolute;
-  top: 47%;
-  transform: translate(15%, -47%);
-  width: 100px;
-  direction: ltr;
-  text-align: left;
-  left: 0;
-}
-.feedback-container{
-  position: relative;
-  float: left;
-}
-@media screen and (max-width: 800px){
-  .feedback{
-    transform: translate(2%, -47%);
-    max-width: 48px;
-  }
-}
 .text-container{
   width: 400px;
   display: block;
@@ -266,6 +247,7 @@ header{
 }
 .message-list-item, .thread-list-item {
   display: flex;
+  margin: 5px;
 }
 
 @-webkit-keyframes SUSI {
@@ -374,9 +356,9 @@ header{
 }
 
 .message-container.SUSI{
+  margin-right: auto;
   margin-left: 12px;
   background: #d3e2f4;
-  margin-right: 5px;
 }
 
 .dark .message-container.SUSI{
@@ -387,7 +369,6 @@ header{
 
 .message-container.You{
   background: #fff;
-  margin-right: 14px;
 }
 
 .dark .message-container.You{
@@ -425,6 +406,7 @@ header{
 .dark .message-time, .thread-time{
   color: #7eaaaf;
 }
+
 .message-text, .thread-last-message {
   font-size: 14px;
   margin: 0;
@@ -595,6 +577,7 @@ textarea {
   margin: 4px;
   border-radius: 8px;
   margin-left: auto;
+  margin-right: 12px;
 }
 
 .tile{
