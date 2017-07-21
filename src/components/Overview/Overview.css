@@ -1,15 +1,22 @@
-.custom-app-bar{
-  background-image: url('../images/susi-white.svg');
-  margin: 0 auto;
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: center;
+
+.siteTitle{
+  height: 30px;
+  margin-top: 17px;
+  display: block;
+}
+.iconMenuStyles{
+    margin: 10px 0 0 0;
 }
 .muidocs-icon-navigation-expand-more{
-    display: none !important;
-    visibility: hidden;
+    display: block !important;
+    visibility: visible;
     color: #757575 !important;
     fill: #757575 !important;
+}
+.top-menu{
+    margin: 5px -10px 0px 0;
+    float: left;
+    color: #fff;
 }
 @media screen and (max-width: 800px){
     .muidocs-icon-navigation-expand-more{
@@ -50,14 +57,16 @@
     padding-top: 80px;
 }
 @media only screen and (max-width: 800px){
-.section-container {
-    padding: 60px 20px;
-}
+    .section-container {
+        padding: 60px 20px;
+    }
+
 }
 @media only screen and (max-width: 1139px){
-.section-container {
-    padding: 100px 40px;
-}
+    .section-container {
+        padding: 100px 40px;
+    }
+
 }
 @media only screen and (max-width: 800px){
  .bubble {
@@ -97,19 +106,20 @@
     font-family: 'Roboto', sans-serif;
 }
 .description__text {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 300;
-    line-height: 32px;
+    line-height: 40px;
     max-width: 440px;
     color: #414141;
     font-family: 'Roboto', sans-serif;
 }
 .section_copy{
+    -webkit-font-smoothing: antialiased;
     margin: 0 auto;
     max-width: none;
     padding: 100px 20px 100px 90px;
     position: relative;
-    max-width: 1170px;
+    max-width: 1050px;
     align-items: center;
     box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
     display: -ms-flexbox;
@@ -118,6 +128,9 @@
     flex-flow: row wrap;
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
+}
+.safty_and_secure{
+    padding: 100px 0 240px 0;
 }
 .bots{
     display: flex;
@@ -136,30 +149,60 @@
     font-family: 'Roboto', sans-serif;
 }
 .android-mockup{
-    max-width: 45%;
-    margin-left: 35%;
+    max-width: 60%;
+    margin-left: 10%;
 }
 .bots-mockup{
     padding: 10px;
 }
 
+.img-container{
+    width: 50%;
+}
+.topAppBar button{
+    display: none !important;
+}
+.topAppBar div div div button {
+    display: block !important;
+    visibility: visible;
+}
+.drawerItem div{
+    border-left: 3px solid #607d8b;
+    display: block;
+    width: 100%;
+    margin:1px 0 1px 0;
+}
+.drawerItem a{
+    text-decoration: none;
+    color: #000;
+}
 
 @media only screen and (max-width: 800px){
-.conversation__description .description__heading {
-    margin-top: 0;
-    max-width: 100%;
-}
-.section_copy{
-    padding: 60px 0px;
-}
-.img-container {
-    padding-right: 20px;
-}
-.android-mockup{
-    max-width: 100%;
-    margin-left: 0%;
-    text-align: center;
-}
+
+    .topMenu-item{
+        display: none !important;
+    }
+    .topAppBar button{
+        display: block  !important;
+    }
+    .conversation__description .description__heading {
+        margin-top: 0;
+        max-width: 100%;
+    }
+    .section_copy{
+        padding: 60px 0px;
+    }
+    .img-container {
+        padding-right: 20px;
+    }
+    .android-mockup{
+        max-width: 100%;
+        margin-left: 0%;
+        text-align: center;
+    }
+    .github_logo img{
+        height: 120px;
+    }
 }
 img {
     max-width: 100%;
@@ -168,13 +211,13 @@ img {
 .watchStyle{
     position: absolute;
     margin-top: 2px;
-    left: 52px;
+    left: 31px;
     right: 0px;
-    font-weight: 600;
+    font-weight: 600;;
 }
 @media only screen and (min-width: 542px) and (max-width: 799px){
     .android-mockup{
-    max-width: 50%;
+    max-width: 100%;
     margin-left: 0%;
     text-align: center;
 }
@@ -199,14 +242,21 @@ img {
     margin: 20px 0;
 }
 .custom_description{
-    width: 55%;
+    width: 50%;
     font-family: 'Roboto', sans-serif;
+}
+.inLineLogo{
+    height: 16px;
+    width: 100px;
+    background: url('../images/susi-logo.svg') center center no-repeat;
+    background-size: contain;
+    display: inline-block;
 }
 .shield{
     width:250px;
     padding: 10px;
-    margin-right:100px;
-    margin-bottom: 60px;
+    margin: 0 auto;
+    display: block;
 }
 .alignLeft{
     flex:1 50%;
@@ -220,8 +270,9 @@ img {
     flex-direction: row-reverse;
 }
 .susi-test{
-    margin-right: 156px;
     text-align: left;
+    width: 60%;
+    margin-left: 10%;
     max-width: 313px;
 }
 .Video-Modal{
@@ -235,11 +286,13 @@ img {
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
 }
 .footer-container a{
+    text-decoration: none;
     color: #414141;
     margin: 0 14px;
     font-size: 1em;
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
+    cursor: pointer;
 }
 
 .Video-Overlay{
@@ -251,97 +304,10 @@ img {
     background: rgba(0,0,0,0.07);    
 }
 .footer-container{
-    padding: 30px 10% 20px;
+    padding: 50px 10% 20px;
     display: flex;
 }
-@media only screen and (min-width: 801px) and (max-width: 1095px){
-    .conversation__description{
-        width: 100%;
-    }
-    .description__text{
-        max-width: 100%;
-    }
-    .bots{
-        max-width: 500px;
-    }
-    .img-container{
-        width: 100%;
-        text-align: center;
-    }
-    .img-conatainer img{
-        margin:auto;
-        width: 50%;
-    }
-    .alignLeft{
-    flex:1 100%;
-    }
-    .alignRight{
-        flex:1 100%;
-        clear: left;
-    }
-    .android-mockup {
-        max-width: 50%;
-        margin-left: 0%;
-    }
-}
-@media only screen and (max-width: 800px){
-.conversation__description .description__heading {
-    font-size: 36px;
-    margin-top: 0;
-}
-.susi-test{
-    margin-right: 0px;
-    max-width: 100%;
-}
-    .conversation__description{
-        width: 100%;
-    }
-    .description__text{
-        max-width: 100%;
-    }
-    .bots{
-        max-width: 500px;
-    }
-    .img-container{
-        max-width: 100%;
-       text-align: center;
-    }
-    .img-conatainer img{
-        margin:auto;
-    }
-.shield{
-    margin-right:0px;
-    margin-bottom: 200px;
-}
-.alignLeft,.alignRight{
-    flex:1 100%;
-    display: block;
-    padding-left: 0;
-    list-style: none;
-    list-style-type: none;
-}
-.alignLeft li,.alignRight li{
-    float: left;
-    padding: 0 30px 15px 0;
-}
-.footer-container{
-    display: block;
-}
 
-.alignLeft a, .alignRight a{
-    margin-left: 0px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-}
-.Video-Modal{
-    left: 20px;
-    right: 20px;
-    width: 90%;
-}
-
-}
 .alignLeft,.alignRight{
     list-style: none;
     list-style-type: none;
@@ -381,7 +347,7 @@ height: 100%;
 .footer{
     background: #f6f6f6;
     margin-top: 40px;
-    min-height: 80px;
+    min-height: 140px;
     position: absolute;
     width: 100%;
     bottom: 0;
@@ -408,4 +374,188 @@ height: 100%;
     height: 45px;
     width: 152px;
     margin-bottom: 20px;
+}
+.column_section{
+    width: 30%;
+    margin: 0 1%;
+    min-height: 750px;
+}
+.column_section .custom_description{
+    width: 100%;
+}
+.column_section .img-container{
+    width: 100%;
+    text-align: center;
+}
+.column_section .custom_description .description__heading{
+    font: 300 24px/32px Roboto,sans-serif;
+}
+.column_section  .description__text{
+    line-height: 40px;
+}
+.headroom {
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.headroom--unfixed {
+  position: relative;
+  transform: translateY(0%);
+}
+.headroom--scrolled {
+  transition: transform 200ms ease-in-out;
+}
+.headroom--unpinned {
+  position: fixed;
+  transform: translateY(-100%);
+}
+.headroom--pinned {
+  position: fixed;
+  transform: translateY(0%);
+}
+.opensource{
+    float: left;
+}
+.opensource img{
+    height: 170px;
+}
+.github_logo{
+    float: left;
+}
+.github_logo img{
+    height: 140px;
+}
+.opensource img{
+    height: 140PX;
+}
+header {
+    background: #f5b335;
+    height: 40px;
+    position: fixed;
+    top: 0;
+    transition: top 0.5s ease-in-out;
+    width: 100%;
+}
+
+.nav-up {
+    top: -100px;
+}
+@media only screen and (min-width: 801px) and (max-width: 1095px){
+    .susi-test{
+        text-align: left;
+        width: 50%;
+        margin-left: 0%;
+        max-width: 313px;
+    }
+    .conversation__description{
+        width: 50%;
+    }
+    .description__text{
+        max-width: 100%;
+    }
+    .bots{
+        max-width: 500px;
+    }
+    .img-container{
+        width: 50%;
+        text-align: center;
+    }
+    .img-conatainer img{
+        margin:auto;
+        width: 50%;
+    }
+    .alignLeft{
+    flex:1 100%;
+    }
+    .alignRight{
+        flex:1 100%;
+        clear: left;
+    }
+    .android-mockup {
+        max-width: 50%;
+        margin-left: 0%;
+    }
+   .github_logo img{
+        height: 100px;
+    }
+}
+@media only screen and (max-width: 800px){
+    
+    .opensource-logos{
+        width: 480px;
+        margin: 0 auto;
+    }
+    .conversation__description .description__heading {
+        font-size: 36px;
+        margin-top: 0;
+    }
+    .susi-test{
+        text-align: left;
+        width: 100%;
+        margin-left: 0%;
+        max-width: 400px;
+    }
+    .conversation__description{
+        width: 100%;
+    }
+    .description__text{
+        max-width: 100%;
+    }
+    .bots{
+        max-width: 500px;
+    }
+    .img-container{
+        max-width: 100%;
+       margin: 0 auto;
+    }
+    .img-conatainer img{
+        margin:auto;
+    }
+    .shield{
+        margin: 0 auto 140px auto;
+    }
+    .column_section{
+        width: 100%;
+    }
+    .alignLeft,.alignRight{
+        flex:1 100%;
+        display: block;
+        padding-left: 0;
+        list-style: none;
+        list-style-type: none;
+    }
+    .alignLeft li,.alignRight li{
+        float: left;
+        padding: 0 30px 15px 0;
+    }
+    .footer-container{
+        display: block;
+    }
+
+    .alignLeft a, .alignRight a{
+        margin-left: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+    .Video-Modal{
+        left: 20px;
+        right: 20px;
+        width: 90%;
+    }
+
+}
+@media only screen and (max-width: 480px){
+   .github_logo img{
+        height: 70px;
+    }
+    .opensource img{
+        height: 150px;
+    }
+    .opensource-logos{
+        width: 170px;
+        margin: 0 auto;
+    }
 }
