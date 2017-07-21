@@ -1,0 +1,180 @@
+.app-logo{
+    height: 24px;
+    width: 74px;
+}
+.wrapper{
+    margin: -10px 0 0 0;
+}
+
+.code_box{
+  padding: 10px 50px 10px 50px;
+  border-radius: 15px;
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+
+.conversation__description_center .description__heading {
+    font-size: 42px;
+    margin-bottom: 5px;
+    text-align: center;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+
+.conversation__description_center .description__text {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 40px;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+
+@media only screen and (max-width: 800px){
+  .hero h1 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+}
+.hero h1 {
+    font-size: 42px;
+    font-weight: 100;
+    margin: 0 auto;
+    max-width: 880px;
+    font-family: 'Roboto', sans-serif;
+}
+
+@media only screen and (max-width: 800px){
+.hero p,.description__text {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+.hero p{
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 32px;
+    margin: 15px auto;
+    max-width: 430px;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.section {
+    border-bottom: 1px solid #dfdfdf;
+    margin: -20px 0 0 0;
+}
+
+.section-container {
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 80px 20px 120px;
+    position: relative;
+    text-align: center;
+}
+
+.section_copy{
+    -webkit-font-smoothing: antialiased;
+    margin: 0 auto;
+    max-width: none;
+    padding: 100px 20px 100px 90px;
+    position: relative;
+    max-width: 1050px;
+    align-items: center;
+    box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.piechart_data{
+  text-align: right;
+}
+
+.img-container{
+    width: 50%;
+}
+
+.conversation__description .description__heading {
+    margin-bottom: 10px;
+}
+@media only screen and (max-width: 800px){
+
+    .opensource-logos{
+        width: 480px;
+        margin: 0 auto;
+    }
+    .conversation__description .description__heading {
+        font-size: 36px;
+        margin-top: 0;
+    }
+    .conversation__description{
+        width: 100%;
+    }
+    .description__text{
+        max-width: 100%;
+    }
+
+}
+@media only screen and (max-width: 1139px){
+.conversation__description .description__heading {
+    font-size: 36px;
+}
+}
+.conversation__description .description__heading {
+    font-size: 43px;
+    font-weight: 100;
+    margin: 20px 0;
+}
+.custom_description{
+    width: 50%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-container a{
+    text-decoration: none;
+    color: #414141;
+    margin: 0 14px;
+    font-size: 1em;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+
+.footer-container{
+    padding: 50px 10% 20px;
+    display: flex;
+}
+.footer-container a:hover {
+    text-decoration: none;
+    color:#757575;;
+}
+
+.footer{
+    background: #f6f6f6;
+    margin-top: 40px;
+    min-height: 140px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.drawerItem div{
+    border-left: 3px solid #0084ff;
+    display: block;
+    width: 100%;
+    margin:1px 0 1px 0;
+}
+@media only screen and (max-width: 480px){
+   .github_logo img{
+        height: 70px;
+    }
+    .opensource img{
+        height: 150px;
+    }
+    .opensource-logos{
+        width: 170px;
+        margin: 0 auto;
+    }
+}
