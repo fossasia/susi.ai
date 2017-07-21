@@ -75,7 +75,7 @@ class Support extends Component {
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
