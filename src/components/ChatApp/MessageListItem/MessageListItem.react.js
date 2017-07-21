@@ -104,7 +104,11 @@ class MessageListItem extends React.Component {
       if(Object.keys(this.props.message.response).length > 0){
         let data = this.props.message.response;
         let actions = this.props.message.actions;
-        let listItems = []
+        let listItems = [];
+        let mapIndex = actions.indexOf('map');
+        if(mapIndex>-1){
+          actions = ['map'];
+        }
         actions.forEach((action,index)=>{
           switch(action){
             case 'answer': {
@@ -135,6 +139,7 @@ class MessageListItem extends React.Component {
               break
             }
             case 'map': {
+              index = mapIndex;
               let lat = parseFloat(data.answers[0].actions[index].latitude);
               let lng = parseFloat(data.answers[0].actions[index].longitude);
               let zoom = parseFloat(data.answers[0].actions[index].zoom);
@@ -150,6 +155,8 @@ class MessageListItem extends React.Component {
                     listItems.push(
                       <li className='message-list-item' key={action+index}>
                         <section className={messageContainerClasses}>
+                        <div className='message-text'>{replacedText}</div>
+                        <br/>
                         <div>{mymap}</div>
                           {renderMessageFooter(message,latestUserMsgID)}
                         </section>
@@ -167,6 +174,8 @@ class MessageListItem extends React.Component {
               listItems.push(
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
+                  <div className='message-text'>{replacedText}</div>
+                  <br/>
                   <div>{mymap}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
                   </section>
