@@ -464,6 +464,7 @@ header{
   text-align: left;
   color: inherit;
   outline: 0;
+  min-width: 100%;
 }
 
 .dark .message-composer{
@@ -485,15 +486,18 @@ textarea {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  width: 92%;
+  width: 90%;
   resize: none;
   border-radius: 6px;
   padding-left: 10px;
   padding-top: 10px;
   font-size: 14px;
-  height: 72%;
+  height: 82%;
   background: #fff;
   margin-top: 3px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .voice-output{
   font-family: 'Lato', sans-serif;
@@ -506,7 +510,7 @@ textarea {
 
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
-    width: 87%;
+    width: 82%;
   }
   .Modal{
     padding: 25px 0px 25px 0px;
@@ -530,7 +534,11 @@ textarea {
   text-align: center;
 }
 }
-
+@media only screen and (min-width: 768px) and (max-width: 1024px){
+  textarea{
+    width: 88%;
+  }
+}
 .leaflet-container {
   height: 150px;
   width: 250px;
