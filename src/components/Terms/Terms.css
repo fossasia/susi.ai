@@ -1,0 +1,108 @@
+.app-logo{
+    height: 24px;
+    width: 74px;
+}
+.wrapper{
+    margin: -10px 0 0 0;
+}
+.section {
+    border-bottom: 1px solid #dfdfdf;
+    margin: -20px 0 0 0;
+}
+
+.section-container {
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 80px 20px 120px;
+    position: relative;
+    text-align: center;
+}
+
+.side-menu{
+    float: left;
+    width: 33%;
+    font-family: "Product Sans", sans-serif;
+    font-weight: 300;
+    line-height: 22px;
+}
+.side-menu h4{
+    float: left;
+    font-size: 22px;
+    font-weight:300;
+}
+
+.terms-list{
+    float: left;
+    width: 66%;
+    text-align: justify;
+    font-family: "Product Sans", sans-serif;
+    font-weight: 300;
+    line-height: 22px;
+    margin: -35px 0 0 0;
+}
+
+.terms-list h2{
+    font-size: 30px;
+    font-weight: 300;
+}
+
+.footer-container a{
+    text-decoration: none;
+    color: #414141;
+    margin: 0 14px;
+    font-size: 1em;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+
+.footer-container{
+    padding: 50px 10% 20px;
+    display: flex;
+}
+.footer-container a:hover {
+    text-decoration: none;
+    color:#757575;;
+}
+
+.footer{
+    background: #f6f6f6;
+    margin-top: 40px;
+    min-height: 140px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.drawerItem div{
+    border-left: 3px solid #0084ff;
+    display: block;
+    width: 100%;
+    margin:1px 0 1px 0;
+}
+
+@media only screen and (max-width: 800px){
+    .side-menu{
+        width: 100%;
+    }
+    .side-menu h4{
+        font-size: 35px;
+        line-height: 35px;
+    }
+    .terms-list{
+        width: 100%;
+        margin: -35px 0 80px 0;
+    }
+    .terms-list h2{
+        line-height: 35px;
+    }
+}
+@media only screen and (max-width: 400px){
+
+    .side-menu h4{
+        text-align: left;
+    }
+
+    .terms-list h2{
+        text-align: left;
+    }
+}
