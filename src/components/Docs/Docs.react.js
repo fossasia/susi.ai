@@ -133,6 +133,9 @@ class Overview extends Component {
       'padding': 0,
       textAlign: 'center'
     }
+    const urlStyle = {
+      textDecoration: 'none'
+    }
     const {expandedSector} = this.state;
 
     const data=[
@@ -225,8 +228,9 @@ class Overview extends Component {
 
               <div className='hero'>
               <div className='section-container'>
-                  <h1>Developer Guide</h1>
-                  <p>Guide for developers looking to contribute to SUSI.AI Web Chat</p>
+                <img className="dev_image" src='susi-developer.png' style={{margin: '20px 0'}} alt='SUSI Developers'/>
+                <h1>Developer Guide</h1>
+                <p>Guide for developers looking to contribute to SUSI.AI Web Chat</p>
               </div>
               </div>
               <div className="section_copy">
@@ -286,11 +290,11 @@ class Overview extends Component {
                   <img src='react.svg' alt='React' />
                 </div>
               </div>
-              <div className="section_copy">
-                <div className="conversation__description">
+              <div className="section_center">
+                <div className="center__description">
                   <div className="description__heading">Running on Local Host</div>
                     <ul className="description__text">
-                      <li>Fork chat.susi.ai <a href="https://github.com/fossasia/chat.susi.ai/">repository</a> and
+                      <li>Fork chat.susi.ai <a style={urlStyle} href="https://github.com/fossasia/chat.susi.ai/">repository</a> and
                          clone it to your desktop and cd into that cloned folder.
                       </li>
                       <li> Install all the dependencies by running :</li>
@@ -304,11 +308,11 @@ class Overview extends Component {
                     </ul>
                 </div>
               </div>
-              <div className="section_copy">
-                <div className="conversation__description">
+              <div className="section_center">
+                <div className="center__description">
                   <div className="description__heading">Connecting to SUSI Hardware</div>
                     <ul className="description__text">
-                      <li>Configure your Susi Hardware Device using instructions <a href="https://github.com/fossasia/susi_hardware">here</a> </li>
+                      <li>Configure your Susi Hardware Device using instructions <a style={urlStyle}  href="https://github.com/fossasia/susi_hardware">here</a> </li>
                       <li> Go to settings and then Connect to Susi Hardware</li>
                       <li>Add the default WebSocket URL for your Susi Hardwre Device.
                          If you are using webchat on the same device as Susi Hardware,
@@ -322,13 +326,13 @@ class Overview extends Component {
                     </ul>
                 </div>
               </div>
-              <div className="section_copy">
-                <div className="conversation__description">
+              <div className="section_center">
+                <div className="center__description">
                   <div className="description__heading">Contribution Guidelines</div>
                     <p className="description__text">
                       We at FOSSASIA follow certain guidelines to maintain our codebase.
                       Please read the best practises and other
-                      instructions <a href="http://blog.fossasia.org/open-source-developer-guide-and-best-practices-at-fossasia/">here</a>
+                      instructions <a style={urlStyle}  href="http://blog.fossasia.org/open-source-developer-guide-and-best-practices-at-fossasia/">here</a>
                     </p>
                 </div>
               </div>
