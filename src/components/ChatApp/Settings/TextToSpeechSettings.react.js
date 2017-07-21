@@ -79,7 +79,7 @@ class TextToSpeechSettings extends Component {
 
 		const subHeaderStyle = {
 			color: UserPreferencesStore.getTheme()==='light'
-								? '#607D8B' : '#19314B'
+								? '#0084ff' : '#19314B'
 		}
 
 		return (
@@ -132,7 +132,7 @@ class TextToSpeechSettings extends Component {
 							label="Save"
 							backgroundColor={
 								UserPreferencesStore.getTheme()==='light'
-								? '#607D8B' : '#19314B'}
+								? '#0084ff' : '#19314B'}
 							labelColor="#fff"
 							onClick={this.handleSubmit}
 						/>

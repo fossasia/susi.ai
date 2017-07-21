@@ -200,7 +200,7 @@ class ForgotPassword extends Component {
 			<FlatButton
 				label="OK"
 				backgroundColor={
-					UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+					UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
 				labelStyle={{ color: '#fff' }}
 				onTouchTap={this.handleClose}
 			/>;
@@ -230,7 +230,7 @@ class ForgotPassword extends Component {
 								type="submit"
 								label="Reset"
 								backgroundColor={
-									UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+									UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
 								labelColor="#fff"
 	              				style={{margin:'25px 0 0 0 '}}
 								disabled={!this.state.validForm} />

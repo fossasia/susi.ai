@@ -163,7 +163,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
 }
 
 .message-section {
-  background: #f5f4f7;
+  background: #f5f4f6;
   position: fixed;
   top: 46px;
   left: 0;
@@ -246,8 +246,37 @@ header{
   font-size: 4vw;
 }
 .message-list-item, .thread-list-item {
+  color: #001d38;
   display: flex;
   margin: 5px;
+}
+.message-container{
+  position: relative;
+  min-width: 60px;
+  max-width: 80%;
+  font-size: 16px;
+  font-weight: 300;
+  vertical-align: middle;
+  line-height: 22px;
+  padding: 12.1px 16.5px 12.1px;
+  margin: 4px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: 12px;
+  border: 1.1px solid #e0e0e0;
+  border-radius: 16.5px;
+  font-family: "Product Sans", sans-serif;
+}
+.message-container::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  left: 100%;
+  top: 40px;
+  transform: rotate(-135deg);
+  border: 8px solid;
+  border-color: transparent transparent #e0e0e0 #e0e0e0;
+  transform-origin: 0 0;
 }
 
 @-webkit-keyframes SUSI {
@@ -264,6 +293,7 @@ header{
       transform: none;}
 }
 .message-container.SUSI{
+  border: none;
   animation-iteration-count: 1;
   animation: SUSI 700ms  ease-out;
 }
@@ -284,17 +314,8 @@ header{
   animation-iteration-count: 1;
   animation: You 700ms  ease;
 }
-.message-container::after {
-  content: "";
-  position: absolute;
-  box-sizing: border-box;
-  left: 100%;
-  top: 40px;
-  transform: rotate(-135deg);
-  border: 8px solid;
-  border-color: transparent transparent #fff #fff;
-  transform-origin: 0 0;
-}
+
+
 
 .dark .message-container::after{
   border-color: rgb(26, 66, 86) #1a4257 rgb(26, 66, 86) rgb(26, 66, 86);
@@ -358,7 +379,8 @@ header{
 .message-container.SUSI{
   margin-right: auto;
   margin-left: 12px;
-  background: #d3e2f4;
+  margin-right: 5px;
+  background: #fff;
 }
 
 .dark .message-container.SUSI{
@@ -368,7 +390,8 @@ header{
 }
 
 .message-container.You{
-  background: #fff;
+  background: #e0e0e0;
+  border: none;
 }
 
 .dark .message-container.You{
@@ -385,9 +408,9 @@ header{
   transform: rotate(-315deg);
   left: 0;
   top: 16px;
-  border-color: transparent transparent #d3e2f4 #d3e2f4;
-  background: #d3e2f4;
-}
+  border-color: transparent transparent #fff #fff;
+  background: #fff;
+} 
 
 .dark .message-container.SUSI::after{
   border-color:#194b5e #194b5e rgb(25, 75, 94) rgb(25, 75, 94);
@@ -398,13 +421,26 @@ header{
   list-style-type: none;
   font-size: 12px;
   color: #90a4ae;
-  margin: 0;
+  margin: 3px 0px -3px -38px;
   padding: 0;
   text-align: right;
 }
-
+.response-time{
+  margin: 3px -9px -3px 1px;
+}
+.feedback{
+    list-style-type: none;
+    font-size: 12px;
+    color: #90a4ae;
+    margin: -4px -5px -7px 0px;
+    padding: 0;
+    text-align: right;
+}
 .dark .message-time, .thread-time{
+  float: right;
   color: #7eaaaf;
+  margin: 7px 15px -7px 0;
+
 }
 
 .message-text, .thread-last-message {
@@ -480,7 +516,8 @@ header{
 
 textarea {
   border: none;
-  font-family: 'Lato', sans-serif;
+  font-family: "Product Sans", sans-serif;
+  font-weight: 300;
   overflow: auto;
   outline: none;
   -webkit-box-shadow: none;
@@ -488,11 +525,11 @@ textarea {
   box-shadow: none;
   width: 90%;
   resize: none;
-  border-radius: 6px;
+  border-radius: 40px;
   padding-left: 10px;
   padding-top: 10px;
-  font-size: 14px;
-  height: 82%;
+  font-size: 16px;
+  height: 72%;
   background: #fff;
   margin-top: 3px;
   -webkit-box-sizing: border-box;
@@ -564,20 +601,6 @@ textarea {
   background-repeat: no-repeat;
   width: 25px;
   height: 25px;
-}
-
-.message-container{
-  position: relative;
-  min-width: 80px;
-  max-width: 80%;
-  font-size: 17px;
-  line-height: 22px;
-  padding: 8px;
-  padding-bottom: 3px;
-  margin: 4px;
-  border-radius: 8px;
-  margin-left: auto;
-  margin-right: 12px;
 }
 
 .tile{
@@ -742,6 +765,11 @@ em{
   background-size: 100px;
   background-repeat: no-repeat;
   background-position: center;
+}
+.tile-title strong span{
+  font-family: "Product Sans", sans-serif;
+  font-weight: 300;
+  color: #001d38;
 }
 
 @media only screen and (max-width: 860px){

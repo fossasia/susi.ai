@@ -200,7 +200,7 @@ class MessageListItem extends React.Component {
               listItems.push(
                   <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
-                    <div><div className='message-text'>
+                    <div><div className='message-text rss-out'>
                       {renderTiles(rssTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}

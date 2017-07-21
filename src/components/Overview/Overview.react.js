@@ -140,7 +140,7 @@ class Overview extends Component {
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -163,6 +163,7 @@ class Overview extends Component {
 
       >
       <MenuItem primaryText="Login"
+
                     onTouchTap={this.handleLogin} />
       <MenuItem primaryText="Sign Up"
                     onTouchTap={this.handleSignUp}
@@ -178,20 +179,18 @@ class Overview extends Component {
     return (
             <div>
 
-{/*               <HeadRoom>
- */}
+
               <header className="nav-down" id="headerSection">
               <AppBar
                 className="topAppBar"
                 title={<img src="susi-white.svg" alt="susi-logo"
                 className="siteTitle"/>}
-                style={{backgroundColor:'#607d8b'}}
+                style={{backgroundColor:'#0084ff'}}
                 onLeftIconButtonTouchTap={this.handleDrawer}
                 iconElementRight={<TopMenu />}
               />
               </header>
-{/*               </HeadRoom>
- */}
+
             <Drawer
               docked={false}
               width={200}
@@ -201,7 +200,7 @@ class Overview extends Component {
               <AppBar
                 title={<img src="susi-white.svg" alt="susi-logo"
                 className="siteTitle"/>}
-                style={{backgroundColor:'#607d8b'}}
+                style={{backgroundColor:'#0084ff'}}
                 onTouchTap={this.handleDrawerClose}/>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>

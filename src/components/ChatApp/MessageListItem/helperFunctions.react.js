@@ -45,14 +45,14 @@ export function renderMessageFooter(message,latestMsgID){
       height:'13px'
     }
     statusIndicator = (
-      <li className='message-time' style={footerStyle}>
+      <li className='response-time' style={footerStyle}>
         <TickIcon style={indicatorStyle}
           color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
       </li>
     );
     if(message.id === latestMsgID){
       statusIndicator = (
-        <li className='message-time' style={footerStyle}>
+        <li className='response-time' style={footerStyle}>
           <ClockIcon style={indicatorStyle}
             color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
         </li>);
@@ -137,7 +137,7 @@ export function drawTiles(tilesData){
       return(
         <div key={i}>
           <MuiThemeProvider>
-            <Paper zDepth={0} className='tile'>
+            <Paper zDepth={0} className='tile' style={{background:'#e0e0e0'}}>
               <a rel='noopener noreferrer'
                 href={tile.link} target='_blank'
                 className='tile-anchor'>

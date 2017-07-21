@@ -93,14 +93,16 @@ class Feedback extends React.Component {
 			let positiveFeedbackColor = feedbackColor;
 			let negativeFeedbackColor = feedbackColor;
 			if(this.state.positive){
-				positiveFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#0000ff' : '#00ff7f';
+				positiveFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
 			}
 			else if(this.state.negative){
-				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#0000ff' : '#00ff7f';
+				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
 			}
 
 				feedbackButtons = (
-					<span className='message-time' style={feedbackStyle}>
+
+					<span className='feedback' style={feedbackStyle}>
+
 						<ThumbUp
 							onClick={this.rateSkill.bind(this,'positive')}
 							style={feedbackIndicator}
