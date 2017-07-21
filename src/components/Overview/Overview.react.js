@@ -13,7 +13,6 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import { Link } from 'react-router-dom';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
-import HeadRoom from 'react-headroom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
 import IconMenu from 'material-ui/IconMenu';
@@ -21,8 +20,6 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
 import $ from 'jquery'
-
-
 
 class Overview extends Component {
 
@@ -77,6 +74,7 @@ class Overview extends Component {
       }
 
     }
+
     showOptions = (event) => {
       event.preventDefault();
       this.setState({
