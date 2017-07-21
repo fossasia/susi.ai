@@ -157,7 +157,7 @@ class TopBar extends Component {
 		let topBackground = UserPreferencesStore.getTheme();
 		switch (topBackground) {
 			case 'light': {
-				backgroundCol = '#0084ff';
+				backgroundCol = '#4285f4';
 				break;
 			}
 			case 'dark': {

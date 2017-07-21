@@ -140,7 +140,7 @@ class Overview extends Component {
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -185,7 +185,7 @@ class Overview extends Component {
                 className="topAppBar"
                 title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
                 className="siteTitle"/></a>}
-                style={{backgroundColor:'#0084ff'}}
+                style={{backgroundColor:'#4285f4'}}
                 onLeftIconButtonTouchTap={this.handleDrawer}
                 iconElementRight={<TopMenu />}
               />
@@ -200,7 +200,7 @@ class Overview extends Component {
               <AppBar
                 title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
                 className="siteTitle"/></a>}
-                style={{backgroundColor:'#0084ff'}}
+                style={{backgroundColor:'#4285f4'}}
                 onTouchTap={this.handleDrawerClose}/>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>

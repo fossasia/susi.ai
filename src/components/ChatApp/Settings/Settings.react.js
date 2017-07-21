@@ -176,7 +176,7 @@ class Settings extends Component {
 
 		const subHeaderStyle = {
 			color: UserPreferencesStore.getTheme()==='light'
-								? '#0084ff' : '#19314B'
+								? '#4285f4' : '#19314B'
 		}
 
 		const radioButtonStyles = {
@@ -296,7 +296,7 @@ class Settings extends Component {
 							disabled={!this.state.validForm}
 							backgroundColor={
 								UserPreferencesStore.getTheme()==='light'
-								? '#0084ff' : '#19314B'}
+								? '#4285f4' : '#19314B'}
 							labelColor="#fff"
 							onClick={this.handleSubmit}
 						/>

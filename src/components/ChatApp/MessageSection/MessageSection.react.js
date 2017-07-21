@@ -34,7 +34,7 @@ function getStateFromStores() {
     showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
-    header: UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B',
+    header: UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B',
     pane: '',
     textarea: '',
     composer:'',
@@ -398,7 +398,7 @@ class MessageSection extends Component {
       let headerColor = '';
       switch(values.Theme){
         case 'light': {
-            headerColor = '#0084ff';
+            headerColor = '#4285f4';
             break;
         }
         case 'dark': {
@@ -553,7 +553,7 @@ class MessageSection extends Component {
     let topBackground = this.state.currTheme;
     switch(topBackground){
       case 'light':{
-        backgroundCol = '#0084ff';
+        backgroundCol = '#4285f4';
         break;
       }
       case 'dark':{
@@ -568,7 +568,7 @@ class MessageSection extends Component {
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -578,7 +578,7 @@ class MessageSection extends Component {
   const customSettingsDone = <RaisedButton
       label="Done"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -590,7 +590,7 @@ class MessageSection extends Component {
       key={'Cancel'}
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={false}
@@ -601,7 +601,7 @@ class MessageSection extends Component {
       key={'OK'}
       label="OK"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={false}
@@ -613,7 +613,7 @@ class MessageSection extends Component {
       key={'Cancel'}
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={false}
@@ -656,7 +656,7 @@ class MessageSection extends Component {
                   width: '150px'
                 }}
                 backgroundColor={
-                  UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+                  UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -677,7 +677,7 @@ class MessageSection extends Component {
                 width: '150px'
               }}
               backgroundColor={
-                UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+                UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />

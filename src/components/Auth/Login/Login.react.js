@@ -227,7 +227,7 @@ class Login extends Component {
 		const ForgotPwdAction = <RaisedButton
 			label="Cancel"
 			backgroundColor={
-				UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+				UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 			labelColor="#fff"
 			width='200px'
 			keyboardFocused={true}
@@ -268,7 +268,7 @@ class Login extends Component {
 								label="Login"
 								type="submit"
 								backgroundColor={
-									UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
 								disabled={!this.state.validForm}
 								style={{margin:'25px 0 0 0 '}}/>
@@ -285,7 +285,7 @@ class Login extends Component {
 								<RaisedButton
 									label='Chat Anonymously'
 									backgroundColor={
-										UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 									labelColor="#fff" />
 							</Link>
 						</div>
