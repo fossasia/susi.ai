@@ -228,10 +228,14 @@ class MessageListItem extends React.Component {
               // do nothing
           }
         });
-
+        // Only set voice Outputs for text responses
         let voiceOutput;
         if(this.props.message.text!==undefined){
+          // Remove all hyper links
           voiceOutput = this.props.message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+        }
+        else{
+          voiceOutput= '';
         }
         return (<div>{listItems}
               { this.props.message.voice &&
