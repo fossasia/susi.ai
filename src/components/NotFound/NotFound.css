@@ -23,44 +23,54 @@
 
 .button-wrapper{
     position: absolute;
-    left: 44%;
+    width: 100%;
   }
 .notfound-button{
-    margin: 20px 10px;
-    float: left;
+  width: 40%;
+  margin: 10px 10% ;
 }
 
 @media screen and (min-width: 1920px) {
   .button-wrapper{
     position: absolute;
-    left: 47%;;
+  }
+  .notfound-button{
+    width: 40%;
   }
 }
 
 @media screen and (max-width: 991px) {
-.button-wrapper{
-    position: absolute;
-    left: 44%;
+    .button-wrapper{
+      position: absolute;
+    }
+    .notfound-button{
+      width: 40%;
     }
 }
 
 @media screen and (max-width: 767px) {
-  .button-wrapper{
-    position: absolute;
-    left: 44%;
+    .button-wrapper{
+      position: absolute;
+    }
+    .notfound-button{
+      width: 60%;
     }
 }
 
 @media screen and (max-width: 479px) {
-  .button-wrapper{
-    position: absolute;
-    left: 44%;
+    .button-wrapper{
+      position: absolute;
+    }
+    .notfound-button{
+      width: 80%;
     }
 }
 
 @media screen and (max-width: 359px) {
-  .button-wrapper{
-    position: absolute;
-    left: 44%;
+    .button-wrapper{
+      position: absolute;
+    }
+    .notfound-button{
+      width: 80%;
     }
 }
