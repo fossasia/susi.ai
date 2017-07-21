@@ -14,15 +14,21 @@ import {
 	Switch,
 	hashHistory
 } from 'react-router-dom';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 ChatWebAPIUtils.getSettings();
 ChatWebAPIUtils.getLocation();
 ChatWebAPIUtils.getHistory();
 ChatWebAPIUtils.getAllMessages();
-
+const muiTheme = getMuiTheme({
+  toggle: {
+    thumbOnColor: '#5ab1fc',
+    trackOnColor: '#0084ff'
+  }
+});
 const App = () => (
 	<Router history={hashHistory}>
-		<MuiThemeProvider>
+		<MuiThemeProvider muiTheme={muiTheme}>
 			<Switch>
 				<Route exact path="/" component={ChatApp} />
 				<Route exact path="/logout" component={Logout} />
