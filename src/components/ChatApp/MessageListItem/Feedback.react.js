@@ -116,7 +116,7 @@ class Feedback extends React.Component {
 			if(message.feedback.isRated){
 				feedbackIndicator.cursor = 'auto';
 				feedbackButtons = (
-					<span className='message-time' style={feedbackStyle}>
+					<span className='feedback' style={feedbackStyle}>
 						<ThumbUp
 							style={feedbackIndicator}
 							color={positiveFeedbackColor}/>
