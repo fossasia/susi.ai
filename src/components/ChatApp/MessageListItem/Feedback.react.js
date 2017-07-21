@@ -77,14 +77,16 @@ class Feedback extends React.Component {
 
 		let feedbackButtons = null;
 		let feedbackStyle = {
-			position: 'relative'
+			top: 5,
+			display:'block',
+			position: 'relative',
+			float: 'right'
 		}
 
 		if(message.authorName === 'SUSI'){
 			let feedbackIndicator = {
 				height:'16px',
-				cursor: 'pointer',
-				transition: 'all 600ms ease-in'
+				cursor: 'pointer'
 			}
 
 			let feedbackColor = UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf';
@@ -98,14 +100,12 @@ class Feedback extends React.Component {
 			}
 
 				feedbackButtons = (
-					<span className='feedback' style={feedbackStyle}>
+					<span className='message-time' style={feedbackStyle}>
 						<ThumbUp
-							className='thumbs'
 							onClick={this.rateSkill.bind(this,'positive')}
 							style={feedbackIndicator}
 							color={positiveFeedbackColor}/>
 						<ThumbDown
-							className='thumbs'
 							onClick={this.rateSkill.bind(this,'negative')}
 							style={feedbackIndicator}
 							color={negativeFeedbackColor}/>
@@ -114,7 +114,7 @@ class Feedback extends React.Component {
 			if(message.feedback.isRated){
 				feedbackIndicator.cursor = 'auto';
 				feedbackButtons = (
-					<span className='feedback' style={feedbackStyle}>
+					<span className='message-time' style={feedbackStyle}>
 						<ThumbUp
 							style={feedbackIndicator}
 							color={positiveFeedbackColor}/>
@@ -130,7 +130,7 @@ class Feedback extends React.Component {
 		}
 		return(
 			<span>
-				{this.props.show ? feedbackButtons : null}
+				{feedbackButtons}
 			</span>
 		);
 	}
@@ -138,7 +138,6 @@ class Feedback extends React.Component {
 
 Feedback.propTypes = {
   message: PropTypes.object,
-  show: PropTypes.bool
 };
 
 export default Feedback;

@@ -70,41 +70,32 @@ export function renderMessageFooter(message,latestMsgID){
           'en-US',
           { hour: 'numeric',minute:'numeric', hour12: true }
         )}
+        <Feedback
+          message={message} />
       </li>
       {statusIndicator}
     </ul>
   );
 }
-// Render Feedback
-export function renderMessageFeedback(message, show){
 
-  return(
-    <span className='feedback-container'>
-    <Feedback
-          message={message}
-          show={show}
-        />
-    </span>
-  );
-}
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
 export function processText(text,type){
   if(text){
     text = text.toString();
-    let processedText = '';
-    switch(type){
-      case 'websearch-rss':{
-        let htmlText = Parser(text);
-        processedText = <Emojify>{htmlText}</Emojify>;
-        break;
-      }
-      default:{
-        let imgText = imageParse(text);
-        let replacedText = parseAndReplace(imgText);
-        processedText = <Emojify>{replacedText}</Emojify>;
-      }
-    }
-    return processedText;
+  	let processedText = '';
+  	switch(type){
+  		case 'websearch-rss':{
+  			let htmlText = Parser(text);
+		    processedText = <Emojify>{htmlText}</Emojify>;
+  			break;
+  		}
+  		default:{
+		    let imgText = imageParse(text);
+		    let replacedText = parseAndReplace(imgText);
+		    processedText = <Emojify>{replacedText}</Emojify>;
+  		}
+  	}
+  	return processedText;
   };
   return text;
 }

@@ -7,7 +7,6 @@ import $ from 'jquery';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
   getRSSTiles, renderMessageFooter,
-  renderMessageFeedback
 } from './helperFunctions.react.js';
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
@@ -20,7 +19,6 @@ class MessageListItem extends React.Component {
     super(props);
     this.state = {
       play: false,
-      show: false
     }
   }
 
@@ -31,16 +29,7 @@ class MessageListItem extends React.Component {
   onEnd = () => {
     this.setState({ play: false });
   }
-  mouseOver = () => {
-    this.setState({
-      show:true
-    })
-  }
-  mouseLeaves = () => {
-    this.setState({
-      show:false
-    })
-  }
+
   render() {
 
     let {message} = this.props;
@@ -63,7 +52,6 @@ class MessageListItem extends React.Component {
 
     let stringWithLinks = this.props.message.text;
     let replacedText = '';
-    let show = this.state.show;
     let markMsgID = this.props.markID;
     if(this.props.message.hasOwnProperty('mark')
        && markMsgID) {
@@ -121,14 +109,11 @@ class MessageListItem extends React.Component {
           switch(action){
             case 'answer': {
               listItems.push(
-                <li className='message-list-item'
-                key={action+index}
-                onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                <li className='message-list-item' key={action+index}>
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
                   </section>
-                  {renderMessageFeedback(message,show)}
                 </li>
               );
               break
@@ -137,9 +122,7 @@ class MessageListItem extends React.Component {
               let link = data.answers[0].actions[index].link;
               let text = data.answers[0].actions[index].text;
               listItems.push(
-                <li className='message-list-item'
-                key={action+index}
-                onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                <li className='message-list-item' key={action+index}>
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>
                     <a href={link} target='_blank'
@@ -147,7 +130,6 @@ class MessageListItem extends React.Component {
                   </div>
                     {renderMessageFooter(message,latestUserMsgID)}
                   </section>
-                  {renderMessageFeedback(message,show)}
                 </li>
               );
               break
@@ -166,13 +148,11 @@ class MessageListItem extends React.Component {
                   success: function (response) {
                     mymap = drawMap(response.latitude,response.longitude,zoom);
                     listItems.push(
-                      <li className='message-list-item' key={action+index}
-                      onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                      <li className='message-list-item' key={action+index}>
                         <section className={messageContainerClasses}>
                         <div>{mymap}</div>
                           {renderMessageFooter(message,latestUserMsgID)}
                         </section>
-                        {renderMessageFeedback(message,show)}
                       </li>
                       );
                   },
@@ -185,14 +165,11 @@ class MessageListItem extends React.Component {
               mymap = drawMap(lat,lng,zoom);
               }
               listItems.push(
-                <li className='message-list-item'
-                key={action+index}
-                onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div>{mymap}</div>
                     {renderMessageFooter(message,latestUserMsgID)}
                   </section>
-                  {renderMessageFeedback(message,show)}
                 </li>
                 );
               break
@@ -202,14 +179,11 @@ class MessageListItem extends React.Component {
               let count = data.answers[0].actions[index].count;
               let table = drawTable(coloumns,data.answers[0].data,count);
               listItems.push(
-                <li className='message-list-item'
-                key={action+index}
-                onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
                     {renderMessageFooter(message,latestUserMsgID)}
                   </section>
-                  {renderMessageFeedback(message,show)}
                 </li>
               );
               break
@@ -224,16 +198,13 @@ class MessageListItem extends React.Component {
               }
               let rssTiles = getRSSTiles(rssKeys,data.answers[0].data,count);
               listItems.push(
-                  <li className='message-list-item'
-                  key={action+index}
-                  onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                  <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
                     <div><div className='message-text'>
                       {renderTiles(rssTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}
                     </section>
-                    {renderMessageFeedback(message,show)}
                   </li>
                 );
               break;
@@ -241,16 +212,13 @@ class MessageListItem extends React.Component {
             case 'websearch': {
               let websearchTiles = this.props.message.websearchresults;
               listItems.push(
-                  <li className='message-list-item'
-                  key={action+index}
-                  onMouseEnter={this.mouseOver} onMouseLeave={this.mouseLeaves}>
+                  <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
                     <div><div className='message-text'>
                       {renderTiles(websearchTiles)}
                     </div></div>
                       {renderMessageFooter(message,latestUserMsgID)}
                     </section>
-                    {renderMessageFeedback(message,show)}
                   </li>
                 );
               break;
@@ -285,7 +253,6 @@ class MessageListItem extends React.Component {
         <div className='message-text'>{replacedText}</div>
           {renderMessageFooter(message,latestUserMsgID)}
         </section>
-        {renderMessageFeedback(message,show)}
       </li>
     );
   }
