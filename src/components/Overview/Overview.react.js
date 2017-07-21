@@ -24,8 +24,6 @@ import $ from 'jquery'
 class Overview extends Component {
 
     constructor(props) {
-        //  var st = $(window).scrollTop();
-       // console.log('st const', st )
       super(props);
       this.state = {
         open: false,
@@ -33,7 +31,9 @@ class Overview extends Component {
         login:false,
         signup:false,
         video:false,
-        openDrawer: false
+        openDrawer: false,
+        baseUrl: window.location.protocol + '//' + window.location.host + '/'
+
       };
     }
     componentDidMount(){
@@ -183,8 +183,8 @@ class Overview extends Component {
               <header className="nav-down" id="headerSection">
               <AppBar
                 className="topAppBar"
-                title={<img src="susi-white.svg" alt="susi-logo"
-                className="siteTitle"/>}
+                title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/></a>}
                 style={{backgroundColor:'#4285f4'}}
                 onLeftIconButtonTouchTap={this.handleDrawer}
                 iconElementRight={<TopMenu />}
@@ -198,9 +198,9 @@ class Overview extends Component {
               onRequestChange={(openDrawer) => this.setState({openDrawer})}
             >
               <AppBar
-                title={<img src="susi-white.svg" alt="susi-logo"
-                className="siteTitle"/>}
-                style={{backgroundColor:'#0084ff'}}
+                title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/></a>}
+                style={{backgroundColor:'#4285f4'}}
                 onTouchTap={this.handleDrawerClose}/>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>
