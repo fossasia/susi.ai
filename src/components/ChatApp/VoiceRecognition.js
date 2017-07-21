@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
+let counter = 0;
+
 class VoiceRecognition extends Component {
   constructor (props) {
     super(props)
@@ -39,21 +41,28 @@ class VoiceRecognition extends Component {
   bindResult = (event) => {
     let interimTranscript = ''
     let finalTranscript = ''
-
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
+        console.log(event.results[i].isFinal);
         finalTranscript += event.results[i][0].transcript
       } else {
+        counter++;
         interimTranscript += event.results[i][0].transcript
       }
     }
-    this.props.onResult({ interimTranscript, finalTranscript })
+    if(counter === 0 ){
+      interimTranscript = undefined;
+    }
+    this.props.onResult({interimTranscript,finalTranscript })
   }
-
   start = () => {
     this.recognition.start()
   }
 
+  onspeechend = () => {
+    console.log('no sound detected');
+    this.recognition.stop()
+  }
   stop = () => {
     this.recognition.stop()
   }
@@ -71,7 +80,8 @@ class VoiceRecognition extends Component {
   componentDidMount () {
     const events = [
       { name: 'start', action: this.props.onStart },
-      { name: 'end', action: this.props.onEnd }
+      { name: 'end', action: this.props.onEnd },
+      { name: 'onspeechend', action: this.props.onspeechend }
     ]
 
     events.forEach(event => {
@@ -96,6 +106,7 @@ VoiceRecognition.propTypes = {
   onStart: PropTypes.func,
   onEnd : PropTypes.func,
   onResult: PropTypes.func,
+  onspeechend: PropTypes.func,
   continuous: PropTypes.bool,
   lang: PropTypes.string,
   stop: PropTypes.bool
