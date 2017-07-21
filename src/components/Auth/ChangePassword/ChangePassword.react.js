@@ -238,7 +238,7 @@ export default class ChangePassword extends Component {
             <FlatButton
                 label="OK"
                 backgroundColor={
-                    UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+                    UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
                 labelStyle={{ color: '#fff' }}
                 onTouchTap={this.handleClose}
             />;
@@ -290,7 +290,7 @@ export default class ChangePassword extends Component {
                                 disabled={!this.state.validForm}
                                 backgroundColor={
                                     UserPreferencesStore.getTheme()==='light'
-                                    ? '#0084ff' : '#19314B'}
+                                    ? '#4285f4' : '#19314B'}
                                 labelColor="#fff" />
                         </div>
                     </form>
