@@ -405,7 +405,6 @@ header{
 }
 
 .message-container.SUSI>h5,.message-container.SUSI>.message-text {
-  overflow-wrap: break-word;
   padding-right: 16px;
 }
 
@@ -452,6 +451,7 @@ header{
   font-size: 14px;
   margin: 0;
   padding: 0;
+  overflow-wrap: break-word;
 }
 
 .message-pane{
