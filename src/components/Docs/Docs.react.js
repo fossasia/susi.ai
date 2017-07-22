@@ -290,6 +290,18 @@ class Overview extends Component {
                   <img src='react.svg' alt='React' />
                 </div>
               </div>
+              <div className="section_copy">
+                <div className="conversation__description">
+                  <div className="description__heading">Architecture Used</div>
+                  <p className="description__text">
+                  <b>Flux</b> is the application architecture which <b>SUSI.AI </b>
+                  uses. It complements {"React's"} composable view components by
+                  utilizing a unidirectional data flow.</p>
+                </div>
+                <div className='img-container'>
+                  <img src='flux.svg' alt='React' />
+                </div>
+              </div>
               <div className="section_center">
                 <div className="center__description">
                   <div className="description__heading">Running on Local Host</div>
@@ -326,7 +338,7 @@ class Overview extends Component {
                     </ul>
                 </div>
               </div>
-              <div className="section_center">
+              <div className="section_center bottom">
                 <div className="center__description">
                   <div className="description__heading">Contribution Guidelines</div>
                     <p className="description__text">

@@ -1,6 +1,10 @@
 .dev_image{
-  height: 50%;
-  width: 100%;
+  height: 400px;
+  width: 80%;
+}
+
+.bottom {
+    padding: 100px 0 240px 0;
 }
 
 .code_box{
