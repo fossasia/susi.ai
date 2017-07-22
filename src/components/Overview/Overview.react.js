@@ -318,7 +318,7 @@ class Overview extends Component {
                   <div className="conversation__description">
 
                   <div className="description__heading">Safe and secure.</div>
-                    <p className="description__text"><span className="inLineLogo"></span> is <b>
+                    <p className="description__text"><b>SUSI.AI</b> is <b>
                     <Link style={{textDecoration:'none',color:'#000'}}
                     target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is
                     always available for security reviews and can be improved by
@@ -326,12 +326,12 @@ class Overview extends Component {
                     <div className="opensource-logos">
                       <span className="opensource">
                         <Link to="https://opensource.org/" target="_blank">
-                        <img src='opensource.png' alt='osi' />
+                        <img src='open-source.png' alt='osi' />
                         </Link>
                       </span>
                       <span className="github_logo">
                         <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
-                        <img src='github.png' alt='ghlogo' />
+                        <img src='GitHub-Mark.png' alt='ghlogo' />
                         </Link>
                       </span>
                     </div>
