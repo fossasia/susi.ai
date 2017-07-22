@@ -324,16 +324,16 @@ class Overview extends Component {
                     always available for security reviews and can be improved by
                     anyone with the knowledge and understanding online.</p>
                     <div className="opensource-logos">
-                      <span className="opensource">
-                        <Link to="https://opensource.org/" target="_blank">
-                        <img src='open-source.png' alt='osi' />
-                        </Link>
-                      </span>
-                      <span className="github_logo">
-                        <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
-                        <img src='GitHub-Mark.png' alt='ghlogo' />
-                        </Link>
-                      </span>
+                        <span className="opensource">
+                          <Link to="https://opensource.org/" target="_blank">
+                          <img src='open-source.png' alt='osi' />
+                          </Link>
+                        </span>
+                        <span className="github_logo">
+                          <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
+                          <img src='GitHub-Mark.png' alt='ghlogo' />
+                          </Link>
+                        </span>
                     </div>
                   </div>
                   <div className='img-container'>

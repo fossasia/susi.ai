@@ -414,18 +414,16 @@ height: 100%;
   position: fixed;
   transform: translateY(0%);
 }
-.opensource{
-    float: left;
-}
 .opensource img{
     height: 90px;
+    display: inline-block;
 }
 .github_logo{
-    float: left;
     margin-left: 10px;
 }
 .github_logo img{
     height: 90px;
+    display: inline-block;
 }
 header {
     background: #f5b335;
@@ -545,6 +543,12 @@ header {
     }
 
 }
+
+.opensource-logos{
+    width: 100%;
+    text-align: center;
+}
+
 @media only screen and (max-width: 480px){
    .github_logo img{
         height: 60px;
