@@ -6,18 +6,27 @@ import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import Settings from '../Settings/Settings.react';
 import PropTypes from 'prop-types';
 import HardwareComponent from '../HardwareComponent';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 export default class DialogSection extends Component {
 
   render(){
-
+    const closingStyle ={
+        position: 'absolute',
+        zIndex: 1200,
+        fill: '#444',
+        width: '26px',
+        height: '26px',
+        right: '10px',
+        top: '10px',
+        cursor:'pointer'
+      }
     return(
       <div>
 
         {/* Login */}
         <Dialog
           className='dialogStyle'
-          actions={this.props.actions}
           modal={false}
           open={this.props.openLogin}
           autoScrollBodyContent={true}
@@ -25,6 +34,7 @@ export default class DialogSection extends Component {
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
           <Login {...this.props} />
+          <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
 
       {/* SignUp */}

@@ -12,6 +12,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import Dialog from 'material-ui/Dialog';
 import CustomServer from '../../ChatApp/CustomServer.react';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 const cookies = new Cookies();
 
@@ -224,25 +225,30 @@ class Login extends Component {
 			'width':'256px'
 		}
 
-		const ForgotPwdAction = <RaisedButton
-			label="Cancel"
-			backgroundColor={
-				UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-			labelColor="#fff"
-			width='200px'
-			keyboardFocused={true}
-			onTouchTap={this.showForgotPassword.bind(this,false)}
-	    />;
-
+	    const closingStyle ={
+	      position: 'absolute',
+	      zIndex: 1200,
+	      fill: '#444',
+	      width: '26px',
+	      height: '26px',
+	      right: '10px',
+	      top: '10px',
+	      cursor:'pointer'
+	    }
+	    const underlineFocusStyle= {
+			color: '#4285f4'
+	    }
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
-					<h1>Login to SUSI</h1>
+					<h3>Login to SUSI</h3>
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField name="email"
 								value={this.state.email}
 								onChange={this.handleChange}
+								underlineFocusStyle={underlineFocusStyle}
+      							floatingLabelFocusStyle={underlineFocusStyle}
 								errorText={this.emailErrorMessage}
 								floatingLabelText="Email" />
 						</div>
@@ -251,7 +257,8 @@ class Login extends Component {
 						        name='password'
 								style={fieldStyle}
 						        value={this.state.password}
-
+								underlineFocusStyle={underlineFocusStyle}
+      							floatingLabelFocusStyle={underlineFocusStyle}
 								onChange={this.handleChange}
 								errorText={this.passwordErrorMessage}
 								floatingLabelText='Password' />
@@ -263,6 +270,9 @@ class Login extends Component {
                                 customServerMessage={this.customServerMessage}
                                 onServerChange={this.handleServeChange}/>
                         </div>
+						<span style={{
+							margin: '3px 0'
+						}}>{this.state.msg}</span>
 						<div>
 							<RaisedButton
 								label="Login"
@@ -271,15 +281,16 @@ class Login extends Component {
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
 								disabled={!this.state.validForm}
-								style={{margin:'25px 0 0 0 '}}/>
+								style={{margin:'15px 0 '}}/>
 						</div>
-						<span>{this.state.msg}</span>
-						<h1>OR</h1>
-						<div className="forgotpwdlink"
+						<span className="forgotpwdlink"
 							onClick={this.showForgotPassword}>
-								<b>Forgot Password?</b>
-						</div>
-						<br/>
+								Forgot Password?
+						</span>
+						<br />
+						<h4 style={{
+							margin: '7px 0'
+						}}>OR</h4>
 						<div>
 							<Link to={'/logout'} >
 								<RaisedButton
@@ -293,14 +304,15 @@ class Login extends Component {
 				</Paper>
 				<Dialog
 					className='dialogStyle'
-					actions={ForgotPwdAction}
 					modal={false}
 					open={this.state.showForgotPassword}
 					autoScrollBodyContent={true}
 					contentStyle={{width: '35%',minWidth: '300px'}}
 					onRequestClose={this.showForgotPassword.bind(this,false)}>
 					<ForgotPassword {...this.props}
-						showForgotPassword={this.showForgotPassword}/>
+					showForgotPassword={this.showForgotPassword}/>
+					<Close style={closingStyle}
+					onTouchTap={this.showForgotPassword.bind(this,false)} />
 				</Dialog>
 			</div>);
 
