@@ -331,7 +331,7 @@ class Overview extends Component {
                         </span>
                         <span className="github_logo">
                           <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
-                          <img src='GitHub-Mark.png' alt='ghlogo' />
+                          <img src='github-text-logo.png' alt='ghlogo' />
                           </Link>
                         </span>
                     </div>
