@@ -148,7 +148,7 @@ class Overview extends Component {
       }
     const actions = <RaisedButton
       label="Cancel"
-      backgroundColor='#607D8B'
+      backgroundColor='#4285f4'
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
