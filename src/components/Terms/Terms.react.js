@@ -12,7 +12,6 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import { Link } from 'react-router-dom';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
-import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
 import IconMenu from 'material-ui/IconMenu';
 import AppBar from 'material-ui/AppBar';
@@ -125,16 +124,6 @@ class Terms extends Component {
       'padding': 0,
       textAlign: 'center'
     }
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 120000,
-      fill: '#fff',
-      width: '40px',
-      height: '40px',
-      right: '20px',
-      top: '20px',
-      cursor: 'pointer'
-    }
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
@@ -144,7 +133,16 @@ class Terms extends Component {
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
-
+    const closingStyle ={
+        position: 'absolute',
+        zIndex: 1200,
+        fill: '#444',
+        width: '26px',
+        height: '26px',
+        right: '10px',
+        top: '10px',
+        cursor:'pointer'
+      }
     const TopMenu = (props) => (
       <div>
         <div className="top-menu">
@@ -471,7 +469,6 @@ class Terms extends Component {
               {/* Login */}
               <Dialog
                 className='dialogStyle'
-                actions={actions}
                 modal={true}
                 open={this.state.login}
                 autoScrollBodyContent={true}
@@ -479,6 +476,7 @@ class Terms extends Component {
                 contentStyle={{width: '35%',minWidth: '300px'}}
                 onRequestClose={this.handleClose}>
                 <Login  />
+                <Close style={closingStyle} onTouchTap={this.handleClose} />
               </Dialog>
             {/* SignUp */}
             <Dialog
@@ -492,19 +490,6 @@ class Terms extends Component {
                 onRequestClose={this.handleClose}>
                 <SignUp  />
               </Dialog>
-              {/* Video */}
-            <Modal
-              isOpen={this.state.video}
-              className="Video-Modal"
-              onRequestClose={this.handleClose}
-              contentLabel="Assistant Video"
-              overlayClassName="Video-Overlay">
-              <div className="video-container">
-              <iframe id="player" type="text/html" frameBorder="0" allowFullScreen
-  src="http://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"></iframe>
-              <Close style={closingStyle} onTouchTap={this.handleClose} />
-              </div>
-            </Modal>
       </div>
     );
   };

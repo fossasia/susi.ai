@@ -126,8 +126,8 @@ class Overview extends Component {
     const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
-    }
-    const closingStyle ={
+    };
+    const closingStyle = {
       position: 'absolute',
       zIndex: 120000,
       fill: '#fff',
@@ -137,6 +137,16 @@ class Overview extends Component {
       top: '20px',
       cursor:'pointer'
     }
+    const closingStyleLogin ={
+        position: 'absolute',
+        zIndex: 1200,
+        fill: '#444',
+        width: '26px',
+        height: '26px',
+        right: '10px',
+        top: '10px',
+        cursor:'pointer'
+      }
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
@@ -359,7 +369,6 @@ class Overview extends Component {
               {/* Login */}
               <Dialog
                 className='dialogStyle'
-                actions={actions}
                 modal={true}
                 open={this.state.login}
                 autoScrollBodyContent={true}
@@ -367,6 +376,7 @@ class Overview extends Component {
                 contentStyle={{width: '35%',minWidth: '300px'}}
                 onRequestClose={this.handleClose}>
                 <Login  />
+                <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
               </Dialog>
             {/* SignUp */}
             <Dialog

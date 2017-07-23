@@ -2,7 +2,9 @@
 	color: #999999;
 	cursor: pointer;
 }
-
+.forgotpwdlink:hover{	
+    color: #039be5;
+}
 .loginForm{
 	margin: 0 auto;
 }
@@ -10,9 +12,14 @@
 .sty{
 	width: 256px;
 }
+.loginForm h3{
+	font-family: 'Open Sans', sans-serif;
+	margin: 5px 0;
+	font-weight: 500;
+}
 
 @media screen and (max-width: 768px) {
-	.loginForm h1{
+	.loginForm h3{
 		font-size: 16px;
 	}
 }
