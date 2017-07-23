@@ -5,11 +5,11 @@ import $ from 'jquery';
 import './ChangePassword.css';
 import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 const cookies = new Cookies();
 
@@ -229,26 +229,29 @@ export default class ChangePassword extends Component {
             'textAlign': 'center',
             'padding': '10px'
         }
-
+        const closingStyle ={
+          position: 'absolute',
+          zIndex: 1200,
+          fill: '#444',
+          width: '26px',
+          height: '26px',
+          right: '10px',
+          top: '10px',
+          cursor:'pointer'
+        }
         const fieldStyle={
             'width':'256px'
         }
-
-        const actions =
-            <FlatButton
-                label="OK"
-                backgroundColor={
-                    UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-                labelStyle={{ color: '#fff' }}
-                onTouchTap={this.handleClose}
-            />;
+        const underlineFocusStyle= {
+            color: '#4285f4'
+        }
 
         const PasswordClass=[`is-strength-${this.state.newPasswordScore}`];
 
         return (
             <div className="changePasswordForm">
                 <Paper zDepth={0} style={styles}>
-                    <h1>Change Password</h1>
+                    <h3>Change Password</h3>
                     <form onSubmit={this.handleSubmit}>
                         <div>
                             <PasswordField
@@ -257,6 +260,8 @@ export default class ChangePassword extends Component {
                                 value={this.state.passwordValue}
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText="Current Password" />
                         </div>
                         <div className={PasswordClass.join(' ')}>
@@ -266,6 +271,8 @@ export default class ChangePassword extends Component {
                                 value={this.state.newPasswordValue}
                                 onChange={this.handleChange}
                                 errorText={this.newPasswordErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText="New Password" />
                               <div className="ReactPasswordStrength-strength-bar" />
                               <div>
@@ -281,6 +288,8 @@ export default class ChangePassword extends Component {
                                 value={this.state.confirmNewPasswordValue}
                                 onChange={this.handleChange}
                                 errorText={this.newPasswordConfirmErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText="Confirm New Password" />
                         </div>
                         <div>
@@ -297,12 +306,12 @@ export default class ChangePassword extends Component {
                 </Paper>
                 {this.state.msg && (
                     <div><Dialog
-                        actions={actions}
                         modal={false}
                         open={this.state.msgOpen}
                         onRequestClose={this.handleClose}
                     >
                         {this.state.msg}
+                    <Close style={closingStyle} onTouchTap={this.handleClose} />
                     </Dialog></div>
                 )}
             </div>

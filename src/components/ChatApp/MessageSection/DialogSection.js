@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Login from '../../Auth/Login/Login.react';
 import SignUp from '../../Auth/SignUp/SignUp.react';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
+import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import Settings from '../Settings/Settings.react';
 import PropTypes from 'prop-types';
 import HardwareComponent from '../HardwareComponent';
@@ -33,14 +34,14 @@ export default class DialogSection extends Component {
           bodyStyle={this.props.bodyStyle}
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
-          <Login {...this.props} />
+          <Login {...this.props}
+          handleForgotPassword={this.props.onForgotPassword()}/>
           <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
 
       {/* SignUp */}
       <Dialog
           className='dialogStyle'
-          actions={this.props.actions}
           modal={false}
           open={this.props.openSignUp}
           autoScrollBodyContent={true}
@@ -49,12 +50,12 @@ export default class DialogSection extends Component {
           onRequestClose={this.props.onRequestClose()}>
           <SignUp {...this.props}
             onRequestClose={this.props.onRequestClose()}/>
+            <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
 
       {/* Change Password */}
       <Dialog
           className='dialogStyle'
-          actions={this.props.actions}
           modal={false}
           open={this.props.openChangePassword}
           autoScrollBodyContent={true}
@@ -62,11 +63,24 @@ export default class DialogSection extends Component {
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
           <ChangePassword {...this.props} />
+          <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
+        </Dialog>
+      {/*  Forgot Password */}
+      <Dialog
+          className='dialogStyle'
+          modal={false}
+          open={this.props.openForgotPassword}
+          autoScrollBodyContent={true}
+          contentStyle={{width: '35%',minWidth: '300px'}}
+          onRequestClose={this.props.onRequestClose()}>
+          <ForgotPassword {...this.props}
+          showForgotPassword={this.showForgotPassword}/>
+          <Close style={closingStyle}
+          onTouchTap={this.props.onRequestForgotPasswordClose()}/>
         </Dialog>
 
       {/* Settings */}
         <Dialog
-          actions={this.props.actions}
           modal={false}
           open={this.props.openSetting}
           autoScrollBodyContent={true}
@@ -77,6 +91,7 @@ export default class DialogSection extends Component {
               onSettingsSubmit={this.props.onSettingsSubmit()}
               onServerChange={this.props.onServerChange()}
               onHardwareSettings={this.props.onHardwareSettings()} />
+              <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
           </div>
         </Dialog>
       {/* Change Server */}
@@ -90,11 +105,12 @@ export default class DialogSection extends Component {
           <div>
             <h3>Change Server</h3>
             Please login again to change SUSI server
+            <Close style={closingStyle}
+            onTouchTap={this.props.onRequestCloseServerChange()} />
           </div>
         </Dialog>
       {/* Hardware Connection */}
         <Dialog
-          actions={this.props.HardwareActions}
           modal={false}
           open={this.props.openHardwareChange}
           autoScrollBodyContent={true}
@@ -102,6 +118,8 @@ export default class DialogSection extends Component {
           onRequestClose={this.props.onRequestCloseHardwareChange()}>
           <div>
             <HardwareComponent {...this.props} />
+            <Close style={closingStyle}
+            onTouchTap={this.props.onRequestCloseHardwareChange()} />
           </div>
         </Dialog>
       {/* ThemeChanger */}
@@ -116,6 +134,7 @@ export default class DialogSection extends Component {
           <div className='settingsComponents'>
             {this.props.ThemeChangerComponents}
           </div>
+          <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
       </div>
 
@@ -129,6 +148,7 @@ DialogSection.propTypes = {
     openChangePassword: PropTypes.bool,
     openSetting: PropTypes.bool,
     openServerChange: PropTypes.bool,
+    openForgotPassword: PropTypes.bool,
     openHardwareChange: PropTypes.bool,
     openThemeChanger: PropTypes.bool,
     ServerChangeActions: PropTypes.array,
@@ -139,9 +159,11 @@ DialogSection.propTypes = {
     bodyStyle: PropTypes.object,
     onRequestCloseServerChange: PropTypes.func,
     onRequestCloseHardwareChange: PropTypes.func,
+    onRequestForgotPasswordClose: PropTypes.func,
     onRequestClose: PropTypes.func,
     onSettingsSubmit: PropTypes.func,
     onServerChange: PropTypes.func,
     onHardwareSettings: PropTypes.func,
+    onForgotPassword: PropTypes.func,
     onSignedUp: PropTypes.func
 };

@@ -85,7 +85,7 @@ class TextToSpeechSettings extends Component {
 		return (
 			<div className="settingsForm">
 				<Paper zDepth={0}>
-					<h1 style={{textAlign: 'center'}}>Text-To-Speech Settings</h1>
+					<h3 style={{textAlign: 'center'}}>Text-To-Speech Settings</h3>
 					<h4 style={subHeaderStyle}>General</h4>
 			        <div>
 			        	<h4 style={{'marginBottom':'0px'}}>Speech Rate</h4>
