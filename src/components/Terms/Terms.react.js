@@ -12,7 +12,6 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import { Link } from 'react-router-dom';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
-import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
 import IconMenu from 'material-ui/IconMenu';
 import AppBar from 'material-ui/AppBar';
@@ -23,8 +22,6 @@ import $ from 'jquery'
 class Terms extends Component {
 
   constructor(props) {
-    //  var st = $(window).scrollTop();
-    // console.log('st const', st )
     super(props);
     this.state = {
       open: false,
@@ -32,7 +29,8 @@ class Terms extends Component {
       login: false,
       signup: false,
       video: false,
-      openDrawer: false
+      openDrawer: false,
+      baseUrl: window.location.protocol+'//'+window.location.host+'/',
     };
   }
   componentDidMount() {
@@ -126,26 +124,25 @@ class Terms extends Component {
       'padding': 0,
       textAlign: 'center'
     }
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 120000,
-      fill: '#fff',
-      width: '40px',
-      height: '40px',
-      right: '20px',
-      top: '20px',
-      cursor: 'pointer'
-    }
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme() === 'light' ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
-
+    const closingStyle ={
+        position: 'absolute',
+        zIndex: 1200,
+        fill: '#444',
+        width: '26px',
+        height: '26px',
+        right: '10px',
+        top: '10px',
+        cursor:'pointer'
+      }
     const TopMenu = (props) => (
       <div>
         <div className="top-menu">
@@ -180,9 +177,9 @@ class Terms extends Component {
         <header className="nav-down" id="headerSection">
           <AppBar
             className="topAppBar"
-            title={<img src="SUSI-white.svg" alt="SUSI-logo"
-              className="siteTitle" />}
-            style={{ backgroundColor: '#0084ff' }}
+            title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="SUSI-logo"
+              className="siteTitle" /></a>}
+            style={{ backgroundColor: '#4285f4' }}
             onLeftIconButtonTouchTap={this.handleDrawer}
             iconElementRight={<TopMenu />}
           />
@@ -195,9 +192,9 @@ class Terms extends Component {
           onRequestChange={(openDrawer) => this.setState({ openDrawer })}
         >
           <AppBar
-            title={<img src="SUSI-white.svg" alt="SUSI-logo"
-              className="siteTitle" />}
-            style={{ backgroundColor: '#0084ff' }}
+            title={<a href={this.state.baseUrl} ><img src="SUSI-white.svg" alt="SUSI-logo"
+              className="siteTitle" /></a>}
+            style={{ backgroundColor: '#4285f4' }}
             onTouchTap={this.handleDrawerClose} />
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>
@@ -472,7 +469,6 @@ class Terms extends Component {
               {/* Login */}
               <Dialog
                 className='dialogStyle'
-                actions={actions}
                 modal={true}
                 open={this.state.login}
                 autoScrollBodyContent={true}
@@ -480,6 +476,7 @@ class Terms extends Component {
                 contentStyle={{width: '35%',minWidth: '300px'}}
                 onRequestClose={this.handleClose}>
                 <Login  />
+                <Close style={closingStyle} onTouchTap={this.handleClose} />
               </Dialog>
             {/* SignUp */}
             <Dialog
@@ -493,19 +490,6 @@ class Terms extends Component {
                 onRequestClose={this.handleClose}>
                 <SignUp  />
               </Dialog>
-              {/* Video */}
-            <Modal
-              isOpen={this.state.video}
-              className="Video-Modal"
-              onRequestClose={this.handleClose}
-              contentLabel="Assistant Video"
-              overlayClassName="Video-Overlay">
-              <div className="video-container">
-              <iframe id="player" type="text/html" frameBorder="0" allowFullScreen
-  src="http://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"></iframe>
-              <Close style={closingStyle} onTouchTap={this.handleClose} />
-              </div>
-            </Modal>
       </div>
     );
   };

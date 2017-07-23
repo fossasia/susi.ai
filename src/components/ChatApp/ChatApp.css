@@ -46,15 +46,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   transition: background-color 0.218s,border 0.218s,box-shadow 0.218s;
   width: 80px;
   height: 80px;
+  position: relative;
   background-color:#FE2222;
-}
-.active{
   animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;
 }
 
 @keyframes blinker {
-  from { opacity: 1; }
-  to { opacity: 0.3; }
+  from { 
+    opacity: 1;
+    box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5),
+    0 0 0 10px rgba(102, 102, 102, 0.1); 
+  }
+  to { opacity: 0.3;
+    box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5), 
+    0 0 0 20px rgba(102, 102, 102, 0); }
 }
 .Modal{
   top:0;
@@ -400,7 +405,6 @@ header{
 }
 
 .message-container.SUSI>h5,.message-container.SUSI>.message-text {
-  overflow-wrap: break-word;
   padding-right: 16px;
 }
 
@@ -447,6 +451,7 @@ header{
   font-size: 14px;
   margin: 0;
   padding: 0;
+  overflow-wrap: break-word;
 }
 
 .message-pane{
@@ -578,7 +583,7 @@ textarea {
 }
 .leaflet-container {
   height: 150px;
-  width: 250px;
+  width: 100%;
   margin: 0 auto;
 }
 

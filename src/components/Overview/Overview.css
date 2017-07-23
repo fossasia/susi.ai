@@ -301,7 +301,7 @@ img {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.07);    
+    background: rgba(0,0,0,0.07);
 }
 .footer-container{
     padding: 50px 10% 20px;
@@ -327,7 +327,7 @@ position: relative;
 padding-bottom: 56.25%;
 padding-top: 30px; height: 0; overflow: hidden;
 }
- 
+
 .video-container iframe,
 .video-container object,
 .video-container embed {
@@ -414,20 +414,16 @@ height: 100%;
   position: fixed;
   transform: translateY(0%);
 }
-.opensource{
-    float: left;
-}
 .opensource img{
-    height: 170px;
+    height: 90px;
+    display: inline-block;
 }
 .github_logo{
-    float: left;
+    margin-left: 10px;
 }
 .github_logo img{
-    height: 140px;
-}
-.opensource img{
-    height: 140PX;
+    height: 90px;
+    display: inline-block;
 }
 header {
     background: #f5b335;
@@ -481,7 +477,7 @@ header {
     }
 }
 @media only screen and (max-width: 800px){
-    
+
     .opensource-logos{
         width: 480px;
         margin: 0 auto;
@@ -547,12 +543,18 @@ header {
     }
 
 }
+
+.opensource-logos{
+    width: 100%;
+    text-align: center;
+}
+
 @media only screen and (max-width: 480px){
    .github_logo img{
-        height: 70px;
+        height: 60px;
     }
     .opensource img{
-        height: 150px;
+        height: 60px;
     }
     .opensource-logos{
         width: 170px;

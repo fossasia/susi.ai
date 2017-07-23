@@ -85,7 +85,7 @@ class HardwareComponent extends Component {
               type="submit"
               disabled={!this.state.validForm}
               backgroundColor={
-                UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+                UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
               labelColor="#fff"
             />
           </div>

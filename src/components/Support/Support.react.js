@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
 import HeadRoom from 'react-headroom';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 class Support extends Component {
 
@@ -72,10 +73,20 @@ class Support extends Component {
       marginTop: '25px',
       marginBottom: '25px'
     }
+    const closingStyle ={
+        position: 'absolute',
+        zIndex: 1200,
+        fill: '#444',
+        width: '26px',
+        height: '26px',
+        right: '10px',
+        top: '10px',
+        cursor:'pointer'
+      }
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#607D8B' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -257,7 +268,6 @@ class Support extends Component {
               {/* Login */}
               <Dialog
                 className='dialogStyle'
-                actions={actions}
                 modal={true}
                 open={this.state.login}
                 autoScrollBodyContent={true}
@@ -265,6 +275,7 @@ class Support extends Component {
                 contentStyle={{width: '35%',minWidth: '300px'}}
                 onRequestClose={this.handleClose}>
                 <Login  />
+                <Close style={closingStyle} onTouchTap={this.handleClose} />
               </Dialog>
             {/* SignUp */}
             <Dialog

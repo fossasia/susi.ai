@@ -28,7 +28,6 @@ const iconStyles = {
   userSelect: 'none',
   transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
 }
-
 const closingStyle ={
       position: 'absolute',
       zIndex: 120000,
@@ -50,7 +49,8 @@ class MessageComposer extends Component {
       stop: false,
       open: false,
       result:'',
-      animate: false
+      animate: false,
+
     };
     if(props.dream!==''){
       this.state= {text: 'dream '+ props.dream}
@@ -58,36 +58,70 @@ class MessageComposer extends Component {
   }
 
   onStart = () => {
-    this.setState({ start: true, stop: false, open:true,
-      animate:true})
+    this.setState({
+      result: '',
+      start: true,
+      stop: false,
+      open:true,
+      animate:true
+    })
+  }
+
+  onspeechend = () => {
+    this.onEnd();
   }
 
   onEnd = () => {
-    this.setState({ start: false, stop: false, open: false,
-      animate:false})
+    this.setState({
+      start: false,
+      stop: false,
+      open: false,
+      animate:false,
+      color:'#000'
+    });
+
+    let voiceResponse = false;
+    if(this.props.speechOutputAlways || this.props.speechOutput){
+      voiceResponse = true;
+    }
+    this.Button = <Mic />;
+    if(this.state.result){
+      Actions.createMessage(this.state.result, this.props.threadID, voiceResponse);
+    }
   }
 
-  onResult = ({interimTranscript,finalTranscript }) => {
-    let result = interimTranscript;
-    let voiceResponse = false;
-    this.setState({result:result, color: '#ccc'});
-    if(finalTranscript) {
-      result = finalTranscript;
+  speakDialogClose = () => {
+    this.setState({
+      open: false,
+      start:false,
+      stop: false
+    });
+  }
+
+  onResult = ({interimTranscript, finalTranscript}) => {
+    if(interimTranscript===undefined){
+      let result = finalTranscript;
       this.setState({
-      start: false,
-      result:result,
-      stop: false,
-      open:false,
-      animate:false,
-      color: '#000'
+        result:result,
+        color: '#ccc'
       });
-      if(this.props.speechOutputAlways || this.props.speechOutput){
-        voiceResponse = true;
-      }
-      Actions.createMessage(result, this.props.threadID, voiceResponse);
-      setTimeout(()=>this.setState({result: ''}),400);
-      this.Button = <Mic />
     }
+    else{
+      let result = interimTranscript;
+      this.setState({
+          result: result,
+          color: '#ccc'
+      })
+      if(finalTranscript){
+        result = finalTranscript;
+        this.setState({
+          result: result,
+          color: '#000'
+        })
+        this.speakDialogClose();
+      }
+    }
+
   }
 
   componentWillMount(){
@@ -150,8 +184,9 @@ class MessageComposer extends Component {
         {this.state.start && (
           <VoiceRecognition
             onStart={this.onStart}
-            onEnd={this.onEnd}
+            onspeechend={this.onspeechend}
             onResult={this.onResult}
+            onEnd={this.onEnd}
             continuous={true}
             lang="en-US"
             stop={this.state.stop}
@@ -168,7 +203,7 @@ class MessageComposer extends Component {
         />
         <IconButton
           className="send_button"
-          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#0084ff':'#fff',
+          iconStyle={{fill:UserPreferencesStore.getTheme()==='light'?'#4285f4':'#fff',
           marginTop:'2px'}}
           onTouchTap={this._onClickButton.bind(this)}
           style={style}>
@@ -190,7 +225,7 @@ class MessageComposer extends Component {
           <div className={this.state.animate? 'mic-container active':'mic-container'}>
             <Mic style={iconStyles}/>
           </div>
-          <Close style={closingStyle} onTouchTap={this.onEnd} />
+          <Close style={closingStyle} onTouchTap={this.speakDialogClose} />
           </div>
 
         </Modal>

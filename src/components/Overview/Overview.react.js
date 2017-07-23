@@ -24,8 +24,6 @@ import $ from 'jquery'
 class Overview extends Component {
 
     constructor(props) {
-        //  var st = $(window).scrollTop();
-       // console.log('st const', st )
       super(props);
       this.state = {
         open: false,
@@ -33,7 +31,9 @@ class Overview extends Component {
         login:false,
         signup:false,
         video:false,
-        openDrawer: false
+        openDrawer: false,
+        baseUrl: window.location.protocol + '//' + window.location.host + '/'
+
       };
     }
     componentDidMount(){
@@ -126,8 +126,8 @@ class Overview extends Component {
     const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
-    }
-    const closingStyle ={
+    };
+    const closingStyle = {
       position: 'absolute',
       zIndex: 120000,
       fill: '#fff',
@@ -137,10 +137,20 @@ class Overview extends Component {
       top: '20px',
       cursor:'pointer'
     }
+    const closingStyleLogin ={
+        position: 'absolute',
+        zIndex: 1200,
+        fill: '#444',
+        width: '26px',
+        height: '26px',
+        right: '10px',
+        top: '10px',
+        cursor:'pointer'
+      }
     const actions = <RaisedButton
       label="Cancel"
       backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#0084ff' : '#19314B'}
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -183,9 +193,9 @@ class Overview extends Component {
               <header className="nav-down" id="headerSection">
               <AppBar
                 className="topAppBar"
-                title={<img src="susi-white.svg" alt="susi-logo"
-                className="siteTitle"/>}
-                style={{backgroundColor:'#0084ff'}}
+                title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/></a>}
+                style={{backgroundColor:'#4285f4'}}
                 onLeftIconButtonTouchTap={this.handleDrawer}
                 iconElementRight={<TopMenu />}
               />
@@ -198,9 +208,9 @@ class Overview extends Component {
               onRequestChange={(openDrawer) => this.setState({openDrawer})}
             >
               <AppBar
-                title={<img src="susi-white.svg" alt="susi-logo"
-                className="siteTitle"/>}
-                style={{backgroundColor:'#0084ff'}}
+                title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
+                className="siteTitle"/></a>}
+                style={{backgroundColor:'#4285f4'}}
                 onTouchTap={this.handleDrawerClose}/>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>
@@ -318,22 +328,22 @@ class Overview extends Component {
                   <div className="conversation__description">
 
                   <div className="description__heading">Safe and secure.</div>
-                    <p className="description__text"><span className="inLineLogo"></span> is <b>
+                    <p className="description__text"><b>SUSI.AI</b> is <b>
                     <Link style={{textDecoration:'none',color:'#000'}}
                     target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is
                     always available for security reviews and can be improved by
                     anyone with the knowledge and understanding online.</p>
                     <div className="opensource-logos">
-                      <span className="opensource">
-                        <Link to="https://opensource.org/" target="_blank">
-                        <img src='opensource.png' alt='osi' />
-                        </Link>
-                      </span>
-                      <span className="github_logo">
-                        <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
-                        <img src='github-logo.png' alt='ghlogo' />
-                        </Link>
-                      </span>
+                        <span className="opensource">
+                          <Link to="https://opensource.org/" target="_blank">
+                          <img src='open-source.png' alt='osi' />
+                          </Link>
+                        </span>
+                        <span className="github_logo">
+                          <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
+                          <img src='github-text-logo.png' alt='ghlogo' />
+                          </Link>
+                        </span>
                     </div>
                   </div>
                   <div className='img-container'>
@@ -359,7 +369,6 @@ class Overview extends Component {
               {/* Login */}
               <Dialog
                 className='dialogStyle'
-                actions={actions}
                 modal={true}
                 open={this.state.login}
                 autoScrollBodyContent={true}
@@ -367,6 +376,7 @@ class Overview extends Component {
                 contentStyle={{width: '35%',minWidth: '300px'}}
                 onRequestClose={this.handleClose}>
                 <Login  />
+                <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
               </Dialog>
             {/* SignUp */}
             <Dialog
