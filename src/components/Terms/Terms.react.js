@@ -257,7 +257,7 @@ class Terms extends Component {
             </ToolbarGroup >
           </Toolbar>
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
-          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="http://dev.susi.ai/">Docs</Link></MenuItem>
+          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><a href="http://dev.susi.ai/">Docs</a></MenuItem>
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/blog">Blog</Link></MenuItem>
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/teams">teams</Link></MenuItem>
         </Drawer>
