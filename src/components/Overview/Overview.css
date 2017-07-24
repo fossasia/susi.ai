@@ -417,7 +417,7 @@ height: 100%;
 }
 .github_logo img{
     margin-left: 10px;
-    height: 50px;
+    height: 40px;
     display: inline-block;
 }
 header {
@@ -543,7 +543,7 @@ header {
 
 @media only screen and (max-width: 480px){
    .github_logo img{
-        height: 30px;
+        height: 20px;
     }
     .opensource img{
         height: 30px;
