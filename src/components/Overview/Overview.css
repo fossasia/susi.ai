@@ -200,9 +200,6 @@
         margin-left: 0%;
         text-align: center;
     }
-    .github_logo img{
-        height: 120px;
-    }
 }
 img {
     max-width: 100%;
@@ -415,14 +412,12 @@ height: 100%;
   transform: translateY(0%);
 }
 .opensource img{
-    height: 90px;
+    height: 50px;
     display: inline-block;
 }
-.github_logo{
-    margin-left: 10px;
-}
 .github_logo img{
-    height: 90px;
+    margin-left: 10px;
+    height: 50px;
     display: inline-block;
 }
 header {
@@ -472,15 +467,13 @@ header {
         max-width: 50%;
         margin-left: 0%;
     }
-   .github_logo img{
-        height: 100px;
-    }
 }
 @media only screen and (max-width: 800px){
 
     .opensource-logos{
         width: 480px;
         margin: 0 auto;
+        text-align: center;
     }
     .conversation__description .description__heading {
         font-size: 36px;
@@ -546,18 +539,20 @@ header {
 
 .opensource-logos{
     width: 100%;
-    text-align: center;
 }
 
 @media only screen and (max-width: 480px){
    .github_logo img{
-        height: 60px;
+        height: 30px;
     }
     .opensource img{
-        height: 60px;
+        height: 30px;
     }
     .opensource-logos{
         width: 170px;
         margin: 0 auto;
+    }
+    .opensource-logos{
+        text-align: center;
     }
 }
