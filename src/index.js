@@ -2,7 +2,6 @@ import Logout from './components/Auth/Logout.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
 import NotFound from './components/NotFound/NotFound.react';
 import Overview from './components/Overview/Overview.react';
-import Docs from './components/Docs/Docs.react';
 import Support from './components/Support/Support.react';
 import Terms from './components/Terms/Terms.react';
 
@@ -36,11 +35,9 @@ const App = () => (
 				<Route exact path="/" component={ChatApp} />
 				<Route exact path="/logout" component={Logout} />
 				<Route exact path="/overview" component={Overview} />
-				<Route exact path="/docs" component={Docs} />
 				<Route exact path="/support" component={Support} />
 				<Route exact path="/terms" component={Terms} />
 				<Route exact path="*" component={NotFound} />
-
 			</Switch>
 		</MuiThemeProvider>
 	</Router>

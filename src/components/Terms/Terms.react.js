@@ -147,7 +147,7 @@ class Terms extends Component {
       <div>
         <div className="top-menu">
           <FlatButton label="Overview" href="/overview" style={{ color: '#fff' }} className="topMenu-item" />
-          <FlatButton label="Docs" href="/docs" style={{ color: '#fff' }} className="topMenu-item" />
+          <FlatButton label="Docs" href="http://dev.susi.ai/" style={{ color: '#fff' }} className="topMenu-item" />
           <FlatButton label="Blog" href="/blog" style={{ color: '#fff' }} className="topMenu-item" />
           <FlatButton label="Team" href="/team" style={{ color: '#fff' }} className="topMenu-item" />
         </div>
@@ -197,7 +197,7 @@ class Terms extends Component {
             style={{ backgroundColor: '#4285f4' }}
             onTouchTap={this.handleDrawerClose} />
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
-          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/docs">Docs</Link></MenuItem>
+          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="http://dev.susi.ai/">Docs</Link></MenuItem>
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/blog">Blog</Link></MenuItem>
           <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/teams">teams</Link></MenuItem>
         </Drawer>
