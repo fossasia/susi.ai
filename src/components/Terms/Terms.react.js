@@ -1,38 +1,9 @@
 import React, { Component } from 'react';
 import './Terms.css';
 import PropTypes from 'prop-types';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import Signup from 'material-ui/svg-icons/action/account-circle';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import Dialog from 'material-ui/Dialog';
-import Login from '../Auth/Login/Login.react';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import { Link } from 'react-router-dom';
-import SignUp from '../Auth/SignUp/SignUp.react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dehaze from 'material-ui/svg-icons/image/dehaze';
-import IconMenu from 'material-ui/IconMenu';
-import Drawer from 'material-ui/Drawer';
-import FlatButton from 'material-ui/FlatButton';
-import Popover from 'material-ui/Popover';
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
-import $ from 'jquery'
 
-let TopMenu = (props) => (
-	<IconMenu
-		{...props}
-		iconButtonElement={
-			<IconButton
-				iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-		}
-		targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-		anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-	>
-	</IconMenu>
-)
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+
 
 class Terms extends Component {
 
@@ -46,83 +17,7 @@ class Terms extends Component {
       signup: false,
       video: false,
       openDrawer: false,
-      baseUrl: window.location.protocol+'//'+window.location.host+'/',
     };
-  }
-  componentDidMount() {
-
-    this.setState({
-      search: false,
-    });
-
-    var didScroll;
-    var lastScrollTop = 0;
-    var delta = 5;
-    var navbarHeight = $('header').outerHeight();
-    $(window).scroll(function (event) {
-      didScroll = true;
-    });
-
-    setInterval(function () {
-      if (didScroll) {
-        hasScrolled();
-        didScroll = false;
-      }
-    }, 2500);
-
-    function hasScrolled() {
-      var st = $(window).scrollTop();
-
-      // Make sure they scroll more than delta
-      if (Math.abs(lastScrollTop - st) <= delta) {
-
-        return;
-      }
-
-      // If they scrolled down and are past the navbar, add class .nav-up.
-      // This is necessary so you never see what is "behind" the navbar.
-      if (st > lastScrollTop && st > navbarHeight) {
-        // Scroll Down
-        $('header').removeClass('nav-down').addClass('nav-up');
-      } else if (st + $(window).height() < $(document).height()) {
-        $('header').removeClass('nav-up').addClass('nav-down');
-      }
-
-      lastScrollTop = st;
-    }
-
-    TopMenu = (props) => (
-      <div>
-        <div>
-        <IconButton
-          {...props}
-          iconStyle={{color:'#fff'}}
-          onTouchTap={this.showOptions}>
-          <MoreVertIcon />
-        </IconButton>
-        <Popover
-          {...props}
-          style={{marginLeft:'-15px'}}
-          open={this.state.showOptions}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          onRequestClose={this.closeOptions}
-        >
-          <MenuItem primaryText="Login"
-                        onTouchTap={this.handleLogin} />
-          <MenuItem primaryText="Sign Up"
-                        onTouchTap={this.handleSignUp}
-                        rightIcon={<Signup/>} />
-          <MenuItem primaryText="Chat"
-                        containerElement={<Link to="/logout" />}
-                        rightIcon={<Chat/>}/>
-        </Popover>
-        </div>
-      </div>
-    );
-    return <TopMenu />
-
   }
 
   showOptions = (event) => {
@@ -133,135 +28,18 @@ class Terms extends Component {
     })
   }
 
-  closeOptions = () => {
-    this.setState({
-      showOptions: false,
-    });
-  };
-  handleToggle = () => this.setState({ open: !this.state.open });
 
-  handleClose = () => this.setState({ open: false });
-
-  handleTitle = () => {
-    this.props.history.push('/');
-  }
-  handleVideo = () => this.setState({
-    login: false,
-    signup: false,
-    video: true
-  })
-  handleLogin = () => this.setState({
-    login: true,
-    signup: false,
-    video: false
-  })
-  handleClose = () => this.setState({
-    login: false,
-    signup: false,
-    video: false
-  })
-  handleSignUp = () => this.setState({
-    signup: true,
-    login: false,
-    video: false
-  })
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
-  handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
-  handleDrawerClose = () => this.setState({ openDrawer: false });
 
   render() {
-    const bodyStyle = {
-      'padding': 0,
-      textAlign: 'center'
-    }
-    const actions = <RaisedButton
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={true}
-      onTouchTap={this.handleClose}
-    />;
-    const closingStyle ={
-        position: 'absolute',
-        zIndex: 1200,
-        fill: '#444',
-        width: '26px',
-        height: '26px',
-        right: '10px',
-        top: '10px',
-        cursor:'pointer'
-      }
-
 
     return (
       <div>
-
-        <header className="nav-down" id="headerSection">
-          <Toolbar
-            className="topAppBar"
-            style={{
-              backgroundColor:'#4285f4',
-              height: '46px'
-            }}>
-            <ToolbarGroup firstChild={true} >
-              <IconButton
-                  iconStyle={{'fill':'#fff'}}
-                  onClick={this.handleDrawer}>
-                  <Dehaze />
-              </IconButton>
-              <a href={this.state.baseUrl} style={{'marginTop':'-15px'}}>
-                <img src="susi-white.svg" alt="susi-logo" className="siteTitle"/>
-              </a>
-            </ToolbarGroup >
-            <ToolbarGroup >
-            </ToolbarGroup >
-            <ToolbarGroup lastChild={true}>
-            <div className="top-menu" style={{'marginTop':'-5px'}}>
-            <FlatButton label="Overview"  href="/overview" style={{color:'#fff'}} className="topMenu-item"/>
-            <FlatButton label="Docs" href="http://dev.susi.ai/" style={{color:'#fff'}} className="topMenu-item"/>
-            <FlatButton label="Blog"  href="/blog" style={{color:'#fff'}} className="topMenu-item"/>
-            <FlatButton label="Team"  href="/team" style={{color:'#fff'}} className="topMenu-item"/>
-            </div>
-              <TopMenu />
-            </ToolbarGroup>
-          </Toolbar>
-        </header>
-
-        <Drawer
-          docked={false}
-          width={200}
-          open={this.state.openDrawer}
-          onRequestChange={(openDrawer) => this.setState({ openDrawer })}
-        >
-          <Toolbar
-            style={{
-              backgroundColor:'#4285f4',
-              height: '46px'
-            }}
-            onTouchTap={this.handleDrawerClose}
-            >
-            <ToolbarGroup firstChild={true} >
-              <IconButton
-                  iconStyle={{'fill':'#fff'}}
-                  onClick={this.handleDrawerClose}>
-                  <Dehaze />
-              </IconButton>
-              <a href={this.state.baseUrl} style={{'marginTop':'-15px'}}>
-                <img src="susi-white.svg" alt="susi-logo" className="siteTitle"/>
-              </a>
-            </ToolbarGroup >
-          </Toolbar>
-          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
-          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><a href="http://dev.susi.ai/">Docs</a></MenuItem>
-          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/blog">Blog</Link></MenuItem>
-          <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/teams">teams</Link></MenuItem>
-        </Drawer>
-
+        <StaticAppBar {...this.props}
+          location={this.props.location} />
 
         <div className='section'>
           <div className="section-container" >
@@ -511,52 +289,30 @@ class Terms extends Component {
           </div>
         </div>
 
-              <div className='footer'>
-                <div className='footer-container'>
-                <img src='susi.svg' alt='SUSI' className='susi-logo' />
-                <ul className='alignLeft'>
-                <li><a href='/about'>About</a></li>
-                <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
-                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-                </ul>
-                <ul className='alignRight'>
-                <li><a href='/settings'>Settings</a></li>
-                <li><a href='/terms'>Terms</a></li>
-                <li><a href='/contact'>Contact</a></li>
-                </ul>
-                </div>
-              </div>
-              {/* Login */}
-              <Dialog
-                className='dialogStyle'
-                modal={true}
-                open={this.state.login}
-                autoScrollBodyContent={true}
-                bodyStyle={bodyStyle}
-                contentStyle={{width: '35%',minWidth: '300px'}}
-                onRequestClose={this.handleClose}>
-                <Login  />
-                <Close style={closingStyle} onTouchTap={this.handleClose} />
-              </Dialog>
-            {/* SignUp */}
-            <Dialog
-                className='dialogStyle'
-                actions={actions}
-                modal={true}
-                open={this.state.signup}
-                autoScrollBodyContent={true}
-                bodyStyle={bodyStyle}
-                contentStyle={{width: '35%',minWidth: '300px'}}
-                onRequestClose={this.handleClose}>
-                <SignUp  />
-              </Dialog>
+        <div className='footer'>
+          <div className='footer-container'>
+            <img src='susi.svg' alt='SUSI' className='susi-logo' />
+            <ul className='alignLeft'>
+              <li><a href='/about'>About</a></li>
+              <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
+              <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
+            </ul>
+            <ul className='alignRight'>
+              <li><a href='/settings'>Settings</a></li>
+              <li><a href='/terms'>Terms</a></li>
+              <li><a href='/contact'>Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     );
   };
 }
 
 Terms.propTypes = {
-  history: PropTypes.object
+  history: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default Terms;
