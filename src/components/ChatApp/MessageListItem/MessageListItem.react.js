@@ -10,6 +10,7 @@ import { imageParse, processText,
 } from './helperFunctions.react.js';
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import * as Actions from '../../../actions/';
 
 const entities = new AllHtmlEntities();
 
@@ -28,6 +29,7 @@ class MessageListItem extends React.Component {
 
   onEnd = () => {
     this.setState({ play: false });
+    Actions.resetVoice();
   }
 
   render() {
