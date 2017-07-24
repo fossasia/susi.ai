@@ -55,8 +55,8 @@ class Overview extends Component {
     componentDidMount(){
 
       this.setState({
-  	      search: false,
-  	    });
+        search: false,
+  	  });
 
       var didScroll;
       var lastScrollTop = 0;
