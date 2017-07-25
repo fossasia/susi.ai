@@ -5,7 +5,6 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Signup from 'material-ui/svg-icons/action/account-circle';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Dialog from 'material-ui/Dialog';
 import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
 import Login from '../Auth/Login/Login.react';
@@ -149,8 +148,7 @@ class Overview extends Component {
       }
     const actions = <RaisedButton
       label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+      backgroundColor='#4285f4'
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
