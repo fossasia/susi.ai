@@ -14,11 +14,26 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
-import IconMenu from 'material-ui/IconMenu';
-import AppBar from 'material-ui/AppBar';
+import Dehaze from 'material-ui/svg-icons/image/dehaze';
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
+import Popover from 'material-ui/Popover';
+import IconMenu from 'material-ui/IconMenu';
+import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import $ from 'jquery'
+
+let TopMenu = (props) => (
+	<IconMenu
+		{...props}
+		iconButtonElement={
+			<IconButton
+				iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+		}
+		targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+		anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+	>
+	</IconMenu>
+)
 
 class Overview extends Component {
 
@@ -27,6 +42,7 @@ class Overview extends Component {
       this.state = {
         open: false,
         showOptions: false,
+        anchorEl: null,
         login:false,
         signup:false,
         video:false,
@@ -36,6 +52,11 @@ class Overview extends Component {
       };
     }
     componentDidMount(){
+
+      this.setState({
+        search: false,
+  	  });
+
       var didScroll;
       var lastScrollTop = 0;
       var delta = 5;
@@ -72,6 +93,38 @@ class Overview extends Component {
           lastScrollTop = st;
       }
 
+      TopMenu = (props) => (
+        <div>
+          <div>
+          <IconButton
+            {...props}
+            iconStyle={{color:'#fff'}}
+            onTouchTap={this.showOptions}>
+            <MoreVertIcon />
+          </IconButton>
+          <Popover
+            {...props}
+            style={{marginLeft:'-15px'}}
+            open={this.state.showOptions}
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+            onRequestClose={this.closeOptions}
+          >
+            <MenuItem primaryText="Login"
+                          onTouchTap={this.handleLogin} />
+            <MenuItem primaryText="Sign Up"
+                          onTouchTap={this.handleSignUp}
+                          rightIcon={<Signup/>} />
+            <MenuItem primaryText="Chat"
+                          containerElement={<Link to="/logout" />}
+                          rightIcon={<Chat/>}/>
+          </Popover>
+          </div>
+        </div>
+      );
+      return <TopMenu />
+
     }
 
     showOptions = (event) => {
@@ -79,9 +132,8 @@ class Overview extends Component {
       this.setState({
         showOptions: true,
         anchorEl: event.currentTarget
-    })
+      });
     }
-
     closeOptions = () => {
       this.setState({
         showOptions: false,
@@ -155,48 +207,37 @@ class Overview extends Component {
       onTouchTap={this.handleClose}
 />;
 
-    const TopMenu = (props) => (
-    <div>
-      <div className="top-menu">
-      <FlatButton label="Overview"  href="/overview" style={{color:'#fff'}} className="topMenu-item"/>
-      <FlatButton label="Docs" href="http://dev.susi.ai/" style={{color:'#fff'}} className="topMenu-item"/>
-      <FlatButton label="Blog"  href="/blog" style={{color:'#fff'}} className="topMenu-item"/>
-      <FlatButton label="Team"  href="/team" style={{color:'#fff'}} className="topMenu-item"/>
-      </div>
-      <IconMenu
-        {...props}
-        iconButtonElement={
-          <IconButton iconStyle={{color:'#fff'}} ><MoreVertIcon /></IconButton>
-        }
-
-      >
-      <MenuItem primaryText="Login"
-
-                    onTouchTap={this.handleLogin} />
-      <MenuItem primaryText="Sign Up"
-                    onTouchTap={this.handleSignUp}
-                    rightIcon={<Signup/>} />
-      <MenuItem primaryText="Chat"
-                    containerElement={<Link to="/logout" />}
-                    rightIcon={<Chat/>}/>
-      </IconMenu>
-    </div>
-    );
-
-
     return (
             <div>
-
-
               <header className="nav-down" id="headerSection">
-              <AppBar
-                className="topAppBar"
-                title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
-                className="siteTitle"/></a>}
-                style={{backgroundColor:'#4285f4'}}
-                onLeftIconButtonTouchTap={this.handleDrawer}
-                iconElementRight={<TopMenu />}
-              />
+                <Toolbar
+          				className="topAppBar"
+          				style={{
+          					backgroundColor:'#4285f4',
+          					height: '46px'
+          				}}>
+                  <ToolbarGroup firstChild={true} >
+                    <IconButton
+                        iconStyle={{'fill':'#fff'}}
+                        onClick={this.handleDrawer}>
+                        <Dehaze />
+                    </IconButton>
+                    <a href={this.state.baseUrl} style={{'marginTop':'-15px'}}>
+                      <img src="susi-white.svg" alt="susi-logo" className="siteTitle"/>
+                    </a>
+                  </ToolbarGroup >
+                  <ToolbarGroup >
+                  </ToolbarGroup >
+          				<ToolbarGroup lastChild={true}>
+                  <div className="top-menu" style={{'marginTop':'-5px'}}>
+                  <FlatButton label="Overview"  href="/overview" style={{color:'#fff'}} className="topMenu-item"/>
+                  <FlatButton label="Docs" href="http://dev.susi.ai/" style={{color:'#fff'}} className="topMenu-item"/>
+                  <FlatButton label="Blog"  href="/blog" style={{color:'#fff'}} className="topMenu-item"/>
+                  <FlatButton label="Team"  href="/team" style={{color:'#fff'}} className="topMenu-item"/>
+                  </div>
+                    <TopMenu />
+                  </ToolbarGroup>
+                </Toolbar>
               </header>
 
             <Drawer
@@ -205,13 +246,26 @@ class Overview extends Component {
               open={this.state.openDrawer}
               onRequestChange={(openDrawer) => this.setState({openDrawer})}
             >
-              <AppBar
-                title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
-                className="siteTitle"/></a>}
-                style={{backgroundColor:'#4285f4'}}
-                onTouchTap={this.handleDrawerClose}/>
+              <Toolbar
+        				style={{
+        					backgroundColor:'#4285f4',
+        					height: '46px'
+        				}}
+                onTouchTap={this.handleDrawerClose}
+                >
+                <ToolbarGroup firstChild={true} >
+                  <IconButton
+                      iconStyle={{'fill':'#fff'}}
+                      onClick={this.handleDrawerClose}>
+                      <Dehaze />
+                  </IconButton>
+                  <a href={this.state.baseUrl} style={{'marginTop':'-15px'}}>
+                    <img src="susi-white.svg" alt="susi-logo" className="siteTitle"/>
+                  </a>
+                </ToolbarGroup >
+              </Toolbar>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/overview">Overview</Link></MenuItem>
-              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="http://dev.susi.ai/">Docs</Link></MenuItem>
+              <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><a href="http://dev.susi.ai/">Docs</a></MenuItem>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/blog">Blog</Link></MenuItem>
               <MenuItem onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to="/teams">teams</Link></MenuItem>
             </Drawer>
