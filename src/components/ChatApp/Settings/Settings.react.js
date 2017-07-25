@@ -12,6 +12,7 @@ import Cookies from 'universal-cookie';
 import Toggle from 'material-ui/Toggle';
 import Dialog from 'material-ui/Dialog';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 const cookies = new Cookies();
 
@@ -54,7 +55,11 @@ class Settings extends Component {
 	handleHardware = () => {
 		this.props.onHardwareSettings();
 	}
-
+	handleClose = ()  => {
+		this.setState({
+			showLanguageSettings: false
+		})
+	}
 	handleSubmit = () => {
 		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
@@ -176,9 +181,20 @@ class Settings extends Component {
 
 		const subHeaderStyle = {
 			color: UserPreferencesStore.getTheme()==='light'
-								? '#4285f4' : '#19314B'
+								? '#4285f4' : '#19314B',
+			margin: '20px 0 0 0',
+			fontSize: '15px'
 		}
-
+		const closingStyle ={
+          position: 'absolute',
+          zIndex: 1200,
+          fill: '#444',
+          width: '26px',
+          height: '26px',
+          right: '10px',
+          top: '10px',
+          cursor:'pointer'
+        }
 		const radioButtonStyles = {
 		  block: {
 		    maxWidth: 250,
@@ -197,9 +213,9 @@ class Settings extends Component {
 		return (
 			<div className="settingsForm">
 				<Paper zDepth={0}>
-					<h1>Chat Settings</h1>
+					<h3 className='headerStyle'>Chat Settings</h3>
 					<div className='settingsDialog'>
-					<h4 style={subHeaderStyle}>ChatApp Settings</h4>
+					<h3 style={subHeaderStyle}>ChatApp Settings</h3>
 					<div>
 						<h4 style={{float:'left'}}>Select Theme</h4>
 						<DropDownMenu
@@ -217,7 +233,7 @@ class Settings extends Component {
 			        		onToggle={this.handleEnterAsSend}
 							toggled={this.state.enterAsSend}/>
 			        </div>
-			        <h4 style={subHeaderStyle}>Mic Settings</h4>
+			        <h3 style={subHeaderStyle}>Mic Settings</h3>
 			        <div>
 			        	<h4 style={{'marginBottom':'0px'}}>Mic Input</h4>
 			        	<Toggle style={{maxWidth:'70%'}}
@@ -225,7 +241,7 @@ class Settings extends Component {
 			        		onToggle={this.handleMicInput}
 							toggled={this.state.micInput}/>
 			        </div>
-			        <h4 style={subHeaderStyle}>Speech Settings</h4>
+			        <h3 style={subHeaderStyle}>Speech Settings</h3>
 			        <div>
 			        	<h4 style={{'marginBottom':'0px'}}>Speech Output</h4>
 			        	<Toggle style={{maxWidth:'70%'}}
@@ -250,7 +266,7 @@ class Settings extends Component {
 			    	</div>
 			        {cookies.get('loggedIn') ?
 			        <div>
-			        <h4 style={subHeaderStyle}>Server Settings</h4>
+			        <h3 style={subHeaderStyle}>Server Settings</h3>
 						<FlatButton
 							className='settingsBtns'
 							style={Buttonstyles}
@@ -260,7 +276,7 @@ class Settings extends Component {
 			    	</div>
 			       	:
 					<div>
-						<h4 style={subHeaderStyle}>Server Settings</h4>
+						<h3 style={subHeaderStyle}>Server Settings</h3>
 						<h3>Choose Server</h3>
 						<RadioButtonGroup
 						 name="server" onChange={this.handleChange}
@@ -282,7 +298,7 @@ class Settings extends Component {
 					</div>
 					}
 			    	<div>
-			    	<h4 style={subHeaderStyle}>Connect to SUSI Hardware:</h4>
+			    	<h3 style={subHeaderStyle}>Connect to SUSI Hardware:</h3>
 						<FlatButton
 							className='settingsBtns'
 							style={Buttonstyles}
@@ -311,6 +327,7 @@ class Settings extends Component {
 		          	rate={this.state.speechRate}
 		          	pitch={this.state.speechPitch}
 		          	ratePitchSettings={this.handleTextToSpeech}/>
+		          <Close style={closingStyle} onTouchTap={this.handleClose} />
 		        </Dialog>
 			</div>);
 	}

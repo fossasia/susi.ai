@@ -702,7 +702,11 @@ textarea {
 .dialogStyle div{
     margin: 0 auto;
 }
-
+.headerStyle{
+  font-family: 'Open Sans', sans-serif;
+  margin: 15px 0;
+  font-weight: 500;
+}
 em{
   background-color: orange;
 }
@@ -715,6 +719,7 @@ em{
 
 .settingsForm{
   margin: 0 auto;
+  padding: 10px 0;
 }
 
 .settingsDialog {
