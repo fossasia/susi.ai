@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import './Support.css';
+import support from '../../../public/images/support.png';
+import gitter from '../../../public/images/gitter.jpg';
+import googleGroups from '../../../public/images/google-groups.png';
+import github from '../../../public/images/github-logo.png';
+import question from '../../../public/images/question.png';
+import code from '../../../public/images/code.png';
+import susi from '../../../public/images/susi.svg';
 import PropTypes  from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
@@ -71,7 +78,7 @@ class Support extends Component {
                   </p>
                 </div>
                 <div className='img-container'>
-                  <img src='support.png' alt='support' className='support' />
+                  <img src={support} alt='support' className='support' />
                 </div>
               </div>
               <div className="section">
@@ -83,7 +90,7 @@ class Support extends Component {
                   ">
                   <a href="https://gitter.im/fossasia/susi_server">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='gitter' src="gitter.jpg" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='gitter' src={gitter} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://gitter.im/fossasia/susi_server">
@@ -99,7 +106,7 @@ class Support extends Component {
                 devsite-landing-row-item-with-icon devsite-landing-row-item-no-image">
                   <a href="http://groups.google.com/forum/#!forum/susiai">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='google groups' src="google-groups.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='google groups' src={googleGroups} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="http://groups.google.com/forum/#!forum/susiai">
@@ -114,7 +121,7 @@ class Support extends Component {
                   ">
                   <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='github' src="github-logo.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='github' src={github} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
@@ -137,7 +144,7 @@ class Support extends Component {
                   ">
                   <a href="https://github.com/fossasia/susi_server/issues/new">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='question' src="question.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='question' src={question} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://github.com/fossasia/susi_server/issues/new">
@@ -159,7 +166,7 @@ class Support extends Component {
                   ">
                   <a href="https://github.com/fossasia/susi_server/">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='code' src="code.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='code' src={code} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://github.com/fossasia/susi_server/">
@@ -182,7 +189,7 @@ class Support extends Component {
               </div>
               <div className='footer'>
                 <div className='footer-container'>
-                <img src='susi.svg' alt='SUSI' className='susi-logo' />
+                <img src={susi} alt='SUSI' className='susi-logo' />
                 <ul className='alignLeft'>
                 <li><a href='/about'>About</a></li>
                 <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>

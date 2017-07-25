@@ -21,7 +21,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   overflow: hidden;
 }
 .app-bar{
-  background-image: url('../images/susi-white.svg');
+  background-image: url('../../../public/images/susi-white.svg');
   margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
@@ -52,13 +52,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
 }
 
 @keyframes blinker {
-  from { 
+  from {
     opacity: 1;
     box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5),
-    0 0 0 10px rgba(102, 102, 102, 0.1); 
+    0 0 0 10px rgba(102, 102, 102, 0.1);
   }
   to { opacity: 0.3;
-    box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5), 
+    box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5),
     0 0 0 20px rgba(102, 102, 102, 0); }
 }
 .Modal{
@@ -414,7 +414,7 @@ header{
   top: 16px;
   border-color: transparent transparent #fff #fff;
   background: #fff;
-} 
+}
 
 .dark .message-container.SUSI::after{
   border-color:#194b5e #194b5e rgb(25, 75, 94) rgb(25, 75, 94);
@@ -601,7 +601,7 @@ textarea {
 }
 
 .map-marker-icon {
-  background: url('../images/map_marker_icon.png');
+  background: url('../../../public/images/map_marker_icon.png');
   background-size: contain;
   background-repeat: no-repeat;
   width: 25px;
@@ -770,7 +770,7 @@ em{
 }
 
 .app-bar-search{
-  background-image: url('../images/susi-white.svg');
+  background-image: url('../../../public/images/susi-white.svg');
   margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
