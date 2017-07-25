@@ -1,4 +1,15 @@
 import React, { Component } from 'react';
+import susi from '../../../public/images/susi.svg';
+import susiGif from '../../../public/images/susi.gif';
+import susiTestGif from '../../../public/images/susi-test.gif';
+import mapAndroid from '../../../public/images/map-android.jpg';
+import androidMockup from '../../../public/images/android-mockup.jpg';
+import bots from '../../../public/images/bots.jpg';
+import allDevices from '../../../public/images/all_devices.png';
+import manyLanguages from '../../../public/images/many_languages.png';
+import openSource from '../../../public/images/open-source.png';
+import githubText from '../../../public/images/github-text-logo.png';
+import shield from '../../../public/images/shield.svg';
 import './Overview.css';
 import PropTypes from 'prop-types';
 import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
@@ -60,7 +71,7 @@ class Overview extends Component{
         <div className='section'>
           <div className='section-container'>
             <div className="hero">
-              <img src='susi.gif' style={{ margin: '20px 0' }} alt='Meet SUSI' />
+              <img src={susiGif} style={{ margin: '20px 0' }} alt='Meet SUSI' />
               <h1>Meet SUSI, Your Personal Assistant.</h1>
               <p>Ask it questions. Tell it to do things. Always ready to help.</p>
               <a onClick={this.handleVideo} style={{
@@ -85,7 +96,7 @@ class Overview extends Component{
                   what the weather’s like when you get there.</p>
           </div>
           <div className='img-container'>
-            <img src='susi-test.gif' alt='susi-test' className='susi-test' />
+            <img src={susiTestGif} alt='susi-test' className='susi-test' />
           </div>
         </div>
         <div className="section_copy">
@@ -100,7 +111,7 @@ class Overview extends Component{
                   You can even tell SUSI to remember things.</p>
           </div>
           <div className='img-container'>
-            <img src='map-android.jpg' alt='Map' className='android-mockup' />
+            <img src={mapAndroid} alt='Map' className='android-mockup' />
           </div>
         </div>
         <div className="section_copy">
@@ -115,7 +126,7 @@ class Overview extends Component{
               className="appstore">Download on the App Store</a>
           </div>
           <div className='img-container'>
-            <img src='android-mockup.jpg' alt='Android Mockup' className='android-mockup' />
+            <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
           </div>
         </div>
 
@@ -123,7 +134,7 @@ class Overview extends Component{
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className='img-container'>
-                <img src='bots.jpg' alt='Android Mockup' className='bots-mockup' />
+                <img src={bots} alt='Android Mockup' className='bots-mockup' />
               </div>
               <div className="description__heading">On many Platforms</div>
               <p className="description__text"><b>SUSI.AI</b> already runs on many chat
@@ -143,7 +154,7 @@ class Overview extends Component{
           </div>
           <div className="column_section">
             <div className='img-container'>
-              <img src='all_devices.png' alt='Android Mockup' className='bots-mockup' />
+              <img src={allDevices} alt='Android Mockup' className='bots-mockup' />
             </div>
             <div className="conversation__description custom_description">
               <div className="description__heading">For all Devices</div>
@@ -155,7 +166,7 @@ class Overview extends Component{
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className='img-container'>
-                <img src='many_languages.png' alt='Android Mockup' className='bots-mockup' />
+                <img src={manyLanguages} alt='Android Mockup' className='bots-mockup' />
               </div>
               <div className="description__heading">Use it in many Languages</div>
               <p className="description__text">You can use <b>SUSI.AI</b> in DIfferent
@@ -178,25 +189,25 @@ class Overview extends Component{
                     <div className="opensource-logos">
                         <span className="opensource">
                           <Link to="https://opensource.org/" target="_blank">
-                          <img src='open-source.png' alt='osi' />
+                          <img src={openSource} alt='osi' />
                           </Link>
                         </span>
                         <span className="github_logo">
                           <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
-                          <img src='git.png' alt='ghlogo' />
+                          <img src={githubText} alt='ghlogo' />
                           </Link>
                         </span>
                     </div>
                   </div>
                   <div className='img-container'>
-                    <img src='shield.svg' alt='Android Mockup'className='shield'  />
+                    <img src={shield} alt='Android Mockup'className='shield'  />
                   </div>
                 </div>
 
 
         <div className='footer'>
           <div className='footer-container'>
-            <img src='susi.svg' alt='SUSI' className='susi-logo' />
+            <img src={susi} alt='SUSI' className='susi-logo' />
             <ul className='alignLeft'>
               <li><a href='/about'>About</a></li>
               <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
