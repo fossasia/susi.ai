@@ -9,10 +9,7 @@ import $ from 'jquery';
 import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
-import Dialog from 'material-ui/Dialog';
 import CustomServer from '../../ChatApp/CustomServer.react';
-import Close from 'material-ui/svg-icons/navigation/close';
 
 const cookies = new Cookies();
 
@@ -29,8 +26,7 @@ class Login extends Component {
 			emailError: true,
 			passwordError: false,
 			serverFieldError: false,
-			checked: false,
-			showForgotPassword: false
+			checked: false
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
@@ -103,7 +99,9 @@ class Login extends Component {
 			});
 		}
 	}
-
+	handleForgotPassword = () => {
+		this.props.handleForgotPassword();
+	}
 	handleServeChange = (event) => {
         let state = this.state;
         let serverUrl
@@ -201,19 +199,6 @@ class Login extends Component {
 		}
 	}
 
-	showForgotPassword = (toShow) => {
-		if(toShow){
-			this.setState({
-				showForgotPassword: true,
-			});
-		}
-		else{
-			this.setState({
-				showForgotPassword: false,
-			});
-		}
-	}
-
 	render() {
 
 		const styles = {
@@ -224,17 +209,6 @@ class Login extends Component {
 		const fieldStyle={
 			'width':'256px'
 		}
-
-	    const closingStyle ={
-	      position: 'absolute',
-	      zIndex: 1200,
-	      fill: '#444',
-	      width: '26px',
-	      height: '26px',
-	      right: '10px',
-	      top: '10px',
-	      cursor:'pointer'
-	    }
 	    const underlineFocusStyle= {
 			color: '#4285f4'
 	    }
@@ -284,7 +258,7 @@ class Login extends Component {
 								style={{margin:'15px 0 '}}/>
 						</div>
 						<span className="forgotpwdlink"
-							onClick={this.showForgotPassword}>
+							onClick={this.handleForgotPassword}>
 								Forgot Password?
 						</span>
 						<br />
@@ -302,18 +276,6 @@ class Login extends Component {
 						</div>
 					</form>
 				</Paper>
-				<Dialog
-					className='dialogStyle'
-					modal={false}
-					open={this.state.showForgotPassword}
-					autoScrollBodyContent={true}
-					contentStyle={{width: '35%',minWidth: '300px'}}
-					onRequestClose={this.showForgotPassword.bind(this,false)}>
-					<ForgotPassword {...this.props}
-					showForgotPassword={this.showForgotPassword}/>
-					<Close style={closingStyle}
-					onTouchTap={this.showForgotPassword.bind(this,false)} />
-				</Dialog>
 			</div>);
 
 	};
@@ -321,7 +283,7 @@ class Login extends Component {
 
 Login.propTypes = {
 	history: PropTypes.object,
-	showForgotPassword: PropTypes.func,
+	handleForgotPassword: PropTypes.func
 };
 
 

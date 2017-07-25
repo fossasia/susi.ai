@@ -27,10 +27,14 @@ export default class CustomServer extends Component {
             textAlign:'left',
             margin:'-35px 0 0px 30px',
         };
-
+        const underlineFocusStyle= {
+            color: '#4285f4'
+        }
         const serverURL = <TextField
                             name="serverUrl"
                             className="serverUrl"
+                            underlineFocusStyle={underlineFocusStyle}
+                            floatingLabelFocusStyle={underlineFocusStyle}
                             onChange={this.handleServeChange}
                             onTouchTap={this.handleServeChange}
                             value={this.props.serverUrl}

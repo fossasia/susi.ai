@@ -6,12 +6,12 @@ import $ from 'jquery';
 import './SignUp.css';
 import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Login from '../../Auth/Login/Login.react';
 import zxcvbn from 'zxcvbn';
 import CustomServer from '../../ChatApp/CustomServer.react';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -298,31 +298,26 @@ export default class SignUp extends Component {
         const fieldStyle={
             'width':'256px'
         }
-
-        const actions =
-            <FlatButton
-                label="OK"
-                backgroundColor={
-                    UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-                labelStyle={{ color: '#fff' }}
-                onTouchTap={this.handleClose}
-            />;
-        const loginActions = <RaisedButton
-          label="Cancel"
-          backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-          labelColor="#fff"
-          width='200px'
-          keyboardFocused={true}
-          onTouchTap={this.handleClose}
-        />;
+        const closingStyle ={
+          position: 'absolute',
+          zIndex: 1200,
+          fill: '#444',
+          width: '26px',
+          height: '26px',
+          right: '10px',
+          top: '10px',
+          cursor:'pointer'
+        }
+        const underlineFocusStyle= {
+            color: '#4285f4'
+        }
 
         const PasswordClass=[`is-strength-${this.state.passwordScore}`];
 
         return (
             <div className="signUpForm">
                 <Paper zDepth={0} style={styles}>
-                    <h1>Sign Up with SUSI</h1>
+                    <h3>Sign Up with SUSI</h3>
                     <form onSubmit={this.handleSubmit}>
                         <div>
                             <TextField
@@ -330,6 +325,8 @@ export default class SignUp extends Component {
                                 value={this.state.email}
                                 onChange={this.handleChange}
                                 errorText={this.emailErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText="Email" />
                         </div>
                         <div className={PasswordClass.join(' ')}>
@@ -339,6 +336,8 @@ export default class SignUp extends Component {
                                 value={this.state.passwordValue}
                                 onChange={this.handleChange}
                                 errorText={this.passwordErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText="Password" />
                               <div className="ReactPasswordStrength-strength-bar" />
                               <div>
@@ -354,6 +353,8 @@ export default class SignUp extends Component {
                                 value={this.state.confirmPasswordValue}
                                 onChange={this.handleChange}
                                 errorText={this.passwordConfirmErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText="Confirm Password" />
                         </div>
                         <div>
@@ -372,11 +373,15 @@ export default class SignUp extends Component {
                                     UserPreferencesStore.getTheme()==='light'
                                     ? '#4285f4' : '#19314B'}
                                 labelColor="#fff"
-                                style={{margin:'25px 0 0 0 '}} />
+                                style={{margin:'15px 0 0 0 '}} />
                         </div>
-                        <h1>OR</h1>
+                        <h4 style={{
+                            margin: '5px 0'
+                        }}>OR</h4>
                         <div>
-                            <h4>If you have an Account Please Login</h4>
+                            <h4 style={{
+                            margin: '5px 0'
+                        }}>If you have an Account Please Login</h4>
                             <RaisedButton
                                 onTouchTap={this.handleOpen}
                                 label='Login'
@@ -389,7 +394,6 @@ export default class SignUp extends Component {
                 </Paper>
                 {this.state.msg && (
                     <div><Dialog
-                        actions={actions}
                         modal={false}
                         open={this.state.msgOpen}
                         onRequestClose={this.handleClose}
@@ -399,12 +403,13 @@ export default class SignUp extends Component {
                 )}
                 <Dialog
                   className='dialogStyle'
-                  actions={loginActions}
                   modal={false}
                   open={this.state.open}
                   autoScrollBodyContent={true}
                   contentStyle={{width: '35%',minWidth: '300px'}}>
                   <Login {...this.props} />
+                  <Close style={closingStyle}
+                    onTouchTap={this.handleClose} />
                 </Dialog>
             </div>
         );

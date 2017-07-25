@@ -27,6 +27,7 @@ function getStateFromStores() {
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
+    openForgotPassword:false,
     showSignUp: false,
     showChangePassword: false,
     showSettings: false,
@@ -214,7 +215,8 @@ class MessageSection extends Component {
 
   handleChangePassword = () => {
     this.setState({
-      showChangePassword: true
+      showChangePassword: true,
+      showLogin: false
     });
     this.child.closeOptions();
   }
@@ -323,6 +325,13 @@ class MessageSection extends Component {
     this.child.closeOptions();
 
   }
+  forgotPasswordChanged = () => {
+    this.setState({
+        showLogin:false,
+        openForgotPassword: true
+    });
+    this.child.closeOptions();
+  }
 
   serverSettingChanged = () => {
     this.setState({
@@ -332,6 +341,23 @@ class MessageSection extends Component {
     });
     this.child.closeOptions();
 
+  }
+  handleForgotPasswordToggle = (forgotPassword) => {
+    if(forgotPassword){
+      this.setState({
+        showLogin:false,
+        openForgotPassword: true
+      });
+    }
+    else{
+      // Go back to login dialog
+      this.setState({
+        showLogin: true,
+        openForgotPassword: false
+      });
+      this.child.closeOptions();
+
+    }
   }
 
   handleServerToggle = (changeServer) => {
@@ -764,6 +790,7 @@ class MessageSection extends Component {
               openSetting={this.state.showSettings}
               openSignUp={this.state.showSignUp}
               openChangePassword={this.state.showChangePassword}
+              openForgotPassword={this.state.openForgotPassword}
               openServerChange={this.state.showServerChangeDialog}
               openHardwareChange={this.state.showHardwareChangeDialog}
               openThemeChanger={this.state.showThemeChanger}
@@ -774,10 +801,13 @@ class MessageSection extends Component {
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
               onRequestClose={()=>this.handleClose}
+              onRequestForgotPasswordClose={
+                ()=>this.handleForgotPasswordToggle.bind(this,false)}
               onRequestCloseServerChange={()=>this.handleServerToggle.bind(this,false)}
               onRequestCloseHardwareChange={
                 ()=>this.handleHardwareToggle.bind(this, false)}
               onSettingsSubmit={()=>this.implementSettings}
+              onForgotPassword={()=>this.forgotPasswordChanged}
               onServerChange={()=>this.serverSettingChanged}
               onHardwareSettings={()=>this.hardwareSettingChanged}/>
             </div>)

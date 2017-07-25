@@ -63,15 +63,19 @@ class HardwareComponent extends Component {
   };
 
   render() {
-
+    const headerStyle = {
+      fontFamily: 'Open Sans',
+      margin: '5px 0',
+      fontWeight: '500'
+    }
     const styles = {
       'textAlign': 'center',
-      'padding': '10px'
+      'padding': '10px 0'
     }
     return (
       <div className="loginForm">
         <Paper zDepth={0} style={styles}>
-          <h1>Enter Socket Web Address</h1>
+          <h3 style={headerStyle}>Enter Socket Web Address</h3>
           <form onSubmit={this.handleSubmit}>
           <div>
           <TextField name="serverUrl"

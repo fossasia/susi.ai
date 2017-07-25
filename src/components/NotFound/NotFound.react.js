@@ -105,7 +105,7 @@ export default class NotFound extends Component {
                   open={this.state.loginOpen}
                   autoScrollBodyContent={true}
                   contentStyle={{width: '35%',minWidth: '300px'}}>
-                  <Login {...this.props} />
+                  <Login {...this.props}/>
                 </Dialog>
                 <Dialog
                   className='dialogStyle'
