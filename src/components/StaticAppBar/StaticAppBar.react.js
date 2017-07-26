@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import susiWhite from '../../../public/images/susi-white.svg';
 import PropTypes from 'prop-types';
 import Signup from 'material-ui/svg-icons/action/account-circle';
 import Drawer from 'material-ui/Drawer';
@@ -300,7 +301,7 @@ class StaticAppBar extends Component {
                     <AppBar
                         className="topAppBar"
                         title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                              <img src="susi-white.svg" alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
+                              <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
                         style={{ backgroundColor: '#4285f4', height: '46px' }}
                         onLeftIconButtonTouchTap={this.handleDrawer}
                         iconStyleLeft={{marginTop: '-2px'}}
@@ -316,7 +317,7 @@ class StaticAppBar extends Component {
                 >
                     <AppBar
                         title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                              <img src="susi-white.svg" alt="susi-logo" className="siteTitle" /></a></div>}
+                              <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a></div>}
                         style={{ backgroundColor: '#4285f4', height: '46px' }}
                         iconStyleLeft={{marginTop: '-2x'}}
                         onTouchTap={this.handleDrawerClose} />
