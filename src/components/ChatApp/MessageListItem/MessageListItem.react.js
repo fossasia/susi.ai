@@ -111,6 +111,7 @@ class MessageListItem extends React.Component {
         if(mapIndex>-1){
           actions = ['map'];
         }
+        let noResultsFound = false;
         actions.forEach((action,index)=>{
           switch(action){
             case 'answer': {
@@ -208,6 +209,9 @@ class MessageListItem extends React.Component {
                 delete rssKeys.count;
               }
               let rssTiles = getRSSTiles(rssKeys,data.answers[0].data,count);
+              if(rssTiles.length === 0){
+                noResultsFound = true;
+              }
               listItems.push(
                   <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
@@ -222,6 +226,9 @@ class MessageListItem extends React.Component {
             }
             case 'websearch': {
               let websearchTiles = this.props.message.websearchresults;
+              if(websearchTiles.length === 0){
+                noResultsFound = true;
+              }
               listItems.push(
                   <li className='message-list-item' key={action+index}>
                     <section className={messageContainerClasses}>
@@ -239,6 +246,11 @@ class MessageListItem extends React.Component {
               // do nothing
           }
         });
+
+        if(noResultsFound && this.props.message.text === 'I found this on the web:'){
+          listItems.splice(0,1);
+        }
+
         // Only set voice Outputs for text responses
         let voiceOutput;
         if(this.props.message.text!==undefined){
