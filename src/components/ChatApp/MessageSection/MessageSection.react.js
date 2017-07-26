@@ -8,7 +8,7 @@ import * as Actions from '../../../actions/';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import PropTypes from 'prop-types';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import loadingGIF from '../../images/loading.gif';
+import loadingGIF from '../../../../public/images/loading.gif';
 import DialogSection from './DialogSection';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
@@ -418,6 +418,7 @@ class MessageSection extends Component {
 
     let currSettings = UserPreferencesStore.getPreferences();
     let settingsChanged = {};
+    let resetVoice = false;
     if(currSettings.Theme !== values.theme){
       settingsChanged.Theme = values.theme;
       let headerColor = '';
@@ -444,9 +445,11 @@ class MessageSection extends Component {
     }
     if(currSettings.SpeechOutput !== values.speechOutput){
       settingsChanged.SpeechOutput = values.speechOutput;
+      resetVoice = true;
     }
     if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
       settingsChanged.SpeechOutputAlways = values.speechOutputAlways;
+      resetVoice = true;
     }
     if(currSettings.SpeechRate !== values.rate){
       settingsChanged.SpeechRate = values.rate;
@@ -455,6 +458,9 @@ class MessageSection extends Component {
       settingsChanged.SpeechPitch = values.pitch;
     }
     Actions.settingsChanged(settingsChanged);
+    if(resetVoice){
+      Actions.resetVoice();
+    }
 
     setTimeout(() => {
        this.setState({
