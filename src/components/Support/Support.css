@@ -25,12 +25,19 @@
     -webkit-box-pack: justify;
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
+    margin: 20px 0 0 0;
 }
 .support__heading{
 	color: #757575;
 	font: 300 34px/40px 'Roboto',sans-serif;
     letter-spacing: -.01em;
     margin: 40px 0 20px;
+}
+.img-container {
+    width: 30%;
+}
+.conversation__description{
+    width: 50%;
 }
 @media only screen and (max-width: 800px){
 .support__text {
@@ -46,27 +53,7 @@
     color: #414141;
     font-family: 'Roboto', sans-serif;
 }
-@media only screen and (min-width: 801px) and (max-width: 1095px){
-    .support__text{
-        max-width: 100%;
-    }
-}
-@media only screen and (max-width: 800px){
-.support__heading {
-    font-size: 36px;
-    margin-top: 0;
-}
-    .support__text{
-        max-width: 100%;
-    }
-    .section{
-    	    padding: 20px;
-    }
-    .devsite-landing-row-item {
-    	margin-top: 20px;
-    	margin-bottom: 20px;
-    }
-}
+
 .devsite-landing-row-group {
     display: -ms-flexbox;
     display: flex;
@@ -110,17 +97,6 @@
     padding: 0;
     color: #039be5;
 }
-@media screen and (max-width: 768px){
-.devsite-landing-row-group {
-    display: block;
-}
-.devsite-landing-row-column:not(:first-child), .devsite-landing-row-item:not(:first-child) {
-    margin-left: 0px;
-}
-.devsite-landing-row-column:not(:first-child), .devsite-landing-row-item:not(:first-child) {
-    margin-left: 0px;
-}
-}
 .devsite-landing-row-item-icon {
     font-size: 48px;
     height: auto;
@@ -135,9 +111,7 @@
 	height: auto;
     width: 48px;
 }
-.blue-background{
 
-}
 .center{
 	text-align: center;
 	margin: 0 auto;
@@ -156,4 +130,40 @@
 }
 .devsite-landing-row-item-description {
     text-decoration: none;
+}
+.footer-desc{
+    margin: 0 auto;
+}
+@media only screen and (min-width: 801px) and (max-width: 1095px){
+    .support__text{
+        max-width: 100%;
+    }
+}
+@media only screen and (max-width: 800px){
+    .support__heading {
+        font-size: 36px;
+        margin-top: 0;
+    }
+    .support__text{
+        max-width: 100%;
+    }
+    .section{
+    padding: 100px 90px 50px 90px;
+
+    }
+    .devsite-landing-row-item {
+    	margin-top: 20px;
+    	margin-bottom: 20px;
+    }
+    .non-flex{
+        padding: 50px 90px 190px 90px;
+    }
+}
+@media screen and (max-width: 768px){
+    .devsite-landing-row-group {
+        display: block;
+    }
+    .devsite-landing-row-column:not(:first-child), .devsite-landing-row-item:not(:first-child) {
+        margin-left: 0px;
+    }
 }

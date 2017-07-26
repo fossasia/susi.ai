@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import './Support.css';
+import support from '../../../public/images/support.png';
+import gitter from '../../../public/images/gitter.jpg';
+import googleGroups from '../../../public/images/google-groups.png';
+import github from '../../../public/images/github-logo.png';
+import question from '../../../public/images/question.png';
+import code from '../../../public/images/code.png';
+import susi from '../../../public/images/susi.svg';
 import PropTypes  from 'prop-types';
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import Signup from 'material-ui/svg-icons/action/account-circle';
-import Popover from 'material-ui/Popover';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import Dialog from 'material-ui/Dialog';
-import Login from '../Auth/Login/Login.react';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import { Link } from 'react-router-dom';
-import SignUp from '../Auth/SignUp/SignUp.react';
 import RaisedButton from 'material-ui/RaisedButton';
-import HeadRoom from 'react-headroom';
-import Close from 'material-ui/svg-icons/navigation/close';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 
 class Support extends Component {
 
@@ -65,74 +59,17 @@ class Support extends Component {
         event.target.pauseVideo();
     }
     render() {
-    const bodyStyle = {
-      'padding': 0,
-      textAlign: 'center'
-    }
+
     const style ={
       marginTop: '25px',
       marginBottom: '25px'
     }
-    const closingStyle ={
-        position: 'absolute',
-        zIndex: 1200,
-        fill: '#444',
-        width: '26px',
-        height: '26px',
-        right: '10px',
-        top: '10px',
-        cursor:'pointer'
-      }
-    const actions = <RaisedButton
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={true}
-      onTouchTap={this.handleClose}
-    />;
+
     return (
             <div>
-              <HeadRoom>
-              <Toolbar
-                className='custom-app-bar'
-                style={{
-                  backgroundColor: '#607d8b',
-                  boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #E6E6E6',
-                  height: '46px'
-                }}>
-                <ToolbarGroup >
-                </ToolbarGroup>
-                <ToolbarGroup lastChild={true} >
-                <div>
-                <IconButton
-                  iconStyle={{ fill: '#fff', marginLeft:'-25px' }}
-                  onTouchTap={this.showOptions}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Popover
-                  style={{marginLeft:'-25px'}}
-                  open={this.state.showOptions}
-                  anchorEl={this.state.anchorEl}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  onRequestClose={this.closeOptions}
-                >
-                  <MenuItem primaryText="Login"
-                    onTouchTap={this.handleLogin} />
-                  <MenuItem primaryText="Sign Up"
-                    onTouchTap={this.handleSignUp}
-                    rightIcon={<Signup/>} />
-                  <MenuItem primaryText="Chat"
-                    containerElement={<Link to="/logout" />}
-                    rightIcon={<Chat/>}/>
-                </Popover>
-                </div>
-                </ToolbarGroup>
-              </Toolbar>
-              </HeadRoom>
-              <div className="section white-grey">
+              <StaticAppBar {...this.props} location={this.props.location}/>
+
+              <div className="section white-grey" style={{margin:'20px 0 0 0'}}>
                 <div className="conversation__description">
                   <div className="support__heading">Support</div>
                   <p className="support__text">
@@ -141,7 +78,7 @@ class Support extends Component {
                   </p>
                 </div>
                 <div className='img-container'>
-                  <img src='support.png' alt='support' className='support' />
+                  <img src={support} alt='support' className='support' />
                 </div>
               </div>
               <div className="section">
@@ -153,7 +90,7 @@ class Support extends Component {
                   ">
                   <a href="https://gitter.im/fossasia/susi_server">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='gitter' src="gitter.jpg" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='gitter' src={gitter} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://gitter.im/fossasia/susi_server">
@@ -169,7 +106,7 @@ class Support extends Component {
                 devsite-landing-row-item-with-icon devsite-landing-row-item-no-image">
                   <a href="http://groups.google.com/forum/#!forum/susiai">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='google groups' src="google-groups.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='google groups' src={googleGroups} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="http://groups.google.com/forum/#!forum/susiai">
@@ -184,7 +121,7 @@ class Support extends Component {
                   ">
                   <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='github' src="github-logo.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='github' src={github} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
@@ -207,7 +144,7 @@ class Support extends Component {
                   ">
                   <a href="https://github.com/fossasia/susi_server/issues/new">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='question' src="question.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='question' src={question} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://github.com/fossasia/susi_server/issues/new">
@@ -229,7 +166,7 @@ class Support extends Component {
                   ">
                   <a href="https://github.com/fossasia/susi_server/">
                   <div className="devsite-landing-row-item-icon-container">
-                  <img alt='code' src="code.png" className="devsite-landing-row-item-icon"/></div></a>
+                  <img alt='code' src={code} className="devsite-landing-row-item-icon"/></div></a>
                   <div className="devsite-landing-row-item-description
                                 devsite-landing-row-item-icon-description">
                         <a href="https://github.com/fossasia/susi_server/">
@@ -244,7 +181,7 @@ class Support extends Component {
               </div>
               </div>
               <div className="section non-flex blue-background">
-                <div className="conversation__description">
+                <div className="conversation__description footer-desc">
                   <div className="support__heading center">Get Started Today</div>
 
                   <RaisedButton label="Sign Up" onTouchTap={this.handleSignUp} style={style} />
@@ -252,7 +189,7 @@ class Support extends Component {
               </div>
               <div className='footer'>
                 <div className='footer-container'>
-                <img src='susi.svg' alt='SUSI' className='susi-logo' />
+                <img src={susi} alt='SUSI' className='susi-logo' />
                 <ul className='alignLeft'>
                 <li><a href='/about'>About</a></li>
                 <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
@@ -265,37 +202,15 @@ class Support extends Component {
                 </ul>
                 </div>
               </div>
-              {/* Login */}
-              <Dialog
-                className='dialogStyle'
-                modal={true}
-                open={this.state.login}
-                autoScrollBodyContent={true}
-                bodyStyle={bodyStyle}
-                contentStyle={{width: '35%',minWidth: '300px'}}
-                onRequestClose={this.handleClose}>
-                <Login  />
-                <Close style={closingStyle} onTouchTap={this.handleClose} />
-              </Dialog>
-            {/* SignUp */}
-            <Dialog
-                className='dialogStyle'
-                actions={actions}
-                modal={true}
-                open={this.state.signup}
-                autoScrollBodyContent={true}
-                bodyStyle={bodyStyle}
-                contentStyle={{width: '35%',minWidth: '300px'}}
-                onRequestClose={this.handleClose}>
-                <SignUp  />
-              </Dialog>
+
             </div>
         );
     };
 }
 
 Support.propTypes = {
-  history: PropTypes.object
+  history: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default Support;
