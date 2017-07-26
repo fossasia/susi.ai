@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import susiWhite from '../../../public/images/susi-white.svg';
 import PropTypes from 'prop-types';
 import Signup from 'material-ui/svg-icons/action/account-circle';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
@@ -286,7 +287,7 @@ class StaticAppBar extends Component {
                 <header className="nav-down" id="headerSection">
                     <AppBar
                         className="topAppBar"
-                        title={<div><a href={this.state.baseUrl} style={{ float: 'left' }}><img src="susi-white.svg" alt="susi-logo"
+                        title={<div><a href={this.state.baseUrl} style={{ float: 'left' }}><img src={susiWhite} alt="susi-logo"
                             className="siteTitle" /></a><TopMenu /></div>}
                         style={{ backgroundColor: '#4285f4' }}
                         onLeftIconButtonTouchTap={this.handleDrawer}
@@ -300,7 +301,7 @@ class StaticAppBar extends Component {
                     onRequestChange={(openDrawer) => this.setState({ openDrawer })}
                 >
                     <AppBar
-                        title={<a href={this.state.baseUrl} ><img src="susi-white.svg" alt="susi-logo"
+                        title={<a href={this.state.baseUrl} ><img src={susiWhite} alt="susi-logo"
                             className="siteTitle" /></a>}
                         style={{ backgroundColor: '#4285f4' }}
                         onTouchTap={this.handleDrawerClose} />
