@@ -1,7 +1,7 @@
 .not-found-banner{
     text-align: center;
     margin: 0 auto;
-    background: url(../../../public/images/not-found-bg.jpg);
+    background: url(../../images/not-found-bg.jpg);
     background-size: cover;
     height: 300px;
     width: 100%;
