@@ -115,14 +115,32 @@ class MessageListItem extends React.Component {
         actions.forEach((action,index)=>{
           switch(action){
             case 'answer': {
-              listItems.push(
-                <li className='message-list-item' key={action+index}>
-                  <section  className={messageContainerClasses}>
-                  <div className='message-text'>{replacedText}</div>
-                    {renderMessageFooter(message,latestUserMsgID)}
-                  </section>
-                </li>
-              );
+              if(data.answers[0].data[0].type === 'gif'){
+                let gifSource = data.answers[0].data[0].embed_url;
+                listItems.push(
+                  <li className='message-list-item' key={action+index}>
+                    <section  className={messageContainerClasses}>
+                    <div className='message-text'>
+                      <iframe src={gifSource}
+                        frameBorder="0"
+                        allowFullScreen>
+                      </iframe>
+                    </div>
+                      {renderMessageFooter(message,latestUserMsgID)}
+                    </section>
+                  </li>
+                );
+              }
+              else{
+                listItems.push(
+                  <li className='message-list-item' key={action+index}>
+                    <section  className={messageContainerClasses}>
+                    <div className='message-text'>{replacedText}</div>
+                      {renderMessageFooter(message,latestUserMsgID)}
+                    </section>
+                  </li>
+                );
+              }
               break
             }
             case 'anchor': {
