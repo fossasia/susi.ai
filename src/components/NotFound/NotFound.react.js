@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import './NotFound.css';
-import LogoImg from '../../../public/images/susi.svg';
+import LogoImg from '../../images/susi.svg';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Login from '../Auth/Login/Login.react';
 import SignUp from '../Auth/SignUp/SignUp.react';

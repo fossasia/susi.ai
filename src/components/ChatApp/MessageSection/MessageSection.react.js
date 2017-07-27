@@ -8,7 +8,7 @@ import * as Actions from '../../../actions/';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import PropTypes from 'prop-types';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import loadingGIF from '../../../../public/images/loading.gif';
+import loadingGIF from '../../../images/loading.gif';
 import DialogSection from './DialogSection';
 import RaisedButton from 'material-ui/RaisedButton';
 import { CirclePicker } from 'react-color';
