@@ -201,18 +201,19 @@ class MessageSection extends Component {
 
   handleOpen = () => {
     this.setState({
-      showLogin: true
+      showLogin: true,
+      showSignUp: false
     });
     this.child.closeOptions();
   }
 
   handleSignUp = () => {
     this.setState({
-      showSignUp: true
+      showSignUp: true,
+      showLogin: false
     });
     this.child.closeOptions();
   }
-
   handleChangePassword = () => {
     this.setState({
       showChangePassword: true,
@@ -292,7 +293,8 @@ class MessageSection extends Component {
       showChangePassword: false,
       showSettings: false,
       showThemeChanger: false,
-      showHardware: false
+      showHardware: false,
+      openForgotPassword: false
     });
   }
 
@@ -341,23 +343,6 @@ class MessageSection extends Component {
     });
     this.child.closeOptions();
 
-  }
-  handleForgotPasswordToggle = (forgotPassword) => {
-    if(forgotPassword){
-      this.setState({
-        showLogin:false,
-        openForgotPassword: true
-      });
-    }
-    else{
-      // Go back to login dialog
-      this.setState({
-        showLogin: true,
-        openForgotPassword: false
-      });
-      this.child.closeOptions();
-
-    }
   }
 
   handleServerToggle = (changeServer) => {
@@ -807,8 +792,7 @@ class MessageSection extends Component {
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
               onRequestClose={()=>this.handleClose}
-              onRequestForgotPasswordClose={
-                ()=>this.handleForgotPasswordToggle.bind(this,false)}
+              onLoginSignUp={()=>this.handleOpen}
               onRequestCloseServerChange={()=>this.handleServerToggle.bind(this,false)}
               onRequestCloseHardwareChange={
                 ()=>this.handleHardwareToggle.bind(this, false)}

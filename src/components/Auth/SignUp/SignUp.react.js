@@ -8,10 +8,8 @@ import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import Login from '../../Auth/Login/Login.react';
 import zxcvbn from 'zxcvbn';
 import CustomServer from '../../ChatApp/CustomServer.react';
-import Close from 'material-ui/svg-icons/navigation/close';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -29,6 +27,7 @@ export default class SignUp extends Component {
             success: false,
             open: false,
             openLogin: false,
+            openForgotPassword: false,
             validForm: false,
             serverUrl: '',
             checked:false,
@@ -266,11 +265,34 @@ export default class SignUp extends Component {
         }
 
     }
+    handleForgotPassword = () => {
+        this.setState({
+          openForgotPassword: true,
+          open: false,
+          openLogin: false
+        });
+    }
+    handleForgotPasswordToggle = (forgotPassword) => {
+        if(forgotPassword){
+          this.setState({
+            open:false,
+            openForgotPassword: true,
+            openLogin: false
+          });
+        }
+        else{
+          // Go back to login dialog
+          this.setState({
+            open: true,
+            openForgotPassword: false,
+            openLogin:false
+          });
+        }
+    }
 
     handleOpen = () => {
         this.setState(
             {
-            open: true,
             msgOpen: false,
             email: '',
             isEmail: false,
@@ -286,6 +308,7 @@ export default class SignUp extends Component {
             checked:false,
             serverFieldError: false
         });
+        this.props.onLoginSignUp();
     };
 
     render() {
@@ -297,16 +320,6 @@ export default class SignUp extends Component {
         }
         const fieldStyle={
             'width':'256px'
-        }
-        const closingStyle ={
-          position: 'absolute',
-          zIndex: 1200,
-          fill: '#444',
-          width: '26px',
-          height: '26px',
-          right: '10px',
-          top: '10px',
-          cursor:'pointer'
         }
         const underlineFocusStyle= {
             color: '#4285f4'
@@ -401,16 +414,6 @@ export default class SignUp extends Component {
                         {this.state.msg}
                     </Dialog></div>
                 )}
-                <Dialog
-                  className='dialogStyle'
-                  modal={false}
-                  open={this.state.open}
-                  autoScrollBodyContent={true}
-                  contentStyle={{width: '35%',minWidth: '300px'}}>
-                  <Login {...this.props} />
-                  <Close style={closingStyle}
-                    onTouchTap={this.handleClose} />
-                </Dialog>
             </div>
         );
     };
@@ -419,4 +422,5 @@ export default class SignUp extends Component {
 SignUp.propTypes = {
     history: PropTypes.object,
     onRequestClose: PropTypes.func,
+    onLoginSignUp: PropTypes.func
 }
