@@ -58,7 +58,8 @@ class StaticAppBar extends Component {
     handleLogin = () => {
         this.setState({
             login: true,
-            signup: false
+            signup: false,
+            showOptions: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -68,7 +69,8 @@ class StaticAppBar extends Component {
         this.setState({
             login: false,
             signup: false,
-            openForgotPassword: false
+            openForgotPassword: false,
+            showOptions: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -78,6 +80,7 @@ class StaticAppBar extends Component {
         this.setState({
             signup: true,
             login: false,
+            showOptions: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -164,7 +167,7 @@ class StaticAppBar extends Component {
 
                     <Popover
                         {...props}
-                        style={{ float: 'right', position: 'relative', right: '0px', margin: '64px 20px 0 0' }}
+                        style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -199,13 +202,12 @@ class StaticAppBar extends Component {
         };
         const labelStyle = {
             padding: '0px 25px 15px 25px',
-            font: '300 16px Roboto,sans-serif',
+            font: '500 14px Roboto,sans-serif',
             margin: '0 2px',
             textTransform: 'none',
             wordSpacing: '2px',
-
+            color: '#f2f2f2'
         }
-
 
         const linkstyle = {
             color: '#fff',
@@ -248,16 +250,18 @@ class StaticAppBar extends Component {
         let navLlinks = topLinks.map((link, i) => {
             if (this.props.location.pathname === link.url) {
                 link.labelStyle = {
-                    borderBottom: '4px solid #fff',
-                    padding: '0px 25px 15px 25px',
+                    borderBottom: '2px solid #fff',
+                    padding: '0px 25px 12px 25px',
                     margin: '0 2px',
-                    font: '500 16px Roboto,sans-serif',
+                    font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
                     textTransform: 'none'
                 };
             }
             return (
-                <FlatButton key={i} labelStyle={link.labelStyle}
+                <FlatButton
+                 disableTouchRipple={true}
+                 key={i} labelStyle={link.labelStyle}
                     hoverColor="none" label={link.lable} href={link.url} style={link.style}
                     className="topMenu-item" />
             )
@@ -265,13 +269,12 @@ class StaticAppBar extends Component {
         let menuLlinks = topLinks.map((link, i) => {
             if (this.props.location.pathname === link.url) {
                 link.labelStyle = {
-                    font: '500 16px Roboto,sans-serif',
+                    font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
                     textTransform: 'none',
                     borderBottom: '3px solid #fff',
-                    padding: '0px 20px 22px 20px',
+                    padding: '0px 20px 16px 20px',
                     margin: '0 1px'
-
                 };
             }
             return (
@@ -280,23 +283,24 @@ class StaticAppBar extends Component {
         });
         const TopMenu = (props) => (
             <div style={{ position: 'relative', top: '-6px' }}>
-                <div className="top-menu" style={{ position: 'relative', left: '46px', top: '15px' }}>
+                <div className="top-menu" style={{ position: 'relative', left: '46px' }}>
                     {navLlinks}
                 </div>
-
             </div>
         );
 
         return (
             <div>
-
                 <header className="nav-down" id="headerSection">
                     <AppBar
                         className="topAppBar"
-                        title={<div><a href={this.state.baseUrl} style={{ float: 'left' }}><img src={susiWhite} alt="susi-logo"
-                            className="siteTitle" /></a><TopMenu /></div>}
-                        style={{ backgroundColor: '#4285f4' }}
+                        title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
+                              <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
+                        style={{ backgroundColor: '#4285f4', height: '46px',
+                        boxShadow:'none' }}
                         onLeftIconButtonTouchTap={this.handleDrawer}
+                        iconStyleLeft={{marginTop: '-2px'}}
+                        iconStyleRight={{marginTop: '-2px'}}
                         iconElementRight={<TopRightMenu />}
                     />
                 </header>
