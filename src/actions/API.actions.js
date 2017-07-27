@@ -327,6 +327,14 @@ export function pushSettingsToServer(settings){
         makeServerCall(url);
         break;
       }
+      case 'TTSLanguage':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=speech_lang&value='+settings.TTSLanguage
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
       default: {
         // do nothing
       }

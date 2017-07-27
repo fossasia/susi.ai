@@ -278,6 +278,10 @@ class MessageListItem extends React.Component {
         else{
           voiceOutput= '';
         }
+
+        let ttsLanguage = this.props.message.lang ?
+                          this.props.message.lang : UserPreferencesStore.getTTSLanguage();
+
         return (<div>{listItems}
               { this.props.message.voice &&
                (<VoicePlayer
@@ -285,6 +289,7 @@ class MessageListItem extends React.Component {
                   text={voiceOutput}
                   rate={UserPreferencesStore.getSpeechRate()}
                   pitch={UserPreferencesStore.getSpeechPitch()}
+                  lang={ttsLanguage}
                   onStart={this.onStart}
                   onEnd={this.onEnd}
                 />)}

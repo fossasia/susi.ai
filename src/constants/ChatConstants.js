@@ -12,6 +12,7 @@ export default {
     STORE_HISTORY_MESSAGE: null,
     SERVER_CHANGED: null,
     INIT_SETTINGS: null,
+    INIT_TTS_VOICES: null,
     SETTINGS_CHANGED: null,
     RESET_MESSAGE_VOICE: null,
     FEEDBACK_RECEIVED: null,

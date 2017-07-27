@@ -457,6 +457,9 @@ class MessageSection extends Component {
     if(currSettings.SpeechPitch !== values.pitch){
       settingsChanged.SpeechPitch = values.pitch;
     }
+    if(currSettings.TTSLanguage !== values.lang){
+      settingsChanged.TTSLanguage = values.lang;
+    }
     Actions.settingsChanged(settingsChanged);
     if(resetVoice){
       Actions.resetVoice();

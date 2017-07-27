@@ -15,8 +15,8 @@ import {  createMessage,
           receiveAll } from './ChatApp.actions';
 
 import {  serverChanged,
-          ToggleSearch,
           initialiseSettings,
+          initialiseTTSVoices,
           settingsChanged} from './Settings.actions';
 
 import {  connectToWebSocket,
@@ -27,6 +27,7 @@ import {  connectToWebSocket,
 export {  getLocation,
           getSettings,
           pushSettingsToServer,
+          sendFeedback,
           createSUSIMessage }
 
 export { getHistory }
@@ -39,9 +40,8 @@ export {  createMessage,
           receiveAll }
 
 export { serverChanged,
-         ToggleSearch,
          initialiseSettings,
-         sendFeedback,
+         initialiseTTSVoices,
          settingsChanged}
 
 export { connectToWebSocket, sendToHardwareDevice }

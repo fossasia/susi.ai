@@ -12,6 +12,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
+import * as Actions from './actions/Settings.actions';
+import MessageStore from './stores/MessageStore';
 import {
 	BrowserRouter as Router,
 	Route,
@@ -24,12 +26,14 @@ ChatWebAPIUtils.getSettings();
 ChatWebAPIUtils.getLocation();
 ChatWebAPIUtils.getHistory();
 ChatWebAPIUtils.getAllMessages();
+
 const muiTheme = getMuiTheme({
   toggle: {
     thumbOnColor: '#5ab1fc',
-    trackOnColor: '#0084ff'
+    trackOnColor: '#4285f4'
   }
 });
+
 const App = () => (
 	<Router history={hashHistory}>
 		<MuiThemeProvider muiTheme={muiTheme}>
@@ -46,6 +50,13 @@ const App = () => (
 		</MuiThemeProvider>
 	</Router>
 );
+
+window.speechSynthesis.onvoiceschanged = function () {
+	if(!MessageStore.getTTSInitStatus()){
+		var speechSynthesisVoices = speechSynthesis.getVoices();
+		Actions.initialiseTTSVoices(speechSynthesisVoices);
+	}
+};
 
 ReactDOM.render(
 	<App />,

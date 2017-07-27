@@ -29,6 +29,7 @@ class Settings extends Component {
 		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
+		let defaultTTSLanguage = defaults.TTSLanguage;
 		this.state = {
 			theme: defaultTheme,
 			enterAsSend: defaultEnterAsSend,
@@ -37,12 +38,13 @@ class Settings extends Component {
 			speechOutputAlways: defaultSpeechOutputAlways,
 			server: defaultServer,
 			serverUrl: '',
-            serverFieldError: false,
-            checked: false,
+      serverFieldError: false,
+      checked: false,
 			validForm: true,
 			showLanguageSettings: false,
 			speechRate: defaultSpeechRate,
 			speechPitch: defaultSpeechPitch,
+			ttsLanguage: defaultTTSLanguage,
 		};
 
 		this.customServerMessage = '';
@@ -69,6 +71,7 @@ class Settings extends Component {
 		let newSpeechOutputAlways = this.state.speechOutputAlways;
 		let newSpeechRate = this.state.speechRate;
 		let newSpeechPitch = this.state.speechPitch;
+		let newTTSLanguage = this.state.ttsLanguage;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
@@ -81,6 +84,7 @@ class Settings extends Component {
 			speechOutputAlways: newSpeechOutputAlways,
 			rate: newSpeechRate,
 			pitch: newSpeechPitch,
+			lang: newTTSLanguage,
 		}
 
 		let settings = Object.assign({}, vals);
@@ -129,17 +133,18 @@ class Settings extends Component {
 		this.setState({
 			speechRate: settings.rate,
 			speechPitch: settings.pitch,
+			ttsLanguage: settings.lang,
 			showLanguageSettings: false,
 		});
 	}
 
 	handleChange = (event) => {
-        let state = this.state;
-        let serverUrl;
-        if (event.target.value === 'customServer') {
-        	state.checked = true;
-        	state.serverFieldError = true;
-        }
+    let state = this.state;
+    let serverUrl;
+    if (event.target.value === 'customServer') {
+    	state.checked = true;
+    	state.serverFieldError = true;
+    }
 		else if (event.target.value === 'standardServer') {
 			state.checked = false;
 			state.serverFieldError = false;
@@ -326,7 +331,8 @@ class Settings extends Component {
 		          <TextToSpeechSettings
 		          	rate={this.state.speechRate}
 		          	pitch={this.state.speechPitch}
-		          	ratePitchSettings={this.handleTextToSpeech}/>
+								lang={this.state.ttsLanguage}
+		          	ttsSettings={this.handleTextToSpeech}/>
 		          <Close style={closingStyle} onTouchTap={this.handleClose} />
 		        </Dialog>
 			</div>);
