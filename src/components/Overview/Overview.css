@@ -245,7 +245,7 @@ img {
 .inLineLogo{
     height: 16px;
     width: 100px;
-    background: url('../../../public/images/susi-logo.svg') center center no-repeat;
+    background: url('../../images/susi-logo.svg') center center no-repeat;
     background-size: contain;
     display: inline-block;
 }
@@ -354,7 +354,7 @@ height: 100%;
     overflow: hidden;
     text-indent: 100%;
     white-space: nowrap;
-    background: url('../../../public/images/google-play.svg') center center no-repeat;
+    background: url('../../images/google-play.svg') center center no-repeat;
     background-size: contain;
     float: left;
     height: 45px;
@@ -365,7 +365,7 @@ height: 100%;
     overflow: hidden;
     text-indent: 100%;
     white-space: nowrap;
-    background: url('../../../public/images/app-store.svg') center center no-repeat;
+    background: url('../../images/app-store.svg') center center no-repeat;
     background-size: cover;
     float: left;
     height: 45px;

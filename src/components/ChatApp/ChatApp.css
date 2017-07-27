@@ -21,7 +21,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   overflow: hidden;
 }
 .app-bar{
-  background-image: url('../../../public/images/susi-white.svg');
+  background-image: url('../../images/susi-white.svg');
   margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
@@ -601,7 +601,7 @@ textarea {
 }
 
 .map-marker-icon {
-  background: url('../../../public/images/map_marker_icon.png');
+  background: url('../../images/map_marker_icon.png');
   background-size: contain;
   background-repeat: no-repeat;
   width: 25px;
@@ -770,7 +770,7 @@ em{
 }
 
 .app-bar-search{
-  background-image: url('../../../public/images/susi-white.svg');
+  background-image: url('../../images/susi-white.svg');
   margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
