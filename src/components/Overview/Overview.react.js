@@ -184,7 +184,7 @@ SUSI is interligent to identify and answer your question in you language.
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
               SUSI is having many skills. You can look at the collection of skills at
-              <Link style={{ textDecoration: 'none', color: '#000' }} to="http://skills.susi.ai/" target="_blank"> skills.susi.ai</Link>.
+              <Link style={{ textDecoration: 'none' }} to="http://skills.susi.ai/" target="_blank"> skills.susi.ai</Link>.
               SUSI skills are divided into groups like knowledge,
               assistant, problem solving, entertainment, shopping
               and small talks. SUSI Skill development is easy and fun. </p>
