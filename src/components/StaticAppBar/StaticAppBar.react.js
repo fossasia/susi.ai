@@ -17,6 +17,7 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import Popover from 'material-ui/Popover';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 
 
 class StaticAppBar extends Component {
@@ -29,22 +30,12 @@ class StaticAppBar extends Component {
             open: false,
             showOptions: false,
             anchorEl: null,
+            openForgotPassword: false
         };
-
     }
 
-    handleDrawer = () => {
-      this.setState({
-        openDrawer: !this.state.openDrawer
-      });
-    }
-
-    handleDrawerClose = () => {
-      this.setState({
-        openDrawer: false
-      });
-    }
-
+    handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
+    handleDrawerClose = () => this.setState({ openDrawer: false });
     showOptions = (event) => {
         event.preventDefault();
         this.setState({
@@ -58,12 +49,7 @@ class StaticAppBar extends Component {
             showOptions: false,
         });
     };
-
-    handleToggle = () => {
-      this.setState({
-        open: !this.state.open
-      });
-    }
+    handleToggle = () => this.setState({ open: !this.state.open });
 
     handleTitle = () => {
         this.props.history.push('/');
@@ -72,18 +58,17 @@ class StaticAppBar extends Component {
     handleLogin = () => {
         this.setState({
             login: true,
-            signup: false,
-            showOptions: false,
+            signup: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
         }
     }
-
     handleClose = () => {
         this.setState({
             login: false,
             signup: false,
+            openForgotPassword: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -93,7 +78,6 @@ class StaticAppBar extends Component {
         this.setState({
             signup: true,
             login: false,
-            showOptions: false,
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -106,7 +90,12 @@ class StaticAppBar extends Component {
         if (itemTranslate) {
             this.closeOptions();
         }
-
+    }
+    handleForgotPassword = () => {
+        this.setState({
+          openForgotPassword: true,
+          login: false
+        });
     }
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
@@ -148,6 +137,16 @@ class StaticAppBar extends Component {
     }
 
     render() {
+        const closingStyle ={
+            position: 'absolute',
+            zIndex: 1200,
+            fill: '#444',
+            width: '26px',
+            height: '26px',
+            right: '10px',
+            top: '10px',
+            cursor:'pointer'
+        }
         let TopRightMenu = (props) => (
             <div onScroll={this.handleScroll}>
                 <div>
@@ -162,9 +161,10 @@ class StaticAppBar extends Component {
                         onTouchTap={this.showOptions}
                     >
                     </IconMenu>
+
                     <Popover
                         {...props}
-                        style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
+                        style={{ float: 'right', position: 'relative', right: '0px', margin: '64px 20px 0 0' }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -205,9 +205,11 @@ class StaticAppBar extends Component {
             wordSpacing: '2px',
 
         }
+
+
         const linkstyle = {
             color: '#fff',
-            height: '50px',
+            height: '64px',
             textDecoration: 'none'
         }
         var topLinks = [
@@ -260,7 +262,6 @@ class StaticAppBar extends Component {
                     className="topMenu-item" />
             )
         });
-
         let menuLlinks = topLinks.map((link, i) => {
             if (this.props.location.pathname === link.url) {
                 link.labelStyle = {
@@ -273,39 +274,29 @@ class StaticAppBar extends Component {
 
                 };
             }
-            if(link.lable === 'Docs'){
-              return (
-                <MenuItem key={i} onTouchTap={this.handleDrawerClose} className="drawerItem">
-                  <a href={link.url}>{link.lable}</a>
-                </MenuItem>
-              );
-            }
             return (
-                <MenuItem key={i} onTouchTap={this.handleDrawerClose} className="drawerItem">
-                  <Link to={link.url}>{link.lable}</Link>
-                </MenuItem>
-            );
+                <MenuItem key={i} onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to={link.url}>{link.lable}</Link></MenuItem>
+            )
         });
-
         const TopMenu = (props) => (
-            <div style={{ position: 'relative', top: '-15px' }}>
-                <div className="top-menu" style={{ position: 'relative', left: '46px' }}>
+            <div style={{ position: 'relative', top: '-6px' }}>
+                <div className="top-menu" style={{ position: 'relative', left: '46px', top: '15px' }}>
                     {navLlinks}
                 </div>
+
             </div>
         );
 
         return (
             <div>
+
                 <header className="nav-down" id="headerSection">
                     <AppBar
                         className="topAppBar"
-                        title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                              <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
-                        style={{ backgroundColor: '#4285f4', height: '46px' }}
+                        title={<div><a href={this.state.baseUrl} style={{ float: 'left' }}><img src={susiWhite} alt="susi-logo"
+                            className="siteTitle" /></a><TopMenu /></div>}
+                        style={{ backgroundColor: '#4285f4' }}
                         onLeftIconButtonTouchTap={this.handleDrawer}
-                        iconStyleLeft={{marginTop: '-2px'}}
-                        iconStyleRight={{marginTop: '-2px'}}
                         iconElementRight={<TopRightMenu />}
                     />
                 </header>
@@ -316,10 +307,9 @@ class StaticAppBar extends Component {
                     onRequestChange={(openDrawer) => this.setState({ openDrawer })}
                 >
                     <AppBar
-                        title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                              <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a></div>}
-                        style={{ backgroundColor: '#4285f4', height: '46px' }}
-                        iconStyleLeft={{marginTop: '-2x'}}
+                        title={<a href={this.state.baseUrl} ><img src={susiWhite} alt="susi-logo"
+                            className="siteTitle" /></a>}
+                        style={{ backgroundColor: '#4285f4' }}
                         onTouchTap={this.handleDrawerClose} />
                     {menuLlinks}
                 </Drawer>
@@ -331,8 +321,9 @@ class StaticAppBar extends Component {
                     autoScrollBodyContent={true}
                     bodyStyle={bodyStyle}
                     contentStyle={{ width: '35%', minWidth: '300px' }}
-                    onRequestClose={this.handleClose} >
-                    <Login {...this.props} />
+                    onRequestClose={this.handleClose}>
+                    <Login {...this.props}
+                    handleForgotPassword={this.handleForgotPassword}/>
                     <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
                 </Dialog>
                 {/* SignUp */}
@@ -343,11 +334,25 @@ class StaticAppBar extends Component {
                     autoScrollBodyContent={true}
                     bodyStyle={bodyStyle}
                     contentStyle={{ width: '35%', minWidth: '300px' }}
-                    onRequestClose={this.handleClose} >
+                    onRequestClose={this.handleClose}>
                     <SignUp {...this.props}
-                      onRequestClose={this.handleClose}/>
-                    <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
+                    onRequestClose={this.handleClose}
+                    onLoginSignUp={this.handleLogin}/>
+                    <Close style={closingStyle}
+                    onTouchTap={this.handleClose} />
                 </Dialog>
+                <Dialog
+                    className='dialogStyle'
+                    modal={false}
+                    open={this.state.openForgotPassword}
+                    autoScrollBodyContent={true}
+                    contentStyle={{width: '35%',minWidth: '300px'}}
+                    onRequestClose={this.handleClose}>
+                    <ForgotPassword {...this.props}
+                    showForgotPassword={this.showForgotPassword}/>
+                    <Close style={closingStyle}
+                    onTouchTap={this.handleClose}/>
+                  </Dialog>
             </div>
         );
     }
