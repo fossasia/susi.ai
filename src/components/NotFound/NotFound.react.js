@@ -7,6 +7,8 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Login from '../Auth/Login/Login.react';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Dialog from 'material-ui/Dialog';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 
 export default class NotFound extends Component {
@@ -15,46 +17,63 @@ export default class NotFound extends Component {
 
         this.state = {
             open: false,
-            loginOpen: false
+            loginOpen: false,
+            openForgotPassword: false
         }
     }
     handleOpen = () => {
         this.setState({ open: true });
     };
     handleClose = () => {
-        this.setState({ open: false });
+        this.setState({
+          open: false,
+          loginOpen: false,
+          openForgotPassword: false
+        });
     };
     handleLoginOpen = () => {
         this.setState({
-            loginOpen: true
+            loginOpen: true,
+            open: false,
+            openForgotPassword:false
         })
     }
     handleLoginClose = () => {
         this.setState({
-            loginOpen: false
+            loginOpen: false,
         })
     }
-
+    handleForgotPassword = () => {
+        this.setState({
+          openForgotPassword: true,
+          loginOpen: false
+        });
+    }
     render() {
-        const loginActions = <RaisedButton
-          label="Cancel"
-          backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-          labelColor="#fff"
-          width='200px'
-          keyboardFocused={true}
-          onTouchTap={this.handleLoginClose}
-        />;
-        const signUpActions = <RaisedButton
-          label="Cancel"
-          backgroundColor={
-            UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-          labelColor="#fff"
-          width='200px'
-          keyboardFocused={true}
-          onTouchTap={this.handleClose}
-        />;
-
+        const closingStyle ={
+          position: 'absolute',
+          zIndex: 1200,
+          fill: '#444',
+          width: '26px',
+          height: '26px',
+          right: '10px',
+          top: '10px',
+          cursor:'pointer'
+        }
+        const closingStyleLogin = {
+            position: 'absolute',
+            zIndex: 1200,
+            fill: '#444',
+            width: '26px',
+            height: '26px',
+            right: '10px',
+            top: '10px',
+            cursor: 'pointer'
+        };
+        const bodyStyle = {
+            'padding': 0,
+            textAlign: 'center'
+        }
         return (
             <div>
                 <div className='container-fluid not-found-banner'>
@@ -98,25 +117,46 @@ export default class NotFound extends Component {
                         />
                     </div>
                 </div>
+                {/* Login */}
                 <Dialog
-                  className='dialogStyle'
-                  actions={loginActions}
-                  modal={false}
-                  open={this.state.loginOpen}
-                  autoScrollBodyContent={true}
-                  contentStyle={{width: '35%',minWidth: '300px'}}>
-                  <Login {...this.props}/>
+                    className='dialogStyle'
+                    modal={true}
+                    open={this.state.loginOpen}
+                    autoScrollBodyContent={true}
+                    bodyStyle={bodyStyle}
+                    contentStyle={{ width: '35%', minWidth: '300px' }}
+                    onRequestClose={this.handleClose}>
+                    <Login {...this.props}
+                    handleForgotPassword={this.handleForgotPassword}/>
+                    <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
+                </Dialog>
+                {/* SignUp */}
+                <Dialog
+                    className='dialogStyle'
+                    modal={true}
+                    open={this.state.open}
+                    autoScrollBodyContent={true}
+                    bodyStyle={bodyStyle}
+                    contentStyle={{ width: '35%', minWidth: '300px' }}
+                    onRequestClose={this.handleClose}>
+                    <SignUp {...this.props}
+                    onRequestClose={this.handleClose}
+                    onLoginSignUp={this.handleLoginOpen}/>
+                    <Close style={closingStyle}
+                    onTouchTap={this.handleClose} />
                 </Dialog>
                 <Dialog
-                  className='dialogStyle'
-                  actions={signUpActions}
-                  modal={false}
-                  open={this.state.open}
-                  autoScrollBodyContent={true}
-                  contentStyle={{width: '35%',minWidth: '300px'}}>
-                  <SignUp {...this.props} />
-                </Dialog>
-
+                    className='dialogStyle'
+                    modal={false}
+                    open={this.state.openForgotPassword}
+                    autoScrollBodyContent={true}
+                    contentStyle={{width: '35%',minWidth: '300px'}}
+                    onRequestClose={this.handleClose}>
+                    <ForgotPassword {...this.props}
+                    showForgotPassword={this.showForgotPassword}/>
+                    <Close style={closingStyle}
+                    onTouchTap={this.handleClose}/>
+                  </Dialog>
             </div>
 
         );
