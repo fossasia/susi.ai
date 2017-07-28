@@ -16,7 +16,11 @@
 .top-menu{
     margin: 5px -10px 0px 0;
     float: left;
-    color: #fff;
+    color: #e5e5e5;
+}
+.topMenu-item span:hover{
+    color: #fff !important;
+    transition: 0.5s all linear;
 }
 @media screen and (max-width: 800px){
     .muidocs-icon-navigation-expand-more{
@@ -226,6 +230,7 @@
 .topAppBar div div div button {
     display: block !important;
     visibility: visible;
+    box-shadow: none;
 }
 .drawerItem div{
     border-left: 3px solid #607d8b;
@@ -487,12 +492,14 @@ height: 100%;
     display: inline-block;
 }
 header {
-    background: #f5b335;
-    height: 40px;
+    height: 46px;
     position: fixed;
     top: 0;
-    transition: top 0.5s ease-in-out;
+    transition: top 0.9s ease-in-out;
     width: 100%;
+}
+.nav-down{
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28) !important;
 }
 
 .nav-up {
