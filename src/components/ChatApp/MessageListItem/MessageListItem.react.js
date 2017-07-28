@@ -112,6 +112,7 @@ class MessageListItem extends React.Component {
           actions = ['map'];
         }
         let noResultsFound = false;
+        let lastAction = actions[actions.length - 1];
         actions.forEach((action,index)=>{
           switch(action){
             case 'answer': {
@@ -126,7 +127,7 @@ class MessageListItem extends React.Component {
                         allowFullScreen>
                       </iframe>
                     </div>
-                      {renderMessageFooter(message,latestUserMsgID)}
+                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                     </section>
                   </li>
                 );
@@ -136,7 +137,7 @@ class MessageListItem extends React.Component {
                   <li className='message-list-item' key={action+index}>
                     <section  className={messageContainerClasses}>
                     <div className='message-text'>{replacedText}</div>
-                      {renderMessageFooter(message,latestUserMsgID)}
+                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                     </section>
                   </li>
                 );
@@ -153,7 +154,7 @@ class MessageListItem extends React.Component {
                     <a href={link} target='_blank'
                       rel='noopener noreferrer'>{text}</a>
                   </div>
-                    {renderMessageFooter(message,latestUserMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                   </section>
                 </li>
               );
@@ -179,7 +180,8 @@ class MessageListItem extends React.Component {
                         <div className='message-text'>{replacedText}</div>
                         <br/>
                         <div>{mymap}</div>
-                          {renderMessageFooter(message,latestUserMsgID)}
+                          {renderMessageFooter(message,latestUserMsgID,
+                                              lastAction===action)}
                         </section>
                       </li>
                       );
@@ -198,7 +200,7 @@ class MessageListItem extends React.Component {
                   <div className='message-text'>{replacedText}</div>
                   <br/>
                   <div>{mymap}</div>
-                    {renderMessageFooter(message,latestUserMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                   </section>
                 </li>
                 );
@@ -212,7 +214,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
-                    {renderMessageFooter(message,latestUserMsgID)}
+                    {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                   </section>
                 </li>
               );
@@ -236,7 +238,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text rss-out'>
                       {renderTiles(rssTiles)}
                     </div></div>
-                      {renderMessageFooter(message,latestUserMsgID)}
+                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                     </section>
                   </li>
                 );
@@ -253,7 +255,7 @@ class MessageListItem extends React.Component {
                     <div><div className='message-text'>
                       {renderTiles(websearchTiles)}
                     </div></div>
-                      {renderMessageFooter(message,latestUserMsgID)}
+                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                     </section>
                   </li>
                 );
@@ -296,7 +298,7 @@ class MessageListItem extends React.Component {
       <li className='message-list-item'>
         <section  className={messageContainerClasses}>
         <div className='message-text'>{replacedText}</div>
-          {renderMessageFooter(message,latestUserMsgID)}
+          {renderMessageFooter(message,latestUserMsgID,true)}
         </section>
       </li>
     );
