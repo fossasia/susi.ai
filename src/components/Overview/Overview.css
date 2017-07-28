@@ -470,6 +470,7 @@ header {
         margin-left: 0%;
     }
 }
+
 @media only screen and (max-width: 800px){
 
     .opensource-logos{
@@ -493,15 +494,23 @@ header {
     .description__text{
         max-width: 100%;
     }
+
     .bots{
         max-width: 500px;
     }
+
     .img-container{
         max-width: 100%;
-       margin: 0 auto;
+       margin: 0 auto 20px auto;
     }
+
     .img-conatainer img{
         margin:auto;
+    }
+    .safty_and_secure{
+        padding: 100px 0 240px 0px;
+        width: 90%;
+        margin: 0 auto;
     }
     .shield{
         margin: 0 auto 140px auto;
@@ -545,6 +554,9 @@ header {
 }
 
 @media only screen and (max-width: 480px){
+    .section-container{
+        padding: 35px 20px 120px;
+    }
    .github_logo img{
         height: 40px;
         margin-left: 0;
@@ -558,5 +570,22 @@ header {
     }
     .opensource-logos{
         text-align: center;
+    }
+    .conversation__description{
+        width: 100% !important;
+    }
+    .img-container{
+        width: 60% !important;
+    }
+    .section_copy{
+        padding: 10px 0 0 0;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .shield{
+        margin: 0 auto 210px auto;
+    }
+    .column_section{
+        min-height: 550px;
     }
 }
