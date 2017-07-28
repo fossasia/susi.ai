@@ -5,6 +5,7 @@ import stackoverflow from '../../images/stackoverflow.png';
 import googleGroups from '../../images/google-groups.png';
 import github from '../../images/github.png';
 import question from '../../images/question.png';
+import documentation from '../../images/programmer.png';
 import code from '../../images/code.png';
 import susi from '../../images/susi.svg';
 import PropTypes  from 'prop-types';
@@ -80,6 +81,29 @@ class Support extends Component {
                 <div className='img-container'>
                   <img src={support} alt='support' className='support' />
                 </div>
+              </div>
+              <div className="section">
+                <div className="conversation__description">
+                  <div className="support__heading">Developer Documentation</div>
+                </div>
+                <div className="devsite-landing-row-group">
+                <div className="devsite-landing-row-item devsite-landing-row-item-with-icon devsite-landing-row-item-no-image
+                    ">
+                    <a href="http://dev.susi.ai/">
+                    <div className="devsite-landing-row-item-icon-container">
+                    <img alt='gitter' src={documentation} className="devsite-landing-row-item-icon"/></div></a>
+                    <div className="devsite-landing-row-item-description
+                                  devsite-landing-row-item-icon-description">
+                          <a href="http://dev.susi.ai/">
+                          <h3 id="stack-overflow">SUSI.AI Docs</h3>
+                          </a>
+                          <div className="devsite-landing-row-item-description-content">
+                          Access the full Developer Documentation on <a href="http://dev.susi.ai">
+                          http://dev.susi.ai</a> to begin setting up and running SUSI.AI on your machine.
+                          </div>
+                          </div>
+                  </div>
+              </div>
               </div>
               <div className="section">
                 <div className="conversation__description">
