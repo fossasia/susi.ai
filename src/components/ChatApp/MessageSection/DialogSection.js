@@ -49,7 +49,8 @@ export default class DialogSection extends Component {
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
           <SignUp {...this.props}
-            onRequestClose={this.props.onRequestClose()}/>
+            onRequestClose={this.props.onRequestClose()}
+            onLoginSignUp={this.props.onLoginSignUp()} />
             <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
 
@@ -76,7 +77,7 @@ export default class DialogSection extends Component {
           <ForgotPassword {...this.props}
           showForgotPassword={this.showForgotPassword}/>
           <Close style={closingStyle}
-          onTouchTap={this.props.onRequestForgotPasswordClose()}/>
+          onTouchTap={this.props.onRequestClose()}/>
         </Dialog>
 
       {/* Settings */}
@@ -151,6 +152,7 @@ DialogSection.propTypes = {
     openForgotPassword: PropTypes.bool,
     openHardwareChange: PropTypes.bool,
     openThemeChanger: PropTypes.bool,
+    onLoginSignUp:PropTypes.func,
     ServerChangeActions: PropTypes.array,
     HardwareActions: PropTypes.array,
     customSettingsDone: PropTypes.object,
@@ -159,7 +161,6 @@ DialogSection.propTypes = {
     bodyStyle: PropTypes.object,
     onRequestCloseServerChange: PropTypes.func,
     onRequestCloseHardwareChange: PropTypes.func,
-    onRequestForgotPasswordClose: PropTypes.func,
     onRequestClose: PropTypes.func,
     onSettingsSubmit: PropTypes.func,
     onServerChange: PropTypes.func,

@@ -158,7 +158,7 @@ class Overview extends Component{
             </div>
             <div className="conversation__description custom_description">
               <div className="description__heading">For all Devices</div>
-              <p className="description__text"><b >SUSI.AI</b> is available for android, iOS devices and also you can use it from <Link to="http://chat.susi.ai">http://chat.susi.ai</Link>
+              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <Link to="http://chat.susi.ai">http://chat.susi.ai</Link>
               </p>
             </div>
 
@@ -170,7 +170,8 @@ class Overview extends Component{
               </div>
               <div className="description__heading">Use it in many Languages</div>
               <p className="description__text">You can use <b>SUSI.AI</b> in DIfferent
-                     languages
+                     languages. You can ask questions in many languages.
+SUSI is interligent to identify and answer your question in you language.
                     </p>
             </div>
 
