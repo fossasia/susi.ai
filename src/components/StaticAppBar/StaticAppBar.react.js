@@ -220,8 +220,8 @@ class StaticAppBar extends Component {
                 labelStyle: labelStyle
             },
             {
-                lable: 'Docs',
-                url: 'http://dev.susi.ai/',
+                lable: 'Skills',
+                url: 'http://skills.susi.ai/',
                 style: linkstyle,
                 labelStyle: labelStyle
             },

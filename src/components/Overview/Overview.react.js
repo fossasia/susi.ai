@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import susi from '../../images/susi.svg';
 import susiGif from '../../images/susi.gif';
+import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
 import mapAndroid from '../../images/map-android.jpg';
 import androidMockup from '../../images/android-mockup.jpg';
@@ -178,6 +179,20 @@ SUSI is interligent to identify and answer your question in you language.
           </div>
         </div>{/* section_copy ends */}
 
+        <div className="section_center">
+          <div className="center__description">
+            <div className="description__heading">SUSI Skills</div>
+            <p className="description__text">
+              SUSI is having many skills. You can look at the collection of skills at
+              <Link style={{ textDecoration: 'none' }} to="http://skills.susi.ai/" target="_blank"> skills.susi.ai</Link>.
+              SUSI skills are divided into groups like knowledge,
+              assistant, problem solving, entertainment, shopping
+              and small talks. SUSI Skill development is easy and fun. </p>
+          </div>
+          <div className='img-container'>
+            <img src={susiSkill} alt='Skills' />
+          </div>
+        </div>
         <div className="section_copy safty_and_secure">
           <div className="conversation__description">
 
