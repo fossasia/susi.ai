@@ -13,10 +13,8 @@ import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
-import Chat from 'material-ui/svg-icons/communication/chat';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
 import Edit from 'material-ui/svg-icons/image/edit';
-import Lock from 'material-ui/svg-icons/action/lock-outline';
 
 const cookies = new Cookies();
 
@@ -83,18 +81,15 @@ class TopBar extends Component {
 					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText="Settings"
-						onClick={this.props.handleSettings}
+						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
 					<MenuItem primaryText="Custom Theme"
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText="Change Password"
-						onTouchTap={this.props.handleChangePassword}
-						rightIcon={<Lock/>}/>
-					<MenuItem primaryText="Chat Anonymously"
-						containerElement={<Link to="/logout" />}
-						rightIcon={<Chat/>}/>
+					<MenuItem primaryText="Overview"
+						containerElement={<Link to="/overview" />}
+					/>
 					<MenuItem primaryText="Logout"
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
@@ -123,10 +118,10 @@ class TopBar extends Component {
 					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText="Settings"
-						onClick={this.props.handleSettings}
+						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
 					<MenuItem primaryText="Overview"
-					containerElement={<Link to="/overview" />}
+						containerElement={<Link to="/overview" />}
 					/>
 					<MenuItem primaryText="Login"
 						onTouchTap={this.props.handleOpen} />
@@ -227,7 +222,6 @@ class TopBar extends Component {
 Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
-	handleSettings: PropTypes.func,
 	handleThemeChanger: PropTypes.func,
 	handleOpen: PropTypes.func,
 	handleSignUp: PropTypes.func,

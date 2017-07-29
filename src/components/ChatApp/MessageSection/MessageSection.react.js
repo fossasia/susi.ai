@@ -4,7 +4,6 @@ import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
 import ThreadStore from '../../../stores/ThreadStore';
-import * as Actions from '../../../actions/';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import PropTypes from 'prop-types';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
@@ -29,12 +28,7 @@ function getStateFromStores() {
     showLogin: false,
     openForgotPassword:false,
     showSignUp: false,
-    showChangePassword: false,
-    showSettings: false,
     showThemeChanger: false,
-    showHardwareChangeDialog: false,
-    showHardware: false,
-    showServerChangeDialog: false,
     header: UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B',
     pane: '',
     textarea: '',
@@ -214,13 +208,7 @@ class MessageSection extends Component {
     });
     this.child.closeOptions();
   }
-  handleChangePassword = () => {
-    this.setState({
-      showChangePassword: true,
-      showLogin: false
-    });
-    this.child.closeOptions();
-  }
+
   handleRemoveUrlBody = () => {
     if(!this.state.bodyBackgroundImage){
       this.setState({SnackbarOpenBackground: true});
@@ -290,10 +278,7 @@ class MessageSection extends Component {
     this.setState({
       showLogin: false,
       showSignUp: false,
-      showChangePassword: false,
-      showSettings: false,
       showThemeChanger: false,
-      showHardware: false,
       openForgotPassword: false
     });
   }
@@ -303,66 +288,12 @@ class MessageSection extends Component {
     this.child.closeOptions();
   }
 
-  handleSettings = () => {
-    this.setState({showSettings: true});
-    this.child.closeOptions();
-  }
-
-  handleHardwareToggle = () => {
-      this.setState({
-        showSettings: true,
-        showServerChangeDialog: false,
-        showHardwareChangeDialog: false
-      });
-      this.child.closeOptions();
-
-  }
-
-  hardwareSettingChanged = () => {
-    this.setState({
-      showSettings: false,
-      showServerChangeDialog: false,
-      showHardwareChangeDialog: true
-    });
-    this.child.closeOptions();
-
-  }
   forgotPasswordChanged = () => {
     this.setState({
         showLogin:false,
         openForgotPassword: true
     });
     this.child.closeOptions();
-  }
-
-  serverSettingChanged = () => {
-    this.setState({
-      showSettings: false,
-      showHardware: false,
-      showServerChangeDialog: true
-    });
-    this.child.closeOptions();
-
-  }
-
-  handleServerToggle = (changeServer) => {
-    if(changeServer){
-      // Logout the user and show the login screen again
-      this.props.history.push('/logout');
-      this.setState({
-        showLogin:true
-      });
-    }
-    else{
-      // Go back to settings dialog
-      this.setState({
-        showSettings: true,
-        showServerChangeDialog: false,
-        showHardwareChangeDialog: false
-      });
-          this.child.closeOptions();
-
-    }
   }
 
   handleActionTouchTap = () => {
@@ -394,68 +325,6 @@ class MessageSection extends Component {
     });
   }
 
-  implementSettings = (values) => {
-
-    this.setState({showSettings: false});
-    if(values.theme!==this.state.currTheme){
-      this.setState({SnackbarOpen: true});
-    }
-
-    let currSettings = UserPreferencesStore.getPreferences();
-    let settingsChanged = {};
-    let resetVoice = false;
-    if(currSettings.Theme !== values.theme){
-      settingsChanged.Theme = values.theme;
-      let headerColor = '';
-      switch(values.Theme){
-        case 'light': {
-            headerColor = '#4285f4';
-            break;
-        }
-        case 'dark': {
-            headerColor = '#19324c';
-            break;
-        }
-        default: {
-            // do nothing
-        }
-      }
-      this.setState({header: headerColor});
-    }
-    if(currSettings.EnterAsSend !== values.enterAsSend){
-      settingsChanged.EnterAsSend = values.enterAsSend;
-    }
-    if(currSettings.MicInput !== values.micInput){
-      settingsChanged.MicInput = values.micInput;
-    }
-    if(currSettings.SpeechOutput !== values.speechOutput){
-      settingsChanged.SpeechOutput = values.speechOutput;
-      resetVoice = true;
-    }
-    if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
-      settingsChanged.SpeechOutputAlways = values.speechOutputAlways;
-      resetVoice = true;
-    }
-    if(currSettings.SpeechRate !== values.rate){
-      settingsChanged.SpeechRate = values.rate;
-    }
-    if(currSettings.SpeechPitch !== values.pitch){
-      settingsChanged.SpeechPitch = values.pitch;
-    }
-    if(currSettings.TTSLanguage !== values.lang){
-      settingsChanged.TTSLanguage = values.lang;
-    }
-    Actions.settingsChanged(settingsChanged);
-    if(resetVoice){
-      Actions.resetVoice();
-    }
-
-    setTimeout(() => {
-       this.setState({
-           SnackbarOpen: false
-       });
-   }, 2500);
-  }
 
   searchTextChanged = (event) => {
     let matchString = event.target.value;
@@ -533,6 +402,20 @@ class MessageSection extends Component {
       }
     }
 
+    switch(this.state.currTheme){
+      case 'light':{
+        document.body.className = 'white-body';
+        break;
+      }
+      case 'dark':{
+        document.body.className = 'dark-body';
+        break;
+      }
+      default: {
+          // do nothing
+      }
+    }
+
     UserPreferencesStore.on('change', () => {
       this.setState({
         currTheme: UserPreferencesStore.getTheme()
@@ -598,43 +481,6 @@ class MessageSection extends Component {
       keyboardFocused={true}
       onTouchTap={this.handleClose}
     />;
-
-    const serverDialogActions = [
-    <RaisedButton
-      key={'Cancel'}
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleServerToggle.bind(this,false)}
-      style={{margin: '6px'}}
-    />,
-    <RaisedButton
-      key={'OK'}
-      label="OK"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleServerToggle.bind(this,true)}
-    />];
-
-    const hardwareActions = [
-    <RaisedButton
-      key={'Cancel'}
-      label="Cancel"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleHardwareToggle}
-      style={{margin: '6px'}}
-    />
-    ]
 
     const componentsList = [
       {'id':1, 'component':'header', 'name': 'Header'},
@@ -732,11 +578,9 @@ class MessageSection extends Component {
                 backgroundColor={header}
                 {...this.props}
                 ref={instance => { this.child = instance; }}
-                handleSettings={this.handleSettings}
                 handleThemeChanger={this.handleThemeChanger}
                 handleOpen={this.handleOpen}
                 handleSignUp={this.handleSignUp}
-                handleChangePassword={this.handleChangePassword}
                 handleOptions={this.handleOptions}
                 handleRequestClose={this.handleRequestClose}
                 handleToggle={this.handleToggle}
@@ -781,28 +625,16 @@ class MessageSection extends Component {
             <DialogSection
               {...this.props}
               openLogin={this.state.showLogin}
-              openSetting={this.state.showSettings}
               openSignUp={this.state.showSignUp}
-              openChangePassword={this.state.showChangePassword}
               openForgotPassword={this.state.openForgotPassword}
-              openServerChange={this.state.showServerChangeDialog}
-              openHardwareChange={this.state.showHardwareChangeDialog}
               openThemeChanger={this.state.showThemeChanger}
               ThemeChangerComponents={components}
               bodyStyle={bodyStyle}
               actions={actions}
               customSettingsDone={customSettingsDone}
-              ServerChangeActions={serverDialogActions}
-              HardwareActions={hardwareActions}
               onRequestClose={()=>this.handleClose}
               onLoginSignUp={()=>this.handleOpen}
-              onRequestCloseServerChange={()=>this.handleServerToggle.bind(this,false)}
-              onRequestCloseHardwareChange={
-                ()=>this.handleHardwareToggle.bind(this, false)}
-              onSettingsSubmit={()=>this.implementSettings}
-              onForgotPassword={()=>this.forgotPasswordChanged}
-              onServerChange={()=>this.serverSettingChanged}
-              onHardwareSettings={()=>this.hardwareSettingChanged}/>
+              onForgotPassword={()=>this.forgotPasswordChanged} />
             </div>)
              : (
              <div className='message-pane'>

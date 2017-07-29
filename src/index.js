@@ -6,7 +6,7 @@ import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
 import Blog from './components/Blog/Blog.react';
-
+import Settings from './components/ChatApp/Settings/Settings.react';
 import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -45,6 +45,7 @@ const App = () => (
 				<Route exact path='/blog' component={Blog} />
 				<Route exact path="/support" component={Support} />
 				<Route exact path="/terms" component={Terms} />
+				<Route exact path="/settings" component={Settings} />
 				<Route exact path="*" component={NotFound} />
 			</Switch>
 		</MuiThemeProvider>
