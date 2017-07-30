@@ -66,18 +66,25 @@ class Login extends Component {
 				jsonp: 'callback',
 				crossDomain: true,
 				success: function (response) {
-					cookies.set('serverUrl', BASE_URL, { path: '/' });
-					console.log(cookies.get('serverUrl'));
-					let accessToken = response.access_token;
-					let state = this.state;
-					let time = response.valid_seconds;
-					state.isFilled = true;
-					state.accessToken = accessToken;
-					state.success = true;
-					state.msg = response.message;
-					state.time = time;
-					this.setState(state);
-					this.handleOnSubmit(accessToken, time,email);
+					if(response.accepted){
+						cookies.set('serverUrl', BASE_URL, { path: '/' });
+						console.log(cookies.get('serverUrl'));
+						let accessToken = response.access_token;
+						let state = this.state;
+						let time = response.valid_seconds;
+						state.isFilled = true;
+						state.accessToken = accessToken;
+						state.success = true;
+						state.msg = response.message;
+						state.time = time;
+						this.setState(state);
+						this.handleOnSubmit(accessToken, time,email);
+					}
+					else {
+						let state = this.state;
+						state.msg = 'Login Failed. Try Again';
+						this.setState(state);
+					}
 				}.bind(this),
 				error: function ( jqXHR, textStatus, errorThrown) {
 			        let msg = '';
@@ -91,7 +98,6 @@ class Login extends Component {
 			        if (status === 'timeout') {
 			          msg = 'Please check your internet connection';
 			        }
-
 			        let state = this.state;
 			        state.msg = msg;
 			        this.setState(state);
@@ -238,12 +244,12 @@ class Login extends Component {
 								floatingLabelText='Password' />
 						</div>
 						<div>
-                            <CustomServer
-                                checked={this.state.checked}
-                                serverUrl={this.state.serverUrl}
-                                customServerMessage={this.customServerMessage}
-                                onServerChange={this.handleServeChange}/>
-                        </div>
+                <CustomServer
+                    checked={this.state.checked}
+                    serverUrl={this.state.serverUrl}
+                    customServerMessage={this.customServerMessage}
+                    onServerChange={this.handleServeChange}/>
+            </div>
 						<span style={{
 							margin: '3px 0'
 						}}>{this.state.msg}</span>
