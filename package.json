@@ -7,6 +7,7 @@
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "flux": "^3.1.2",
+    "font-awesome": "^4.7.0",
     "history": "^4.6.1",
     "html-react-parser": "^0.3.5",
     "jquery": "^3.2.1",
