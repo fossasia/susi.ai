@@ -17,6 +17,8 @@ import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
+import loading from '../../images/loading.gif';
+import ProgressiveImage from 'react-progressive-image';
 
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 
@@ -72,7 +74,10 @@ class Overview extends Component{
         <div className='section'>
           <div className='section-container'>
             <div className="hero">
-              <img src={susiGif} style={{ margin: '20px 0' }} alt='Meet SUSI' />
+
+            <ProgressiveImage src={susiGif} placeholder={loading}>
+              {(src) => <img src={src} style={{ margin: '20px 0' }} alt='Meet SUSI'/>}
+            </ProgressiveImage>)
               <h1>Meet SUSI, Your Personal Assistant.</h1>
               <p>Ask it questions. Tell it to do things. Always ready to help.</p>
               <a onClick={this.handleVideo} style={{
