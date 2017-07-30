@@ -78,7 +78,7 @@ class Support extends Component {
                   community and team through various channels.
                   </p>
                 </div>
-                <div className='img-container'>
+                <div className='image-container'>
                   <img src={support} alt='support' className='support' />
                 </div>
               </div>
