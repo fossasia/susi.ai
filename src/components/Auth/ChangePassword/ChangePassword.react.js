@@ -188,8 +188,8 @@ export default class ChangePassword extends Component {
                 timeout: 3000,
                 async: false,
                 headers: {
-                          'Accept': 'application/json, application/xml, text/play, text/html',
-                          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+                    'Accept': 'application/json, application/xml, text/play, text/html',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
                 },
                 statusCode: {
                     422: function() {
@@ -200,11 +200,18 @@ export default class ChangePassword extends Component {
                     }
                 },
                 success: function (response) {
-                    let msg = response.message+'\n Please login again.';
                     let state = this.state;
-                    state.msg = msg;
-                    state.success = true;
+                    let msg;
+                    if(response.accepted){
+                        msg = response.message+'\n Please login again.';
+                        state.success = true;
+                    }
+                    else{
+                      msg = response.message+'\n Please Try Again.';
+                      state.success = false;
+                    }
                     state.msgOpen = true;
+                    state.msg = msg;
                     this.setState(state);
                 }.bind(this),
                 error: function(jqXHR, textStatus, errorThrown) {

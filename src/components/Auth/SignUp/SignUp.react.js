@@ -234,13 +234,21 @@ export default class SignUp extends Component {
                     }
                 },
                 success: function (response) {
+                  if(response.accepted){
                     let msg = response.message;
                     let state = this.state;
                     state.msg = msg;
                     state.success = true;
                     state.msgOpen = true;
                     this.setState(state);
-
+                  }
+                  else {
+                    let state = this.state;
+                    state.msg = 'Failed. Try Again';
+                    state.msgOpen = true;
+                    state.success = false;
+                    this.setState(state);
+                  }
                 }.bind(this),
                 error: function(jqXHR, textStatus, errorThrown) {
                     let jsonValue =  jqXHR.status;
