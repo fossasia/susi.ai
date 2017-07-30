@@ -69,13 +69,11 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   var locale = document.documentElement.getAttribute('lang');
   if(cookies.get('loggedIn')===null||
     cookies.get('loggedIn')===undefined) {
-    // console.log(createdMessage.text);
     url = BASE_URL+'/susi/chat.json?q='+
           createdMessage.text+
           '&language='+locale;
   }
   else{
-    // console.log(createdMessage.text);
     url = BASE_URL+'/susi/chat.json?q='
           +createdMessage.text+'&language='
           +locale+'&access_token='
@@ -165,7 +163,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
                 count--;
               }
             }
-            console.log(receivedMessage);
             let message = ChatMessageUtils.getSUSIMessageData(
               receivedMessage, currentThreadID);
             ChatAppDispatcher.dispatch({
@@ -238,7 +235,7 @@ export function getSettings(){
       timeout: 3000,
       async: false,
       success: function (response) {
-        if(response.hasOwnProperty('settings')){
+        if(response.hasOwnProperty('settings') && response.accepted){
           SettingsActions.initialiseSettings(response.settings);
         }
       },
