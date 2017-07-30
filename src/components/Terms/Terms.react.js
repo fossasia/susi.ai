@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Terms.css';
 import PropTypes from 'prop-types';
+import susi from '../../images/susi.svg';
 
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 
@@ -290,20 +291,23 @@ class Terms extends Component {
         </div>
 
         <div className='footer'>
-          <div className='footer-container'>
-            <img src='susi.svg' alt='SUSI' className='susi-logo' />
-            <ul className='alignLeft'>
-              <li><a href='/about'>About</a></li>
-              <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
-              <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-            </ul>
-            <ul className='alignRight'>
-              <li><a href='/settings'>Settings</a></li>
-              <li><a href='/terms'>Terms</a></li>
-              <li><a href='/contact'>Contact</a></li>
-            </ul>
-          </div>
+                <div className='footer-container'>
+                <a href='/overview'>
+                <img src={susi} alt='SUSI' className='susi-logo' />
+                </a>
+                <ul className='alignLeft'>
+                <li><a href='/overview'>Overview</a></li>
+                <li><a href='/blog'>Blog</a></li>
+                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
+                </ul>
+                <ul className='alignRight'>
+                <li><a href='/settings'>Settings</a></li>
+                <li><a href='/terms'>Terms</a></li>
+                <li><a href='/contact'>Contact</a></li>
+                </ul>
+                </div>
         </div>
+
 
       </div>
     );

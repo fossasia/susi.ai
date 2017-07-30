@@ -231,10 +231,12 @@ class Support extends Component {
               </div>
               <div className='footer'>
                 <div className='footer-container'>
+                <a href='/overview'>
                 <img src={susi} alt='SUSI' className='susi-logo' />
+                </a>
                 <ul className='alignLeft'>
-                <li><a href='/about'>About</a></li>
-                <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
+                <li><a href='/overview'>Overview</a></li>
+                <li><a href='/blog'>Blog</a></li>
                 <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
                 </ul>
                 <ul className='alignRight'>
@@ -243,7 +245,8 @@ class Support extends Component {
                 <li><a href='/contact'>Contact</a></li>
                 </ul>
                 </div>
-              </div>
+        </div>
+
 
               {/* Login */}
 						<Dialog
