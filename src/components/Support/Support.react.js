@@ -11,59 +11,75 @@ import susi from '../../images/susi.svg';
 import PropTypes  from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import SignUp from '../Auth/SignUp/SignUp.react';
+import Login from '../Auth/Login/Login.react';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 
 class Support extends Component {
 
     constructor(props) {
       super(props);
       this.state = {
-        open: false,
-        showOptions: false,
-        login:false,
-        signup:false
+        showLogin: false,
+        showSignUp: false,
+			  showForgotPassword: false,
       };
     }
-    showOptions = (event) => {
-      event.preventDefault();
-      this.setState({
-        showOptions: true,
-        anchorEl: event.currentTarget
-    })
-    }
 
-    closeOptions = () => {
+    handleLogin = () => {
       this.setState({
-        showOptions: false,
+        showLogin: true,
+        showSignUp: false,
+  			showForgotPassword: false,
       });
-    };
-    handleToggle = () => this.setState({open: !this.state.open});
-
-    handleClose = () => this.setState({open: false});
-
-    handleTitle = () => {
-      this.props.history.push('/');
     }
-    handleLogin = () => this.setState({
-      login:true,
-      signup: false
-    })
-    handleClose = () => this.setState({
-      login: false,
-      signup: false
-    })
-    handleSignUp = () => this.setState({
-      signup:true,
-      login:false
-    })
-    _onReady(event) {
-        // access to player in all event handlers via event.target
-        event.target.pauseVideo();
+
+    handleSignUp = () => {
+      this.setState({
+        showSignUp: true,
+        showLogin: false,
+  			showForgotPassword: false,
+      });
     }
+
+  	handleForgotPassword = () => {
+  		this.setState({
+  			showForgotPassword: true,
+  			showLogin: false,
+  		});
+  	}
+
+    handleClose = ()  => {
+  		this.setState({
+  			showLogin: false,
+  			showSignUp: false,
+  			showForgotPassword: false,
+  		})
+  	}
+
     render() {
 
     const style ={
       marginTop: '25px',
       marginBottom: '25px'
+    }
+
+    const bodyStyle = {
+      'padding': 0,
+      textAlign: 'center'
+    }
+
+    const closingStyle ={
+      position: 'absolute',
+      zIndex: 1200,
+      fill: '#444',
+      width: '26px',
+      height: '26px',
+      right: '10px',
+      top: '10px',
+      cursor:'pointer'
     }
 
     return (
@@ -228,6 +244,48 @@ class Support extends Component {
                 </ul>
                 </div>
               </div>
+
+              {/* Login */}
+						<Dialog
+								className='dialogStyle'
+								modal={true}
+								open={this.state.showLogin}
+								autoScrollBodyContent={true}
+								bodyStyle={bodyStyle}
+								contentStyle={{ width: '35%', minWidth: '300px' }}
+								onRequestClose={this.handleClose}>
+								<Login {...this.props}
+								handleForgotPassword={this.handleForgotPassword}/>
+								<Close style={closingStyle} onTouchTap={this.handleClose} />
+						</Dialog>
+						{/* SignUp */}
+						<Dialog
+								className='dialogStyle'
+								modal={true}
+								open={this.state.showSignUp}
+								autoScrollBodyContent={true}
+								bodyStyle={bodyStyle}
+								contentStyle={{ width: '35%', minWidth: '300px' }}
+								onRequestClose={this.handleClose}>
+								<SignUp {...this.props}
+								onRequestClose={this.handleClose}
+								onLoginSignUp={this.handleLogin}/>
+								<Close style={closingStyle}
+								onTouchTap={this.handleClose} />
+						</Dialog>
+            {/* ForgotPassword */}
+						<Dialog
+								className='dialogStyle'
+								modal={false}
+								open={this.state.showForgotPassword}
+								autoScrollBodyContent={true}
+								contentStyle={{width: '35%',minWidth: '300px'}}
+								onRequestClose={this.handleClose}>
+								<ForgotPassword {...this.props}
+								showForgotPassword={this.handleForgotPassword}/>
+								<Close style={closingStyle}
+								onTouchTap={this.handleClose}/>
+							</Dialog>
 
             </div>
         );
