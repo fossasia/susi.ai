@@ -163,7 +163,13 @@ class ForgotPassword extends Component {
 					let msg = response.message;
 					let state = this.state;
 					state.msg = msg;
-					state.success = true;
+					if(response.accepted){
+							state.success = true;
+					}
+					else{
+						state.success = false;
+						state.msg += 'Please Try Again';
+					}
 					this.setState(state);
 				}.bind(this),
 				error: function (jqXHR, textStatus, errorThrown) {
