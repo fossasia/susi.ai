@@ -17,6 +17,7 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
 import Edit from 'material-ui/svg-icons/image/edit';
 import Lock from 'material-ui/svg-icons/action/lock-outline';
+import susiWhite from '../../images/susi-logo-white.png';
 
 const cookies = new Cookies();
 
@@ -178,6 +179,11 @@ class TopBar extends Component {
 			appBarClass = 'app-bar-search';
 		};
 
+		let logoStyle = {
+		    height: '25px',
+		    display: 'block',
+		};
+
 		return (
 			<Toolbar
 				className={appBarClass}
@@ -185,7 +191,10 @@ class TopBar extends Component {
 					backgroundColor: backgroundCol,
 					height: '46px'
 				}}>
-				<ToolbarGroup >
+				<ToolbarGroup firstChile={true} >
+				<div style={{ float: 'left', marginTop: '0px' }}>
+						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
+				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
 					<div style={{ marginTop: '-7px' }}>
