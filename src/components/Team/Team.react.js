@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import './Team.css';
 import PropTypes from 'prop-types';
 import team from './TeamList';
+import susi from '../../images/susi.svg';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import '../../../node_modules/font-awesome/css/font-awesome.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import FourButtons from './FourButtons.react';
-import susilogobottom from '../../images/susi.svg';
 
 class Support extends Component {
 
@@ -153,20 +153,23 @@ class Support extends Component {
           <div className='team-container'>{server}</div>
         </div>
         <div className='footer'>
-          <div className='footer-container'>
-            <img src={susilogobottom} alt='SUSI' className='susi-logo' />
-            <ul className='alignLeft'>
-              <li><a href='/about'>About</a></li>
-              <li><a href='http://blog.fossasia.org/tag/susi-ai/'>Blog</a></li>
-              <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-            </ul>
-            <ul className='alignRight'>
-              <li><a href='/settings'>Settings</a></li>
-              <li><a href='/terms'>Terms</a></li>
-              <li><a href='/contact'>Contact</a></li>
-            </ul>
-          </div>
+                <div className='footer-container'>
+                <a href='/overview'>
+                <img src={susi} alt='SUSI' className='susi-logo' />
+                </a>
+                <ul className='alignLeft'>
+                <li><a href='/overview'>Overview</a></li>
+                <li><a href='/blog'>Blog</a></li>
+                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
+                </ul>
+                <ul className='alignRight'>
+                <li><a href='/settings'>Settings</a></li>
+                <li><a href='/terms'>Terms</a></li>
+                <li><a href='/contact'>Contact</a></li>
+                </ul>
+                </div>
         </div>
+
       </div>
     );
   };

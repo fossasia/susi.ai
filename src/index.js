@@ -6,6 +6,7 @@ import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
 import Blog from './components/Blog/Blog.react';
+import Contact from './components/Contact/Contact.react';
 
 import './index.css';
 import React from 'react';
@@ -39,6 +40,7 @@ const App = () => (
 				<Route exact path="/overview" component={Overview} />
 				<Route exact path='/team' component={Team} />
 				<Route exact path='/blog' component={Blog} />
+				<Route exact path='/contact' component={Contact} />
 				<Route exact path="/support" component={Support} />
 				<Route exact path="/terms" component={Terms} />
 				<Route exact path="*" component={NotFound} />
