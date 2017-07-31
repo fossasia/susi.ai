@@ -7,10 +7,6 @@ import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import 'font-awesome/css/font-awesome.min.css';
 import FourButtons from './FourButtons.react';
-<<<<<<< ce7d8d24de3d2c7b22f3269b30af606fb98c4c1b
-=======
-import 'font-awesome/css/font-awesome.min.css';
->>>>>>> team
 
 class Support extends Component {
 
