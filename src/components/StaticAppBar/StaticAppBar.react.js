@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import susiWhite from '../../images/susi-white.svg';
+import susiWhite from '../../images/susi-logo-white.png';
 import PropTypes from 'prop-types';
 import Signup from 'material-ui/svg-icons/action/account-circle';
 import Drawer from 'material-ui/Drawer';

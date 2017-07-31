@@ -7,7 +7,7 @@ import github from '../../images/github.png';
 import question from '../../images/question.png';
 import documentation from '../../images/programmer.png';
 import code from '../../images/code.png';
-import susi from '../../images/susi.svg';
+import susi from '../../images/susi-logo.svg';
 import PropTypes  from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
