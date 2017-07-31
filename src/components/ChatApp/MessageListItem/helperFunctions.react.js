@@ -19,6 +19,8 @@ import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
+import ProgressiveImage from 'react-progressive-image';
+import loading from '../../../images/loading.gif';
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -115,8 +117,9 @@ export function imageParse(stringWithLinks){
     let checkmatch = item.match(replacePattern);
     if(checkmatch){
       result.push(
-        <img key={key} src={checkmatch}
-            style={{width:'95%',height:'auto'}} alt=''/>)
+        <ProgressiveImage key={key} src={checkmatch} placeholder={loading}>
+          {(src) => <img src={src} style={{width:'95%',height:'auto'}} alt=''/>}
+        </ProgressiveImage>)
     }
     else{
       result.push(Parser(item));
