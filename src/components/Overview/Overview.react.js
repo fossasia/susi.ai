@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import susi from '../../images/susi.svg';
+import susi from '../../images/susi-logo.svg';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
