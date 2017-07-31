@@ -94,7 +94,11 @@ class TopBar extends Component {
 						rightIcon={<Lock/>}/>
 					<MenuItem primaryText="Chat Anonymously"
 						containerElement={<Link to="/logout" />}
-						rightIcon={<Chat/>}/>
+						rightIcon={<Chat/>}
+					/>
+					<MenuItem primaryText="Overview"
+					containerElement={<Link to="/overview" />}
+					/>
 					<MenuItem primaryText="Logout"
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
