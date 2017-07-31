@@ -21,7 +21,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   overflow: hidden;
 }
 .app-bar{
-  background-image: url('../../images/susi-white.svg');
+  background-image: url('../../images/susi-logo-white.png');
   margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
