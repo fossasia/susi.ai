@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import susiWhite from '../../images/susi-white.svg';
+import susiWhite from '../../images/susi-logo-white.png';
 import PropTypes from 'prop-types';
 import Signup from 'material-ui/svg-icons/action/account-circle';
 import Drawer from 'material-ui/Drawer';
@@ -18,8 +18,24 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import Popover from 'material-ui/Popover';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import Cookies from 'universal-cookie';
+import Exit from 'material-ui/svg-icons/action/exit-to-app';
 
 
+const cookies = new Cookies();
+
+let Logged = (props) => (
+    <div>
+        <MenuItem primaryText="Login"
+            onTouchTap={this.handleLogin} />
+        <MenuItem primaryText="Sign Up"
+            onTouchTap={this.handleSignUp}
+            rightIcon={<Signup />} />
+        <MenuItem primaryText="Chat"
+            containerElement={<Link to="/logout" />}
+            rightIcon={<Chat />} />
+    </div>
+)
 class StaticAppBar extends Component {
     constructor(props) {
         super(props);
@@ -96,8 +112,8 @@ class StaticAppBar extends Component {
     }
     handleForgotPassword = () => {
         this.setState({
-          openForgotPassword: true,
-          login: false
+            openForgotPassword: true,
+            login: false
         });
     }
     componentDidMount() {
@@ -137,10 +153,35 @@ class StaticAppBar extends Component {
 
             lastScrollTop = st;
         }
+        // Check Logged in
+        if (cookies.get('loggedIn')) {
+            Logged = (props) => (
+                <div>
+
+                    <MenuItem primaryText="Logout"
+                        containerElement={<Link to="/logout" />}
+                        rightIcon={<Exit />} />
+                </div>
+            )
+            return <Logged />
+        }
+Logged = (props) => (
+    <div>
+        <MenuItem primaryText="Login"
+            onTouchTap={this.handleLogin} />
+        <MenuItem primaryText="Sign Up"
+            onTouchTap={this.handleSignUp}
+            rightIcon={<Signup />} />
+        <MenuItem primaryText="Chat"
+            containerElement={<Link to="/logout" />}
+            rightIcon={<Exit />} />
+    </div>
+)
+return <Logged />
     }
 
     render() {
-        const closingStyle ={
+        const closingStyle = {
             position: 'absolute',
             zIndex: 1200,
             fill: '#444',
@@ -148,7 +189,7 @@ class StaticAppBar extends Component {
             height: '26px',
             right: '10px',
             top: '10px',
-            cursor:'pointer'
+            cursor: 'pointer'
         }
         let TopRightMenu = (props) => (
             <div onScroll={this.handleScroll}>
@@ -164,7 +205,6 @@ class StaticAppBar extends Component {
                         onTouchTap={this.showOptions}
                     >
                     </IconMenu>
-
                     <Popover
                         {...props}
                         style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
@@ -174,15 +214,9 @@ class StaticAppBar extends Component {
                         targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                         onRequestClose={this.closeOptions}
                     >
-                        <MenuItem primaryText="Login"
-                            onTouchTap={this.handleLogin} />
-                        <MenuItem primaryText="Sign Up"
-                            onTouchTap={this.handleSignUp}
-                            rightIcon={<Signup />} />
-                        <MenuItem primaryText="Chat"
-                            containerElement={<Link to="/logout" />}
-                            rightIcon={<Chat />} />
+                        <Logged />
                     </Popover>
+
                 </div>
             </div>
         );
@@ -260,8 +294,8 @@ class StaticAppBar extends Component {
             }
             return (
                 <FlatButton
-                 disableTouchRipple={true}
-                 key={i} labelStyle={link.labelStyle}
+                    disableTouchRipple={true}
+                    key={i} labelStyle={link.labelStyle}
                     hoverColor="none" label={link.lable} href={link.url} style={link.style}
                     className="topMenu-item" />
             )
@@ -295,12 +329,14 @@ class StaticAppBar extends Component {
                     <AppBar
                         className="topAppBar"
                         title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                              <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
-                        style={{ backgroundColor: '#4285f4', height: '46px',
-                        boxShadow:'none' }}
+                            <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
+                        style={{
+                            backgroundColor: '#4285f4', height: '46px',
+                            boxShadow: 'none'
+                        }}
                         onLeftIconButtonTouchTap={this.handleDrawer}
-                        iconStyleLeft={{marginTop: '-2px'}}
-                        iconStyleRight={{marginTop: '-2px'}}
+                        iconStyleLeft={{ marginTop: '-2px' }}
+                        iconStyleRight={{ marginTop: '-2px' }}
                         iconElementRight={<TopRightMenu />}
                     />
                 </header>
@@ -327,7 +363,7 @@ class StaticAppBar extends Component {
                     contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <Login {...this.props}
-                    handleForgotPassword={this.handleForgotPassword}/>
+                        handleForgotPassword={this.handleForgotPassword} />
                     <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
                 </Dialog>
                 {/* SignUp */}
@@ -340,23 +376,23 @@ class StaticAppBar extends Component {
                     contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <SignUp {...this.props}
-                    onRequestClose={this.handleClose}
-                    onLoginSignUp={this.handleLogin}/>
+                        onRequestClose={this.handleClose}
+                        onLoginSignUp={this.handleLogin} />
                     <Close style={closingStyle}
-                    onTouchTap={this.handleClose} />
+                        onTouchTap={this.handleClose} />
                 </Dialog>
                 <Dialog
                     className='dialogStyle'
                     modal={false}
                     open={this.state.openForgotPassword}
                     autoScrollBodyContent={true}
-                    contentStyle={{width: '35%',minWidth: '300px'}}
+                    contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <ForgotPassword {...this.props}
-                    showForgotPassword={this.showForgotPassword}/>
+                        showForgotPassword={this.showForgotPassword} />
                     <Close style={closingStyle}
-                    onTouchTap={this.handleClose}/>
-                  </Dialog>
+                        onTouchTap={this.handleClose} />
+                </Dialog>
             </div>
         );
     }

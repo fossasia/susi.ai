@@ -15,6 +15,8 @@ import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
 import TextField from 'material-ui/TextField';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 
 function getStateFromStores() {
   return {
@@ -38,6 +40,7 @@ function getStateFromStores() {
     snackopen: false,
     snackMessage: 'It seems you are offline!',
     messageBackgroundImage:'',
+    showScrollBottom: false,
     searchState: {
       markedMsgs: [],
       markedIDs: [],
@@ -386,6 +389,23 @@ class MessageSection extends Component {
     })
   }
 
+  onScroll = () => {
+    let scrollarea = this.scrollarea;
+    if(scrollarea){
+      let scrollValues = scrollarea.getValues();
+      if(scrollValues.top === 1){
+        this.setState({
+          showScrollBottom: false,
+        });
+      }
+      else if(!this.state.showScrollBottom){
+        this.setState({
+          showScrollBottom: true,
+        });
+      }
+    }
+  }
+
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
     ThreadStore.removeChangeListener(this._onChange.bind(this));
@@ -439,12 +459,26 @@ class MessageSection extends Component {
   render() {
 
     const bodyStyle = {
-      'padding': 0,
+      padding: 0,
       textAlign: 'center'
     }
+
     const {
       dream
     } = this.props;
+
+    const scrollBottomStyle = {
+      button : {
+        float: 'right',
+        marginRight: '5px',
+        marginBottom: '10px',
+        boxShadow:'none',
+      },
+      backgroundColor: '#fcfcfc',
+      icon : {
+        fill: UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'
+      }
+    }
 
     var backgroundCol;
     let topBackground = this.state.currTheme;
@@ -601,16 +635,27 @@ class MessageSection extends Component {
                   className='message-list'
                   ref={(c) => { this.messageList = c; }}
                   style={messageBackgroundStyles}>
-
                   <Scrollbars
                     ref={(ref) => { this.scrollarea = ref; }}
                     autoHide
+                    onScroll={this.onScroll}
                     autoHideTimeout={1000}
                     autoHideDuration={200}>
                     {messageListItems}
                     {this.state.showLoading && getLoadingGIF()}
                   </Scrollbars>
                 </ul>
+                {this.state.showScrollBottom &&
+                  <div className='scrollBottom'>
+                    <FloatingActionButton mini={true}
+                      style={scrollBottomStyle.button}
+                      backgroundColor={scrollBottomStyle.backgroundColor}
+                      iconStyle={scrollBottomStyle.icon}
+                      onTouchTap={this.forcedScrollToBottom}>
+                      <NavigateDown />
+                    </FloatingActionButton>
+                  </div>
+                }
                 <div className='compose' style={{background:composer}}>
                   <MessageComposer
                     threadID={this.state.thread.id}
@@ -718,11 +763,18 @@ class MessageSection extends Component {
   }
 
   _scrollToBottom = () => {
-  let ul = this.scrollarea;
-  if (ul) {
-    ul.scrollTop(ul.getScrollHeight());
+    let ul = this.scrollarea;
+    if (ul && !this.state.showScrollBottom) {
+      ul.scrollTop(ul.getScrollHeight());
+    }
   }
-}
+
+  forcedScrollToBottom = () => {
+    let ul = this.scrollarea;
+    if (ul) {
+      ul.scrollTop(ul.getScrollHeight());
+    }
+  }
 
 _onClickPrev = () => {
   let newIndex = this.state.searchState.scrollIndex + 1;

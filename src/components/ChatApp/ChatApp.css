@@ -21,7 +21,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   overflow: hidden;
 }
 .app-bar{
-  background-image: url('../../images/susi-white.svg');
+  background-image: url('../../images/susi-logo-white.png');
   margin: 0 auto;
   background-size: 100px;
   background-repeat: no-repeat;
@@ -488,6 +488,17 @@ header{
 .dark .compose{
   background: rgba(30, 87, 153, 0.02);
   color: #0AD5C1;
+}
+
+.scrollBottom{
+  position: fixed;
+  margin: 0;
+  border: none;
+  width: 100vw;
+  max-width: 700px;
+  bottom: 75px;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .message-composer {

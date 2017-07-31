@@ -11,7 +11,16 @@ import * as SettingsActions from './Settings.actions';
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
 let _Location = null;
+let offlineMessage = null;
 
+window.addEventListener('offline', handleOffline.bind(this));
+window.addEventListener('online', handleOnline.bind(this));
+function handleOffline() {
+  offlineMessage = 'Sorry, cannot answer that now. I have no net connectivity';
+}
+function handleOnline() {
+  offlineMessage = null;
+}
 // Get Location
 export function getLocation(){
   $.ajax({
@@ -30,7 +39,6 @@ export function getLocation(){
       }
     }
   });
-
 }
 export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   var timestamp = Date.now();
@@ -81,10 +89,11 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   }
   // Send location info of client if available
   if(_Location){
-    url = url+'&latitude='+_Location.lat+'&longitude='+_Location.lng;
+    url += '&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
   console.log(url);
-  // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE
+  // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
+  if(!offlineMessage){
   $.ajax({
     url: url,
     dataType: 'jsonp',
@@ -190,11 +199,22 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       }
     },
     error: function (xhr, status, error) {
+      console.log(receivedMessage.text);
       if (status === 'timeout') {
         receivedMessage.text = 'Please check your internet connection';
       }
     }
   });
+  }
+  else{
+    receivedMessage.text = offlineMessage;
+    let message = ChatMessageUtils.getSUSIMessageData(
+              receivedMessage, currentThreadID);
+            ChatAppDispatcher.dispatch({
+              type: ActionTypes.CREATE_SUSI_MESSAGE,
+              message
+          });
+  }
 };
 
 // Get Settings From Server or Cookies if not loggedIn

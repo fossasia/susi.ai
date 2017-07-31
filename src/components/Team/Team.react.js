@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Team.css';
-import PropTypes from 'prop-types';
+import PropTypes  from 'prop-types';
+import susi from '../../images/susi-logo.svg';
 import team from './TeamList';
-import susi from '../../images/susi.svg';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import 'font-awesome/css/font-awesome.min.css';

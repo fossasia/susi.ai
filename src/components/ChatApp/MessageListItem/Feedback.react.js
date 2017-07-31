@@ -10,6 +10,7 @@ class Feedback extends React.Component {
 	parseSkill = () => {
 		let message = this.props.message;
 		let rating ={};
+		if(message.response=== undefined || message.response===''){
 		if(message.authorName === 'SUSI'){
 			if(message.response.answers[0].skills!==undefined){
 				let skill = message.response.answers[0].skills[0];
@@ -24,6 +25,7 @@ class Feedback extends React.Component {
 			else {
 				return null
 			}
+		}
 		}
 		return rating;
 	}
