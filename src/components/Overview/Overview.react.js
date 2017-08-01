@@ -71,13 +71,13 @@ class Overview extends Component{
         <StaticAppBar {...this.props}
           location={this.props.location} closeVideo={this.closeVideo} />
 
-        <div className='section'>
+        <div className='section-top'>
           <div className='section-container'>
             <div className="hero">
 
             <ProgressiveImage src={susiGif} placeholder={loading}>
               {(src) => <img src={src} style={{ margin: '20px 0' }} alt='Meet SUSI'/>}
-            </ProgressiveImage>)
+            </ProgressiveImage>
               <h1>Meet SUSI, Your Personal Assistant.</h1>
               <p>Ask it questions. Tell it to do things. Always ready to help.</p>
               <a onClick={this.handleVideo} style={{

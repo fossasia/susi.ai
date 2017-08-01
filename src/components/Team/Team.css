@@ -9,7 +9,7 @@
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;    
-    padding: 50px 90px 140px 90px;
+    padding: 50px 20px 140px 90px;
     -ms-flex-pack: justify;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -18,6 +18,7 @@
     -webkit-box-pack: justify;
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
+    width: 1050px;
 }
 /* overlay styles start */
 .container {
@@ -72,7 +73,13 @@
 }
 .team-container{
     display: flex;
+    flex-wrap: wrap
+}
+.team-member-container{
+    display: flex;
     flex-wrap: wrap;
+    width: 880px;
+    margin: 0 auto;
 }
 .team-card{
     margin: 10px 10px 0 0;
@@ -80,14 +87,91 @@
 }
 .grey-background{
     background: #f7f7f7;
+    width: 100%;
+    padding: 50px 0 140px;
+    align-items: center;
+}
+
+@media screen and  (max-width: 1120px) {
+    .team-container{
+        width: 100%;
+    }
+    .section-team{
+        max-width: 75%;
+        margin: 0 auto;
+    }
+    .team-card{
+        width: 32%;
+        margin: 1% 1% 0 0;
+    
+    }
+
+}
+@media screen and  (max-width: 990px) {
+    .section-team{
+        width: 56%;
+        margin: 0 auto;
+    }
+    .team-card{
+        width: 49%;
+        margin: 1% 1% 0 0;
+    }
+    .grey-background{
+        background: #f7f7f7;
+        width: 100%;
+        padding: 50px 0 140px;
+        align-items: center;
+    }
 }
 @media screen and  (max-width: 800px) {
     .section-team{
-        padding: 50px 50px 140px 50px;
+        width: 75%;
+        margin: 0 auto;
+    }
+    .grey-background{
+        background: #f7f7f7;
+        width: 100%;
+    }
+    .team-card{
+        width: 45%;
+        margin: 1% 1% 0 0;
+    }
+
+}
+@media screen and (max-width:735px){
+    .section-team{
+        width: 275px;
+        margin: 0 auto;
+    }
+    .team-card{
+        width: 275px;
+        margin: 5px 5px 5px 0;
     }
 }
 @media screen and (max-width:480px){
     .text div div a{
         margin: 0px -10px 2px 0px !important
+    }
+    .section-team{
+        width: 240px;
+        margin: 0 auto;
+        padding-left:20px; 
+    }
+    .team-card{
+        width: 240px;
+        margin: 5px 0 5px 0;
+    }
+    .alignLeft{
+        display: none;
+    }
+    .alignRight{
+        display: none;
+    }
+    .susi-logo{
+        margin: 0 auto
+    }
+    .footer-container{
+        text-align: center;
+        display: block;
     }
 }
