@@ -204,7 +204,7 @@ class TopBar extends Component {
 					backgroundColor: backgroundCol,
 					height: '46px'
 				}}>
-				<ToolbarGroup firstChile={true} >
+				<ToolbarGroup>
 				<div style={{ float: 'left', marginTop: '0px' }}>
 						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
 				</div>

@@ -777,13 +777,6 @@ em{
   ;
 }
 
-.app-bar-search{
-  background-image: url('../../images/susi-white.svg');
-  margin: 0 auto;
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 .tile-title strong span{
   font-family: "Product Sans", sans-serif;
   font-weight: 300;
@@ -791,8 +784,8 @@ em{
 }
 
 @media only screen and (max-width: 860px){
-  .app-bar-search{
-    background-image: none;
+  .app-bar-search img {
+    display: none !important;
   }
   .search{
     width: 100px !important;
