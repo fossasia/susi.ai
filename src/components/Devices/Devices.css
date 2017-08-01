@@ -1,0 +1,249 @@
+
+.head_section {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 100px 20px 120px;
+    position: relative;
+    text-align: center;
+}
+.container {
+    padding-top: 120px;
+}
+.heading h1 {
+    font-size: 42px;
+    font-weight: 100;
+    margin: 0 auto;
+    max-width: 880px;
+    font-family: 'Roboto', sans-serif;
+}
+.heading p{
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 32px;
+    margin: 15px auto;
+    max-width: 430px;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.device_section{
+    -webkit-font-smoothing: antialiased;
+    margin: 0 auto;
+    max-width: none;
+    padding: 100px 20px 100px 90px;
+    position: relative;
+    max-width: 1050px;
+    align-items: center;
+    box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid #dfdfdf;
+}
+.device_description .heading {
+    font-size: 43px;
+    font-weight: 100;
+    margin: 20px 0;
+    text-align: left;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.text_description {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 40px;
+    max-width: 440px;
+    color: #414141;
+    font-family: 'Roboto', sans-serif;
+}
+.play_store {
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    background: url('../../images/google-play.svg') center center no-repeat;
+    background-size: contain;
+    float: left;
+    height: 45px;
+    margin: 0 10px 10px 0;
+    width: 152px;
+}
+.app_store {
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    background: url('../../images/app-store.svg') center center no-repeat;
+    background-size: cover;
+    float: left;
+    height: 45px;
+    width: 152px;
+    margin: 0 10px 10px 0;
+}
+.bottom_section {
+  padding: 100px 0 240px 90px;
+}
+.img-container{
+    width: 50%;
+}
+.susi-test{
+    text-align: left;
+    width: 60%;
+    margin-left: 10%;
+    max-width: 313px;
+}
+.susi-desktop{
+    text-align: left;
+    width: 80%;
+    margin-left: 10%;
+    max-width: 313px;
+}
+.susi-logo{
+    margin-right: 20px;
+    height: 28px;
+    margin-top:13px;
+}
+.footer{
+    background: #f6f6f6;
+    margin-top: 40px;
+    min-height: 140px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.footer-container a{
+    text-decoration: none;
+    color: #414141;
+    margin: 0 14px;
+    font-size: 1em;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+.footer-container{
+    padding: 50px 10% 20px;
+    display: flex;
+}
+
+.alignLeft,.alignRight{
+    list-style: none;
+    list-style-type: none;
+}
+.leftDiv a,.rightDiv a {
+    color:#3367d6;
+    font-family: 'Roboto', sans-serif;
+}
+.footer-container a:hover {
+    text-decoration: none;
+    color:#757575;;
+}
+@media only screen and (max-width: 800px){
+    .container {
+        padding: 60px 20px;
+    }
+    .heading p,.text_description {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .heading h1 {
+        font-size: 36px;
+        line-height: 42px;
+    }
+    .device_section{
+        padding: 60px 20px;
+    }
+    .device_description .heading {
+        margin-top: 0;
+        max-width: 100%;
+        font-size: 32px;
+    }
+    .device_description{
+        width: 100%;
+        text-align: center;
+    }
+    .text_description{
+        max-width: 100%;
+    }
+    .img-container {
+        max-width: 100%;
+        margin: 0 auto 20px auto;
+    }
+    .susi-test{
+        text-align: left;
+        width: 100%;
+        margin-left: 0%;
+        max-width: 400px;
+    }
+    .susi-desktop{
+        text-align: left;
+        width: 100%;
+        margin-left: 0%;
+        max-width: 400px;
+    }
+    .alignLeft,.alignRight{
+        flex:1 100%;
+        display: block;
+        padding-left: 0;
+        list-style: none;
+        list-style-type: none;
+    }
+    .alignLeft li,.alignRight li{
+        float: left;
+        padding: 0 30px 15px 0;
+    }
+    .footer-container{
+        display: block;
+    }
+
+    .alignLeft a, .alignRight a{
+        margin-left: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+    .bottom_section {
+        padding: 100px 0 240px 0px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .play_store {
+      margin: 10px auto;
+    }
+    .app_store {
+      margin: 10px auto;
+    }
+    .store_icons {
+      display: inline-block;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+}
+@media only screen and (max-width: 480px){
+    .container{
+        padding: 35px 20px 120px;
+    }
+    .device_section{
+        padding: 10px 0 0 0;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .device_description{
+        width: 100%;
+        text-align: center;
+    }
+    .img-container{
+        width: 60%;
+    }
+    .bottom_section {
+      padding: 100px 0 240px 0px;
+      width: 90%;
+      margin: 0 auto;
+    }
+    .heading h1 {
+    margin-top: 30px;
+    }
+}
