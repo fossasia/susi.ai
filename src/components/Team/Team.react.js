@@ -63,7 +63,7 @@ class Support extends Component {
     let mentors = team[0].mentors.map((mentor, i) => {
       return (
         <Card className='team-card' key={i}>
-          <CardMedia className="container">
+          <CardMedia className="container_div">
             <img src={mentor.avatar} alt={mentor.name} className="image" />
             <div className="overlay" >
               <div className="text">
@@ -77,7 +77,7 @@ class Support extends Component {
     let managers = team[2].managers.map((manager, i) => {
       return (
         <Card className='team-card' key={i}>
-          <CardMedia className="container">
+          <CardMedia className="container_div">
             <img src={manager.avatar} alt={manager.name} className="image" />
             <div className="overlay" >
               <div className="text">
@@ -102,7 +102,7 @@ class Support extends Component {
     let server = team[1].server.map((serv, i) => {
       return (
         <Card className='team-card' key={i}>
-          <CardMedia className="container" >
+          <CardMedia className="container_div" >
             <img src={serv.avatar} alt={serv.name} className="image" />
             <div className="overlay" >
               <div className="text">

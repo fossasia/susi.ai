@@ -8,7 +8,7 @@
     box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
     display: -ms-flexbox;
     display: -webkit-box;
-    display: flex;    
+    display: flex;
     padding: 50px 90px 140px 90px;
     -ms-flex-pack: justify;
     -webkit-box-orient: horizontal;
@@ -20,7 +20,7 @@
     border-bottom: 1px solid #dfdfdf;
 }
 /* overlay styles start */
-.container {
+.container_div {
   position: relative;
 }
 
@@ -43,7 +43,7 @@
   opacity:0;
 }
 
-.container:hover .overlay {
+.container_div:hover .overlay {
   bottom: 0;
   height: 100%;
   opacity:0.7;
@@ -51,7 +51,7 @@
 
 .text {
   opacity: 1;
-  white-space: nowrap; 
+  white-space: nowrap;
   color: white;
   font-size: 20px;
   position: absolute;
