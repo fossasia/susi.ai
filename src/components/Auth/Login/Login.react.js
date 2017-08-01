@@ -108,6 +108,9 @@ class Login extends Component {
 	handleForgotPassword = () => {
 		this.props.handleForgotPassword();
 	}
+	handleSignUp = () => {
+		this.props.handleSignUp();
+	}
 	handleServeChange = (event) => {
         let state = this.state;
         let serverUrl
@@ -263,13 +266,25 @@ class Login extends Component {
 								disabled={!this.state.validForm}
 								style={{margin:'15px 0 '}}/>
 						</div>
-						<span className="forgotpwdlink"
+						<span
+						style={{
+							margin: '8px 0',
+							display:'block'
+						}}
+						className="forgotpwdlink"
 							onClick={this.handleForgotPassword}>
 								Forgot Password?
 						</span>
-						<br />
+						<div>
+							<RaisedButton
+									label='Sign Up'
+									onClick={this.handleSignUp}
+									backgroundColor={
+										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+									labelColor="#fff" />
+						</div>
 						<h4 style={{
-							margin: '7px 0'
+							margin: '2px 0'
 						}}>OR</h4>
 						<div>
 							<Link to={'/logout'} >
@@ -289,7 +304,8 @@ class Login extends Component {
 
 Login.propTypes = {
 	history: PropTypes.object,
-	handleForgotPassword: PropTypes.func
+	handleForgotPassword: PropTypes.func,
+	handleSignUp:PropTypes.func
 };
 
 
