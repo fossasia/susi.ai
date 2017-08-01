@@ -1,5 +1,6 @@
 import Logout from './components/Auth/Logout.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
+import Devices from './components/Devices/Devices.react';
 import NotFound from './components/NotFound/NotFound.react';
 import Overview from './components/Overview/Overview.react';
 import Support from './components/Support/Support.react';
@@ -38,6 +39,7 @@ const App = () => (
 				<Route exact path="/" component={ChatApp} />
 				<Route exact path="/logout" component={Logout} />
 				<Route exact path="/overview" component={Overview} />
+				<Route exact path="/devices" component={Devices} />
 				<Route exact path='/team' component={Team} />
 				<Route exact path='/blog' component={Blog} />
 				<Route exact path='/contact' component={Contact} />

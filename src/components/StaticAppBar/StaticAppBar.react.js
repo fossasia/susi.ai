@@ -256,6 +256,12 @@ return <Logged />
                 labelStyle: labelStyle
             },
             {
+                lable: 'Devices',
+                url: '/devices',
+                style: linkstyle,
+                labelStyle: labelStyle
+            },
+            {
                 lable: 'Skills',
                 url: 'http://skills.susi.ai/',
                 style: linkstyle,
