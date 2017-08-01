@@ -26,9 +26,11 @@ class Overview extends Component{
       video:false,
     }
   }
+
   handleTitle = () => {
     this.props.history.push('/');
   }
+
   handleVideo = () => this.setState({
     login: false,
     signup: false,
@@ -44,9 +46,14 @@ class Overview extends Component{
   closeVideo = () => this.setState({
     video: false
   })
+
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
+  }
+
+  componentWillMount(){
+    document.body.style.backgroundColor = '#fff';
   }
 
   render() {
