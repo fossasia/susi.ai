@@ -833,6 +833,7 @@ class MessageSection extends Component {
               ThemeChangerComponents={components}
               bodyStyle={bodyStyle}
               actions={actions}
+              handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
               ServerChangeActions={serverDialogActions}
               HardwareActions={hardwareActions}
