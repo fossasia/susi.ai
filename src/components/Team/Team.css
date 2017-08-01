@@ -21,7 +21,7 @@
     width: 1050px;
 }
 /* overlay styles start */
-.container {
+.container_div {
   position: relative;
 }
 
@@ -44,7 +44,7 @@
   opacity:0;
 }
 
-.container:hover .overlay {
+.container_div:hover .overlay {
   bottom: 0;
   height: 100%;
   opacity:0.7;
@@ -52,7 +52,7 @@
 
 .text {
   opacity: 1;
-  white-space: nowrap; 
+  white-space: nowrap;
   color: white;
   font-size: 20px;
   position: absolute;
@@ -174,4 +174,5 @@
         text-align: center;
         display: block;
     }
+
 }

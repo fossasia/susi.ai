@@ -20,13 +20,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin: 20px auto;
   overflow: hidden;
 }
-.app-bar{
-  background-image: url('../../images/susi-logo-white.png');
-  margin: 0 auto;
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 
 .voice-response{
   display: flex;
@@ -36,6 +29,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
     margin: 0 auto;
     text-align: center;
 }
+
 .mic-container{
   border: 1px solid #eee;
   border-radius: 100%;
@@ -61,6 +55,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
     box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5),
     0 0 0 20px rgba(102, 102, 102, 0); }
 }
+
 .Modal{
   top:0;
   width: 100%;
@@ -73,11 +68,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   position: absolute;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
+
 .send_button{
   align-content: center;
   border-radius: 50%;
   transition: box-shadow 0.3s ease-in-out;
 }
+
 .send_button:hover{
   box-shadow: 0 3px 13px rgba(0, 0, 0, 0.3);
 }
@@ -90,6 +87,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   right: 0;
   bottom: 0;
 }
+
 .circleChoose{
   margin: 0 auto;
   position: relative;
@@ -97,7 +95,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin-left: 20px;
   margin-right: 0;
 }
-
 
 .is-strength-0 { color: #D1462F; }
 .is-strength-1 { color: #D1462F; }
@@ -780,13 +777,6 @@ em{
   ;
 }
 
-.app-bar-search{
-  background-image: url('../../images/susi-white.svg');
-  margin: 0 auto;
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 .tile-title strong span{
   font-family: "Product Sans", sans-serif;
   font-weight: 300;
@@ -794,8 +784,8 @@ em{
 }
 
 @media only screen and (max-width: 860px){
-  .app-bar-search{
-    background-image: none;
+  .app-bar-search img {
+    display: none !important;
   }
   .search{
     width: 100px !important;
