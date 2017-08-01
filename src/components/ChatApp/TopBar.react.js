@@ -16,8 +16,10 @@ import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
 import Edit from 'material-ui/svg-icons/image/edit';
-import Lock from 'material-ui/svg-icons/action/lock-outline';
 import susiWhite from '../../images/susi-logo-white.png';
+import Info from 'material-ui/svg-icons/action/info';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+
 
 const cookies = new Cookies();
 
@@ -83,23 +85,26 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
+					<MenuItem primaryText="About"
+					containerElement={<Link to="/overview" />}
+					rightIcon={<Info/>}
+					/>
+					<MenuItem primaryText="Chat"
+						containerElement={<Link to="/" />}
+						rightIcon={<Chat/>}
+					/>
+					<MenuItem
+                    rightIcon={<Dashboard/>}
+                    href="http://skills.susi.ai"
+                    >Skills
+                    </MenuItem>
 					<MenuItem primaryText="Settings"
-						onClick={this.props.handleSettings}
+						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
-					<MenuItem primaryText="Custom Theme"
+					<MenuItem primaryText="Themes"
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText="Change Password"
-						onTouchTap={this.props.handleChangePassword}
-						rightIcon={<Lock/>}/>
-					<MenuItem primaryText="Chat Anonymously"
-						containerElement={<Link to="/logout" />}
-						rightIcon={<Chat/>}
-					/>
-					<MenuItem primaryText="Overview"
-					containerElement={<Link to="/overview" />}
-					/>
 					<MenuItem primaryText="Logout"
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
@@ -127,17 +132,25 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="Settings"
-						onClick={this.props.handleSettings}
-						rightIcon={<Settings/>} />
-					<MenuItem primaryText="Overview"
+					<MenuItem primaryText="About"
 					containerElement={<Link to="/overview" />}
+					rightIcon={<Info/>}
 					/>
+					<MenuItem primaryText="Chat"
+					containerElement={<Link to="/" />}
+					rightIcon={<Chat/>}
+					/>
+					<MenuItem
+                    rightIcon={<Dashboard/>}
+                    href="http://skills.susi.ai"
+                    >Skills
+                    </MenuItem>
+					<MenuItem primaryText="Settings"
+						containerElement={<Link to="/settings" />}
+						rightIcon={<Settings/>} />
 					<MenuItem primaryText="Login"
-						onTouchTap={this.props.handleOpen} />
-					<MenuItem primaryText="Sign Up"
-						onTouchTap={this.props.handleSignUp}
-						rightIcon={<SignUp/>} />
+						onTouchTap={this.props.handleOpen}
+					rightIcon={<SignUp/>} />
 				</Popover>
 			</div>
 		)

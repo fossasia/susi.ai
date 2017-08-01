@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import susiWhite from '../../images/susi-logo-white.png';
 import PropTypes from 'prop-types';
-import Signup from 'material-ui/svg-icons/action/account-circle';
 import Drawer from 'material-ui/Drawer';
 import IconMenu from 'material-ui/IconMenu';
 import FlatButton from 'material-ui/FlatButton';
@@ -19,6 +18,10 @@ import Login from '../Auth/Login/Login.react';
 import Popover from 'material-ui/Popover';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Cookies from 'universal-cookie';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Info from 'material-ui/svg-icons/action/info';
+import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 
 
@@ -26,14 +29,31 @@ const cookies = new Cookies();
 
 let Logged = (props) => (
     <div>
-        <MenuItem primaryText="Login"
-            onTouchTap={this.handleLogin} />
-        <MenuItem primaryText="Sign Up"
-            onTouchTap={this.handleSignUp}
-            rightIcon={<Signup />} />
+        <MenuItem primaryText="About"
+        containerElement={<Link to="/overview" />}
+        rightIcon={<Info/>}
+        />
         <MenuItem primaryText="Chat"
-            containerElement={<Link to="/logout" />}
-            rightIcon={<Chat />} />
+        containerElement={<Link to="/" />}
+        rightIcon={<Chat/>}
+        />
+        <MenuItem
+        rightIcon={<Dashboard/>}
+        ><a
+        style={{
+            color: 'rgba(0, 0, 0, 0.87)',
+            width: '140px',
+            display:'block'
+        }}
+        href="http://skills.susi.ai">Skills</a>
+        </MenuItem>
+        <MenuItem primaryText="Settings"
+        containerElement={<Link to="/settings" />}
+        rightIcon={<Settings/>} />
+        <MenuItem
+        primaryText="Login"
+        onTouchTap={this.handleLogin}
+        rightIcon={<SignUpIcon/>} />
     </div>
 )
 class StaticAppBar extends Component {
@@ -158,23 +178,51 @@ class StaticAppBar extends Component {
             Logged = (props) => (
                 <div>
 
+                    <MenuItem primaryText="About"
+                    containerElement={<Link to="/overview" />}
+                    rightIcon={<Info/>}
+                    />
+                    <MenuItem primaryText="Chat"
+                        containerElement={<Link to="/" />}
+                        rightIcon={<Chat/>}
+                    />
+                    <MenuItem
+                    rightIcon={<Dashboard/>}
+                    href="http://skills.susi.ai"
+                    >Skills
+                    </MenuItem>
+                    <MenuItem primaryText="Settings"
+                    containerElement={<Link to="/settings" />}
+                    rightIcon={<Settings/>}/>
                     <MenuItem primaryText="Logout"
                         containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />} />
+                        rightIcon={<Exit />}/>
                 </div>
             )
             return <Logged />
         }
 Logged = (props) => (
     <div>
-        <MenuItem primaryText="Login"
-            onTouchTap={this.handleLogin} />
-        <MenuItem primaryText="Sign Up"
-            onTouchTap={this.handleSignUp}
-            rightIcon={<Signup />} />
+       <MenuItem primaryText="About"
+        containerElement={<Link to="/overview" />}
+        rightIcon={<Info/>}
+        />
         <MenuItem primaryText="Chat"
-            containerElement={<Link to="/logout" />}
-            rightIcon={<Exit />} />
+        containerElement={<Link to="/" />}
+        rightIcon={<Chat/>}
+        />
+        <MenuItem
+        rightIcon={<Dashboard/>}
+        href="http://skills.susi.ai"
+        >Skills
+        </MenuItem>
+        <MenuItem primaryText="Settings"
+        containerElement={<Link to="/settings" />}
+        rightIcon={<Settings/>} />
+        <MenuItem
+        primaryText="Login"
+        onTouchTap={this.handleLogin}
+        rightIcon={<SignUpIcon/>} />
     </div>
 )
 return <Logged />
@@ -252,6 +300,12 @@ return <Logged />
             {
                 lable: 'Overview',
                 url: '/overview',
+                style: linkstyle,
+                labelStyle: labelStyle
+            },
+            {
+                lable: 'Devices',
+                url: '/devices',
                 style: linkstyle,
                 labelStyle: labelStyle
             },
