@@ -273,11 +273,6 @@ class MessageComposer extends Component {
   }
 
   _onChange(event, value) {
-    let composerHeight=document.getElementById('scroll').offsetHeight;
-    console.log('composerHeight',composerHeight)
-    if(composerHeight===89){
-      console.log('aaaa')
-    }
     if (this.speechRecog) {
       if (event.target.value !== '') {
         this.Button = <Send />
