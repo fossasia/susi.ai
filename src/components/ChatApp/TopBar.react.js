@@ -168,9 +168,7 @@ class TopBar extends Component {
 		};
 
 		var backgroundCol;
-		if(this.props.backgroundColor!==''){
-			backgroundCol=this.props.backgroundColor;
-		}
+
 
 		let topBackground = UserPreferencesStore.getTheme();
 		switch (topBackground) {
@@ -186,7 +184,9 @@ class TopBar extends Component {
 				// do nothing
 			}
 		}
-
+		if(this.props.backgroundColor!==''){
+			backgroundCol=this.props.backgroundColor;
+		}
 		let appBarClass = 'app-bar';
 		if (this.props.search) {
 			appBarClass = 'app-bar-search';
