@@ -127,13 +127,15 @@ class Overview extends Component{
             <p className="description__text">SUSI is available for <b>Android</b>
               &nbsp;and <b>iOS devices</b>.
                    Download the App to have access to SUSI on the go.</p>
-            <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk"
-              className="playstore">Get It on Google Play</a>
-            <a href="https://github.com/fossasia/susi_iOS/"
-              className="appstore">Download on the App Store</a>
+                   <div className="description__text store_icons">
+                     <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk"
+                       className="playstore">Get It on Google Play</a>
+                     <a href="https://github.com/fossasia/susi_iOS/"
+                       className="appstore">Download on the App Store</a>
+                   </div>
           </div>
           <div className='img-container'>
-            <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
+            <img src={androidMockup} alt='Android Mockup' className='shield' />
           </div>
         </div>
 
