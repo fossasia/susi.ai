@@ -46,25 +46,6 @@
     font-weight: 300;
 }
 
-.footer-container a{
-    text-decoration: none;
-    color: #414141;
-    margin: 0 14px;
-    font-size: 1em;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-}
-
-.footer-container{
-    padding: 50px 10% 20px;
-    display: flex;
-}
-.footer-container a:hover {
-    text-decoration: none;
-    color:#757575;;
-}
-
 .footer{
     background: #f6f6f6;
     margin-top: 40px;

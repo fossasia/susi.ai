@@ -358,6 +358,7 @@ img {
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
+    line-height: 15px;
 }
 
 .Video-Overlay{
@@ -367,10 +368,6 @@ img {
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.07);
-}
-.footer-container{
-    padding: 50px 10% 20px;
-    display: flex;
 }
 
 .alignLeft,.alignRight{
@@ -388,25 +385,27 @@ img {
 
 
 .video-container {
-position: relative;
-padding-bottom: 56.25%;
-padding-top: 30px; height: 0; overflow: hidden;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
 }
 
 .video-container iframe,
 .video-container object,
 .video-container embed {
-position: absolute;
-top: 0;
-left: 0;
-border: 0;
-width: 100%;
-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
 }
+
 .susi-logo{
-    margin-right: 20px;
     height: 25px;
-    margin-top:13px;
+    vertical-align: middle;
+    max-width: 100px;
+    display: inline-block;
 }
 
 .footer{
@@ -418,6 +417,22 @@ height: 100%;
     bottom: 0;
 }
 
+.footer .susi-logo-anchor {
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.footer .footer_content {
+    width: 80%;
+    display: inline-block;
+}
+
+.footer-container{
+    padding: 50px 10% 20px;
+    display: flex;
+}
 .playstore {
     overflow: hidden;
     text-indent: 100%;
@@ -609,9 +624,6 @@ header {
         float: left;
         padding: 0 30px 15px 0;
     }
-    .footer-container{
-        display: block;
-    }
 
     .alignLeft a, .alignRight a{
         margin-left: 0px;
@@ -624,6 +636,12 @@ header {
         left: 20px;
         right: 20px;
         width: 90%;
+    }
+    .footer .susi-logo-anchor {
+        width: 30%;
+    }
+    .footer .footer_content {
+        width: 70%;
     }
 
 }
@@ -679,5 +697,11 @@ header {
     }
     .column_section{
         min-height: 550px;
+    }
+    .footer .susi-logo-anchor {
+        width: 30%;
+    }
+    .footer .footer_content {
+        width: 70%;
     }
 }
