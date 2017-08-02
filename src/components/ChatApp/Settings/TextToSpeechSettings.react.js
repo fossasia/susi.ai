@@ -79,13 +79,28 @@ class TextToSpeechSettings extends Component {
 
 	populateVoiceList = () => {
 		let voices = this.state.voiceList;
+		let langCodes = [];
 		let voiceMenu = voices.map((voice,index) => {
+			langCodes.push(voice.lang);
 			return(
 					<MenuItem value={voice.lang} key={index}
 						primaryText={voice.name+' ('+voice.lang+')'} />
 			);
 		});
-		return voiceMenu;
+		let currLang = this.state.ttsLanguage;
+		let voiceOutput = {
+			voiceMenu: voiceMenu,
+			voiceLang: currLang
+		}
+		if(langCodes.indexOf(currLang) === -1){
+			if(currLang.indexOf('-') > -1 && langCodes.indexOf(currLang.replace('-','_')) > -1){
+				voiceOutput.voiceLang = currLang.replace('-','_');
+			}
+			else if(currLang.indexOf('_') > -1 && langCodes.indexOf(currLang.replace('_','-')) > -1){
+				voiceOutput.voiceLang = currLang.replace('_','-');
+			}
+		}
+		return voiceOutput;
 	}
 
 	handleTTSVoices = (event, index, value) => {
@@ -105,7 +120,7 @@ class TextToSpeechSettings extends Component {
 								? '#4285f4' : '#19314B'
 		}
 
-		let voiceList = this.populateVoiceList();
+		let voiceOutput = this.populateVoiceList();
 
 		return (
 			<div className="settingsForm">
@@ -115,16 +130,16 @@ class TextToSpeechSettings extends Component {
 							<div>
 								<h4 style={{'marginBottom':'0px'}}>Language</h4>
 								<DropDownMenu
-									value={this.state.ttsLanguage}
+									value={voiceOutput.voiceLang}
 									onChange={this.handleTTSVoices}>
-								 {voiceList}
+								 {voiceOutput.voiceMenu}
 							 </DropDownMenu>
 							</div>
 			        <div>
 			        	<h4 style={{'marginBottom':'0px'}}>Speech Rate</h4>
 			        	<Slider
-			        		min={0.1}
-			        		max={5}
+			        		min={0.5}
+			        		max={2}
 			        		value={this.state.rate}
 			        		onChange={this.handleRate} />
 			        </div>
