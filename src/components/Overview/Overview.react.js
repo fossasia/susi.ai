@@ -135,7 +135,7 @@ class Overview extends Component{
                    </div>
           </div>
           <div className='img-container'>
-            <img src={androidMockup} alt='Android Mockup' className='shield' />
+            <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
           </div>
         </div>
 
