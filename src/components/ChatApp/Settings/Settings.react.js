@@ -11,7 +11,6 @@ import Toggle from 'material-ui/Toggle';
 import Dialog from 'material-ui/Dialog';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
-import Back from 'material-ui/svg-icons/hardware/keyboard-backspace';
 import * as Actions from '../../../actions/';
 import HardwareComponent from '../HardwareComponent';
 import CustomServer from '../CustomServer.react';
@@ -27,20 +26,43 @@ import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import SignUp from '../../Auth/SignUp/SignUp.react';
 import Login from '../../Auth/Login/Login.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
+import susiWhite from '../../../images/susi-logo-white.png';
+import Info from 'material-ui/svg-icons/action/info';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import Chat from 'material-ui/svg-icons/communication/chat';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import './Settings.css';
 
 const cookies = new Cookies();
 
 let Logged = (props) => (
-	<IconMenu
-		{...props}
-		iconButtonElement={
-			<IconButton
-				iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-		}
-		targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-		anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-	>
-	</IconMenu>
+    <div>
+        <MenuItem primaryText="About"
+        containerElement={<Link to="/overview" />}
+        rightIcon={<Info/>}
+        />
+        <MenuItem primaryText="Chat"
+        containerElement={<Link to="/" />}
+        rightIcon={<Chat/>}
+        />
+        <MenuItem
+        rightIcon={<Dashboard/>}
+        ><a
+        style={{
+            color: 'rgba(0, 0, 0, 0.87)',
+            width: '140px',
+            display:'block'
+        }}
+        href="http://skills.susi.ai">Skills</a>
+        </MenuItem>
+        <MenuItem primaryText="Settings"
+        containerElement={<Link to="/settings" />}
+        rightIcon={<SettingsIcon/>} />
+        <MenuItem
+        primaryText="Login"
+        onTouchTap={this.handleLogin}
+        rightIcon={<SignUpIcon/>} />
+    </div>
 )
 
 class Settings extends Component {
@@ -335,67 +357,59 @@ class Settings extends Component {
 	      search: false,
 	    });
 
-		// Check Logged in
-		if (cookies.get('loggedIn')) {
-			Logged = (props) => (
-			<div>
-				<IconButton
-					{...props}
-					iconStyle={{ fill: 'white' }}
-					onTouchTap={this.showOptions}>
-					<MoreVertIcon />
-				</IconButton>
-				<Popover
-					{...props}
-					style={{marginLeft:'-15px'}}
-					open={this.state.showOptions}
-					anchorEl={this.state.anchorEl}
-					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-					onRequestClose={this.closeOptions}
-				>
-					<MenuItem primaryText="Overview"
-						containerElement={<Link to="/overview" />}
-					/>
-					<MenuItem primaryText="Logout"
-						containerElement={<Link to="/logout" />}
-						rightIcon={<Exit />}/>
-				</Popover>
-			</div>
-		)
-		return <Logged />
-		}
+			// Check Logged in
+			if (cookies.get('loggedIn')) {
+				Logged = (props) => (
+					<div>
+						<MenuItem primaryText="About"
+							containerElement={<Link to="/overview" />}
+							rightIcon={<Info/>}
+						/>
+						<MenuItem primaryText="Chat"
+							containerElement={<Link to="/" />}
+							rightIcon={<Chat/>}
+						/>
+						<MenuItem
+							rightIcon={<Dashboard/>}
+							href="http://skills.susi.ai"
+						>Skills
+						</MenuItem>
+						<MenuItem primaryText="Settings"
+							containerElement={<Link to="/settings" />}
+							rightIcon={<SettingsIcon/>}/>
+						<MenuItem primaryText="Logout"
+							containerElement={<Link to="/logout" />}
+							rightIcon={<Exit />}/>
+					</div>
+				)
+				return <Logged />
+			}
 
-		// If Not Logged In
-		Logged = (props) => (
-			<div>
-				<IconButton
-					{...props}
-					iconStyle={{ fill: 'white' }}
-					onTouchTap={this.showOptions}>
-					<MoreVertIcon />
-				</IconButton>
-				<Popover
-					{...props}
-					style={{marginLeft:'-15px'}}
-					open={this.state.showOptions}
-					anchorEl={this.state.anchorEl}
-					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-					onRequestClose={this.closeOptions}
-				>
-					<MenuItem primaryText="Overview"
+			Logged = (props) => (
+				<div>
+					<MenuItem primaryText="About"
 						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Login"
-						onTouchTap={this.handleLogin} />
-					<MenuItem primaryText="Sign Up"
-						onTouchTap={this.handleSignUp}
+					<MenuItem primaryText="Chat"
+						containerElement={<Link to="/" />}
+						rightIcon={<Chat/>}
+					/>
+					<MenuItem
+						rightIcon={<Dashboard/>}
+						href="http://skills.susi.ai"
+					>Skills
+					</MenuItem>
+					<MenuItem primaryText="Settings"
+						containerElement={<Link to="/settings" />}
+						rightIcon={<SettingsIcon/>} />
+					<MenuItem
+						primaryText="Login"
+						onTouchTap={this.handleLogin}
 						rightIcon={<SignUpIcon/>} />
-				</Popover>
-			</div>
-		)
-		return <Logged />
+				</div>
+				)
+				return <Logged />
 	}
 
 	render() {
@@ -473,18 +487,45 @@ class Settings extends Component {
       }
     }
 
+		let TopRightMenu = (props) => (
+			<div>
+				<IconMenu
+					{...props}
+					iconButtonElement={
+						<IconButton
+							iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
+					}
+					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+					anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+					onTouchTap={this.showOptions}
+				>
+				</IconMenu>
+				<Popover
+					{...props}
+					style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
+					open={this.state.showOptions}
+					anchorEl={this.state.anchorEl}
+					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+					onRequestClose={this.closeOptions}
+				>
+					<Logged />
+				</Popover>
+			</div>
+		);
+
 		return (
 			<div className={topBackground}>
 				<header className='message-thread-heading'
 				style={{ backgroundColor: backgroundCol }}>
 				<AppBar
-						className='app-bar'
-						style={{ backgroundColor: {backgroundCol}, height: '46px',
-						boxShadow:'none' }}
-						iconElementLeft={<Back style={{fill:'#fff',cursor:'pointer'}} />}
-						onLeftIconButtonTouchTap={this.onRequestClose}
+						className='topAppBar'
+						title={<div style={{ float: 'left', marginTop: '-10px' }}><Link to="/" >
+									<img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link></div>}
+						style={{backgroundColor: backgroundCol, height: '46px',
+										boxShadow: 'none' }}
 						iconStyleRight={{marginTop: '-2px'}}
-						iconElementRight={<Logged />}
+						iconElementRight={<TopRightMenu />}
 				/>
 				</header>
 			<div className="settingsForm">
@@ -658,7 +699,8 @@ class Settings extends Component {
 								contentStyle={{ width: '35%', minWidth: '300px' }}
 								onRequestClose={this.handleClose}>
 								<Login {...this.props}
-								handleForgotPassword={this.handleForgotPassword}/>
+								handleForgotPassword={this.handleForgotPassword}
+								handleSignUp={this.handleSignUp}/>
 								<Close style={closingStyle} onTouchTap={this.handleClose} />
 						</Dialog>
 						{/* SignUp */}
@@ -676,6 +718,7 @@ class Settings extends Component {
 								<Close style={closingStyle}
 								onTouchTap={this.handleClose} />
 						</Dialog>
+						{/* ForgotPassword */}
 						<Dialog
 								className='dialogStyle'
 								modal={false}

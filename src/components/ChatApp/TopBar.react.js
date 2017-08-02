@@ -15,6 +15,10 @@ import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
 import Edit from 'material-ui/svg-icons/image/edit';
+import susiWhite from '../../images/susi-logo-white.png';
+import Info from 'material-ui/svg-icons/action/info';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import Chat from 'material-ui/svg-icons/communication/chat';
 
 const cookies = new Cookies();
 
@@ -80,16 +84,26 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
+					<MenuItem primaryText="About"
+					containerElement={<Link to="/overview" />}
+					rightIcon={<Info/>}
+					/>
+					<MenuItem primaryText="Chat"
+						containerElement={<Link to="/" />}
+						rightIcon={<Chat/>}
+					/>
+					<MenuItem
+						rightIcon={<Dashboard/>}
+						href="http://skills.susi.ai"
+					>Skills
+					</MenuItem>
 					<MenuItem primaryText="Settings"
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
-					<MenuItem primaryText="Custom Theme"
+					<MenuItem primaryText="Themes"
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText="Overview"
-						containerElement={<Link to="/overview" />}
-					/>
 					<MenuItem primaryText="Logout"
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
@@ -117,17 +131,25 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
+					<MenuItem primaryText="About"
+					containerElement={<Link to="/overview" />}
+					rightIcon={<Info/>}
+					/>
+					<MenuItem primaryText="Chat"
+					containerElement={<Link to="/" />}
+					rightIcon={<Chat/>}
+					/>
+					<MenuItem
+						rightIcon={<Dashboard/>}
+						href="http://skills.susi.ai"
+					>Skills
+					</MenuItem>
 					<MenuItem primaryText="Settings"
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
-					<MenuItem primaryText="Overview"
-						containerElement={<Link to="/overview" />}
-					/>
 					<MenuItem primaryText="Login"
-						onTouchTap={this.props.handleOpen} />
-					<MenuItem primaryText="Sign Up"
-						onTouchTap={this.props.handleSignUp}
-						rightIcon={<SignUp/>} />
+						onTouchTap={this.props.handleOpen}
+					rightIcon={<SignUp/>} />
 				</Popover>
 			</div>
 		)
@@ -169,6 +191,11 @@ class TopBar extends Component {
 			appBarClass = 'app-bar-search';
 		};
 
+		let logoStyle = {
+		    height: '25px',
+		    display: 'block',
+		};
+
 		return (
 			<Toolbar
 				className={appBarClass}
@@ -176,7 +203,10 @@ class TopBar extends Component {
 					backgroundColor: backgroundCol,
 					height: '46px'
 				}}>
-				<ToolbarGroup >
+				<ToolbarGroup>
+				<div style={{ float: 'left', marginTop: '0px' }}>
+						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
+				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
 					<div style={{ marginTop: '-7px' }}>

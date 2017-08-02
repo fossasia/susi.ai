@@ -20,13 +20,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin: 20px auto;
   overflow: hidden;
 }
-.app-bar{
-  background-image: url('../../images/susi-logo-white.png');
-  margin: 0 auto;
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 
 .voice-response{
   display: flex;
@@ -36,6 +29,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
     margin: 0 auto;
     text-align: center;
 }
+
 .mic-container{
   border: 1px solid #eee;
   border-radius: 100%;
@@ -61,6 +55,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
     box-shadow: 0 4px 10px rgba(241, 241, 241, 0.5),
     0 0 0 20px rgba(102, 102, 102, 0); }
 }
+
 .Modal{
   top:0;
   width: 100%;
@@ -73,11 +68,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   position: absolute;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
+
 .send_button{
   align-content: center;
   border-radius: 50%;
   transition: box-shadow 0.3s ease-in-out;
 }
+
 .send_button:hover{
   box-shadow: 0 3px 13px rgba(0, 0, 0, 0.3);
 }
@@ -90,6 +87,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   right: 0;
   bottom: 0;
 }
+
 .circleChoose{
   margin: 0 auto;
   position: relative;
@@ -97,7 +95,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183850', end
   margin-left: 20px;
   margin-right: 0;
 }
-
 
 .is-strength-0 { color: #D1462F; }
 .is-strength-1 { color: #D1462F; }
@@ -482,7 +479,8 @@ header{
   max-width: 700px;
   overflow-x: hidden;
   overflow-y: hidden;
-  height: 75px;
+  background: #f5f4f6;
+  min-height: 65px;
 }
 
 .dark .compose{
@@ -529,29 +527,43 @@ header{
   color: #0AD5C1;
   background: rgba(0, 0, 0, 0.01);
 }
+.textBack{
+  background: #fff;
+  width: 83%;
+  border-radius: 40px;
+  padding: 5px 20px;
+  display: block;
+  position: relative;
+  top: 12%;
+  box-sizing: content-box;
+  margin: 0px 0 10px 0;
 
+}
 textarea {
   border: none;
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+  resize: none;
+  font-size: 16px;
   font-family: "Product Sans", sans-serif;
   font-weight: 300;
-  overflow: auto;
-  outline: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
-  width: 90%;
-  resize: none;
-  border-radius: 40px;
-  padding-left: 10px;
-  padding-top: 10px;
-  font-size: 16px;
-  height: 72%;
-  background: #fff;
   margin-top: 3px;
+  background: #fff;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  min-height: 80%;
+  position: relative;
+  top:0px;   background: transparent;
+
 }
+.scroll::-webkit-scrollbar {
+   display: none;
+ }
+.scroll {overflow: -moz-scrollbars-none;}
+
 .voice-output{
   font-family: 'Lato', sans-serif;
   width: 500px;
@@ -563,7 +575,7 @@ textarea {
 
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
-    width: 82%;
+    width: 100%;
   }
   .Modal{
     padding: 25px 0px 25px 0px;
@@ -589,7 +601,7 @@ textarea {
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px){
   textarea{
-    width: 88%;
+    width: 100%;
   }
 }
 .leaflet-container {
@@ -814,14 +826,6 @@ em{
   ;
 }
 
-.app-bar-search{
-  background-image: url('../../images/susi-white.svg');
-  margin: 0 auto;
-  background-size: 100px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .tile-title strong span{
   font-family: "Product Sans", sans-serif;
   font-weight: 300;
@@ -829,8 +833,8 @@ em{
 }
 
 @media only screen and (max-width: 860px){
-  .app-bar-search{
-    background-image: none;
+  .app-bar-search img {
+    display: none !important;
   }
   .search{
     width: 100px !important;

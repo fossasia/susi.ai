@@ -676,6 +676,7 @@ class MessageSection extends Component {
               ThemeChangerComponents={components}
               bodyStyle={bodyStyle}
               actions={actions}
+              handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
               onRequestClose={()=>this.handleClose}
               onLoginSignUp={()=>this.handleOpen}

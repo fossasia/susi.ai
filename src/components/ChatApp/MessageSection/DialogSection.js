@@ -31,7 +31,8 @@ export default class DialogSection extends Component {
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
           <Login {...this.props}
-          handleForgotPassword={this.props.onForgotPassword()}/>
+          handleForgotPassword={this.props.onForgotPassword()}
+          handleSignUp={this.props.handleSignUp}/>
           <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
       {/* SignUp */}
@@ -87,6 +88,9 @@ DialogSection.propTypes = {
     openHardwareChange: PropTypes.bool,
     openThemeChanger: PropTypes.bool,
     onLoginSignUp:PropTypes.func,
+    handleSignUp: PropTypes.func,
+    ServerChangeActions: PropTypes.array,
+    HardwareActions: PropTypes.array,
     customSettingsDone: PropTypes.object,
     ThemeChangerComponents: PropTypes.array,
     actions: PropTypes.object,
