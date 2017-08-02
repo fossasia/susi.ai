@@ -7,7 +7,7 @@ import $ from 'jquery';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
   getRSSTiles, renderMessageFooter,
-} from './helperFunctions.react.js';
+  renderAnchor } from './helperFunctions.react.js';
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
@@ -108,7 +108,14 @@ class MessageListItem extends React.Component {
         let actions = this.props.message.actions;
         let listItems = [];
         let mapIndex = actions.indexOf('map');
+        let mapAnchor = null;
         if(mapIndex>-1){
+          if(actions.indexOf('anchor')){
+            let anchorIndex = actions.indexOf('anchor');
+            let link = data.answers[0].actions[anchorIndex].link;
+            let text = data.answers[0].actions[anchorIndex].text;
+            mapAnchor = renderAnchor(text,link);
+          }
           actions = ['map'];
         }
         let noResultsFound = false;
@@ -151,8 +158,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section  className={messageContainerClasses}>
                   <div className='message-text'>
-                    <a href={link} target='_blank'
-                      rel='noopener noreferrer'>{text}</a>
+                    {renderAnchor(text,link)}
                   </div>
                     {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
                   </section>
@@ -178,6 +184,7 @@ class MessageListItem extends React.Component {
                       <li className='message-list-item' key={action+index}>
                         <section className={messageContainerClasses}>
                         <div className='message-text'>{replacedText}</div>
+                        <div>{mapAnchor}</div>
                         <br/>
                         <div>{mymap}</div>
                           {renderMessageFooter(message,latestUserMsgID,
@@ -198,6 +205,7 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div className='message-text'>{replacedText}</div>
+                  <div>{mapAnchor}</div>
                   <br/>
                   <div>{mymap}</div>
                     {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
