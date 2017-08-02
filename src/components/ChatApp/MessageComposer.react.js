@@ -16,8 +16,8 @@ injectTapEventPlugin();
 let ENTER_KEY_CODE = 13;
 const style = {
   mini: true,
-  top: '10px',
-  right: '3px',
+  bottom: '11px',
+  right: '5px',
   position: 'absolute',
 };
 const iconStyles = {
@@ -209,7 +209,7 @@ class MessageComposer extends Component {
             onChange={this._onChange.bind(this)}
             onKeyDown={this._onKeyDown.bind(this)}
             ref={(textarea) => { this.nameInput = textarea; }}
-            style={{ background: this.props.textarea, ineHeight: '12px' }}
+            style={{ background: this.props.textarea, lineHeight: '15px' }}
           />
         </div>
         <IconButton
