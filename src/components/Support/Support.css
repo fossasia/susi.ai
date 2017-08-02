@@ -45,10 +45,19 @@
     width: 50%;
 }
 @media only screen and (max-width: 800px){
-.support__text {
-    font-size: 16px;
-    line-height: 24px;
-}
+  .support__text {
+      font-size: 16px;
+      line-height: 24px;
+  }
+  .support{
+      display: inline-block;
+      width: 40%;
+      padding: 50px;
+  }
+  .image-container {
+      width: 100%;
+      text-align: center;
+  }
 }
 .support__text {
     font-size: 20px;
