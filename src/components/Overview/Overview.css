@@ -33,7 +33,7 @@
     height: 24px;
     width: 74px;
 }
-.section {
+.section-top {
     border-bottom: 1px solid #dfdfdf;
 }
 .bubble {
@@ -46,7 +46,7 @@
 }
 .section-container {
     margin: 0 auto;
-    max-width: 1120px;
+    max-width: 1050px;
     padding: 100px 20px 120px;
     position: relative;
     text-align: center;

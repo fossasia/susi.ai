@@ -119,11 +119,11 @@ class Support extends Component {
       <div>
         <StaticAppBar {...this.props}
           location={this.props.location} />
-        <div className="section-team grey-background">
-          <div className='section-container-team'>
-            <div className="team-header">
-              <div className="support__heading center">Team <b>SUSI.AI</b></div>
-            </div>
+        <div className="grey-background">
+            <div className='section-container-team'>
+              <div className="team-header">
+                <div className="support__heading center">Team <b>SUSI.AI</b></div>
+              </div>
           </div>
         </div>
         <div className="section-team">
@@ -150,7 +150,7 @@ class Support extends Component {
           <div className="team-header">
             <div className="support__heading">Developers</div>
           </div>
-          <div className='team-container'>{server}</div>
+          <div className='team-member-container'>{server}</div>
         </div>
         <div className='footer'>
                 <div className='footer-container'>

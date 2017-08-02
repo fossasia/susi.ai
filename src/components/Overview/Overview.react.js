@@ -75,9 +75,10 @@ class Overview extends Component{
         <StaticAppBar {...this.props}
           location={this.props.location} closeVideo={this.closeVideo} />
 
-        <div className='section'>
+        <div className='section-top'>
           <div className='section-container'>
             <div className="hero">
+
               <img src={susiGif} style={{ margin: '20px 0' }} alt='Meet SUSI'/>
               <h1>Meet SUSI, Your Personal Assistant.</h1>
               <p>Ask it questions. Tell it to do things. Always ready to help.</p>

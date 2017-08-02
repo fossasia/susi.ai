@@ -86,18 +86,21 @@ class Support extends Component {
             <div>
               <StaticAppBar {...this.props} location={this.props.location}/>
 
-              <div className="section white-grey" style={{margin:'20px 0 0 0'}}>
-                <div className="conversation__description">
-                  <div className="support__heading">Support</div>
-                  <p className="support__text">
-                  Get the help and information you need from our
-                  community and team through various channels.
-                  </p>
-                </div>
-                <div className='image-container'>
-                  <img src={support} alt='support' className='support' />
+              <div className="white-grey" style={{margin:'20px 0 0 0'}}>
+                <div className="section">
+                  <div className="conversation__description">
+                    <div className="support__heading">Support</div>
+                    <p className="support__text">
+                    Get the help and information you need from our
+                    community and team through various channels.
+                    </p>
+                  </div>
+                  <div className='image-container'>
+                    <img src={support} alt='support' className='support' />
+                  </div>
                 </div>
               </div>
+
               <div className="section">
                 <div className="conversation__description">
                   <div className="support__heading">Developer Documentation</div>
@@ -220,13 +223,15 @@ class Support extends Component {
                 </div>
                 </div>
               </div>
-              <div className="section non-flex blue-background" style={{
-                  paddingBottom: '200px'
-                }}>
-                <div className="conversation__description footer-desc">
-                  <div className="support__heading center blue-text">Get Started Today</div>
+              <div className="blue-background">
+                <div className="section non-flex " style={{
+                    paddingBottom: '200px'
+                  }}>
+                  <div className="conversation__description footer-desc">
+                    <div className="support__heading center blue-text">Get Started Today</div>
 
-                  <RaisedButton label="Sign Up" onTouchTap={this.handleSignUp} style={style} />
+                    <RaisedButton label="Sign Up" onTouchTap={this.handleSignUp} style={style} />
+                  </div>
                 </div>
               </div>
               <div className='footer'>
