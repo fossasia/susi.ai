@@ -3,6 +3,7 @@ import {  getLocation,
           getSettings,
           pushSettingsToServer,
           sendFeedback,
+          getTTSLangText,
           createSUSIMessage } from './API.actions';
 
 import {  getHistory } from './History.actions';
@@ -28,6 +29,7 @@ export {  getLocation,
           getSettings,
           pushSettingsToServer,
           sendFeedback,
+          getTTSLangText,
           createSUSIMessage }
 
 export { getHistory }

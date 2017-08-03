@@ -81,6 +81,9 @@ class TextToSpeechSettings extends Component {
 		let voices = this.state.voiceList;
 		let langCodes = [];
 		let voiceMenu = voices.map((voice,index) => {
+			if(voice.translatedText === null){
+				voice.translatedText = this.speechSynthesisExample;
+			}
 			langCodes.push(voice.lang);
 			return(
 					<MenuItem value={voice.lang} key={index}
@@ -90,8 +93,10 @@ class TextToSpeechSettings extends Component {
 		let currLang = this.state.ttsLanguage;
 		let voiceOutput = {
 			voiceMenu: voiceMenu,
-			voiceLang: currLang
+			voiceLang: currLang,
+			voiceText: this.speechSynthesisExample,
 		}
+		// `-` and `_` replacement check of lang codes
 		if(langCodes.indexOf(currLang) === -1){
 			if(currLang.indexOf('-') > -1 && langCodes.indexOf(currLang.replace('-','_')) > -1){
 				voiceOutput.voiceLang = currLang.replace('-','_');
@@ -99,6 +104,10 @@ class TextToSpeechSettings extends Component {
 			else if(currLang.indexOf('_') > -1 && langCodes.indexOf(currLang.replace('_','-')) > -1){
 				voiceOutput.voiceLang = currLang.replace('_','-');
 			}
+		}
+		// Get the translated text for TTS in selected lang
+		if(langCodes.indexOf(voiceOutput.voiceLang) > -1){
+			voiceOutput.voiceText = voices[langCodes.indexOf(currLang)].translatedText;
 		}
 		return voiceOutput;
 	}
@@ -189,7 +198,7 @@ class TextToSpeechSettings extends Component {
 				{ this.state.playExample &&
 	               (<VoicePlayer
 	                  play={this.state.play}
-	                  text={this.speechSynthesisExample}
+	                  text={voiceOutput.voiceText}
 	                  rate={this.state.rate}
 	                  pitch={this.state.pitch}
 										lang={this.state.ttsLanguage}

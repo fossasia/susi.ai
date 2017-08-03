@@ -403,3 +403,29 @@ export function makeServerCall(url){
     }
   });
 }
+
+// Get the translated example Text in all languages supported by browser
+export function getTTSLangText(voiceList){
+  let defText = 'This is an example of speech synthesis';
+  voiceList.forEach((voice,index) => {
+    let url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='+voice.lang+'&dt=t&q='+defText;
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function (response) {
+        if(response[0]){
+          if(response[0][0]){
+            let translatedText = response[0][0][0];
+            voice.translatedText = translatedText;
+          }
+        }
+      },
+      error: function(errorThrown){
+        console.log(errorThrown);
+      }
+    });
+  });
+}

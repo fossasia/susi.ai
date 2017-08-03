@@ -14,7 +14,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
-import * as Actions from './actions/Settings.actions';
+import * as Actions from './actions/';
 import MessageStore from './stores/MessageStore';
 import {
 	BrowserRouter as Router,
@@ -59,6 +59,7 @@ const App = () => (
 window.speechSynthesis.onvoiceschanged = function () {
 	if(!MessageStore.getTTSInitStatus()){
 		var speechSynthesisVoices = speechSynthesis.getVoices();
+		Actions.getTTSLangText(speechSynthesisVoices);
 		Actions.initialiseTTSVoices(speechSynthesisVoices);
 	}
 };
