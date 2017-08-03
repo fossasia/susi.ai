@@ -177,55 +177,55 @@ class StaticAppBar extends Component {
         if (cookies.get('loggedIn')) {
             Logged = (props) => (
                 <div>
-
                     <MenuItem primaryText="About"
-                    containerElement={<Link to="/overview" />}
-                    rightIcon={<Info/>}
+                      containerElement={<Link to="/overview" />}
+                      rightIcon={<Info/>}
                     />
                     <MenuItem primaryText="Chat"
-                        containerElement={<Link to="/" />}
-                        rightIcon={<Chat/>}
+                      containerElement={<Link to="/" />}
+                      rightIcon={<Chat/>}
                     />
                     <MenuItem
-                    rightIcon={<Dashboard/>}
-                    href="http://skills.susi.ai"
+                      rightIcon={<Dashboard/>}
+                      href="http://skills.susi.ai"
                     >Skills
                     </MenuItem>
                     <MenuItem primaryText="Settings"
-                    containerElement={<Link to="/settings" />}
-                    rightIcon={<Settings/>}/>
+                      containerElement={<Link to="/settings" />}
+                      rightIcon={<Settings/>}/>
                     <MenuItem primaryText="Logout"
-                        containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />}/>
+                      containerElement={<Link to="/logout" />}
+                      rightIcon={<Exit />}/>
                 </div>
             )
             return <Logged />
         }
-Logged = (props) => (
-    <div>
-       <MenuItem primaryText="About"
-        containerElement={<Link to="/overview" />}
-        rightIcon={<Info/>}
-        />
-        <MenuItem primaryText="Chat"
-        containerElement={<Link to="/" />}
-        rightIcon={<Chat/>}
-        />
-        <MenuItem
-        rightIcon={<Dashboard/>}
-        href="http://skills.susi.ai"
-        >Skills
-        </MenuItem>
-        <MenuItem primaryText="Settings"
-        containerElement={<Link to="/settings" />}
-        rightIcon={<Settings/>} />
-        <MenuItem
-        primaryText="Login"
-        onTouchTap={this.handleLogin}
-        rightIcon={<SignUpIcon/>} />
-    </div>
-)
-return <Logged />
+
+        Logged = (props) => (
+          <div>
+            <MenuItem primaryText="About"
+              containerElement={<Link to="/overview" />}
+              rightIcon={<Info/>}
+            />
+            <MenuItem primaryText="Chat"
+              containerElement={<Link to="/" />}
+              rightIcon={<Chat/>}
+            />
+            <MenuItem
+              rightIcon={<Dashboard/>}
+              href="http://skills.susi.ai"
+            >Skills
+            </MenuItem>
+            <MenuItem primaryText="Settings"
+              containerElement={<Link to="/settings" />}
+              rightIcon={<Settings/>} />
+            <MenuItem
+              primaryText="Login"
+              onTouchTap={this.handleLogin}
+              rightIcon={<SignUpIcon/>} />
+          </div>
+      )
+      return <Logged />
     }
 
     render() {
@@ -306,12 +306,6 @@ return <Logged />
             {
                 lable: 'Devices',
                 url: '/devices',
-                style: linkstyle,
-                labelStyle: labelStyle
-            },
-            {
-                lable: 'Skills',
-                url: 'http://skills.susi.ai/',
                 style: linkstyle,
                 labelStyle: labelStyle
             },

@@ -153,21 +153,23 @@ class Support extends Component {
           <div className='team-container'>{server}</div>
         </div>
         <div className='footer'>
-                <div className='footer-container'>
-                <a href='/overview'>
-                <img src={susi} alt='SUSI' className='susi-logo' />
-                </a>
-                <ul className='alignLeft'>
+          <a className='susi-logo-anchor' href='/overview'>
+            <img src={susi} alt='SUSI' className='susi-logo' />
+          </a>
+          <div className="footer_content">
+            <div className='footer-container'>
+              <ul className='alignLeft'>
                 <li><a href='/overview'>Overview</a></li>
                 <li><a href='/blog'>Blog</a></li>
                 <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-                </ul>
-                <ul className='alignRight'>
+              </ul>
+              <ul className='alignRight'>
                 <li><a href='/settings'>Settings</a></li>
                 <li><a href='/terms'>Terms</a></li>
                 <li><a href='/contact'>Contact</a></li>
-                </ul>
-                </div>
+              </ul>
+            </div>
+          </div>
         </div>
 
       </div>

@@ -43,7 +43,6 @@ class VoiceRecognition extends Component {
     let finalTranscript = ''
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
-        console.log(event.results[i].isFinal);
         finalTranscript += event.results[i][0].transcript
       } else {
         counter++;
@@ -113,4 +112,3 @@ VoiceRecognition.propTypes = {
 };
 
 export default VoiceRecognition
-

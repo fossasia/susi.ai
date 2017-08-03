@@ -514,7 +514,6 @@ header{
   text-align: left;
   color: inherit;
   outline: 0;
-  min-width: 100%;
 }
 
 .dark .message-composer{
@@ -528,16 +527,30 @@ header{
   background: rgba(0, 0, 0, 0.01);
 }
 .textBack{
-  background: #fff;
-  width: 83%;
-  border-radius: 40px;
-  padding: 5px 20px;
-  display: block;
-  position: relative;
-  top: 12%;
-  box-sizing: content-box;
-  margin: 0px 0 10px 0;
+    background: #fff;
+    max-width: 89%;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    box-sizing: content-box;
+    line-height: 20px;
+    font-size: 15px;
+    min-height: 20px;
+    border: none;
+    padding: 10px 12px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
+.textBack::-webkit-scrollbar {
+    width: 6px ;
+    height: 6px ;
+}
 
+.textBack::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+}
+.textBack::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.08);
 }
 textarea {
   border: none;
@@ -576,6 +589,9 @@ textarea {
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
     width: 100%;
+  }
+  .textBack {
+    width: 81%;
   }
   .Modal{
     padding: 25px 0px 25px 0px;
@@ -742,21 +758,41 @@ em{
 
 .settingsForm{
   margin: 0 auto;
+  margin-top: 48px;
   padding: 10px 0;
+  max-width: 70%;
 }
 
 .settingsDialog {
   text-align: left;
-  padding-left: 25%;
+  padding-left: 29%;
 }
 
 .settingsBtns {
   margin-bottom: 16px;
 }
 
+.settings-toggle {
+  max-width: 60%;
+}
+
+.settingsHeader{
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 15px;
+  font-weight: 500;
+  padding-left: 23%;
+}
+
+.settingsSubmit{
+  margin: 0 auto;
+  text-align: center;
+  margin-left: -3%;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 768px){
   .settingsForm {
     font-size: 14px;
+    max-width: 100%;
   }
   .settingsForm h1{
     font-size: 18px;
@@ -775,6 +811,20 @@ em{
   .settingsBtns{
     margin-bottom: 16px;
     width: 85%;
+  }
+  .settings-toggle {
+    max-width: 80%;
+  }
+  .settingsHeader{
+    font-family: 'Open Sans', sans-serif;
+    margin: 0 auto;
+    padding-left: 30%;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+  .settingsSubmit{
+    margin: 0 auto;
+    text-align: center;
   }
 }
 
@@ -826,4 +876,3 @@ em{
       top:6px  !important;
   }
 }
-

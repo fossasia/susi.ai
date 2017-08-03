@@ -101,11 +101,6 @@
     margin-left: 10%;
     max-width: 313px;
 }
-.susi-logo{
-    margin-right: 20px;
-    height: 28px;
-    margin-top:13px;
-}
 .footer{
     background: #f6f6f6;
     margin-top: 40px;
@@ -113,19 +108,6 @@
     position: absolute;
     width: 100%;
     bottom: 0;
-}
-.footer-container a{
-    text-decoration: none;
-    color: #414141;
-    margin: 0 14px;
-    font-size: 1em;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-}
-.footer-container{
-    padding: 50px 10% 20px;
-    display: flex;
 }
 
 .alignLeft,.alignRight{
@@ -136,11 +118,7 @@
     color:#3367d6;
     font-family: 'Roboto', sans-serif;
 }
-.footer-container a:hover {
-    text-decoration: none;
-    color:#757575;;
-}
-@media only screen and (max-width: 800px){
+@media only screen and (max-width: 985px){
     .container {
         padding: 60px 20px;
     }
@@ -157,6 +135,7 @@
     }
     .device_description .heading {
         margin-top: 0;
+        text-align: center;
         max-width: 100%;
         font-size: 32px;
     }
@@ -181,6 +160,7 @@
         text-align: left;
         width: 100%;
         margin-left: 0%;
+        margin-top: 20px;
         max-width: 400px;
     }
     .alignLeft,.alignRight{
@@ -193,9 +173,6 @@
     .alignLeft li,.alignRight li{
         float: left;
         padding: 0 30px 15px 0;
-    }
-    .footer-container{
-        display: block;
     }
 
     .alignLeft a, .alignRight a{
@@ -225,6 +202,9 @@
 @media only screen and (max-width: 480px){
     .container{
         padding: 35px 20px 120px;
+    }
+    .device_description .heading {
+        text-align: center;
     }
     .device_section{
         padding: 10px 0 0 0;

@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import MessageStore from '../../../stores/MessageStore';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 class VoicePlayer extends Component {
@@ -24,7 +23,7 @@ class VoicePlayer extends Component {
       volume: 1,
       rate: UserPreferencesStore.getSpeechRate(),
       pitch: UserPreferencesStore.getSpeechPitch(),
-      lang: MessageStore.getLang()
+      lang: UserPreferencesStore.getTTSLanguage(),
     }
     let speech = new SpeechSynthesisUtterance()
     Object.assign(speech, defaults, this.props)
@@ -96,10 +95,10 @@ class VoicePlayer extends Component {
 VoicePlayer.propTypes = {
   play: PropTypes.bool,
   text: PropTypes.string,
+  lang: PropTypes.string,
   rate: PropTypes.number,
   pitch: PropTypes.number,
   onStart: PropTypes.func,
   onEnd: PropTypes.func
 };
 export default VoicePlayer
-

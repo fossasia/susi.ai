@@ -13,13 +13,12 @@ import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
-import Chat from 'material-ui/svg-icons/communication/chat';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
 import Edit from 'material-ui/svg-icons/image/edit';
 import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
-
+import Chat from 'material-ui/svg-icons/communication/chat';
 
 const cookies = new Cookies();
 
@@ -94,10 +93,10 @@ class TopBar extends Component {
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
-                    rightIcon={<Dashboard/>}
-                    href="http://skills.susi.ai"
-                    >Skills
-                    </MenuItem>
+						rightIcon={<Dashboard/>}
+						href="http://skills.susi.ai"
+					>Skills
+					</MenuItem>
 					<MenuItem primaryText="Settings"
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
@@ -141,10 +140,10 @@ class TopBar extends Component {
 					rightIcon={<Chat/>}
 					/>
 					<MenuItem
-                    rightIcon={<Dashboard/>}
-                    href="http://skills.susi.ai"
-                    >Skills
-                    </MenuItem>
+						rightIcon={<Dashboard/>}
+						href="http://skills.susi.ai"
+					>Skills
+					</MenuItem>
 					<MenuItem primaryText="Settings"
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
@@ -168,9 +167,7 @@ class TopBar extends Component {
 		};
 
 		var backgroundCol;
-		if(this.props.backgroundColor!==''){
-			backgroundCol=this.props.backgroundColor;
-		}
+
 
 		let topBackground = UserPreferencesStore.getTheme();
 		switch (topBackground) {
@@ -186,7 +183,9 @@ class TopBar extends Component {
 				// do nothing
 			}
 		}
-
+		if(this.props.backgroundColor!==''){
+			backgroundCol=this.props.backgroundColor;
+		}
 		let appBarClass = 'app-bar';
 		if (this.props.search) {
 			appBarClass = 'app-bar-search';
@@ -253,7 +252,6 @@ class TopBar extends Component {
 Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
-	handleSettings: PropTypes.func,
 	handleThemeChanger: PropTypes.func,
 	handleOpen: PropTypes.func,
 	handleSignUp: PropTypes.func,
