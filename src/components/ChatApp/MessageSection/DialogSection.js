@@ -19,6 +19,11 @@ export default class DialogSection extends Component {
         top: '10px',
         cursor:'pointer'
       }
+    const customThemeBodyStyle = {
+      padding: 0,
+      textAlign: 'center',
+      backgroundColor:'#f9f9f9'
+    }
     return(
       <div>
         {/* Login */}
@@ -68,7 +73,7 @@ export default class DialogSection extends Component {
           modal={false}
           open={this.props.openThemeChanger}
           autoScrollBodyContent={true}
-          bodyStyle={this.props.bodyStyle}
+          bodyStyle={customThemeBodyStyle}
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
           <div className='settingsComponents'>

@@ -310,12 +310,6 @@ class StaticAppBar extends Component {
                 labelStyle: labelStyle
             },
             {
-                lable: 'Skills',
-                url: 'http://skills.susi.ai/',
-                style: linkstyle,
-                labelStyle: labelStyle
-            },
-            {
                 lable: 'Blog',
                 url: '/blog',
                 style: linkstyle,

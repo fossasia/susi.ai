@@ -127,10 +127,12 @@ class Overview extends Component{
             <p className="description__text">SUSI is available for <b>Android</b>
               &nbsp;and <b>iOS devices</b>.
                    Download the App to have access to SUSI on the go.</p>
-            <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk"
-              className="playstore">Get It on Google Play</a>
-            <a href="https://github.com/fossasia/susi_iOS/"
-              className="appstore">Download on the App Store</a>
+                   <div className="description__text store_icons">
+                     <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk"
+                       className="playstore">Get It on Google Play</a>
+                     <a href="https://github.com/fossasia/susi_iOS/"
+                       className="appstore">Download on the App Store</a>
+                   </div>
           </div>
           <div className='img-container'>
             <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
@@ -228,21 +230,23 @@ SUSI is interligent to identify and answer your question in you language.
 
 
         <div className='footer'>
-                <div className='footer-container'>
-                <a href='/overview'>
-                <img src={susi} alt='SUSI' className='susi-logo' />
-                </a>
-                <ul className='alignLeft'>
+          <a className='susi-logo-anchor' href='/overview'>
+            <img src={susi} alt='SUSI' className='susi-logo' />
+          </a>
+          <div className="footer_content">
+            <div className='footer-container'>
+              <ul className='alignLeft'>
                 <li><a href='/overview'>Overview</a></li>
                 <li><a href='/blog'>Blog</a></li>
                 <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-                </ul>
-                <ul className='alignRight'>
+              </ul>
+              <ul className='alignRight'>
                 <li><a href='/settings'>Settings</a></li>
                 <li><a href='/terms'>Terms</a></li>
                 <li><a href='/contact'>Contact</a></li>
-                </ul>
-                </div>
+              </ul>
+            </div>
+          </div>
         </div>
 
         {/* Video */}
