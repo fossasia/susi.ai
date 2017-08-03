@@ -358,6 +358,7 @@ img {
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
+    line-height: 15px;
 }
 
 .Video-Overlay{
@@ -367,10 +368,6 @@ img {
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.07);
-}
-.footer-container{
-    padding: 50px 10% 20px;
-    display: flex;
 }
 
 .alignLeft,.alignRight{
@@ -388,25 +385,27 @@ img {
 
 
 .video-container {
-position: relative;
-padding-bottom: 56.25%;
-padding-top: 30px; height: 0; overflow: hidden;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
 }
 
 .video-container iframe,
 .video-container object,
 .video-container embed {
-position: absolute;
-top: 0;
-left: 0;
-border: 0;
-width: 100%;
-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
 }
+
 .susi-logo{
-    margin-right: 20px;
     height: 25px;
-    margin-top:13px;
+    vertical-align: middle;
+    max-width: 100px;
+    display: inline-block;
 }
 
 .footer{
@@ -418,6 +417,22 @@ height: 100%;
     bottom: 0;
 }
 
+.footer .susi-logo-anchor {
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.footer .footer_content {
+    width: 80%;
+    display: inline-block;
+}
+
+.footer-container{
+    padding: 50px 10% 20px;
+    display: flex;
+}
 .playstore {
     overflow: hidden;
     text-indent: 100%;
@@ -551,10 +566,15 @@ header {
     .conversation__description .description__heading {
         font-size: 36px;
         margin-top: 0;
+        text-align: center;
     }
     .center__description .description__heading {
         font-size: 36px;
         margin-top: 0;
+        text-align: center;
+    }
+    .center__description .description__text {
+        text-align: center;
     }
     .susi-test{
         text-align: left;
@@ -563,7 +583,8 @@ header {
         max-width: 400px;
     }
     .conversation__description{
-        width: 100%;
+        width: 100% !important;
+        text-align: center;
     }
     .description__text{
         max-width: 100%;
@@ -587,7 +608,7 @@ header {
         margin: 0 auto;
     }
     .shield{
-        margin: 0 auto 140px auto;
+        margin: 0 auto 60px auto;
     }
     .column_section{
         width: 100%;
@@ -603,9 +624,6 @@ header {
         float: left;
         padding: 0 30px 15px 0;
     }
-    .footer-container{
-        display: block;
-    }
 
     .alignLeft a, .alignRight a{
         margin-left: 0px;
@@ -619,6 +637,12 @@ header {
         right: 20px;
         width: 90%;
     }
+    .footer .susi-logo-anchor {
+        width: 30%;
+    }
+    .footer .footer_content {
+        width: 70%;
+    }
 
 }
 
@@ -630,6 +654,12 @@ header {
 @media only screen and (max-width: 480px){
     .section-container{
         padding: 35px 20px 120px;
+    }
+    .center__description .description__text {
+        text-align: center;
+    }
+    .section_center .img-container {
+        margin: 0 auto 50px auto;
     }
    .github_logo img{
         height: 40px;
@@ -647,6 +677,7 @@ header {
     }
     .conversation__description{
         width: 100% !important;
+        text-align: center;
     }
     .img-container{
         width: 60% !important;
@@ -656,10 +687,21 @@ header {
         width: 90%;
         margin: 0 auto;
     }
+    .section_center{
+        padding: 10px 0 0 0;
+        width: 90%;
+        margin: 0 auto;
+    }
     .shield{
         margin: 0 auto 210px auto;
     }
     .column_section{
         min-height: 550px;
+    }
+    .footer .susi-logo-anchor {
+        width: 30%;
+    }
+    .footer .footer_content {
+        width: 70%;
     }
 }
