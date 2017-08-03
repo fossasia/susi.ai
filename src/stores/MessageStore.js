@@ -6,10 +6,12 @@ import ThreadStore from './ThreadStore';
 
 let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
-let lang = 'en-US';
 let _messages = {};
 let _feedback = {};
 let _showLoading = false;
+
+let TTSVoices = [];
+let _initialisedVoices = false;
 
 function _markAllInThreadRead(threadID) {
   for (let id in _messages) {
@@ -74,8 +76,12 @@ let MessageStore = {
 
   },
 
-  getLang() {
-    return lang
+  getTTSVoiceList() {
+    return TTSVoices;
+  },
+
+  getTTSInitStatus(){
+    return _initialisedVoices;
   },
 
   getLoadStatus(){
@@ -157,7 +163,6 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.CREATE_SUSI_MESSAGE: {
       let message = action.message;
-      lang = message.lang;
       console.log(message.lang);
       MessageStore.resetVoiceForThread(message.threadID);
       _messages[message.id] = message;
@@ -182,6 +187,13 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.FEEDBACK_RECEIVED: {
       _feedback = action.feedback;
+      MessageStore.emitChange();
+      break;
+    }
+
+    case ActionTypes.INIT_TTS_VOICES: {
+      TTSVoices = action.voiceList;
+      _initialisedVoices = true;
       MessageStore.emitChange();
       break;
     }

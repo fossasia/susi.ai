@@ -758,21 +758,41 @@ em{
 
 .settingsForm{
   margin: 0 auto;
+  margin-top: 48px;
   padding: 10px 0;
+  max-width: 70%;
 }
 
 .settingsDialog {
   text-align: left;
-  padding-left: 25%;
+  padding-left: 29%;
 }
 
 .settingsBtns {
   margin-bottom: 16px;
 }
 
+.settings-toggle {
+  max-width: 60%;
+}
+
+.settingsHeader{
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 15px;
+  font-weight: 500;
+  padding-left: 23%;
+}
+
+.settingsSubmit{
+  margin: 0 auto;
+  text-align: center;
+  margin-left: -3%;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 768px){
   .settingsForm {
     font-size: 14px;
+    max-width: 100%;
   }
   .settingsForm h1{
     font-size: 18px;
@@ -791,6 +811,20 @@ em{
   .settingsBtns{
     margin-bottom: 16px;
     width: 85%;
+  }
+  .settings-toggle {
+    max-width: 80%;
+  }
+  .settingsHeader{
+    font-family: 'Open Sans', sans-serif;
+    margin: 0 auto;
+    padding-left: 30%;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+  .settingsSubmit{
+    margin: 0 auto;
+    text-align: center;
   }
 }
 
@@ -842,4 +876,3 @@ em{
       top:6px  !important;
   }
 }
-
