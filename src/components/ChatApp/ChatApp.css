@@ -479,7 +479,8 @@ header{
   max-width: 700px;
   overflow-x: hidden;
   overflow-y: hidden;
-  height: 75px;
+  background: #f5f4f6;
+  min-height: 65px;
 }
 
 .dark .compose{
@@ -526,29 +527,43 @@ header{
   color: #0AD5C1;
   background: rgba(0, 0, 0, 0.01);
 }
+.textBack{
+  background: #fff;
+  width: 83%;
+  border-radius: 40px;
+  padding: 5px 20px;
+  display: block;
+  position: relative;
+  top: 12%;
+  box-sizing: content-box;
+  margin: 0px 0 10px 0;
 
+}
 textarea {
   border: none;
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+  resize: none;
+  font-size: 16px;
   font-family: "Product Sans", sans-serif;
   font-weight: 300;
-  overflow: auto;
-  outline: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
-  width: 90%;
-  resize: none;
-  border-radius: 40px;
-  padding-left: 10px;
-  padding-top: 10px;
-  font-size: 16px;
-  height: 72%;
-  background: #fff;
   margin-top: 3px;
+  background: #fff;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  min-height: 80%;
+  position: relative;
+  top:0px;   background: transparent;
+
 }
+.scroll::-webkit-scrollbar {
+   display: none;
+ }
+.scroll {overflow: -moz-scrollbars-none;}
+
 .voice-output{
   font-family: 'Lato', sans-serif;
   width: 500px;
@@ -560,7 +575,7 @@ textarea {
 
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
-    width: 82%;
+    width: 100%;
   }
   .Modal{
     padding: 25px 0px 25px 0px;
@@ -586,7 +601,7 @@ textarea {
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px){
   textarea{
-    width: 88%;
+    width: 100%;
   }
 }
 .leaflet-container {
@@ -811,3 +826,4 @@ em{
       top:6px  !important;
   }
 }
+
