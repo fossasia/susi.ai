@@ -1,0 +1,15 @@
+.siteTitle {
+    height: 25px;
+    margin-top: 21px;
+    display: block;
+}
+
+.topAppBar button{
+    display: none !important;
+}
+
+.topAppBar div div div button {
+    display: block !important;
+    visibility: visible;
+    box-shadow: none;
+}

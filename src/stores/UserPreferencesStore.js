@@ -15,6 +15,7 @@ let _defaults = {
     SpeechOutputAlways: false,
     SpeechRate: 1,
     SpeechPitch: 1,
+    TTSLanguage: 'en-US',
 };
 
 let UserPreferencesStore = {
@@ -56,6 +57,10 @@ let UserPreferencesStore = {
         return _defaults.SpeechPitch;
     },
 
+    getTTSLanguage(){
+      return _defaults.TTSLanguage;
+    },
+
     addChangeListener(callback) {
         this.on(CHANGE_EVENT, callback);
     },
@@ -95,6 +100,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.SpeechOutputAlways = settings.speechOutputAlways;
                 _defaults.SpeechRate = settings.rate;
                 _defaults.SpeechPitch = settings.pitch;
+                _defaults.TTSLanguage = settings.lang;
             }
             else{
                 if(settings.hasOwnProperty('theme')){
@@ -131,18 +137,17 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('speech_rate')){
                     let initSpeechRate = parseFloat(settings.speech_rate);
                     if(!isNaN(initSpeechRate)){
-                        if(initSpeechRate >= 0.1 && initSpeechRate <=5){
-                            _defaults.SpeechRate = initSpeechRate;
-                        }
+                        _defaults.SpeechRate = initSpeechRate;
                     }
                 }
                 if(settings.hasOwnProperty('speech_pitch')){
                     let initSpeechPitch = parseFloat(settings.speech_pitch);
                     if(!isNaN(initSpeechPitch)){
-                        if(initSpeechPitch >= 0 && initSpeechPitch <=2){
-                            _defaults.SpeechPitch = initSpeechPitch;
-                        }
+                        _defaults.SpeechPitch = initSpeechPitch;
                     }
+                }
+                if(settings.hasOwnProperty('speech_lang')){
+                  _defaults.TTSLanguage = settings.speech_lang;
                 }
             }
             UserPreferencesStore.emitChange();

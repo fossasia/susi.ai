@@ -24,4 +24,11 @@ export function initialiseSettings(settings) {
     type: ActionTypes.INIT_SETTINGS,
     settings
   });
-};
+}
+
+export function initialiseTTSVoices(voiceList) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.INIT_TTS_VOICES,
+    voiceList
+  });
+}
