@@ -16,6 +16,7 @@ let _defaults = {
     SpeechRate: 1,
     SpeechPitch: 1,
     TTSLanguage: 'en-US',
+    PrefLanguage : 'en-US'
 };
 
 let UserPreferencesStore = {
@@ -60,6 +61,9 @@ let UserPreferencesStore = {
     getTTSLanguage(){
       return _defaults.TTSLanguage;
     },
+    getPrefLang(){
+        return _defaults.PrefLanguage;
+    },
 
     addChangeListener(callback) {
         this.on(CHANGE_EVENT, callback);
@@ -101,6 +105,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.SpeechRate = settings.rate;
                 _defaults.SpeechPitch = settings.pitch;
                 _defaults.TTSLanguage = settings.lang;
+                _defaults.PrefLanguage = settings.PrefLanguage;
             }
             else{
                 if(settings.hasOwnProperty('theme')){
@@ -148,6 +153,10 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 }
                 if(settings.hasOwnProperty('speech_lang')){
                   _defaults.TTSLanguage = settings.speech_lang;
+                }
+                if(settings.hasOwnProperty('pref_lang')){
+                    settings.PrefLanguage = settings.pref_lang;
+                  _defaults.PrefLanguage = settings.pref_lang;
                 }
             }
             UserPreferencesStore.emitChange();

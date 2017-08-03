@@ -23,6 +23,18 @@ import {
 	hashHistory
 } from 'react-router-dom';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// Internationalization
+
+import UserPreferencesStore from './stores/UserPreferencesStore';
+import {IntlProvider} from 'react-intl';
+import {addLocaleData} from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import fr from 'react-intl/locale-data/fr';
+import es from 'react-intl/locale-data/es';
+import de from 'react-intl/locale-data/de';
+import ru from 'react-intl/locale-data/ru';
+
+addLocaleData([...en, ...fr, ...es,...de,...ru]);
 
 ChatWebAPIUtils.getSettings();
 ChatWebAPIUtils.getLocation();
@@ -36,6 +48,8 @@ const muiTheme = getMuiTheme({
   }
 });
 
+let defaults = UserPreferencesStore.getPreferences();
+let defaultPrefLanguage = defaults.PrefLanguage;
 const App = () => (
 	<Router history={hashHistory}>
 		<MuiThemeProvider muiTheme={muiTheme}>
@@ -65,6 +79,8 @@ window.speechSynthesis.onvoiceschanged = function () {
 };
 
 ReactDOM.render(
-	<App />,
+	<IntlProvider locale={defaultPrefLanguage}>
+	 	<App />
+	 </IntlProvider>,
 	document.getElementById('root')
 );
