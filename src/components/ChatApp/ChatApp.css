@@ -514,7 +514,6 @@ header{
   text-align: left;
   color: inherit;
   outline: 0;
-  min-width: 100%;
 }
 
 .dark .message-composer{
@@ -528,16 +527,30 @@ header{
   background: rgba(0, 0, 0, 0.01);
 }
 .textBack{
-  background: #fff;
-  width: 83%;
-  border-radius: 40px;
-  padding: 5px 20px;
-  display: block;
-  position: relative;
-  top: 12%;
-  box-sizing: content-box;
-  margin: 0px 0 10px 0;
+    background: #fff;
+    max-width: 89%;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    box-sizing: content-box;
+    line-height: 20px;
+    font-size: 15px;
+    min-height: 20px;
+    border: none;
+    padding: 10px 12px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
+.textBack::-webkit-scrollbar {
+    width: 6px ;
+    height: 6px ;
+}
 
+.textBack::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+}
+.textBack::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.08);
 }
 textarea {
   border: none;
@@ -576,6 +589,9 @@ textarea {
 @media only screen and (min-width: 0px) and (max-width: 768px){
   textarea{
     width: 100%;
+  }
+  .textBack {
+    width: 81%;
   }
   .Modal{
     padding: 25px 0px 25px 0px;
