@@ -106,8 +106,9 @@ class TextToSpeechSettings extends Component {
 			}
 		}
 		// Get the translated text for TTS in selected lang
-		if(langCodes.indexOf(voiceOutput.voiceLang) > -1){
-			voiceOutput.voiceText = voices[langCodes.indexOf(currLang)].translatedText;
+		let langCodeIndex = langCodes.indexOf(voiceOutput.voiceLang);
+		if( langCodeIndex > -1){
+			voiceOutput.voiceText = voices[langCodeIndex].translatedText;
 		}
 		return voiceOutput;
 	}

@@ -281,8 +281,13 @@ class MessageListItem extends React.Component {
           voiceOutput= '';
         }
 
+        let locale = document.documentElement.getAttribute('lang');
+        if(locale === null || locale === undefined){
+          locale = UserPreferencesStore.getTTSLanguage();
+        }
+
         let ttsLanguage = this.props.message.lang ?
-                          this.props.message.lang : UserPreferencesStore.getTTSLanguage();
+                          this.props.message.lang : locale;
 
         return (<div>{listItems}
               { this.props.message.voice &&
