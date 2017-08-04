@@ -182,7 +182,7 @@ class MessageListItem extends React.Component {
                     mymap = drawMap(response.latitude,response.longitude,zoom);
                     listItems.push(
                       <li className='message-list-item' key={action+index}>
-                        <section className={messageContainerClasses}>
+                        <section className={messageContainerClasses} style={{'width' : '80%'}}>
                         <div className='message-text'>{replacedText}</div>
                         <div>{mapAnchor}</div>
                         <br/>
@@ -203,7 +203,7 @@ class MessageListItem extends React.Component {
               }
               listItems.push(
                 <li className='message-list-item' key={action+index}>
-                  <section className={messageContainerClasses}>
+                  <section className={messageContainerClasses} style={{'width' : '80%'}}>
                   <div className='message-text'>{replacedText}</div>
                   <div>{mapAnchor}</div>
                   <br/>
