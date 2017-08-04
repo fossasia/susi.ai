@@ -30,21 +30,14 @@ class Blog extends Component {
         }
         }).done(function (response) {
             if(response.status !== 'ok'){ throw response.message; }
-            // console.log('====== ' + response.feed.title + ' ======');
-            // for(var i in response.items){
-            //     var item = response.items[i];
-            //     console.log(item.title);
-            // }
             this.setState({ posts: response.items, postRendered: true });
         }.bind(this));
     }
 
 
     render() {
-        if(this.state.postRendered) {
-            console.log('Hi');
-        }
-        console.log(this.state.posts);
+
+
         if(this.state.postRendered) {
             return (
                 <div>
@@ -89,6 +82,7 @@ class Blog extends Component {
                                 })
                             }
                         </div>
+                        <div className="post_bottom"></div>
                         <div className='footer'>
                             <a className='susi-logo-anchor' href='/overview'>
                                 <img src={susi} alt='SUSI' className='susi-logo' />
