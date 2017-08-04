@@ -223,49 +223,7 @@
 .img-container{
     width: 50%;
 }
-.topAppBar button{
-    display: none !important;
-}
-.topAppBar div div div button {
-    display: block !important;
-    visibility: visible;
-    box-shadow: none;
-}
-.drawerItem div{
-    border-left: 3px solid #607d8b;
-    display: block;
-    width: 100%;
-    margin:1px 0 1px 0;
-}
-.drawerItem a{
-    text-decoration: none;
-    color: #000;
-}
 
-@media only screen and (max-width: 800px){
-
-    .topMenu-item{
-        display: none !important;
-    }
-    .topAppBar button{
-        display: block  !important;
-    }
-    .conversation__description .description__heading {
-        margin-top: 0;
-        max-width: 100%;
-    }
-    .section_copy{
-        padding: 60px 0px;
-    }
-    .img-container {
-        padding-right: 20px;
-    }
-    .android-mockup{
-        max-width: 100%;
-        margin-left: 0%;
-        text-align: center;
-    }
-}
 img {
     max-width: 100%;
     height: auto;

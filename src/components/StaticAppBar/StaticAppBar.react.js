@@ -23,6 +23,7 @@ import Info from 'material-ui/svg-icons/action/info';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
+import './StaticAppBar.css';
 
 
 const cookies = new Cookies();
