@@ -18,11 +18,12 @@ import {  createMessage,
 import {  serverChanged,
           initialiseSettings,
           initialiseTTSVoices,
-          settingsChanged} from './Settings.actions';
+          settingsChanged,
+          customThemeChanged,
+          } from './Settings.actions';
 
 import {  connectToWebSocket,
           sendToHardwareDevice } from './HardwareConnect.actions';
-
 
 // exports
 export {  getLocation,
@@ -44,6 +45,9 @@ export {  createMessage,
 export { serverChanged,
          initialiseSettings,
          initialiseTTSVoices,
-         settingsChanged}
+         settingsChanged,
+         customThemeChanged,
+        }
 
 export { connectToWebSocket, sendToHardwareDevice }
+

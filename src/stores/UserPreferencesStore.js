@@ -16,7 +16,9 @@ let _defaults = {
     SpeechRate: 1,
     SpeechPitch: 1,
     TTSLanguage: 'en-US',
-    PrefLanguage : 'en-US'
+    PrefLanguage : 'en-US',
+    ThemeValues: ''
+
 };
 
 let UserPreferencesStore = {
@@ -32,6 +34,10 @@ let UserPreferencesStore = {
 
     getTheme(){
         return _defaults.Theme;
+    },
+
+    getThemeValues(){
+        return _defaults.ThemeValues;
     },
 
     getEnterAsSend(){
@@ -74,7 +80,12 @@ let UserPreferencesStore = {
     },
 
 };
-
+function checkForFalse ( valueToCheck ){
+    if(valueToCheck===false){
+        return false;
+    }
+    return true;
+}
 UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     switch (action.type) {
@@ -106,31 +117,20 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.SpeechPitch = settings.pitch;
                 _defaults.TTSLanguage = settings.lang;
                 _defaults.PrefLanguage = settings.PrefLanguage;
+                _defaults.ThemeValues = settings.custom_theme_value;
             }
             else{
                 if(settings.hasOwnProperty('theme')){
                     _defaults.Theme = settings.theme;
                 }
                 if(settings.hasOwnProperty('enter_send')){
-                    let initEnterAsSend = true;
-                    if(settings.enter_send === 'false'){
-                        initEnterAsSend = false;
-                    }
-                    _defaults.EnterAsSend = initEnterAsSend;
+                    _defaults.EnterAsSend = checkForFalse(settings.enter_send);
                 }
                 if(settings.hasOwnProperty('mic_input')){
-                    let initMicInput = true;
-                    if(settings.mic_input === 'false'){
-                        initMicInput = false;
-                    }
-                    _defaults.MicInput = initMicInput;
+                    _defaults.MicInput = checkForFalse(settings.mic_input);
                 }
                 if(settings.hasOwnProperty('speech_output')){
-                    let initSpeechOutput = true;
-                    if(settings.speech_output === 'false'){
-                        initSpeechOutput = false;
-                    }
-                    _defaults.SpeechOutput = initSpeechOutput;
+                    _defaults.SpeechOutput = checkForFalse(settings.speech_output);
                 }
                 if(settings.hasOwnProperty('speech_always')){
                     let initSpeechOutputAlways = false;
@@ -157,6 +157,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('pref_lang')){
                     settings.PrefLanguage = settings.pref_lang;
                   _defaults.PrefLanguage = settings.pref_lang;
+                }
+                  if(settings.hasOwnProperty('custom_theme_value')){
+                    _defaults.ThemeValues = settings.custom_theme_value;
                 }
             }
             UserPreferencesStore.emitChange();

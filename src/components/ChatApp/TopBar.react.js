@@ -7,7 +7,6 @@ import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Popover from 'material-ui/Popover';
 import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
@@ -166,26 +165,8 @@ class TopBar extends Component {
 			}
 		};
 
-		var backgroundCol;
+		var backgroundCol=this.props.header;
 
-
-		let topBackground = UserPreferencesStore.getTheme();
-		switch (topBackground) {
-			case 'light': {
-				backgroundCol = '#4285f4';
-				break;
-			}
-			case 'dark': {
-				backgroundCol = '#19324c';
-				break;
-			}
-			default: {
-				// do nothing
-			}
-		}
-		if(this.props.backgroundColor!==''){
-			backgroundCol=this.props.backgroundColor;
-		}
 		let appBarClass = 'app-bar';
 		if (this.props.search) {
 			appBarClass = 'app-bar-search';
@@ -266,7 +247,7 @@ TopBar.propTypes = {
 	_onClickPrev: PropTypes.func,
 	search: PropTypes.bool,
 	searchState: PropTypes.object,
-	backgroundColor:PropTypes.string,
+	header:PropTypes.string,
 };
 
 export default TopBar;
