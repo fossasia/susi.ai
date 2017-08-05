@@ -230,8 +230,13 @@ class MessageListItem extends React.Component {
               if(rssTiles.length === 0){
                 noResultsFound = true;
               }
+              let sliderClass = 'swipe-rss-websearch';
+              if (window.matchMedia('only screen and (max-width: 768px)').matches){
+                // do functionality on screens smaller than 768px
+                sliderClass = '';
+              }
               listItems.push(
-                  <div className='message-text rss-out' key={action+index}>
+                  <div className={sliderClass} key={action+index}>
                     {renderTiles(rssTiles)}
                   </div>
                 );

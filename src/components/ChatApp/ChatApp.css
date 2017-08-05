@@ -647,6 +647,11 @@ textarea {
   height: 25px;
 }
 
+.swipe-rss-websearch{
+    width: 93%;
+    margin: 0 auto;
+}
+
 .slick-slide{
   margin: 0 10px;
 }

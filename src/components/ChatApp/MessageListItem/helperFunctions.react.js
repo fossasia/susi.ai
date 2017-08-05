@@ -190,9 +190,11 @@ export function renderTiles(tiles){
   }
   let resultTiles = drawCards(tiles);
   let slidesToShow = 3;
+  let showArrows = true;
   if (window.matchMedia('only screen and (max-width: 768px)').matches){
     // do functionality on screens smaller than 768px
     slidesToShow = 2;
+    showArrows = false;
   }
    var settings = {
         speed: 500,
@@ -200,7 +202,7 @@ export function renderTiles(tiles){
         slidesToScroll: 1,
         swipeToSlide:true,
         swipe:true,
-        arrows:false
+        arrows:showArrows
       };
   return(
     <Slider {...settings} adaptiveHeight={true}>
