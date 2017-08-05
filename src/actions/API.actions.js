@@ -189,6 +189,58 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
           }
         });
       }
+      else if (actions.indexOf('rss') >= 0) {
+        let actionIndex = actions.indexOf('rss');
+        let actionJson = receivedMessage.response.answers[0].actions[actionIndex];
+        let count = -1;
+        if(actionJson.hasOwnProperty('count')){
+          count = actionJson.count;
+        }
+        let data = receivedMessage.response.answers[0].data;
+        if(count === -1 || count > data.length){
+          count = data.length;
+        }
+        for(var i=0; i<count; i++){
+          let respData = data[i];
+          let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
+          let dispatchMsg = i===(count-1);
+          console.log(previewURL);
+          $.ajax({
+            url: previewURL,
+            dataType: 'jsonp',
+            crossDomain: true,
+            timeout: 3000,
+            async: false,
+            success: function (rssResponse) {
+              if(rssResponse.accepted){
+                respData.icon = rssResponse.image;
+                respData.descriptionShort = rssResponse.descriptionShort;
+              }
+              if(dispatchMsg){
+                let message = ChatMessageUtils.getSUSIMessageData(
+                  receivedMessage, currentThreadID);
+                console.log(message);
+                ChatAppDispatcher.dispatch({
+                  type: ActionTypes.CREATE_SUSI_MESSAGE,
+                  message
+                });
+              }
+            },
+            error: function(xhr, status, error) {
+              console.log(error);
+              if(dispatchMsg){
+                let message = ChatMessageUtils.getSUSIMessageData(
+                  receivedMessage, currentThreadID);
+                console.log(message);
+                ChatAppDispatcher.dispatch({
+                  type: ActionTypes.CREATE_SUSI_MESSAGE,
+                  message
+                });
+              }
+            }
+          });
+        }
+      }
       else {
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
