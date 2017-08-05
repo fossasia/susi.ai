@@ -9,6 +9,7 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import Dialog from 'material-ui/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Footer from '../Footer/Footer.react';
 
 
 export default class NotFound extends Component {
@@ -118,6 +119,7 @@ export default class NotFound extends Component {
                     </div>
                 </div>
 
+                <Footer />
                 {/* Login */}
                 <Dialog
                     className='dialogStyle'

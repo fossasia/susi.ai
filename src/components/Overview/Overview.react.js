@@ -209,7 +209,7 @@ SUSI is intelligent to identify and answer your question in your language.
               and small talks. SUSI Skill development is easy and fun. </p>
           </div>
           <div className='img-container'>
-            <img src={susiSkill} alt='Skills' />
+            <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
         <div className="section_copy safty_and_secure">
@@ -242,6 +242,7 @@ SUSI is intelligent to identify and answer your question in your language.
         <Footer />
 
         {/* Video */}
+
         <Modal
           isOpen={this.state.video}
           className="Video-Modal"
@@ -255,6 +256,7 @@ SUSI is intelligent to identify and answer your question in your language.
           </div>
         </Modal>
       </div>
+
     );
   };
 }

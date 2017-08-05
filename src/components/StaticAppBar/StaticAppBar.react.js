@@ -30,30 +30,30 @@ const cookies = new Cookies();
 let Logged = (props) => (
     <div>
         <MenuItem primaryText="About"
-        containerElement={<Link to="/overview" />}
-        rightIcon={<Info/>}
+            containerElement={<Link to="/overview" />}
+            rightIcon={<Info />}
         />
         <MenuItem primaryText="Chat"
-        containerElement={<Link to="/" />}
-        rightIcon={<Chat/>}
+            containerElement={<Link to="/" />}
+            rightIcon={<Chat />}
         />
         <MenuItem
-        rightIcon={<Dashboard/>}
+            rightIcon={<Dashboard />}
         ><a
-        style={{
-            color: 'rgba(0, 0, 0, 0.87)',
-            width: '140px',
-            display:'block'
-        }}
-        href="http://skills.susi.ai">Skills</a>
+            style={{
+                color: 'rgba(0, 0, 0, 0.87)',
+                width: '140px',
+                display: 'block'
+            }}
+            href="http://skills.susi.ai">Skills</a>
         </MenuItem>
         <MenuItem primaryText="Settings"
-        containerElement={<Link to="/settings" />}
-        rightIcon={<Settings/>} />
+            containerElement={<Link to="/settings" />}
+            rightIcon={<Settings />} />
         <MenuItem
-        primaryText="Login"
-        onTouchTap={this.handleLogin}
-        rightIcon={<SignUpIcon/>} />
+            primaryText="Login"
+            onTouchTap={this.handleLogin}
+            rightIcon={<SignUpIcon />} />
     </div>
 )
 class StaticAppBar extends Component {
@@ -66,7 +66,8 @@ class StaticAppBar extends Component {
             open: false,
             showOptions: false,
             anchorEl: null,
-            openForgotPassword: false
+            openForgotPassword: false,
+            leftGap: '0px'
         };
     }
 
@@ -75,6 +76,9 @@ class StaticAppBar extends Component {
     handleDrawerClose = () => this.setState({ openDrawer: false });
 
     showOptions = (event) => {
+        var p = $('#rightIconButton').width();
+        var screenWidth = $(window).width();
+        this.setState({ leftGap: ((screenWidth - p) / 2) + p - 130 })
         event.preventDefault();
         this.setState({
             showOptions: true,
@@ -182,54 +186,54 @@ class StaticAppBar extends Component {
             Logged = (props) => (
                 <div>
                     <MenuItem primaryText="About"
-                      containerElement={<Link to="/overview" />}
-                      rightIcon={<Info/>}
+                        containerElement={<Link to="/overview" />}
+                        rightIcon={<Info />}
                     />
                     <MenuItem primaryText="Chat"
-                      containerElement={<Link to="/" />}
-                      rightIcon={<Chat/>}
+                        containerElement={<Link to="/" />}
+                        rightIcon={<Chat />}
                     />
                     <MenuItem
-                      rightIcon={<Dashboard/>}
-                      href="http://skills.susi.ai"
+                        rightIcon={<Dashboard />}
+                        href="http://skills.susi.ai"
                     >Skills
                     </MenuItem>
                     <MenuItem primaryText="Settings"
-                      containerElement={<Link to="/settings" />}
-                      rightIcon={<Settings/>}/>
+                        containerElement={<Link to="/settings" />}
+                        rightIcon={<Settings />} />
                     <MenuItem primaryText="Logout"
-                      containerElement={<Link to="/logout" />}
-                      rightIcon={<Exit />}/>
+                        containerElement={<Link to="/logout" />}
+                        rightIcon={<Exit />} />
                 </div>
             )
             return <Logged />
         }
 
         Logged = (props) => (
-          <div>
-            <MenuItem primaryText="About"
-              containerElement={<Link to="/overview" />}
-              rightIcon={<Info/>}
-            />
-            <MenuItem primaryText="Chat"
-              containerElement={<Link to="/" />}
-              rightIcon={<Chat/>}
-            />
-            <MenuItem
-              rightIcon={<Dashboard/>}
-              href="http://skills.susi.ai"
-            >Skills
+            <div>
+                <MenuItem primaryText="About"
+                    containerElement={<Link to="/overview" />}
+                    rightIcon={<Info />}
+                />
+                <MenuItem primaryText="Chat"
+                    containerElement={<Link to="/" />}
+                    rightIcon={<Chat />}
+                />
+                <MenuItem
+                    rightIcon={<Dashboard />}
+                    href="http://skills.susi.ai"
+                >Skills
             </MenuItem>
-            <MenuItem primaryText="Settings"
-              containerElement={<Link to="/settings" />}
-              rightIcon={<Settings/>} />
-            <MenuItem
-              primaryText="Login"
-              onTouchTap={this.handleLogin}
-              rightIcon={<SignUpIcon/>} />
-          </div>
-      )
-      return <Logged />
+                <MenuItem primaryText="Settings"
+                    containerElement={<Link to="/settings" />}
+                    rightIcon={<Settings />} />
+                <MenuItem
+                    primaryText="Login"
+                    onTouchTap={this.handleLogin}
+                    rightIcon={<SignUpIcon />} />
+            </div>
+        )
+        return <Logged />
     }
 
     render() {
@@ -244,9 +248,9 @@ class StaticAppBar extends Component {
             cursor: 'pointer'
         }
 
-
+        var leftGap = this.state.leftGap;
         let TopRightMenu = (props) => (
-            <div onScroll={this.handleScroll}>
+            <div onScroll={this.handleScroll} >
                 <div>
                     <IconMenu
                         {...props}
@@ -261,11 +265,11 @@ class StaticAppBar extends Component {
                     </IconMenu>
                     <Popover
                         {...props}
-                        style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
+                        style={{ float: 'left', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
-                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                         onRequestClose={this.closeOptions}
                     >
                         <Logged />
@@ -385,10 +389,12 @@ class StaticAppBar extends Component {
         return (
 
             <div>
-                <header className="nav-down" id="headerSection">
+                <header className="nav-down" >
                     <AppBar
+                        id="headerSection"
                         className="topAppBar"
-                        title={<div><Link to='/' style={{ float: 'left', marginTop: '-10px' }}>
+
+                        title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px' }}>
                             <img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link><TopMenu /></div>}
                         style={{
                             backgroundColor: '#4285f4', height: '46px',
@@ -413,7 +419,7 @@ class StaticAppBar extends Component {
                         style={{
                             backgroundColor: '#4285f4', height: '46px',
                             boxShadow: 'none'
-                        }}                        onTouchTap={this.handleDrawerClose} />
+                        }} onTouchTap={this.handleDrawerClose} />
                     {menuLlinks}
                 </Drawer>
                 {/* Login */}

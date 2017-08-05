@@ -17,9 +17,9 @@
 .section_blog{
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
-    padding: 100px 20% 100px 20%;
+    padding: 100px 20px 100px 20px;
     position: relative;
-    max-width: 1050px;
+    max-width: 935px;
     align-items: center;
     box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
     display: -ms-flexbox;
@@ -29,7 +29,13 @@
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
 }
-
+@media only screen and (min-width: 1400px){
+.blog_navigation {
+    position: absolute;
+    right: 15%;
+    bottom: 220px;
+}
+}
 @media only screen and (max-width: 1080px){
     .section_blog {
         max-width: 940px;
