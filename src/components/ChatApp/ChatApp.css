@@ -652,7 +652,7 @@ textarea {
 }
 
 .slick-list{
-  max-height: 250px;
+  min-height: 130px;
 }
 
 .card{

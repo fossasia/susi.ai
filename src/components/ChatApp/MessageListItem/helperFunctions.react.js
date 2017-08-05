@@ -191,7 +191,7 @@ export function renderTiles(tiles){
         arrows:false
       };
   return(
-    <Slider {...settings}>
+    <Slider {...settings} adaptiveHeight={true}>
       {resultTiles}
     </Slider>
   );
