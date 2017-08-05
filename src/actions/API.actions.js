@@ -5,7 +5,7 @@ import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import MessageStore from '../stores/MessageStore';
-import * as Actions from './HardwareConnect.actions'
+import * as Actions from './HardwareConnect.actions';
 import * as SettingsActions from './Settings.actions';
 
 const cookies = new Cookies();
@@ -307,7 +307,7 @@ export function pushSettingsToServer(settings){
     return;
   }
   console.log(settings);
-  Object.keys(settings).forEach((key) => {
+ Object.keys(settings).forEach((key) => {
     switch(key){
       case 'Theme':{
         url = BASE_URL+'/aaa/changeUserSettings.json?'
@@ -387,7 +387,32 @@ export function pushSettingsToServer(settings){
     }
   });
 }
+// Update Changed Settings on server
+export function pushCustomThemeToServer(customTheme){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.StandardServer;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
 
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+       url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=custom_theme_value&value='+customTheme
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+
+}
 export function sendFeedback(){
   let feedback = MessageStore.getFeedback();
   if(feedback===null){

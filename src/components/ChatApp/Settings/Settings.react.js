@@ -611,6 +611,7 @@ class Settings extends Component {
               onChange={this.handleSelectChange}>
               <MenuItem value={'light'} primaryText="Light" />
               <MenuItem value={'dark'} primaryText="Dark" />
+							<MenuItem value={'custom'} primaryText="Custom" />
             </DropDownMenu>
             </div>
             <div>
