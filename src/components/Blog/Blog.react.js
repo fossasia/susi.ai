@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Blog.css';
 import PropTypes from 'prop-types';
+import htmlToText from 'html-to-text';
 import $ from 'jquery';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -30,13 +31,12 @@ class Blog extends Component {
         }
         }).done(function (response) {
             if(response.status !== 'ok'){ throw response.message; }
-            this.setState({ posts: response.items, postRendered: true });
+            this.setState({ posts: response.items, postRendered: true});
         }.bind(this));
     }
 
 
     render() {
-
 
         if(this.state.postRendered) {
             return (
@@ -46,33 +46,36 @@ class Blog extends Component {
                         <div className='head_section'>
                             <div className='container'>
                                 <div className="heading">
-                                    <h1>Blogs</h1>
-                                    <p>Latest Blogs on SUSI.AI</p>
+                                    <h1>Blog</h1>
+                                    <p>Latest Blog Posts on SUSI.AI</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="top-card">
+                        <div>
                             {
                                 this.state.posts.map((posts , i) => {
-                                    let text = posts.description.split('…');
+                                    let description = htmlToText.fromString(posts.description).split('…');
+                                    let text = description[0].split(']');
+                                    let regExp = /\[(.*?)\]/;
+                                    let imageUrl = regExp.exec(description[0]);
                                     let date = posts.pubDate.split(' ');
                                     let d = new Date(date[0]);
                                         return (
-                                            <div key={i} className="section_copy">
-                                                <Card  className='blog-card'>
+                                            <div key={i} className="section_blog">
+                                                <Card>
                                                     <CardMedia
                                                         overlay={
                                                             <CardTitle
                                                                 subtitle={'Published on '+ dateFormat(d, 'dddd, mmmm dS, yyyy')} />
                                                         }
                                                     >
-                                                        <img
-                                                            src={susi}
-                                                             alt={posts.title}
+                                                        <img className="featured_image"
+                                                            src={imageUrl[1]}
+                                                            alt={posts.title}
                                                         />
                                                     </CardMedia>
                                                     <CardTitle title={posts.title} subtitle={'by '+ posts.author} />
-                                                    <CardText>{text[0]+'...'} </CardText>
+                                                    <CardText>{text[1]+'...'} </CardText>
                                                     <CardActions>
                                                         <FlatButton href={posts.link} label="Read More" />
                                                     </CardActions>
