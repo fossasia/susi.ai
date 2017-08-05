@@ -132,6 +132,12 @@ export function parseAndReplace(text) {
   </Linkify>;
 }
 
+function urlDomain(data) {
+  var a = document.createElement('a');
+  a.href = data;
+  return a.hostname;
+}
+
 // Draw Tiles for Websearch RSS data
 export function drawCards(tilesData){
   const titleStyle = {
@@ -166,8 +172,9 @@ export function drawCards(tilesData){
             </CardMedia>)
           }
           <CardTitle title={tile.title} titleStyle={titleStyle}/>
-          <CardText className='card-text'>
-            {cardText}
+          <CardText>
+            <div className='card-text'>{cardText}</div>
+            <div className='card-url'>{urlDomain(tile.link)}</div>
           </CardText>
         </Card>
       );
