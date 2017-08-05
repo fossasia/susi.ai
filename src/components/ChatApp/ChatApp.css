@@ -653,10 +653,12 @@ textarea {
 
 .slick-list{
   min-height: 130px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .card{
-  height: 230px;
+  height: 225px;
   cursor: pointer;
 }
 

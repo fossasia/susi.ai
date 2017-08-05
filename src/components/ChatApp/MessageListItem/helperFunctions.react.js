@@ -182,9 +182,14 @@ export function renderTiles(tiles){
     return(<center>{noResultFound}</center>);
   }
   let resultTiles = drawCards(tiles);
+  let slidesToShow = 3;
+  if (window.matchMedia('only screen and (max-width: 768px)').matches){
+    // do functionality on screens smaller than 768px
+    slidesToShow = 2;
+  }
    var settings = {
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: slidesToShow,
         slidesToScroll: 1,
         swipeToSlide:true,
         swipe:true,
