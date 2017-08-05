@@ -13,12 +13,12 @@ import {
 } from 'material-ui/Table';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
-import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
+import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -133,33 +133,31 @@ export function parseAndReplace(text) {
 }
 
 // Draw Tiles for Websearch RSS data
-export function drawTiles(tilesData){
+export function drawCards(tilesData){
+  const titleStyle = {
+    marginTop: '-10px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'block',
+    fontSize: '16px',
+    fontWeight: 'bold' ,
+  }
   let resultTiles = tilesData.map((tile,i) => {
+      let cardText = tile.description;
+      if(!cardText){
+        cardText = tile.descriptionShort;
+      }
       return(
-        <div key={i}>
-          <MuiThemeProvider>
-            <Paper zDepth={0} className='tile' style={{background:'#e0e0e0'}}>
-              <a rel='noopener noreferrer'
-                href={tile.link} target='_blank'
-                className='tile-anchor'>
-                  {tile.icon &&
-                  (<div className='tile-img-container'>
-                      <img src={tile.icon}
-                      className='tile-img' alt=''/>
-                    </div>
-                  )}
-                  <div className='tile-text'>
-                    <p className='tile-title'>
-                      <strong>
-                          {processText(tile.title,'websearch-rss')}
-                        </strong>
-                      </p>
-                    {processText(tile.description,'websearch-rss')}
-                  </div>
-                </a>
-            </Paper>
-          </MuiThemeProvider>
-        </div>
+        <Card key={i} className='card'>
+          <CardMedia>
+            <img src={tile.icon} alt="" className='card-img'/>
+          </CardMedia>
+          <CardTitle title={tile.title} titleStyle={titleStyle}/>
+          <CardText className='card-text'>
+            {cardText}
+          </CardText>
+        </Card>
       );
   });
   return resultTiles;
@@ -171,7 +169,7 @@ export function renderTiles(tiles){
     let noResultFound = 'NO Results Found';
     return(<center>{noResultFound}</center>);
   }
-  let resultTiles = drawTiles(tiles);
+  let resultTiles = drawCards(tiles);
    var settings = {
         speed: 500,
         slidesToShow: 3,
@@ -188,8 +186,7 @@ export function renderTiles(tiles){
 }
 
 // Fetch RSS data
-export function getRSSTiles(rssKeys,rssData,count){
-  let parseKeys = Object.keys(rssKeys);
+export function getRSSTiles(rssData,count){
   let rssTiles = [];
   let tilesLimit = rssData.length;
   if(count > -1){
@@ -197,11 +194,7 @@ export function getRSSTiles(rssKeys,rssData,count){
   }
   for(var i=0; i<tilesLimit; i++){
     let respData = rssData[i];
-    let tileData = {};
-    parseKeys.forEach((rssKey,j)=>{
-      tileData[rssKey] = respData[rssKeys[rssKey]];
-    });
-    rssTiles.push(tileData);
+    rssTiles.push(respData);
   }
   return rssTiles;
 }

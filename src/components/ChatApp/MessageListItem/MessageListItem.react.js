@@ -221,26 +221,19 @@ class MessageListItem extends React.Component {
               break
             }
             case 'rss':{
-              let rssKeys = Object.assign({}, data.answers[0].actions[index]);
-              delete rssKeys.type;
+              let rssKeys = data.answers[0].actions[index];
               let count = -1;
               if(rssKeys.hasOwnProperty('count')){
                 count = rssKeys.count;
-                delete rssKeys.count;
               }
-              let rssTiles = getRSSTiles(rssKeys,data.answers[0].data,count);
+              let rssTiles = getRSSTiles(data.answers[0].data,count);
               if(rssTiles.length === 0){
                 noResultsFound = true;
               }
               listItems.push(
-                  <li className='message-list-item' key={action+index}>
-                    <section className={messageContainerClasses}>
-                    <div><div className='message-text rss-out'>
-                      {renderTiles(rssTiles)}
-                    </div></div>
-                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
-                    </section>
-                  </li>
+                  <div className='message-text rss-out' key={action+index}>
+                    {renderTiles(rssTiles)}
+                  </div>
                 );
               break;
             }
