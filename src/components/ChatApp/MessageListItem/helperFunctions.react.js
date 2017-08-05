@@ -143,16 +143,28 @@ export function drawCards(tilesData){
     fontSize: '16px',
     fontWeight: 'bold' ,
   }
+
+  let cardClass = 'card-noImg';
+  tilesData.forEach((card,index) => {
+    if(card.icon){
+      cardClass = 'card';
+    }
+  });
+
   let resultTiles = tilesData.map((tile,i) => {
       let cardText = tile.description;
       if(!cardText){
         cardText = tile.descriptionShort;
       }
       return(
-        <Card key={i} className='card'>
-          <CardMedia>
-            <img src={tile.icon} alt="" className='card-img'/>
-          </CardMedia>
+        <Card className={cardClass} key={i} onClick={() => {
+          window.open(tile.link,'_blank')
+        }}>
+          {tile.icon &&
+            (<CardMedia>
+              <img src={tile.icon} alt="" className='card-img'/>
+            </CardMedia>)
+          }
           <CardTitle title={tile.title} titleStyle={titleStyle}/>
           <CardText className='card-text'>
             {cardText}
