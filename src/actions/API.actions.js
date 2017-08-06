@@ -244,6 +244,7 @@ export function getSettings(){
       cookies.get('loggedIn')===undefined){
     let settings = cookies.get('settings');
     if(settings!==undefined){
+      console.log(settings);
       // Check if the settings are set in the cookie
       SettingsActions.initialiseSettings(settings);
     }
@@ -278,6 +279,7 @@ export function getSettings(){
       success: function (response) {
         if(response.hasOwnProperty('settings') && response.accepted){
           SettingsActions.initialiseSettings(response.settings);
+          console.log(response.settings);
         }
       },
       error: function(errorThrown){

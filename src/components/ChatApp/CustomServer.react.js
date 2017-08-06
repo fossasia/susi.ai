@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import $ from 'jquery';
 
 export default class CustomServer extends Component {
 
@@ -12,6 +14,8 @@ export default class CustomServer extends Component {
     		showServerField:false,
     		serverUrl: '',
     		serverFieldError:false,
+            defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
+            defaultText:['Custom URL','Use Custom Server']
     	};
     	this.customServerMessage = '';
     }
@@ -19,7 +23,38 @@ export default class CustomServer extends Component {
     handleServeChange = (event) => {
         this.props.onServerChange(event);
     }
-
+    changeLanguage= (defaultText) => {
+        console.log(defaultText);
+        this.setState({
+            defaultText:defaultText
+        })
+    }
+    componentDidMount(){
+        let defaultPrefLanguage = this.state.defaultPrefLanguage;
+        console.log(defaultPrefLanguage);
+        let defaultText = this.state.defaultText;
+        let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
+        +defaultPrefLanguage+'&dt=t&q='+defaultText;
+        $.ajax({
+          url: urlForTranslate,
+          dataType: 'json',
+          crossDomain: true,
+          timeout: 3000,
+          async: false,
+          success: function (data) {
+            if(data[0]){
+              if(data[0][0]){
+                defaultText = data[0][0][0];
+                defaultText = defaultText.split(',');
+                this.changeLanguage(defaultText);
+              }
+            }
+          }.bind(this),
+          error: function(errorThrown){
+            console.log(errorThrown);
+          }
+        });
+    }
 	render(){
 
 		const customUrlStyle = {
@@ -39,7 +74,7 @@ export default class CustomServer extends Component {
                             onTouchTap={this.handleServeChange}
                             value={this.props.serverUrl}
                             errorText={this.props.customServerMessage}
-                            floatingLabelText="Custom URL"
+                            floatingLabelText={this.state.defaultText[0]}
                             style={customUrlStyle} />;
 
         const customServer = this.props.checked ? serverURL : '';
@@ -56,7 +91,7 @@ export default class CustomServer extends Component {
                                             {customServer}
                                         </div>
                                 </label>
-                    			):'Use Custom Server'}
+                    			):this.state.defaultText[1]}
                     	toggled={this.props.checked}
                     	onToggle={this.handleServeChange}
                     	style={{display: 'flex',

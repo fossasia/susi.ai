@@ -157,6 +157,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('pref_lang')){
                     settings.PrefLanguage = settings.pref_lang;
                   _defaults.PrefLanguage = settings.pref_lang;
+                  console.log(_defaults.PrefLanguage);
                 }
                   if(settings.hasOwnProperty('custom_theme_value')){
                     _defaults.ThemeValues = settings.custom_theme_value;

@@ -46,10 +46,11 @@ const muiTheme = getMuiTheme({
     thumbOnColor: '#5ab1fc',
     trackOnColor: '#4285f4'
   }
-});
-
-let defaults = UserPreferencesStore.getPreferences();
-let defaultPrefLanguage = defaults.PrefLanguage;
+});/*
+let defaults = UserPreferencesStore.getPrefLang();
+console.log(defaults);*/
+let defaultPrefLanguage = UserPreferencesStore.getPrefLang();
+console.log(defaultPrefLanguage);
 const App = () => (
 	<Router history={hashHistory}>
 		<MuiThemeProvider muiTheme={muiTheme}>

@@ -18,6 +18,8 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import $ from 'jquery';
 
 const cookies = new Cookies();
 
@@ -41,7 +43,10 @@ class TopBar extends Component {
 		this.state = {
 			showOptions: false,
 			anchorEl: null,
+			defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
+			defaultText:['About','Chat', 'Skills','Logout','Login','Settings','Themes']
 		};
+
 	}
 
 	showOptions = (event) => {
@@ -57,9 +62,37 @@ class TopBar extends Component {
 	    showOptions: false,
 	  });
 	};
-
+	changeLanguage= (defaultText) => {
+		console.log(defaultText);
+		this.setState({
+			defaultText:defaultText
+		})
+	}
 	componentDidMount() {
-
+		let defaultPrefLanguage = this.state.defaultPrefLanguage;
+		console.log(defaultPrefLanguage);
+		let defaultText = this.state.defaultText;
+		let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
+		+defaultPrefLanguage+'&dt=t&q='+defaultText;
+        $.ajax({
+          url: urlForTranslate,
+          dataType: 'json',
+          crossDomain: true,
+          timeout: 3000,
+          async: false,
+          success: function (data) {
+            if(data[0]){
+              if(data[0][0]){
+                defaultText = data[0][0][0];
+                defaultText = defaultText.split(',');
+                this.changeLanguage(defaultText);
+              }
+            }
+          }.bind(this),
+          error: function(errorThrown){
+            console.log(errorThrown);
+          }
+        });
 		this.setState({
 	      search: false,
 	    });
@@ -83,27 +116,27 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={this.state.defaultText[0]}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={this.state.defaultText[1]}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					>{this.state.defaultText[2]}
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={this.state.defaultText[5]}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
-					<MenuItem primaryText="Themes"
+					<MenuItem primaryText={this.state.defaultText[6]}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText="Logout"
+					<MenuItem primaryText={this.state.defaultText[3]}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
 				</Popover>
@@ -130,23 +163,23 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={this.state.defaultText[0]}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={this.state.defaultText[1]}
 					containerElement={<Link to="/" />}
 					rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					>{this.state.defaultText[2]}
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={this.state.defaultText[5]}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
-					<MenuItem primaryText="Login"
+					<MenuItem primaryText={this.state.defaultText[4]}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
 				</Popover>
