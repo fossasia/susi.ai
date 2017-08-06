@@ -19,6 +19,10 @@ import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {
+    injectIntl
+} from 'react-intl';
+
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -66,10 +70,7 @@ export function renderMessageFooter(message,latestMsgID, isLastAction){
   return(
     <ul>
       <li className='message-time' style={footerStyle}>
-        {message.date.toLocaleString(
-          'en-US',
-          { hour: 'numeric',minute:'numeric', hour12: true }
-        )}
+        <PostDate date={message.date} />
         { isLastAction &&
           (<Feedback message={message} />)
         }
@@ -78,6 +79,17 @@ export function renderMessageFooter(message,latestMsgID, isLastAction){
     </ul>
   );
 }
+// Format Date for internationalization
+const PostDate = injectIntl(({date, intl}) => (
+            <span title={intl.formatDate(date,{
+            hour: 'numeric',
+            minute: 'numeric',
+        })}>  {intl.formatDate(date,{
+            hour: 'numeric',
+            minute: 'numeric',
+        })}
+        </span>
+));
 
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
 export function processText(text,type){

@@ -480,7 +480,7 @@ header{
   overflow-x: hidden;
   overflow-y: hidden;
   background: #f5f4f6;
-  min-height: 65px;
+  min-height: 75px;
 }
 
 .dark .compose{
@@ -502,7 +502,7 @@ header{
 .message-composer {
   width: 100%;
   margin: 0 8px 0 0;
-  padding: 8px 9px 8px 9px;
+  padding: 14px 9px 8px 9px;
   font-size: 14px;
   border: none;
   background: 0 0;
@@ -527,7 +527,6 @@ header{
   background: rgba(0, 0, 0, 0.01);
 }
 .textBack{
-    background: #fff;
     max-width: 89%;
     border-radius: 10px;
     display: block;

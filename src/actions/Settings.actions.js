@@ -32,3 +32,12 @@ export function initialiseTTSVoices(voiceList) {
     voiceList
   });
 }
+
+export function customThemeChanged(customTheme) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.CHANGE_CUSTOM_THEME,
+    customTheme
+  });
+  Actions.pushCustomThemeToServer(customTheme);
+}
+

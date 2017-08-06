@@ -198,7 +198,7 @@ class MessageComposer extends Component {
             stop={this.state.stop}
           />
         )}
-        <div className="textBack">
+        <div className="textBack" style={{backgroundColor:this.props.textarea}}>
           <TextareaAutosize
             className='scroll'
             id='scroll'

@@ -16,6 +16,8 @@ export default {
     SETTINGS_CHANGED: null,
     RESET_MESSAGE_VOICE: null,
     FEEDBACK_RECEIVED: null,
+    CHANGE_CUSTOM_THEME:null,
+    INIT_THEME_CUSTOM_THEME:null,
   })
 
 };

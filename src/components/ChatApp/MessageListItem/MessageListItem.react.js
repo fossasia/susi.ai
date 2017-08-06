@@ -11,6 +11,21 @@ import { imageParse, processText,
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
+import { injectIntl } from 'react-intl';
+// Format Date for internationalization
+const PostDate = injectIntl(({date, intl}) => (
+            <span title={intl.formatDate(date, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+            })}>
+            {intl.formatDate(date, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+            })}
+            </span>
+));
 
 const entities = new AllHtmlEntities();
 
@@ -45,7 +60,7 @@ class MessageListItem extends React.Component {
         <li className='message-list-item'>
           <section  className='container-date'>
           <div className='message-text'>
-            {message.date.toLocaleDateString()}
+            <PostDate date={message.date}/>
           </div>
           </section>
         </li>

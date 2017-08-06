@@ -17,8 +17,12 @@ import TopBar from '../TopBar.react';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
-
+import * as Actions from '../../../actions/';
 function getStateFromStores() {
+  var themeValue=[];
+  if(UserPreferencesStore.getThemeValues()){
+    themeValue=UserPreferencesStore.getThemeValues().split(',');
+  }
   return {
     SnackbarOpen: false,
     SnackbarOpenBackground: false,
@@ -31,11 +35,14 @@ function getStateFromStores() {
     openForgotPassword:false,
     showSignUp: false,
     showThemeChanger: false,
-    header: UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B',
-    pane: '',
-    textarea: '',
-    composer:'',
-    body:'',
+    showHardwareChangeDialog: false,
+    showHardware: false,
+    showServerChangeDialog: false,
+    header: themeValue.length>4?'#'+themeValue[0]:'#4285f4',
+    pane: themeValue.length>4?'#'+themeValue[1]:'#f5f4f6',
+    body: themeValue.length>4?'#'+themeValue[2]:'#fff',
+    composer: themeValue.length>4?'#'+themeValue[3]:'#f5f4f6',
+    textarea:  themeValue.length>4?'#'+themeValue[4]:'#fff',
     bodyBackgroundImage:'',
     snackopen: false,
     snackMessage: 'It seems you are offline!',
@@ -53,6 +60,7 @@ function getStateFromStores() {
       searchText:'',
     }
   };
+
 }
 
 function getMessageListItem(messages, showLoading, markID) {
@@ -139,7 +147,6 @@ const urlPropsQueryConfig = {
 };
 
 class MessageSection extends Component {
-
   static propTypes = {
     dream: PropTypes.string
   };
@@ -155,6 +162,14 @@ class MessageSection extends Component {
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
+    this.customTheme={
+      'header':this.state.header.substring(1),
+      'pane':this.state.pane.substring(1),
+      'body':this.state.body.substring(1),
+      'composer':this.state.composer.substring(1),
+      'textarea':this.state.textarea.substring(1)
+    };
+
   }
 
   handleColorChange = (name,color) => {
@@ -173,27 +188,43 @@ class MessageSection extends Component {
   }
 
   handleChangeComplete = (name, color) => {
+    this.setState({'theme':'custom'})
+    let currSettings = UserPreferencesStore.getPreferences();
+    let settingsChanged = {};
+    if(currSettings.Theme !=='custom'){
+      settingsChanged.Theme = 'custom';
+      Actions.settingsChanged(settingsChanged);
+    }
      // Send these Settings to Server
      let state = this.state;
+
      if(name === 'header'){
        state.header = color.hex;
+       this.customTheme.header=state.header.substring(1);
      }
      else if(name === 'body'){
        state.body= color.hex;
-       document.body.style.setProperty('background', color.hex);
+       this.customTheme.body=state.body.substring(1);
+
      }
      else if(name ===  'pane'){
        state.pane = color.hex;
+       this.customTheme.pane=state.pane.substring(1);
+
      }
      else if(name === 'composer'){
        state.composer = color.hex;
+       this.customTheme.composer=state.composer.substring(1);
 
      }
      else if(name === 'textarea'){
        state.textarea = color.hex;
+       this.customTheme.textarea=state.textarea.substring(1);
 
      }
      this.setState(state);
+       document.body.style.setProperty('background', this.state.body);
+
   }
 
   handleOpen = () => {
@@ -285,6 +316,21 @@ class MessageSection extends Component {
       openForgotPassword: false
     });
   }
+  saveThemeSettings = () => {
+    let customData='';
+    Object.keys(this.customTheme).forEach((key) => {
+      customData=customData+this.customTheme[key]+','
+    });
+    this.setState({'theme':'custom'})
+    let currSettings = UserPreferencesStore.getPreferences();
+    let settingsChanged = {};
+    if(currSettings.Theme !=='custom'){
+      settingsChanged.Theme = 'custom';
+      Actions.settingsChanged(settingsChanged);
+    }
+    Actions.customThemeChanged(customData);
+    this.handleClose();
+  }
 
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
@@ -374,6 +420,8 @@ class MessageSection extends Component {
     ThreadStore.addChangeListener(this._onChange.bind(this));
     window.addEventListener('offline', this.handleOffline.bind(this));
     window.addEventListener('online', this.handleOnline.bind(this));
+
+    // let state=this.state;
   }
 
   handleOffline() {
@@ -457,6 +505,33 @@ class MessageSection extends Component {
   }
 
   render() {
+    var bodyColor;
+    var TopBarColor;
+    var composerColor;
+    var messagePane;
+    var textArea;
+switch(this.state.currTheme){
+  case 'custom':{
+    bodyColor = this.state.body;
+    TopBarColor = this.state.header;
+    composerColor = this.state.composer;
+    messagePane = this.state.pane;
+    textArea = this.state.textarea;
+    break;
+  }
+  case 'light':{
+    bodyColor = '#fff';
+    TopBarColor = '#4285f4';
+    composerColor = '#f3f2f4';
+    messagePane = '#f3f2f4';
+    textArea = '#fff';
+    break;
+  }
+  default:{
+    break;
+  }
+}
+    document.body.style.setProperty('background', bodyColor);
 
     const bodyStyle = {
       padding: 0,
@@ -506,7 +581,20 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-  const customSettingsDone = <RaisedButton
+
+  const customSettingsDone = <div>
+    <RaisedButton
+      label="Save"
+      backgroundColor={
+        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+      labelColor="#fff"
+      width='200px'
+      keyboardFocused={true}
+      onTouchTap={this.saveThemeSettings}
+      style={{margin:'0 5px'}}
+    />
+    <div style={{padding:'0 10px',float:'left'}}></div>
+    <RaisedButton
       label="Done"
       backgroundColor={
         UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
@@ -514,7 +602,9 @@ class MessageSection extends Component {
       width='200px'
       keyboardFocused={true}
       onTouchTap={this.handleClose}
-    />;
+
+    />
+    </div>;
 
     const componentsList = [
       {'id':1, 'component':'header', 'name': 'Header'},
@@ -586,9 +676,7 @@ class MessageSection extends Component {
     let speechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
 
     var body = this.state.body;
-    var pane = this.state.pane;
-    var composer = this.state.composer;
-    var header= this.state.header;
+
     let messageListItems = [];
     if(this.state.search){
       let markID = this.state.searchState.scrollID;
@@ -602,7 +690,7 @@ class MessageSection extends Component {
 
     if (this.state.thread) {
 
-    const messageBackgroundStyles = { background: pane,
+    const messageBackgroundStyles = { backgroundColor: messagePane,
                     backgroundImage: `url(${this.state.messageBackgroundImage})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: '100% 100%'
@@ -612,7 +700,7 @@ class MessageSection extends Component {
             <header className='message-thread-heading'
             style={{ backgroundColor: backgroundCol }}>
               <TopBar
-                backgroundColor={header}
+                header={TopBarColor}
                 {...this.props}
                 ref={instance => { this.child = instance; }}
                 handleThemeChanger={this.handleThemeChanger}
@@ -659,11 +747,11 @@ class MessageSection extends Component {
                     </FloatingActionButton>
                   </div>
                 }
-                <div className='compose' style={{background:composer}}>
+                <div className='compose' style={{backgroundColor:composerColor}}>
                   <MessageComposer
                     threadID={this.state.thread.id}
                     dream={dream}
-                    textarea={this.state.textarea}
+                    textarea={textArea}
                     speechOutput={speechOutput}
                     speechOutputAlways={speechOutputAlways} />
                 </div>
