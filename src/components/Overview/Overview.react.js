@@ -180,7 +180,7 @@ class Overview extends Component{
               <div className="description__heading">Use it in many Languages</div>
               <p className="description__text">You can use <b>SUSI.AI</b> in DIfferent
                      languages. You can ask questions in many languages.
-SUSI is interligent to identify and answer your question in you language.
+SUSI is intelligent to identify and answer your question in your language.
                     </p>
             </div>
 
