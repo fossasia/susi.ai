@@ -692,6 +692,11 @@ textarea {
   position: absolute;
   bottom: 10px;
   right: 5px;
+  width: 80%;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .message-text a {
