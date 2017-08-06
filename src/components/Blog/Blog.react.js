@@ -8,6 +8,9 @@ import FlatButton from 'material-ui/FlatButton';
 import susi from '../../images/susi-logo.svg';
 import dateFormat from 'dateformat';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 
 class Blog extends Component {
 
@@ -17,6 +20,9 @@ class Blog extends Component {
         this.state = {
             posts: [],
             postRendered: false,
+            startPage: 0,
+            nextDisplay: 'visible',
+            prevDisplay: 'hidden',
         }
     }
 
@@ -27,7 +33,9 @@ class Blog extends Component {
         method: 'GET',
         dataType: 'json',
         data: {
-            'rss_url': 'http://blog.fossasia.org/tag/susi-ai/feed/'
+            'rss_url': 'http://blog.fossasia.org/tag/susi-ai/feed/',
+            'api_key': 'qsmzjtyycc49whsfvf5ikzottxrbditq3burojhd', // put your api key here
+            'count': 50
         }
         }).done(function (response) {
             if(response.status !== 'ok'){ throw response.message; }
@@ -35,8 +43,52 @@ class Blog extends Component {
         }.bind(this));
     }
 
+  scrollStep() {
+    if (window.pageYOffset === 0) {
+        clearInterval(this.state.intervalId);
+    }
+    window.scroll(0, window.pageYOffset - 1000);
+  }
+
+  scrollToTop() {
+    let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
+    this.setState({ intervalId: intervalId });
+  }
+
+    previousPage = () => {
+        let current = this.state.startPage;
+        if(current-10 === 0) {
+            this.setState({startPage: current-10, prevDisplay: 'hidden', nextDisplay: 'visible'})
+        }
+        else {
+            this.setState({startPage: current-10, prevDisplay: 'visible', nextDisplay: 'visible'})
+        }
+        this.scrollToTop();
+    }
+
+    nextPage = () => {
+        let current = this.state.startPage;
+        let size = this.state.posts.length;
+        console.log(size)
+        if(current+10 === size-10 ) {
+            this.setState({startPage: current+10, nextDisplay: 'hidden', prevDisplay: 'visible'})
+        }
+        else {
+            this.setState({startPage: current+10, prevDisplay: 'visible', nextDisplay: 'visible'})
+        }
+        this.scrollToTop();
+    }
+
 
     render() {
+
+        const nextStyle = {
+            visibility: this.state.nextDisplay,
+            marginLeft: '10px'
+        }
+        const prevStyle = {
+            visibility: this.state.prevDisplay
+        }
 
         if(this.state.postRendered) {
             return (
@@ -53,11 +105,17 @@ class Blog extends Component {
                         </div>
                         <div>
                             {
-                                this.state.posts.map((posts , i) => {
+                                this.state.posts
+                                .slice(this.state.startPage,this.state.startPage+10)
+                                .map((posts , i) => {
                                     let description = htmlToText.fromString(posts.description).split('…');
                                     let text = description[0].split(']');
+                                    let image = susi
                                     let regExp = /\[(.*?)\]/;
                                     let imageUrl = regExp.exec(description[0]);
+                                    if(imageUrl) {
+                                      image = imageUrl[1]
+                                    }
                                     let date = posts.pubDate.split(' ');
                                     let d = new Date(date[0]);
                                         return (
@@ -70,7 +128,7 @@ class Blog extends Component {
                                                         }
                                                     >
                                                         <img className="featured_image"
-                                                            src={imageUrl[1]}
+                                                            src={image}
                                                             alt={posts.title}
                                                         />
                                                     </CardMedia>
@@ -85,6 +143,20 @@ class Blog extends Component {
                                 })
                             }
                         </div>
+                          <div className="blog_navigation">
+                            <FloatingActionButton
+                                style={prevStyle}
+                                backgroundColor={'#4285f4'}
+                                onTouchTap={this.previousPage}>
+                                <Previous />
+                            </FloatingActionButton>
+                            <FloatingActionButton
+                                style={nextStyle}
+                                backgroundColor={'#4285f4'}
+                                onTouchTap={this.nextPage}>
+                                <Next />
+                            </FloatingActionButton>
+                          </div>
                         <div className="post_bottom"></div>
                         <div className='footer'>
                             <a className='susi-logo-anchor' href='/overview'>
