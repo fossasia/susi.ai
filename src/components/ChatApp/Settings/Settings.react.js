@@ -80,17 +80,14 @@ class Settings extends Component {
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultTTSLanguage = defaults.TTSLanguage;
-    let voiceList = MessageStore.getTTSVoiceList();
-
-    let TTSBrowserSupport;
+		let defaultPrefLanguage = defaults.PrefLanguage;
+    	let TTSBrowserSupport;
     if ('speechSynthesis' in window) {
       TTSBrowserSupport = true;
     } else {
       TTSBrowserSupport = false;
       console.warn('The current browser does not support the SpeechSynthesis API.')
     }
-    console.log(TTSBrowserSupport);
-    console.log(voiceList);
     let STTBrowserSupport;
     const SpeechRecognition = window.SpeechRecognition
       || window.webkitSpeechRecognition
@@ -121,6 +118,7 @@ class Settings extends Component {
 			speechRate: defaultSpeechRate,
 			speechPitch: defaultSpeechPitch,
 			ttsLanguage: defaultTTSLanguage,
+			PrefLanguage: defaultPrefLanguage,
 			showServerChangeDialog: false,
 			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
@@ -129,10 +127,11 @@ class Settings extends Component {
 			showForgotPassword: false,
 			showOptions: false,
 			anchorEl: null,
+			voiceList: MessageStore.getTTSVoiceList()
 		};
 
     this.customServerMessage = '';
-    this.TTSBrowserSupport = TTSBrowserSupport && voiceList.length > 0;
+    this.TTSBrowserSupport = TTSBrowserSupport;
     this.STTBrowserSupport = STTBrowserSupport;
   }
 
@@ -177,6 +176,7 @@ class Settings extends Component {
 		let newSpeechRate = this.state.speechRate;
 		let newSpeechPitch = this.state.speechPitch;
 		let newTTSLanguage = this.state.ttsLanguage;
+		let newPrefLanguage = this.state.PrefLanguage;
 		if(newDefaultServer.slice(-1)==='/'){
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
@@ -190,17 +190,21 @@ class Settings extends Component {
 			rate: newSpeechRate,
 			pitch: newSpeechPitch,
 			lang: newTTSLanguage,
+			PrefLanguage: newPrefLanguage
 		}
+		console.log(newPrefLanguage);
 
 		let settings = Object.assign({}, vals);
 		settings.LocalStorage = true;
 		// Store in cookies for anonymous user
 		cookies.set('settings',settings);
+		console.log(settings);
 		// Trigger Actions to save the settings in stores and server
 		this.implementSettings(vals);
 	}
 
 	implementSettings = (values) => {
+		console.log(values);
     let currSettings = UserPreferencesStore.getPreferences();
     let settingsChanged = {};
     let resetVoice = false;
@@ -230,11 +234,14 @@ class Settings extends Component {
     if(currSettings.TTSLanguage !== values.lang){
       settingsChanged.TTSLanguage = values.lang;
     }
+    if(currSettings.PrefLanguage !== values.PrefLanguage){
+      settingsChanged.PrefLanguage = values.PrefLanguage;
+    }
     Actions.settingsChanged(settingsChanged);
     if(resetVoice){
       Actions.resetVoice();
     }
-		this.props.history.push('/');
+    this.props.history.push('/');
     window.location.reload();
   }
 
@@ -370,6 +377,11 @@ class Settings extends Component {
     });
 	}
 
+	handlePrefLang = (event, index, value) => {
+		this.setState({
+			PrefLanguage: value,
+		});
+	}
 	closeOptions = () => {
 		this.setState({
       showOptions: false,
@@ -378,11 +390,20 @@ class Settings extends Component {
 
 	componentWillMount() {
 		document.body.className = 'white-body';
-  }
+  	}
+  	componentWillUnmount() {
+    	MessageStore.removeChangeListener(this._onChange.bind(this));
+  	}
+  	_onChange() {
+  	  this.setState({
+  	  	voiceList: MessageStore.getTTSVoiceList()
+  	  });
+  	}
 
-	componentDidMount() {
+  	componentDidMount() {
+  		MessageStore.addChangeListener(this._onChange.bind(this));
 
-		this.setState({
+  		this.setState({
 	      search: false,
 	    });
 
@@ -441,6 +462,33 @@ class Settings extends Component {
 				return <Logged />
 	}
 
+	populateVoiceList = () => {
+		let voices = this.state.voiceList;
+		let langCodes = [];
+		let voiceMenu = voices.map((voice,index) => {
+			langCodes.push(voice.lang);
+			return(
+					<MenuItem value={voice.lang} key={index}
+						primaryText={voice.name+' ('+voice.lang+')'} />
+			);
+		});
+		let currLang = this.state.PrefLanguage;
+		let voiceOutput = {
+			voiceMenu: voiceMenu,
+			voiceLang: currLang
+		}
+		// `-` and `_` replacement check of lang codes
+		if(langCodes.indexOf(currLang) === -1){
+			if(currLang.indexOf('-') > -1 && langCodes.indexOf(currLang.replace('-','_')) > -1){
+				voiceOutput.voiceLang = currLang.replace('-','_');
+			}
+			else if(currLang.indexOf('_') > -1 && langCodes.indexOf(currLang.replace('_','-')) > -1){
+				voiceOutput.voiceLang = currLang.replace('_','-');
+			}
+		}
+		console.log(voiceOutput);
+		return voiceOutput;
+	}
 	render() {
 
 		const bodyStyle = {
@@ -542,7 +590,7 @@ class Settings extends Component {
 				</Popover>
 			</div>
 		);
-
+		let voiceOutput = this.populateVoiceList();
 		return (
 			<div className={topBackground}>
 				<header className='message-thread-heading'
@@ -570,6 +618,7 @@ class Settings extends Component {
               onChange={this.handleSelectChange}>
               <MenuItem value={'light'} primaryText="Light" />
               <MenuItem value={'dark'} primaryText="Dark" />
+							<MenuItem value={'custom'} primaryText="Custom" />
             </DropDownMenu>
             </div>
             <div>
@@ -618,6 +667,18 @@ class Settings extends Component {
                 disabled={!this.TTSBrowserSupport}
                 onClick={this.handleLanguage.bind(this,true)} />
             </div>
+           <div>
+                <h3 style={subHeaderStyle}>Language Settings</h3>
+                <div>
+					<h4 style={{'marginBottom':'0px'}}>Select Language</h4>
+					<DropDownMenu
+						value={voiceOutput.voiceLang}
+						disabled={!this.TTSBrowserSupport}
+						onChange={this.handlePrefLang}>
+					 	{voiceOutput.voiceMenu}
+				 </DropDownMenu>
+				</div>
+             </div>
             {cookies.get('loggedIn') ?
               <div>
                 <div>

@@ -5,7 +5,7 @@ import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import MessageStore from '../stores/MessageStore';
-import * as Actions from './HardwareConnect.actions'
+import * as Actions from './HardwareConnect.actions';
 import * as SettingsActions from './Settings.actions';
 
 const cookies = new Cookies();
@@ -62,6 +62,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     };
 
   let defaults = UserPreferencesStore.getPreferences();
+  console.log(defaults);
   let defaultServerURL = defaults.Server;
   let BASE_URL = '';
   if(cookies.get('serverUrl')===defaultServerURL||
@@ -114,6 +115,26 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         // Setting Language received from User
         receivedMessage.lang = response.answers[0].actions[0].language;
       }
+      let defaultPrefLanguage = defaults.PrefLanguage;
+      // Translate the message text
+        let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='+defaultPrefLanguage+'&dt=t&q='+receivedMessage.text;
+        $.ajax({
+          url: urlForTranslate,
+          dataType: 'json',
+          crossDomain: true,
+          timeout: 3000,
+          async: false,
+          success: function (data) {
+            if(data[0]){
+              if(data[0][0]){
+                receivedMessage.text = data[0][0][0];
+              }
+            }
+          },
+          error: function(errorThrown){
+            console.log(errorThrown);
+          }
+        });
       receivedMessage.response = response;
       let actions = [];
       response.answers[0].actions.forEach((actionobj) => {
@@ -285,8 +306,8 @@ export function pushSettingsToServer(settings){
     cookies.get('loggedIn')===undefined) {
     return;
   }
-
-  Object.keys(settings).forEach((key) => {
+  console.log(settings);
+ Object.keys(settings).forEach((key) => {
     switch(key){
       case 'Theme':{
         url = BASE_URL+'/aaa/changeUserSettings.json?'
@@ -352,13 +373,46 @@ export function pushSettingsToServer(settings){
         makeServerCall(url);
         break;
       }
+      case 'PrefLanguage':{
+        url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=pref_lang&value='+settings.PrefLanguage
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+        break;
+      }
       default: {
         // do nothing
       }
     }
   });
 }
+// Update Changed Settings on server
+export function pushCustomThemeToServer(customTheme){
+  let defaults = UserPreferencesStore.getPreferences();
+  let defaultServerURL = defaults.StandardServer;
+  let BASE_URL = '';
+  if(cookies.get('serverUrl')===defaultServerURL||
+    cookies.get('serverUrl')===null||
+    cookies.get('serverUrl')=== undefined) {
+    BASE_URL = defaultServerURL;
+  }
+  else{
+    BASE_URL= cookies.get('serverUrl');
+  }
+  let url = '';
 
+  if(cookies.get('loggedIn')===null||
+    cookies.get('loggedIn')===undefined) {
+    return;
+  }
+       url = BASE_URL+'/aaa/changeUserSettings.json?'
+          +'key=custom_theme_value&value='+customTheme
+          +'&access_token='+cookies.get('loggedIn');
+        console.log(url);
+        makeServerCall(url);
+
+}
 export function sendFeedback(){
   let feedback = MessageStore.getFeedback();
   if(feedback===null){
@@ -389,6 +443,7 @@ export function sendFeedback(){
 }
 
 export function makeServerCall(url){
+  console.log(url)
   $.ajax({
     url: url,
     dataType: 'jsonp',

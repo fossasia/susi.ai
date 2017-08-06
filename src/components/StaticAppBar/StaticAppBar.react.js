@@ -23,6 +23,7 @@ import Info from 'material-ui/svg-icons/action/info';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
+import './StaticAppBar.css';
 
 
 const cookies = new Cookies();
@@ -288,7 +289,8 @@ class StaticAppBar extends Component {
             margin: '0 2px',
             textTransform: 'none',
             wordSpacing: '2px',
-            color: '#f2f2f2'
+            color: '#f2f2f2',
+            verticalAlign: 'text-bottom'
         }
 
         const linkstyle = {
@@ -337,7 +339,8 @@ class StaticAppBar extends Component {
                     margin: '0 2px',
                     font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
-                    textTransform: 'none'
+                    textTransform: 'none',
+                    verticalAlign: 'text-bottom'
                 };
             }
             return (
@@ -395,10 +398,13 @@ class StaticAppBar extends Component {
                     onRequestChange={(openDrawer) => this.setState({ openDrawer })}
                 >
                     <AppBar
-                        title={<a href={this.state.baseUrl} ><img src={susiWhite} alt="susi-logo"
-                            className="siteTitle" /></a>}
-                        style={{ backgroundColor: '#4285f4' }}
-                        onTouchTap={this.handleDrawerClose} />
+                        className="drawerAppBar"
+                        title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
+                            <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
+                        style={{
+                            backgroundColor: '#4285f4', height: '46px',
+                            boxShadow: 'none'
+                        }}                        onTouchTap={this.handleDrawerClose} />
                     {menuLlinks}
                 </Drawer>
                 {/* Login */}
