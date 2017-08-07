@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import susi from '../../images/susi-logo.svg';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
@@ -19,6 +18,7 @@ import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import $ from 'jquery';
+import Footer from '../Footer/Footer.react';
 
 class Overview extends Component{
   constructor(props){
@@ -239,26 +239,7 @@ SUSI is intelligent to identify and answer your question in your language.
                   </div>
                 </div>
 
-
-        <div className='footer'>
-          <a className='susi-logo-anchor' href='/overview'>
-            <img src={susi} alt='SUSI' className='susi-logo' />
-          </a>
-          <div className="footer_content">
-            <div className='footer-container'>
-              <ul className='alignLeft'>
-                <li><a href='/overview'>Overview</a></li>
-                <li><a href='/blog'>Blog</a></li>
-                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-              </ul>
-              <ul className='alignRight'>
-                <li><a href='/settings'>Settings</a></li>
-                <li><a href='/terms'>Terms</a></li>
-                <li><a href='/contact'>Contact</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <Footer />
 
         {/* Video */}
         <Modal

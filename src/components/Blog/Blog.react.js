@@ -12,6 +12,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import Loading from 'react-loading-animation';
+import Footer from '../Footer/Footer.react';
 
 class Blog extends Component {
 
@@ -87,116 +88,103 @@ class Blog extends Component {
 
     render() {
 
-        const nextStyle = {
-            visibility: this.state.nextDisplay,
-            marginLeft: '10px'
-        }
+      const nextStyle = {
+          visibility: this.state.nextDisplay,
+          marginLeft: '10px'
+      }
 
-        const prevStyle = {
-            visibility: this.state.prevDisplay
-        }
+      const prevStyle = {
+          visibility: this.state.prevDisplay
+      }
 
-        const loadingStyle = {
-          marginTop : '20px',
-          position : 'relative',
-        }
+      const loadingStyle = {
+        marginTop : '20px',
+        position : 'relative',
+      }
 
 
-            return (
-                <div>
-                    <StaticAppBar {...this.props}
-                        location={this.props.location} />
-                        <div className='head_section'>
-                            <div className='container'>
-                                <div className="heading">
-                                    <h1>Blog</h1>
-                                    <p>Latest Blog Posts on SUSI.AI</p>
-                                </div>
-                            </div>
-                        </div>
-                        <Loading
-                          style={loadingStyle}
-                          isLoading={!this.state.postRendered}/>
-                        {!this.state.postRendered &&
-                          (<div><center>Fetching Blogs..</center></div>)}
-                        {this.state.postRendered && (<div>
-                        <div>
-                            {
-                                this.state.posts
-                                .slice(this.state.startPage,this.state.startPage+10)
-                                .map((posts , i) => {
-                                    let description = htmlToText.fromString(posts.description).split('…');
-                                    let text = description[0].split(']');
-                                    let image = susi
-                                    let regExp = /\[(.*?)\]/;
-                                    let imageUrl = regExp.exec(description[0]);
-                                    if(imageUrl) {
-                                      image = imageUrl[1]
-                                    }
-                                    let date = posts.pubDate.split(' ');
-                                    let d = new Date(date[0]);
-                                        return (
-                                            <div key={i} className="section_blog">
-                                                <Card>
-                                                    <CardMedia
-                                                        overlay={
-                                                            <CardTitle
-                                                                subtitle={'Published on '+ dateFormat(d, 'dddd, mmmm dS, yyyy')} />
-                                                        }
-                                                    >
-                                                        <img className="featured_image"
-                                                            src={image}
-                                                            alt={posts.title}
-                                                        />
-                                                    </CardMedia>
-                                                    <CardTitle title={posts.title} subtitle={'by '+ posts.author} />
-                                                    <CardText>{text[1]+'...'} </CardText>
-                                                    <CardActions>
-                                                        <FlatButton href={posts.link} label="Read More" />
-                                                    </CardActions>
-                                                </Card>
-                                            </div>
-                                        )
-                                })
-                            }
-                        </div>
-                          <div className="blog_navigation">
-                            <FloatingActionButton
-                                style={prevStyle}
-                                backgroundColor={'#4285f4'}
-                                onTouchTap={this.previousPage}>
-                                <Previous />
-                            </FloatingActionButton>
-                            <FloatingActionButton
-                                style={nextStyle}
-                                backgroundColor={'#4285f4'}
-                                onTouchTap={this.nextPage}>
-                                <Next />
-                            </FloatingActionButton>
+          return (
+              <div>
+                  <StaticAppBar {...this.props}
+                      location={this.props.location} />
+                      <div className='head_section'>
+                          <div className='container'>
+                              <div className="heading">
+                                  <h1>Blog</h1>
+                                  <p>Latest Blog Posts on SUSI.AI</p>
+                              </div>
                           </div>
-                        <div className="post_bottom"></div>
-                        <div className='footer'>
-                            <a className='susi-logo-anchor' href='/overview'>
-                                <img src={susi} alt='SUSI' className='susi-logo' />
-                            </a>
-                            <div className="footer_content">
-                                <div className='footer-container'>
-                                    <ul className='alignLeft'>
-                                        <li><a href='/overview'>Overview</a></li>
-                                        <li><a href='/blog'>Blog</a></li>
-                                        <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-                                    </ul>
-                                    <ul className='alignRight'>
-                                        <li><a href='/settings'>Settings</a></li>
-                                        <li><a href='/terms'>Terms</a></li>
-                                        <li><a href='/contact'>Contact</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                      </div>
+                      <Loading
+                        style={loadingStyle}
+                        isLoading={!this.state.postRendered}/>
+                      {!this.state.postRendered &&
+                        (<div><center>Fetching Blogs..</center></div>)}
+                      {this.state.postRendered && (<div>
+                      <div>
+                          {
+                              this.state.posts
+                              .slice(this.state.startPage,this.state.startPage+10)
+                              .map((posts , i) => {
+                                  let description = htmlToText.fromString(posts.description).split('…');
+                                  let text = description[0].split(']');
+                                  let image = susi
+                                  let regExp = /\[(.*?)\]/;
+                                  let imageUrl = regExp.exec(description[0]);
+                                  if(imageUrl) {
+                                    image = imageUrl[1]
+                                  }
+                                  let date = posts.pubDate.split(' ');
+                                  let d = new Date(date[0]);
+                                      return (
+                                          <div key={i} className="section_blog">
+                                              <Card>
+                                                  <CardMedia
+                                                      overlay={
+                                                          <CardTitle
+                                                              subtitle={'Published on '+ dateFormat(d, 'dddd, mmmm dS, yyyy')} />
+                                                      }
+                                                  >
+                                                      <img className="featured_image"
+                                                          src={image}
+                                                          alt={posts.title}
+                                                      />
+                                                  </CardMedia>
+                                                  <CardTitle title={posts.title} subtitle={'by '+ posts.author} />
+                                                  <CardText>{text[1]+'...'} </CardText>
+                                                  <CardActions>
+                                                      <FlatButton href={posts.link} label="Read More" />
+                                                  </CardActions>
+                                              </Card>
+                                          </div>
+                                      )
+                              })
+                          }
+                      </div>
+                        <div className="blog_navigation">
+                          <FloatingActionButton
+                              style={prevStyle}
+                              backgroundColor={'#4285f4'}
+                              onTouchTap={this.previousPage}>
+                              <Previous />
+                          </FloatingActionButton>
+                          <FloatingActionButton
+                              style={nextStyle}
+                              backgroundColor={'#4285f4'}
+                              onTouchTap={this.nextPage}>
+                              <Next />
+                          </FloatingActionButton>
                         </div>
-                      </div>)}
-                </div>
-            );
+                      <div className="post_bottom"></div>
+                      <div className='footer'>
+                          <a className='susi-logo-anchor' href='/overview'>
+                              <img src={susi} alt='SUSI' className='susi-logo' />
+                          </a>
+                          <Footer />
+                      </div>
+                    </div>)}
+              </div>
+          );
     }
 }
 Blog.propTypes = {

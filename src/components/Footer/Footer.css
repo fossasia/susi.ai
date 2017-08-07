@@ -1,0 +1,65 @@
+.footer-container a{
+    text-decoration: none;
+    color: #414141;
+    margin: 0 14px;
+    font-size: 1em;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+
+.footer-container{
+    padding: 50px 10% 20px;
+    display: flex;
+}
+
+.alignLeft,.alignRight{
+    list-style: none;
+    list-style-type: none;
+}
+.leftDiv a,.rightDiv a {
+    color:#3367d6 !important;
+    font-family: 'Roboto', sans-serif;
+}
+.footer-container a:hover {
+    text-decoration: none;
+    color:#757575;;
+}
+.footer{
+    background: #f6f6f6;
+    margin-top: 40px;
+    min-height: 140px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.susi-logo{
+    margin: 10px 0;
+    height: 30px;
+    vertical-align: middle;
+    max-width: 100px;
+    display: inline-block;
+}
+@media only screen and (max-width: 800px){
+    .alignLeft,.alignRight{
+        flex:1 100%;
+        display: block;
+        padding-left: 0;
+        list-style: none;
+        list-style-type: none;
+    }
+    .alignLeft li,.alignRight li{
+        float: left;
+        padding: 0 30px 15px 0;
+    }
+    .footer-container{
+        display: block;
+    }
+    .alignLeft a, .alignRight a{
+        margin-left: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+}

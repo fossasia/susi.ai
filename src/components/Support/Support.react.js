@@ -7,7 +7,6 @@ import github from '../../images/github.png';
 import question from '../../images/question.png';
 import documentation from '../../images/programmer.png';
 import code from '../../images/code.png';
-import susi from '../../images/susi-logo.svg';
 import PropTypes  from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
@@ -17,6 +16,7 @@ import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
 import $ from 'jquery';
+import Footer from '../Footer/Footer.react';
 
 class Support extends Component {
 
@@ -30,6 +30,7 @@ class Support extends Component {
     }
 
     componentDidMount() {
+      $('html, body').animate({ scrollTop: 0 }, 'fast');
       document.title = 'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
       $('html, body').animate({ scrollTop: 0 }, 'fast');
     }
@@ -235,25 +236,7 @@ class Support extends Component {
                   <RaisedButton label="Sign Up" onTouchTap={this.handleSignUp} style={style} />
                 </div>
               </div>
-              <div className='footer'>
-                <a className='susi-logo-anchor' href='/overview'>
-                  <img src={susi} alt='SUSI' className='susi-logo' />
-                </a>
-                <div className="footer_content">
-                  <div className='footer-container'>
-                    <ul className='alignLeft'>
-                      <li><a href='/overview'>Overview</a></li>
-                      <li><a href='/blog'>Blog</a></li>
-                      <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-                    </ul>
-                    <ul className='alignRight'>
-                      <li><a href='/settings'>Settings</a></li>
-                      <li><a href='/terms'>Terms</a></li>
-                      <li><a href='/contact'>Contact</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+            <Footer/>
 
 
               {/* Login */}
