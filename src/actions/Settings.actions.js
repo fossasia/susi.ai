@@ -40,4 +40,3 @@ export function customThemeChanged(customTheme) {
   });
   Actions.pushCustomThemeToServer(customTheme);
 }
-
