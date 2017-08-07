@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import $ from 'jquery';
 
 class Overview extends Component{
   constructor(props){
@@ -56,8 +57,10 @@ class Overview extends Component{
     document.body.style.backgroundColor = '#fff';
   }
 
+
   componentDidMount() {
     document.title = 'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   render() {

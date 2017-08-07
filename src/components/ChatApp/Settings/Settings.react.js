@@ -187,10 +187,10 @@ class Settings extends Component {
 			micInput: newMicInput,
 			speechOutput: newSpeechOutput,
 			speechOutputAlways: newSpeechOutputAlways,
-			rate: newSpeechRate,
-			pitch: newSpeechPitch,
-			lang: newTTSLanguage,
-			PrefLanguage: newPrefLanguage
+			speechRate: newSpeechRate,
+			speechPitch: newSpeechPitch,
+			ttsLanguage: newTTSLanguage,
+			prefLanguage: newPrefLanguage
 		}
 		console.log(newPrefLanguage);
 
@@ -206,38 +206,14 @@ class Settings extends Component {
 	implementSettings = (values) => {
 		console.log(values);
     let currSettings = UserPreferencesStore.getPreferences();
-    let settingsChanged = {};
     let resetVoice = false;
-    if(currSettings.Theme !== values.theme){
-      settingsChanged.Theme = values.theme;
-    }
-    if(currSettings.EnterAsSend !== values.enterAsSend){
-      settingsChanged.EnterAsSend = values.enterAsSend;
-    }
-    if(currSettings.MicInput !== values.micInput){
-      settingsChanged.MicInput = values.micInput;
-    }
     if(currSettings.SpeechOutput !== values.speechOutput){
-      settingsChanged.SpeechOutput = values.speechOutput;
       resetVoice = true;
     }
     if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
-      settingsChanged.SpeechOutputAlways = values.speechOutputAlways;
       resetVoice = true;
     }
-    if(currSettings.SpeechRate !== values.rate){
-      settingsChanged.SpeechRate = values.rate;
-    }
-    if(currSettings.SpeechPitch !== values.pitch){
-      settingsChanged.SpeechPitch = values.pitch;
-    }
-    if(currSettings.TTSLanguage !== values.lang){
-      settingsChanged.TTSLanguage = values.lang;
-    }
-    if(currSettings.PrefLanguage !== values.PrefLanguage){
-      settingsChanged.PrefLanguage = values.PrefLanguage;
-    }
-    Actions.settingsChanged(settingsChanged);
+    Actions.settingsChanged(values);
     if(resetVoice){
       Actions.resetVoice();
     }
@@ -596,6 +572,7 @@ class Settings extends Component {
 				<header className='message-thread-heading'
 				style={{ backgroundColor: backgroundCol }}>
 				<AppBar
+						showMenuIconButton={false}
 						className='topAppBar'
 						title={<div style={{ float: 'left', marginTop: '-10px' }}><Link to="/" >
 									<img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link></div>}

@@ -67,6 +67,7 @@ let UserPreferencesStore = {
     getTTSLanguage(){
       return _defaults.TTSLanguage;
     },
+
     getPrefLang(){
         return _defaults.PrefLanguage;
     },
@@ -80,12 +81,21 @@ let UserPreferencesStore = {
     },
 
 };
+
 function checkForFalse ( valueToCheck ){
-    if(valueToCheck===false){
+    if(valueToCheck==='false'){
         return false;
     }
     return true;
 }
+
+function checkForTrue ( valueToCheck ){
+    if(valueToCheck==='true'){
+        return true;
+    }
+    return false;
+}
+
 UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     switch (action.type) {
@@ -98,9 +108,16 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
         case ActionTypes.SETTINGS_CHANGED: {
             let settings = action.settings;
-            Object.keys(settings).forEach((key) => {
-                _defaults[key] = settings[key];
-            });
+            _defaults.Theme = settings.theme;
+            _defaults.EnterAsSend = settings.enterAsSend;
+            _defaults.MicInput = settings.micInput;
+            _defaults.SpeechOutput = settings.speechOutput;
+            _defaults.SpeechOutputAlways = settings.speechOutputAlways;
+            _defaults.SpeechRate = settings.speechRate;
+            _defaults.SpeechPitch = settings.speechPitch;
+            _defaults.TTSLanguage = settings.ttsLanguage;
+            _defaults.PrefLanguage = settings.prefLanguage;
+            _defaults.ThemeValues = settings.custom_theme_value;
             UserPreferencesStore.emitChange();
             break;
         }
@@ -113,53 +130,49 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.MicInput = settings.micInput;
                 _defaults.SpeechOutput = settings.speechOutput;
                 _defaults.SpeechOutputAlways = settings.speechOutputAlways;
-                _defaults.SpeechRate = settings.rate;
-                _defaults.SpeechPitch = settings.pitch;
-                _defaults.TTSLanguage = settings.lang;
-                _defaults.PrefLanguage = settings.PrefLanguage;
-                _defaults.ThemeValues = settings.custom_theme_value;
+                _defaults.SpeechRate = settings.speechRate;
+                _defaults.SpeechPitch = settings.speechPitch;
+                _defaults.TTSLanguage = settings.ttsLanguage;
+                _defaults.PrefLanguage = settings.prefLanguage;
+                _defaults.ThemeValues = settings.customThemeValue;
             }
             else{
                 if(settings.hasOwnProperty('theme')){
                     _defaults.Theme = settings.theme;
                 }
-                if(settings.hasOwnProperty('enter_send')){
-                    _defaults.EnterAsSend = checkForFalse(settings.enter_send);
+                if(settings.hasOwnProperty('enterAssend')){
+                    _defaults.EnterAsSend = checkForFalse(settings.enterAssend);
                 }
-                if(settings.hasOwnProperty('mic_input')){
-                    _defaults.MicInput = checkForFalse(settings.mic_input);
+                if(settings.hasOwnProperty('micInput')){
+                    _defaults.MicInput = checkForFalse(settings.micInput);
                 }
-                if(settings.hasOwnProperty('speech_output')){
-                    _defaults.SpeechOutput = checkForFalse(settings.speech_output);
+                if(settings.hasOwnProperty('speechOutput')){
+                    _defaults.SpeechOutput = checkForFalse(settings.speechOutput);
                 }
-                if(settings.hasOwnProperty('speech_always')){
-                    let initSpeechOutputAlways = false;
-                    if(settings.speech_always === 'true'){
-                        initSpeechOutputAlways = true;
-                    }
-                    _defaults.SpeechOutputAlways = initSpeechOutputAlways;
+                if(settings.hasOwnProperty('speechOutputAlways')){
+                    _defaults.SpeechOutputAlways = checkForTrue(
+                                                    settings.speechOutputAlways);
                 }
-                if(settings.hasOwnProperty('speech_rate')){
-                    let initSpeechRate = parseFloat(settings.speech_rate);
+                if(settings.hasOwnProperty('speechRate')){
+                    let initSpeechRate = parseFloat(settings.speechRate);
                     if(!isNaN(initSpeechRate)){
                         _defaults.SpeechRate = initSpeechRate;
                     }
                 }
-                if(settings.hasOwnProperty('speech_pitch')){
-                    let initSpeechPitch = parseFloat(settings.speech_pitch);
+                if(settings.hasOwnProperty('speechPitch')){
+                    let initSpeechPitch = parseFloat(settings.speechPitch);
                     if(!isNaN(initSpeechPitch)){
                         _defaults.SpeechPitch = initSpeechPitch;
                     }
                 }
-                if(settings.hasOwnProperty('speech_lang')){
-                  _defaults.TTSLanguage = settings.speech_lang;
+                if(settings.hasOwnProperty('ttsLanguage')){
+                  _defaults.TTSLanguage = settings.ttsLanguage;
                 }
-                if(settings.hasOwnProperty('pref_lang')){
-                    settings.PrefLanguage = settings.pref_lang;
-                  _defaults.PrefLanguage = settings.pref_lang;
+                if(settings.hasOwnProperty('prefLanguage')){
+                  _defaults.PrefLanguage = settings.prefLanguage;
                 }
-                  if(settings.hasOwnProperty('custom_theme_value')){
-                    _defaults.ThemeValues = settings.custom_theme_value;
+                if(settings.hasOwnProperty('customThemeValue')){
+                    _defaults.ThemeValues = settings.customThemeValue;
                 }
             }
             UserPreferencesStore.emitChange();

@@ -7,6 +7,7 @@ import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import 'font-awesome/css/font-awesome.min.css';
 import FourButtons from './FourButtons.react';
+import $ from 'jquery';
 
 class Support extends Component {
 
@@ -22,6 +23,7 @@ class Support extends Component {
       team: team
     };
   }
+
 
   componentDidMount() {
     document.title = 'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
@@ -40,29 +42,42 @@ class Support extends Component {
       showOptions: false,
     });
   };
+
   handleToggle = () => this.setState({ open: !this.state.open });
+
   handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
+
   handleDrawerClose = () => this.setState({ openDrawer: false });
+
   handleTitle = () => {
     this.props.history.push('/');
   }
+
   handleLogin = () => this.setState({
     login: true,
     signup: false
   })
+
   handleClose = () => this.setState({
     login: false,
     signup: false,
     open: false
   })
+
   handleSignUp = () => this.setState({
     signup: true,
     login: false
   })
+
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
+
+  componentDidMount(){
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
+
   render() {
 
     let mentors = team[0].mentors.map((mentor, i) => {

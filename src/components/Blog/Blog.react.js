@@ -30,6 +30,7 @@ class Blog extends Component {
 
         document.title = 'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
 
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
         $.ajax({
         url: 'https://api.rss2json.com/v1/api.json',
         method: 'GET',
