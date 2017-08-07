@@ -302,93 +302,24 @@ export function pushSettingsToServer(settings){
   else{
     BASE_URL= cookies.get('serverUrl');
   }
-  let url = '';
 
   if(cookies.get('loggedIn')===null||
     cookies.get('loggedIn')===undefined) {
     return;
   }
-  console.log(settings);
- Object.keys(settings).forEach((key) => {
-    switch(key){
-      case 'Theme':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=theme&value='+settings.Theme
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'EnterAsSend':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=enter_send&value='+settings.EnterAsSend
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'MicInput':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=mic_input&value='+settings.MicInput
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'SpeechOutput':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_output&value='+settings.SpeechOutput
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'SpeechOutputAlways':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_always&value='+settings.SpeechOutputAlways
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'SpeechRate':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_rate&value='+settings.SpeechRate
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'SpeechPitch':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_pitch&value='+settings.SpeechPitch
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'TTSLanguage':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=speech_lang&value='+settings.TTSLanguage
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      case 'PrefLanguage':{
-        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=pref_lang&value='+settings.PrefLanguage
-          +'&access_token='+cookies.get('loggedIn');
-        console.log(url);
-        makeServerCall(url);
-        break;
-      }
-      default: {
-        // do nothing
-      }
-    }
+
+  let url = BASE_URL+'/aaa/changeUserSettings.json?'
+    +'&access_token='+cookies.get('loggedIn');
+
+  Object.keys(settings).forEach((key,index) => {
+    url += '&key'+(index+1).toString()+'='+key
+          +'&value'+(index+1).toString()+'='+(settings[key]).toString();
   });
+  url += '&count='+(Object.keys(settings).length).toString();
+  // push settings to server
+  makeServerCall(url);
 }
+
 // Update Changed Settings on server
 export function pushCustomThemeToServer(customTheme){
   let defaults = UserPreferencesStore.getPreferences();
@@ -409,12 +340,14 @@ export function pushCustomThemeToServer(customTheme){
     return;
   }
        url = BASE_URL+'/aaa/changeUserSettings.json?'
-          +'key=custom_theme_value&value='+customTheme
-          +'&access_token='+cookies.get('loggedIn');
+          +'key1=customThemeValue&value1='+customTheme
+          +'&access_token='+cookies.get('loggedIn')
+          +'&count=1'
         console.log(url);
         makeServerCall(url);
 
 }
+
 export function sendFeedback(){
   let feedback = MessageStore.getFeedback();
   if(feedback===null){
