@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import Close from 'material-ui/svg-icons/navigation/close';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import $ from 'jquery';
 
 class Overview extends Component{
   constructor(props){
@@ -54,6 +55,10 @@ class Overview extends Component{
 
   componentWillMount(){
     document.body.style.backgroundColor = '#fff';
+  }
+
+  componentDidMount(){
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   render() {

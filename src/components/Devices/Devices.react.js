@@ -7,13 +7,19 @@ import './Devices.css';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import $ from 'jquery';
 
 class Devices extends Component{
   constructor(props){
     super(props);
     this.state={
       video:false,
+      initScrollTop: false
     }
+  }
+
+  componentDidMount(){
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   render() {
