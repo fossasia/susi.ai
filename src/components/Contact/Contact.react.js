@@ -16,9 +16,11 @@ class Contact extends Component {
       };
     }
 
-    componentDidMount(){
-      $('html, body').animate({ scrollTop: 0 }, 'fast');
-    }
+
+    componentDidMount() {
+       document.title = 'Contact Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+       $('html, body').animate({ scrollTop: 0 }, 'fast');
+     }
 
     render() {
     return (
