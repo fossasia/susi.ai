@@ -18,7 +18,8 @@ class Devices extends Component{
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
+    document.title = 'SUSI.AI - Open Source AI for Any Device, Android, iOS, Robots, Help Desks, Linux';
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 

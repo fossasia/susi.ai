@@ -24,6 +24,11 @@ class Support extends Component {
     };
   }
 
+
+  componentDidMount() {
+    document.title = 'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+  }
+
   showOptions = (event) => {
     event.preventDefault();
     this.setState({

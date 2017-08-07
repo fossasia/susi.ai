@@ -57,7 +57,9 @@ class Overview extends Component{
     document.body.style.backgroundColor = '#fff';
   }
 
-  componentDidMount(){
+
+  componentDidMount() {
+    document.title = 'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
@@ -84,7 +86,11 @@ class Overview extends Component{
           <div className='section-container'>
             <div className="hero">
               <img src={susiGif} style={{ margin: '20px 0' }} alt='Meet SUSI'/>
-              <h1>Meet SUSI, Your Personal Assistant.</h1>
+              <h1>
+                Meet SUSI.AI,
+                Your Artificial Intelligence for Personal Assistants,
+                Robots, Help Desks and Chatbots.
+              </h1>
               <p>Ask it questions. Tell it to do things. Always ready to help.</p>
               <a onClick={this.handleVideo} style={{
                 color: '#3367d6',
