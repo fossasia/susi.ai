@@ -3,6 +3,8 @@ import './Contact.css';
 import susi from '../../images/susi-logo.svg';
 import PropTypes  from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import $ from 'jquery';
+
 class Contact extends Component {
 
     constructor(props) {
@@ -12,6 +14,10 @@ class Contact extends Component {
         showSignUp: false,
               showForgotPassword: false,
       };
+    }
+
+    componentDidMount(){
+      $('html, body').animate({ scrollTop: 0 }, 'fast');
     }
 
     render() {

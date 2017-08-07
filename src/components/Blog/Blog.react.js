@@ -27,7 +27,7 @@ class Blog extends Component {
     }
 
     componentDidMount() {
-
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
         $.ajax({
         url: 'https://api.rss2json.com/v1/api.json',
         method: 'GET',

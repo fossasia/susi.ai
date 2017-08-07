@@ -16,6 +16,7 @@ import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
+import $ from 'jquery';
 
 class Support extends Component {
 
@@ -58,6 +59,10 @@ class Support extends Component {
   			showForgotPassword: false,
   		})
   	}
+
+    componentDidMount(){
+      $('html, body').animate({ scrollTop: 0 }, 'fast');
+    }
 
     render() {
 

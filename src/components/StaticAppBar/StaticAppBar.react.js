@@ -25,7 +25,6 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import './StaticAppBar.css';
 
-
 const cookies = new Cookies();
 
 let Logged = (props) => (
@@ -72,7 +71,9 @@ class StaticAppBar extends Component {
     }
 
     handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
+
     handleDrawerClose = () => this.setState({ openDrawer: false });
+
     showOptions = (event) => {
         event.preventDefault();
         this.setState({
@@ -82,10 +83,13 @@ class StaticAppBar extends Component {
     }
 
     closeOptions = () => {
+      if(this.state.showOptions){
         this.setState({
             showOptions: false,
         });
+      }
     };
+
     handleToggle = () => this.setState({ open: !this.state.open });
 
     handleTitle = () => {
@@ -102,6 +106,7 @@ class StaticAppBar extends Component {
             this.props.closeVideo();
         }
     }
+
     handleClose = () => {
         this.setState({
             login: false,
@@ -113,6 +118,7 @@ class StaticAppBar extends Component {
             this.props.closeVideo();
         }
     }
+
     handleSignUp = () => {
         this.setState({
             signup: true,
@@ -131,15 +137,16 @@ class StaticAppBar extends Component {
             this.closeOptions();
         }
     }
+
     handleForgotPassword = () => {
         this.setState({
             openForgotPassword: true,
             login: false
         });
     }
+
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
-
         var didScroll;
         var lastScrollTop = 0;
         var delta = 5;
@@ -159,10 +166,8 @@ class StaticAppBar extends Component {
             var st = $(window).scrollTop();
             // Make sure they scroll more than delta
             if (Math.abs(lastScrollTop - st) <= delta) {
-
                 return;
             }
-
             // If they scrolled down and are past the navbar, add class .nav-up.
             // This is necessary so you never see what is "behind" the navbar.
             if (st > lastScrollTop && st > navbarHeight + 400) {
@@ -171,7 +176,6 @@ class StaticAppBar extends Component {
             } else if (st + $(window).height() < $(document).height()) {
                 $('header').removeClass('nav-up').addClass('nav-down');
             }
-
             lastScrollTop = st;
         }
         // Check Logged in
