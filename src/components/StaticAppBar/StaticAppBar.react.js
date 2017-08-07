@@ -289,7 +289,8 @@ class StaticAppBar extends Component {
             margin: '0 2px',
             textTransform: 'none',
             wordSpacing: '2px',
-            color: '#f2f2f2'
+            color: '#f2f2f2',
+            verticalAlign: 'text-bottom'
         }
 
         const linkstyle = {
@@ -338,7 +339,8 @@ class StaticAppBar extends Component {
                     margin: '0 2px',
                     font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
-                    textTransform: 'none'
+                    textTransform: 'none',
+                    verticalAlign: 'text-bottom'
                 };
             }
             return (

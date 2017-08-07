@@ -82,9 +82,7 @@ class Settings extends Component {
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultTTSLanguage = defaults.TTSLanguage;
 		let defaultPrefLanguage = defaults.PrefLanguage;
-    let voiceList = MessageStore.getTTSVoiceList();
-
-    let TTSBrowserSupport;
+    	let TTSBrowserSupport;
     if ('speechSynthesis' in window) {
       TTSBrowserSupport = true;
     } else {
@@ -146,7 +144,7 @@ class Settings extends Component {
 		};
 
     this.customServerMessage = '';
-    this.TTSBrowserSupport = TTSBrowserSupport && voiceList.length > 0;
+    this.TTSBrowserSupport = TTSBrowserSupport;
     this.STTBrowserSupport = STTBrowserSupport;
   }
 
@@ -405,6 +403,7 @@ class Settings extends Component {
 
 	componentWillMount() {
 		document.body.className = 'white-body';
+<<<<<<< HEAD
   }
   	changeLanguage= (defaultText) => {
   		console.log(defaultText);
@@ -415,6 +414,22 @@ class Settings extends Component {
 	componentDidMount() {
 
 		this.setState({
+=======
+  	}
+  	componentWillUnmount() {
+    	MessageStore.removeChangeListener(this._onChange.bind(this));
+  	}
+  	_onChange() {
+  	  this.setState({
+  	  	voiceList: MessageStore.getTTSVoiceList()
+  	  });
+  	}
+
+  	componentDidMount() {
+  		MessageStore.addChangeListener(this._onChange.bind(this));
+
+  		this.setState({
+>>>>>>> upstream/master
 	      search: false,
 	    });
 
