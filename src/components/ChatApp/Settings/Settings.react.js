@@ -403,7 +403,6 @@ class Settings extends Component {
 
 	componentWillMount() {
 		document.body.className = 'white-body';
-<<<<<<< HEAD
   }
   	changeLanguage= (defaultText) => {
   		console.log(defaultText);
@@ -411,11 +410,6 @@ class Settings extends Component {
             defaultText:defaultText
         })
     }
-	componentDidMount() {
-
-		this.setState({
-=======
-  	}
   	componentWillUnmount() {
     	MessageStore.removeChangeListener(this._onChange.bind(this));
   	}
@@ -429,15 +423,15 @@ class Settings extends Component {
   		MessageStore.addChangeListener(this._onChange.bind(this));
 
   		this.setState({
->>>>>>> upstream/master
 	      search: false,
 	    });
 
 		let defaultPrefLanguage = this.state.PrefLanguage;
-        console.log(defaultPrefLanguage);
-        let defaultText = this.state.defaultText;
+		let defaultText = this.state.defaultText;
+        let defaultText1 = this.state.defaultText.slice(0,18);
+        let defaultText2 = this.state.defaultText.slice(18,this.state.defaultText.length);
         let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
-        +defaultPrefLanguage+'&dt=t&q='+defaultText;
+        +defaultPrefLanguage+'&dt=t&q='+defaultText1;
         $.ajax({
           url: urlForTranslate,
           dataType: 'json',
@@ -445,20 +439,43 @@ class Settings extends Component {
           timeout: 3000,
           async: false,
           success: function (data) {
-            if(data[0]){
+          	if(data[0]){
               if(data[0][0]){
-                defaultText = data[0][0][0];
-                defaultText = defaultText.split(',');
-                console.log(defaultText);
-                this.changeLanguage(defaultText);
+                defaultText1 = data[0][0][0];
+                defaultText1 = defaultText1.split(',');
+                console.log(defaultText1);
               }
             }
+            console.log(defaultText2);
+          	let urlForTranslate2 = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
+          	+defaultPrefLanguage+'&dt=t&q='+defaultText2;
+          	$.ajax({
+          	  url: urlForTranslate2,
+          	  dataType: 'json',
+          	  crossDomain: true,
+          	  timeout: 3000,
+          	  async: false,
+          	  success: function (data2) {
+          	    if(data2[0]){
+          	      if(data2[0][0]){
+          	        defaultText2 = data2[0][0][0];
+          	        defaultText2 = defaultText2.split(',');
+          	        defaultText = defaultText1.concat(defaultText2);
+          	        this.changeLanguage(defaultText);
+          	      }
+          	    }
+          	  }.bind(this),
+          	  error: function(errorThrown){
+          	    console.log(errorThrown);
+          	  }
+          	});
           }.bind(this),
           error: function(errorThrown){
             console.log(errorThrown);
           }
         });
-			// Check Logged in
+
+        	// Check Logged in
 			if (cookies.get('loggedIn')) {
 				Logged = (props) => (
 					<div>
