@@ -33,6 +33,11 @@ class ExtendedMarker extends Marker {
   }
 }
 
+export function renderAnchor(text,link){
+  return (<a href={link} target='_blank'
+    rel='noopener noreferrer'>{text}</a>);
+}
+
 // Returns the message time and status indicator
 export function renderMessageFooter(message,latestMsgID, isLastAction){
 
