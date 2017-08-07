@@ -437,6 +437,7 @@ class Settings extends Component {
           	        defaultText2 = data2[0][0][0];
           	        defaultText2 = defaultText2.split(',');
           	        defaultText = defaultText1.concat(defaultText2);
+          	        console.log(defaultText);
           	        this.changeLanguage(defaultText);
           	      }
           	    }
