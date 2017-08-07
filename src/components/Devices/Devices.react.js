@@ -16,6 +16,10 @@ class Devices extends Component{
     }
   }
 
+  componentDidMount() {
+    document.title = 'SUSI.AI - Open Source AI for Any Device, Android, iOS, Robots, Help Desks, Linux';
+  }
+
   render() {
 
     return (

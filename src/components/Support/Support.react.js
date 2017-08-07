@@ -28,6 +28,10 @@ class Support extends Component {
       };
     }
 
+    componentDidMount() {
+      document.title = 'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+    }
+
     handleLogin = () => {
       this.setState({
         showLogin: true,

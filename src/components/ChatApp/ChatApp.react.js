@@ -7,6 +7,7 @@ import history from '../../history';
 export default class ChatApp extends Component {
 
   componentDidMount() {
+      document.title = 'SUSI.AI Chat - Open Source Artificial Intelligence';
       // force an update if the URL changes
       history.listen(() => this.forceUpdate());
    }

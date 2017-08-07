@@ -21,6 +21,10 @@ class Terms extends Component {
     };
   }
 
+  componentDidMount() {
+     document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+   }
+
   showOptions = (event) => {
     event.preventDefault();
     this.setState({
