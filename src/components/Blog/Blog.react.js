@@ -176,12 +176,7 @@ class Blog extends Component {
                           </FloatingActionButton>
                         </div>
                       <div className="post_bottom"></div>
-                      <div className='footer'>
-                          <a className='susi-logo-anchor' href='/overview'>
-                              <img src={susi} alt='SUSI' className='susi-logo' />
-                          </a>
                           <Footer />
-                      </div>
                     </div>)}
               </div>
           );
