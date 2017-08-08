@@ -31,6 +31,7 @@ class Support extends Component {
 
     componentDidMount() {
       document.title = 'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+      $('html, body').animate({ scrollTop: 0 }, 'fast');
     }
 
     handleLogin = () => {
@@ -63,10 +64,6 @@ class Support extends Component {
   			showForgotPassword: false,
   		})
   	}
-
-    componentDidMount(){
-      $('html, body').animate({ scrollTop: 0 }, 'fast');
-    }
 
     render() {
 
