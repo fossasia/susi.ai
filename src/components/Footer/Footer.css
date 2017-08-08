@@ -18,7 +18,7 @@
     list-style-type: none;
 }
 .leftDiv a,.rightDiv a {
-    color:#3367d6 !important;
+    color:#3367d6;
     font-family: 'Roboto', sans-serif;
 }
 .footer-container a:hover {
@@ -61,5 +61,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .footer-container{
+        text-align: center;
     }
 }
