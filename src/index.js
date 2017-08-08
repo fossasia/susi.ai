@@ -54,7 +54,7 @@ const App = () => (
 	<Router history={hashHistory}>
 		<MuiThemeProvider muiTheme={muiTheme}>
 			<Switch>
-				<Route exact path="/" component={ChatApp} >
+				<Route exact path="/" component={ChatApp} />
 				<Route exact path="/logout" component={Logout} />
 				<Route exact path="/overview" component={Overview} />
 				<Route exact path="/devices" component={Devices} />
@@ -65,7 +65,6 @@ const App = () => (
 				<Route exact path="/terms" component={Terms} />
 				<Route exact path="/settings" component={Settings} />
 				<Route exact path="*" component={NotFound} />
-				</Route>
 			</Switch>
 		</MuiThemeProvider>
 	</Router>
