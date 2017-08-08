@@ -11,6 +11,7 @@ import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import Loading from 'react-loading-animation';
 
 class Blog extends Component {
 
@@ -31,6 +32,7 @@ class Blog extends Component {
         document.title = 'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
 
         $('html, body').animate({ scrollTop: 0 }, 'fast');
+
         $.ajax({
         url: 'https://api.rss2json.com/v1/api.json',
         method: 'GET',
@@ -89,11 +91,17 @@ class Blog extends Component {
             visibility: this.state.nextDisplay,
             marginLeft: '10px'
         }
+
         const prevStyle = {
             visibility: this.state.prevDisplay
         }
 
-        if(this.state.postRendered) {
+        const loadingStyle = {
+          marginTop : '20px',
+          position : 'relative',
+        }
+
+
             return (
                 <div>
                     <StaticAppBar {...this.props}
@@ -106,6 +114,12 @@ class Blog extends Component {
                                 </div>
                             </div>
                         </div>
+                        <Loading
+                          style={loadingStyle}
+                          isLoading={!this.state.postRendered}/>
+                        {!this.state.postRendered &&
+                          (<div><center>Fetching Blogs..</center></div>)}
+                        {this.state.postRendered && (<div>
                         <div>
                             {
                                 this.state.posts
@@ -180,13 +194,7 @@ class Blog extends Component {
                                 </div>
                             </div>
                         </div>
-                </div>
-            );
-        }
-            return (
-                <div>
-                    <StaticAppBar {...this.props}
-                        location={this.props.location} />
+                      </div>)}
                 </div>
             );
     }
