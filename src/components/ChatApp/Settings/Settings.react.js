@@ -405,7 +405,8 @@ class Settings extends Component {
 		let defaultPrefLanguage = this.state.PrefLanguage;
 		let defaultText = this.state.defaultText;
         let defaultText1 = this.state.defaultText.slice(0,18);
-        let defaultText2 = this.state.defaultText.slice(18,this.state.defaultText.length);
+        let defaultText2 = this.state.defaultText.slice(18,32);
+        let defaultText3 = this.state.defaultText.slice(32,this.state.defaultText.length);
         let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
         +defaultPrefLanguage+'&dt=t&q='+defaultText1;
         $.ajax({
@@ -436,11 +437,35 @@ class Settings extends Component {
           	      if(data2[0][0]){
           	        defaultText2 = data2[0][0][0];
           	        defaultText2 = defaultText2.split(',');
+          	      }
+          	    }
+
+            console.log(defaultText3);
+          	    let urlForTranslate3 = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
+          	+defaultPrefLanguage+'&dt=t&q='+defaultText3;
+          	    $.ajax({
+          	  url: urlForTranslate3,
+          	  dataType: 'json',
+          	  crossDomain: true,
+          	  timeout: 3000,
+          	  async: false,
+          	  success: function (data3) {
+          	    if(data3[0]){
+          	      if(data3[0][0]){
+          	        defaultText3 = data3[0][0][0];
+          	        defaultText3 = defaultText3.split(',');
+
           	        defaultText = defaultText1.concat(defaultText2);
+          	        defaultText = defaultText.concat(defaultText3);
           	        console.log(defaultText);
           	        this.changeLanguage(defaultText);
           	      }
           	    }
+          	  }.bind(this),
+          	  error: function(errorThrown){
+          	    console.log(errorThrown);
+          	  }
+          	});
           	  }.bind(this),
           	  error: function(errorThrown){
           	    console.log(errorThrown);
