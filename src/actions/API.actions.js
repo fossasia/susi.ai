@@ -247,6 +247,22 @@ export function getSettings(){
       console.log(settings);
       // Check if the settings are set in the cookie
       SettingsActions.initialiseSettings(settings);
+    }else{
+     // get defaults and set it in cookies
+      settings = UserPreferencesStore.getPreferences();
+      settings.theme = settings.Theme
+      settings.enterAsSend = settings.EnterAsSend
+      settings.micInput = settings.MicInput
+      settings.speechOutput = settings.SpeechOutput
+      settings.speechOutputAlways = settings.SpeechOutputAlways
+      settings.speechRate = settings.SpeechRate
+      settings.speechPitch = settings.SpeechPitch
+      settings.ttsLanguage = settings.TTSLanguage
+      settings.prefLanguage = settings.PrefLanguage
+      settings.customThemeValue = settings.ThemeValues
+      settings.LocalStorage = true;
+      cookies.set('settings',settings);
+      SettingsActions.initialiseSettings(settings);
     }
   }
   else{

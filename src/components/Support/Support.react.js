@@ -16,6 +16,7 @@ import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
+import $ from 'jquery';
 
 class Support extends Component {
 
@@ -26,6 +27,10 @@ class Support extends Component {
         showSignUp: false,
 			  showForgotPassword: false,
       };
+    }
+
+    componentDidMount() {
+      document.title = 'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
     }
 
     handleLogin = () => {
@@ -58,6 +63,10 @@ class Support extends Component {
   			showForgotPassword: false,
   		})
   	}
+
+    componentDidMount(){
+      $('html, body').animate({ scrollTop: 0 }, 'fast');
+    }
 
     render() {
 

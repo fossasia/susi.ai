@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import './Terms.css';
 import PropTypes from 'prop-types';
 import susi from '../../images/susi.svg';
-
+import $ from 'jquery';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-
 
 class Terms extends Component {
 
@@ -21,6 +20,10 @@ class Terms extends Component {
     };
   }
 
+  componentDidMount() {
+     document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+   }
+
   showOptions = (event) => {
     event.preventDefault();
     this.setState({
@@ -29,10 +32,13 @@ class Terms extends Component {
     })
   }
 
-
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
+  }
+
+  componentDidMount(){
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   render() {

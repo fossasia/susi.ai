@@ -641,6 +641,7 @@ class Settings extends Component {
 				<header className='message-thread-heading'
 				style={{ backgroundColor: backgroundCol }}>
 				<AppBar
+						showMenuIconButton={false}
 						className='topAppBar'
 						title={<div style={{ float: 'left', marginTop: '-10px' }}><Link to="/" >
 									<img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link></div>}
