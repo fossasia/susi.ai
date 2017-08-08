@@ -22,6 +22,7 @@ class Terms extends Component {
 
   componentDidMount() {
      document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+     $('html, body').animate({ scrollTop: 0 }, 'fast');
    }
 
   showOptions = (event) => {
@@ -35,10 +36,6 @@ class Terms extends Component {
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
-  }
-
-  componentDidMount(){
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   render() {
