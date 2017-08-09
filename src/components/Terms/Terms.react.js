@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
 import './Terms.css';
-import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Footer from '../Footer/Footer.react';
+import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import React, { Component } from 'react';
 
 class Terms extends Component {
 
@@ -25,6 +25,7 @@ class Terms extends Component {
      document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
      $('html, body').animate({ scrollTop: 0 }, 'fast');
    }
+
 
   showOptions = (event) => {
     event.preventDefault();
