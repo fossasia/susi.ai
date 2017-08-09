@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import susi from '../../images/susi-logo.svg';
 import susiAndroid from '../../images/susi-test.gif';
 import susiiOSGif from '../../images/ios_demo.gif';
 import susiDesktop from '../../images/susi.gif';
@@ -8,6 +7,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import $ from 'jquery';
+import Footer from '../Footer/Footer.react';
 
 class Devices extends Component{
   constructor(props){
@@ -85,27 +85,7 @@ class Devices extends Component{
             <img src={susiDesktop} alt='susi-webchat' className='susi-desktop' />
           </div>
         </div>
-
-
-        <div className='footer'>
-          <a className='susi-logo-anchor' href='/overview'>
-            <img src={susi} alt='SUSI' className='susi-logo' />
-          </a>
-          <div className="footer_content">
-            <div className='footer-container'>
-              <ul className='alignLeft'>
-                <li><a href='/overview'>Overview</a></li>
-                <li><a href='/blog'>Blog</a></li>
-                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-              </ul>
-              <ul className='alignRight'>
-                <li><a href='/settings'>Settings</a></li>
-                <li><a href='/terms'>Terms</a></li>
-                <li><a href='/contact'>Contact</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <Footer />
       </div>
     );
   };

@@ -288,13 +288,13 @@ class StaticAppBar extends Component {
             cursor: 'pointer'
         };
         const labelStyle = {
-            padding: '0px 25px 15px 25px',
+            padding: '0px 25px 7px 25px',
             font: '500 14px Roboto,sans-serif',
             margin: '0 2px',
             textTransform: 'none',
             wordSpacing: '2px',
             color: '#f2f2f2',
-            verticalAlign: 'text-bottom'
+            verticalAlign: 'bottom'
         }
 
         const linkstyle = {
@@ -344,7 +344,7 @@ class StaticAppBar extends Component {
                     font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
                     textTransform: 'none',
-                    verticalAlign: 'text-bottom'
+                    verticalAlign: 'bottom'
                 };
             }
             return (
@@ -371,7 +371,7 @@ class StaticAppBar extends Component {
             )
         });
         const TopMenu = (props) => (
-            <div style={{ position: 'relative', top: '-6px' }}>
+            <div style={{ position: 'relative', top: '-11px' }}>
                 <div className="top-menu" style={{ position: 'relative', left: '46px' }}>
                     {navLlinks}
                 </div>
