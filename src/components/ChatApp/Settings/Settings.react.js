@@ -33,16 +33,17 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import './Settings.css';
+import Translate from '../../Translate/Translate.react';
 
 const cookies = new Cookies();
 
 let Logged = (props) => (
     <div>
-        <MenuItem primaryText="About"
+        <MenuItem primaryText={<Translate textKey="about" text="About"/>}
         containerElement={<Link to="/overview" />}
         rightIcon={<Info/>}
         />
-        <MenuItem primaryText="Chat"
+        <MenuItem primaryText={<Translate textKey="chat" text="Chat"/>}
         containerElement={<Link to="/" />}
         rightIcon={<Chat/>}
         />
@@ -54,13 +55,13 @@ let Logged = (props) => (
             width: '140px',
             display:'block'
         }}
-        href="http://skills.susi.ai">Skills</a>
+        href="http://skills.susi.ai"><Translate textKey="skills" text="Skills"/></a>
         </MenuItem>
-        <MenuItem primaryText="Settings"
+        <MenuItem primaryText={<Translate textKey="settings" text="Settings"/>}
         containerElement={<Link to="/settings" />}
         rightIcon={<SettingsIcon/>} />
         <MenuItem
-        primaryText="Login"
+        primaryText={<Translate textKey="login" text="Login"/>}
         onTouchTap={this.handleLogin}
         rightIcon={<SignUpIcon/>} />
     </div>
@@ -111,8 +112,8 @@ class Settings extends Component {
 			speechOutputAlways: defaultSpeechOutputAlways,
 			server: defaultServer,
 			serverUrl: '',
-      serverFieldError: false,
-      checked: false,
+      		serverFieldError: false,
+      		checked: false,
 			validForm: true,
 			showLanguageSettings: false,
 			speechRate: defaultSpeechRate,
@@ -127,9 +128,15 @@ class Settings extends Component {
 			showForgotPassword: false,
 			showOptions: false,
 			anchorEl: null,
-			voiceList: MessageStore.getTTSVoiceList()
-		};
-
+			voiceList: [{
+			lang: 'de-DE',
+			name: 'Deutsch'
+		},{
+			lang:'en-US',
+			name:'US English'
+		}]
+		}
+		console.log(defaultPrefLanguage);
     this.customServerMessage = '';
     this.TTSBrowserSupport = TTSBrowserSupport;
     this.STTBrowserSupport = STTBrowserSupport;
@@ -372,7 +379,13 @@ class Settings extends Component {
   	}
   	_onChange() {
   	  this.setState({
-  	  	voiceList: MessageStore.getTTSVoiceList()
+  	  	voiceList: [{
+  	  		lang: 'de-DE',
+			name: 'Deutsch'
+		},{
+			lang:'en-US',
+			name:'US English'
+		}]
   	  });
   	}
 
@@ -387,23 +400,23 @@ class Settings extends Component {
 			if (cookies.get('loggedIn')) {
 				Logged = (props) => (
 					<div>
-						<MenuItem primaryText="About"
+						<MenuItem primaryText={<Translate textKey="about" text="About"/>}
 							containerElement={<Link to="/overview" />}
 							rightIcon={<Info/>}
 						/>
-						<MenuItem primaryText="Chat"
+						<MenuItem primaryText={<Translate textKey="chat" text="Chat" />}
 							containerElement={<Link to="/" />}
 							rightIcon={<Chat/>}
 						/>
 						<MenuItem
 							rightIcon={<Dashboard/>}
 							href="http://skills.susi.ai"
-						>Skills
+						><Translate textKey="skills" text='Skills' />
 						</MenuItem>
-						<MenuItem primaryText="Settings"
+						<MenuItem primaryText={<Translate textKey='settings' text="Settings" />}
 							containerElement={<Link to="/settings" />}
 							rightIcon={<SettingsIcon/>}/>
-						<MenuItem primaryText="Logout"
+						<MenuItem primaryText={<Translate textKey='logout' text="Logout" />}
 							containerElement={<Link to="/logout" />}
 							rightIcon={<Exit />}/>
 					</div>
@@ -413,24 +426,24 @@ class Settings extends Component {
 
 			Logged = (props) => (
 				<div>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={<Translate textKey="about" text="About"/>}
 						containerElement={<Link to="/overview" />}
 						rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={<Translate textKey="chat" text="Chat"/>}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					><Translate textKey="skills" text="Skills" />
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={<Translate textKey="settings" text="Settings" />}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<SettingsIcon/>} />
 					<MenuItem
-						primaryText="Login"
+						primaryText={<Translate textKey="login" text="Login" />}
 						onTouchTap={this.handleLogin}
 						rightIcon={<SignUpIcon/>} />
 				</div>
@@ -462,7 +475,6 @@ class Settings extends Component {
 				voiceOutput.voiceLang = currLang.replace('_','-');
 			}
 		}
-		console.log(voiceOutput);
 		return voiceOutput;
 	}
 	render() {
@@ -585,69 +597,69 @@ class Settings extends Component {
 			<div className="settingsForm">
 				<Paper zDepth={0}>
 					<div className='settingsDialog'>
-          <h3 className='settingsHeader'>Chat Settings</h3>
-          <h3 style={subHeaderStyle}>ChatApp Settings</h3>
+          <h3 className='settingsHeader'><Translate text="Chat Settings" /></h3>
+          <h3 style={subHeaderStyle}><Translate text="ChatApp Settings" /></h3>
           <div>
-            <h4 style={{float:'left'}}>Select Theme</h4>
+            <h4 style={{float:'left'}}><Translate text="Select Theme"/></h4>
             <DropDownMenu
-              label='Default Theme'
+              label={<Translate text="Default Theme"/>}
               value={this.state.theme}
               onChange={this.handleSelectChange}>
-              <MenuItem value={'light'} primaryText="Light" />
-              <MenuItem value={'dark'} primaryText="Dark" />
-							<MenuItem value={'custom'} primaryText="Custom" />
+              <MenuItem value={'light'} primaryText={<Translate text="Light" />} />
+              <MenuItem value={'dark'} primaryText={<Translate text="Dark" />} />
+							<MenuItem value={'custom'} primaryText={<Translate text="Custom" />} />
             </DropDownMenu>
             </div>
             <div>
-              <h4 style={{'marginBottom':'0px'}}>Enter As Send</h4>
+              <h4 style={{'marginBottom':'0px'}}><Translate text="Enter As Send"/></h4>
               <Toggle
                 className='settings-toggle'
-                label='Send message by pressing ENTER'
+                label={<Translate text="Send message by pressing ENTER"/>}
                 onToggle={this.handleEnterAsSend}
                 toggled={this.state.enterAsSend}/>
             </div>
-            <h3 style={subHeaderStyle}>Mic Settings</h3>
+            <h3 style={subHeaderStyle}><Translate text="Mic Settings"/></h3>
             <div>
-              <h4 style={{'marginBottom':'0px'}}>Mic Input</h4>
+              <h4 style={{'marginBottom':'0px'}}><Translate text="Mic Input"/></h4>
               <Toggle
                 className='settings-toggle'
-                label='Enable mic to give voice input'
+                label={<Translate text="'Enable mic to give voice input"/>}
                 disabled={!this.STTBrowserSupport}
                 onToggle={this.handleMicInput}
                 toggled={this.state.micInput}/>
             </div>
-            <h3 style={subHeaderStyle}>Speech Settings</h3>
+            <h3 style={subHeaderStyle}><Translate text="Speech Settings"/></h3>
             <div>
-              <h4 style={{'marginBottom':'0px'}}>Speech Output</h4>
+              <h4 style={{'marginBottom':'0px'}}><Translate text="Speech Output"/></h4>
               <Toggle
                 className='settings-toggle'
-                label='Enable speech output only for speech input'
+                label={<Translate text="Enable speech output only for speech input"/>}
                 disabled={!this.TTSBrowserSupport}
                 onToggle={this.handleSpeechOutput}
                 toggled={this.state.speechOutput}/>
             </div>
             <div>
-              <h4 style={{'marginBottom':'0px'}}>Speech Output Always ON</h4>
+              <h4 style={{'marginBottom':'0px'}}><Translate text="Speech Output Always ON"/></h4>
               <Toggle
                 className='settings-toggle'
-                label='Enable speech output regardless of input type'
+                label={<Translate text="Enable speech output regardless of input type"/>}
                 disabled={!this.TTSBrowserSupport}
                 onToggle={this.handleSpeechOutputAlways}
                 toggled={this.state.speechOutputAlways}/>
             </div>
             <div>
-              <h4 style={{'marginBottom':'0px'}}>Language</h4>
+              <h4 style={{'marginBottom':'0px'}}><Translate text="Language"/></h4>
               <FlatButton
                 className='settingsBtns'
                 style={Buttonstyles}
-                label="Select a Language"
+                label={<Translate text="Select a Language"/>}
                 disabled={!this.TTSBrowserSupport}
                 onClick={this.handleLanguage.bind(this,true)} />
             </div>
            <div>
-                <h3 style={subHeaderStyle}>Language Settings</h3>
+                <h3 style={subHeaderStyle}><Translate text="Language Settings"/></h3>
                 <div>
-					<h4 style={{'marginBottom':'0px'}}>Select Language</h4>
+					<h4 style={{'marginBottom':'0px'}}><Translate text="Select Language"/></h4>
 					<DropDownMenu
 						value={voiceOutput.voiceLang}
 						disabled={!this.TTSBrowserSupport}
@@ -659,25 +671,25 @@ class Settings extends Component {
             {cookies.get('loggedIn') ?
               <div>
                 <div>
-                  <h3 style={subHeaderStyle}>Server Settings</h3>
+                  <h3 style={subHeaderStyle}><Translate text="Server Settings"/></h3>
                     <FlatButton
                       className='settingsBtns'
                       style={Buttonstyles}
-                      label="Select backend server for the app"
+                      label={<Translate text="Select backend server for the app"/>}
                       onClick={this.handleServer} />
 					    	</div>
 								<div>
-                  <h3 style={subHeaderStyle}>Account Settings</h3>
+                  <h3 style={subHeaderStyle}><Translate text="Account Settings"/></h3>
                   <FlatButton
                     className='settingsBtns'
                     style={Buttonstyles}
-                    label="Change Password"
+                    label={<Translate text="Change Password"/>}
                     onClick={this.handleChangePassword} />
                 </div>
               </div>
               :
               <div>
-                <h3 style={subHeaderStyle}>Server Settings</h3>
+                <h3 style={subHeaderStyle}><Translate text="Server Settings"/></h3>
                 <div style={{position: 'absolute',align:'left'}}>
                   <CustomServer
                     checked={this.state.checked}
@@ -688,17 +700,17 @@ class Settings extends Component {
               </div>
 						}
 			    	<div style={hardwareDivStyle}>
-			    	<h3 style={subHeaderStyle}>Connect to SUSI Hardware:</h3>
+			    	<h3 style={subHeaderStyle}><Translate text="Connect to SUSI Hardware:"/></h3>
 						<FlatButton
 							className='settingsBtns'
 							style={Buttonstyles}
-							label="Add address to connect to Hardware"
+							label={<Translate text="Add address to connect to Hardware"/>}
 							onClick={this.handleHardware} />
 			    	</div>
 			    	</div>
 			    	<div className='settingsSubmit'>
 						<RaisedButton
-							label="Save"
+							label={<Translate text="Save"/>}
 							disabled={!this.state.validForm}
 							backgroundColor={
 								UserPreferencesStore.getTheme()==='light'
@@ -742,8 +754,8 @@ class Settings extends Component {
 	          bodyStyle={bodyStyle}
 	          onRequestClose={this.handleServerToggle.bind(this,false)}>
 	          <div>
-	            <h3>Change Server</h3>
-	            Please login again to change SUSI server
+	            <h3><Translate text="Change Server"/></h3>
+	            <Translate text="Please login again to change SUSI server"/>
 	            <Close style={closingStyle}
 	            onTouchTap={this.handleServerToggle.bind(this,false)} />
 	          </div>

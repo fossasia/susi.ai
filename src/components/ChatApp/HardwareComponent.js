@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import * as Actions from '../../actions/';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import Translate from '../Translate/Translate.react';
 
 class HardwareComponent extends Component {
 
@@ -75,17 +76,17 @@ class HardwareComponent extends Component {
     return (
       <div className="loginForm">
         <Paper zDepth={0} style={styles}>
-          <h3 style={headerStyle}>Enter Socket Web Address</h3>
+          <h3 style={headerStyle}><Translate text="Enter Socket Web Address"/></h3>
           <form onSubmit={this.handleSubmit}>
           <div>
           <TextField name="serverUrl"
                   onChange={this.handleChange}
                   errorText={this.customServerMessage}
-                  floatingLabelText="Websocket URL" />
+                  floatingLabelText={<Translate text="Websocket URL"/>} />
           </div>
           <div>
             <RaisedButton
-              label="Connect"
+              label={<Translate text="Connect"/>}
               type="submit"
               disabled={!this.state.validForm}
               backgroundColor={

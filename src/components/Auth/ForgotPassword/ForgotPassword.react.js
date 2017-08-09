@@ -8,6 +8,7 @@ import $ from 'jquery';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Translate from '../../Translate/Translate.react';
 
 class ForgotPassword extends Component {
 
@@ -216,12 +217,12 @@ class ForgotPassword extends Component {
 		return (
 			<div className="forgotPwdForm">
 				<Paper zDepth={0} style={styles}>
-					<h3>Forgot Password?</h3>
+					<h3><Translate text="Forgot Password?"/></h3>
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField
 								name="email"
-								floatingLabelText="Email"
+								floatingLabelText={<Translate text="Email"/>}
 								errorText={this.emailErrorMessage}
 								value={this.state.email}
 								underlineFocusStyle={underlineFocusStyle}
@@ -238,7 +239,7 @@ class ForgotPassword extends Component {
 						<div>
 							<RaisedButton
 								type="submit"
-								label="Reset"
+								label={<Translate text="Reset"/>}
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
@@ -253,7 +254,7 @@ class ForgotPassword extends Component {
 						open={true}
 						onRequestClose={this.handleClose}
 					>
-						{this.state.msg}
+						<Translate text={this.state.msg}/>
 
           			<Close style={closingStyle} onTouchTap={this.handleClose} />
 					</Dialog></div>

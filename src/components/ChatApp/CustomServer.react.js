@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
+import Translate from '../Translate/Translate.react';
 
 export default class CustomServer extends Component {
 
@@ -39,7 +40,7 @@ export default class CustomServer extends Component {
                             onTouchTap={this.handleServeChange}
                             value={this.props.serverUrl}
                             errorText={this.props.customServerMessage}
-                            floatingLabelText="Custom URL"
+                            floatingLabelText={<Translate text="Custom URL"/>}
                             style={customUrlStyle} />;
 
         const customServer = this.props.checked ? serverURL : '';
@@ -53,10 +54,10 @@ export default class CustomServer extends Component {
                     	label={this.props.checked?(
                                 <label htmlFor={'uniqueId'}>
                                         <div>
-                                            {customServer}
+                                           {customServer}
                                         </div>
                                 </label>
-                    			):'Use Custom Server'}
+                    			):<Translate text='Use Custom Server'/>}
                     	toggled={this.props.checked}
                     	onToggle={this.handleServeChange}
                     	style={{display: 'flex',

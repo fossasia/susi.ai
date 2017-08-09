@@ -18,13 +18,13 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
+import Translate from '../../Translate/Translate.react';
 
 function getStateFromStores() {
   var themeValue=[];
   if(UserPreferencesStore.getThemeValues()){
     themeValue=UserPreferencesStore.getThemeValues().split(',');
   }
-  console.log('themeValue',themeValue);
   return {
     SnackbarOpen: false,
     SnackbarOpenBackground: false,
@@ -227,7 +227,7 @@ class MessageSection extends Component {
        this.customTheme.textarea=state.textarea.substring(1);
 
      }
-      else if(name == 'button'){
+      else if(name === 'button'){
        state.button = color.hex;
        this.customTheme.button=state.button.substring(1);
       }
@@ -584,7 +584,7 @@ switch(this.state.currTheme){
     }
 
     const actions = <RaisedButton
-      label="Cancel"
+      label={<Translate text="Cancel" />}
       backgroundColor={
         UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
@@ -596,7 +596,7 @@ switch(this.state.currTheme){
 
   const customSettingsDone = <div>
     <RaisedButton
-      label="Save"
+      label={<Translate text="Save" />}
       backgroundColor={buttonColor}
       labelColor="#fff"
       width='200px'
@@ -605,7 +605,7 @@ switch(this.state.currTheme){
       style={{margin:'0 5px'}}
     />
     <RaisedButton
-      label="Done"
+      label={<Translate text="Done" />}
       backgroundColor={buttonColor}
       labelColor="#fff"
       width='200px'
@@ -626,7 +626,7 @@ switch(this.state.currTheme){
 
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
-                  <h4>Change color of {component.name}:</h4>
+                  <h4><Translate text="Change color of"/> {component.name}:</h4>
         <CirclePicker  color={component} width={'100%'}
           colors={['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
         '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#607d8b',
@@ -643,11 +643,11 @@ switch(this.state.currTheme){
             (e,value)=>
             this.handleChangeBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
-          floatingLabelText="Body Background Image URL" />
+          floatingLabelText={<Translate text="Body Background Image URL" />} />
             <RaisedButton
                 name="removeBackgroundBody"
                 key={'RemoveBody'}
-                label="Remove URL"
+                label={<Translate text="Remove URL" />}
                 style={{
                   display:component.component==='body'?'block':'none',
                   width: '150px'
@@ -663,11 +663,11 @@ switch(this.state.currTheme){
                 (e,value)=>
                 this.handleChangeMessageBackground(value) }
               value={this.state.messageBackgroundImage}
-              floatingLabelText="Message Background Image URL" />
+              floatingLabelText={<Translate text="Message Background Image URL"/>} />
         <RaisedButton
               name="removeBackgroundMessage"
               key={'RemoveMessage'}
-              label="Remove URL"
+              label={<Translate text="Remove URL" />}
               style={{
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
@@ -803,12 +803,12 @@ switch(this.state.currTheme){
              )}
              <Snackbar
                open={this.state.SnackbarOpenBackground}
-               message={'Please enter a valid URL first'}
+               message={<Translate text='Please enter a valid URL first'/>}
                autoHideDuration={4000}
              />
              <Snackbar
                open={this.state.SnackbarOpen}
-               message={'Theme Changed'}
+               message={<Translate text='Theme Changed'/>}
                action="undo"
                autoHideDuration={4000}
                onActionTouchTap={this.handleActionTouchTap}
@@ -817,7 +817,7 @@ switch(this.state.currTheme){
              <Snackbar
               autoHideDuration={4000}
               open={this.state.snackopen}
-              message={this.state.snackMessage}
+              message={<Translate text={this.state.snackMessage} />}
               />
            </div>
          );

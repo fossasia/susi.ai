@@ -18,6 +18,7 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
+import Translate from '../Translate/Translate.react';
 
 const cookies = new Cookies();
 
@@ -83,27 +84,27 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={<Translate textKey='about' text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={<Translate textKey='chat' text="Chat"/>}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					><Translate textKey='skills' text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={<Translate textKey='settings' text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
-					<MenuItem primaryText="Themes"
+					<MenuItem primaryText={<Translate textKey='themes' text="Themes"/>}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText="Logout"
+					<MenuItem primaryText={<Translate textKey='logout' text="Logout"/>}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
 				</Popover>
@@ -130,23 +131,23 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={<Translate textKey='about' text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={<Translate textKey='chat' text="Chat"/>}
 					containerElement={<Link to="/" />}
 					rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					><Translate textKey='skills' text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={<Translate textKey='settings' text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
-					<MenuItem primaryText="Login"
+					<MenuItem primaryText={<Translate textKey="login" text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
 				</Popover>
