@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './Team.css';
 import PropTypes  from 'prop-types';
-import susi from '../../images/susi-logo.svg';
 import team from './TeamList';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import 'font-awesome/css/font-awesome.min.css';
 import FourButtons from './FourButtons.react';
 import $ from 'jquery';
+import Footer from '../Footer/Footer.react';
 
 class Support extends Component {
 
@@ -26,6 +26,7 @@ class Support extends Component {
 
 
   componentDidMount() {
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
     document.title = 'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
@@ -169,25 +170,7 @@ class Support extends Component {
           </div>
           <div className='team-container'>{server}</div>
         </div>
-        <div className='footer'>
-          <a className='susi-logo-anchor' href='/overview'>
-            <img src={susi} alt='SUSI' className='susi-logo' />
-          </a>
-          <div className="footer_content">
-            <div className='footer-container'>
-              <ul className='alignLeft'>
-                <li><a href='/overview'>Overview</a></li>
-                <li><a href='/blog'>Blog</a></li>
-                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-              </ul>
-              <ul className='alignRight'>
-                <li><a href='/settings'>Settings</a></li>
-                <li><a href='/terms'>Terms</a></li>
-                <li><a href='/contact'>Contact</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <Footer />
 
       </div>
     );

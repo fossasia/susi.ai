@@ -38,7 +38,7 @@
 
 @media only screen and (max-width: 985px){
     .blog_navigation {
-        bottom: 170px;
+        bottom: 175px;
     }
 }
 
@@ -48,10 +48,10 @@
     }
     .post_bottom {
         width: 90%;
-        margin: 20px 0 auto;
+        margin: 10px 0 auto;
     }
     .blog_navigation {
-        bottom: 200px;
+        bottom: 185px;
     }
 }
 
@@ -70,6 +70,6 @@
     }
     .blog_navigation {
         right: 5%;
-        bottom: 200px;
+        bottom: 220px;
     }
 }

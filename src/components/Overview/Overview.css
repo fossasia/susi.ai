@@ -308,16 +308,6 @@ img {
     margin: 0 auto;
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
 }
-.footer-container a{
-    text-decoration: none;
-    color: #414141;
-    margin: 0 14px;
-    font-size: 1em;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-    line-height: 15px;
-}
 
 .Video-Overlay{
     position: fixed;
@@ -336,11 +326,6 @@ img {
     color:#3367d6 !important;
     font-family: 'Roboto', sans-serif;
 }
-.footer-container a:hover {
-    text-decoration: none;
-    color:#757575;;
-}
-
 
 .video-container {
     position: relative;
@@ -359,37 +344,6 @@ img {
     height: 100%;
 }
 
-.susi-logo{
-    height: 25px;
-    vertical-align: middle;
-    max-width: 100px;
-    display: inline-block;
-}
-
-.footer{
-    background: #f6f6f6;
-    margin-top: 40px;
-    min-height: 140px;
-    width: 100%;
-    bottom: 0;
-}
-
-.footer .susi-logo-anchor {
-    width: 20%;
-    text-align: center;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.footer .footer_content {
-    width: 80%;
-    display: inline-block;
-}
-
-.footer-container{
-    padding: 50px 10% 20px;
-    display: flex;
-}
 .playstore {
     overflow: hidden;
     text-indent: 100%;
@@ -594,12 +548,6 @@ header {
         right: 20px;
         width: 90%;
     }
-    .footer .susi-logo-anchor {
-        width: 30%;
-    }
-    .footer .footer_content {
-        width: 70%;
-    }
 
 }
 
@@ -654,11 +602,5 @@ header {
     }
     .column_section{
         min-height: 550px;
-    }
-    .footer .susi-logo-anchor {
-        width: 30%;
-    }
-    .footer .footer_content {
-        width: 70%;
     }
 }
