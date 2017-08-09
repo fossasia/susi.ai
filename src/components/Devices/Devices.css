@@ -105,14 +105,6 @@
     margin-left: 10%;
     max-width: 313px;
 }
-.footer{
-    background: #f6f6f6;
-    margin-top: 40px;
-    min-height: 140px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-}
 
 .alignLeft,.alignRight{
     list-style: none;
@@ -122,9 +114,7 @@
     color:#3367d6;
     font-family: 'Roboto', sans-serif;
 }
-.footer-container{
-    margin-top:20px;
-}
+
 @media only screen and (min-width: 1400px){
 
     .device_section{
