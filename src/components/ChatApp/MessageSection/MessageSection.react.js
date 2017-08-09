@@ -24,7 +24,6 @@ function getStateFromStores() {
   if(UserPreferencesStore.getThemeValues()){
     themeValue=UserPreferencesStore.getThemeValues().split(',');
   }
-  console.log('themeValue',themeValue);
   return {
     SnackbarOpen: false,
     SnackbarOpenBackground: false,
@@ -227,7 +226,7 @@ class MessageSection extends Component {
        this.customTheme.textarea=state.textarea.substring(1);
 
      }
-      else if(name == 'button'){
+      else if(name === 'button'){
        state.button = color.hex;
        this.customTheme.button=state.button.substring(1);
       }

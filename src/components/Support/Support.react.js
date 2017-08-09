@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
 import './Support.css';
-import support from '../../images/support.png';
-import stackoverflow from '../../images/stackoverflow.png';
-import googleGroups from '../../images/google-groups.png';
-import github from '../../images/github.png';
-import question from '../../images/question.png';
-import documentation from '../../images/programmer.png';
+import $ from 'jquery';
+import Close from 'material-ui/svg-icons/navigation/close';
 import code from '../../images/code.png';
+import Dialog from 'material-ui/Dialog';
+import documentation from '../../images/programmer.png';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import Footer from '../Footer/Footer.react';
+import github from '../../images/github.png';
+import googleGroups from '../../images/google-groups.png';
+import Login from '../Auth/Login/Login.react';
 import PropTypes  from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import SignUp from '../Auth/SignUp/SignUp.react';
-import Login from '../Auth/Login/Login.react';
-import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
-import $ from 'jquery';
-import Footer from '../Footer/Footer.react';
+import stackoverflow from '../../images/stackoverflow.png';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import support from '../../images/support.png';
+import question from '../../images/question.png';
+import React, { Component } from 'react';
 
 class Support extends Component {
 
