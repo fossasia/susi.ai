@@ -45,8 +45,8 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 
 ## Component Colours of Light theme
 
-* Background Colour of the Application - ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
-* Background Colour Message History -![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6` #f5f4f6
+* Background Colour of the Application - ![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
+* Background Colour Message History -![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6`
 * Chat bubbles Colour- 
     * Chat bubbles of SUSI- ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
     * Chat bubbles of User-  ![#e0e0e0](https://placehold.it/15/e0e0e0/000000?text=+) `#e0e0e0`
