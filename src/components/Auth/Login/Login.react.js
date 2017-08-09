@@ -26,12 +26,54 @@ class Login extends Component {
 			emailError: true,
 			passwordError: false,
 			serverFieldError: false,
-			checked: false
+			checked: false,
+			defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
+			defaultText:['Enter a valid URL', 'Login Failed! Try Again',
+			'Some error occurred! Try Again','Please check your internet connection',
+			'Enter a valid Email Address','Minimum 6 characters required','Login to SUSI',
+			'Email','Password','Login','Forgot Password?','Sign Up','Chat Anonymously']
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
         this.customServerMessage = '';
 	}
+
+	changeLanguage= (defaultText) => {
+        console.log(defaultText);
+        this.setState({
+            defaultText:defaultText
+        })
+    }
+    componentDidMount(){
+        let defaultPrefLanguage = this.state.defaultPrefLanguage;
+        let defaultText = this.state.defaultText;
+        console.log(defaultText)
+        let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='
+        +defaultPrefLanguage+'&dt=t&q='+defaultText;
+        $.ajax({
+          url: urlForTranslate,
+          dataType: 'json',
+          crossDomain: true,
+          timeout: 3000,
+          async: false,
+          success: function (data) {
+          	console.log(data[0]);
+            if(data[0]){
+              if(data[0][0]){
+                defaultText = data[0][0][0];
+                console.log(defaultText);
+                defaultText = defaultText.split(',');
+                console.log(defaultText);
+                this.changeLanguage(defaultText);
+              }
+            }
+          }.bind(this),
+          error: function(errorThrown){
+            console.log(errorThrown);
+          }
+        });
+    }
+
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -82,7 +124,7 @@ class Login extends Component {
 					}
 					else {
 						let state = this.state;
-						state.msg = 'Login Failed. Try Again';
+						state.msg = this.state.defaultText[1];
 						this.setState(state);
 					}
 				}.bind(this),
@@ -90,13 +132,13 @@ class Login extends Component {
 			        let msg = '';
 			        let jsonValue =  jqXHR.status;
 			        if (jsonValue === 404) {
-		              msg = 'Login Failed. Try Again';
+		              msg = this.state.defaultText[1];
 			 	       }
 			        else {
-    	              msg = 'Some error occurred. Try Again';
+    	              msg = this.state.defaultText[2];
 			        }
 			        if (status === 'timeout') {
-			          msg = 'Please check your internet connection';
+			          msg = this.state.defaultText[3];
 			        }
 			        let state = this.state;
 			        state.msg = msg;
@@ -131,7 +173,7 @@ class Login extends Component {
         this.setState(state);
 
         if (this.state.serverFieldError) {
-            this.customServerMessage = 'Enter a valid URL';
+            this.customServerMessage = this.state.defaultText[0];
         }
         else{
             this.customServerMessage = '';
@@ -166,7 +208,7 @@ class Login extends Component {
             state.passwordError = !(password && validPassword);
         }
 		if (this.state.emailError) {
-			this.emailErrorMessage = 'Enter a valid Email Address';
+			this.emailErrorMessage = this.state.defaultText[4];
 		}
 		else {
 			this.emailErrorMessage = '';
@@ -174,7 +216,7 @@ class Login extends Component {
 
         if (this.state.passwordError) {
             this.passwordErrorMessage
-                = 'Minimum 6 characters required';
+                = this.state.defaultText[5];
         }
         else{
         	this.passwordErrorMessage='';
@@ -207,7 +249,6 @@ class Login extends Component {
 			});
 		}
 	}
-
 	render() {
 
 		const styles = {
@@ -224,7 +265,7 @@ class Login extends Component {
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
-					<h3>Login to SUSI</h3>
+					<h3>{this.state.defaultText[6]}</h3>
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField name="email"
@@ -233,7 +274,7 @@ class Login extends Component {
 								underlineFocusStyle={underlineFocusStyle}
       							floatingLabelFocusStyle={underlineFocusStyle}
 								errorText={this.emailErrorMessage}
-								floatingLabelText="Email" />
+								floatingLabelText={this.state.defaultText[7]} />
 						</div>
 						<div>
 					        <PasswordField
@@ -244,7 +285,7 @@ class Login extends Component {
       							floatingLabelFocusStyle={underlineFocusStyle}
 								onChange={this.handleChange}
 								errorText={this.passwordErrorMessage}
-								floatingLabelText='Password' />
+								floatingLabelText={this.state.defaultText[8]} />
 						</div>
 						<div>
                 <CustomServer
@@ -258,7 +299,7 @@ class Login extends Component {
 						}}>{this.state.msg}</span>
 						<div>
 							<RaisedButton
-								label="Login"
+								label={this.state.defaultText[9]}
 								type="submit"
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
@@ -273,11 +314,11 @@ class Login extends Component {
 						}}
 						className="forgotpwdlink"
 							onClick={this.handleForgotPassword}>
-								Forgot Password?
+								{this.state.defaultText[10]}
 						</span>
 						<div>
 							<RaisedButton
-									label='Sign Up'
+									label={this.state.defaultText[11]}
 									onClick={this.handleSignUp}
 									backgroundColor={
 										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
@@ -289,7 +330,7 @@ class Login extends Component {
 						<div>
 							<Link to={'/logout'} >
 								<RaisedButton
-									label='Chat Anonymously'
+									label={this.state.defaultText[12]}
 									backgroundColor={
 										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 									labelColor="#fff" />
