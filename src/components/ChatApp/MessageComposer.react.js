@@ -289,11 +289,12 @@ class MessageComposer extends Component {
 
   _onKeyDown(event) {
 
-    if (event.keyCode === ENTER_KEY_CODE) {
+    if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
       let EnterAsSend = UserPreferencesStore.getEnterAsSend();
       if (EnterAsSend) {
         event.preventDefault();
         let text = this.state.text.trim();
+        text = text.replace(/\n|\r\n|\r/g, ' ');
         if (text) {
           Actions.createMessage(text, this.props.threadID, this.props.speechOutputAlways);
         }
