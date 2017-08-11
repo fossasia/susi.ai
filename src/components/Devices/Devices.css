@@ -33,9 +33,10 @@
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
     max-width: none;
-    padding: 100px 20px 100px 90px;
+    padding: 100px 20px 100px 20px;
     position: relative;
-    max-width: 1050px;
+    max-width: 85%;
+    width: 935px;
     align-items: center;
     box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
     display: -ms-flexbox;
@@ -44,6 +45,9 @@
     flex-flow: row wrap;
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
+}
+.device_description{
+    width: 50%;
 }
 .device_description .heading {
     font-size: 43px;
@@ -84,7 +88,7 @@
     margin: 0 10px 10px 0;
 }
 .bottom_section {
-  padding: 100px 0 240px 90px;
+  padding: 100px 20px 240px 20px;
 }
 .img-container{
     width: 50%;
@@ -101,14 +105,6 @@
     margin-left: 10%;
     max-width: 313px;
 }
-.footer{
-    background: #f6f6f6;
-    margin-top: 40px;
-    min-height: 140px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-}
 
 .alignLeft,.alignRight{
     list-style: none;
@@ -118,85 +114,45 @@
     color:#3367d6;
     font-family: 'Roboto', sans-serif;
 }
-@media only screen and (max-width: 985px){
-    .container {
-        padding: 60px 20px;
+
+@media only screen and (min-width: 1400px){
+
+    .device_section{
+        max-width: 1050px;
+        width: 1050px;
+        margin:0 auto;
+        padding: 100px 0px 100px 120px;
     }
-    .heading p,.text_description {
-        font-size: 16px;
-        line-height: 24px;
+    .bottom_section{
+        padding-bottom: 200px;
     }
-    .heading h1 {
-        font-size: 36px;
-        line-height: 42px;
+}
+
+@media only screen and (max-width: 1000px){
+    .section_copy {
+        max-width: 800px;
+        padding-left: 20px;
     }
     .device_section{
-        padding: 60px 20px;
-    }
-    .device_description .heading {
-        margin-top: 0;
-        text-align: center;
-        max-width: 100%;
-        font-size: 32px;
+        padding: 100px 20px;
     }
     .device_description{
         width: 100%;
-        text-align: center;
     }
     .text_description{
         max-width: 100%;
     }
-    .img-container {
-        max-width: 100%;
-        margin: 0 auto 20px auto;
+    .bottom_section{
+        padding-bottom: 200px;
     }
-    .susi-test{
-        text-align: left;
-        width: 100%;
-        margin-left: 0%;
-        max-width: 400px;
+    .store_icons{
+        margin: 0 auto;
+        width: 180px;
+        padding-bottom: 20px;
     }
     .susi-desktop{
-        text-align: left;
+        margin: 0;
         width: 100%;
-        margin-left: 0%;
-        margin-top: 20px;
-        max-width: 400px;
-    }
-    .alignLeft,.alignRight{
-        flex:1 100%;
-        display: block;
-        padding-left: 0;
-        list-style: none;
-        list-style-type: none;
-    }
-    .alignLeft li,.alignRight li{
-        float: left;
-        padding: 0 30px 15px 0;
-    }
-
-    .alignLeft a, .alignRight a{
-        margin-left: 0px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-    }
-    .bottom_section {
-        padding: 100px 0 240px 0px;
-        width: 90%;
-        margin: 0 auto;
-    }
-    .play_store {
-      margin: 10px auto;
-    }
-    .app_store {
-      margin: 10px auto;
-    }
-    .store_icons {
-      display: inline-block;
-      margin-top: 10px;
-      margin-bottom: 20px;
     }
 }
 @media only screen and (max-width: 480px){
@@ -219,11 +175,13 @@
         width: 60%;
     }
     .bottom_section {
-      padding: 100px 0 240px 0px;
+      padding: 100px 20px 120px 20px;
       width: 90%;
       margin: 0 auto;
     }
     .heading h1 {
-    margin-top: 30px;
+        margin-top: 30px;
+    }
+    .store_icons{
     }
 }

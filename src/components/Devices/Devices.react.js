@@ -86,6 +86,8 @@ class Devices extends Component{
           </div>
         </div>
       <Footer />
+
+
       </div>
     );
   };

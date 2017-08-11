@@ -180,6 +180,7 @@ class Blog extends Component {
                     </div>)}
               </div>
           );
+
     }
 }
 Blog.propTypes = {

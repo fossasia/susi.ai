@@ -8,12 +8,16 @@
 .section {
     border-bottom: 1px solid #dfdfdf;
     margin: -20px 0 0 0;
+    max-width: 85%;
+    padding: 0 20px 120px 20px;
+    width: 935px;
+    margin:  0 auto
 }
 
 .section-container {
     margin: 0 auto;
     max-width: 1120px;
-    padding: 80px 20px 120px;
+    padding: 80px 20px 120px 0px;
     position: relative;
     text-align: center;
 }
@@ -59,10 +63,38 @@
     width: 100%;
     margin:1px 0 1px 0;
 }
+@media only screen and (min-width: 1400px){
+    .section{
+        max-width: 1050px;
+        padding: 0px
+    }
+    .topAppBar{
+        width: 1050px !important;
+        margin: 0 auto;
+    }
+    .section_copy{
+        width: 1050px;
+        margin:0 auto;
+        padding: 100px 0px 100px 120px;
+    }
+    .safty_and_secure{
+        padding-bottom: 220px;
+        padding-left: 120px;
+    }
+}
 
-@media only screen and (max-width: 800px){
+@media only screen and (max-width: 1000px){
+    .section{
+        max-width: 100%;
+        padding: 0 20px 20px 20px;
+        margin: 0 auto;
+        width: 90%;
+    }
     .side-menu{
         width: 100%;
+    }
+    .section-container{
+        padding: 80px 0px 120px 0px;
     }
     .side-menu h4{
         font-size: 35px;
@@ -77,7 +109,12 @@
     }
 }
 @media only screen and (max-width: 400px){
-
+    .section{
+        max-width: 100%;
+        padding: 0 20px 20px 20px !important;
+        margin: 0 auto;
+        width: 85%;
+    }
     .side-menu h4{
         text-align: left;
     }

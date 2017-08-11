@@ -92,8 +92,8 @@ class Support extends Component {
     return (
             <div>
               <StaticAppBar {...this.props} location={this.props.location}/>
-
-              <div className="section white-grey" style={{margin:'20px 0 0 0'}}>
+            <div className='gray-wrapper'>
+              <div className="white-grey" >
                 <div className="conversation__description">
                   <div className="support__heading">Support</div>
                   <p className="support__text">
@@ -105,22 +105,22 @@ class Support extends Component {
                   <img src={support} alt='support' className='support' />
                 </div>
               </div>
+            </div>
+
               <div className="section">
                 <div className="conversation__description">
                   <div className="support__heading">Developer Documentation</div>
                 </div>
                 <div className="devsite-landing-row-group">
-                <div className="devsite-landing-row-item devsite-landing-row-item-with-icon devsite-landing-row-item-no-image
-                    ">
+                <div className=" support-item  support-item-with-icon  support-item-no-image">
                     <a href="http://dev.susi.ai/">
-                    <div className="devsite-landing-row-item-icon-container">
-                    <img alt='gitter' src={documentation} className="devsite-landing-row-item-icon"/></div></a>
-                    <div className="devsite-landing-row-item-description
-                                  devsite-landing-row-item-icon-description">
+                    <div className=" support-item-icon-container">
+                    <img alt='gitter' src={documentation} className=" support-item-icon"/></div></a>
+                    <div className="support-description">
                           <a href="http://dev.susi.ai/">
                           <h3 id="stack-overflow">SUSI.AI Docs</h3>
                           </a>
-                          <div className="devsite-landing-row-item-description-content">
+                          <div className="support-description-content">
                           Access the full Developer Documentation on <a href="http://dev.susi.ai">
                           http://dev.susi.ai</a> to begin setting up and running SUSI.AI on your machine.
                           </div>
@@ -133,47 +133,41 @@ class Support extends Component {
                   <div className="support__heading">Ask the community</div>
                 </div>
                 <div className="devsite-landing-row-group">
-                <div className="devsite-landing-row-item devsite-landing-row-item-with-icon devsite-landing-row-item-no-image
-                    ">
+                <div className=" support-item  support-item-with-icon  support-item-no-image ">
                     <a href="https://stackoverflow.com/questions/tagged/susi.ai">
-                    <div className="devsite-landing-row-item-icon-container">
-                    <img alt='gitter' src={stackoverflow} className="devsite-landing-row-item-icon"/></div></a>
-                    <div className="devsite-landing-row-item-description
-                                  devsite-landing-row-item-icon-description">
+                    <div className=" support-item-icon-container">
+                    <img alt='gitter' src={stackoverflow} className=" support-item-icon"/></div></a>
+                    <div className="support-description ">
                           <a href="https://stackoverflow.com/questions/tagged/susi.ai">
                           <h3 id="stack-overflow">Stack Overflow</h3>
                           </a>
-                          <div className="devsite-landing-row-item-description-content">
+                          <div className="support-description-content">
                           Your resource for all technical questions and answers
                           </div>
                           </div>
                   </div>
-                <div className="devsite-landing-row-item
-                  devsite-landing-row-item-with-icon devsite-landing-row-item-no-image">
+                <div className=" support-item support-item-with-icon  support-item-no-image">
                     <a href="http://groups.google.com/forum/#!forum/susiai">
-                    <div className="devsite-landing-row-item-icon-container">
-                    <img alt='google groups' src={googleGroups} className="devsite-landing-row-item-icon"/></div></a>
-                    <div className="devsite-landing-row-item-description
-                                  devsite-landing-row-item-icon-description">
+                    <div className=" support-item-icon-container">
+                    <img alt='google groups' src={googleGroups} className=" support-item-icon"/></div></a>
+                    <div className="support-description">
                           <a href="http://groups.google.com/forum/#!forum/susiai">
                           <h3 id="stack-overflow">SUSI.AI Forums</h3>
                           </a>
-                          <div className="devsite-landing-row-item-description-content">
+                          <div className="support-description-content">
                          Discuss about the projects on our Google Groups Channel.
                           </div>
                           </div>
                   </div>
-                <div className="devsite-landing-row-item devsite-landing-row-item-with-icon devsite-landing-row-item-no-image
-                    ">
+                <div className=" support-item  support-item-with-icon  support-item-no-image">
                     <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
-                    <div className="devsite-landing-row-item-icon-container">
-                    <img alt='github' src={github} className="devsite-landing-row-item-icon"/></div></a>
-                    <div className="devsite-landing-row-item-description
-                                  devsite-landing-row-item-icon-description">
+                    <div className=" support-item-icon-container">
+                    <img alt='github' src={github} className=" support-item-icon"/></div></a>
+                    <div className="support-description">
                           <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
                           <h3 id="stack-overflow">Github</h3>
                           </a>
-                          <div className="devsite-landing-row-item-description-content">
+                          <div className="support-description-content">
                           Visit our repositories and start contributing.
                           </div>
                           </div>
@@ -186,17 +180,15 @@ class Support extends Component {
                     <div className="support__heading">Chat With Us</div>
                   </div>
                   <div className="devsite-landing-row-group">
-                  <div className="devsite-landing-row-item devsite-landing-row-item-with-icon devsite-landing-row-item-no-image
-                    ">
+                  <div className=" support-item  support-item-with-icon  support-item-no-image">
                     <a href="https://gitter.im/fossasia/susi_server">
-                    <div className="devsite-landing-row-item-icon-container">
-                    <img alt='question' src={question} className="devsite-landing-row-item-icon"/></div></a>
-                    <div className="devsite-landing-row-item-description
-                                  devsite-landing-row-item-icon-description">
+                    <div className=" support-item-icon-container">
+                    <img alt='question' src={question} className=" support-item-icon"/></div></a>
+                    <div className="support-description">
                           <a href="https://gitter.im/fossasia/susi_server">
                           <h3 id="stack-overflow">Get Support</h3>
                           </a>
-                          <div className="devsite-landing-row-item-description-content">
+                          <div className="support-description-content">
                           Got a problem? We are here to help.
                           </div>
                           </div>
@@ -208,17 +200,15 @@ class Support extends Component {
                     <div className="support__heading">Browse, Create and Edit your own Skills</div>
                   </div>
                   <div className="devsite-landing-row-group">
-                  <div className="devsite-landing-row-item devsite-landing-row-item-with-icon devsite-landing-row-item-no-image
-                    ">
+                  <div className=" support-item  support-item-with-icon support-item-no-image">
                     <a href="http://skills.susi.ai/">
-                    <div className="devsite-landing-row-item-icon-container">
-                    <img alt='code' src={code} className="devsite-landing-row-item-icon"/></div></a>
-                    <div className="devsite-landing-row-item-description
-                                  devsite-landing-row-item-icon-description">
+                    <div className=" support-item-icon-container">
+                    <img alt='code' src={code} className=" support-item-icon"/></div></a>
+                    <div className="support-description">
                           <a href="http://skills.susi.ai/">
                           <h3 id="stack-overflow">Create a SUSI Dream</h3>
                           </a>
-                          <div className="devsite-landing-row-item-description-content">
+                          <div className="support-description-content">
                           You can easily create a SUSI.AI dream in the SUSI Etherpad at
                           <a href='http://dream.susi.ai'>&nbsp;http://dream.susi.ai</a>
                           </div>
@@ -227,16 +217,17 @@ class Support extends Component {
                 </div>
                 </div>
               </div>
-              <div className="section non-flex blue-background" style={{
-                  paddingBottom: '200px'
-                }}>
-                <div className="conversation__description footer-desc">
-                  <div className="support__heading center blue-text">Get Started Today</div>
+              <div className="blue-wrapper">
+                <div className="non-flex blue-background">
+                  <div className="conversation__description footer-desc">
+                    <div className="support__heading center blue-text">Get Started Today</div>
 
                   <RaisedButton label="Sign Up" onTouchTap={this.handleSignUp} style={style} />
                 </div>
               </div>
             <Footer/>
+
+                  </div>
 
 
               {/* Login */}
@@ -280,7 +271,6 @@ class Support extends Component {
 								<Close style={closingStyle}
 								onTouchTap={this.handleClose}/>
 							</Dialog>
-
             </div>
         );
     };

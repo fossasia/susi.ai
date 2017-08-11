@@ -89,7 +89,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle title={mentor.name} subtitle={mentor.designation} />
+          <CardTitle titleStyle={{fontSize:'20px'}} title={mentor.name} subtitle={mentor.designation} />
         </Card>)
     })
     let managers = team[2].managers.map((manager, i) => {
@@ -103,7 +103,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle title={manager.name} subtitle={manager.designation} />
+          <CardTitle titleStyle={{fontSize:'20px'}} title={manager.name} subtitle={manager.designation} />
 
         </Card>)
     })
@@ -128,7 +128,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle title={serv.name} subtitle={serv.designation} />
+          <CardTitle titleStyle={{fontSize:'20px'}} title={serv.name} subtitle={serv.designation} />
 
         </Card>)
     })
@@ -137,14 +137,14 @@ class Support extends Component {
       <div>
         <StaticAppBar {...this.props}
           location={this.props.location} />
-        <div className="section-team grey-background">
+        <div className="grey-background">
           <div className='section-container-team'>
             <div className="team-header">
               <div className="support__heading center">Team <b>SUSI.AI</b></div>
             </div>
           </div>
         </div>
-        <div className="section-team">
+        <div className="section-team founders">
 
           <div className="team-header">
             <div className="support__heading">Project Founders</div>
@@ -152,25 +152,26 @@ class Support extends Component {
           <div className='team-container'>{mentors}</div>
         </div>
 
-        <div className="section-team" style={{
+        <div className="section-team managers" style={{
           paddingBottom: '240px'
         }}>
-          <div className="team-header">
+          <div className="team-header ">
             <div className="support__heading">Project Managers</div>
           </div>
           <div className='team-container'>{managers}</div>
         </div>
 
-         <div className="section-team" style={{
+         <div className="section-team developers" style={{
           paddingBottom: '240px'
         }}>
 
-          <div className="team-header">
+          <div className="team-header ">
             <div className="support__heading">Developers</div>
           </div>
           <div className='team-container'>{server}</div>
         </div>
       <Footer />
+
 
       </div>
     );
