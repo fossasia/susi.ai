@@ -16,55 +16,12 @@ import * as Actions from '../../../actions/';
 import HardwareComponent from '../HardwareComponent';
 import CustomServer from '../CustomServer.react';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import Popover from 'material-ui/Popover';
-import { Link } from 'react-router-dom';
-import Exit from 'material-ui/svg-icons/action/exit-to-app';
-import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import SignUp from '../../Auth/SignUp/SignUp.react';
 import Login from '../../Auth/Login/Login.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
-import susiWhite from '../../../images/susi-logo-white.png';
-import Info from 'material-ui/svg-icons/action/info';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import './Settings.css';
-
+import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 const cookies = new Cookies();
-
-let Logged = (props) => (
-    <div>
-        <MenuItem primaryText="About"
-        containerElement={<Link to="/overview" />}
-        rightIcon={<Info/>}
-        />
-        <MenuItem primaryText="Chat"
-        containerElement={<Link to="/" />}
-        rightIcon={<Chat/>}
-        />
-        <MenuItem
-        rightIcon={<Dashboard/>}
-        ><a
-        style={{
-            color: 'rgba(0, 0, 0, 0.87)',
-            width: '140px',
-            display:'block'
-        }}
-        href="http://skills.susi.ai">Skills</a>
-        </MenuItem>
-        <MenuItem primaryText="Settings"
-        containerElement={<Link to="/settings" />}
-        rightIcon={<SettingsIcon/>} />
-        <MenuItem
-        primaryText="Login"
-        onTouchTap={this.handleLogin}
-        rightIcon={<SignUpIcon/>} />
-    </div>
-)
 
 class Settings extends Component {
 
@@ -383,59 +340,6 @@ class Settings extends Component {
 	      search: false,
 	    });
 
-			// Check Logged in
-			if (cookies.get('loggedIn')) {
-				Logged = (props) => (
-					<div>
-						<MenuItem primaryText="About"
-							containerElement={<Link to="/overview" />}
-							rightIcon={<Info/>}
-						/>
-						<MenuItem primaryText="Chat"
-							containerElement={<Link to="/" />}
-							rightIcon={<Chat/>}
-						/>
-						<MenuItem
-							rightIcon={<Dashboard/>}
-							href="http://skills.susi.ai"
-						>Skills
-						</MenuItem>
-						<MenuItem primaryText="Settings"
-							containerElement={<Link to="/settings" />}
-							rightIcon={<SettingsIcon/>}/>
-						<MenuItem primaryText="Logout"
-							containerElement={<Link to="/logout" />}
-							rightIcon={<Exit />}/>
-					</div>
-				)
-				return <Logged />
-			}
-
-			Logged = (props) => (
-				<div>
-					<MenuItem primaryText="About"
-						containerElement={<Link to="/overview" />}
-						rightIcon={<Info/>}
-					/>
-					<MenuItem primaryText="Chat"
-						containerElement={<Link to="/" />}
-						rightIcon={<Chat/>}
-					/>
-					<MenuItem
-						rightIcon={<Dashboard/>}
-						href="http://skills.susi.ai"
-					>Skills
-					</MenuItem>
-					<MenuItem primaryText="Settings"
-						containerElement={<Link to="/settings" />}
-						rightIcon={<SettingsIcon/>} />
-					<MenuItem
-						primaryText="Login"
-						onTouchTap={this.handleLogin}
-						rightIcon={<SignUpIcon/>} />
-				</div>
-				)
-				return <Logged />
 	}
 
 	populateVoiceList = () => {
@@ -540,47 +444,13 @@ class Settings extends Component {
       }
     }
 
-		let TopRightMenu = (props) => (
-			<div>
-				<IconMenu
-					{...props}
-					iconButtonElement={
-						<IconButton
-							iconStyle={{ fill: 'white' }}><MoreVertIcon /></IconButton>
-					}
-					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-					anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-					onTouchTap={this.showOptions}
-				>
-				</IconMenu>
-				<Popover
-					{...props}
-					style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
-					open={this.state.showOptions}
-					anchorEl={this.state.anchorEl}
-					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-					onRequestClose={this.closeOptions}
-				>
-					<Logged />
-				</Popover>
-			</div>
-		);
 		let voiceOutput = this.populateVoiceList();
 		return (
 			<div className={topBackground}>
 				<header className='message-thread-heading'
 				style={{ backgroundColor: backgroundCol }}>
-				<AppBar
-						showMenuIconButton={false}
-						className='topAppBar'
-						title={<div style={{ float: 'left', marginTop: '-10px' }}><Link to="/" >
-									<img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link></div>}
-						style={{backgroundColor: backgroundCol, height: '46px',
-										boxShadow: 'none' }}
-						iconStyleRight={{marginTop: '-2px'}}
-						iconElementRight={<TopRightMenu />}
-				/>
+        <StaticAppBar {...this.props}
+				location={this.props.location} />
 				</header>
 			<div className="settingsForm">
 				<Paper zDepth={0}>
@@ -809,6 +679,7 @@ class Settings extends Component {
 
 Settings.propTypes = {
 	history: PropTypes.object,
+	location:PropTypes.object,
 	onSettingsSubmit: PropTypes.func,
 	onServerChange: PropTypes.func,
 	onHardwareSettings: PropTypes.func
