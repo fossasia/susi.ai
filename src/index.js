@@ -25,6 +25,7 @@ import {
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // Internationalization
 
+import { Localizer } from 'react-g11n';
 import UserPreferencesStore from './stores/UserPreferencesStore';
 import {IntlProvider} from 'react-intl';
 import {addLocaleData} from 'react-intl';
@@ -80,7 +81,9 @@ window.speechSynthesis.onvoiceschanged = function () {
 
 ReactDOM.render(
 	<IntlProvider locale={defaultPrefLanguage}>
+	<Localizer locale="cy" localeDir="./locale">
 	 	<App />
+	  </Localizer>
 	 </IntlProvider>,
 	document.getElementById('root')
 );

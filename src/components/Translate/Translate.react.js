@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import strings from './strings';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';/*
+import strings from './strings';*/
+import { localize } from 'react-g11n';
 
 class Translate extends Component{
 
@@ -20,7 +21,7 @@ class Translate extends Component{
         })
   }
 
-  componentDidMount() {
+/*  componentDidMount() {
 		let defaultPrefLanguage = this.state.defaultPrefLanguage;
 		let text = this.state.text;
     let textKey = this.state.textKey;
@@ -32,10 +33,11 @@ class Translate extends Component{
         }
     }
   }
-
+*/
   render() {
-
-  	return <span>{this.state.text}</span>
+    const { translator } = this.props;
+    console.log(translator);
+  	return <span>{translator.gettext(this.state.text)}</span>
   }
 
 }
@@ -43,7 +45,7 @@ class Translate extends Component{
 
 Translate.propTypes = {
 	text:PropTypes.string,
-  textKey:PropTypes.string
+  textKey:PropTypes.string,
+  translator:PropTypes.object
 }
-
-export default Translate;
+export default localize(Translate);

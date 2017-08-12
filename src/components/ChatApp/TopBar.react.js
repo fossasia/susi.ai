@@ -21,7 +21,6 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import Translate from '../Translate/Translate.react';
 
 const cookies = new Cookies();
-
 let Logged = (props) => (
 	<IconMenu
 		{...props}
@@ -77,14 +76,14 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
-					style={{marginLeft:'-15px'}}
+					style={{marginLeft:'-35px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText={<Translate textKey='about' text="About"/>}
+					<MenuItem primaryText="About"
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
@@ -124,7 +123,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
-					style={{marginLeft:'-15px'}}
+					style={{marginLeft:'-35px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
