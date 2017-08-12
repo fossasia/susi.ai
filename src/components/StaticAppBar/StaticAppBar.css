@@ -19,6 +19,12 @@
 .drawerAppBar button{
     margin-top: 0px !important;
 }
+.top-menu{
+    top: -26px;
+}
+.iconMenuRight{
+    display: block;
+}
 @media only screen and (max-width: 800px){
 
     .topMenu-item{

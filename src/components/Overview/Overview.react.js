@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import './Overview.css';
+import $ from 'jquery';
+import allDevices from '../../images/all_devices.png';
+import androidMockup from '../../images/android-mockup.jpg';
+import bots from '../../images/bots.jpg';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Footer from '../Footer/Footer.react';
+import githubText from '../../images/github-text-logo.png';
+import manyLanguages from '../../images/many_languages.png';
+import mapAndroid from '../../images/map-android.jpg';
+import Modal from 'react-modal';
+import openSource from '../../images/open-source.png';
+import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import PropTypes from 'prop-types';
+import shield from '../../images/shield.svg';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import mapAndroid from '../../images/map-android.jpg';
-import androidMockup from '../../images/android-mockup.jpg';
-import bots from '../../images/bots.jpg';
-import allDevices from '../../images/all_devices.png';
-import manyLanguages from '../../images/many_languages.png';
-import openSource from '../../images/open-source.png';
-import githubText from '../../images/github-text-logo.png';
-import shield from '../../images/shield.svg';
-import './Overview.css';
-import PropTypes from 'prop-types';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import Close from 'material-ui/svg-icons/navigation/close';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import $ from 'jquery';
-import Footer from '../Footer/Footer.react';
+import React, { Component } from 'react';
 
 class Overview extends Component{
   constructor(props){
@@ -209,7 +209,7 @@ SUSI is intelligent to identify and answer your question in your language.
               and small talks. SUSI Skill development is easy and fun. </p>
           </div>
           <div className='img-container'>
-            <img src={susiSkill} alt='Skills' />
+            <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
         <div className="section_copy safty_and_secure">
@@ -242,6 +242,7 @@ SUSI is intelligent to identify and answer your question in your language.
         <Footer />
 
         {/* Video */}
+
         <Modal
           isOpen={this.state.video}
           className="Video-Modal"
@@ -255,6 +256,7 @@ SUSI is intelligent to identify and answer your question in your language.
           </div>
         </Modal>
       </div>
+
     );
   };
 }

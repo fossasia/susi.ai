@@ -1,59 +1,59 @@
-import React, { Component } from 'react';
-import susiWhite from '../../images/susi-logo-white.png';
-import PropTypes from 'prop-types';
-import Drawer from 'material-ui/Drawer';
-import IconMenu from 'material-ui/IconMenu';
-import FlatButton from 'material-ui/FlatButton';
-import AppBar from 'material-ui/AppBar';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import { Link } from 'react-router-dom';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import $ from 'jquery';
-import Dialog from 'material-ui/Dialog';
-import Close from 'material-ui/svg-icons/navigation/close';
-import SignUp from '../Auth/SignUp/SignUp.react';
-import Login from '../Auth/Login/Login.react';
-import Popover from 'material-ui/Popover';
-import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import Cookies from 'universal-cookie';
-import Settings from 'material-ui/svg-icons/action/settings';
-import Info from 'material-ui/svg-icons/action/info';
-import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
-import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import './StaticAppBar.css';
+import $ from 'jquery';
+import AppBar from 'material-ui/AppBar';
+import Chat from 'material-ui/svg-icons/communication/chat';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Cookies from 'universal-cookie';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import Dialog from 'material-ui/Dialog';
+import Drawer from 'material-ui/Drawer';
+import Exit from 'material-ui/svg-icons/action/exit-to-app';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import Info from 'material-ui/svg-icons/action/info';
+import Login from '../Auth/Login/Login.react';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import PropTypes from 'prop-types';
+import Popover from 'material-ui/Popover';
+import React, { Component } from 'react';
+import SignUp from '../Auth/SignUp/SignUp.react';
+import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
+import Settings from 'material-ui/svg-icons/action/settings';
+import susiWhite from '../../images/susi-logo-white.png';
+
+import { Link } from 'react-router-dom';
 
 const cookies = new Cookies();
 
 let Logged = (props) => (
     <div>
         <MenuItem primaryText="About"
-        containerElement={<Link to="/overview" />}
-        rightIcon={<Info/>}
+            containerElement={<Link to="/overview" />}
+            rightIcon={<Info />}
         />
         <MenuItem primaryText="Chat"
-        containerElement={<Link to="/" />}
-        rightIcon={<Chat/>}
+            containerElement={<Link to="/" />}
+            rightIcon={<Chat />}
         />
         <MenuItem
-        rightIcon={<Dashboard/>}
+            rightIcon={<Dashboard />}
         ><a
-        style={{
-            color: 'rgba(0, 0, 0, 0.87)',
-            width: '140px',
-            display:'block'
-        }}
-        href="http://skills.susi.ai">Skills</a>
+            style={{
+                color: 'rgba(0, 0, 0, 0.87)',
+                width: '140px',
+                display: 'block'
+            }}
+            href="http://skills.susi.ai">Skills</a>
         </MenuItem>
         <MenuItem primaryText="Settings"
-        containerElement={<Link to="/settings" />}
-        rightIcon={<Settings/>} />
+            containerElement={<Link to="/settings" />}
+            rightIcon={<Settings />} />
         <MenuItem
-        primaryText="Login"
-        onTouchTap={this.handleLogin}
-        rightIcon={<SignUpIcon/>} />
+            primaryText="Login"
+            onTouchTap={this.handleLogin}
+            rightIcon={<SignUpIcon />} />
     </div>
 )
 class StaticAppBar extends Component {
@@ -66,7 +66,8 @@ class StaticAppBar extends Component {
             open: false,
             showOptions: false,
             anchorEl: null,
-            openForgotPassword: false
+            openForgotPassword: false,
+            leftGap: '0px'
         };
     }
 
@@ -75,6 +76,9 @@ class StaticAppBar extends Component {
     handleDrawerClose = () => this.setState({ openDrawer: false });
 
     showOptions = (event) => {
+        var p = $('#rightIconButton').width();
+        var screenWidth = $(window).width();
+        this.setState({ leftGap: ((screenWidth - p) / 2) + p - 130 })
         event.preventDefault();
         this.setState({
             showOptions: true,
@@ -96,7 +100,7 @@ class StaticAppBar extends Component {
         this.props.history.push('/');
     }
 
-    handleLogin = () => {
+     handleLogin = () => {
         this.setState({
             login: true,
             signup: false,
@@ -154,7 +158,6 @@ class StaticAppBar extends Component {
         $(window).scroll(function (event) {
             didScroll = true;
         });
-
         setInterval(function () {
             if (didScroll) {
                 hasScrolled();
@@ -183,54 +186,54 @@ class StaticAppBar extends Component {
             Logged = (props) => (
                 <div>
                     <MenuItem primaryText="About"
-                      containerElement={<Link to="/overview" />}
-                      rightIcon={<Info/>}
+                        containerElement={<Link to="/overview" />}
+                        rightIcon={<Info />}
                     />
                     <MenuItem primaryText="Chat"
-                      containerElement={<Link to="/" />}
-                      rightIcon={<Chat/>}
+                        containerElement={<Link to="/" />}
+                        rightIcon={<Chat />}
                     />
                     <MenuItem
-                      rightIcon={<Dashboard/>}
-                      href="http://skills.susi.ai"
+                        rightIcon={<Dashboard />}
+                        href="http://skills.susi.ai"
                     >Skills
                     </MenuItem>
                     <MenuItem primaryText="Settings"
-                      containerElement={<Link to="/settings" />}
-                      rightIcon={<Settings/>}/>
+                        containerElement={<Link to="/settings" />}
+                        rightIcon={<Settings />} />
                     <MenuItem primaryText="Logout"
-                      containerElement={<Link to="/logout" />}
-                      rightIcon={<Exit />}/>
+                        containerElement={<Link to="/logout" />}
+                        rightIcon={<Exit />} />
                 </div>
             )
             return <Logged />
         }
 
         Logged = (props) => (
-          <div>
-            <MenuItem primaryText="About"
-              containerElement={<Link to="/overview" />}
-              rightIcon={<Info/>}
-            />
-            <MenuItem primaryText="Chat"
-              containerElement={<Link to="/" />}
-              rightIcon={<Chat/>}
-            />
-            <MenuItem
-              rightIcon={<Dashboard/>}
-              href="http://skills.susi.ai"
-            >Skills
+            <div>
+                <MenuItem primaryText="About"
+                    containerElement={<Link to="/overview" />}
+                    rightIcon={<Info />}
+                />
+                <MenuItem primaryText="Chat"
+                    containerElement={<Link to="/" />}
+                    rightIcon={<Chat />}
+                />
+                <MenuItem
+                    rightIcon={<Dashboard />}
+                    href="http://skills.susi.ai"
+                >Skills
             </MenuItem>
-            <MenuItem primaryText="Settings"
-              containerElement={<Link to="/settings" />}
-              rightIcon={<Settings/>} />
-            <MenuItem
-              primaryText="Login"
-              onTouchTap={this.handleLogin}
-              rightIcon={<SignUpIcon/>} />
-          </div>
-      )
-      return <Logged />
+                <MenuItem primaryText="Settings"
+                    containerElement={<Link to="/settings" />}
+                    rightIcon={<Settings />} />
+                <MenuItem
+                    primaryText="Login"
+                    onTouchTap={this.handleLogin}
+                    rightIcon={<SignUpIcon />} />
+            </div>
+        )
+        return <Logged />
     }
 
     render() {
@@ -244,8 +247,10 @@ class StaticAppBar extends Component {
             top: '10px',
             cursor: 'pointer'
         }
+
+        var leftGap = this.state.leftGap;
         let TopRightMenu = (props) => (
-            <div onScroll={this.handleScroll}>
+            <div onScroll={this.handleScroll} >
                 <div>
                     <IconMenu
                         {...props}
@@ -260,11 +265,11 @@ class StaticAppBar extends Component {
                     </IconMenu>
                     <Popover
                         {...props}
-                        style={{ float: 'right', position: 'relative', right: '0px', margin: '46px 20px 0 0' }}
+                        style={{ float: 'left', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
-                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                         onRequestClose={this.closeOptions}
                     >
                         <Logged />
@@ -292,6 +297,7 @@ class StaticAppBar extends Component {
             font: '500 14px Roboto,sans-serif',
             margin: '0 2px',
             textTransform: 'none',
+            textDecoration:'none',
             wordSpacing: '2px',
             color: '#f2f2f2',
             verticalAlign: 'bottom'
@@ -336,11 +342,13 @@ class StaticAppBar extends Component {
         ];
 
         let navLlinks = topLinks.map((link, i) => {
-            if (this.props.location.pathname === link.url) {
+             if (this.props.location.pathname === link.url) {
                 link.labelStyle = {
                     borderBottom: '2px solid #fff',
                     padding: '0px 25px 12px 25px',
                     margin: '0 2px',
+                    color:'#fff',
+                    textDecoration:'none',
                     font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
                     textTransform: 'none',
@@ -348,15 +356,12 @@ class StaticAppBar extends Component {
                 };
             }
             return (
-                <FlatButton
-                    disableTouchRipple={true}
-                    key={i} labelStyle={link.labelStyle}
-                    hoverColor="none" label={link.lable} href={link.url} style={link.style}
-                    className="topMenu-item" />
+                 <Link key={i} to={link.url} style={link.labelStyle}>{link.lable}</Link>
+
             )
         });
         let menuLlinks = topLinks.map((link, i) => {
-            if (this.props.location.pathname === link.url) {
+             if (this.props.location.pathname === link.url) {
                 link.labelStyle = {
                     font: '700 14px Roboto,sans-serif',
                     wordSpacing: '2px',
@@ -367,9 +372,12 @@ class StaticAppBar extends Component {
                 };
             }
             return (
-                <MenuItem key={i} onTouchTap={this.handleDrawerClose} className="drawerItem"><Link to={link.url}>{link.lable}</Link></MenuItem>
+                <MenuItem key={i} onTouchTap={this.handleDrawerClose} className="drawerItem">
+                    <Link to={link.url}>{link.lable}</Link>
+                </MenuItem>
             )
         });
+
         const TopMenu = (props) => (
             <div style={{ position: 'relative', top: '-11px' }}>
                 <div className="top-menu" style={{ position: 'relative', left: '46px' }}>
@@ -379,12 +387,15 @@ class StaticAppBar extends Component {
         );
 
         return (
+
             <div>
-                <header className="nav-down" id="headerSection">
+                <header className="nav-down" >
                     <AppBar
+                        id="headerSection"
                         className="topAppBar"
-                        title={<div><a href={this.state.baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                            <img src={susiWhite} alt="susi-logo" className="siteTitle" /></a><TopMenu /></div>}
+
+                        title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px' }}>
+                            <img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link><TopMenu /></div>}
                         style={{
                             backgroundColor: '#4285f4', height: '46px',
                             boxShadow: 'none'
@@ -408,7 +419,7 @@ class StaticAppBar extends Component {
                         style={{
                             backgroundColor: '#4285f4', height: '46px',
                             boxShadow: 'none'
-                        }}                        onTouchTap={this.handleDrawerClose} />
+                        }} onTouchTap={this.handleDrawerClose} />
                     {menuLlinks}
                 </Drawer>
                 {/* Login */}
