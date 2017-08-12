@@ -247,8 +247,13 @@ class StaticAppBar extends Component {
             top: '10px',
             cursor: 'pointer'
         }
-
         var leftGap = this.state.leftGap;
+        var hideLeftMenu='block';
+        if( this.props.location.pathname==='/settings'){
+            hideLeftMenu='none';
+            $('.topAppBar button').css('cssText','display : none !important');
+
+        }
         let TopRightMenu = (props) => (
             <div onScroll={this.handleScroll} >
                 <div>
@@ -380,7 +385,7 @@ class StaticAppBar extends Component {
 
         const TopMenu = (props) => (
             <div style={{ position: 'relative', top: '-11px' }}>
-                <div className="top-menu" style={{ position: 'relative', left: '46px' }}>
+                <div className="top-menu" style={{ position: 'relative', left: '46px', display : hideLeftMenu }}>
                     {navLlinks}
                 </div>
             </div>
@@ -394,14 +399,14 @@ class StaticAppBar extends Component {
                         id="headerSection"
                         className="topAppBar"
 
-                        title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px' }}>
+                        title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px', }}>
                             <img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link><TopMenu /></div>}
                         style={{
                             backgroundColor: '#4285f4', height: '46px',
                             boxShadow: 'none'
                         }}
                         onLeftIconButtonTouchTap={this.handleDrawer}
-                        iconStyleLeft={{ marginTop: '-2px' }}
+                        iconStyleLeft={{ marginTop: '-2px', }}
                         iconStyleRight={{ marginTop: '-2px' }}
                         iconElementRight={<TopRightMenu />}
                     />
@@ -432,7 +437,8 @@ class StaticAppBar extends Component {
                     contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <Login {...this.props}
-                        handleForgotPassword={this.handleForgotPassword} />
+                        handleForgotPassword={this.handleForgotPassword}
+                        handleSignUp={this.handleSignUp} />
                     <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
                 </Dialog>
                 {/* SignUp */}
