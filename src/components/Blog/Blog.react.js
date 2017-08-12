@@ -108,14 +108,14 @@ class Blog extends Component {
                   <StaticAppBar {...this.props}
                       location={this.props.location} />
                       <div className='head_section'>
-                          <div className='container'>
-                              <div className="heading">
-                                  <h1>Blog</h1>
-                                  <p>Latest Blog Posts on SUSI.AI</p>
-                              </div>
-                          </div>
-                      </div>
-                      <Loading
+                        <div className='container'>
+                            <div className="heading">
+                            <h1>Blog</h1>
+                            <p>Latest Blog Posts</p>
+                            </div>
+                        </div>
+                    </div>
+                    <Loading
                         style={loadingStyle}
                         isLoading={!this.state.postRendered}/>
                       {!this.state.postRendered &&
@@ -151,7 +151,7 @@ class Blog extends Component {
                                                       />
                                                   </CardMedia>
                                                   <CardTitle title={posts.title} subtitle={'by '+ posts.author} />
-                                                  <CardText>{text[1]+'...'} </CardText>
+                                                  <CardText style={{fontSize:'16px'}}>{text[1]+'...'} </CardText>
                                                   <CardActions>
                                                       <FlatButton href={posts.link} label="Read More" />
                                                   </CardActions>

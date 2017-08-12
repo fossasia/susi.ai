@@ -17,15 +17,18 @@
     flex-flow: row wrap;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    border-bottom: 1px solid #dfdfdf;
     background: #f7f7f7;
 }
 .gray-wrapper{
     background: #f7f7f7;
     width: 100%;
+    border-bottom: 1px solid #dfdfdf;
 }
 
-
+.terms-list{
+    line-height: 22px;
+    font-size: 16px;
+}
 .contact-content{
     padding: 50px 0 25px 0;
     max-width: 100%;
@@ -35,12 +38,20 @@
     text-align: left;
     width: 935px;
 }
+.contact-content h5{
+    font-size: 18px;
+    font-weight: 400px;
+    line-height: 0px;
+}
 .contact-content p{
     display: block;
     width: 85%;
+    line-height: 22px;
+    font-weight: 500;
 }
 .contact-content-last{
     padding: 50px 0 25px 0;
+    line-height: 22px;
     max-width: 100%;
     width: 935px;
     text-align: left;
@@ -70,7 +81,6 @@
         flex-flow: row wrap;
         -webkit-box-pack: justify;
         justify-content: space-between;
-        border-bottom: 1px solid #dfdfdf;
     }
 
     .section{
