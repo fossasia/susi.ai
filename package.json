@@ -10,6 +10,7 @@
     "flux": "^3.1.2",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
+    "html-entities": "^1.2.1",
     "html-react-parser": "^0.3.5",
     "html-to-text": "^3.3.0",
     "jquery": "^3.2.1",
@@ -28,7 +29,6 @@
     "react-dom": "^15.5.4",
     "react-emojione": "^3.1.10",
     "react-fittext": "^1.0.0",
-    "react-g11n": "^0.2.2",
     "react-headroom": "^2.1.6",
     "react-intl": "^2.3.0",
     "react-leaflet": "^1.1.6",
@@ -52,7 +52,6 @@
     "eslint-plugin-jsx": "0.0.2",
     "eslint-plugin-react": "^7.0.1",
     "gh-pages": "^1.0.0",
-    "jsxgettext": "^0.10.2",
     "react-scripts": "0.9.5",
     "react-test-renderer": "^15.5.4"
   },

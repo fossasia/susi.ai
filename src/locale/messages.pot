@@ -11,4 +11,23 @@ msgstr ""
 "POT-Creation-Date: 2017-01-15 20:51+0000\n"
 
 msgid "About"
-msgstr "Über"
+msgstr ""
+
+msgid "Chat"
+msgstr ""
+
+msgid "Skills"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+
+msgid "Settings"
+msgstr ""
+
+msgid "Themes"
+msgstr  ""

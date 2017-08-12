@@ -83,7 +83,7 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={<Translate textKey='about' text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>

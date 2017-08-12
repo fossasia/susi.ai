@@ -3,16 +3,6 @@ import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
 import * as Actions from './actions/';
 import App from './App'
 import MessageStore from './stores/MessageStore';
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch,
-	hashHistory
-} from 'react-router-dom';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// Internationalization
-
-import { Localizer } from 'react-g11n';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import UserPreferencesStore from './stores/UserPreferencesStore';
@@ -47,9 +37,9 @@ window.speechSynthesis.onvoiceschanged = function () {
 
 ReactDOM.render(
 	<IntlProvider locale={defaultPrefLanguage}>
-	<Localizer locale="cy" localeDir="./locale">
-	 	<App />
-	  </Localizer>
-	 </IntlProvider>,
+		<Router>
+				<App />
+		</Router>
+	</IntlProvider>,
 	document.getElementById('root')
 );

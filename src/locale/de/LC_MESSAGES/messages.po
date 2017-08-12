@@ -5,11 +5,29 @@ msgstr ""
 "POT-Creation-Date: 2017-01-15 20:51+0000\n"
 "PO-Revision-Date: 2017-08-12 15:32+0530\n"
 "Last-Translator: root <rishiraj824@gmail.com>\n"
-"Language-Team: Welsh\n"
-"Language: cy\n"
+"Language-Team: German\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "About"
 msgstr "Über"
+
+msgid "Chat"
+msgstr "Chatten"
+
+msgid "Skills"
+msgstr "Fähigkeiten"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Login",
+msgstr "Anmeldung"
+
+msgid "Logout"
+msgstr "Ausloggen"
+
+msgid "Themes"
+msgstr  "Thema"
