@@ -39,11 +39,11 @@ const cookies = new Cookies();
 
 let Logged = (props) => (
     <div>
-        <MenuItem primaryText={<Translate textKey="about" text="About"/>}
+        <MenuItem primaryText={<Translate text="About"/>}
         containerElement={<Link to="/overview" />}
         rightIcon={<Info/>}
         />
-        <MenuItem primaryText={<Translate textKey="chat" text="Chat"/>}
+        <MenuItem primaryText={<Translate text="Chat"/>}
         containerElement={<Link to="/" />}
         rightIcon={<Chat/>}
         />
@@ -55,13 +55,13 @@ let Logged = (props) => (
             width: '140px',
             display:'block'
         }}
-        href="http://skills.susi.ai"><Translate textKey="skills" text="Skills"/></a>
+        href="http://skills.susi.ai"><Translate text="Skills"/></a>
         </MenuItem>
-        <MenuItem primaryText={<Translate textKey="settings" text="Settings"/>}
+        <MenuItem primaryText={<Translate text="Settings"/>}
         containerElement={<Link to="/settings" />}
         rightIcon={<SettingsIcon/>} />
         <MenuItem
-        primaryText={<Translate textKey="login" text="Login"/>}
+        primaryText={<Translate text="Login"/>}
         onTouchTap={this.handleLogin}
         rightIcon={<SignUpIcon/>} />
     </div>
@@ -395,28 +395,30 @@ class Settings extends Component {
   		this.setState({
 	      search: false,
 	    });
+			this.showWhenLoggedIn='none';
 
 			// Check Logged in
 			if (cookies.get('loggedIn')) {
+				this.showWhenLoggedIn='block';
 				Logged = (props) => (
 					<div>
-						<MenuItem primaryText={<Translate textKey="about" text="About"/>}
+						<MenuItem primaryText={<Translate text="About"/>}
 							containerElement={<Link to="/overview" />}
 							rightIcon={<Info/>}
 						/>
-						<MenuItem primaryText={<Translate textKey="chat" text="Chat" />}
+						<MenuItem primaryText={<Translate text="Chat" />}
 							containerElement={<Link to="/" />}
 							rightIcon={<Chat/>}
 						/>
 						<MenuItem
 							rightIcon={<Dashboard/>}
 							href="http://skills.susi.ai"
-						><Translate textKey="skills" text='Skills' />
+						><Translate text='Skills' />
 						</MenuItem>
-						<MenuItem primaryText={<Translate textKey='settings' text="Settings" />}
+						<MenuItem primaryText={<Translate text="Settings" />}
 							containerElement={<Link to="/settings" />}
 							rightIcon={<SettingsIcon/>}/>
-						<MenuItem primaryText={<Translate textKey='logout' text="Logout" />}
+						<MenuItem primaryText={<Translate text="Logout" />}
 							containerElement={<Link to="/logout" />}
 							rightIcon={<Exit />}/>
 					</div>
@@ -426,24 +428,24 @@ class Settings extends Component {
 
 			Logged = (props) => (
 				<div>
-					<MenuItem primaryText={<Translate textKey="about" text="About"/>}
+					<MenuItem primaryText={<Translate text="About"/>}
 						containerElement={<Link to="/overview" />}
 						rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText={<Translate textKey="chat" text="Chat"/>}
+					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					><Translate textKey="skills" text="Skills" />
+					><Translate text="Skills" />
 					</MenuItem>
-					<MenuItem primaryText={<Translate textKey="settings" text="Settings" />}
+					<MenuItem primaryText={<Translate text="Settings" />}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<SettingsIcon/>} />
 					<MenuItem
-						primaryText={<Translate textKey="login" text="Login" />}
+						primaryText={<Translate text="Login" />}
 						onTouchTap={this.handleLogin}
 						rightIcon={<SignUpIcon/>} />
 				</div>
@@ -607,7 +609,9 @@ class Settings extends Component {
               onChange={this.handleSelectChange}>
               <MenuItem value={'light'} primaryText={<Translate text="Light" />} />
               <MenuItem value={'dark'} primaryText={<Translate text="Dark" />} />
-							<MenuItem value={'custom'} primaryText={<Translate text="Custom" />} />
+							<MenuItem value={'custom'}
+							style={{display:this.showWhenLoggedIn}}
+							primaryText={<Translate text="Custom" />} />
             </DropDownMenu>
             </div>
             <div>

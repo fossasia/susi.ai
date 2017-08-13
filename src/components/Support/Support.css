@@ -69,6 +69,9 @@
 .conversation__description{
     width: 50%;
 }
+.conversation__description_{
+  width: 100%;
+}
 @media only screen and (max-width: 800px){
   .support__text {
       font-size: 16px;
@@ -180,7 +183,7 @@
 }
 .blue-wrapper{
  background: #4285f4;
- width: 100%;   
+ width: 100%;
 }
 .footer-container{
     padding: 20px 10% 20px;
@@ -245,7 +248,7 @@
 }
 @media only screen and (max-width: 1000px){
     .white-grey{
-        padding: 70px 20px !important 
+        padding: 70px 20px !important
     }
     .support__heading {
         font-size: 36px;

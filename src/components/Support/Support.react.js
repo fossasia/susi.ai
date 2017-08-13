@@ -122,7 +122,8 @@ class Support extends Component {
                           </a>
                           <div className="support-description-content">
                           Access the full Developer Documentation on <a href="http://dev.susi.ai">
-                          http://dev.susi.ai</a> to begin setting up and running SUSI.AI on your machine.
+                          dev.susi.ai</a> to
+                          begin setting up and running SUSI.AI on your machine.
                           </div>
                           </div>
                   </div>
@@ -175,47 +176,61 @@ class Support extends Component {
               </div>
               </div>
               <div className="section">
-              <div className='left'>
-                  <div className="conversation__description_">
-                    <div className="support__heading">Chat With Us</div>
-                  </div>
-                  <div className="devsite-landing-row-group">
-                  <div className=" support-item  support-item-with-icon  support-item-no-image">
-                    <a href="https://gitter.im/fossasia/susi_server">
-                    <div className=" support-item-icon-container">
-                    <img alt='question' src={question} className=" support-item-icon"/></div></a>
+                 <div className="conversation__description_">
+                     <div className="support__heading">Browse, Create and Edit your own Skills</div>
+                 </div>
+                 <div className="devsite-landing-row-group">
+                 <div className=" support-item  support-item-with-icon  support-item-no-image ">
+                    <a href="http://dream.susi.ai">
+                   <div className=" support-item-icon-container">
+                   <img alt='code' src={code} className=" support-item-icon"/></div></a>
+                     <div className="support-description ">
+                           <a href="http://dream.susi.ai">
+                           <h3 id="stack-overflow">Test SUSI.AI Skills and Create Dreams</h3>
+                           </a>
+                           <div className="support-description-content">
+                           You can insert your skill code and test it on the SUSI.AI
+                           Etherpad at<a href='http://dream.susi.ai'>&nbsp;dream.susi.ai</a>
+                           </div>
+                           </div>
+                   </div>
+                 <div className=" support-item support-item-with-icon  support-item-no-image">
+                     <a href="http://skills.susi.ai">
+                     <div className=" support-item-icon-container">
+                     <img alt='code' src={code} className=" support-item-icon"/></div></a>
+                     <div className="support-description">
+                           <a href="http://skills.susi.ai">
+                           <h3 id="stack-overflow">Create and Edit a SUSI.AI skill</h3>
+                           </a>
+                           <div className="support-description-content">
+                          You can easily create a skill on the SUSI.AI skills
+                          editor at<a href='http://skills.susi.ai'>&nbsp;skills.susi.ai</a>
+                           </div>
+                           </div>
+                   </div>
+               </div>
+              </div>
+              <div className="section">
+                <div className="conversation__description">
+                  <div className="support__heading">Chat With Us</div>
+                </div>
+                <div className="devsite-landing-row-group">
+                <div className=" support-item  support-item-with-icon  support-item-no-image">
+                   <a href="https://gitter.im/fossasia/susi_server">
+                   <div className=" support-item-icon-container">
+                   <img alt='question' src={question} className=" support-item-icon"/></div></a>
                     <div className="support-description">
-                          <a href="https://gitter.im/fossasia/susi_server">
-                          <h3 id="stack-overflow">Get Support</h3>
-                          </a>
+                       <a href="https://gitter.im/fossasia/susi_server">
+                       <h3 id="stack-overflow">Get Support</h3>
+                       </a>
                           <div className="support-description-content">
-                          Got a problem? We are here to help.
+                          Got a problem?
+                          We are always here to help.
+                          Just drop us a message and someone will help you shortly
                           </div>
                           </div>
                   </div>
-                </div>
-                </div>
-                <div className='right'>
-                <div className="conversation__description_">
-                    <div className="support__heading">Browse, Create and Edit your own Skills</div>
-                  </div>
-                  <div className="devsite-landing-row-group">
-                  <div className=" support-item  support-item-with-icon support-item-no-image">
-                    <a href="http://skills.susi.ai/">
-                    <div className=" support-item-icon-container">
-                    <img alt='code' src={code} className=" support-item-icon"/></div></a>
-                    <div className="support-description">
-                          <a href="http://skills.susi.ai/">
-                          <h3 id="stack-overflow">Create a SUSI Dream</h3>
-                          </a>
-                          <div className="support-description-content">
-                          You can easily create a SUSI.AI dream in the SUSI Etherpad at
-                          <a href='http://dream.susi.ai'>&nbsp;http://dream.susi.ai</a>
-                          </div>
-                          </div>
-                  </div>
-                </div>
-                </div>
+              </div>
               </div>
               <div className="blue-wrapper">
                 <div className="non-flex blue-background">
