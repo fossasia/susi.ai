@@ -1,9 +1,9 @@
 {
-   "about":"About",
-   "chat":"Chat",
-   "skills":"Skills",
-   "settings":"Settings",
-   "login":"Login",
-   "logout":"Logout",
-   "themes": "Themes"
+   "About":"About",// TOp Bar begins
+   "Chat":"Chat",
+   "Skills":"Skills",
+   "Settings":"Settings",
+   "Login":"Login",
+   "Logout":"Logout",
+   "Themes": "Themes"// Top Bar ends
 }

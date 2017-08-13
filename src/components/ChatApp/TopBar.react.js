@@ -83,27 +83,27 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText={<Translate textKey='about' text="About"/>}
+					<MenuItem primaryText={<Translate text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText={<Translate textKey='chat' text="Chat"/>}
+					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					><Translate textKey='skills' text="Skills"/>
+					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate textKey='settings' text="Settings"/>}
+					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
-					<MenuItem primaryText={<Translate textKey='themes' text="Themes"/>}
+					<MenuItem primaryText={<Translate text="Themes"/>}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText={<Translate textKey='logout' text="Logout"/>}
+					<MenuItem primaryText={<Translate text="Logout"/>}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
 				</Popover>
@@ -130,23 +130,23 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText={<Translate textKey='about' text="About"/>}
+					<MenuItem primaryText={<Translate text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText={<Translate textKey='chat' text="Chat"/>}
+					<MenuItem primaryText={<Translate text="Chat"/>}
 					containerElement={<Link to="/" />}
 					rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					><Translate textKey='skills' text="Skills"/>
+					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate textKey='settings' text="Settings"/>}
+					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
-					<MenuItem primaryText={<Translate textKey="login" text="Login"/>}
+					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
 				</Popover>

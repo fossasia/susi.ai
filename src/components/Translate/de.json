@@ -1,10 +1,10 @@
 {
-   "about":"Über",
-   "chat":"Chatten",
-   "skills":"Fähigkeiten",
-   "settings":"Einstellungen",
-   "login":"Anmeldung",
-   "logout":"Ausloggen",
-   "themes": "Thema"
+   "About":"Über",
+   "Chat":"Chatten",
+   "Skills":"Fähigkeiten",
+   "Settings":"Einstellungen",
+   "Login":"Anmeldung",
+   "Logout":"Ausloggen",
+   "Themes": "Thema"
 }
 

@@ -9,8 +9,7 @@ class Translate extends Component{
 		super(props);
 		this.state ={
 			text: this.props.text,
-			defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
-      textKey:this.props.textKey
+			defaultPrefLanguage: UserPreferencesStore.getPrefLang()
 		}
 	}
 
@@ -21,13 +20,15 @@ class Translate extends Component{
   }
 
   componentDidMount() {
-		let defaultPrefLanguage = this.state.defaultPrefLanguage;
-    let textKey = this.state.textKey;
+    let defaultPrefLanguage = this.state.defaultPrefLanguage;
     var arrDe = Object.keys(de);
+    let text = this.state.text;
+    console.log(arrDe);
+    console.log(defaultPrefLanguage);
     if(defaultPrefLanguage!=='en-US'){
       for (let key=0;key<arrDe.length;key++) {
-          if (arrDe[key]===textKey) {
-              this.changeLanguage(de[textKey]);
+          if (arrDe[key]===text) {
+              this.changeLanguage(de[arrDe[key]]);
           }
         }
     }
@@ -41,7 +42,6 @@ class Translate extends Component{
 
 
 Translate.propTypes = {
-	text:PropTypes.string,
-  textKey:PropTypes.string
+	text:PropTypes.string
 }
 export default Translate;
