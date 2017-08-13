@@ -28,6 +28,9 @@ class App extends Component{
   })
 
  render(){
+    if(location.pathname!=='/'){
+        document.body.className = 'white-body';
+    }
      return(
 		<MuiThemeProvider muiTheme={muiTheme}>
         <div>
