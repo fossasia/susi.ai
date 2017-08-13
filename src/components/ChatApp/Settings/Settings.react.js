@@ -382,9 +382,11 @@ class Settings extends Component {
   		this.setState({
 	      search: false,
 	    });
+			this.showWhenLoggedIn='none';
 
 			// Check Logged in
 			if (cookies.get('loggedIn')) {
+				this.showWhenLoggedIn='block';
 				Logged = (props) => (
 					<div>
 						<MenuItem primaryText="About"
@@ -595,7 +597,7 @@ class Settings extends Component {
               onChange={this.handleSelectChange}>
               <MenuItem value={'light'} primaryText="Light" />
               <MenuItem value={'dark'} primaryText="Dark" />
-							<MenuItem value={'custom'} primaryText="Custom" />
+							<MenuItem value={'custom'} style={{display:this.showWhenLoggedIn}}primaryText="Custom" />
             </DropDownMenu>
             </div>
             <div>
