@@ -1,13 +1,24 @@
 .post_bottom {
-    padding: 100px 0 40px 90px;
+    padding: 100px 20px 40px 20px;
 }
-
+.social-btns{
+    width: 100%;
+    display: flex;
+    padding: 10px 25px 20px 25px;
+    
+}
+.SocialMediaShareButton {
+    display: block;
+    float: left;
+    margin: 3px;
+    outline: none;
+    cursor: pointer;
+}
 .featured_image {
     height: 500px;
     object-fit: contain;
     vertical-align: middle;
 }
-
 .blog_navigation {
     position: absolute;
     right: 15%;
@@ -22,7 +33,8 @@
     margin: 0 auto;
     padding: 100px 20px 100px 20px;
     position: relative;
-    max-width: 935px;
+    max-width: 100%;
+    width: 935px;
     align-items: center;
     box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
     display: -ms-flexbox;
@@ -32,53 +44,139 @@
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
 }
+.noUnderline span a{
+    text-decoration: none;
+}
+.noUnderline span a:hover{
+    color: inherit;
+}    
+.section_blog a{
+    cursor: pointer;
+    text-decoration: underline;
+    color: inherit;
+    height: 30px;
+}
+.section_blog a:hover{
+    text-decoration: none;
+    color: rgba(51,51,51,0.7);
+}
+.section_blog{
+    font-size: 16px;
+    text-align: justify;
+}
+.section_blog p{
+    font-size: 16px;
+    text-align: justify;
+}
+.section_blog p span{
+    font-size: 16px;
+    text-align: justify;
+}
+.cardActions{
+    background: #f7f7f7;
+    padding: 50px 50px 50px 50px !important;
+}
+.section_blog img{
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+.authorName{
+    padding-left: 10px;
+    font-size: 18px;
+}
+.categoryContainer{
+    color: rgba(51,51,51,0.7);
+    line-height: 25px;
+    padding: 0 10px 0 0;
+}
+.categoryContainer span:after { content: ", "; }
+.categoryContainer span:last-child:after { content: ""; }
+.categoryContainer a{
+    text-decoration: none;
+}
+.categoryContainer a:hover{
+    text-decoration: underline
+}    
+.authorsContainer{
+    color: rgba(51,51,51,0.7);
+    line-height: 25px;
+    padding: 0 10px 0 0;
+}
+.authorsContainer a{
+    text-decoration: none
+}   
+.authorsContainer a:hover{
+    text-decoration: underline
+}    
+.calendarContainer{
+    color: rgba(51,51,51,0.7);
+    line-height: 25px;
+    float: left;
+    padding: 0 10px 0 0;
+    
+}
+.calendarContainer a{
+    text-decoration: none;
+}
+.calendarContainer a:hover{
+    text-decoration: underline
+}    
+.tagsContainer a { text-decoration: none; display: inline; list-style-type: none; }
+.tagsContainer span:after { content: ", "; }
+.tagsContainer span:last-child:after { content: ""; }
+.tagsContainer{
+    line-height: 25px;
+    color: rgba(51,51,51,0.7);
+    margin: 0 5px;
+    padding: 0 10px 0 0;
+    
+}
+.tagsContainer a:hover{
+    text-decoration: underline;
+}
+.tagIcon{
+    padding-right: 10px;
+}
+.footer-wrapper{
+    width: 100%;
+}
+.section_blog pre{
+    overflow: auto;
+}
+pre{
+    background: #002240;
+    color: #fff;
+    padding: 10px 10px;
+    overflow: auto;
+    line-height: 1.2632em;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 16px;
+}
 @media only screen and (min-width: 1400px){
-.blog_navigation {
-    position: absolute;
-    right: 15%;
-    bottom: 220px;
-}
-}
-@media only screen and (max-width: 1080px){
-    .section_blog {
-        max-width: 940px;
-    }
-}
-
-@media only screen and (max-width: 985px){
     .blog_navigation {
-        bottom: 175px;
+        position: absolute;
+        right: 15%;
+        bottom: 220px;
     }
 }
 
-@media only screen and (max-width: 800px){
+@media only screen and (max-width: 1000px){
+    .section_blog{
+        max-width: 100%;
+        width: 85%;
+        padding: 0 20px;
+    }
     .featured_image {
         height: 300px;
     }
-    .post_bottom {
+   .post_bottom {
         width: 90%;
         margin: 10px 0 auto;
     }
     .blog_navigation {
-        bottom: 185px;
-    }
+        bottom: 200px;
+    } 
 }
 
-@media only screen and (max-width: 480px){
-    .featured_image {
-        height: 200px;
-    }
-    .post_bottom {
-        width: 100%;
-        margin: 150px 0 auto;
-    }
-    .section_blog {
-        padding: 10px 0 0 0;
-        width: 90%;
-        margin: 20px auto;
-    }
-    .blog_navigation {
-        right: 5%;
-        bottom: 220px;
-    }
-}
