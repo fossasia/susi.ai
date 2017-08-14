@@ -17,15 +17,18 @@
     flex-flow: row wrap;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    border-bottom: 1px solid #dfdfdf;
     background: #f7f7f7;
 }
 .gray-wrapper{
     background: #f7f7f7;
     width: 100%;
+    border-bottom: 1px solid #dfdfdf;
 }
 
-
+.terms-list{
+    line-height: 22px;
+    font-size: 16px;
+}
 .contact-content{
     padding: 50px 0 25px 0;
     max-width: 100%;
@@ -35,20 +38,25 @@
     text-align: left;
     width: 935px;
 }
+.contact-content h5{
+    font-size: 18px;
+    font-weight: 400px;
+    line-height: 0px;
+}
 .contact-content p{
     display: block;
     width: 85%;
+    line-height: 22px;
+    font-weight: 500;
 }
 .contact-content-last{
     padding: 50px 0 25px 0;
+    line-height: 22px;
     max-width: 100%;
     width: 935px;
     text-align: left;
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
-}
-.footer-container{
-    padding: 10px 6% 21px 0%;
 }
 @media only screen and (min-width: 1400px){
     .white-grey{
@@ -70,7 +78,6 @@
         flex-flow: row wrap;
         -webkit-box-pack: justify;
         justify-content: space-between;
-        border-bottom: 1px solid #dfdfdf;
     }
 
     .section{
@@ -118,30 +125,5 @@
     }
     .non-flex{
         padding: 50px 90px 50px 90px;
-    }
-    .footer .susi-logo-anchor {
-        width: 50px;
-        margin: 0 20px
-    }
-}
-@media only screen and (max-width: 480px){
-    .susi-logo-anchor{
-        width: 20%;
-        margin: 0 auto;
-    }
-    .footer{
-        padding: 0px 0px 0px 0px;
-    max-width: 100%;
-
-    }
-    .footer-container{
-        display: none !important;
-    }
-    .footer .susi-logo-anchor {
-    width: 144px;
-    text-align: center;
-    display: block;
-    vertical-align: middle;
-    margin: 50px auto 0 auto;
     }
 }

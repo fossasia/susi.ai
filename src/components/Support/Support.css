@@ -18,7 +18,6 @@
     flex-flow: row wrap;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    border-bottom: 1px solid #dfdfdf;
 }
 .support{
     align-self: center;
@@ -51,7 +50,7 @@
     width: 60%;
 }
 .support__heading{
-    color: #757575;
+    color: #414141;
     font: 300 34px/40px 'Roboto',sans-serif;
     letter-spacing: -.01em;
     margin: 40px 0 20px;
@@ -132,6 +131,7 @@
     flex-direction: column;
     font-family: 'Roboto', sans-serif;
     margin-left: 30px;
+    font-weight: 300;
 }
 .support-item-no-image h3, .devsite-landing-row h4 {
     font: 400 20px/32px Roboto,sans-serif;
@@ -185,11 +185,10 @@
  background: #4285f4;
  width: 100%;
 }
-.footer-container{
-    padding: 20px 10% 20px;
-}
 .support-description-content{
     text-align: left;
+    font-size: 16px;
+    line-height: 22px;
 }
 @media only screen and (min-width: 1400px){
     .white-grey{
@@ -211,7 +210,6 @@
         flex-flow: row wrap;
         -webkit-box-pack: justify;
         justify-content: space-between;
-        border-bottom: 1px solid #dfdfdf;
     }
     .section{
         max-width: 100%;
@@ -248,7 +246,8 @@
 }
 @media only screen and (max-width: 1000px){
     .white-grey{
-        padding: 70px 20px !important
+        max-width: 85%; 
+        padding: 70px 20px !important 
     }
     .support__heading {
         font-size: 36px;

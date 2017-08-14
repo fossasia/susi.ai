@@ -58,4 +58,23 @@
    "Search":"Search",
    "Type a message...":"Type a message...",
    "Speak Now":"Speak Now"
+   "Login Failed. Try Again":"Login Failed. Try Again",
+   "Some error occurred. Try Again":"Some error occurred. Try Again",
+   "Please check your internet connection":"Please check your internet connection",
+   "Enter a valid URL":"Enter a valid URL",
+   "Enter a valid Email Address":"Enter a valid Email Address",
+   "Minimum 6 characters required":"Minimum 6 characters required",
+   "Login to SUSI":"Login to SUSI",
+   "Email":"Email",
+   "Password":"Password",
+   "Forgot Password?":"Forgot Password?",
+   "Sign Up":"Sign Up",
+   "Chat Anonymously":"Chat Anonymously",
+   "OR":"OR",
+   "Check your password again":"Check your password again",
+   "Email already taken. Please try with another email.":"Email already taken. Please try with another email.",
+   "Failed. Try Again":"Failed. Try Again",
+   "Sign Up with SUSI":"Sign Up with SUSI",
+   "Confirm Password":"Confirm Password",
+   "If you have an Account Please Login":"If you have an Account Please Login"
 }

@@ -27,11 +27,14 @@
 }
 @media only screen and (max-width: 800px){
 
-    .topMenu-item{
+    .top-menu{
         display: none !important;
     }
     .topAppBar button{
         display: block  !important;
+    }
+    .top-menu{
+        display: none;
     }
     .conversation__description .description__heading {
         margin-top: 0;

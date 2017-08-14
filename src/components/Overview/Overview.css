@@ -148,7 +148,8 @@
     width: 100%;
 }
 .safty_and_secure{
-    padding: 100px 20px 240px 20px;
+    padding: 100px 20px 110px 20px;
+    border-bottom: none;
 }
 .bots{
     display: flex;
@@ -540,7 +541,6 @@ header {
         flex:1 100%;
         display: block;
         padding-left: 0;
-        margin: 0 0 0 50px;
         list-style: none;
         list-style-type: none;
     }
@@ -638,7 +638,7 @@ header {
         margin: 0 auto;
     }
     .shield{
-        margin: 0 auto 210px auto;
+        margin: 0 auto 50px auto;
         padding: 30px 0px 10px 0;
     }
 

@@ -17,9 +17,10 @@
 .section-container {
     margin: 0 auto;
     max-width: 1120px;
-    padding: 80px 20px 120px 0px;
+    padding: 80px 20px 80px 0px;
     position: relative;
     text-align: center;
+    color: #414141;
 }
 
 .side-menu{
@@ -37,7 +38,7 @@
 
 .terms-list{
     float: left;
-    width: 66%;
+    width: 100%;
     text-align: justify;
     font-family: "Product Sans", sans-serif;
     font-weight: 300;
@@ -50,13 +51,6 @@
     font-weight: 300;
 }
 
-.footer{
-    background: #f6f6f6;
-    margin-top: 40px;
-    min-height: 140px;
-    width: 100%;
-    bottom: 0;
-}
 .drawerItem div{
     border-left: 3px solid #0084ff;
     display: block;

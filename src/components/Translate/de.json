@@ -58,4 +58,25 @@
    "Search":"Suche",
    "Type a message...":"Geben Sie eine Nachricht ein...",
    "Speak Now":"Sprich jetzt"
+   "Login Failed. Try Again":"Anmeldung fehlgeschlagen. Versuch es noch einmal",
+   "Some error occurred. Try Again":"Ein Fehler ist aufgetreten. Versuch es noch einmal",
+   "Please check your internet connection":"Bitte überprüfe deine Internetverbindung",
+   "Enter a valid URL":"Geben Sie eine gültige URL ein",
+   "Enter a valid Email Address":"Geben sie eine gültige E-Mail-Adresse an",
+   "Minimum 6 characters required":"Mindestens 6 Zeichen erforderlich",
+   "Login to SUSI":"Login zu SUSI",
+   "Email":"Email",
+   "Password":"Passwort",
+   "Forgot Password?":"Passwort vergessen?",
+   "Sign Up":"Anmelden",
+   "Chat Anonymously":"Chat anonym",
+   "OR":"ODER",
+   "Check your password again":"Überprüfen Sie Ihr Passwort erneut",
+   "Email already taken. Please try with another email.":"E-Mail bereits vergeben. Bitte versuchen Sie es mit einer anderen E-Mail.",
+   "Failed. Try Again":"Gescheitert. Versuch es noch einmal",
+   "Sign Up with SUSI":"Melden Sie sich mit SUSI an",
+   "Confirm Password":"Bestätige das Passwort",
+   "If you have an Account Please Login":"Wenn Sie ein Konto haben, melden Sie sich bitte an"
+
+
 }
