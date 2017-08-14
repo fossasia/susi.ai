@@ -35,7 +35,7 @@ class Devices extends Component{
           <div className='container'>
             <div className="heading">
               <h1>Devices</h1>
-              <p>SUSI.AI is available on every platform</p>
+              <p>SUSI.AI is available on many platform</p>
             </div>
           </div>
         </div>

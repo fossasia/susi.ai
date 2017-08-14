@@ -9,10 +9,10 @@ class FourButtons extends Component {
     render() {
 
         const flatButtonStyle = {
-            minWidth: '25%',
+            minWidth: '23%',
             fontSize: '25px',
             color: '#fff',
-            padding: '0%',
+            padding: '0% 2%',
            marginRight:'5px',
            marginLeft:'5px'
         };
