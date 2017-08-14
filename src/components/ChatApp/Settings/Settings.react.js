@@ -511,7 +511,7 @@ class Settings extends Component {
 		const serverDialogActions = [
     <RaisedButton
       key={'Cancel'}
-      label="Cancel"
+      label={<Translate text="Cancel"/>}
       backgroundColor={
         UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
@@ -522,7 +522,7 @@ class Settings extends Component {
     />,
     <RaisedButton
       key={'OK'}
-      label="OK"
+      label={<Translate text="OK"/>}
       backgroundColor={
         UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
@@ -652,18 +652,18 @@ class Settings extends Component {
                 toggled={this.state.speechOutputAlways}/>
             </div>
             <div>
-              <h4 style={{'marginBottom':'0px'}}><Translate text="Language"/></h4>
+              <h4 style={{'marginBottom':'0px'}}><Translate text="Speech Output Language"/></h4>
               <FlatButton
                 className='settingsBtns'
                 style={Buttonstyles}
-                label={<Translate text="Select Language"/>}
+                label={<Translate text="Select Default Language"/>}
                 disabled={!this.TTSBrowserSupport}
                 onClick={this.handleLanguage.bind(this,true)} />
             </div>
            <div>
-                <h3 style={subHeaderStyle}><Translate text="Language Settings"/></h3>
+                <h3 style={subHeaderStyle}><Translate text="Text Language Settings"/></h3>
                 <div>
-					<h4 style={{'marginBottom':'0px'}}><Translate text="Select Language"/></h4>
+					<h4 style={{'marginBottom':'0px'}}><Translate text="Select Default Language"/></h4>
 					<DropDownMenu
 						value={voiceOutput.voiceLang}
 						disabled={!this.TTSBrowserSupport}

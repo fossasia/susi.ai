@@ -73,7 +73,7 @@ class ForgotPassword extends Component {
         this.setState(state);
 
         if (this.state.serverFieldError) {
-            this.customServerMessage = 'Enter a valid URL';
+            this.customServerMessage = <Translate text="Enter a valid URL"/>;
         }
         else{
             this.customServerMessage = '';
@@ -101,10 +101,10 @@ class ForgotPassword extends Component {
 
         if(state.emailError){
         	if (!state.email) {
-				this.emailErrorMessage = 'This Field Is Required';
+				this.emailErrorMessage = <Translate text="This Field Is Required"/>;
 			}
 			else if (!state.validEmail) {
-				this.emailErrorMessage = 'Invalid Email';
+				this.emailErrorMessage = <Translate text="Invalid Email"/>;
 			}
         }
 		else{
@@ -113,7 +113,7 @@ class ForgotPassword extends Component {
 
         if (state.serverFieldError) {
         	this.customServerMessage
-        	= 'Enter a valid URL';
+        	= <Translate text="Enter a valid URL"/>;
         }
         else{
         	this.customServerMessage = '';
@@ -217,7 +217,7 @@ class ForgotPassword extends Component {
 		return (
 			<div className="forgotPwdForm">
 				<Paper zDepth={0} style={styles}>
-					<h3><Translate text="Forgot Password?"/></h3>
+					<h3><Translate text="Forgot Password ?"/></h3>
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField
@@ -226,7 +226,7 @@ class ForgotPassword extends Component {
 								errorText={this.emailErrorMessage}
 								value={this.state.email}
 								underlineFocusStyle={underlineFocusStyle}
-                                floatingLabelFocusStyle={underlineFocusStyle}
+                floatingLabelFocusStyle={underlineFocusStyle}
 								onChange={this.handleChange} />
 						</div>
 						<div>
@@ -243,7 +243,7 @@ class ForgotPassword extends Component {
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
-	              				style={{margin:'25px 0 0 0 '}}
+	              style={{margin:'25px 0 0 0 '}}
 								disabled={!this.state.validForm} />
 						</div>
 					</form>
@@ -254,7 +254,7 @@ class ForgotPassword extends Component {
 						open={true}
 						onRequestClose={this.handleClose}
 					>
-						<Translate text={this.state.msg}/>
+						<Translate text={this.state.msg} />
 
           			<Close style={closingStyle} onTouchTap={this.handleClose} />
 					</Dialog></div>

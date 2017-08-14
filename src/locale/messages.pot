@@ -43,7 +43,7 @@ msgstr ""
 msgid "Reset the pitch at which the text is spoken to default"
 msgstr ""
 
-msgid "Select Language"
+msgid "Select Default Language"
 msgstr ""
 
 msgid "Change Server"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Mic Input"
 msgstr ""
 
-msgid "Language"
+msgid "Speech Output Language"
 msgstr ""
 
 msgid "Add address to connect to Hardware"
@@ -142,7 +142,7 @@ msgstr ""
 msgid "Change Password"
 msgstr ""
 
-msgid "Language Settings"
+msgid "Text Language Settings"
 msgstr ""
 
 msgid "Speech Pitch"
@@ -232,6 +232,51 @@ msgstr ""
 msgid "Email already taken. Please try with another email.":
 msgstr ""
 
+msgid "Use Custom Server"
+msgstr ""
+
+msgid "Current Password"
+msgstr ""
+
+msgid "New Password"
+msgstr "Neues Kennwort"
+
+msgid "Confirm New Password"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "Worst"
+msgstr ""
+
+msgid "Bad"
+msgstr ""
+
+msgid "Weak"
+msgstr ""
+
+msgid "Good"
+msgstr ""
+
+msgid "Strong"
+msgstr ""
+
+msgid "Minimum 6 characters required"
+msgstr ""
+
+msgid "Check your password again"
+msgstr ""
+
+msgid "Invalid Credentials. Please check your Email or Password."
+msgstr ""
+
+msgid "Please login again."
+msgstr ""
+
+msgid "Please Try Again."
+msgstr ""
+
 msgid "Failed. Try Again"
 msgstr ""
 
@@ -242,4 +287,46 @@ msgid "Confirm Password"
 msgstr ""
 
 msgid "If you have an Account Please Login"
+msgstr ""
+
+msgid "Please check your internet connection"
+msgstr ""
+
+msgid "Forgot Password ?"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Enter a valid URL"
+msgstr ""
+
+msgid "This Field Is Required"
+msgstr ""
+
+msgid "Invalid Email"
+msgstr ""
+
+msgid "Email does not exist"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Change color of"
+msgstr ""
+
+msgid "Body Background Image URL"
+msgstr ""
+
+msgid "Remove URL"
+msgstr ""
+
+msgid "Message Background Image URL"
 msgstr ""

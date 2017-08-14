@@ -23,7 +23,7 @@ msgstr "Fähigkeiten"
 msgid "Settings"
 msgstr "Einstellungen"
 
-msgid "Login",
+msgid "Login"
 msgstr "Anmeldung"
 
 msgid "Logout"
@@ -44,8 +44,8 @@ msgstr "Nachricht durch Drücken von ENTER senden"
 msgid "Reset the pitch at which the text is spoken to default"
 msgstr "Setzen Sie die Tonhöhe zurück, bei der der Text mit dem Standard gesprochen wird"
 
-msgid "Select Language"
-msgstr "Wähle eine Sprache"
+msgid "Select Default Language"
+msgstr "Wählen Sie Standardsprache"
 
 msgid "Change Server"
 msgstr "Server ändern"
@@ -53,8 +53,8 @@ msgstr "Server ändern"
 msgid "Mic Input"
 msgstr "Mic Input"
 
-msgid "Language"
-msgstr "Sprache"
+msgid "Speech Output Language"
+msgstr "Sprachausgabe Sprache"
 
 msgid "Add address to connect to Hardware"
 msgstr "Adresse hinzufügen, um eine Verbindung zur Hardware herzustellen"
@@ -143,8 +143,8 @@ msgstr "Chat Einstellungen"
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-msgid "Language Settings"
-msgstr "Spracheinstellungen"
+msgid "Text Language Settings"
+msgstr "Textspracheneinstellungen"
 
 msgid "Speech Pitch"
 msgstr "Redewendung"
@@ -227,11 +227,53 @@ msgstr "Chat anonym"
 msgid "OR"
 msgstr "ODER"
 
+msgid "Use Custom Server"
+msgstr "Verwenden Sie benutzerdefinierten Server"
+
+msgid "Current Password"
+msgstr "Aktuelles Passwort"
+
+msgid "New Password"
+msgstr "Neues Kennwort"
+
+msgid "Confirm New Password"
+msgstr "Bestätige neues Passwort"
+
+msgid "Change"
+msgstr "Veränderung"
+
+msgid "Worst"
+msgstr "Am schlimmsten"
+
+msgid "Bad"
+msgstr "Schlecht"
+
+msgid "Weak"
+msgstr "Schwach"
+
+msgid "Good"
+msgstr "Gut"
+
+msgid "Strong"
+msgstr "Stark"
+
+msgid "Minimum 6 characters required"
+msgstr "Mindestens 6 Zeichen erforderlich"
+
 msgid "Check your password again"
 msgstr "Überprüfen Sie Ihr Passwort erneut"
 
 msgid "Email already taken. Please try with another email."
 msgstr "E-Mail bereits vergeben. Bitte versuchen msgid Sie es mit einer anderen E-Mail."
+
+msgid "Invalid Credentials. Please check your Email or Password."
+msgstr "Ungültige Anmeldeinformationen. Bitte überprüfen Sie Ihre Email oder Ihr Passwort."
+
+msgid "Please login again."
+msgstr "Bitte melden Sie sich erneut an."
+
+msgid "Please Try Again."
+msgstr "Bitte versuche es erneut."
 
 msgid "Failed. Try Again"
 msgstr "Gescheitert. Versuch es noch einmal"
@@ -245,3 +287,47 @@ msgstr "Bestätige das Passwort"
 msgid "If you have an Account Please Login"
 msgstr "Wenn Sie ein Konto haben, melden Sie sich bitte an"
 
+msgid "Please check your internet connection"
+msgstr "Bitte überprüfe deine Internetverbindung"
+
+msgid "Forgot Password ?"
+msgstr "Passwort vergessen ?"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+msgid "Enter a valid URL"
+msgstr "Geben Sie eine gültige URL ein"
+
+msgid "This Field Is Required"
+msgstr "Dieses Feld wird benötigt"
+
+msgid "Invalid Email"
+msgstr "Ungültige E-Mail"
+
+msgid "Email does not exist"
+msgstr "E-Mail existiert nicht"
+
+msgid "Cancel"
+msgstr "Stornieren"
+
+msgid "Save"
+msgstr "sparen"
+
+msgid "Done"
+msgstr "Erledigt"
+
+msgid "Change color of"
+msgstr "Farbe ändern"
+
+msgid "Body Background Image URL"
+msgstr "Körper Hintergrund Bild URL"
+
+msgid "Remove URL"
+msgstr "URL entfernen"
+
+msgid "Message Background Image URL"
+msgstr "Nachricht Hintergrundbild-URL
