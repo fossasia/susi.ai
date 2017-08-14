@@ -7,15 +7,15 @@
 .footer-container a{
     text-decoration: none;
     color: #414141;
-    margin: 0 14px;
     font-size: 1em;
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .footer-container{
-    padding: 50px 20px 20px 20px !important;
+    padding: 30px 50px 30px 50px;
     display: flex;
     max-width: 100%;
     width: 100%;
@@ -38,7 +38,7 @@
 .footer{
     background: #f6f6f6;
     margin-top: 40px;
-    min-height: 140px;
+    min-height: 100px;
     max-width: 100%;
     width: 100%;
     bottom: 0;
@@ -64,10 +64,10 @@
     max-width: 100px;
     display: inline-block;
 }
+
 @media only screen and (min-width: 1400px){
     .footer{
         max-width: 100%;
-        width: 1050px;
     }
     .footer-container{
         width: 1050px;
@@ -89,9 +89,9 @@
     }
     .footer-container{
         display: block;
+        padding: 30px 30px 30px 40px;
     }
     .alignLeft a, .alignRight a{
-        margin-left: 0px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -99,8 +99,3 @@
     }
 }
 
-@media only screen and (max-width: 480px){
-    .footer-container{
-        text-align: center;
-    }
-}
