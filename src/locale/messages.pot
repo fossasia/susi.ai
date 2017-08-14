@@ -154,6 +154,39 @@ msgstr ""
 msgid "Speech Rate"
 msgstr ""
 
+msgid "Please enter a valid URL first"
+msgstr ""
+
+msgid "Connection Error"
+msgstr ""
+
+msgid "Please verify that Susi Hardware is running on address you mentioned"
+msgstr ""
+
+msgid "Theme Changed"
+msgstr ""
+
+msgid "Enter a valid Address"
+msgstr ""
+
+msgid "Enter Socket Web Address"
+msgstr ""
+
+msgid "Websocket URL"
+msgstr ""
+
+msgid "Connect"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Type a message..."
+msgstr ""
+
+msgid "Speak Now"
+msgstr ""
+
 msgid "Login Failed. Try Again"
 msgstr ""
 

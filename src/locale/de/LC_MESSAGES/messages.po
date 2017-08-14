@@ -155,6 +155,39 @@ msgstr "Setzen Sie die Geschwindigkeit zurück, mit der der Text normal gesproch
 msgid "Speech Rate"
 msgstr "Sprachrate"
 
+msgid "Please enter a valid URL first"
+msgstr "Bitte geben Sie zuerst eine gültige URL ein"
+
+msgid "Theme Changed"
+msgstr "Thema geändert"
+
+msgid "Connection Error"
+msgstr "Verbindungsfehler"
+
+msgid "Please verify that Susi Hardware is running on address you mentioned"
+msgstr "Bitte überprüfen Sie, ob Susi Hardware auf der Adresse läuft, die Sie erwähnt haben"
+
+msgid "Enter a valid Address"
+msgstr "Geben Sie eine gültige Adresse ein"
+
+msgid "Enter Socket Web Address"
+msgstr "Geben Sie die Socket-Webadresse ein"
+
+msgid "Websocket URL"
+msgstr "Websocket URL"
+
+msgid "Connect"
+msgstr "Verbinden"
+
+msgid "Search"
+msgstr "Suche"
+
+msgid "Type a message..."
+msgstr "Geben Sie eine Nachricht ein..."
+
+msgid "Speak Now"
+msgstr "Sprich jetzt"
+
 msgid "Login Failed. Try Again"
 msgstr "Anmeldung fehlgeschlagen. Versuch es noch einmal"
 
