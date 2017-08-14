@@ -23,8 +23,6 @@ class Translate extends Component{
     let defaultPrefLanguage = this.state.defaultPrefLanguage;
     var arrDe = Object.keys(de);
     let text = this.state.text;
-    console.log(arrDe);
-    console.log(defaultPrefLanguage);
     if(defaultPrefLanguage!=='en-US'){
       for (let key=0;key<arrDe.length;key++) {
           if (arrDe[key]===text) {
