@@ -50,13 +50,6 @@
     font-weight: 300;
 }
 
-.footer{
-    background: #f6f6f6;
-    margin-top: 40px;
-    min-height: 140px;
-    width: 100%;
-    bottom: 0;
-}
 .drawerItem div{
     border-left: 3px solid #0084ff;
     display: block;

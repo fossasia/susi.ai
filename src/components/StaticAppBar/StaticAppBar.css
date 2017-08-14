@@ -27,7 +27,7 @@
 }
 @media only screen and (max-width: 800px){
 
-    .topMenu-item{
+    .top-menu{
         display: none !important;
     }
     .topAppBar button{
