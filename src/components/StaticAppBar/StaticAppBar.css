@@ -33,6 +33,9 @@
     .topAppBar button{
         display: block  !important;
     }
+    .top-menu{
+        display: none;
+    }
     .conversation__description .description__heading {
         margin-top: 0;
         max-width: 100%;
