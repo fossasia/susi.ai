@@ -31,3 +31,126 @@ msgstr "Ausloggen"
 
 msgid "Themes"
 msgstr  "Thema"
+
+msgid "Account Settings"
+msgstr "Account Einstellungen"
+
+msgid "Please login again to change SUSI server"
+msgstr "Bitte melden Sie sich erneut an, um den SUSI Server zu wechseln"
+
+msgid "Send message by pressing ENTER"
+msgstr "Nachricht durch Drücken von ENTER senden"
+
+msgid "Reset the pitch at which the text is spoken to default"
+msgstr "Setzen Sie die Tonhöhe zurück, bei der der Text mit dem Standard gesprochen wird"
+
+msgid "Select Language"
+msgstr "Wähle eine Sprache"
+
+msgid "Change Server"
+msgstr "Server ändern"
+
+msgid "Mic Input"
+msgstr "Mic Input"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Add address to connect to Hardware"
+msgstr "Adresse hinzufügen, um eine Verbindung zur Hardware herzustellen"
+
+msgid "Custom URL"
+msgstr "eigene URL"
+
+msgid "Reset Speech Pitch"
+msgstr "Zurücksetzen der Sprachabstimmung"
+
+msgid "Enable speech output only for speech input"
+msgstr "Sprachausgabe nur für Spracheingabe aktivieren"
+
+msgid "Server Settings"
+msgstr "Servereinstellungen"
+
+msgid "Select Theme"
+msgstr "Thema wählen"
+
+msgid "Speech Output"
+msgstr "Sprachausgabe"
+
+msgid "Use Custom Server"
+msgstr "Verwenden Sie benutzerdefinierten Server"
+
+msgid "General"
+msgstr "General"
+
+msgid "Select backend server for the app"
+msgstr "Wählen Sie den Backend-Server für die App aus"
+
+msgid "Reset Speech Rate"
+msgstr "Sprachrate zurücksetzen"
+
+msgid "Speech Settings"
+msgstr "Spracheinstellungen"
+
+msgid "ChatApp Settings"
+msgstr "ChatApp Einstellungen"
+
+msgid "Custom"
+msgstr "Brauch"
+
+msgid "Connect to SUSI Hardware:"
+msgstr "Verbinden mit SUSI Hardware:"
+
+msgid "Mic Settings"
+msgstr "Mic-Einstellungen"
+
+msgid "Save"
+msgstr "sparen"
+
+msgid "Listen to an example"
+msgstr "Hören Sie ein Beispiel"
+
+msgid "Enter As Send"
+msgstr "Geben Sie als Send ein"
+
+msgid "Speech Output Always ON"
+msgstr "Sprachausgabe immer EIN"
+
+msgid "Dark"
+msgstr "Dunkel"
+
+msgid "Text-To-Speech Settings"
+msgstr "Text-to-Speech-Einstellungen"
+
+msgid "Play a short demonstration of speech synthesis"
+msgstr "Spielen Sie eine kurze Demonstration der Sprachsynthese"
+
+msgid "Default Theme"
+msgstr "Standardthema"
+
+msgid "Light"
+msgstr "Licht"
+
+msgid "Enable speech output regardless of input type"
+msgstr "Sprachausgabe unabhängig vom Eingabetyp aktivieren"
+
+msgid "Enable mic to give voice input"
+msgstr "Aktivieren Sie das Mikrofon, um die Sprache zu geben"
+
+msgid "Chat Settings"
+msgstr "Chat Einstellungen"
+
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+msgid "Language Settings"
+msgstr "Spracheinstellungen"
+
+msgid "Speech Pitch"
+msgstr "Redewendung"
+
+msgid "Reset the speed at which the text is spoken to normal"
+msgstr "Setzen Sie die Geschwindigkeit zurück, mit der der Text normal gesprochen wird"
+
+msgid "Speech Rate"
+msgstr "Sprachrate"

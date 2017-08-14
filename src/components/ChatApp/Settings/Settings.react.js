@@ -627,7 +627,7 @@ class Settings extends Component {
               <h4 style={{'marginBottom':'0px'}}><Translate text="Mic Input"/></h4>
               <Toggle
                 className='settings-toggle'
-                label={<Translate text="'Enable mic to give voice input"/>}
+                label={<Translate text="Enable mic to give voice input"/>}
                 disabled={!this.STTBrowserSupport}
                 onToggle={this.handleMicInput}
                 toggled={this.state.micInput}/>
@@ -656,7 +656,7 @@ class Settings extends Component {
               <FlatButton
                 className='settingsBtns'
                 style={Buttonstyles}
-                label={<Translate text="Select a Language"/>}
+                label={<Translate text="Select Language"/>}
                 disabled={!this.TTSBrowserSupport}
                 onClick={this.handleLanguage.bind(this,true)} />
             </div>
