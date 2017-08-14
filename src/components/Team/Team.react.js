@@ -128,7 +128,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle titleStyle={{fontSize:'20px'}} title={serv.name} subtitle={serv.designation} />
+          <CardTitle titleStyle={{fontSize:'20px',lineHeight:'25px'}} title={serv.name} subtitle={serv.designation} />
 
         </Card>)
     })
@@ -137,13 +137,13 @@ class Support extends Component {
       <div>
         <StaticAppBar {...this.props}
           location={this.props.location} />
-        <div className="grey-background">
-          <div className='section-container-team'>
-            <div className="team-header">
-              <div className="support__heading center">Team <b>SUSI.AI</b></div>
-            </div>
+          <div className='head_section'>
+              <div className='container'>
+                  <div className="heading">
+                  <h1>Team</h1>
+                  </div>
+              </div>
           </div>
-        </div>
         <div className="section-team founders">
 
           <div className="team-header">

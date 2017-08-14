@@ -21,10 +21,10 @@ class Terms extends Component {
   }
 
   componentDidMount() {
-     $('html, body').animate({ scrollTop: 0 }, 'fast');
-     document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-     $('html, body').animate({ scrollTop: 0 }, 'fast');
-   }
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
 
 
   showOptions = (event) => {
@@ -46,12 +46,16 @@ class Terms extends Component {
       <div>
         <StaticAppBar {...this.props}
           location={this.props.location} />
-
+          <div className='head_section'>
+          <div className='container'>
+            <div className="heading">
+              <h1>Terms of Service</h1>
+              <p>Thanks for using SUSI.AI.</p>
+            </div>
+          </div>
+        </div>
         <div className='section'>
           <div className="section-container" >
-            <div className="side-menu">
-              <h4>Terms of Service</h4>
-            </div>
             <div className="terms-list">
               <br /><br />
               <h2>Welcome to SUSI!</h2>
@@ -295,7 +299,7 @@ class Terms extends Component {
           </div>
         </div>
 
-      <Footer />
+        <Footer />
 
 
       </div>

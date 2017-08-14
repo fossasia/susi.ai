@@ -26,6 +26,14 @@
   position: relative;
 }
 
+.team__heading {
+    font-size: 42px;
+    font-weight: 100;
+    font-family: 'Roboto', sans-serif;
+}
+.team__heading b{
+    font-weight: 600;
+}
 .image {
   display: block;
   width: 100%;
@@ -81,9 +89,11 @@
     margin: 10px 10px 0 0;
     max-width: 223px;
 }
+
 .grey-background{
     background: #f7f7f7;
     padding: 50px 90px 140px 90px;
+    border: 1px solid #dfdfdf;
 
 }
 @media only screen and (min-width: 1400px){

@@ -16,6 +16,9 @@
 
 .section_blog{
     -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: justify;
     margin: 0 auto;
     padding: 100px 20px 100px 20px;
     position: relative;
