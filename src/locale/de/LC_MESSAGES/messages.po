@@ -154,3 +154,61 @@ msgstr "Setzen Sie die Geschwindigkeit zurück, mit der der Text normal gesproch
 
 msgid "Speech Rate"
 msgstr "Sprachrate"
+
+msgid "Login Failed. Try Again"
+msgstr "Anmeldung fehlgeschlagen. Versuch es noch einmal"
+
+msgid "Some error occurred. Try Again"
+msgstr "Ein Fehler ist aufgetreten. Versuch es noch einmal"
+
+msgid "Please check your internet connection"
+msgstr "Bitte überprüfe deine Internetverbindung"
+
+msgid "Enter a valid URL"
+msgstr "Geben Sie eine gültige URL ein"
+
+msgid "Enter a valid Email Address"
+msgstr "Geben sie eine gültige E-Mail-Adresse an"
+
+msgid "Minimum 6 characters required"
+msgstr "Mindestens 6 Zeichen erforderlich"
+
+msgid "Login to SUSI"
+msgstr "Login zu SUSI"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Forgot Password?"
+msgstr "Passwort vergessen?"
+
+msgid "Sign Up"
+msgstr "Anmelden"
+
+msgid "Chat Anonymously"
+msgstr "Chat anonym"
+
+msgid "OR"
+msgstr "ODER"
+
+msgid "Check your password again"
+msgstr "Überprüfen Sie Ihr Passwort erneut"
+
+msgid "Email already taken. Please try with another email."
+msgstr "E-Mail bereits vergeben. Bitte versuchen msgid Sie es mit einer anderen E-Mail."
+
+msgid "Failed. Try Again"
+msgstr "Gescheitert. Versuch es noch einmal"
+
+msgid "Sign Up with SUSI"
+msgstr "Melden Sie sich mit SUSI an"
+
+msgid "Confirm Password"
+msgstr "Bestätige das Passwort"
+
+msgid "If you have an Account Please Login"
+msgstr "Wenn Sie ein Konto haben, melden Sie sich bitte an"
+

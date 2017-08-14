@@ -153,3 +153,60 @@ msgstr ""
 
 msgid "Speech Rate"
 msgstr ""
+
+msgid "Login Failed. Try Again"
+msgstr ""
+
+msgid "Some error occurred. Try Again"
+msgstr ""
+
+msgid "Please check your internet connection"
+msgstr ""
+
+msgid "Enter a valid URL"
+msgstr ""
+
+msgid "Enter a valid Email Address"
+msgstr ""
+
+msgid "Minimum 6 characters required":
+msgstr ""
+
+msgid "Login to SUSI"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Forgot Password?"
+msgstr ""
+
+msgid "Sign Up"
+msgstr ""
+
+msgid "Chat Anonymously"
+msgstr ""
+
+msgid "OR"
+msgstr ""
+
+msgid "Check your password again"
+msgstr ""
+
+msgid "Email already taken. Please try with another email.":
+msgstr ""
+
+msgid "Failed. Try Again"
+msgstr ""
+
+msgid "Sign Up with SUSI"
+msgstr ""
+
+msgid "Confirm Password"
+msgstr ""
+
+msgid "If you have an Account Please Login"
+msgstr ""
