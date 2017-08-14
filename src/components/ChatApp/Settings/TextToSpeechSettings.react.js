@@ -155,7 +155,7 @@ class TextToSpeechSettings extends Component {
 			        		onChange={this.handleRate} />
 			        </div>
 			        <div>
-			        	<h4 style={{'marginBottom':'0px'}}><Translate text="Pitch"/></h4>
+			        	<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Pitch"/></h4>
 			        	<Slider
 			        		min={0}
 			        		max={2}
@@ -188,7 +188,7 @@ class TextToSpeechSettings extends Component {
 			    	</div>
 			    	<div style={{textAlign: 'center'}}>
 						<RaisedButton
-							label="Save"
+							label={<Translate text="Save"/>}
 							backgroundColor={
 								UserPreferencesStore.getTheme()==='light'
 								? '#4285f4' : '#19314B'}
