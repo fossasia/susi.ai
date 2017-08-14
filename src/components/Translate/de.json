@@ -46,5 +46,16 @@
    "Listen to an example":"Hören Sie ein Beispiel",
    "Play a short demonstration of speech synthesis":"Spielen Sie eine kurze Demonstration der Sprachsynthese",
    "Custom URL":"eigene URL",
-   "Use Custom Server":"Verwenden Sie benutzerdefinierten Server"
+   "Use Custom Server":"Verwenden Sie benutzerdefinierten Server",
+   "Please enter a valid URL first":"Bitte geben Sie zuerst eine gültige URL ein",
+   "Theme Changed":"Thema geändert",
+   "Connection Error":"Verbindungsfehler",
+   "Please verify that Susi Hardware is running on address you mentioned":"Bitte überprüfen Sie, ob Susi Hardware auf der Adresse läuft, die Sie erwähnt haben",
+   "Enter a valid Address":"Geben Sie eine gültige Adresse ein",
+   "Enter Socket Web Address":"Geben Sie die Socket-Webadresse ein",
+   "Websocket URL":"Websocket URL",
+   "Connect":"Verbinden",
+   "Search":"Suche",
+   "Type a message...":"Geben Sie eine Nachricht ein...",
+   "Speak Now":"Sprich jetzt"
 }
