@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
 import CustomServer from '../../ChatApp/CustomServer.react';
+import Translate from '../../Translate/Translate.react';
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -338,7 +339,7 @@ export default class SignUp extends Component {
         return (
             <div className="signUpForm">
                 <Paper zDepth={0} style={styles}>
-                    <h3>Sign Up with SUSI</h3>
+                    <h3><Translate text="Sign Up with SUSI"/></h3>
                     <form onSubmit={this.handleSubmit}>
                         <div>
                             <TextField
@@ -348,7 +349,7 @@ export default class SignUp extends Component {
                                 errorText={this.emailErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText="Email" />
+                                floatingLabelText={<Translate text="Email" />}/>
                         </div>
                         <div className={PasswordClass.join(' ')}>
                             <PasswordField
@@ -359,11 +360,11 @@ export default class SignUp extends Component {
                                 errorText={this.passwordErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText="Password" />
+                                floatingLabelText={<Translate text="Password" />} />
                               <div className="ReactPasswordStrength-strength-bar" />
                               <div>
                                 <p>
-                                  {this.state.passwordStrength}
+                                  <Translate text={this.state.passwordStrength}/>
                                 </p>
                               </div>
                         </div>
@@ -376,7 +377,7 @@ export default class SignUp extends Component {
                                 errorText={this.passwordConfirmErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText="Confirm Password" />
+                                floatingLabelText={<Translate text="Confirm Password" />}/>
                         </div>
                         <div>
                             <CustomServer
@@ -387,7 +388,7 @@ export default class SignUp extends Component {
                         </div>
                         <div>
                             <RaisedButton
-                                label="Sign Up"
+                                label={<Translate text="Sign Up"/>}
                                 type="submit"
                                 disabled={!this.state.validForm}
                                 backgroundColor={
@@ -398,14 +399,14 @@ export default class SignUp extends Component {
                         </div>
                         <h4 style={{
                             margin: '5px 0'
-                        }}>OR</h4>
+                        }}><Translate text="OR"/></h4>
                         <div>
                             <h4 style={{
                             margin: '5px 0'
-                        }}>If you have an Account Please Login</h4>
+                        }}><Translate text="If you have an Account Please Login"/></h4>
                             <RaisedButton
                                 onTouchTap={this.handleOpen}
-                                label='Login'
+                                label={<Translate text='Login'/>}
                                 backgroundColor={
                                     UserPreferencesStore.getTheme()==='light'
                                     ? '#4285f4' : '#19314B'}
@@ -419,7 +420,7 @@ export default class SignUp extends Component {
                         open={this.state.msgOpen}
                         onRequestClose={this.handleClose}
                     >
-                        {this.state.msg}
+                        <Translate text={this.state.msg}/>
                     </Dialog></div>
                 )}
             </div>

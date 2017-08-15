@@ -10,6 +10,7 @@ import PropTypes  from 'prop-types';
 import Cookies from 'universal-cookie';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
+import Translate from '../../Translate/Translate.react';
 
 const cookies = new Cookies();
 
@@ -224,7 +225,7 @@ class Login extends Component {
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
-					<h3>Login to SUSI</h3>
+					<h3><Translate text="Login to SUSI"/></h3>
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField name="email"
@@ -233,7 +234,7 @@ class Login extends Component {
 								underlineFocusStyle={underlineFocusStyle}
       							floatingLabelFocusStyle={underlineFocusStyle}
 								errorText={this.emailErrorMessage}
-								floatingLabelText="Email" />
+								floatingLabelText={<Translate text="Email"/>} />
 						</div>
 						<div>
 					        <PasswordField
@@ -244,7 +245,7 @@ class Login extends Component {
       							floatingLabelFocusStyle={underlineFocusStyle}
 								onChange={this.handleChange}
 								errorText={this.passwordErrorMessage}
-								floatingLabelText='Password' />
+								floatingLabelText={<Translate text="Password"/>} />
 						</div>
 						<div>
                 <CustomServer
@@ -258,7 +259,7 @@ class Login extends Component {
 						}}>{this.state.msg}</span>
 						<div>
 							<RaisedButton
-								label="Login"
+								label={<Translate text="Login"/>}
 								type="submit"
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
@@ -273,11 +274,11 @@ class Login extends Component {
 						}}
 						className="forgotpwdlink"
 							onClick={this.handleForgotPassword}>
-								Forgot Password?
+								<Translate text="Forgot Password?"/>
 						</span>
 						<div>
 							<RaisedButton
-									label='Sign Up'
+									label={<Translate text="Sign Up"/>}
 									onClick={this.handleSignUp}
 									backgroundColor={
 										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
@@ -285,11 +286,11 @@ class Login extends Component {
 						</div>
 						<h4 style={{
 							margin: '2px 0'
-						}}>OR</h4>
+						}}><Translate text="OR"/></h4>
 						<div>
 							<Link to={'/logout'} >
 								<RaisedButton
-									label='Chat Anonymously'
+									label={<Translate text="Chat Anonymously"/>}
 									backgroundColor={
 										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 									labelColor="#fff" />
