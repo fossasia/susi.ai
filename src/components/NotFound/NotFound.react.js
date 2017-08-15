@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import susi from '../../images/susi-logo.svg';
 import { Link } from 'react-router-dom';
 import './NotFound.css';
 import LogoImg from '../../images/susi-logo.svg';
@@ -10,6 +9,7 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import Dialog from 'material-ui/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Footer from '../Footer/Footer.react';
 
 
 export default class NotFound extends Component {
@@ -119,25 +119,7 @@ export default class NotFound extends Component {
                     </div>
                 </div>
 
-                <div className='footer'>
-                  <a className='susi-logo-anchor' href='/overview'>
-                    <img src={susi} alt='SUSI' className='susi-logo' />
-                  </a>
-                  <div className="footer_content">
-                    <div className='footer-container'>
-                      <ul className='alignLeft'>
-                        <li><a href='/overview'>Overview</a></li>
-                        <li><a href='/blog'>Blog</a></li>
-                        <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-                      </ul>
-                      <ul className='alignRight'>
-                        <li><a href='/settings'>Settings</a></li>
-                        <li><a href='/terms'>Terms</a></li>
-                        <li><a href='/contact'>Contact</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                <Footer />
                 {/* Login */}
                 <Dialog
                     className='dialogStyle'

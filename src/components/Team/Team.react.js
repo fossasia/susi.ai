@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './Team.css';
 import PropTypes  from 'prop-types';
-import susi from '../../images/susi-logo.svg';
 import team from './TeamList';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import 'font-awesome/css/font-awesome.min.css';
 import FourButtons from './FourButtons.react';
+import $ from 'jquery';
+import Footer from '../Footer/Footer.react';
 
 class Support extends Component {
 
@@ -22,6 +23,14 @@ class Support extends Component {
       team: team
     };
   }
+
+
+  componentDidMount() {
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    document.title = 'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
+
   showOptions = (event) => {
     event.preventDefault();
     this.setState({
@@ -35,29 +44,38 @@ class Support extends Component {
       showOptions: false,
     });
   };
+
   handleToggle = () => this.setState({ open: !this.state.open });
+
   handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
+
   handleDrawerClose = () => this.setState({ openDrawer: false });
+
   handleTitle = () => {
     this.props.history.push('/');
   }
+
   handleLogin = () => this.setState({
     login: true,
     signup: false
   })
+
   handleClose = () => this.setState({
     login: false,
     signup: false,
     open: false
   })
+
   handleSignUp = () => this.setState({
     signup: true,
     login: false
   })
+
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
+
   render() {
 
     let mentors = team[0].mentors.map((mentor, i) => {
@@ -71,7 +89,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle title={mentor.name} subtitle={mentor.designation} />
+          <CardTitle titleStyle={{fontSize:'20px'}} title={mentor.name} subtitle={mentor.designation} />
         </Card>)
     })
     let managers = team[2].managers.map((manager, i) => {
@@ -85,7 +103,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle title={manager.name} subtitle={manager.designation} />
+          <CardTitle titleStyle={{fontSize:'20px'}} title={manager.name} subtitle={manager.designation} />
 
         </Card>)
     })
@@ -110,7 +128,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle title={serv.name} subtitle={serv.designation} />
+          <CardTitle titleStyle={{fontSize:'20px',lineHeight:'25px'}} title={serv.name} subtitle={serv.designation} />
 
         </Card>)
     })
@@ -119,14 +137,14 @@ class Support extends Component {
       <div>
         <StaticAppBar {...this.props}
           location={this.props.location} />
-        <div className="section-team grey-background">
-          <div className='section-container-team'>
-            <div className="team-header">
-              <div className="support__heading center">Team <b>SUSI.AI</b></div>
-            </div>
+          <div className='head_section'>
+              <div className='container'>
+                  <div className="heading">
+                  <h1>Team</h1>
+                  </div>
+              </div>
           </div>
-        </div>
-        <div className="section-team">
+        <div className="section-team founders">
 
           <div className="team-header">
             <div className="support__heading">Project Founders</div>
@@ -134,43 +152,26 @@ class Support extends Component {
           <div className='team-container'>{mentors}</div>
         </div>
 
-        <div className="section-team" style={{
+        <div className="section-team managers" style={{
           paddingBottom: '240px'
         }}>
-          <div className="team-header">
+          <div className="team-header ">
             <div className="support__heading">Project Managers</div>
           </div>
           <div className='team-container'>{managers}</div>
         </div>
 
-         <div className="section-team" style={{
+         <div className="section-team developers" style={{
           paddingBottom: '240px'
         }}>
 
-          <div className="team-header">
+          <div className="team-header ">
             <div className="support__heading">Developers</div>
           </div>
           <div className='team-container'>{server}</div>
         </div>
-        <div className='footer'>
-          <a className='susi-logo-anchor' href='/overview'>
-            <img src={susi} alt='SUSI' className='susi-logo' />
-          </a>
-          <div className="footer_content">
-            <div className='footer-container'>
-              <ul className='alignLeft'>
-                <li><a href='/overview'>Overview</a></li>
-                <li><a href='/blog'>Blog</a></li>
-                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-              </ul>
-              <ul className='alignRight'>
-                <li><a href='/settings'>Settings</a></li>
-                <li><a href='/terms'>Terms</a></li>
-                <li><a href='/contact'>Contact</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <Footer />
+
 
       </div>
     );

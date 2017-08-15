@@ -9,7 +9,9 @@
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
-    padding: 50px 90px 140px 90px;
+    max-width: 100%;
+    width: 935px;
+    padding: 50px 20px 140px 20px;
     -ms-flex-pack: justify;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -24,6 +26,14 @@
   position: relative;
 }
 
+.team__heading {
+    font-size: 42px;
+    font-weight: 100;
+    font-family: 'Roboto', sans-serif;
+}
+.team__heading b{
+    font-weight: 600;
+}
 .image {
   display: block;
   width: 100%;
@@ -73,17 +83,71 @@
 .team-container{
     display: flex;
     flex-wrap: wrap;
+    padding: 0 0 0 0px;
 }
 .team-card{
     margin: 10px 10px 0 0;
-    max-width: 280px;
+    max-width: 223px;
 }
+
 .grey-background{
     background: #f7f7f7;
+    padding: 50px 90px 140px 90px;
+    border: 1px solid #dfdfdf;
+
+}
+@media only screen and (min-width: 1400px){
+    .grey-background{
+        padding: 50px 90px 140px 90px;
+    }
+    .section-team{
+        max-width: 100%;
+        width: 1050px;
+        margin:0 auto;
+        padding: 100px 20px 100px 20px;
+    }
+    .topAppBar{
+        width: 1050px !important;
+        margin: 0 auto;
+    }
+    .safty_and_secure{
+        padding-bottom: 220px;
+        padding-left: 120px;
+    }
+    .team-card{
+        margin: 10px 10px 0 0;
+        max-width: 235px !important;
+    }
+}
+@media screen and  (max-width: 1000px) {
+    .founders{
+        width: 95%;
+    }
+    .managers{
+        width: 95%;
+    }
+    .developers{
+        width: 95%;
+    }
+    .team-card{
+        margin: 10px 10px 0 0;
+        max-width: 240px;
+    }
+    .section-team{
+        padding: 50px 20px 140px 20px;
+    }
 }
 @media screen and  (max-width: 800px) {
     .section-team{
-        padding: 50px 50px 140px 50px;
+        padding: 50px 0px 140px 0px;
+    }
+    .team-card{
+        max-width: 100%;
+        width: 90%;
+        margin: 10px auto 10px auto;
+    }
+    .team-container{
+        padding: 0px;
     }
 }
 @media screen and (max-width:480px){

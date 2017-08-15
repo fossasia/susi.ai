@@ -18,6 +18,8 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
+import Translate from '../../Translate/Translate.react';
+
 function getStateFromStores() {
   var themeValue=[];
   if(UserPreferencesStore.getThemeValues()){
@@ -38,11 +40,12 @@ function getStateFromStores() {
     showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
-    header: themeValue.length>4?'#'+themeValue[0]:'#4285f4',
-    pane: themeValue.length>4?'#'+themeValue[1]:'#f5f4f6',
-    body: themeValue.length>4?'#'+themeValue[2]:'#fff',
-    composer: themeValue.length>4?'#'+themeValue[3]:'#f5f4f6',
-    textarea:  themeValue.length>4?'#'+themeValue[4]:'#fff',
+    header: themeValue.length>5?'#'+themeValue[0]:'#4285f4',
+    pane: themeValue.length>5?'#'+themeValue[1]:'#f5f4f6',
+    body: themeValue.length>5?'#'+themeValue[2]:'#fff',
+    composer: themeValue.length>5?'#'+themeValue[3]:'#f5f4f6',
+    textarea:  themeValue.length>5?'#'+themeValue[4]:'#fff',
+    button: themeValue.length>5? '#'+themeValue[5]:'#4285f4',
     bodyBackgroundImage:'',
     snackopen: false,
     snackMessage: 'It seems you are offline!',
@@ -167,7 +170,9 @@ class MessageSection extends Component {
       'pane':this.state.pane.substring(1),
       'body':this.state.body.substring(1),
       'composer':this.state.composer.substring(1),
-      'textarea':this.state.textarea.substring(1)
+      'textarea':this.state.textarea.substring(1),
+      'button':this.state.button.substring(1)
+
     };
 
   }
@@ -222,6 +227,10 @@ class MessageSection extends Component {
        this.customTheme.textarea=state.textarea.substring(1);
 
      }
+      else if(name === 'button'){
+       state.button = color.hex;
+       this.customTheme.button=state.button.substring(1);
+      }
      this.setState(state);
        document.body.style.setProperty('background', this.state.body);
 
@@ -510,6 +519,7 @@ class MessageSection extends Component {
     var composerColor;
     var messagePane;
     var textArea;
+    var buttonColor;
 switch(this.state.currTheme){
   case 'custom':{
     bodyColor = this.state.body;
@@ -517,6 +527,7 @@ switch(this.state.currTheme){
     composerColor = this.state.composer;
     messagePane = this.state.pane;
     textArea = this.state.textarea;
+    buttonColor= this.state.button;
     break;
   }
   case 'light':{
@@ -525,6 +536,7 @@ switch(this.state.currTheme){
     composerColor = '#f3f2f4';
     messagePane = '#f3f2f4';
     textArea = '#fff';
+    buttonColor = '#4285f4';
     break;
   }
   default:{
@@ -572,7 +584,7 @@ switch(this.state.currTheme){
     }
 
     const actions = <RaisedButton
-      label="Cancel"
+      label={<Translate text="Cancel" />}
       backgroundColor={
         UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
       labelColor="#fff"
@@ -584,20 +596,17 @@ switch(this.state.currTheme){
 
   const customSettingsDone = <div>
     <RaisedButton
-      label="Save"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+      label={<Translate text="Save" />}
+      backgroundColor={buttonColor}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
       onTouchTap={this.saveThemeSettings}
       style={{margin:'0 5px'}}
     />
-    <div style={{padding:'0 10px',float:'left'}}></div>
     <RaisedButton
-      label="Done"
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+      label={<Translate text="Done" />}
+      backgroundColor={buttonColor}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -611,12 +620,13 @@ switch(this.state.currTheme){
       {'id':2, 'component': 'pane', 'name': 'Message Pane'},
       {'id':3, 'component':'body', 'name': 'Body'},
       {'id':4, 'component':'composer', 'name': 'Composer'},
-      {'id':5, 'component':'textarea', 'name': 'Textarea'}
+      {'id':5, 'component':'textarea', 'name': 'Textarea'},
+      {'id':6, 'component':'button', 'name': 'Button'}
     ];
 
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
-                  <h4>Change color of {component.name}:</h4>
+                  <h4><Translate text="Change color of"/> {component.name}:</h4>
         <CirclePicker  color={component} width={'100%'}
           colors={['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
         '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#607d8b',
@@ -633,17 +643,16 @@ switch(this.state.currTheme){
             (e,value)=>
             this.handleChangeBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
-          floatingLabelText="Body Background Image URL" />
+          floatingLabelText={<Translate text="Body Background Image URL" />} />
             <RaisedButton
                 name="removeBackgroundBody"
                 key={'RemoveBody'}
-                label="Remove URL"
+                label={<Translate text="Remove URL" />}
                 style={{
                   display:component.component==='body'?'block':'none',
                   width: '150px'
                 }}
-                backgroundColor={
-                  UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+                backgroundColor={buttonColor}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -654,17 +663,16 @@ switch(this.state.currTheme){
                 (e,value)=>
                 this.handleChangeMessageBackground(value) }
               value={this.state.messageBackgroundImage}
-              floatingLabelText="Message Background Image URL" />
+              floatingLabelText={<Translate text="Message Background Image URL"/>} />
         <RaisedButton
               name="removeBackgroundMessage"
               key={'RemoveMessage'}
-              label="Remove URL"
+              label={<Translate text="Remove URL" />}
               style={{
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
-              backgroundColor={
-                UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+              backgroundColor={buttonColor}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
@@ -795,12 +803,12 @@ switch(this.state.currTheme){
              )}
              <Snackbar
                open={this.state.SnackbarOpenBackground}
-               message={'Please enter a valid URL first'}
+               message={<Translate text='Please enter a valid URL first'/>}
                autoHideDuration={4000}
              />
              <Snackbar
                open={this.state.SnackbarOpen}
-               message={'Theme Changed'}
+               message={<Translate text='Theme Changed'/>}
                action="undo"
                autoHideDuration={4000}
                onActionTouchTap={this.handleActionTouchTap}
@@ -809,7 +817,7 @@ switch(this.state.currTheme){
              <Snackbar
               autoHideDuration={4000}
               open={this.state.snackopen}
-              message={this.state.snackMessage}
+              message={<Translate text={this.state.snackMessage} />}
               />
            </div>
          );

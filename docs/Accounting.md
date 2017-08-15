@@ -13,8 +13,8 @@ The users can interact with SUSI and try out its features like changing themes a
 
 Users can register in the app and login to use SUSI with all its features.
 Users can choose either the standard server or a personal server for SUSI.
->- Standard Server :  http://api.susi.ai/ 
->- Custom Server / Personal Server : URL of the users hosting of SUSI 
+>- Standard Server :  http://api.susi.ai/
+>- Custom Server / Personal Server : URL of the users hosting of SUSI
 
 Users can modify and host their own version of [SUSI](https://github.com/fossasia/susi_server) and use that as their Personal Server.
 Here is a [guide](https://github.com/fossasia/susi_server/tree/development/docs/installation) to hosting SUSI on various platforms
@@ -38,7 +38,7 @@ User is then sent a verification link to confirm the sign up. And upon verifying
  >- Email
  >- Password
 >- SUSI Server
- 
+
 Login endpoint : `BASE_URL+'/aaa/login.json?type=access-token&login=EMAIL&password=PASSWORD';`
 
 ##### Password Recovery
@@ -81,7 +81,7 @@ The server returns a JSON object with the existing settings stored for that user
 		"identity": {
 			"type": ,
 			"name": ,
-			"anonymous": 
+			"anonymous":
 		}
 	},
 	"settings": {
@@ -89,10 +89,12 @@ The server returns a JSON object with the existing settings stored for that user
    }
 }
 ```
-The client fetches the settings upon login and initialises the app accordingly.
+The client fetches the settings upon login and initializes the app accordingly.
 
 The endpoint used to add or update User Settings is :
-`BASE_URL+'/aaa/changeUserSettings.json?key=SETTING_NAME&value=SETTING_VALUE&access_token=ACCESS_TOKEN'`
+`BASE_URL+'/aaa/changeUserSettings.json?keyi=SETTING_NAME&valuei=SETTING_VALUE&access_token=ACCESS_TOKEN&count=COUNT'`
+
+where COUNT is the total number of key value pairs being sent and key **i** and value **i** are the subsequent settings where (**1 <= i <= COUNT**) .
 
 The server returns a JSON object with a message indicating if the settings were updated successfully or not.
 ```
@@ -101,7 +103,7 @@ The server returns a JSON object with a message indicating if the settings were 
 		"identity": {
 			"type": ,
 			"name": ,
-			"anonymous": 
+			"anonymous":
 		}
 	},
 	"message":
@@ -112,30 +114,65 @@ Whenever user settings are changed, the client updates the changed settings on t
 The current settings and notations implemented are :
 
 - **Theme**:
-      -- Used to change theme of the ChatApp.
-      -- SETTING_NAME : `theme`
-      -- SETTING_VALUE : `light/dark`
+  - Used to change theme of the ChatApp.
+  - SETTING_NAME : `theme`
+  - SETTING_VALUE : `light/dark`
+  - DEFAULT_VALUE : `light`
 
 - **Enter As Send**:
-      -- Used for multi line queries input.
-      -- SETTING_NAME : `enter_send`
-      -- SETTING_VALUE : `true/false`
-      -- True means pressing enter will send message. False means pressing enter adds a new line.
+  - Used for multi line queries input.
+  - SETTING_NAME : `enterAsSend`
+  - SETTING_VALUE : `true/false`
+  - DEFAULT_VALUE : `true`
+  - **True** means pressing enter will send message. **False** means pressing enter adds a new line.
 
 - **Mic Input**
-     -- Used to enable speech input.
-     -- SETTING_NAME :  `mic_input`
-     -- SETTING_VALUE : `true/false`
-      -- True means default input method is speech but supports keyboard input too. False means the only input method shown is keyboard input.
+  - Used to enable speech input.
+  - SETTING_NAME :  `micInput`
+  - SETTING_VALUE : `true/false`
+  - DEFAULT_VALUE : `true`
+  - **True** means default input method is speech but supports keyboard input too. **False** means the only input method shown is keyboard input.
 
 - **Speech Output**
-     -- Used to enable speech output when input type is speech
-     -- SETTING_NAME :  `speech_output`
-     -- SETTING_VALUE : `true/false`
-      -- Upon speech input, True means we get a speech output & False means we don't get a speech output.
+  - Used to enable speech output when input type is speech
+  - SETTING_NAME :  `speechOutput`
+  - SETTING_VALUE : `true/false`
+  - DEFAULT_VALUE : `true`
+  - Upon speech input, **True** means we get a speech output & **False** means we don't get a speech output.
 
 - **Speech Output Always ON**
-     -- Used to enable speech output irrespective input type.
-     -- SETTING_NAME :  `speech_always`
-     -- SETTING_VALUE : `true/false`
-      -- Upon speech/keyboard input, True means we get a speech output & False means we don't get a speech output unless ***Speech Output*** is set to ***true*** & the ***input type is speech***.
+  - Used to enable speech output irrespective input type.
+  - SETTING_NAME :  `speechOutputAlways`
+  - SETTING_VALUE : `true/false`
+  - DEFAULT_VALUE : `false`
+  - Upon speech/keyboard input, True means we get a speech output & False means we don't get a speech output unless ***Speech Output*** is set to ***true*** & the ***input type is speech***.
+
+- **Speech Rate**
+  - Used to control rate of speech output.
+  - SETTING_NAME :  `speechRate`
+  - SETTING_VALUE : `0.5 - 2`
+  - DEFAULT_VALUE : `1`
+
+- **Speech Pitch**
+  - Used to control pitch of speech output.
+  - SETTING_NAME :  `speechPitch`
+  - SETTING_VALUE : `0 - 2`
+  - DEFAULT_VALUE : `1`
+
+- **TTS Language**
+  - Used to set the language for Text-To-Speech used when the response from server doesnt specify language and the browser language is also undefined.
+  - SETTING_NAME :  `ttsLanguage`
+  - SETTING_VALUE : `Language Code (string)`
+  - DEFAULT_VALUE : `en-US`
+
+- **Preferred Language**
+  - Used to set the language for the Chat App - UI , Speech-To-Text and keyboard Input.
+  - SETTING_NAME :  `prefLanguage`
+  - SETTING_VALUE : `Language Code (string)`
+  - DEFAULT_VALUE : `en-US`
+
+- **Hotword Recognition**
+  - Used to enable or disable Hotword Recognition for SUSI AI.
+  - SETTING_NAME :  `hotwordRecognition: boolean (required for android & iOS clients)`
+  - SETTING_VALUE : `true/false`
+  - DEFAULT_VALUE : `true`

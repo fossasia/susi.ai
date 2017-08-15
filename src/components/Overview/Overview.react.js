@@ -1,23 +1,24 @@
-import React, { Component } from 'react';
-import susi from '../../images/susi-logo.svg';
+import './Overview.css';
+import $ from 'jquery';
+import allDevices from '../../images/all_devices.png';
+import androidMockup from '../../images/android-mockup.jpg';
+import bots from '../../images/bots.jpg';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Footer from '../Footer/Footer.react';
+import githubText from '../../images/github-text-logo.png';
+import manyLanguages from '../../images/many_languages.png';
+import mapAndroid from '../../images/map-android.jpg';
+import Modal from 'react-modal';
+import openSource from '../../images/open-source.png';
+import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import PropTypes from 'prop-types';
+import shield from '../../images/shield.svg';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import mapAndroid from '../../images/map-android.jpg';
-import androidMockup from '../../images/android-mockup.jpg';
-import bots from '../../images/bots.jpg';
-import allDevices from '../../images/all_devices.png';
-import manyLanguages from '../../images/many_languages.png';
-import openSource from '../../images/open-source.png';
-import githubText from '../../images/github-text-logo.png';
-import shield from '../../images/shield.svg';
-import './Overview.css';
-import PropTypes from 'prop-types';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import Close from 'material-ui/svg-icons/navigation/close';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import React, { Component } from 'react';
 
 class Overview extends Component{
   constructor(props){
@@ -56,6 +57,12 @@ class Overview extends Component{
     document.body.style.backgroundColor = '#fff';
   }
 
+
+  componentDidMount() {
+    document.title = 'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
+
   render() {
 
     const closingStyle = {
@@ -79,7 +86,11 @@ class Overview extends Component{
           <div className='section-container'>
             <div className="hero">
               <img src={susiGif} style={{ margin: '20px 0' }} alt='Meet SUSI'/>
-              <h1>Meet SUSI, Your Personal Assistant.</h1>
+              <h1>
+                Meet SUSI.AI,
+                Your Artificial Intelligence for Personal Assistants,
+                Robots, Help Desks and Chatbots.
+              </h1>
               <p>Ask it questions. Tell it to do things. Always ready to help.</p>
               <a onClick={this.handleVideo} style={{
                 color: '#3367d6',
@@ -198,7 +209,7 @@ SUSI is intelligent to identify and answer your question in your language.
               and small talks. SUSI Skill development is easy and fun. </p>
           </div>
           <div className='img-container'>
-            <img src={susiSkill} alt='Skills' />
+            <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
         <div className="section_copy safty_and_secure">
@@ -228,28 +239,10 @@ SUSI is intelligent to identify and answer your question in your language.
                   </div>
                 </div>
 
-
-        <div className='footer'>
-          <a className='susi-logo-anchor' href='/overview'>
-            <img src={susi} alt='SUSI' className='susi-logo' />
-          </a>
-          <div className="footer_content">
-            <div className='footer-container'>
-              <ul className='alignLeft'>
-                <li><a href='/overview'>Overview</a></li>
-                <li><a href='/blog'>Blog</a></li>
-                <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
-              </ul>
-              <ul className='alignRight'>
-                <li><a href='/settings'>Settings</a></li>
-                <li><a href='/terms'>Terms</a></li>
-                <li><a href='/contact'>Contact</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <Footer />
 
         {/* Video */}
+
         <Modal
           isOpen={this.state.video}
           className="Video-Modal"
@@ -263,6 +256,7 @@ SUSI is intelligent to identify and answer your question in your language.
           </div>
         </Modal>
       </div>
+
     );
   };
 }

@@ -163,7 +163,6 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.CREATE_SUSI_MESSAGE: {
       let message = action.message;
-      console.log(message.lang);
       MessageStore.resetVoiceForThread(message.threadID);
       _messages[message.id] = message;
       _showLoading = false;
