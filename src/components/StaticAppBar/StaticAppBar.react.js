@@ -70,7 +70,6 @@ class StaticAppBar extends Component {
             leftGap: '0px'
         };
     }
-
     handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
 
     handleDrawerClose = () => this.setState({ openDrawer: false });
@@ -249,6 +248,12 @@ class StaticAppBar extends Component {
         }
 
         var leftGap = this.state.leftGap;
+        // Check the path to show or not to show top bar left menu
+        var showLeftMenu = 'block';
+
+        if(this.props.location.pathname==='/settings'){
+            showLeftMenu='none';
+        }
         let TopRightMenu = (props) => (
             <div onScroll={this.handleScroll} >
                 <div>
@@ -379,7 +384,7 @@ class StaticAppBar extends Component {
         });
 
         const TopMenu = (props) => (
-            <div style={{ position: 'relative', top: '-11px' }}>
+            <div style={{ position: 'relative', top: '-11px', display : showLeftMenu }}>
                 <div className="top-menu" style={{ position: 'relative', left: '46px' }}>
                     {navLlinks}
                 </div>
@@ -400,6 +405,7 @@ class StaticAppBar extends Component {
                             backgroundColor: '#4285f4', height: '46px',
                             boxShadow: 'none'
                         }}
+						showMenuIconButton={showLeftMenu!=='none'}
                         onLeftIconButtonTouchTap={this.handleDrawer}
                         iconStyleLeft={{ marginTop: '-2px' }}
                         iconStyleRight={{ marginTop: '-2px' }}
@@ -432,6 +438,7 @@ class StaticAppBar extends Component {
                     contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <Login {...this.props}
+                        handleSignUp={this.handleSignUp}
                         handleForgotPassword={this.handleForgotPassword} />
                     <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
                 </Dialog>
