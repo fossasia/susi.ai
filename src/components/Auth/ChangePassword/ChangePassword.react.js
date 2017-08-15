@@ -10,6 +10,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Translate from '../../Translate/Translate.react';
 
 const cookies = new Cookies();
 
@@ -82,11 +83,11 @@ export default class ChangePassword extends Component {
               let result = zxcvbn(newPassword);
               state.newPasswordScore = result.score;
               let strength = [
-                'Worst',
-                'Bad',
-                'Weak',
-                'Good',
-                'Strong'
+                <Translate key={1} text="Worst" />,
+                <Translate key={2} text="Bad" />,
+                <Translate key={3} text="Weak" />,
+                <Translate key={4} text="Good" />,
+                <Translate key={5} text="Strong" />
               ];
               state.newPasswordStrength = strength[result.score];
             }
@@ -116,7 +117,7 @@ export default class ChangePassword extends Component {
 
         if (this.state.passwordError && event.target.name === 'password') {
             this.emailErrorMessage = '';
-            this.passwordErrorMessage = 'Minimum 6 characters required';
+            this.passwordErrorMessage = <Translate text="Minimum 6 characters required" />;
             this.newPasswordErrorMessage = '';
             this.newPasswordConfirmErrorMessage = '';
         }
@@ -124,7 +125,7 @@ export default class ChangePassword extends Component {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = '';
             this.newPasswordErrorMessage
-                = 'Minimum 6 characters required';
+                = <Translate text="Minimum 6 characters required" />;
             this.newPasswordConfirmErrorMessage = '';
 
         }
@@ -132,7 +133,7 @@ export default class ChangePassword extends Component {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = '';
             this.newPasswordErrorMessage = '';
-            this.newPasswordConfirmErrorMessage = 'Check your password again';
+            this.newPasswordConfirmErrorMessage = <Translate text="Check your password again" />;
         }
         else {
             this.emailErrorMessage = '';
@@ -207,7 +208,7 @@ export default class ChangePassword extends Component {
                         state.success = true;
                     }
                     else{
-                      msg = response.message+'\n Please Try Again.';
+                      msg = response.message+ '\n Please Try Again.';
                       state.success = false;
                     }
                     state.msgOpen = true;
@@ -258,7 +259,7 @@ export default class ChangePassword extends Component {
         return (
             <div className="changePasswordForm">
                 <Paper zDepth={0} style={styles}>
-                    <h3>Change Password</h3>
+                    <h3><Translate text="Change Password" /></h3>
                     <form onSubmit={this.handleSubmit}>
                         <div>
                             <PasswordField
@@ -269,7 +270,7 @@ export default class ChangePassword extends Component {
                                 errorText={this.passwordErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText="Current Password" />
+                                floatingLabelText={<Translate text="Current Password" />} />
                         </div>
                         <div className={PasswordClass.join(' ')}>
                             <PasswordField
@@ -280,7 +281,7 @@ export default class ChangePassword extends Component {
                                 errorText={this.newPasswordErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText="New Password" />
+                                floatingLabelText={<Translate text="New Password" />} />
                               <div className="ReactPasswordStrength-strength-bar" />
                               <div>
                                 <p>
@@ -297,11 +298,11 @@ export default class ChangePassword extends Component {
                                 errorText={this.newPasswordConfirmErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText="Confirm New Password" />
+                                floatingLabelText={<Translate text="Confirm New Password" />} />
                         </div>
                         <div>
                             <RaisedButton
-                                label="Change"
+                                label={<Translate text="Change" />}
                                 type="submit"
                                 disabled={!this.state.validForm}
                                 backgroundColor={
@@ -317,7 +318,7 @@ export default class ChangePassword extends Component {
                         open={this.state.msgOpen}
                         onRequestClose={this.handleClose}
                     >
-                        {this.state.msg}
+                        <Translate text={this.state.msg} />
                     <Close style={closingStyle} onTouchTap={this.handleClose} />
                     </Dialog></div>
                 )}

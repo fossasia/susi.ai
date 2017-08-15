@@ -18,9 +18,9 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
+import Translate from '../Translate/Translate.react';
 
 const cookies = new Cookies();
-
 let Logged = (props) => (
 	<IconMenu
 		{...props}
@@ -76,34 +76,34 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
-					style={{marginLeft:'-15px'}}
+					style={{marginLeft:'-35px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={<Translate text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
-					<MenuItem primaryText="Themes"
+					<MenuItem primaryText={<Translate text="Themes"/>}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem primaryText="Logout"
+					<MenuItem primaryText={<Translate text="Logout"/>}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
 				</Popover>
@@ -123,30 +123,30 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
-					style={{marginLeft:'-15px'}}
+					style={{marginLeft:'-35px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText="About"
+					<MenuItem primaryText={<Translate text="About"/>}
 					containerElement={<Link to="/overview" />}
 					rightIcon={<Info/>}
 					/>
-					<MenuItem primaryText="Chat"
+					<MenuItem primaryText={<Translate text="Chat"/>}
 					containerElement={<Link to="/" />}
 					rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
 						href="http://skills.susi.ai"
-					>Skills
+					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText="Settings"
+					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
-					<MenuItem primaryText="Login"
+					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
 				</Popover>
