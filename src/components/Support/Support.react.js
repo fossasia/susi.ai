@@ -224,9 +224,10 @@ class Support extends Component {
                        <h3 id="stack-overflow">Get Support</h3>
                        </a>
                           <div className="support-description-content">
-                          Got a problem?
-                          We are always here to help.
-                          Just drop us a message and someone will help you shortly
+                          Facing a problem? Join us on<a href="https://gitter.im/fossasia/susi_server"> gitter </a>
+                          <br />
+                          Found a bug?
+                          File it on <a href="https://github.com/fossasia/susi_server/">github</a> and our developers will look into it
                           </div>
                           </div>
                   </div>
