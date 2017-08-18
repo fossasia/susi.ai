@@ -13,15 +13,16 @@ import {
 } from 'material-ui/Table';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
-import Paper from 'material-ui/Paper';
 import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
+import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {
     injectIntl
 } from 'react-intl';
+
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -148,34 +149,52 @@ export function parseAndReplace(text) {
   </Linkify>;
 }
 
+function urlDomain(data) {
+  var a = document.createElement('a');
+  a.href = data;
+  return a.hostname;
+}
+
 // Draw Tiles for Websearch RSS data
-export function drawTiles(tilesData){
+export function drawCards(tilesData){
+  const titleStyle = {
+    marginTop: '-10px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'block',
+    fontSize: '16px',
+    fontWeight: 'bold' ,
+    color: '#4285f4',
+  }
+
+  let cardClass = 'card-noImg';
+  tilesData.forEach((card,index) => {
+    if(card.image){
+      cardClass = 'card';
+    }
+  });
+
   let resultTiles = tilesData.map((tile,i) => {
+      let cardText = tile.description;
+      if(!cardText){
+        cardText = tile.descriptionShort;
+      }
       return(
-        <div key={i}>
-          <MuiThemeProvider>
-            <Paper zDepth={0} className='tile' style={{background:'#e0e0e0'}}>
-              <a rel='noopener noreferrer'
-                href={tile.link} target='_blank'
-                className='tile-anchor'>
-                  {tile.icon &&
-                  (<div className='tile-img-container'>
-                      <img src={tile.icon}
-                      className='tile-img' alt=''/>
-                    </div>
-                  )}
-                  <div className='tile-text'>
-                    <p className='tile-title'>
-                      <strong>
-                          {processText(tile.title,'websearch-rss')}
-                        </strong>
-                      </p>
-                    {processText(tile.description,'websearch-rss')}
-                  </div>
-                </a>
-            </Paper>
-          </MuiThemeProvider>
-        </div>
+        <Card className={cardClass} key={i} onClick={() => {
+          window.open(tile.link,'_blank')
+        }}>
+          {tile.image &&
+            (<CardMedia>
+              <img src={tile.image} alt="" className='card-img'/>
+            </CardMedia>)
+          }
+          <CardTitle title={tile.title} titleStyle={titleStyle}/>
+          <CardText>
+            <div className='card-text'>{cardText}</div>
+            <div className='card-url'>{urlDomain(tile.link)}</div>
+          </CardText>
+        </Card>
       );
   });
   return resultTiles;
@@ -187,39 +206,27 @@ export function renderTiles(tiles){
     let noResultFound = 'NO Results Found';
     return(<center>{noResultFound}</center>);
   }
-  let resultTiles = drawTiles(tiles);
+  let resultTiles = drawCards(tiles);
+  let slidesToShow = 3;
+  let showArrows = true;
+  if (window.matchMedia('only screen and (max-width: 768px)').matches){
+    // do functionality on screens smaller than 768px
+    slidesToShow = 2;
+    showArrows = false;
+  }
    var settings = {
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: slidesToShow,
         slidesToScroll: 1,
         swipeToSlide:true,
         swipe:true,
-        arrows:false
+        arrows:showArrows
       };
   return(
-    <Slider {...settings}>
+    <Slider {...settings} adaptiveHeight={true}>
       {resultTiles}
     </Slider>
   );
-}
-
-// Fetch RSS data
-export function getRSSTiles(rssKeys,rssData,count){
-  let parseKeys = Object.keys(rssKeys);
-  let rssTiles = [];
-  let tilesLimit = rssData.length;
-  if(count > -1){
-    tilesLimit = Math.min(count,rssData.length);
-  }
-  for(var i=0; i<tilesLimit; i++){
-    let respData = rssData[i];
-    let tileData = {};
-    parseKeys.forEach((rssKey,j)=>{
-      tileData[rssKey] = respData[rssKeys[rssKey]];
-    });
-    rssTiles.push(tileData);
-  }
-  return rssTiles;
 }
 
 // Create a Table as SUSI Response
