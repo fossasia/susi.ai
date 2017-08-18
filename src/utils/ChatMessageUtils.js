@@ -31,6 +31,7 @@ export function getSUSIMessageData(message, currentThreadID) {
     response: message.response,
     actions: message.actions,
     websearchresults: message.websearchresults,
+    rssResults: message.rssResults,
     date: new Date(timestamp),
     isRead: true,
     responseTime: message.responseTime,

@@ -6,8 +6,7 @@ import {AllHtmlEntities} from 'html-entities';
 import $ from 'jquery';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
-  getRSSTiles, renderMessageFooter,
-  renderAnchor } from './helperFunctions.react.js';
+  renderMessageFooter, renderAnchor } from './helperFunctions.react.js';
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
@@ -136,8 +135,12 @@ class MessageListItem extends React.Component {
         let noResultsFound = false;
         let lastAction = actions[actions.length - 1];
         actions.forEach((action,index)=>{
+          let showFeedback = lastAction===action;
           switch(action){
             case 'answer': {
+              if(actions.indexOf('rss') > -1 || actions.indexOf('websearch') > -1){
+                  showFeedback = true;
+              }
               if(data.answers[0].data[0].type === 'gif'){
                 let gifSource = data.answers[0].data[0].embed_url;
                 listItems.push(
@@ -149,7 +152,7 @@ class MessageListItem extends React.Component {
                         allowFullScreen>
                       </iframe>
                     </div>
-                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
+                      {renderMessageFooter(message,latestUserMsgID,showFeedback)}
                     </section>
                   </li>
                 );
@@ -159,7 +162,7 @@ class MessageListItem extends React.Component {
                   <li className='message-list-item' key={action+index}>
                     <section  className={messageContainerClasses}>
                     <div className='message-text'>{replacedText}</div>
-                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
+                      {renderMessageFooter(message,latestUserMsgID,showFeedback)}
                     </section>
                   </li>
                 );
@@ -175,7 +178,7 @@ class MessageListItem extends React.Component {
                   <div className='message-text'>
                     {renderAnchor(text,link)}
                   </div>
-                    {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
+                    {renderMessageFooter(message,latestUserMsgID,showFeedback)}
                   </section>
                 </li>
               );
@@ -203,7 +206,7 @@ class MessageListItem extends React.Component {
                         <br/>
                         <div>{mymap}</div>
                           {renderMessageFooter(message,latestUserMsgID,
-                                              lastAction===action)}
+                                              showFeedback)}
                         </section>
                       </li>
                       );
@@ -223,7 +226,7 @@ class MessageListItem extends React.Component {
                   <div>{mapAnchor}</div>
                   <br/>
                   <div>{mymap}</div>
-                    {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
+                    {renderMessageFooter(message,latestUserMsgID,showFeedback)}
                   </section>
                 </li>
                 );
@@ -237,33 +240,26 @@ class MessageListItem extends React.Component {
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
                   <div><div className='message-text'>{table}</div></div>
-                    {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
+                    {renderMessageFooter(message,latestUserMsgID,showFeedback)}
                   </section>
                 </li>
               );
               break
             }
             case 'rss':{
-              let rssKeys = Object.assign({}, data.answers[0].actions[index]);
-              delete rssKeys.type;
-              let count = -1;
-              if(rssKeys.hasOwnProperty('count')){
-                count = rssKeys.count;
-                delete rssKeys.count;
-              }
-              let rssTiles = getRSSTiles(rssKeys,data.answers[0].data,count);
+              let rssTiles = this.props.message.rssResults;
               if(rssTiles.length === 0){
                 noResultsFound = true;
               }
+              let sliderClass = 'swipe-rss-websearch';
+              if (window.matchMedia('only screen and (max-width: 768px)').matches){
+                // for functionality on screens smaller than 768px
+                sliderClass = '';
+              }
               listItems.push(
-                  <li className='message-list-item' key={action+index}>
-                    <section className={messageContainerClasses}>
-                    <div><div className='message-text rss-out'>
-                      {renderTiles(rssTiles)}
-                    </div></div>
-                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
-                    </section>
-                  </li>
+                  <div className={sliderClass} key={action+index}>
+                    {renderTiles(rssTiles)}
+                  </div>
                 );
               break;
             }
@@ -272,15 +268,15 @@ class MessageListItem extends React.Component {
               if(websearchTiles.length === 0){
                 noResultsFound = true;
               }
+              let sliderClass = 'swipe-rss-websearch';
+              if (window.matchMedia('only screen and (max-width: 768px)').matches){
+                // for functionality on screens smaller than 768px
+                sliderClass = '';
+              }
               listItems.push(
-                  <li className='message-list-item' key={action+index}>
-                    <section className={messageContainerClasses}>
-                    <div><div className='message-text'>
-                      {renderTiles(websearchTiles)}
-                    </div></div>
-                      {renderMessageFooter(message,latestUserMsgID,lastAction===action)}
-                    </section>
-                  </li>
+                  <div className={sliderClass} key={action+index}>
+                    {renderTiles(websearchTiles)}
+                  </div>
                 );
               break;
             }
