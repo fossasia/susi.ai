@@ -447,6 +447,44 @@ class Settings extends Component {
   		},
 		};
 
+		let serverSettingTab = <Tab
+			label={<Translate text="Server Settings" />}>
+			<div style={styles.slide}>
+				<CustomServer
+					checked={this.state.checked}
+					serverUrl={this.state.serverUrl}
+					customServerMessage={this.customServerMessage}
+					onServerChange={this.handleServeChange}/>
+			</div>
+		</Tab>
+
+		let accountSettingTab;
+
+		if(cookies.get('loggedIn')) {
+			serverSettingTab = <Tab
+				label={<Translate text="Server Settings" />}>
+					<div style={styles.slide}>
+							<FlatButton
+								className='settingsBtns'
+								style={Buttonstyles}
+								label={<Translate text="Select backend server for the app"/>}
+								onClick={this.handleServer} />
+					</div>
+			</Tab>
+
+			accountSettingTab = <Tab
+				label={<Translate text="Account Settings" />}>
+					<div style={styles.slide}>
+						<FlatButton
+							className='settingsBtns'
+							style={Buttonstyles}
+							label={<Translate text="Change Password"/>}
+							onClick={this.handleChangePassword} />
+					</div>
+			</Tab>
+		}
+
+
 		let voiceOutput = this.populateVoiceList();
 		return (
 			<div>
@@ -537,41 +575,8 @@ class Settings extends Component {
 														 </DropDownMenu>
 														</div>
 													</Tab>
-															{cookies.get('loggedIn') ?
-															<div>
-																<Tab
-																	label={<Translate text="Server Settings" />}>
-																		<div>
-																				<FlatButton
-																					className='settingsBtns'
-																					style={Buttonstyles}
-																					label={<Translate text="Select backend server for the app"/>}
-																					onClick={this.handleServer} />
-																		</div>
-																</Tab>
-																<Tab
-																	label={<Translate text="Account Settings" />}>
-																		<div>
-																			<FlatButton
-																				className='settingsBtns'
-																				style={Buttonstyles}
-																				label={<Translate text="Change Password"/>}
-																				onClick={this.handleChangePassword} />
-																		</div>
-																</Tab>
-															</div>
-																:
-																<Tab
-																	label={<Translate text="Server Settings" />}>
-																	<div>
-																		<CustomServer
-																			checked={this.state.checked}
-																			serverUrl={this.state.serverUrl}
-																			customServerMessage={this.customServerMessage}
-																			onServerChange={this.handleServeChange}/>
-																	</div>
-																</Tab>
-															}
+													{serverSettingTab}
+													{accountSettingTab}
 													<Tab
 														label={<Translate text="Connect to SUSI Hardware" />}>
 														<div style={styles.slide} >
