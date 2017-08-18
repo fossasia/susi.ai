@@ -178,7 +178,7 @@ class Overview extends Component{
             </div>
             <div className="conversation__description custom_description">
               <div className="description__heading">For all Devices</div>
-              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <Link to="http://chat.susi.ai">http://chat.susi.ai</Link>
+              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="http://chat.susi.ai">http://chat.susi.ai</a>
               </p>
             </div>
 
