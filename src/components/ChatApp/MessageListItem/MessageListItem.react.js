@@ -6,8 +6,7 @@ import {AllHtmlEntities} from 'html-entities';
 import $ from 'jquery';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
-  getRSSTiles, renderMessageFooter,
-  renderAnchor } from './helperFunctions.react.js';
+  renderMessageFooter, renderAnchor } from './helperFunctions.react.js';
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
@@ -248,18 +247,13 @@ class MessageListItem extends React.Component {
               break
             }
             case 'rss':{
-              let rssKeys = data.answers[0].actions[index];
-              let count = -1;
-              if(rssKeys.hasOwnProperty('count')){
-                count = rssKeys.count;
-              }
-              let rssTiles = getRSSTiles(data.answers[0].data,count);
+              let rssTiles = this.props.message.rssResults;
               if(rssTiles.length === 0){
                 noResultsFound = true;
               }
               let sliderClass = 'swipe-rss-websearch';
               if (window.matchMedia('only screen and (max-width: 768px)').matches){
-                // do functionality on screens smaller than 768px
+                // for functionality on screens smaller than 768px
                 sliderClass = '';
               }
               listItems.push(
@@ -276,7 +270,7 @@ class MessageListItem extends React.Component {
               }
               let sliderClass = 'swipe-rss-websearch';
               if (window.matchMedia('only screen and (max-width: 768px)').matches){
-                // do functionality on screens smaller than 768px
+                // for functionality on screens smaller than 768px
                 sliderClass = '';
               }
               listItems.push(

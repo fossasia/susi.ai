@@ -165,11 +165,12 @@ export function drawCards(tilesData){
     display: 'block',
     fontSize: '16px',
     fontWeight: 'bold' ,
+    color: '#4285f4',
   }
 
   let cardClass = 'card-noImg';
   tilesData.forEach((card,index) => {
-    if(card.icon){
+    if(card.image){
       cardClass = 'card';
     }
   });
@@ -183,9 +184,9 @@ export function drawCards(tilesData){
         <Card className={cardClass} key={i} onClick={() => {
           window.open(tile.link,'_blank')
         }}>
-          {tile.icon &&
+          {tile.image &&
             (<CardMedia>
-              <img src={tile.icon} alt="" className='card-img'/>
+              <img src={tile.image} alt="" className='card-img'/>
             </CardMedia>)
           }
           <CardTitle title={tile.title} titleStyle={titleStyle}/>
@@ -226,20 +227,6 @@ export function renderTiles(tiles){
       {resultTiles}
     </Slider>
   );
-}
-
-// Fetch RSS data
-export function getRSSTiles(rssData,count){
-  let rssTiles = [];
-  let tilesLimit = rssData.length;
-  if(count > -1){
-    tilesLimit = Math.min(count,rssData.length);
-  }
-  for(var i=0; i<tilesLimit; i++){
-    let respData = rssData[i];
-    rssTiles.push(respData);
-  }
-  return rssTiles;
 }
 
 // Create a Table as SUSI Response

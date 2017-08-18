@@ -50,6 +50,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     response: {},
     actions: [],
     websearchresults: [],
+    rssResults: [],
     date: new Date(timestamp),
     isRead: true,
     type: 'message',
@@ -169,7 +170,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
               abstractTile.title = data.Heading;
               abstractTile.description = data.AbstractText;
               abstractTile.link = data.AbstractURL;
-              abstractTile.icon = data.Image;
+              abstractTile.image = data.Image;
               receivedMessage.websearchresults.push(abstractTile);
               count--;
             }
@@ -188,7 +189,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
                   tileData.Result.match(/<a [^>]+>([^<]+)<\/a>/)[1];
                 websearchTile.description = tileData.Text;
                 websearchTile.link = tileData.FirstURL;
-                websearchTile.icon = tileData.Icon.URL;
+                websearchTile.image = tileData.Icon.URL;
                 receivedMessage.websearchresults.push(websearchTile);
                 count--;
               }
@@ -221,46 +222,19 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         if(count === -1 || count > data.length){
           count = data.length;
         }
-        for(var i=0; i<count; i++){
-          let respData = data[i];
-          let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
-          let dispatchMsg = i===(count-1);
-          console.log(previewURL);
-          $.ajax({
-            url: previewURL,
-            dataType: 'jsonp',
-            crossDomain: true,
-            timeout: 3000,
-            async: false,
-            success: function (rssResponse) {
-              if(rssResponse.accepted){
-                respData.icon = rssResponse.image;
-                respData.descriptionShort = rssResponse.descriptionShort;
-              }
-              if(dispatchMsg){
-                let message = ChatMessageUtils.getSUSIMessageData(
-                  receivedMessage, currentThreadID);
-                console.log(message);
-                ChatAppDispatcher.dispatch({
-                  type: ActionTypes.CREATE_SUSI_MESSAGE,
-                  message
-                });
-              }
-            },
-            error: function(xhr, status, error) {
-              console.log(error);
-              if(dispatchMsg){
-                let message = ChatMessageUtils.getSUSIMessageData(
-                  receivedMessage, currentThreadID);
-                console.log(message);
-                ChatAppDispatcher.dispatch({
-                  type: ActionTypes.CREATE_SUSI_MESSAGE,
-                  message
-                });
-              }
-            }
-          });
-        }
+        var pushedDataIndices = [];
+        var remainingDataIndices = [];
+        data.forEach((rssData,index) => {
+          if(rssData.hasOwnProperty('image') && pushedDataIndices.length < count){
+            receivedMessage.rssResults.push(rssData);
+            pushedDataIndices.push(index);
+          }
+          else{
+            remainingDataIndices.push(index);
+          }
+        });
+        previewURLForImage(receivedMessage,currentThreadID,
+                            BASE_URL,data,count,remainingDataIndices,0);
       }
       else {
         let message = ChatMessageUtils.getSUSIMessageData(
@@ -289,6 +263,58 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
           });
   }
 };
+
+function previewURLForImage(receivedMessage,currentThreadID,
+                            BASE_URL,data,count,remainingDataIndices,j){
+  var dataIndex = remainingDataIndices[j];
+  let respData = data[dataIndex];
+  let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
+  console.log(previewURL);
+  $.ajax({
+    url: previewURL,
+    dataType: 'jsonp',
+    crossDomain: true,
+    timeout: 3000,
+    async: false,
+    success: function (rssResponse) {
+      if(rssResponse.accepted){
+        respData.image = rssResponse.image;
+        respData.descriptionShort = rssResponse.descriptionShort;
+        receivedMessage.rssResults.push(respData);
+      }
+      if(receivedMessage.rssResults.length === count ||
+          j === remainingDataIndices.length - 1){
+        let message = ChatMessageUtils.getSUSIMessageData(
+          receivedMessage, currentThreadID);
+        ChatAppDispatcher.dispatch({
+          type: ActionTypes.CREATE_SUSI_MESSAGE,
+          message
+        });
+      }
+      else{
+        j+=1;
+        previewURLForImage(receivedMessage,currentThreadID,
+                            BASE_URL,data,count,remainingDataIndices,j);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.log(error);
+      if(j === remainingDataIndices.length - 1){
+        let message = ChatMessageUtils.getSUSIMessageData(
+          receivedMessage, currentThreadID);
+        ChatAppDispatcher.dispatch({
+          type: ActionTypes.CREATE_SUSI_MESSAGE,
+          message
+        });
+      }
+      else{
+        j+=1;
+        previewURLForImage(receivedMessage,currentThreadID,
+                            BASE_URL,data,count,remainingDataIndices,j);
+      }
+    }
+  });
+}
 
 // Get Settings From Server or Cookies if not loggedIn
 export function getSettings(){

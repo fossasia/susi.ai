@@ -13,6 +13,8 @@ let _showLoading = false;
 let TTSVoices = [];
 let _initialisedVoices = false;
 
+let historyBuffer = [];
+
 function _markAllInThreadRead(threadID) {
   for (let id in _messages) {
     if (_messages[id].threadID === threadID) {
@@ -173,7 +175,13 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.STORE_HISTORY_MESSAGE: {
       let message = action.message;
-      _messages[message.id] = message;
+      historyBuffer.push(message);
+      if(historyBuffer.length === (message.historyCognitionsCount*2)){
+        historyBuffer.forEach((cognition,index)=>{
+          _messages[cognition.id] = cognition;
+        });
+        historyBuffer.splice(0,historyBuffer.length)
+      }
       MessageStore.emitChange();
       break;
     }

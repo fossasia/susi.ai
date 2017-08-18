@@ -679,7 +679,7 @@ textarea {
 }
 
 .card-text{
-  margin-top: -30px;
+  margin-top: -35px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
