@@ -102,9 +102,8 @@
 }
 .susi-desktop{
     text-align: left;
-    width: 80%;
+    width: 100%;
     margin-left: 10%;
-    max-width: 313px;
 }
 
 .alignLeft,.alignRight{
