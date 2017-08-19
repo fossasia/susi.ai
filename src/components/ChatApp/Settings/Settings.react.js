@@ -444,6 +444,7 @@ class Settings extends Component {
   		},
   		slide: {
     		padding: 20,
+				textAlign: 'center'
   		},
 		};
 
