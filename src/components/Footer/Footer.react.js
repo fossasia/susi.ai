@@ -25,7 +25,7 @@ class Footer extends Component {
               <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
             </ul>
             <ul className='alignRight'>
-              <li><a href='/settings'>Settings</a></li>
+              <li><a href='/privacy'>Privacy</a></li>
               <li><a href='/terms'>Terms</a></li>
               <li><a href='/contact'>Contact</a></li>
             </ul>
