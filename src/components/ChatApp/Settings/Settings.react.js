@@ -450,6 +450,7 @@ class Settings extends Component {
 		let serverSettingTab = <Tab
 			label={<Translate text="Server Settings" />}>
 			<div style={styles.slide}>
+				<h4 style={{'marginBottom':'0px'}}><Translate text="Select Server"/></h4>
 				<CustomServer
 					checked={this.state.checked}
 					serverUrl={this.state.serverUrl}
@@ -464,6 +465,7 @@ class Settings extends Component {
 			serverSettingTab = <Tab
 				label={<Translate text="Server Settings" />}>
 					<div style={styles.slide}>
+						<h4 style={{'marginBottom':'0px'}}><Translate text="Select Server"/></h4>
 							<FlatButton
 								className='settingsBtns'
 								style={Buttonstyles}
@@ -475,6 +477,7 @@ class Settings extends Component {
 			accountSettingTab = <Tab
 				label={<Translate text="Account Settings" />}>
 					<div style={styles.slide}>
+						<h4 style={{'marginBottom':'0px'}}><Translate text="Change your Account Password"/></h4>
 						<FlatButton
 							className='settingsBtns'
 							style={Buttonstyles}
