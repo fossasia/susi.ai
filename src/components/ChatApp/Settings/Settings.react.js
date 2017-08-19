@@ -443,8 +443,7 @@ class Settings extends Component {
     	fontWeight: 400,
   		},
   		slide: {
-    		padding: 20,
-				textAlign: 'center'
+    		padding: 20
   		},
 		};
 
