@@ -12,6 +12,7 @@ import Settings from './components/ChatApp/Settings/Settings.react';
 import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
+import Privacy from './components/Privacy/Privacy.react';
 import { Switch, Route } from 'react-router-dom';
 import React, { Component } from 'react';
 
@@ -43,6 +44,7 @@ class App extends Component{
             <Route exact path='/contact' component={Contact} />
             <Route exact path="/support" component={Support} />
             <Route exact path="/terms" component={Terms} />
+            <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/settings" component={Settings} />
             <Route exact path="*" component={NotFound} />
