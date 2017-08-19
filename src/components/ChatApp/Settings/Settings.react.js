@@ -499,6 +499,7 @@ class Settings extends Component {
 													style={{marginTop: -15}}
 													tabType={'scrollable'}
 													tabItemContainerStyle={subHeaderStyle}
+													inkBarStyle={{backgroundColor: 'white'}}
 												>
 													<Tab
 														label={<Translate text="ChatApp Settings" />}>
