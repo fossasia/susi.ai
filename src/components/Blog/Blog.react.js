@@ -154,11 +154,10 @@ class Blog extends Component {
                             this.state.posts
                                 .slice(this.state.startPage, this.state.startPage + 10)
                                 .map((posts, i) => {
-                                    console.log('posts', posts)
                                     let description = htmlToText.fromString(posts.description).split('…');
                                     let content = posts.content;
                                     let category = [];
-                                    posts.categories.map((cat) => {
+                                    posts.categories.forEach((cat) => {
                                         let k = 0;
                                         for (k = 0; k < allCategories.length; k++) {
                                             if (cat === allCategories[k]) {
