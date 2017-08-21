@@ -750,7 +750,7 @@ em{
   margin: 0 auto;
   margin-top: 48px;
   padding: 10px 0;
-  max-width: 70%;
+  max-width: 100%;
 }
 
 .settingsDialog {
@@ -759,11 +759,12 @@ em{
 }
 
 .settingsBtns {
-  margin-bottom: 16px;
+  top: 10px;
 }
 
 .settings-toggle {
   max-width: 60%;
+  margin-top: 30px;
 }
 
 .settingsHeader{
@@ -774,9 +775,7 @@ em{
 }
 
 .settingsSubmit{
-  margin: 0 auto;
   text-align: center;
-  margin-left: -3%;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 768px){
