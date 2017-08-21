@@ -3,7 +3,7 @@
     margin: 0 auto;
     background: url(../../images/not-found-bg.jpg);
     background-size: cover;
-    height: 300px;
+    min-height: 74vh;
     width: 100%;
     position: relative;
     top:-18px;
@@ -22,7 +22,6 @@
 }
 
 .button-wrapper{
-    position: absolute;
     width: 100%;
   }
 .notfound-button{
@@ -31,45 +30,30 @@
 }
 
 @media screen and (min-width: 1920px) {
-  .button-wrapper{
-    position: absolute;
-  }
   .notfound-button{
     width: 40%;
   }
 }
 
 @media screen and (max-width: 991px) {
-    .button-wrapper{
-      position: absolute;
-    }
     .notfound-button{
       width: 40%;
     }
 }
 
 @media screen and (max-width: 767px) {
-    .button-wrapper{
-      position: absolute;
-    }
     .notfound-button{
       width: 60%;
     }
 }
 
 @media screen and (max-width: 479px) {
-    .button-wrapper{
-      position: absolute;
-    }
     .notfound-button{
       width: 80%;
     }
 }
 
 @media screen and (max-width: 359px) {
-    .button-wrapper{
-      position: absolute;
-    }
     .notfound-button{
       width: 80%;
     }
