@@ -571,7 +571,6 @@ header {
         display: block;
         float: none;
         margin: 0 auto 10px auto;
-        height: 100px;
         max-width: 100%;
         width: 50%;
         background-size: contain;
@@ -580,7 +579,6 @@ header {
         display: block;
         float: none;
         margin: 0 auto 10px auto;
-        height: 100px;
         max-width: 100%;
         width: 50%;
         background-size: contain;
