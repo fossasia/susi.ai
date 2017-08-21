@@ -182,7 +182,24 @@ export function getHistory() {
               remainingDataIndices.push(index);
             }
           });
-          previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataIndices,0);
+          count -= pushedDataIndices.length;
+          if(count === 0){
+            let message = userMsg;
+            ChatAppDispatcher.dispatch({
+              type: ActionTypes.STORE_HISTORY_MESSAGE,
+              message
+            });
+
+            message = susiMsg;
+            ChatAppDispatcher.dispatch({
+              type: ActionTypes.STORE_HISTORY_MESSAGE,
+              message
+            });
+          }
+          else{
+            previewURLForImage(userMsg,susiMsg,BASE_URL,data,
+                              count,remainingDataIndices,0,0);
+          }
         }
         else{
           let message = userMsg;
@@ -207,7 +224,8 @@ export function getHistory() {
   });
 }
 
-function previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataIndices,j){
+function previewURLForImage(userMsg,susiMsg,BASE_URL,data,
+                            count,remainingDataIndices,j,resultsAdded){
   var dataIndex = remainingDataIndices[j];
   let respData = data[dataIndex];
   let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
@@ -223,8 +241,9 @@ function previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataInd
         respData.image = rssResponse.image;
         respData.descriptionShort = rssResponse.descriptionShort;
         susiMsg.rssResults.push(respData);
+        resultsAdded += 1;
       }
-      if(susiMsg.rssResults.length === count || j === remainingDataIndices.length - 1){
+      if(resultsAdded === count || j === remainingDataIndices.length - 1){
         let message = userMsg;
         ChatAppDispatcher.dispatch({
           type: ActionTypes.STORE_HISTORY_MESSAGE,
@@ -239,7 +258,8 @@ function previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataInd
       }
       else{
         j+=1;
-        previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataIndices,j);
+        previewURLForImage(userMsg,susiMsg,BASE_URL,data,
+                          count,remainingDataIndices,j,resultsAdded);
       }
     },
     error: function(xhr, status, error) {
@@ -259,7 +279,8 @@ function previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataInd
       }
       else{
         j+=1;
-        previewURLForImage(userMsg,susiMsg,BASE_URL,data,count,remainingDataIndices,j);
+        previewURLForImage(userMsg,susiMsg,BASE_URL,data,
+                          count,remainingDataIndices,j,resultsAdded);
       }
     }
   });

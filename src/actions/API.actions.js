@@ -233,8 +233,19 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
             remainingDataIndices.push(index);
           }
         });
-        previewURLForImage(receivedMessage,currentThreadID,
-                            BASE_URL,data,count,remainingDataIndices,0);
+        count -= pushedDataIndices.length;
+        if(count === 0){
+          let message = ChatMessageUtils.getSUSIMessageData(
+            receivedMessage, currentThreadID);
+          ChatAppDispatcher.dispatch({
+            type: ActionTypes.CREATE_SUSI_MESSAGE,
+            message
+          });
+        }
+        else{
+          previewURLForImage(receivedMessage,currentThreadID,
+                              BASE_URL,data,count,remainingDataIndices,0,0);
+        }
       }
       else {
         let message = ChatMessageUtils.getSUSIMessageData(
@@ -265,7 +276,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
 };
 
 function previewURLForImage(receivedMessage,currentThreadID,
-                            BASE_URL,data,count,remainingDataIndices,j){
+                            BASE_URL,data,count,remainingDataIndices,j,resultsAdded){
   var dataIndex = remainingDataIndices[j];
   let respData = data[dataIndex];
   let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
@@ -281,8 +292,9 @@ function previewURLForImage(receivedMessage,currentThreadID,
         respData.image = rssResponse.image;
         respData.descriptionShort = rssResponse.descriptionShort;
         receivedMessage.rssResults.push(respData);
+        resultsAdded += 1;
       }
-      if(receivedMessage.rssResults.length === count ||
+      if(resultsAdded === count ||
           j === remainingDataIndices.length - 1){
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
@@ -294,7 +306,7 @@ function previewURLForImage(receivedMessage,currentThreadID,
       else{
         j+=1;
         previewURLForImage(receivedMessage,currentThreadID,
-                            BASE_URL,data,count,remainingDataIndices,j);
+                            BASE_URL,data,count,remainingDataIndices,j,resultsAdded);
       }
     },
     error: function(xhr, status, error) {
@@ -310,7 +322,7 @@ function previewURLForImage(receivedMessage,currentThreadID,
       else{
         j+=1;
         previewURLForImage(receivedMessage,currentThreadID,
-                            BASE_URL,data,count,remainingDataIndices,j);
+                            BASE_URL,data,count,remainingDataIndices,j,resultsAdded);
       }
     }
   });
