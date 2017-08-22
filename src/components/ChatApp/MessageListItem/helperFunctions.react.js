@@ -191,7 +191,7 @@ export function drawCards(tilesData){
           }
           <CardTitle title={tile.title} titleStyle={titleStyle}/>
           <CardText>
-            <div className='card-text'>{cardText}</div>
+            <div className='card-text line-clamp'>{cardText}</div>
             <div className='card-url'>{urlDomain(tile.link)}</div>
           </CardText>
         </Card>
