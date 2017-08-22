@@ -14,7 +14,6 @@ import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
-import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
