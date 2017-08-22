@@ -77,7 +77,6 @@ class Support extends Component {
   }
 
   render() {
-
     let mentors = team[0].mentors.map((mentor, i) => {
       return (
         <Card className='team-card' key={i}>
@@ -107,6 +106,7 @@ class Support extends Component {
 
         </Card>)
     })
+    // Sort to ascending order
     function compare(a, b) {
       if (a.name < b.name) {
         return -1;

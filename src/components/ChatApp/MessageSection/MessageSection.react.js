@@ -252,6 +252,7 @@ class MessageSection extends Component {
     this.child.closeOptions();
   }
 
+<<<<<<< HEAD
   handleRemoveUrlBody = () => {
     if(!this.state.bodyBackgroundImage){
       this.setState({SnackbarOpenBackground: true});
@@ -317,6 +318,9 @@ class MessageSection extends Component {
     }
   }
 
+=======
+  // Close all dialog boxes
+>>>>>>> 21a2a72c... remove unwanted codes
   handleClose = () => {
     this.setState({
       showLogin: false,
@@ -338,6 +342,7 @@ class MessageSection extends Component {
       Actions.settingsChanged(settingsChanged);
     }
     Actions.customThemeChanged(customData);
+    window.location.reload();
     this.handleClose();
   }
 
@@ -635,48 +640,6 @@ switch(this.state.currTheme){
           component.component) }
           onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
-
-        <TextField
-          name="backgroundImg"
-          style={{display:component.component==='body'?'block':'none'}}
-          onChange={
-            (e,value)=>
-            this.handleChangeBackgroundImage(value) }
-          value={this.state.bodyBackgroundImage}
-          floatingLabelText={<Translate text="Body Background Image URL" />} />
-            <RaisedButton
-                name="removeBackgroundBody"
-                key={'RemoveBody'}
-                label={<Translate text="Remove URL" />}
-                style={{
-                  display:component.component==='body'?'block':'none',
-                  width: '150px'
-                }}
-                backgroundColor={buttonColor}
-                labelColor="#fff"
-                keyboardFocused={true}
-                onTouchTap={this.handleRemoveUrlBody} />
-        <TextField
-              name="messageImg"
-              style={{display:component.component==='pane'?'block':'none'}}
-              onChange={
-                (e,value)=>
-                this.handleChangeMessageBackground(value) }
-              value={this.state.messageBackgroundImage}
-              floatingLabelText={<Translate text="Message Background Image URL"/>} />
-        <RaisedButton
-              name="removeBackgroundMessage"
-              key={'RemoveMessage'}
-              label={<Translate text="Remove URL" />}
-              style={{
-                display:component.component==='pane'?'block':'none',
-                width: '150px'
-              }}
-              backgroundColor={buttonColor}
-              labelColor="#fff"
-              keyboardFocused={true}
-              onTouchTap={this.handleRemoveUrlMessage} />
-
         </div>
     })
 
