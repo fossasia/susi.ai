@@ -70,8 +70,8 @@ class Settings extends Component {
 			speechOutputAlways: defaultSpeechOutputAlways,
 			server: defaultServer,
 			serverUrl: '',
-      		serverFieldError: false,
-      		checked: false,
+			serverFieldError: false,
+			checked: false,
 			validForm: true,
 			showLanguageSettings: false,
 			speechRate: defaultSpeechRate,
@@ -443,8 +443,9 @@ class Settings extends Component {
     	fontWeight: 400,
   		},
   		slide: {
-    		padding: 20
-  		},
+				textAlign: 'center',
+				padding: 20,
+			},
 		};
 
 		let serverSettingTab = <Tab
