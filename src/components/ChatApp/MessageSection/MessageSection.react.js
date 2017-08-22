@@ -252,75 +252,7 @@ class MessageSection extends Component {
     this.child.closeOptions();
   }
 
-<<<<<<< HEAD
-  handleRemoveUrlBody = () => {
-    if(!this.state.bodyBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        bodyBackgroundImage: ''
-      });
-    }
-  }
-
-  handleRemoveUrlMessage = () => {
-    if(!this.state.messageBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        messageBackgroundImage:''
-      });
-    }
-  }
-
-  handleRemoveUrlBody = () => {
-    if(!this.state.bodyBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        bodyBackgroundImage: ''
-      });
-      this.handleChangeBackgroundImage('');
-    }
-  }
-
-  handleRemoveUrlMessage = () => {
-    if(!this.state.messageBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        messageBackgroundImage:''
-      });
-    }
-  }
-
-=======
   // Close all dialog boxes
->>>>>>> 21a2a72c... remove unwanted codes
   handleClose = () => {
     this.setState({
       showLogin: false,
