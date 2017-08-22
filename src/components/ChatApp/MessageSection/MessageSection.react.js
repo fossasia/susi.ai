@@ -22,6 +22,7 @@ import Translate from '../../Translate/Translate.react';
 
 function getStateFromStores() {
   var themeValue=[];
+  // get Theme data from server
   if(UserPreferencesStore.getThemeValues()){
     themeValue=UserPreferencesStore.getThemeValues().split(',');
   }
@@ -89,7 +90,7 @@ function getMessageListItem(messages, showLoading, markID) {
       latestUserMsgID = latestUserMsg.id;
     }
   }
-
+  // return the list of messages
   return messages.map((message) => {
     return (
       <MessageListItem
@@ -101,6 +102,7 @@ function getMessageListItem(messages, showLoading, markID) {
   });
 }
 
+// markdown serch results
 function searchMsgs(messages, matchString, isCaseSensitive) {
   let markingData = {
     allmsgs: [],
@@ -180,7 +182,7 @@ class MessageSection extends Component {
   handleColorChange = (name,color) => {
     // Current Changes
   }
-
+  // Add Image as a background image
   handleChangeBackgroundImage = (backImage) => {
     document.body.style.setProperty('background-image', 'url('+ backImage+')');
     document.body.style.setProperty('background-repeat', 'no-repeat');
@@ -192,6 +194,7 @@ class MessageSection extends Component {
     this.setState({messageBackgroundImage:backImage});
   }
 
+  // get the selected custom colour
   handleChangeComplete = (name, color) => {
     this.setState({'theme':'custom'})
     let currSettings = UserPreferencesStore.getPreferences();
@@ -236,6 +239,7 @@ class MessageSection extends Component {
 
   }
 
+  // Open Login Dialog
   handleOpen = () => {
     this.setState({
       showLogin: true,
@@ -244,6 +248,7 @@ class MessageSection extends Component {
     this.child.closeOptions();
   }
 
+  // Open Sign Up Dialog
   handleSignUp = () => {
     this.setState({
       showSignUp: true,
@@ -251,6 +256,7 @@ class MessageSection extends Component {
     });
     this.child.closeOptions();
   }
+
 
   handleRemoveUrlBody = () => {
     if(!this.state.bodyBackgroundImage){
@@ -316,7 +322,7 @@ class MessageSection extends Component {
       });
     }
   }
-
+  // Close all dialog boxes
   handleClose = () => {
     this.setState({
       showLogin: false,
@@ -325,6 +331,8 @@ class MessageSection extends Component {
       openForgotPassword: false
     });
   }
+
+  // Save Custom Theme settings on server
   saveThemeSettings = () => {
     let customData='';
     Object.keys(this.customTheme).forEach((key) => {
@@ -346,6 +354,7 @@ class MessageSection extends Component {
     this.child.closeOptions();
   }
 
+  // Show forgot password dialog
   forgotPasswordChanged = () => {
     this.setState({
         showLogin:false,
@@ -383,7 +392,7 @@ class MessageSection extends Component {
     });
   }
 
-
+  // Executes on search text changes
   searchTextChanged = (event) => {
     let matchString = event.target.value;
     let messages = this.state.messages;
@@ -433,12 +442,15 @@ class MessageSection extends Component {
     // let state=this.state;
   }
 
+  // Show a snackbar If user offline
   handleOffline() {
     this.setState({
       snackopen: true,
       snackMessage: 'It seems you are offline!'
     })
   }
+
+  // Show a snackbar If user online
   handleOnline() {
     this.setState({
       snackopen: true,
@@ -446,6 +458,7 @@ class MessageSection extends Component {
     })
   }
 
+  // Scroll to bottom feature goes here
   onScroll = () => {
     let scrollarea = this.scrollarea;
     if(scrollarea){
@@ -614,7 +627,7 @@ switch(this.state.currTheme){
 
     />
     </div>;
-
+    // Custom Theme feature Component
     const componentsList = [
       {'id':1, 'component':'header', 'name': 'Header'},
       {'id':2, 'component': 'pane', 'name': 'Message Pane'},
@@ -765,7 +778,7 @@ switch(this.state.currTheme){
                 </div>
               </div>
             </div>
-
+            {/*  All Dialogs are handled by this components */}
             <DialogSection
               {...this.props}
               openLogin={this.state.showLogin}
