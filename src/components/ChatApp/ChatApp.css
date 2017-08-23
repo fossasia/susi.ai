@@ -788,7 +788,8 @@ em{
 }
 
 .settings-toggle {
-  max-width: 60%;
+  margin: auto;
+  max-width: 30%;
   margin-top: 30px;
 }
 
