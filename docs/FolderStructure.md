@@ -1,6 +1,6 @@
 ## Folder Structure
 
-After creation and a successfull build, your project should look like this:
+After creation and a successfull build, your project should have the following file structure:
 
 ```
 chat.susi.ai/
@@ -34,7 +34,8 @@ chat.susi.ai/
 * `src/index.js` is the JavaScript entry point.
 * `src/__tests__/` new tests related to all the components can be created in this folder, this project follows a `jest` testing suite.
 * `src/actions/` contains related action types which can be defined in this folder.
-* `src/components/` any new component can be added in this folder, given that the file is reused or should be unique in some way.
+* `src/components/` any new component can be added in this folder, given that the file is reused or should be unique in some way. All static files are present in this component as well.
+* `src/components/Translate/` has all the pot files required to integrate the project with [Weblate](http://weblate.org). 
 * `src/constants/` contains all the action types which are being used in the Application.
 * `src/dispatcher/` contains the files to call the Dispatcher Service for the Chat App.
 * `src/images/` contains all the static images being used in the App.
