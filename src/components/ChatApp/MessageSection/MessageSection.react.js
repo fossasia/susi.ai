@@ -14,7 +14,6 @@ import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
-import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
@@ -252,71 +251,7 @@ class MessageSection extends Component {
     this.child.closeOptions();
   }
 
-  handleRemoveUrlBody = () => {
-    if(!this.state.bodyBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        bodyBackgroundImage: ''
-      });
-    }
-  }
-
-  handleRemoveUrlMessage = () => {
-    if(!this.state.messageBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        messageBackgroundImage:''
-      });
-    }
-  }
-
-  handleRemoveUrlBody = () => {
-    if(!this.state.bodyBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        bodyBackgroundImage: ''
-      });
-      this.handleChangeBackgroundImage('');
-    }
-  }
-
-  handleRemoveUrlMessage = () => {
-    if(!this.state.messageBackgroundImage){
-      this.setState({SnackbarOpenBackground: true});
-      setTimeout(() => {
-         this.setState({
-             SnackbarOpenBackground: false
-         });
-     }, 2500);
-    }
-    else{
-      this.setState({
-        messageBackgroundImage:''
-      });
-    }
-  }
-
+  // Close all dialog boxes
   handleClose = () => {
     this.setState({
       showLogin: false,
@@ -338,6 +273,7 @@ class MessageSection extends Component {
       Actions.settingsChanged(settingsChanged);
     }
     Actions.customThemeChanged(customData);
+    window.location.reload();
     this.handleClose();
   }
 
@@ -635,48 +571,6 @@ switch(this.state.currTheme){
           component.component) }
           onChange={this.handleColorChange.bind(this,component.id)}>
         </CirclePicker>
-
-        <TextField
-          name="backgroundImg"
-          style={{display:component.component==='body'?'block':'none'}}
-          onChange={
-            (e,value)=>
-            this.handleChangeBackgroundImage(value) }
-          value={this.state.bodyBackgroundImage}
-          floatingLabelText={<Translate text="Body Background Image URL" />} />
-            <RaisedButton
-                name="removeBackgroundBody"
-                key={'RemoveBody'}
-                label={<Translate text="Remove URL" />}
-                style={{
-                  display:component.component==='body'?'block':'none',
-                  width: '150px'
-                }}
-                backgroundColor={buttonColor}
-                labelColor="#fff"
-                keyboardFocused={true}
-                onTouchTap={this.handleRemoveUrlBody} />
-        <TextField
-              name="messageImg"
-              style={{display:component.component==='pane'?'block':'none'}}
-              onChange={
-                (e,value)=>
-                this.handleChangeMessageBackground(value) }
-              value={this.state.messageBackgroundImage}
-              floatingLabelText={<Translate text="Message Background Image URL"/>} />
-        <RaisedButton
-              name="removeBackgroundMessage"
-              key={'RemoveMessage'}
-              label={<Translate text="Remove URL" />}
-              style={{
-                display:component.component==='pane'?'block':'none',
-                width: '150px'
-              }}
-              backgroundColor={buttonColor}
-              labelColor="#fff"
-              keyboardFocused={true}
-              onTouchTap={this.handleRemoveUrlMessage} />
-
         </div>
     })
 
