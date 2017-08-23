@@ -47,8 +47,9 @@ class Devices extends Component{
               Download the Android App to have access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <a href="https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk"
-                className="play_store">Get It on Google Play</a>
+              <Link className="play_store"
+                target="_blank" to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"> Get It on Google Play
+              </Link>
             </div>
           </div>
           <div className='img-container'>
@@ -63,8 +64,9 @@ class Devices extends Component{
               Download the iOS App to have access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <a href="https://github.com/fossasia/susi_iOS/"
-                className="app_store">Download on the App Store</a>
+              <Link className="app_store"
+                target="_blank" to="https://github.com/fossasia/susi_iOS"> Download on the App Store
+              </Link>
             </div>
           </div>
           <div className='img-container'>
