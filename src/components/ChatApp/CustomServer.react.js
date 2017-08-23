@@ -42,7 +42,7 @@ export default class CustomServer extends Component {
                             errorText={this.props.customServerMessage}
                             floatingLabelText={<Translate text="Custom URL"/>}
                             style={customUrlStyle} />;
-
+        // Check whether user check the custom server option or not.
         const customServer = this.props.checked ? serverURL : '';
 
         return(
