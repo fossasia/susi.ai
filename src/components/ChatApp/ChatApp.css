@@ -682,9 +682,34 @@ textarea {
 .card-text{
   margin-top: -35px;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+}
+
+.line-clamp {
+      position: relative;
+      height: 2.4em; /* exactly two lines */
+    }
+.line-clamp:after {
+      content: "...";
+      text-align: right;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 70%;
+      height: 1.2em;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 85%);
+ }
+
+@supports (-webkit-line-clamp: 2) {
+    .line-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        max-height:2.4em;
+        height: auto;
+    }
+    .line-clamp:after {
+        display: none;
+    }
 }
 
 .card-url{
