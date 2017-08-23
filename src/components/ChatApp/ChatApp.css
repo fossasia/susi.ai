@@ -526,7 +526,7 @@ header{
   color: #0AD5C1;
   background: rgba(0, 0, 0, 0.01);
 }
-.textBack{
+.textBack {
     max-width: 89%;
     border-radius: 10px;
     display: block;
@@ -538,7 +538,7 @@ header{
     border: none;
     padding: 10px 12px;
     overflow-y: scroll;
-    max-height: 80px;
+    max-height: 59px;
 }
 .textBack::-webkit-scrollbar {
     width: 6px ;
