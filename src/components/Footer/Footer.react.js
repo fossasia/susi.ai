@@ -10,7 +10,7 @@ class Footer extends Component {
     }
   }
   render() {
-
+    // Footer Component
     return (
       <div className='footer-wrapper'>
 

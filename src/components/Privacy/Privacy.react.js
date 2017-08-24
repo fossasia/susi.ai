@@ -21,8 +21,9 @@ class Privacy extends Component {
   }
 
   componentDidMount() {
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    // Adding title tag to page
     document.title = 'Privacy Policy - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+    //  Scrolling to top of page when component loads
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 

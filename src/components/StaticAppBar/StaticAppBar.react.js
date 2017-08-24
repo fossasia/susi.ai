@@ -70,10 +70,11 @@ class StaticAppBar extends Component {
             leftGap: '0px'
         };
     }
+    // Open app bar's drawer
     handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
-
+    // Close app bar's drawer
     handleDrawerClose = () => this.setState({ openDrawer: false });
-
+    // Show options on touch tap
     showOptions = (event) => {
         var p = $('#rightIconButton').width();
         var screenWidth = $(window).width();
@@ -84,7 +85,7 @@ class StaticAppBar extends Component {
             anchorEl: event.currentTarget
         })
     }
-
+    // Close options on touch tap
     closeOptions = () => {
       if(this.state.showOptions){
         this.setState({
@@ -98,7 +99,7 @@ class StaticAppBar extends Component {
     handleTitle = () => {
         this.props.history.push('/');
     }
-
+    // Open login dialog and close signup dialog and options
      handleLogin = () => {
         this.setState({
             login: true,
@@ -109,7 +110,7 @@ class StaticAppBar extends Component {
             this.props.closeVideo();
         }
     }
-
+    // Close all dialogs and options
     handleClose = () => {
         this.setState({
             login: false,
@@ -121,7 +122,7 @@ class StaticAppBar extends Component {
             this.props.closeVideo();
         }
     }
-
+    // Open Signup dialog and close login dialog and options
     handleSignUp = () => {
         this.setState({
             signup: true,
@@ -132,7 +133,7 @@ class StaticAppBar extends Component {
             this.props.closeVideo();
         }
     }
-
+    // Hanlde scroll events
     handleScroll = (event) => {
         let scrollTop = event.srcElement.body.scrollTop,
             itemTranslate = scrollTop > 60;
@@ -140,7 +141,7 @@ class StaticAppBar extends Component {
             this.closeOptions();
         }
     }
-
+    // Open Forgot Password dialog and close login dialog
     handleForgotPassword = () => {
         this.setState({
             openForgotPassword: true,
