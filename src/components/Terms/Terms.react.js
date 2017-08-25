@@ -21,9 +21,10 @@ class Terms extends Component {
   }
 
   componentDidMount() {
+    //  Scrolling to top of page when component loads
     $('html, body').animate({ scrollTop: 0 }, 'fast');
+    // Adding title tag to page
     document.title = 'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
 

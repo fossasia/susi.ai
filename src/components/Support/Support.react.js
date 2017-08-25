@@ -30,11 +30,12 @@ class Support extends Component {
     }
 
     componentDidMount() {
-      $('html, body').animate({ scrollTop: 0 }, 'fast');
+      // Adding title tag to page
       document.title = 'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+      //  Scrolling to top of page when component loads
       $('html, body').animate({ scrollTop: 0 }, 'fast');
     }
-
+    // Open login dialog and close signup and forgot password dialog
     handleLogin = () => {
       this.setState({
         showLogin: true,
@@ -42,7 +43,7 @@ class Support extends Component {
   			showForgotPassword: false,
       });
     }
-
+    //  Open Signup dialog and close login and forgot password dialog
     handleSignUp = () => {
       this.setState({
         showSignUp: true,
@@ -50,14 +51,14 @@ class Support extends Component {
   			showForgotPassword: false,
       });
     }
-
+    // Open Forgot Password dialog and close login dialog
   	handleForgotPassword = () => {
   		this.setState({
   			showForgotPassword: true,
   			showLogin: false,
   		});
   	}
-
+   // Close all dialogs
     handleClose = ()  => {
   		this.setState({
   			showLogin: false,

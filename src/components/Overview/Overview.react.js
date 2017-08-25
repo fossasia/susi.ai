@@ -31,19 +31,19 @@ class Overview extends Component{
   handleTitle = () => {
     this.props.history.push('/');
   }
-
+  // Open Video Dialog and close login and sign up dialog
   handleVideo = () => this.setState({
     login: false,
     signup: false,
     video: true
   })
-
+  // Close all the dialogs
   handleClose = () => this.setState({
     login: false,
     signup: false,
     video: false
   })
-
+  // Close Video Dialog
   closeVideo = () => this.setState({
     video: false
   })
@@ -59,7 +59,9 @@ class Overview extends Component{
 
 
   componentDidMount() {
+    // Adding title tag to page
     document.title = 'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
+    //  Scrolling to top of page when component loads
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 

@@ -19,7 +19,9 @@ class Devices extends Component{
   }
 
   componentDidMount() {
+    // Adding title tag to page
     document.title = 'SUSI.AI - Open Source AI for Any Device, Android, iOS, Robots, Help Desks, Linux';
+    //  Scrolling to top of page when component loads
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 

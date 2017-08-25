@@ -26,9 +26,10 @@ class Support extends Component {
 
 
   componentDidMount() {
+    //  Scrolling to top of page when component loads
     $('html, body').animate({ scrollTop: 0 }, 'fast');
+    // Adding title tag to page
     document.title = 'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   showOptions = (event) => {
@@ -54,18 +55,18 @@ class Support extends Component {
   handleTitle = () => {
     this.props.history.push('/');
   }
-
+  // Open login dialog and close signup dialog
   handleLogin = () => this.setState({
     login: true,
     signup: false
   })
-
+  // Close all dialogs
   handleClose = () => this.setState({
     login: false,
     signup: false,
     open: false
   })
-
+  // Open Signup dialog and close login dialog
   handleSignUp = () => this.setState({
     signup: true,
     login: false
