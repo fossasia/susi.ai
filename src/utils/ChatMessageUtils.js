@@ -1,3 +1,4 @@
+// Message Utils required for Chat
 export function convertRawMessage(rawMessage, currentThreadID) {
   return {
     ...rawMessage,

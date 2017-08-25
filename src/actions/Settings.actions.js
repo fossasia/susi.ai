@@ -3,7 +3,7 @@ import ChatConstants from '../constants/ChatConstants';
 import * as Actions from './API.actions';
 
 let ActionTypes = ChatConstants.ActionTypes;
-
+// Actions related to Chat Settings
 export function serverChanged(server){
   ChatAppDispatcher.dispatch({
     type: ActionTypes.SERVER_CHANGED,
