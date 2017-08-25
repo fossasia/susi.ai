@@ -22,9 +22,11 @@ export default class NotFound extends Component {
             openForgotPassword: false
         }
     }
+    // Open Sign Up Dialog
     handleOpen = () => {
         this.setState({ open: true });
     };
+    // Close all dialog boxes
     handleClose = () => {
         this.setState({
           open: false,
@@ -32,6 +34,7 @@ export default class NotFound extends Component {
           openForgotPassword: false
         });
     };
+    // Open Login Dialog
     handleLoginOpen = () => {
         this.setState({
             loginOpen: true,
@@ -39,11 +42,13 @@ export default class NotFound extends Component {
             openForgotPassword:false
         })
     }
+    // Close Login Dialog
     handleLoginClose = () => {
         this.setState({
             loginOpen: false,
         })
     }
+    // Close Login Dialog and open Forgot Password dialog
     handleForgotPassword = () => {
         this.setState({
           openForgotPassword: true,
