@@ -76,7 +76,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
-					style={{marginLeft:'-35px'}}
+					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -123,7 +123,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
-					style={{marginLeft:'-35px'}}
+					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}

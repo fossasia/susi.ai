@@ -274,8 +274,8 @@ class StaticAppBar extends Component {
                         style={{ float: 'left', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
-                        anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                         onRequestClose={this.closeOptions}
                     >
                         <Logged />
