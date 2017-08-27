@@ -8,7 +8,7 @@ const cookies = new Cookies();
 
 let ActionTypes = ChatConstants.ActionTypes;
 
-
+// Action to get user chat history
 export function getHistory() {
   let BASE_URL = '';
   let defaults = UserPreferencesStore.getPreferences();

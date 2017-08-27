@@ -13,6 +13,7 @@ let ActionTypes = ChatConstants.ActionTypes;
 let _Location = null;
 let offlineMessage = null;
 
+// Handle offline, online events
 window.addEventListener('offline', handleOffline.bind(this));
 window.addEventListener('online', handleOnline.bind(this));
 function handleOffline() {
@@ -40,12 +41,13 @@ export function getLocation(){
     }
   });
 }
+// Main server call for Creating a SUSI Message
 export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   var timestamp = Date.now();
   let receivedMessage = {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
-    authorName: 'SUSI', // hard coded for the example
+    authorName: 'SUSI',
     text: '',
     response: {},
     actions: [],
@@ -150,6 +152,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         if(actionJson.hasOwnProperty('count')){
           count = actionJson.count;
         }
+        // Get RSS responses
         $.ajax({
           url: 'http://api.duckduckgo.com/?format=json&q=' + query,
           dataType: 'jsonp',
@@ -274,7 +277,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
           });
   }
 };
-
+// Get images for RSS links
 function previewURLForImage(receivedMessage,currentThreadID,
                             BASE_URL,data,count,remainingDataIndices,j,resultsAdded){
   var dataIndex = remainingDataIndices[j];
@@ -451,7 +454,7 @@ export function pushCustomThemeToServer(customTheme){
         makeServerCall(url);
 
 }
-
+// Server calls for Feedback Storage
 export function sendFeedback(){
   let feedback = MessageStore.getFeedback();
   if(feedback===null){
@@ -480,7 +483,7 @@ export function sendFeedback(){
   console.log(url);
   makeServerCall(url);
 }
-
+// Helper function for making server call
 export function makeServerCall(url){
   console.log(url)
   $.ajax({
