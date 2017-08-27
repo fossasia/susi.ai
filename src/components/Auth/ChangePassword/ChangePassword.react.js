@@ -39,6 +39,7 @@ export default class ChangePassword extends Component {
         this.newPasswordConfirmErrorMessage = '';
     }
 
+    // Close the Change Password dialog on success
     handleClose = () => {
         let state = this.state;
         if (state.success) {
@@ -62,6 +63,7 @@ export default class ChangePassword extends Component {
         }
     }
 
+    // Handle changes to current, new and confirm new passwords
     handleChange = (event) => {
         let password;
         let newPassword;
@@ -152,6 +154,7 @@ export default class ChangePassword extends Component {
         }
     }
 
+    // Submit the Change Passowrd Form
     handleSubmit = (event) => {
         event.preventDefault();
 
