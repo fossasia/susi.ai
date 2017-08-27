@@ -101,24 +101,28 @@ class Settings extends Component {
     this.STTBrowserSupport = STTBrowserSupport;
   }
 
+	// Show change server dialog
 	handleServer = () => {
 		this.setState({
 			showServerChangeDialog: true
 		});
 	}
 
+	// Show change password dialog
 	handleChangePassword = () => {
 		this.setState({
 			showChangePasswordDialog: true,
 		});
 	}
 
+	// Show hardware connect dialog
 	handleHardware = () => {
 		this.setState({
 			showHardwareChangeDialog: true
 		});
 	}
 
+	// Close all open dialogs
 	handleClose = ()  => {
 		this.setState({
 			showLanguageSettings: false,
@@ -132,6 +136,7 @@ class Settings extends Component {
 		})
 	}
 
+	// Submit selected Settings
 	handleSubmit = () => {
 		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
@@ -169,6 +174,7 @@ class Settings extends Component {
 		this.implementSettings(vals);
 	}
 
+	// Store the settings in stores and server
 	implementSettings = (values) => {
 		console.log(values);
     let currSettings = UserPreferencesStore.getPreferences();
@@ -187,40 +193,47 @@ class Settings extends Component {
     window.location.reload();
   }
 
+	// Handle change to theme settings
 	handleSelectChange= (event, index, value) => {
 		this.setState({theme:value});
 	}
 
+	// Handle change to enter as send settings
 	handleEnterAsSend = (event, isInputChecked) => {
 		this.setState({
 			enterAsSend: isInputChecked,
 		});
 	}
 
+	// Handle change to mic input settings
 	handleMicInput = (event, isInputChecked) => {
 		this.setState({
 			micInput: isInputChecked,
 		});
 	}
 
+	// Handle change to speech output on speech input settings
 	handleSpeechOutput = (event, isInputChecked) => {
 		this.setState({
 			speechOutput: isInputChecked,
 		});
 	}
 
+	// Handle change to speech output always settings
 	handleSpeechOutputAlways = (event, isInputChecked) => {
 		this.setState({
 			speechOutputAlways: isInputChecked,
 		});
 	}
 
+	// Handle change to language settings
 	handleLanguage = (toShow) => {
 		this.setState({
 			showLanguageSettings: toShow,
 		});
 	}
 
+	// Handle change to TTS settings
 	handleTextToSpeech = (settings) => {
 		this.setState({
 			speechRate: settings.rate,
@@ -230,6 +243,7 @@ class Settings extends Component {
 		});
 	}
 
+	// Handle toggle between default server and custom server
 	handleServeChange=(event)=>{
         let state = this.state;
         let serverUrl
@@ -281,11 +295,13 @@ class Settings extends Component {
     }
   }
 
+	// Close settings and redirect to landing page
 	onRequestClose = () => {
 		this.props.history.push('/');
     window.location.reload();
 	}
 
+	// Open Login dialog
 	handleLogin = () => {
     this.setState({
       showLogin: true,
@@ -295,6 +311,7 @@ class Settings extends Component {
     });
   }
 
+	// Open SignUp dialog
   handleSignUp = () => {
     this.setState({
       showSignUp: true,
@@ -304,6 +321,7 @@ class Settings extends Component {
     });
   }
 
+	// Open Forgot Password dialog
 	handleForgotPassword = () => {
 		this.setState({
 			showForgotPassword: true,
@@ -312,6 +330,7 @@ class Settings extends Component {
 		});
 	}
 
+	// Show Top Bar drop down menu
 	showOptions = (event) => {
 		this.setState({
       showOptions: true,
@@ -324,6 +343,8 @@ class Settings extends Component {
 			PrefLanguage: value,
 		});
 	}
+
+	// Close Top Bar drop down menu
 	closeOptions = () => {
 		this.setState({
       showOptions: false,
@@ -332,31 +353,35 @@ class Settings extends Component {
 
 	componentWillMount() {
 		document.body.className = 'white-body';
-  	}
-  	componentWillUnmount() {
-    	MessageStore.removeChangeListener(this._onChange.bind(this));
-  	}
-  	_onChange() {
-  	  this.setState({
-  	  	voiceList: [{
-  	  		lang: 'de-DE',
-			name: 'Deutsch'
-		},{
-			lang:'en-US',
-			name:'US English'
-		}]
-  	  });
-  	}
-
-  	componentDidMount() {
-  		MessageStore.addChangeListener(this._onChange.bind(this));
-
-  		this.setState({
-	      search: false,
-	    });
-			this.showWhenLoggedIn='none';
 	}
 
+	componentWillUnmount() {
+		MessageStore.removeChangeListener(this._onChange.bind(this));
+	}
+
+	// Populate language list
+	_onChange() {
+		this.setState({
+			voiceList: [{
+				lang: 'de-DE',
+				name: 'Deutsch'
+			},{
+				lang:'en-US',
+				name:'US English'
+			}]
+		});
+	}
+
+	componentDidMount() {
+		MessageStore.addChangeListener(this._onChange.bind(this));
+
+		this.setState({
+			search: false,
+		});
+		this.showWhenLoggedIn='none';
+	}
+
+	// Generate language list drop down menu items
 	populateVoiceList = () => {
 		let voices = this.state.voiceList;
 		let langCodes = [];
