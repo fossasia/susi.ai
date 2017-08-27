@@ -853,7 +853,12 @@ em{
 .search{
   -webkit-text-fill-color: white;
   color: white;
-  ;
+}
+
+abbr[title] {
+  border-bottom: none;
+  cursor: inherit;
+  text-decoration: none;
 }
 
 .tile-title strong span{
