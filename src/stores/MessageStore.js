@@ -14,7 +14,7 @@ let TTSVoices = [];
 let _initialisedVoices = false;
 
 let historyBuffer = [];
-
+// Currently only one thread i.e., SUSI
 function _markAllInThreadRead(threadID) {
   for (let id in _messages) {
     if (_messages[id].threadID === threadID) {

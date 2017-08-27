@@ -20,7 +20,7 @@ let _defaults = {
     ThemeValues: ''
 
 };
-
+// Store handling all User Preferences
 let UserPreferencesStore = {
     ...EventEmitter.prototype,
 
