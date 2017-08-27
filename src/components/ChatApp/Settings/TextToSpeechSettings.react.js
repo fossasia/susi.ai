@@ -26,12 +26,14 @@ class TextToSpeechSettings extends Component {
 		this.speechSynthesisExample = 'This is an example of speech synthesis';
 	}
 
+	// Triggered when the voice player is started
 	onStart = () => {
 		this.setState({
 			play: true
 		});
 	}
 
+	// Triggered when the voice player has finished
 	onEnd = () => {
 		this.setState({
 			play: false,
@@ -39,30 +41,35 @@ class TextToSpeechSettings extends Component {
 		});
 	}
 
+	// Handle changes to speech rate
 	handleRate = (event, value) => {
 		this.setState({
 			rate: value,
 		});
 	};
 
+	// Handle changes to speech pitch
 	handlePitch = (event, value) => {
 		this.setState({
 			pitch: value,
 		});
 	};
 
+	// Reset speech rate to default value
 	resetRate = () => {
 		this.setState({
 			rate: 1,
 		});
 	}
 
+	// Reset speech pitch to default value
 	resetPitch = () => {
 		this.setState({
 			pitch: 1,
 		});
 	}
 
+	// Set state to play speech synthesis example
 	playDemo = () => {
 		this.setState({
 			playExample: true,
@@ -70,6 +77,7 @@ class TextToSpeechSettings extends Component {
 		});
 	}
 
+	// Submit TTS settings to parent settings component
 	handleSubmit = () => {
 		this.props.ttsSettings({
 			rate: this.state.rate,
@@ -78,6 +86,7 @@ class TextToSpeechSettings extends Component {
 		});
 	}
 
+	// Generate language list drop down menu items
 	populateVoiceList = () => {
 		let voices = this.state.voiceList;
 		let langCodes = [];

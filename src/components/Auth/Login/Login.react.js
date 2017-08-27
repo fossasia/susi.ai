@@ -34,6 +34,7 @@ class Login extends Component {
         this.customServerMessage = '';
 	}
 
+	// Submit the Login Form
 	handleSubmit = (e) => {
 		e.preventDefault();
 
@@ -106,12 +107,18 @@ class Login extends Component {
 			});
 		}
 	}
+
+	// Open Forgot Password Dialog
 	handleForgotPassword = () => {
 		this.props.handleForgotPassword();
 	}
+
+	// Open SignUp Dialog
 	handleSignUp = () => {
 		this.props.handleSignUp();
 	}
+
+	// Handle toggle between custom server and default server
 	handleServeChange = (event) => {
         let state = this.state;
         let serverUrl
@@ -148,24 +155,25 @@ class Login extends Component {
         }
     }
 
+	// Handle changes in email and password
 	handleChange = (event) => {
 		let email;
-        let password;
-        let state = this.state;
+    let password;
+    let state = this.state;
 
-        if (event.target.name === 'email') {
-            email = event.target.value.trim();
-            let validEmail =
-                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-            state.email = email;
-            state.emailError = !(email && validEmail)
-        }
-        else if (event.target.name === 'password') {
-            password = event.target.value;
-            let validPassword = password.length >= 6;
-            state.password = password;
-            state.passwordError = !(password && validPassword);
-        }
+    if (event.target.name === 'email') {
+        email = event.target.value.trim();
+        let validEmail =
+            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+        state.email = email;
+        state.emailError = !(email && validEmail)
+    }
+    else if (event.target.name === 'password') {
+        password = event.target.value;
+        let validPassword = password.length >= 6;
+        state.password = password;
+        state.passwordError = !(password && validPassword);
+    }
 		if (this.state.emailError) {
 			this.emailErrorMessage = 'Enter a valid Email Address';
 		}
@@ -192,6 +200,7 @@ class Login extends Component {
 		this.setState(state);
 	}
 
+	// Set Cookies on successful Login
 	handleOnSubmit = (loggedIn, time, email) => {
 		let state = this.state;
 		if (state.success) {
