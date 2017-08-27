@@ -34,6 +34,7 @@ class ExtendedMarker extends Marker {
   }
 }
 
+// Render anchor for given text
 export function renderAnchor(text,link){
   return (<a href={link} target='_blank'
     rel='noopener noreferrer'>{text}</a>);
@@ -118,6 +119,7 @@ export function processText(text,type){
   return text;
 }
 
+// Parse for image links to render images and gifs
 export function imageParse(stringWithLinks){
   let replacePattern = new RegExp([
                       '((?:https?:\\/\\/)(?:[a-zA-Z]{1}',
@@ -149,6 +151,7 @@ export function parseAndReplace(text) {
   </Linkify>;
 }
 
+// Get hostname for given link
 function urlDomain(data) {
   var a = document.createElement('a');
   a.href = data;

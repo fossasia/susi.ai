@@ -37,10 +37,12 @@ class MessageListItem extends React.Component {
     }
   }
 
+  // Triggered when the voice player is started
   onStart = () => {
     this.setState({ play: true });
   }
 
+  // Triggered when the voice player has finished
   onEnd = () => {
     this.setState({ play: false });
     Actions.resetVoice();

@@ -7,6 +7,7 @@ import * as Actions from '../../../actions/';
 
 class Feedback extends React.Component {
 
+	// Parse skill meta data
 	parseSkill = () => {
 		let message = this.props.message;
 		let rating ={};
@@ -40,6 +41,7 @@ class Feedback extends React.Component {
 	    }
 	}
 
+	// Update state to store rating
 	rateSkill = (rating) => {
 		switch(rating){
 			case 'positive':{
@@ -67,6 +69,7 @@ class Feedback extends React.Component {
 			}
 		}
 		let feedback = this.state.skill;
+		// Send feedback to server
 		if(!(Object.keys(feedback).length === 0 && feedback.constructor === Object)){
 			feedback.rating = rating;
 			this.props.message.feedback.rating = rating;

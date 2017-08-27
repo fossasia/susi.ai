@@ -31,6 +31,7 @@ class ForgotPassword extends Component {
 		this.customServerMessage = '';
 	}
 
+	// Handle Closing the Forgot Password Dialog
 	handleClose = () => {
 		let state = this.state;
 		if (state.success) {
@@ -53,6 +54,7 @@ class ForgotPassword extends Component {
 		}
 	};
 
+	// Handle toggle between custom server and default server
 	handleServeChange=(event)=>{
         let state = this.state;
         let serverUrl
@@ -88,6 +90,7 @@ class ForgotPassword extends Component {
         }
     }
 
+	// Handle changes in email
 	handleChange = (event) => {
 		let email;
     	let state = this.state;
@@ -128,6 +131,7 @@ class ForgotPassword extends Component {
         this.setState(state);
 	};
 
+	// Submit the Forgot Password Form
 	handleSubmit = (event) => {
 		event.preventDefault();
 

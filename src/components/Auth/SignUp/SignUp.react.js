@@ -46,6 +46,7 @@ export default class SignUp extends Component {
         }
     }
 
+    // Handle closing the dialog
     handleClose = () => {
         let state = this.state;
         if (state.success) {
@@ -77,6 +78,7 @@ export default class SignUp extends Component {
         }
     }
 
+    // Handle toggle between custom server and default server
     handleServeChange=(event)=>{
         let state = this.state;
         let serverUrl
@@ -114,6 +116,7 @@ export default class SignUp extends Component {
         }
     }
 
+    // Handle changes in email, password and confirmPassword
     handleChange = (event) => {
         let email;
         let password;
@@ -201,6 +204,7 @@ export default class SignUp extends Component {
         }
     }
 
+    // Submit the SignUp Form
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -274,6 +278,8 @@ export default class SignUp extends Component {
         }
 
     }
+
+    // Open Forgot Password Dialog
     handleForgotPassword = () => {
         this.setState({
           openForgotPassword: true,
@@ -281,6 +287,7 @@ export default class SignUp extends Component {
           openLogin: false
         });
     }
+
     handleForgotPasswordToggle = (forgotPassword) => {
         if(forgotPassword){
           this.setState({
@@ -299,6 +306,7 @@ export default class SignUp extends Component {
         }
     }
 
+    // Open Login Dialog
     handleOpen = () => {
         this.setState(
             {
