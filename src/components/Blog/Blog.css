@@ -55,6 +55,7 @@
     text-decoration: underline;
     color: inherit;
     height: 30px;
+    word-break: break-all;
 }
 .section_blog a:hover{
     text-decoration: none;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Team.css';
-import PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
 import team from './TeamList';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
@@ -90,7 +90,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle titleStyle={{fontSize:'20px'}} title={mentor.name} subtitle={mentor.designation} />
+          <CardTitle titleStyle={{ fontSize: '20px' }} title={mentor.name} subtitle={mentor.designation} />
         </Card>)
     })
     let managers = team[2].managers.map((manager, i) => {
@@ -104,7 +104,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle titleStyle={{fontSize:'20px'}} title={manager.name} subtitle={manager.designation} />
+          <CardTitle titleStyle={{ fontSize: '20px' }} title={manager.name} subtitle={manager.designation} />
 
         </Card>)
     })
@@ -129,7 +129,7 @@ class Support extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardTitle titleStyle={{fontSize:'20px',lineHeight:'25px'}} title={serv.name} subtitle={serv.designation} />
+          <CardTitle titleStyle={{ fontSize: '20px', lineHeight: '25px' }} title={serv.name} subtitle={serv.designation} />
 
         </Card>)
     })
@@ -138,13 +138,13 @@ class Support extends Component {
       <div>
         <StaticAppBar {...this.props}
           location={this.props.location} />
-          <div className='head_section'>
-              <div className='container'>
-                  <div className="heading">
-                  <h1>Team</h1>
-                  </div>
-              </div>
+        <div className='head_section'>
+          <div className='container'>
+            <div className="heading">
+              <h1>Team</h1>
+            </div>
           </div>
+        </div>
         <div className="section-team founders">
 
           <div className="team-header">
@@ -162,7 +162,7 @@ class Support extends Component {
           <div className='team-container'>{managers}</div>
         </div>
 
-         <div className="section-team developers" style={{
+        <div className="section-team developers" style={{
           paddingBottom: '240px'
         }}>
 
@@ -171,7 +171,7 @@ class Support extends Component {
           </div>
           <div className='team-container'>{server}</div>
         </div>
-      <Footer />
+        <Footer />
 
 
       </div>

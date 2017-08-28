@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Contact.css';
-import PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import $ from 'jquery';
@@ -73,7 +73,7 @@ class Contact extends Component {
               Please use our contact form to report the issue
                   </div>
         </div>
-            <Footer/>
+        <Footer />
         <Dialog
           className='dialogStyle'
           modal={true}
