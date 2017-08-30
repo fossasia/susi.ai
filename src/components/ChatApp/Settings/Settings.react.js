@@ -717,14 +717,12 @@ class Settings extends Component {
 
 		const tabStyle = {
   					height: 500,
-  					width: '30%',
 						margin: 20,
   					textAlign: 'center',
   					display: 'inline-block',
 	 };
 	 const menuStyle = {
 					 height: 500,
-					 width: '60%',
 					 margin: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
@@ -735,7 +733,7 @@ class Settings extends Component {
         <StaticAppBar {...this.props}
             location={this.props.location} />
 				<div className='settingMenu'>
-					<Paper style={tabStyle} zDepth={2}>
+					<Paper className='leftMenu' style={tabStyle} zDepth={2}>
 						{menuItems}
 						<div className='settingsSubmit'>
 							<RaisedButton
@@ -747,7 +745,7 @@ class Settings extends Component {
 							/>
 						</div>
 					</Paper>
-					<Paper style={menuStyle} zDepth={2}>
+					<Paper className='rightMenu' style={menuStyle} zDepth={2}>
 						{currentSetting}
 					</Paper>
 				</div>

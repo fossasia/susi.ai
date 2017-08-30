@@ -45,3 +45,20 @@
     max-width: 85%;
     width: 935px;
 }
+
+.leftMenu {
+  width: 30%;
+}
+
+.rightMenu {
+  width: 60%;
+}
+@media only screen and (max-width: 940px){
+  .leftMenu {
+    width: 100%;
+  }
+
+  .rightMenu {
+    width: 100%;
+  }
+}
