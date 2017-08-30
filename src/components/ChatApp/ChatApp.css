@@ -771,25 +771,9 @@ em{
   margin: 0 auto;
 }
 
-.settingsForm{
-  margin: 0 auto;
-  margin-top: 48px;
-  padding: 10px 0;
-  max-width: 100%;
-}
-
 .settingsDialog {
   text-align: left;
   padding-left: 29%;
-}
-
-.settingsBtns {
-  top: 10px;
-}
-
-.settings-toggle {
-  max-width: 60%;
-  margin-top: 30px;
 }
 
 .settingsHeader{
@@ -797,49 +781,6 @@ em{
   margin-top: 15px;
   font-weight: 500;
   padding-left: 23%;
-}
-
-.settingsSubmit{
-  text-align: center;
-}
-
-@media only screen and (min-width: 0px) and (max-width: 768px){
-  .settingsForm {
-    font-size: 14px;
-    max-width: 100%;
-  }
-  .settingsForm h1{
-    font-size: 18px;
-  }
-  .settingsForm h3{
-    font-size: 16px;
-  }
-  .settingsForm h4{
-    font-size: 14px;
-  }
-  .settingsDialog {
-    text-align: left;
-    padding-left: 10%;
-    line-height: 80%;
-  }
-  .settingsBtns{
-    margin-bottom: 16px;
-    width: 85%;
-  }
-  .settings-toggle {
-    max-width: 80%;
-  }
-  .settingsHeader{
-    font-family: 'Open Sans', sans-serif;
-    margin: 0 auto;
-    padding-left: 30%;
-    margin-top: 15px;
-    font-weight: 500;
-  }
-  .settingsSubmit{
-    margin: 0 auto;
-    text-align: center;
-  }
 }
 
 .serverUrl{
