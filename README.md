@@ -41,27 +41,38 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 * **Step 3:** Add the default WebSocket URL for your Susi Hardwre Device. If you are using webchat on the same device as Susi Hardware, it will be ws://127.0.0.1:9001 . Default port is 9001, unless configured otherwise.
 * **Step 4:** On successful connection, you will get a confirmation alert. After that, all your queries to your Susi Hardware Device and their results will show up on Susi Webchat.
 
-### Colours and Font Sizes 
+### Speech Recognition and Synthesis
+
+SUSI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for Speech Recognition and Synthesis. To test whether your browser supports Text To Speech, open your browser console and try the following :
+
+```
+var msg = new SpeechSynthesisUtterance('Hello World');
+window.speechSynthesis.speak(msg)
+```
+
+If you get a speech output then the Web API Speech Synthesis is supported by your browser and Text To Speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).However there are few bugs with some Chromium versions please check out more on how to fix them locally here in this [link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758)
+
+### Colours and Font Sizes
 
 ## Component Colours of Light theme
 
 * Background Colour of the Application - ![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
 * Background Colour Message History -![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6`
-* Chat bubbles Colour- 
+* Chat bubbles Colour-
     * Chat bubbles of SUSI- ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
     * Chat bubbles of User-  ![#e0e0e0](https://placehold.it/15/e0e0e0/000000?text=+) `#e0e0e0`
 * Top Bar Colour-  ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
 * Buttons Colour- ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
 * Colour of search result- ![#ff5e00](https://placehold.it/15/ff5e00/000000?text=+) `#ff5e00`
 
-* Toggle Colour- 
+* Toggle Colour-
     * thumbOnColor- ![#5ab1fc](https://placehold.it/15/5ab1fc/000000?text=+) `#5ab1fc`
     * trackOnColor- ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
 
 * User Feedback Colour-
     * Thumbs Up Colour-
          **Voted**- ![#1685e5](https://placehold.it/15/1685e5/000000?text=+) `#1685e5`
-         **Unvoted**- ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae` 
+         **Unvoted**- ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
 
 ## Fonts
 
