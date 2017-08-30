@@ -537,8 +537,6 @@ class Settings extends Component {
 		else if(this.state.selectedSetting === 'Speech Settings') {
 			currentSetting = (
 				<div style={divStyle}>
-					<div>
-						<div>
 								<div>
 									<div style={{
 										marginTop: '10px',
@@ -585,8 +583,6 @@ class Settings extends Component {
 										disabled={!this.TTSBrowserSupport}
 										onClick={this.handleLanguage.bind(this,true)} />
 								</div>
-						</div>
-					</div>
 				</div>
 			)
 		}
@@ -594,7 +590,7 @@ class Settings extends Component {
 		else if(this.state.selectedSetting === 'Text Language Settings') {
 			currentSetting = (
 				<div style={divStyle}>
-					<div>
+					<span>
 						<div style={{
 							marginTop: '10px',
 							'marginBottom':'0px',
@@ -602,7 +598,7 @@ class Settings extends Component {
 							fontWeight: 'bold'}}>
 							<Translate text="Select Default Language"/>
 						</div>
-					</div>
+					</span>
 						<DropDownMenu
 							value={voiceOutput.voiceLang}
 							disabled={!this.TTSBrowserSupport}
@@ -691,8 +687,9 @@ class Settings extends Component {
 
 		let menuItems = cookies.get('loggedIn')?
 			<Menu
-				style={{width: '90%', margin: 'auto'}}
+				style={{ width: '85%', margin: 'auto' }}
 				onItemTouchTap={this.loadSettings}
+				selectedMenuItemStyle={{width: '100%'}}
 				>
 					<MenuItem>ChatApp Settings</MenuItem>
 					<MenuItem>Mic Settings</MenuItem>
@@ -704,8 +701,9 @@ class Settings extends Component {
 			</Menu>
 		:
 		<Menu
-			style={{width: '90%', margin: 'auto'}}
+			style={{ width: '85%', margin: 'auto' }}
 			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={{width: '100%'}}
 			>
 				<MenuItem>ChatApp Settings</MenuItem>
 				<MenuItem>Mic Settings</MenuItem>
@@ -718,7 +716,6 @@ class Settings extends Component {
 		const tabStyle = {
   					height: 500,
 						margin: 20,
-  					textAlign: 'center',
   					display: 'inline-block',
 	 };
 	 const menuStyle = {
@@ -745,7 +742,7 @@ class Settings extends Component {
 							/>
 						</div>
 					</Paper>
-					<Paper className='rightMenu' style={menuStyle} zDepth={2}>
+					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
 						{currentSetting}
 					</Paper>
 				</div>
