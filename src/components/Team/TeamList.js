@@ -110,7 +110,7 @@ var team = [{
     'blog': 'http://blog.fossasia.org/author/rishiraj824/'
   }, {
     'name': 'Uday Theja',
-    'github': 'https://github.couday96m/',
+    'github': 'https://github.com/uday96',
     'avatar': UdayTheja,
     'designation': 'React JS Developer',
     'twitter': 'https://twitter.com/udayteja96',
