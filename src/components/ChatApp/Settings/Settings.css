@@ -3,3 +3,45 @@
     margin-top: 21px;
     display: block;
 }
+
+.settingsMenuButton {
+    margin-bottom: 16px;
+    width: 100;
+}
+
+.settingsBtns {
+  top: 10px;
+}
+
+.settings-toggle {
+  padding-top: 20px;
+  margin: auto;
+  max-width: 60%;
+}
+
+.settingsSubmit{
+  margin: 0 auto;
+  text-align: center;
+}
+
+.settingMenu {
+    max-width: none;
+    padding: 50px 20px 50px 20px;
+    position: relative;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-pack: justify;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 85%;
+    width: 935px;
+}
