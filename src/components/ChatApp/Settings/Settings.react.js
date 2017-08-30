@@ -20,7 +20,8 @@ import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import * as Actions from '../../../actions/';
 import React, { Component } from 'react';
-import {Tabs, Tab} from 'material-ui-scrollable-tabs/Tabs';
+import Menu from 'material-ui/Menu';
+import Paper from 'material-ui/Paper';
 
 
 const cookies = new Cookies();
@@ -64,6 +65,7 @@ class Settings extends Component {
 
 		this.state = {
 			theme: defaultTheme,
+			selectedSetting: '',
 			enterAsSend: defaultEnterAsSend,
 			micInput: defaultMicInput,
 			speechOutput: defaultSpeechOutput,
@@ -409,21 +411,16 @@ class Settings extends Component {
 		return voiceOutput;
 	}
 
+	loadSettings = (e) => {
+		this.setState({selectedSetting: e.target.innerText})
+	}
+
 	render() {
 
 		const bodyStyle = {
       'padding': 0,
       textAlign: 'center'
     }
-
-		const Buttonstyles = {
-			marginBottom: 16,
-		}
-
-		const subHeaderStyle = {
-			backgroundColor: UserPreferencesStore.getTheme()==='light'
-								? '#4285f4' : '#19314B',
-		}
 
 		const closingStyle ={
           position: 'absolute',
@@ -459,166 +456,296 @@ class Settings extends Component {
       onTouchTap={this.handleServerToggle.bind(this,true)}
     />];
 
-
-		const styles = {
-  		headline: {
-    	fontSize: 24,
-    	paddingTop: 16,
-    	marginBottom: 12,
-    	fontWeight: 400,
-  		},
-  		slide: {
-    		padding: 20
-  		},
-		};
-
-		let serverSettingTab = <Tab
-			label={<Translate text="Server Settings" />}>
-			<div style={styles.slide}>
-				<h4 style={{'marginBottom':'0px'}}><Translate text="Select Server"/></h4>
-				<CustomServer
-					checked={this.state.checked}
-					serverUrl={this.state.serverUrl}
-					customServerMessage={this.customServerMessage}
-					onServerChange={this.handleServeChange}/>
-			</div>
-		</Tab>
-
-		let accountSettingTab;
-
-		if(cookies.get('loggedIn')) {
-			serverSettingTab = <Tab
-				label={<Translate text="Server Settings" />}>
-					<div style={styles.slide}>
-						<h4 style={{'marginBottom':'0px'}}><Translate text="Select Server"/></h4>
-							<FlatButton
-								className='settingsBtns'
-								style={Buttonstyles}
-								label={<Translate text="Select backend server for the app"/>}
-								onClick={this.handleServer} />
-					</div>
-			</Tab>
-
-			accountSettingTab = <Tab
-				label={<Translate text="Account Settings" />}>
-					<div style={styles.slide}>
-						<h4 style={{'marginBottom':'0px'}}><Translate text="Change your Account Password"/></h4>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							label={<Translate text="Change Password"/>}
-							onClick={this.handleChangePassword} />
-					</div>
-			</Tab>
+		const Buttonstyles = {
+			marginBottom: 16,
 		}
 
+		const divStyle = {
+			textAlign: 'center',
+			padding: 20,
+		}
+
+		let currentSetting;
 
 		let voiceOutput = this.populateVoiceList();
+
+		if(this.state.selectedSetting === 'Server Settings') {
+			currentSetting = (
+				<div style={divStyle}>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Select Server"/>
+						</div>
+						<CustomServer
+							checked={this.state.checked}
+							serverUrl={this.state.serverUrl}
+							customServerMessage={this.customServerMessage}
+							onServerChange={this.handleServeChange}/>
+				</div>
+			)
+
+			if(cookies.get('loggedIn')) {
+				currentSetting = (
+					<div style={divStyle}>
+						<div>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom':'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Select Server"/>
+							</div>
+								<FlatButton
+									className='settingsBtns'
+									style={Buttonstyles}
+									label={<Translate text="Select backend server for the app"/>}
+									onClick={this.handleServer} />
+						</div>
+					</div>
+				)
+			}
+		}
+
+		else if(this.state.selectedSetting === 'Mic Settings') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+					<div>
+						<div>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom':'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Mic Input"/>
+							</div>
+							<Toggle
+								className='settings-toggle'
+								label={<Translate text="Enable mic to give voice input"/>}
+								disabled={!this.STTBrowserSupport}
+								onToggle={this.handleMicInput}
+								toggled={this.state.micInput}/>
+						</div>
+					</div>
+				</div>
+			)
+		}
+
+		else if(this.state.selectedSetting === 'Speech Settings') {
+			currentSetting = (
+				<div style={divStyle}>
+								<div>
+									<div style={{
+										marginTop: '10px',
+										'marginBottom':'0px',
+										fontSize: '15px',
+										fontWeight: 'bold'}}>
+										<Translate text="Speech Output"/>
+									</div>
+									<Toggle
+										className='settings-toggle'
+										label={<Translate text="Enable speech output only for speech input"/>}
+										disabled={!this.TTSBrowserSupport}
+										onToggle={this.handleSpeechOutput}
+										toggled={this.state.speechOutput}/>
+								</div>
+								<div>
+									<div style={{
+										marginTop: '10px',
+										'marginBottom':'0px',
+										fontSize: '15px',
+										fontWeight: 'bold'}}>
+										<Translate text="Speech Output Always ON"/>
+									</div>
+									<Toggle
+										className='settings-toggle'
+										label={<Translate text="Enable speech output regardless of input type"/>}
+										disabled={!this.TTSBrowserSupport}
+										onToggle={this.handleSpeechOutputAlways}
+										toggled={this.state.speechOutputAlways}/>
+								</div>
+								<div>
+									<div style={{
+										marginTop: '10px',
+										'marginBottom':'0px',
+										fontSize: '15px',
+										fontWeight: 'bold'}}>
+										<Translate text="Speech Output Language"/>
+									</div>
+									<FlatButton
+										className='settingsBtns'
+										style={Buttonstyles}
+										label={<Translate text="Select Default Language"/>}
+
+										disabled={!this.TTSBrowserSupport}
+										onClick={this.handleLanguage.bind(this,true)} />
+								</div>
+				</div>
+			)
+		}
+
+		else if(this.state.selectedSetting === 'Text Language Settings') {
+			currentSetting = (
+				<div style={divStyle}>
+					<span>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Select Default Language"/>
+						</div>
+					</span>
+						<DropDownMenu
+							value={voiceOutput.voiceLang}
+							disabled={!this.TTSBrowserSupport}
+							onChange={this.handlePrefLang}>
+							{voiceOutput.voiceMenu}
+					 </DropDownMenu>
+				</div>
+			)
+		}
+
+		else if(this.state.selectedSetting === 'Account Settings' && cookies.get('loggedIn')) {
+			currentSetting =
+			<div style={divStyle}>
+				<span>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Change your Account Password"/>
+					</div>
+					<FlatButton
+						className='settingsBtns'
+						style={Buttonstyles}
+						label={<Translate text="Change Password"/>}
+						onClick={this.handleChangePassword} />
+				</span>
+			</div>
+		}
+
+		else if(this.state.selectedSetting === 'Connect to SUSI Hardware') {
+			currentSetting = (
+				<span style={divStyle}>
+					<div>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Connect to SUSI Hardware"/>
+					</div>
+					<FlatButton
+						className='settingsBtns'
+						style={Buttonstyles}
+						label={<Translate text="Add address to connect to Hardware"/>}
+						onClick={this.handleHardware} />
+					</div>
+				</span>
+			)
+		}
+
+		else {
+			currentSetting =
+				<div style={divStyle}>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Select Theme"/>
+					</div>
+					<DropDownMenu
+						label={<Translate text="Default Theme"/>}
+						value={this.state.theme}
+						onChange={this.handleSelectChange}>
+						<MenuItem value={'light'} primaryText={<Translate text="Light" />} />
+						<MenuItem value={'dark'} primaryText={<Translate text="Dark" />} />
+						<MenuItem value={'custom'}
+						style={{display:this.showWhenLoggedIn}}
+						primaryText={<Translate text="Custom" />} />
+					</DropDownMenu>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Enter As Send"/>
+						</div>
+						<Toggle
+							className='settings-toggle'
+							label={<Translate text="Send message by pressing ENTER"/>}
+							onToggle={this.handleEnterAsSend}
+							toggled={this.state.enterAsSend}/>
+					</div>
+		}
+
+		let menuItems = cookies.get('loggedIn')?
+			<Menu
+				style={{ width: '85%', margin: 'auto' }}
+				onItemTouchTap={this.loadSettings}
+				selectedMenuItemStyle={{width: '100%'}}
+				>
+					<MenuItem>ChatApp Settings</MenuItem>
+					<MenuItem>Mic Settings</MenuItem>
+					<MenuItem>Speech Settings</MenuItem>
+					<MenuItem>Text Language Settings</MenuItem>
+					<MenuItem>Server Settings</MenuItem>
+					<MenuItem>Account Settings</MenuItem>
+					<MenuItem>Connect to SUSI Hardware</MenuItem>
+			</Menu>
+		:
+		<Menu
+			style={{ width: '85%', margin: 'auto' }}
+			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={{width: '100%'}}
+			>
+				<MenuItem>ChatApp Settings</MenuItem>
+				<MenuItem>Mic Settings</MenuItem>
+				<MenuItem>Speech Settings</MenuItem>
+				<MenuItem>Text Language Settings</MenuItem>
+				<MenuItem>Server Settings</MenuItem>
+				<MenuItem>Connect to SUSI Hardware</MenuItem>
+		</Menu>
+
+		const tabStyle = {
+  					height: 500,
+						margin: 20,
+  					display: 'inline-block',
+	 };
+	 const menuStyle = {
+					 height: 500,
+					 margin: 20,
+					 textAlign: 'center',
+					 display: 'inline-block',
+	};
+
 		return (
 			<div>
-                  <StaticAppBar {...this.props}
-                      location={this.props.location} />
-											<div className="settingsForm">
-												<Tabs
-													style={{marginTop: -15}}
-													tabType={'scrollable'}
-													tabItemContainerStyle={subHeaderStyle}
-													inkBarStyle={{backgroundColor: 'white'}}
-												>
-													<Tab
-														label={<Translate text="ChatApp Settings" />}>
-														<div style={styles.slide}>
-															<h4 style={{'marginBottom':'0px'}}><Translate text="Select Theme"/></h4>
-															<DropDownMenu
-																label={<Translate text="Default Theme"/>}
-																value={this.state.theme}
-																onChange={this.handleSelectChange}>
-																<MenuItem value={'light'} primaryText={<Translate text="Light" />} />
-																<MenuItem value={'dark'} primaryText={<Translate text="Dark" />} />
-																<MenuItem value={'custom'}
-																style={{display:this.showWhenLoggedIn}}
-																primaryText={<Translate text="Custom" />} />
-															</DropDownMenu>
-																<h4 style={{'marginBottom':'0px'}}><Translate text="Enter As Send"/></h4>
-																<Toggle
-																	className='settings-toggle'
-																	label={<Translate text="Send message by pressing ENTER"/>}
-																	onToggle={this.handleEnterAsSend}
-																	toggled={this.state.enterAsSend}/>
-															</div>
-													</Tab>
-													<Tab
-														label={<Translate text="Mic Settings" />}>
-														<div style={styles.slide}>
-															<h4 style={{'marginBottom':'0px'}}><Translate text="Mic Input"/></h4>
-															<Toggle
-																className='settings-toggle'
-																label={<Translate text="Enable mic to give voice input"/>}
-																disabled={!this.STTBrowserSupport}
-																onToggle={this.handleMicInput}
-																toggled={this.state.micInput}/>
-														</div>
-													</Tab>
-													<Tab
-														label={<Translate text="Speech Settings" />}>
-														<div style={styles.slide}>
-															<div>
-																<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Output"/></h4>
-																<Toggle
-																	className='settings-toggle'
-																	label={<Translate text="Enable speech output only for speech input"/>}
-																	disabled={!this.TTSBrowserSupport}
-																	onToggle={this.handleSpeechOutput}
-																	toggled={this.state.speechOutput}/>
-															</div>
-															<div>
-																<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Output Always ON"/></h4>
-																<Toggle
-																	className='settings-toggle'
-																	label={<Translate text="Enable speech output regardless of input type"/>}
-																	disabled={!this.TTSBrowserSupport}
-																	onToggle={this.handleSpeechOutputAlways}
-																	toggled={this.state.speechOutputAlways}/>
-															</div>
-															<div>
-																<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Output Language"/></h4>
-																<FlatButton
-																	className='settingsBtns'
-																	style={Buttonstyles}
-																	label={<Translate text="Select Default Language"/>}
-
-																	disabled={!this.TTSBrowserSupport}
-																	onClick={this.handleLanguage.bind(this,true)} />
-															</div>
-														</div>
-													</Tab>
-													<Tab
-														label={<Translate text="Text Language Settings" />}>
-														<div style={styles.slide}>
-															<h4 style={{'marginBottom':'0px'}}><Translate text="Select Default Language"/></h4>
-															<DropDownMenu
-																value={voiceOutput.voiceLang}
-																disabled={!this.TTSBrowserSupport}
-																onChange={this.handlePrefLang}>
-																{voiceOutput.voiceMenu}
-														 </DropDownMenu>
-														</div>
-													</Tab>
-													{serverSettingTab}
-													{accountSettingTab}
-													<Tab
-														label={<Translate text="Connect to SUSI Hardware" />}>
-														<div style={styles.slide} >
-														<h4 style={{'marginBottom':'0px'}}><Translate text="Connect to SUSI Hardware"/></h4>
-														<FlatButton
-															className='settingsBtns'
-															style={Buttonstyles}
-															label={<Translate text="Add address to connect to Hardware"/>}
-															onClick={this.handleHardware} />
-														</div>
-													</Tab>
-												</Tabs>
-											</div>
+        <StaticAppBar {...this.props}
+            location={this.props.location} />
+				<div className='settingMenu'>
+					<Paper className='leftMenu' style={tabStyle} zDepth={2}>
+						{menuItems}
+						<div className='settingsSubmit'>
+							<RaisedButton
+								label={<Translate text="Save"/>}
+								disabled={!this.state.validForm}
+								backgroundColor='#4285f4'
+								labelColor="#fff"
+								onClick={this.handleSubmit}
+							/>
+						</div>
+					</Paper>
+					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
+						{currentSetting}
+					</Paper>
+				</div>
 				<Dialog
           modal={false}
           autoScrollBodyContent={true}
@@ -684,15 +811,6 @@ class Settings extends Component {
 								<Close style={closingStyle}
 								onTouchTap={this.handleClose}/>
 							</Dialog>
-							<div className='settingsSubmit'>
-								<RaisedButton
-									label={<Translate text="Save"/>}
-									disabled={!this.state.validForm}
-									backgroundColor='#4285f4'
-									labelColor="#fff"
-									onClick={this.handleSubmit}
-								/>
-							</div>
 		</div>);
 	}
 }
