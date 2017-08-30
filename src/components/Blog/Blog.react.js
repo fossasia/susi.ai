@@ -76,12 +76,12 @@ class Blog extends Component {
         }
         window.scroll(0, window.pageYOffset - 1000);
     }
-//  Function to scroll to top of page
+    //  Function to scroll to top of page
     scrollToTop() {
         let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
         this.setState({ intervalId: intervalId });
     }
-// Function to navigate to previous page
+    // Function to navigate to previous page
     previousPage = () => {
         let current = this.state.startPage;
         if (current - 10 === 0) {
@@ -92,7 +92,7 @@ class Blog extends Component {
         }
         this.scrollToTop();
     }
-// Function to navigate to next page
+    // Function to navigate to next page
     nextPage = () => {
         let current = this.state.startPage;
         let size = this.state.posts.length;
@@ -128,7 +128,7 @@ class Blog extends Component {
             marginTop: '20px',
             position: 'relative',
         }
-        const allCategories = ['FOSSASIA','GSoC','SUSI.AI',
+        const allCategories = ['FOSSASIA', 'GSoC', 'SUSI.AI',
             'Tutorial', 'Android', 'API', 'App generator', 'CodeHeat', 'Community', 'Event',
             'Event Management', 'loklak', 'Meilix', 'Open Event', 'Phimpme', 'Pocket Science Lab', 'yaydoc'];
         return (
@@ -166,15 +166,15 @@ class Blog extends Component {
                                         }
                                     });
 
-                                    var tags=arrDiff(category,posts.categories)
-                                    let fCategory=category.map((cat) =>
+                                    var tags = arrDiff(category, posts.categories)
+                                    let fCategory = category.map((cat) =>
                                         <span key={cat} ><a className="tagname" href={'http://blog.fossasia.org/category/' + cat.replace(/\s+/g, '-').toLowerCase()}
-                                        rel="noopener noreferrer">{cat}</a></span>
-                                     );
-                                     let ftags=tags.map((tag)=>
+                                            rel="noopener noreferrer">{cat}</a></span>
+                                    );
+                                    let ftags = tags.map((tag) =>
                                         <span key={tag} ><a className="tagname" href={'http://blog.fossasia.org/tag/' + tag.replace(/\s+/g, '-').toLowerCase()}
-                                        rel="noopener noreferrer">{tag}</a></span>
-                                     );
+                                            rel="noopener noreferrer">{tag}</a></span>
+                                    );
                                     let htmlContent = content.replace(/<img.*?>/, '');
                                     htmlContent = renderHTML(htmlContent);
                                     let image = susi
