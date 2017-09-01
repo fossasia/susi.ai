@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import susi from '../../images/susi-logo.svg';
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 class Footer extends Component {
   constructor(props) {
@@ -16,18 +17,18 @@ class Footer extends Component {
 
         <div className='footer'>
           <div className='footer-container'>
-            <a href='/overview'>
+            <Link to='/'>
               <img src={susi} alt='SUSI' className='susi-logo' />
-            </a>
+            </Link>
             <ul className='alignLeft'>
-              <li><a href='/overview'>Overview</a></li>
-              <li><a href='/blog'>Blog</a></li>
+              <li><Link to='/overview'>Overview</Link></li>
+              <li><Link to='/blog'>Blog</Link></li>
               <li><a href='https://github.com/fossasia?utf8=%E2%9C%93&q=susi'>Code</a></li>
             </ul>
             <ul className='alignRight'>
-              <li><a href='/privacy'>Privacy</a></li>
-              <li><a href='/terms'>Terms</a></li>
-              <li><a href='/contact'>Contact</a></li>
+              <li><Link to='/privacy'>Privacy</Link></li>
+              <li><Link to='/terms'>Terms</Link></li>
+              <li><Link to='/contact'>Contact</Link></li>
             </ul>
           </div>
         </div>
