@@ -416,7 +416,7 @@ class Settings extends Component {
 	}
 
 	render() {
-
+		document.body.style.setProperty('background-image', 'none');
 		const bodyStyle = {
       'padding': 0,
       textAlign: 'center'

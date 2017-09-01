@@ -68,7 +68,7 @@ class Support extends Component {
   	}
 
     render() {
-
+      document.body.style.setProperty('background-image', 'none');
     const style ={
       marginTop: '25px',
       marginBottom: '25px'

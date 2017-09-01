@@ -26,7 +26,7 @@ class Devices extends Component{
   }
 
   render() {
-
+		document.body.style.setProperty('background-image', 'none');
     return (
       <div>
 
