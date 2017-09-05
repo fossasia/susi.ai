@@ -56,6 +56,7 @@ export default class NotFound extends Component {
         });
     }
     render() {
+        document.body.style.setProperty('background-image', 'none');
         const closingStyle ={
           position: 'absolute',
           zIndex: 1200,

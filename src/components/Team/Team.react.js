@@ -78,7 +78,7 @@ class Support extends Component {
   }
 
   render() {
-
+		document.body.style.setProperty('background-image', 'none');
     let mentors = team[0].mentors.map((mentor, i) => {
       return (
         <Card className='team-card' key={i}>
