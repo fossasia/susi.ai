@@ -183,14 +183,11 @@ class MessageSection extends Component {
     // Current Changes
   }
   // Add Image as a background image
-  handleChangeBackgroundImage = (backImage) => {
-    document.body.style.setProperty('background-image', 'url('+ backImage+')');
-    document.body.style.setProperty('background-repeat', 'no-repeat');
-    document.body.style.setProperty('background-size', 'cover');
+  handleChangeBodyBackgroundImage = (backImage) => {
     this.setState({bodyBackgroundImage:backImage});
   }
 
-  handleChangeMessageBackground = (backImage) => {
+  handleChangeMessageBackgroundImage = (backImage) => {
     this.setState({messageBackgroundImage:backImage});
   }
 
@@ -235,7 +232,7 @@ class MessageSection extends Component {
        this.customTheme.button=state.button.substring(1);
       }
      this.setState(state);
-       document.body.style.setProperty('background', this.state.body);
+       document.body.style.setProperty('background-color', this.state.body);
 
   }
 
@@ -303,7 +300,7 @@ class MessageSection extends Component {
       this.setState({
         bodyBackgroundImage: ''
       });
-      this.handleChangeBackgroundImage('');
+      this.handleChangeBodyBackgroundImage('');
     }
   }
 
@@ -533,6 +530,13 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+    document.body.style.setProperty('background-color', bodyColor);
+
+      document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
+      document.body.style.setProperty('background-repeat', 'no-repeat');
+      document.body.style.setProperty('background-size', 'cover');
+
+
 switch(this.state.currTheme){
   case 'custom':{
     bodyColor = this.state.body;
@@ -556,7 +560,6 @@ switch(this.state.currTheme){
     break;
   }
 }
-    document.body.style.setProperty('background', bodyColor);
 
     const bodyStyle = {
       padding: 0,
@@ -654,7 +657,7 @@ switch(this.state.currTheme){
           style={{display:component.component==='body'?'block':'none'}}
           onChange={
             (e,value)=>
-            this.handleChangeBackgroundImage(value) }
+            this.handleChangeBodyBackgroundImage(value) }
           value={this.state.bodyBackgroundImage}
           floatingLabelText={<Translate text="Body Background Image URL" />} />
             <RaisedButton
@@ -674,7 +677,7 @@ switch(this.state.currTheme){
               style={{display:component.component==='pane'?'block':'none'}}
               onChange={
                 (e,value)=>
-                this.handleChangeMessageBackground(value) }
+                this.handleChangeMessageBackgroundImage(value) }
               value={this.state.messageBackgroundImage}
               floatingLabelText={<Translate text="Message Background Image URL"/>} />
         <RaisedButton

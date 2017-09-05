@@ -42,7 +42,7 @@ class Terms extends Component {
   }
 
   render() {
-
+		document.body.style.setProperty('background-image', 'none');
     return (
       <div>
         <StaticAppBar {...this.props}
