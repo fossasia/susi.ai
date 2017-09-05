@@ -22,6 +22,14 @@ import * as Actions from '../../../actions/';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
+// Icons
+import ChatIcon from 'material-ui/svg-icons/communication/chat';
+import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
+import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
+import AccountIcon from 'material-ui/svg-icons/action/account-box';
+import LanguageIcon from 'material-ui/svg-icons/action/language';
+import ServerIcon from 'material-ui/svg-icons/file/cloud';
+import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 
 
 const cookies = new Cookies();
@@ -691,13 +699,19 @@ class Settings extends Component {
 				onItemTouchTap={this.loadSettings}
 				selectedMenuItemStyle={{width: '100%'}}
 				>
-					<MenuItem>ChatApp Settings</MenuItem>
-					<MenuItem>Mic Settings</MenuItem>
-					<MenuItem>Speech Settings</MenuItem>
-					<MenuItem>Text Language Settings</MenuItem>
-					<MenuItem>Server Settings</MenuItem>
-					<MenuItem>Account Settings</MenuItem>
-					<MenuItem>Connect to SUSI Hardware</MenuItem>
+					<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
+
+					<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
+
+					<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
+
+					<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
+
+					<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
+
+					<MenuItem leftIcon={<AccountIcon/>}>Account Settings</MenuItem>
+
+					<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
 			</Menu>
 		:
 		<Menu
@@ -705,12 +719,12 @@ class Settings extends Component {
 			onItemTouchTap={this.loadSettings}
 			selectedMenuItemStyle={{width: '100%'}}
 			>
-				<MenuItem>ChatApp Settings</MenuItem>
-				<MenuItem>Mic Settings</MenuItem>
-				<MenuItem>Speech Settings</MenuItem>
-				<MenuItem>Text Language Settings</MenuItem>
-				<MenuItem>Server Settings</MenuItem>
-				<MenuItem>Connect to SUSI Hardware</MenuItem>
+				<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
+				<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
+				<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
+				<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
+				<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
+				<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
 		</Menu>
 
 		const tabStyle = {
