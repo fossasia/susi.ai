@@ -4,7 +4,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf)](https://www.codacy.com/app/rishiraj824/chat.susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/chat.susi.ai&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/fossasia/chat.susi.ai.svg?branch=master)](https://travis-ci.org/fossasia/chat.susi.ai)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fossasia/susi_webchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Twitter Follow](https://img.shields.io/twitter/follow/asksusi.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/asksusi)
+[![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
 Susi is an artificial intelligence combining pattern matching, internet data, data flow principles and inference engine principles. It will have some reflection abilities and it will be able to remember the users input to produce deductions and a personalized feed-back. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end that is developed for web access of SUSI.
 
@@ -51,7 +51,7 @@ var msg = new SpeechSynthesisUtterance('Hello World');
 window.speechSynthesis.speak(msg)
 ```
 
-If you get a speech output then the Web API Speech Synthesis is supported by your browser and Text To Speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).However there are few bugs with some Chromium versions please check out more on how to fix them locally here in this [link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758)
+If you get a speech output then the Web API Speech Synthesis is supported by your browser and Text To Speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are few bugs with some Chromium versions please check out more on how to fix them locally here in this [link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758)
 
 ### Colours and Font Sizes
 
