@@ -19,6 +19,7 @@ import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import * as Actions from '../../../actions/';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
@@ -49,27 +50,27 @@ class Settings extends Component {
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultTTSLanguage = defaults.TTSLanguage;
 		let defaultPrefLanguage = defaults.PrefLanguage;
-    	let TTSBrowserSupport;
-    if ('speechSynthesis' in window) {
-      TTSBrowserSupport = true;
-    } else {
-      TTSBrowserSupport = false;
-      console.warn('The current browser does not support the SpeechSynthesis API.')
-    }
-    let STTBrowserSupport;
-    const SpeechRecognition = window.SpeechRecognition
-      || window.webkitSpeechRecognition
-      || window.mozSpeechRecognition
-      || window.msSpeechRecognition
-      || window.oSpeechRecognition
+		let TTSBrowserSupport;
+	if ('speechSynthesis' in window) {
+	  TTSBrowserSupport = true;
+	} else {
+	  TTSBrowserSupport = false;
+	  console.warn('The current browser does not support the SpeechSynthesis API.')
+	}
+	let STTBrowserSupport;
+	const SpeechRecognition = window.SpeechRecognition
+	  || window.webkitSpeechRecognition
+	  || window.mozSpeechRecognition
+	  || window.msSpeechRecognition
+	  || window.oSpeechRecognition
 
-    if (SpeechRecognition != null) {
-      STTBrowserSupport = true;
-    } else {
-      STTBrowserSupport = false;
-      console.warn('The current browser does not support the SpeechRecognition API.');
-    }
-    console.log(STTBrowserSupport);
+	if (SpeechRecognition != null) {
+	  STTBrowserSupport = true;
+	} else {
+	  STTBrowserSupport = false;
+	  console.warn('The current browser does not support the SpeechRecognition API.');
+	}
+	console.log(STTBrowserSupport);
 
 		this.state = {
 			theme: defaultTheme,
@@ -80,8 +81,8 @@ class Settings extends Component {
 			speechOutputAlways: defaultSpeechOutputAlways,
 			server: defaultServer,
 			serverUrl: '',
-      		serverFieldError: false,
-      		checked: false,
+			serverFieldError: false,
+			checked: false,
 			validForm: true,
 			showLanguageSettings: false,
 			speechRate: defaultSpeechRate,
@@ -92,7 +93,7 @@ class Settings extends Component {
 			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
 			showLogin: false,
-      showSignUp: false,
+	  showSignUp: false,
 			showForgotPassword: false,
 			showOptions: false,
 			anchorEl: null,
@@ -106,9 +107,9 @@ class Settings extends Component {
 		}]
 		}
 		console.log(defaultPrefLanguage);
-    this.customServerMessage = '';
-    this.TTSBrowserSupport = TTSBrowserSupport;
-    this.STTBrowserSupport = STTBrowserSupport;
+	this.customServerMessage = '';
+	this.TTSBrowserSupport = TTSBrowserSupport;
+	this.STTBrowserSupport = STTBrowserSupport;
   }
 
 	// Show change server dialog
@@ -187,24 +188,24 @@ class Settings extends Component {
 	// Store the settings in stores and server
 	implementSettings = (values) => {
 		console.log(values);
-    let currSettings = UserPreferencesStore.getPreferences();
-    let resetVoice = false;
-    if(currSettings.SpeechOutput !== values.speechOutput){
-      resetVoice = true;
-    }
-    if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
-      resetVoice = true;
-    }
-    Actions.settingsChanged(values);
-    if(resetVoice){
-      Actions.resetVoice();
-    }
-    this.props.history.push('/');
-    window.location.reload();
+	let currSettings = UserPreferencesStore.getPreferences();
+	let resetVoice = false;
+	if(currSettings.SpeechOutput !== values.speechOutput){
+	  resetVoice = true;
+	}
+	if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
+	  resetVoice = true;
+	}
+	Actions.settingsChanged(values);
+	if(resetVoice){
+	  Actions.resetVoice();
+	}
+	this.props.history.push('/');
+	window.location.reload();
   }
 
 	// Handle change to theme settings
-	handleSelectChange= (event, index, value) => {
+	handleSelectChange= (event, value) => {
 		this.setState({theme:value});
 	}
 
@@ -255,80 +256,80 @@ class Settings extends Component {
 
 	// Handle toggle between default server and custom server
 	handleServeChange=(event)=>{
-        let state = this.state;
-        let serverUrl
-        if (event.target.value === 'customServer') {
-            state.checked = !state.checked;
-            let defaults = UserPreferencesStore.getPreferences();
-            state.serverUrl = defaults.StandardServer;
-            state.serverFieldError = false;
-        }
-        else if (event.target.name === 'serverUrl'){
-            serverUrl = event.target.value;
-            let validServerUrl =
+		let state = this.state;
+		let serverUrl
+		if (event.target.value === 'customServer') {
+			state.checked = !state.checked;
+			let defaults = UserPreferencesStore.getPreferences();
+			state.serverUrl = defaults.StandardServer;
+			state.serverFieldError = false;
+		}
+		else if (event.target.name === 'serverUrl'){
+			serverUrl = event.target.value;
+			let validServerUrl =
 /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
-            .test(serverUrl);
-            state.serverUrl = serverUrl;
-            state.serverFieldError = !(serverUrl && validServerUrl);
-        }
-        this.setState(state);
+			.test(serverUrl);
+			state.serverUrl = serverUrl;
+			state.serverFieldError = !(serverUrl && validServerUrl);
+		}
+		this.setState(state);
 
-        if (this.state.serverFieldError) {
-            this.customServerMessage = 'Enter a valid URL';
-        }
-        else{
-            this.customServerMessage = '';
-        }
+		if (this.state.serverFieldError) {
+			this.customServerMessage = 'Enter a valid URL';
+		}
+		else{
+			this.customServerMessage = '';
+		}
 
-        if(this.state.serverFieldError && this.state.checked){
-            this.setState({validForm: false});
-        }
-        else{
-            this.setState({validForm: true});
-        }
-    }
+		if(this.state.serverFieldError && this.state.checked){
+			this.setState({validForm: false});
+		}
+		else{
+			this.setState({validForm: true});
+		}
+	}
 
 	handleServerToggle = (changeServer) => {
-    if(changeServer){
-      // Logout the user and show the login screen again
-      this.props.history.push('/logout');
-      this.setState({
-        showLogin:true
-      });
-    }
-    else{
-      // Go back to settings dialog
-      this.setState({
-        showServerChangeDialog: false,
-        showHardwareChangeDialog: false
-      });
-    }
+	if(changeServer){
+	  // Logout the user and show the login screen again
+	  this.props.history.push('/logout');
+	  this.setState({
+		showLogin:true
+	  });
+	}
+	else{
+	  // Go back to settings dialog
+	  this.setState({
+		showServerChangeDialog: false,
+		showHardwareChangeDialog: false
+	  });
+	}
   }
 
 	// Close settings and redirect to landing page
 	onRequestClose = () => {
 		this.props.history.push('/');
-    window.location.reload();
+	window.location.reload();
 	}
 
 	// Open Login dialog
 	handleLogin = () => {
-    this.setState({
-      showLogin: true,
-      showSignUp: false,
+	this.setState({
+	  showLogin: true,
+	  showSignUp: false,
 			showForgotPassword: false,
 			showOptions: false,
-    });
+	});
   }
 
 	// Open SignUp dialog
   handleSignUp = () => {
-    this.setState({
-      showSignUp: true,
-      showLogin: false,
+	this.setState({
+	  showSignUp: true,
+	  showLogin: false,
 			showForgotPassword: false,
 			showOptions: false,
-    });
+	});
   }
 
 	// Open Forgot Password dialog
@@ -343,9 +344,9 @@ class Settings extends Component {
 	// Show Top Bar drop down menu
 	showOptions = (event) => {
 		this.setState({
-      showOptions: true,
+	  showOptions: true,
 			anchorEl: event.currentTarget,
-    });
+	});
 	}
 
 	handlePrefLang = (event, index, value) => {
@@ -357,8 +358,8 @@ class Settings extends Component {
 	// Close Top Bar drop down menu
 	closeOptions = () => {
 		this.setState({
-      showOptions: false,
-    });
+	  showOptions: false,
+	});
 	}
 
 	componentWillMount() {
@@ -426,43 +427,43 @@ class Settings extends Component {
 	render() {
 		document.body.style.setProperty('background-image', 'none');
 		const bodyStyle = {
-      'padding': 0,
-      textAlign: 'center'
-    }
+	  'padding': 0,
+	  textAlign: 'center'
+	}
 
 		const closingStyle ={
-          position: 'absolute',
-          zIndex: 1200,
-          fill: '#444',
-          width: '26px',
-          height: '26px',
-          right: '10px',
-          top: '10px',
-          cursor:'pointer'
-        }
+		  position: 'absolute',
+		  zIndex: 1200,
+		  fill: '#444',
+		  width: '26px',
+		  height: '26px',
+		  right: '10px',
+		  top: '10px',
+		  cursor:'pointer'
+		}
 
 		const serverDialogActions = [
-    <RaisedButton
-      key={'Cancel'}
-      label={<Translate text="Cancel"/>}
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleServerToggle.bind(this,false)}
-      style={{margin: '6px'}}
-    />,
-    <RaisedButton
-      key={'OK'}
-      label={<Translate text="OK"/>}
-      backgroundColor={
-        UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-      labelColor="#fff"
-      width='200px'
-      keyboardFocused={false}
-      onTouchTap={this.handleServerToggle.bind(this,true)}
-    />];
+	<RaisedButton
+	  key={'Cancel'}
+	  label={<Translate text="Cancel"/>}
+	  backgroundColor={
+		UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+	  labelColor="#fff"
+	  width='200px'
+	  keyboardFocused={false}
+	  onTouchTap={this.handleServerToggle.bind(this,false)}
+	  style={{margin: '6px'}}
+	/>,
+	<RaisedButton
+	  key={'OK'}
+	  label={<Translate text="OK"/>}
+	  backgroundColor={
+		UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+	  labelColor="#fff"
+	  width='200px'
+	  keyboardFocused={false}
+	  onTouchTap={this.handleServerToggle.bind(this,true)}
+	/>];
 
 		const Buttonstyles = {
 			marginBottom: 16,
@@ -659,7 +660,7 @@ class Settings extends Component {
 		}
 
 		else {
-			currentSetting =
+			currentSetting = (
 				<div style={divStyle}>
 					<div style={{
 						marginTop: '10px',
@@ -668,29 +669,35 @@ class Settings extends Component {
 						fontWeight: 'bold'}}>
 						<Translate text="Select Theme"/>
 					</div>
-					<DropDownMenu
-						label={<Translate text="Default Theme"/>}
-						value={this.state.theme}
-						onChange={this.handleSelectChange}>
-						<MenuItem value={'light'} primaryText={<Translate text="Light" />} />
-						<MenuItem value={'dark'} primaryText={<Translate text="Dark" />} />
-						<MenuItem value={'custom'}
-						style={{display:this.showWhenLoggedIn}}
-						primaryText={<Translate text="Custom" />} />
-					</DropDownMenu>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom':'0px',
-							fontSize: '15px',
-							fontWeight: 'bold'}}>
-							<Translate text="Enter As Send"/>
-						</div>
-						<Toggle
-							className='settings-toggle'
-							label={<Translate text="Send message by pressing ENTER"/>}
-							onToggle={this.handleEnterAsSend}
-							toggled={this.state.enterAsSend}/>
+					<RadioButtonGroup
+						style={{textAlign: 'center', margin: 20}}
+						onChange={this.handleSelectChange}
+						name="Theme"
+						defaultSelected={this.state.theme}>
+						<RadioButton
+									style={{width: '20%', display: 'inline-block'}}
+							value='light'
+							label={<Translate text="Light" />}
+						/>
+						<RadioButton
+									style={{width: '20%', display: 'inline-block'}}
+							value='dark'
+							label={<Translate text="Dark" />}
+						/>
+					</RadioButtonGroup>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Enter As Send"/>
 					</div>
+					<Toggle
+						className='settings-toggle'
+						label={<Translate text="Send message by pressing ENTER"/>}
+						onToggle={this.handleEnterAsSend}
+						toggled={this.state.enterAsSend}/>
+				</div>);
 		}
 
 		let menuItems = cookies.get('loggedIn')?
@@ -728,9 +735,9 @@ class Settings extends Component {
 		</Menu>
 
 		const tabStyle = {
-  					height: 500,
+					height: 500,
 						margin: 20,
-  					display: 'inline-block',
+					display: 'inline-block',
 	 };
 	 const menuStyle = {
 					 height: 500,
@@ -741,8 +748,8 @@ class Settings extends Component {
 
 		return (
 			<div>
-        <StaticAppBar {...this.props}
-            location={this.props.location} />
+		<StaticAppBar {...this.props}
+			location={this.props.location} />
 				<div className='settingMenu'>
 					<Paper className='leftMenu' style={tabStyle} zDepth={2}>
 						{menuItems}
@@ -761,57 +768,57 @@ class Settings extends Component {
 					</Paper>
 				</div>
 				<Dialog
-          modal={false}
-          autoScrollBodyContent={true}
-          open={this.state.showLanguageSettings}
-          onRequestClose={this.handleLanguage.bind(this,false)}>
-          <TextToSpeechSettings
-          	rate={this.state.speechRate}
-          	pitch={this.state.speechPitch}
+		  modal={false}
+		  autoScrollBodyContent={true}
+		  open={this.state.showLanguageSettings}
+		  onRequestClose={this.handleLanguage.bind(this,false)}>
+		  <TextToSpeechSettings
+			rate={this.state.speechRate}
+			pitch={this.state.speechPitch}
 						lang={this.state.ttsLanguage}
-          	ttsSettings={this.handleTextToSpeech}/>
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
+			ttsSettings={this.handleTextToSpeech}/>
+		  <Close style={closingStyle} onTouchTap={this.handleClose} />
+		</Dialog>
 				{/* Hardware Connection */}
-        <Dialog
-          modal={false}
-          open={this.state.showHardwareChangeDialog}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          onRequestClose={this.handleClose}>
-          <div>
-            <HardwareComponent {...this.props} />
-            <Close style={closingStyle}
-            onTouchTap={this.handleClose} />
-          </div>
-        </Dialog>
+		<Dialog
+		  modal={false}
+		  open={this.state.showHardwareChangeDialog}
+		  autoScrollBodyContent={true}
+		  bodyStyle={bodyStyle}
+		  onRequestClose={this.handleClose}>
+		  <div>
+			<HardwareComponent {...this.props} />
+			<Close style={closingStyle}
+			onTouchTap={this.handleClose} />
+		  </div>
+		</Dialog>
 				{/* Change Server */}
-	        <Dialog
-	          actions={serverDialogActions}
-	          modal={false}
-	          open={this.state.showServerChangeDialog}
-	          autoScrollBodyContent={true}
-	          bodyStyle={bodyStyle}
-	          onRequestClose={this.handleServerToggle.bind(this,false)}>
-	          <div>
-	            <h3><Translate text="Change Server"/></h3>
-	            <Translate text="Please login again to change SUSI server"/>
-	            <Close style={closingStyle}
-	            onTouchTap={this.handleServerToggle.bind(this,false)} />
-	          </div>
-	        </Dialog>
+			<Dialog
+			  actions={serverDialogActions}
+			  modal={false}
+			  open={this.state.showServerChangeDialog}
+			  autoScrollBodyContent={true}
+			  bodyStyle={bodyStyle}
+			  onRequestClose={this.handleServerToggle.bind(this,false)}>
+			  <div>
+				<h3><Translate text="Change Server"/></h3>
+				<Translate text="Please login again to change SUSI server"/>
+				<Close style={closingStyle}
+				onTouchTap={this.handleServerToggle.bind(this,false)} />
+			  </div>
+			</Dialog>
 					{/* Change Password */}
-		      <Dialog
-		          className='dialogStyle'
-		          modal={false}
-		          open={this.state.showChangePasswordDialog}
-		          autoScrollBodyContent={true}
-		          bodyStyle={bodyStyle}
-		          contentStyle={{width: '35%',minWidth: '300px'}}
-		          onRequestClose={this.handleClose}>
-		          <ChangePassword {...this.props} />
-		          <Close style={closingStyle} onTouchTap={this.handleClose} />
-		        </Dialog>
+			  <Dialog
+				  className='dialogStyle'
+				  modal={false}
+				  open={this.state.showChangePasswordDialog}
+				  autoScrollBodyContent={true}
+				  bodyStyle={bodyStyle}
+				  contentStyle={{width: '35%',minWidth: '300px'}}
+				  onRequestClose={this.handleClose}>
+				  <ChangePassword {...this.props} />
+				  <Close style={closingStyle} onTouchTap={this.handleClose} />
+				</Dialog>
 						{/* ForgotPassword */}
 						<Dialog
 								className='dialogStyle'
