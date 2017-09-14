@@ -93,7 +93,7 @@ class TopBar extends Component {
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
-						href="http://skills.susi.ai"
+						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
 					<MenuItem primaryText={<Translate text="Settings"/>}
@@ -140,7 +140,7 @@ class TopBar extends Component {
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
-						href="http://skills.susi.ai"
+						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
 					<MenuItem primaryText={<Translate text="Settings"/>}

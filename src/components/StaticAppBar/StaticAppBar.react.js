@@ -45,7 +45,7 @@ let Logged = (props) => (
                 width: '140px',
                 display: 'block'
             }}
-            href="http://skills.susi.ai">Skills</a>
+            href="https://skills.susi.ai">Skills</a>
         </MenuItem>
         <MenuItem primaryText="Settings"
             containerElement={<Link to="/settings" />}
@@ -195,7 +195,7 @@ class StaticAppBar extends Component {
                     />
                     <MenuItem
                         rightIcon={<Dashboard />}
-                        href="http://skills.susi.ai"
+                        href="https://skills.susi.ai"
                     >Skills
                     </MenuItem>
                     <MenuItem primaryText="Settings"
@@ -221,7 +221,7 @@ class StaticAppBar extends Component {
                 />
                 <MenuItem
                     rightIcon={<Dashboard />}
-                    href="http://skills.susi.ai"
+                    href="https://skills.susi.ai"
                 >Skills
             </MenuItem>
                 <MenuItem primaryText="Settings"

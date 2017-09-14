@@ -7,8 +7,8 @@ let CHANGE_EVENT = 'change';
 
 let _defaults = {
     Theme: 'light',
-    Server: 'http://api.susi.ai',
-    StandardServer: 'http://api.susi.ai',
+    Server: 'https://api.susi.ai',
+    StandardServer: 'https://api.susi.ai',
     EnterAsSend: true,
     MicInput: true,
     SpeechOutput: true,

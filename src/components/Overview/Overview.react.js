@@ -182,7 +182,7 @@ class Overview extends Component{
             </div>
             <div className="conversation__description custom_description">
               <div className="description__heading">For all Devices</div>
-              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="http://chat.susi.ai">http://chat.susi.ai</a>
+              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="https://chat.susi.ai">https://chat.susi.ai</a>
               </p>
             </div>
 
@@ -207,7 +207,7 @@ SUSI is intelligent to identify and answer your question in your language.
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
               SUSI is having many skills. You can look at the collection of skills at
-              <Link style={{ textDecoration: 'none' }} to="http://skills.susi.ai/" target="_blank"> skills.susi.ai</Link>.
+              <Link style={{ textDecoration: 'none' }} to="https://skills.susi.ai/" target="_blank"> skills.susi.ai</Link>.
               SUSI skills are divided into groups like knowledge,
               assistant, problem solving, entertainment, shopping
               and small talks. SUSI Skill development is easy and fun. </p>
