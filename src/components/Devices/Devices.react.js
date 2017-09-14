@@ -82,7 +82,7 @@ class Devices extends Component{
               You can use SUSI.AI Web Chat on your desktop and laptop.
               Start Chatting with SUSI.AI
               <Link style={{ textDecoration: 'none'}}
-                target="_blank" to="http://chat.susi.ai/"> here</Link>
+                target="_blank" to="https://chat.susi.ai/"> here</Link>
             </p>
           </div>
           <div className='img-container'>

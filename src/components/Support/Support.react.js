@@ -196,16 +196,16 @@ class Support extends Component {
                            </div>
                    </div>
                  <div className=" support-item support-item-with-icon  support-item-no-image">
-                     <a href="http://skills.susi.ai">
+                     <a href="https://skills.susi.ai">
                      <div className=" support-item-icon-container">
                      <img alt='code' src={code} className=" support-item-icon"/></div></a>
                      <div className="support-description">
-                           <a href="http://skills.susi.ai">
+                           <a href="https://skills.susi.ai">
                            <h3 id="stack-overflow">Create and Edit a SUSI.AI skill</h3>
                            </a>
                            <div className="support-description-content">
                           You can easily create a skill on the SUSI.AI skills
-                          editor at<a href='http://skills.susi.ai'>&nbsp;skills.susi.ai</a>
+                          editor at<a href='https://skills.susi.ai'>&nbsp;skills.susi.ai</a>
                            </div>
                            </div>
                    </div>
