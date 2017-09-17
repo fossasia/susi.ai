@@ -25,6 +25,7 @@ import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
+import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
 import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
@@ -466,33 +467,35 @@ class Settings extends Component {
 	/>];
 
 		const Buttonstyles = {
-			marginBottom: 16,
+			marginBottom: '16px',
 		}
 
 		const divStyle = {
-			textAlign: 'center',
-			padding: 20,
+			textAlign: 'left',
+			padding: '20px',
+			marginLeft: '10px',
 		}
 
 		let currentSetting;
 
 		let voiceOutput = this.populateVoiceList();
-
 		if(this.state.selectedSetting === 'Server Settings') {
 			currentSetting = (
 				<div style={divStyle}>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom':'0px',
-							fontSize: '15px',
-							fontWeight: 'bold'}}>
-							<Translate text="Select Server"/>
-						</div>
-						<CustomServer
-							checked={this.state.checked}
-							serverUrl={this.state.serverUrl}
-							customServerMessage={this.customServerMessage}
-							onServerChange={this.handleServeChange}/>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Select Server"/>
+					</div>
+					<div style={{textAlign : 'left', marginLeft: '30px !important'}}>
+					<CustomServer
+						checked={this.state.checked}
+						serverUrl={this.state.serverUrl}
+						customServerMessage={this.customServerMessage}
+						onServerChange={this.handleServeChange}/>
+					</div>
 				</div>
 			)
 
@@ -539,6 +542,37 @@ class Settings extends Component {
 								toggled={this.state.micInput}/>
 						</div>
 					</div>
+				</div>
+			)
+		}
+
+		else if(this.state.selectedSetting === 'Theme') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Select Theme"/>
+					</div>
+					<RadioButtonGroup
+						style={{textAlign: 'left', margin: 20}}
+						onChange={this.handleSelectChange}
+						name="Theme"
+						defaultSelected={this.state.theme}>
+						<RadioButton
+									style={{width: '20%', display: 'inline-block'}}
+							value='light'
+							label={<Translate text="Light" />}
+						/>
+						<RadioButton
+									style={{width: '20%', display: 'inline-block'}}
+							value='dark'
+							label={<Translate text="Dark" />}
+						/>
+					</RadioButtonGroup>
 				</div>
 			)
 		}
@@ -645,6 +679,7 @@ class Settings extends Component {
 					<div style={{
 						marginTop: '10px',
 						'marginBottom':'0px',
+						marginLeft: '30px',
 						fontSize: '15px',
 						fontWeight: 'bold'}}>
 						<Translate text="Connect to SUSI Hardware"/>
@@ -662,35 +697,12 @@ class Settings extends Component {
 		else {
 			currentSetting = (
 				<div style={divStyle}>
-					<div style={{
+				<div style={{
 						marginTop: '10px',
 						'marginBottom':'0px',
 						fontSize: '15px',
 						fontWeight: 'bold'}}>
-						<Translate text="Select Theme"/>
-					</div>
-					<RadioButtonGroup
-						style={{textAlign: 'center', margin: 20}}
-						onChange={this.handleSelectChange}
-						name="Theme"
-						defaultSelected={this.state.theme}>
-						<RadioButton
-									style={{width: '20%', display: 'inline-block'}}
-							value='light'
-							label={<Translate text="Light" />}
-						/>
-						<RadioButton
-									style={{width: '20%', display: 'inline-block'}}
-							value='dark'
-							label={<Translate text="Dark" />}
-						/>
-					</RadioButtonGroup>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Enter As Send"/>
+						<Translate text="Preferences"/>
 					</div>
 					<Toggle
 						className='settings-toggle'
@@ -702,69 +714,80 @@ class Settings extends Component {
 
 		let menuItems = cookies.get('loggedIn')?
 			<Menu
-				style={{ width: '85%', margin: 'auto' }}
+				style={{margin: 'auto', width: '100%', }}
 				onItemTouchTap={this.loadSettings}
-				selectedMenuItemStyle={{width: '100%'}}
 				>
+
 					<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
-
+					<hr className="break-line"/>
+					<MenuItem leftIcon={<ThemeIcon/>}>Theme</MenuItem>
+					<hr className="break-line"/>
 					<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
-
+					<hr className="break-line"/>
 					<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
-
+					<hr className="break-line"/>
 					<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
-
+					<hr className="break-line"/>
 					<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
-
-					<MenuItem leftIcon={<AccountIcon/>}>Account Settings</MenuItem>
-
+					<hr className="break-line"/>
 					<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
+					<hr className="break-line"/>
+					<MenuItem leftIcon={<AccountIcon/>}>Account Settings</MenuItem>
+					<hr className="break-line"/>
 			</Menu>
 		:
-		<Menu
+		<Menu className="settings-list-item"
 			style={{ width: '85%', margin: 'auto' }}
 			onItemTouchTap={this.loadSettings}
 			selectedMenuItemStyle={{width: '100%'}}
 			>
 				<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
+				<hr className="break-line"/>
+				<MenuItem leftIcon={<ThemeIcon/>}>Theme</MenuItem>
+				<hr className="break-line"/>
 				<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
+				<hr className="break-line"/>
 				<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
+				<hr className="break-line"/>
 				<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
+				<hr className="break-line"/>
 				<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
+				<hr className="break-line"/>
 				<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
+				<hr className="break-line"/>
 		</Menu>
 
 		const tabStyle = {
 					height: 500,
-						margin: 20,
+					marginTop: 20,
 					display: 'inline-block',
 	 };
 	 const menuStyle = {
 					 height: 500,
-					 margin: 20,
+					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
 	};
 
 		return (
-			<div>
+			<div className="settings-container">
 		<StaticAppBar {...this.props}
 			location={this.props.location} />
 				<div className='settingMenu'>
-					<Paper className='leftMenu' style={tabStyle} zDepth={2}>
+					<Paper className='leftMenu' style={tabStyle} zDepth={1}>
 						{menuItems}
-						<div className='settingsSubmit'>
+					</Paper>
+					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
+						{currentSetting}
+							<div className='settingsSubmit'>
 							<RaisedButton
-								label={<Translate text="Save"/>}
+								label={<Translate text="Save Changes"/>}
 								disabled={!this.state.validForm}
 								backgroundColor='#4285f4'
 								labelColor="#fff"
 								onClick={this.handleSubmit}
 							/>
 						</div>
-					</Paper>
-					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
-						{currentSetting}
 					</Paper>
 				</div>
 				<Dialog
