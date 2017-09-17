@@ -65,7 +65,7 @@ export default class CustomServer extends Component {
                         	maxWidth:'245px',
                         	flexWrap: 'wrap',
                         	height:'28px',
-                        	margin: '20px auto 20px auto'}}
+                        	margin: '20px auto 20px 30px'}}
                     	value="customServer"
                     />
             </div>
