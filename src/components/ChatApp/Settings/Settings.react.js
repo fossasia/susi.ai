@@ -675,12 +675,12 @@ class Settings extends Component {
 						name="Theme"
 						defaultSelected={this.state.theme}>
 						<RadioButton
-									style={{width: '20%', display: 'inline-block'}}
+									style={{width: '20%', display: 'block'}}
 							value='light'
 							label={<Translate text="Light" />}
 						/>
 						<RadioButton
-									style={{width: '20%', display: 'inline-block'}}
+									style={{width: '20%', display: 'block'}}
 							value='dark'
 							label={<Translate text="Dark" />}
 						/>
