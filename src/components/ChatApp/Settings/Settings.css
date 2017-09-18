@@ -1,3 +1,8 @@
+.settings-container{
+  width: 100%;
+  height: 100vh;
+    background:  rgb(242, 242, 242);
+}
 .siteTitle {
     height: 25px;
     margin-top: 21px;
@@ -11,22 +16,23 @@
 
 .settingsBtns {
   top: 10px;
+  margin-left: 30px ;
 }
 
 .settings-toggle {
-  padding-top: 20px;
-  margin: auto;
+  padding: 20px;
   max-width: 60%;
 }
 
 .settingsSubmit{
-  margin: 0 auto;
-  text-align: center;
+      text-align: left ;
+      margin-left: 30px;
 }
 
 .settingMenu {
+
     max-width: none;
-    padding: 50px 20px 50px 20px;
+    padding: 50px 0px 50px 0px;
     position: relative;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -48,12 +54,26 @@
 
 .leftMenu {
   width: 30%;
+  background-color: #fff;
 }
 
 .rightMenu {
-  width: 60%;
+  width: 68%;
+   background-color: #fff;
 }
+
+.break-line{
+  margin: 0px ;
+  width: 100% ;
+  height: 1px ;
+  border: 0 none ;
+  background-color : rgb(242, 242, 242) ;
+}
+
 @media only screen and (max-width: 940px){
+  .settings-container{
+    height: 100%;
+  }
   .leftMenu {
     width: 100%;
   }
