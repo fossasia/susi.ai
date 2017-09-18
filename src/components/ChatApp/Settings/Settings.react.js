@@ -697,7 +697,30 @@ class Settings extends Component {
 		else {
 			currentSetting = (
 				<div style={divStyle}>
-				<div style={{
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Select Theme"/>
+					</div>
+					<RadioButtonGroup
+						style={{textAlign: 'center', margin: 20}}
+						onChange={this.handleSelectChange}
+						name="Theme"
+						defaultSelected={this.state.theme}>
+						<RadioButton
+									style={{width: '20%', display: 'block'}}
+							value='light'
+							label={<Translate text="Light" />}
+						/>
+						<RadioButton
+									style={{width: '20%', display: 'block'}}
+							value='dark'
+							label={<Translate text="Dark" />}
+						/>
+					</RadioButtonGroup>
+					<div style={{
 						marginTop: '10px',
 						'marginBottom':'0px',
 						fontSize: '15px',
