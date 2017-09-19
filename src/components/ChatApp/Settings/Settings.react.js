@@ -27,6 +27,7 @@ import Paper from 'material-ui/Paper';
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
 import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
+import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
 import LanguageIcon from 'material-ui/svg-icons/action/language';
@@ -563,7 +564,7 @@ class Settings extends Component {
 						name="Theme"
 						defaultSelected={this.state.theme}>
 						<RadioButton
-									style={{width: '20%', display: 'inline-block'}}
+									style={{width: '20%', display: 'block'}}
 							value='light'
 							label={<Translate text="Light" />}
 						/>
@@ -702,29 +703,6 @@ class Settings extends Component {
 						'marginBottom':'0px',
 						fontSize: '15px',
 						fontWeight: 'bold'}}>
-						<Translate text="Select Theme"/>
-					</div>
-					<RadioButtonGroup
-						style={{textAlign: 'center', margin: 20}}
-						onChange={this.handleSelectChange}
-						name="Theme"
-						defaultSelected={this.state.theme}>
-						<RadioButton
-									style={{width: '20%', display: 'block'}}
-							value='light'
-							label={<Translate text="Light" />}
-						/>
-						<RadioButton
-									style={{width: '20%', display: 'block'}}
-							value='dark'
-							label={<Translate text="Dark" />}
-						/>
-					</RadioButtonGroup>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
 						<Translate text="Preferences"/>
 					</div>
 					<Toggle
@@ -736,47 +714,43 @@ class Settings extends Component {
 		}
 
 		let menuItems = cookies.get('loggedIn')?
-			<Menu
-				style={{margin: 'auto', width: '100%', }}
+			<Menu className="settings-list"
 				onItemTouchTap={this.loadSettings}
 				>
-
-					<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<ThemeIcon/>}>Theme</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<AccountIcon/>}>Account Settings</MenuItem>
-					<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<ThemeIcon/>}>Theme <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<ServerIcon/>}>Server Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem className="setting-item" leftIcon={<AccountIcon/>}>Account Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<hr className="break-line"/>
 			</Menu>
 		:
-		<Menu className="settings-list-item"
-			style={{ width: '85%', margin: 'auto' }}
+		<Menu className="settings-list"
 			onItemTouchTap={this.loadSettings}
-			selectedMenuItemStyle={{width: '100%'}}
 			>
-				<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
+				<MenuItem className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<ThemeIcon/>}>Theme</MenuItem>
+				<MenuItem className="setting-item" leftIcon={<ThemeIcon/>}>Theme <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
+				<MenuItem className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
+				<MenuItem className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
+				<MenuItem className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
+				<MenuItem className="setting-item" leftIcon={<ServerIcon/>}>Server Settings <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
+				<MenuItem className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware <ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
 

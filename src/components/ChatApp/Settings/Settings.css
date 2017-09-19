@@ -3,6 +3,13 @@
   height: 100vh;
     background:  rgb(242, 242, 242);
 }
+
+.settings-list{
+    padding: 0px 0px;
+    user-select: none;
+    width: 100%;
+}
+
 .siteTitle {
     height: 25px;
     margin-top: 21px;
@@ -29,6 +36,10 @@
       margin-left: 30px;
 }
 
+.setting-item{
+  width: 97%;
+}
+
 .settingMenu {
 
     max-width: none;
@@ -53,12 +64,12 @@
 }
 
 .leftMenu {
-  width: 30%;
+  width: 35%;
   background-color: #fff;
 }
 
 .rightMenu {
-  width: 68%;
+  width: 64%;
    background-color: #fff;
 }
 
@@ -68,6 +79,12 @@
   height: 1px ;
   border: 0 none ;
   background-color : rgb(242, 242, 242) ;
+}
+
+.right-cheveron{
+  margin-top: 10px;
+  position: absolute;
+  right: 10px;
 }
 
 @media only screen and (max-width: 940px){
@@ -81,4 +98,8 @@
   .rightMenu {
     width: 100%;
   }
+
+  .setting-item{
+  width: 100%;
+}
 }
