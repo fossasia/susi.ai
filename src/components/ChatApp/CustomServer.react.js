@@ -6,24 +6,24 @@ import Translate from '../Translate/Translate.react';
 
 export default class CustomServer extends Component {
 
-	constructor(props) {
-    	super(props);
+    constructor(props) {
+        super(props);
 
-    	this.state = {
-    		showServerField:false,
-    		serverUrl: '',
-    		serverFieldError:false,
-    	};
-    	this.customServerMessage = '';
+        this.state = {
+            showServerField:false,
+            serverUrl: '',
+            serverFieldError:false,
+        };
+        this.customServerMessage = '';
     }
 
     handleServeChange = (event) => {
         this.props.onServerChange(event);
     }
 
-	render(){
+    render(){
 
-		const customUrlStyle = {
+        const customUrlStyle = {
             width:'175px',
             textAlign:'left',
             margin:'-35px 0 0px 30px',
@@ -46,31 +46,31 @@ export default class CustomServer extends Component {
         const customServer = this.props.checked ? serverURL : '';
 
         return(
-        	 <div>
+             <div>
                     <Toggle
-                    	labelPosition="right"
-                    	id={'uniqueId'}
-                    	labelStyle={{ zIndex: 3 }}
-                    	label={this.props.checked?(
+                        labelPosition="right"
+                        id={'uniqueId'}
+                        labelStyle={{ zIndex: 3 }}
+                        label={this.props.checked?(
                                 <label htmlFor={'uniqueId'}>
                                         <div>
                                            {customServer}
                                         </div>
                                 </label>
-                    			):<Translate text='Use Custom Server'/>}
-                    	toggled={this.props.checked}
-                    	onToggle={this.handleServeChange}
-                    	style={{display: 'flex',
-                        	marginTop: '10px',
-                        	maxWidth:'245px',
-                        	flexWrap: 'wrap',
-                        	height:'28px',
-                        	margin: '20px auto 20px auto'}}
-                    	value="customServer"
+                                ):<Translate text='Use Custom Server'/>}
+                        toggled={this.props.checked}
+                        onToggle={this.handleServeChange}
+                        style={{display: 'flex',
+                            marginTop: '10px',
+                            maxWidth:'245px',
+                            flexWrap: 'wrap',
+                            height:'28px',
+                            margin: '20px auto 20px 30px'}}
+                        value="customServer"
                     />
             </div>
         );
-	}
+    }
 }
 
 CustomServer.propTypes = {
