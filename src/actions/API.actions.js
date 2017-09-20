@@ -65,7 +65,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     };
 
   let defaults = UserPreferencesStore.getPreferences();
-  console.log(defaults);
   let defaultServerURL = defaults.Server;
   let BASE_URL = '';
   if(cookies.get('serverUrl')===defaultServerURL||
@@ -95,7 +94,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(_Location){
     url += '&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
-  console.log(url);
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
   $.ajax({
@@ -135,7 +133,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
             }
           },
           error: function(errorThrown){
-            console.log(errorThrown);
+            console.error(errorThrown)
           }
         });
       receivedMessage.response = response;
@@ -260,7 +258,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       }
     },
     error: function (xhr, status, error) {
-      console.log(receivedMessage.text);
       if (status === 'timeout') {
         receivedMessage.text = 'Please check your internet connection';
       }
@@ -283,7 +280,6 @@ function previewURLForImage(receivedMessage,currentThreadID,
   var dataIndex = remainingDataIndices[j];
   let respData = data[dataIndex];
   let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
-  console.log(previewURL);
   $.ajax({
     url: previewURL,
     dataType: 'jsonp',
@@ -313,7 +309,6 @@ function previewURLForImage(receivedMessage,currentThreadID,
       }
     },
     error: function(xhr, status, error) {
-      console.log(error);
       if(j === remainingDataIndices.length - 1){
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
@@ -390,7 +385,7 @@ export function getSettings(){
         }
       },
       error: function(errorThrown){
-        console.log(errorThrown);
+        console.error(errorThrown)
       }
     });
   }
@@ -450,7 +445,6 @@ export function pushCustomThemeToServer(customTheme){
           +'key1=customThemeValue&value1='+customTheme
           +'&access_token='+cookies.get('loggedIn')
           +'&count=1'
-        console.log(url);
         makeServerCall(url);
 
 }
@@ -480,24 +474,16 @@ export function sendFeedback(){
             '&language='+feedback.language+
             '&skill='+feedback.skill+
             '&rating='+feedback.rating;
-  console.log(url);
   makeServerCall(url);
 }
 // Helper function for making server call
 export function makeServerCall(url){
-  console.log(url)
   $.ajax({
     url: url,
     dataType: 'jsonp',
     crossDomain: true,
     timeout: 3000,
-    async: false,
-    success: function (response) {
-      console.log(response);
-    },
-    error: function(errorThrown){
-      console.log(errorThrown);
-    }
+    async: false
   });
 }
 
@@ -521,7 +507,7 @@ export function getTTSLangText(voiceList){
         }
       },
       error: function(errorThrown){
-        console.log(errorThrown);
+        console.error(errorThrown)
       }
     });
   });
