@@ -423,7 +423,8 @@ class Settings extends Component {
 	}
 
 	loadSettings = (e) => {
-		this.setState({selectedSetting: e.target.innerText})
+		this.setState({selectedSetting: e.target.innerText});
+		this.setState({settingNo: e.target.innerText});
 	}
 
 	render() {
@@ -712,45 +713,49 @@ class Settings extends Component {
 						toggled={this.state.enterAsSend}/>
 				</div>);
 		}
-
+		let blueThemeColor={color: 'rgb(66, 133, 244)'};
 		let menuItems = cookies.get('loggedIn')?
 			<Menu className="settings-list"
 				onItemTouchTap={this.loadSettings}
+				selectedMenuItemStyle={blueThemeColor}
+				value={this.state.selectedSetting}
 				>
-				<MenuItem className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<ThemeIcon/>}>Theme <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<ServerIcon/>}>Server Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon/>}>Server Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<AccountIcon/>}>Account Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon/>}>Account Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 			</Menu>
 		:
 		<Menu className="settings-list"
 			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={{color: 'rgb(66, 133, 244)'}}
+			value={this.state.selectedSetting}
 			>
-				<MenuItem className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<ThemeIcon/>}>Theme <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-cheveron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item" leftIcon={<ServerIcon/>}>Server Settings <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon/>}>Server Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware <ChevronRight className="right-cheveron"/></MenuItem>
+				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
 
