@@ -507,7 +507,7 @@ export function getTTSLangText(voiceList){
         }
       },
       error: function(errorThrown){
-        console.error(errorThrown)
+        console.error(errorThrown);
       }
     });
   });
