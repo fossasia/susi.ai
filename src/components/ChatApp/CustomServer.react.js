@@ -31,6 +31,9 @@ export default class CustomServer extends Component {
         const underlineFocusStyle= {
             color: '#4285f4'
         }
+        const ToggleLableStyle={
+          zIndex:this.props.checked?3:0
+        }
         const serverURL = <TextField
                             name="serverUrl"
                             className="serverUrl"
@@ -50,7 +53,7 @@ export default class CustomServer extends Component {
                     <Toggle
                         labelPosition="right"
                         id={'uniqueId'}
-                        labelStyle={{ zIndex: 3 }}
+                        labelStyle={ToggleLableStyle}
                         label={this.props.checked?(
                                 <label htmlFor={'uniqueId'}>
                                         <div>
