@@ -76,7 +76,7 @@ class Settings extends Component {
 
 		this.state = {
 			theme: defaultTheme,
-			selectedSetting: '',
+			selectedSetting: 'ChatApp Settings',
 			enterAsSend: defaultEnterAsSend,
 			micInput: defaultMicInput,
 			speechOutput: defaultSpeechOutput,
@@ -715,11 +715,61 @@ class Settings extends Component {
 		}
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
 		let menuItems = cookies.get('loggedIn')?
-			<Menu className="settings-list"
-				onItemTouchTap={this.loadSettings}
-				selectedMenuItemStyle={blueThemeColor}
-				value={this.state.selectedSetting}
-				>
+		<div>
+		<div className="settings-list">
+		<Menu
+			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={blueThemeColor}
+			style={{width:'100%'}}
+			value={this.state.selectedSetting}
+			>
+			<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon/>}>Server Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon/>}>Account Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+		</Menu>
+		</div>
+		<div className="settings-list-dropdown">
+		<DropDownMenu
+			selectedMenuItemStyle={blueThemeColor}
+			onChange={this.loadSettings}
+			value={this.state.selectedSetting}
+			style={{width:'100%'}}
+			autoWidth={false}
+        >
+				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Account Settings' value='Account Settings' className="setting-item"/>
+		</DropDownMenu>
+		</div>
+		</div>
+
+		:
+		<div>
+		<div className="settings-list">
+		<Menu
+			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={blueThemeColor}
+			style={{width:'100%'}}
+			value={this.state.selectedSetting}
+			>
 				<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 				<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-chevron"/></MenuItem>
@@ -734,36 +784,27 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon/>}>Account Settings<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-			</Menu>
-		:
-		<Menu className="settings-list"
-			onItemTouchTap={this.loadSettings}
-			selectedMenuItemStyle={{color: 'rgb(66, 133, 244)'}}
-			value={this.state.selectedSetting}
-			>
-				<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-cheveron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon/>}>Server Settings<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
 		</Menu>
+		</div>
+		<div className="settings-list-dropdown">
+		<DropDownMenu
+			selectedMenuItemStyle={blueThemeColor}
+			onChange={this.loadSettings}
+			value={this.state.selectedSetting}
+			style={{width:'100%'}}
+			autoWidth={false}
+        >
+				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+		</DropDownMenu>
+		</div>
+		</div>
 
-		const tabStyle = {
-					height: 500,
-					marginTop: 20,
-					display: 'inline-block',
-	 };
 	 const menuStyle = {
 					 height: 500,
 					 marginTop: 20,
@@ -776,7 +817,7 @@ class Settings extends Component {
 		<StaticAppBar {...this.props}
 			location={this.props.location} />
 				<div className='settingMenu'>
-					<Paper className='leftMenu' style={tabStyle} zDepth={1}>
+					<Paper className='leftMenu tabStyle' zDepth={1}>
 						{menuItems}
 					</Paper>
 					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
