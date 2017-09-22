@@ -50,6 +50,7 @@ function getStateFromStores() {
     bodyBackgroundImage:'',
     snackopen: false,
     snackMessage: 'It seems you are offline!',
+    SnackbarOpenSearchResults:false,
     messageBackgroundImage:'',
     showScrollBottom: false,
     searchState: {
@@ -395,6 +396,10 @@ class MessageSection extends Component {
     let messages = this.state.messages;
     let markingData = searchMsgs(messages, matchString,
                               this.state.searchState.caseSensitive);
+    // to make the snackbar hide by default
+    this.setState({
+      SnackbarOpenSearchResults: false
+    })
     if(matchString){
       let searchState = {
         markedMsgs: markingData.allmsgs,
@@ -407,6 +412,12 @@ class MessageSection extends Component {
         open: false,
         searchText: matchString
       };
+      if(markingData.markedIDs.length===0 && matchString.trim().length>0){
+        // if no Messages are marked(i.e no result) and the search query is not empty
+        this.setState({
+          SnackbarOpenSearchResults: true
+        })
+      }
       this.setState({
         searchState: searchState
       });
@@ -835,6 +846,11 @@ switch(this.state.currTheme){
               open={this.state.snackopen}
               message={<Translate text={this.state.snackMessage} />}
               />
+              <Snackbar
+               autoHideDuration={4000}
+               open={this.state.SnackbarOpenSearchResults && !this.state.snackopen}
+               message={<Translate text='No Results!' />}
+               />
            </div>
          );
      }

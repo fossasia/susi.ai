@@ -159,7 +159,7 @@ class TopBar extends Component {
 
 		const toggleStyles = {
 			toggle: {
-				margin: '2px',
+				margin: '7px',
 				width: '160px',
 				height: '30px'
 			}
