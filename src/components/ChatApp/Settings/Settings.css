@@ -1,3 +1,9 @@
+.tabStyle{
+  height: 500px;
+  margin-top: 20px;
+  display: inline-block;
+}
+
 .settings-container{
   width: 100%;
   height: 100vh;
@@ -8,6 +14,14 @@
     padding: 0px 0px;
     user-select: none;
     width: 100%;
+}
+
+
+.settings-list-dropdown{
+    padding: 0px 0px;
+    user-select: none;
+    width: 100%;
+    display: none;
 }
 
 .siteTitle {
@@ -70,7 +84,7 @@
 
 .rightMenu {
   width: 64%;
-   background-color: #fff;
+  background-color: #fff;
 }
 
 .break-line{
@@ -87,13 +101,27 @@
   right: 10px;
 }
 
-@media only screen and (max-width: 940px){
-  .settings-container{
-    height: 100%;
+
+@media only screen and (max-width: 1000px){
+  .settings-list-dropdown{
+    display: inline-block;
   }
+
+  .settings-list{
+    display: none;
+  }
+
+  .settings-container{
+    height: 100vh;
+  }
+
   .leftMenu {
     width: 100%;
   }
+
+  .tabStyle{
+  height: auto;
+}
 
   .rightMenu {
     width: 100%;
