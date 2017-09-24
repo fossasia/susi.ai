@@ -217,7 +217,7 @@ class MessageComposer extends Component {
         <IconButton
           className="send_button"
           iconStyle={{
-            fill: UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#fff',
+          fill: UserPreferencesStore.getTheme() === 'dark' ?  '#fff' :  '#4285f4',
             margin: '1px 0px 1px 0px'
           }}
           onTouchTap={this._onClickButton.bind(this)}
