@@ -469,7 +469,9 @@ class Settings extends Component {
 	/>];
 
 		const Buttonstyles = {
-			marginBottom: '16px',
+			marginBottom: '15px',
+			marginTop: '15px',
+			marginLeft: '35px',
 		}
 
 		const divStyle = {
@@ -678,19 +680,20 @@ class Settings extends Component {
 			currentSetting = (
 				<span style={divStyle}>
 					<div>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						marginLeft: '30px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Connect to SUSI Hardware"/>
-					</div>
-					<FlatButton
-						className='settingsBtns'
-						style={Buttonstyles}
-						label={<Translate text="Add address to connect to Hardware"/>}
-						onClick={this.handleHardware} />
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							marginLeft: '30px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Connect to SUSI Hardware"/>
+						</div>
+						<FlatButton
+							className='settingsBtns'
+							style={Buttonstyles}
+							id="hardwareBtn"
+							label={<Translate text="Add address to connect to Hardware"/>}
+							onClick={this.handleHardware} />
 					</div>
 				</span>
 			)
