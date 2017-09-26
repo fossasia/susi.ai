@@ -825,6 +825,14 @@ switch(this.state.currTheme){
                    </Scrollbars>
 
                  </ul>
+                <div className='compose' style={{backgroundColor:composerColor}}>
+                  <MessageComposer
+                    threadID={this.state.thread.id}
+                    dream={dream}
+                    textarea={textArea}
+                    speechOutput={speechOutput}
+                    speechOutputAlways={speechOutputAlways} />
+                </div>
                </div>
              </div>
              )}
