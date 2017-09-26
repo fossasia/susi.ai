@@ -39,8 +39,8 @@ const cookies = new Cookies();
 
 class Settings extends Component {
 
-	constructor(props) {
-		super(props);
+	// save a variable in state holding the initial state of the settings
+	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();
 		let defaultServer = defaults.Server;
 		let defaultTheme = defaults.Theme;
@@ -50,9 +50,36 @@ class Settings extends Component {
 		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
-		let defaultTTSLanguage = defaults.TTSLanguage;
 		let defaultPrefLanguage = defaults.PrefLanguage;
-		let TTSBrowserSupport;
+		this.setState({
+			intialSettings:{
+				theme: defaultTheme,
+				enterAsSend: defaultEnterAsSend,
+				micInput: defaultMicInput,
+				speechOutput: defaultSpeechOutput,
+				speechOutputAlways: defaultSpeechOutputAlways,
+				speechRate: defaultSpeechRate,
+				speechPitch: defaultSpeechPitch,
+				server: defaultServer,
+				serverUrl: '',
+				checked: false,
+				PrefLanguage: defaultPrefLanguage
+			}
+		})
+	}
+	setDefaultsSettings = () => {
+	let defaults = UserPreferencesStore.getPreferences();
+	let defaultServer = defaults.Server;
+	let defaultTheme = defaults.Theme;
+	let defaultEnterAsSend = defaults.EnterAsSend;
+	let defaultMicInput = defaults.MicInput;
+	let defaultSpeechOutput = defaults.SpeechOutput;
+	let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+	let defaultSpeechRate = defaults.SpeechRate;
+	let defaultSpeechPitch = defaults.SpeechPitch;
+	let defaultTTSLanguage = defaults.TTSLanguage;
+	let defaultPrefLanguage = defaults.PrefLanguage;
+	let TTSBrowserSupport;
 	if ('speechSynthesis' in window) {
 	  TTSBrowserSupport = true;
 	} else {
@@ -72,9 +99,7 @@ class Settings extends Component {
 	  STTBrowserSupport = false;
 	  console.warn('The current browser does not support the SpeechRecognition API.');
 	}
-	console.log(STTBrowserSupport);
-
-		this.state = {
+		this.setState({
 			theme: defaultTheme,
 			selectedSetting: 'ChatApp Settings',
 			enterAsSend: defaultEnterAsSend,
@@ -95,7 +120,7 @@ class Settings extends Component {
 			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
 			showLogin: false,
-	  showSignUp: false,
+	  		showSignUp: false,
 			showForgotPassword: false,
 			showOptions: false,
 			anchorEl: null,
@@ -107,12 +132,11 @@ class Settings extends Component {
 			lang:'en-US',
 			name:'US English'
 		}]
-		}
-		console.log(defaultPrefLanguage);
+	});
 	this.customServerMessage = '';
 	this.TTSBrowserSupport = TTSBrowserSupport;
 	this.STTBrowserSupport = STTBrowserSupport;
-  }
+	}
 
 	// Show change server dialog
 	handleServer = () => {
@@ -202,7 +226,7 @@ class Settings extends Component {
 	if(resetVoice){
 	  Actions.resetVoice();
 	}
-	this.props.history.push('/');
+	this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
 	window.location.reload();
   }
 
@@ -366,6 +390,8 @@ class Settings extends Component {
 
 	componentWillMount() {
 		document.body.className = 'white-body';
+		this.setDefaultsSettings();
+		this.setInitialSettings();
 	}
 
 	componentWillUnmount() {
@@ -386,12 +412,20 @@ class Settings extends Component {
 	}
 
 	componentDidMount() {
+	document.title='Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
 		MessageStore.addChangeListener(this._onChange.bind(this));
 
 		this.setState({
 			search: false,
 		});
 		this.showWhenLoggedIn='none';
+		let searchParams = new URLSearchParams(window.location.search);
+		let tab=searchParams.get('tab');
+		if(tab){
+			this.setState({
+				selectedSetting:tab
+			})
+		}
 	}
 
 	// Generate language list drop down menu items
@@ -423,10 +457,75 @@ class Settings extends Component {
 	}
 
 	loadSettings = (e) => {
+		this.setDefaultsSettings();// on every tab change, load the default settings
 		this.setState({selectedSetting: e.target.innerText});
 		this.setState({settingNo: e.target.innerText});
 	}
 
+	displaySaveChangesButton = () =>{
+		let selectedSetting=this.state.selectedSetting;
+		if(selectedSetting==='Account Settings')
+		{
+			return false;
+		}
+		if(selectedSetting==='Connect to SUSI Hardware')
+		{
+			return false;
+		}
+		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
+		{
+			return false;
+		}
+		return true;// display the button otherwise
+	}
+	getSomethingToSave = () =>{
+		let somethingToSave=false;
+		const intialSettings=this.state.intialSettings;
+		const classState=this.state;
+		if(intialSettings.theme!==classState.theme)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.enterAsSend!==classState.enterAsSend)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.micInput!==classState.micInput)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.speechOutput!==classState.speechOutput)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.speechOutputAlways!==classState.speechOutputAlways)
+		{
+			somethingToSave=true;
+		}
+
+		else if(intialSettings.speechRate!==classState.speechRate)
+		{
+
+			somethingToSave=true;
+		}
+		else if(intialSettings.speechPitch!==classState.speechPitch)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.server!==classState.server)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.checked !== classState.checked)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.PrefLanguage!==classState.PrefLanguage)
+		{
+			somethingToSave=true;
+		}
+		return somethingToSave;
+	}
 	render() {
 		document.body.style.setProperty('background-image', 'none');
 		const bodyStyle = {
@@ -563,7 +662,7 @@ class Settings extends Component {
 						style={{textAlign: 'left', margin: 20}}
 						onChange={this.handleSelectChange}
 						name="Theme"
-						defaultSelected={this.state.theme}>
+						valueSelected={this.state.theme}>
 						<RadioButton
 									style={{width: '20%', display: 'block'}}
 							value='light'
@@ -811,7 +910,8 @@ class Settings extends Component {
 					 textAlign: 'center',
 					 display: 'inline-block',
 	};
-
+	// to check if something has been modified or not
+	let somethingToSave=this.getSomethingToSave();
 		return (
 			<div className="settings-container">
 		<StaticAppBar {...this.props}
@@ -823,13 +923,15 @@ class Settings extends Component {
 					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
 						{currentSetting}
 							<div className='settingsSubmit'>
+							{this.displaySaveChangesButton() &&
 							<RaisedButton
 								label={<Translate text="Save Changes"/>}
-								disabled={!this.state.validForm}
+								disabled={!this.state.validForm || !somethingToSave}
 								backgroundColor='#4285f4'
 								labelColor="#fff"
 								onClick={this.handleSubmit}
 							/>
+						}
 						</div>
 					</Paper>
 				</div>
