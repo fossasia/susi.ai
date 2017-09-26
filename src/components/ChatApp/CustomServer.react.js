@@ -32,7 +32,8 @@ export default class CustomServer extends Component {
             color: '#4285f4'
         }
         const ToggleLableStyle={
-          zIndex:this.props.checked?3:0
+          zIndex:this.props.checked?3:0,
+          textAlign: 'center',
         }
         const serverURL = <TextField
                             name="serverUrl"
@@ -52,11 +53,11 @@ export default class CustomServer extends Component {
              <div>
                     <Toggle
                         labelPosition="right"
-                        id={'uniqueId'}
+                        id={'customServerID'}
                         labelStyle={ToggleLableStyle}
                         label={this.props.checked?(
-                                <label htmlFor={'uniqueId'}>
-                                        <div>
+                                <label htmlFor={'customServerID'}>
+                                        <div id="customServerID">
                                            {customServer}
                                         </div>
                                 </label>
@@ -64,11 +65,12 @@ export default class CustomServer extends Component {
                         toggled={this.props.checked}
                         onToggle={this.handleServeChange}
                         style={{display: 'flex',
-                            marginTop: '10px',
+                            marginTop: '25px',
+                            marginBottom: '10px',
                             maxWidth:'245px',
                             flexWrap: 'wrap',
                             height:'28px',
-                            margin: '20px auto 20px 30px'}}
+                        }}
                         value="customServer"
                     />
             </div>
