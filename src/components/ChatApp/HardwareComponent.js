@@ -64,19 +64,17 @@ class HardwareComponent extends Component {
   };
 
   render() {
-    const headerStyle = {
-      fontFamily: 'Open Sans',
-      margin: '5px 0',
-      fontWeight: '500'
-    }
     const styles = {
       'textAlign': 'center',
       'padding': '10px 0'
     }
+    const connectButtonDivStyle = {
+      'marginTop': '25px',
+    }
     return (
       <div className="loginForm">
         <Paper zDepth={0} style={styles}>
-          <h3 style={headerStyle}><Translate text="Enter Socket Web Address"/></h3>
+          <h3><Translate text="Enter Socket Web Address"/></h3>
           <form onSubmit={this.handleSubmit}>
           <div>
           <TextField name="serverUrl"
@@ -84,7 +82,7 @@ class HardwareComponent extends Component {
                   errorText={this.customServerMessage}
                   floatingLabelText={<Translate text="Websocket URL"/>} />
           </div>
-          <div>
+          <div style={connectButtonDivStyle}>
             <RaisedButton
               label={<Translate text="Connect"/>}
               type="submit"
