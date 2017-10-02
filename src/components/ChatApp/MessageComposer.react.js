@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
 import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
-import ExpandingSearchField from './SearchField.react';
+
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
