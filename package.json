@@ -1,5 +1,6 @@
 {
   "name": "chat.susi.ai",
+  "homepage": "http://nileshgulia1.github.io/myapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
