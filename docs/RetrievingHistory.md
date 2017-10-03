@@ -33,5 +33,5 @@ All the user messages are stored in a log file. The memory servlet digs out the 
 The conversation log is NOT stored for a particular IP. It’s stored for an Identity within the AAA system.
 That identity can be represented with an email address, or there can be others.
 
-Thus the synchronisation of history across all chat platforms is maintained.
+Thus the synchronization of history across all chat platforms is maintained.
 
