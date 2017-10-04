@@ -1,6 +1,6 @@
 ## Folder Structure
 
-After creation and a successfull build, your project should have the following file structure:
+After creation and a successful build, your project should have the following file structure:
 
 ```
 chat.susi.ai/
@@ -40,7 +40,7 @@ chat.susi.ai/
 * `src/dispatcher/` contains the files to call the Dispatcher Service for the Chat App.
 * `src/images/` contains all the static images being used in the App.
 * `src/stores/` contains all application related stores for the Dispatcher Service which can be defined in this folder.
-* `src/utils/` contains all utilities are files which help us in communicating effeciently between the stores and the actions.
+* `src/utils/` contains all utilities are files which help us in communicating efficiently between the stores and the actions.
 * `src/App.test.js/` is the entry point for all tests in the `__tests__` folder.
 * `src/ChatDataServer.js/` contains all the helper functions to the calls from the actions to the store.
 * `src/history.js/` registers a history for the `react-router` service in the application.
