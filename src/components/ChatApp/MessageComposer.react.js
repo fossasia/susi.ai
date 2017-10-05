@@ -217,7 +217,7 @@ class MessageComposer extends Component {
         <IconButton
           className="send_button"
           iconStyle={{
-          fill: UserPreferencesStore.getTheme() === 'dark' ?  '#fff' :  '#4285f4',
+            fill: this.props.micColor,
             margin: '1px 0px 1px 0px'
           }}
           onTouchTap={this._onClickButton.bind(this)}
@@ -316,6 +316,7 @@ MessageComposer.propTypes = {
   textarea: PropTypes.string,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
+  micColor: PropTypes.string.isRequired,
 };
 
 export default MessageComposer;
