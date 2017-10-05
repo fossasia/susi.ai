@@ -541,36 +541,34 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+
+    switch(this.state.currTheme){
+      case 'custom':{
+        bodyColor = this.state.body;
+        TopBarColor = this.state.header;
+        composerColor = this.state.composer;
+        messagePane = this.state.pane;
+        textArea = this.state.textarea;
+        buttonColor= this.state.button;
+        break;
+      }
+      case 'light':{
+        bodyColor = '#fff';
+        TopBarColor = '#4285f4';
+        composerColor = '#f3f2f4';
+        messagePane = '#f3f2f4';
+        textArea = '#fff';
+        buttonColor = '#4285f4';
+        break;
+      }
+      default:{
+        break;
+      }
+    }
     document.body.style.setProperty('background-color', bodyColor);
-
-      document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
-      document.body.style.setProperty('background-repeat', 'no-repeat');
-      document.body.style.setProperty('background-size', 'cover');
-
-
-switch(this.state.currTheme){
-  case 'custom':{
-    bodyColor = this.state.body;
-    TopBarColor = this.state.header;
-    composerColor = this.state.composer;
-    messagePane = this.state.pane;
-    textArea = this.state.textarea;
-    buttonColor= this.state.button;
-    break;
-  }
-  case 'light':{
-    bodyColor = '#fff';
-    TopBarColor = '#4285f4';
-    composerColor = '#f3f2f4';
-    messagePane = '#f3f2f4';
-    textArea = '#fff';
-    buttonColor = '#4285f4';
-    break;
-  }
-  default:{
-    break;
-  }
-}
+    document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
+    document.body.style.setProperty('background-repeat', 'no-repeat');
+    document.body.style.setProperty('background-size', 'cover');
 
     const bodyStyle = {
       padding: 0,
