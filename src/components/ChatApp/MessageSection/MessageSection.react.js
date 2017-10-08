@@ -103,7 +103,7 @@ function getMessageListItem(messages, showLoading, markID) {
   });
 }
 
-// markdown serch results
+// markdown search results
 function searchMsgs(messages, matchString, isCaseSensitive) {
   let markingData = {
     allmsgs: [],

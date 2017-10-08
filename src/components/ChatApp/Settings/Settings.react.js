@@ -854,9 +854,9 @@ class Settings extends Component {
 				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Account Settings' value='Account Settings' className="setting-item"/>
 		</DropDownMenu>
@@ -899,9 +899,9 @@ class Settings extends Component {
 				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 		</DropDownMenu>
 		</div>

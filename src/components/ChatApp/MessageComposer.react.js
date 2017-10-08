@@ -199,7 +199,7 @@ class MessageComposer extends Component {
           />
         )}
         <div className="textBack" style={{ backgroundColor: this.props.textarea }}>
-          {/* TextareaAutosize node packge used to get
+          {/* TextareaAutosize node package used to get
           the auto sizing feature of the chat message composer */}
           <TextareaAutosize
             className='scroll'

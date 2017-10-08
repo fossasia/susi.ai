@@ -147,7 +147,7 @@
 .center__description {
     width: 100%;
 }
-.safty_and_secure{
+.safe_and_secure{
     padding: 100px 20px 110px 20px;
     border-bottom: none;
 }
@@ -386,7 +386,7 @@ header {
         margin:0 auto;
         padding: 100px 20px 100px 20px;
     }
-    .safty_and_secure{
+    .safe_and_secure{
         padding: 20px 20px 220px 20px;
     }
 }
@@ -525,7 +525,7 @@ header {
     .img-conatainer img{
         margin:auto;
     }
-    .safty_and_secure{
+    .safe_and_secure{
         padding: 100px 0 100px 0px;
         width: 90%;
         margin: 0 auto;

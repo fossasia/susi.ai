@@ -112,7 +112,7 @@ _example:_  Show me the retweet frequency chart of melaniatrump
 _example:_  How many hashtags has melaniatrump used in all ?
 
 - `<random>` maximum `<random>` hashtags that `<query-username>` used ?<br>
-_example:_  What is the maximum number of hastags that melaniatrump used ?
+_example:_  What is the maximum number of hashtags that melaniatrump used ?
 
 - `<random>` average `<random>` hashtags that `<query-username>` uses ?<br>
 _example:_  What is the average number of hashtags that melaniatrump uses ?

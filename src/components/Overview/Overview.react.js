@@ -193,7 +193,7 @@ class Overview extends Component{
                 <img src={manyLanguages} alt='Android Mockup' className='bots-mockup' />
               </div>
               <div className="description__heading">Use it in many Languages</div>
-              <p className="description__text">You can use <b>SUSI.AI</b> in DIfferent
+              <p className="description__text">You can use <b>SUSI.AI</b> in different
                      languages. You can ask questions in many languages.
 SUSI is intelligent to identify and answer your question in your language.
                     </p>
@@ -216,7 +216,7 @@ SUSI is intelligent to identify and answer your question in your language.
             <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
-        <div className="section_copy safty_and_secure">
+        <div className="section_copy safe_and_secure">
           <div className="conversation__description">
 
             <div className="description__heading">Safe and secure.</div>
@@ -239,7 +239,7 @@ SUSI is intelligent to identify and answer your question in your language.
                     </div>
                   </div>
                   <div className='img-container'>
-                    <img src={shield} alt='Android Mockup'className='shield'  />
+                    <img src={shield} alt='Android Mockup' className='shield'  />
                   </div>
                 </div>
 

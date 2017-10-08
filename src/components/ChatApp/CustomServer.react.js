@@ -31,7 +31,7 @@ export default class CustomServer extends Component {
         const underlineFocusStyle= {
             color: '#4285f4'
         }
-        const ToggleLableStyle={
+        const ToggleLabelStyle={
           zIndex:this.props.checked?3:0,
           textAlign: 'center',
         }
@@ -54,7 +54,7 @@ export default class CustomServer extends Component {
                     <Toggle
                         labelPosition="right"
                         id={'customServerID'}
-                        labelStyle={ToggleLableStyle}
+                        labelStyle={ToggleLabelStyle}
                         label={this.props.checked?(
                                 <label htmlFor={'customServerID'}>
                                         <div id="customServerID">

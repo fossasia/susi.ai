@@ -160,7 +160,7 @@ The current settings and notations implemented are :
   - DEFAULT_VALUE : `1`
 
 - **TTS Language**
-  - Used to set the language for Text-To-Speech used when the response from server doesnt specify language and the browser language is also undefined.
+  - Used to set the language for Text-To-Speech used when the response from server doesn't specify language and the browser language is also undefined.
   - SETTING_NAME :  `ttsLanguage`
   - SETTING_VALUE : `Language Code (string)`
   - DEFAULT_VALUE : `en-US`
