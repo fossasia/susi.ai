@@ -108,16 +108,44 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
         case ActionTypes.SETTINGS_CHANGED: {
             let settings = action.settings;
-            _defaults.Theme = settings.theme;
-            _defaults.EnterAsSend = settings.enterAsSend;
-            _defaults.MicInput = settings.micInput;
-            _defaults.SpeechOutput = settings.speechOutput;
-            _defaults.SpeechOutputAlways = settings.speechOutputAlways;
-            _defaults.SpeechRate = settings.speechRate;
-            _defaults.SpeechPitch = settings.speechPitch;
-            _defaults.TTSLanguage = settings.ttsLanguage;
-            _defaults.PrefLanguage = settings.prefLanguage;
-            _defaults.ThemeValues = settings.custom_theme_value;
+            if(settings.hasOwnProperty('theme')){
+                    _defaults.Theme = settings.theme;
+            }
+            if(settings.hasOwnProperty('enterAsSend')){
+                _defaults.EnterAsSend = checkForFalse(settings.enterAsSend);
+            }
+            if(settings.hasOwnProperty('micInput')){
+                _defaults.MicInput = checkForFalse(settings.micInput);
+            }
+            if(settings.hasOwnProperty('speechOutput')){
+                _defaults.SpeechOutput = checkForFalse(settings.speechOutput);
+            }
+            if(settings.hasOwnProperty('speechOutputAlways')){
+                _defaults.SpeechOutputAlways = checkForTrue(
+                                                settings.speechOutputAlways);
+            }
+            if(settings.hasOwnProperty('speechRate')){
+                let initSpeechRate = parseFloat(settings.speechRate);
+                if(!isNaN(initSpeechRate)){
+                    _defaults.SpeechRate = initSpeechRate;
+                }
+            }
+            if(settings.hasOwnProperty('speechPitch')){
+                let initSpeechPitch = parseFloat(settings.speechPitch);
+                if(!isNaN(initSpeechPitch)){
+                    _defaults.SpeechPitch = initSpeechPitch;
+                }
+            }
+            if(settings.hasOwnProperty('ttsLanguage')){
+              _defaults.TTSLanguage = settings.ttsLanguage;
+            }
+            if(settings.hasOwnProperty('prefLanguage')){
+              _defaults.PrefLanguage = settings.prefLanguage;
+            }
+            if(settings.hasOwnProperty('customThemeValue')){
+                _defaults.ThemeValues = settings.customThemeValue;
+            }
+
             UserPreferencesStore.emitChange();
             break;
         }
@@ -140,8 +168,8 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('theme')){
                     _defaults.Theme = settings.theme;
                 }
-                if(settings.hasOwnProperty('enterAssend')){
-                    _defaults.EnterAsSend = checkForFalse(settings.enterAssend);
+                if(settings.hasOwnProperty('enterAsSend')){
+                    _defaults.EnterAsSend = checkForFalse(settings.enterAsSend);
                 }
                 if(settings.hasOwnProperty('micInput')){
                     _defaults.MicInput = checkForFalse(settings.micInput);

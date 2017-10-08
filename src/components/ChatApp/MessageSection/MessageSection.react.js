@@ -335,14 +335,12 @@ class MessageSection extends Component {
     Object.keys(this.customTheme).forEach((key) => {
       customData=customData+this.customTheme[key]+','
     });
-    this.setState({currTheme : 'custom'})
-    let currSettings = UserPreferencesStore.getPreferences();
+
     let settingsChanged = {};
-    if(currSettings.Theme !=='custom'){
-      settingsChanged.theme = 'custom';
-      Actions.settingsChanged(settingsChanged);
-    }
-    Actions.customThemeChanged(customData);
+    settingsChanged.theme = 'custom';
+    settingsChanged.customThemeValue = customData;
+    Actions.settingsChanged(settingsChanged);
+    this.setState({currTheme : 'custom'})
     this.handleClose();
   }
 
