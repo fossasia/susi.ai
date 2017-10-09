@@ -177,7 +177,6 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-
   }
 
   handleColorChange = (name,color) => {
@@ -194,11 +193,11 @@ class MessageSection extends Component {
 
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
-    this.setState({'theme':'custom'})
+    this.setState({currTheme : 'custom'})
     let currSettings = UserPreferencesStore.getPreferences();
     let settingsChanged = {};
     if(currSettings.Theme !=='custom'){
-      settingsChanged.Theme = 'custom';
+      settingsChanged.theme = 'custom';
       Actions.settingsChanged(settingsChanged);
     }
      // Send these Settings to Server
@@ -336,14 +335,12 @@ class MessageSection extends Component {
     Object.keys(this.customTheme).forEach((key) => {
       customData=customData+this.customTheme[key]+','
     });
-    this.setState({'theme':'custom'})
-    let currSettings = UserPreferencesStore.getPreferences();
+
     let settingsChanged = {};
-    if(currSettings.Theme !=='custom'){
-      settingsChanged.Theme = 'custom';
-      Actions.settingsChanged(settingsChanged);
-    }
-    Actions.customThemeChanged(customData);
+    settingsChanged.theme = 'custom';
+    settingsChanged.customThemeValue = customData;
+    Actions.settingsChanged(settingsChanged);
+    this.setState({currTheme : 'custom'})
     this.handleClose();
   }
 
@@ -786,7 +783,8 @@ class MessageSection extends Component {
                     dream={dream}
                     textarea={textArea}
                     speechOutput={speechOutput}
-                    speechOutputAlways={speechOutputAlways} />
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button} />
                 </div>
               </div>
             </div>
