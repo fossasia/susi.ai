@@ -80,52 +80,11 @@ export function getHistory() {
         userMsg.date = new Date(cognition.query_date);
         userMsg.text = query;
 
-        // Translate history
-        let defaultPrefLanguage = defaults.PrefLanguage;
-        // Translate the User message text
-        let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='+defaultPrefLanguage+'&dt=t&q='+userMsg.text;
-        $.ajax({
-          url: urlForTranslate,
-          dataType: 'json',
-          crossDomain: true,
-          timeout: 3000,
-          async: false,
-          success: function (response) {
-            if(response[0]){
-              if(response[0][0]){
-                userMsg.text = response[0][0][0];
-              }
-            }
-          },
-          error: function(errorThrown){
-            console.log(errorThrown);
-          }
-        });
-
         susiMsg.id = 'm_' + Date.parse(cognition.answer_date);
         susiMsg.date = new Date(cognition.answer_date);
         susiMsg.text = cognition.answers[0].actions[0].expression;
         susiMsg.response = cognition;
 
-        // Translate the SUSI message text
-        urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='+defaultPrefLanguage+'&dt=t&q='+susiMsg.text;
-        $.ajax({
-          url: urlForTranslate,
-          dataType: 'json',
-          crossDomain: true,
-          timeout: 3000,
-          async: false,
-          success: function (response) {
-            if(response[0]){
-              if(response[0][0]){
-                susiMsg.text = response[0][0][0];
-              }
-            }
-          },
-          error: function(errorThrown){
-            console.log(errorThrown);
-          }
-        });
         let actions = [];
         cognition.answers[0].actions.forEach((actionObj) => {
           actions.push(actionObj.type);
