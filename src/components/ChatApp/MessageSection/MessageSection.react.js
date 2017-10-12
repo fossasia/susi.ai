@@ -177,7 +177,6 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-
   }
 
   handleColorChange = (name,color) => {
@@ -194,11 +193,11 @@ class MessageSection extends Component {
 
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
-    this.setState({'theme':'custom'})
+    this.setState({currTheme : 'custom'})
     let currSettings = UserPreferencesStore.getPreferences();
     let settingsChanged = {};
     if(currSettings.Theme !=='custom'){
-      settingsChanged.Theme = 'custom';
+      settingsChanged.theme = 'custom';
       Actions.settingsChanged(settingsChanged);
     }
      // Send these Settings to Server
@@ -336,14 +335,12 @@ class MessageSection extends Component {
     Object.keys(this.customTheme).forEach((key) => {
       customData=customData+this.customTheme[key]+','
     });
-    this.setState({'theme':'custom'})
-    let currSettings = UserPreferencesStore.getPreferences();
+
     let settingsChanged = {};
-    if(currSettings.Theme !=='custom'){
-      settingsChanged.Theme = 'custom';
-      Actions.settingsChanged(settingsChanged);
-    }
-    Actions.customThemeChanged(customData);
+    settingsChanged.theme = 'custom';
+    settingsChanged.customThemeValue = customData;
+    Actions.settingsChanged(settingsChanged);
+    this.setState({currTheme : 'custom'})
     this.handleClose();
   }
 
@@ -541,36 +538,34 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+
+    switch(this.state.currTheme){
+      case 'custom':{
+        bodyColor = this.state.body;
+        TopBarColor = this.state.header;
+        composerColor = this.state.composer;
+        messagePane = this.state.pane;
+        textArea = this.state.textarea;
+        buttonColor= this.state.button;
+        break;
+      }
+      case 'light':{
+        bodyColor = '#fff';
+        TopBarColor = '#4285f4';
+        composerColor = '#f3f2f4';
+        messagePane = '#f3f2f4';
+        textArea = '#fff';
+        buttonColor = '#4285f4';
+        break;
+      }
+      default:{
+        break;
+      }
+    }
     document.body.style.setProperty('background-color', bodyColor);
-
-      document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
-      document.body.style.setProperty('background-repeat', 'no-repeat');
-      document.body.style.setProperty('background-size', 'cover');
-
-
-switch(this.state.currTheme){
-  case 'custom':{
-    bodyColor = this.state.body;
-    TopBarColor = this.state.header;
-    composerColor = this.state.composer;
-    messagePane = this.state.pane;
-    textArea = this.state.textarea;
-    buttonColor= this.state.button;
-    break;
-  }
-  case 'light':{
-    bodyColor = '#fff';
-    TopBarColor = '#4285f4';
-    composerColor = '#f3f2f4';
-    messagePane = '#f3f2f4';
-    textArea = '#fff';
-    buttonColor = '#4285f4';
-    break;
-  }
-  default:{
-    break;
-  }
-}
+    document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
+    document.body.style.setProperty('background-repeat', 'no-repeat');
+    document.body.style.setProperty('background-size', 'cover');
 
     const bodyStyle = {
       padding: 0,
@@ -788,7 +783,8 @@ switch(this.state.currTheme){
                     dream={dream}
                     textarea={textArea}
                     speechOutput={speechOutput}
-                    speechOutputAlways={speechOutputAlways} />
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button} />
                 </div>
               </div>
             </div>
