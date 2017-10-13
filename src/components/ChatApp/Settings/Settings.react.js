@@ -27,6 +27,7 @@ import Facebookshare from './facebookShare';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 
+
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
 import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
@@ -476,6 +477,9 @@ class Settings extends Component {
 		}
 		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
 		{
+			return false;
+		}
+		if(selectedSetting==='Connect with Facebook'){
 			return false;
 		}
 		return true;// display the button otherwise
