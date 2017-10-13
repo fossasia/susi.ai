@@ -23,6 +23,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
+import Facebookshare from './facebookShare';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -652,20 +653,11 @@ class Settings extends Component {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
-					<div>
-						<div>
-							<div style={{
-								marginTop: '10px',
-								'marginBottom':'0px',
-								fontSize: '15px',
-								fontWeight: 'bold'}}>
-								<Translate text="Share on Facebook"/>
-							</div>
-							
-						</div>
-					</div>
+				<Facebookshare  />
+
+
 				</div>
-			)
+				)
 		}
 
 		else if(this.state.selectedSetting === 'Theme') {
