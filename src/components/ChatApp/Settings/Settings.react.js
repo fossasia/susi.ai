@@ -648,6 +648,25 @@ class Settings extends Component {
 				</div>
 			)
 		}
+		else if(this.state.selectedSetting === 'Connect with Facebook') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+					<div>
+						<div>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom':'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Share on Facebook"/>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			)
+		}
 
 		else if(this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
@@ -839,6 +858,8 @@ class Settings extends Component {
 			<hr className="break-line"/>
 			<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
+			<MenuItem value='Connect with Facebook' className="setting-item" leftIcon={<VoiceIcon/>}>Connect with Facebook<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
 			<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon/>}>Account Settings<ChevronRight className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 		</Menu>
@@ -858,6 +879,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Connect with Facebook' value='Connect with Facebook' className="setting-item"/>
 				<MenuItem primaryText='Account Settings' value='Account Settings' className="setting-item"/>
 		</DropDownMenu>
 		</div>
@@ -886,6 +908,8 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
+				<MenuItem value='Connect with Facebook' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect with Facebook<ChevronRight className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -903,6 +927,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Connect with Facebook' value='Connect with Facebook' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
