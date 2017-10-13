@@ -17,6 +17,7 @@ import {  createMessage,
 
 import {  serverChanged,
           initialiseSettings,
+          initialiseIdentity,
           initialiseTTSVoices,
           settingsChanged,
           customThemeChanged,
@@ -44,10 +45,10 @@ export {  createMessage,
 
 export { serverChanged,
          initialiseSettings,
+         initialiseIdentity,
          initialiseTTSVoices,
          settingsChanged,
          customThemeChanged,
         }
 
 export { connectToWebSocket, sendToHardwareDevice }
-
