@@ -5,7 +5,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
 import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 import ExitIcon from 'material-ui/svg-icons/navigation/close';
-import MessageComposer from './MessageComposer.react';
+
 
 const animationStyle = {
     transition: 'width 0.75s cubic-bezier(0.000, 0.795, 0.000, 1.000)'
@@ -45,7 +45,7 @@ class ExpandingSearchField extends Component{
     onClick = () => {
         this.setState({isOpen: !this.state.isOpen});
         if(!this.state.isOpen){
-            <MessageComposer onStart={this.onStart()} />
+            
             this.props.activateSearch();
         }
         else{
