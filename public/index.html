@@ -27,6 +27,7 @@
     <meta name="twitter:url" content="http://chat.susi.ai">
     <meta name="twitter:title" content="Web Chat with Susi.ai - Open Source Personal Assistant">
     <meta name="twitter:description" content="Chat with an Open Source Personal Assistant">
+    <script src="../src/components/ChatApp/Settings/facebookShare.js"></script>
     
     
     
@@ -34,50 +35,11 @@
     
   </head>
   <body>
-      <script>
-          window.fbAsyncInit = function() {
-            FB.init({
-              appId            : '159998371255231',
-              autoLogAppEvents : true,
-              xfbml            : true,
-              version          : 'v2.10'
-            });
-            FB.AppEvents.logPageView();
-          };
-        
-          (function(d, s, id){
-             var js, fjs = d.getElementsByTagName(s)[0];
-             if (d.getElementById(id)) {return;}
-             js = d.createElement(s); js.id = id;
-             js.src = "//connect.facebook.net/en_US/sdk.js";
-             fjs.parentNode.insertBefore(js, fjs);
-           }(document, 'script', 'facebook-jssdk'));
-           login = (response) =>{
-             FB.login((response) =>{
-             if(response.status === 'connected'){
-               console.log('connected'); 
-             } else if(respone.status==='not_authorised'){
-               console.log('not authorised');
-             }
-            },{scope:'publish_actions'});
-          }
-          Post = () =>{
-            FB.api('/me/feed','post',{message:'check out this app'},(response) =>{
-              console.log(response.id);
-            });
-          }
-          
-
-             
-
-        
-        </script>
-        
             
     <div id="root"></div>
-    <div>
-      <button onclick="Post">post</button>
-    </div>
+    
+      
+    
     
    
     <!--
