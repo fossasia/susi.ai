@@ -8,11 +8,16 @@ export default class Facebookshare extends Component{
 		super(props);
 		this.state={
 			style:{ margin:20,},
+			loginStatus: 'not connected',
+			
 			
 
 		};
 		this.Post=this.Post.bind(this);
 		this.handleFBLogin=this.handleFBLogin.bind(this);
+		this.statusChangeCallback=this.statusChangeCallback.bind(this);
+		this.testAPI=this.testAPI.bind(this);
+		this.checkLoginState=this.checkLoginState.bind(this);
 	
 	}
 	
@@ -45,13 +50,19 @@ export default class Facebookshare extends Component{
 				window.FB.api('/me', function(response) {
 				console.log('Successful login for: ' + response.name );
 				
+				
+				
 				});
+				this.setState({loginStatus:'connected'});
+				console.log(this.state.loginStatus);
+				
 			  }
 		  
 			  statusChangeCallback (response) {
 				console.log('statusChangeCallback');
 				console.log(response);
 				if (response.status === 'connected') {
+				
 				  this.testAPI();
 				} else if (response.status === 'not_authorized') {
 					console.log("Please log into this app.");
@@ -70,12 +81,11 @@ export default class Facebookshare extends Component{
 				  
 				window.FB.login(this.checkLoginState);
 				  }
-				  Post(){
-					  
+					Post(){if(this.state.loginStatus==='not connected'){alert('connect to fb');}
+					else if(this.state.loginStatus==='connected'){
 					  window.FB.api('/me/feed','post',{message: "check out this App..."},function(response){
-						  console.log('response.id');});
-						  
-					  
+							console.log(response.id);});
+						alert("success! check your facebook id"); } 
 				  }
 	
     render(){
