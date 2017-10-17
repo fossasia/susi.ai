@@ -81,7 +81,7 @@ export default class Facebookshare extends Component{
 				  
 				window.FB.login(this.checkLoginState);
 				  }
-					Post(){if(this.state.loginStatus==='not connected'){alert('connect to fb');}
+					Post(){if(this.state.loginStatus==='not connected'){alert('connect to facebook first!');}
 					else if(this.state.loginStatus==='connected'){
 					  window.FB.api('/me/feed','post',{message: "check out this App..."},function(response){
 							console.log(response.id);});
