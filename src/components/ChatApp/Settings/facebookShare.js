@@ -83,7 +83,7 @@ export default class Facebookshare extends Component{
 				  }
 					Post(){if(this.state.loginStatus==='not connected'){alert('connect to facebook first!');}
 					else if(this.state.loginStatus==='connected'){
-					  window.FB.api('/me/feed','post',{message: "check out this App..."},function(response){
+					  window.FB.api('/me/feed','post',{message: "Check out this app: http://chat.susi.ai"},function(response){
 							console.log(response.id);});
 						alert("success! check your facebook id"); } 
 				  }
@@ -104,7 +104,7 @@ export default class Facebookshare extends Component{
 								<br />
 								<p>You need to login with facebook first.</p>
 								<RaisedButton label="Login with Facebook" onClick={this.handleFBLogin} style={this.state.style} />
-								<RaisedButton label="Post" onClick={this.Post} style={this.state.style} />
+								<RaisedButton label="Post"  onClick={this.Post} style={this.state.style} />
 							</div>
 							
 						</div>
