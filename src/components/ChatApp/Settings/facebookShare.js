@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import Translate from '../../Translate/Translate.react';
 import RaisedButton from 'material-ui/RaisedButton';
-
-
 export default class Facebookshare extends Component{
 	constructor(props){
 		super(props);
 		this.state={
 			style:{ margin:20,},
 			loginStatus: 'not connected',
-			
-			
-
 		};
 		this.Post=this.Post.bind(this);
 		this.handleFBLogin=this.handleFBLogin.bind(this);
 		this.statusChangeCallback=this.statusChangeCallback.bind(this);
 		this.testAPI=this.testAPI.bind(this);
 		this.checkLoginState=this.checkLoginState.bind(this);
-	
 	}
 	
 	loadFbLoginApi() {
-		
 		window.fbAsyncInit = function() {
 			window.FB.init({
 			  appId            : '159998371255231',
@@ -49,15 +42,11 @@ export default class Facebookshare extends Component{
 				console.log('Welcome!  Fetching your information.... ');
 				window.FB.api('/me', function(response) {
 				console.log('Successful login for: ' + response.name );
-				
-				
-				
 				});
 				this.setState({loginStatus:'connected'});
 				console.log(this.state.loginStatus);
 				
 			  }
-		  
 			  statusChangeCallback (response) {
 				console.log('statusChangeCallback');
 				console.log(response);
@@ -89,10 +78,7 @@ export default class Facebookshare extends Component{
 				  }
 	
     render(){
-        
-        return (
-            
-            
+        return (   
 					<div>
 						<div>
 							<div style={{
@@ -106,13 +92,8 @@ export default class Facebookshare extends Component{
 								<RaisedButton label="Login with Facebook" onClick={this.handleFBLogin} style={this.state.style} />
 								<RaisedButton label="Post"  onClick={this.Post} style={this.state.style} />
 							</div>
-							
 						</div>
 					</div>
-				
-			
-            
-
         );
     }
 }

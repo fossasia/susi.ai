@@ -26,8 +26,6 @@ import Paper from 'material-ui/Paper';
 import Facebookshare from './facebookShare';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
-
-
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
 import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
@@ -36,12 +34,8 @@ import AccountIcon from 'material-ui/svg-icons/action/account-box';
 import LanguageIcon from 'material-ui/svg-icons/action/language';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
-
-
 const cookies = new Cookies();
-
 class Settings extends Component {
-
 	// save a variable in state holding the initial state of the settings
 	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();

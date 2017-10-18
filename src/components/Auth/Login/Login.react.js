@@ -12,7 +12,6 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
 
-
 const cookies = new Cookies();
 
 class Login extends Component {
@@ -33,9 +32,7 @@ class Login extends Component {
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
 		this.customServerMessage = '';
-		
-		
-		
+			
 	}
 
 	// Submit the Login Form
@@ -221,9 +218,6 @@ class Login extends Component {
 			});
 		}
 	}
-	
-	
-	
 	
 	render() {
 
