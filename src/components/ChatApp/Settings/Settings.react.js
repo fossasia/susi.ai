@@ -23,10 +23,14 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
+import Facebookshare from './facebookShare';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
+
+
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
 import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
+import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
 import LanguageIcon from 'material-ui/svg-icons/action/language';
@@ -38,8 +42,8 @@ const cookies = new Cookies();
 
 class Settings extends Component {
 
-	constructor(props) {
-		super(props);
+	// save a variable in state holding the initial state of the settings
+	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();
 		let defaultServer = defaults.Server;
 		let defaultTheme = defaults.Theme;
@@ -49,9 +53,36 @@ class Settings extends Component {
 		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
-		let defaultTTSLanguage = defaults.TTSLanguage;
 		let defaultPrefLanguage = defaults.PrefLanguage;
-		let TTSBrowserSupport;
+		this.setState({
+			intialSettings:{
+				theme: defaultTheme,
+				enterAsSend: defaultEnterAsSend,
+				micInput: defaultMicInput,
+				speechOutput: defaultSpeechOutput,
+				speechOutputAlways: defaultSpeechOutputAlways,
+				speechRate: defaultSpeechRate,
+				speechPitch: defaultSpeechPitch,
+				server: defaultServer,
+				serverUrl: '',
+				checked: false,
+				PrefLanguage: defaultPrefLanguage
+			}
+		})
+	}
+	setDefaultsSettings = () => {
+	let defaults = UserPreferencesStore.getPreferences();
+	let defaultServer = defaults.Server;
+	let defaultTheme = defaults.Theme;
+	let defaultEnterAsSend = defaults.EnterAsSend;
+	let defaultMicInput = defaults.MicInput;
+	let defaultSpeechOutput = defaults.SpeechOutput;
+	let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+	let defaultSpeechRate = defaults.SpeechRate;
+	let defaultSpeechPitch = defaults.SpeechPitch;
+	let defaultTTSLanguage = defaults.TTSLanguage;
+	let defaultPrefLanguage = defaults.PrefLanguage;
+	let TTSBrowserSupport;
 	if ('speechSynthesis' in window) {
 	  TTSBrowserSupport = true;
 	} else {
@@ -71,11 +102,9 @@ class Settings extends Component {
 	  STTBrowserSupport = false;
 	  console.warn('The current browser does not support the SpeechRecognition API.');
 	}
-	console.log(STTBrowserSupport);
-
-		this.state = {
+		this.setState({
 			theme: defaultTheme,
-			selectedSetting: '',
+			selectedSetting: 'ChatApp Settings',
 			enterAsSend: defaultEnterAsSend,
 			micInput: defaultMicInput,
 			speechOutput: defaultSpeechOutput,
@@ -94,7 +123,7 @@ class Settings extends Component {
 			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
 			showLogin: false,
-	  showSignUp: false,
+	  		showSignUp: false,
 			showForgotPassword: false,
 			showOptions: false,
 			anchorEl: null,
@@ -106,12 +135,11 @@ class Settings extends Component {
 			lang:'en-US',
 			name:'US English'
 		}]
-		}
-		console.log(defaultPrefLanguage);
+	});
 	this.customServerMessage = '';
 	this.TTSBrowserSupport = TTSBrowserSupport;
 	this.STTBrowserSupport = STTBrowserSupport;
-  }
+	}
 
 	// Show change server dialog
 	handleServer = () => {
@@ -201,7 +229,7 @@ class Settings extends Component {
 	if(resetVoice){
 	  Actions.resetVoice();
 	}
-	this.props.history.push('/');
+	this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
 	window.location.reload();
   }
 
@@ -365,6 +393,8 @@ class Settings extends Component {
 
 	componentWillMount() {
 		document.body.className = 'white-body';
+		this.setDefaultsSettings();
+		this.setInitialSettings();
 	}
 
 	componentWillUnmount() {
@@ -385,12 +415,20 @@ class Settings extends Component {
 	}
 
 	componentDidMount() {
+	document.title='Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
 		MessageStore.addChangeListener(this._onChange.bind(this));
 
 		this.setState({
 			search: false,
 		});
 		this.showWhenLoggedIn='none';
+		let searchParams = new URLSearchParams(window.location.search);
+		let tab=searchParams.get('tab');
+		if(tab){
+			this.setState({
+				selectedSetting:tab
+			})
+		}
 	}
 
 	// Generate language list drop down menu items
@@ -422,9 +460,78 @@ class Settings extends Component {
 	}
 
 	loadSettings = (e) => {
-		this.setState({selectedSetting: e.target.innerText})
+		this.setDefaultsSettings();// on every tab change, load the default settings
+		this.setState({selectedSetting: e.target.innerText});
+		this.setState({settingNo: e.target.innerText});
 	}
 
+	displaySaveChangesButton = () =>{
+		let selectedSetting=this.state.selectedSetting;
+		if(selectedSetting==='Account Settings')
+		{
+			return false;
+		}
+		if(selectedSetting==='Connect to SUSI Hardware')
+		{
+			return false;
+		}
+		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
+		{
+			return false;
+		}
+		if(selectedSetting==='Connect with Facebook'){
+			return false;
+		}
+		return true;// display the button otherwise
+	}
+	getSomethingToSave = () =>{
+		let somethingToSave=false;
+		const intialSettings=this.state.intialSettings;
+		const classState=this.state;
+		if(intialSettings.theme!==classState.theme)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.enterAsSend!==classState.enterAsSend)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.micInput!==classState.micInput)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.speechOutput!==classState.speechOutput)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.speechOutputAlways!==classState.speechOutputAlways)
+		{
+			somethingToSave=true;
+		}
+
+		else if(intialSettings.speechRate!==classState.speechRate)
+		{
+
+			somethingToSave=true;
+		}
+		else if(intialSettings.speechPitch!==classState.speechPitch)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.server!==classState.server)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.checked !== classState.checked)
+		{
+			somethingToSave=true;
+		}
+		else if(intialSettings.PrefLanguage!==classState.PrefLanguage)
+		{
+			somethingToSave=true;
+		}
+		return somethingToSave;
+	}
 	render() {
 		document.body.style.setProperty('background-image', 'none');
 		const bodyStyle = {
@@ -467,7 +574,9 @@ class Settings extends Component {
 	/>];
 
 		const Buttonstyles = {
-			marginBottom: '16px',
+			marginBottom: '15px',
+			marginTop: '15px',
+			marginLeft: '35px',
 		}
 
 		const divStyle = {
@@ -545,6 +654,16 @@ class Settings extends Component {
 				</div>
 			)
 		}
+		else if(this.state.selectedSetting === 'Connect with Facebook') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+				<Facebookshare  />
+
+
+				</div>
+				)
+		}
 
 		else if(this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
@@ -561,9 +680,9 @@ class Settings extends Component {
 						style={{textAlign: 'left', margin: 20}}
 						onChange={this.handleSelectChange}
 						name="Theme"
-						defaultSelected={this.state.theme}>
+						valueSelected={this.state.theme}>
 						<RadioButton
-									style={{width: '20%', display: 'inline-block'}}
+									style={{width: '20%', display: 'block'}}
 							value='light'
 							label={<Translate text="Light" />}
 						/>
@@ -676,19 +795,20 @@ class Settings extends Component {
 			currentSetting = (
 				<span style={divStyle}>
 					<div>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						marginLeft: '30px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Connect to SUSI Hardware"/>
-					</div>
-					<FlatButton
-						className='settingsBtns'
-						style={Buttonstyles}
-						label={<Translate text="Add address to connect to Hardware"/>}
-						onClick={this.handleHardware} />
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							marginLeft: '30px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Connect to SUSI Hardware"/>
+						</div>
+						<FlatButton
+							className='settingsBtns'
+							style={Buttonstyles}
+							id="hardwareBtn"
+							label={<Translate text="Add address to connect to Hardware"/>}
+							onClick={this.handleHardware} />
 					</div>
 				</span>
 			)
@@ -697,29 +817,6 @@ class Settings extends Component {
 		else {
 			currentSetting = (
 				<div style={divStyle}>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Select Theme"/>
-					</div>
-					<RadioButtonGroup
-						style={{textAlign: 'center', margin: 20}}
-						onChange={this.handleSelectChange}
-						name="Theme"
-						defaultSelected={this.state.theme}>
-						<RadioButton
-									style={{width: '20%', display: 'block'}}
-							value='light'
-							label={<Translate text="Light" />}
-						/>
-						<RadioButton
-									style={{width: '20%', display: 'block'}}
-							value='dark'
-							label={<Translate text="Dark" />}
-						/>
-					</RadioButtonGroup>
 					<div style={{
 						marginTop: '10px',
 						'marginBottom':'0px',
@@ -734,82 +831,132 @@ class Settings extends Component {
 						toggled={this.state.enterAsSend}/>
 				</div>);
 		}
-
+		let blueThemeColor={color: 'rgb(66, 133, 244)'};
 		let menuItems = cookies.get('loggedIn')?
-			<Menu
-				style={{margin: 'auto', width: '100%', }}
-				onItemTouchTap={this.loadSettings}
-				>
-
-					<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<ThemeIcon/>}>Theme</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
-					<hr className="break-line"/>
-					<MenuItem leftIcon={<AccountIcon/>}>Account Settings</MenuItem>
-					<hr className="break-line"/>
-			</Menu>
-		:
-		<Menu className="settings-list-item"
-			style={{ width: '85%', margin: 'auto' }}
+		<div>
+		<div className="settings-list">
+		<Menu
 			onItemTouchTap={this.loadSettings}
-			selectedMenuItemStyle={{width: '100%'}}
+			selectedMenuItemStyle={blueThemeColor}
+			style={{width:'100%'}}
+			value={this.state.selectedSetting}
 			>
-				<MenuItem leftIcon={<ChatIcon/>}>ChatApp Settings</MenuItem>
+			<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon/>}>Server Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Connect with Facebook' className="setting-item" leftIcon={<ChatIcon/>}>Connect with Facebook<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon/>}>Account Settings<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+		</Menu>
+		</div>
+		<div className="settings-list-dropdown">
+		<DropDownMenu
+			selectedMenuItemStyle={blueThemeColor}
+			onChange={this.loadSettings}
+			value={this.state.selectedSetting}
+			style={{width:'100%'}}
+			autoWidth={false}
+        >
+				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Connect with Facebook' value='Connect with Facebook' className="setting-item"/>
+				<MenuItem primaryText='Account Settings' value='Account Settings' className="setting-item"/>
+		</DropDownMenu>
+		</div>
+		</div>
+
+		:
+		<div>
+		<div className="settings-list">
+		<Menu
+			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={blueThemeColor}
+			style={{width:'100%'}}
+			value={this.state.selectedSetting}
+			>
+				<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon/>}>ChatApp Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<ThemeIcon/>}>Theme</MenuItem>
+				<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon/>}>Theme<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<VoiceIcon/>}>Mic Settings</MenuItem>
+				<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon/>}>Mic Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<SpeechIcon/>}>Speech Settings</MenuItem>
+				<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon/>}>Speech Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<LanguageIcon/>}>Text Language Settings</MenuItem>
+				<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon/>}>Text Language Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<ServerIcon/>}>Server Settings</MenuItem>
+				<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon/>}>Server Settings<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware</MenuItem>
+				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem value='Connect with Facebook' className="setting-item"  leftIcon={<ChatIcon/>}>Connect with Facebook<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
+		</div>
+		<div className="settings-list-dropdown">
+		<DropDownMenu
+			selectedMenuItemStyle={blueThemeColor}
+			onChange={this.loadSettings}
+			value={this.state.selectedSetting}
+			style={{width:'100%'}}
+			autoWidth={false}
+        >
+				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Connect with Facebook' value='Connect with Facebook' className="setting-item"/>
+		</DropDownMenu>
+		</div>
+		</div>
 
-		const tabStyle = {
-					height: 500,
-					marginTop: 20,
-					display: 'inline-block',
-	 };
 	 const menuStyle = {
 					 height: 500,
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
 	};
-
+	// to check if something has been modified or not
+	let somethingToSave=this.getSomethingToSave();
 		return (
 			<div className="settings-container">
 		<StaticAppBar {...this.props}
 			location={this.props.location} />
 				<div className='settingMenu'>
-					<Paper className='leftMenu' style={tabStyle} zDepth={1}>
+					<Paper className='leftMenu tabStyle' zDepth={1}>
 						{menuItems}
 					</Paper>
 					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
 						{currentSetting}
 							<div className='settingsSubmit'>
+							{this.displaySaveChangesButton() &&
 							<RaisedButton
 								label={<Translate text="Save Changes"/>}
-								disabled={!this.state.validForm}
+								disabled={!this.state.validForm || !somethingToSave}
 								backgroundColor='#4285f4'
 								labelColor="#fff"
 								onClick={this.handleSubmit}
 							/>
+						}
 						</div>
 					</Paper>
 				</div>

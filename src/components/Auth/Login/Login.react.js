@@ -12,6 +12,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
 
+
 const cookies = new Cookies();
 
 class Login extends Component {
@@ -31,7 +32,10 @@ class Login extends Component {
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
-        this.customServerMessage = '';
+		this.customServerMessage = '';
+		
+		
+		
 	}
 
 	// Submit the Login Form
@@ -217,7 +221,10 @@ class Login extends Component {
 			});
 		}
 	}
-
+	
+	
+	
+	
 	render() {
 
 		const styles = {
@@ -274,7 +281,7 @@ class Login extends Component {
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
 								disabled={!this.state.validForm}
-								style={{margin:'15px 0 '}}/>
+								style={{margin:'15px 0 '}}/>	
 						</div>
 						<span
 						style={{

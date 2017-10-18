@@ -11,6 +11,7 @@ import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
 import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
+
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
@@ -217,7 +218,7 @@ class MessageComposer extends Component {
         <IconButton
           className="send_button"
           iconStyle={{
-            fill: UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#fff',
+            fill: this.props.micColor,
             margin: '1px 0px 1px 0px'
           }}
           onTouchTap={this._onClickButton.bind(this)}
@@ -316,6 +317,7 @@ MessageComposer.propTypes = {
   textarea: PropTypes.string,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
+  micColor: PropTypes.string.isRequired,
 };
 
 export default MessageComposer;

@@ -50,6 +50,7 @@ function getStateFromStores() {
     bodyBackgroundImage:'',
     snackopen: false,
     snackMessage: 'It seems you are offline!',
+    SnackbarOpenSearchResults:false,
     messageBackgroundImage:'',
     showScrollBottom: false,
     searchState: {
@@ -176,7 +177,6 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-
   }
 
   handleColorChange = (name,color) => {
@@ -193,11 +193,11 @@ class MessageSection extends Component {
 
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
-    this.setState({'theme':'custom'})
+    this.setState({currTheme : 'custom'})
     let currSettings = UserPreferencesStore.getPreferences();
     let settingsChanged = {};
     if(currSettings.Theme !=='custom'){
-      settingsChanged.Theme = 'custom';
+      settingsChanged.theme = 'custom';
       Actions.settingsChanged(settingsChanged);
     }
      // Send these Settings to Server
@@ -335,14 +335,12 @@ class MessageSection extends Component {
     Object.keys(this.customTheme).forEach((key) => {
       customData=customData+this.customTheme[key]+','
     });
-    this.setState({'theme':'custom'})
-    let currSettings = UserPreferencesStore.getPreferences();
+
     let settingsChanged = {};
-    if(currSettings.Theme !=='custom'){
-      settingsChanged.Theme = 'custom';
-      Actions.settingsChanged(settingsChanged);
-    }
-    Actions.customThemeChanged(customData);
+    settingsChanged.theme = 'custom';
+    settingsChanged.customThemeValue = customData;
+    Actions.settingsChanged(settingsChanged);
+    this.setState({currTheme : 'custom'})
     this.handleClose();
   }
 
@@ -395,6 +393,10 @@ class MessageSection extends Component {
     let messages = this.state.messages;
     let markingData = searchMsgs(messages, matchString,
                               this.state.searchState.caseSensitive);
+    // to make the snackbar hide by default
+    this.setState({
+      SnackbarOpenSearchResults: false
+    })
     if(matchString){
       let searchState = {
         markedMsgs: markingData.allmsgs,
@@ -407,6 +409,12 @@ class MessageSection extends Component {
         open: false,
         searchText: matchString
       };
+      if(markingData.markedIDs.length===0 && matchString.trim().length>0){
+        // if no Messages are marked(i.e no result) and the search query is not empty
+        this.setState({
+          SnackbarOpenSearchResults: true
+        })
+      }
       this.setState({
         searchState: searchState
       });
@@ -530,36 +538,34 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+
+    switch(this.state.currTheme){
+      case 'custom':{
+        bodyColor = this.state.body;
+        TopBarColor = this.state.header;
+        composerColor = this.state.composer;
+        messagePane = this.state.pane;
+        textArea = this.state.textarea;
+        buttonColor= this.state.button;
+        break;
+      }
+      case 'light':{
+        bodyColor = '#fff';
+        TopBarColor = '#4285f4';
+        composerColor = '#f3f2f4';
+        messagePane = '#f3f2f4';
+        textArea = '#fff';
+        buttonColor = '#4285f4';
+        break;
+      }
+      default:{
+        break;
+      }
+    }
     document.body.style.setProperty('background-color', bodyColor);
-
-      document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
-      document.body.style.setProperty('background-repeat', 'no-repeat');
-      document.body.style.setProperty('background-size', 'cover');
-
-
-switch(this.state.currTheme){
-  case 'custom':{
-    bodyColor = this.state.body;
-    TopBarColor = this.state.header;
-    composerColor = this.state.composer;
-    messagePane = this.state.pane;
-    textArea = this.state.textarea;
-    buttonColor= this.state.button;
-    break;
-  }
-  case 'light':{
-    bodyColor = '#fff';
-    TopBarColor = '#4285f4';
-    composerColor = '#f3f2f4';
-    messagePane = '#f3f2f4';
-    textArea = '#fff';
-    buttonColor = '#4285f4';
-    break;
-  }
-  default:{
-    break;
-  }
-}
+    document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
+    document.body.style.setProperty('background-repeat', 'no-repeat');
+    document.body.style.setProperty('background-size', 'cover');
 
     const bodyStyle = {
       padding: 0,
@@ -777,7 +783,8 @@ switch(this.state.currTheme){
                     dream={dream}
                     textarea={textArea}
                     speechOutput={speechOutput}
-                    speechOutputAlways={speechOutputAlways} />
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button} />
                 </div>
               </div>
             </div>
@@ -835,6 +842,11 @@ switch(this.state.currTheme){
               open={this.state.snackopen}
               message={<Translate text={this.state.snackMessage} />}
               />
+              <Snackbar
+               autoHideDuration={4000}
+               open={this.state.SnackbarOpenSearchResults && !this.state.snackopen}
+               message={<Translate text='No Results!' />}
+               />
            </div>
          );
      }
