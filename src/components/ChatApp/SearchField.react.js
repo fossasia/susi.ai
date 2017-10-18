@@ -6,6 +6,7 @@ import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
 import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 import ExitIcon from 'material-ui/svg-icons/navigation/close';
 
+
 const animationStyle = {
     transition: 'width 0.75s cubic-bezier(0.000, 0.795, 0.000, 1.000)'
 };
@@ -44,6 +45,7 @@ class ExpandingSearchField extends Component{
     onClick = () => {
         this.setState({isOpen: !this.state.isOpen});
         if(!this.state.isOpen){
+            
             this.props.activateSearch();
         }
         else{

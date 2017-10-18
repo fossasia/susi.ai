@@ -23,8 +23,11 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
+import Facebookshare from './facebookShare';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
+
+
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
 import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
@@ -476,6 +479,9 @@ class Settings extends Component {
 		{
 			return false;
 		}
+		if(selectedSetting==='Connect with Facebook'){
+			return false;
+		}
 		return true;// display the button otherwise
 	}
 	getSomethingToSave = () =>{
@@ -647,6 +653,16 @@ class Settings extends Component {
 					</div>
 				</div>
 			)
+		}
+		else if(this.state.selectedSetting === 'Connect with Facebook') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+				<Facebookshare  />
+
+
+				</div>
+				)
 		}
 
 		else if(this.state.selectedSetting === 'Theme') {
@@ -839,6 +855,8 @@ class Settings extends Component {
 			<hr className="break-line"/>
 			<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
+			<MenuItem value='Connect with Facebook' className="setting-item" leftIcon={<ChatIcon/>}>Connect with Facebook<ChevronRight className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
 			<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon/>}>Account Settings<ChevronRight className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 		</Menu>
@@ -854,10 +872,11 @@ class Settings extends Component {
 				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Connect with Facebook' value='Connect with Facebook' className="setting-item"/>
 				<MenuItem primaryText='Account Settings' value='Account Settings' className="setting-item"/>
 		</DropDownMenu>
 		</div>
@@ -886,6 +905,8 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon/>}>Connect to SUSI Hardware<ChevronRight className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
+				<MenuItem value='Connect with Facebook' className="setting-item"  leftIcon={<ChatIcon/>}>Connect with Facebook<ChevronRight className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -899,10 +920,11 @@ class Settings extends Component {
 				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Connect with Facebook' value='Connect with Facebook' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
