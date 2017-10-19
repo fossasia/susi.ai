@@ -65,7 +65,6 @@ function getStateFromStores() {
       searchText:'',
     }
   };
-
 }
 
 function getMessageListItem(messages, showLoading, markID) {
