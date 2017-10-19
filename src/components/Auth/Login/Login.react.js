@@ -31,8 +31,7 @@ class Login extends Component {
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
-        this.customServerMessage = '';
-	}
+		this.customServerMessage = '';}
 
 	// Submit the Login Form
 	handleSubmit = (e) => {
@@ -217,7 +216,6 @@ class Login extends Component {
 			});
 		}
 	}
-
 	render() {
 
 		const styles = {

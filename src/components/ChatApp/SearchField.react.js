@@ -44,6 +44,7 @@ class ExpandingSearchField extends Component{
     onClick = () => {
         this.setState({isOpen: !this.state.isOpen});
         if(!this.state.isOpen){
+            
             this.props.activateSearch();
         }
         else{
