@@ -74,11 +74,8 @@ class MessageComposer extends Component {
     })
   }
 
-  onspeechend = () => {
-    this.onEnd();
-  }
-
   onEnd = () => {
+    console.log('onend');
     this.setState({
       start: false,
       stop: false,
