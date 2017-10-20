@@ -17,7 +17,10 @@ let _defaults = {
     SpeechPitch: 1,
     TTSLanguage: 'en-US',
     PrefLanguage : 'en-US',
-    ThemeValues: ''
+    ThemeValues: '',
+    CountryCode: 'US',
+    CountryDialCode: '+1',
+    PhoneNo: ''
 
 };
 // Store handling all User Preferences
@@ -145,6 +148,15 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             if(settings.hasOwnProperty('customThemeValue')){
                 _defaults.ThemeValues = settings.customThemeValue;
             }
+            if(settings.hasOwnProperty('countryDialCode')){
+                _defaults.countryDialCode = settings.countryDialCode;
+            }
+            if(settings.hasOwnProperty('phoneNo')){
+                _defaults.phoneNo = settings.phoneNo;
+            }
+            if(settings.hasOwnProperty('countryCode')){
+                _defaults.countryCode = settings.countryCode;
+            }
 
             UserPreferencesStore.emitChange();
             break;
@@ -163,6 +175,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.TTSLanguage = settings.ttsLanguage;
                 _defaults.PrefLanguage = settings.prefLanguage;
                 _defaults.ThemeValues = settings.customThemeValue;
+
             }
             else{
                 if(settings.hasOwnProperty('theme')){
@@ -201,6 +214,15 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 }
                 if(settings.hasOwnProperty('customThemeValue')){
                     _defaults.ThemeValues = settings.customThemeValue;
+                }
+                if(settings.hasOwnProperty('countryDialCode')){
+                    _defaults.CountryDialCode = settings.countryDialCode;
+                }
+                if(settings.hasOwnProperty('phoneNo')){
+                    _defaults.PhoneNo = settings.phoneNo;
+                }
+                if(settings.hasOwnProperty('countryCode')){
+                    _defaults.CountryCode = settings.countryCode;
                 }
             }
             UserPreferencesStore.emitChange();
