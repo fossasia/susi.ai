@@ -59,9 +59,9 @@ class VoiceRecognition extends Component {
   }
 
   onspeechend = () => {
-    console.log('no sound detected');
     this.recognition.stop()
   }
+
   stop = () => {
     this.recognition.stop()
   }
@@ -79,7 +79,8 @@ class VoiceRecognition extends Component {
   componentDidMount () {
     const events = [
       { name: 'start', action: this.props.onStart },
-      { name: 'end', action: this.props.onEnd }
+      { name: 'end', action: this.props.onEnd },
+      { name: 'speechstart', action: this.props.onSpeechStart}
     ]
 
     events.forEach(event => {
@@ -102,6 +103,7 @@ class VoiceRecognition extends Component {
 
 VoiceRecognition.propTypes = {
   onStart: PropTypes.func,
+  onSpeechStart: PropTypes.func,
   onEnd : PropTypes.func,
   onResult: PropTypes.func,
   continuous: PropTypes.bool,
