@@ -20,7 +20,8 @@ let _defaults = {
     ThemeValues: '',
     CountryCode: 'US',
     CountryDialCode: '+1',
-    PhoneNo: ''
+    PhoneNo: '',
+    BackgroundImage : ''
 
 };
 // Store handling all User Preferences
@@ -73,6 +74,10 @@ let UserPreferencesStore = {
 
     getPrefLang(){
         return _defaults.PrefLanguage;
+    },
+
+    getBackgroundImage(){
+        return _defaults.BackgroundImage;
     },
 
     addChangeListener(callback) {
@@ -149,13 +154,17 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.ThemeValues = settings.customThemeValue;
             }
             if(settings.hasOwnProperty('countryDialCode')){
-                _defaults.countryDialCode = settings.countryDialCode;
+                _defaults.CountryDialCode = settings.countryDialCode;
             }
             if(settings.hasOwnProperty('phoneNo')){
-                _defaults.phoneNo = settings.phoneNo;
+                _defaults.PhoneNo = settings.phoneNo;
             }
             if(settings.hasOwnProperty('countryCode')){
-                _defaults.countryCode = settings.countryCode;
+                _defaults.CountryCode = settings.countryCode;
+            }
+
+            if(settings.hasOwnProperty('backgroundImage')){
+                _defaults.BackgroundImage = settings.backgroundImage;
             }
 
             UserPreferencesStore.emitChange();
@@ -175,6 +184,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.TTSLanguage = settings.ttsLanguage;
                 _defaults.PrefLanguage = settings.prefLanguage;
                 _defaults.ThemeValues = settings.customThemeValue;
+                _defaults.BackgroundImage = settings.backgroundImage;
 
             }
             else{
@@ -224,6 +234,11 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('countryCode')){
                     _defaults.CountryCode = settings.countryCode;
                 }
+
+                if(settings.hasOwnProperty('backgroundImage')){
+                    _defaults.BackgroundImage = settings.backgroundImage;
+                }
+
             }
             UserPreferencesStore.emitChange();
             break;
