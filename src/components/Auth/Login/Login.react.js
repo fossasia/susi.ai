@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import PasswordField from 'material-ui-password-field'
@@ -27,7 +28,8 @@ class Login extends Component {
 			emailError: true,
 			passwordError: false,
 			serverFieldError: false,
-			checked: false
+			checked: false,
+			loading: false
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
@@ -61,6 +63,7 @@ class Login extends Component {
 			this.state.email + '&password=' + encodeURIComponent(this.state.password);
 
 		if (email && validEmail) {
+			this.setState({loading: true})
 			$.ajax({
 				url: loginEndPoint,
 				dataType: 'jsonp',
@@ -103,6 +106,9 @@ class Login extends Component {
 			        let state = this.state;
 			        state.msg = msg;
 			        this.setState(state);
+				}.bind(this),
+				complete: function (jqXHR, textStatus) {
+					this.setState({loading: false});
 				}.bind(this)
 			});
 		}
@@ -238,6 +244,7 @@ class Login extends Component {
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField name="email"
+                type="email"
 								value={this.state.email}
 								onChange={this.handleChange}
 								underlineFocusStyle={underlineFocusStyle}
@@ -268,13 +275,14 @@ class Login extends Component {
 						}}>{this.state.msg}</span>
 						<div>
 							<RaisedButton
-								label={<Translate text="Login"/>}
+								label={!this.state.loading ? <Translate text="Login"/> : undefined}
 								type="submit"
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
 								disabled={!this.state.validForm}
-								style={{margin:'15px 0 '}}/>
+								style={{margin:'15px 0 '}}
+								icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
 						</div>
 						<span
 						style={{
