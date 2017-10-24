@@ -154,7 +154,7 @@ export default class ChangePassword extends Component {
         }
     }
 
-    // Submit the Change Passowrd Form
+    // Submit the Change Password Form
     handleSubmit = (event) => {
         event.preventDefault();
 

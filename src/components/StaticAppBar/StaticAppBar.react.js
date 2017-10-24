@@ -133,7 +133,7 @@ class StaticAppBar extends Component {
             this.props.closeVideo();
         }
     }
-    // Hanlde scroll events
+    // Handle scroll events
     handleScroll = (event) => {
         let scrollTop = event.srcElement.body.scrollTop,
             itemTranslate = scrollTop > 60;
@@ -316,31 +316,31 @@ class StaticAppBar extends Component {
         }
         var topLinks = [
             {
-                lable: 'Overview',
+                label: 'Overview',
                 url: '/overview',
                 style: linkstyle,
                 labelStyle: labelStyle
             },
             {
-                lable: 'Devices',
+                label: 'Devices',
                 url: '/devices',
                 style: linkstyle,
                 labelStyle: labelStyle
             },
             {
-                lable: 'Blog',
+                label: 'Blog',
                 url: '/blog',
                 style: linkstyle,
                 labelStyle: labelStyle
             },
             {
-                lable: 'Team',
+                label: 'Team',
                 url: '/team',
                 style: linkstyle,
                 labelStyle: labelStyle
             },
             {
-                lable: 'Support',
+                label: 'Support',
                 url: '/support',
                 style: linkstyle,
                 labelStyle: labelStyle
@@ -362,7 +362,7 @@ class StaticAppBar extends Component {
                 };
             }
             return (
-                 <Link key={i} to={link.url} style={link.labelStyle}>{link.lable}</Link>
+                 <Link key={i} to={link.url} style={link.labelStyle}>{link.label}</Link>
 
             )
         });
@@ -379,7 +379,7 @@ class StaticAppBar extends Component {
             }
             return (
                 <MenuItem key={i} onTouchTap={this.handleDrawerClose} className="drawerItem">
-                    <Link to={link.url}>{link.lable}</Link>
+                    <Link to={link.url}>{link.label}</Link>
                 </MenuItem>
             )
         });

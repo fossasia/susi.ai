@@ -235,9 +235,9 @@ class MessageListItem extends React.Component {
               break
             }
             case 'table': {
-              let coloumns = data.answers[0].actions[index].columns;
+              let columns = data.answers[0].actions[index].columns;
               let count = data.answers[0].actions[index].count;
-              let table = drawTable(coloumns,data.answers[0].data,count);
+              let table = drawTable(columns,data.answers[0].data,count);
               listItems.push(
                 <li className='message-list-item' key={action+index}>
                   <section className={messageContainerClasses}>
