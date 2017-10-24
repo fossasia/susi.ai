@@ -100,6 +100,10 @@
   right: 10px;
 }
 
+.email-field:hover{
+    cursor: not-allowed;
+}
+
 
 @media only screen and (max-width: 1000px){
   .settings-list-dropdown{

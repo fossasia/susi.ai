@@ -20,7 +20,9 @@ let _defaults = {
     ThemeValues: '',
     CountryCode: 'US',
     CountryDialCode: '+1',
-    PhoneNo: '',
+    phoneNo: '',
+    checked: false,
+    serverUrl:'https://api.susi.ai',
     BackgroundImage : ''
 
 };
@@ -91,14 +93,14 @@ let UserPreferencesStore = {
 };
 
 function checkForFalse ( valueToCheck ){
-    if(valueToCheck==='false'){
+    if(valueToCheck==='false' || !valueToCheck){
         return false;
     }
     return true;
 }
 
 function checkForTrue ( valueToCheck ){
-    if(valueToCheck==='true'){
+    if(valueToCheck==='true' || valueToCheck){
         return true;
     }
     return false;
@@ -153,6 +155,12 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             if(settings.hasOwnProperty('customThemeValue')){
                 _defaults.ThemeValues = settings.customThemeValue;
             }
+            if(settings.hasOwnProperty('checked')){
+                _defaults.checked = settings.checked;
+            }
+            if(settings.hasOwnProperty('serverUrl')){
+                _defaults.serverUrl = settings.serverUrl;
+            }
             if(settings.hasOwnProperty('countryDialCode')){
                 _defaults.CountryDialCode = settings.countryDialCode;
             }
@@ -166,7 +174,6 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             if(settings.hasOwnProperty('backgroundImage')){
                 _defaults.BackgroundImage = settings.backgroundImage;
             }
-
             UserPreferencesStore.emitChange();
             break;
         }
@@ -184,8 +191,11 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.TTSLanguage = settings.ttsLanguage;
                 _defaults.PrefLanguage = settings.prefLanguage;
                 _defaults.ThemeValues = settings.customThemeValue;
+                _defaults.checked = settings.checked;
+                _defaults.serverUrl = settings.serverUrl;
+                _defaults.phoneNo= settings.phoneNo;
+                _defaults.countryCode = settings.countryCode;
                 _defaults.BackgroundImage = settings.backgroundImage;
-
             }
             else{
                 if(settings.hasOwnProperty('theme')){
@@ -234,11 +244,21 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 if(settings.hasOwnProperty('countryCode')){
                     _defaults.CountryCode = settings.countryCode;
                 }
-
                 if(settings.hasOwnProperty('backgroundImage')){
                     _defaults.BackgroundImage = settings.backgroundImage;
                 }
-
+                if(settings.hasOwnProperty('checked')){
+                    _defaults.checked = settings.checked;
+                }
+                else{
+                    _defaults.checked = false;
+                }
+                if(settings.hasOwnProperty('serverUrl')){
+                    _defaults.serverUrl = settings.serverUrl;
+                }
+                else{
+                    _defaults.serverUrl = '';
+                }
             }
             UserPreferencesStore.emitChange();
             break;

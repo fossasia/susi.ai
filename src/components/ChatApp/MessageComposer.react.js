@@ -361,7 +361,7 @@ MessageComposer.propTypes = {
   textarea: PropTypes.string,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
-  micColor: PropTypes.string.isRequired,
+  micColor: PropTypes.string,
 };
 
 export default MessageComposer;

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import * as Actions from '../../actions/';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Translate from '../Translate/Translate.react';
 
 class HardwareComponent extends Component {
@@ -15,7 +14,7 @@ class HardwareComponent extends Component {
       serverUrl: '',
       serverFieldError: false,
       checked: false,
-      validForm: true,
+      validForm: false,
       open: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,7 +53,7 @@ class HardwareComponent extends Component {
       this.customServerMessage = '';
     }
 
-    if (!state.serverFieldError || !state.checked) {
+    if (!state.serverFieldError) {
       state.validForm = true;
     }
     else {
@@ -64,21 +63,38 @@ class HardwareComponent extends Component {
   };
 
   render() {
+    const themeBackgroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#19324c':'#fff';
+    const themeForegroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#fff':'#272727';
+    const floatingLabelStyle={
+            color:'#9E9E9E'
+    }
     const styles = {
-      'textAlign': 'center',
-      'padding': '10px 0'
+      'textAlign': 'left',
+      'padding': '10px',
+      paddingTop:'0px',
+      paddingLeft: '30px',
+      backgroundColor:themeBackgroundColor
+    }
+    const inputStyle={
+            color:themeForegroundColor
+    }
+    const underlineFocusStyle= {
+            color: '#4285f4'
     }
     const connectButtonDivStyle = {
       'marginTop': '25px',
     }
+
     return (
-      <div className="loginForm">
+      <div className="loginForm" style={{paddingTop:'0px'}}>
         <Paper zDepth={0} style={styles}>
-          <h3><Translate text="Enter Socket Web Address"/></h3>
           <form onSubmit={this.handleSubmit}>
           <div>
           <TextField name="serverUrl"
                   onChange={this.handleChange}
+                  inputStyle={inputStyle}
+                  floatingLabelStyle={floatingLabelStyle}
+                  floatingLabelFocusStyle={underlineFocusStyle}
                   errorText={this.customServerMessage}
                   floatingLabelText={<Translate text="Websocket URL"/>} />
           </div>
@@ -87,8 +103,7 @@ class HardwareComponent extends Component {
               label={<Translate text="Connect"/>}
               type="submit"
               disabled={!this.state.validForm}
-              backgroundColor={
-                UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+              backgroundColor='#4285f4'
               labelColor="#fff"
             />
           </div>
@@ -99,7 +114,8 @@ class HardwareComponent extends Component {
 }
 
 HardwareComponent.propTypes = {
-  history: PropTypes.object
+  history: PropTypes.object,
+  settings:PropTypes.object
 };
 
 export default HardwareComponent;
