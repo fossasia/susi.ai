@@ -10,7 +10,7 @@ export function connectToWebSocket(serverUrl) {
         }
         webSocket = new WebSocket(serverUrl);
         webSocket.onmessage = function incoming(message) {
-            console.log('Message Recieved from Susi Hardware: ' + message);
+            console.log('Message Received from Susi Hardware: ' + message);
             Actions.createMessage(message.data, 't_1');
         }
         webSocket.onopen = function connected() {

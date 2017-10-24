@@ -233,20 +233,20 @@ export function renderTiles(tiles){
 }
 
 // Create a Table as SUSI Response
-export function drawTable(coloumns,tableData,count){
+export function drawTable(columns,tableData,count){
   let parseKeys;
   let showColName = true;
   // Check the dataType specifying table columns
-  if(coloumns.constructor === Array){
-    parseKeys = coloumns;
+  if(columns.constructor === Array){
+    parseKeys = columns;
     showColName = false;
   }
   else{
-    parseKeys = Object.keys(coloumns);
+    parseKeys = Object.keys(columns);
   }
   // Create the Table Header
   let tableheader = parseKeys.map((key,i) =>{
-    return(<TableHeaderColumn key={i}>{coloumns[key]}</TableHeaderColumn>);
+    return(<TableHeaderColumn key={i}>{columns[key]}</TableHeaderColumn>);
   });
   // Calculate #rows in table
   let rowCount = tableData.length;
