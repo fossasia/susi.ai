@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Send from 'material-ui/svg-icons/content/send';
 import Mic from 'material-ui/svg-icons/av/mic';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import MessageStore from '../../stores/MessageStore';
 import IconButton from 'material-ui/IconButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import VoiceRecognition from './VoiceRecognition';
@@ -14,6 +15,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
+let UP_KEY_CODE = 38;
+let DOWN_KEY_CODE = 40;
 const style = {
   mini: true,
   bottom: '14px',
@@ -51,9 +54,8 @@ class MessageComposer extends Component {
       open: false,
       result: '',
       animate: false,
-
-      rows: 1
-
+      rows: 1,
+      currentArrowIndex:0// store the index for moving through messages using key
     };
     this.rowComplete = 0;
     this.numberoflines = 0;
@@ -270,7 +272,7 @@ class MessageComposer extends Component {
       if (this.speechRecog) {
         this.Button = <Mic />
       }
-      this.setState({ text: '' });
+      this.setState({ text: '',currentArrowIndex:0 });
     }
   }
 
@@ -286,7 +288,7 @@ class MessageComposer extends Component {
     else {
       this.Button = <Send />
     }
-    this.setState({ text: event.target.value });
+    this.setState({ text: event.target.value,currentArrowIndex:0 });
   }
 
   _onKeyDown(event) {
@@ -300,12 +302,55 @@ class MessageComposer extends Component {
         if (text) {
           Actions.createMessage(text, this.props.threadID, this.props.speechOutputAlways);
         }
-        this.setState({ text: '' });
+        this.setState({ text: '',currentArrowIndex:0 });
         if (this.speechRecog) {
           this.Button = <Mic />
         }
       }
     }
+    else if(event.keyCode===UP_KEY_CODE){
+        event.preventDefault();
+        const messages=MessageStore.getAllForCurrentThread();
+        let currentArrowIndex = this.state.currentArrowIndex;
+        let curIndex=0;
+        for(let i=messages.length-1;i>=0;i--){
+          let obj=messages[i];
+          if(obj.authorName==='You'){
+            if(curIndex===currentArrowIndex){
+              this.setState({text:obj.text,currentArrowIndex:currentArrowIndex+1});
+              currentArrowIndex++;
+              break;
+            }
+            curIndex++;
+          }
+        }
+        this.setState({currentArrowIndex});
+    }
+    else if(event.keyCode===DOWN_KEY_CODE){
+        event.preventDefault();
+        const messages=MessageStore.getAllForCurrentThread();
+        let currentArrowIndex = this.state.currentArrowIndex;
+        let curIndex=0;
+        if(currentArrowIndex<=1){
+          // empty text field
+          this.setState({text:'',currentArrowIndex:0})
+        }
+        else{
+        for(let i=messages.length-1;i>=0;i--){
+          let obj=messages[i];
+          if(obj.authorName==='You'){
+            if(curIndex===currentArrowIndex-2){
+              this.setState({text:obj.text,currentArrowIndex:currentArrowIndex+1});
+              currentArrowIndex--;
+              break;
+            }
+            curIndex++;
+          }
+        }
+        this.setState({currentArrowIndex});
+      }
+    }
+
   }
 
 };
@@ -316,7 +361,7 @@ MessageComposer.propTypes = {
   textarea: PropTypes.string,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
-  micColor: PropTypes.string.isRequired,
+  micColor: PropTypes.string,
 };
 
 export default MessageComposer;

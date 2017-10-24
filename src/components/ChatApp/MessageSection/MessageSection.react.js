@@ -22,9 +22,14 @@ import Translate from '../../Translate/Translate.react';
 
 function getStateFromStores() {
   var themeValue=[];
+  var backgroundValue = [];
   // get Theme data from server
   if(UserPreferencesStore.getThemeValues()){
     themeValue=UserPreferencesStore.getThemeValues().split(',');
+  }
+
+  if(UserPreferencesStore.getBackgroundImage()){
+    backgroundValue=UserPreferencesStore.getBackgroundImage().split(',');
   }
   return {
     SnackbarOpen: false,
@@ -47,11 +52,11 @@ function getStateFromStores() {
     composer: themeValue.length>5?'#'+themeValue[3]:'#f5f4f6',
     textarea:  themeValue.length>5?'#'+themeValue[4]:'#fff',
     button: themeValue.length>5? '#'+themeValue[5]:'#4285f4',
-    bodyBackgroundImage:'',
+    bodyBackgroundImage : backgroundValue.length>1 ? backgroundValue[0] : '',
     snackopen: false,
     snackMessage: 'It seems you are offline!',
     SnackbarOpenSearchResults:false,
-    messageBackgroundImage:'',
+    messageBackgroundImage : backgroundValue.length>1 ? backgroundValue[1] : '',
     showScrollBottom: false,
     searchState: {
       markedMsgs: [],
@@ -65,7 +70,6 @@ function getStateFromStores() {
       searchText:'',
     }
   };
-
 }
 
 function getMessageListItem(messages, showLoading, markID) {
@@ -339,6 +343,9 @@ class MessageSection extends Component {
     let settingsChanged = {};
     settingsChanged.theme = 'custom';
     settingsChanged.customThemeValue = customData;
+    if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+        settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+    }
     Actions.settingsChanged(settingsChanged);
     this.setState({currTheme : 'custom'})
     this.handleClose();

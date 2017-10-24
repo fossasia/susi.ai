@@ -85,7 +85,7 @@ export default class ChangePassword extends Component {
               let result = zxcvbn(newPassword);
               state.newPasswordScore = result.score;
               let strength = [
-                <Translate key={1} text="Worst" />,
+                <Translate key={1} text="Too Insecure" />,
                 <Translate key={2} text="Bad" />,
                 <Translate key={3} text="Weak" />,
                 <Translate key={4} text="Good" />,
@@ -234,11 +234,15 @@ export default class ChangePassword extends Component {
     }
 
     render() {
+        const themeBackgroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#19324c':'#fff';
+        const themeForegroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#fff':'#272727';
 
         const styles = {
             'width': '100%',
-            'textAlign': 'center',
-            'padding': '10px'
+            'textAlign': 'left',
+            'padding': '10px',
+            paddingTop:'0px',
+            backgroundColor:themeBackgroundColor
         }
         const closingStyle ={
           position: 'absolute',
@@ -251,18 +255,23 @@ export default class ChangePassword extends Component {
           cursor:'pointer'
         }
         const fieldStyle={
-            'width':'256px'
+            'width':'256px',
+            color:themeForegroundColor
+        }
+        const inputStyle={
+            color:themeForegroundColor
         }
         const underlineFocusStyle= {
             color: '#4285f4'
         }
-
+        const floatingLabelStyle={
+            color:'#9E9E9E'
+        }
         const PasswordClass=[`is-strength-${this.state.newPasswordScore}`];
 
         return (
             <div className="changePasswordForm">
                 <Paper zDepth={0} style={styles}>
-                    <h3><Translate text="Change Password" /></h3>
                     <form onSubmit={this.handleSubmit}>
                         <div>
                             <PasswordField
@@ -270,8 +279,11 @@ export default class ChangePassword extends Component {
                                 style={fieldStyle}
                                 value={this.state.passwordValue}
                                 onChange={this.handleChange}
+                                inputStyle={inputStyle}
                                 errorText={this.passwordErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelStyle={floatingLabelStyle}
+                                visibilityIconStyle={{color:themeForegroundColor}}
                                 floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText={<Translate text="Current Password" />} />
                         </div>
@@ -281,6 +293,9 @@ export default class ChangePassword extends Component {
                                 style={fieldStyle}
                                 value={this.state.newPasswordValue}
                                 onChange={this.handleChange}
+                                inputStyle={inputStyle}
+                                floatingLabelStyle={floatingLabelStyle}
+                                visibilityIconStyle={{color:themeForegroundColor}}
                                 errorText={this.newPasswordErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
@@ -298,6 +313,9 @@ export default class ChangePassword extends Component {
                                 style={fieldStyle}
                                 value={this.state.confirmNewPasswordValue}
                                 onChange={this.handleChange}
+                                inputStyle={inputStyle}
+                                floatingLabelStyle={floatingLabelStyle}
+                                visibilityIconStyle={{color:themeForegroundColor}}
                                 errorText={this.newPasswordConfirmErrorMessage}
                                 underlineFocusStyle={underlineFocusStyle}
                                 floatingLabelFocusStyle={underlineFocusStyle}
@@ -308,9 +326,7 @@ export default class ChangePassword extends Component {
                                 label={<Translate text="Change" />}
                                 type="submit"
                                 disabled={!this.state.validForm}
-                                backgroundColor={
-                                    UserPreferencesStore.getTheme()==='light'
-                                    ? '#4285f4' : '#19314B'}
+                                backgroundColor='#4285f4'
                                 labelColor="#fff" />
                         </div>
                     </form>
@@ -331,5 +347,6 @@ export default class ChangePassword extends Component {
 }
 
 ChangePassword.propTypes = {
-    history: PropTypes.object
+    history: PropTypes.object,
+    settings: PropTypes.object
 }

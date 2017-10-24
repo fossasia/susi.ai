@@ -391,9 +391,8 @@ class StaticAppBar extends Component {
                 </div>
             </div>
         );
-
+        const themeBackgroundColor = this.props.settings && this.props.settings.theme==='dark'?'rgb(25, 50, 76)':'#4285f4';
         return (
-
             <div>
                 <header className="nav-down" >
                     <AppBar
@@ -403,7 +402,7 @@ class StaticAppBar extends Component {
                         title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px',height:'25px',width:'122px' }}>
                             <img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link><TopMenu /></div>}
                         style={{
-                            backgroundColor: '#4285f4', height: '46px',
+                            backgroundColor: themeBackgroundColor, height: '46px',
                             boxShadow: 'none'
                         }}
 						showMenuIconButton={showLeftMenu!=='none'}
@@ -477,6 +476,7 @@ class StaticAppBar extends Component {
 }
 StaticAppBar.propTypes = {
     history: PropTypes.object,
+    settings: PropTypes.object,
     location: PropTypes.object,
     closeVideo: PropTypes.func
 }

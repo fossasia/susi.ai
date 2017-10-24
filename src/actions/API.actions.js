@@ -118,26 +118,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         // Setting Language received from User
         receivedMessage.lang = response.answers[0].actions[0].language;
       }
-      let defaultPrefLanguage = defaults.PrefLanguage;
-      // Translate the message text
-        let urlForTranslate = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en-US&tl='+defaultPrefLanguage+'&dt=t&q='+receivedMessage.text;
-        $.ajax({
-          url: urlForTranslate,
-          dataType: 'json',
-          crossDomain: true,
-          timeout: 3000,
-          async: false,
-          success: function (data) {
-            if(data[0]){
-              if(data[0][0]){
-                receivedMessage.text = data[0][0][0];
-              }
-            }
-          },
-          error: function(errorThrown){
-            console.log(errorThrown);
-          }
-        });
       receivedMessage.response = response;
       let actions = [];
       response.answers[0].actions.forEach((actionobj) => {
@@ -353,6 +333,11 @@ export function getSettings(){
       settings.prefLanguage = settings.PrefLanguage
       settings.customThemeValue = settings.ThemeValues
       settings.LocalStorage = true;
+      settings.checked=false;
+      settings.CountryCode= 'US';
+      settings.CountryDialCode='+1';
+      settings.phoneNo= '';
+      settings.serverUrl='https://api.susi.ai';
       cookies.set('settings',settings);
       SettingsActions.initialiseSettings(settings);
     }
@@ -385,6 +370,9 @@ export function getSettings(){
       timeout: 3000,
       async: false,
       success: function (response) {
+          if(response.hasOwnProperty('session') && response.accepted){
+            SettingsActions.initialiseIdentity(response.session.identity);
+          }
         if(response.hasOwnProperty('settings') && response.accepted){
           SettingsActions.initialiseSettings(response.settings);
         }
