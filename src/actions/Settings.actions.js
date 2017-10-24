@@ -26,6 +26,13 @@ export function initialiseSettings(settings) {
   });
 }
 
+export function initialiseIdentity(identity) {
+  ChatAppDispatcher.dispatch({
+    type: ActionTypes.INIT_IDENTITY,
+    identity
+  });
+}
+
 export function initialiseTTSVoices(voiceList) {
   ChatAppDispatcher.dispatch({
     type: ActionTypes.INIT_TTS_VOICES,

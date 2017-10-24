@@ -5,6 +5,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import UserIdentityStore from '../../../stores/UserIdentityStore';
 import MessageStore from '../../../stores/MessageStore';
 import Cookies from 'universal-cookie';
 import Toggle from 'material-ui/Toggle';
@@ -32,6 +33,7 @@ import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
+import LockIcon from 'material-ui/svg-icons/action/lock';
 import LanguageIcon from 'material-ui/svg-icons/action/language';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
@@ -44,7 +46,7 @@ class Settings extends Component {
 	// save a variable in state holding the initial state of the settings
 	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();
-		console.log('default',defaults);
+		let identity = UserIdentityStore.getIdentity();
 		let defaultServer = defaults.Server;
 		let defaultTheme = defaults.Theme;
 		let defaultEnterAsSend = defaults.EnterAsSend;
@@ -54,11 +56,14 @@ class Settings extends Component {
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultPrefLanguage = defaults.PrefLanguage;
+		let defaultChecked = defaults.checked;
+		let defaultServerUrl= defaults.serverUrl;
 		let defaultCountryCode = defaults.CountryCode;
 		let defaultCountryDialCode = defaults.CountryDialCode;
-		let defaultPhoneNo = defaults.PhoneNo;
+		let defaultPhoneNo = defaults.phoneNo;
 		this.setState({
-			intialSettings: {
+			identity,
+			intialSettings:{
 				theme: defaultTheme,
 				enterAsSend: defaultEnterAsSend,
 				micInput: defaultMicInput,
@@ -67,61 +72,63 @@ class Settings extends Component {
 				speechRate: defaultSpeechRate,
 				speechPitch: defaultSpeechPitch,
 				server: defaultServer,
-				serverUrl: '',
-				checked: false,
 				PrefLanguage: defaultPrefLanguage,
+				serverUrl: defaultServerUrl,
+				checked: defaultChecked,
 				countryCode: defaultCountryCode,
 				countryDialCode: defaultCountryDialCode,
 				phoneNo: defaultPhoneNo
 			}
 		})
 	}
+	// extract values from store to get the initial settings
 	setDefaultsSettings = () => {
-		let defaults = UserPreferencesStore.getPreferences();
-		let defaultServer = defaults.Server;
-		let defaultTheme = defaults.Theme;
-		let defaultEnterAsSend = defaults.EnterAsSend;
-		let defaultMicInput = defaults.MicInput;
-		let defaultSpeechOutput = defaults.SpeechOutput;
-		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
-		let defaultSpeechRate = defaults.SpeechRate;
-		let defaultSpeechPitch = defaults.SpeechPitch;
-		let defaultTTSLanguage = defaults.TTSLanguage;
-		let defaultPrefLanguage = defaults.PrefLanguage;
-		let defaultCountryCode = defaults.CountryCode;
-		let defaultCountryDialCode =defaults.CountryDialCode;
-		let defaultPhoneNo = defaults.PhoneNo;
-		let TTSBrowserSupport;
-		if ('speechSynthesis' in window) {
-			TTSBrowserSupport = true;
-		} else {
-			TTSBrowserSupport = false;
-			console.warn('The current browser does not support the SpeechSynthesis API.')
-		}
-		let STTBrowserSupport;
-		const SpeechRecognition = window.SpeechRecognition
-			|| window.webkitSpeechRecognition
-			|| window.mozSpeechRecognition
-			|| window.msSpeechRecognition
-			|| window.oSpeechRecognition
+	let defaults = UserPreferencesStore.getPreferences();
+	let defaultServer = defaults.Server;
+	let defaultTheme = defaults.Theme;
+	let defaultEnterAsSend = defaults.EnterAsSend;
+	let defaultMicInput = defaults.MicInput;
+	let defaultSpeechOutput = defaults.SpeechOutput;
+	let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+	let defaultSpeechRate = defaults.SpeechRate;
+	let defaultSpeechPitch = defaults.SpeechPitch;
+	let defaultTTSLanguage = defaults.TTSLanguage;
+	let defaultPrefLanguage = defaults.PrefLanguage;
+	let defaultChecked = defaults.checked;
+	let defaultServerUrl= defaults.serverUrl;
+	let defaultCountryCode = defaults.CountryCode;
+	let defaultCountryDialCode =defaults.CountryDialCode;
+	let defaultPhoneNo = defaults.phoneNo;
+	let TTSBrowserSupport;
+	if ('speechSynthesis' in window) {
+	  TTSBrowserSupport = true;
+	} else {
+	  TTSBrowserSupport = false;
+	  console.warn('The current browser does not support the SpeechSynthesis API.')
+	}
+	let STTBrowserSupport;
+	const SpeechRecognition = window.SpeechRecognition
+	  || window.webkitSpeechRecognition
+	  || window.mozSpeechRecognition
+	  || window.msSpeechRecognition
+	  || window.oSpeechRecognition
 
-		if (SpeechRecognition != null) {
-			STTBrowserSupport = true;
-		} else {
-			STTBrowserSupport = false;
-			console.warn('The current browser does not support the SpeechRecognition API.');
-		}
+	if (SpeechRecognition != null) {
+	  STTBrowserSupport = true;
+	} else {
+	  STTBrowserSupport = false;
+	  console.warn('The current browser does not support the SpeechRecognition API.');
+	}
 		this.setState({
 			theme: defaultTheme,
-			selectedSetting: 'ChatApp Settings',
 			enterAsSend: defaultEnterAsSend,
 			micInput: defaultMicInput,
 			speechOutput: defaultSpeechOutput,
 			speechOutputAlways: defaultSpeechOutputAlways,
 			server: defaultServer,
-			serverUrl: '',
+			serverUrl: defaultServerUrl,
 			serverFieldError: false,
-			checked: false,
+			checked: defaultChecked,
 			validForm: true,
 			showLanguageSettings: false,
 			speechRate: defaultSpeechRate,
@@ -151,6 +158,14 @@ class Settings extends Component {
 		this.customServerMessage = '';
 		this.TTSBrowserSupport = TTSBrowserSupport;
 		this.STTBrowserSupport = STTBrowserSupport;
+	}
+
+	/**
+	 * Event handler for 'change' events coming from the UserPreferencesStore
+	 */
+	_onChangeSettings() {
+	  this.setInitialSettings();
+	  this.setDefaultsSettings();
 	}
 
 	// Show change server dialog
@@ -200,13 +215,15 @@ class Settings extends Component {
 		let newSpeechPitch = this.state.speechPitch;
 		let newTTSLanguage = this.state.ttsLanguage;
 		let newPrefLanguage = this.state.PrefLanguage;
+		let checked = this.state.checked;
+		let serverUrl = this.state.serverUrl;
 		let newCountryCode = !this.state.countryCode?
 		this.intialSettings.countryCode:this.state.countryCode;
 		let newCountryDialCode = !this.state.countryDialCode?
 		this.intialSettings.countryDialCode:this.state.countryDialCode;
 		let newPhoneNo = this.state.phoneNo;
-		if (newDefaultServer.slice(-1) === '/') {
-			newDefaultServer = newDefaultServer.slice(0, -1);
+		if(newDefaultServer.slice(-1)==='/'){
+			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
 		let vals = {
 			theme: newTheme,
@@ -221,7 +238,9 @@ class Settings extends Component {
 			prefLanguage: newPrefLanguage,
 			countryCode: newCountryCode,
 			countryDialCode: newCountryDialCode,
-			phoneNo: newPhoneNo
+			phoneNo: newPhoneNo,
+			checked,
+			serverUrl
 		}
 
 		let settings = Object.assign({}, vals);
@@ -236,21 +255,20 @@ class Settings extends Component {
 
 	// Store the settings in stores and server
 	implementSettings = (values) => {
-		let currSettings = UserPreferencesStore.getPreferences();
-		let resetVoice = false;
-		if (currSettings.SpeechOutput !== values.speechOutput) {
-			resetVoice = true;
-		}
-		if (currSettings.SpeechOutputAlways !== values.speechOutputAlways) {
-			resetVoice = true;
-		}
-		Actions.settingsChanged(values);
-		if (resetVoice) {
-			Actions.resetVoice();
-		}
-		this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
-		// window.location.reload();
+	let currSettings = UserPreferencesStore.getPreferences();
+	let resetVoice = false;
+	if(currSettings.SpeechOutput !== values.speechOutput){
+	  resetVoice = true;
 	}
+	if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
+	  resetVoice = true;
+	}
+	Actions.settingsChanged(values);
+	if(resetVoice){
+	  Actions.resetVoice();
+	}
+	this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
+  }
 
 	// Handle change to theme settings
 	handleSelectChange = (event, value) => {
@@ -418,6 +436,7 @@ class Settings extends Component {
 
 	componentWillUnmount() {
 		MessageStore.removeChangeListener(this._onChange.bind(this));
+		UserPreferencesStore.removeChangeListener(this._onChangeSettings.bind(this));
 	}
 
 	// Populate language list
@@ -434,10 +453,9 @@ class Settings extends Component {
 	}
 
 	componentDidMount() {
-		console.log('this.state',this.state.intialSettings);
 		document.title = 'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
 		MessageStore.addChangeListener(this._onChange.bind(this));
-
+		UserPreferencesStore.addChangeListener(this._onChangeSettings.bind(this));
 		this.setState({
 			search: false,
 		});
@@ -450,6 +468,12 @@ class Settings extends Component {
 				selectedSetting: tab
 			})
 		}
+		else{
+			this.setState({
+			selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp Settings'
+		})
+		}
+		this.showWhenLoggedIn='none';
 	}
 
 	// Generate language list drop down menu items
@@ -486,15 +510,21 @@ class Settings extends Component {
 		this.setState({ settingNo: e.target.innerText });
 	}
 
-	displaySaveChangesButton = () => {
-		let selectedSetting = this.state.selectedSetting;
-		if (selectedSetting === 'Account Settings') {
+	displaySaveChangesButton = () =>{
+		let selectedSetting=this.state.selectedSetting;
+		if(selectedSetting==='Password')
+		{
 			return false;
 		}
 		if (selectedSetting === 'Connect to SUSI Hardware') {
 			return false;
 		}
-		if (selectedSetting === 'Server Settings' && cookies.get('loggedIn')) {
+		if(selectedSetting==='Account')
+		{
+			return false;
+		}
+		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
+		{
 			return false;
 		}
 		return true;// display the button otherwise
@@ -537,8 +567,16 @@ class Settings extends Component {
 		else if (intialSettings.countryCode !== classState.countryCode) {
 			somethingToSave = true;
 		}
+		else if(intialSettings.serverUrl !== classState.serverUrl)
+		{
+			somethingToSave=true;
+		}
 		else if (intialSettings.phoneNo !== classState.phoneNo) {
 			somethingToSave = true;
+		}
+		else if(intialSettings.PrefLanguage!==classState.PrefLanguage)
+		{
+			somethingToSave=true;
 		}
 		return somethingToSave;
 	}
@@ -558,6 +596,17 @@ class Settings extends Component {
 			'padding': 0,
 			textAlign: 'center'
 		}
+		const themeBackgroundColor=this.state.intialSettings.theme==='dark'?'#19324c':'#fff';
+		const themeForegroundColor=this.state.intialSettings.theme==='dark'?'#fff':'#272727';
+
+		const floatingLabelStyle={
+			color:'#9e9e9e'
+		}
+		const underlineStyle ={
+			color:this.state.intialSettings.theme==='dark'?'#9E9E9E':null,
+			borderColor:this.state.intialSettings.theme==='dark'?'#9E9E9E':null
+		}
+		const menuIconColor=this.state.intialSettings.theme==='dark'?themeForegroundColor:null;
 		countryData.countries.all.sort(function (a, b) {
 			if (a.name < b.name) { return -1 };
 			if (a.name > b.name) { return 1 };
@@ -612,6 +661,10 @@ class Settings extends Component {
 			marginLeft: '10px',
 		}
 
+		const radioIconStyle = {
+			fill: '#4285f4'
+		}
+
 		let currentSetting;
 
 
@@ -627,12 +680,13 @@ class Settings extends Component {
 					}}>
 						<Translate text="Select Server" />
 					</div>
-					<div style={{ textAlign: 'left', marginLeft: '30px !important' }}>
-						<CustomServer
-							checked={this.state.checked}
-							serverUrl={this.state.serverUrl}
-							customServerMessage={this.customServerMessage}
-							onServerChange={this.handleServeChange} />
+					<div style={{textAlign : 'left', marginLeft: '30px !important'}}>
+					<CustomServer
+						checked={this.state.checked}
+						settings={this.state.intialSettings}
+						serverUrl={this.state.serverUrl}
+						customServerMessage={this.customServerMessage}
+						onServerChange={this.handleServeChange}/>
 					</div>
 				</div>
 			)
@@ -649,11 +703,12 @@ class Settings extends Component {
 							}}>
 								<Translate text="Select Server" />
 							</div>
-							<FlatButton
-								className='settingsBtns'
-								style={Buttonstyles}
-								label={<Translate text="Select backend server for the app" />}
-								onClick={this.handleServer} />
+								<FlatButton
+									className='settingsBtns'
+									labelStyle={{color:themeForegroundColor}}
+									style={Buttonstyles}
+									label={<Translate text="Select backend server for the app"/>}
+									onClick={this.handleServer} />
 						</div>
 					</div>
 				)
@@ -676,7 +731,8 @@ class Settings extends Component {
 							</div>
 							<Toggle
 								className='settings-toggle'
-								label={<Translate text="Enable mic to give voice input" />}
+								label={<Translate text="Enable mic to give voice input"/>}
+								labelStyle={{color:themeForegroundColor}}
 								disabled={!this.STTBrowserSupport}
 								onToggle={this.handleMicInput}
 								toggled={this.state.micInput} />
@@ -704,12 +760,16 @@ class Settings extends Component {
 						name="Theme"
 						valueSelected={this.state.theme}>
 						<RadioButton
-							style={{ width: '20%', display: 'block' }}
+							style={{width: '20%', display: 'block'}}
+							iconStyle={radioIconStyle}
+							labelStyle={{color:themeForegroundColor}}
 							value='light'
 							label={<Translate text="Light" />}
 						/>
 						<RadioButton
-							style={{ width: '20%', display: 'inline-block' }}
+							style={{width: '20%', display: 'inline-block'}}
+							iconStyle={radioIconStyle}
+							labelStyle={{color:themeForegroundColor}}
 							value='dark'
 							label={<Translate text="Dark" />}
 						/>
@@ -721,55 +781,54 @@ class Settings extends Component {
 		else if (this.state.selectedSetting === 'Speech Settings') {
 			currentSetting = (
 				<div style={divStyle}>
-					<div>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}>
-							<Translate text="Speech Output" />
-						</div>
-						<Toggle
-							className='settings-toggle'
-							label={<Translate text="Enable speech output only for speech input" />}
-							disabled={!this.TTSBrowserSupport}
-							onToggle={this.handleSpeechOutput}
-							toggled={this.state.speechOutput} />
-					</div>
-					<div>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}>
-							<Translate text="Speech Output Always ON" />
-						</div>
-						<Toggle
-							className='settings-toggle'
-							label={<Translate text="Enable speech output regardless of input type" />}
-							disabled={!this.TTSBrowserSupport}
-							onToggle={this.handleSpeechOutputAlways}
-							toggled={this.state.speechOutputAlways} />
-					</div>
-					<div>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}>
-							<Translate text="Speech Output Language" />
-						</div>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							label={<Translate text="Select Default Language" />}
-
-							disabled={!this.TTSBrowserSupport}
-							onClick={this.handleLanguage.bind(this, true)} />
-					</div>
+								<div>
+									<div style={{
+										marginTop: '10px',
+										'marginBottom':'0px',
+										fontSize: '15px',
+										fontWeight: 'bold'}}>
+										<Translate text="Speech Output"/>
+									</div>
+									<Toggle
+										className='settings-toggle'
+										label={<Translate text="Enable speech output only for speech input"/>}
+										disabled={!this.TTSBrowserSupport}
+										labelStyle={{color:themeForegroundColor}}
+										onToggle={this.handleSpeechOutput}
+										toggled={this.state.speechOutput}/>
+								</div>
+								<div>
+									<div style={{
+										marginTop: '10px',
+										'marginBottom':'0px',
+										fontSize: '15px',
+										fontWeight: 'bold'}}>
+										<Translate text="Speech Output Always ON"/>
+									</div>
+									<Toggle
+										className='settings-toggle'
+										label={<Translate text="Enable speech output regardless of input type"/>}
+										disabled={!this.TTSBrowserSupport}
+										labelStyle={{color:themeForegroundColor}}
+										onToggle={this.handleSpeechOutputAlways}
+										toggled={this.state.speechOutputAlways}/>
+								</div>
+								<div>
+									<div style={{
+										marginTop: '10px',
+										'marginBottom':'0px',
+										fontSize: '15px',
+										fontWeight: 'bold'}}>
+										<Translate text="Speech Output Language"/>
+									</div>
+									<FlatButton
+										className='settingsBtns'
+										style={Buttonstyles}
+										label={<Translate text="Select Default Language"/>}
+										labelStyle={{color:themeForegroundColor}}
+										disabled={!this.TTSBrowserSupport}
+										onClick={this.handleLanguage.bind(this,true)} />
+								</div>
 				</div>
 			)
 		}
@@ -787,35 +846,57 @@ class Settings extends Component {
 							<Translate text="Select Default Language" />
 						</div>
 					</span>
-					<DropDownMenu
-						value={voiceOutput.voiceLang}
-						disabled={!this.TTSBrowserSupport}
-						onChange={this.handlePrefLang}>
-						{voiceOutput.voiceMenu}
-					</DropDownMenu>
+						<DropDownMenu
+							value={voiceOutput.voiceLang}
+							disabled={!this.TTSBrowserSupport}
+							labelStyle={{color:themeForegroundColor}}
+							menuStyle={{backgroundColor:themeBackgroundColor}}
+							menuItemStyle={{color:themeForegroundColor}}
+							onChange={this.handlePrefLang}>
+							{voiceOutput.voiceMenu}
+					 </DropDownMenu>
 				</div>
 			)
 		}
 
-		else if (this.state.selectedSetting === 'Account Settings' && cookies.get('loggedIn')) {
+		else if(this.state.selectedSetting === 'Password' && cookies.get('loggedIn')) {
 			currentSetting =
-				<div style={divStyle}>
-					<span>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}>
-							<Translate text="Change your Account Password" />
-						</div>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							label={<Translate text="Change Password" />}
-							onClick={this.handleChangePassword} />
-					</span>
-				</div>
+			<div style={divStyle}>
+				<span>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Change your Account Password"/>
+					</div>
+					<ChangePassword settings={this.state.intialSettings} {...this.props} />
+				</span>
+			</div>
+		}
+
+		else if(this.state.selectedSetting === 'Account' && cookies.get('loggedIn')) {
+			currentSetting =
+			<div style={divStyle}>
+				<span>
+					<div style={{
+						marginTop: '10px',
+						'marginBottom':'0px',
+						fontSize: '15px',
+						fontWeight: 'bold'}}>
+						<Translate text="Your Account"/>
+					</div>
+					<TextField
+						name="email"
+						disabled={true}
+						underlineDisabledStyle={UserPreferencesStore.getTheme()==='dark'?underlineStyle:null}
+						underlineStyle={underlineStyle}
+						inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
+                  		value={this.state.identity.name}
+						floatingLabelStyle={floatingLabelStyle}
+                  		floatingLabelText={<Translate text="Your Email"/>} />
+				</span>
+			</div>
 		}
 
 		else if (this.state.selectedSetting === 'Connect to SUSI Hardware') {
@@ -831,12 +912,7 @@ class Settings extends Component {
 						}}>
 							<Translate text="Connect to SUSI Hardware" />
 						</div>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							id="hardwareBtn"
-							label={<Translate text="Add address to connect to Hardware" />}
-							onClick={this.handleHardware} />
+						<HardwareComponent settings={this.state.intialSettings} {...this.props} />
 					</div>
 				</span>
 			)
@@ -868,7 +944,6 @@ class Settings extends Component {
 							'marginBottom': '0px',
 							marginLeft: '30px',
 							fontSize: '15px',
-							color: '#0f0f0f',
 							fontWeight: 'bold'
 						}}>
 							<Translate text="Add your phone number" />
@@ -890,6 +965,9 @@ class Settings extends Component {
 							<Translate text="Country/region : " />
 							<DropDownMenu maxHeight={300}
 								style={{ width: '250px', position: 'relative', top: '15px' }}
+								labelStyle={{color:themeForegroundColor}}
+								menuStyle={{backgroundColor:themeBackgroundColor}}
+								menuItemStyle={{color:themeForegroundColor}}
 								value={this.state.countryCode ? this.state.countryCode : 'US'}
 								onChange={this.handleCountryChange}>
 								{countries}
@@ -905,12 +983,17 @@ class Settings extends Component {
 							<Translate text="Phone number : " />
 							<TextField name="selectedCountry"
 								disabled={true}
+								underlineDisabledStyle={UserPreferencesStore.getTheme()==='dark'?underlineStyle:null}
+								inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
+		                  		floatingLabelStyle={floatingLabelStyle}
 								value={countryData.countries[this.state.countryCode ? this.state.countryCode : 'US'].countryCallingCodes[0]}
 								style={{ width: '45px', marginLeft: '30px' }}
 							/>
 							<TextField name="phonenumber"
 								style={{ width: '150px', marginLeft: '5px' }}
 								onChange={this.handleTelephoneNoChange}
+								inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
+		                  		floatingLabelStyle={floatingLabelStyle}
 								value={this.state.phoneNo}
 								floatingLabelText={<Translate text="Phone number" />} />
 						</div>
@@ -933,118 +1016,128 @@ class Settings extends Component {
 						className='settings-toggle'
 						label={<Translate text="Send message by pressing ENTER" />}
 						onToggle={this.handleEnterAsSend}
-						toggled={this.state.enterAsSend} />
+						labelStyle={{color:themeForegroundColor}}
+						toggled={this.state.enterAsSend}/>
 				</div>);
 		}
-		let blueThemeColor = { color: 'rgb(66, 133, 244)' };
-		let menuItems = cookies.get('loggedIn') ?
-			<div>
-				<div className="settings-list">
-					<Menu
-						onItemTouchTap={this.loadSettings}
-						selectedMenuItemStyle={blueThemeColor}
-						style={{ width: '100%' }}
-						value={this.state.selectedSetting}
-					>
-						<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon />}>ChatApp Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon />}>Theme<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon />}>Mic Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon />}>Speech Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon />}>Text Language Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon />}>Server Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Connect to SUSI Hardware' className="setting-item" leftIcon={<HardwareIcon />}>Connect to SUSI Hardware<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Account Settings' className="setting-item" leftIcon={<AccountIcon />}>Account Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Mobile' className="setting-item" leftIcon={<MobileIcon />}>Mobile<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-					</Menu>
-				</div>
-				<div className="settings-list-dropdown">
-					<DropDownMenu
-						selectedMenuItemStyle={blueThemeColor}
-						onChange={this.loadSettings}
-						value={this.state.selectedSetting}
-						style={{ width: '100%' }}
-						autoWidth={false}
-					>
-						<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item" />
-						<MenuItem primaryText='Theme' value='Theme' className="setting-item" />
-						<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item" />
-						<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item" />
-						<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item" />
-						<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item" />
-						<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item" />
-						<MenuItem primaryText='Account Settings' value='Account Settings' className="setting-item" />
-						<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
-					</DropDownMenu>
-				</div>
-			</div>
+		let blueThemeColor={color: 'rgb(66, 133, 244)'};
+		let menuItems = cookies.get('loggedIn')?
+		<div>
+		<div className="settings-list">
+		<Menu
+			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={blueThemeColor}
+			style={{width:'100%'}}
+			value={this.state.selectedSetting}
+			>
+			<MenuItem style={{color:themeForegroundColor}} value='Account' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>Account<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon color={menuIconColor}/>}>Text Language Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
+		</Menu>
+		</div>
+		<div className="settings-list-dropdown">
+		<DropDownMenu
+			selectedMenuItemStyle={blueThemeColor}
+			onChange={this.loadSettings}
+			value={this.state.selectedSetting}
+			labelStyle={{color:themeForegroundColor}}
+			menuStyle={{backgroundColor:themeBackgroundColor}}
+			menuItemStyle={{color:themeForegroundColor}}
+			style={{width:'100%'}}
+			autoWidth={false}
+        >
+				<MenuItem primaryText='Account' value='Account' className="setting-item"/>
+				<MenuItem primaryText='Password' value='Password' className="setting-item"/>
+				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
+		</DropDownMenu>
+		</div>
+		</div>
 
-			:
-			<div>
-				<div className="settings-list">
-					<Menu
-						onItemTouchTap={this.loadSettings}
-						selectedMenuItemStyle={blueThemeColor}
-						style={{ width: '100%' }}
-						value={this.state.selectedSetting}
-					>
-						<MenuItem value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon />}>ChatApp Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Theme' className="setting-item" leftIcon={<ThemeIcon />}>Theme<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon />}>Mic Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon />}>Speech Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon />}>Text Language Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Server Settings' className="setting-item" leftIcon={<ServerIcon />}>Server Settings<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-						<MenuItem value='Connect to SUSI Hardware' className="setting-item" leftIcon={<HardwareIcon />}>Connect to SUSI Hardware<ChevronRight className="right-chevron" /></MenuItem>
-						<hr className="break-line" />
-					</Menu>
-				</div>
-				<div className="settings-list-dropdown">
-					<DropDownMenu
-						selectedMenuItemStyle={blueThemeColor}
-						onChange={this.loadSettings}
-						value={this.state.selectedSetting}
-						style={{ width: '100%' }}
-						autoWidth={false}
-					>
-						<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item" />
-						<MenuItem primaryText='Theme' value='Theme' className="setting-item" />
-						<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item" />
-						<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item" />
-						<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item" />
-						<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item" />
-						<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item" />
-					</DropDownMenu>
-				</div>
-			</div>
+		:
+		<div>
+		<div className="settings-list">
+		<Menu
+			onItemTouchTap={this.loadSettings}
+			selectedMenuItemStyle={blueThemeColor}
+			style={{width:'100%'}}
+			value={this.state.selectedSetting}
+			>
+				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon color={menuIconColor}/>}>Text Language Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+		</Menu>
+		</div>
+		<div className="settings-list-dropdown">
+		<DropDownMenu
+			selectedMenuItemStyle={blueThemeColor}
+			onChange={this.loadSettings}
+			value={this.state.selectedSetting}
+			style={{width:'100%'}}
+			labelStyle={{color:themeForegroundColor}}
+			menuStyle={{backgroundColor:themeBackgroundColor}}
+			menuItemStyle={{color:themeForegroundColor}}
+			autoWidth={false}
+        >
+				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
+				<MenuItem primaryText='Speech Settings'value='Speech Settings' className="setting-item"/>
+				<MenuItem primaryText='Text Language Settings'value='Text Language Settings' className="setting-item"/>
+				<MenuItem primaryText='Server Settings'value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+		</DropDownMenu>
+		</div>
+		</div>
 
-		const menuStyle = {
-			height: 500,
-			marginTop: 20,
-			textAlign: 'center',
-			display: 'inline-block',
-		};
-		// to check if something has been modified or not
-		let somethingToSave = this.getSomethingToSave();
+	 const menuStyle = {
+					 height: 500,
+					 marginTop: 20,
+					 textAlign: 'center',
+					 display: 'inline-block',
+					 backgroundColor:themeBackgroundColor,
+					 color:themeForegroundColor
+	};
+	// to check if something has been modified or not
+	let somethingToSave=this.getSomethingToSave();
 		return (
 			<div className="settings-container">
-				<StaticAppBar {...this.props}
-					location={this.props.location} />
+		<StaticAppBar settings={this.state.intialSettings} {...this.props}
+			location={this.props.location} />
 				<div className='settingMenu'>
-					<Paper className='leftMenu tabStyle' zDepth={1}>
+					<Paper className='leftMenu tabStyle' zDepth={1} style={{backgroundColor:themeBackgroundColor, color:themeForegroundColor}}>
 						{menuItems}
 					</Paper>
 					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
@@ -1088,46 +1181,34 @@ class Settings extends Component {
 					</div>
 				</Dialog>
 				{/* Change Server */}
-				<Dialog
-					actions={serverDialogActions}
-					modal={false}
-					open={this.state.showServerChangeDialog}
-					autoScrollBodyContent={true}
-					bodyStyle={bodyStyle}
-					onRequestClose={this.handleServerToggle.bind(this, false)}>
-					<div>
-						<h3><Translate text="Change Server" /></h3>
-						<Translate text="Please login again to change SUSI server" />
-						<Close style={closingStyle}
-							onTouchTap={this.handleServerToggle.bind(this, false)} />
-					</div>
-				</Dialog>
-				{/* Change Password */}
-				<Dialog
-					className='dialogStyle'
-					modal={false}
-					open={this.state.showChangePasswordDialog}
-					autoScrollBodyContent={true}
-					bodyStyle={bodyStyle}
-					contentStyle={{ width: '35%', minWidth: '300px' }}
-					onRequestClose={this.handleClose}>
-					<ChangePassword {...this.props} />
-					<Close style={closingStyle} onTouchTap={this.handleClose} />
-				</Dialog>
-				{/* ForgotPassword */}
-				<Dialog
+			<Dialog
+			  actions={serverDialogActions}
+			  modal={false}
+			  open={this.state.showServerChangeDialog}
+			  autoScrollBodyContent={true}
+			  bodyStyle={bodyStyle}
+			  onRequestClose={this.handleServerToggle.bind(this,false)}>
+			  <div>
+				<h3><Translate text="Change Server"/></h3>
+				<Translate text="Please login again to change SUSI server"/>
+				<Close style={closingStyle}
+				onTouchTap={this.handleServerToggle.bind(this,false)} />
+			  </div>
+			</Dialog>
+			{/* ForgotPassword */}
+			<Dialog
 					className='dialogStyle'
 					modal={false}
 					open={this.state.showForgotPassword}
 					autoScrollBodyContent={true}
-					contentStyle={{ width: '35%', minWidth: '300px' }}
+					contentStyle={{width: '35%',minWidth: '300px'}}
 					onRequestClose={this.handleClose}>
 					<ForgotPassword {...this.props}
-						showForgotPassword={this.handleForgotPassword} />
+					showForgotPassword={this.handleForgotPassword}/>
 					<Close style={closingStyle}
-						onTouchTap={this.handleClose} />
+					onTouchTap={this.handleClose}/>
 				</Dialog>
-			</div>);
+		</div>);
 	}
 }
 

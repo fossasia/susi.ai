@@ -333,6 +333,11 @@ export function getSettings(){
       settings.prefLanguage = settings.PrefLanguage
       settings.customThemeValue = settings.ThemeValues
       settings.LocalStorage = true;
+      settings.checked=false;
+      settings.CountryCode= 'US';
+      settings.CountryDialCode='+1';
+      settings.phoneNo= '';
+      settings.serverUrl='https://api.susi.ai';
       cookies.set('settings',settings);
       SettingsActions.initialiseSettings(settings);
     }
@@ -365,6 +370,9 @@ export function getSettings(){
       timeout: 3000,
       async: false,
       success: function (response) {
+          if(response.hasOwnProperty('session') && response.accepted){
+            SettingsActions.initialiseIdentity(response.session.identity);
+          }
         if(response.hasOwnProperty('settings') && response.accepted){
           SettingsActions.initialiseSettings(response.settings);
         }
