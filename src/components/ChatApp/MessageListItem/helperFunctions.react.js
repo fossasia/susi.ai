@@ -135,7 +135,7 @@ export function imageParse(stringWithLinks){
     if(checkmatch){
       result.push(
         <img key={key} src={checkmatch}
-          style={{width:'95%',height:'auto'}} alt=''/>);
+          style={{width:'100%',height:'auto'}} alt=''/>);
     }
     else{
       result.push(Parser(item));
@@ -305,14 +305,14 @@ export function drawMap(lat,lng,zoom){
     iconSize: [35, 35]
   });
   const map = (
-   <Map center={position} zoom={zoom}>
+   <Map center={position} zoom={zoom} scrollWheelZoom={false}>
       <TileLayer
         attribution=''
         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
       />
       <ExtendedMarker position={position} icon={icon}>
         <Popup>
-          <span><strong>Hello!</strong> <br/> I am here.</span>
+          <span><strong>Here!</strong></span>
         </Popup>
       </ExtendedMarker>
     </Map>
