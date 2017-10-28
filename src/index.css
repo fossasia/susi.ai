@@ -5,3 +5,16 @@ body {
   font-family: 'Lato', sans-serif;
   background-color: #fff;
 }
+
+/* Remove input autofill yellow background */
+@-webkit-keyframes autofill {
+  to {
+    color: inherit;
+    background: rgba(0,0,0,0);
+  }
+}
+
+input:-webkit-autofill {
+  -webkit-animation-name: autofill;
+  -webkit-animation-fill-mode: both;
+}
