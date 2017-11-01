@@ -325,12 +325,32 @@ class MessageSection extends Component {
   }
   // Close all dialog boxes
   handleClose = () => {
+    var prevThemeSettings=this.state.prevThemeSettings;
     this.setState({
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
       openForgotPassword: false
     });
+
+    if(prevThemeSettings && prevThemeSettings.hasOwnProperty('currTheme') && prevThemeSettings.currTheme==='custom'){
+      this.setState({
+        currTheme:prevThemeSettings.currTheme,
+        body:prevThemeSettings.bodyColor,
+        header:prevThemeSettings.TopBarColor,
+        composer:prevThemeSettings.composerColor,
+        pane:prevThemeSettings.messagePane,
+        textarea:prevThemeSettings.textArea,
+        button:prevThemeSettings.buttonColor,
+        bodyBackgroundImage:prevThemeSettings.bodyBackgroundImage,
+        messageBackgroundImage:prevThemeSettings.messageBackgroundImage,
+      })
+    }
+    else{
+      this.setState({
+        currTheme:'light'
+      });
+    }
   }
 
   // Save Custom Theme settings on server
@@ -348,12 +368,18 @@ class MessageSection extends Component {
     }
     Actions.settingsChanged(settingsChanged);
     this.setState({currTheme : 'custom'})
-    this.handleClose();
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+      openForgotPassword: false,
+    });
   }
 
   applyLightTheme = () => {
 
     this.setState({
+      prevThemeSettings:null,
       body : '#fff',
       header : '#4285f4',
       composer : '#f3f2f4',
@@ -366,6 +392,21 @@ class MessageSection extends Component {
 
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
+    // save the previous theme settings
+    var prevThemeSettings={};
+    var state=this.state;
+    prevThemeSettings.currTheme=state.currTheme;
+    if(state.currTheme==='custom'){
+      prevThemeSettings.bodyColor = state.body;
+      prevThemeSettings.TopBarColor = state.header;
+      prevThemeSettings.composerColor = state.composer;
+      prevThemeSettings.messagePane = state.pane;
+      prevThemeSettings.textArea = state.textarea;
+      prevThemeSettings.buttonColor= state.button;
+      prevThemeSettings.bodyBackgroundImage=state.bodyBackgroundImage;
+      prevThemeSettings.messageBackgroundImage=state.messageBackgroundImage;
+    }
+    this.setState({prevThemeSettings});
     this.child.closeOptions();
   }
 
@@ -821,6 +862,7 @@ class MessageSection extends Component {
               handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
               onRequestClose={()=>this.handleClose}
+              onSaveThemeSettings={()=>this.handleSaveTheme}
               onLoginSignUp={()=>this.handleOpen}
               onForgotPassword={()=>this.forgotPasswordChanged} />
             </div>)
