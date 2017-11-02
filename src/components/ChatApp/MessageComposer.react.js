@@ -131,6 +131,7 @@ class MessageComposer extends Component {
 
   }
 
+
   componentWillMount() {
     let micInputSetting = UserPreferencesStore.getMicInput();
     if (micInputSetting) {
@@ -186,7 +187,6 @@ class MessageComposer extends Component {
   }
 
   render() {
-
     return (
       <div className="message-composer" >
         {this.state.start && (
@@ -213,7 +213,7 @@ class MessageComposer extends Component {
             onChange={this._onChange.bind(this)}
             onKeyDown={this._onKeyDown.bind(this)}
             ref={(textarea) => { this.nameInput = textarea; }}
-            style={{ background: this.props.textarea, lineHeight: '15px' }}
+            style={{ background: this.props.textarea, color: this.props.textcolor, lineHeight: '15px' }}
           />
         </div>
         <IconButton
@@ -359,6 +359,7 @@ MessageComposer.propTypes = {
   threadID: PropTypes.string.isRequired,
   dream: PropTypes.string,
   textarea: PropTypes.string,
+  textcolor: PropTypes.string,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
   micColor: PropTypes.string,
