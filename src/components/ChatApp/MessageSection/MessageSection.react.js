@@ -592,6 +592,29 @@ class MessageSection extends Component {
     })
   }
 
+  invertColorTextArea =() => {
+
+    // get the text are code
+    var hex = this.state.textarea;
+    hex = hex.slice(1);
+
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    var r = parseInt(hex.slice(0, 2), 16),
+        g = parseInt(hex.slice(2, 4), 16),
+        b = parseInt(hex.slice(4, 6), 16);
+
+    return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+        ? '#000000'
+        : '#FFFFFF';
+}
+
+
   render() {
     var bodyColor;
     var TopBarColor;
@@ -599,6 +622,7 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+    var textColor;
 
     switch(this.state.currTheme){
       case 'custom':{
@@ -607,6 +631,7 @@ class MessageSection extends Component {
         composerColor = this.state.composer;
         messagePane = this.state.pane;
         textArea = this.state.textarea;
+        textColor= this.invertColorTextArea();
         buttonColor= this.state.button;
         break;
       }
@@ -843,6 +868,7 @@ class MessageSection extends Component {
                     threadID={this.state.thread.id}
                     dream={dream}
                     textarea={textArea}
+                    textcolor={textColor}
                     speechOutput={speechOutput}
                     speechOutputAlways={speechOutputAlways}
                     micColor={this.state.button} />
