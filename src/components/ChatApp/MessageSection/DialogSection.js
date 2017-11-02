@@ -101,6 +101,7 @@ DialogSection.propTypes = {
     actions: PropTypes.object,
     bodyStyle: PropTypes.object,
     onRequestClose: PropTypes.func,
+    onSaveThemeSettings: PropTypes.func,
     onForgotPassword: PropTypes.func,
     onSignedUp: PropTypes.func
 };
