@@ -183,7 +183,7 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    document.getElementById('scroll').focus();
+
   }
 
   render() {
@@ -214,6 +214,7 @@ class MessageComposer extends Component {
             onKeyDown={this._onKeyDown.bind(this)}
             ref={(textarea) => { this.nameInput = textarea; }}
             style={{ background: this.props.textarea, color: this.props.textcolor, lineHeight: '15px' }}
+            autoFocus={this.props.focus}
           />
         </div>
         <IconButton
@@ -363,6 +364,7 @@ MessageComposer.propTypes = {
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
   micColor: PropTypes.string,
+  focus: PropTypes.bool,
 };
 
 export default MessageComposer;
