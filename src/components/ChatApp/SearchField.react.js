@@ -124,7 +124,7 @@ class ExpandingSearchField extends Component{
                                 style={textStyle}
                                 value={this.props.searchText}
                                 onChange={(event) => this.onChange(event)}
-                                autoFocus/>
+                                autoFocus={true} />
                                 <IconButton
                                     className='displayNone'
                                     iconStyle={baseStyles.smallIcon}
