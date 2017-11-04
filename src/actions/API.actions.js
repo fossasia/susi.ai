@@ -499,18 +499,22 @@ export function getTTSLangText(voiceList){
       dataType: 'json',
       crossDomain: true,
       timeout: 3000,
-      async: false,
+      async: true,
+
       success: function (response) {
         if(response[0]){
           if(response[0][0]){
             let translatedText = response[0][0][0];
             voice.translatedText = translatedText;
+            // console.log(url);
           }
         }
       },
+
       error: function(errorThrown){
         console.log(errorThrown);
       }
+
     });
   });
 }
