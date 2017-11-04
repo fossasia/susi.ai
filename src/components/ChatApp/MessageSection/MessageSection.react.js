@@ -865,6 +865,7 @@ class MessageSection extends Component {
                 }
                 <div className='compose' style={{backgroundColor:composerColor}}>
                   <MessageComposer
+                    focus={true}
                     threadID={this.state.thread.id}
                     dream={dream}
                     textarea={textArea}
@@ -909,6 +910,17 @@ class MessageSection extends Component {
                    </Scrollbars>
 
                  </ul>
+                 <div className='compose' style={{backgroundColor:composerColor}}>
+                  <MessageComposer
+                    focus={false}
+                    threadID={this.state.thread.id}
+                    dream={dream}
+                    textarea={textArea}
+                    textcolor={textColor}
+                    speechOutput={speechOutput}
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button} />
+                </div>
                </div>
              </div>
              )}
