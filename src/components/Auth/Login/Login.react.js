@@ -302,7 +302,7 @@ class Login extends Component {
 									labelColor="#fff" />
 						</div>
 						<h4 style={{
-							margin: '2px 0'
+							margin: '4px 0 2px'
 						}}><Translate text="OR"/></h4>
 						<div>
 							<Link to={'/logout'} >
