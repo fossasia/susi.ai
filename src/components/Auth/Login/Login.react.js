@@ -273,17 +273,6 @@ class Login extends Component {
 						<span style={{
 							margin: '3px 0'
 						}}>{this.state.msg}</span>
-						<div>
-							<RaisedButton
-								label={!this.state.loading ? <Translate text="Login"/> : undefined}
-								type="submit"
-								backgroundColor={
-									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-								labelColor="#fff"
-								disabled={!this.state.validForm}
-								style={{margin:'15px 0 '}}
-								icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
-						</div>
 						<span
 						style={{
 							margin: '8px 0',
@@ -295,6 +284,18 @@ class Login extends Component {
 						</span>
 						<div>
 							<RaisedButton
+								label={!this.state.loading ? <Translate text="Login"/> : undefined}
+								type="submit"
+								backgroundColor={
+									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+								labelColor="#fff"
+								disabled={!this.state.validForm}
+								style={{margin:'10px 20px 0px 0px '}}
+								icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
+						
+						
+		
+							<RaisedButton
 									label={<Translate text="Sign Up"/>}
 									onClick={this.handleSignUp}
 									backgroundColor={
@@ -302,7 +303,7 @@ class Login extends Component {
 									labelColor="#fff" />
 						</div>
 						<h4 style={{
-							margin: '4px 0 2px'
+							margin: '8px 0'
 						}}><Translate text="OR"/></h4>
 						<div>
 							<Link to={'/logout'} >
