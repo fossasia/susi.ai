@@ -292,9 +292,6 @@ class Login extends Component {
 								disabled={!this.state.validForm}
 								style={{margin:'10px 20px 0px 0px '}}
 								icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
-						
-						
-		
 							<RaisedButton
 									label={<Translate text="Sign Up"/>}
 									onClick={this.handleSignUp}
