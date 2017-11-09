@@ -347,8 +347,34 @@ class MessageSection extends Component {
       })
     }
     else{
+      // default theme
       this.setState({
-        currTheme:'light'
+        prevThemeSettings:null,
+        body : '#fff',
+        header : '#4285f4',
+        composer : '#f3f2f4',
+        pane : '#f3f2f4',
+        textarea: '#fff',
+        button: '#4285f4',
+      });
+      let customData='';
+      Object.keys(this.customTheme).forEach((key) => {
+        customData=customData+this.customTheme[key]+','
+      });
+
+      let settingsChanged = {};
+      settingsChanged.theme = 'light';
+      settingsChanged.customThemeValue = customData;
+      if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+          settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+      }
+      Actions.settingsChanged(settingsChanged);
+      this.setState({currTheme : 'light'})
+      this.setState({
+        showLogin: false,
+        showSignUp: false,
+        showThemeChanger: false,
+        openForgotPassword: false,
       });
     }
   }
@@ -376,8 +402,17 @@ class MessageSection extends Component {
     });
   }
 
-  applyLightTheme = () => {
+  handleRestoreDefaultThemeClick = () => {
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+      openForgotPassword: false,
+    });
+    this.applyLightTheme();
+  }
 
+  applyLightTheme = () =>{
     this.setState({
       prevThemeSettings:null,
       body : '#fff',
@@ -386,13 +421,29 @@ class MessageSection extends Component {
       pane : '#f3f2f4',
       textarea: '#fff',
       button: '#4285f4',
+      currTheme : 'light'
+    });
+    let customData='';
+    Object.keys(this.customTheme).forEach((key) => {
+      customData=customData+this.customTheme[key]+','
     });
 
+    let settingsChanged = {};
+    settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+        settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
   }
 
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
     // save the previous theme settings
+    if(this.state.currTheme==='light'){
+      // remove the previous custom theme memory
+      this.applyLightTheme();
+    }
     var prevThemeSettings={};
     var state=this.state;
     prevThemeSettings.currTheme=state.currTheme;
@@ -718,7 +769,7 @@ class MessageSection extends Component {
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
-      onTouchTap={this.applyLightTheme}
+      onTouchTap={this.handleRestoreDefaultThemeClick}
       style={{margin:'0 5px'}}
     />
     </div>;
