@@ -446,6 +446,9 @@ class Settings extends Component {
 				lang: 'de-DE',
 				name: 'Deutsch'
 			}, {
+                lang: 'am-AM',
+                name: 'Armenian'
+            }, {
 				lang: 'en-US',
 				name: 'US English'
 			}]
