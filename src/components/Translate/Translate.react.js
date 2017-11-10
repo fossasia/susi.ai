@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import de from './de.json';
+import am from './am.json';
 
 class Translate extends Component{
 
@@ -22,6 +23,7 @@ class Translate extends Component{
   componentDidMount() {
     let defaultPrefLanguage = this.state.defaultPrefLanguage;
     var arrDe = Object.keys(de);
+    var arrAm = Object.keys(am);
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
       for (let key=0;key<arrDe.length;key++) {
@@ -29,9 +31,13 @@ class Translate extends Component{
               this.changeLanguage(de[arrDe[key]]);
           }
         }
-    }
+      for (let key=0;key<arrAm.length;key++) {
+          if (arrAm[key]===text) {
+              this.changeLanguage(am[arrAm[key]]);
+          }
+        }
   }
-
+}
   render() {
   	return <span>{this.state.text}</span>
   }
