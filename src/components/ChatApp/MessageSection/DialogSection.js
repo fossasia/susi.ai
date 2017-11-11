@@ -26,7 +26,7 @@ export default class DialogSection extends Component {
     }
     return(
       <div>
-        {/* Login */}
+      {/* Login */}
         <Dialog
           className='dialogStyle'
           modal={false}
@@ -41,7 +41,7 @@ export default class DialogSection extends Component {
           <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
         </Dialog>
       {/* SignUp */}
-      <Dialog
+        <Dialog
           className='dialogStyle'
           modal={false}
           open={this.props.openSignUp}
@@ -63,6 +63,7 @@ export default class DialogSection extends Component {
           contentStyle={{width: '35%',minWidth: '300px'}}
           onRequestClose={this.props.onRequestClose()}>
           <ForgotPassword {...this.props}
+          onLoginSignUp={this.props.onLoginSignUp()}
           showForgotPassword={this.showForgotPassword}/>
           <Close style={closingStyle}
           onTouchTap={this.props.onRequestClose()}/>
