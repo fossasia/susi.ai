@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import de from './de.json';
 import am from './am.json';
+import hi from './hi.json';
 
 class Translate extends Component{
 
@@ -24,18 +25,26 @@ class Translate extends Component{
     let defaultPrefLanguage = this.state.defaultPrefLanguage;
     var arrDe = Object.keys(de);
     var arrAm = Object.keys(am);
+    var arrHi = Object.keys(hi);
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
       for (let key=0;key<arrDe.length;key++) {
-          if (arrDe[key]===text) {
-              this.changeLanguage(de[arrDe[key]]);
-          }
+        if (arrDe[key]===text) {
+            this.changeLanguage(de[arrDe[key]]);
         }
+      }
+
       for (let key=0;key<arrAm.length;key++) {
-          if (arrAm[key]===text) {
-              this.changeLanguage(am[arrAm[key]]);
-          }
+        if (arrAm[key]===text) {
+          this.changeLanguage(am[arrAm[key]]);
         }
+      }
+
+      for (let key=0;key<arrHi.length;key++) {
+        if (arrHi[key]===text) {
+            this.changeLanguage(hi[arrHi[key]]);
+        }
+      }
   }
 }
   render() {
