@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import './ForgotPassword.css';
 import $ from 'jquery';
+import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Close from 'material-ui/svg-icons/navigation/close';
@@ -241,16 +242,25 @@ class ForgotPassword extends Component {
                                 onServerChange={this.handleServeChange}/>
                         </div>
 						<div>
+							{/* Reset Button */}
 							<RaisedButton
 								type="submit"
 								label={<Translate text="Reset"/>}
 								backgroundColor={
 									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 								labelColor="#fff"
-	              style={{margin:'25px 0 0 0 '}}
 								disabled={!this.state.validForm} />
 						</div>
 					</form>
+					{/* Back to Login button */}
+					<RaisedButton
+						onTouchTap={this.props.onLoginSignUp}
+						label={<Translate text='Back to Login'/>}
+						backgroundColor={
+						UserPreferencesStore.getTheme()==='light'
+						? '#4285f4' : '#19314B'}
+						labelColor="#fff"
+						style={{margin:'10px 0 0 0'}} />
 				</Paper>
 				{this.state.msg && (
 					<div><Dialog
@@ -268,5 +278,9 @@ class ForgotPassword extends Component {
 		);
 	};
 }
+
+ForgotPassword.propTypes = {
+	onLoginSignUp: PropTypes.func
+};
 
 export default ForgotPassword;
