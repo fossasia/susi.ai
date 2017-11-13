@@ -244,7 +244,8 @@ class MessageSection extends Component {
   handleOpen = () => {
     this.setState({
       showLogin: true,
-      showSignUp: false
+      showSignUp: false,
+      openForgotPassword: false
     });
     this.child.closeOptions();
   }
