@@ -101,7 +101,7 @@ class Feedback extends React.Component {
 				positiveFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
 			}
 			else if(this.state.negative){
-				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
+				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#d1462f' : '#00ff7f';
 			}
 
 				feedbackButtons = (
