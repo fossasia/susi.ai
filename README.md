@@ -74,6 +74,9 @@ If you get a speech output then the Web API Speech Synthesis is supported by you
     * Thumbs Up Colour-
          **Voted**- ![#1685e5](https://placehold.it/15/1685e5/000000?text=+) `#1685e5`
          **Unvoted**- ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
+    * Thumbs Down Colour-
+    	 **Voted**- ![#d1462f](https://placehold.it/15/d1462f/000000?text=+) `#d1462f`
+         **Unvoted**- ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
 
 ## Fonts
 
