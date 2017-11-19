@@ -147,18 +147,22 @@ class Settings extends Component {
 			countryCode: defaultCountryCode,
 			countryDialCode: defaultCountryDialCode,
 			phoneNo: defaultPhoneNo,
-			voiceList: [{
-				lang: 'de-DE',
-				name: 'Deutsch'
-			}, {
+			voiceList: [
+			{
 				lang: 'am-AM',
 				name: 'Armenian'
-			}, {
-				lang: 'en-US',
-				name: 'US English'
-			}, {
+			},{
+				lang: 'zh-CH',
+				name: 'Chinese'
+			},{
+				lang: 'de-DE',
+				name: 'Deutsch'
+			},{
 				lang: 'hi-IN',
 				name: 'Hindi'
+			},{
+				lang: 'en-US',
+				name: 'US English'
 			}]
 		});
 		this.customServerMessage = '';
