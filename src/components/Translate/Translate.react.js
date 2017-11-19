@@ -4,6 +4,7 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import de from './de.json';
 import am from './am.json';
 import zh from './zh.json';
+import es from './es.json';
 import hi from './hi.json';
 
 class Translate extends Component{
@@ -27,6 +28,7 @@ class Translate extends Component{
     var arrDe = Object.keys(de);
     var arrAm = Object.keys(am);
     var arrCh = Object.keys(zh);
+    var arrSp = Object.keys(es);
     var arrHi = Object.keys(hi);
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
@@ -42,6 +44,14 @@ class Translate extends Component{
         for (let key=0;key<arrAm.length;key++) {
           if (arrAm[key]===text) {
             this.changeLanguage(am[arrAm[key]]);
+          }
+        }
+      }
+
+      if(defaultPrefLanguage==='es-SP'){
+        for (let key=0;key<arrSp.length;key++) {
+          if (arrSp[key]===text) {
+            this.changeLanguage(es[arrSp[key]]);
           }
         }
       }
