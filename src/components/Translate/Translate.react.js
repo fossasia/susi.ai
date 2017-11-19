@@ -7,15 +7,15 @@ import hi from './hi.json';
 
 class Translate extends Component{
 
-	constructor(props){
-		super(props);
-		this.state ={
-			text: this.props.text,
-			defaultPrefLanguage: UserPreferencesStore.getPrefLang()
-		}
-	}
+  constructor(props){
+    super(props);
+    this.state ={
+      text: this.props.text,
+      defaultPrefLanguage: UserPreferencesStore.getPrefLang()
+    }
+  }
 
-	changeLanguage = (text) => {
+  changeLanguage = (text) => {
         this.setState({
             text:text
         })
@@ -28,33 +28,39 @@ class Translate extends Component{
     var arrHi = Object.keys(hi);
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
-      for (let key=0;key<arrDe.length;key++) {
-        if (arrDe[key]===text) {
-            this.changeLanguage(de[arrDe[key]]);
+      if(defaultPrefLanguage==='de-DE'){
+        for (let key=0;key<arrDe.length;key++) {
+          if (arrDe[key]===text) {
+              this.changeLanguage(de[arrDe[key]]);
+          }
         }
       }
 
-      for (let key=0;key<arrAm.length;key++) {
-        if (arrAm[key]===text) {
-          this.changeLanguage(am[arrAm[key]]);
+      if(defaultPrefLanguage==='am-AM'){
+        for (let key=0;key<arrAm.length;key++) {
+          if (arrAm[key]===text) {
+            this.changeLanguage(am[arrAm[key]]);
+          }
         }
       }
 
-      for (let key=0;key<arrHi.length;key++) {
-        if (arrHi[key]===text) {
-            this.changeLanguage(hi[arrHi[key]]);
+      if(defaultPrefLanguage==='hi-IN'){
+        for (let key=0;key<arrHi.length;key++) {
+          if (arrHi[key]===text) {
+              this.changeLanguage(hi[arrHi[key]]);
+          }
         }
       }
   }
 }
   render() {
-  	return <span>{this.state.text}</span>
+    return <span>{this.state.text}</span>
   }
 
 }
 
 
 Translate.propTypes = {
-	text:PropTypes.string
+  text:PropTypes.string
 }
 export default Translate;
