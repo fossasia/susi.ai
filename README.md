@@ -28,6 +28,16 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 
 ## How to deploy?
 
+### Running on Surge:
+
+* **Step 1:** Install Surge:```$ npm install -g surge```
+* **Step 2:** Then cd into that cloned folder of chat.susi.ai
+* **Step 3:** Run the App build:```$ npm run build```
+* **Step 4:** Switch into the build directory:```cd build```
+* **Step 5:** Run surge:```surge```
+* **Step 6:** Follow the prompts and provide an email and a password.
+* **Step 7:** Go to URL that appears after the above process and provide this link in PR for testing your Changes. 
+
 ### Running on localhost:
 * **Step 1:** Fork chat.susi.ai repository and clone it to your desktop
 * **Step 2:** Then cd into that cloned folder
