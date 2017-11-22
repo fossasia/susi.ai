@@ -161,6 +161,9 @@ class Settings extends Component {
 				lang: 'hi-IN',
 				name: 'Hindi'
 			},{
+				lang: 'es-SP',
+				name: 'Spanish'
+			},{
 				lang: 'en-US',
 				name: 'US English'
 			}]
