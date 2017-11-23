@@ -67,7 +67,7 @@
    "Login to SUSI":"Log in to SUSI",
    "Email":"E-mail Address",
    "Password":"Password",
-   "Forgot Password?":"Forgot Password?",
+   "Forgot Password?":"Forgot Your Password?",
    "Sign Up":"Sign Up",
    "Chat Anonymously":"Chat Anonymously",
    "OR":"OR",
@@ -98,7 +98,7 @@
    "Cancel":"Cancel",
    "Done":"Done",
    "Change color of":"Change color of",
-   "Body Background Image URL":"Body Background Image URL",
+   "Body Background Image URL":"URL for Body Background ImageL",
    "Remove URL":"Remove URL",
-   "Message Background Image URL":"Message Background Image URL"
+   "Message Background Image URL":"URL for Message Background Image"
 }
