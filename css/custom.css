@@ -1,0 +1,450 @@
+/* GENERAL STYLING */
+.bg-primary a {
+  color: #fff;
+}
+.subpage h2 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+blockquote p {
+  font-size: 17.5px;
+}
+.btn {
+  white-space: normal; /* wrap button words */
+}
+
+/* SUBPAGES */
+.subpage {
+  background-image: url(../imgages/header_subpage.jpg);
+  background-size: cover;
+  color: #fff;
+  min-height: 90%
+}
+.subpage h1 {
+  text-align: center;
+}
+
+/* ABOUT SECTION w/ video */
+#about video {
+  width: 100%    !important;
+  height: auto   !important;
+  margin-bottom: 20px;
+}
+.embedvideo {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.embedvideo iframe, .embedvideo object, .embedvideo embed { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ARGUMENTS SECTION */
+#arguments #arguments-followup p {
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+/* LANGUAGE SECTION */
+#language {
+    color: #fff;
+    background-color: #333;
+    padding: 20px;
+}
+#language p {
+  margin-bottom: 5px;
+}
+#language ul {
+  padding: 0px;
+}
+#language li {
+  display: inline-block;
+  margin-right: 10px;
+  line-height: 2em;
+  color: #CCC;
+}
+#language li::before {
+  content: "› ";
+}
+
+/* LEGAL SECTION */
+#legal {
+  color: #fff;
+  background-color: #367836;
+  padding: 10px;
+  margin: 0px;
+}
+#legal p {
+  padding: 0px;
+  margin: 0px;
+  font-size: 1em;
+}
+
+/* ORGANISATIONS SECTION */
+#organisations ul {
+  display: block;
+  position: relative;
+  list-style: none;
+  text-align: center;
+  padding: 0;
+}
+#organisations ul li {
+  display: inline-block;
+  position: relative;
+  list-style: none;
+}
+#organisations ul li a {
+  display: block;
+  position: relative;
+  max-width: 120px;
+  max-height: 80px;
+  min-width: 120px;
+  min-height: 80px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: scale(0.8);
+  opacity: 1;
+  transition: opacity .5s, transform .5s, background-color .5s, filter .5s;
+}
+#organisations ul li a:hover {
+  opacity: 1;
+  transform: scale(0.9);
+  z-index: 5;
+}
+/* expand organisation grid */
+.orgs {
+  position: relative;
+  height: 350px;
+  overflow: hidden;
+  transition: height 0s 10000s;
+  -webkit-transition: height 0s 10000s;
+  background-color: white;
+}
+.expand {
+  position: relative;
+  top: 400px;
+  width: 94%;
+  padding: 15px 0;
+  margin: -80px 3% 0 3%;
+  font-size: 40px;
+  background-color: white;
+  box-shadow: 0px -20px 50px 30px rgba(255, 255, 255, 1);
+  z-index: 1;
+  transition: z-index 0s 10000s;
+  -webkit-transition: z-index 0s 10000s;
+  cursor: pointer;
+}
+.expand i {
+  transform: rotate(-35deg) scaleY(-1) ;
+}
+.expand:focus {
+  z-index: 0;
+  transition: z-index 0s;
+  -webkit-transition: z-index 0s;
+}
+.expand:focus + .orgs {
+  height: 100%;
+  overflow: unset;
+  transition: height 0s;
+  -webkit-transition: height 0s;
+}
+
+
+/* SIGN FORM */
+#actionintro strong {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#action form {
+  color: #fff;
+  font-size: 18px;
+}
+#action form label {
+  font-weight: 400;
+  margin: 5px 3px;
+}
+#action form input[type="checkbox"] {
+  color: initial !important;  /* fixes hidden checkbox mark on FF Mobile */
+}
+.sign-input {
+  position: relative;
+  color: #555;
+}
+.sign-input:before {
+  font-family: "FontAwesome";
+  font-size: 20px;
+  position: absolute;
+  left: 10px;
+  top: 2px;
+}
+.sign-input input, .sign-input select {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 20px;
+  padding: 0 0 0 36px;
+  width: 270px;
+  height: 34px;
+  font-weight: 600;
+  border: none;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-image:url(/img/select-arrow.png);
+}
+/* hide browser-styling (arrow) in IE10 */
+select::-ms-expand {
+  display:none;
+}
+.sign-input.form-co input {
+  width: 554px;
+}
+@media screen and (max-width:586px) {
+  .sign-input.form-co input {
+    max-width: 100%;
+  }
+  label.sign-input.form-co {
+    max-width: 80%;
+    min-width: 270px;
+  }
+}
+.form-na:before {
+  content: "\f2c3";
+}
+.form-em:before {
+  content: "\f003";
+}
+.form-cn select {
+  padding-left: 34px !important;
+  /*text-indent: 15px !important;  ugly hack for Safari browsers */
+  background-color: #ffffff;
+}
+.form-cn select option:first-child {
+  color: #AAA;
+}
+.form-cn:before {
+  content: "\f041";
+  padding-left: 4px;
+}
+.form-zp:before {
+  content: "\f08d";
+  padding-left: 3px;
+}
+.form-co:before {
+  content: "\f27a";
+  padding-left: 3px;
+}
+div.form-pe {
+  text-align: left;
+  max-width: 530px; /* to not let the checkboxed go far more left than the input boxes above */
+  margin: 0 auto;
+}
+div.form-pe a {
+  color: inherit;
+}
+#honey {
+  display: none;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    #AAA;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+ color:    #AAA;
+ opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color:    #AAA;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+ color:    #AAA;
+}
+
+/* SIGNATURE TABLE */
+table#sigtable {
+  display: table;
+  width: 100%;
+  margin-bottom: 20px;
+}
+table#sigtable thead, table#sigtable tbody {
+  width: 100%;
+}
+table#sigtable td:nth-child(1), table#sigtable th:nth-child(1) {
+  width: 25%;
+}
+table#sigtable td:nth-child(2), table#sigtable th:nth-child(2) {
+  width: 25%;
+}
+table#sigtable td:nth-child(3), table#sigtable th:nth-child(3) {
+  width: 50%;
+}
+table#sigtable thead {
+  display: table;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+table#sigtable th {
+  text-transform: uppercase;
+}
+table#sigtable tr {
+  width: 100%;
+  display: table;
+  text-align: left;
+}
+table#sigtable th, table#sigtable td {
+  border-bottom: 1px solid darkgrey;
+  text-align: left;
+  padding: 5px;
+}
+table#sigtable tr:nth-child(even) {
+  background-color: rgba(230, 230, 230, 0.05);
+} 
+table#sigtable tr:hover {
+  background-color: rgba(230, 230, 230, 0.1);
+} 
+
+/* LINK STYLES */
+.navbar-nav a {
+  box-shadow: 0 0 1px transparent;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  transform: perspective(1px) translateZ(0px);
+  vertical-align: middle;
+  margin-top: -3px;
+}
+.navbar-nav a::before {
+  background: #006d9e none repeat scroll 0 0;
+  bottom: 2px;
+  content: "";
+  height: 1px;
+  left: 50%;
+  position: absolute;
+  right: 50%;
+  transition-duration: 0.3s;
+  transition-property: left, right;
+  transition-timing-function: ease-out;
+  z-index: -1;
+}
+.navbar-nav a:hover::before, .navbar-nav a:focus::before, .navbar-nav a:active::before {
+  left: 0;
+  right: 0;
+}
+a {
+  border-bottom: 1px dotted rgba(255,255,255,0.5);
+}
+a:hover {
+  border-bottom: 1px dotted rgba(255,255,255,1);
+}
+#action a, #legal a, #page a { color: #CCC; }
+#action a:hover, #legal a:hover, #page a:hover { color: #EEE; }
+#organisations a { border-bottom: 1px dotted rgba(0,109,158,0.5); }
+#organisations a:hover { border-bottom: 1px dotted rgba(0,109,158,1); }
+.btn { border: 0 !important; }
+.btn:hover { border: 0 !important; }
+.hiddenlink { border: 0 !important;}
+.hiddenlink:hover { border: 0 !important; }
+
+
+/* BOUNCING DOWN ARROW */
+.arrow-bounce {
+  text-align: center;
+  margin: -60px 0 -20px 0;
+  -moz-animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
+}
+.arrow-bounce a {
+  color: #168EC1;
+  padding: 30px;
+}
+.arrow-bounce a:hover {
+  color: #0F5E80;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Scroll to top arrow */
+#scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 50px;
+  height: 50px;
+  text-decoration: none;
+  border-radius: 50%;
+}
+#scroll-to-top i {
+  color: #fff;
+  margin: 0;
+  position: relative;
+  left: 16px;
+  top: 13px;
+  font-size: 19px;
+}
+
+/* DEFINITION BOX */
+.definition {
+  margin: 20px 10px;
+  padding: 0px;
+  background-image: linear-gradient(white, white),
+                    linear-gradient(white, white),
+                    linear-gradient(white, white),
+                    linear-gradient(white, white),
+                    linear-gradient(rgba(288, 288, 288, 0.3), rgba(288, 288, 288, 0.3));
+  background-repeat: no-repeat;
+  background-size: 4px 30px, 30px 4px, 4px 30px, 30px 4px, calc(100% - 8px) calc(100% - 8px);
+  background-position: left top, left top, right bottom, right bottom, 4px 4px;
+}
+.definition.blue {
+  background-image: linear-gradient(#2093C4, #2093C4),
+                    linear-gradient(#2093C4, #2093C4),
+                    linear-gradient(#2093C4, #2093C4),
+                    linear-gradient(#2093C4, #2093C4),
+                    linear-gradient(rgba(32, 147, 196, 0.2), rgba(32, 147, 196, 0.2));
+}
+.definition p {
+  margin: 0;
+  padding: 20px 30px;
+  font-style: italic;
+}
+
+/* FLOATING SIGNATURE BOX */
+#action-box {
+  position: fixed;
+  top: 60px;
+  left: 0px;
+  background: rgba(64,166,46,0.8);
+  color: #fff;
+  max-width: 250px;
+  padding: 10px;
+  border-radius: 0px 15px 15px 0px;
+  border: 1px solid #2F7423;
+  border-left: none;
+  text-align: center;
+  font-size: 1.1em;
+}
+@media screen and (max-width: 767px) {
+  #action-box {
+    display: none;
+  }
+}

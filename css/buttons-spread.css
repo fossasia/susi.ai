@@ -1,0 +1,160 @@
+/* General button look */
+.share-buttons.spread {
+  color: initial;
+}
+.share-buttons.spread button.button,
+.share-buttons.spread label.button {
+  display: inline-block;
+  margin: 0px 5px 10px 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1em;
+  font-family: "Open Sans","Helvetica Neue",Arial,sans-serif;
+  line-height: normal;
+  text-align: center;
+  text-decoration: none;
+  padding: 7px 7px 7px 20px;
+  min-width: 120px;
+  box-sizing: border-box;
+  display: inline-block;
+  border: none;
+  border-radius: 3px;
+  background-position: left 5px center;
+  background-repeat: no-repeat;
+  background-size: 20px auto;
+  opacity: 0.9;
+  vertical-align: top;
+  line-height: 1.2em;
+}
+
+/* Single services with their colours and logos */
+.share-buttons.spread .share-diaspora {
+  background-color: #404040;
+  background-image: url("/img/service-icons/diaspora_white.png");
+}
+.share-buttons.spread .share-diaspora:hover {
+  background-color: #101010 !important;
+}
+.share-buttons.spread .share-gnusocial {
+  background-color: #a22430;
+  background-image: url("/img/service-icons/gnusocial_white.png");
+}
+.share-buttons.spread .share-gnusocial:hover {
+  background-color: #850713 !important;
+}
+.share-buttons.spread .share-reddit {
+  background-color: #ff5700;
+  background-image: url("/img/service-icons/reddit_white.png");
+}
+.share-buttons.spread .share-reddit:hover {
+  background-color: #dd3500 !important;
+}
+.share-buttons.spread .share-flattr {
+  background-color: #7ea352;
+  background-image: url("/img/service-icons/flattr_white.png");
+  display: none !important;
+}
+.share-buttons.spread .share-flattr:hover {
+  background-color: #5a7f2e !important;
+}
+.share-buttons.spread .share-hnews {
+  background-color: #ff6600;
+  background-image: url("/img/service-icons/hackernews_white.png");
+  display: none !important;
+}
+.share-buttons.spread .share-hnews:hover {
+  background-color: #dd3500 !important;
+}
+.share-buttons.spread .share-twitter {
+  background-color: #55acee;
+  background-image: url("/img/service-icons/twitter_white.png");
+}
+.share-buttons.spread .share-twitter:hover {
+  background-color: #338acc !important;
+}
+.share-buttons.spread .share-facebook {
+  background-color: #3b5998;
+  background-image: url("/img/service-icons/facebook_white.png");
+}
+.share-buttons.spread .share-facebook:hover {
+  background-color: #143271 !important;
+}
+.share-buttons.spread .share-gplus {
+  background-color: #d34836;
+  background-image: url("/img/service-icons/gplus_white.png");
+  display: none !important;
+}
+.share-buttons.spread .share-gplus:hover {
+  background-color: #b12614 !important;
+}
+.share-buttons.spread .share-support {
+  background-color: #47a447;
+  background-image: url("/img/service-icons/support_red.png");
+}
+.share-buttons.spread .share-support:hover {
+  background-color: #2a872a !important;
+}
+.share-buttons.spread .share-support {
+  padding-left: 30px !important;
+}
+
+/* Share pop-up behaviour hacks */
+.share-buttons.spread input[type="radio"],
+.share-buttons.spread input[type="radio"] + span,
+.share-buttons.spread input[type="checkbox"],
+.share-buttons.spread input[type="checkbox"] + span {
+  display: none;
+}
+.share-buttons.spread input[type="radio"]:checked + span,
+.share-buttons.spread input[type="checkbox"]:checked + span {
+  position: absolute;
+  margin-top: 3.5em; margin-left: -10em;
+  padding: .5em;
+  z-index: 3;
+  background-color: #333;
+  border-radius: .5em;
+  display: inline-block;
+}
+.share-buttons.spread input[type="radio"]:checked + span:before,
+.share-buttons.spread input[type="checkbox"]:checked + span:before {
+  content: '';
+  position: absolute;
+  top: -1em;
+  height: 0em; width: 0em;
+  border-bottom: 1em solid #333;
+  border-left: 1em solid transparent;
+  border-right: 1em solid transparent;
+  z-index: 3;
+}
+.share-buttons.spread input[type="radio"] + span > * {
+  vertical-align: middle;
+}
+.share-buttons.spread input[type="radio"] + span > button {
+  margin: 2.5px 0 2.5px 5px;
+  min-width: 4em;
+  padding: .25em;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: normal;
+}
+.share-buttons.spread input[type="radio"] + span > label {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+/* Separate share buttons form from possibly floating content */
+form.share-buttons.spread {
+  clear: both;
+}
+
+/* Hide something */
+.n {
+  display: none;
+}
+
+/* Reset colour */
+.share-buttons.spread span label, .share-buttons.spread > span > button {
+  color: normal;
+}

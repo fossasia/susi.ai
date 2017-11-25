@@ -1,0 +1,134 @@
+div.sharecolumn .share-buttons.side {
+  display: flex;
+  left: 0;
+  padding: 0.1vh 0.5vh;
+  position: fixed;
+  top: 35%;
+  z-index: 10;
+  flex-direction: column;
+}
+@media(max-width:839px) {
+  .share-buttons.side {
+    display: none !important;
+  }
+}
+
+.share-buttons.side button.button,
+.share-buttons.side label.button {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 2.7vh auto;
+  background-color: #474747;
+  border-radius: 3px;
+  border: none;
+  color: #000;
+  display: inline-block;
+  margin: 2.5px 5px 2.5px 0;
+  opacity: 0.9;
+  text-decoration: none;
+  height: 4vh;
+  width: 4vh;
+  cursor: pointer;
+}
+
+/* Single services with their colours and logos */
+.share-buttons.side button:hover, .share-buttons.side label:hover {
+  background-color: #4CBD38;
+}
+.share-buttons.side .share-diaspora {
+  background-image: url("/img/service-icons/diaspora_white.png");
+}
+.share-buttons.side .share-gnusocial {
+  background-image: url("/img/service-icons/gnusocial_white.png");
+}
+.share-buttons.side .share-reddit {
+  background-image: url("/img/service-icons/reddit_white.png");
+}
+.share-buttons.side .share-flattr {
+  background-image: url("/img/service-icons/flattr_white.png");
+  display: none !important;
+}
+.share-buttons.side .share-hnews {
+  background-image: url("/img/service-icons/hackernews_white.png");
+  display: none !important;
+}
+.share-buttons.side .share-twitter {
+  background-image: url("/img/service-icons/twitter_white.png");
+}
+.share-buttons.side .share-facebook {
+  background-image: url("/img/service-icons/facebook_white.png");
+}
+.share-buttons.side .share-gplus {
+  background-image: url("/img/service-icons/gplus_white.png");
+  display: none !important;
+}
+.share-buttons.side .share-support {
+  background-image: url("/img/service-icons/support_red.png");
+}
+
+/* Share pop-up behaviour hacks */
+.share-buttons.side input[type="radio"],
+.share-buttons.side input[type="radio"] + span,
+.share-buttons.side input[type="checkbox"],
+.share-buttons.side input[type="checkbox"] + span {
+  display: none;
+}
+.share-buttons.side input[type="radio"]:checked + span,
+.share-buttons.side input[type="checkbox"]:checked + span {
+  position: absolute;
+  margin-top: 3.5em; margin-left: 0;
+  width: 300px;
+  padding: .5em;
+  z-index: 3;
+  background-color: #333;
+  border-radius: .5em;
+  display: inline-block;
+}
+.share-buttons.side input[type="radio"]:checked + span:before,
+.share-buttons.side input[type="checkbox"]:checked + span:before {
+  content: '';
+  position: absolute;
+  top: -1em;
+  height: 0em; width: 0em;
+  border-bottom: 1em solid #333;
+  border-left: 1em solid transparent;
+  border-right: 1em solid transparent;
+  z-index: 3;
+}
+.share-buttons.side input[type="radio"] + span > *{
+  vertical-align: middle;
+}
+.share-buttons.side input[type="radio"] + span > button {
+  margin: 2.5px 0 2.5px 5px;
+  min-width: 4em;
+  padding: .25em;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: normal;
+}
+.share-buttons.side input[type="radio"] + span > label {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+/* Separate share buttons form from possibly floating content */
+form.share-buttons.side {
+  clear: both;
+}
+
+/* Hide something */
+.n {
+  display: none;
+}
+
+/* Media Query to resize social links for portrait tablet view */
+@media screen and (max-height: 770px) {
+  .share-buttons.side button.button,
+  .share-buttons.side label.button {
+    background-size: 3.7vh auto;
+    height: 6vh;
+    width: 6vh;
+  }
+}
