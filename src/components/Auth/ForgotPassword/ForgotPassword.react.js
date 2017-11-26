@@ -254,8 +254,8 @@ class ForgotPassword extends Component {
 					</form>
 					{/* Back to Login button */}
 					<RaisedButton
-						onTouchTap={this.props.onLoginSignUp}
-						label={<Translate text='Back to Login'/>}
+						onClick={this.props.onLoginSignUp}
+						label={<Translate text='Login'/>}
 						backgroundColor={
 						UserPreferencesStore.getTheme()==='light'
 						? '#4285f4' : '#19314B'}
