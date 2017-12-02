@@ -1,0 +1,3 @@
+Follow this video to view a sample console output during deployment on surge:
+
+https://asciinema.org/a/150690
