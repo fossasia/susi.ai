@@ -632,8 +632,9 @@ class Settings extends Component {
 			return 0;
 		});
 		let countries = countryData.countries.all.map((country, i) => {
-			if(countryData.countries.all[i].countryCallingCodes[0])
+			if(countryData.countries.all[i].countryCallingCodes[0]) {
 				return (<MenuItem value={countryData.countries.all[i].alpha2} key={i} primaryText={countryData.countries.all[i].name + ' ' + countryData.countries.all[i].countryCallingCodes[0]} />);
+			}
 			return null;
 		});
 		const closingStyle = {
