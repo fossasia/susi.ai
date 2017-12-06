@@ -6,6 +6,7 @@ import am from './am.json';
 import zh from './zh.json';
 import es from './es.json';
 import hi from './hi.json';
+import gr from './gr.json';
 
 class Translate extends Component{
 
@@ -30,6 +31,7 @@ class Translate extends Component{
     var arrCh = Object.keys(zh);
     var arrSp = Object.keys(es);
     var arrHi = Object.keys(hi);
+    var arrGr = Object.keys(gr);
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
       if(defaultPrefLanguage==='de-DE'){
@@ -68,6 +70,14 @@ class Translate extends Component{
         for (let key=0;key<arrHi.length;key++) {
           if (arrHi[key]===text) {
               this.changeLanguage(hi[arrHi[key]]);
+          }
+        }
+      }
+
+      if(defaultPrefLanguage==='gr-GR'){
+        for (let key=0;key<arrGr.length;key++) {
+          if (arrGr[key]===text) {
+              this.changeLanguage(gr[arrGr[key]]);
           }
         }
       }
