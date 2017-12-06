@@ -735,7 +735,7 @@ class MessageSection extends Component {
         break;
       }
       case 'dark':{
-        backgroundCol =  '#19324c';
+        backgroundCol =  '#1e465b';
         break;
       }
       default: {
