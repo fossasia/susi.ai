@@ -102,8 +102,6 @@ class Feedback extends React.Component {
 				cursor: 'pointer'
 			}
 
-
-
 			let feedbackColor = UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf';
 			let positiveFeedbackColor = feedbackColor;
 			let negativeFeedbackColor = feedbackColor;
