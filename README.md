@@ -156,7 +156,7 @@ chat.susi.ai/
     	 **Voted**: ![#d1462f](https://placehold.it/15/d1462f/000000?text=+) `#d1462f`
          **Unvoted**: ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
 
-## Fonts
+### Fonts
 
 * Chat Message Font: "Product Sans", sans-serif
 * Message Composer Font: "Product Sans", sans-serif
@@ -164,3 +164,7 @@ chat.susi.ai/
 * Chat Composer Font Size: 16px
 * Chat Message Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
 * Message Composer Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
+
+## License
+
+This repository is under a GNU LESSER GENERAL PUBLIC LICENSE 2.1.
