@@ -166,7 +166,7 @@ class Settings extends Component {
 			},{
 				lang: 'fr-FR',
 				name: 'French'
-      },{  
+      },{
 				lang: 'jp-JP',
 				name: 'Japanese'
 			},{
