@@ -6,8 +6,7 @@ SUSI WebChat provides the Users two options :
 
 #### Chat Anonymously
 
-The Chat Anonymously feature is for users to try out SUSI without any hassle of registering or logging in.
-The users can interact with SUSI and try out its features like changing themes and searching messages but features like initializing the app with preferred defaults aren't provided in this mode.
+The Chat Anonymously feature is for users to try out SUSI without any hassle of registering or logging in. The users can interact with SUSI and try out its features like changing themes and searching messages but features like initializing the app with preferred defaults aren't provided in this mode.
 
 #### Logged In
 
