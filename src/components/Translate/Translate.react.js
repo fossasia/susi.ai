@@ -37,7 +37,7 @@ class Translate extends Component{
     var arrGr = Object.keys(gr);
     var arrJp = Object.keys(jp);
 
-    
+
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
       if(defaultPrefLanguage==='de-DE'){
@@ -87,7 +87,7 @@ class Translate extends Component{
           }
         }
       }
-      
+
       if(defaultPrefLanguage==='jp-JP'){
         for (let key=0;key<arrJp.length;key++) {
           if (arrJp[key]===text) {
@@ -95,7 +95,7 @@ class Translate extends Component{
           }
         }
       }
-      
+
   }
 }
   render() {
