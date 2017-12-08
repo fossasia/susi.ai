@@ -104,7 +104,8 @@ class StaticAppBar extends Component {
         this.setState({
             login: true,
             signup: false,
-            showOptions: false
+            showOptions: false,
+            openForgotPassword: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -465,7 +466,8 @@ class StaticAppBar extends Component {
                     contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <ForgotPassword {...this.props}
-                        showForgotPassword={this.showForgotPassword} />
+                        showForgotPassword={this.showForgotPassword}
+                        onLoginSignUp={this.handleLogin} />
                     <Close style={closingStyle}
                         onTouchTap={this.handleClose} />
                 </Dialog>
