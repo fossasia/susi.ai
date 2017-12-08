@@ -1,6 +1,7 @@
 # Deploying with Surge
 
-Website: [Surge.sh](https://surge.sh/):
+* Website: [Surge.sh](https://surge.sh/)
+* Follow this video to view a sample console output during deployment on surge: https://asciinema.org/a/150690
 
 ## Step 1:* **Create a production build:**
 
