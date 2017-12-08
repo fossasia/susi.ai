@@ -28,7 +28,8 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ## How to deploy?
 
-### Running on (./docs/INSTALLATION_LOCAL.md)[localhost]:
+### Running on [./docs/INSTALLATION_LOCAL.md](localhost)
+
 * **Step 1:** Fork the chat.susi.ai repository and clone it to your machine
 * **Step 2:** Cd into the cloned folder
 * **Step 3:** Install all the dependencies with:```$ npm install```
@@ -37,12 +38,13 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 6:** To deploy at a URL use: ```$ npm run deploy ```
 
 ### How to connect to Susi Hardware?
+
 * **Step 1:** Configure your SUSI Hardware Device using instructions found on https://github.com/fossasia/susi_hardware
 * **Step 2:** Go to Settings > Connect to Susi Hardware
 * **Step 3:** Add the default WebSocket URL for your SUSI Hardware Device. If you are using webchat on the same device as the SUSI Hardware, it will be ws://127.0.0.1:9001 . The default port is 9001, unless configured otherwise.
 * **Step 4:** Upon successful connection, you will get a confirmation alert. After that, all your queries to your SUSI Hardware Device and their results will show up on the SUSI Webchat.
 
-### Running on (./docs/INSTALLATION_SURGE.md)[Surge]:
+### Running on [./docs/INSTALLATION_SURGE.md](Surge)
 
 * **Step 1:** Install Surge:```$ npm install -g surge```
 * **Step 2:** Then cd into the cloned chat.susi.ai folder
@@ -64,7 +66,50 @@ window.speechSynthesis.speak(msg)
 
 If you get speech output, then the Web API Speech Synthesis is supported by your browser and the text-to-speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome/-ium browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are a few bugs with some Chromium versions please check [this link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758) on how to fix them locally.
 
+## Accounting, Anonymous User, Logged in Users
+
+SUSI.AI can be used anomymously or as a logged in user by using the account features. The advantage logged in users is, that they the interaction history is synced across devices. More about [accounting here](./docs/ACCOUNTING.md)
+
+
 ## Development
+
+### Retrieving User Chat History
+
+Whenever a user logs in he must be able to view his chat history in the chat client.
+A user might also be using multiple chat clients, so the history across all platforms must be in sync.
+
+A [memory servlet](https://github.com/fossasia/susi_server/blob/development/src/ai/susi/server/api/susi/UserService.java) is used to retrieve the user history.
+>api.susi.ai/susi/memory.json?access_token=ACCESS_TOKEN
+
+When the client makes a call to the server to the above endpoint  with the ```ACCESS_TOKEN``` of the logged in user,  the server returns a list of cognitions which contain susi responses to the queries in the history.
+
+The response from the memory servlet is of the form:
+```
+{
+	"cognitions" : [],
+	"session" : {},
+}
+```
+A sample susi response is of the form :
+```
+{
+	"query" : 
+	"answers" : [ {
+		"data" : [],
+		"actions" : []
+	}],
+}
+```
+So each cognition has ```query``` as well as  ```answer ``` and thus we get a conversation message pair in the chat history.
+
+The cognitions contain a list of SUSI responses of the above form using which chat history is rendered.
+
+All the user messages are stored in a log file. The memory servlet digs out the history of the required user from the log file. The log uses the identity of the user and accesses only that information which has been stored for the user. If the user is not logged on, no information is available.
+The conversation log is NOT stored for a particular IP. It’s stored for an Identity within the AAA system.
+That identity can be represented with an email address, or there can be others.
+
+Thus the synchronization of history across all chat platforms is maintained.
+
 
 ### Folder Structure
 
