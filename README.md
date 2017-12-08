@@ -28,17 +28,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ## How to deploy?
 
-### Running on Surge:
-
-* **Step 1:** Install Surge:```$ npm install -g surge```
-* **Step 2:** Then cd into the cloned chat.susi.ai folder
-* **Step 3:** Build the app:```$ npm run build```
-* **Step 4:** Go to the build directory:```cd build```
-* **Step 5:** Run Surge:```surge```
-* **Step 6:** Follow the prompts and provide an e-mail address and a password.
-* **Step 7:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
-
-### Running on localhost:
+### Running on (./docs/INSTALLATION_LOCAL.md)[localhost]:
 * **Step 1:** Fork the chat.susi.ai repository and clone it to your machine
 * **Step 2:** Cd into the cloned folder
 * **Step 3:** Install all the dependencies with:```$ npm install```
@@ -51,6 +41,17 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 2:** Go to Settings > Connect to Susi Hardware
 * **Step 3:** Add the default WebSocket URL for your SUSI Hardware Device. If you are using webchat on the same device as the SUSI Hardware, it will be ws://127.0.0.1:9001 . The default port is 9001, unless configured otherwise.
 * **Step 4:** Upon successful connection, you will get a confirmation alert. After that, all your queries to your SUSI Hardware Device and their results will show up on the SUSI Webchat.
+
+### Running on (./docs/INSTALLATION_SURGE.md)[Surge]:
+
+* **Step 1:** Install Surge:```$ npm install -g surge```
+* **Step 2:** Then cd into the cloned chat.susi.ai folder
+* **Step 3:** Build the app:```$ npm run build```
+* **Step 4:** Go to the build directory:```cd build```
+* **Step 5:** Run Surge:```surge```
+* **Step 6:** Follow the prompts and provide an e-mail address and a password.
+* **Step 7:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
+
 
 ## Speech Recognition and Synthesis
 
