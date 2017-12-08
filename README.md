@@ -6,20 +6,20 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fossasia/susi_webchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
-Susi is an artificial intelligence combining pattern matching, internet data, data flow principles and inference engine principles. It will have some reflection abilities and it will be able to remember the users input to produce deductions and a personalized feed-back. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end that is developed for web access of SUSI.
+Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.
 
 ## Communication
 
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/group/susiai/
 
-Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
+Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webchat
 
 ## Technology Stack
 
 ### Components
-* HTML - Structure of the web page generated.
-* CSS - Styling options and details of the web page.
-* Javascript(JSON) - Used to store information for deploying the application such as dependencies.
+* HTML - Generated structure of the web page.
+* CSS - Web page styling options and details.
+* Javascript(JSON) - Used to store information for deploying the application, such as dependencies.
 * ReactJS - Structure for deployment of the web page.
 
 ## Requirements
@@ -31,68 +31,136 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_webchat
 ### Running on Surge:
 
 * **Step 1:** Install Surge:```$ npm install -g surge```
-* **Step 2:** Then cd into that cloned folder of chat.susi.ai
-* **Step 3:** Run the App build:```$ npm run build```
-* **Step 4:** Switch into the build directory:```cd build```
-* **Step 5:** Run surge:```surge```
-* **Step 6:** Follow the prompts and provide an email and a password.
-* **Step 7:** Go to URL that appears after the above process and provide this link in PR for testing your Changes. 
+* **Step 2:** Then cd into the cloned chat.susi.ai folder
+* **Step 3:** Build the app:```$ npm run build```
+* **Step 4:** Go to the build directory:```cd build```
+* **Step 5:** Run Surge:```surge```
+* **Step 6:** Follow the prompts and provide an e-mail address and a password.
+* **Step 7:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
 
 ### Running on localhost:
-* **Step 1:** Fork chat.susi.ai repository and clone it to your desktop
-* **Step 2:** Then cd into that cloned folder
-* **Step 3:** Install all the dependencies by running :```$ npm install```
-* **Step 4:** Run on http://localhost:3000 by running :```$ npm run start```
-* **Step 5:** Build locally by running : ```$ npm run build ```
-* **Step 6:** To deploy at a url use : ```$ npm run deploy ```
+* **Step 1:** Fork the chat.susi.ai repository and clone it to your machine
+* **Step 2:** Cd into the cloned folder
+* **Step 3:** Install all the dependencies with:```$ npm install```
+* **Step 4:** Run on http://localhost:3000 with:```$ npm run start```
+* **Step 5:** Build locally with: ```$ npm run build ```
+* **Step 6:** To deploy at a URL use: ```$ npm run deploy ```
 
 ### How to connect to Susi Hardware?
-* **Step 1:** Configure your Susi Hardware Device using instructions on https://github.com/fossasia/susi_hardware
-* **Step 2:** Go to settings > Connect to Susi Hardware
-* **Step 3:** Add the default WebSocket URL for your Susi Hardware Device. If you are using webchat on the same device as Susi Hardware, it will be ws://127.0.0.1:9001 . Default port is 9001, unless configured otherwise.
-* **Step 4:** On successful connection, you will get a confirmation alert. After that, all your queries to your Susi Hardware Device and their results will show up on Susi Webchat.
+* **Step 1:** Configure your SUSI Hardware Device using instructions found on https://github.com/fossasia/susi_hardware
+* **Step 2:** Go to Settings > Connect to Susi Hardware
+* **Step 3:** Add the default WebSocket URL for your SUSI Hardware Device. If you are using webchat on the same device as the SUSI Hardware, it will be ws://127.0.0.1:9001 . The default port is 9001, unless configured otherwise.
+* **Step 4:** Upon successful connection, you will get a confirmation alert. After that, all your queries to your SUSI Hardware Device and their results will show up on the SUSI Webchat.
 
-### Speech Recognition and Synthesis
+## Speech Recognition and Synthesis
 
-SUSI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for Speech Recognition and Synthesis. To test whether your browser supports Text To Speech, open your browser console and try the following :
+The SUSI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for speech recognition and synthesis. To test whether your browser supports Text To Speech, open your browser console and run the following:
 
 ```
 var msg = new SpeechSynthesisUtterance('Hello World');
 window.speechSynthesis.speak(msg)
 ```
 
-If you get a speech output then the Web API Speech Synthesis is supported by your browser and Text To Speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are few bugs with some Chromium versions please check out more on how to fix them locally here in this [link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758)
+If you get speech output, then the Web API Speech Synthesis is supported by your browser and the text-to-speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome/-ium browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are a few bugs with some Chromium versions please check [this link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758) on how to fix them locally.
 
-### Colours and Font Sizes
+## Development
 
-## Component Colours of Light theme
+### Folder Structure
 
-* Background Colour of the Application - ![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
-* Background Colour Message History -![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6`
-* Chat bubbles Colour-
-    * Chat bubbles of SUSI- ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
-    * Chat bubbles of User-  ![#e0e0e0](https://placehold.it/15/e0e0e0/000000?text=+) `#e0e0e0`
-* Top Bar Colour-  ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
-* Buttons Colour- ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
-* Colour of search result- ![#ff5e00](https://placehold.it/15/ff5e00/000000?text=+) `#ff5e00`
+After creation and a successful build, your project should have the following file structure:
 
-* Toggle Colour-
-    * thumbOnColor- ![#5ab1fc](https://placehold.it/15/5ab1fc/000000?text=+) `#5ab1fc`
-    * trackOnColor- ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
+```
+chat.susi.ai/
+  README.md
+  node_modules/
+  package.json
+  public/
+    index.html
+  src/
+    __tests__/
+    actions/
+    components/
+    constants/
+    dispatcher/
+    images/
+    stores/
+    utils/
+    App.test.js
+    ChatDataServer.js
+    history.js
+    index.css
+    index.js
+    setupTests.js
+  .eslintrc
+  .travis.yml
+  deploy.sh
+  LICENSE
+```
 
-* User Feedback Colour-
-    * Thumbs Up Colour-
-         **Voted**- ![#1685e5](https://placehold.it/15/1685e5/000000?text=+) `#1685e5`
-         **Unvoted**- ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
+* `public/index.html` is the page template;
+* `src/index.js` is the JavaScript entry point.
+* `src/__tests__/` new tests related to all the components can be created in this folder, this project follows a `jest` testing suite.
+* `src/actions/` contains related action types which can be defined in this folder.
+* `src/components/` any new component can be added in this folder, given that the file is reused or should be unique in some way. All static files are present in this component as well.
+* `src/components/Translate/` has all the pot files required to integrate the project with [Weblate](http://weblate.org). 
+* `src/constants/` contains all the action types which are being used in the Application.
+* `src/dispatcher/` contains the files to call the Dispatcher Service for the Chat App.
+* `src/images/` contains all the static images being used in the App.
+* `src/stores/` contains all application related stores for the Dispatcher Service which can be defined in this folder.
+* `src/utils/` contains all utilities are files which help us in communicating efficiently between the stores and the actions.
+* `src/App.test.js/` is the entry point for all tests in the `__tests__` folder.
+* `src/ChatDataServer.js/` contains all the helper functions to the calls from the actions to the store.
+* `src/history.js/` registers a history for the `react-router` service in the application.
+* `src/setupTests.js/` is the file containing custom scripts written for failing tests to pass due to the deprecated libraries.
+* `.eslintrc` is the config file for the ESLint testing.
+* `deploy.sh` handles the continuous Travis Deployment of the project on `gh-pages`.
+* `.travis.yml` is the config file for Travis CI.
+
+
+## Translations
+
+### How to add translations in new languages for SUSI Web Chat Components using Weblate
+* Go to [https://hosted.weblate.org/projects/susi-ai/chat/](https://hosted.weblate.org/projects/susi-ai/chat/) and Login using your Github Account.
+* Select Chat component to add new translations.
+* Click on `Start new translation` and choose a new language for which you want to add translations.
+* After selecting the language, you can add your own translations for the different strings.
+* Save the translations.
+* Click on the Manage Tab to commit your changes to the local repository based on the translations.
+
+**Note**
+- To make changes to a repository make sure you are Authenticated
+- To read more about Weblate and about its integration go to [https://docs.weblate.org/en/](https://docs.weblate.org/en/)
+
+## Colors and Fonts
+
+### Component Colors of Light theme
+
+* Application Background Colour: ![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
+* Message History Background Colour: ![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6`
+* Chat Bubble Colour
+    * SUSI Chat bubbles: ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
+    * User Chat bubbles: ![#e0e0e0](https://placehold.it/15/e0e0e0/000000?text=+) `#e0e0e0`
+* Top Bar Colour: ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
+* Buttons Colour: ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
+* Search Result Colour: ![#ff5e00](https://placehold.it/15/ff5e00/000000?text=+) `#ff5e00`
+
+* Toggle Colour
+    * thumbOnColor: ![#5ab1fc](https://placehold.it/15/5ab1fc/000000?text=+) `#5ab1fc`
+    * trackOnColor: ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
+
+* User Feedback Colour
+    * Thumbs Up Colour
+         **Voted**: ![#1685e5](https://placehold.it/15/1685e5/000000?text=+) `#1685e5`
+         **Unvoted**: ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
     * Thumbs Down Colour-
-    	 **Voted**- ![#d1462f](https://placehold.it/15/d1462f/000000?text=+) `#d1462f`
-         **Unvoted**- ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
+    	 **Voted**: ![#d1462f](https://placehold.it/15/d1462f/000000?text=+) `#d1462f`
+         **Unvoted**: ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
 
 ## Fonts
 
-* Font Type of Chat Message-  "Product Sans", sans-serif
-* Font Type of Message Composer-  "Product Sans", sans-serif
-* Chat Message font size :14px
-* Chat Composer font size : 16px
-* Font Colour of Chat Message- ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
-* Font Colour of Message Composer- ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
+* Chat Message Font: "Product Sans", sans-serif
+* Message Composer Font: "Product Sans", sans-serif
+* Chat Message Font Size: 14px
+* Chat Composer Font Size: 16px
+* Chat Message Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
+* Message Composer Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
