@@ -68,7 +68,7 @@ If you get speech output, then the Web API Speech Synthesis is supported by your
 
 ## Accounting, Anonymous User, Logged in Users
 
-SUSI.AI can be used anomymously or as a logged in user by using the account features. The advantage logged in users is, that they the interaction history is synced across devices. More about [accounting here](./docs/ACCOUNTING.md)
+SUSI.AI can be used anomymously or as a logged in user by using the account features. The advantage logged in users is, that they the interaction history is synced across devices. More about [accounting here](./docs/ACCOUNTING.md).
 
 
 ## Development
