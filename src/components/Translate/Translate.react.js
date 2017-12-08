@@ -86,7 +86,7 @@ class Translate extends Component{
           }
         }
       }
-            
+
       if(defaultPrefLanguage==='jp-JP'){
         for (let key=0;key<arrJp.length;key++) {
           if (arrJp[key]===text) {
