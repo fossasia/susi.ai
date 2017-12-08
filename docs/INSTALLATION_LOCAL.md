@@ -4,19 +4,19 @@
 
 `git clone https://github.com/fossasia/chat.susi.ai`
 
-![git clone](/screenshot/gitclone.png)
+![git clone](./img/gitclone.png)
 
 ### 2.Change the directory to the cloned repository
 
 `cd chat.susi.ai`
 
-![cd](/screenshot/cd.png)
+![cd](./img/cd.png)
 
 ### 3.Install dependencies
 
 `npm install`
 
-![npm install](/screenshot/npmistall.png)
+![npm install](./img/npmistall.png)
 
 Output: *(sample)*
 
@@ -64,8 +64,8 @@ Output: *(sample)*
 
 `npm run start`
 
-![run start](/screenshot/run.png)
-![run start](/screenshot/run2.png)
+![run start](./img/run.png)
+![run start](./img/run2.png)
 
 Output: *(sample)*
     
