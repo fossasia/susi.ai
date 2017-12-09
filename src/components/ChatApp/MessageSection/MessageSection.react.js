@@ -765,7 +765,7 @@ class MessageSection extends Component {
       style={{margin:'0 5px'}}
     />
     <RaisedButton
-      label={<Translate text="Restore To Defaults" />}
+      label={<Translate text="Reset" />}
       backgroundColor={buttonColor}
       labelColor="#fff"
       width='200px'
@@ -786,7 +786,7 @@ class MessageSection extends Component {
 
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
-                  <h4><Translate text="Color of"/> {component.name}:</h4>
+                  <h4><Translate text="Color of"/> <Translate text={component.name}/>:</h4>
         <CirclePicker  color={component} width={'100%'}
           colors={['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
         '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#607d8b',
