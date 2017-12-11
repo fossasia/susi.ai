@@ -47,7 +47,7 @@ class Feedback extends React.Component {
 			case 'positive':{
 				this.setState({
 					ratingGiven: true,
-					positive: true,
+					positive: (this.state.positive) ? false : true,
 					negative: false,
 				});
 				break;
@@ -56,7 +56,7 @@ class Feedback extends React.Component {
 				this.setState({
 					ratingGiven: true,
 					positive: false,
-					negative: true,
+					negative: (this.state.negative) ? false : true,
 				});
 				break;
 			}
