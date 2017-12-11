@@ -57,44 +57,44 @@ class ForgotPassword extends Component {
 
 	// Handle toggle between custom server and default server
 	handleServeChange=(event)=>{
-        let state = this.state;
-        let serverUrl
-        if (event.target.value === 'customServer') {
-            state.checked = !state.checked;
-            let defaults = UserPreferencesStore.getPreferences();
-            state.serverUrl = defaults.StandardServer;
-            state.serverFieldError = false;
-        }
-        else if (event.target.name === 'serverUrl'){
-            serverUrl = event.target.value;
-            let validServerUrl =
+		let state = this.state;
+		let serverUrl
+		if (event.target.value === 'customServer') {
+			state.checked = !state.checked;
+			let defaults = UserPreferencesStore.getPreferences();
+			state.serverUrl = defaults.StandardServer;
+			state.serverFieldError = false;
+		}
+		else if (event.target.name === 'serverUrl'){
+			serverUrl = event.target.value;
+			let validServerUrl =
 /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
-            .test(serverUrl);
-            state.serverUrl = serverUrl;
-            state.serverFieldError = !(serverUrl && validServerUrl);
-        }
-        this.setState(state);
+			.test(serverUrl);
+			state.serverUrl = serverUrl;
+			state.serverFieldError = !(serverUrl && validServerUrl);
+		}
+		this.setState(state);
 
-        if (this.state.serverFieldError) {
-            this.customServerMessage = <Translate text="Enter a valid URL"/>;
-        }
-        else{
-            this.customServerMessage = '';
-        }
+		if (this.state.serverFieldError) {
+			this.customServerMessage = <Translate text="Enter a valid URL"/>;
+		}
+		else{
+			this.customServerMessage = '';
+		}
 
-        if(this.state.emailError||
-        this.state.serverFieldError){
-            this.setState({validForm: false});
-        }
-        else{
-            this.setState({validForm: true});
-        }
-    }
+		if(this.state.emailError||
+		this.state.serverFieldError){
+			this.setState({validForm: false});
+		}
+		else{
+			this.setState({validForm: true});
+		}
+	}
 
 	// Handle changes in email
 	handleChange = (event) => {
 		let email;
-    	let state = this.state;
+		let state = this.state;
 		if (event.target.name === 'email') {
 			email = event.target.value.trim();
 			let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
@@ -103,33 +103,33 @@ class ForgotPassword extends Component {
 			state.emailError = !(validEmail && email);
 		}
 
-        if(state.emailError){
-        	if (!state.email) {
+		if(state.emailError){
+			if (!state.email) {
 				this.emailErrorMessage = <Translate text="This Field Is Required"/>;
 			}
 			else if (!state.validEmail) {
 				this.emailErrorMessage = <Translate text="Invalid Email"/>;
 			}
-        }
+		}
 		else{
 			this.emailErrorMessage = '';
 		}
 
-        if (state.serverFieldError) {
-        	this.customServerMessage
-        	= <Translate text="Enter a valid URL"/>;
-        }
-        else{
-        	this.customServerMessage = '';
-        }
+		if (state.serverFieldError) {
+			this.customServerMessage
+			= <Translate text="Enter a valid URL"/>;
+		}
+		else{
+			this.customServerMessage = '';
+		}
 
-        if (!state.emailError && !state.serverFieldError) {
+		if (!state.emailError && !state.serverFieldError) {
 			state.validForm = true;
 		}
 		else {
 			state.validForm = false;
 		}
-        this.setState(state);
+		this.setState(state);
 	};
 
 	// Submit the Forgot Password Form
@@ -144,8 +144,8 @@ class ForgotPassword extends Component {
 
 		let serverUrl = this.state.serverUrl;
 		if(serverUrl.slice(-1) === '/'){
-            serverUrl = serverUrl.slice(0,-1);
-        }
+			serverUrl = serverUrl.slice(0,-1);
+		}
 		if(serverUrl !== ''){
 			BASE_URL = serverUrl;
 		}
@@ -158,12 +158,12 @@ class ForgotPassword extends Component {
 				timeout: 3000,
 				async: false,
 				statusCode: {
-				    422: function() {
-				      let msg = 'Email does not exist';
+					422: function() {
+					  let msg = 'Email does not exist';
 					  let state = this.state;
 					  state.msg = msg;
 					  this.setState(state);
-				    }
+					}
 				},
 				success: function (response) {
 					let msg = response.message;
@@ -179,12 +179,12 @@ class ForgotPassword extends Component {
 					this.setState(state);
 				}.bind(this),
 				error: function (jqXHR, textStatus, errorThrown) {
-			        let jsonValue =  jqXHR.status;
-			        let msg = '';
-			        if (jsonValue === 404) {
-		              msg = 'Email does not exist';
-			        }
-			        else {
+					let jsonValue =  jqXHR.status;
+					let msg = '';
+					if (jsonValue === 404) {
+					  msg = 'Email does not exist';
+					}
+					else {
 					 msg = 'Failed. Try Again';
 					}
 					if (status === 'timeout') {
@@ -206,18 +206,18 @@ class ForgotPassword extends Component {
 			'padding': '10px'
 		}
 		const underlineFocusStyle= {
-            color: '#4285f4'
-        }
-        const closingStyle ={
-          position: 'absolute',
-          zIndex: 1200,
-          fill: '#444',
-          width: '26px',
-          height: '26px',
-          right: '10px',
-          top: '10px',
-          cursor:'pointer'
-        }
+			color: '#4285f4'
+		}
+		const closingStyle ={
+		  position: 'absolute',
+		  zIndex: 1200,
+		  fill: '#444',
+		  width: '26px',
+		  height: '26px',
+		  right: '10px',
+		  top: '10px',
+		  cursor:'pointer'
+		}
 
 		return (
 			<div className="forgotPwdForm">
@@ -231,16 +231,16 @@ class ForgotPassword extends Component {
 								errorText={this.emailErrorMessage}
 								value={this.state.email}
 								underlineFocusStyle={underlineFocusStyle}
-                floatingLabelFocusStyle={underlineFocusStyle}
+				floatingLabelFocusStyle={underlineFocusStyle}
 								onChange={this.handleChange} />
 						</div>
 						<div>
-                            <CustomServer
-                                checked={this.state.checked}
-                                serverUrl={this.state.serverUrl}
-                                customServerMessage={this.customServerMessage}
-                                onServerChange={this.handleServeChange}/>
-                        </div>
+							<CustomServer
+								checked={this.state.checked}
+								serverUrl={this.state.serverUrl}
+								customServerMessage={this.customServerMessage}
+								onServerChange={this.handleServeChange}/>
+						</div>
 						<div>
 							{/* Reset Button */}
 							<RaisedButton
@@ -270,7 +270,7 @@ class ForgotPassword extends Component {
 					>
 						<Translate text={this.state.msg} />
 
-          			<Close style={closingStyle} onTouchTap={this.handleClose} />
+					<Close style={closingStyle} onTouchTap={this.handleClose} />
 					</Dialog></div>
 				)
 				}

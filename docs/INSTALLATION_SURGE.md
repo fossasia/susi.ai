@@ -7,6 +7,8 @@
 
 * `npm run build`
 
+![build](./img/npm_build.png)
+
 Output: *(sample)*
 
     > chat.susi.ai@0.1.0 build C:\FOSSASIA\chat.susi.ai
@@ -36,6 +38,8 @@ Output: *(sample)*
 ## Step 2: Install Surge
 
 * `npm install -g surge`
+
+![build](./img/npm_install_surge.png)
 
 Output: *(sample)*
 
