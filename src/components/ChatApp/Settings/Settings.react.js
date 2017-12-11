@@ -158,6 +158,9 @@ class Settings extends Component {
 				lang: 'de-DE',
 				name: 'Deutsch'
 			},{
+				lang: 'gr-GR',
+				name: 'Greek'
+			},{
 				lang: 'hi-IN',
 				name: 'Hindi'
 			},{
@@ -467,6 +470,9 @@ class Settings extends Component {
 			}, {
 				lang: 'en-US',
 				name: 'US English'
+			}, {
+				lang: 'gr-GR',
+				name: 'Greek'
 			}, {
 				lang: 'hi-IN',
 				name: 'Hindi'
