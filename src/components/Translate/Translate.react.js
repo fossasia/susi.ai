@@ -89,7 +89,7 @@ class Translate extends Component{
           }
         }
       }
-      
+
       if(defaultPrefLanguage==='gr-GR'){
         for (let key=0;key<arrGr.length;key++) {
           if (arrGr[key]===text) {
