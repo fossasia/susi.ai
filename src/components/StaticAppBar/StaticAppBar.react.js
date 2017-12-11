@@ -22,6 +22,7 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
+import Translate from '../Translate/Translate.react';
 
 import { Link } from 'react-router-dom';
 
@@ -186,25 +187,27 @@ class StaticAppBar extends Component {
         if (cookies.get('loggedIn')) {
             Logged = (props) => (
                 <div>
-                    <MenuItem primaryText="About"
+                    <MenuItem
                         containerElement={<Link to="/overview" />}
                         rightIcon={<Info />}
-                    />
-                    <MenuItem primaryText="Chat"
+                    ><Translate text="About"/></MenuItem>
+                    <MenuItem
                         containerElement={<Link to="/" />}
                         rightIcon={<Chat />}
-                    />
+                    ><Translate text="Chat"/></MenuItem>
                     <MenuItem
                         rightIcon={<Dashboard />}
                         href="https://skills.susi.ai"
-                    >Skills
+                    ><Translate text="Skills"/>
                     </MenuItem>
-                    <MenuItem primaryText="Settings"
+                    <MenuItem
                         containerElement={<Link to="/settings" />}
-                        rightIcon={<Settings />} />
-                    <MenuItem primaryText="Logout"
+                        rightIcon={<Settings />} ><Translate text="Settings"/>
+                    </MenuItem>
+                    <MenuItem
                         containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />} />
+                        rightIcon={<Exit />}><Translate text="Logout"/>
+                    </MenuItem>
                 </div>
             )
             return <Logged />
@@ -212,26 +215,30 @@ class StaticAppBar extends Component {
 
         Logged = (props) => (
             <div>
-                <MenuItem primaryText="About"
+                <MenuItem
                     containerElement={<Link to="/overview" />}
                     rightIcon={<Info />}
-                />
-                <MenuItem primaryText="Chat"
+                ><Translate text="About"/>
+                </MenuItem>
+                <MenuItem
                     containerElement={<Link to="/" />}
                     rightIcon={<Chat />}
-                />
+                > <Translate text="Chat"/></MenuItem>
                 <MenuItem
                     rightIcon={<Dashboard />}
                     href="https://skills.susi.ai"
-                >Skills
-            </MenuItem>
-                <MenuItem primaryText="Settings"
-                    containerElement={<Link to="/settings" />}
-                    rightIcon={<Settings />} />
+                ><Translate text="Skills"/>
+                </MenuItem>
                 <MenuItem
-                    primaryText="Login"
+                    containerElement={<Link to="/settings" />}
+                    rightIcon={<Settings />} >
+                    <Translate text="Settings"/>
+                </MenuItem>
+                <MenuItem
                     onTouchTap={this.handleLogin}
-                    rightIcon={<SignUpIcon />} />
+                    rightIcon={<SignUpIcon />} >
+                    <Translate text="Login"/>
+                </MenuItem>
             </div>
         )
         return <Logged />
