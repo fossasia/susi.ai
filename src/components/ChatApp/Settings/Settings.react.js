@@ -780,14 +780,16 @@ class Settings extends Component {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom': '0px',
-						fontSize: '15px',
-						fontWeight: 'bold'
-					}}>
-						<Translate text="Select Theme" />
-					</div>
+					<span>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom': '0px',
+							fontSize: '15px',
+							fontWeight: 'bold'
+						}}>
+							<Translate text="Select Theme" />
+						</div>
+					</span>
 					<RadioButtonGroup
 						style={{ textAlign: 'left', margin: 20 }}
 						onChange={this.handleSelectChange}
@@ -897,13 +899,15 @@ class Settings extends Component {
 			currentSetting =
 			<div style={divStyle}>
 				<span>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Change your Account Password"/>
-					</div>
+					<span>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Change your Account Password"/>
+						</div>
+					</span>
 					<ChangePassword settings={this.state.intialSettings} {...this.props} />
 				</span>
 			</div>
@@ -937,15 +941,17 @@ class Settings extends Component {
 			currentSetting = (
 				<span style={divStyle}>
 					<div>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							marginLeft: '30px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}>
-							<Translate text="Connect to SUSI Hardware" />
-						</div>
+						<span>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom': '0px',
+								marginLeft: '30px',
+								fontSize: '15px',
+								fontWeight: 'bold'
+							}}>
+								<Translate text="Connect to SUSI Hardware" />
+							</div>
+						</span>
 						<HardwareComponent settings={this.state.intialSettings} {...this.props} />
 					</div>
 				</span>
