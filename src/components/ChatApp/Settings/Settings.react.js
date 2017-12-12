@@ -26,6 +26,7 @@ import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
+import ShareOnFacebook from './ShareOnFacebook';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -38,6 +39,7 @@ import LanguageIcon from 'material-ui/svg-icons/action/language';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
+import ShareIcon from 'material-ui/svg-icons/social/share';
 
 const cookies = new Cookies();
 
@@ -558,6 +560,10 @@ class Settings extends Component {
 		{
 			return false;
 		}
+		if(selectedSetting==='Share on Facebook')
+		{
+			return false;
+		}
 		return true;// display the button otherwise
 	}
 	getSomethingToSave = () => {
@@ -775,7 +781,14 @@ class Settings extends Component {
 				</div>
 			)
 		}
-
+		else if(this.state.selectedSetting === 'Share on Facebook') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+				<ShareOnFacebook/>
+				</div>
+				)
+		}
 		else if (this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
 			currentSetting = (
@@ -1083,6 +1096,8 @@ class Settings extends Component {
 			<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1106,6 +1121,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
+				<MenuItem primaryText='Share on Facebook' value='Share on Facebook' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
@@ -1132,6 +1148,8 @@ class Settings extends Component {
 				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1152,6 +1170,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Share on Facebook' value='Share on Facebook' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
