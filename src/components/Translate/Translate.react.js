@@ -6,6 +6,8 @@ import am from './am.json';
 import zh from './zh.json';
 import es from './es.json';
 import hi from './hi.json';
+import gr from './gr.json';
+import jp from './jp.json';
 
 class Translate extends Component{
 
@@ -25,11 +27,17 @@ class Translate extends Component{
 
   componentDidMount() {
     let defaultPrefLanguage = this.state.defaultPrefLanguage;
+
+    // Declaring arrays with various available localisations.
     var arrDe = Object.keys(de);
     var arrAm = Object.keys(am);
     var arrCh = Object.keys(zh);
     var arrSp = Object.keys(es);
     var arrHi = Object.keys(hi);
+    var arrGr = Object.keys(gr);
+    var arrJp = Object.keys(jp);
+
+
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
       if(defaultPrefLanguage==='de-DE'){
@@ -71,6 +79,23 @@ class Translate extends Component{
           }
         }
       }
+
+      if(defaultPrefLanguage==='gr-GR'){
+        for (let key=0;key<arrGr.length;key++) {
+          if (arrGr[key]===text) {
+              this.changeLanguage(gr[arrGr[key]]);
+          }
+        }
+      }
+
+      if(defaultPrefLanguage==='jp-JP'){
+        for (let key=0;key<arrJp.length;key++) {
+          if (arrJp[key]===text) {
+              this.changeLanguage(jp[arrJp[key]]);
+          }
+        }
+      }
+
   }
 }
   render() {

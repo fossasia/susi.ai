@@ -158,11 +158,17 @@ class Settings extends Component {
 				lang: 'de-DE',
 				name: 'Deutsch'
 			},{
+				lang: 'gr-GR',
+				name: 'Greek'
+			},{
 				lang: 'hi-IN',
 				name: 'Hindi'
 			},{
 				lang: 'es-SP',
 				name: 'Spanish'
+			},{
+				lang: 'jp-JP',
+				name: 'Japanese'
 			},{
 				lang: 'en-US',
 				name: 'US English'
@@ -465,8 +471,14 @@ class Settings extends Component {
 				lang: 'en-US',
 				name: 'US English'
 			}, {
+				lang: 'gr-GR',
+				name: 'Greek'
+			}, {
 				lang: 'hi-IN',
 				name: 'Hindi'
+			}, {
+				lang: 'jp-JP',
+				name: 'Japanese'
 			}]
 		});
 	}
@@ -632,7 +644,10 @@ class Settings extends Component {
 			return 0;
 		});
 		let countries = countryData.countries.all.map((country, i) => {
-			return (<MenuItem value={countryData.countries.all[i].alpha2} key={i} primaryText={countryData.countries.all[i].name + ' ' + countryData.countries.all[i].countryCallingCodes[0]} />);
+			if(countryData.countries.all[i].countryCallingCodes[0]) {
+				return (<MenuItem value={countryData.countries.all[i].alpha2} key={i} primaryText={countryData.countries.all[i].name + ' ' + countryData.countries.all[i].countryCallingCodes[0]} />);
+			}
+			return null;
 		});
 		const closingStyle = {
 			position: 'absolute',
