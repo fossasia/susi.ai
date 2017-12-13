@@ -55,8 +55,8 @@ class Feedback extends React.Component {
 			case 'negative':{
 				this.setState({
 					ratingGiven: true,
-					positive: !this.state.negative,
-					negative: true,
+					positive: false,
+					negative: !this.state.negative,
 				});
 				break;
 			}
