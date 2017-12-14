@@ -169,6 +169,9 @@ class Settings extends Component {
 				lang: 'es-SP',
 				name: 'Spanish'
 			},{
+				lang: 'fr-FR',
+				name: 'French'
+      },{
 				lang: 'jp-JP',
 				name: 'Japanese'
 			},{
@@ -479,6 +482,9 @@ class Settings extends Component {
 				lang: 'hi-IN',
 				name: 'Hindi'
 			}, {
+				lang: 'fr-FR',
+				name: 'French'
+      }, {
 				lang: 'jp-JP',
 				name: 'Japanese'
 			}]
