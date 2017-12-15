@@ -797,6 +797,7 @@ class Settings extends Component {
 		}
 		else if (this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
+			debugger;
 			currentSetting = (
 				<div style={divStyle}>
 					<span>
@@ -822,11 +823,18 @@ class Settings extends Component {
 							label={<Translate text="Light" />}
 						/>
 						<RadioButton
-							style={{width: '20%', display: 'inline-block'}}
+							style={{width: '20%', display: 'block'}}
 							iconStyle={radioIconStyle}
 							labelStyle={{color:themeForegroundColor}}
 							value='dark'
 							label={<Translate text="Dark" />}
+						/>
+						<RadioButton
+							style={{width: '20%', display: cookies.get('loggedIn')?'inline-block':'none'}}
+							iconStyle={radioIconStyle}
+							labelStyle={{color:themeForegroundColor}}
+							value='custom'
+							label={<Translate text="Custom" />}
 						/>
 					</RadioButtonGroup>
 				</div>
