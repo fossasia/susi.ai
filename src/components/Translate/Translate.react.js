@@ -6,6 +6,7 @@ import am from './am.json';
 import zh from './zh.json';
 import es from './es.json';
 import hi from './hi.json';
+import fr from './fr.json';
 import gr from './gr.json';
 import jp from './jp.json';
 
@@ -34,6 +35,7 @@ class Translate extends Component{
     var arrCh = Object.keys(zh);
     var arrSp = Object.keys(es);
     var arrHi = Object.keys(hi);
+    var arrFr = Object.keys(fr);
     var arrGr = Object.keys(gr);
     var arrJp = Object.keys(jp);
 
@@ -80,10 +82,19 @@ class Translate extends Component{
         }
       }
 
+      if(defaultPrefLanguage==='fr-FR'){
+        for (let key=0;key<arrFr.length;key++) {
+          if (arrFr[key]===text) {
+              this.changeLanguage(fr[arrFr[key]]);
+          }
+        }
+      }
+
       if(defaultPrefLanguage==='gr-GR'){
         for (let key=0;key<arrGr.length;key++) {
           if (arrGr[key]===text) {
               this.changeLanguage(gr[arrGr[key]]);
+
           }
         }
       }
