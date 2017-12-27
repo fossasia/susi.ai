@@ -3,43 +3,15 @@
 * Website: [Surge.sh](https://surge.sh/)
 * Follow this video to view a sample console output during deployment on surge: https://asciinema.org/a/150690
 
-## Step 1:* **Create a production build:**
-
-* `npm run build`
-
-![build](./img/npm_build.png)
-
-Output: *(sample)*
-
-    > chat.susi.ai@0.1.0 build C:\FOSSASIA\chat.susi.ai
-    > react-scripts build
-    
-    Creating an optimized production build...
-    Compiled successfully.
-    
-    File sizes after gzip:
-    
-      1011.99 KB  build\static\js\main.2660cfa3.js
-      23.64 KB    build\static\css\main.7cf93e8b.css
-    
-    The project was built assuming it is hosted at the server root.
-    To override this, specify the homepage in your package.json.
-    For example, add this to build it for GitHub Pages:
-    
-      "homepage": "http://myname.github.io/myapp",
-    
-    The build folder is ready to be deployed.
-    You may serve it with a static server:
-    
-      npm install -g serve
-      serve -s build
-      
-
-## Step 2: Install Surge
+## Step 1: **Install Surge**
 
 * `npm install -g surge`
 
 ![build](./img/npm_install_surge.png)
+
+* `sudo npm install -g surge`
+
+![surge](./img/surge.png)
 
 Output: *(sample)*
 
@@ -92,16 +64,46 @@ Output: *(sample)*
       | `-- tar@0.1.20
       `-- url-parse-as-address@1.0.0
 
-## Step 3: Configure and Deploy with Surge!
- 
 
-`sudo npm install -g surge`
 
-![surge](./img/surge.png)
+## Step 2:**Create a production build:**
 
-`npm run build`
+* `npm run build`
+
+![build](./img/npm_build.png)
+
+
+* `npm run build`
 
 ![build](./img/build.png)
+
+Output: *(sample)*
+
+    > chat.susi.ai@0.1.0 build C:\FOSSASIA\chat.susi.ai
+    > react-scripts build
+    
+    Creating an optimized production build...
+    Compiled successfully.
+    
+    File sizes after gzip:
+    
+      1011.99 KB  build\static\js\main.2660cfa3.js
+      23.64 KB    build\static\css\main.7cf93e8b.css
+    
+    The project was built assuming it is hosted at the server root.
+    To override this, specify the homepage in your package.json.
+    For example, add this to build it for GitHub Pages:
+    
+      "homepage": "http://myname.github.io/myapp",
+    
+    The build folder is ready to be deployed.
+    You may serve it with a static server:
+    
+      npm install -g serve
+      serve -s build
+      
+      
+ ## Step 3: Configure and Deploy with Surge!
 
 `cd build\`
 
@@ -110,7 +112,6 @@ Output: *(sample)*
 and Enter you details
 
 ![build](./img/sursh.png)
-
 
 Output: *(sample)*
     
