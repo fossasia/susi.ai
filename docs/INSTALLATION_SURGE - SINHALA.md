@@ -1,25 +1,25 @@
-# Deploying with Surge
+# Surge සමඟින් යෙදවීම 
 
-* Website: [Surge.sh](https://surge.sh/)
-* Follow this asciicast to deploy SUSI.AI on Surge step by step with installing all dependencies: https://asciinema.org/a/154686
+* වෙබ්-අඩවිය: [Surge.sh](https://surge.sh/)
+* සියලු යැපෙන්නන් ස්ථාපනය කරමින් SUSI.AI, Surge සමඟින් පියවරෙන් පියවර යෙදවීම සඳහා මෙම asciicast එක අනුගමනය කරන්න: https://asciinema.org/a/154686
 
-## Step 1:* **Install npm**
+## පළමු පියවර:* **npm ස්ථාපනය**
 
 * `npm install` 
- - In Windows open as administrator
- - In UBUNTU use super user method. (`sudo -i`)
+ - windows හිදී open as administrator ද.
+ - Ubuntu හිදී super user method භාවිතා කරන්න. (`sudo -i`)
 ![npm](./img/npmistall.png)
 
-## Step 2:* **Create a production build:**
+## දෙවන පියවර:* **නිෂ්පාදනය තැනීම:**
 
 * cd chat.susi.ai
 ![cd](./img/cd.png)
 * `npm run build`
-![build](./img/surge.png)
+![build](./img/build.png)
+
+නිමැවුම: *(නිදර්ශනය)*
 
 ```
-Output: *(sample)*
-
     > chat.susi.ai@0.1.0 build C:\FOSSASIA\chat.susi.ai
     > react-scripts build
     
@@ -42,19 +42,19 @@ Output: *(sample)*
     
       npm install -g serve
       serve -s build
-```     
+``` 
 
-## Step 3: Install Surge
+## තෙවන පියවර: Surge ස්ථාපනය 
 
 * `npm install -g surge`
- - In Windows open as administrator
- - In UBUNTU use super user method. (`sudo -i`)
+ - windows හිදී open as administrator ද.
+ - Ubuntu හිදී super user method භාවිතා කරන්න. (`sudo -i`)
 ![build](./img/npm_install_surge.png)
 
-```
-Output: *(sample)*
+නිමැවුම: *(නිදර්ශනය)*
 
-    npm WARN deprecated tar.gz@0.1.1: â ï¸  WARNING â ï¸ (...)
+```
+    npm WARN deprecated tar.gz@0.1.1: Ã¢Â Ã¯Â¸  WARNING Ã¢Â Ã¯Â¸ (...)
     npm WARN deprecated minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
     npm WARN deprecated node-uuid@1.4.8: Use uuid module instead
     C:\Users\*\AppData\Roaming\npm\surge -> C:\Users\*\AppData\Roaming\npm\node_modules\surge\lib\cli.js
@@ -104,15 +104,15 @@ Output: *(sample)*
       `-- url-parse-as-address@1.0.0
 ```
 
-## Step 4: Configure and Deploy with Surge!
- 
+## සිව්වන පියවර: හැඩගැසුම හා Surge සමඟින් යෙදවීම!
+
 `cd build`
 `surge`
-and Enter you details
+අනතුරුව ඔබේ විස්තර ඇතුලත් කරන්න.
 ![build](./img/sursh.png)
 
 ```
-Output: *(sample)*
+නිමැවුම: *(නිදර්ශනය)*
     
         Surge - surge.sh
     
