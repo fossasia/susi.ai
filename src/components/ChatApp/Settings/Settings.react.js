@@ -1152,7 +1152,7 @@ class Settings extends Component {
 		<Menu
 			onItemTouchTap={this.loadSettings}
 			selectedMenuItemStyle={blueThemeColor}
-			style={{width:'100%' height:'100vh'}}
+			style={{width:'100%', height:'100vh'}}
 			value={this.state.selectedSetting}
 			>
 				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
