@@ -1197,7 +1197,7 @@ class Settings extends Component {
 		</div>
 
 	 const menuStyle = {
-					 height: 500,
+					 height: 550,
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
