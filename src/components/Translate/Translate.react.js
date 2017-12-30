@@ -8,6 +8,7 @@ import es from './es.json';
 import hi from './hi.json';
 import fr from './fr.json';
 import gr from './gr.json';
+import ru from './ru.json';
 import jp from './jp.json';
 
 class Translate extends Component{
@@ -35,6 +36,7 @@ class Translate extends Component{
     var arrCh = Object.keys(zh);
     var arrSp = Object.keys(es);
     var arrHi = Object.keys(hi);
+	  var arrRu = Object.keys(ru);
     var arrFr = Object.keys(fr);
     var arrGr = Object.keys(gr);
     var arrJp = Object.keys(jp);
@@ -78,6 +80,14 @@ class Translate extends Component{
         for (let key=0;key<arrHi.length;key++) {
           if (arrHi[key]===text) {
               this.changeLanguage(hi[arrHi[key]]);
+          }
+        }
+      }
+
+	  if(defaultPrefLanguage==='ru-RU'){
+        for (let key=0;key<arrRu.length;key++) {
+          if (arrRu[key]===text) {
+              this.changeLanguage(ru[arrRu[key]]);
           }
         }
       }
