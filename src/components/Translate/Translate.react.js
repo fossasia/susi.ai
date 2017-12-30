@@ -33,7 +33,7 @@ class Translate extends Component{
 
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
-      
+
       if(defaultPrefLanguage==='de-DE'){
         arr = Object.keys(de);
         file = de;
