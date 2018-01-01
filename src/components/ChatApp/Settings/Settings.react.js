@@ -797,7 +797,6 @@ class Settings extends Component {
 		}
 		else if (this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
-			debugger;
 			currentSetting = (
 				<div style={divStyle}>
 					<span>
