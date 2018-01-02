@@ -98,7 +98,7 @@ export default class ShareOnFacebook extends Component{
                 					backgroundColor='#4285f4'
                 					labelColor='#fff'
                 					keyboardFocused={true}
-                					onTouchTap={this.Share} 
+                					onTouchTap={this.Share}
                 				/>
 							</div>
 						</div>
