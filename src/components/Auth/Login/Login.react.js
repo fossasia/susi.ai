@@ -12,12 +12,18 @@ import Cookies from 'universal-cookie';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
+import FacebookLogin  from 'react-facebook-login';
 
 const cookies = new Cookies();
 
+const responseFacebook = (response)=> {
+    console.log(response);
+
+    }
+
 class Login extends Component {
-	constructor(props) {
-		super(props);
+	constructor(props,context) {
+		super(props,context);
 		this.state = {
 			email: '',
 			password: '',
@@ -118,7 +124,6 @@ class Login extends Component {
 	handleForgotPassword = () => {
 		this.props.handleForgotPassword();
 	}
-
 	// Open SignUp Dialog
 	handleSignUp = () => {
 		this.props.handleSignUp();
@@ -224,9 +229,8 @@ class Login extends Component {
 		}
 	}
 
-	render() {
-
-		const styles = {
+    render() {
+        const styles = {
 			'width': '100%',
 			'textAlign': 'center',
 			'padding': '10px'
@@ -311,6 +315,16 @@ class Login extends Component {
 									labelColor="#fff" />
 							</Link>
 						</div>
+						<h4 style={{
+							margin: '8px 0'
+						}}><Translate text="OR"/></h4>
+                        <FacebookLogin
+                            appId="392360367885660"
+                            autoLoad={true}
+                            fields="name,email,picture"
+                            callback={responseFacebook}
+                            icon="fa-facebook"
+                            />
 					</form>
 				</Paper>
 			</div>);
