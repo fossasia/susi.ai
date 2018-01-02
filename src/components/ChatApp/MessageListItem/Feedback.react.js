@@ -90,6 +90,14 @@ class Feedback extends React.Component {
 
 		if(message.authorName === 'SUSI'){
 			let feedbackIndicator = {
+				height:'18px',
+				cursor: 'pointer'
+			}
+			let feedbackNegativeIndicator = {
+				height:'16px',
+				cursor: 'pointer'
+			}
+			let feedbackPositiveIndicator = {
 				height:'16px',
 				cursor: 'pointer'
 			}
@@ -99,9 +107,11 @@ class Feedback extends React.Component {
 			let negativeFeedbackColor = feedbackColor;
 			if(this.state.positive){
 				positiveFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
+				feedbackPositiveIndicator = feedbackIndicator
 			}
 			else if(this.state.negative){
-				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#d1462f' : '#00ff7f';
+				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#d1462f' : '#fcfc16';
+				feedbackNegativeIndicator = feedbackIndicator;
 			}
 
 				feedbackButtons = (
@@ -110,23 +120,26 @@ class Feedback extends React.Component {
 
 						<ThumbUp
 							onClick={this.rateSkill.bind(this,'positive')}
-							style={feedbackIndicator}
+							style={feedbackPositiveIndicator}
 							color={positiveFeedbackColor}/>
+
 						<ThumbDown
 							onClick={this.rateSkill.bind(this,'negative')}
-							style={feedbackIndicator}
+							style={feedbackNegativeIndicator}
 							color={negativeFeedbackColor}/>
 					</span>
 				);
+
 			if(message.feedback.isRated){
 				feedbackIndicator.cursor = 'auto';
 				feedbackButtons = (
 					<span className='feedback' style={feedbackStyle}>
 						<ThumbUp
-							style={feedbackIndicator}
+							style={feedbackPositiveIndicator}
 							color={positiveFeedbackColor}/>
+
 						<ThumbDown
-							style={feedbackIndicator}
+							style={feedbackNegativeIndicator}
 							color={negativeFeedbackColor}/>
 					</span>
 				);
