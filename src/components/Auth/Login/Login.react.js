@@ -12,6 +12,7 @@ import Cookies from 'universal-cookie';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
+import GoogleLogin from 'react-google-login';
 
 const cookies = new Cookies();
 
@@ -111,6 +112,38 @@ class Login extends Component {
 					this.setState({loading: false});
 				}.bind(this)
 			});
+		}
+	}
+
+	handleGoogle = (response) => {
+		let defaults = UserPreferencesStore.getPreferences();
+		let BASE_URL = defaults.Server;
+
+		let serverUrl = this.state.serverUrl;
+		if(serverUrl.slice(-1) === '/'){
+			serverUrl = serverUrl.slice(0,-1);
+		}
+		if(serverUrl !== ''){
+			BASE_URL = serverUrl;
+		}
+		console.log(BASE_URL);
+
+		if(response.El)
+		{
+			cookies.set('serverUrl', BASE_URL, { path: '/' });
+			console.log(cookies.get('serverUrl'));
+			const email=response.profileObj.email;
+			const userId=response.profileObj.googleId;
+			cookies.set('loggedIn', userId, { path: '/', maxAge: 604800 });
+			cookies.set('email', email, { path: '/', maxAge: 604800});
+			this.props.history.push('/', { showLogin: false });
+			window.location.reload();
+		}
+		else
+		{
+			let state = this.state;
+			state.msg = 'Login Failed. Try Again';
+			this.setState(state);
 		}
 	}
 
@@ -310,6 +343,18 @@ class Login extends Component {
 										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
 									labelColor="#fff" />
 							</Link>
+						</div>
+						<h4 style={{
+							margin: '8px 0'
+						}}><Translate text="OR"/></h4>
+						<div>
+							<GoogleLogin
+								clientId="269257234099-jdkmnfq1oa2osu2tht22k43naeu7j6hp.apps.googleusercontent.com"
+								onSuccess={this.handleGoogle}
+								onFailure={this.handleGoogle}
+							>
+								<span>GOOGLE</span>
+							</GoogleLogin>
 						</div>
 					</form>
 				</Paper>
