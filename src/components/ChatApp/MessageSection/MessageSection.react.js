@@ -356,13 +356,12 @@ class MessageSection extends Component {
     else{
       // default theme
       this.setState({
-        prevThemeSettings:null,
         body : '#fff',
         header : '#4285f4',
         composer : '#f3f2f4',
         pane : '#f3f2f4',
         textarea: '#fff',
-        button: '#4285f4',
+        button: this.state.prevThemeSettings.currTheme==='light'?'#4285f4':'#19314B',
       });
       let customData='';
       Object.keys(this.customTheme).forEach((key) => {
@@ -370,13 +369,13 @@ class MessageSection extends Component {
       });
 
       let settingsChanged = {};
-      settingsChanged.theme = 'light';
+      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
       settingsChanged.customThemeValue = customData;
       if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
           settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
       }
       Actions.settingsChanged(settingsChanged);
-      this.setState({currTheme : 'light'})
+      this.setState({currTheme : this.state.prevThemeSettings.currTheme});
       this.setState({
         showLogin: false,
         showSignUp: false,
@@ -772,11 +771,10 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-
   const customSettingsDone = <div>
     <RaisedButton
       label={<Translate text="Save" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -785,7 +783,7 @@ class MessageSection extends Component {
     />
     <RaisedButton
       label={<Translate text="Reset" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -831,7 +829,7 @@ class MessageSection extends Component {
                   display:component.component==='body'?'block':'none',
                   width: '150px'
                 }}
-                backgroundColor={buttonColor}
+                backgroundColor={buttonColor?buttonColor:'#4285f4'}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -851,7 +849,7 @@ class MessageSection extends Component {
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
-              backgroundColor={buttonColor}
+              backgroundColor={buttonColor?buttonColor:'#4285f4'}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
