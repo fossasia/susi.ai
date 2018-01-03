@@ -8,6 +8,7 @@ import es from './es.json';
 import hi from './hi.json';
 import fr from './fr.json';
 import gr from './gr.json';
+import ru from './ru.json';
 import jp from './jp.json';
 
 class Translate extends Component{
@@ -57,6 +58,10 @@ class Translate extends Component{
       else if(defaultPrefLanguage==='fr-FR'){
         arr = Object.keys(fr);
         file = fr;
+      }
+      else if(defaultPrefLanguage==='ru-RU'){
+        arr = Object.keys(ru);
+        file = ru;
       }
       else if(defaultPrefLanguage==='gr-GR'){
         arr = Object.keys(gr);

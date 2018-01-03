@@ -5,7 +5,7 @@ export default class ShareOnFacebook extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			style:{ margin:20,},
+			style:{ margin:20},
 			loginStatus: 'not connected',
 		};
 		this.Share=this.Share.bind(this);
@@ -92,7 +92,14 @@ export default class ShareOnFacebook extends Component{
 								fontWeight: 'bold'}}>
 								<Translate text="Share about SUSI on Facebook"/>
 								<br/>
-								<RaisedButton label="Share" onClick={this.Share} style={this.state.style}/>
+								<RaisedButton
+                					label={<Translate text="Share" />}
+                					style={this.state.style}
+                					backgroundColor='#4285f4'
+                					labelColor='#fff'
+                					keyboardFocused={true}
+                					onTouchTap={this.Share}
+                				/>
 							</div>
 						</div>
 					</div>
