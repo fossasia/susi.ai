@@ -9,6 +9,7 @@ script:
   - npm test
 
 after_success:
+  - bash <(curl -s https://codecov.io/bash)
   - bash ./surge_deploy.sh
   - bash ./deploy.sh
 
