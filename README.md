@@ -46,6 +46,9 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ### Running on [Surge](./docs/INSTALLATION_SURGE.md)
 
+**Click this picture to see video about deploy!**
+[![Watch the video](https://i2.wp.com/blog.fossasia.org/wp-content/uploads/2017/08/surge_static_hosting.png)](https://www.youtube.com/watch?v=Gvc0uz13U1M)
+
 * **Step 1:** Install Surge:```$ npm install -g surge```
 * **Step 2:** Then cd into the cloned chat.susi.ai folder
 * **Step 3:** Build the app:```$ npm run build```
