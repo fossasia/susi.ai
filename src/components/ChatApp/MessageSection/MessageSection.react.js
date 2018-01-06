@@ -40,8 +40,8 @@ function getStateFromStores() {
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
-		currTheme: UserPreferencesStore.getTheme(),
-		tour:true,
+    currTheme: UserPreferencesStore.getTheme(),
+    tour:true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
@@ -171,7 +171,7 @@ class MessageSection extends Component {
   };
 
   state = {
-		showLogin: false
+    showLogin: false
   };
 
   constructor(props) {
@@ -186,7 +186,7 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-	}
+  }
 
 
   handleColorChange = (name,color) => {
@@ -337,7 +337,7 @@ class MessageSection extends Component {
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
-			openForgotPassword: false,
+      openForgotPassword: false,
     });
 
     if(prevThemeSettings && prevThemeSettings.hasOwnProperty('currTheme') && prevThemeSettings.currTheme==='custom'){
@@ -384,17 +384,17 @@ class MessageSection extends Component {
       });
     }
   }
-	handleCloseTour = ()=>{
+  handleCloseTour = ()=>{
     this.setState({
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
-			openForgotPassword: false,
-			tour:false
-		});
-		cookies.set('visited', true, { path: '/' });
+      openForgotPassword: false,
+      tour:false
+    });
+    cookies.set('visited', true, { path: '/' });
 
-	}
+  }
   // Save Custom Theme settings on server
   saveThemeSettings = () => {
     let customData='';
@@ -425,7 +425,12 @@ class MessageSection extends Component {
       showThemeChanger: false,
       openForgotPassword: false,
     });
-    this.applyLightTheme();
+    var prevTheme = this.state.prevThemeSettings.currTheme;
+    var currTheme = this.state.currTheme;
+    if((currTheme==='custom'&&prevTheme==='dark')||(currTheme==='dark'))
+      this.applyDarkTheme();
+    else
+      this.applyLightTheme();
   }
 
   applyLightTheme = () =>{
@@ -446,6 +451,31 @@ class MessageSection extends Component {
 
     let settingsChanged = {};
     settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+        settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
+  }
+
+  applyDarkTheme = () =>{
+    this.setState({
+      prevThemeSettings:null,
+      body : '#fff',
+      header : '#4285f4',
+      composer : '#f3f2f4',
+      pane : '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme : 'dark'
+    });
+    let customData='';
+    Object.keys(this.customTheme).forEach((key) => {
+      customData=customData+this.customTheme[key]+','
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'dark';
     settingsChanged.customThemeValue = customData;
     if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
         settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
@@ -611,7 +641,7 @@ class MessageSection extends Component {
 
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
-		ThreadStore.removeChangeListener(this._onChange.bind(this));
+    ThreadStore.removeChangeListener(this._onChange.bind(this));
 
   }
 
@@ -658,7 +688,7 @@ class MessageSection extends Component {
             // do nothing
         }
       }
-		})
+    })
 
   }
 
@@ -692,7 +722,7 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
-		var textColor;
+    var textColor;
 
     switch(this.state.currTheme){
       case 'custom':{
@@ -957,14 +987,14 @@ class MessageSection extends Component {
               actions={actions}
               handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
-							onRequestClose={()=>this.handleClose}
-							onRequestCloseTour={()=>this.handleCloseTour}
+              onRequestClose={()=>this.handleClose}
+              onRequestCloseTour={()=>this.handleCloseTour}
               onSaveThemeSettings={()=>this.handleSaveTheme}
               onLoginSignUp={()=>this.handleOpen}
-							onForgotPassword={()=>this.forgotPasswordChanged}
-							tour={!cookies.get('visited')}
+              onForgotPassword={()=>this.forgotPasswordChanged}
+              tour={!cookies.get('visited')}
 
-							 />
+               />
             </div>)
              : (
              <div className='message-pane'>
