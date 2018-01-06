@@ -427,10 +427,12 @@ class MessageSection extends Component {
     });
     var prevTheme = this.state.prevThemeSettings.currTheme;
     var currTheme = this.state.currTheme;
-    if((currTheme==='custom'&&prevTheme==='dark')||(currTheme==='dark'))
+    if((currTheme==='custom'&&prevTheme==='dark')||(currTheme==='dark')) {
       this.applyDarkTheme();
-    else
+    }
+    else {
       this.applyLightTheme();
+    }
   }
 
   applyLightTheme = () =>{
