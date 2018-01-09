@@ -8,9 +8,10 @@ node_js:
 script:
   - npm test
 
-deploy:
-  provider: script
-  script: "./deploy.sh"
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  - bash ./surge_deploy.sh
+  - bash ./deploy.sh
 
 cache:
   directories:

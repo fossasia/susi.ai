@@ -1,14 +1,23 @@
 # Deploying with Surge
 
 * Website: [Surge.sh](https://surge.sh/)
-* Follow this video to view a sample console output during deployment on surge: https://asciinema.org/a/150690
+* Follow this asciicast to deploy SUSI.AI on Surge step by step with installing all dependencies: https://asciinema.org/a/154686
 
-## Step 1:* **Create a production build:**
+## Step 1:* **Install npm**
 
+* `npm install` 
+ - In Windows open as administrator
+ - In UBUNTU use super user method. (`sudo -i`)
+![npm](./img/npmistall.png)
+
+## Step 2:* **Create a production build:**
+
+* cd chat.susi.ai
+![cd](./img/cd.png)
 * `npm run build`
+![build](./img/surge.png)
 
-![build](./img/npm_build.png)
-
+```
 Output: *(sample)*
 
     > chat.susi.ai@0.1.0 build C:\FOSSASIA\chat.susi.ai
@@ -33,14 +42,16 @@ Output: *(sample)*
     
       npm install -g serve
       serve -s build
-      
+```     
 
-## Step 2: Install Surge
+## Step 3: Install Surge
 
 * `npm install -g surge`
-
+ - In Windows open as administrator
+ - In UBUNTU use super user method. (`sudo -i`)
 ![build](./img/npm_install_surge.png)
 
+```
 Output: *(sample)*
 
     npm WARN deprecated tar.gz@0.1.1: â ï¸  WARNING â ï¸ (...)
@@ -91,27 +102,16 @@ Output: *(sample)*
       | |   `-- natives@1.1.0
       | `-- tar@0.1.20
       `-- url-parse-as-address@1.0.0
+```
 
-## Step 3: Configure and Deploy with Surge!
+## Step 4: Configure and Deploy with Surge!
  
-
-`sudo npm install -g surge`
-
-![surge](./img/surge.png)
-
-`npm run build`
-
-![build](./img/build.png)
-
-`cd build\`
-
+`cd build`
 `surge`
-
 and Enter you details
-
 ![build](./img/sursh.png)
 
-
+```
 Output: *(sample)*
     
         Surge - surge.sh
@@ -128,4 +128,4 @@ Output: *(sample)*
              IP Address: 45._5._10.___
     
         Success! Project is published and running at sophisticated-reason.surge.sh
-
+```

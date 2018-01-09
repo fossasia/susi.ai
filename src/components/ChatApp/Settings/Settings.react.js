@@ -166,6 +166,9 @@ class Settings extends Component {
 				lang: 'hi-IN',
 				name: 'Hindi'
 			},{
+				lang: 'ru-RU',
+				name: 'Russian'
+			},{
 				lang: 'es-SP',
 				name: 'Spanish'
 			},{
@@ -484,7 +487,10 @@ class Settings extends Component {
 			}, {
 				lang: 'fr-FR',
 				name: 'French'
-      }, {
+			}, {
+				lang: 'ru-RU',
+				name: 'Russian'
+			},{
 				lang: 'jp-JP',
 				name: 'Japanese'
 			}]
@@ -797,7 +803,6 @@ class Settings extends Component {
 		}
 		else if (this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
-			debugger;
 			currentSetting = (
 				<div style={divStyle}>
 					<span>
@@ -1195,14 +1200,24 @@ class Settings extends Component {
 		</div>
 		</div>
 
-	 const menuStyle = {
-					 height: 400,
+	 let menuStyle = cookies.get('loggedIn')? {
+					 height: 550,
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
-	};
+	}
+
+ :
+ {
+ 				height: 400,
+ 				marginTop: 20,
+ 				textAlign: 'center',
+ 				display: 'inline-block',
+ 				backgroundColor:themeBackgroundColor,
+ 				color:themeForegroundColor
+ };
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (

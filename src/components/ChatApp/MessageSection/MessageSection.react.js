@@ -19,6 +19,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
+import Cookies from 'universal-cookie';
+
+
+const cookies=new Cookies();
 
 function getStateFromStores() {
   var themeValue=[];
@@ -36,7 +40,8 @@ function getStateFromStores() {
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
-    currTheme: UserPreferencesStore.getTheme(),
+		currTheme: UserPreferencesStore.getTheme(),
+		tour:true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
@@ -166,7 +171,7 @@ class MessageSection extends Component {
   };
 
   state = {
-    showLogin: false
+		showLogin: false
   };
 
   constructor(props) {
@@ -181,7 +186,8 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-  }
+	}
+
 
   handleColorChange = (name,color) => {
     // Current Changes
@@ -331,7 +337,7 @@ class MessageSection extends Component {
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
-      openForgotPassword: false
+			openForgotPassword: false,
     });
 
     if(prevThemeSettings && prevThemeSettings.hasOwnProperty('currTheme') && prevThemeSettings.currTheme==='custom'){
@@ -350,13 +356,12 @@ class MessageSection extends Component {
     else{
       // default theme
       this.setState({
-        prevThemeSettings:null,
         body : '#fff',
         header : '#4285f4',
         composer : '#f3f2f4',
         pane : '#f3f2f4',
         textarea: '#fff',
-        button: '#4285f4',
+        button: this.state.prevThemeSettings.currTheme==='light'?'#4285f4':'#19314B',
       });
       let customData='';
       Object.keys(this.customTheme).forEach((key) => {
@@ -364,13 +369,13 @@ class MessageSection extends Component {
       });
 
       let settingsChanged = {};
-      settingsChanged.theme = 'light';
+      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
       settingsChanged.customThemeValue = customData;
       if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
           settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
       }
       Actions.settingsChanged(settingsChanged);
-      this.setState({currTheme : 'light'})
+      this.setState({currTheme : this.state.prevThemeSettings.currTheme});
       this.setState({
         showLogin: false,
         showSignUp: false,
@@ -379,7 +384,17 @@ class MessageSection extends Component {
       });
     }
   }
+	handleCloseTour = ()=>{
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+			openForgotPassword: false,
+			tour:false
+		});
+		cookies.set('visited', true, { path: '/' });
 
+	}
   // Save Custom Theme settings on server
   saveThemeSettings = () => {
     let customData='';
@@ -596,10 +611,12 @@ class MessageSection extends Component {
 
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+		ThreadStore.removeChangeListener(this._onChange.bind(this));
+
   }
 
   componentWillMount() {
+
 
     if (this.props.location) {
       if (this.props.location.state) {
@@ -641,7 +658,8 @@ class MessageSection extends Component {
             // do nothing
         }
       }
-    })
+		})
+
   }
 
   invertColorTextArea =() => {
@@ -674,7 +692,7 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
-    var textColor;
+		var textColor;
 
     switch(this.state.currTheme){
       case 'custom':{
@@ -753,11 +771,10 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-
   const customSettingsDone = <div>
     <RaisedButton
       label={<Translate text="Save" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -766,7 +783,7 @@ class MessageSection extends Component {
     />
     <RaisedButton
       label={<Translate text="Reset" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -812,7 +829,7 @@ class MessageSection extends Component {
                   display:component.component==='body'?'block':'none',
                   width: '150px'
                 }}
-                backgroundColor={buttonColor}
+                backgroundColor={buttonColor?buttonColor:'#4285f4'}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -832,7 +849,7 @@ class MessageSection extends Component {
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
-              backgroundColor={buttonColor}
+              backgroundColor={buttonColor?buttonColor:'#4285f4'}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
@@ -940,10 +957,14 @@ class MessageSection extends Component {
               actions={actions}
               handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
-              onRequestClose={()=>this.handleClose}
+							onRequestClose={()=>this.handleClose}
+							onRequestCloseTour={()=>this.handleCloseTour}
               onSaveThemeSettings={()=>this.handleSaveTheme}
               onLoginSignUp={()=>this.handleOpen}
-              onForgotPassword={()=>this.forgotPasswordChanged} />
+							onForgotPassword={()=>this.forgotPasswordChanged}
+							tour={!cookies.get('visited')}
+
+							 />
             </div>)
              : (
              <div className='message-pane'>
