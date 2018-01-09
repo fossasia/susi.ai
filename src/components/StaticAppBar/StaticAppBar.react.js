@@ -423,6 +423,7 @@ class StaticAppBar extends Component {
                 <Drawer
                     docked={false}
                     width={200}
+                    containerStyle={{ overflow: 'hidden' }}
                     open={this.state.openDrawer}
                     onRequestChange={(openDrawer) => this.setState({ openDrawer })}
                 >
