@@ -174,9 +174,12 @@ class Settings extends Component {
 			},{
 				lang: 'fr-FR',
 				name: 'French'
-      },{
+			},{
 				lang: 'jp-JP',
 				name: 'Japanese'
+			},{
+				lang: 'nl-NL',
+				name: 'Dutch'
 			},{
 				lang: 'en-US',
 				name: 'US English'
@@ -493,6 +496,9 @@ class Settings extends Component {
 			},{
 				lang: 'jp-JP',
 				name: 'Japanese'
+			},{
+				lang: 'nl-NL',
+				name: 'Dutch'
 			}]
 		});
 	}
