@@ -19,6 +19,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
+import Cookies from 'universal-cookie';
+
+
+const cookies=new Cookies();
 
 function getStateFromStores() {
   var themeValue=[];
@@ -36,7 +40,8 @@ function getStateFromStores() {
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
-    currTheme: UserPreferencesStore.getTheme(),
+		currTheme: UserPreferencesStore.getTheme(),
+		tour:true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
@@ -166,7 +171,7 @@ class MessageSection extends Component {
   };
 
   state = {
-    showLogin: false
+		showLogin: false
   };
 
   constructor(props) {
@@ -181,7 +186,8 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-  }
+	}
+
 
   handleColorChange = (name,color) => {
     // Current Changes
@@ -244,7 +250,8 @@ class MessageSection extends Component {
   handleOpen = () => {
     this.setState({
       showLogin: true,
-      showSignUp: false
+      showSignUp: false,
+      openForgotPassword: false
     });
     this.child.closeOptions();
   }
@@ -325,14 +332,69 @@ class MessageSection extends Component {
   }
   // Close all dialog boxes
   handleClose = () => {
+    var prevThemeSettings=this.state.prevThemeSettings;
     this.setState({
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
-      openForgotPassword: false
+			openForgotPassword: false,
     });
-  }
 
+    if(prevThemeSettings && prevThemeSettings.hasOwnProperty('currTheme') && prevThemeSettings.currTheme==='custom'){
+      this.setState({
+        currTheme:prevThemeSettings.currTheme,
+        body:prevThemeSettings.bodyColor,
+        header:prevThemeSettings.TopBarColor,
+        composer:prevThemeSettings.composerColor,
+        pane:prevThemeSettings.messagePane,
+        textarea:prevThemeSettings.textArea,
+        button:prevThemeSettings.buttonColor,
+        bodyBackgroundImage:prevThemeSettings.bodyBackgroundImage,
+        messageBackgroundImage:prevThemeSettings.messageBackgroundImage,
+      })
+    }
+    else{
+      // default theme
+      this.setState({
+        body : '#fff',
+        header : '#4285f4',
+        composer : '#f3f2f4',
+        pane : '#f3f2f4',
+        textarea: '#fff',
+        button: this.state.prevThemeSettings.currTheme==='light'?'#4285f4':'#19314B',
+      });
+      let customData='';
+      Object.keys(this.customTheme).forEach((key) => {
+        customData=customData+this.customTheme[key]+','
+      });
+
+      let settingsChanged = {};
+      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
+      settingsChanged.customThemeValue = customData;
+      if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+          settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+      }
+      Actions.settingsChanged(settingsChanged);
+      this.setState({currTheme : this.state.prevThemeSettings.currTheme});
+      this.setState({
+        showLogin: false,
+        showSignUp: false,
+        showThemeChanger: false,
+        openForgotPassword: false,
+      });
+    }
+  }
+	handleCloseTour = ()=>{
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+			openForgotPassword: false,
+			tour:false
+		});
+		cookies.set('visited', true, { path: '/' });
+
+	}
   // Save Custom Theme settings on server
   saveThemeSettings = () => {
     let customData='';
@@ -348,24 +410,70 @@ class MessageSection extends Component {
     }
     Actions.settingsChanged(settingsChanged);
     this.setState({currTheme : 'custom'})
-    this.handleClose();
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+      openForgotPassword: false,
+    });
   }
 
-  applyLightTheme = () => {
-
+  handleRestoreDefaultThemeClick = () => {
     this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+      openForgotPassword: false,
+    });
+    this.applyLightTheme();
+  }
+
+  applyLightTheme = () =>{
+    this.setState({
+      prevThemeSettings:null,
       body : '#fff',
       header : '#4285f4',
       composer : '#f3f2f4',
       pane : '#f3f2f4',
       textarea: '#fff',
       button: '#4285f4',
+      currTheme : 'light'
+    });
+    let customData='';
+    Object.keys(this.customTheme).forEach((key) => {
+      customData=customData+this.customTheme[key]+','
     });
 
+    let settingsChanged = {};
+    settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+        settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
   }
 
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
+    // save the previous theme settings
+    if(this.state.currTheme==='light'){
+      // remove the previous custom theme memory
+      this.applyLightTheme();
+    }
+    var prevThemeSettings={};
+    var state=this.state;
+    prevThemeSettings.currTheme=state.currTheme;
+    if(state.currTheme==='custom'){
+      prevThemeSettings.bodyColor = state.body;
+      prevThemeSettings.TopBarColor = state.header;
+      prevThemeSettings.composerColor = state.composer;
+      prevThemeSettings.messagePane = state.pane;
+      prevThemeSettings.textArea = state.textarea;
+      prevThemeSettings.buttonColor= state.button;
+      prevThemeSettings.bodyBackgroundImage=state.bodyBackgroundImage;
+      prevThemeSettings.messageBackgroundImage=state.messageBackgroundImage;
+    }
+    this.setState({prevThemeSettings});
     this.child.closeOptions();
   }
 
@@ -503,10 +611,12 @@ class MessageSection extends Component {
 
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+		ThreadStore.removeChangeListener(this._onChange.bind(this));
+
   }
 
   componentWillMount() {
+
 
     if (this.props.location) {
       if (this.props.location.state) {
@@ -548,8 +658,32 @@ class MessageSection extends Component {
             // do nothing
         }
       }
-    })
+		})
+
   }
+
+  invertColorTextArea =() => {
+
+    // get the text are code
+    var hex = this.state.textarea;
+    hex = hex.slice(1);
+
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    var r = parseInt(hex.slice(0, 2), 16),
+        g = parseInt(hex.slice(2, 4), 16),
+        b = parseInt(hex.slice(4, 6), 16);
+
+    return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+        ? '#000000'
+        : '#FFFFFF';
+}
+
 
   render() {
     var bodyColor;
@@ -558,6 +692,7 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+		var textColor;
 
     switch(this.state.currTheme){
       case 'custom':{
@@ -566,6 +701,7 @@ class MessageSection extends Component {
         composerColor = this.state.composer;
         messagePane = this.state.pane;
         textArea = this.state.textarea;
+        textColor= this.invertColorTextArea();
         buttonColor= this.state.button;
         break;
       }
@@ -635,11 +771,10 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-
   const customSettingsDone = <div>
     <RaisedButton
       label={<Translate text="Save" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -647,12 +782,12 @@ class MessageSection extends Component {
       style={{margin:'0 5px'}}
     />
     <RaisedButton
-      label={<Translate text="Restore To Defaults" />}
-      backgroundColor={buttonColor}
+      label={<Translate text="Reset" />}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
-      onTouchTap={this.applyLightTheme}
+      onTouchTap={this.handleRestoreDefaultThemeClick}
       style={{margin:'0 5px'}}
     />
     </div>;
@@ -668,7 +803,7 @@ class MessageSection extends Component {
 
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
-                  <h4><Translate text="Color of"/> {component.name}:</h4>
+                  <h4><Translate text="Color of"/> <Translate text={component.name}/>:</h4>
         <CirclePicker  color={component} width={'100%'}
           colors={['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
         '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#607d8b',
@@ -694,7 +829,7 @@ class MessageSection extends Component {
                   display:component.component==='body'?'block':'none',
                   width: '150px'
                 }}
-                backgroundColor={buttonColor}
+                backgroundColor={buttonColor?buttonColor:'#4285f4'}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -714,7 +849,7 @@ class MessageSection extends Component {
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
-              backgroundColor={buttonColor}
+              backgroundColor={buttonColor?buttonColor:'#4285f4'}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
@@ -799,9 +934,11 @@ class MessageSection extends Component {
                 }
                 <div className='compose' style={{backgroundColor:composerColor}}>
                   <MessageComposer
+                    focus={true}
                     threadID={this.state.thread.id}
                     dream={dream}
                     textarea={textArea}
+                    textcolor={textColor}
                     speechOutput={speechOutput}
                     speechOutputAlways={speechOutputAlways}
                     micColor={this.state.button} />
@@ -820,9 +957,14 @@ class MessageSection extends Component {
               actions={actions}
               handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
-              onRequestClose={()=>this.handleClose}
+							onRequestClose={()=>this.handleClose}
+							onRequestCloseTour={()=>this.handleCloseTour}
+              onSaveThemeSettings={()=>this.handleSaveTheme}
               onLoginSignUp={()=>this.handleOpen}
-              onForgotPassword={()=>this.forgotPasswordChanged} />
+							onForgotPassword={()=>this.forgotPasswordChanged}
+							tour={!cookies.get('visited')}
+
+							 />
             </div>)
              : (
              <div className='message-pane'>
@@ -841,6 +983,17 @@ class MessageSection extends Component {
                    </Scrollbars>
 
                  </ul>
+                 <div className='compose' style={{backgroundColor:composerColor}}>
+                  <MessageComposer
+                    focus={false}
+                    threadID={this.state.thread.id}
+                    dream={dream}
+                    textarea={textArea}
+                    textcolor={textColor}
+                    speechOutput={speechOutput}
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button} />
+                </div>
                </div>
              </div>
              )}

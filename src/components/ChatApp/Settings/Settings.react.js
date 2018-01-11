@@ -26,6 +26,7 @@ import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
+import ShareOnFacebook from './ShareOnFacebook';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -38,6 +39,7 @@ import LanguageIcon from 'material-ui/svg-icons/action/language';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
+import ShareIcon from 'material-ui/svg-icons/social/share';
 
 const cookies = new Cookies();
 
@@ -147,10 +149,35 @@ class Settings extends Component {
 			countryCode: defaultCountryCode,
 			countryDialCode: defaultCountryDialCode,
 			phoneNo: defaultPhoneNo,
-			voiceList: [{
+			voiceList: [
+			{
+				lang: 'am-AM',
+				name: 'Armenian'
+			},{
+				lang: 'zh-CH',
+				name: 'Chinese'
+			},{
 				lang: 'de-DE',
 				name: 'Deutsch'
-			}, {
+			},{
+				lang: 'gr-GR',
+				name: 'Greek'
+			},{
+				lang: 'hi-IN',
+				name: 'Hindi'
+			},{
+				lang: 'ru-RU',
+				name: 'Russian'
+			},{
+				lang: 'es-SP',
+				name: 'Spanish'
+			},{
+				lang: 'fr-FR',
+				name: 'French'
+      },{
+				lang: 'jp-JP',
+				name: 'Japanese'
+			},{
 				lang: 'en-US',
 				name: 'US English'
 			}]
@@ -446,8 +473,26 @@ class Settings extends Component {
 				lang: 'de-DE',
 				name: 'Deutsch'
 			}, {
+				lang: 'am-AM',
+				name: 'Armenian'
+			}, {
 				lang: 'en-US',
 				name: 'US English'
+			}, {
+				lang: 'gr-GR',
+				name: 'Greek'
+			}, {
+				lang: 'hi-IN',
+				name: 'Hindi'
+			}, {
+				lang: 'fr-FR',
+				name: 'French'
+			}, {
+				lang: 'ru-RU',
+				name: 'Russian'
+			},{
+				lang: 'jp-JP',
+				name: 'Japanese'
 			}]
 		});
 	}
@@ -524,6 +569,10 @@ class Settings extends Component {
 			return false;
 		}
 		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
+		{
+			return false;
+		}
+		if(selectedSetting==='Share on Facebook')
 		{
 			return false;
 		}
@@ -613,7 +662,10 @@ class Settings extends Component {
 			return 0;
 		});
 		let countries = countryData.countries.all.map((country, i) => {
-			return (<MenuItem value={countryData.countries.all[i].alpha2} key={i} primaryText={countryData.countries.all[i].name + ' ' + countryData.countries.all[i].countryCallingCodes[0]} />);
+			if(countryData.countries.all[i].countryCallingCodes[0]) {
+				return (<MenuItem value={countryData.countries.all[i].alpha2} key={i} primaryText={countryData.countries.all[i].name + ' ' + countryData.countries.all[i].countryCallingCodes[0]} />);
+			}
+			return null;
 		});
 		const closingStyle = {
 			position: 'absolute',
@@ -741,19 +793,28 @@ class Settings extends Component {
 				</div>
 			)
 		}
-
+		else if(this.state.selectedSetting === 'Share on Facebook') {
+			currentSetting = '';
+			currentSetting = (
+				<div style={divStyle}>
+				<ShareOnFacebook/>
+				</div>
+				)
+		}
 		else if (this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom': '0px',
-						fontSize: '15px',
-						fontWeight: 'bold'
-					}}>
-						<Translate text="Select Theme" />
-					</div>
+					<span>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom': '0px',
+							fontSize: '15px',
+							fontWeight: 'bold'
+						}}>
+							<Translate text="Select Theme" />
+						</div>
+					</span>
 					<RadioButtonGroup
 						style={{ textAlign: 'left', margin: 20 }}
 						onChange={this.handleSelectChange}
@@ -767,11 +828,18 @@ class Settings extends Component {
 							label={<Translate text="Light" />}
 						/>
 						<RadioButton
-							style={{width: '20%', display: 'inline-block'}}
+							style={{width: '20%', display: 'block'}}
 							iconStyle={radioIconStyle}
 							labelStyle={{color:themeForegroundColor}}
 							value='dark'
 							label={<Translate text="Dark" />}
+						/>
+						<RadioButton
+							style={{width: '20%', display: cookies.get('loggedIn')?'inline-block':'none'}}
+							iconStyle={radioIconStyle}
+							labelStyle={{color:themeForegroundColor}}
+							value='custom'
+							label={<Translate text="Custom" />}
 						/>
 					</RadioButtonGroup>
 				</div>
@@ -863,13 +931,15 @@ class Settings extends Component {
 			currentSetting =
 			<div style={divStyle}>
 				<span>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Change your Account Password"/>
-					</div>
+					<span>
+						<div style={{
+							marginTop: '10px',
+							'marginBottom':'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Change your Account Password"/>
+						</div>
+					</span>
 					<ChangePassword settings={this.state.intialSettings} {...this.props} />
 				</span>
 			</div>
@@ -903,15 +973,17 @@ class Settings extends Component {
 			currentSetting = (
 				<span style={divStyle}>
 					<div>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							marginLeft: '30px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}>
-							<Translate text="Connect to SUSI Hardware" />
-						</div>
+						<span>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom': '0px',
+								marginLeft: '30px',
+								fontSize: '15px',
+								fontWeight: 'bold'
+							}}>
+								<Translate text="Connect to SUSI Hardware" />
+							</div>
+						</span>
 						<HardwareComponent settings={this.state.intialSettings} {...this.props} />
 					</div>
 				</span>
@@ -1049,6 +1121,8 @@ class Settings extends Component {
 			<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
+			<hr className="break-line"/>
+			<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1072,6 +1146,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
+				<MenuItem primaryText='Share on Facebook' value='Share on Facebook' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
@@ -1098,6 +1173,8 @@ class Settings extends Component {
 				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+				<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1118,12 +1195,13 @@ class Settings extends Component {
 				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Share on Facebook' value='Share on Facebook' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
 
 	 const menuStyle = {
-					 height: 500,
+					 height: 550,
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
