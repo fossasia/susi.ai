@@ -83,13 +83,14 @@ export default class DialogSection extends Component {
 					<Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
 				</Dialog>
 				<Dialog
-					contentStyle={{ width: '610px' }}
-					title="Welcome to SUSI Web Chat"
+          className='dialogStyle'
+					contentStyle={{ width: '45%', minWidth: '300px'}}
+          title="Welcome to SUSI Web Chat"
 					open={this.props.tour}
 				>
 					<iframe
-						width="560"
-						height="315"
+            width="100%"
+            height="315"
 						src="https://www.youtube.com/embed/9T3iMoAUKYA"
 						gesture="media"
 						allow="encrypted-media"
