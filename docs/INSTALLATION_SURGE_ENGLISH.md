@@ -130,3 +130,5 @@ Output: *(sample)*
     
         Success! Project is published and running at sophisticated-reason.surge.sh
 ```
+
+In the out-put message: the link to chat.susi.ai will be given. Copy and paste that to your web-browser and you will have sucessfully deployed chat.susi.ai with surge !!
