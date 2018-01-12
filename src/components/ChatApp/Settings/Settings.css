@@ -82,6 +82,7 @@
 }
 
 .rightMenu {
+  height: 550px;
   width: 64%;
   background-color: #fff;
 }
@@ -127,6 +128,7 @@
 }
 
   .rightMenu {
+    height: 300px;
     width: 100%;
   }
 
