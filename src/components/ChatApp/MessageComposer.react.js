@@ -12,6 +12,8 @@ import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
 import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
@@ -55,6 +57,7 @@ class MessageComposer extends Component {
       result: '',
       animate: false,
       rows: 1,
+      ps: null, // perfect-scrollbar
       recognizing: false,
       currentArrowIndex:0// store the index for moving through messages using key
     };
@@ -132,9 +135,7 @@ class MessageComposer extends Component {
         this.speakDialogClose();
       }
     }
-
   }
-
 
   componentWillMount() {
     let micInputSetting = UserPreferencesStore.getMicInput();
@@ -187,7 +188,13 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-
+    if(this.state.ps === null) {
+      this.setState({ps: new PerfectScrollbar('.textBack', {
+				wheelSpeed: 1,
+				wheelPropagation: true,
+				minScrollbarLength: 1
+			})});
+    }
   }
 
   render() {
@@ -216,6 +223,7 @@ class MessageComposer extends Component {
             placeholder="Type a message..."
             value={this.state.text}
             onChange={this._onChange.bind(this)}
+            onHeightChange={(height, instance) => {this.state.ps.update();}}
             onKeyDown={this._onKeyDown.bind(this)}
             ref={(textarea) => { this.nameInput = textarea; }}
             style={{ background: this.props.textarea, color: this.props.textcolor, lineHeight: '15px' }}

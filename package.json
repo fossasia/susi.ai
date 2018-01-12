@@ -22,6 +22,7 @@
     "material-ui-responsive-menu": "^1.1.17",
     "material-ui-scrollable-tabs": "^1.0.0",
     "moment": "^2.18.1",
+    "perfect-scrollbar": "^1.3.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",

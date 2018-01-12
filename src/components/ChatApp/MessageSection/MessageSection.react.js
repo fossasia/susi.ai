@@ -735,9 +735,8 @@ class MessageSection extends Component {
     const scrollBottomStyle = {
       button : {
         float: 'right',
-        marginRight: '5px',
-        marginBottom: '10px',
-        boxShadow:'none',
+        marginRight: '12px',
+        marginBottom: '24px'
       },
       backgroundColor: '#fcfcfc',
       icon : {
