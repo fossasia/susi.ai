@@ -7,7 +7,7 @@
 
 * `npm install` 
  - In Windows open as administrator
- - In UBUNTU use super user method. (`sudo -i`)
+ - In UBUNTU or Mac use super user method. (`sudo -i`)
 ![npm](./img/npmistall.png)
 
 ## Step 2:* **Create a production build:**
@@ -48,8 +48,9 @@ Output: *(sample)*
 
 * `npm install -g surge`
  - In Windows open as administrator
- - In UBUNTU use super user method. (`sudo -i`)
+ - In UBUNTU or Mac use super user method. (`sudo -i`) 
 ![build](./img/npm_install_surge.png)
+
 
 ```
 Output: *(sample)*
