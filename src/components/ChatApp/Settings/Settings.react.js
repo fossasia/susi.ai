@@ -178,7 +178,9 @@ class Settings extends Component {
 				lang: 'jp-JP',
 				name: 'Japanese'
 			},{
-				lang: 'en-US',
+				lang: 'nl-NL',
+				name: 'Dutch'
+			},{lang: 'en-US',
 				name: 'US English'
 			}]
 		});
@@ -493,7 +495,10 @@ class Settings extends Component {
 			},{
 				lang: 'jp-JP',
 				name: 'Japanese'
-			}]
+			},{
+				lang: 'nl-NL',
+				name: 'Dutch'
+      }]
 		});
 	}
 
