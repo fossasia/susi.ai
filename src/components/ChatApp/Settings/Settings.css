@@ -7,7 +7,7 @@
 .settings-container{
   width: 100%;
   height: 100vh;
-    background:  rgb(242, 242, 242);
+  background:  rgb(242, 242, 242);
 }
 
 .settings-list{
@@ -53,8 +53,8 @@
 .setting-item{
   width: 97%;
 }
-.settingMenu {
 
+.settingMenu {
     max-width: none;
     padding: 50px 0px 50px 0px;
     position: relative;
@@ -124,8 +124,8 @@
   }
 
   .tabStyle{
-  height: auto;
-}
+    height: auto;
+  }
 
   .rightMenu {
     height: 300px;
@@ -133,6 +133,6 @@
   }
 
   .setting-item{
-  width: 100%;
-}
+    width: 100%;
+  }
 }
