@@ -57,6 +57,8 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 6:** Follow the prompts and provide an e-mail address and a password.
 * **Step 7:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
 
+Still having problems? Watch this video to clear your doubts [How to setup SUSI server with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s)
+
 
 ## Speech Recognition and Synthesis
 
