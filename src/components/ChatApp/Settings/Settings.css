@@ -106,7 +106,7 @@
 }
 
 
-@media only screen and (max-width: 1000px){
+@media only screen and (max-width: 1060px){
   .settings-list-dropdown{
     display: inline-block;
   }
