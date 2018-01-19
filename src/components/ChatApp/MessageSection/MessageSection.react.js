@@ -72,6 +72,7 @@ function getStateFromStores() {
       scrollID: null,
       caseSensitive: false,
       open: false,
+      searchIndex: 0,
       searchText:'',
     }
   };
@@ -567,10 +568,12 @@ class MessageSection extends Component {
         scrollID: markingData.markedIDs[0],
         caseSensitive: this.state.searchState.caseSensitive,
         open: false,
+        searchIndex: 1,
         searchText: matchString
       };
       if(markingData.markedIDs.length===0 && matchString.trim().length>0){
         // if no Messages are marked(i.e no result) and the search query is not empty
+        searchState.searchIndex = 0;
         this.setState({
           SnackbarOpenSearchResults: true
         })
@@ -584,11 +587,12 @@ class MessageSection extends Component {
         markedMsgs: markingData.allmsgs,
         markedIDs: markingData.markedIDs,
         markedIndices: markingData.markedIndices,
-        scrollLimit: markingData.markedIDs.length,
+        scrollLimit: 0,
         scrollIndex: -1,
         scrollID: null,
         caseSensitive: this.state.searchState.caseSensitive,
         open: false,
+        searchIndex: 0,
         searchText: ''
       }
       this.setState({
@@ -639,6 +643,17 @@ class MessageSection extends Component {
         });
       }
     }
+  }
+
+  renderThumb = ({ style, ...props }) => {
+    const finalThumbStyle = {
+      ...style,
+      cursor: 'pointer',
+      borderRadius: 'inherit',
+      backgroundColor: 'rgba(200, 200, 200, 0.4)'
+    };
+
+    return <div style={finalThumbStyle} {...props} />;
   }
 
   componentWillUnmount() {
@@ -944,6 +959,8 @@ class MessageSection extends Component {
                   ref={(c) => { this.messageList = c; }}
                   style={messageBackgroundStyles}>
                   <Scrollbars
+                    renderThumbHorizontal={this.renderThumb}
+                    renderThumbVertical={this.renderThumb}
                     ref={(ref) => { this.scrollarea = ref; }}
                     autoHide
                     onScroll={this.onScroll}
@@ -1007,11 +1024,13 @@ class MessageSection extends Component {
                     style={this.messageBackgroundStyle}>
 
                    <Scrollbars
+                      renderThumbHorizontal={this.renderThumb}
+                      renderThumbVertical={this.renderThumb}
+                      ref={(ref) => { this.scrollarea = ref; }}
                       autoHide
                       autoHideTimeout={1000}
-                      autoHideDuration={200}
-                      ref={(ref) => { this.scrollarea = ref; }}>
-                       {messageListItems}
+                      autoHideDuration={200}>
+                      {messageListItems}
                    </Scrollbars>
 
                  </ul>
@@ -1111,12 +1130,14 @@ class MessageSection extends Component {
 
 _onClickPrev = () => {
   let newIndex = this.state.searchState.scrollIndex + 1;
+  let newSearchCount = this.state.searchState.searchIndex + 1;
   let indexLimit = this.state.searchState.scrollLimit;
   let markedIDs = this.state.searchState.markedIDs;
   let ul = this.messageList;
   if (markedIDs && ul && newIndex < indexLimit) {
     let currState = this.state.searchState;
     currState.scrollIndex = newIndex;
+    currState.searchIndex = newSearchCount;
     currState.scrollID = markedIDs[newIndex];
     this.setState({
       searchState: currState
@@ -1126,11 +1147,13 @@ _onClickPrev = () => {
 
 _onClickRecent = () => {
   let newIndex = this.state.searchState.scrollIndex - 1;
+  let newSearchCount = this.state.searchState.searchIndex - 1;
   let markedIDs = this.state.searchState.markedIDs;
   let ul = this.messageList;
   if (markedIDs && ul && newIndex >= 0) {
     let currState = this.state.searchState;
     currState.scrollIndex = newIndex;
+    currState.searchIndex = newSearchCount;
     currState.scrollID = markedIDs[newIndex];
     this.setState({
       searchState: currState
@@ -1150,6 +1173,8 @@ _onClickSearch = () => {
 _onClickExit = () => {
   let searchState = this.state.searchState;
   searchState.searchText = '';
+  searchState.searchIndex = 0;
+  searchState.scrollLimit = 0;
   this.setState({
     search: false,
     searchState: searchState,
