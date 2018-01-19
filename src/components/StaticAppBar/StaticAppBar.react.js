@@ -402,7 +402,7 @@ class StaticAppBar extends Component {
         const themeBackgroundColor = this.props.settings && this.props.settings.theme==='dark'?'rgb(25, 50, 76)':'#4285f4';
         return (
             <div>
-                <header className="nav-down" >
+                <header className="nav-down" style={{backgroundColor: themeBackgroundColor}}>
                     <AppBar
                         id="headerSection"
                         className="topAppBar"
@@ -423,6 +423,7 @@ class StaticAppBar extends Component {
                 <Drawer
                     docked={false}
                     width={200}
+                    containerStyle={{ overflow: 'hidden' }}
                     open={this.state.openDrawer}
                     onRequestChange={(openDrawer) => this.setState({ openDrawer })}
                 >

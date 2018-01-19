@@ -613,6 +613,17 @@ class MessageSection extends Component {
     }
   }
 
+  renderThumb = ({ style, ...props }) => {
+    const finalThumbStyle = {
+      ...style,
+      cursor: 'pointer',
+      borderRadius: 'inherit',
+      backgroundColor: 'rgba(200, 200, 200, 0.4)'
+    };
+
+    return <div style={finalThumbStyle} {...props} />;
+  }
+
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
 		ThreadStore.removeChangeListener(this._onChange.bind(this));
@@ -916,6 +927,8 @@ class MessageSection extends Component {
                   ref={(c) => { this.messageList = c; }}
                   style={messageBackgroundStyles}>
                   <Scrollbars
+                    renderThumbHorizontal={this.renderThumb}
+                    renderThumbVertical={this.renderThumb}
                     ref={(ref) => { this.scrollarea = ref; }}
                     autoHide
                     onScroll={this.onScroll}
@@ -979,11 +992,13 @@ class MessageSection extends Component {
                     style={this.messageBackgroundStyle}>
 
                    <Scrollbars
+                      renderThumbHorizontal={this.renderThumb}
+                      renderThumbVertical={this.renderThumb}
+                      ref={(ref) => { this.scrollarea = ref; }}
                       autoHide
                       autoHideTimeout={1000}
-                      autoHideDuration={200}
-                      ref={(ref) => { this.scrollarea = ref; }}>
-                       {messageListItems}
+                      autoHideDuration={200}>
+                      {messageListItems}
                    </Scrollbars>
 
                  </ul>

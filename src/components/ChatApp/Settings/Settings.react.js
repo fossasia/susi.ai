@@ -26,7 +26,7 @@ import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
-import ShareOnFacebook from './ShareOnFacebook';
+import ShareOnSocialMedia from './ShareOnSocialMedia';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -178,7 +178,9 @@ class Settings extends Component {
 				lang: 'jp-JP',
 				name: 'Japanese'
 			},{
-				lang: 'en-US',
+				lang: 'nl-NL',
+				name: 'Dutch'
+			},{lang: 'en-US',
 				name: 'US English'
 			}]
 		});
@@ -493,7 +495,10 @@ class Settings extends Component {
 			},{
 				lang: 'jp-JP',
 				name: 'Japanese'
-			}]
+			},{
+				lang: 'nl-NL',
+				name: 'Dutch'
+      }]
 		});
 	}
 
@@ -572,7 +577,7 @@ class Settings extends Component {
 		{
 			return false;
 		}
-		if(selectedSetting==='Share on Facebook')
+		if(selectedSetting==='Share on Social media')
 		{
 			return false;
 		}
@@ -793,11 +798,11 @@ class Settings extends Component {
 				</div>
 			)
 		}
-		else if(this.state.selectedSetting === 'Share on Facebook') {
+		else if(this.state.selectedSetting === 'Share on Social media') {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
-				<ShareOnFacebook/>
+				<ShareOnSocialMedia/>
 				</div>
 				)
 		}
@@ -1122,7 +1127,7 @@ class Settings extends Component {
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>SShare on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1146,7 +1151,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
-				<MenuItem primaryText='Share on Facebook' value='Share on Facebook' className="setting-item"/>
+				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
@@ -1174,7 +1179,7 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1195,13 +1200,12 @@ class Settings extends Component {
 				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
-				<MenuItem primaryText='Share on Facebook' value='Share on Facebook' className="setting-item"/>
+				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
 		</div>
 
 	 const menuStyle = {
-					 height: 550,
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
