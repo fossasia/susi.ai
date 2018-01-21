@@ -795,6 +795,12 @@ em{
   color: white;
 }
 
+.counter{
+  color: white;
+  position: relative;
+  top: 5px;
+}
+
 abbr[title] {
   border-bottom: none;
   cursor: inherit;
