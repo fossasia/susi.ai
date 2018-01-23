@@ -116,7 +116,24 @@ export default class ShareOnSocialMedia extends Component{
                 					keyboardFocused={true}
                 					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Lets%20chat%20with%20susi,%20the%20open%20source%20personal%20assistant%20https%3A%2F%2Fsusi.ai.%20Its%20awesome%20%23susiai!', '_blank')}
                 				/>
-                            </div>
+							</div>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom':'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Share about SUSI on Google +"/>
+								<br/>
+								<RaisedButton
+                					label={<Translate text="Share on Google+" />}
+                					style={this.state.style}
+                					backgroundColor='#4285f4'
+                					labelColor='#fff'
+                					keyboardFocused={true}
+                					onClick={()=> window.open('https://plus.google.com/share?url=https://chat.susi.ai/', '_blank')}
+                				/>
+							</div>
+
                         </div>
 					</div>
         );
