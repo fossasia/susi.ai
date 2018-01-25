@@ -193,6 +193,8 @@ class TopBar extends Component {
 					<div style={{ marginTop: '-7px' }}>
 						<ExpandingSearchField
 							searchText={this.props.searchState.searchText}
+							searchIndex={this.props.searchState.searchIndex}
+							searchCount={this.props.searchState.scrollLimit}
 							onTextChange={this.props.searchTextChanged}
 							activateSearch={this.props._onClickSearch}
 							exitSearch={this.props._onClickExit}
