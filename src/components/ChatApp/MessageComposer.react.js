@@ -192,7 +192,8 @@ class MessageComposer extends Component {
       this.setState({ps: new PerfectScrollbar('.textBack', {
 				wheelSpeed: 1,
 				wheelPropagation: true,
-				minScrollbarLength: 1
+				minScrollbarLength: 1,
+				suppressScrollX: true
 			})});
     }
   }
