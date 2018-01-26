@@ -1,30 +1,30 @@
-# Zooracle
+# PSLab Imaging AI
 
-Computer Vision Based Individual Animal Recognition. Identify and classify animals, live!
+Computer Vision Based Individual Animal Recognition. Identify and classify animals, live using AI.
 
 [![Join the chat at https://gitter.im/fossasia/pslab](https://badges.gitter.im/fossasia/pslab.svg)](https://gitter.im/fossasia/pslab?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Zooracle is a software that lets you take photos of animals and analyze their unique visual patterns. Within minutes, the software is able to tell you, whether an animal of a certain species, has already been found, or if it is a new individual. Thanks to state-of-the-art computer vision algorithms, these assertions come with a very high accuracy, namely around 90-100%!
+PSLab Imaging is a software that lets you take photos of animals and analyze their unique visual patterns. Within minutes, the software is able to tell you, whether an animal of a certain species, has already been found, or if it is a new individual. Thanks to state-of-the-art computer vision algorithms, these assertions come with a very high accuracy, namely around 90-100%!
 
 <img src="docs/cambothsides.jpg" height = "" width=""> 
 
-Visual recognition is highly efficient, that means no more invasive marking methods are required - stress may be reduced, drastically. We intend to offer Zooracle as an online and offline solution. For offline use cases, where no Internet is available we are also working on Zooracle hardware using standard components.
+Visual recognition is highly efficient, that means no more invasive marking methods are required - stress may be reduced, drastically. We intend to offer PSLab Imaging AI as an online and offline solution. For offline use cases, where no Internet is available we are also working on PSLab Imaging AI hardware using standard components.
 
 ## COMMUNICATIONS
 
 Our website is at http://pslab.fossasia.org
 
-Please join the Zooracle chat channel at https://gitter.im/fossasia/pslab
+Please join the chat channel at https://gitter.im/fossasia/pslab
 
 ## ROADMAP
 
-Zooracle will be shipped along with the software, that will hold the following key functions:
+PSLab Imaging AI will be shipped along with the software, that will hold the following key functions:
 * Take a photo of an individual animal, including fully automatic image quality check
 * Run analysis and compare new individual with individuals in the local database
 * Let the software assert, whether the individual is new or already exists (match)
 * Manage database entries, add descriptions and export
 
-How does it work? Zooracle makes use of modern approaches from the field of computer vision, including image description and clustering algorithms. The result so far already delivers outstanding classification accuracies. For large-scale animal databases, machine learning algorithms may be utilized.
+How does it work? PSLab Imaging AI makes use of modern approaches from the field of computer vision, including image description and clustering algorithms. The result so far already delivers outstanding classification accuracies. For large-scale animal databases, machine learning algorithms may be utilized.
 
 <img src="docs/comparison.jpg" height = "" width=""> 
 figure: comparison example with yellow-bellied toads, visualizing good keypoint matches. On the left: Two images of the same individual. On the right: Different individuals.
