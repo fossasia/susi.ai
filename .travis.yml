@@ -13,11 +13,18 @@ matrix:
   include:
     # Run npm tests and get code coverage matrix
     - script:
-      - npm test
-      - bash <(curl -s https://codecov.io/bash)
+      - npm test --single-run --code-coverage --reporters=coverage-istanbul
 
     # Deploy PR to surge
     - script: bash ./surge_deploy.sh
 
     # Deploy on non-prs
     - script: bash ./deploy.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+
+branches:
+   only:
+   - master
