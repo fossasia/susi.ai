@@ -40,26 +40,6 @@ class VoicePlayer extends Component {
     this.setState({ started: false, playing: false })
   }
 
-  pause = () => {
-    window.speechSynthesis.pause()
-    this.setState({ playing: false })
-  }
-
-  resume = () => {
-    window.speechSynthesis.resume()
-    this.setState({ playing: true })
-  }
-
-  componentWillReceiveProps ({ pause }) {
-    if (pause && this.state.playing && this.state.started) {
-      return this.pause()
-    }
-
-    if (!pause && !this.state.playing && this.state.started) {
-      return this.resume()
-    }
-  }
-
   shouldComponentUpdate () {
     return false
   }
