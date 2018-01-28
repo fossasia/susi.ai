@@ -125,6 +125,9 @@ class ExpandingSearchField extends Component{
                                 value={this.props.searchText}
                                 onChange={(event) => this.onChange(event)}
                                 autoFocus={true} />
+                                <span className='counter'>
+                                    {this.props.searchIndex}/{this.props.searchCount}
+                                </span>
                                 <IconButton
                                     className='displayNone'
                                     iconStyle={baseStyles.smallIcon}
@@ -175,6 +178,8 @@ class ExpandingSearchField extends Component{
                     onTextChange: PropTypes.func,
                     scrollRecent: PropTypes.func,
                     scrollPrev: PropTypes.func,
+                    searchIndex: PropTypes.number,
+                    searchCount: PropTypes.number,
                     searchText: PropTypes.string,
                 };
 

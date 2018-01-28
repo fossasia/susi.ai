@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Translate from '../../Translate/Translate.react';
 import RaisedButton from 'material-ui/RaisedButton';
-export default class ShareOnFacebook extends Component{
+export default class ShareOnSocialMedia extends Component{
 	constructor(props){
 		super(props);
 		this.state={
@@ -93,7 +93,7 @@ export default class ShareOnFacebook extends Component{
 								<Translate text="Share about SUSI on Facebook"/>
 								<br/>
 								<RaisedButton
-                					label={<Translate text="Share" />}
+                					label={<Translate text="Share on Facebook" />}
                 					style={this.state.style}
                 					backgroundColor='#4285f4'
                 					labelColor='#fff'
@@ -101,7 +101,40 @@ export default class ShareOnFacebook extends Component{
                 					onTouchTap={this.Share}
                 				/>
 							</div>
-						</div>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom':'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Share about SUSI on Twitter"/>
+								<br/>
+								<RaisedButton
+                					label={<Translate text="Share on Twitter" />}
+                					style={this.state.style}
+                					backgroundColor='#4285f4'
+                					labelColor='#fff'
+                					keyboardFocused={true}
+                					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Lets%20chat%20with%20susi,%20the%20open%20source%20personal%20assistant%20https%3A%2F%2Fsusi.ai.%20Its%20awesome%20%23susiai!', '_blank')}
+                				/>
+							</div>
+							<div style={{
+								marginTop: '10px',
+								'marginBottom':'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Share about SUSI on Google +"/>
+								<br/>
+								<RaisedButton
+                					label={<Translate text="Share on Google+" />}
+                					style={this.state.style}
+                					backgroundColor='#4285f4'
+                					labelColor='#fff'
+                					keyboardFocused={true}
+                					onClick={()=> window.open('https://plus.google.com/share?url=https://chat.susi.ai/', '_blank')}
+                				/>
+							</div>
+
+                        </div>
 					</div>
         );
     }
