@@ -1206,13 +1206,24 @@ class Settings extends Component {
 		</div>
 		</div>
 
-	 const menuStyle = {
+	 let menuStyle = cookies.get('loggedIn')? {
+					 height: 550,
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
-	};
+	}
+
+ :
+ {
+ 				height: 400,
+ 				marginTop: 20,
+ 				textAlign: 'center',
+ 				display: 'inline-block',
+ 				backgroundColor:themeBackgroundColor,
+ 				color:themeForegroundColor
+ };
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
