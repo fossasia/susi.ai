@@ -98,7 +98,7 @@
    "Cancel":"Cancel",
    "Done":"Done",
    "Change color of":"Change color of",
-   "Body Background Image URL":"URL for Body Background ImageL",
+   "Body Background Image URL":"URL for Body Background Image",
    "Remove URL":"Remove URL",
    "Message Background Image URL":"Message Background Image URL",
    "Account": "Account",
@@ -121,5 +121,7 @@
    "Composer": "Composer",
    "Textarea": "Textarea",
    "Button": "Button",
-   "Change your Account Password":"Change your Account Password"
+   "Change your Account Password":"Change your Account Password",
+   "Share about SUSI on Facebook":"Share about SUSI on Facebook",
+   "Share":"Share"
 }

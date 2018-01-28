@@ -1,46 +1,64 @@
 # Deploying with Surge
 
 * Website: [Surge.sh](https://surge.sh/)
-* Follow this video to view a sample console output during deployment on surge: https://asciinema.org/a/150690
+* Follow this asciicast to deploy SUSI.AI on Surge step by step with installing all dependencies: https://asciinema.org/a/154686
 
-## Step 1:* **Create a production build:**
+## Step 1:* **Install npm**
 
+* `npm install`
+ - In Windows open as administrator
+ - In UBUNTU or Mac use super user method. (`sudo -i`)
+![npm](./img/npmistall.png)
+
+## Step 2:* **Create a production build:**
+
+* cd chat.susi.ai
+![cd](./img/cd.png)
 * `npm run build`
+![build](./img/surge.png)
 
-![build](./img/npm_build.png)
-
+```
 Output: *(sample)*
 
     > chat.susi.ai@0.1.0 build C:\FOSSASIA\chat.susi.ai
     > react-scripts build
-    
+
     Creating an optimized production build...
     Compiled successfully.
-    
+
     File sizes after gzip:
-    
+
       1011.99 KB  build\static\js\main.2660cfa3.js
       23.64 KB    build\static\css\main.7cf93e8b.css
-    
+
     The project was built assuming it is hosted at the server root.
     To override this, specify the homepage in your package.json.
     For example, add this to build it for GitHub Pages:
-    
+
       "homepage": "http://myname.github.io/myapp",
-    
+
     The build folder is ready to be deployed.
     You may serve it with a static server:
-    
+
       npm install -g serve
       serve -s build
-      
+```     
 
-## Step 2: Install Surge
+## Step 3: Install Surge
 
 * `npm install -g surge`
-
+ - In Windows open as administrator
+<<<<<<< HEAD:docs/INSTALLATION_SURGE_ENGLISH.md
+ - In UBUNTU use super user method. (`sudo -i`)
 ![build](./img/npm_install_surge.png)
 
+=======
+ - In UBUNTU or Mac use super user method. (`sudo -i`)
+![build](./img/npm_install_surge.png)
+
+
+>>>>>>> 9ae37fbfa791e86f7768f598d34f7ca96b01b037:docs/INSTALLATION_SURGE_ENGLISH.md
+```
 Output: *(sample)*
 
     npm WARN deprecated tar.gz@0.1.1: â ï¸  WARNING â ï¸ (...)
@@ -91,41 +109,30 @@ Output: *(sample)*
       | |   `-- natives@1.1.0
       | `-- tar@0.1.20
       `-- url-parse-as-address@1.0.0
+```
 
-## Step 3: Configure and Deploy with Surge!
- 
+## Step 4: Configure and Deploy with Surge!
 
-`sudo npm install -g surge`
-
-![surge](./img/surge.png)
-
-`npm run build`
-
-![build](./img/build.png)
-
-`cd build\`
-
+`cd build`
 `surge`
-
 and Enter you details
-
 ![build](./img/sursh.png)
 
-
+```
 Output: *(sample)*
-    
+
         Surge - surge.sh
-    
+
                   email: contact@0x48piraj.co
                   token: *****************
            project path: C:\FOSSASIA\chat.susi.ai\build\
                    size: 58 files, 31.0 MB
                  domain: sophisticated-reason.surge.sh
-    
-    
+
+
                    plan: Free
                   users: contact@0x48piraj.co
              IP Address: 45._5._10.___
-    
-        Success! Project is published and running at sophisticated-reason.surge.sh
 
+        Success! Project is published and running at sophisticated-reason.surge.sh
+```

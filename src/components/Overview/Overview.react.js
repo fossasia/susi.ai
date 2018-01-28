@@ -255,7 +255,7 @@ SUSI is intelligent to identify and answer your question in your language.
           overlayClassName="Video-Overlay">
           <div className="video-container">
             <iframe id="player" type="text/html" frameBorder="0" allowFullScreen
-              src="http://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"></iframe>
+              src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"></iframe>
             <Close style={closingStyle} onTouchTap={this.handleClose} />
           </div>
         </Modal>

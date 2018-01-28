@@ -1,7 +1,7 @@
-Fixes issue #[Add issue number here. If you do not solve the issue entirely, please change the message e.g. "First steps for issues #IssueNumber]
+Fixes #[Add issue number here. If you do not solve the issue entirely, please change the message e.g. "First steps for issues #IssueNumber]
 
 Changes: [Add here what changes were made in this issue and if possible provide links.]
 
-Demo Link: [Add here the link where your changes can be seen]
+Demo Link: https://pr-[ADD_PULL_REQUEST_NUMBER_HERE]-fossasia-susi-web-chat.surge.sh
 
 Screenshots for the change: 
