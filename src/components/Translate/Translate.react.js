@@ -8,7 +8,10 @@ import es from './es.json';
 import hi from './hi.json';
 import fr from './fr.json';
 import gr from './gr.json';
+import ru from './ru.json';
 import jp from './jp.json';
+// Added by @0x48piraj
+import nl from './nl.json';
 
 class Translate extends Component{
 
@@ -29,81 +32,55 @@ class Translate extends Component{
   componentDidMount() {
     let defaultPrefLanguage = this.state.defaultPrefLanguage;
 
-    // Declaring arrays with various available localisations.
-    var arrDe = Object.keys(de);
-    var arrAm = Object.keys(am);
-    var arrCh = Object.keys(zh);
-    var arrSp = Object.keys(es);
-    var arrHi = Object.keys(hi);
-    var arrFr = Object.keys(fr);
-    var arrGr = Object.keys(gr);
-    var arrJp = Object.keys(jp);
-
+    var arr, file;
 
     let text = this.state.text;
     if(defaultPrefLanguage!=='en-US'){
+
       if(defaultPrefLanguage==='de-DE'){
-        for (let key=0;key<arrDe.length;key++) {
-          if (arrDe[key]===text) {
-              this.changeLanguage(de[arrDe[key]]);
-          }
-        }
+        arr = Object.keys(de);
+        file = de;
+      }
+      else if(defaultPrefLanguage==='am-AM'){
+        arr = Object.keys(am);
+        file = am;
+      }
+      else if(defaultPrefLanguage==='es-SP'){
+        arr = Object.keys(es);
+        file = es;
+      }
+      else if(defaultPrefLanguage==='zh-CH'){
+        arr = Object.keys(zh);
+        file = zh;
+      }
+      else if(defaultPrefLanguage==='hi-IN'){
+        arr = Object.keys(hi);
+        file = hi;
+      }
+      else if(defaultPrefLanguage==='fr-FR'){
+        arr = Object.keys(fr);
+        file = fr;
+      }
+      else if(defaultPrefLanguage==='ru-RU'){
+        arr = Object.keys(ru);
+        file = ru;
+      }
+      else if(defaultPrefLanguage==='gr-GR'){
+        arr = Object.keys(gr);
+        file = gr;
+      }
+      else if(defaultPrefLanguage==='nl-NL'){
+        arr = Object.keys(nl);
+        file = nl;
+      }
+      else{
+        arr = Object.keys(jp);
+        file = jp;
       }
 
-      if(defaultPrefLanguage==='am-AM'){
-        for (let key=0;key<arrAm.length;key++) {
-          if (arrAm[key]===text) {
-            this.changeLanguage(am[arrAm[key]]);
-          }
-        }
-      }
-
-      if(defaultPrefLanguage==='es-SP'){
-        for (let key=0;key<arrSp.length;key++) {
-          if (arrSp[key]===text) {
-            this.changeLanguage(es[arrSp[key]]);
-          }
-        }
-      }
-
-      if(defaultPrefLanguage==='zh-CH'){
-        for (let key=0;key<arrCh.length;key++) {
-          if (arrCh[key]===text) {
-            this.changeLanguage(zh[arrCh[key]]);
-          }
-        }
-      }
-
-      if(defaultPrefLanguage==='hi-IN'){
-        for (let key=0;key<arrHi.length;key++) {
-          if (arrHi[key]===text) {
-              this.changeLanguage(hi[arrHi[key]]);
-          }
-        }
-      }
-
-      if(defaultPrefLanguage==='fr-FR'){
-        for (let key=0;key<arrFr.length;key++) {
-          if (arrFr[key]===text) {
-              this.changeLanguage(fr[arrFr[key]]);
-          }
-        }
-      }
-
-      if(defaultPrefLanguage==='gr-GR'){
-        for (let key=0;key<arrGr.length;key++) {
-          if (arrGr[key]===text) {
-              this.changeLanguage(gr[arrGr[key]]);
-
-          }
-        }
-      }
-
-      if(defaultPrefLanguage==='jp-JP'){
-        for (let key=0;key<arrJp.length;key++) {
-          if (arrJp[key]===text) {
-              this.changeLanguage(jp[arrJp[key]]);
-          }
+      for (let key=0;key<arr.length;key++) {
+        if (arr[key]===text) {
+            this.changeLanguage(file[arr[key]]);
         }
       }
 

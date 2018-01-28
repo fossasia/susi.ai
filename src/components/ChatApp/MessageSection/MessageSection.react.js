@@ -19,6 +19,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
+import Cookies from 'universal-cookie';
+
+
+const cookies=new Cookies();
 
 function getStateFromStores() {
   var themeValue=[];
@@ -36,7 +40,8 @@ function getStateFromStores() {
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
-    currTheme: UserPreferencesStore.getTheme(),
+		currTheme: UserPreferencesStore.getTheme(),
+		tour:true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
@@ -67,6 +72,7 @@ function getStateFromStores() {
       scrollID: null,
       caseSensitive: false,
       open: false,
+      searchIndex: 0,
       searchText:'',
     }
   };
@@ -166,7 +172,7 @@ class MessageSection extends Component {
   };
 
   state = {
-    showLogin: false
+		showLogin: false
   };
 
   constructor(props) {
@@ -181,7 +187,8 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-  }
+	}
+
 
   handleColorChange = (name,color) => {
     // Current Changes
@@ -331,7 +338,7 @@ class MessageSection extends Component {
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
-      openForgotPassword: false
+			openForgotPassword: false,
     });
 
     if(prevThemeSettings && prevThemeSettings.hasOwnProperty('currTheme') && prevThemeSettings.currTheme==='custom'){
@@ -350,13 +357,12 @@ class MessageSection extends Component {
     else{
       // default theme
       this.setState({
-        prevThemeSettings:null,
         body : '#fff',
         header : '#4285f4',
         composer : '#f3f2f4',
         pane : '#f3f2f4',
         textarea: '#fff',
-        button: '#4285f4',
+        button: this.state.prevThemeSettings.currTheme==='light'?'#4285f4':'#19314B',
       });
       let customData='';
       Object.keys(this.customTheme).forEach((key) => {
@@ -364,13 +370,13 @@ class MessageSection extends Component {
       });
 
       let settingsChanged = {};
-      settingsChanged.theme = 'light';
+      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
       settingsChanged.customThemeValue = customData;
       if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
           settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
       }
       Actions.settingsChanged(settingsChanged);
-      this.setState({currTheme : 'light'})
+      this.setState({currTheme : this.state.prevThemeSettings.currTheme});
       this.setState({
         showLogin: false,
         showSignUp: false,
@@ -379,7 +385,17 @@ class MessageSection extends Component {
       });
     }
   }
+	handleCloseTour = ()=>{
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+			openForgotPassword: false,
+			tour:false
+		});
+		cookies.set('visited', true, { path: '/' });
 
+	}
   // Save Custom Theme settings on server
   saveThemeSettings = () => {
     let customData='';
@@ -520,10 +536,12 @@ class MessageSection extends Component {
         scrollID: markingData.markedIDs[0],
         caseSensitive: this.state.searchState.caseSensitive,
         open: false,
+        searchIndex: 1,
         searchText: matchString
       };
       if(markingData.markedIDs.length===0 && matchString.trim().length>0){
         // if no Messages are marked(i.e no result) and the search query is not empty
+        searchState.searchIndex = 0;
         this.setState({
           SnackbarOpenSearchResults: true
         })
@@ -537,11 +555,12 @@ class MessageSection extends Component {
         markedMsgs: markingData.allmsgs,
         markedIDs: markingData.markedIDs,
         markedIndices: markingData.markedIndices,
-        scrollLimit: markingData.markedIDs.length,
+        scrollLimit: 0,
         scrollIndex: -1,
         scrollID: null,
         caseSensitive: this.state.searchState.caseSensitive,
         open: false,
+        searchIndex: 0,
         searchText: ''
       }
       this.setState({
@@ -594,12 +613,25 @@ class MessageSection extends Component {
     }
   }
 
+  renderThumb = ({ style, ...props }) => {
+    const finalThumbStyle = {
+      ...style,
+      cursor: 'pointer',
+      borderRadius: 'inherit',
+      backgroundColor: 'rgba(200, 200, 200, 0.4)'
+    };
+
+    return <div style={finalThumbStyle} {...props} />;
+  }
+
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+		ThreadStore.removeChangeListener(this._onChange.bind(this));
+
   }
 
   componentWillMount() {
+
 
     if (this.props.location) {
       if (this.props.location.state) {
@@ -641,7 +673,8 @@ class MessageSection extends Component {
             // do nothing
         }
       }
-    })
+		})
+
   }
 
   invertColorTextArea =() => {
@@ -674,7 +707,7 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
-    var textColor;
+		var textColor;
 
     switch(this.state.currTheme){
       case 'custom':{
@@ -753,11 +786,10 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-
   const customSettingsDone = <div>
     <RaisedButton
       label={<Translate text="Save" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -766,7 +798,7 @@ class MessageSection extends Component {
     />
     <RaisedButton
       label={<Translate text="Reset" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -812,7 +844,7 @@ class MessageSection extends Component {
                   display:component.component==='body'?'block':'none',
                   width: '150px'
                 }}
-                backgroundColor={buttonColor}
+                backgroundColor={buttonColor?buttonColor:'#4285f4'}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -832,7 +864,7 @@ class MessageSection extends Component {
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
-              backgroundColor={buttonColor}
+              backgroundColor={buttonColor?buttonColor:'#4285f4'}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
@@ -895,6 +927,8 @@ class MessageSection extends Component {
                   ref={(c) => { this.messageList = c; }}
                   style={messageBackgroundStyles}>
                   <Scrollbars
+                    renderThumbHorizontal={this.renderThumb}
+                    renderThumbVertical={this.renderThumb}
                     ref={(ref) => { this.scrollarea = ref; }}
                     autoHide
                     onScroll={this.onScroll}
@@ -940,10 +974,14 @@ class MessageSection extends Component {
               actions={actions}
               handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
-              onRequestClose={()=>this.handleClose}
+							onRequestClose={()=>this.handleClose}
+							onRequestCloseTour={()=>this.handleCloseTour}
               onSaveThemeSettings={()=>this.handleSaveTheme}
               onLoginSignUp={()=>this.handleOpen}
-              onForgotPassword={()=>this.forgotPasswordChanged} />
+							onForgotPassword={()=>this.forgotPasswordChanged}
+							tour={!cookies.get('visited')}
+
+							 />
             </div>)
              : (
              <div className='message-pane'>
@@ -954,11 +992,13 @@ class MessageSection extends Component {
                     style={this.messageBackgroundStyle}>
 
                    <Scrollbars
+                      renderThumbHorizontal={this.renderThumb}
+                      renderThumbVertical={this.renderThumb}
+                      ref={(ref) => { this.scrollarea = ref; }}
                       autoHide
                       autoHideTimeout={1000}
-                      autoHideDuration={200}
-                      ref={(ref) => { this.scrollarea = ref; }}>
-                       {messageListItems}
+                      autoHideDuration={200}>
+                      {messageListItems}
                    </Scrollbars>
 
                  </ul>
@@ -1058,12 +1098,14 @@ class MessageSection extends Component {
 
 _onClickPrev = () => {
   let newIndex = this.state.searchState.scrollIndex + 1;
+  let newSearchCount = this.state.searchState.searchIndex + 1;
   let indexLimit = this.state.searchState.scrollLimit;
   let markedIDs = this.state.searchState.markedIDs;
   let ul = this.messageList;
   if (markedIDs && ul && newIndex < indexLimit) {
     let currState = this.state.searchState;
     currState.scrollIndex = newIndex;
+    currState.searchIndex = newSearchCount;
     currState.scrollID = markedIDs[newIndex];
     this.setState({
       searchState: currState
@@ -1073,11 +1115,13 @@ _onClickPrev = () => {
 
 _onClickRecent = () => {
   let newIndex = this.state.searchState.scrollIndex - 1;
+  let newSearchCount = this.state.searchState.searchIndex - 1;
   let markedIDs = this.state.searchState.markedIDs;
   let ul = this.messageList;
   if (markedIDs && ul && newIndex >= 0) {
     let currState = this.state.searchState;
     currState.scrollIndex = newIndex;
+    currState.searchIndex = newSearchCount;
     currState.scrollID = markedIDs[newIndex];
     this.setState({
       searchState: currState
@@ -1097,6 +1141,8 @@ _onClickSearch = () => {
 _onClickExit = () => {
   let searchState = this.state.searchState;
   searchState.searchText = '';
+  searchState.searchIndex = 0;
+  searchState.scrollLimit = 0;
   this.setState({
     search: false,
     searchState: searchState,
