@@ -13,7 +13,7 @@ matrix:
   include:
     # Run npm tests and get code coverage matrix
     - script:
-      - ng test --single-run --code-coverage --reporters=coverage-istanbul
+      - npm test --single-run --code-coverage --reporters=coverage-istanbul
 
     # Deploy PR to surge
     - script: bash ./surge_deploy.sh
