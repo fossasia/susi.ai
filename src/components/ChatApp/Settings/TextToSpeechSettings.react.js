@@ -135,25 +135,19 @@ class TextToSpeechSettings extends Component {
 			marginBottom: 16,
 		}
 
-		const subHeaderStyle = {
-			color: UserPreferencesStore.getTheme()==='light'
-								? '#4285f4' : '#19314B'
-		}
-
 		let voiceOutput = this.populateVoiceList();
 
 		return (
 			<div className="settingsForm">
 				<Paper zDepth={0}>
 					<h3 style={{textAlign: 'center'}}><Translate text="Text-To-Speech Settings"/></h3>
-					<h4 style={subHeaderStyle}><Translate text="General"/></h4>
 							<div>
 								<h4 style={{'marginBottom':'0px'}}><Translate text="Language"/></h4>
 								<DropDownMenu
 									value={voiceOutput.voiceLang}
 									onChange={this.handleTTSVoices}>
 								 {voiceOutput.voiceMenu}
-							 </DropDownMenu>
+							 	</DropDownMenu>
 							</div>
 			        <div>
 			        	<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Rate"/></h4>
