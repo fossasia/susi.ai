@@ -7,6 +7,15 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
 Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+[![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/?repo=https://github.com/fossasia/chat.susi.ai)
+>>>>>>> 20cbbdcdc1002f81ba0fc7499a35079cd77ee9ee
+=======
+>>>>>>> 1df9c0c... Fixes image cutoff issue
 
 ## Communication
 
@@ -58,8 +67,18 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 7:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
 
 Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s)
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 20cbbdcdc1002f81ba0fc7499a35079cd77ee9ee
+=======
+
+
+>>>>>>> 1df9c0c... Fixes image cutoff issue
 ## Speech Recognition and Synthesis
 
 The SUSI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for speech recognition and synthesis. To test whether your browser supports Text To Speech, open your browser console and run the following:
@@ -72,6 +91,73 @@ window.speechSynthesis.speak(msg)
 If you get speech output, then the Web API Speech Synthesis is supported by your browser and the text-to-speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome/-ium browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are a few bugs with some Chromium versions please check [this link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758) on how to fix them locally.
 
 ## Accounting, Anonymous User, Logged in Users
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+SUSI.AI can be used anomymously or as a logged in user by using the account features. The advantage logged in users is, that they the interaction history is synced across devices. More about [accounting here](./docs/ACCOUNTING.md).
+
+
+## Development
+
+### Retrieving User Chat History
+
+Whenever a user logs in he must be able to view his chat history in the chat client.
+A user might also be using multiple chat clients, so the history across all platforms must be in sync.
+
+A [memory servlet](https://github.com/fossasia/susi_server/blob/development/src/ai/susi/server/api/susi/UserService.java) is used to retrieve the user history.
+>api.susi.ai/susi/memory.json?access_token=ACCESS_TOKEN
+
+=======
+
+SUSI.AI can be used anomymously or as a logged in user by using the account features. The advantage logged in users is, that they the interaction history is synced across devices. More about [accounting here](./docs/ACCOUNTING.md).
+
+
+## Development
+
+### Retrieving User Chat History
+
+Whenever a user logs in he must be able to view his chat history in the chat client.
+A user might also be using multiple chat clients, so the history across all platforms must be in sync.
+
+A [memory servlet](https://github.com/fossasia/susi_server/blob/development/src/ai/susi/server/api/susi/UserService.java) is used to retrieve the user history.
+>api.susi.ai/susi/memory.json?access_token=ACCESS_TOKEN
+
+>>>>>>> 20cbbdcdc1002f81ba0fc7499a35079cd77ee9ee
+When the client makes a call to the server to the above endpoint  with the ```ACCESS_TOKEN``` of the logged in user,  the server returns a list of cognitions which contain susi responses to the queries in the history.
+
+The response from the memory servlet is of the form:
+```
+{
+	"cognitions" : [],
+	"session" : {},
+}
+```
+A sample susi response is of the form :
+```
+{
+	"query" : 
+	"answers" : [ {
+		"data" : [],
+		"actions" : []
+	}],
+}
+```
+So each cognition has ```query``` as well as  ```answer ``` and thus we get a conversation message pair in the chat history.
+
+The cognitions contain a list of SUSI responses of the above form using which chat history is rendered.
+
+All the user messages are stored in a log file. The memory servlet digs out the history of the required user from the log file. The log uses the identity of the user and accesses only that information which has been stored for the user. If the user is not logged on, no information is available.
+The conversation log is NOT stored for a particular IP. It’s stored for an Identity within the AAA system.
+That identity can be represented with an email address, or there can be others.
+
+Thus the synchronization of history across all chat platforms is maintained.
+
+
+### Folder Structure
+
+After creation and a successful build, your project should have the following file structure:
+
+=======
 
 SUSI.AI can be used anomymously or as a logged in user by using the account features. The advantage logged in users is, that they the interaction history is synced across devices. More about [accounting here](./docs/ACCOUNTING.md).
 
@@ -120,6 +206,7 @@ Thus the synchronization of history across all chat platforms is maintained.
 
 After creation and a successful build, your project should have the following file structure:
 
+>>>>>>> 1df9c0c... Fixes image cutoff issue
 ```
 chat.susi.ai/
   README.md

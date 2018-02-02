@@ -1127,7 +1127,7 @@ class Settings extends Component {
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>SShare on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1179,7 +1179,12 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
+<<<<<<< HEAD
+				<MenuItem style={{color:themeForegroundColor}} value='Share on Facebook' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Facebook<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<hr className="break-line"/>
+=======
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+>>>>>>> 1df9c0c... Fixes image cutoff issue
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1206,12 +1211,20 @@ class Settings extends Component {
 		</div>
 
 	 const menuStyle = {
+<<<<<<< HEAD
+			 marginTop: 20,
+			 textAlign: 'center',
+			 display: 'inline-block',
+			 backgroundColor:themeBackgroundColor,
+			 color:themeForegroundColor
+=======
 
 					 marginTop: 20,
 					 textAlign: 'center',
 					 display: 'inline-block',
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
+>>>>>>> 1df9c0c... Fixes image cutoff issue
 	};
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();

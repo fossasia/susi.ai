@@ -134,7 +134,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         }
         // Get RSS responses
         $.ajax({
-          url: 'http://api.duckduckgo.com/?format=json&q=' + query,
+          url: 'https://api.duckduckgo.com/?format=json&q=' + query,
           dataType: 'jsonp',
           crossDomain: true,
           timeout: 3000,
