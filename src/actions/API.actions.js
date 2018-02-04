@@ -65,7 +65,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     };
 
   let defaults = UserPreferencesStore.getPreferences();
-  console.log(defaults);
+
   let defaultServerURL = defaults.Server;
   let BASE_URL = '';
   if(cookies.get('serverUrl')===defaultServerURL||
@@ -95,7 +95,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(_Location){
     url += '&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
-  console.log(url);
+
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
   $.ajax({
@@ -134,7 +134,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         }
         // Get RSS responses
         $.ajax({
-          url: 'http://api.duckduckgo.com/?format=json&q=' + query,
+          url: 'https://api.duckduckgo.com/?format=json&q=' + query,
           dataType: 'jsonp',
           crossDomain: true,
           timeout: 3000,
@@ -499,18 +499,22 @@ export function getTTSLangText(voiceList){
       dataType: 'json',
       crossDomain: true,
       timeout: 3000,
-      async: false,
+      async: true,
+
       success: function (response) {
         if(response[0]){
           if(response[0][0]){
             let translatedText = response[0][0][0];
             voice.translatedText = translatedText;
+            // console.log(url);
           }
         }
       },
+
       error: function(errorThrown){
         console.log(errorThrown);
       }
+
     });
   });
 }

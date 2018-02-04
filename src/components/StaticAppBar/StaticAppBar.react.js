@@ -22,6 +22,7 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
+import Translate from '../Translate/Translate.react';
 
 import { Link } from 'react-router-dom';
 
@@ -104,7 +105,8 @@ class StaticAppBar extends Component {
         this.setState({
             login: true,
             signup: false,
-            showOptions: false
+            showOptions: false,
+            openForgotPassword: false
         })
         if (this.props.location.pathname === 'overview') {
             this.props.closeVideo();
@@ -185,25 +187,27 @@ class StaticAppBar extends Component {
         if (cookies.get('loggedIn')) {
             Logged = (props) => (
                 <div>
-                    <MenuItem primaryText="About"
+                    <MenuItem
                         containerElement={<Link to="/overview" />}
                         rightIcon={<Info />}
-                    />
-                    <MenuItem primaryText="Chat"
+                    ><Translate text="About"/></MenuItem>
+                    <MenuItem
                         containerElement={<Link to="/" />}
                         rightIcon={<Chat />}
-                    />
+                    ><Translate text="Chat"/></MenuItem>
                     <MenuItem
                         rightIcon={<Dashboard />}
                         href="https://skills.susi.ai"
-                    >Skills
+                    ><Translate text="Skills"/>
                     </MenuItem>
-                    <MenuItem primaryText="Settings"
+                    <MenuItem
                         containerElement={<Link to="/settings" />}
-                        rightIcon={<Settings />} />
-                    <MenuItem primaryText="Logout"
+                        rightIcon={<Settings />} ><Translate text="Settings"/>
+                    </MenuItem>
+                    <MenuItem
                         containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />} />
+                        rightIcon={<Exit />}><Translate text="Logout"/>
+                    </MenuItem>
                 </div>
             )
             return <Logged />
@@ -211,26 +215,30 @@ class StaticAppBar extends Component {
 
         Logged = (props) => (
             <div>
-                <MenuItem primaryText="About"
+                <MenuItem
                     containerElement={<Link to="/overview" />}
                     rightIcon={<Info />}
-                />
-                <MenuItem primaryText="Chat"
+                ><Translate text="About"/>
+                </MenuItem>
+                <MenuItem
                     containerElement={<Link to="/" />}
                     rightIcon={<Chat />}
-                />
+                > <Translate text="Chat"/></MenuItem>
                 <MenuItem
                     rightIcon={<Dashboard />}
                     href="https://skills.susi.ai"
-                >Skills
-            </MenuItem>
-                <MenuItem primaryText="Settings"
-                    containerElement={<Link to="/settings" />}
-                    rightIcon={<Settings />} />
+                ><Translate text="Skills"/>
+                </MenuItem>
                 <MenuItem
-                    primaryText="Login"
+                    containerElement={<Link to="/settings" />}
+                    rightIcon={<Settings />} >
+                    <Translate text="Settings"/>
+                </MenuItem>
+                <MenuItem
                     onTouchTap={this.handleLogin}
-                    rightIcon={<SignUpIcon />} />
+                    rightIcon={<SignUpIcon />} >
+                    <Translate text="Login"/>
+                </MenuItem>
             </div>
         )
         return <Logged />
@@ -394,7 +402,7 @@ class StaticAppBar extends Component {
         const themeBackgroundColor = this.props.settings && this.props.settings.theme==='dark'?'rgb(25, 50, 76)':'#4285f4';
         return (
             <div>
-                <header className="nav-down" >
+                <header className="nav-down" style={{backgroundColor: themeBackgroundColor}}>
                     <AppBar
                         id="headerSection"
                         className="topAppBar"
@@ -415,6 +423,7 @@ class StaticAppBar extends Component {
                 <Drawer
                     docked={false}
                     width={200}
+                    containerStyle={{ overflow: 'hidden' }}
                     open={this.state.openDrawer}
                     onRequestChange={(openDrawer) => this.setState({ openDrawer })}
                 >
@@ -465,7 +474,8 @@ class StaticAppBar extends Component {
                     contentStyle={{ width: '35%', minWidth: '300px' }}
                     onRequestClose={this.handleClose}>
                     <ForgotPassword {...this.props}
-                        showForgotPassword={this.showForgotPassword} />
+                        showForgotPassword={this.showForgotPassword}
+                        onLoginSignUp={this.handleLogin} />
                     <Close style={closingStyle}
                         onTouchTap={this.handleClose} />
                 </Dialog>
@@ -478,6 +488,7 @@ StaticAppBar.propTypes = {
     history: PropTypes.object,
     settings: PropTypes.object,
     location: PropTypes.object,
+    theme: PropTypes.object,
     closeVideo: PropTypes.func
 }
 export default StaticAppBar;

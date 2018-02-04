@@ -5,17 +5,19 @@ language: node_js
 node_js:
   - 6
 
-script:
-  - npm test
-
-deploy:
-  provider: script
-  script: "./deploy.sh"
-
 cache:
   directories:
     - node_modules
 
-branches:
-  only:
-    - master
+matrix:
+  include:
+    # Run npm tests and get code coverage matrix
+    - script:
+      - npm test
+      - bash <(curl -s https://codecov.io/bash)
+
+    # Deploy PR to surge
+    - script: bash ./surge_deploy.sh
+
+    # Deploy on non-prs
+    - script: bash ./deploy.sh

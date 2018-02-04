@@ -19,6 +19,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
+import Cookies from 'universal-cookie';
+
+
+const cookies=new Cookies();
 
 function getStateFromStores() {
   var themeValue=[];
@@ -36,7 +40,8 @@ function getStateFromStores() {
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
-    currTheme: UserPreferencesStore.getTheme(),
+		currTheme: UserPreferencesStore.getTheme(),
+		tour:true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
     showLogin: false,
@@ -67,6 +72,7 @@ function getStateFromStores() {
       scrollID: null,
       caseSensitive: false,
       open: false,
+      searchIndex: 0,
       searchText:'',
     }
   };
@@ -166,7 +172,7 @@ class MessageSection extends Component {
   };
 
   state = {
-    showLogin: false
+		showLogin: false
   };
 
   constructor(props) {
@@ -181,7 +187,8 @@ class MessageSection extends Component {
       'button':this.state.button.substring(1)
 
     };
-  }
+	}
+
 
   handleColorChange = (name,color) => {
     // Current Changes
@@ -244,7 +251,8 @@ class MessageSection extends Component {
   handleOpen = () => {
     this.setState({
       showLogin: true,
-      showSignUp: false
+      showSignUp: false,
+      openForgotPassword: false
     });
     this.child.closeOptions();
   }
@@ -325,14 +333,69 @@ class MessageSection extends Component {
   }
   // Close all dialog boxes
   handleClose = () => {
+    var prevThemeSettings=this.state.prevThemeSettings;
     this.setState({
       showLogin: false,
       showSignUp: false,
       showThemeChanger: false,
-      openForgotPassword: false
+			openForgotPassword: false,
     });
-  }
 
+    if(prevThemeSettings && prevThemeSettings.hasOwnProperty('currTheme') && prevThemeSettings.currTheme==='custom'){
+      this.setState({
+        currTheme:prevThemeSettings.currTheme,
+        body:prevThemeSettings.bodyColor,
+        header:prevThemeSettings.TopBarColor,
+        composer:prevThemeSettings.composerColor,
+        pane:prevThemeSettings.messagePane,
+        textarea:prevThemeSettings.textArea,
+        button:prevThemeSettings.buttonColor,
+        bodyBackgroundImage:prevThemeSettings.bodyBackgroundImage,
+        messageBackgroundImage:prevThemeSettings.messageBackgroundImage,
+      })
+    }
+    else{
+      // default theme
+      this.setState({
+        body : '#fff',
+        header : '#4285f4',
+        composer : '#f3f2f4',
+        pane : '#f3f2f4',
+        textarea: '#fff',
+        button: this.state.prevThemeSettings.currTheme==='light'?'#4285f4':'#19314B',
+      });
+      let customData='';
+      Object.keys(this.customTheme).forEach((key) => {
+        customData=customData+this.customTheme[key]+','
+      });
+
+      let settingsChanged = {};
+      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
+      settingsChanged.customThemeValue = customData;
+      if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+          settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+      }
+      Actions.settingsChanged(settingsChanged);
+      this.setState({currTheme : this.state.prevThemeSettings.currTheme});
+      this.setState({
+        showLogin: false,
+        showSignUp: false,
+        showThemeChanger: false,
+        openForgotPassword: false,
+      });
+    }
+  }
+	handleCloseTour = ()=>{
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+			openForgotPassword: false,
+			tour:false
+		});
+		cookies.set('visited', true, { path: '/' });
+
+	}
   // Save Custom Theme settings on server
   saveThemeSettings = () => {
     let customData='';
@@ -348,11 +411,70 @@ class MessageSection extends Component {
     }
     Actions.settingsChanged(settingsChanged);
     this.setState({currTheme : 'custom'})
-    this.handleClose();
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+      openForgotPassword: false,
+    });
+  }
+
+  handleRestoreDefaultThemeClick = () => {
+    this.setState({
+      showLogin: false,
+      showSignUp: false,
+      showThemeChanger: false,
+      openForgotPassword: false,
+    });
+    this.applyLightTheme();
+  }
+
+  applyLightTheme = () =>{
+    this.setState({
+      prevThemeSettings:null,
+      body : '#fff',
+      header : '#4285f4',
+      composer : '#f3f2f4',
+      pane : '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme : 'light'
+    });
+    let customData='';
+    Object.keys(this.customTheme).forEach((key) => {
+      customData=customData+this.customTheme[key]+','
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if(this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+        settingsChanged.backgroundImage = this.state.bodyBackgroundImage + ',' + this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
   }
 
   handleThemeChanger = () => {
     this.setState({showThemeChanger: true});
+    // save the previous theme settings
+    if(this.state.currTheme==='light'){
+      // remove the previous custom theme memory
+      this.applyLightTheme();
+    }
+    var prevThemeSettings={};
+    var state=this.state;
+    prevThemeSettings.currTheme=state.currTheme;
+    if(state.currTheme==='custom'){
+      prevThemeSettings.bodyColor = state.body;
+      prevThemeSettings.TopBarColor = state.header;
+      prevThemeSettings.composerColor = state.composer;
+      prevThemeSettings.messagePane = state.pane;
+      prevThemeSettings.textArea = state.textarea;
+      prevThemeSettings.buttonColor= state.button;
+      prevThemeSettings.bodyBackgroundImage=state.bodyBackgroundImage;
+      prevThemeSettings.messageBackgroundImage=state.messageBackgroundImage;
+    }
+    this.setState({prevThemeSettings});
     this.child.closeOptions();
   }
 
@@ -414,10 +536,12 @@ class MessageSection extends Component {
         scrollID: markingData.markedIDs[0],
         caseSensitive: this.state.searchState.caseSensitive,
         open: false,
+        searchIndex: 1,
         searchText: matchString
       };
       if(markingData.markedIDs.length===0 && matchString.trim().length>0){
         // if no Messages are marked(i.e no result) and the search query is not empty
+        searchState.searchIndex = 0;
         this.setState({
           SnackbarOpenSearchResults: true
         })
@@ -431,11 +555,12 @@ class MessageSection extends Component {
         markedMsgs: markingData.allmsgs,
         markedIDs: markingData.markedIDs,
         markedIndices: markingData.markedIndices,
-        scrollLimit: markingData.markedIDs.length,
+        scrollLimit: 0,
         scrollIndex: -1,
         scrollID: null,
         caseSensitive: this.state.searchState.caseSensitive,
         open: false,
+        searchIndex: 0,
         searchText: ''
       }
       this.setState({
@@ -488,12 +613,25 @@ class MessageSection extends Component {
     }
   }
 
+  renderThumb = ({ style, ...props }) => {
+    const finalThumbStyle = {
+      ...style,
+      cursor: 'pointer',
+      borderRadius: 'inherit',
+      backgroundColor: 'rgba(200, 200, 200, 0.4)'
+    };
+
+    return <div style={finalThumbStyle} {...props} />;
+  }
+
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+		ThreadStore.removeChangeListener(this._onChange.bind(this));
+
   }
 
   componentWillMount() {
+
 
     if (this.props.location) {
       if (this.props.location.state) {
@@ -535,8 +673,32 @@ class MessageSection extends Component {
             // do nothing
         }
       }
-    })
+		})
+
   }
+
+  invertColorTextArea =() => {
+
+    // get the text are code
+    var hex = this.state.textarea;
+    hex = hex.slice(1);
+
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    var r = parseInt(hex.slice(0, 2), 16),
+        g = parseInt(hex.slice(2, 4), 16),
+        b = parseInt(hex.slice(4, 6), 16);
+
+    return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+        ? '#000000'
+        : '#FFFFFF';
+}
+
 
   render() {
     var bodyColor;
@@ -545,6 +707,7 @@ class MessageSection extends Component {
     var messagePane;
     var textArea;
     var buttonColor;
+		var textColor;
 
     switch(this.state.currTheme){
       case 'custom':{
@@ -553,6 +716,7 @@ class MessageSection extends Component {
         composerColor = this.state.composer;
         messagePane = this.state.pane;
         textArea = this.state.textarea;
+        textColor= this.invertColorTextArea();
         buttonColor= this.state.button;
         break;
       }
@@ -622,11 +786,10 @@ class MessageSection extends Component {
       onTouchTap={this.handleClose}
     />;
 
-
   const customSettingsDone = <div>
     <RaisedButton
       label={<Translate text="Save" />}
-      backgroundColor={buttonColor}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
@@ -634,13 +797,13 @@ class MessageSection extends Component {
       style={{margin:'0 5px'}}
     />
     <RaisedButton
-      label={<Translate text="Done" />}
-      backgroundColor={buttonColor}
+      label={<Translate text="Reset" />}
+      backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
       keyboardFocused={true}
-      onTouchTap={this.handleClose}
-
+      onTouchTap={this.handleRestoreDefaultThemeClick}
+      style={{margin:'0 5px'}}
     />
     </div>;
     // Custom Theme feature Component
@@ -655,7 +818,7 @@ class MessageSection extends Component {
 
     const components = componentsList.map((component) => {
         return <div key={component.id} className='circleChoose'>
-                  <h4><Translate text="Change color of"/> {component.name}:</h4>
+                  <h4><Translate text="Color of"/> <Translate text={component.name}/>:</h4>
         <CirclePicker  color={component} width={'100%'}
           colors={['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
         '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#607d8b',
@@ -681,7 +844,7 @@ class MessageSection extends Component {
                   display:component.component==='body'?'block':'none',
                   width: '150px'
                 }}
-                backgroundColor={buttonColor}
+                backgroundColor={buttonColor?buttonColor:'#4285f4'}
                 labelColor="#fff"
                 keyboardFocused={true}
                 onTouchTap={this.handleRemoveUrlBody} />
@@ -701,7 +864,7 @@ class MessageSection extends Component {
                 display:component.component==='pane'?'block':'none',
                 width: '150px'
               }}
-              backgroundColor={buttonColor}
+              backgroundColor={buttonColor?buttonColor:'#4285f4'}
               labelColor="#fff"
               keyboardFocused={true}
               onTouchTap={this.handleRemoveUrlMessage} />
@@ -764,6 +927,8 @@ class MessageSection extends Component {
                   ref={(c) => { this.messageList = c; }}
                   style={messageBackgroundStyles}>
                   <Scrollbars
+                    renderThumbHorizontal={this.renderThumb}
+                    renderThumbVertical={this.renderThumb}
                     ref={(ref) => { this.scrollarea = ref; }}
                     autoHide
                     onScroll={this.onScroll}
@@ -786,9 +951,11 @@ class MessageSection extends Component {
                 }
                 <div className='compose' style={{backgroundColor:composerColor}}>
                   <MessageComposer
+                    focus={true}
                     threadID={this.state.thread.id}
                     dream={dream}
                     textarea={textArea}
+                    textcolor={textColor}
                     speechOutput={speechOutput}
                     speechOutputAlways={speechOutputAlways}
                     micColor={this.state.button} />
@@ -807,9 +974,14 @@ class MessageSection extends Component {
               actions={actions}
               handleSignUp={this.handleSignUp}
               customSettingsDone={customSettingsDone}
-              onRequestClose={()=>this.handleClose}
+							onRequestClose={()=>this.handleClose}
+							onRequestCloseTour={()=>this.handleCloseTour}
+              onSaveThemeSettings={()=>this.handleSaveTheme}
               onLoginSignUp={()=>this.handleOpen}
-              onForgotPassword={()=>this.forgotPasswordChanged} />
+							onForgotPassword={()=>this.forgotPasswordChanged}
+							tour={!cookies.get('visited')}
+
+							 />
             </div>)
              : (
              <div className='message-pane'>
@@ -820,14 +992,27 @@ class MessageSection extends Component {
                     style={this.messageBackgroundStyle}>
 
                    <Scrollbars
+                      renderThumbHorizontal={this.renderThumb}
+                      renderThumbVertical={this.renderThumb}
+                      ref={(ref) => { this.scrollarea = ref; }}
                       autoHide
                       autoHideTimeout={1000}
-                      autoHideDuration={200}
-                      ref={(ref) => { this.scrollarea = ref; }}>
-                       {messageListItems}
+                      autoHideDuration={200}>
+                      {messageListItems}
                    </Scrollbars>
 
                  </ul>
+                 <div className='compose' style={{backgroundColor:composerColor}}>
+                  <MessageComposer
+                    focus={false}
+                    threadID={this.state.thread.id}
+                    dream={dream}
+                    textarea={textArea}
+                    textcolor={textColor}
+                    speechOutput={speechOutput}
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button} />
+                </div>
                </div>
              </div>
              )}
@@ -862,7 +1047,7 @@ class MessageSection extends Component {
    }
 
   componentDidUpdate() {
-    switch (this.state.currTheme) {
+      switch (this.state.currTheme) {
       case 'light':{
         document.body.className = 'white-body';
         break;
@@ -913,12 +1098,14 @@ class MessageSection extends Component {
 
 _onClickPrev = () => {
   let newIndex = this.state.searchState.scrollIndex + 1;
+  let newSearchCount = this.state.searchState.searchIndex + 1;
   let indexLimit = this.state.searchState.scrollLimit;
   let markedIDs = this.state.searchState.markedIDs;
   let ul = this.messageList;
   if (markedIDs && ul && newIndex < indexLimit) {
     let currState = this.state.searchState;
     currState.scrollIndex = newIndex;
+    currState.searchIndex = newSearchCount;
     currState.scrollID = markedIDs[newIndex];
     this.setState({
       searchState: currState
@@ -928,11 +1115,13 @@ _onClickPrev = () => {
 
 _onClickRecent = () => {
   let newIndex = this.state.searchState.scrollIndex - 1;
+  let newSearchCount = this.state.searchState.searchIndex - 1;
   let markedIDs = this.state.searchState.markedIDs;
   let ul = this.messageList;
   if (markedIDs && ul && newIndex >= 0) {
     let currState = this.state.searchState;
     currState.scrollIndex = newIndex;
+    currState.searchIndex = newSearchCount;
     currState.scrollID = markedIDs[newIndex];
     this.setState({
       searchState: currState
@@ -952,6 +1141,8 @@ _onClickSearch = () => {
 _onClickExit = () => {
   let searchState = this.state.searchState;
   searchState.searchText = '';
+  searchState.searchIndex = 0;
+  searchState.scrollLimit = 0;
   this.setState({
     search: false,
     searchState: searchState,

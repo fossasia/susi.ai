@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import PasswordField from 'material-ui-password-field'
@@ -27,7 +28,8 @@ class Login extends Component {
 			emailError: true,
 			passwordError: false,
 			serverFieldError: false,
-			checked: false
+			checked: false,
+			loading: false
 		};
 		this.emailErrorMessage = '';
         this.passwordErrorMessage = '';
@@ -61,6 +63,7 @@ class Login extends Component {
 			this.state.email + '&password=' + encodeURIComponent(this.state.password);
 
 		if (email && validEmail) {
+			this.setState({loading: true})
 			$.ajax({
 				url: loginEndPoint,
 				dataType: 'jsonp',
@@ -103,6 +106,9 @@ class Login extends Component {
 			        let state = this.state;
 			        state.msg = msg;
 			        this.setState(state);
+				}.bind(this),
+				complete: function (jqXHR, textStatus) {
+					this.setState({loading: false});
 				}.bind(this)
 			});
 		}
@@ -238,6 +244,7 @@ class Login extends Component {
 					<form onSubmit={this.handleSubmit}>
 						<div>
 							<TextField name="email"
+                type="email"
 								value={this.state.email}
 								onChange={this.handleChange}
 								underlineFocusStyle={underlineFocusStyle}
@@ -266,16 +273,6 @@ class Login extends Component {
 						<span style={{
 							margin: '3px 0'
 						}}>{this.state.msg}</span>
-						<div>
-							<RaisedButton
-								label={<Translate text="Login"/>}
-								type="submit"
-								backgroundColor={
-									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-								labelColor="#fff"
-								disabled={!this.state.validForm}
-								style={{margin:'15px 0 '}}/>
-						</div>
 						<span
 						style={{
 							margin: '8px 0',
@@ -287,6 +284,15 @@ class Login extends Component {
 						</span>
 						<div>
 							<RaisedButton
+								label={!this.state.loading ? <Translate text="Login"/> : undefined}
+								type="submit"
+								backgroundColor={
+									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+								labelColor="#fff"
+								disabled={!this.state.validForm}
+								style={{margin:'10px 20px 0px 0px '}}
+								icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
+							<RaisedButton
 									label={<Translate text="Sign Up"/>}
 									onClick={this.handleSignUp}
 									backgroundColor={
@@ -294,7 +300,7 @@ class Login extends Component {
 									labelColor="#fff" />
 						</div>
 						<h4 style={{
-							margin: '2px 0'
+							margin: '8px 0'
 						}}><Translate text="OR"/></h4>
 						<div>
 							<Link to={'/logout'} >

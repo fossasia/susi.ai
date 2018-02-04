@@ -1,0 +1,19 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.js]
+indent_style = tab
+tab_width = 2
+trim_trailing_whitespace = true
+block_comment_start = /*
+block_comment = *
+block_comment_end = */
+
+[*.{css,json,yml}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true

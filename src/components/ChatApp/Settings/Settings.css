@@ -1,5 +1,5 @@
 .tabStyle{
-  height: 500px;
+  height: 550px;
   margin-top: 20px;
   display: inline-block;
 }
@@ -82,6 +82,7 @@
 }
 
 .rightMenu {
+  height: 550px;
   width: 64%;
   background-color: #fff;
 }
@@ -105,7 +106,7 @@
 }
 
 
-@media only screen and (max-width: 1000px){
+@media only screen and (max-width: 1060px){
   .settings-list-dropdown{
     display: inline-block;
   }
@@ -127,6 +128,7 @@
 }
 
   .rightMenu {
+    height: 480px;
     width: 100%;
   }
 

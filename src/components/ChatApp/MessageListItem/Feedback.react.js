@@ -47,7 +47,7 @@ class Feedback extends React.Component {
 			case 'positive':{
 				this.setState({
 					ratingGiven: true,
-					positive: true,
+					positive: !this.state.positive,
 					negative: false,
 				});
 				break;
@@ -56,7 +56,7 @@ class Feedback extends React.Component {
 				this.setState({
 					ratingGiven: true,
 					positive: false,
-					negative: true,
+					negative: !this.state.negative,
 				});
 				break;
 			}
@@ -101,7 +101,7 @@ class Feedback extends React.Component {
 				positiveFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
 			}
 			else if(this.state.negative){
-				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#1685e5' : '#00ff7f';
+				negativeFeedbackColor = UserPreferencesStore.getTheme()==='light' ? '#d1462f' : '#f23e3e';
 			}
 
 				feedbackButtons = (
@@ -118,19 +118,6 @@ class Feedback extends React.Component {
 							color={negativeFeedbackColor}/>
 					</span>
 				);
-			if(message.feedback.isRated){
-				feedbackIndicator.cursor = 'auto';
-				feedbackButtons = (
-					<span className='feedback' style={feedbackStyle}>
-						<ThumbUp
-							style={feedbackIndicator}
-							color={positiveFeedbackColor}/>
-						<ThumbDown
-							style={feedbackIndicator}
-							color={negativeFeedbackColor}/>
-					</span>
-				);
-			}
 		}
 		if(message.authorName === 'You'){
 			feedbackStyle = {};

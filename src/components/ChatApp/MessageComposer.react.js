@@ -55,6 +55,7 @@ class MessageComposer extends Component {
       result: '',
       animate: false,
       rows: 1,
+      recognizing: false,
       currentArrowIndex:0// store the index for moving through messages using key
     };
     this.rowComplete = 0;
@@ -74,8 +75,10 @@ class MessageComposer extends Component {
     })
   }
 
-  onspeechend = () => {
-    this.onEnd();
+  onSpeechStart = () => {
+    this.setState({
+      recognizing: true
+    });
   }
 
   onEnd = () => {
@@ -84,7 +87,8 @@ class MessageComposer extends Component {
       stop: false,
       open: false,
       animate: false,
-      color: '#000'
+      color: '#000',
+      recognizing: false
     });
 
     let voiceResponse = false;
@@ -130,6 +134,7 @@ class MessageComposer extends Component {
     }
 
   }
+
 
   componentWillMount() {
     let micInputSetting = UserPreferencesStore.getMicInput();
@@ -182,11 +187,10 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    document.getElementById('scroll').focus();
+
   }
 
   render() {
-
     return (
       <div className="message-composer" >
         {this.state.start && (
@@ -195,6 +199,7 @@ class MessageComposer extends Component {
             onspeechend={this.onspeechend}
             onResult={this.onResult}
             onEnd={this.onEnd}
+            onSpeechStart={this.onSpeechStart}
             continuous={true}
             lang="en-US"
             stop={this.state.stop}
@@ -213,7 +218,8 @@ class MessageComposer extends Component {
             onChange={this._onChange.bind(this)}
             onKeyDown={this._onKeyDown.bind(this)}
             ref={(textarea) => { this.nameInput = textarea; }}
-            style={{ background: this.props.textarea, lineHeight: '15px' }}
+            style={{ background: this.props.textarea, color: this.props.textcolor, lineHeight: '15px' }}
+            autoFocus={this.props.focus}
           />
         </div>
         <IconButton
@@ -274,6 +280,11 @@ class MessageComposer extends Component {
       }
       this.setState({ text: '',currentArrowIndex:0 });
     }
+    setTimeout(function(){
+      if(this.state.recognizing === false) {
+        this.speakDialogClose();
+      }
+    }.bind(this),5000);
   }
 
   _onChange(event, value) {
@@ -359,9 +370,11 @@ MessageComposer.propTypes = {
   threadID: PropTypes.string.isRequired,
   dream: PropTypes.string,
   textarea: PropTypes.string,
+  textcolor: PropTypes.string,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
   micColor: PropTypes.string,
+  focus: PropTypes.bool,
 };
 
 export default MessageComposer;
