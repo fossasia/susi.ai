@@ -1207,11 +1207,12 @@ class Settings extends Component {
 		</div>
 
 	 const menuStyle = {
-			 marginTop: 20,
-			 textAlign: 'center',
-			 display: 'inline-block',
-			 backgroundColor:themeBackgroundColor,
-			 color:themeForegroundColor
+					 marginTop: 20,
+					 textAlign: 'center',
+					 display: 'inline-block',
+					 backgroundColor:themeBackgroundColor,
+					 color:themeForegroundColor
+     
 	};
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
