@@ -387,7 +387,7 @@ header{
 .dark .message-container.SUSI{
   border-color:rgba(25, 147, 147, 0.2);
   background:rgba(25, 147, 147, 0.2);
-  color: #0EC879;
+  color: #fff;
 }
 
 .message-container.You{
@@ -397,7 +397,7 @@ header{
 
 .dark .message-container.You{
   background: rgba(25, 147, 147, 0.2);
-  color: #0AD5C1;
+  color: #fff;
 }
 
 .message-container.SUSI>h5,.message-container.SUSI>.message-text {
@@ -444,7 +444,7 @@ header{
 }
 
 .message-text, .thread-last-message {
-  font-size: 14px;
+  font-size: 15px;
   margin: 0;
   padding: 0;
   overflow-wrap: break-word;
@@ -522,7 +522,7 @@ header{
 }
 
 .dark .message-composer textarea{
-  color: #0AD5C1;
+  color: #fff;
   background: rgba(0, 0, 0, 0.01);
 }
 .textBack {
