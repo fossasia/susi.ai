@@ -483,7 +483,7 @@ header{
 }
 
 .dark .compose{
-  background: rgba(30, 87, 153, 0.02);
+  background: #192b44;
   color: #0AD5C1;
 }
 
@@ -518,7 +518,6 @@ header{
 .dark .message-composer{
   width: 100%;
   margin: 0 auto;
-  border-top: 1px solid rgba(240, 240, 240, 0.56);
 }
 
 .dark .message-composer textarea{
@@ -536,20 +535,10 @@ header{
     min-height: 20px;
     border: none;
     padding: 10px 12px;
-    overflow-y: scroll;
+    overflow-y: hidden;
     max-height: 59px;
 }
-.textBack::-webkit-scrollbar {
-    width: 6px ;
-    height: 6px ;
-}
 
-.textBack::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
-}
-.textBack::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.08);
-}
 textarea {
   border: none;
   width: 100%;
@@ -574,6 +563,11 @@ textarea {
    display: none;
  }
 .scroll {overflow: -moz-scrollbars-none;}
+
+/*modifying perfect-scrollbar library scrollbar track color*/
+.ps__rail-y {
+  background-color: transparent !important;
+}
 
 .voice-output{
   font-family: 'Lato', sans-serif;
