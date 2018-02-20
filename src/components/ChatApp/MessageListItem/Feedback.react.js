@@ -118,19 +118,6 @@ class Feedback extends React.Component {
 							color={negativeFeedbackColor}/>
 					</span>
 				);
-			if(message.feedback.isRated){
-				feedbackIndicator.cursor = 'auto';
-				feedbackButtons = (
-					<span className='feedback' style={feedbackStyle}>
-						<ThumbUp
-							style={feedbackIndicator}
-							color={positiveFeedbackColor}/>
-						<ThumbDown
-							style={feedbackIndicator}
-							color={negativeFeedbackColor}/>
-					</span>
-				);
-			}
 		}
 		if(message.authorName === 'You'){
 			feedbackStyle = {};
