@@ -94,6 +94,7 @@ class VoicePlayer extends Component {
 
 VoicePlayer.propTypes = {
   play: PropTypes.bool,
+  pause: PropTypes.bool,
   text: PropTypes.string,
   lang: PropTypes.string,
   rate: PropTypes.number,
