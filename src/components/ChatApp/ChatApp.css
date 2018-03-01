@@ -432,9 +432,9 @@ header{
     list-style-type: none;
     font-size: 12px;
     color: #90a4ae;
-    margin: -4px -5px -7px 0px;
+    margin: -4px -5px -7px 10px;
     padding: 0;
-    text-align: right;
+    text-align: left;
 }
 .dark .message-time, .thread-time{
   float: right;
