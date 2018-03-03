@@ -106,6 +106,8 @@ class Overview extends Component{
             </div>
           </div>
         </div>
+
+
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Ask it anything.</div>
@@ -119,6 +121,8 @@ class Overview extends Component{
             <img src={susiTestGif} alt='susi-test' className='susi-test' />
           </div>
         </div>
+
+
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Tell it to do things.</div>
@@ -134,6 +138,8 @@ class Overview extends Component{
             <img src={mapAndroid} alt='Map' className='android-mockup' />
           </div>
         </div>
+
+
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">For your Smartphone</div>
@@ -154,39 +160,39 @@ class Overview extends Component{
           </div>
         </div>
 
-        <div className="section_copy">
-          <div className="column_section">
-            <div className="conversation__description custom_description">
-              <div className='img-container'>
-                <img src={bots} alt='Android Mockup' className='bots-mockup' />
-              </div>
-              <div className="description__heading">On many Platforms</div>
-              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
-                    services and social networks. We are developing plugins for all
-                    major services including
-                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>.
-                    Just set up SUSI on your channel and add
-                    &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
-                    </p>
-            </div>
-          </div>
-          <div className="column_section">
-            <div className='img-container'>
-              <img src={allDevices} alt='Android Mockup' className='bots-mockup' />
-            </div>
-            <div className="conversation__description custom_description">
-              <div className="description__heading">For all Devices</div>
-              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="https://chat.susi.ai">https://chat.susi.ai</a>
-              </p>
-            </div>
 
-          </div>
+        <div className="section_copy">
+
+	          <div className="column_section">
+	            <div className="conversation__description custom_description">
+	              <div className='img-container'>
+	                <img src={bots} alt='Android Mockup' className='bots-mockup' />
+	              </div>
+	              <div className="description__heading">On many Platforms</div>
+	              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
+	                    services and social networks. We are developing plugins for all
+	                    major services including
+	                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,&nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add
+	                    &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+	                    </p>
+	            </div>
+	          </div>
+
+	          <div className="column_section">
+	            <div className='img-container'>
+	              <img src={allDevices} alt='Android Mockup' className='bots-mockup' />
+	            </div>
+	            <div className="conversation__description custom_description">
+	              <div className="description__heading">For all Devices</div>
+	              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="https://chat.susi.ai">https://chat.susi.ai</a>
+	              </p>
+	            </div>
+          	</div>
+
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className='img-container'>
@@ -195,12 +201,14 @@ class Overview extends Component{
               <div className="description__heading">Use it in many Languages</div>
               <p className="description__text">You can use <b>SUSI.AI</b> in different
                      languages. You can ask questions in many languages.
-SUSI is intelligent to identify and answer your question in your language.
+                      SUSI is intelligent to identify and
+                      answer your question in your language.
                     </p>
             </div>
 
           </div>
         </div>{/* section_copy ends */}
+
 
         <div className="section_center">
           <div className="center__description">
@@ -216,6 +224,8 @@ SUSI is intelligent to identify and answer your question in your language.
             <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
+
+
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
 
