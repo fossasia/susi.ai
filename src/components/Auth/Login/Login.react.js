@@ -12,7 +12,7 @@ import Cookies from 'universal-cookie';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
-
+import Dialog from 'material-ui/Dialog';
 const cookies = new Cookies();
 
 class Login extends Component {
@@ -28,6 +28,7 @@ class Login extends Component {
 			emailError: true,
 			passwordError: false,
 			serverFieldError: false,
+			showDialog: false,
 			checked: false,
 			loading: false
 		};
@@ -35,7 +36,10 @@ class Login extends Component {
         this.passwordErrorMessage = '';
         this.customServerMessage = '';
 	}
-
+	//  Close error dialog box
+	handleClose = (event) => {
+		this.setState({showDialog: false})
+	};
 	// Submit the Login Form
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -88,6 +92,8 @@ class Login extends Component {
 					else {
 						let state = this.state;
 						state.msg = 'Login Failed. Try Again';
+						state.password='';
+						state.showDialog = true;
 						this.setState(state);
 					}
 				}.bind(this),
@@ -104,7 +110,9 @@ class Login extends Component {
 			          msg = 'Please check your internet connection';
 			        }
 			        let state = this.state;
-			        state.msg = msg;
+					state.msg = msg;
+					state.password='';
+					state.showDialog = true;
 			        this.setState(state);
 				}.bind(this),
 				complete: function (jqXHR, textStatus) {
@@ -236,7 +244,14 @@ class Login extends Component {
 		}
 	    const underlineFocusStyle= {
 			color: '#4285f4'
-	    }
+		}
+		const actions =
+           <RaisedButton
+			   label="OK"
+               backgroundColor={UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+               labelStyle={{ color: '#fff' }}
+               onTouchTap={this.handleClose}
+		   />;
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
@@ -270,9 +285,6 @@ class Login extends Component {
                     customServerMessage={this.customServerMessage}
                     onServerChange={this.handleServeChange}/>
             </div>
-						<span style={{
-							margin: '3px 0'
-						}}>{this.state.msg}</span>
 						<span
 						style={{
 							margin: '8px 0',
@@ -313,6 +325,13 @@ class Login extends Component {
 						</div>
 					</form>
 				</Paper>
+				<Dialog
+					actions={actions}
+					modal={false}
+					open={this.state.showDialog}
+					onRequestClose={this.handleClose} >
+					{this.state.msg}
+					</Dialog>
 			</div>);
 
 	};
