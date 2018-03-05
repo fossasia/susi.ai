@@ -45,6 +45,8 @@ const cookies = new Cookies();
 
 class Settings extends Component {
 
+	// Variable to store the original theme, changed only when user saves
+	originalTheme = null;
 	// save a variable in state holding the initial state of the settings
 	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();
@@ -63,6 +65,7 @@ class Settings extends Component {
 		let defaultCountryCode = defaults.CountryCode;
 		let defaultCountryDialCode = defaults.CountryDialCode;
 		let defaultPhoneNo = defaults.phoneNo;
+		this.originalTheme = this.originalTheme === null ? defaultTheme : this.originalTheme;
 		this.setState({
 			identity,
 			intialSettings:{
@@ -231,9 +234,9 @@ class Settings extends Component {
 			showForgotPassword: false,
 		})
 	}
-
+	
 	// Submit selected Settings
-	handleSubmit = () => {
+	handleSubmit = (preview) => {
 		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
 		let newEnterAsSend = this.state.enterAsSend;
@@ -271,7 +274,10 @@ class Settings extends Component {
 			checked,
 			serverUrl
 		}
-
+		// Setting default value for preview i.e false
+		preview = typeof preview  === 'object' ? false : preview;
+		// Revert to original theme if not previewing
+		if (preview === false) this.originalTheme = this.state.theme;
 		let settings = Object.assign({}, vals);
 		settings.LocalStorage = true;
 		// Store in cookies for anonymous user
@@ -297,11 +303,11 @@ class Settings extends Component {
 	  Actions.resetVoice();
 	}
 	this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
-  }
-
+  
+  }	
 	// Handle change to theme settings
 	handleSelectChange = (event, value) => {
-		this.setState({ theme: value });
+		this.setState({ theme: value },()=> {this.handleSubmit(true)});
 	}
 
 	// Handle change to enter as send settings
@@ -466,6 +472,7 @@ class Settings extends Component {
 	componentWillUnmount() {
 		MessageStore.removeChangeListener(this._onChange.bind(this));
 		UserPreferencesStore.removeChangeListener(this._onChangeSettings.bind(this));
+		
 	}
 
 	// Populate language list
@@ -555,11 +562,15 @@ class Settings extends Component {
 	}
 
 	loadSettings = (e) => {
+		
 		this.setDefaultsSettings();// on every tab change, load the default settings
+		//Revert to original theme if user navigates away from theme settings without saving.
+		if (this.state.theme !== this.originalTheme) {
+			this.setState({theme : this.originalTheme}, () => {this.handleSubmit()}); 
+			}
 		this.setState({ selectedSetting: e.target.innerText });
 		this.setState({ settingNo: e.target.innerText });
 	}
-
 	displaySaveChangesButton = () =>{
 		let selectedSetting=this.state.selectedSetting;
 		if(selectedSetting==='Password')
@@ -581,13 +592,13 @@ class Settings extends Component {
 		{
 			return false;
 		}
-		return true;// display the button otherwise
+		return true; // display the button otherwise
 	}
 	getSomethingToSave = () => {
 		let somethingToSave = false;
 		const intialSettings = this.state.intialSettings;
 		const classState = this.state;
-		if (intialSettings.theme !== classState.theme) {
+		if (intialSettings.theme !== this.originalTheme) {
 			somethingToSave = true;
 		}
 		else if (intialSettings.enterAsSend !== classState.enterAsSend) {
