@@ -44,13 +44,14 @@ import ShareIcon from 'material-ui/svg-icons/social/share';
 const cookies = new Cookies();
 
 class Settings extends Component {
-
+	// Boolean to store the state of preview i.e which theme to display
+	preview = false;
 	// save a variable in state holding the initial state of the settings
 	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();
 		let identity = UserIdentityStore.getIdentity();
 		let defaultServer = defaults.Server;
-		let defaultTheme = defaults.Theme;
+		let defaultTheme = UserPreferencesStore.getTheme(this.preview);
 		let defaultEnterAsSend = defaults.EnterAsSend;
 		let defaultMicInput = defaults.MicInput;
 		let defaultSpeechOutput = defaults.SpeechOutput;
@@ -87,7 +88,7 @@ class Settings extends Component {
 	setDefaultsSettings = () => {
 	let defaults = UserPreferencesStore.getPreferences();
 	let defaultServer = defaults.Server;
-	let defaultTheme = defaults.Theme;
+	let defaultTheme = UserPreferencesStore.getTheme(this.preview);
 	let defaultEnterAsSend = defaults.EnterAsSend;
 	let defaultMicInput = defaults.MicInput;
 	let defaultSpeechOutput = defaults.SpeechOutput;
@@ -234,7 +235,6 @@ class Settings extends Component {
 
 	// Submit selected Settings
 	handleSubmit = () => {
-		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
 		let newEnterAsSend = this.state.enterAsSend;
 		let newMicInput = this.state.micInput;
@@ -255,7 +255,6 @@ class Settings extends Component {
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
 		let vals = {
-			theme: newTheme,
 			server: newDefaultServer,
 			enterAsSend: newEnterAsSend,
 			micInput: newMicInput,
@@ -271,7 +270,16 @@ class Settings extends Component {
 			checked,
 			serverUrl
 		}
-
+		// if preview, save current theme state to previewTheme
+		if (this.preview) {
+			vals.theme = UserPreferencesStore.getTheme(!this.preview);
+			vals.previewTheme = this.state.theme;
+		}
+		// else save current theme state to theme
+		else {
+			vals.theme = this.state.theme;
+			vals.previewTheme = UserPreferencesStore.getTheme(this.preview);
+		}
 		let settings = Object.assign({}, vals);
 		settings.LocalStorage = true;
 		// Store in cookies for anonymous user
@@ -301,7 +309,11 @@ class Settings extends Component {
 
 	// Handle change to theme settings
 	handleSelectChange = (event, value) => {
-		this.setState({ theme: value });
+		this.preview = true;
+		this.setState({ theme: value },()=> {
+				this.handleSubmit();
+				this.preview = false;
+		});
 	}
 
 	// Handle change to enter as send settings
@@ -558,6 +570,11 @@ class Settings extends Component {
 		this.setDefaultsSettings();// on every tab change, load the default settings
 		this.setState({ selectedSetting: e.target.innerText });
 		this.setState({ settingNo: e.target.innerText });
+		//  Revert to original theme if user navigates away without saving.
+		if (this.state.theme !== UserPreferencesStore.getTheme()) {
+			this.setState({theme : UserPreferencesStore.getTheme()},
+			() => {this.handleSubmit()});
+		}
 	}
 
 	displaySaveChangesButton = () =>{
@@ -587,7 +604,7 @@ class Settings extends Component {
 		let somethingToSave = false;
 		const intialSettings = this.state.intialSettings;
 		const classState = this.state;
-		if (intialSettings.theme !== classState.theme) {
+		if (UserPreferencesStore.getTheme() !== this.state.theme) {
 			somethingToSave = true;
 		}
 		else if (intialSettings.enterAsSend !== classState.enterAsSend) {
