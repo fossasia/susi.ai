@@ -1,4 +1,8 @@
 // Message Utils required for Chat
+var filter = require('simple-profanity-filter-with-whitelist');
+export function filterProfane(text){
+  return filter.filter(text);
+}
 export function convertRawMessage(rawMessage, currentThreadID) {
   return {
     ...rawMessage,

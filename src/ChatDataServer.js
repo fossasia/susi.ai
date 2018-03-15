@@ -47,7 +47,6 @@ export function postMessage(message, callback) {
 
 
 export function postSUSIMessage(message, callback) {
-   
   messages.push(message);
 
 

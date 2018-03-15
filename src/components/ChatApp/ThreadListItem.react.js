@@ -9,7 +9,6 @@ class ThreadListItem extends Component {
   render() {
     let thread = this.props.thread;
     let lastMessage = thread.lastMessage;
-    
     return (
       <li
         className={classNames({
