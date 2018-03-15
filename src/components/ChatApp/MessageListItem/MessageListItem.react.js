@@ -11,6 +11,8 @@ import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 import { injectIntl } from 'react-intl';
+var filter = require('simple-profanity-filter-with-whitelist');
+
 // Format Date for internationalization
 const PostDate = injectIntl(({date, intl}) => (
             <span title={intl.formatDate(date, {
@@ -35,6 +37,10 @@ class MessageListItem extends React.Component {
     this.state = {
       play: false,
     }
+    if(this.props.message.text === undefined){
+      this.props.message.text = "";
+    }
+    this.props.message.text = filter.filter(this.props.message.text);
   }
 
   // Triggered when the voice player is started
