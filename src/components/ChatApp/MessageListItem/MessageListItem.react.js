@@ -4,7 +4,7 @@ import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import {AllHtmlEntities} from 'html-entities';
 import $ from 'jquery';
-import * as ChatMessageUtils from '../../../utils/ChatMessageUtils';
+import * as Filter from '../../../../node_modules/simple-profanity-filter-with-whitelist';
 import { imageParse, processText,
   renderTiles, drawMap, drawTable,
   renderMessageFooter, renderAnchor } from './helperFunctions.react.js';
@@ -40,7 +40,7 @@ class MessageListItem extends React.Component {
     if(this.props.message.text === undefined){
       this.props.message.text = '';
     }
-    this.props.message.text = ChatMessageUtils.filterProfane(this.props.message.text);
+    this.props.message.text = Filter.filter(this.props.message.text);
   }
 
   // Triggered when the voice player is started
