@@ -149,6 +149,11 @@ class Settings extends Component {
 			countryCode: defaultCountryCode,
 			countryDialCode: defaultCountryDialCode,
 			phoneNo: defaultPhoneNo,
+			newTtsSettings:{
+				rate: defaultSpeechRate,
+				pitch: defaultSpeechPitch,
+				lang: defaultTTSLanguage,
+			},
 			voiceList: [
 			{
 				lang: 'am-AM',
@@ -337,16 +342,52 @@ class Settings extends Component {
 		this.setState({
 			showLanguageSettings: toShow,
 		});
+		this.resetNewTtsSettings();
 	}
 
 	// Handle change to TTS settings
-	handleTextToSpeech = (settings) => {
+	handleTextToSpeech = () => {
+		let settings=this.state.newTtsSettings;
 		this.setState({
 			speechRate: settings.rate,
 			speechPitch: settings.pitch,
 			ttsLanguage: settings.lang,
 			showLanguageSettings: false,
 		});
+	}
+
+	// save new TTS settings
+	handleNewTextToSpeech = (settings) =>{
+		let newTtsSettings={
+			rate: settings.rate,
+			pitch: settings.pitch,
+			lang:  settings.lang
+		}
+		this.setState({newTtsSettings});
+	}
+
+	// return true if TTS settings has been changed
+	ttsSettingsChanged = () =>{
+		if(this.state.newTtsSettings.rate!==this.state.speechRate){
+			return true;
+		}
+		else if(this.state.newTtsSettings.pitch!==this.state.speechPitch){
+			return true;
+		}
+		else if(this.state.newTtsSettings.lang!==this.state.ttsLanguage){
+			return true;
+		}
+		return false;
+	}
+
+	// reset new TTS settings to last saved settings
+	resetNewTtsSettings = () =>{
+		let newTtsSettings={
+			rate: this.state.speechRate,
+			pitch: this.state.speechPitch,
+			lang:  this.state.ttsLanguage
+		}
+		this.setState({newTtsSettings});
 	}
 
 	// Handle toggle between default server and custom server
@@ -907,15 +948,15 @@ class Settings extends Component {
 								<div>
 									<div style={{
 										marginTop: '10px',
-										'marginBottom':'0px',
+										marginBottom:'10px',
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output Language"/>
 									</div>
-									<FlatButton
-										className='settingsBtns'
-										style={Buttonstyles}
+									<RaisedButton
 										label={<Translate text="Select Default Language"/>}
+										style={{backgroundColor:'transparent'}}
+										buttonStyle={{backgroundColor:'transparent'}}
 										labelStyle={{color:themeForegroundColor}}
 										disabled={!this.TTSBrowserSupport}
 										onClick={this.handleLanguage.bind(this,true)} />
@@ -1237,6 +1278,24 @@ class Settings extends Component {
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
 	};
+	const ttsSettingsChanged=this.ttsSettingsChanged();
+	const actionsTextToSpeechDialog = [
+      <FlatButton
+        label="Cancel"
+		key={'Cancel'}
+        primary={false}
+        onClick={this.handleClose}
+      />,
+      <RaisedButton
+		label={<Translate text="Save"/>}
+		key={'Save'}
+		backgroundColor={
+			UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'}
+		labelColor="#fff"
+        onClick={this.handleTextToSpeech}
+		disabled={!ttsSettingsChanged}
+      />,
+    ];
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
@@ -1264,15 +1323,16 @@ class Settings extends Component {
 				</div>
 				<Dialog
 					modal={false}
+					title={<h3><Translate text="Text-To-Speech Settings"/></h3>}
 					autoScrollBodyContent={true}
 					open={this.state.showLanguageSettings}
+					actions={actionsTextToSpeechDialog}
 					onRequestClose={this.handleLanguage.bind(this, false)}>
 					<TextToSpeechSettings
 						rate={this.state.speechRate}
 						pitch={this.state.speechPitch}
 						lang={this.state.ttsLanguage}
-						ttsSettings={this.handleTextToSpeech} />
-					<Close style={closingStyle} onTouchTap={this.handleClose} />
+						newTtsSettings={this.handleNewTextToSpeech} />
 				</Dialog>
 				{/* Hardware Connection */}
 				<Dialog
