@@ -40,7 +40,6 @@ import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
-
 const cookies = new Cookies();
 
 class Settings extends Component {
@@ -149,6 +148,11 @@ class Settings extends Component {
 			countryCode: defaultCountryCode,
 			countryDialCode: defaultCountryDialCode,
 			phoneNo: defaultPhoneNo,
+			newTtsSettings:{
+				rate: defaultSpeechRate,
+				pitch: defaultSpeechPitch,
+				lang: defaultTTSLanguage,
+			},
 			voiceList: [
 			{
 				lang: 'am-AM',
@@ -337,16 +341,52 @@ class Settings extends Component {
 		this.setState({
 			showLanguageSettings: toShow,
 		});
+		this.resetNewTtsSettings();
 	}
 
 	// Handle change to TTS settings
-	handleTextToSpeech = (settings) => {
+	handleTextToSpeech = () => {
+		let settings=this.state.newTtsSettings;
 		this.setState({
 			speechRate: settings.rate,
 			speechPitch: settings.pitch,
 			ttsLanguage: settings.lang,
 			showLanguageSettings: false,
 		});
+	}
+
+	// save new TTS settings
+	handleNewTextToSpeech = (settings) =>{
+		let newTtsSettings={
+			rate: settings.rate,
+			pitch: settings.pitch,
+			lang:  settings.lang
+		}
+		this.setState({newTtsSettings});
+	}
+
+	// return true if TTS settings has been changed
+	ttsSettingsChanged = () =>{
+		if(this.state.newTtsSettings.rate!==this.state.speechRate){
+			return true;
+		}
+		else if(this.state.newTtsSettings.pitch!==this.state.speechPitch){
+			return true;
+		}
+		else if(this.state.newTtsSettings.lang!==this.state.ttsLanguage){
+			return true;
+		}
+		return false;
+	}
+
+	// reset new TTS settings to last saved settings
+	resetNewTtsSettings = () =>{
+		let newTtsSettings={
+			rate: this.state.speechRate,
+			pitch: this.state.speechPitch,
+			lang:  this.state.ttsLanguage
+		}
+		this.setState({newTtsSettings});
 	}
 
 	// Handle toggle between default server and custom server
@@ -785,14 +825,20 @@ class Settings extends Component {
 								fontWeight: 'bold'
 							}}>
 								<Translate text="Mic Input" />
+							</div><br />
+							<div style={{
+								float: 'left',
+								padding: '0px 5px 0px 0px'
+							}}>
+								<Translate text="Enable mic to give voice input "/>
 							</div>
 							<Toggle
 								className='settings-toggle'
-								label={<Translate text="Enable mic to give voice input"/>}
 								labelStyle={{color:themeForegroundColor}}
 								disabled={!this.STTBrowserSupport}
 								onToggle={this.handleMicInput}
 								toggled={this.state.micInput} />
+							<br />
 						</div>
 					</div>
 				</div>
@@ -861,14 +907,20 @@ class Settings extends Component {
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output"/>
+									</div><br />
+									<div style={{
+										float: 'left',
+										padding: '0px 5px 0px 0px'
+									}}>
+										<Translate text="Enable speech output only for speech input"/>
 									</div>
 									<Toggle
 										className='settings-toggle'
-										label={<Translate text="Enable speech output only for speech input"/>}
 										disabled={!this.TTSBrowserSupport}
 										labelStyle={{color:themeForegroundColor}}
 										onToggle={this.handleSpeechOutput}
 										toggled={this.state.speechOutput}/>
+									<br /><br />
 								</div>
 								<div>
 									<div style={{
@@ -877,27 +929,33 @@ class Settings extends Component {
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output Always ON"/>
+									</div><br />
+									<div style={{
+										float: 'left',
+										padding: '5px 5px 0px 0px'
+									}}>
+										<Translate text="Enable speech output regardless of input type"/>
 									</div>
 									<Toggle
 										className='settings-toggle'
-										label={<Translate text="Enable speech output regardless of input type"/>}
 										disabled={!this.TTSBrowserSupport}
 										labelStyle={{color:themeForegroundColor}}
 										onToggle={this.handleSpeechOutputAlways}
 										toggled={this.state.speechOutputAlways}/>
+									<br /><br />
 								</div>
 								<div>
 									<div style={{
 										marginTop: '10px',
-										'marginBottom':'0px',
+										marginBottom:'10px',
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output Language"/>
 									</div>
-									<FlatButton
-										className='settingsBtns'
-										style={Buttonstyles}
+									<RaisedButton
 										label={<Translate text="Select Default Language"/>}
+										style={{backgroundColor:'transparent'}}
+										buttonStyle={{backgroundColor:'transparent'}}
 										labelStyle={{color:themeForegroundColor}}
 										disabled={!this.TTSBrowserSupport}
 										onClick={this.handleLanguage.bind(this,true)} />
@@ -1088,16 +1146,38 @@ class Settings extends Component {
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Preferences" />
+					</div><br />
+					<div style={{
+						float: 'left',
+						padding: '0px 5px 0px 0px'
+					}}>
+						<Translate text="Send message by pressing ENTER" />
 					</div>
 					<Toggle
 						className='settings-toggle'
-						label={<Translate text="Send message by pressing ENTER" />}
 						onToggle={this.handleEnterAsSend}
 						labelStyle={{color:themeForegroundColor}}
 						toggled={this.state.enterAsSend}/>
+					<br />
 				</div>);
 		}
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
+		var buttonstyle={
+			fontSize:'14px',
+			boxSizing:'border-box',
+			padding:'10px 16px',
+			fontFamily:'Roboto, sans-serif',
+			height:'36px',
+			lineHeight:'50px',
+			borderRadius:'2px',
+			backgroundColor:'#4285f4',
+			color:'#fff',
+			textDecoration:'none',
+			fontWeight:'500',
+			boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+			transition:'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+			marginLeft:'3.6%',
+		}
 		let menuItems = cookies.get('loggedIn')?
 		<div>
 		<div className="settings-list">
@@ -1128,6 +1208,7 @@ class Settings extends Component {
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1154,6 +1235,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 
 		:
@@ -1162,7 +1244,7 @@ class Settings extends Component {
 		<Menu
 			onItemTouchTap={this.loadSettings}
 			selectedMenuItemStyle={blueThemeColor}
-			style={{width:'100%'}}
+			style={{width:'100%',height:'100%'}}
 			value={this.state.selectedSetting}
 			>
 				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
@@ -1182,6 +1264,7 @@ class Settings extends Component {
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		<div className="settings-list-dropdown">
 		<DropDownMenu
@@ -1203,9 +1286,9 @@ class Settings extends Component {
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		</div>
-
 	 const menuStyle = {
 					 marginTop: 20,
 					 textAlign: 'center',
@@ -1213,6 +1296,24 @@ class Settings extends Component {
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
 	};
+	const ttsSettingsChanged=this.ttsSettingsChanged();
+	const actionsTextToSpeechDialog = [
+      <FlatButton
+        label="Cancel"
+		key={'Cancel'}
+        primary={false}
+        onClick={this.handleClose}
+      />,
+      <RaisedButton
+		label={<Translate text="Save"/>}
+		key={'Save'}
+		backgroundColor={
+			UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'}
+		labelColor="#fff"
+        onClick={this.handleTextToSpeech}
+		disabled={!ttsSettingsChanged}
+      />,
+    ];
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
@@ -1240,15 +1341,16 @@ class Settings extends Component {
 				</div>
 				<Dialog
 					modal={false}
+					title={<h3><Translate text="Text-To-Speech Settings"/></h3>}
 					autoScrollBodyContent={true}
 					open={this.state.showLanguageSettings}
+					actions={actionsTextToSpeechDialog}
 					onRequestClose={this.handleLanguage.bind(this, false)}>
 					<TextToSpeechSettings
 						rate={this.state.speechRate}
 						pitch={this.state.speechPitch}
 						lang={this.state.ttsLanguage}
-						ttsSettings={this.handleTextToSpeech} />
-					<Close style={closingStyle} onTouchTap={this.handleClose} />
+						newTtsSettings={this.handleNewTextToSpeech} />
 				</Dialog>
 				{/* Hardware Connection */}
 				<Dialog
