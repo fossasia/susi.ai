@@ -82,12 +82,12 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(cookies.get('loggedIn')===null||
     cookies.get('loggedIn')===undefined) {
     url = BASE_URL+'/susi/chat.json?q='+
-          createdMessage.text+
+          encodeURIComponent(createdMessage.text)+
           '&language='+locale;
   }
   else{
     url = BASE_URL+'/susi/chat.json?q='
-          +createdMessage.text+'&language='
+          +encodeURIComponent(createdMessage.text)+'&language='
           +locale+'&access_token='
           +cookies.get('loggedIn');
   }
@@ -95,7 +95,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(_Location){
     url += '&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
-
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
   $.ajax({
