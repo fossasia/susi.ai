@@ -7,6 +7,7 @@ let CHANGE_EVENT = 'change';
 
 let _defaults = {
     Theme: 'light',
+    PreviewTheme: 'light',
     Server: 'https://api.susi.ai',
     StandardServer: 'https://api.susi.ai',
     EnterAsSend: true,
@@ -37,11 +38,9 @@ let UserPreferencesStore = {
     getPreferences() {
         return _defaults;
     },
-
-    getTheme(){
-        return _defaults.Theme;
+    getTheme(preview = false){
+	return (preview === false)? _defaults.Theme:_defaults.PreviewTheme;
     },
-
     getThemeValues(){
         return _defaults.ThemeValues;
     },
@@ -121,6 +120,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             if(settings.hasOwnProperty('theme')){
                     _defaults.Theme = settings.theme;
             }
+            if(settings.hasOwnProperty('previewTheme')){
+                    _defaults.PreviewTheme = settings.previewTheme;
+            }
             if(settings.hasOwnProperty('enterAsSend')){
                 _defaults.EnterAsSend = checkForFalse(settings.enterAsSend);
             }
@@ -182,6 +184,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             let settings = action.settings;
             if(settings.hasOwnProperty('LocalStorage')){
                 _defaults.Theme = settings.theme;
+		_defaults.PreviewTheme = settings.previewTheme;
                 _defaults.EnterAsSend = settings.enterAsSend;
                 _defaults.MicInput = settings.micInput;
                 _defaults.SpeechOutput = settings.speechOutput;
@@ -200,6 +203,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             else{
                 if(settings.hasOwnProperty('theme')){
                     _defaults.Theme = settings.theme;
+                }
+                if(settings.hasOwnProperty('previewTheme')){
+                    _defaults.PreviewTheme = settings.previewTheme;
                 }
                 if(settings.hasOwnProperty('enterAsSend')){
                     _defaults.EnterAsSend = checkForFalse(settings.enterAsSend);
