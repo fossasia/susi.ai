@@ -439,7 +439,7 @@ header{
 .dark .message-time, .thread-time{
   float: right;
   color: #7eaaaf;
-  margin: 7px 15px -7px 0;
+  margin: 3px 0px -3px -38px;
 
 }
 
