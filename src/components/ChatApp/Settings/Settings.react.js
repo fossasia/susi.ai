@@ -826,14 +826,20 @@ class Settings extends Component {
 								fontWeight: 'bold'
 							}}>
 								<Translate text="Mic Input" />
+							</div><br />
+							<div style={{
+								float: 'left',
+								padding: '0px 5px 0px 0px'
+							}}>
+								<Translate text="Enable mic to give voice input "/>
 							</div>
 							<Toggle
 								className='settings-toggle'
-								label={<Translate text="Enable mic to give voice input"/>}
 								labelStyle={{color:themeForegroundColor}}
 								disabled={!this.STTBrowserSupport}
 								onToggle={this.handleMicInput}
 								toggled={this.state.micInput} />
+							<br />
 						</div>
 					</div>
 				</div>
@@ -902,14 +908,20 @@ class Settings extends Component {
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output"/>
+									</div><br />
+									<div style={{
+										float: 'left',
+										padding: '0px 5px 0px 0px'
+									}}>
+										<Translate text="Enable speech output only for speech input"/>
 									</div>
 									<Toggle
 										className='settings-toggle'
-										label={<Translate text="Enable speech output only for speech input"/>}
 										disabled={!this.TTSBrowserSupport}
 										labelStyle={{color:themeForegroundColor}}
 										onToggle={this.handleSpeechOutput}
 										toggled={this.state.speechOutput}/>
+									<br /><br />
 								</div>
 								<div>
 									<div style={{
@@ -918,14 +930,20 @@ class Settings extends Component {
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output Always ON"/>
+									</div><br />
+									<div style={{
+										float: 'left',
+										padding: '5px 5px 0px 0px'
+									}}>
+										<Translate text="Enable speech output regardless of input type"/>
 									</div>
 									<Toggle
 										className='settings-toggle'
-										label={<Translate text="Enable speech output regardless of input type"/>}
 										disabled={!this.TTSBrowserSupport}
 										labelStyle={{color:themeForegroundColor}}
 										onToggle={this.handleSpeechOutputAlways}
 										toggled={this.state.speechOutputAlways}/>
+									<br /><br />
 								</div>
 								<div>
 									<div style={{
@@ -1129,13 +1147,19 @@ class Settings extends Component {
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Preferences" />
+					</div><br />
+					<div style={{
+						float: 'left',
+						padding: '0px 5px 0px 0px'
+					}}>
+						<Translate text="Send message by pressing ENTER" />
 					</div>
 					<Toggle
 						className='settings-toggle'
-						label={<Translate text="Send message by pressing ENTER" />}
 						onToggle={this.handleEnterAsSend}
 						labelStyle={{color:themeForegroundColor}}
 						toggled={this.state.enterAsSend}/>
+					<br />
 				</div>);
 		}
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
