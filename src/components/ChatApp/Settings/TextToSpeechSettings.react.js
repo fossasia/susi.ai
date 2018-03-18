@@ -190,6 +190,7 @@ class TextToSpeechSettings extends Component {
 								label={<Translate text="Play Demonstration"/>}
 								onClick={this.playDemo} />
 					</div>
+				</Paper>
 				{ this.state.playExample &&
 	               (<VoicePlayer
 	                  play={this.state.play}
