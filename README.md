@@ -31,7 +31,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ## How to deploy?
 
-### Running on [localhost](./docs/INSTALLATION_LOCAL.md)
+### Running on [localhost](./docs/INSTALLATION_LOCAL_ENGLISH.md)
 
 * **Step 1:** Fork the chat.susi.ai repository and clone it to your machine
 * **Step 2:** Cd into the cloned folder
@@ -47,7 +47,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 3:** Add the default WebSocket URL for your SUSI Hardware Device. If you are using webchat on the same device as the SUSI Hardware, it will be ws://127.0.0.1:9001 . The default port is 9001, unless configured otherwise.
 * **Step 4:** Upon successful connection, you will get a confirmation alert. After that, all your queries to your SUSI Hardware Device and their results will show up on the SUSI Webchat.
 
-### Running on [Surge](./docs/INSTALLATION_SURGE.md)
+### Running on [Surge](./docs/INSTALLATION_SURGE_ENGLISH.md)
 
 **Click this picture to see video about deploy!**
 [![Watch the video](https://i2.wp.com/blog.fossasia.org/wp-content/uploads/2017/08/surge_static_hosting.png)](https://www.youtube.com/watch?v=Gvc0uz13U1M)

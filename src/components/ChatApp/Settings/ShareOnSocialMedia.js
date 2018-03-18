@@ -97,7 +97,7 @@ export default class ShareOnSocialMedia extends Component{
                 					style={this.state.style}
                 					backgroundColor='#4285f4'
                 					labelColor='#fff'
-                					keyboardFocused={true}
+                					keyboardFocused={false}
                 					onTouchTap={this.Share}
                 				/>
 							</div>
@@ -113,7 +113,7 @@ export default class ShareOnSocialMedia extends Component{
                 					style={this.state.style}
                 					backgroundColor='#4285f4'
                 					labelColor='#fff'
-                					keyboardFocused={true}
+                					keyboardFocused={false}
                 					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Lets%20chat%20with%20susi,%20the%20open%20source%20personal%20assistant%20https%3A%2F%2Fsusi.ai.%20Its%20awesome%20%23susiai!', '_blank')}
                 				/>
 							</div>
@@ -129,7 +129,7 @@ export default class ShareOnSocialMedia extends Component{
                 					style={this.state.style}
                 					backgroundColor='#4285f4'
                 					labelColor='#fff'
-                					keyboardFocused={true}
+                					keyboardFocused={false}
                 					onClick={()=> window.open('https://plus.google.com/share?url=https://chat.susi.ai/', '_blank')}
                 				/>
 							</div>
