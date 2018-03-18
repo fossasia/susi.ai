@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
+import ShareIcon from 'material-ui/svg-icons/social/share';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 
@@ -94,6 +95,16 @@ class Feedback extends React.Component {
 				cursor: 'pointer'
 			}
 
+			let shareMessageSUSI = message.text;
+	    shareMessageSUSI = encodeURIComponent(shareMessageSUSI.trim());
+			let shareTag = ' #SUSI.AI';
+			shareTag = encodeURIComponent(shareTag);
+	    let twitterShare = 'https://twitter.com/intent/tweet?text='+shareMessageSUSI+shareTag;
+			let indicatorStyleShare = {
+	      height:'13px',
+	      cursor:'pointer'
+	    }
+
 			let feedbackColor = UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf';
 			let positiveFeedbackColor = feedbackColor;
 			let negativeFeedbackColor = feedbackColor;
@@ -116,6 +127,9 @@ class Feedback extends React.Component {
 							onClick={this.rateSkill.bind(this,'negative')}
 							style={feedbackIndicator}
 							color={negativeFeedbackColor}/>
+						<ShareIcon style={indicatorStyleShare}
+		          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}
+		          onClick={()=> window.open(twitterShare, '_blank')}/>
 					</span>
 				);
 		}
