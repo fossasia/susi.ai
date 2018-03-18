@@ -253,6 +253,7 @@ header{
 }
 .message-container{
   position: relative;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   min-width: 60px;
   max-width: 80%;
   font-size: 16px;
@@ -265,7 +266,7 @@ header{
   margin-left: auto;
   margin-right: 12px;
   border: 1.1px solid #e0e0e0;
-  border-radius: 16.5px;
+  border-radius: 14px;
   font-family: "Product Sans", sans-serif;
 }
 .message-container::after {
@@ -275,9 +276,6 @@ header{
   left: 100%;
   top: 40px;
   transform: rotate(-135deg);
-  border: 8px solid;
-  border-color: transparent transparent #e0e0e0 #e0e0e0;
-  transform-origin: 0 0;
 }
 
 @-webkit-keyframes SUSI {
