@@ -237,7 +237,7 @@ class MessageComposer extends Component {
             className='scroll'
             id='scroll'
             minRows={1}
-            maxRows={5}
+            maxRows={2}
             placeholder="Type a message..."
             value={this.state.text}
             onChange={this._onChange.bind(this)}
@@ -400,7 +400,7 @@ MessageComposer.propTypes = {
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
   micColor: PropTypes.string,
-  focus: PropTypes.bool,
+  focus: PropTypes.bool
 };
 
 export default MessageComposer;
