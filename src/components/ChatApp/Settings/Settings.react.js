@@ -40,7 +40,6 @@ import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
-
 const cookies = new Cookies();
 
 class Settings extends Component {
@@ -1163,6 +1162,22 @@ class Settings extends Component {
 				</div>);
 		}
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
+		var buttonstyle={
+			fontSize:'14px',
+			boxSizing:'border-box',
+			padding:'10px 16px',
+			fontFamily:'Roboto, sans-serif',
+			height:'36px',
+			lineHeight:'50px',
+			borderRadius:'2px',
+			backgroundColor:'#4285f4',
+			color:'#fff',
+			textDecoration:'none',
+			fontWeight:'500',
+			boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+			transition:'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+			marginLeft:'3.6%',
+		}
 		let menuItems = cookies.get('loggedIn')?
 		<div>
 		<div className="settings-list">
@@ -1193,6 +1208,7 @@ class Settings extends Component {
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1219,6 +1235,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 
 		:
@@ -1227,7 +1244,7 @@ class Settings extends Component {
 		<Menu
 			onItemTouchTap={this.loadSettings}
 			selectedMenuItemStyle={blueThemeColor}
-			style={{width:'100%'}}
+			style={{width:'100%',height:'100%'}}
 			value={this.state.selectedSetting}
 			>
 				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
@@ -1247,6 +1264,7 @@ class Settings extends Component {
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		<div className="settings-list-dropdown">
 		<DropDownMenu
@@ -1268,9 +1286,9 @@ class Settings extends Component {
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		</div>
-
 	 const menuStyle = {
 					 marginTop: 20,
 					 textAlign: 'center',
