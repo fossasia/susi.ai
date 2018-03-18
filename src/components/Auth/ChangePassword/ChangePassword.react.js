@@ -302,9 +302,7 @@ export default class ChangePassword extends Component {
                                 floatingLabelText={<Translate text="New Password" />} />
                               <div className="ReactPasswordStrength-strength-bar" />
                               <div>
-                                <p>
                                   {this.state.newPasswordStrength}
-                                </p>
                               </div>
                         </div>
                         <div>
@@ -322,6 +320,7 @@ export default class ChangePassword extends Component {
                                 floatingLabelText={<Translate text="Confirm New Password" />} />
                         </div>
                         <div>
+                            <br />
                             <RaisedButton
                                 label={<Translate text="Change" />}
                                 type="submit"
