@@ -1,3 +1,4 @@
+
 let NETWORK_LATENCY = 300;
 
 let messages = [
@@ -29,7 +30,6 @@ export function postMessage(message, callback) {
   let timestamp = Date.now();
   let id = 'm_' + timestamp;
   let threadID = message.threadID;
-
   let createdMessage = {
     id,
     threadID,
@@ -38,8 +38,6 @@ export function postMessage(message, callback) {
     text: message.text,
     timestamp
   };
-
-
   messages.push(createdMessage);
 
   setTimeout(() => {
@@ -49,7 +47,6 @@ export function postMessage(message, callback) {
 
 
 export function postSUSIMessage(message, callback) {
-
   messages.push(message);
 
 
