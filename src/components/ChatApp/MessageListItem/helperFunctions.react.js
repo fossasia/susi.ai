@@ -16,6 +16,7 @@ import { divIcon } from 'leaflet';
 import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import ShareIcon from 'material-ui/svg-icons/social/share';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
@@ -54,12 +55,28 @@ export function renderMessageFooter(message,latestMsgID, isLastAction){
     let indicatorStyle = {
       height:'13px'
     }
+    let indicatorStyleShare = {
+      height:'13px',
+      cursor:'pointer'
+    }
+    let shareMessageYou = message.text;
+    shareMessageYou = encodeURIComponent(shareMessageYou.trim());
+    let shareTag = ' #SUSI.AI';
+    shareTag = encodeURIComponent(shareTag);
+    let twitterShare = 'https://twitter.com/intent/tweet?text='+shareMessageYou+shareTag;
     statusIndicator = (
       <li className='response-time' style={footerStyle}>
         <TickIcon style={indicatorStyle}
           color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
       </li>
     );
+    statusIndicator = (
+      <li className='response-time' style={footerStyle}>
+        <ShareIcon style={indicatorStyleShare}
+          color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}
+          onClick={()=> window.open(twitterShare, '_blank')}
+          />
+      </li>);
     if(message.id === latestMsgID){
       statusIndicator = (
         <li className='response-time' style={footerStyle}>

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import MessageStore from '../../../stores/MessageStore';
 import Slider from 'material-ui/Slider';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import VoicePlayer from '../MessageListItem/VoicePlayer';
+import FontIcon from 'material-ui/FontIcon';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Translate from '../../Translate/Translate.react';
@@ -45,28 +44,28 @@ class TextToSpeechSettings extends Component {
 	handleRate = (event, value) => {
 		this.setState({
 			rate: value,
-		});
+		},()=>this.handleSettingsChange());
 	};
 
 	// Handle changes to speech pitch
 	handlePitch = (event, value) => {
 		this.setState({
 			pitch: value,
-		});
+		},()=>this.handleSettingsChange());
 	};
 
 	// Reset speech rate to default value
 	resetRate = () => {
 		this.setState({
 			rate: 1,
-		});
+		},()=>this.handleSettingsChange());
 	}
 
 	// Reset speech pitch to default value
 	resetPitch = () => {
 		this.setState({
 			pitch: 1,
-		});
+		},()=>this.handleSettingsChange());
 	}
 
 	// Set state to play speech synthesis example
@@ -77,13 +76,13 @@ class TextToSpeechSettings extends Component {
 		});
 	}
 
-	// Submit TTS settings to parent settings component
-	handleSubmit = () => {
-		this.props.ttsSettings({
+	// save new settings to props
+	handleSettingsChange= () =>{
+		this.props.newTtsSettings({
 			rate: this.state.rate,
 			pitch: this.state.pitch,
 			lang: this.state.ttsLanguage,
-		});
+		})
 	}
 
 	// Generate language list drop down menu items
@@ -126,7 +125,7 @@ class TextToSpeechSettings extends Component {
 	handleTTSVoices = (event, index, value) => {
 		this.setState({
 			ttsLanguage: value,
-		});
+		},()=>this.handleSettingsChange());
 	}
 
 	render() {
@@ -134,21 +133,16 @@ class TextToSpeechSettings extends Component {
 		const Buttonstyles = {
 			marginBottom: 16,
 		}
-
-		const subHeaderStyle = {
-			color: UserPreferencesStore.getTheme()==='light'
-								? '#4285f4' : '#19314B'
+		const SliderStyle = {
+			marginBottom:'20px'
 		}
 
 		let voiceOutput = this.populateVoiceList();
 
 		return (
 			<div className="settingsForm">
-				<Paper zDepth={0}>
-					<h3 style={{textAlign: 'center'}}><Translate text="Text-To-Speech Settings"/></h3>
-					<h4 style={subHeaderStyle}><Translate text="General"/></h4>
 							<div>
-								<h4 style={{'marginBottom':'0px'}}><Translate text="Language"/></h4>
+								<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Language"/></h4>
 								<DropDownMenu
 									value={voiceOutput.voiceLang}
 									onChange={this.handleTTSVoices}>
@@ -156,56 +150,43 @@ class TextToSpeechSettings extends Component {
 							 </DropDownMenu>
 							</div>
 			        <div>
-			        	<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Rate"/></h4>
+			        	<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Rate"/></h4>
 			        	<Slider
 			        		min={0.5}
 			        		max={2}
 			        		value={this.state.rate}
-			        		onChange={this.handleRate} />
+			        		onChange={this.handleRate}
+						 	sliderStyle={SliderStyle}/>
+						<RaisedButton
+							style={Buttonstyles}
+							label={<Translate text="Reset to normal"/>}
+							onClick={this.resetRate} />
 			        </div>
 			        <div>
-			        	<h4 style={{'marginBottom':'0px'}}><Translate text="Speech Pitch"/></h4>
+			        	<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Pitch"/></h4>
 			        	<Slider
 			        		min={0}
 			        		max={2}
 			        		value={this.state.pitch}
-			        		onChange={this.handlePitch} />
-			        </div>
-			        <div>
-			    		<h4 style={{'marginBottom':'0px'}}><Translate text="Reset Speech Rate"/></h4>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							label={<Translate text="Reset the speed at which the text is spoken to normal"/>}
-							onClick={this.resetRate} />
-			    	</div>
-			    	<div>
-			    		<h4 style={{'marginBottom':'0px'}}><Translate text="Reset Speech Pitch"/></h4>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							label={<Translate text="Reset the pitch at which the text is spoken to default"/>}
-							onClick={this.resetPitch} />
-			    	</div>
-			    	<div>
-			    		<h4 style={{'marginBottom':'0px'}}><Translate text="Listen to an example"/></h4>
-						<FlatButton
-							className='settingsBtns'
-							style={Buttonstyles}
-							label={<Translate text="Play a short demonstration of speech synthesis"/>}
-							onClick={this.playDemo} />
-			    	</div>
-			    	<div style={{textAlign: 'center'}}>
+			        		onChange={this.handlePitch}
+							sliderStyle={SliderStyle} />
 						<RaisedButton
-							label={<Translate text="Save"/>}
-							backgroundColor={
-								UserPreferencesStore.getTheme()==='light'
-								? '#4285f4' : '#19314B'}
-							labelColor="#fff"
-							onClick={this.handleSubmit}
-						/>
+							style={Buttonstyles}
+							label={<Translate text="Reset to normal"/>}
+							onClick={this.resetPitch} />
+			        </div>
+					<div style={{textAlign: 'center'}}>
+						<RaisedButton
+								className='settingsBtns'
+								style={Buttonstyles}
+								icon={<FontIcon className="fa fa-volume-up" />}
+								labelColor="#fff"
+								backgroundColor={
+									UserPreferencesStore.getTheme()==='light'
+									? '#4285f4' : '#19314B'}
+								label={<Translate text="Play Demonstration"/>}
+								onClick={this.playDemo} />
 					</div>
-				</Paper>
 				{ this.state.playExample &&
 	               (<VoicePlayer
 	                  play={this.state.play}
@@ -225,7 +206,7 @@ TextToSpeechSettings.propTypes = {
 	rate: PropTypes.number,
 	pitch: PropTypes.number,
 	lang: PropTypes.string,
-	ttsSettings: PropTypes.func,
+	newTtsSettings: PropTypes.func,
 };
 
 export default TextToSpeechSettings;
