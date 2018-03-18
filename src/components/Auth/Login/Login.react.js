@@ -13,7 +13,14 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
 import Dialog from 'material-ui/Dialog';
+import CommunicationEmail from 'material-ui/svg-icons/communication/email';
+import ActionLock from 'material-ui/svg-icons/action/lock'
+
 const cookies = new Cookies();
+
+const iconStyles = {
+  marginRight: 10,
+};
 
 class Login extends Component {
 	constructor(props) {
@@ -258,6 +265,7 @@ class Login extends Component {
 					<h3><Translate text="Login to SUSI"/></h3>
 					<form onSubmit={this.handleSubmit}>
 						<div>
+						<CommunicationEmail style={iconStyles} />
 							<TextField name="email"
                 type="email"
 								value={this.state.email}
@@ -268,6 +276,7 @@ class Login extends Component {
 								floatingLabelText={<Translate text="Email"/>} />
 						</div>
 						<div>
+						<ActionLock style={iconStyles} />
 					        <PasswordField
 						        name='password'
 								style={fieldStyle}
