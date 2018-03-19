@@ -3,7 +3,7 @@
 	cursor: pointer;
 }
 .forgotpwdlink:hover{	
-    color: #039be5;
+    color: red;
 }
 .loginForm{
 	margin: 0 auto;
