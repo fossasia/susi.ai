@@ -12,6 +12,7 @@ const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
 let _Location = null;
 let offlineMessage = null;
+let defaultMessage = 'Sorry, I could not understand what you just said.';
 
 // Handle offline, online events
 window.addEventListener('offline', handleOffline.bind(this));
@@ -108,8 +109,28 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     success: function (response) {
       // send susi response to connected Hardware Device
       Actions.sendToHardwareDevice(response);
-
+      // Trying for empty response i.e no answer returned
+      try{
       receivedMessage.text = response.answers[0].actions[0].expression;
+      	}
+      catch (err) {
+      	if (err instanceof TypeError) {
+      		let emptyData = [];
+      		emptyData[0] = [];
+      		emptyData[1] = {};
+      		response.answers = [];
+      		response.answers[0] = {
+      			actions: [],
+      			data:emptyData,
+      		};
+      		response.answers[0].actions[0] = {
+      			expression:defaultMessage,
+      			language:'en',
+      			type:'answer',
+      		   		   	};
+        	receivedMessage.text = response.answers[0].actions[0].expression;
+    	}
+      }
       if(receivedMessage.lang===undefined){
         receivedMessage.lang = document.documentElement.getAttribute('lang');
       }
@@ -223,13 +244,14 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
             type: ActionTypes.CREATE_SUSI_MESSAGE,
             message
           });
+
         }
         else{
           previewURLForImage(receivedMessage,currentThreadID,
                               BASE_URL,data,count,remainingDataIndices,0,0);
         }
       }
-      else {
+      else  {
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
         ChatAppDispatcher.dispatch({
@@ -239,7 +261,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       }
     },
     error: function (xhr, status, error) {
-      console.log(receivedMessage.text);
       if (status === 'timeout') {
         receivedMessage.text = 'Please check your internet connection';
       }
