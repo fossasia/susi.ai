@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import $ from 'jquery';
 import Footer from '../Footer/Footer.react';
+import 'animate.css/animate.min.css';
+import ScrollAnimation from 'react-animate-on-scroll';
 
 class Devices extends Component{
   constructor(props){
@@ -33,6 +35,7 @@ class Devices extends Component{
         <StaticAppBar {...this.props}
           location={this.props.location} closeVideo={this.closeVideo} />
 
+          <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className='head_section'>
           <div className='container'>
             <div className="heading">
@@ -41,6 +44,10 @@ class Devices extends Component{
             </div>
           </div>
         </div>
+        </ScrollAnimation>
+
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="device_section">
           <div className="device_description">
             <div className="heading">Android devices</div>
@@ -58,6 +65,10 @@ class Devices extends Component{
             <img src={susiAndroid} alt='susi-android' className='susi-test' />
           </div>
         </div>
+        </ScrollAnimation>
+
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="device_section">
           <div className="device_description">
             <div className="heading">iOS devices</div>
@@ -75,6 +86,10 @@ class Devices extends Component{
             <img src={susiiOSGif} alt='susi-iOS' className='susi-test' />
           </div>
         </div>
+        </ScrollAnimation>
+
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="device_section bottom_section">
           <div className="device_description">
             <div className="heading">Desktops and Laptops</div>
@@ -89,6 +104,9 @@ class Devices extends Component{
             <img src={susiDesktop} alt='susi-webchat' className='susi-desktop' />
           </div>
         </div>
+        </ScrollAnimation>
+
+
       <Footer />
 
 

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "animate.css": "^3.6.1",
     "axios": "^0.16.1",
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
@@ -24,6 +25,7 @@
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-animate-on-scroll": "^2.0.2",
     "react-bootstrap": "^0.31.0",
     "react-color": "^2.12.1",
     "react-cookie": "^2.0.7",
