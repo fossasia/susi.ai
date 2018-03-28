@@ -40,17 +40,17 @@ import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
-
 const cookies = new Cookies();
 
 class Settings extends Component {
-
+	// Boolean to store the state of preview i.e which theme to display
+	preview = false;
 	// save a variable in state holding the initial state of the settings
 	setInitialSettings = () => {
 		let defaults = UserPreferencesStore.getPreferences();
 		let identity = UserIdentityStore.getIdentity();
 		let defaultServer = defaults.Server;
-		let defaultTheme = defaults.Theme;
+		let defaultTheme = UserPreferencesStore.getTheme(this.preview);
 		let defaultEnterAsSend = defaults.EnterAsSend;
 		let defaultMicInput = defaults.MicInput;
 		let defaultSpeechOutput = defaults.SpeechOutput;
@@ -87,7 +87,7 @@ class Settings extends Component {
 	setDefaultsSettings = () => {
 	let defaults = UserPreferencesStore.getPreferences();
 	let defaultServer = defaults.Server;
-	let defaultTheme = defaults.Theme;
+	let defaultTheme = UserPreferencesStore.getTheme(this.preview);
 	let defaultEnterAsSend = defaults.EnterAsSend;
 	let defaultMicInput = defaults.MicInput;
 	let defaultSpeechOutput = defaults.SpeechOutput;
@@ -149,6 +149,11 @@ class Settings extends Component {
 			countryCode: defaultCountryCode,
 			countryDialCode: defaultCountryDialCode,
 			phoneNo: defaultPhoneNo,
+			newTtsSettings:{
+				rate: defaultSpeechRate,
+				pitch: defaultSpeechPitch,
+				lang: defaultTTSLanguage,
+			},
 			voiceList: [
 			{
 				lang: 'am-AM',
@@ -234,7 +239,6 @@ class Settings extends Component {
 
 	// Submit selected Settings
 	handleSubmit = () => {
-		let newTheme = this.state.theme;
 		let newDefaultServer = this.state.server;
 		let newEnterAsSend = this.state.enterAsSend;
 		let newMicInput = this.state.micInput;
@@ -255,7 +259,6 @@ class Settings extends Component {
 			newDefaultServer = newDefaultServer.slice(0,-1);
 		}
 		let vals = {
-			theme: newTheme,
 			server: newDefaultServer,
 			enterAsSend: newEnterAsSend,
 			micInput: newMicInput,
@@ -271,7 +274,16 @@ class Settings extends Component {
 			checked,
 			serverUrl
 		}
-
+		// if preview, save current theme state to previewTheme
+		if (this.preview) {
+			vals.theme = UserPreferencesStore.getTheme(!this.preview);
+			vals.previewTheme = this.state.theme;
+		}
+		// else save current theme state to theme
+		else {
+			vals.theme = this.state.theme;
+			vals.previewTheme = UserPreferencesStore.getTheme(this.preview);
+		}
 		let settings = Object.assign({}, vals);
 		settings.LocalStorage = true;
 		// Store in cookies for anonymous user
@@ -301,7 +313,11 @@ class Settings extends Component {
 
 	// Handle change to theme settings
 	handleSelectChange = (event, value) => {
-		this.setState({ theme: value });
+		this.preview = true;
+		this.setState({ theme: value },()=> {
+				this.handleSubmit();
+				this.preview = false;
+		});
 	}
 
 	// Handle change to enter as send settings
@@ -337,16 +353,52 @@ class Settings extends Component {
 		this.setState({
 			showLanguageSettings: toShow,
 		});
+		this.resetNewTtsSettings();
 	}
 
 	// Handle change to TTS settings
-	handleTextToSpeech = (settings) => {
+	handleTextToSpeech = () => {
+		let settings=this.state.newTtsSettings;
 		this.setState({
 			speechRate: settings.rate,
 			speechPitch: settings.pitch,
 			ttsLanguage: settings.lang,
 			showLanguageSettings: false,
 		});
+	}
+
+	// save new TTS settings
+	handleNewTextToSpeech = (settings) =>{
+		let newTtsSettings={
+			rate: settings.rate,
+			pitch: settings.pitch,
+			lang:  settings.lang
+		}
+		this.setState({newTtsSettings});
+	}
+
+	// return true if TTS settings has been changed
+	ttsSettingsChanged = () =>{
+		if(this.state.newTtsSettings.rate!==this.state.speechRate){
+			return true;
+		}
+		else if(this.state.newTtsSettings.pitch!==this.state.speechPitch){
+			return true;
+		}
+		else if(this.state.newTtsSettings.lang!==this.state.ttsLanguage){
+			return true;
+		}
+		return false;
+	}
+
+	// reset new TTS settings to last saved settings
+	resetNewTtsSettings = () =>{
+		let newTtsSettings={
+			rate: this.state.speechRate,
+			pitch: this.state.speechPitch,
+			lang:  this.state.ttsLanguage
+		}
+		this.setState({newTtsSettings});
 	}
 
 	// Handle toggle between default server and custom server
@@ -558,6 +610,11 @@ class Settings extends Component {
 		this.setDefaultsSettings();// on every tab change, load the default settings
 		this.setState({ selectedSetting: e.target.innerText });
 		this.setState({ settingNo: e.target.innerText });
+		//  Revert to original theme if user navigates away without saving.
+		if (this.state.theme !== UserPreferencesStore.getTheme()) {
+			this.setState({theme : UserPreferencesStore.getTheme()},
+			() => {this.handleSubmit()});
+		}
 	}
 
 	displaySaveChangesButton = () =>{
@@ -587,7 +644,7 @@ class Settings extends Component {
 		let somethingToSave = false;
 		const intialSettings = this.state.intialSettings;
 		const classState = this.state;
-		if (intialSettings.theme !== classState.theme) {
+		if (UserPreferencesStore.getTheme() !== this.state.theme) {
 			somethingToSave = true;
 		}
 		else if (intialSettings.enterAsSend !== classState.enterAsSend) {
@@ -907,15 +964,15 @@ class Settings extends Component {
 								<div>
 									<div style={{
 										marginTop: '10px',
-										'marginBottom':'0px',
+										marginBottom:'10px',
 										fontSize: '15px',
 										fontWeight: 'bold'}}>
 										<Translate text="Speech Output Language"/>
 									</div>
-									<FlatButton
-										className='settingsBtns'
-										style={Buttonstyles}
+									<RaisedButton
 										label={<Translate text="Select Default Language"/>}
+										style={{backgroundColor:'transparent'}}
+										buttonStyle={{backgroundColor:'transparent'}}
 										labelStyle={{color:themeForegroundColor}}
 										disabled={!this.TTSBrowserSupport}
 										onClick={this.handleLanguage.bind(this,true)} />
@@ -1122,6 +1179,22 @@ class Settings extends Component {
 				</div>);
 		}
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
+		var buttonstyle={
+			fontSize:'14px',
+			boxSizing:'border-box',
+			padding:'10px 16px',
+			fontFamily:'Roboto, sans-serif',
+			height:'36px',
+			lineHeight:'50px',
+			borderRadius:'2px',
+			backgroundColor:'#4285f4',
+			color:'#fff',
+			textDecoration:'none',
+			fontWeight:'500',
+			boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+			transition:'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+			marginLeft:'3.6%',
+		}
 		let menuItems = cookies.get('loggedIn')?
 		<div>
 		<div className="settings-list">
@@ -1152,6 +1225,7 @@ class Settings extends Component {
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<hr className="break-line"/>
 		</Menu>
 		</div>
 		<div className="settings-list-dropdown">
@@ -1178,6 +1252,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 
 		:
@@ -1186,7 +1261,7 @@ class Settings extends Component {
 		<Menu
 			onItemTouchTap={this.loadSettings}
 			selectedMenuItemStyle={blueThemeColor}
-			style={{width:'100%'}}
+			style={{width:'100%',height:'100%'}}
 			value={this.state.selectedSetting}
 			>
 				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
@@ -1206,6 +1281,7 @@ class Settings extends Component {
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		<div className="settings-list-dropdown">
 		<DropDownMenu
@@ -1227,9 +1303,9 @@ class Settings extends Component {
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
+		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		</div>
-
 	 const menuStyle = {
 					 marginTop: 20,
 					 textAlign: 'center',
@@ -1237,6 +1313,24 @@ class Settings extends Component {
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
 	};
+	const ttsSettingsChanged=this.ttsSettingsChanged();
+	const actionsTextToSpeechDialog = [
+      <FlatButton
+        label="Cancel"
+		key={'Cancel'}
+        primary={false}
+        onClick={this.handleClose}
+      />,
+      <RaisedButton
+		label={<Translate text="Save"/>}
+		key={'Save'}
+		backgroundColor={
+			UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'}
+		labelColor="#fff"
+        onClick={this.handleTextToSpeech}
+		disabled={!ttsSettingsChanged}
+      />,
+    ];
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
@@ -1264,15 +1358,16 @@ class Settings extends Component {
 				</div>
 				<Dialog
 					modal={false}
+					title={<h3><Translate text="Text-To-Speech Settings"/></h3>}
 					autoScrollBodyContent={true}
 					open={this.state.showLanguageSettings}
+					actions={actionsTextToSpeechDialog}
 					onRequestClose={this.handleLanguage.bind(this, false)}>
 					<TextToSpeechSettings
 						rate={this.state.speechRate}
 						pitch={this.state.speechPitch}
 						lang={this.state.ttsLanguage}
-						ttsSettings={this.handleTextToSpeech} />
-					<Close style={closingStyle} onTouchTap={this.handleClose} />
+						newTtsSettings={this.handleNewTextToSpeech} />
 				</Dialog>
 				{/* Hardware Connection */}
 				<Dialog
