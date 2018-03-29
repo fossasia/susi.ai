@@ -6,13 +6,11 @@
     visibility: visible;
     box-shadow: none;
 }
-.drawerItem div{
-    border-left: 3px solid #607d8b;
-    display: block;
-    width: 100%;
-    margin:1px 0 1px 0;
+a.drawerItem > div {
+  border-left: 6px solid #0084ff;
+  margin: 1px 0 1px 0;
 }
-.drawerItem a{
+a.drawerItem {
     text-decoration: none;
     color: #000;
 }

@@ -36,13 +36,13 @@
 }
 
 .settingsBtns {
-  top: 10px;
-  margin-left: 30px ;
+  top: 5px;
+  margin-left: 20px ;
 }
 
 .settings-toggle {
-  padding: 20px;
-  max-width: 60%;
+  max-width: 5%;
+  float: left;
 }
 
 .settingsSubmit{
@@ -78,11 +78,12 @@
 
 .leftMenu {
   width: 35%;
+  height:620px;
   background-color: #fff;
 }
 
 .rightMenu {
-  height: 550px;
+  height: 620px;
   width: 64%;
   background-color: #fff;
 }

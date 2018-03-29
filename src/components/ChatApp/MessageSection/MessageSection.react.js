@@ -756,7 +756,7 @@ class MessageSection extends Component {
       },
       backgroundColor: '#fcfcfc',
       icon : {
-        fill: UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'
+        fill: UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#000000'
       }
     }
 
@@ -942,7 +942,7 @@ class MessageSection extends Component {
                   <div className='scrollBottom'>
                     <FloatingActionButton mini={true}
                       style={scrollBottomStyle.button}
-                      backgroundColor={scrollBottomStyle.backgroundColor}
+                      backgroundColor={bodyColor}
                       iconStyle={scrollBottomStyle.icon}
                       onTouchTap={this.forcedScrollToBottom}>
                       <NavigateDown />
