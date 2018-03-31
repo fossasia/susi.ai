@@ -154,6 +154,13 @@ pre{
     word-wrap: break-word;
     white-space: pre;
     font-size: 16px;
+	display :block;
+}
+table{
+	display : block;
+	overflow-x: auto;
+	white-space: nowrap;
+	
 }
 @media only screen and (min-width: 1400px){
     .blog_navigation {

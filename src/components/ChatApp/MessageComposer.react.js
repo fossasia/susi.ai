@@ -12,11 +12,13 @@ import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
 import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
+import './ChatApp.css'
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
 let UP_KEY_CODE = 38;
 let DOWN_KEY_CODE = 40;
+var flag=1;
 const style = {
   mini: true,
   bottom: '14px',
@@ -79,6 +81,7 @@ class MessageComposer extends Component {
     this.setState({
       recognizing: true
     });
+    flag=1;
   }
 
   onEnd = () => {
@@ -107,6 +110,25 @@ class MessageComposer extends Component {
       start: false,
       stop: false
     });
+    if(this.state.result === ''){
+    var x = document.getElementById('snackbar')
+    x.className = 'show';
+    setTimeout(function(){ x.className = x.className.replace('show', ''); }, 3000);
+    }
+  }
+
+  speakDialogCloseButton = () => {
+    this.setState({
+      text: '',
+      start: false,
+      stop: false,
+      open: false,
+      result: '',
+      animate: false,
+      rows: 1,
+      recognizing: false
+    });
+    flag=0;
   }
 
   onResult = ({ interimTranscript, finalTranscript }) => {
@@ -205,6 +227,9 @@ class MessageComposer extends Component {
             stop={this.state.stop}
           />
         )}
+
+        <div id='snackbar'>{'Sorry, didn\'t hear anything.'} <br /> {'Please speak again.'}</div>
+
         <div className="textBack" style={{ backgroundColor: this.props.textarea }}>
           {/* TextareaAutosize node package used to get
           the auto sizing feature of the chat message composer */}
@@ -212,7 +237,7 @@ class MessageComposer extends Component {
             className='scroll'
             id='scroll'
             minRows={1}
-            maxRows={5}
+            maxRows={2}
             placeholder="Type a message..."
             value={this.state.text}
             onChange={this._onChange.bind(this)}
@@ -248,7 +273,7 @@ class MessageComposer extends Component {
             <div className={this.state.animate ? 'mic-container active' : 'mic-container'}>
               <Mic style={iconStyles} />
             </div>
-            <Close style={closingStyle} onTouchTap={this.speakDialogClose} />
+            <Close style={closingStyle} onTouchTap={this.speakDialogCloseButton} />
           </div>
 
         </Modal>
@@ -258,6 +283,7 @@ class MessageComposer extends Component {
   }
 
   _onClickButton() {
+    flag=1;
     if (this.state.text === '') {
       if (this.speechRecog) {
         this.setState({ start: true })
@@ -281,7 +307,7 @@ class MessageComposer extends Component {
       this.setState({ text: '',currentArrowIndex:0 });
     }
     setTimeout(function(){
-      if(this.state.recognizing === false) {
+      if(this.state.recognizing === false && flag!==0) {
         this.speakDialogClose();
       }
     }.bind(this),5000);
@@ -374,7 +400,7 @@ MessageComposer.propTypes = {
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
   micColor: PropTypes.string,
-  focus: PropTypes.bool,
+  focus: PropTypes.bool
 };
 
 export default MessageComposer;
