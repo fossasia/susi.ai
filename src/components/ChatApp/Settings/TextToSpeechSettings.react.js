@@ -133,6 +133,7 @@ class TextToSpeechSettings extends Component {
 		const Buttonstyles = {
 			marginBottom: 16,
 		}
+
 		const SliderStyle = {
 			marginBottom:'20px'
 		}
@@ -141,13 +142,15 @@ class TextToSpeechSettings extends Component {
 
 		return (
 			<div className="settingsForm">
+				<Paper zDepth={0}>
+					<h3 style={{textAlign: 'center'}}><Translate text="Text-To-Speech Settings"/></h3>
 							<div>
 								<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Language"/></h4>
 								<DropDownMenu
 									value={voiceOutput.voiceLang}
 									onChange={this.handleTTSVoices}>
 								 {voiceOutput.voiceMenu}
-							 </DropDownMenu>
+							 	</DropDownMenu>
 							</div>
 			        <div>
 			        	<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Rate"/></h4>
@@ -187,6 +190,7 @@ class TextToSpeechSettings extends Component {
 								label={<Translate text="Play Demonstration"/>}
 								onClick={this.playDemo} />
 					</div>
+				</Paper>
 				{ this.state.playExample &&
 	               (<VoicePlayer
 	                  play={this.state.play}
