@@ -19,6 +19,8 @@ import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
+import 'animate.css/animate.min.css';
+import ScrollAnimation from 'react-animate-on-scroll';
 
 class Overview extends Component{
   constructor(props){
@@ -79,11 +81,13 @@ class Overview extends Component{
     }
 
     return (
+
       <div>
 
         <StaticAppBar {...this.props}
           location={this.props.location} closeVideo={this.closeVideo} />
 
+          <ScrollAnimation animateIn="fadeIn">
         <div className='section'>
           <div className='section-container'>
             <div className="hero">
@@ -106,6 +110,9 @@ class Overview extends Component{
             </div>
           </div>
         </div>
+        </ScrollAnimation>
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Ask it anything.</div>
@@ -119,6 +126,10 @@ class Overview extends Component{
             <img src={susiTestGif} alt='susi-test' className='susi-test' />
           </div>
         </div>
+        </ScrollAnimation>
+
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Tell it to do things.</div>
@@ -134,6 +145,10 @@ class Overview extends Component{
             <img src={mapAndroid} alt='Map' className='android-mockup' />
           </div>
         </div>
+        </ScrollAnimation>
+
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">For your Smartphone</div>
@@ -142,7 +157,7 @@ class Overview extends Component{
                    Download the App to have access to SUSI on the go.</p>
                    <div className="description__text store_icons">
                      <Link className="playstore"
-                       target="_blank" to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"> Get It on Google Play
+                       target="_blank" to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"> Get it on Google Play
                      </Link>
                      <Link className="appstore"
                        target="_blank" to="https://github.com/fossasia/susi_iOS"> Download on the App Store
@@ -153,40 +168,41 @@ class Overview extends Component{
             <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
           </div>
         </div>
+        </ScrollAnimation>
 
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="section_copy">
-          <div className="column_section">
-            <div className="conversation__description custom_description">
-              <div className='img-container'>
-                <img src={bots} alt='Android Mockup' className='bots-mockup' />
-              </div>
-              <div className="description__heading">On many Platforms</div>
-              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
-                    services and social networks. We are developing plugins for all
-                    major services including
-                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>.
-                    Just set up SUSI on your channel and add
-                    &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
-                    </p>
-            </div>
-          </div>
-          <div className="column_section">
-            <div className='img-container'>
-              <img src={allDevices} alt='Android Mockup' className='bots-mockup' />
-            </div>
-            <div className="conversation__description custom_description">
-              <div className="description__heading">For all Devices</div>
-              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="https://chat.susi.ai">https://chat.susi.ai</a>
-              </p>
-            </div>
 
-          </div>
+	          <div className="column_section">
+	            <div className="conversation__description custom_description">
+	              <div className='img-container'>
+	                <img src={bots} alt='Android Mockup' className='bots-mockup' />
+	              </div>
+	              <div className="description__heading">On many Platforms</div>
+	              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
+	                    services and social networks. We are developing plugins for all
+	                    major services including
+	                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,&nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+	                    </p>
+	            </div>
+	          </div>
+
+	          <div className="column_section">
+	            <div className='img-container'>
+	              <img src={allDevices} alt='Android Mockup' className='bots-mockup' />
+	            </div>
+	            <div className="conversation__description custom_description">
+	              <div className="description__heading">For all Devices</div>
+	              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="https://chat.susi.ai">https://chat.susi.ai</a>
+	              </p>
+	            </div>
+          	</div>
+
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className='img-container'>
@@ -195,13 +211,17 @@ class Overview extends Component{
               <div className="description__heading">Use it in many Languages</div>
               <p className="description__text">You can use <b>SUSI.AI</b> in different
                      languages. You can ask questions in many languages.
-SUSI is intelligent to identify and answer your question in your language.
+                      SUSI is intelligent to identify and
+                       answer your question in your language.
                     </p>
             </div>
 
           </div>
-        </div>{/* section_copy ends */}
+        </div>
+    </ScrollAnimation>{/* section_copy ends */}
 
+
+    	<ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="section_center">
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
@@ -216,15 +236,17 @@ SUSI is intelligent to identify and answer your question in your language.
             <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
+        </ScrollAnimation>
+
+
+        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
 
             <div className="description__heading">Safe and secure.</div>
             <p className="description__text"><b>SUSI.AI</b> is <b>
               <Link style={{ textDecoration: 'none', color: '#000' }}
-                target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is
-                    always available for security reviews and can be improved by
-                    anyone with the knowledge and understanding online.</p>
+                target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is always available for security reviews and can be improved by anyone with the knowledge and understanding online.</p>
                     <div className="opensource-logos">
                         <span className="opensource">
                           <Link to="https://opensource.org/" target="_blank">
@@ -242,6 +264,7 @@ SUSI is intelligent to identify and answer your question in your language.
                     <img src={shield} alt='Android Mockup' className='shield'  />
                   </div>
                 </div>
+                </ScrollAnimation>
 
         <Footer />
 
