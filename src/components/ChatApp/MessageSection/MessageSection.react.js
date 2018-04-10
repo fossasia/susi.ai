@@ -737,9 +737,8 @@ class MessageSection extends Component {
         messagePane = '#000000';
         textArea = '#000000';
         buttonColor = '#4285f4';
-        break;        
-      }
-      
+        break;
+      }      
       default:{
         break;
       }
