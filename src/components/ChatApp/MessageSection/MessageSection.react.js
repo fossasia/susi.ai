@@ -729,7 +729,6 @@ class MessageSection extends Component {
         buttonColor = '#4285f4';
         break;
       }
-
       case 'dark':{
         bodyColor = '#000012';
         TopBarColor = '#19324c';
@@ -738,7 +737,7 @@ class MessageSection extends Component {
         textArea = '#000000';
         buttonColor = '#4285f4';
         break;
-      }      
+      }
       default:{
         break;
       }
