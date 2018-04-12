@@ -278,14 +278,14 @@ class Settings extends Component {
 		if (this.preview) {
 			vals.theme = UserPreferencesStore.getTheme(!this.preview);
 			vals.previewTheme = this.state.theme;
-			var SettingsContainer = document.getElementById("settings-container");
+			var SettingsContainer = document.getElementById('settings-container');
 			if(vals.previewTheme==='dark')
 				{
-					SettingsContainer.style.background = "#000012";
+					SettingsContainer.style.background = '#000012';
 				}
 			else
 			{
-					SettingsContainer.style.background = "#f2f2f2";
+					SettingsContainer.style.background = '#f2f2f2';
 			}
 		}
 		// else save current theme state to theme
