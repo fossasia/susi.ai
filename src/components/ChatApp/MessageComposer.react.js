@@ -208,10 +208,6 @@ class MessageComposer extends Component {
     }
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
     return (
       <div className="message-composer" >
