@@ -146,6 +146,10 @@ class TopBar extends Component {
 					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>} />
+						<MenuItem primaryText={<Translate text="Themes"/>}
+						key="custom"
+						onClick={this.props.handleThemeChanger}
+						rightIcon={<Edit/>}/>
 					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
