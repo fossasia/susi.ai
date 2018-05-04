@@ -78,8 +78,8 @@ export default class ShareOnSocialMedia extends Component{
             method: 'share',
             href: 'https://chat.susi.ai',
             caption: 'SUSI by FOSSASIA',
-			hashtag:'#FOSSASIA',
-			quote:'Lets chat with susi, the open source personal assistant'
+						hashtag:'#FOSSASIA',
+						quote:'Lets chat with susi, the open source personal assistant'
             }, function(response){});
           }
 				}
@@ -102,9 +102,9 @@ export default class ShareOnSocialMedia extends Component{
 								<RaisedButton
                 					label={<Translate text="Share on Facebook" />}
                 					style={this.state.style}
-									backgroundColor='#3B5998'
+													backgroundColor='#3B5998'
                 					labelColor='#fff'
-									icon={<FontIcon className="fa fa-facebook" />}
+													icon={<FontIcon className="fa fa-facebook" />}
                 					keyboardFocused={false}
                 					onTouchTap={this.Share}
                 				/>
@@ -115,9 +115,9 @@ export default class ShareOnSocialMedia extends Component{
 								<RaisedButton
                 					label={<Translate text="Share on Twitter" />}
                 					style={this.state.style}
-									backgroundColor='#00aced'
-									labelColor='#fff'
-									icon={<FontIcon className="fa fa-twitter" />}
+													backgroundColor='#00aced'
+													labelColor='#fff'
+													icon={<FontIcon className="fa fa-twitter" />}
                 					keyboardFocused={false}
                 					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Lets%20chat%20with%20susi,%20the%20open%20source%20personal%20assistant%20https%3A%2F%2Fsusi.ai.%20Its%20awesome%20%23susiai!', '_blank')}
                 				/>
@@ -128,9 +128,9 @@ export default class ShareOnSocialMedia extends Component{
 								<RaisedButton
                 					label={<Translate text="Share on Google+" />}
                 					style={this.state.style}
-									backgroundColor='#d34836'
+													backgroundColor='#d34836'
                 					labelColor='#fff'
-									icon={<FontIcon className="fa fa-google-plus" />}
+													icon={<FontIcon className="fa fa-google-plus" />}
                 					keyboardFocused={false}
                 					onClick={()=> window.open('https://plus.google.com/share?url=https://chat.susi.ai/', '_blank')}
                 				/>
