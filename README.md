@@ -17,7 +17,7 @@
 ---
 ## School Experiments
 
-* [Measure Voltages](experiments/A_AC_AND_DC.md)
+* [Measure Voltages](/experiments/A_AC_AND_DC.md)
 * [Measure Resistance](experiments/R_ResistanceMeasurement.md)
 * [Measure Capacitance](experiments/I_CAPACITANCE.md)
 * [Ohms' Law](experiments/E_OhmsLaw.md)
