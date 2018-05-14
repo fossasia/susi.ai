@@ -5,7 +5,7 @@ Piezo Buzzer
 
 ### Schematic
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/PiezoBuzzer.svg@100%|auto)
+![](images/schematics/PiezoBuzzer.svg)
 
 * A piezoelectric buzzer oscillates best around a certain frequency. In this experiment, we shall drive the piezo buzzer using the oscillating voltage output from W1, and figure out the frequency at which it is loudest.</p>
 
@@ -15,4 +15,4 @@ Piezo Buzzer
 
 ### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/piezoBuzzer.png@100%|auto)
+![](images/screenshots/piezoBuzzer.png)

@@ -4,7 +4,7 @@ Body Resistance
 
 #### Measure the internal resistance of the human body
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/bodyResistance.png@100%|auto)
+![](images/screenshots/bodyResistance.png)
 
 * Ensure that your fingers do not have bruises or cuts!
 
@@ -21,5 +21,5 @@ Body Resistance
 * Body's resistance = voltage drop/current(I)
 	
 #### Screenshot
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/HumanBodyResistance.png@100%|auto)
+![](images/screenshots/HumanBodyResistance.png)
 

@@ -3,7 +3,7 @@ Sound Basics
 
 ### Record sound using the microphone, and study frequencies
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/soundSimple.svg@100%|auto)
+![](images/schematics/soundSimple.svg)
 
 #### DC resistance
     
@@ -14,4 +14,4 @@ Sound Basics
 	
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/frequencyOfSound.png@100%|auto)
+![](images/screenshots/frequencyOfSound.png)

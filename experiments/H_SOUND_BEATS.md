@@ -5,7 +5,7 @@ Sounds Beats
 
 #### Introduction
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/soundBeats.svg@100%|auto)
+![](images/schematics/soundBeats.svg)
 
 * If two sounds with frequencies close to each other are played simultaneously, a third frequency corresponding to the gap between the two original frequencies can be heard.
 
@@ -21,6 +21,6 @@ Sounds Beats
 
 #### Screenshot
 	
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/soundBeats.png@100%|auto)
+![](images/screenshots/soundBeats.png)
 
 

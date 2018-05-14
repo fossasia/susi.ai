@@ -3,7 +3,7 @@ Ohm's Law
 
 ### Introduction to Ohm's Law
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/ohms.svg@100%|auto)
+![](images/schematics/ohms.svg)
 
 * Make the Connections as shown in the figure.
 
@@ -17,5 +17,5 @@ Ohm's Law
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/ohms_law.png@100%|auto)
+![](images/screenshots/ohms_law.png)
 

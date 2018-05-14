@@ -1,7 +1,7 @@
 Transistor Amplifier
 ---
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/transistor-amp.svg100%|auto)
+![](images/schematics/transistor-amp.svg)
 
 *	Make the Connections as shown in figure (A).
 *	CH1 monitors the original waveform output from W1.

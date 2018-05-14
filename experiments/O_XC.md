@@ -1,7 +1,7 @@
 Capacitive Reactance
 ---
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/CR.svg@100%|auto)	
+![](images/schematics/CR.svg)	
 
 * Make the Connections as shown in the figure
 * CH1 monitors the original waveform output from W1

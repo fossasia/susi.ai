@@ -3,7 +3,7 @@ AC Generator
 
 ### Make an AC generator using a magnet and a coil
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/acgen.png@100%|auto)
+![](images/schematics/acgen.png)
 
 * Make the connections to the solenoid as shown in the figure.
 

@@ -1,7 +1,7 @@
 Speed of sound
 ---
 	
-![](file:///android_asset/DOC_HTML/apps/images/schematics/HCSR04.svg@100%|auto)	
+![](images/schematics/HCSR04.svg)	
   
 * Make the Connections as shown in the figure
 * The Ultrasonic Range Finder HC-SR04 measures the distance of an obstacle from the sensor 

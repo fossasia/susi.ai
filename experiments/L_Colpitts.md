@@ -8,7 +8,7 @@ Op-Amps : Colpitts Oscillator
 
 #### Schematic:
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/Colpitts_Oscillator.svg@100%|auto)
+![](images/schematics/Colpitts_Oscillator.svg)
 
 * Make the Connections as shown in the figure.
 

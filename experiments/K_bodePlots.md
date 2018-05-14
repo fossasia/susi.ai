@@ -5,11 +5,11 @@ Bode Plots
 
 #### Multiple Feedback Band-Pass Filter: 1.6 Khz 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/multiple-feedback1.svg@100%|auto)
+![](images/schematics/multiple-feedback1.svg)
 
 #### Multiple Feedback Band-Pass Filter: 600 Hz 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/multiple-feedback2.svg@100%|auto)
+![](images/schematics/multiple-feedback2.svg)
 
 * Make the Connections as shown in the figure.
 
@@ -25,5 +25,5 @@ Bode Plots
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/filter.png@100%|auto)
+![](images/screenshots/filter.png)
 

@@ -3,7 +3,7 @@ N-channel FET
 
 ### Dependence of drain current on D-S voltage, and Gate Voltage
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/njfet.svg@100%|auto)
+![](images/schematics/njfet.svg)
 
 ### Dependence of drain current on D-S voltage, and Gate Voltage
 
@@ -15,6 +15,6 @@ N-channel FET
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/njfet.png@100%|auto)
+![](images/screenshots/njfet.png)
 
 

@@ -1,7 +1,7 @@
 Clamping circuit using a diode
 ---
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/Clamper.svg@100%|auto)
+![](images/schematics/Clamper.svg)
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the original waveform output from W1.

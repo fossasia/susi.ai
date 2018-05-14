@@ -6,5 +6,5 @@ Bandwidth Characterization of a piezo buzzer
 * Set the frequency range to study the behaviour in, and click on START 
 * In case the MIC output starts clipping(flattened peaks) around the peak amplitude, decrease buzzer volumne using the amplitude knob
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/frequency response piezo buzzer.png@100%|auto)	
+![](images/screenshots/frequency response piezo buzzer.png)	
 

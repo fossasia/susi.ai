@@ -3,7 +3,7 @@ Zener Diode IV
 
 ### Zener Diode's I-V Characteristics. Reverse as well as forward biased
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/zener.svg@100%|auto)
+![](images/schematics/zener.svg)
 
 * Connect the Diode from CH1 to Ground.
 * Connect a 1k resistor from PV1 to CH1.
@@ -13,5 +13,5 @@ Zener Diode IV
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/zenerIV.png@100%|auto)
+![](images/screenshots/zenerIV.png)
 

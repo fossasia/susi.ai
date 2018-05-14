@@ -4,7 +4,7 @@ Non-Inverting
 ### Op-Amp Non-Inverting
 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/Non-Inverting.svg@100%|auto)
+![](images/schematics/Non-Inverting.svg)
 
 * Make the connections as shown in the figure
 * CH1 Monitors the original waveform output from W1

@@ -3,7 +3,7 @@ Capacitors 101
 ### Introduction to capacitors
 #### Make your own parallel plate capacitor
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/CMeasure.svg@100%|auto)
+![](images/schematics/CMeasure.svg)
 
 * Stick a square piece of aluminium tape on either side of a piece of butter paper. Ensure that the two plates do not touch each other along the edges, and are separated by the butter paper.
 
@@ -15,20 +15,20 @@ Capacitors 101
 
 * Measure the values of the capacitors by individually connecting them between CAP and GND, and note these.
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/CMeasure.svg@100%|auto)
+![](images/schematics/CMeasure.svg)
 
 #### In Parallel
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/CParallelSimple.svg@100%|auto)
+![](images/schematics/CParallelSimple.svg)
 
 * Connect the two capacitors in parallel as shown below, and observe the combined capacitance. Ctotal = C1+C2.
 
 #### In Series
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/CSeriesSimple.svg@100%|auto)
+![](images/schematics/CSeriesSimple.svg)
 
 * Now connect them in series, and measure the net capacitance
 
 #### screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/capacitance_measurement.png@100%|auto)
+![](images/screenshots/capacitance_measurement.png)

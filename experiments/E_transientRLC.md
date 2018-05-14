@@ -5,7 +5,7 @@ Transient RLC
 
 #### Schematic 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/astable-multivibrator.svg@100%|auto)
+![](images/schematics/astable-multivibrator.svg)
 
 * A voltage step from 5V to 0V is applied to a series LCR circuit, and the voltage across the capacitor is recorded.
 
@@ -19,7 +19,7 @@ Transient RLC
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/astable-multivibrator.png@100%|auto)
+![](images/screenshots/astable-multivibrator.png)
 
 #### Additional reading
 [Tutorial](http://www.electronics-tutorials.ws/waveforms/astable.html)

@@ -4,7 +4,7 @@ Resistance of Water
 
 #### Schematic 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/waterRes.png@100%|auto)
+![](images/schematics/waterRes.png)
 
 #### DC resistance
 

@@ -5,7 +5,7 @@ Mutual Inductance
 
 #### Schematic 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/mutual-inductance.svg@100%|auto)
+![](images/schematics/mutual-inductance.svg)
 
 * Make the connections to the solenoid as shown in the figure.
 

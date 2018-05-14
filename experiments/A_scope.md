@@ -1,7 +1,7 @@
 Four Channel Oscilloscope
 ---
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/oscilloscope.png@100%|auto)
+![](images/screenshots/oscilloscope.png)
 
 ###  CH1 & CH2  
   * Input range : +/- 500 mV to +/-16 V 

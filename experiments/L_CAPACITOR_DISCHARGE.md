@@ -3,7 +3,7 @@ Capacitor Discharge
 
 ### Voltage across a discharging capacitor
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/CAP_DISCHARGE.svg@100%|auto)
+![](images/schematics/CAP_DISCHARGE.svg)
 
 * In this experiment, a fully charged capacitor is allowed to discharge slowly through a high resistance, and its voltage is plotted as a function of time.
 
@@ -29,4 +29,4 @@ Capacitor Discharge
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/CAP_DISCHARGE.png@100%|auto)
+![](images/screenshots/CAP_DISCHARGE.png)

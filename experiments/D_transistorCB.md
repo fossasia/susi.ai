@@ -5,7 +5,7 @@ Transistor CB
 
 #### Circuit Diagram
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/tranCB.svg@100%|auto)
+![](images/schematics/tranCB.svg)
 
 * Make the connections as shown in the figure.
 

@@ -4,7 +4,7 @@ Transistor CE
 ### Output characteristics of transistors in the common emitter configuration
 
 #### Output Characteristics
-![](file:///android_asset/DOC_HTML/apps/images/schematics/tranCE.svg@100%|auto)
+![](images/schematics/tranCE.svg)
 
 * Make the connections as shown in the figure.
 

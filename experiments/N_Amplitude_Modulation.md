@@ -14,7 +14,7 @@ Amplitude Modulation
 
 #### Schematic:
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/amp_mod.svg@100%|auto)
+![](images/schematics/amp_mod.svg)
 
 * The circuit connection is made as shown in the circuit.
 

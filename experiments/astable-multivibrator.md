@@ -7,11 +7,11 @@ Astable Multivibrator
 
 #### Schematic 
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/astable-multivibrator.svg@100%|auto)
+![](images/schematics/astable-multivibrator.svg)
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/astable-multivibrator.png@100%|auto)
+![](images/screenshots/astable-multivibrator.png)
 
 #### Additional reading
 [Tutorial](http://www.electronics-tutorials.ws/waveforms/astable.html)

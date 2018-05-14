@@ -3,7 +3,7 @@ Summing Junction
 
 ### Op-Amps: AC and DC Summing Junctions
 
-![](file:///android_asset/DOC_HTML/apps/images/schematics/summing.svg@100%|auto)
+![](images/schematics/summing.svg)
 
 #### DC Summing junction
 
@@ -29,5 +29,5 @@ v2 = V(PV3)
 
 #### Screenshot
 
-![](file:///android_asset/DOC_HTML/apps/images/screenshots/summing_junction.png@100%|auto)
+![](images/screenshots/summing_junction.png)
 
