@@ -14,10 +14,10 @@
 * Can you make a capacitor at home?
 * Do you want to see if you bought a new battery or a used one?
 * How much noise does school bell make?
----
+
 ## School Experiments
 
-* [Measure Voltages](/experiments/A_AC_AND_DC.md)
+* [Measure Voltages](experiments/A_AC_AND_DC.md)
 * [Measure Resistance](experiments/R_ResistanceMeasurement.md)
 * [Measure Capacitance](experiments/I_CAPACITANCE.md)
 * [Ohms' Law](experiments/E_OhmsLaw.md)
@@ -28,7 +28,7 @@
 * Electromagnetic Induction
 * [Semiconductor Diode](experiments/J_DIODE.md)
 * [AC Generator](experiments/C_AC_GENERATOR.md)
----
+
 ## Electronics Experiments
 
 ### Transistors
@@ -91,7 +91,7 @@
 * [LR Phase Shift](experiments/P_InductivePhaseShift.md)
 * RLC Steady State
 * Transient RLC Response
----
+
 ## Physics Experiments
 
 ### Oscillations
@@ -107,7 +107,7 @@
 * Random Sampling
 * [Amplitude Modulation](experiments/Z_ampmod.md)
 * Frequency Modulation
----
+
 ## Sensors and Accessories with PSLab
 
 * Accessories
