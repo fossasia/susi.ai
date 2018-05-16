@@ -22,6 +22,7 @@ import React, { Component } from 'react';
 import 'animate.css/animate.min.css';
 import ScrollAnimation from 'react-animate-on-scroll';
 
+// eslint-disable-next-line
 class Overview extends Component{
   constructor(props){
     super(props);
@@ -55,7 +56,8 @@ class Overview extends Component{
     event.target.pauseVideo();
   }
 
-  componentWillMount(){
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount(){
     document.body.style.backgroundColor = '#fff';
   }
 
@@ -112,7 +114,7 @@ class Overview extends Component{
         </div>
         </ScrollAnimation>
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Ask it anything.</div>
@@ -148,7 +150,7 @@ class Overview extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">For your Smartphone</div>
@@ -171,7 +173,7 @@ class Overview extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
 
 	          <div className="column_section">
@@ -221,7 +223,7 @@ class Overview extends Component{
     </ScrollAnimation>{/* section_copy ends */}
 
 
-    	<ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+    	<ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_center">
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
@@ -239,7 +241,7 @@ class Overview extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
 

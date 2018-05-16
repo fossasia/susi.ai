@@ -11,6 +11,8 @@ import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 import { injectIntl } from 'react-intl';
+import Show from 'material-ui/svg-icons/image/remove-red-eye';
+
 // Format Date for internationalization
 const PostDate = injectIntl(({date, intl}) => (
             <span title={intl.formatDate(date, {
@@ -34,6 +36,9 @@ class MessageListItem extends React.Component {
     super(props);
     this.state = {
       play: false,
+      displayAnswer: 'block',
+      displayShow: 'none',
+      displayQuery: 'flex'
     }
   }
 
@@ -47,6 +52,20 @@ class MessageListItem extends React.Component {
     this.setState({ play: false });
     Actions.resetVoice();
   }
+	hideDisplay = () => {
+	this.setState({
+	 displayAnswer: 'none',
+	 displayShow: 'block',
+	 displayQuery: 'none'
+	});
+}
+	showDisplay = () => {
+	this.setState({
+	 displayAnswer: 'block',
+	 displayShow: 'none',
+	 displayQuery: 'flex'
+	});
+}
 
   render() {
 
@@ -165,7 +184,11 @@ class MessageListItem extends React.Component {
                     <section  className={messageContainerClasses}>
                     <div className='message-text'>{replacedText}</div>
                       {renderMessageFooter(message,latestUserMsgID,showFeedback)}
-                    </section>
+                    <div className='hide-button'
+			 style={{display:DisplayAnswer}}
+			 onClick={this.hideDisplay.bind(this)}
+		    >hide</div>
+		    </section>
                   </li>
                 );
               }
@@ -309,8 +332,11 @@ class MessageListItem extends React.Component {
 
         let ttsLanguage = this.props.message.lang ?
                           this.props.message.lang : locale;
-
-        return (<div>{listItems}
+	let DisplayAnswer = this.state.displayAnswer;
+	let DisplayShow = this.state.displayShow;
+        return (
+		<div>
+		<div style={{display:DisplayAnswer}} >{listItems}
               { this.props.message.voice &&
                (<VoicePlayer
                   play
@@ -321,16 +347,31 @@ class MessageListItem extends React.Component {
                   onStart={this.onStart}
                   onEnd={this.onEnd}
                 />)}
+		</div>
+		<div className='show-button'
+		     style={{display:DisplayShow}}
+		     onClick={this.showDisplay.bind(this)}
+		><Show/></div>
               </div>);
       }
     }
-
+	let DisplayAnswer = this.state.displayAnswer;
+	let DisplayShow = this.state.displayShow;
     return (
-      <li className='message-list-item'>
-        <section  className={messageContainerClasses}>
+      <li className='message-list-item' >
+        <section  className={messageContainerClasses}
+	 style={{display:this.state.displayQuery}}>
         <div className='message-text'>{replacedText}</div>
           {renderMessageFooter(message,latestUserMsgID,true)}
-        </section>
+        <div className='hide-button'
+	     style={{display:DisplayAnswer}}
+	     onClick={this.hideDisplay.bind(this)}
+	>hide</div>
+	</section>
+	<div className='show-button-query'
+	     style={{display:DisplayShow}}
+	     onClick={this.showDisplay.bind(this)}
+	><Show/></div>
       </li>
     );
   }

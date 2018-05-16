@@ -162,6 +162,7 @@ const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
 
+//eslint-disable-next-line
 class MessageSection extends Component {
   static propTypes = {
     dream: PropTypes.string
@@ -630,7 +631,8 @@ class MessageSection extends Component {
 
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
 
 
     if (this.props.location) {
