@@ -65,7 +65,7 @@
     * Differentiator
     * Integrator
 
-### Oscillatorsst of School Experiments
+### Oscillators of School Experiments
   * [Astable Multivibrator](experiments/astable-multivibrator.md)
   * [Monostable Multivibrator](experiments/M_Monostable.md)
   * [Wien Bridge Oscillator](experiments/L_WIEN_BRIDGE.md)
