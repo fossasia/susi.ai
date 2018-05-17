@@ -1,7 +1,7 @@
 Four Channel Oscilloscope
 ---
 
-![](images/screenshots/oscilloscope.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/oscilloscope.png)
 
 ###  CH1 & CH2  
   * Input range : +/- 500 mV to +/-16 V 

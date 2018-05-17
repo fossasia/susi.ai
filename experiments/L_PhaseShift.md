@@ -1,10 +1,10 @@
 Op-Amps : Phase Shift Oscillator
 
-![](images/schematics/Phase_Shift_Oscillator.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/Phase_Shift_Oscillator.svg)
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the oscillator's output.
 
 #### Screenshot
 
-![](images/screenshots/phaseShiftOscillator.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/phaseShiftOscillator.png)

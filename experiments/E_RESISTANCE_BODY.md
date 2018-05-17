@@ -4,7 +4,7 @@ Body Resistance
 
 #### Measure the internal resistance of the human body
 
-![](images/screenshots/bodyResistance.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/bodyResistance.png)
 
 * Ensure that your fingers do not have bruises or cuts!
 
@@ -17,9 +17,9 @@ Body Resistance
 #### Calculations
 
 * The current flowing through the circuit , according to Ohm's law, is I = V/R = V(CH3)/1,000,000
-* The voltage drop across your body = ( V(PV3)(3.0) - V(CH3)(measured))  
+* The voltage drop across your body = ( V(PV3)(3.0) - V(CH3)(measured))
 * Body's resistance = voltage drop/current(I)
 	
 #### Screenshot
-![](images/screenshots/HumanBodyResistance.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/HumanBodyResistance.png)
 

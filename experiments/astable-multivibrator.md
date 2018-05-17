@@ -7,11 +7,11 @@ Astable Multivibrator
 
 #### Schematic 
 
-![](images/schematics/astable-multivibrator.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/astable-multivibrator.svg)
 
 #### Screenshot
 
-![](images/screenshots/astable-multivibrator.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/astable-multivibrator.png)
 
 #### Additional reading
 [Tutorial](http://www.electronics-tutorials.ws/waveforms/astable.html)

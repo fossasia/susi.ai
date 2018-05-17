@@ -7,7 +7,7 @@ Half-Wave Rectifier
 
 * Only a diode is needed to clip out the negative part of the input signal.
 
-![](images/schematics/halfwave.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/halfwave.svg)
 
 * Make the Connections as shown in the figure.
 

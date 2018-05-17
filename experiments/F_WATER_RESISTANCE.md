@@ -4,7 +4,7 @@ Resistance of Water
 
 #### Schematic 
 
-![](images/schematics/waterRes.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/waterRes.png)
 
 #### DC resistance
 

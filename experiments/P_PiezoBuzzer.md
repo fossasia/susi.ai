@@ -5,7 +5,7 @@ Piezo Buzzer
 
 ### Schematic
 
-![](images/schematics/PiezoBuzzer.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/PiezoBuzzer.svg)
 
 * A piezoelectric buzzer oscillates best around a certain frequency. In this experiment, we shall drive the piezo buzzer using the oscillating voltage output from W1, and figure out the frequency at which it is loudest.</p>
 
@@ -15,4 +15,4 @@ Piezo Buzzer
 
 ### Screenshot
 
-![](images/screenshots/piezoBuzzer.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/piezoBuzzer.png)

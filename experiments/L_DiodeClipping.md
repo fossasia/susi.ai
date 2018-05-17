@@ -3,7 +3,7 @@ Clipping circuit using a diode
 
 ### Shunt Clipping
 
-![](images/schematics/Shunt_Clipper.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/Shunt_Clipper.svg)
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the original waveform output from W1.
@@ -12,4 +12,4 @@ Clipping circuit using a diode
 
 ### Series Clipping
 
-![](images/schematics/Series_Clipper.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/simages/schematics/Series_Clipper.svg)

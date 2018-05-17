@@ -3,7 +3,7 @@ AC Generator
 
 ### Make an AC generator using a magnet and a coil
 
-![](images/schematics/acgen.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/acgen.png)
 
 * Make the connections to the solenoid as shown in the figure.
 

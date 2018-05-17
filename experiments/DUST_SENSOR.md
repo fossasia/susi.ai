@@ -16,10 +16,10 @@ ID1 monitors the PWM output of the sensor and calculates the occupancy ratio. Th
 
 #### Photograph : DSM501a
 
-![](images/photographs/dsm501a.jpg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/photographs/dsm501a.jpg)
 
 #### Screenshot : Dust concentration indoors
 
-![](images/screenshots/PSL_DSM501A.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/PSL_DSM501A.png)
 
 

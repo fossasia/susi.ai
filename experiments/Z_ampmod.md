@@ -1,7 +1,7 @@
 Amplitude Modulation with an analog multiplier IC
 ---
 
-![](images/schematics/amp-mod.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/amp-mod.svg)
 
 * The AD9833 is a high bandwidth analog multiplier IC, and the circuit shown functions as a linear amplitude modulator.
 * W2 is chosen as the Carrier wave. Its amplitude is reduced by half using a 1k,1k potential divider before feeding it to the IC because the power supply taken from the SEELablet is inadequate for a 3V carrier wave.
@@ -10,6 +10,5 @@ Amplitude Modulation with an analog multiplier IC
 	
 * CH1 monitors the modulated output.
 * CH2 can be connected to either the carrier, or the modulation wave in order to curve fit and study their relation to the modulation output.
-* The Second graph shows a fourier transform of the modulation output. The central peak corresponds to the carrier frequency,
-	and two sidebands are at a distance of W from the carrier, where W= frequency of the modulation input.
+* The Second graph shows a fourier transform of the modulation output. The central peak corresponds to the carrier frequency, and two sidebands are at a distance of W from the carrier, where W = frequency of the modulation input.
 	

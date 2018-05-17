@@ -1,7 +1,7 @@
 Transistors : Monostable Multivibrator
 ---
 
-![](images/schematics/monostable-multivibrator.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/monostable-multivibrator.svg)
 
 * Make the Connections as shown in the figure.
 * SQR1 provides the trigger pulse which is also simultaneously monitored via CH1.
@@ -9,5 +9,5 @@ Transistors : Monostable Multivibrator
 
 #### Screenshot
 
-![](images/screenshots/monostable_transistor.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/monostable_transistor.png)
 

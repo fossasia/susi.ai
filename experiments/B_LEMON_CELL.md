@@ -5,14 +5,14 @@ Lemon cell
 
 #### Measure the voltage of a lemon cell
 
-![](images/schematics/lemon_cell.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/lemon_cell.png)
 
 * Make the connections as shown in the figure. Use a copper wire, and a galvanized(coated with zinc) nail as the two electrodes. 
 * Observe the voltmeter for CH1 ,and note the values . Also observe, that the graph for CH1 is a straight line. This is because the voltage is constant.
 
 #### Measure the internal resistance of a lemon cell
 
-![](images/schematics/lemon_cell_ir.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/lemon_cell_ir.png)
 
 * The purpose of this section is to understand why the lemon cell is not adequate to supply high currents.
 * Connect a 1000 (1K) Ohm resistor across the lemon cell, and observe that the voltage has now reduced.
@@ -22,10 +22,10 @@ Lemon cell
 * The voltage drop = ( V(CH1) without R connected - V(CH1) with R connected ) 
 * Internal resistance = voltage drop/current(I) 
 	
-![](images/schematics/lemon_battery.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/lemon_battery.png)
 
 * Connect three lemon cells in series, and note the voltage. Try connecting an LED to this battery.
 	
 #### Screenshot
-![](images/screenshots/lemoncell.png)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/lemoncell.png)
 

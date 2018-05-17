@@ -1,7 +1,7 @@
 Transistors : Astable Multivibrator
 ---
 
-![](images/schematics/astable-trans.svg)
+![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/astable-trans.svg)
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the oscillator output.
