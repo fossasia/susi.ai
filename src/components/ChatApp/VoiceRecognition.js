@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 let counter = 0;
 
+// eslint-disable-next-line
 class VoiceRecognition extends Component {
   constructor (props) {
     super(props)
@@ -70,7 +71,8 @@ class VoiceRecognition extends Component {
     this.recognition.abort()
   }
 
-  componentWillReceiveProps ({ stop }) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps ({ stop }) {
     if (stop) {
       this.stop()
     }
