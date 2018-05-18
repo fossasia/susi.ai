@@ -62,7 +62,13 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s)
 
+### Deploying on Firebase 
+[Click Here to read the set up guide](https://github.com/fossasia/chat.susi.ai/blob/master/docs/FIREBASE_DEPLOY.md)
 
+**Click this picture to see a video for deploying on Firebase**
+
+[<img src="https://github.com/fossasia/chat.susi.ai/blob/master/docs/img/blog_1_img.png" width="449.25" height="360.75">](https://youtu.be/7iVKBwR40N8)
+  
 ## Speech Recognition and Synthesis
 
 The SUSI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for speech recognition and synthesis. To test whether your browser supports Text To Speech, open your browser console and run the following:
