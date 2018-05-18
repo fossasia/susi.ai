@@ -99,7 +99,7 @@ class Feedback extends React.Component {
 	    shareMessageSUSI = encodeURIComponent(shareMessageSUSI.trim());
 			let shareTag = ' #SUSI.AI';
 			shareTag = encodeURIComponent(shareTag);
-	    let twitterShare = 'https://twitter.com/intent/tweet?text='+shareMessageSUSI+shareTag;
+	    let twitterShare = 'https://twitter.com/intent/tweet?text=Let%20share%20this%20message%20posted%20on%20Susi%20chat%20app%20@susiai_%20'+shareMessageSUSI+shareTag;
 			let indicatorStyleShare = {
 	      height:'13px',
 	      cursor:'pointer'
