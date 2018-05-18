@@ -114,7 +114,7 @@ export default class ShareOnSocialMedia extends Component{
                 					backgroundColor='#4285f4'
                 					labelColor='#fff'
                 					keyboardFocused={false}
-                					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Lets%20chat%20with%20susi,%20the%20open%20source%20personal%20assistant%20https%3A%2F%2Fsusi.ai.%20Its%20awesome%20%23susiai!', '_blank')}
+                					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai_', '_blank')}
                 				/>
 							</div>
 							<div style={{
