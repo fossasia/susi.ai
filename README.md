@@ -54,11 +54,12 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 * **Step 1:** Install Surge:```$ npm install -g surge```
 * **Step 2:** Then cd into the cloned chat.susi.ai folder
-* **Step 3:** Build the app:```$ npm run build```
-* **Step 4:** Go to the build directory:```cd build```
-* **Step 5:** Run Surge:```surge```
-* **Step 6:** Follow the prompts and provide an e-mail address and a password.
-* **Step 7:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
+* **Step 3:** Install the node modules:```$ npm install```(if not already)
+* **Step 4:** Build the app:```$ npm run build```
+* **Step 5:** Go to the build directory:```cd build```
+* **Step 6:** Run Surge:```surge```
+* **Step 7:** Follow the prompts and provide an e-mail address and a password.
+* **Step 8:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
 
 Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s)
 
