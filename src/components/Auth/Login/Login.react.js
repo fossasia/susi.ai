@@ -14,7 +14,7 @@ import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
 import Dialog from 'material-ui/Dialog';
 import CommunicationEmail from 'material-ui/svg-icons/communication/email';
-import ActionLock from 'material-ui/svg-icons/action/lock'
+import ActionLock from 'material-ui/svg-icons/action/lock';
 const cookies = new Cookies();
 
 class Login extends Component {
