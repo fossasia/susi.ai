@@ -189,6 +189,7 @@ chat.susi.ai/
 
 ### Component Colors of Light theme
 
+
 * Application Background Colour: ![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
 * Message History Background Colour: ![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6`
 * Chat Bubble Colour
@@ -210,14 +211,47 @@ chat.susi.ai/
     	 **Voted**: ![#d1462f](https://placehold.it/15/d1462f/000000?text=+) `#d1462f`
          **Unvoted**: ![#90a4ae](https://placehold.it/15/90a4ae/000000?text=+) `#90a4ae`
 
-### Fonts
+* Fonts
 
-* Chat Message Font: "Product Sans", sans-serif
-* Message Composer Font: "Product Sans", sans-serif
-* Chat Message Font Size: 14px
-* Chat Composer Font Size: 16px
-* Chat Message Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
-* Message Composer Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
+	* Chat Message Font: "Product Sans", sans-serif
+	* Message Composer Font: "Product Sans", sans-serif
+	* Chat Message Font Size: 14px
+	* Chat Composer Font Size: 16px
+	* Chat Message Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
+	* Message Composer Font Colour: ![#001d38](https://placehold.it/15/001d38/000000?text=+) `#001d38`
+
+### Component Colors of Dark theme
+
+* Application Background Colour: ![#000000](https://placehold.it/15/000000/000000?text=+) `#000000`
+* Message History Background Colour: ![#183850](https://placehold.it/15/183850/000000?text=+) `#183850`
+* Chat Bubble Colour
+    * SUSI Chat bubbles: ![#199393](https://placehold.it/15/199393/000000?text=+) `#199393`
+    * User Chat bubbles: ![#199393](https://placehold.it/15/199393/000000?text=+) `#199393`
+* Top Bar Colour: ![#000000](https://placehold.it/15/000000/000000?text=+) `#000000`
+* Buttons Colour: ![#000000](https://placehold.it/15/000000/000000?text=+) `#000000`
+* Search Result Colour: ![#ff5e00](https://placehold.it/15/ff5e00/000000?text=+) `#ff5e00`
+
+* Toggle Colour
+    * thumbOnColor: ![#5ab1fc](https://placehold.it/15/5ab1fc/000000?text=+) `#5ab1fc`
+    * trackOnColor: ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
+
+* User Feedback Colour
+    * Thumbs Up Colour
+         **Voted**: ![#00FF7F](https://placehold.it/15/00FF7F/000000?text=+) `#00FF7F`
+         **Unvoted**: ![#7eaaaf](https://placehold.it/15/7eaaaf/000000?text=+) `#7eaaaf`
+    * Thumbs Down Colour-
+    	 **Voted**: ![#f23e3e](https://placehold.it/15/f23e3e/000000?text=+) `#f23e3e`
+         **Unvoted**: ![#7eaaaf](https://placehold.it/15/7eaaaf/000000?text=+) `#7eaaaf`
+
+* Fonts
+
+	* Chat Message Font: "Product Sans", sans-serif
+	* Message Composer Font: "Product Sans", sans-serif
+	* Chat Message Font Size: 14px
+	* Chat Composer Font Size: 16px
+	* Chat Message Font Colour: ![#FFFFFF](https://placehold.it/15/FFFFFF/000000?text=+) `#FFFFFF`
+	* Message Composer Font Colour: ![#FFFFFF](https://placehold.it/15/FFFFFF/000000?text=+) `#FFFFFF`
+
 
 ## License
 
