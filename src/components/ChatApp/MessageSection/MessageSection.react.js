@@ -794,7 +794,7 @@ class MessageSection extends Component {
       backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
-      keyboardFocused={true}
+      keyboardFocused={false}
       onTouchTap={this.saveThemeSettings}
       style={{margin:'0 5px'}}
     />
@@ -803,7 +803,7 @@ class MessageSection extends Component {
       backgroundColor={buttonColor?buttonColor:'#4285f4'}
       labelColor="#fff"
       width='200px'
-      keyboardFocused={true}
+      keyboardFocused={false}
       onTouchTap={this.handleRestoreDefaultThemeClick}
       style={{margin:'0 5px'}}
     />
