@@ -159,7 +159,8 @@ class MessageComposer extends Component {
   }
 
   // eslint-disable-next-line
-  UNSAFE_componentWillMount(){
+  UNSAFE_componentWillMount() {
+
     let micInputSetting = UserPreferencesStore.getMicInput();
     if (micInputSetting) {
       // Getting the Speech Recognition to test whether possible

@@ -131,7 +131,7 @@ class Overview extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Tell it to do things.</div>
