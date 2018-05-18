@@ -95,7 +95,7 @@ class Feedback extends React.Component {
 				cursor: 'pointer'
 			}
 
-			let shareMessageSUSI = message.text;
+			let shareMessageSUSI = message.text === undefined ? '' : message.text;
 	    shareMessageSUSI = encodeURIComponent(shareMessageSUSI.trim());
 			let shareTag = ' #SUSI.AI';
 			shareTag = encodeURIComponent(shareTag);

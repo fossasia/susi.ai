@@ -42,6 +42,7 @@ import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 const cookies = new Cookies();
 
+// eslint-disable-next-line
 class Settings extends Component {
 	// Boolean to store the state of preview i.e which theme to display
 	preview = false;
@@ -170,6 +171,12 @@ class Settings extends Component {
 			},{
 				lang: 'hi-IN',
 				name: 'Hindi'
+			},{
+				lang: 'pb-IN',
+				name: 'Punjabi'
+			},{
+				lang: 'np-NP',
+				name: 'Nepali'
 			},{
 				lang: 'ru-RU',
 				name: 'Russian'
@@ -509,6 +516,7 @@ class Settings extends Component {
 		});
 	}
 
+	// eslint-disable-next-line
 	componentWillMount() {
 		document.body.className = 'white-body';
 		this.setDefaultsSettings();
