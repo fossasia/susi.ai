@@ -162,7 +162,9 @@ const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
 
+
 // eslint-disable-next-line
+
 class MessageSection extends Component {
   static propTypes = {
     dream: PropTypes.string

@@ -509,7 +509,7 @@ class Settings extends Component {
 			showOptions: false,
 		});
 	}
-
+  
 	// eslint-disable-next-line
 	componentWillMount() {
 		document.body.className = 'white-body';
