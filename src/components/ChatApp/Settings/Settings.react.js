@@ -172,6 +172,12 @@ class Settings extends Component {
 				lang: 'hi-IN',
 				name: 'Hindi'
 			},{
+				lang: 'pb-IN',
+				name: 'Punjabi'
+			},{
+				lang: 'np-NP',
+				name: 'Nepali'
+			},{
 				lang: 'ru-RU',
 				name: 'Russian'
 			},{
