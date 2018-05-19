@@ -67,7 +67,7 @@ class Feedback extends React.Component {
 				else {
 					console.log('Skill rating failed. Try Again');
 				}
-			}.bind(this),
+			},
 			error: function ( jqXHR, textStatus, errorThrown) {
 		        let jsonValue =  jqXHR.status;
 		        if (jsonValue === 404) {
@@ -79,7 +79,7 @@ class Feedback extends React.Component {
 		        if (status === 'timeout') {
 		          	console.log('Please check your internet connection');
 		        }
-			}.bind(this)
+			}
 		});
 
 
