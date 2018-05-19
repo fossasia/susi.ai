@@ -811,7 +811,7 @@ abbr[title] {
   color: #001d38;
 }
 
-@media only screen and (max-width: 860px){
+@media only screen and (max-width: 560px){
   .app-bar-search img {
     display: none !important;
   }
