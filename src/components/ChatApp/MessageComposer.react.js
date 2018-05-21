@@ -12,13 +12,16 @@ import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
 import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
-import './ChatApp.css'
+import YTSearch from 'youtube-api-search';
+import './ChatApp.css';
+
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
 let UP_KEY_CODE = 38;
 let DOWN_KEY_CODE = 40;
 var flag=1;
+const API_KEY = 'AIzaSyB9hQRq9nEns5OMBdSdCRx0o2Bo14IYPVM';
 const style = {
   mini: true,
   bottom: '14px',
@@ -56,6 +59,7 @@ class MessageComposer extends Component {
       stop: false,
       open: false,
       result: '',
+      video: [],
       animate: false,
       rows: 1,
       recognizing: false,
@@ -67,6 +71,14 @@ class MessageComposer extends Component {
       this.state = { text: 'dream ' + props.dream }
     }
   }
+
+  videoSearch(term){
+    YTSearch({key: API_KEY, term: term}, (data) =>{
+      console.log(data);
+      this.setState({video : data[0].id.videoId});
+    });
+  }
+
 
   onStart = () => {
     this.setState({
@@ -283,13 +295,38 @@ class MessageComposer extends Component {
     flag=1;
     if (this.state.text === '') {
       if (this.speechRecog) {
-        this.setState({ start: true })
+        this.setState({ start: true });
+	  setTimeout(function() {
+	   { let term = this.state.result;
+	    term = term.toLowerCase();
+	    if(term.includes('play') && term.includes('youtube')){
+	      let length = term.length - 11;
+	      term = term.slice(5,length);
+	      this.videoSearch(term);
+	      setTimeout(function() {
+	        console.log(this.state.video);
+	        window.open('https://www.youtube.com/watch?v=' + this.state.video,'_blank','toolbar=yes,top=500,left=500,width=700,height=500');
+	      }.bind(this), 1000);
+	    }}
+	  }.bind(this), 5000);
       }
       else {
         this.setState({ start: false })
       }
     }
     else {
+      {
+	  let term = this.state.text;
+	  term = term.toLowerCase();
+	    if(term.includes('play') && term.includes('youtube')){
+	     let length = term.length - 11;
+	     term = term.slice(5,length);
+	     this.videoSearch(term);
+	     setTimeout(function() {
+	       window.open('https://www.youtube.com/watch?v=' + this.state.video,'_blank','toolbar=yes,top=500,left=500,width=700,height=500');
+	     }.bind(this), 1000);
+	    }
+      }
       let text = this.state.text.trim();
       if (text) {
         let EnterAsSend = UserPreferencesStore.getEnterAsSend();
@@ -331,6 +368,18 @@ class MessageComposer extends Component {
       let EnterAsSend = UserPreferencesStore.getEnterAsSend();
       if (EnterAsSend) {
         event.preventDefault();
+      {
+	  let term = this.state.text;
+	  term = term.toLowerCase();
+	    if(term.includes('play') && term.includes('youtube')){
+	     let length = term.length - 11;
+	     term = term.slice(5,length);
+	     this.videoSearch(term);
+	     setTimeout(function() {
+	       window.open('https://www.youtube.com/watch?v=' + this.state.video,'_blank','toolbar=yes,top=500,left=500,width=700,height=500');
+	     }.bind(this), 1000);
+	    }
+      }
         let text = this.state.text.trim();
         text = text.replace(/\n|\r\n|\r/g, ' ');
         if (text) {
