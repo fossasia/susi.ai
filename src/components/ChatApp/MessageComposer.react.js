@@ -45,6 +45,7 @@ const closingStyle = {
   cursor: 'pointer'
 }
 
+// eslint-disable-next-line
 class MessageComposer extends Component {
 
   constructor(props) {
@@ -157,8 +158,8 @@ class MessageComposer extends Component {
 
   }
 
-
-  componentWillMount() {
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     let micInputSetting = UserPreferencesStore.getMicInput();
     if (micInputSetting) {
       // Getting the Speech Recognition to test whether possible

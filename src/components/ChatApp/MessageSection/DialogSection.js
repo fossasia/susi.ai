@@ -84,8 +84,8 @@ export default class DialogSection extends Component {
 				</Dialog>
 				<Dialog
           className='dialogStyle'
-					contentStyle={{ width: '45%', minWidth: '300px'}}
-          title="Welcome to SUSI Web Chat"
+					contentStyle={{ width: '45%', minWidth: '300px', textAlign: 'center'}}
+          title="Welcome to SUSI.AI Web Chat"
 					open={this.props.tour}
 				>
 					<iframe

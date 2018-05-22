@@ -35,7 +35,7 @@ class Devices extends Component{
         <StaticAppBar {...this.props}
           location={this.props.location} closeVideo={this.closeVideo} />
 
-          <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+          <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className='head_section'>
           <div className='container'>
             <div className="heading">
@@ -47,7 +47,7 @@ class Devices extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="device_section">
           <div className="device_description">
             <div className="heading">Android devices</div>
@@ -68,7 +68,7 @@ class Devices extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="device_section">
           <div className="device_description">
             <div className="heading">iOS devices</div>
@@ -89,7 +89,7 @@ class Devices extends Component{
         </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset="300" duration="3">
+        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="device_section bottom_section">
           <div className="device_description">
             <div className="heading">Desktops and Laptops</div>

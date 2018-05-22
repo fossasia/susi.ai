@@ -5,6 +5,7 @@ import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
+import $ from 'jquery';
 
 class Feedback extends React.Component {
 
@@ -12,7 +13,7 @@ class Feedback extends React.Component {
 	parseSkill = () => {
 		let message = this.props.message;
 		let rating ={};
-		if(message.response=== undefined || message.response===''){
+		if(message.response!== undefined && message.response!==''){
 		if(message.authorName === 'SUSI'){
 			if(message.response.answers[0].skills!==undefined){
 				let skill = message.response.answers[0].skills[0];
@@ -25,7 +26,7 @@ class Feedback extends React.Component {
 				}
 			}
 			else {
-				return null
+				return null;
 			}
 		}
 		}
@@ -44,6 +45,44 @@ class Feedback extends React.Component {
 
 	// Update state to store rating
 	rateSkill = (rating) => {
+		let defaults = UserPreferencesStore.getPreferences();
+		let BASE_URL = defaults.Server;
+		let skill=this.state.skill;
+
+
+		let rateEndPoint =
+			BASE_URL+'/cms/rateSkill.json?model='+skill.model+'&group='+skill.group+'&language='+skill.language+'&skill='+skill.skill+'&rating='+rating;
+
+
+		$.ajax({
+			url: rateEndPoint,
+			dataType: 'jsonp',
+			jsonpCallback: 'p',
+			jsonp: 'callback',
+			crossDomain: true,
+			success: function (response) {
+				if(response.accepted){
+					console.log('Skill rated successfully');
+				}
+				else {
+					console.log('Skill rating failed. Try Again');
+				}
+			},
+			error: function ( jqXHR, textStatus, errorThrown) {
+		        let jsonValue =  jqXHR.status;
+		        if (jsonValue === 404) {
+	              console.log('Skill rating failed. Try Again');
+		 	    }
+		        else {
+		        	console.log('Some error occurred. Try Again');
+		        }
+		        if (status === 'timeout') {
+		          	console.log('Please check your internet connection');
+		        }
+			}
+		});
+
+
 		switch(rating){
 			case 'positive':{
 				this.setState({
@@ -95,7 +134,7 @@ class Feedback extends React.Component {
 				cursor: 'pointer'
 			}
 
-			let shareMessageSUSI = message.text;
+			let shareMessageSUSI = message.text === undefined ? '' : message.text;
 	    shareMessageSUSI = encodeURIComponent(shareMessageSUSI.trim());
 			let shareTag = ' #SUSI.AI';
 			shareTag = encodeURIComponent(shareTag);
