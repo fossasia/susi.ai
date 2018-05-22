@@ -156,6 +156,9 @@ pre{
     font-size: 16px;
 	display :block;
 }
+pre a:hover{
+    background-color: yellow;
+}
 table{
 	display : block;
 	overflow-x: auto;
