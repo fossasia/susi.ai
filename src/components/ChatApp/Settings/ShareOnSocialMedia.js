@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Translate from '../../Translate/Translate.react';
+import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 export default class ShareOnSocialMedia extends Component{
 	constructor(props){
@@ -74,61 +75,62 @@ export default class ShareOnSocialMedia extends Component{
           if(this.state.loginStatus === 'connected' || this.state.loginStatus === 'not connected')
           {
             window.FB.ui({
-            method: 'feed',
-            link: 'https://chat.susi.ai',
+            method: 'share',
+            href: 'https://chat.susi.ai',
             caption: 'SUSI by FOSSASIA',
+						hashtag:'#FOSSASIA',
+						quote:'Lets chat with susi, the open source personal assistant'
             }, function(response){});
           }
 				}
 
     render(){
+		const styles={
+			buttonDiv:{
+				marginTop: '10px',
+				'marginBottom':'0px',
+				fontSize: '15px',
+				fontWeight: 'bold'
+			}
+		};
         return (
 					<div>
 						<div>
-							<div style={{
-								marginTop: '10px',
-								'marginBottom':'0px',
-								fontSize: '15px',
-								fontWeight: 'bold'}}>
+							<div style={styles.buttonDiv}>
 								<Translate text="Share about SUSI on Facebook"/>
 								<br/>
 								<RaisedButton
                 					label={<Translate text="Share on Facebook" />}
                 					style={this.state.style}
-                					backgroundColor='#4285f4'
+													backgroundColor='#3B5998'
                 					labelColor='#fff'
+													icon={<FontIcon className="fa fa-facebook" />}
                 					keyboardFocused={false}
                 					onTouchTap={this.Share}
                 				/>
 							</div>
-							<div style={{
-								marginTop: '10px',
-								'marginBottom':'0px',
-								fontSize: '15px',
-								fontWeight: 'bold'}}>
+							<div style={styles.buttonDiv}>
 								<Translate text="Share about SUSI on Twitter"/>
 								<br/>
 								<RaisedButton
                 					label={<Translate text="Share on Twitter" />}
                 					style={this.state.style}
-                					backgroundColor='#4285f4'
-                					labelColor='#fff'
+													backgroundColor='#00aced'
+													labelColor='#fff'
+													icon={<FontIcon className="fa fa-twitter" />}
                 					keyboardFocused={false}
                 					onClick={()=> window.open('https://twitter.com/intent/tweet?text=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai_', '_blank')}
                 				/>
 							</div>
-							<div style={{
-								marginTop: '10px',
-								'marginBottom':'0px',
-								fontSize: '15px',
-								fontWeight: 'bold'}}>
+							<div style={styles.buttonDiv}>
 								<Translate text="Share about SUSI on Google +"/>
 								<br/>
 								<RaisedButton
                 					label={<Translate text="Share on Google+" />}
                 					style={this.state.style}
-                					backgroundColor='#4285f4'
+													backgroundColor='#d34836'
                 					labelColor='#fff'
+													icon={<FontIcon className="fa fa-google-plus" />}
                 					keyboardFocused={false}
                 					onClick={()=> window.open('https://plus.google.com/share?url=https://chat.susi.ai/', '_blank')}
                 				/>

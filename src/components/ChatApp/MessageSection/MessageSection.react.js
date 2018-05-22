@@ -1194,6 +1194,8 @@ handleOptions = (event) => {
 }
 
 handleToggle = (event, isInputChecked) => {
+
+  let searchTextPrev = this.state.searchState.searchText;
   let searchState = {
     markedMsgs: this.state.messages,
     markedIDs: [],
@@ -1203,7 +1205,7 @@ handleToggle = (event, isInputChecked) => {
     scrollID: null,
     caseSensitive: isInputChecked,
     open: true,
-    searchText: ''
+    searchText: searchTextPrev
   }
   this.setState({
     searchState: searchState
