@@ -44,7 +44,24 @@ export function getLocation(){
 }
 // Main server call for Creating a SUSI Message
 export function createSUSIMessage(createdMessage, currentThreadID, voice) {
-  var timestamp = Date.now();
+  const timestamp = Date.now();
+  const timezoneOffset = (new Date()).getTimezoneOffset();
+  const defaultAnswer = {
+    data: [{
+      '0': '',
+      timezoneOffset,
+      language: 'en'
+    }],
+    metadata: {
+      count: 1
+    },
+    actions: [{
+      type: 'answer',
+      expression: 'Hmm... I\'m not sure if i understand you correctly.'
+    }],
+    skills: ['/en_0090_fail.json'],
+    persona: {}
+  };
   let receivedMessage = {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
@@ -107,6 +124,12 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     timeout: 3000,
     async: false,
     success: function (response) {
+      if($.isEmptyObject(response.answers)) {
+        // Susi server sets response.answers as an empty array if cognition
+        // is unsuccessful, example in case of gibberish text query
+        response.answers.push(defaultAnswer);
+      }
+
       // send susi response to connected Hardware Device
       Actions.sendToHardwareDevice(response);
       // Trying for empty response i.e no answer returned
