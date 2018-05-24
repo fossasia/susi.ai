@@ -23,9 +23,9 @@ import RishiRaj from '../../images/members/RishiRaj.jpeg';
 import Saurabh from '../../images/members/Saurabh.jpeg';
 import Manveer from '../../images/members/Manveer.jpeg';
 import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
+import anshumanv from '../../images/members/anshumanv.jpeg';
 
-
-var team = [{
+let team = [{
   'mentors': [{
     'name': 'Mario Behling',
     'github': 'http://github.com/mariobehling',
@@ -217,6 +217,15 @@ var team = [{
     'designation': 'Bot + Web Developer',
     'twitter': 'https://twitter.com/Harshitkedia32',
     'linkedin': 'https://www.linkedin.com/in/harshit-kedia-7abb7b108/',
+    'blog': '#'
+  },
+  {
+    'name': 'Anshuman Verma',
+    'github': 'https://github.com/anshumanv',
+    'avatar': anshumanv,
+    'designation': 'Web Developer',
+    'twitter': 'https://twitter.com/Anshumaniac12',
+    'linkedin': 'https://www.linkedin.com/in/anshumanv12',
     'blog': '#'
   }]
 }, {
