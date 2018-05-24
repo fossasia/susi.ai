@@ -22,8 +22,10 @@ import ChashmeetSingh from '../../images/members/ChashmeetSingh.jpeg';
 import RishiRaj from '../../images/members/RishiRaj.jpeg';
 import Saurabh from '../../images/members/Saurabh.jpeg';
 import Manveer from '../../images/members/Manveer.jpeg';
+import DivyanshuNSingh from '../../images/members/DivyanshuNSingh.jpeg';
 import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
 import anshumanv from '../../images/members/anshumanv.jpeg';
+import Akshat from '../../images/members/Akshat.jpeg';
 
 let team = [{
   'mentors': [{
@@ -75,6 +77,14 @@ let team = [{
     'twitter': '#',
     'linkedin': '#',
     'blog': 'http://blog.fossasia.org/author/jyoth1raditya/'
+  }, {
+    'name': 'Divyanshu N Singh',
+    'github': 'https://github.com/DNS-404',
+    'avatar': DivyanshuNSingh,
+    'designation': 'Bot + Web Developer',
+    'twitter': 'https://twitter.com/DivyanshuNSingh',
+    'linkedin': 'https://www.linkedin.com/in/divyanshunsingh/',
+    'blog': '#'
   },
   {
     'name': 'Chirag Wadhera',
@@ -226,6 +236,14 @@ let team = [{
     'designation': 'Web Developer',
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
+  },
+  { 
+    'name': 'Akshat Jain',
+    'github': 'https://github.com/Akshat-Jain',
+    'avatar': Akshat,
+    'designation': 'Java + Web Developer',
+    'twitter': 'https://twitter.com/akjn99',
+    'linkedin': 'https://www.linkedin.com/in/akjn99/',
     'blog': '#'
   }]
 }, {
