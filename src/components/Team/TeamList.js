@@ -24,6 +24,7 @@ import Saurabh from '../../images/members/Saurabh.jpeg';
 import Manveer from '../../images/members/Manveer.jpeg';
 import DivyanshuNSingh from '../../images/members/DivyanshuNSingh.jpeg';
 import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
+import Akshat from '../../images/members/Akshat.jpeg';
 
 var team = [{
   'mentors': [{
@@ -225,6 +226,15 @@ var team = [{
     'designation': 'Bot + Web Developer',
     'twitter': 'https://twitter.com/Harshitkedia32',
     'linkedin': 'https://www.linkedin.com/in/harshit-kedia-7abb7b108/',
+    'blog': '#'
+  },
+  {
+    'name': 'Akshat Jain',
+    'github': 'https://github.com/Akshat-Jain',
+    'avatar': Akshat,
+    'designation': 'Java + Web Developer',
+    'twitter': 'https://twitter.com/akjn99',
+    'linkedin': 'https://www.linkedin.com/in/akjn99/',
     'blog': '#'
   }]
 }, {
