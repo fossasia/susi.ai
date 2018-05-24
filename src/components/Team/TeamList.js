@@ -26,6 +26,7 @@ import DivyanshuNSingh from '../../images/members/DivyanshuNSingh.jpeg';
 import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
 import anshumanv from '../../images/members/anshumanv.jpeg';
 import Akshat from '../../images/members/Akshat.jpeg';
+import Jogendra from '../../images/members/Jogendra.jpeg';
 
 let team = [{
   'mentors': [{
@@ -143,8 +144,7 @@ let team = [{
     'twitter': 'https://twitter.com/mdhvrthi',
     'linkedin': 'https://www.linkedin.com/in/madhav-rathi-120b57129/',
     'blog': 'http://blog.fossasia.org/author/madhavrathi/'
-  },
-  {
+  }, {
     'name': 'Chashmeet Singh',
     'github': 'http://github.com/chashmeetsingh',
     'avatar': ChashmeetSingh,
@@ -152,6 +152,14 @@ let team = [{
     'twitter': 'https://twitter.com/CChashmeetsingh',
     'linkedin': 'https://www.linkedin.com/in/chashmeet/',
     'blog': 'http://blog.fossasia.org/author/chashmeetsingh/'
+  }, {
+    'name': 'Jogendra Kumar',
+    'github': 'http://github.com/imjog',
+    'avatar': Jogendra,
+    'designation': 'iOS Developer',
+    'twitter': 'https://twitter.com/imjog24',
+    'linkedin': 'https://www.linkedin.com/in/jogendrasingh24/',
+    'blog': '#'
   }, {
     'name': 'Pranjal Paliwal',
     'github': 'https://github.com/betterclever',
