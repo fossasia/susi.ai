@@ -12,6 +12,7 @@ const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
 let _Location = null;
 let offlineMessage = null;
+let defaultMessage = 'Sorry, I could not understand what you just said.';
 
 // Handle offline, online events
 window.addEventListener('offline', handleOffline.bind(this));
@@ -43,7 +44,24 @@ export function getLocation(){
 }
 // Main server call for Creating a SUSI Message
 export function createSUSIMessage(createdMessage, currentThreadID, voice) {
-  var timestamp = Date.now();
+  const timestamp = Date.now();
+  const timezoneOffset = (new Date()).getTimezoneOffset();
+  const defaultAnswer = {
+    data: [{
+      '0': '',
+      timezoneOffset,
+      language: 'en'
+    }],
+    metadata: {
+      count: 1
+    },
+    actions: [{
+      type: 'answer',
+      expression: 'Hmm... I\'m not sure if i understand you correctly.'
+    }],
+    skills: ['/en_0090_fail.json'],
+    persona: {}
+  };
   let receivedMessage = {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
@@ -82,12 +100,12 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(cookies.get('loggedIn')===null||
     cookies.get('loggedIn')===undefined) {
     url = BASE_URL+'/susi/chat.json?q='+
-          createdMessage.text+
+          encodeURIComponent(createdMessage.text)+
           '&language='+locale;
   }
   else{
     url = BASE_URL+'/susi/chat.json?q='
-          +createdMessage.text+'&language='
+          +encodeURIComponent(createdMessage.text)+'&language='
           +locale+'&access_token='
           +cookies.get('loggedIn');
   }
@@ -95,7 +113,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(_Location){
     url += '&latitude='+_Location.lat+'&longitude='+_Location.lng;
   }
-
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
   $.ajax({
@@ -107,10 +124,36 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
     timeout: 3000,
     async: false,
     success: function (response) {
+      if($.isEmptyObject(response.answers)) {
+        // Susi server sets response.answers as an empty array if cognition
+        // is unsuccessful, example in case of gibberish text query
+        response.answers.push(defaultAnswer);
+      }
+
       // send susi response to connected Hardware Device
       Actions.sendToHardwareDevice(response);
-
+      // Trying for empty response i.e no answer returned
+      try{
       receivedMessage.text = response.answers[0].actions[0].expression;
+      	}
+      catch (err) {
+      	if (err instanceof TypeError) {
+      		let emptyData = [];
+      		emptyData[0] = [];
+      		emptyData[1] = {};
+      		response.answers = [];
+      		response.answers[0] = {
+      			actions: [],
+      			data:emptyData,
+      		};
+      		response.answers[0].actions[0] = {
+      			expression:defaultMessage,
+      			language:'en',
+      			type:'answer',
+      		   		   	};
+        	receivedMessage.text = response.answers[0].actions[0].expression;
+    	}
+      }
       if(receivedMessage.lang===undefined){
         receivedMessage.lang = document.documentElement.getAttribute('lang');
       }
@@ -224,13 +267,14 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
             type: ActionTypes.CREATE_SUSI_MESSAGE,
             message
           });
+
         }
         else{
           previewURLForImage(receivedMessage,currentThreadID,
                               BASE_URL,data,count,remainingDataIndices,0,0);
         }
       }
-      else {
+      else  {
         let message = ChatMessageUtils.getSUSIMessageData(
           receivedMessage, currentThreadID);
         ChatAppDispatcher.dispatch({
@@ -240,7 +284,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       }
     },
     error: function (xhr, status, error) {
-      console.log(receivedMessage.text);
       if (status === 'timeout') {
         receivedMessage.text = 'Please check your internet connection';
       }

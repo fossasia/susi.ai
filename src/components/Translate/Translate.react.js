@@ -10,8 +10,9 @@ import fr from './fr.json';
 import gr from './gr.json';
 import ru from './ru.json';
 import jp from './jp.json';
-// Added by @0x48piraj
 import nl from './nl.json';
+import pb from './pb.json';
+import np from './np.json';
 
 class Translate extends Component{
 
@@ -52,10 +53,18 @@ class Translate extends Component{
       else if(defaultPrefLanguage==='zh-CH'){
         arr = Object.keys(zh);
         file = zh;
-      }
+			}
       else if(defaultPrefLanguage==='hi-IN'){
         arr = Object.keys(hi);
         file = hi;
+      }
+			else if(defaultPrefLanguage==='pb-IN'){
+        arr = Object.keys(pb);
+        file = pb;
+      }
+			else if(defaultPrefLanguage==='np-NP'){
+        arr = Object.keys(np);
+        file = np;
       }
       else if(defaultPrefLanguage==='fr-FR'){
         arr = Object.keys(fr);
