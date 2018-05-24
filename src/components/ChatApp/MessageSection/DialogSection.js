@@ -89,8 +89,8 @@ export default class DialogSection extends Component {
 					open={this.props.tour}
 				>
 					<iframe
-            width="100%"
-            height="315"
+						width="99%"
+						height="315"
 						src="https://www.youtube.com/embed/9T3iMoAUKYA"
 						gesture="media"
 						allow="encrypted-media"
