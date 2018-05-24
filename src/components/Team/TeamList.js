@@ -28,6 +28,7 @@ import anshumanv from '../../images/members/anshumanv.jpeg';
 import Akshat from '../../images/members/Akshat.jpeg';
 import Jogendra from '../../images/members/Jogendra.jpeg';
 import AkshatGarg from '../../images/members/AkshatGarg.jpeg';
+import Sanskar from '../../images/members/Sanskar.jpeg';
 
 let team = [{
   'mentors': [{
@@ -254,7 +255,16 @@ let team = [{
     'twitter': 'https://twitter.com/tweet_akshat',
     'linkedin': 'https://www.linkedin.com/in/akshatnitd',
     'blog': 'https://aspirewithmeblog.wordpress.com'
-    }]
+    },
+    {
+      'name': 'Sanskar Jethi',
+      'github': 'https://github.com/stealthanthrax',
+      'avatar': Sanskar,
+      'designation': 'Full Stack Engineer',
+      'twitter': 'https://twitter.com/sansyrox',
+      'linkedin': 'https://www.linkedin.com/in/sanskar-jethi-68b95b48/',
+      'blog': '#'
+      }]
   },
   {
     'managers': [{
