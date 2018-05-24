@@ -237,7 +237,7 @@ let team = [{
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
   },
-  { 
+  {
     'name': 'Akshat Jain',
     'github': 'https://github.com/Akshat-Jain',
     'avatar': Akshat,
