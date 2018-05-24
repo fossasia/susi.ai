@@ -23,9 +23,6 @@ import {  serverChanged,
           customThemeChanged,
           } from './Settings.actions';
 
-import {  connectToWebSocket,
-          sendToHardwareDevice } from './HardwareConnect.actions';
-
 // exports
 export {  getLocation,
           getSettings,
@@ -50,5 +47,3 @@ export { serverChanged,
          settingsChanged,
          customThemeChanged,
         }
-
-export { connectToWebSocket, sendToHardwareDevice }
