@@ -23,6 +23,7 @@ import RishiRaj from '../../images/members/RishiRaj.jpeg';
 import Saurabh from '../../images/members/Saurabh.jpeg';
 import Manveer from '../../images/members/Manveer.jpeg';
 import DivyanshuNSingh from '../../images/members/DivyanshuNSingh.jpeg';
+import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
 
 var team = [{
   'mentors': [{
@@ -216,7 +217,16 @@ var team = [{
       'twitter': 'https://twitter.com/jigyasa_grover',
       'linkedin': '#',
       'blog': '#'
-    }]
+  },
+  {
+    'name': 'Harshit Kedia',
+    'github': 'https://github.com/hkedia321',
+    'avatar': HarshitKedia,
+    'designation': 'Bot + Web Developer',
+    'twitter': 'https://twitter.com/Harshitkedia32',
+    'linkedin': 'https://www.linkedin.com/in/harshit-kedia-7abb7b108/',
+    'blog': '#'
+  }]
 }, {
     'managers': [{
       'name': 'Hong Phuc Dang',
