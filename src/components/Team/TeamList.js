@@ -27,6 +27,7 @@ import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
 import anshumanv from '../../images/members/anshumanv.jpeg';
 import Akshat from '../../images/members/Akshat.jpeg';
 import Jogendra from '../../images/members/Jogendra.jpeg';
+import AkshatGarg from '../../images/members/AkshatGarg.jpeg';
 
 let team = [{
   'mentors': [{
@@ -86,8 +87,7 @@ let team = [{
     'twitter': 'https://twitter.com/DivyanshuNSingh',
     'linkedin': 'https://www.linkedin.com/in/divyanshunsingh/',
     'blog': '#'
-  },
-  {
+  }, {
     'name': 'Chirag Wadhera',
     'github': 'https://github.com/chiragw15',
     'avatar': Chirag,
@@ -111,8 +111,7 @@ let team = [{
     'twitter': '#',
     'linkedin': 'https://www.linkedin.com/in/amit-tiwary-8bb081103',
     'blog': 'http://blog.fossasia.org/author/amitiwary999/'
-  },
-  {
+  }, {
     'name': 'Rishi Raj',
     'github': 'http://github.com/rishiraj824',
     'avatar': RishiRaj,
@@ -184,51 +183,47 @@ let team = [{
     'twitter': 'https://twitter.com/ali_ayub007',
     'linkedin': 'https://www.linkedin.com/in/ali-ayub-khan-356432117/',
     'blog': 'http://blog.fossasia.org/author/AliAyub007/'
-  },{
-      'name': 'Sudheesh Singanamalla',
-      'github': 'https://github.com/sudheesh001',
-      'avatar': Sudheesh,
-      'designation': 'Main Contributor',
-      'twitter': 'https://twitter.com/sudheesh001',
-      'linkedin': 'https://www.linkedin.com/in/sudheesh001/',
-      'blog': '#'
-    }, {
-      'name': 'Damini Satya',
-      'github': 'https://github.com/daminisatya',
-      'avatar': Damini,
-      'designation': 'Main Contributor',
-      'twitter': 'https://twitter.com/Daminisatya',
-      'linkedin': 'https://www.linkedin.com/in/damini-satya-52816886/',
-      'blog': '#'
-    },
-    {
-      'name': 'Niranjan Rajendran',
-      'github': 'https://github.com/niranjan94',
-      'avatar': NiranjanRajendran,
-      'designation': 'Main Contributor',
-      'twitter': 'https://twitter.com/niranjan94',
-      'linkedin': 'https://www.linkedin.com/in/niranjan94/',
-      'blog': '#'
-    },
-    {
-      'name': 'Harshit Dwivedi',
-      'github': 'https://github.com/the-dagger',
-      'avatar': HarshitDwivedi,
-      'designation': 'Main Contributor',
-      'twitter': 'https://twitter.com/daggerdwivedi',
-      'linkedin': 'https://www.linkedin.com/in/hadwivedi/?ppe=1',
-      'blog': '#'
-    },
-    {
-      'name': 'Jigyasa Grover',
-      'github': 'https://github.com/jigyasa-grover',
-      'avatar': JigyasaGrover,
-      'designation': 'Main Contributor',
-      'twitter': 'https://twitter.com/jigyasa_grover',
-      'linkedin': '#',
-      'blog': '#'
-  },
-  {
+  }, {
+    'name': 'Sudheesh Singanamalla',
+    'github': 'https://github.com/sudheesh001',
+    'avatar': Sudheesh,
+    'designation': 'Main Contributor',
+    'twitter': 'https://twitter.com/sudheesh001',
+    'linkedin': 'https://www.linkedin.com/in/sudheesh001/',
+    'blog': '#'
+  }, {
+    'name': 'Damini Satya',
+    'github': 'https://github.com/daminisatya',
+    'avatar': Damini,
+    'designation': 'Main Contributor',
+    'twitter': 'https://twitter.com/Daminisatya',
+    'linkedin': 'https://www.linkedin.com/in/damini-satya-52816886/',
+    'blog': '#'
+  }, {
+    'name': 'Niranjan Rajendran',
+    'github': 'https://github.com/niranjan94',
+    'avatar': NiranjanRajendran,
+    'designation': 'Main Contributor',
+    'twitter': 'https://twitter.com/niranjan94',
+    'linkedin': 'https://www.linkedin.com/in/niranjan94/',
+    'blog': '#'
+  }, {
+    'name': 'Harshit Dwivedi',
+    'github': 'https://github.com/the-dagger',
+    'avatar': HarshitDwivedi,
+    'designation': 'Main Contributor',
+    'twitter': 'https://twitter.com/daggerdwivedi',
+    'linkedin': 'https://www.linkedin.com/in/hadwivedi/?ppe=1',
+    'blog': '#'
+  }, {
+    'name': 'Jigyasa Grover',
+    'github': 'https://github.com/jigyasa-grover',
+    'avatar': JigyasaGrover,
+    'designation': 'Main Contributor',
+    'twitter': 'https://twitter.com/jigyasa_grover',
+    'linkedin': '#',
+    'blog': '#'
+  }, {
     'name': 'Harshit Kedia',
     'github': 'https://github.com/hkedia321',
     'avatar': HarshitKedia,
@@ -236,16 +231,14 @@ let team = [{
     'twitter': 'https://twitter.com/Harshitkedia32',
     'linkedin': 'https://www.linkedin.com/in/harshit-kedia-7abb7b108/',
     'blog': '#'
-  },
-  {
+  }, {
     'name': 'Anshuman Verma',
     'github': 'https://github.com/anshumanv',
     'avatar': anshumanv,
     'designation': 'Web Developer',
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
-  },
-  {
+  }, {
     'name': 'Akshat Jain',
     'github': 'https://github.com/Akshat-Jain',
     'avatar': Akshat,
@@ -253,8 +246,17 @@ let team = [{
     'twitter': 'https://twitter.com/akjn99',
     'linkedin': 'https://www.linkedin.com/in/akjn99/',
     'blog': '#'
-  }]
-}, {
+  }, {
+    'name': 'Akshat Garg',
+    'github': 'https://github.com/akshatnitd',
+    'avatar': AkshatGarg,
+    'designation': 'Java + Web Developer',
+    'twitter': 'https://twitter.com/tweet_akshat',
+    'linkedin': 'https://www.linkedin.com/in/akshatnitd',
+    'blog': 'https://aspirewithmeblog.wordpress.com'
+    }]
+  },
+  {
     'managers': [{
       'name': 'Hong Phuc Dang',
       'github': 'https://github.com/hpdang',
