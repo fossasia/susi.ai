@@ -73,14 +73,6 @@ let team = [{
     'linkedin': '#',
     'blog': 'http://blog.fossasia.org/author/DravitLochan/'
   }, {
-    'name': 'Jyothir Aditya',
-    'github': 'https://github.com/jyoth1raditya',
-    'avatar': jyoth1raditya,
-    'designation': 'Java + Web Developer',
-    'twitter': '#',
-    'linkedin': '#',
-    'blog': 'http://blog.fossasia.org/author/jyoth1raditya/'
-  }, {
     'name': 'Divyanshu N Singh',
     'github': 'https://github.com/DNS-404',
     'avatar': DivyanshuNSingh,
@@ -97,14 +89,6 @@ let team = [{
     'linkedin': ' https://www.linkedin.com/in/chirag-wadhera-155b22106/',
     'blog': 'http://blog.fossasia.org/author/chiragw15/'
   }, {
-    'name': 'Mayank Tripathi',
-    'github': 'https://github.com/mayank408',
-    'avatar': Mayank,
-    'designation': 'Android Developer',
-    'twitter': 'https://twitter.com/mayank_trp408',
-    'linkedin': 'https://www.linkedin.com/in/mayank-tripathi-a49563126/',
-    'blog': 'http://blog.fossasia.org/author/mayank408/'
-  }, {
     'name': 'Amit Tiwary',
     'github': 'https://github.com/amitiwary999',
     'avatar': Amith,
@@ -120,14 +104,6 @@ let team = [{
     'twitter': 'https://twitter.com/rishirajloyola',
     'linkedin': 'https://www.linkedin.com/in/rajrishime/',
     'blog': 'http://blog.fossasia.org/author/rishiraj824/'
-  }, {
-    'name': 'Uday Theja',
-    'github': 'https://github.com/uday96',
-    'avatar': UdayTheja,
-    'designation': 'React JS Developer',
-    'twitter': 'https://twitter.com/udayteja96',
-    'linkedin': 'https://www.linkedin.com/in/uday-theja/',
-    'blog': 'http://blog.fossasia.org/author/uday96/'
   }, {
     'name': 'Isuru Abeywardana',
     'github': 'https://github.com/isuruAb',
@@ -152,7 +128,8 @@ let team = [{
     'twitter': 'https://twitter.com/CChashmeetsingh',
     'linkedin': 'https://www.linkedin.com/in/chashmeet/',
     'blog': 'http://blog.fossasia.org/author/chashmeetsingh/'
-  }, {
+  },
+  {
     'name': 'Jogendra Kumar',
     'github': 'http://github.com/imjog',
     'avatar': Jogendra,
@@ -160,23 +137,8 @@ let team = [{
     'twitter': 'https://twitter.com/imjog24',
     'linkedin': 'https://www.linkedin.com/in/jogendrasingh24/',
     'blog': '#'
-  }, {
-    'name': 'Pranjal Paliwal',
-    'github': 'https://github.com/betterclever',
-    'avatar': Pranjal,
-    'designation': 'IoT + Web developer',
-    'twitter': 'https://twitter.com/TheBetterClever',
-    'linkedin': 'https://linkedin.com/in/betterclever',
-    'blog': 'http://blog.fossasia.org/author/betterclever/'
-  }, {
-    'name': 'Manveer Singh',
-    'github': 'https://github.com/Manveer695',
-    'avatar': Manveer,
-    'designation': 'Bot Developer',
-    'twitter': '#',
-    'linkedin': '#',
-    'blog': 'http://blog.fossasia.org/author/Manveer695/'
-  }, {
+  },
+  {
     'name': 'Ali Ayub Khan',
     'github': 'https://github.com/AliAyub007',
     'avatar': AliAyub,
@@ -184,7 +146,8 @@ let team = [{
     'twitter': 'https://twitter.com/ali_ayub007',
     'linkedin': 'https://www.linkedin.com/in/ali-ayub-khan-356432117/',
     'blog': 'http://blog.fossasia.org/author/AliAyub007/'
-  }, {
+  },
+  {
     'name': 'Sudheesh Singanamalla',
     'github': 'https://github.com/sudheesh001',
     'avatar': Sudheesh,
@@ -192,39 +155,17 @@ let team = [{
     'twitter': 'https://twitter.com/sudheesh001',
     'linkedin': 'https://www.linkedin.com/in/sudheesh001/',
     'blog': '#'
-  }, {
-    'name': 'Damini Satya',
-    'github': 'https://github.com/daminisatya',
-    'avatar': Damini,
-    'designation': 'Main Contributor',
-    'twitter': 'https://twitter.com/Daminisatya',
-    'linkedin': 'https://www.linkedin.com/in/damini-satya-52816886/',
-    'blog': '#'
-  }, {
-    'name': 'Niranjan Rajendran',
-    'github': 'https://github.com/niranjan94',
-    'avatar': NiranjanRajendran,
-    'designation': 'Main Contributor',
-    'twitter': 'https://twitter.com/niranjan94',
-    'linkedin': 'https://www.linkedin.com/in/niranjan94/',
-    'blog': '#'
-  }, {
-    'name': 'Harshit Dwivedi',
-    'github': 'https://github.com/the-dagger',
-    'avatar': HarshitDwivedi,
-    'designation': 'Main Contributor',
-    'twitter': 'https://twitter.com/daggerdwivedi',
-    'linkedin': 'https://www.linkedin.com/in/hadwivedi/?ppe=1',
-    'blog': '#'
-  }, {
-    'name': 'Jigyasa Grover',
-    'github': 'https://github.com/jigyasa-grover',
-    'avatar': JigyasaGrover,
-    'designation': 'Main Contributor',
-    'twitter': 'https://twitter.com/jigyasa_grover',
-    'linkedin': '#',
-    'blog': '#'
-  }, {
+  },
+  {
+      'name': 'Harshit Dwivedi',
+      'github': 'https://github.com/the-dagger',
+      'avatar': HarshitDwivedi,
+      'designation': 'Main Contributor',
+      'twitter': 'https://twitter.com/daggerdwivedi',
+      'linkedin': 'https://www.linkedin.com/in/hadwivedi/?ppe=1',
+      'blog': '#'
+    },
+  {
     'name': 'Harshit Kedia',
     'github': 'https://github.com/hkedia321',
     'avatar': HarshitKedia,
@@ -266,6 +207,76 @@ let team = [{
       'blog': '#'
       }]
   },
+{
+  'alumni': [{
+    'name': 'Jyothir Aditya',
+    'github': 'https://github.com/jyoth1raditya',
+    'avatar': jyoth1raditya,
+    'designation': 'Java + Web Developer',
+    'twitter': '#',
+    'linkedin': '#',
+    'blog': 'http://blog.fossasia.org/author/jyoth1raditya/'
+  },
+  {
+    'name': 'Mayank Tripathi',
+    'github': 'https://github.com/mayank408',
+    'avatar': Mayank,
+    'designation': 'Android Developer',
+    'twitter': 'https://twitter.com/mayank_trp408',
+    'linkedin': 'https://www.linkedin.com/in/mayank-tripathi-a49563126/',
+    'blog': 'http://blog.fossasia.org/author/mayank408/'
+  }, {
+    'name': 'Uday Theja',
+    'github': 'https://github.com/uday96',
+    'avatar': UdayTheja,
+    'designation': 'React JS Developer',
+    'twitter': 'https://twitter.com/udayteja96',
+    'linkedin': 'https://www.linkedin.com/in/uday-theja/',
+    'blog': 'http://blog.fossasia.org/author/uday96/'
+  }, {
+    'name': 'Pranjal Paliwal',
+    'github': 'https://github.com/betterclever',
+    'avatar': Pranjal,
+    'designation': 'IoT + Web developer',
+    'twitter': 'https://twitter.com/TheBetterClever',
+    'linkedin': 'https://linkedin.com/in/betterclever',
+    'blog': 'http://blog.fossasia.org/author/betterclever/'
+  }, {
+    'name': 'Manveer Singh',
+    'github': 'https://github.com/Manveer695',
+    'avatar': Manveer,
+    'designation': 'Bot Developer',
+    'twitter': '#',
+    'linkedin': '#',
+    'blog': 'http://blog.fossasia.org/author/Manveer695/'
+  }, {
+      'name': 'Damini Satya',
+      'github': 'https://github.com/daminisatya',
+      'avatar': Damini,
+      'designation': 'Main Contributor',
+      'twitter': 'https://twitter.com/Daminisatya',
+      'linkedin': 'https://www.linkedin.com/in/damini-satya-52816886/',
+      'blog': '#'
+    },
+    {
+      'name': 'Niranjan Rajendran',
+      'github': 'https://github.com/niranjan94',
+      'avatar': NiranjanRajendran,
+      'designation': 'Main Contributor',
+      'twitter': 'https://twitter.com/niranjan94',
+      'linkedin': 'https://www.linkedin.com/in/niranjan94/',
+      'blog': '#'
+    },
+    {
+      'name': 'Jigyasa Grover',
+      'github': 'https://github.com/jigyasa-grover',
+      'avatar': JigyasaGrover,
+      'designation': 'Main Contributor',
+      'twitter': 'https://twitter.com/jigyasa_grover',
+      'linkedin': '#',
+      'blog': '#'
+    }]
+},
   {
     'managers': [{
       'name': 'Hong Phuc Dang',

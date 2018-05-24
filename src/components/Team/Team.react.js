@@ -93,7 +93,7 @@ class Support extends Component {
           <CardTitle titleStyle={{ fontSize: '20px' }} title={mentor.name} subtitle={mentor.designation} />
         </Card>)
     })
-    let managers = team[2].managers.map((manager, i) => {
+    let managers = team[3].managers.map((manager, i) => {
       return (
         <Card className='team-card' key={i}>
           <CardMedia className="container_div">
@@ -134,6 +134,23 @@ class Support extends Component {
         </Card>)
     })
 
+    team[2].alumni.sort(compare);
+    let alumni = team[2].alumni.map((alum, i) => {
+      return (
+        <Card className='team-card' key={i}>
+          <CardMedia className="container_div" >
+            <img src={alum.avatar} alt={alum.name} className="image" />
+            <div className="overlay" >
+              <div className="text">
+                <FourButtons member={alum} />
+              </div>
+            </div>
+          </CardMedia>
+          <CardTitle titleStyle={{ fontSize: '20px', lineHeight: '25px' }} title={alum.name} subtitle={alum.designation} />
+
+        </Card>)
+    })
+
     return (
       <div>
         <StaticAppBar {...this.props}
@@ -170,7 +187,21 @@ class Support extends Component {
             <div className="support__heading">Developers</div>
           </div>
           <div className='team-container'>{server}</div>
+
         </div>
+
+        <div className="section-team developers" style={{
+          paddingBottom: '240px'
+        }}>
+
+            <div className="team-header ">
+              <div className="support__heading">Alumni</div>
+            </div>
+            <div className='team-container'>{alumni}</div>
+
+        </div>
+
+
         <Footer />
 
 
