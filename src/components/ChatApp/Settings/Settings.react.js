@@ -285,6 +285,15 @@ class Settings extends Component {
 		if (this.preview) {
 			vals.theme = UserPreferencesStore.getTheme(!this.preview);
 			vals.previewTheme = this.state.theme;
+			var SettingsContainer = document.getElementById('settings-container');
+			if(vals.previewTheme==='dark')
+				{
+					SettingsContainer.style.background = '#000012';
+				}
+			else
+			{
+					SettingsContainer.style.background = '#f2f2f2';
+			}
 		}
 		// else save current theme state to theme
 		else {
@@ -570,6 +579,14 @@ class Settings extends Component {
 			search: false,
 		});
 
+		if(this.state.theme==='dark')
+			{
+				document.body.style.background = '#000012';
+			}
+		else
+			{
+				document.body.style.background = '#f2f2f2';
+			}
 		this.showWhenLoggedIn = 'none';
 		let searchParams = new URLSearchParams(window.location.search);
 		let tab = searchParams.get('tab');
@@ -1342,7 +1359,7 @@ class Settings extends Component {
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
-			<div className="settings-container">
+			<div className="settings-container" id="settings-container">
 		<StaticAppBar settings={this.state.intialSettings} {...this.props}
 			location={this.props.location} />
 				<div className='settingMenu'>
