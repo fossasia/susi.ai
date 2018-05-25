@@ -255,7 +255,8 @@ export default class ChangePassword extends Component {
           cursor:'pointer'
         }
         const fieldStyle={
-            'width':'256px',
+            'width':'200px',
+            left: '180px',
             color:themeForegroundColor
         }
         const inputStyle={
@@ -274,19 +275,21 @@ export default class ChangePassword extends Component {
                 <Paper zDepth={0} style={styles}>
                     <form onSubmit={this.handleSubmit}>
                         <div>
-                            <PasswordField
-                                name="password"
-                                style={fieldStyle}
-                                value={this.state.passwordValue}
-                                onChange={this.handleChange}
-                                inputStyle={inputStyle}
-                                errorText={this.passwordErrorMessage}
-                                underlineFocusStyle={underlineFocusStyle}
-                                floatingLabelStyle={floatingLabelStyle}
-                                visibilityIconStyle={{color:themeForegroundColor}}
-                                floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText={<Translate text="Current Password" />} />
-                        </div>
+                            <h4 style="position: relative;left: 10px;top: 40px;">Current Password</h4>
+                            <input
+                                    type="text"
+                                    name="password"
+                                    style={fieldStyle}
+                                    value={this.state.passwordValue}
+                                    onChange={this.handleChange}
+                                    inputStyle={inputStyle}
+                                    errorText={this.passwordErrorMessage}
+                                    underlineFocusStyle={underlineFocusStyle}
+                                    floatingLabelStyle={floatingLabelStyle}
+                                    visibilityIconStyle={{color:themeForegroundColor}}
+                                    floatingLabelFocusStyle={underlineFocusStyle}
+                                    floatingLabelText={<Translate text="Forgot your Password" />}/>
+                              </div>
                         <div className={PasswordClass.join(' ')}>
                             <PasswordField
                                 name="newPassword"
