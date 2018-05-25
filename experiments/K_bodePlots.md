@@ -5,11 +5,11 @@ Bode Plots
 
 #### Multiple Feedback Band-Pass Filter: 1.6 Khz 
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/multiple-feedback1.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/multiple-feedback1.svg)
 
 #### Multiple Feedback Band-Pass Filter: 600 Hz 
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/multiple-feedback2.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/multiple-feedback2.svg)
 
 * Make the Connections as shown in the figure.
 
@@ -25,5 +25,5 @@ Bode Plots
 
 #### Screenshot
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/filter.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/filter.png)
 

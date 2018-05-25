@@ -3,7 +3,7 @@ Light Dependent Resistor
 
 * An LDR is a two pin device whose resistance decreases with the intensity of light falling on it.
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/LDR.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/LDR.svg)
 
 * Record 50Hz fluctuations caused by flourescent lighting.
 
@@ -19,4 +19,4 @@ Light Dependent Resistor
 
 #### Screenshot
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/LDR.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/LDR.png)

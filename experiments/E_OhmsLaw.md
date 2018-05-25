@@ -3,7 +3,7 @@ Ohm's Law
 
 ### Introduction to Ohm's Law
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/ohms.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/ohms.svg)
 
 * Make the Connections as shown in the figure.
 
@@ -17,5 +17,5 @@ Ohm's Law
 
 #### Screenshot
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/ohms_law.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/ohms_law.png)
 

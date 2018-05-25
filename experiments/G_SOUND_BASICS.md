@@ -3,7 +3,7 @@ Sound Basics
 
 ### Record sound using the microphone, and study frequencies
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/soundSimple.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/soundSimple.svg)
 
 #### DC resistance
     
@@ -14,4 +14,4 @@ Sound Basics
 	
 #### Screenshot
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/frequencyOfSound.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/frequencyOfSound.png)

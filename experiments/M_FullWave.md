@@ -3,7 +3,7 @@ Full-Wave Rectifier
 
 ### Study a fullwave rectifier using the sine wave generators
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/fullwave.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/fullwave.svg)
 
 * Full wave rectifiers combine the positive halves of 180 degree out of phase input waveforms such as those output from AC transformers with a center tap.
 

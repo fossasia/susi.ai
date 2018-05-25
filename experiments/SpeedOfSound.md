@@ -1,7 +1,7 @@
 Speed of sound
 ---
 	
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/HCSR04.svg)	
+![](https://fossasia.github.io/pslab-experiments/images/schematics/HCSR04.svg)	
   
 * Make the Connections as shown in the figure
 * The Ultrasonic Range Finder HC-SR04 measures the distance of an obstacle from the sensor 

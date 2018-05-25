@@ -1,7 +1,7 @@
 CR Phase Shift
 ---
 	
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/CR.svg)	
+![](https://fossasia.github.io/pslab-experiments/images/schematics/CR.svg)	
   
 * Make the Connections as shown in the figure
 * CH1 monitors the original waveform output from W1

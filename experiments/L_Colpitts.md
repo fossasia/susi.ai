@@ -8,7 +8,7 @@ Op-Amps : Colpitts Oscillator
 
 #### Schematic:
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/Colpitts_Oscillator.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/Colpitts_Oscillator.svg)
 
 * Make the Connections as shown in the figure.
 

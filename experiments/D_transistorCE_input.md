@@ -1,7 +1,7 @@
 Input Characteristics
 ---
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/tranCE.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/tranCE.svg)
 
 * Make the connections as shown in the figure
 * Select a voltage at PV1, for setting collector voltage.

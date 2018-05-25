@@ -1,7 +1,7 @@
 Clamping circuit using a diode
 ---
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/Clamper.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/Clamper.svg)
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the original waveform output from W1.

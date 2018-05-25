@@ -4,7 +4,7 @@ Non-Inverting
 ### Op-Amp Non-Inverting
 
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/Non-Inverting.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/Non-Inverting.svg)
 
 * Make the connections as shown in the figure
 * CH1 Monitors the original waveform output from W1

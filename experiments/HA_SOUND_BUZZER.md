@@ -3,7 +3,7 @@ Piezo Buzzer
 
 ### Learn to use a piezo buzzer
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/soundBuzzer.svg)
+![](https://fossasia.github.io/pslab-experiments/images/schematics/soundBuzzer.svg)
 
 * A piezoelectric buzzer oscillates best around a certain frequency. In this experiment, we shall drive the piezo buzzer using the oscillating voltage output from W1, and figure out the frequency at which it is loudest.
 * The amplitude and frequency of the measured sound waves are shown at the top. Since the loud sound can easily exceed the microphone's range, you should keep the buzzer at some distance.
@@ -11,5 +11,5 @@ Piezo Buzzer
 	
 #### Screenshot
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/piezoBuzzer.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/piezoBuzzer.png)
 

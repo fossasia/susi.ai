@@ -4,7 +4,7 @@ Body Resistance
 
 #### Measure the internal resistance of the human body
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/bodyResistance.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/bodyResistance.png)
 
 * Ensure that your fingers do not have bruises or cuts!
 
@@ -21,5 +21,5 @@ Body Resistance
 * Body's resistance = voltage drop/current(I)
 	
 #### Screenshot
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/screenshots/HumanBodyResistance.png)
+![](https://fossasia.github.io/pslab-experiments/images/screenshots/HumanBodyResistance.png)
 
