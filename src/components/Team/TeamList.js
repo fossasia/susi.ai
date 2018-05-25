@@ -22,6 +22,7 @@ import ChashmeetSingh from '../../images/members/ChashmeetSingh.jpeg';
 import RishiRaj from '../../images/members/RishiRaj.jpeg';
 import Saurabh from '../../images/members/Saurabh.jpeg';
 import Manveer from '../../images/members/Manveer.jpeg';
+import Praduman from '../../images/members/PradumanPannu.jpeg';
 import DivyanshuNSingh from '../../images/members/DivyanshuNSingh.jpeg';
 import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
 import anshumanv from '../../images/members/anshumanv.jpeg';
@@ -181,6 +182,13 @@ let team = [{
     'designation': 'Web Developer',
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
+  }, {
+    'name': 'Praduman Pannu',
+    'github': 'https://github.com/PrP-11',
+    'avatar': Praduman,
+    'designation': 'Java + Web Developer',
+    'twitter': 'https://twitter.com/praduman_pannu',
+    'linkedin': 'https://www.linkedin.com/in/praduman-pannu-1409a475',
   }, {
     'name': 'Akshat Jain',
     'github': 'https://github.com/Akshat-Jain',
