@@ -29,6 +29,7 @@ import Akshat from '../../images/members/Akshat.jpeg';
 import Jogendra from '../../images/members/Jogendra.jpeg';
 import AkshatGarg from '../../images/members/AkshatGarg.jpeg';
 import Sanskar from '../../images/members/Sanskar.jpeg';
+import Arundhati from '../../images/members/Arundhati.jpeg';
 
 let team = [{
   'mentors': [{
@@ -205,7 +206,15 @@ let team = [{
       'twitter': 'https://twitter.com/sansyrox',
       'linkedin': 'https://www.linkedin.com/in/sanskar-jethi-68b95b48/',
       'blog': '#'
-      }]
+    },{
+    'name': 'Arundhati Gupta',
+    'github': 'https://github.com/arundhati24',
+    'avatar': Arundhati,
+    'designation': 'Android Developer',
+    'twitter': 'https://twitter.com/gupta_arundhati',
+    'linkedin': 'https://www.linkedin.com/in/gupta-arundhati/',
+    'blog': '#'
+    }]
   },
 {
   'alumni': [{
