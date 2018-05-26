@@ -18,6 +18,7 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
+import Extension from 'material-ui/svg-icons/action/extension';
 import Translate from '../Translate/Translate.react';
 
 const cookies = new Cookies();
@@ -96,13 +97,18 @@ class TopBar extends Component {
 						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate text="Settings"/>}
-						containerElement={<Link to="/settings" />}
-						rightIcon={<Settings/>}/>
 					<MenuItem primaryText={<Translate text="Themes"/>}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
+					<MenuItem
+						rightIcon={<Extension/>}
+						href="https://skills.susi.ai/botbuilder"
+					><Translate text="Botbuilder"/>
+					</MenuItem>
+					<MenuItem primaryText={<Translate text="Settings"/>}
+						containerElement={<Link to="/settings" />}
+						rightIcon={<Settings/>}/>
 					<MenuItem primaryText={<Translate text="Logout"/>}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
