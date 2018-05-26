@@ -192,6 +192,17 @@ class TopBar extends Component {
 				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
+					<div style={{ marginTop: '-7px' }}>
+						<ExpandingSearchField
+							searchText={this.props.searchState.searchText}
+							searchIndex={this.props.searchState.searchIndex}
+							searchCount={this.props.searchState.scrollLimit}
+							onTextChange={this.props.searchTextChanged}
+							activateSearch={this.props._onClickSearch}
+							exitSearch={this.props._onClickExit}
+							scrollRecent={this.props._onClickRecent}
+							scrollPrev={this.props._onClickPrev} />
+					</div>
 					<div>
 						{
 							cookies.get('loggedIn') ?
@@ -203,17 +214,6 @@ class TopBar extends Component {
 								(<label>
 									</label>)
 						}
-					</div>
-					<div style={{ marginTop: '-7px' }}>
-						<ExpandingSearchField
-							searchText={this.props.searchState.searchText}
-							searchIndex={this.props.searchState.searchIndex}
-							searchCount={this.props.searchState.scrollLimit}
-							onTextChange={this.props.searchTextChanged}
-							activateSearch={this.props._onClickSearch}
-							exitSearch={this.props._onClickExit}
-							scrollRecent={this.props._onClickRecent}
-							scrollPrev={this.props._onClickPrev} />
 					</div>
 					{!this.props.search ?
 						(<Logged />) :
