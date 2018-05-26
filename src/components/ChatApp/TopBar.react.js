@@ -209,6 +209,18 @@ class TopBar extends Component {
 							scrollRecent={this.props._onClickRecent}
 							scrollPrev={this.props._onClickPrev} />
 					</div>
+					<div>
+						{
+							cookies.get('loggedIn') ?
+								(
+									<label
+										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
+										{cookies.get('emailId')}
+									</label>):
+								(<label>
+									</label>)
+						}
+					</div>
 					{!this.props.search ?
 						(<Logged />) :
 						(<div>
