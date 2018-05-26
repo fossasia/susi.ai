@@ -22,6 +22,7 @@ import ChashmeetSingh from '../../images/members/ChashmeetSingh.jpeg';
 import RishiRaj from '../../images/members/RishiRaj.jpeg';
 import Saurabh from '../../images/members/Saurabh.jpeg';
 import Manveer from '../../images/members/Manveer.jpeg';
+import Praduman from '../../images/members/PradumanPannu.jpeg';
 import DivyanshuNSingh from '../../images/members/DivyanshuNSingh.jpeg';
 import HarshitKedia from '../../images/members/HarshitKedia.jpeg';
 import anshumanv from '../../images/members/anshumanv.jpeg';
@@ -29,6 +30,7 @@ import Akshat from '../../images/members/Akshat.jpeg';
 import Jogendra from '../../images/members/Jogendra.jpeg';
 import AkshatGarg from '../../images/members/AkshatGarg.jpeg';
 import Sanskar from '../../images/members/Sanskar.jpeg';
+import Arundhati from '../../images/members/Arundhati.jpeg';
 
 let team = [{
   'mentors': [{
@@ -181,6 +183,13 @@ let team = [{
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
   }, {
+    'name': 'Praduman Pannu',
+    'github': 'https://github.com/PrP-11',
+    'avatar': Praduman,
+    'designation': 'Java + Web Developer',
+    'twitter': 'https://twitter.com/praduman_pannu',
+    'linkedin': 'https://www.linkedin.com/in/praduman-pannu-1409a475',
+  }, {
     'name': 'Akshat Jain',
     'github': 'https://github.com/Akshat-Jain',
     'avatar': Akshat,
@@ -205,7 +214,15 @@ let team = [{
       'twitter': 'https://twitter.com/sansyrox',
       'linkedin': 'https://www.linkedin.com/in/sanskar-jethi-68b95b48/',
       'blog': '#'
-      }]
+    },{
+    'name': 'Arundhati Gupta',
+    'github': 'https://github.com/arundhati24',
+    'avatar': Arundhati,
+    'designation': 'Android Developer',
+    'twitter': 'https://twitter.com/gupta_arundhati',
+    'linkedin': 'https://www.linkedin.com/in/gupta-arundhati/',
+    'blog': '#'
+    }]
   },
 {
   'alumni': [{
