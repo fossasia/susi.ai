@@ -256,9 +256,9 @@ class StaticAppBar extends Component {
             cursor: 'pointer'
         }
 
-        var leftGap = this.state.leftGap;
+        let leftGap = this.state.leftGap;
         // Check the path to show or not to show top bar left menu
-        var showLeftMenu = 'block';
+        let showLeftMenu = 'block';
 
         if(this.props.location.pathname==='/settings'){
             showLeftMenu='none';

@@ -1331,13 +1331,26 @@ class Settings extends Component {
 		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
 		</div>
 		</div>
-	 const menuStyle = {
-					 marginTop: 20,
-					 textAlign: 'center',
-					 display: 'inline-block',
-					 backgroundColor:themeBackgroundColor,
-					 color:themeForegroundColor
-	};
+	let menuStyle = cookies.get('loggedIn') ?
+		{
+			 height: 600,
+			 marginTop: 20,
+			 textAlign: 'center',
+			 display: 'inline-block',
+			 backgroundColor:themeBackgroundColor,
+			 color:themeForegroundColor
+		}
+
+		:
+
+		{
+			height: 455,
+			marginTop: 20,
+			textAlign: 'center',
+			display: 'inline-block',
+			backgroundColor:themeBackgroundColor,
+			color:themeForegroundColor
+		};
 	const ttsSettingsChanged=this.ttsSettingsChanged();
 	const actionsTextToSpeechDialog = [
       <FlatButton
