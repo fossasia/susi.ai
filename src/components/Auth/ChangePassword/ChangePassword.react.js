@@ -236,7 +236,21 @@ export default class ChangePassword extends Component {
     render() {
         const themeBackgroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#19324c':'#fff';
         const themeForegroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#fff':'#272727';
-
+        const pass_curr = <h4>Current Password</h4>;
+        const new_passwd =<h4>New Password</h4>;
+        const change_passwd = <h4>Verify Password</h4>;
+        const pass_style = {
+          position: 'relative',
+            top: '40px',
+        }
+        const new_pass_style = {
+          position: 'relative',
+            top: '40px',
+        }
+        const change_pass_style = {
+          position: 'relative',
+            top: '45px',
+        }
         const styles = {
             'width': '100%',
             'textAlign': 'left',
@@ -255,8 +269,9 @@ export default class ChangePassword extends Component {
           cursor:'pointer'
         }
         const fieldStyle={
+            'position':'relative',
             'width':'200px',
-            left: '180px',
+            'left':'150px',
             color:themeForegroundColor
         }
         const inputStyle={
@@ -275,23 +290,27 @@ export default class ChangePassword extends Component {
                 <Paper zDepth={0} style={styles}>
                     <form onSubmit={this.handleSubmit}>
                         <div>
-                            <h4 style="position: relative;left: 10px;top: 40px;">Current Password</h4>
+                        <div style = {pass_style}>
+                          {pass_curr}
+                        </div>
                             <input
-                                    type="text"
-                                    name="password"
-                                    style={fieldStyle}
-                                    value={this.state.passwordValue}
-                                    onChange={this.handleChange}
-                                    inputStyle={inputStyle}
-                                    errorText={this.passwordErrorMessage}
-                                    underlineFocusStyle={underlineFocusStyle}
-                                    floatingLabelStyle={floatingLabelStyle}
-                                    visibilityIconStyle={{color:themeForegroundColor}}
-                                    floatingLabelFocusStyle={underlineFocusStyle}
-                                    floatingLabelText={<Translate text="Forgot your Password" />}/>
-                              </div>
+                                name="password"
+                                style={fieldStyle}
+                                value={this.state.passwordValue}
+                                onChange={this.handleChange}
+                                inputStyle={inputStyle}
+                                errorText={this.passwordErrorMessage}
+                                underlineFocusStyle={underlineFocusStyle}
+                                floatingLabelStyle={floatingLabelStyle}
+                                visibilityIconStyle={{color:themeForegroundColor}}
+                                floatingLabelFocusStyle={underlineFocusStyle}
+                                floatingLabelText={<Translate text="Current Password" />} />
+                        </div>
                         <div className={PasswordClass.join(' ')}>
-                            <PasswordField
+                        <div style = {new_pass_style}>
+                        {new_passwd}
+                        </div>
+                            <input
                                 name="newPassword"
                                 style={fieldStyle}
                                 value={this.state.newPasswordValue}
@@ -309,7 +328,10 @@ export default class ChangePassword extends Component {
                               </div>
                         </div>
                         <div>
-                            <PasswordField
+                          <div style= {change_pass_style}>
+                          {change_passwd}
+                          </div>
+                            <input
                                 name="confirmNewPassword"
                                 style={fieldStyle}
                                 value={this.state.confirmNewPasswordValue}
@@ -325,7 +347,7 @@ export default class ChangePassword extends Component {
                         <div>
                             <br />
                             <RaisedButton
-                                label={<Translate text="Change" />}
+                                label={<Translate text="Save your Changes" />}
                                 type="submit"
                                 disabled={!this.state.validForm}
                                 backgroundColor='#4285f4'
