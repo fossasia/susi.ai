@@ -183,7 +183,7 @@ let team = [{
     'designation': 'Web Developer',
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
-  }, 
+  },
   {
   'name': 'Anup Kumar Panwar',
   'github': 'https://github.com/anupkumarpanwar',
