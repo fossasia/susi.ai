@@ -1337,6 +1337,7 @@ class Settings extends Component {
 					 display: 'inline-block',
 					 backgroundColor:themeBackgroundColor,
 					 color:themeForegroundColor
+     
 	};
 	const ttsSettingsChanged=this.ttsSettingsChanged();
 	const actionsTextToSpeechDialog = [

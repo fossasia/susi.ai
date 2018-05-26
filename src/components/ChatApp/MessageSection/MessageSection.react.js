@@ -1090,7 +1090,7 @@ class MessageSection extends Component {
    }
 
   componentDidUpdate() {
-    switch (this.state.currTheme) {
+      switch (this.state.currTheme) {
       case 'light':{
         document.body.className = 'white-body';
         break;

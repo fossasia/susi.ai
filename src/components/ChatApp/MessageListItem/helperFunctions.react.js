@@ -152,7 +152,7 @@ export function imageParse(stringWithLinks){
     if(checkmatch){
       result.push(
         <img key={key} src={checkmatch}
-          style={{width:'95%',height:'auto'}} alt=''/>);
+          style={{width:'100%',height:'auto'}} alt=''/>);
     }
     else{
       result.push(Parser(item));
