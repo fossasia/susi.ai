@@ -27,6 +27,7 @@ import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
+import TimezonePicker from 'react-timezone';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -35,7 +36,6 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
 import LockIcon from 'material-ui/svg-icons/action/lock';
-import LanguageIcon from 'material-ui/svg-icons/action/language';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
@@ -59,6 +59,7 @@ class Settings extends Component {
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultPrefLanguage = defaults.PrefLanguage;
+		let defaultTimeZone = defaults.TimeZone;
 		let defaultChecked = defaults.checked;
 		let defaultServerUrl= defaults.serverUrl;
 		let defaultCountryCode = defaults.CountryCode;
@@ -76,6 +77,7 @@ class Settings extends Component {
 				speechPitch: defaultSpeechPitch,
 				server: defaultServer,
 				PrefLanguage: defaultPrefLanguage,
+				TimeZone: defaultTimeZone,
 				serverUrl: defaultServerUrl,
 				checked: defaultChecked,
 				countryCode: defaultCountryCode,
@@ -97,6 +99,7 @@ class Settings extends Component {
 	let defaultSpeechPitch = defaults.SpeechPitch;
 	let defaultTTSLanguage = defaults.TTSLanguage;
 	let defaultPrefLanguage = defaults.PrefLanguage;
+	let defaultTimeZone = defaults.TimeZone;
 	let defaultChecked = defaults.checked;
 	let defaultServerUrl= defaults.serverUrl;
 	let defaultCountryCode = defaults.CountryCode;
@@ -138,6 +141,7 @@ class Settings extends Component {
 			speechPitch: defaultSpeechPitch,
 			ttsLanguage: defaultTTSLanguage,
 			PrefLanguage: defaultPrefLanguage,
+			TimeZone: defaultTimeZone,
 			showServerChangeDialog: false,
 			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
@@ -255,6 +259,7 @@ class Settings extends Component {
 		let newSpeechPitch = this.state.speechPitch;
 		let newTTSLanguage = this.state.ttsLanguage;
 		let newPrefLanguage = this.state.PrefLanguage;
+		let newTimeZone = this.state.TimeZone;
 		let checked = this.state.checked;
 		let serverUrl = this.state.serverUrl;
 		let newCountryCode = !this.state.countryCode?
@@ -275,6 +280,7 @@ class Settings extends Component {
 			speechPitch: newSpeechPitch,
 			ttsLanguage: newTTSLanguage,
 			prefLanguage: newPrefLanguage,
+			timeZone: newTimeZone,
 			countryCode: newCountryCode,
 			countryDialCode: newCountryDialCode,
 			phoneNo: newPhoneNo,
@@ -518,6 +524,12 @@ class Settings extends Component {
 		});
 	}
 
+	handleTimeZone = (value) => {
+		this.setState({
+			TimeZone: value,
+		});
+	}
+
 	// Close Top Bar drop down menu
 	closeOptions = () => {
 		this.setState({
@@ -567,7 +579,7 @@ class Settings extends Component {
 			},{
 				lang: 'nl-NL',
 				name: 'Dutch'
-      }]
+      			}]
 		});
 	}
 
@@ -597,7 +609,7 @@ class Settings extends Component {
 		}
 		else{
 			this.setState({
-			selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp Settings'
+			selectedSetting: cookies.get('loggedIn')? 'General':'ChatApp Settings'
 		})
 		}
 		this.showWhenLoggedIn='none';
@@ -698,6 +710,9 @@ class Settings extends Component {
 			somethingToSave = true;
 		}
 		else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
+			somethingToSave = true;
+		}
+		else if (intialSettings.TimeZone !== classState.TimeZone) {
 			somethingToSave = true;
 		}
 		else if (intialSettings.countryCode !== classState.countryCode) {
@@ -1006,7 +1021,7 @@ class Settings extends Component {
 			)
 		}
 
-		else if (this.state.selectedSetting === 'Text Language Settings') {
+		else if (this.state.selectedSetting === 'General' && cookies.get('loggedIn')) {
 			currentSetting = (
 				<div style={divStyle}>
 					<span>
@@ -1016,9 +1031,27 @@ class Settings extends Component {
 							fontSize: '15px',
 							fontWeight: 'bold'
 						}}>
-							<Translate text="Select Default Language" />
+							<Translate text="General Settings" />
 						</div>
 					</span>
+					<TextField
+						name="email"
+						disabled={true}
+						underlineDisabledStyle={UserPreferencesStore.getTheme()==='dark'?underlineStyle:null}
+						underlineStyle={underlineStyle}
+						inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
+                  				value={this.state.identity.name}
+						floatingLabelStyle={floatingLabelStyle}
+                  				floatingLabelText={<Translate text="Your Email"/>} />
+						<br />
+
+						<div style={{
+							marginTop: '10px',
+							'marginBottom': '0px',
+							fontSize: '15px',
+							fontWeight: 'bold'
+						}}><Translate text="Select default language" />
+						</div>
 						<DropDownMenu
 							value={voiceOutput.voiceLang}
 							disabled={!this.TTSBrowserSupport}
@@ -1027,7 +1060,23 @@ class Settings extends Component {
 							menuItemStyle={{color:themeForegroundColor}}
 							onChange={this.handlePrefLang}>
 							{voiceOutput.voiceMenu}
-					 </DropDownMenu>
+						 </DropDownMenu>
+						<br />
+						<div style={{
+							marginTop: '10px',
+							'marginBottom': '0px',
+							fontSize: '15px',
+							fontWeight: 'bold'
+						}}><Translate text="Select TimeZone" /></div>
+						<br />
+						<TimezonePicker
+						value={this.state.TimeZone}
+						onChange={timezone => this.handleTimeZone(timezone)}
+						inputProps={{
+						placeholder: 'Select Timezone...',
+						name: 'timezone',
+    						}}
+  						/>
 				</div>
 			)
 		}
@@ -1046,30 +1095,6 @@ class Settings extends Component {
 						</div>
 					</span>
 					<ChangePassword settings={this.state.intialSettings} {...this.props} />
-				</span>
-			</div>
-		}
-
-		else if(this.state.selectedSetting === 'Account' && cookies.get('loggedIn')) {
-			currentSetting =
-			<div style={divStyle}>
-				<span>
-					<div style={{
-						marginTop: '10px',
-						'marginBottom':'0px',
-						fontSize: '15px',
-						fontWeight: 'bold'}}>
-						<Translate text="Your Account"/>
-					</div>
-					<TextField
-						name="email"
-						disabled={true}
-						underlineDisabledStyle={UserPreferencesStore.getTheme()==='dark'?underlineStyle:null}
-						underlineStyle={underlineStyle}
-						inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
-                  		value={this.state.identity.name}
-						floatingLabelStyle={floatingLabelStyle}
-                  		floatingLabelText={<Translate text="Your Email"/>} />
 				</span>
 			</div>
 		}
@@ -1229,7 +1254,7 @@ class Settings extends Component {
 			style={{width:'100%'}}
 			value={this.state.selectedSetting}
 			>
-			<MenuItem style={{color:themeForegroundColor}} value='Account' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>Account<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='General' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>General<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
@@ -1240,8 +1265,6 @@ class Settings extends Component {
 			<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon color={menuIconColor}/>}>Text Language Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
@@ -1264,13 +1287,12 @@ class Settings extends Component {
 			style={{width:'100%'}}
 			autoWidth={false}
         >
-				<MenuItem primaryText='Account' value='Account' className="setting-item"/>
+				<MenuItem primaryText='General' value='General' className="setting-item"/>
 				<MenuItem primaryText='Password' value='Password' className="setting-item"/>
 				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
 				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
@@ -1297,8 +1319,6 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Text Language Settings' className="setting-item" leftIcon={<LanguageIcon color={menuIconColor}/>}>Text Language Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
@@ -1323,7 +1343,6 @@ class Settings extends Component {
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
 				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Text Language Settings' value='Text Language Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
