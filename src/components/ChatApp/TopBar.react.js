@@ -192,6 +192,18 @@ class TopBar extends Component {
 				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
+					<div>
+						{
+							cookies.get('loggedIn') ?
+								(
+									<label
+										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
+										{cookies.get('emailId')}
+									</label>):
+								(<label>
+									</label>)
+						}
+					</div>
 					<div style={{ marginTop: '-7px' }}>
 						<ExpandingSearchField
 							searchText={this.props.searchState.searchText}
