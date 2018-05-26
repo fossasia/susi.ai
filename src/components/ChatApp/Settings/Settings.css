@@ -1,5 +1,5 @@
 .tabStyle{
-  height: 550px;
+  height: auto;
   margin-top: 20px;
   display: inline-block;
 }
@@ -77,7 +77,7 @@
 
 .leftMenu {
   width: 35%;
-  height:620px;
+  height: auto;
   background-color: #fff;
 }
 
