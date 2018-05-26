@@ -77,6 +77,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
+					animated={false}
 					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
@@ -129,6 +130,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
+					animated={false}
 					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
@@ -230,6 +232,7 @@ class TopBar extends Component {
 								<MoreVertIcon />
 							</IconButton>
 							<Popover
+								animated={false}
 								open={this.props.searchState.open}
 								anchorEl={this.props.searchState.anchorEl}
 								anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
