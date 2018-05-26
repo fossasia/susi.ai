@@ -31,6 +31,7 @@ import Jogendra from '../../images/members/Jogendra.jpeg';
 import AkshatGarg from '../../images/members/AkshatGarg.jpeg';
 import Sanskar from '../../images/members/Sanskar.jpeg';
 import Arundhati from '../../images/members/Arundhati.jpeg';
+import Anup from '../../images/members/Anup.jpeg';
 
 let team = [{
   'mentors': [{
@@ -182,7 +183,17 @@ let team = [{
     'designation': 'Web Developer',
     'twitter': 'https://twitter.com/Anshumaniac12',
     'linkedin': 'https://www.linkedin.com/in/anshumanv12',
-  }, {
+  }, 
+  {
+  'name': 'Anup Kumar Panwar',
+  'github': 'https://github.com/anupkumarpanwar',
+  'avatar': Anup,
+  'designation': 'Android Developer | Full Stack Developer',
+  'twitter': 'https://twitter.com/anupkumarpanwar',
+  'linkedin': 'https://www.linkedin.com/in/anupkumarpanwar',
+  'blog': '#'
+  },
+  {
     'name': 'Praduman Pannu',
     'github': 'https://github.com/PrP-11',
     'avatar': Praduman,
