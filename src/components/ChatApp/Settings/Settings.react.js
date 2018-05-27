@@ -1,5 +1,6 @@
 import './Settings.css';
 import $ from 'jquery';
+import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -1375,7 +1376,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
-		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
+		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
 		</div>
 
 		:
@@ -1400,7 +1401,7 @@ class Settings extends Component {
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
-		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
+		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
 		</div>
 		<div className="settings-list-dropdown">
 		<DropDownMenu
@@ -1420,7 +1421,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
-		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
+		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
 		</div>
 		</div>
 	let menuStyle = cookies.get('loggedIn') ?
