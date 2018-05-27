@@ -18,6 +18,7 @@ let _defaults = {
     SpeechPitch: 1,
     TTSLanguage: 'en-US',
     PrefLanguage : 'en-US',
+    TimeZone: 'UTC-02',
     ThemeValues: '',
     CountryCode: 'US',
     CountryDialCode: '+1',
@@ -77,6 +78,9 @@ let UserPreferencesStore = {
         return _defaults.PrefLanguage;
     },
 
+    getTimeZone(){
+        return _defaults.TimeZone;
+    },
     getBackgroundImage(){
         return _defaults.BackgroundImage;
     },
@@ -154,6 +158,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             if(settings.hasOwnProperty('prefLanguage')){
               _defaults.PrefLanguage = settings.prefLanguage;
             }
+            if(settings.hasOwnProperty('timeZone')){
+                _defaults.TimeZone = settings.timeZone;
+            }
             if(settings.hasOwnProperty('customThemeValue')){
                 _defaults.ThemeValues = settings.customThemeValue;
             }
@@ -193,6 +200,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.SpeechPitch = settings.speechPitch;
                 _defaults.TTSLanguage = settings.ttsLanguage;
                 _defaults.PrefLanguage = settings.prefLanguage;
+                _defaults.TimeZone = settings.timeZone;
                 _defaults.ThemeValues = settings.customThemeValue;
                 _defaults.checked = settings.checked;
                 _defaults.serverUrl = settings.serverUrl;
@@ -237,6 +245,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 }
                 if(settings.hasOwnProperty('prefLanguage')){
                   _defaults.PrefLanguage = settings.prefLanguage;
+                }
+                if(settings.hasOwnProperty('timeZone')){
+                    _defaults.TimeZone = settings.timeZone;
                 }
                 if(settings.hasOwnProperty('customThemeValue')){
                     _defaults.ThemeValues = settings.customThemeValue;
