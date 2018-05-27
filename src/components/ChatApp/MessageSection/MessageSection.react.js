@@ -1175,9 +1175,14 @@ _onClickRecent = () => {
 _onClickSearch = () => {
   let searchState = this.state.searchState;
   searchState.markedMsgs = this.state.messages;
+  if(this.state.SnackbarOpenSearchResults){
+    this.setState({
+      SnackbarOpenSearchResults: false
+    })
+  }
   this.setState({
     search: true,
-    searchState: searchState,
+    searchState: searchState
   });
 }
 
@@ -1186,9 +1191,14 @@ _onClickExit = () => {
   searchState.searchText = '';
   searchState.searchIndex = 0;
   searchState.scrollLimit = 0;
+  if(this.state.SnackbarOpenSearchResults){
+    this.setState({
+      SnackbarOpenSearchResults: false
+    })
+  }
   this.setState({
     search: false,
-    searchState: searchState,
+    searchState: searchState
   });
 }
 
