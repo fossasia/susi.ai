@@ -374,6 +374,7 @@ export function getSettings(){
       settings.speechPitch = settings.SpeechPitch
       settings.ttsLanguage = settings.TTSLanguage
       settings.prefLanguage = settings.PrefLanguage
+      settings.timeZone = settings.TimeZone
       settings.customThemeValue = settings.ThemeValues
       settings.LocalStorage = true;
       settings.checked=false;
