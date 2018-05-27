@@ -8,7 +8,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
-import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
@@ -165,14 +164,6 @@ class TopBar extends Component {
 
 	render() {
 
-		const toggleStyles = {
-			toggle: {
-				margin: '7px',
-				width: '160px',
-				height: '30px'
-			}
-		};
-
 		var backgroundCol=this.props.header;
 
 		let appBarClass = 'app-bar';
@@ -225,29 +216,7 @@ class TopBar extends Component {
 					</div>
 					{!this.props.search ?
 						(<Logged />) :
-						(<div>
-							<IconButton
-								iconStyle={{ fill: 'white' }}
-								onTouchTap={this.props.handleOptions}>
-								<MoreVertIcon />
-							</IconButton>
-							<Popover
-								animated={false}
-								open={this.props.searchState.open}
-								anchorEl={this.props.searchState.anchorEl}
-								anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-								targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-								onRequestClose={this.props.handleRequestClose}
-							>
-								<Toggle
-									label="Case Sensitive"
-									style={toggleStyles.toggle}
-									labelPosition="right"
-									onToggle={this.props.handleToggle}
-									toggled={this.props.searchState.caseSensitive}
-								/>
-							</Popover>
-						</div>)
+						null
 					}
 				</ToolbarGroup>
 			</Toolbar>
