@@ -1,4 +1,5 @@
 import './Settings.css';
+import $ from 'jquery';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -12,7 +13,6 @@ import Toggle from 'material-ui/Toggle';
 import Dialog from 'material-ui/Dialog';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
-import HardwareComponent from '../HardwareComponent';
 import CustomServer from '../CustomServer.react';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
@@ -27,6 +27,7 @@ import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
+import TableComplex from '../../TableComplex/TableComplex.react';
 import TimezonePicker from 'react-timezone';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
@@ -37,18 +38,89 @@ import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
 import LockIcon from 'material-ui/svg-icons/action/lock';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
-import HardwareIcon from 'material-ui/svg-icons/hardware/memory';
+import MyDevices from 'material-ui/svg-icons/device/devices';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 const cookies = new Cookies();
 
+let obj=[];
+let defaults = UserPreferencesStore.getPreferences();
+let defaultServerURL = defaults.Server;
+
+let BASE_URL = '';
+if(cookies.get('serverUrl')===defaultServerURL||
+  cookies.get('serverUrl')===null||
+  cookies.get('serverUrl')=== undefined) {
+  BASE_URL = defaultServerURL;
+}
+else{
+  BASE_URL= cookies.get('serverUrl');
+}
+
+let url = BASE_URL+'/aaa/listUserSettings.json?'
+        +'access_token='+cookies.get('loggedIn');
+
 // eslint-disable-next-line
 class Settings extends Component {
+
+	constructor(props) {
+			super(props);
+			this.state = {
+					dataFetched: false,
+					deviceData: false,
+			};
+	}
+
+	apiCall = () => {
+		$.ajax({
+			url: url,
+			type:'GET',
+			dataType: 'jsonp',
+			statusCode: {
+				404: function(xhr) {
+					if(window.console) {console.log(xhr.responseText);}
+					console.log('Error 404: Resources not found!');
+					document.location.reload();
+				},
+				503: function(xhr) {
+					if(window.console) {console.log(xhr.responseText);}
+					console.log('Error 503: Server not responding!');
+					document.location.reload();
+				}
+			},
+			crossDomain: true,
+			timeout: 3000,
+			async: false,
+			success: function (response) {
+					obj=[];
+					let keys = Object.keys(response.devices);
+					keys.forEach((i) => {
+						let myObj = {
+								'macid' : i,
+								'devicename' : Object.keys(response.devices[i])[0]
+						};
+						obj.push( myObj );
+						this.setState({
+							dataFetched: true,
+						});
+					});
+					if(obj.length){
+						this.setState({
+							deviceData: true,
+						});
+					}
+			}.bind(this),
+			error: function(errorThrown){
+				console.log(errorThrown);
+			}
+		});
+	}
+
 	// Boolean to store the state of preview i.e which theme to display
 	preview = false;
 	// save a variable in state holding the initial state of the settings
 	setInitialSettings = () => {
-		let defaults = UserPreferencesStore.getPreferences();
+		defaults = UserPreferencesStore.getPreferences();
 		let identity = UserIdentityStore.getIdentity();
 		let defaultServer = defaults.Server;
 		let defaultTheme = UserPreferencesStore.getTheme(this.preview);
@@ -88,7 +160,7 @@ class Settings extends Component {
 	}
 	// extract values from store to get the initial settings
 	setDefaultsSettings = () => {
-	let defaults = UserPreferencesStore.getPreferences();
+	defaults = UserPreferencesStore.getPreferences();
 	let defaultServer = defaults.Server;
 	let defaultTheme = UserPreferencesStore.getTheme(this.preview);
 	let defaultEnterAsSend = defaults.EnterAsSend;
@@ -143,7 +215,6 @@ class Settings extends Component {
 			PrefLanguage: defaultPrefLanguage,
 			TimeZone: defaultTimeZone,
 			showServerChangeDialog: false,
-			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
 			showLogin: false,
 			showSignUp: false,
@@ -227,19 +298,11 @@ class Settings extends Component {
 		});
 	}
 
-	// Show hardware connect dialog
-	handleHardware = () => {
-		this.setState({
-			showHardwareChangeDialog: true
-		});
-	}
-
 	// Close all open dialogs
 	handleClose = () => {
 		this.setState({
 			showLanguageSettings: false,
 			showServerChangeDialog: false,
-			showHardwareChangeDialog: false,
 			showChangePasswordDialog: false,
 			showOptions: false,
 			showLogin: false,
@@ -429,7 +492,7 @@ class Settings extends Component {
 		let serverUrl
 		if (event.target.value === 'customServer') {
 			state.checked = !state.checked;
-			let defaults = UserPreferencesStore.getPreferences();
+			defaults = UserPreferencesStore.getPreferences();
 			state.serverUrl = defaults.StandardServer;
 			state.serverFieldError = false;
 		}
@@ -469,8 +532,7 @@ class Settings extends Component {
 		else {
 			// Go back to settings dialog
 			this.setState({
-				showServerChangeDialog: false,
-				showHardwareChangeDialog: false
+				showServerChangeDialog: false
 			});
 		}
 	}
@@ -583,7 +645,13 @@ class Settings extends Component {
 		});
 	}
 
+	// eslint-disable-next-line
 	componentDidMount() {
+
+		if(!this.state.dataFetched && cookies.get('loggedIn')){
+				this.apiCall();
+		}
+
 		document.title = 'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
 		MessageStore.addChangeListener(this._onChange.bind(this));
 		UserPreferencesStore.addChangeListener(this._onChangeSettings.bind(this));
@@ -660,10 +728,11 @@ class Settings extends Component {
 		{
 			return false;
 		}
-		if (selectedSetting === 'Connect to SUSI Hardware') {
+		if(selectedSetting==='Account')
+		{
 			return false;
 		}
-		if(selectedSetting==='Account')
+		if(selectedSetting==='Devices')
 		{
 			return false;
 		}
@@ -1099,7 +1168,7 @@ class Settings extends Component {
 			</div>
 		}
 
-		else if (this.state.selectedSetting === 'Connect to SUSI Hardware') {
+		else if (this.state.selectedSetting === 'Devices') {
 			currentSetting = (
 				<span style={divStyle}>
 					<div>
@@ -1111,10 +1180,17 @@ class Settings extends Component {
 								fontSize: '15px',
 								fontWeight: 'bold'
 							}}>
-								<Translate text="Connect to SUSI Hardware" />
+								<Translate text="Devices" />
 							</div>
 						</span>
-						<HardwareComponent settings={this.state.intialSettings} {...this.props} />
+						<div>
+							<div style={{overflowX:'hidden'}}>
+	              <StaticAppBar {...this.props}
+	                  location={this.props.location} />
+	                {this.state.deviceData ? <div className="table"><TableComplex tableData={obj}/></div>
+	              : <div id="subheading">You do not have any devices connected yet !</div>}
+	            </div>
+						</div>
 					</div>
 				</span>
 			)
@@ -1268,7 +1344,7 @@ class Settings extends Component {
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Devices' className="setting-item"  leftIcon={<MyDevices color={menuIconColor}/>}>Devices<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
 			<hr className="break-line"/>
@@ -1294,7 +1370,7 @@ class Settings extends Component {
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
 				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
-				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
+				<MenuItem primaryText='Devices' value='Devices' className="setting-item"/>
 				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
@@ -1321,8 +1397,6 @@ class Settings extends Component {
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Connect to SUSI Hardware' className="setting-item"  leftIcon={<HardwareIcon color={menuIconColor}/>}>Connect to SUSI Hardware<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
@@ -1344,7 +1418,6 @@ class Settings extends Component {
 				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
 				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
 				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
-				<MenuItem primaryText='Connect to SUSI Hardware' value='Connect to SUSI Hardware' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		<div><a href="/" style={buttonstyle}>BACK TO CHAT</a></div>
@@ -1426,19 +1499,6 @@ class Settings extends Component {
 						lang={this.state.ttsLanguage}
 						newTtsSettings={this.handleNewTextToSpeech} />
 				</Dialog>
-				{/* Hardware Connection */}
-				<Dialog
-					modal={false}
-					open={this.state.showHardwareChangeDialog}
-					autoScrollBodyContent={true}
-					bodyStyle={bodyStyle}
-					onRequestClose={this.handleClose}>
-					<div>
-						<HardwareComponent {...this.props} />
-						<Close style={closingStyle}
-							onTouchTap={this.handleClose} />
-					</div>
-				</Dialog>
 				{/* Change Server */}
 			<Dialog
 			  actions={serverDialogActions}
@@ -1475,8 +1535,7 @@ Settings.propTypes = {
 	history: PropTypes.object,
 	onSettingsSubmit: PropTypes.func,
 	onServerChange: PropTypes.func,
-	location: PropTypes.object,
-	onHardwareSettings: PropTypes.func
+	location: PropTypes.object
 };
 
 export default Settings;

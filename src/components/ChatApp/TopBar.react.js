@@ -102,9 +102,9 @@ class TopBar extends Component {
 						key="custom"
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}/>
-					<MenuItem
-						rightIcon={<Extension/>}
-						href="https://skills.susi.ai/botbuilder"
+						<MenuItem
+							rightIcon={<Extension/>}
+							href="https://skills.susi.ai/botbuilder"
 					><Translate text="Botbuilder"/>
 					</MenuItem>
 					<MenuItem primaryText={<Translate text="Settings"/>}
