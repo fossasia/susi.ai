@@ -215,7 +215,7 @@ class TopBar extends Component {
 								(
 									<label
 										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
-										{cookies.get('emailId')}
+										{cookies.get('email')}
 									</label>):
 								(<label>
 									</label>)
