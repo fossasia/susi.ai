@@ -240,16 +240,16 @@ export default class ChangePassword extends Component {
         const new_passwd =<h4>New Password</h4>;
         const change_passwd = <h4>Verify Password</h4>;
         const pass_style = {
-          position: 'relative',
-            top: '40px',
+
+            top: '20px',
         }
         const new_pass_style = {
-          position: 'relative',
-            top: '40px',
+
+            top: '15px',
         }
         const change_pass_style = {
-          position: 'relative',
-            top: '45px',
+      
+            top: '15px',
         }
         const styles = {
             'width': '100%',
@@ -272,6 +272,7 @@ export default class ChangePassword extends Component {
             'position':'relative',
             'width':'200px',
             'left':'150px',
+            'bottom':'5px',
             color:themeForegroundColor
         }
         const inputStyle={
