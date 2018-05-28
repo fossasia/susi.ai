@@ -5,7 +5,6 @@ import * as ChatMessageUtils from '../utils/ChatMessageUtils';
 import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import MessageStore from '../stores/MessageStore';
-import * as Actions from './HardwareConnect.actions';
 import * as SettingsActions from './Settings.actions';
 
 const cookies = new Cookies();
@@ -130,8 +129,6 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
         response.answers.push(defaultAnswer);
       }
 
-      // send susi response to connected Hardware Device
-      Actions.sendToHardwareDevice(response);
       // Trying for empty response i.e no answer returned
       try{
       receivedMessage.text = response.answers[0].actions[0].expression;
@@ -374,6 +371,7 @@ export function getSettings(){
       settings.speechPitch = settings.SpeechPitch
       settings.ttsLanguage = settings.TTSLanguage
       settings.prefLanguage = settings.PrefLanguage
+      settings.timeZone = settings.TimeZone
       settings.customThemeValue = settings.ThemeValues
       settings.LocalStorage = true;
       settings.checked=false;

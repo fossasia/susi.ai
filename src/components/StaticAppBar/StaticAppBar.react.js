@@ -23,6 +23,8 @@ import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
+import Extension from 'material-ui/svg-icons/action/extension';
+import Edit from 'material-ui/svg-icons/image/edit';
 
 import { Link } from 'react-router-dom';
 
@@ -183,36 +185,43 @@ class StaticAppBar extends Component {
             }
             lastScrollTop = st;
         }
-        // Check Logged in
+        // When the user is logged in
         if (cookies.get('loggedIn')) {
             Logged = (props) => (
                 <div>
-                    <MenuItem
+                    <MenuItem primaryText={<Translate text="About"/>}
                         containerElement={<Link to="/overview" />}
-                        rightIcon={<Info />}
-                    ><Translate text="About"/></MenuItem>
-                    <MenuItem
+                        rightIcon={<Info/>}
+                    />
+                    <MenuItem primaryText={<Translate text="Chat"/>}
                         containerElement={<Link to="/" />}
-                        rightIcon={<Chat />}
-                    ><Translate text="Chat"/></MenuItem>
-                    <MenuItem
-                        rightIcon={<Dashboard />}
+                        rightIcon={<Chat/>}
+                    />
+                    <MenuItem primaryText={<Translate text="Skills"/>}
+                        rightIcon={<Dashboard/>}
                         href="https://skills.susi.ai"
-                    ><Translate text="Skills"/>
-                    </MenuItem>
-                    <MenuItem
+                    />
+                    <MenuItem primaryText={<Translate text="Themes"/>}
+                        key="custom"
+                        onClick={this.props.handleThemeChanger}
+                        rightIcon={<Edit/>}
+                    />
+                    <MenuItem primaryText={<Translate text="Botbuilder"/>}
+                        rightIcon={<Extension/>}
+                        href="https://skills.susi.ai/botbuilder"
+                    />
+                    <MenuItem primaryText={<Translate text="Settings"/>}
                         containerElement={<Link to="/settings" />}
-                        rightIcon={<Settings />} ><Translate text="Settings"/>
-                    </MenuItem>
-                    <MenuItem
+                        rightIcon={<Settings/>}/>
+                    <MenuItem primaryText={<Translate text="Logout"/>}
                         containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />}><Translate text="Logout"/>
-                    </MenuItem>
+                        rightIcon={<Exit />}/>
                 </div>
             )
             return <Logged />
         }
 
+        // When the user is not logged in
         Logged = (props) => (
             <div>
                 <MenuItem
@@ -279,6 +288,7 @@ class StaticAppBar extends Component {
                     </IconMenu>
                     <Popover
                         {...props}
+                        animated={false}
                         style={{ float: 'left', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
@@ -482,6 +492,7 @@ StaticAppBar.propTypes = {
     settings: PropTypes.object,
     location: PropTypes.object,
     theme: PropTypes.object,
-    closeVideo: PropTypes.func
+    closeVideo: PropTypes.func,
+    handleThemeChanger: PropTypes.func
 }
 export default StaticAppBar;
