@@ -85,8 +85,8 @@ class TopBar extends Component {
 					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText={<Translate text="About"/>}
-					containerElement={<Link to="/overview" />}
-					rightIcon={<Info/>}
+						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
 					/>
 					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
@@ -100,12 +100,12 @@ class TopBar extends Component {
 					<MenuItem primaryText={<Translate text="Themes"/>}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
-						rightIcon={<Edit/>}/>
-						<MenuItem
-							rightIcon={<Extension/>}
-							href="https://skills.susi.ai/botbuilder"
-					><Translate text="Botbuilder"/>
-					</MenuItem>
+						rightIcon={<Edit/>}
+					/>
+					<MenuItem primaryText={<Translate text="Botbuilder"/>}
+						rightIcon={<Extension/>}
+						href="https://skills.susi.ai/botbuilder"
+					/>
 					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
@@ -138,12 +138,12 @@ class TopBar extends Component {
 					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText={<Translate text="About"/>}
-					containerElement={<Link to="/overview" />}
-					rightIcon={<Info/>}
+						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
 					/>
 					<MenuItem primaryText={<Translate text="Chat"/>}
-					containerElement={<Link to="/" />}
-					rightIcon={<Chat/>}
+						containerElement={<Link to="/" />}
+						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
