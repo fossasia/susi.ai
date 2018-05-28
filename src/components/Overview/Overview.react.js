@@ -178,7 +178,8 @@ class Overview extends Component{
 	                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
 	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
 	                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a> and as
+											&nbsp;<a href='https://github.com/fossasia/susi_chromebot'>Chrome Extension</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
 	                    </p>
 	            </div>
 	          </div>
