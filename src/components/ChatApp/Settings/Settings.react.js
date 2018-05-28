@@ -678,7 +678,7 @@ class Settings extends Component {
 		}
 		else{
 			this.setState({
-			selectedSetting: cookies.get('loggedIn')? 'General':'ChatApp Settings'
+			selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp Settings'
 		})
 		}
 		this.showWhenLoggedIn='none';
@@ -726,10 +726,6 @@ class Settings extends Component {
 	displaySaveChangesButton = () =>{
 		let selectedSetting=this.state.selectedSetting;
 		if(selectedSetting==='Password')
-		{
-			return false;
-		}
-		if(selectedSetting==='Account')
 		{
 			return false;
 		}
@@ -1091,7 +1087,7 @@ class Settings extends Component {
 			)
 		}
 
-		else if (this.state.selectedSetting === 'General' && cookies.get('loggedIn')) {
+		else if (this.state.selectedSetting === 'Account' && cookies.get('loggedIn')) {
 			currentSetting = (
 				<div style={divStyle}>
 					<span>
@@ -1101,14 +1097,11 @@ class Settings extends Component {
 							fontSize: '15px',
 							fontWeight: 'bold'
 						}}>
-							<Translate text="General Settings" />
+							<Translate text="Account Settings" />
 						</div>
 					</span>
 					<TextField
 						name="email"
-						disabled={true}
-						underlineDisabledStyle={UserPreferencesStore.getTheme()==='dark'?underlineStyle:null}
-						underlineStyle={underlineStyle}
 						inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
                   				value={this.state.identity.name}
 						floatingLabelStyle={floatingLabelStyle}
@@ -1331,7 +1324,7 @@ class Settings extends Component {
 			style={{width:'100%'}}
 			value={this.state.selectedSetting}
 			>
-			<MenuItem style={{color:themeForegroundColor}} value='General' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>General<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Account' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>Account<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
@@ -1364,7 +1357,7 @@ class Settings extends Component {
 			style={{width:'100%'}}
 			autoWidth={false}
         >
-				<MenuItem primaryText='General' value='General' className="setting-item"/>
+				<MenuItem primaryText='Account' value='Account' className="setting-item"/>
 				<MenuItem primaryText='Password' value='Password' className="setting-item"/>
 				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
