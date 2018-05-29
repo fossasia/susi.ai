@@ -60,7 +60,6 @@ else{
 let url = BASE_URL+'/aaa/listUserSettings.json?'
         +'access_token='+cookies.get('loggedIn');
 
-// eslint-disable-next-line
 class Settings extends Component {
 
 	constructor(props) {
@@ -599,7 +598,6 @@ class Settings extends Component {
 		});
 	}
 
-	// eslint-disable-next-line
 	componentWillMount() {
 		document.body.className = 'white-body';
 		this.setDefaultsSettings();
