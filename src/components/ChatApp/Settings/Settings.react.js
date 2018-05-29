@@ -60,7 +60,6 @@ else{
 let url = BASE_URL+'/aaa/listUserSettings.json?'
         +'access_token='+cookies.get('loggedIn');
 
-// eslint-disable-next-line
 class Settings extends Component {
 
 	constructor(props) {
@@ -93,21 +92,24 @@ class Settings extends Component {
 			async: false,
 			success: function (response) {
 					obj=[];
-					let keys = Object.keys(response.devices);
-					keys.forEach((i) => {
-						let myObj = {
-								'macid' : i,
-								'devicename' : Object.keys(response.devices[i])[0]
-						};
-						obj.push( myObj );
-						this.setState({
-							dataFetched: true,
+					if(response.devices)
+					{
+						let keys = Object.keys(response.devices);
+						keys.forEach((i) => {
+							let myObj = {
+									'macid' : i,
+									'devicename' : Object.keys(response.devices[i])[0]
+							};
+							obj.push( myObj );
+							this.setState({
+								dataFetched: true,
+							});
 						});
-					});
-					if(obj.length){
-						this.setState({
-							deviceData: true,
-						});
+						if(obj.length){
+							this.setState({
+								deviceData: true,
+							});
+						}
 					}
 			}.bind(this),
 			error: function(errorThrown){
@@ -599,7 +601,6 @@ class Settings extends Component {
 		});
 	}
 
-	// eslint-disable-next-line
 	componentWillMount() {
 		document.body.className = 'white-body';
 		this.setDefaultsSettings();

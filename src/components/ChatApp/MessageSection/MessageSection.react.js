@@ -162,7 +162,6 @@ const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
 
-// eslint-disable-next-line
 class MessageSection extends Component {
   static propTypes = {
     dream: PropTypes.string
@@ -663,10 +662,7 @@ class MessageSection extends Component {
 
   }
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
-
-
+  componentWillMount() {
     if (this.props.location) {
       if (this.props.location.state) {
         if (this.props.location.state.hasOwnProperty('showLogin')) {
