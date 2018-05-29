@@ -2,7 +2,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
-// eslint-disable-next-line
 class VoicePlayer extends Component {
   constructor (props) {
     super(props)
@@ -51,8 +50,7 @@ class VoicePlayer extends Component {
     this.setState({ playing: true })
   }
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillReceiveProps ({ pause }) {
+  componentWillReceiveProps ({ pause }) {
     if (pause && this.state.playing && this.state.started) {
       return this.pause()
     }

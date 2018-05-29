@@ -17,7 +17,6 @@ const additionalStyles={
 
 const ESCAPE_KEY = 27;
 
-// eslint-disable-next-line
 class ExpandingSearchField extends Component{
 
     constructor(props) {
@@ -64,8 +63,8 @@ class ExpandingSearchField extends Component{
         this.props.scrollPrev();
     }
 
-    // eslint-disable-next-line
-    UNSAFE_componentWillMount() {
+
+    componentWillMount() {
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
