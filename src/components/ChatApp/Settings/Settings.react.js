@@ -1400,7 +1400,7 @@ class Settings extends Component {
 
 	let menuStyle = cookies.get('loggedIn') ?
 		{
-			 height: 600,
+			 height: 500,
 			 marginTop: 20,
 			 textAlign: 'center',
 			 display: 'inline-block',
@@ -1411,7 +1411,7 @@ class Settings extends Component {
 		:
 
 		{
-			height: 455,
+			height: 500,
 			marginTop: 20,
 			textAlign: 'center',
 			display: 'inline-block',
@@ -1440,11 +1440,11 @@ class Settings extends Component {
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
-			<div className="settings-container" id="settings-container">
+			<div className="settings-container" id="settings-container" style={{overflow:'hidden'}}>
 		<StaticAppBar settings={this.state.intialSettings} {...this.props}
 			location={this.props.location} />
 				<div className='settingMenu'>
-					<Paper className='leftMenu tabStyle' zDepth={1} style={{backgroundColor:themeBackgroundColor, color:themeForegroundColor}}>
+					<Paper className='leftMenu tabStyle' zDepth={1} style={{backgroundColor:themeBackgroundColor, color:themeForegroundColor, height:'500px'}}>
 						{menuItems}
 					</Paper>
 					<Paper className='rightMenu' style={menuStyle} zDepth={1}>
