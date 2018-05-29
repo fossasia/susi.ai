@@ -1,6 +1,5 @@
 import './Settings.css';
 import $ from 'jquery';
-import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -678,8 +677,8 @@ class Settings extends Component {
 		}
 		else{
 			this.setState({
-			selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp Settings'
-		})
+				selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp'
+			})
 		}
 		this.showWhenLoggedIn='none';
 	}
@@ -733,7 +732,7 @@ class Settings extends Component {
 		{
 			return false;
 		}
-		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
+		if(selectedSetting==='Server' && cookies.get('loggedIn'))
 		{
 			return false;
 		}
@@ -889,7 +888,7 @@ class Settings extends Component {
 
 
 		let voiceOutput = this.populateVoiceList();
-		if (this.state.selectedSetting === 'Server Settings') {
+		if (this.state.selectedSetting === 'Server') {
 			currentSetting = (
 				<div style={divStyle}>
 					<div style={{
@@ -935,7 +934,7 @@ class Settings extends Component {
 			}
 		}
 
-		else if (this.state.selectedSetting === 'Mic Settings') {
+		else if (this.state.selectedSetting === 'Microphone') {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
@@ -1020,7 +1019,7 @@ class Settings extends Component {
 			)
 		}
 
-		else if (this.state.selectedSetting === 'Speech Settings') {
+		else if (this.state.selectedSetting === 'Speech') {
 			currentSetting = (
 				<div style={divStyle}>
 								<div>
@@ -1097,7 +1096,7 @@ class Settings extends Component {
 							fontSize: '15px',
 							fontWeight: 'bold'
 						}}>
-							<Translate text="Account Settings" />
+							<Translate text="Account" />
 						</div>
 					</span>
 					<TextField
@@ -1299,22 +1298,6 @@ class Settings extends Component {
 				</div>);
 		}
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
-		var buttonstyle={
-			fontSize:'14px',
-			boxSizing:'border-box',
-			padding:'10px 16px',
-			fontFamily:'Roboto, sans-serif',
-			height:'36px',
-			lineHeight:'50px',
-			borderRadius:'2px',
-			backgroundColor:'#4285f4',
-			color:'#fff',
-			textDecoration:'none',
-			fontWeight:'500',
-			boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-			transition:'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-			marginLeft:'3.6%',
-		}
 		let menuItems = cookies.get('loggedIn')?
 		<div>
 		<div className="settings-list">
@@ -1328,15 +1311,15 @@ class Settings extends Component {
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='ChatApp' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Microphone' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Microphone<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+			<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
 			<MenuItem style={{color:themeForegroundColor}} value='Devices' className="setting-item"  leftIcon={<MyDevices color={menuIconColor}/>}>Devices<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 			<hr className="break-line"/>
@@ -1359,19 +1342,17 @@ class Settings extends Component {
         >
 				<MenuItem primaryText='Account' value='Account' className="setting-item"/>
 				<MenuItem primaryText='Password' value='Password' className="setting-item"/>
-				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='ChatApp' value='ChatApp' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
-				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Microphone' value='Microphone' className="setting-item"/>
+				<MenuItem primaryText='Speech' value='Speech' className="setting-item"/>
+				<MenuItem primaryText='Server' value='Server' className="setting-item"/>
 				<MenuItem primaryText='Devices' value='Devices' className="setting-item"/>
 				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
 		</div>
-		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
 		</div>
-
 		:
 		<div>
 		<div className="settings-list">
@@ -1380,21 +1361,20 @@ class Settings extends Component {
 			selectedMenuItemStyle={blueThemeColor}
 			style={{width:'100%',height:'100%'}}
 			value={this.state.selectedSetting}
-			>
-				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+		>
+				<MenuItem style={{color:themeForegroundColor}} value='ChatApp' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<MenuItem style={{color:themeForegroundColor}} value='Microphone' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Microphone<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+				<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 				<hr className="break-line"/>
 		</Menu>
-		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
 		</div>
 		<div className="settings-list-dropdown">
 		<DropDownMenu
@@ -1407,16 +1387,16 @@ class Settings extends Component {
 			menuItemStyle={{color:themeForegroundColor}}
 			autoWidth={false}
         >
-				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
+				<MenuItem primaryText='ChatApp' value='ChatApp' className="setting-item"/>
 				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
-				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
+				<MenuItem primaryText='Microphone' value='Microphone' className="setting-item"/>
+				<MenuItem primaryText='Speech' value='Speech' className="setting-item"/>
+				<MenuItem primaryText='Server' value='Server' className="setting-item"/>
 				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
 		</DropDownMenu>
-		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
 		</div>
 		</div>
+
 	let menuStyle = cookies.get('loggedIn') ?
 		{
 			 height: 600,
@@ -1437,6 +1417,7 @@ class Settings extends Component {
 			backgroundColor:themeBackgroundColor,
 			color:themeForegroundColor
 		};
+
 	const ttsSettingsChanged=this.ttsSettingsChanged();
 	const actionsTextToSpeechDialog = [
       <FlatButton
@@ -1482,7 +1463,7 @@ class Settings extends Component {
 				</div>
 				<Dialog
 					modal={false}
-					title={<h3><Translate text="Text-To-Speech Settings"/></h3>}
+					title={<h3><Translate text="Text-To-Speech"/></h3>}
 					autoScrollBodyContent={true}
 					open={this.state.showLanguageSettings}
 					actions={actionsTextToSpeechDialog}
