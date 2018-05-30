@@ -3,7 +3,6 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import $ from 'jquery';
 import './ChangePassword.css';
-import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
@@ -236,18 +235,18 @@ export default class ChangePassword extends Component {
     render() {
         const themeBackgroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#19324c':'#fff';
         const themeForegroundColor=(this.props.settings && this.props.settings.theme)==='dark'?'#fff':'#272727';
-        const pass_curr = <h4>Current Password</h4>;
-        const new_passwd =<h4>New Password</h4>;
-        const change_passwd = <h4>Verify Password</h4>;
-        const pass_style = {
+        const passwdCurrent = <h4>Current Password</h4>;
+        const newPasswd =<h4>New Password</h4>;
+        const changePasswd = <h4>Verify Password</h4>;
+        const passwdStyle = {
 
             top: '20px',
         }
-        const new_pass_style = {
+        const newpasswdStyle = {
 
             top: '15px',
         }
-        const change_pass_style = {
+        const changepassStyle = {
       
             top: '15px',
         }
@@ -291,8 +290,8 @@ export default class ChangePassword extends Component {
                 <Paper zDepth={0} style={styles}>
                     <form onSubmit={this.handleSubmit}>
                         <div>
-                        <div style = {pass_style}>
-                          {pass_curr}
+                        <div style = {passwdStyle}>
+                          {passwdCurrent}
                         </div>
                             <input
                                 name="password"
@@ -308,8 +307,8 @@ export default class ChangePassword extends Component {
                                 floatingLabelText={<Translate text="Current Password" />} />
                         </div>
                         <div className={PasswordClass.join(' ')}>
-                        <div style = {new_pass_style}>
-                        {new_passwd}
+                        <div style = {newpasswdStyle}>
+                        {newPasswd}
                         </div>
                             <input
                                 name="newPassword"
@@ -329,8 +328,8 @@ export default class ChangePassword extends Component {
                               </div>
                         </div>
                         <div>
-                          <div style= {change_pass_style}>
-                          {change_passwd}
+                          <div style= {changepassStyle}>
+                          {changePasswd}
                           </div>
                             <input
                                 name="confirmNewPassword"
