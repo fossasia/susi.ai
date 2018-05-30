@@ -30,8 +30,6 @@
     "Select backend server for the app": "Valige rakenduse jaoks tagasiside server",
     "Account Settings": "Konto seaded",
     "Change Password": "Muuda salasõna",
-    "Connect to SUSI Hardware": "Ühenda SUSI riistvaraga",
-    "Add address to connect to Hardware": "Lisage riistvaraga ühenduse saamiseks aadress",
     "Save": "Salvesta",
     "Change Server": "Muuda serverit",
     "Please login again to change SUSI server": "SUSI serveri muutmiseks logige uuesti sisse",

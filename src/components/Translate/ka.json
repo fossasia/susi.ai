@@ -30,8 +30,6 @@
     "Select backend server for the app": "აირჩიეთ backend სერვერის app",
     "Account Settings": "ანგარიშის პარამეტრები",
     "Change Password": "პაროლის შეცვლა",
-    "Connect to SUSI Hardware": "დაკავშირება SUSI აპარატურასთან",
-    "Add address to connect to Hardware": "დაამატეთ მისამართი აპარატურასთან დაკავშირების მიზნით",
     "Save": "გადარჩენა",
     "Change Server": "შეცვალეთ სერვერი",
     "Please login again to change SUSI server": "გთხოვთ, კვლავ შემოხვიდეთ SUSI სერვერის შესაცვლელად",

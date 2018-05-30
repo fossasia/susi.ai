@@ -30,8 +30,6 @@
     "Select backend server for the app": "Välj backend-server för appen",
     "Account Settings": "Kontoinställningar",
     "Change Password": "Ändra lösenord",
-    "Connect to SUSI Hardware": "Anslut till SUSI-hårdvara",
-    "Add address to connect to Hardware": "Lägg till adress för att ansluta till maskinvara",
     "Save": "Spara",
     "Change Server": "Ändra server",
     "Please login again to change SUSI server": "Vänligen logga in igen för att ändra SUSI-servern",
