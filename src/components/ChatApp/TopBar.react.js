@@ -195,6 +195,7 @@ class TopBar extends Component {
 						<ExpandingSearchField
 							searchText={this.props.searchState.searchText}
 							searchIndex={this.props.searchState.searchIndex}
+							open={this.props.search}
 							searchCount={this.props.searchState.scrollLimit}
 							onTextChange={this.props.searchTextChanged}
 							activateSearch={this.props._onClickSearch}
