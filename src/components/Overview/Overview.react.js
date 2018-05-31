@@ -20,6 +20,7 @@ import susiTestGif from '../../images/susi-test.gif';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 
+// eslint-disable-next-line
 class Overview extends Component{
   constructor(props){
     super(props);
@@ -53,7 +54,8 @@ class Overview extends Component{
     event.target.pauseVideo();
   }
 
-  componentWillMount(){
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount(){
     document.body.style.backgroundColor = '#fff';
   }
 
@@ -176,7 +178,9 @@ class Overview extends Component{
 	                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
 	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
 	                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a> and extensions like
+											&nbsp;<a href='https://github.com/fossasia/susi_chromebot'>Chrome Extension</a> and
+											&nbsp;<a href='https://github.com/fossasia/susi_firefoxbot'>FireFox Extension</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
 	                    </p>
 	            </div>
 	          </div>
