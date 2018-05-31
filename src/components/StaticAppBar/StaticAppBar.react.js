@@ -50,9 +50,6 @@ let Logged = (props) => (
             }}
             href="https://skills.susi.ai">Skills</a>
         </MenuItem>
-        <MenuItem primaryText="Settings"
-            containerElement={<Link to="/settings" />}
-            rightIcon={<Settings />} />
         <MenuItem
             primaryText="Login"
             onTouchTap={this.handleLogin}
@@ -237,11 +234,6 @@ class StaticAppBar extends Component {
                     rightIcon={<Dashboard />}
                     href="https://skills.susi.ai"
                 ><Translate text="Skills"/>
-                </MenuItem>
-                <MenuItem
-                    containerElement={<Link to="/settings" />}
-                    rightIcon={<Settings />} >
-                    <Translate text="Settings"/>
                 </MenuItem>
                 <MenuItem
                     onTouchTap={this.handleLogin}

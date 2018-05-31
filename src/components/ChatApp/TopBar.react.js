@@ -150,9 +150,6 @@ class TopBar extends Component {
 						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate text="Settings"/>}
-						containerElement={<Link to="/settings" />}
-						rightIcon={<Settings/>} />
 					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
