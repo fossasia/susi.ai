@@ -95,8 +95,8 @@
 
 .leftMenu {
   width: 35%;
-  height: auto;
   background-color: #fff;
+  height: 500px;
 }
 
 .rightMenu {
@@ -139,6 +139,7 @@
 
   .leftMenu {
     width: 100%;
+    height: 'auto';
   }
 
   .tabStyle{
