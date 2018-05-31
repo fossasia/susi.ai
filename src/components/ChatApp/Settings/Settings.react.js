@@ -36,6 +36,7 @@ import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
+import SettingsBackupRestore from 'material-ui/svg-icons/action/settings-backup-restore';
 import LockIcon from 'material-ui/svg-icons/action/lock';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import MyDevices from 'material-ui/svg-icons/device/devices';
@@ -678,6 +679,26 @@ class Settings extends Component {
 		}
 	}
 
+	resetSettings = () => {
+		let resetUrl = BASE_URL+'/aaa/resetUserSettings.json?'
+        +'access_token='+cookies.get('loggedIn');
+		$.ajax({
+			url: resetUrl,
+			type:'GET',
+			dataType: 'jsonp',
+			crossDomain: true,
+			timeout: 3000,
+			async: false,
+			success: function (response) {
+				console.log(response);
+				document.location.reload();
+			},
+			error: function(errorThrown){
+				console.log(errorThrown);
+			}
+		});
+	}
+
 	displaySaveChangesButton = () =>{
 		let selectedSetting=this.state.selectedSetting;
 		if(selectedSetting==='Password')
@@ -1095,6 +1116,15 @@ class Settings extends Component {
 							placeholder: 'Select Timezone...',
 							name: 'timezone'
     					}} />
+						<br />
+						<RaisedButton
+							label={<Translate text="Reset Settings" />}
+							backgroundColor='#4285f4'
+							labelColor="#fff"
+							style={{marginTop: 16}}
+							onClick={this.resetSettings}
+							icon={<SettingsBackupRestore />}
+						/>
 				</div>
 			)
 		}
