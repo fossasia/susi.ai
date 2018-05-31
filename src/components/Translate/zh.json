@@ -30,8 +30,6 @@
   "Select backend server for the app":"选择应用程序的后端服务器",
   "Account Settings":"帐号设定",
   "Change Password":"更改密码",
-  "Connect to SUSI Hardware":"连接到 SUSI 硬件",
-  "Add address to connect to Hardware":"添加地址以连接到硬件",
   "Save":"保存",
   "Change Server":"更改服务器",
   "Please login again to change SUSI server":"请再次登录以更改 SUSI 服务器",

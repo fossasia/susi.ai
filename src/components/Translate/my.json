@@ -30,8 +30,6 @@
     "Select backend server for the app": "app ကိုများအတွက် backend server ကို Select လုပ်ပါ",
     "Account Settings": "အကောင့်ဆက်တင်များ",
     "Change Password": "စကားဝှက်ကိုပြောင်းရန်",
-    "Connect to SUSI Hardware": "SUSI ဟာ့ဒ်ဝဲချိတ်ဆက်ရန်",
-    "Add address to connect to Hardware": "ဟာ့ဒ်ဝဲချိတ်ဆက်ရန်လိပ်စာ Add",
     "Save": "ကြော်ငြာကို Save လုပ်ရန်",
     "Change Server": "ပြောင်းလဲမှုကို Server ကို",
     "Please login again to change SUSI server": "SUSI ဆာဗာကိုပြောင်းလဲပစ်မှတဖန် login ကျေးဇူးပြု.",

@@ -30,8 +30,6 @@
 	"Select backend server for the app": "בחר שרת backend עבור האפליקציה",
 	"Account Settings": "הגדרות חשבון",
 	"Change Password": "שנה סיסמא",
-	"Connect to SUSI Hardware": "התחבר אל SUSI חומרה",
-	"Add address to connect to Hardware": "הוסף כתובת כדי להתחבר לחומרה",
 	"Save": "להציל",
 	"Change Server": "שינוי שרת",
 	"Please login again to change SUSI server": "התחבר שוב כדי לשנות את שרת SUSI",

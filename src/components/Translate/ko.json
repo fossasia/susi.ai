@@ -30,8 +30,6 @@
     "Select backend server for the app": "앱용 백엔드 서버 선택",
     "Account Settings": "계정 설정",
     "Change Password": "비밀번호 변경",
-    "Connect to SUSI Hardware": "SUSI 하드웨어에 연결",
-    "Add address to connect to Hardware": "주소를 추가하여 하드웨어에 연결하십시오.",
     "Save": "구하다",
     "Change Server": "서버 변경",
     "Please login again to change SUSI server": "SUSI 서버를 변경하려면 다시 로그인하십시오.",
