@@ -205,7 +205,7 @@ class Login extends Component {
         	this.passwordErrorMessage='';
         }
 
-	    if (!state.emailError && !state.passwordError && !state.serverFieldError)
+	    if (!state.emailError && !state.passwordError && !state.serverFieldError && this.state.password !== '' && this.state.email !== '')
 	    {
 	    	state.validForm = true;
 	    }
