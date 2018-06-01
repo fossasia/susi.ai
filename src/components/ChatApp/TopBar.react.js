@@ -185,9 +185,9 @@ class TopBar extends Component {
 				}}>
 				<ToolbarGroup>
 				<div style={{ float: 'left', marginTop: '0px' }}>
-						<a href="https://chat.susi.ai/">
-						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
-						</a>
+					<Link to="/">
+							<img src={susiWhite} alt="susi-logo" style={logoStyle} />
+					</Link>
 				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
