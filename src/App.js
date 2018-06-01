@@ -13,8 +13,11 @@ import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
 import Privacy from './components/Privacy/Privacy.react';
-import { Switch, Route } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
+
+const cookies = new Cookies();
 
 const muiTheme = getMuiTheme({
     toggle: {
@@ -32,6 +35,16 @@ class App extends Component{
     if(location.pathname!=='/'){
         document.body.className = 'white-body';
     }
+
+    // eslint-disable-next-line
+    const PrivateRoute = ({ component: Component, ...rest }) => (
+      <Route {...rest} render={(props) => (
+        cookies.get('loggedIn')
+          ? <Component {...props} />
+        : <Redirect to='*' />
+    )} />
+);
+
      return(
         <MuiThemeProvider muiTheme={muiTheme}>
         <div>
@@ -46,7 +59,7 @@ class App extends Component{
             <Route exact path="/terms" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/logout" component={Logout} />
-            <Route exact path="/settings" component={Settings} />
+            <PrivateRoute path='/settings' component={Settings} />
             <Route exact path="*" component={NotFound} />
         </Switch>
         </div>
