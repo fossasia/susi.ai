@@ -38,7 +38,7 @@ window.speechSynthesis.onvoiceschanged = function () {
 ReactDOM.render(
 	<IntlProvider locale={defaultPrefLanguage}>
 		<Router>
-				<App />
+			<App />
 		</Router>
 	</IntlProvider>,
 	document.getElementById('root')
