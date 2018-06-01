@@ -24,7 +24,6 @@ import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import Extension from 'material-ui/svg-icons/action/extension';
-import Edit from 'material-ui/svg-icons/image/edit';
 
 import { Link } from 'react-router-dom';
 
@@ -56,6 +55,7 @@ let Logged = (props) => (
             rightIcon={<SignUpIcon />} />
     </div>
 )
+
 class StaticAppBar extends Component {
     constructor(props) {
         super(props);
@@ -182,64 +182,42 @@ class StaticAppBar extends Component {
             }
             lastScrollTop = st;
         }
-        // When the user is logged in
-        if (cookies.get('loggedIn')) {
-            Logged = (props) => (
-                <div>
-                    <MenuItem primaryText={<Translate text="About"/>}
-                        containerElement={<Link to="/overview" />}
-                        rightIcon={<Info/>}
-                    />
-                    <MenuItem primaryText={<Translate text="Chat"/>}
-                        containerElement={<Link to="/" />}
-                        rightIcon={<Chat/>}
-                    />
-                    <MenuItem primaryText={<Translate text="Skills"/>}
-                        rightIcon={<Dashboard/>}
-                        href="https://skills.susi.ai"
-                    />
-                    <MenuItem primaryText={<Translate text="Themes"/>}
-                        key="custom"
-                        onClick={this.props.handleThemeChanger}
-                        rightIcon={<Edit/>}
-                    />
-                    <MenuItem primaryText={<Translate text="Botbuilder"/>}
-                        rightIcon={<Extension/>}
-                        href="https://skills.susi.ai/botbuilder"
-                    />
-                    <MenuItem primaryText={<Translate text="Settings"/>}
-                        containerElement={<Link to="/settings" />}
-                        rightIcon={<Settings/>}/>
-                    <MenuItem primaryText={<Translate text="Logout"/>}
-                        containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />}/>
-                </div>
-            )
-            return <Logged />
-        }
 
-        // When the user is not logged in
+        // Return menu items for the hamburger menu
         Logged = (props) => (
             <div>
-                <MenuItem
+                <MenuItem primaryText={<Translate text="About"/>}
                     containerElement={<Link to="/overview" />}
                     rightIcon={<Info />}
-                ><Translate text="About"/>
-                </MenuItem>
-                <MenuItem
+                />
+                <MenuItem primaryText={<Translate text="Chat"/>}
                     containerElement={<Link to="/" />}
                     rightIcon={<Chat />}
-                > <Translate text="Chat"/></MenuItem>
-                <MenuItem
+                />
+                <MenuItem primaryText={<Translate text="Skills"/>}
                     rightIcon={<Dashboard />}
                     href="https://skills.susi.ai"
-                ><Translate text="Skills"/>
-                </MenuItem>
-                <MenuItem
-                    onTouchTap={this.handleLogin}
-                    rightIcon={<SignUpIcon />} >
-                    <Translate text="Login"/>
-                </MenuItem>
+                />
+                {
+                    cookies.get('loggedIn')?
+                        (<MenuItem primaryText={<Translate text="Botbuilder"/>}
+                            rightIcon={<Extension/>}
+                            href="https://skills.susi.ai/botbuilder"
+                        />): null
+                }
+                <MenuItem primaryText={<Translate text="Settings"/>}
+                    containerElement={<Link to="/settings" />}
+                    rightIcon={<Settings />}
+                />
+                {
+                    cookies.get('loggedIn')?
+                    (<MenuItem primaryText={<Translate text="Logout"/>}
+                        containerElement={<Link to="/logout" />}
+                        rightIcon={<Exit />}/>):
+                    (<MenuItem primaryText={<Translate text="Login"/>}
+                        onTouchTap={this.handleLogin}
+                        rightIcon={<SignUpIcon />}/>)
+                }
             </div>
         )
         return <Logged />
