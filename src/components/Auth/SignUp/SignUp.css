@@ -13,9 +13,8 @@
 	width: 256px;
 }
 .signUpForm h3{
-	font-family: 'Open Sans', sans-serif;
 	margin: 5px 0;
-	font-weight: 500;
+	font-weight: bold;
 }
 @media screen and (max-width: 768px) {
 	.signUpForm h3{
