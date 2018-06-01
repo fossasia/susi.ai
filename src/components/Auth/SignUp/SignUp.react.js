@@ -411,7 +411,7 @@ export default class SignUp extends Component {
                         <div>
                             <h4 style={{
                             margin: '5px 0'
-                        }}><Translate text="If you have an Account Please Login"/></h4>
+                        }}><Translate text="If you have an account please login"/></h4>
                             <RaisedButton
                                 onTouchTap={this.handleOpen}
                                 label={<Translate text='Login'/>}
