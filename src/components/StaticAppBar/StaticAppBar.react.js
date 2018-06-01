@@ -49,9 +49,6 @@ let Logged = (props) => (
             }}
             href="https://skills.susi.ai">Skills</a>
         </MenuItem>
-        <MenuItem primaryText="Settings"
-            containerElement={<Link to="/settings" />}
-            rightIcon={<Settings />} />
         <MenuItem
             primaryText="Login"
             onTouchTap={this.handleLogin}
