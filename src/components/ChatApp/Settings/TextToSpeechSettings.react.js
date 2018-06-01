@@ -79,9 +79,9 @@ class TextToSpeechSettings extends Component {
 	// save new settings to props
 	handleSettingsChange= () =>{
 		this.props.newTtsSettings({
-			rate: this.state.rate,
-			pitch: this.state.pitch,
-			lang: this.state.ttsLanguage,
+			speechRate: this.state.rate,
+			speechPitch: this.state.pitch,
+			ttsLanguage: this.state.ttsLanguage,
 		})
 	}
 
@@ -141,64 +141,65 @@ class TextToSpeechSettings extends Component {
 
 		return (
 			<div className="settingsForm">
-							<div>
-								<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Language"/></h4>
-								<DropDownMenu
-									value={voiceOutput.voiceLang}
-									onChange={this.handleTTSVoices}>
-								 {voiceOutput.voiceMenu}
-							 </DropDownMenu>
-							</div>
-			        <div>
-			        	<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Rate"/></h4>
-			        	<Slider
-			        		min={0.5}
-			        		max={2}
-			        		value={this.state.rate}
-			        		onChange={this.handleRate}
-						 	sliderStyle={SliderStyle}/>
-						<RaisedButton
-							style={Buttonstyles}
-							label={<Translate text="Reset to normal"/>}
-							onClick={this.resetRate} />
-			        </div>
-			        <div>
-			        	<h4 style={{'marginBottom':'0px',color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Pitch"/></h4>
-			        	<Slider
-			        		min={0}
-			        		max={2}
-			        		value={this.state.pitch}
-			        		onChange={this.handlePitch}
-							sliderStyle={SliderStyle} />
-						<RaisedButton
-							style={Buttonstyles}
-							label={<Translate text="Reset to normal"/>}
-							onClick={this.resetPitch} />
-			        </div>
-					<div style={{textAlign: 'center'}}>
-						<RaisedButton
-								className='settingsBtns'
-								style={Buttonstyles}
-								icon={<FontIcon className="fa fa-volume-up" />}
-								labelColor="#fff"
-								backgroundColor={
-									UserPreferencesStore.getTheme()==='light'
-									? '#4285f4' : '#19314B'}
-								label={<Translate text="Play Demonstration"/>}
-								onClick={this.playDemo} />
-					</div>
+				<div>
+					<div style={{marginBottom:'0px', fontSize: 15, fontWeight: 'bold', color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Output Language"/></div>
+					<DropDownMenu
+						value={voiceOutput.voiceLang}
+						onChange={this.handleTTSVoices}>
+							{voiceOutput.voiceMenu}
+				 	</DropDownMenu>
+				</div>
+				<div>
+					<div style={{marginBottom:'0px', fontSize: 15, fontWeight: 'bold', color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Output Rate"/></div>
+					<Slider
+						min={0.5}
+						max={2}
+						value={this.state.rate}
+						onChange={this.handleRate}
+					 	sliderStyle={SliderStyle} />
+					<RaisedButton
+						style={Buttonstyles}
+						label={<Translate text="Reset to normal"/>}
+						onClick={this.resetRate}  />
+				</div>
+				<div>
+					<div style={{marginBottom:'0px', fontSize: 15, fontWeight: 'bold', color:'rgba(0, 0, 0, 0.87)'}}><Translate text="Speech Output Pitch"/></div>
+					<Slider
+						min={0}
+						max={2}
+						value={this.state.pitch}
+						onChange={this.handlePitch}
+						sliderStyle={SliderStyle} />
+					<RaisedButton
+						style={Buttonstyles}
+						label={<Translate text="Reset to normal"/>}
+						onClick={this.resetPitch} />
+				</div>
+				<div style={{textAlign: 'center'}}>
+					<RaisedButton
+						className='settingsBtns'
+						style={Buttonstyles}
+						icon={<FontIcon className="fa fa-volume-up" />}
+						labelColor="#fff"
+						backgroundColor={
+							UserPreferencesStore.getTheme()==='light'
+							? '#4285f4' : '#19314B'}
+						label={<Translate text="Play Demonstration"/>}
+						onClick={this.playDemo} />
+				</div>
 				{ this.state.playExample &&
-	               (<VoicePlayer
-	                  play={this.state.play}
-	                  text={voiceOutput.voiceText}
-	                  rate={this.state.rate}
-	                  pitch={this.state.pitch}
-										lang={this.state.ttsLanguage}
-	                  onStart={this.onStart}
-	                  onEnd={this.onEnd}
-	                />)
-	           }
-			</div>);
+					(<VoicePlayer
+						play={this.state.play}
+						text={voiceOutput.voiceText}
+						rate={this.state.rate}
+						pitch={this.state.pitch}
+						lang={this.state.ttsLanguage}
+						onStart={this.onStart}
+						onEnd={this.onEnd}
+					/>)
+				}
+			</div>
+		);
 	}
 }
 

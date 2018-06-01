@@ -19,10 +19,7 @@ import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
-import 'animate.css/animate.min.css';
-import ScrollAnimation from 'react-animate-on-scroll';
 
-// eslint-disable-next-line
 class Overview extends Component{
   constructor(props){
     super(props);
@@ -56,8 +53,7 @@ class Overview extends Component{
     event.target.pauseVideo();
   }
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount(){
+  componentWillMount(){
     document.body.style.backgroundColor = '#fff';
   }
 
@@ -89,7 +85,6 @@ class Overview extends Component{
         <StaticAppBar {...this.props}
           location={this.props.location} closeVideo={this.closeVideo} />
 
-          <ScrollAnimation animateIn="fadeIn">
         <div className='section'>
           <div className='section-container'>
             <div className="hero">
@@ -112,9 +107,7 @@ class Overview extends Component{
             </div>
           </div>
         </div>
-        </ScrollAnimation>
 
-        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Ask it anything.</div>
@@ -128,10 +121,8 @@ class Overview extends Component{
             <img src={susiTestGif} alt='susi-test' className='susi-test' />
           </div>
         </div>
-        </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Tell it to do things.</div>
@@ -147,10 +138,8 @@ class Overview extends Component{
             <img src={mapAndroid} alt='Map' className='android-mockup' />
           </div>
         </div>
-        </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">For your Smartphone</div>
@@ -170,10 +159,8 @@ class Overview extends Component{
             <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
           </div>
         </div>
-        </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy">
 
 	          <div className="column_section">
@@ -220,10 +207,9 @@ class Overview extends Component{
 
           </div>
         </div>
-    </ScrollAnimation>{/* section_copy ends */}
+      {/* section_copy ends */}
 
 
-    	<ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_center">
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
@@ -238,10 +224,8 @@ class Overview extends Component{
             <img src={susiSkill} alt='Skills' className='skillWiki'/>
           </div>
         </div>
-        </ScrollAnimation>
 
 
-        <ScrollAnimation animateIn="fadeIn" offset={300} duration={3}>
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
 
@@ -266,7 +250,6 @@ class Overview extends Component{
                     <img src={shield} alt='Android Mockup' className='shield'  />
                   </div>
                 </div>
-                </ScrollAnimation>
 
         <Footer />
 

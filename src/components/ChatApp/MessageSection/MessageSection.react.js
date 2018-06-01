@@ -162,7 +162,6 @@ const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string }
 };
 
-// eslint-disable-next-line
 class MessageSection extends Component {
   static propTypes = {
     dream: PropTypes.string
@@ -663,10 +662,7 @@ class MessageSection extends Component {
 
   }
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount() {
-
-
+  componentWillMount() {
     if (this.props.location) {
       if (this.props.location.state) {
         if (this.props.location.state.hasOwnProperty('showLogin')) {
@@ -760,6 +756,15 @@ class MessageSection extends Component {
         composerColor = '#f3f2f4';
         messagePane = '#f3f2f4';
         textArea = '#fff';
+        buttonColor = '#4285f4';
+        break;
+      }
+      case 'dark':{
+        bodyColor = '#000012';
+        TopBarColor = '#19324c';
+        composerColor = '#ffffff';
+        messagePane = '#000000';
+        textArea = '#000000';
         buttonColor = '#4285f4';
         break;
       }
@@ -1166,9 +1171,14 @@ _onClickRecent = () => {
 _onClickSearch = () => {
   let searchState = this.state.searchState;
   searchState.markedMsgs = this.state.messages;
+  if(this.state.SnackbarOpenSearchResults){
+    this.setState({
+      SnackbarOpenSearchResults: false
+    })
+  }
   this.setState({
     search: true,
-    searchState: searchState,
+    searchState: searchState
   });
 }
 
@@ -1177,9 +1187,14 @@ _onClickExit = () => {
   searchState.searchText = '';
   searchState.searchIndex = 0;
   searchState.scrollLimit = 0;
+  if(this.state.SnackbarOpenSearchResults){
+    this.setState({
+      SnackbarOpenSearchResults: false
+    })
+  }
   this.setState({
     search: false,
-    searchState: searchState,
+    searchState: searchState
   });
 }
 

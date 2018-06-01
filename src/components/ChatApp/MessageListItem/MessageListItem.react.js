@@ -271,6 +271,44 @@ class MessageListItem extends React.Component {
               );
               break
             }
+            case 'video_play': {
+              let identifierType = data.answers[0].actions[index].identifier_type;
+              let identifier = data.answers[0].actions[index].identifier;
+              let src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
+              listItems.push(
+                <li className='message-list-item' key={action+index}>
+                  <section  className={messageContainerClasses}>
+                  <div className='message-text'>
+                      <iframe src={src}
+                        frameBorder="0"
+                        allowFullScreen>
+                      </iframe>
+                  </div>
+                    {renderMessageFooter(message,latestUserMsgID,showFeedback)}
+                  </section>
+                </li>
+              );
+              break
+            }
+            case 'audio_play': {
+              let identifierType = data.answers[0].actions[index].identifier_type;
+              let identifier = data.answers[0].actions[index].identifier;
+              let src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
+              listItems.push(
+                <li className='message-list-item' key={action+index}>
+                  <section  className={messageContainerClasses}>
+                  <div className='message-text'>
+                      <iframe src={src}
+                        frameBorder="0"
+                        allowFullScreen>
+                      </iframe>
+                  </div>
+                    {renderMessageFooter(message,latestUserMsgID,showFeedback)}
+                  </section>
+                </li>
+              );
+              break
+            }
             case 'rss':{
               let rssTiles = this.props.message.rssResults;
               if(rssTiles.length === 0){

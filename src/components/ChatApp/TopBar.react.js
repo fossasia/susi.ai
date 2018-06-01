@@ -8,7 +8,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
-import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
@@ -18,6 +17,7 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
+import Extension from 'material-ui/svg-icons/action/extension';
 import Translate from '../Translate/Translate.react';
 
 const cookies = new Cookies();
@@ -76,6 +76,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
+					animated={false}
 					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
@@ -84,8 +85,8 @@ class TopBar extends Component {
 					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText={<Translate text="About"/>}
-					containerElement={<Link to="/overview" />}
-					rightIcon={<Info/>}
+						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
 					/>
 					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
@@ -96,13 +97,18 @@ class TopBar extends Component {
 						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate text="Settings"/>}
-						containerElement={<Link to="/settings" />}
-						rightIcon={<Settings/>}/>
 					<MenuItem primaryText={<Translate text="Themes"/>}
 						key="custom"
 						onClick={this.props.handleThemeChanger}
-						rightIcon={<Edit/>}/>
+						rightIcon={<Edit/>}
+					/>
+					<MenuItem primaryText={<Translate text="Botbuilder"/>}
+						rightIcon={<Extension/>}
+						href="https://skills.susi.ai/botbuilder"
+					/>
+					<MenuItem primaryText={<Translate text="Settings"/>}
+						containerElement={<Link to="/settings" />}
+						rightIcon={<Settings/>}/>
 					<MenuItem primaryText={<Translate text="Logout"/>}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
@@ -123,6 +129,7 @@ class TopBar extends Component {
 				</IconButton>
 				<Popover
 					{...props}
+					animated={false}
 					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
@@ -131,12 +138,12 @@ class TopBar extends Component {
 					onRequestClose={this.closeOptions}
 				>
 					<MenuItem primaryText={<Translate text="About"/>}
-					containerElement={<Link to="/overview" />}
-					rightIcon={<Info/>}
+						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
 					/>
 					<MenuItem primaryText={<Translate text="Chat"/>}
-					containerElement={<Link to="/" />}
-					rightIcon={<Chat/>}
+						containerElement={<Link to="/" />}
+						rightIcon={<Chat/>}
 					/>
 					<MenuItem
 						rightIcon={<Dashboard/>}
@@ -156,14 +163,6 @@ class TopBar extends Component {
 	}
 
 	render() {
-
-		const toggleStyles = {
-			toggle: {
-				margin: '7px',
-				width: '160px',
-				height: '30px'
-			}
-		};
 
 		var backgroundCol=this.props.header;
 
@@ -186,7 +185,9 @@ class TopBar extends Component {
 				}}>
 				<ToolbarGroup>
 				<div style={{ float: 'left', marginTop: '0px' }}>
+						<a href="https://chat.susi.ai/">
 						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
+						</a>
 				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
@@ -194,6 +195,7 @@ class TopBar extends Component {
 						<ExpandingSearchField
 							searchText={this.props.searchState.searchText}
 							searchIndex={this.props.searchState.searchIndex}
+							open={this.props.search}
 							searchCount={this.props.searchState.scrollLimit}
 							onTextChange={this.props.searchTextChanged}
 							activateSearch={this.props._onClickSearch}
@@ -201,30 +203,21 @@ class TopBar extends Component {
 							scrollRecent={this.props._onClickRecent}
 							scrollPrev={this.props._onClickPrev} />
 					</div>
+					<div>
+						{
+							cookies.get('loggedIn') ?
+								(
+									<label
+										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
+										{cookies.get('email')}
+									</label>):
+								(<label>
+									</label>)
+						}
+					</div>
 					{!this.props.search ?
 						(<Logged />) :
-						(<div>
-							<IconButton
-								iconStyle={{ fill: 'white' }}
-								onTouchTap={this.props.handleOptions}>
-								<MoreVertIcon />
-							</IconButton>
-							<Popover
-								open={this.props.searchState.open}
-								anchorEl={this.props.searchState.anchorEl}
-								anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-								targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-								onRequestClose={this.props.handleRequestClose}
-							>
-								<Toggle
-									label="Case Sensitive"
-									style={toggleStyles.toggle}
-									labelPosition="right"
-									onToggle={this.props.handleToggle}
-									toggled={this.props.searchState.caseSensitive}
-								/>
-							</Popover>
-						</div>)
+						null
 					}
 				</ToolbarGroup>
 			</Toolbar>
