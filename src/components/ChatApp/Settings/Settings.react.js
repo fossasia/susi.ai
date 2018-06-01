@@ -1364,13 +1364,11 @@ class Settings extends Component {
 
 	let menuStyle =
 		{
-			height: 500,
 			marginTop: 20,
 			textAlign: 'center',
 			display: 'inline-block',
 			backgroundColor:themeBackgroundColor,
 			color:themeForegroundColor,
-			overflow: 'auto'
 		}
 
 	// to check if something has been modified or not
