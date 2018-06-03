@@ -30,8 +30,6 @@
     "Select backend server for the app": "Valitse sovelluksen backend-palvelin",
     "Account Settings": "Tilin asetukset",
     "Change Password": "Vaihda salasana",
-    "Connect to SUSI Hardware": "Yhdistä SUSI-laitteeseen",
-    "Add address to connect to Hardware": "Lisää osoite yhteyden laitteeseen",
     "Save": "Tallentaa",
     "Change Server": "Muuta palvelinta",
     "Please login again to change SUSI server": "Kirjaudu uudelleen sisään, jos haluat muuttaa SUSI-palvelinta",

@@ -30,8 +30,6 @@
     "Select backend server for the app": "Vyberte záložný server pre aplikáciu",
     "Account Settings": "Nastavenia účtu",
     "Change Password": "Zmeniť heslo",
-    "Connect to SUSI Hardware": "Pripojte sa k hardvéru SUSI",
-    "Add address to connect to Hardware": "Pridajte adresu na pripojenie k hardvéru",
     "Save": "Uložiť",
     "Change Server": "Zmeniť server",
     "Please login again to change SUSI server": "Ak chcete zmeniť server SUSI, prihláste sa znova",

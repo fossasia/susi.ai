@@ -1,6 +1,5 @@
 import './Settings.css';
 import $ from 'jquery';
-import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -61,15 +60,14 @@ else{
 let url = BASE_URL+'/aaa/listUserSettings.json?'
         +'access_token='+cookies.get('loggedIn');
 
-// eslint-disable-next-line
 class Settings extends Component {
 
 	constructor(props) {
-			super(props);
-			this.state = {
-					dataFetched: false,
-					deviceData: false,
-			};
+		super(props);
+		this.state = {
+				dataFetched: false,
+				deviceData: false,
+		};
 	}
 
 	apiCall = () => {
@@ -93,7 +91,9 @@ class Settings extends Component {
 			timeout: 3000,
 			async: false,
 			success: function (response) {
-					obj=[];
+				obj=[];
+				if(response.devices)
+				{
 					let keys = Object.keys(response.devices);
 					keys.forEach((i) => {
 						let myObj = {
@@ -110,6 +110,7 @@ class Settings extends Component {
 							deviceData: true,
 						});
 					}
+				}
 			}.bind(this),
 			error: function(errorThrown){
 				console.log(errorThrown);
@@ -131,6 +132,7 @@ class Settings extends Component {
 		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
+		let defaultTTSLanguage = defaults.TTSLanguage;
 		let defaultPrefLanguage = defaults.PrefLanguage;
 		let defaultTimeZone = defaults.TimeZone;
 		let defaultChecked = defaults.checked;
@@ -148,6 +150,7 @@ class Settings extends Component {
 				speechOutputAlways: defaultSpeechOutputAlways,
 				speechRate: defaultSpeechRate,
 				speechPitch: defaultSpeechPitch,
+				ttsLanguage: defaultTTSLanguage,
 				server: defaultServer,
 				PrefLanguage: defaultPrefLanguage,
 				TimeZone: defaultTimeZone,
@@ -161,43 +164,45 @@ class Settings extends Component {
 	}
 	// extract values from store to get the initial settings
 	setDefaultsSettings = () => {
-	defaults = UserPreferencesStore.getPreferences();
-	let defaultServer = defaults.Server;
-	let defaultTheme = UserPreferencesStore.getTheme(this.preview);
-	let defaultEnterAsSend = defaults.EnterAsSend;
-	let defaultMicInput = defaults.MicInput;
-	let defaultSpeechOutput = defaults.SpeechOutput;
-	let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
-	let defaultSpeechRate = defaults.SpeechRate;
-	let defaultSpeechPitch = defaults.SpeechPitch;
-	let defaultTTSLanguage = defaults.TTSLanguage;
-	let defaultPrefLanguage = defaults.PrefLanguage;
-	let defaultTimeZone = defaults.TimeZone;
-	let defaultChecked = defaults.checked;
-	let defaultServerUrl= defaults.serverUrl;
-	let defaultCountryCode = defaults.CountryCode;
-	let defaultCountryDialCode =defaults.CountryDialCode;
-	let defaultPhoneNo = defaults.phoneNo;
-	let TTSBrowserSupport;
-	if ('speechSynthesis' in window) {
-	  TTSBrowserSupport = true;
-	} else {
-	  TTSBrowserSupport = false;
-	  console.warn('The current browser does not support the SpeechSynthesis API.')
-	}
-	let STTBrowserSupport;
-	const SpeechRecognition = window.SpeechRecognition
-	  || window.webkitSpeechRecognition
-	  || window.mozSpeechRecognition
-	  || window.msSpeechRecognition
-	  || window.oSpeechRecognition
+		defaults = UserPreferencesStore.getPreferences();
+		let defaultServer = defaults.Server;
+		let defaultTheme = UserPreferencesStore.getTheme(this.preview);
+		let defaultEnterAsSend = defaults.EnterAsSend;
+		let defaultMicInput = defaults.MicInput;
+		let defaultSpeechOutput = defaults.SpeechOutput;
+		let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+		let defaultSpeechRate = defaults.SpeechRate;
+		let defaultSpeechPitch = defaults.SpeechPitch;
+		let defaultTTSLanguage = defaults.TTSLanguage;
+		let defaultPrefLanguage = defaults.PrefLanguage;
+		let defaultTimeZone = defaults.TimeZone;
+		let defaultChecked = defaults.checked;
+		let defaultServerUrl= defaults.serverUrl;
+		let defaultCountryCode = defaults.CountryCode;
+		let defaultCountryDialCode =defaults.CountryDialCode;
+		let defaultPhoneNo = defaults.phoneNo;
+		let TTSBrowserSupport;
+		if ('speechSynthesis' in window) {
+			TTSBrowserSupport = true;
+		}
+		else {
+			TTSBrowserSupport = false;
+			console.warn('The current browser does not support the SpeechSynthesis API.')
+		}
+		let STTBrowserSupport;
+		const SpeechRecognition = window.SpeechRecognition
+		  || window.webkitSpeechRecognition
+		  || window.mozSpeechRecognition
+		  || window.msSpeechRecognition
+		  || window.oSpeechRecognition
 
-	if (SpeechRecognition != null) {
-	  STTBrowserSupport = true;
-	} else {
-	  STTBrowserSupport = false;
-	  console.warn('The current browser does not support the SpeechRecognition API.');
-	}
+		if (SpeechRecognition != null) {
+		  STTBrowserSupport = true;
+		}
+		else {
+		  STTBrowserSupport = false;
+		  console.warn('The current browser does not support the SpeechRecognition API.');
+		}
 		this.setState({
 			theme: defaultTheme,
 			enterAsSend: defaultEnterAsSend,
@@ -209,7 +214,6 @@ class Settings extends Component {
 			serverFieldError: false,
 			checked: defaultChecked,
 			validForm: true,
-			showLanguageSettings: false,
 			speechRate: defaultSpeechRate,
 			speechPitch: defaultSpeechPitch,
 			ttsLanguage: defaultTTSLanguage,
@@ -226,11 +230,6 @@ class Settings extends Component {
 			countryCode: defaultCountryCode,
 			countryDialCode: defaultCountryDialCode,
 			phoneNo: defaultPhoneNo,
-			newTtsSettings:{
-				rate: defaultSpeechRate,
-				pitch: defaultSpeechPitch,
-				lang: defaultTTSLanguage,
-			},
 			voiceList: [
 			{
 				lang: 'am-AM',
@@ -262,7 +261,7 @@ class Settings extends Component {
 			},{
 				lang: 'fr-FR',
 				name: 'French'
-      },{
+			},{
 				lang: 'jp-JP',
 				name: 'Japanese'
 			},{
@@ -302,7 +301,6 @@ class Settings extends Component {
 	// Close all open dialogs
 	handleClose = () => {
 		this.setState({
-			showLanguageSettings: false,
 			showServerChangeDialog: false,
 			showChangePasswordDialog: false,
 			showOptions: false,
@@ -382,20 +380,20 @@ class Settings extends Component {
 
 	// Store the settings in stores and server
 	implementSettings = (values) => {
-	let currSettings = UserPreferencesStore.getPreferences();
-	let resetVoice = false;
-	if(currSettings.SpeechOutput !== values.speechOutput){
-	  resetVoice = true;
+		let currSettings = UserPreferencesStore.getPreferences();
+		let resetVoice = false;
+		if(currSettings.SpeechOutput !== values.speechOutput){
+		  resetVoice = true;
+		}
+		if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
+		  resetVoice = true;
+		}
+		Actions.settingsChanged(values);
+		if(resetVoice){
+		  Actions.resetVoice();
+		}
+		this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
 	}
-	if(currSettings.SpeechOutputAlways !== values.speechOutputAlways){
-	  resetVoice = true;
-	}
-	Actions.settingsChanged(values);
-	if(resetVoice){
-	  Actions.resetVoice();
-	}
-	this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
-  }
 
 	// Handle change to theme settings
 	handleSelectChange = (event, value) => {
@@ -434,58 +432,15 @@ class Settings extends Component {
 		});
 	}
 
-	// Handle change to language settings
-	handleLanguage = (toShow) => {
-		this.setState({
-			showLanguageSettings: toShow,
-		});
-		this.resetNewTtsSettings();
-	}
-
-	// Handle change to TTS settings
-	handleTextToSpeech = () => {
-		let settings=this.state.newTtsSettings;
-		this.setState({
-			speechRate: settings.rate,
-			speechPitch: settings.pitch,
-			ttsLanguage: settings.lang,
-			showLanguageSettings: false,
-		});
-	}
-
 	// save new TTS settings
 	handleNewTextToSpeech = (settings) =>{
-		let newTtsSettings={
-			rate: settings.rate,
-			pitch: settings.pitch,
-			lang:  settings.lang
-		}
-		this.setState({newTtsSettings});
+		this.setState({
+			speechRate: settings.speechRate,
+			speechPitch: settings.speechPitch,
+			ttsLanguage:  settings.ttsLanguage
+		});
 	}
 
-	// return true if TTS settings has been changed
-	ttsSettingsChanged = () =>{
-		if(this.state.newTtsSettings.rate!==this.state.speechRate){
-			return true;
-		}
-		else if(this.state.newTtsSettings.pitch!==this.state.speechPitch){
-			return true;
-		}
-		else if(this.state.newTtsSettings.lang!==this.state.ttsLanguage){
-			return true;
-		}
-		return false;
-	}
-
-	// reset new TTS settings to last saved settings
-	resetNewTtsSettings = () =>{
-		let newTtsSettings={
-			rate: this.state.speechRate,
-			pitch: this.state.speechPitch,
-			lang:  this.state.ttsLanguage
-		}
-		this.setState({newTtsSettings});
-	}
 
 	// Handle toggle between default server and custom server
 	handleServeChange = (event) => {
@@ -500,8 +455,8 @@ class Settings extends Component {
 		else if (event.target.name === 'serverUrl') {
 			serverUrl = event.target.value;
 			let validServerUrl =
-	/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
-					.test(serverUrl);
+			/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i
+			.test(serverUrl);
 			state.serverUrl = serverUrl;
 			state.serverFieldError = !(serverUrl && validServerUrl);
 		}
@@ -600,7 +555,6 @@ class Settings extends Component {
 		});
 	}
 
-	// eslint-disable-next-line
 	componentWillMount() {
 		document.body.className = 'white-body';
 		this.setDefaultsSettings();
@@ -642,7 +596,7 @@ class Settings extends Component {
 			},{
 				lang: 'nl-NL',
 				name: 'Dutch'
-      			}]
+      		}]
 		});
 	}
 
@@ -661,13 +615,13 @@ class Settings extends Component {
 		});
 
 		if(this.state.theme==='dark')
-			{
-				document.body.style.background = '#000012';
-			}
+		{
+			document.body.style.background = '#000012';
+		}
 		else
-			{
-				document.body.style.background = '#f2f2f2';
-			}
+		{
+			document.body.style.background = '#f2f2f2';
+		}
 		this.showWhenLoggedIn = 'none';
 		let searchParams = new URLSearchParams(window.location.search);
 		let tab = searchParams.get('tab');
@@ -676,10 +630,11 @@ class Settings extends Component {
 				selectedSetting: tab
 			})
 		}
-		else{
+		else
+		{
 			this.setState({
-			selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp Settings'
-		})
+				selectedSetting: cookies.get('loggedIn')? 'Account':'ChatApp'
+			})
 		}
 		this.showWhenLoggedIn='none';
 	}
@@ -733,7 +688,7 @@ class Settings extends Component {
 		{
 			return false;
 		}
-		if(selectedSetting==='Server Settings' && cookies.get('loggedIn'))
+		if(selectedSetting==='Server' && cookies.get('loggedIn'))
 		{
 			return false;
 		}
@@ -743,6 +698,7 @@ class Settings extends Component {
 		}
 		return true;// display the button otherwise
 	}
+
 	getSomethingToSave = () => {
 		let somethingToSave = false;
 		const intialSettings = this.state.intialSettings;
@@ -762,11 +718,13 @@ class Settings extends Component {
 		else if (intialSettings.speechOutputAlways !== classState.speechOutputAlways) {
 			somethingToSave = true;
 		}
-
 		else if (intialSettings.speechRate !== classState.speechRate) {
 			somethingToSave = true;
 		}
 		else if (intialSettings.speechPitch !== classState.speechPitch) {
+			somethingToSave = true;
+		}
+		else if (intialSettings.ttsLanguage !== classState.ttsLanguage) {
 			somethingToSave = true;
 		}
 		else if (intialSettings.server !== classState.server) {
@@ -797,15 +755,18 @@ class Settings extends Component {
 		}
 		return somethingToSave;
 	}
+
 	handleCountryChange = (event, index, value) => {
 		this.setState({
 			'countryCode': value,
 			'countryDialCode': countryData.countries[value ? value : 'US'].countryCallingCodes[0]
 		});
 	}
+
 	handleTelephoneNoChange = (event, value) => {
 		this.setState({ 'phoneNo': value });
 	}
+
 	render() {
 
 		document.body.style.setProperty('background-image', 'none');
@@ -887,26 +848,25 @@ class Settings extends Component {
 
 		let currentSetting;
 
-
 		let voiceOutput = this.populateVoiceList();
-		if (this.state.selectedSetting === 'Server Settings') {
+		if (this.state.selectedSetting === 'Server') {
 			currentSetting = (
 				<div style={divStyle}>
 					<div style={{
 						marginTop: '10px',
-						'marginBottom': '0px',
+						marginBottom: '0px',
 						fontSize: '15px',
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Select Server" />
 					</div>
 					<div style={{textAlign : 'left', marginLeft: '30px !important'}}>
-					<CustomServer
-						checked={this.state.checked}
-						settings={this.state.intialSettings}
-						serverUrl={this.state.serverUrl}
-						customServerMessage={this.customServerMessage}
-						onServerChange={this.handleServeChange}/>
+						<CustomServer
+							checked={this.state.checked}
+							settings={this.state.intialSettings}
+							serverUrl={this.state.serverUrl}
+							customServerMessage={this.customServerMessage}
+							onServerChange={this.handleServeChange}/>
 					</div>
 				</div>
 			)
@@ -917,25 +877,25 @@ class Settings extends Component {
 						<div>
 							<div style={{
 								marginTop: '10px',
-								'marginBottom': '0px',
+								marginBottom: '0px',
 								fontSize: '15px',
 								fontWeight: 'bold'
 							}}>
 								<Translate text="Select Server" />
 							</div>
-								<FlatButton
-									className='settingsBtns'
-									labelStyle={{color:themeForegroundColor}}
-									style={Buttonstyles}
-									label={<Translate text="Select backend server for the app"/>}
-									onClick={this.handleServer} />
+							<FlatButton
+								className='settingsBtns'
+								labelStyle={{color:themeForegroundColor}}
+								style={Buttonstyles}
+								label={<Translate text="Select backend server for the app"/>}
+								onClick={this.handleServer} />
 						</div>
 					</div>
 				)
 			}
 		}
 
-		else if (this.state.selectedSetting === 'Mic Settings') {
+		else if (this.state.selectedSetting === 'Microphone') {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
@@ -943,7 +903,7 @@ class Settings extends Component {
 						<div>
 							<div style={{
 								marginTop: '10px',
-								'marginBottom': '0px',
+								marginBottom: '0px',
 								fontSize: '15px',
 								fontWeight: 'bold'
 							}}>
@@ -967,14 +927,16 @@ class Settings extends Component {
 				</div>
 			)
 		}
+
 		else if(this.state.selectedSetting === 'Share on Social media') {
 			currentSetting = '';
 			currentSetting = (
 				<div style={divStyle}>
-				<ShareOnSocialMedia/>
+					<ShareOnSocialMedia/>
 				</div>
-				)
+			)
 		}
+
 		else if (this.state.selectedSetting === 'Theme') {
 			currentSetting = '';
 			currentSetting = (
@@ -982,7 +944,7 @@ class Settings extends Component {
 					<span>
 						<div style={{
 							marginTop: '10px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							fontSize: '15px',
 							fontWeight: 'bold'
 						}}>
@@ -1020,69 +982,61 @@ class Settings extends Component {
 			)
 		}
 
-		else if (this.state.selectedSetting === 'Speech Settings') {
+		else if (this.state.selectedSetting === 'Speech') {
 			currentSetting = (
 				<div style={divStyle}>
-								<div>
-									<div style={{
-										marginTop: '10px',
-										'marginBottom':'0px',
-										fontSize: '15px',
-										fontWeight: 'bold'}}>
-										<Translate text="Speech Output"/>
-									</div><br />
-									<div style={{
-										float: 'left',
-										padding: '0px 5px 0px 0px'
-									}}>
-										<Translate text="Enable speech output only for speech input"/>
-									</div>
-									<Toggle
-										className='settings-toggle'
-										disabled={!this.TTSBrowserSupport}
-										labelStyle={{color:themeForegroundColor}}
-										onToggle={this.handleSpeechOutput}
-										toggled={this.state.speechOutput}/>
-									<br /><br />
-								</div>
-								<div>
-									<div style={{
-										marginTop: '10px',
-										'marginBottom':'0px',
-										fontSize: '15px',
-										fontWeight: 'bold'}}>
-										<Translate text="Speech Output Always ON"/>
-									</div><br />
-									<div style={{
-										float: 'left',
-										padding: '5px 5px 0px 0px'
-									}}>
-										<Translate text="Enable speech output regardless of input type"/>
-									</div>
-									<Toggle
-										className='settings-toggle'
-										disabled={!this.TTSBrowserSupport}
-										labelStyle={{color:themeForegroundColor}}
-										onToggle={this.handleSpeechOutputAlways}
-										toggled={this.state.speechOutputAlways}/>
-									<br /><br />
-								</div>
-								<div>
-									<div style={{
-										marginTop: '10px',
-										marginBottom:'10px',
-										fontSize: '15px',
-										fontWeight: 'bold'}}>
-										<Translate text="Speech Output Language"/>
-									</div>
-									<RaisedButton
-										label={<Translate text="Select Default Language"/>}
-										style={{backgroundColor:'transparent'}}
-										buttonStyle={{backgroundColor:'transparent'}}
-										labelStyle={{color:themeForegroundColor}}
-										disabled={!this.TTSBrowserSupport}
-										onClick={this.handleLanguage.bind(this,true)} />
-								</div>
+					<div>
+						<div style={{
+							marginTop: '10px',
+							marginBottom:'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Speech Output"/>
+						</div><br />
+						<div style={{
+							float: 'left',
+							padding: '0px 5px 0px 0px'
+						}}>
+							<Translate text="Enable speech output only for speech input"/>
+						</div>
+						<Toggle
+							className='settings-toggle'
+							disabled={!this.TTSBrowserSupport}
+							labelStyle={{color:themeForegroundColor}}
+							onToggle={this.handleSpeechOutput}
+							toggled={this.state.speechOutput}/>
+						<br /><br />
+					</div>
+					<div>
+						<div style={{
+							marginTop: '10px',
+							marginBottom:'0px',
+							fontSize: '15px',
+							fontWeight: 'bold'}}>
+							<Translate text="Speech Output Always ON"/>
+						</div><br />
+						<div style={{
+							float: 'left',
+							padding: '5px 5px 0px 0px'
+						}}>
+							<Translate text="Enable speech output regardless of input type"/>
+						</div>
+						<Toggle
+							className='settings-toggle'
+							disabled={!this.TTSBrowserSupport}
+							labelStyle={{color:themeForegroundColor}}
+							onToggle={this.handleSpeechOutputAlways}
+							toggled={this.state.speechOutputAlways}/>
+						<br /><br />
+					</div>
+					<div>
+						<TextToSpeechSettings
+							rate={this.state.speechRate}
+							pitch={this.state.speechPitch}
+							lang={this.state.ttsLanguage}
+							newTtsSettings={this.handleNewTextToSpeech.bind(this)}
+						/>
+					</div>
 				</div>
 			)
 		}
@@ -1093,73 +1047,75 @@ class Settings extends Component {
 					<span>
 						<div style={{
 							marginTop: '10px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							fontSize: '15px',
 							fontWeight: 'bold'
 						}}>
-							<Translate text="Account Settings" />
+							<Translate text="Account" />
 						</div>
 					</span>
 					<TextField
 						name="email"
 						inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
-                  				value={this.state.identity.name}
+                  		value={this.state.identity.name}
 						floatingLabelStyle={floatingLabelStyle}
-                  				floatingLabelText={<Translate text="Your Email"/>} />
-						<br />
-
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}><Translate text="Select default language" />
-						</div>
-						<DropDownMenu
-							value={voiceOutput.voiceLang}
-							disabled={!this.TTSBrowserSupport}
-							labelStyle={{color:themeForegroundColor}}
-							menuStyle={{backgroundColor:themeBackgroundColor}}
-							menuItemStyle={{color:themeForegroundColor}}
-							onChange={this.handlePrefLang}>
-							{voiceOutput.voiceMenu}
-						 </DropDownMenu>
-						<br />
-						<div style={{
-							marginTop: '10px',
-							'marginBottom': '0px',
-							fontSize: '15px',
-							fontWeight: 'bold'
-						}}><Translate text="Select TimeZone" /></div>
-						<br />
-						<TimezonePicker
+                  		floatingLabelText={<Translate text="Your Email"/>} />
+					<br />
+					<div style={{
+						marginTop: '10px',
+						marginBottom: '0px',
+						fontSize: '15px',
+						fontWeight: 'bold'
+					}}>
+						<Translate text="Select default language" />
+					</div>
+					<DropDownMenu
+						value={voiceOutput.voiceLang}
+						disabled={!this.TTSBrowserSupport}
+						labelStyle={{color:themeForegroundColor}}
+						menuStyle={{backgroundColor:themeBackgroundColor}}
+						menuItemStyle={{color:themeForegroundColor}}
+						onChange={this.handlePrefLang}>
+						{voiceOutput.voiceMenu}
+					 </DropDownMenu>
+					<br />
+					<div style={{
+						marginTop: '10px',
+						marginBottom: '0px',
+						fontSize: '15px',
+						fontWeight: 'bold'
+					}}>
+						<Translate text="Select TimeZone" />
+					</div>
+					<br />
+					<TimezonePicker
 						value={this.state.TimeZone}
 						onChange={timezone => this.handleTimeZone(timezone)}
 						inputProps={{
-						placeholder: 'Select Timezone...',
-						name: 'timezone',
-    						}}
-  						/>
+							placeholder: 'Select Timezone...',
+							name: 'timezone'
+    					}} />
 				</div>
 			)
 		}
 
 		else if(this.state.selectedSetting === 'Password' && cookies.get('loggedIn')) {
-			currentSetting =
-			<div style={divStyle}>
-				<span>
+			currentSetting = (
+				<div style={divStyle}>
 					<span>
-						<div style={{
-							marginTop: '10px',
-							'marginBottom':'0px',
-							fontSize: '15px',
-							fontWeight: 'bold'}}>
-							<Translate text="Change your Account Password"/>
-						</div>
+						<span>
+							<div style={{
+								marginTop: '10px',
+								marginBottom:'0px',
+								fontSize: '15px',
+								fontWeight: 'bold'}}>
+								<Translate text="Change your Account Password"/>
+							</div>
+						</span>
+						<ChangePassword settings={this.state.intialSettings} {...this.props} />
 					</span>
-					<ChangePassword settings={this.state.intialSettings} {...this.props} />
-				</span>
-			</div>
+				</div>
+			)
 		}
 
 		else if (this.state.selectedSetting === 'Devices') {
@@ -1169,7 +1125,7 @@ class Settings extends Component {
 						<span>
 							<div style={{
 								marginTop: '10px',
-								'marginBottom': '0px',
+								marginBottom: '0px',
 								marginLeft: '30px',
 								fontSize: '15px',
 								fontWeight: 'bold'
@@ -1179,23 +1135,28 @@ class Settings extends Component {
 						</span>
 						<div>
 							<div style={{overflowX:'hidden'}}>
-	              <StaticAppBar {...this.props}
-	                  location={this.props.location} />
-	                {this.state.deviceData ? <div className="table"><TableComplex tableData={obj}/></div>
-	              : <div id="subheading">You do not have any devices connected yet !</div>}
-	            </div>
+								{ this.state.deviceData
+								  ?
+									<div className="table">
+										<TableComplex tableData={obj}/>
+									</div>
+								  :
+									<div id="subheading">You do not have any devices connected yet !</div>
+								}
+							</div>
 						</div>
 					</div>
 				</span>
 			)
 		}
+
 		else if (this.state.selectedSetting === 'Mobile' && cookies.get('loggedIn')) {
 			currentSetting = (
 				<span style={divStyle}>
 					<div>
 						<div style={{
 							marginTop: '10px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							marginLeft: '30px',
 							fontSize: '15px',
 							fontWeight: 'bold'
@@ -1204,7 +1165,7 @@ class Settings extends Component {
 						</div>
 						<div style={{
 							marginTop: '0px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							marginLeft: '30px',
 							fontSize: '14px'
 						}}>
@@ -1213,7 +1174,7 @@ class Settings extends Component {
 						<hr color="#f8f8f8" />
 						<div style={{
 							marginTop: '0px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							marginLeft: '30px',
 							fontSize: '15px',
 							fontWeight: 'bold'
@@ -1222,7 +1183,7 @@ class Settings extends Component {
 						</div>
 						<div style={{
 							marginTop: '10px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							marginLeft: '30px',
 							fontSize: '14px'
 						}}>
@@ -1230,7 +1191,7 @@ class Settings extends Component {
 						</div>
 						<div style={{
 							marginTop: '10px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							marginLeft: '30px',
 							fontSize: '14px'
 						}}>
@@ -1248,7 +1209,7 @@ class Settings extends Component {
 						</div>
 						<div style={{
 							marginTop: '-10px',
-							'marginBottom': '0px',
+							marginBottom: '0px',
 							marginLeft: '30px',
 							fontSize: '14px',
 						}}>
@@ -1273,12 +1234,13 @@ class Settings extends Component {
 				</span>
 			)
 		}
+
 		else {
 			currentSetting = (
 				<div style={divStyle}>
 					<div style={{
 						marginTop: '10px',
-						'marginBottom': '0px',
+						marginBottom: '0px',
 						fontSize: '15px',
 						fontWeight: 'bold'
 					}}>
@@ -1296,171 +1258,127 @@ class Settings extends Component {
 						labelStyle={{color:themeForegroundColor}}
 						toggled={this.state.enterAsSend}/>
 					<br />
-				</div>);
+				</div>
+			);
 		}
+
 		let blueThemeColor={color: 'rgb(66, 133, 244)'};
-		var buttonstyle={
-			fontSize:'14px',
-			boxSizing:'border-box',
-			padding:'10px 16px',
-			fontFamily:'Roboto, sans-serif',
-			height:'36px',
-			lineHeight:'50px',
-			borderRadius:'2px',
-			backgroundColor:'#4285f4',
-			color:'#fff',
-			textDecoration:'none',
-			fontWeight:'500',
-			boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-			transition:'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-			marginLeft:'3.6%',
-		}
-		let menuItems = cookies.get('loggedIn')?
+		let menuItems = cookies.get('loggedIn') ?
 		<div>
-		<div className="settings-list">
-		<Menu
-			onItemTouchTap={this.loadSettings}
-			selectedMenuItemStyle={blueThemeColor}
-			style={{width:'100%'}}
-			value={this.state.selectedSetting}
-			>
-			<MenuItem style={{color:themeForegroundColor}} value='Account' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>Account<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Devices' className="setting-item"  leftIcon={<MyDevices color={menuIconColor}/>}>Devices<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
-			<hr className="break-line"/>
-			<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-			<hr className="break-line"/>
-		</Menu>
+			<div className="settings-list">
+				<Menu
+					onItemTouchTap={this.loadSettings}
+					selectedMenuItemStyle={blueThemeColor}
+					style={{width:'100%'}}
+					value={this.state.selectedSetting}
+					>
+					<MenuItem style={{color:themeForegroundColor}} value='Account' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>Account<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='ChatApp' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Microphone' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Microphone<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Devices' className="setting-item"  leftIcon={<MyDevices color={menuIconColor}/>}>Devices<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+				</Menu>
+			</div>
+			<div className="settings-list-dropdown">
+				<DropDownMenu
+					selectedMenuItemStyle={blueThemeColor}
+					onChange={this.loadSettings}
+					value={this.state.selectedSetting}
+					labelStyle={{color:themeForegroundColor}}
+					menuStyle={{backgroundColor:themeBackgroundColor}}
+					menuItemStyle={{color:themeForegroundColor}}
+					style={{width:'100%'}}
+					autoWidth={false}
+		        >
+					<MenuItem primaryText='Account' value='Account' className="setting-item"/>
+					<MenuItem primaryText='Password' value='Password' className="setting-item"/>
+					<MenuItem primaryText='ChatApp' value='ChatApp' className="setting-item"/>
+					<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+					<MenuItem primaryText='Microphone' value='Microphone' className="setting-item"/>
+					<MenuItem primaryText='Speech' value='Speech' className="setting-item"/>
+					<MenuItem primaryText='Server' value='Server' className="setting-item"/>
+					<MenuItem primaryText='Devices' value='Devices' className="setting-item"/>
+					<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
+					<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
+				</DropDownMenu>
+			</div>
 		</div>
-		<div className="settings-list-dropdown">
-		<DropDownMenu
-			selectedMenuItemStyle={blueThemeColor}
-			onChange={this.loadSettings}
-			value={this.state.selectedSetting}
-			labelStyle={{color:themeForegroundColor}}
-			menuStyle={{backgroundColor:themeBackgroundColor}}
-			menuItemStyle={{color:themeForegroundColor}}
-			style={{width:'100%'}}
-			autoWidth={false}
-        >
-				<MenuItem primaryText='Account' value='Account' className="setting-item"/>
-				<MenuItem primaryText='Password' value='Password' className="setting-item"/>
-				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
-				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
-				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
-				<MenuItem primaryText='Devices' value='Devices' className="setting-item"/>
-				<MenuItem primaryText='Mobile' value='Mobile' className="setting-item" />
-				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
-		</DropDownMenu>
-		</div>
-		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
-		</div>
-
 		:
 		<div>
-		<div className="settings-list">
-		<Menu
-			onItemTouchTap={this.loadSettings}
-			selectedMenuItemStyle={blueThemeColor}
-			style={{width:'100%',height:'100%'}}
-			value={this.state.selectedSetting}
-			>
-				<MenuItem style={{color:themeForegroundColor}} value='ChatApp Settings' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Mic Settings' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Mic Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Speech Settings' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Server Settings' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server Settings<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-				<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-				<hr className="break-line"/>
-		</Menu>
-		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
+			<div className="settings-list">
+				<Menu
+					onItemTouchTap={this.loadSettings}
+					selectedMenuItemStyle={blueThemeColor}
+					style={{width:'100%',height:'100%'}}
+					value={this.state.selectedSetting}
+				>
+					<MenuItem style={{color:themeForegroundColor}} value='ChatApp' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Microphone' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Microphone<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+					<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
+					<hr className="break-line"/>
+				</Menu>
+			</div>
+			<div className="settings-list-dropdown">
+				<DropDownMenu
+					selectedMenuItemStyle={blueThemeColor}
+					onChange={this.loadSettings}
+					value={this.state.selectedSetting}
+					style={{width:'100%'}}
+					labelStyle={{color:themeForegroundColor}}
+					menuStyle={{backgroundColor:themeBackgroundColor}}
+					menuItemStyle={{color:themeForegroundColor}}
+					autoWidth={false}
+		        >
+					<MenuItem primaryText='ChatApp' value='ChatApp' className="setting-item"/>
+					<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
+					<MenuItem primaryText='Microphone' value='Microphone' className="setting-item"/>
+					<MenuItem primaryText='Speech' value='Speech' className="setting-item"/>
+					<MenuItem primaryText='Server' value='Server' className="setting-item"/>
+					<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
+				</DropDownMenu>
+			</div>
 		</div>
-		<div className="settings-list-dropdown">
-		<DropDownMenu
-			selectedMenuItemStyle={blueThemeColor}
-			onChange={this.loadSettings}
-			value={this.state.selectedSetting}
-			style={{width:'100%'}}
-			labelStyle={{color:themeForegroundColor}}
-			menuStyle={{backgroundColor:themeBackgroundColor}}
-			menuItemStyle={{color:themeForegroundColor}}
-			autoWidth={false}
-        >
-				<MenuItem primaryText='ChatApp Settings' value='ChatApp Settings' className="setting-item"/>
-				<MenuItem primaryText='Theme' value='Theme' className="setting-item"/>
-				<MenuItem primaryText='Mic Settings' value='Mic Settings' className="setting-item"/>
-				<MenuItem primaryText='Speech Settings' value='Speech Settings' className="setting-item"/>
-				<MenuItem primaryText='Server Settings' value='Server Settings' className="setting-item"/>
-				<MenuItem primaryText='Share on Social media' value='Share on Social media' className="setting-item"/>
-		</DropDownMenu>
-		<div><Link to="/" style={buttonstyle}>BACK TO CHAT</Link></div>
-		</div>
-		</div>
-	let menuStyle = cookies.get('loggedIn') ?
-		{
-			 height: 600,
-			 marginTop: 20,
-			 textAlign: 'center',
-			 display: 'inline-block',
-			 backgroundColor:themeBackgroundColor,
-			 color:themeForegroundColor
-		}
 
-		:
-
+	let menuStyle =
 		{
-			height: 455,
 			marginTop: 20,
 			textAlign: 'center',
 			display: 'inline-block',
 			backgroundColor:themeBackgroundColor,
-			color:themeForegroundColor
-		};
-	const ttsSettingsChanged=this.ttsSettingsChanged();
-	const actionsTextToSpeechDialog = [
-      <FlatButton
-        label="Cancel"
-		key={'Cancel'}
-        primary={false}
-        onClick={this.handleClose}
-      />,
-      <RaisedButton
-		label={<Translate text="Save"/>}
-		key={'Save'}
-		backgroundColor={
-			UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'}
-		labelColor="#fff"
-        onClick={this.handleTextToSpeech}
-		disabled={!ttsSettingsChanged}
-      />,
-    ];
+			color:themeForegroundColor,
+		}
+
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
 		return (
 			<div className="settings-container" id="settings-container">
-		<StaticAppBar settings={this.state.intialSettings} {...this.props}
-			location={this.props.location} />
+				<StaticAppBar
+					settings={this.state.intialSettings}
+					{...this.props}
+					location={this.props.location} />
 				<div className='settingMenu'>
 					<Paper className='leftMenu tabStyle' zDepth={1} style={{backgroundColor:themeBackgroundColor, color:themeForegroundColor}}>
 						{menuItems}
@@ -1480,36 +1398,23 @@ class Settings extends Component {
 						</div>
 					</Paper>
 				</div>
-				<Dialog
-					modal={false}
-					title={<h3><Translate text="Text-To-Speech Settings"/></h3>}
-					autoScrollBodyContent={true}
-					open={this.state.showLanguageSettings}
-					actions={actionsTextToSpeechDialog}
-					onRequestClose={this.handleLanguage.bind(this, false)}>
-					<TextToSpeechSettings
-						rate={this.state.speechRate}
-						pitch={this.state.speechPitch}
-						lang={this.state.ttsLanguage}
-						newTtsSettings={this.handleNewTextToSpeech} />
-				</Dialog>
 				{/* Change Server */}
-			<Dialog
-			  actions={serverDialogActions}
-			  modal={false}
-			  open={this.state.showServerChangeDialog}
-			  autoScrollBodyContent={true}
-			  bodyStyle={bodyStyle}
-			  onRequestClose={this.handleServerToggle.bind(this,false)}>
-			  <div>
-				<h3><Translate text="Change Server"/></h3>
-				<Translate text="Please login again to change SUSI server"/>
-				<Close style={closingStyle}
-				onTouchTap={this.handleServerToggle.bind(this,false)} />
-			  </div>
-			</Dialog>
-			{/* ForgotPassword */}
-			<Dialog
+				<Dialog
+					actions={serverDialogActions}
+					modal={false}
+					open={this.state.showServerChangeDialog}
+					autoScrollBodyContent={true}
+					bodyStyle={bodyStyle}
+					onRequestClose={this.handleServerToggle.bind(this,false)} >
+					<div>
+						<h3><Translate text="Change Server"/></h3>
+						<Translate text="Please login again to change SUSI server"/>
+						<Close style={closingStyle}
+							onTouchTap={this.handleServerToggle.bind(this,false)} />
+				  	</div>
+				</Dialog>
+				{/* ForgotPassword */}
+				<Dialog
 					className='dialogStyle'
 					modal={false}
 					open={this.state.showForgotPassword}
@@ -1521,7 +1426,8 @@ class Settings extends Component {
 					<Close style={closingStyle}
 					onTouchTap={this.handleClose}/>
 				</Dialog>
-		</div>);
+			</div>
+		);
 	}
 }
 

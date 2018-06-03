@@ -150,9 +150,6 @@ class TopBar extends Component {
 						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate text="Settings"/>}
-						containerElement={<Link to="/settings" />}
-						rightIcon={<Settings/>} />
 					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
@@ -185,9 +182,9 @@ class TopBar extends Component {
 				}}>
 				<ToolbarGroup>
 				<div style={{ float: 'left', marginTop: '0px' }}>
-						<a href="https://chat.susi.ai/">
-						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
-						</a>
+					<Link to="/">
+							<img src={susiWhite} alt="susi-logo" style={logoStyle} />
+					</Link>
 				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
@@ -195,6 +192,7 @@ class TopBar extends Component {
 						<ExpandingSearchField
 							searchText={this.props.searchState.searchText}
 							searchIndex={this.props.searchState.searchIndex}
+							open={this.props.search}
 							searchCount={this.props.searchState.scrollLimit}
 							onTextChange={this.props.searchTextChanged}
 							activateSearch={this.props._onClickSearch}

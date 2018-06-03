@@ -17,7 +17,6 @@ const additionalStyles={
 
 const ESCAPE_KEY = 27;
 
-// eslint-disable-next-line
 class ExpandingSearchField extends Component{
 
     constructor(props) {
@@ -26,7 +25,7 @@ class ExpandingSearchField extends Component{
     }
 
     closeSearch = ()=>{
-        if(this.state.isOpen){
+        if(this.props.open){
             this.setState({isOpen:false});
             this.props.exitSearch();
         }
@@ -43,8 +42,8 @@ class ExpandingSearchField extends Component{
     }
 
     onClick = () => {
-        this.setState({isOpen: !this.state.isOpen});
-        if(!this.state.isOpen){
+        this.setState({isOpen: !this.props.open});
+        if(!this.props.open){
             this.props.activateSearch();
         }
         else{
@@ -64,8 +63,8 @@ class ExpandingSearchField extends Component{
         this.props.scrollPrev();
     }
 
-    // eslint-disable-next-line
-    UNSAFE_componentWillMount() {
+
+    componentWillMount() {
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
@@ -106,7 +105,7 @@ class ExpandingSearchField extends Component{
             color: 'white'
         }
 
-        let textStyle = this.state.isOpen ? baseStyles.open : baseStyles.closed;
+        let textStyle = this.props.open ? baseStyles.open : baseStyles.closed;
         textStyle = Object.assign(textStyle,
             additionalStyles ? additionalStyles.text : {});
 
@@ -115,7 +114,7 @@ class ExpandingSearchField extends Component{
                 divStyle.width += baseStyles.icon.width + 5;
                 divStyle.display =  'inline';
 
-                if(this.state.isOpen){
+                if(this.props.open){
                     return (
                         <div style={divStyle} className='searchComponent'>
                             <TextField
@@ -183,6 +182,7 @@ class ExpandingSearchField extends Component{
                     searchIndex: PropTypes.number,
                     searchCount: PropTypes.number,
                     searchText: PropTypes.string,
+                    open: PropTypes.bool
                 };
 
                 export default ExpandingSearchField;

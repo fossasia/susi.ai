@@ -20,7 +20,6 @@ import susiTestGif from '../../images/susi-test.gif';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 
-// eslint-disable-next-line
 class Overview extends Component{
   constructor(props){
     super(props);
@@ -54,8 +53,7 @@ class Overview extends Component{
     event.target.pauseVideo();
   }
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillMount(){
+  componentWillMount(){
     document.body.style.backgroundColor = '#fff';
   }
 

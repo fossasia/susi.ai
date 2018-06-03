@@ -30,8 +30,6 @@
     "Select backend server for the app": "Uygulama için arka uç sunucusu seçin",
     "Account Settings": "Hesap ayarları",
     "Change Password": "Şifre değiştir",
-    "Connect to SUSI Hardware": "SUSI Donanımına Bağlan",
-    "Add address to connect to Hardware": "Donanıma bağlanmak için adres ekle",
     "Save": "Kayıt etmek",
     "Change Server": "Sunucu Değiştir",
     "Please login again to change SUSI server": "SUSI sunucusunu değiştirmek için lütfen tekrar giriş yapın",

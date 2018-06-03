@@ -30,8 +30,6 @@
     "Select backend server for the app": "Sélectionnez le serveur principal pour l'application",
     "Account Settings": "Paramètres du compte",
     "Change Password": "Changer le mot de passe",
-    "Connect to SUSI Hardware:": "Se connecter au matériel SUSI:",
-    "Add address to connect to Hardware": "Ajouter une adresse pour se connecter au matériel",
     "Save": "Sauvegarder",
     "Change Server": "Changer de serveur",
     "Please login again to change SUSI server": "Veuillez vous reconnecter pour changer le serveur SUSI",
