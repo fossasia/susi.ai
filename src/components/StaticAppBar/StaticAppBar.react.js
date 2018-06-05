@@ -200,15 +200,16 @@ class StaticAppBar extends Component {
                 />
                 {
                     cookies.get('loggedIn')?
-                        (<MenuItem primaryText={<Translate text="Botbuilder"/>}
+                        (<div><MenuItem primaryText={<Translate text="Botbuilder"/>}
                             rightIcon={<Extension/>}
                             href="https://skills.susi.ai/botbuilder"
-                        />): null
+                        />
+                        <MenuItem primaryText={<Translate text="Settings"/>}
+                            containerElement={<Link to="/settings" />}
+                            rightIcon={<Settings />}
+                        />
+                        </div>): null
                 }
-                <MenuItem primaryText={<Translate text="Settings"/>}
-                    containerElement={<Link to="/settings" />}
-                    rightIcon={<Settings />}
-                />
                 {
                     cookies.get('loggedIn')?
                     (<MenuItem primaryText={<Translate text="Logout"/>}
@@ -357,10 +358,10 @@ class StaticAppBar extends Component {
         let menuLlinks = topLinks.map((link, i) => {
             return (
                 <MenuItem key={i}
-                          primaryText={link.label}
-                          className="drawerItem"
-                          containerElement={<Link to={link.url} />}
-                          onTouchTap={this.handleDrawerClose} >
+                    primaryText={link.label}
+                    className="drawerItem"
+                    containerElement={<Link to={link.url} />}
+                    onTouchTap={this.handleDrawerClose} >
                 </MenuItem>
             )
         });
@@ -379,7 +380,6 @@ class StaticAppBar extends Component {
                     <AppBar
                         id="headerSection"
                         className="topAppBar"
-
                         title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px',height:'25px',width:'122px' }}>
                             <img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link><TopMenu /></div>}
                         style={{
