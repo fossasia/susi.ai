@@ -3,7 +3,7 @@ N-channel FET
 
 ### Dependence of drain current on D-S voltage, and Gate Voltage
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/njfet.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/njfet.svg" width=500 height=500>
 
 ### Dependence of drain current on D-S voltage, and Gate Voltage
 
@@ -15,6 +15,6 @@ N-channel FET
 
 #### Screenshot
 
-![](https://fossasia/pslab-experiments/images/screenshots/njfet.png)
+<img src="https://fossasia/pslab-experiments/images/screenshots/njfet.png">
 
 

@@ -3,7 +3,7 @@ Op-Amps : Wien Bridge Oscillator
 
 #### Schematic
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/Wein_Bridge_Oscillator.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/Wein_Bridge_Oscillator.svg" width=500 height=500>
 
 * Make the Connections as shown in the figure.
 * Connect the output to CH1.
@@ -11,4 +11,4 @@ Op-Amps : Wien Bridge Oscillator
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/wien-bridge.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/wien-bridge.png">

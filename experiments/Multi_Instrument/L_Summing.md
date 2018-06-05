@@ -3,7 +3,7 @@ Summing Junction
 
 ### Op-Amps: AC and DC Summing Junctions
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/summing.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/summing.svg" width=500 height=500>
 
 #### DC Summing junction
 
@@ -29,5 +29,5 @@ v2 = V(PV3)
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/summing_junction.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/summing_junction.png">
 

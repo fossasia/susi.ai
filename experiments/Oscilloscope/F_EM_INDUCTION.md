@@ -5,7 +5,7 @@ Mutual Inductance
 
 #### Schematic 
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/mutual-inductance.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/mutual-inductance.svg" width=500 height=500>
 
 * Make the connections to the solenoid as shown in the figure.
 

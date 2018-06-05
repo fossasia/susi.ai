@@ -10,7 +10,7 @@ Precision Rectifier
 
 #### Schematic
 
-![](https://fossasia,github.io/pslab-experiments/images/schematics/precision-rectifier.svg)
+<img src="https://fossasia,github.io/pslab-experiments/images/schematics/precision-rectifier.svg" width=500 height=500>
 
 + Make the Connections as shown in the figure.
 + CH1 monitors the original waveform output from W1.
@@ -18,4 +18,4 @@ Precision Rectifier
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/precision-rectifier.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/precision-rectifier.png">

@@ -5,7 +5,7 @@ Output Characteristics
 
 #### Schematic
 
-![](https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/tranCE.svg)
+<img src="https://github.com/fossasia/pslab-experiments/blob/master/images/schematics/tranCE.svg" width=500 height=500>
 
 * Make the connections as shown in the figure.
 

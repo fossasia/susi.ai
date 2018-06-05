@@ -5,7 +5,7 @@ Sounds Beats
 
 #### Introduction
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/soundBeats.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/soundBeats.svg" width=500 height=500>
 
 * If two sounds with frequencies close to each other are played simultaneously, a third frequency corresponding to the gap between the two original frequencies can be heard.
 
@@ -21,7 +21,7 @@ Sounds Beats
 
 #### Screenshot
 	
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/soundBeats.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/soundBeats.png">
 
 
 

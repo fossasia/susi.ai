@@ -3,7 +3,7 @@ Resistance Measurement
 
 ### Connect resistors as shown in the figure
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/RMeasure.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/RMeasure.svg" width=500 height=500>
 
 * As shown in the figure, on connecting the resistor between SEN pin and GND pin, you can measure the resistance value of the resistor in Ohm units.
 
@@ -19,14 +19,14 @@ Resistance Measurement
 
 * Schematic:
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/RSeriesSimple.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/RSeriesSimple.svg" width=500 height=500>
 
 ### Parallel Resistive Circuit
 
 * In this type of configuration, resistors are placed in such a way that both the ends of all resistors in the circuit are joined to common ends respectively. Thus, the net resistance of the circuit can be found out by the following formula
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/RParallelFormula.gif)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/RParallelFormula.gif)
 
 * Schematic:
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/RParallelSimple.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/RParallelSimple.svg" width=500 height=500>

@@ -1,7 +1,7 @@
 R-C Integrals
 ---
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/RC.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/RC.svg" width=500 height=500>
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the original square wave output from SQR1.
@@ -10,11 +10,11 @@ R-C Integrals
 R-C Derivatives
 ---
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/RC.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/RC.svg" width=500 height=500>
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the original square wave output from SQR1.
 * CH2 monitors the derivative output .
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/rcintegderiv.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/rcintegderiv.png">
 	

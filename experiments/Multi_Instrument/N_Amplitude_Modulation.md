@@ -14,7 +14,7 @@ Amplitude Modulation
 
 #### Schematic:
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/amp_mod.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/amp_mod.svg" width=500 height=500>
 
 * The circuit connection is made as shown in the circuit.
 

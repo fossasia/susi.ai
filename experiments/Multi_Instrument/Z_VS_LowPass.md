@@ -3,7 +3,7 @@ Voltage controlled Low-Pass Filter
 
 #### Schematic
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/ad9833-lowpass.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/ad9833-lowpass.svg" width=500 height=500>
 
 * Make the Connections as shown in the figure.
 * CH1 monitors the original waveform output from W1.

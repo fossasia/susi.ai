@@ -11,15 +11,15 @@ Random Sampling
 
 * Connect W1 to CH1, and run the experiment to characterize a sine/triangular wave, and then connect SQR1 to characterize a square wave
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/PlotAC.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/PlotAC.svg" width=500 height=500>
 
 #### Sinusoidal Wave : Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/random_sine.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/random_sine.png">
 
 #### Triangular Wave : Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/random_triangle.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/random_triangle.png">
 
 #### Square Wave Wave : Screenshot
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/random_square.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/random_square.png">

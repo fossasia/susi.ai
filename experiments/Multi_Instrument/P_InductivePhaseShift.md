@@ -3,7 +3,7 @@ L-R Circuit Phase Shift
 
 #### Schematic
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/LR.svg)	
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/LR.svg" width=500 height=500>	
 
 * Make the Connections as shown in the figure
 * CH1 monitors the original waveform output from W1

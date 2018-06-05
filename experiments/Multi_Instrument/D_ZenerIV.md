@@ -3,7 +3,7 @@ Zener Diode IV
 
 ### Zener Diode's I-V Characteristics. Reverse as well as forward biased
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/zener.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/zener.svg" width=500 height=500>
 
 * Connect the Diode from CH1 to Ground.
 * Connect a 1k resistor from PV1 to CH1.
@@ -13,5 +13,5 @@ Zener Diode IV
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/zenerIV.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/zenerIV.png">
 

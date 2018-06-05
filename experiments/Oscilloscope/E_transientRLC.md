@@ -5,7 +5,7 @@ Transient RLC
 
 #### Schematic 
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/astable-multivibrator.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/astable-multivibrator.svg" width=500 height=500>
 
 * A voltage step from 5V to 0V is applied to a series LCR circuit, and the voltage across the capacitor is recorded.
 
@@ -19,7 +19,7 @@ Transient RLC
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/astable-multivibrator.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/astable-multivibrator.png">
 
 #### Additional reading
 [Tutorial](http://www.electronics-tutorials.ws/waveforms/astable.html)

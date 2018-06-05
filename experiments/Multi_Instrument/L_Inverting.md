@@ -3,7 +3,7 @@ Inverting Op-Amp
 
 #### Schematic
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/Inverting.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/Inverting.svg" width=500 height=500>
 
 * Make the connections as shown in the figure
 * CH1 Monitors the original waveform output from W1

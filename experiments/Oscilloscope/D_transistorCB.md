@@ -5,7 +5,7 @@ Transistor CB
 
 #### Circuit Diagram
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/tranCB.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/tranCB.svg" width=500 height=500>
 
 * Make the connections as shown in the figure.
 

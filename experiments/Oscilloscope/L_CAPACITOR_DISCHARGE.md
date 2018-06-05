@@ -3,7 +3,7 @@ Capacitor Discharge
 
 ### Voltage across a discharging capacitor
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/CAP_DISCHARGE.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/CAP_DISCHARGE.svg" width=500 height=500>
 
 * In this experiment, a fully charged capacitor is allowed to discharge slowly through a high resistance, and its voltage is plotted as a function of time.
 
@@ -29,4 +29,4 @@ Capacitor Discharge
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/CAP_DISCHARGE.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/CAP_DISCHARGE.png">

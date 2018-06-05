@@ -3,7 +3,7 @@ Diode IV
 
 ### Diode I-V Characteristics
 
-![](https://fossasia.github.io/pslab-experiments/images/schematics/diodeIV.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/diodeIV.svg" width=500 height=500>
 
 * Connect the Diode from CH3 to Ground.
 * Connect a 1k resistor from PV1 to CH3.
@@ -13,6 +13,6 @@ Diode IV
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/diodeIV.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/diodeIV.png">
 
 

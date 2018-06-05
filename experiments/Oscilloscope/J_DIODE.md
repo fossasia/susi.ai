@@ -7,7 +7,7 @@ Semi-Conductor Diode
 	
 #### Testing with a DC voltage
 	
-![](https://fossasia.github.io/pslab-experiments/images/schematics/diodeDC.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/diodeDC.svg" width=500 height=500>
 		
 * Connect PV1 to the P side of the diode (N side has a black band, P does not ) . Also connect PV1 to CH1 for simultaneous monitoring. Use a light emitting diode for more interactive results
 
@@ -17,7 +17,7 @@ Semi-Conductor Diode
 	
 #### Testing with an AC voltage
 	
-![](https://fossasia.github.io/pslab-experiments/images/schematics/diodeAC.svg)
+<img src="https://fossasia.github.io/pslab-experiments/images/schematics/diodeAC.svg" width=500 height=500>
 	
 * Repeat the same with a voltage input that is already oscillating, and observe that current only flows when the input exceeds the potential at GND
 	
@@ -25,6 +25,6 @@ Semi-Conductor Diode
 
 #### Screenshot
 
-![](https://fossasia.github.io/pslab-experiments/images/screenshots/diodeSimple.png)
+<img src="https://fossasia.github.io/pslab-experiments/images/screenshots/diodeSimple.png">
 
 
