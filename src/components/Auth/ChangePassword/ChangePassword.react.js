@@ -247,7 +247,7 @@ export default class ChangePassword extends Component {
             top: '15px',
         }
         const changepassStyle = {
-					
+
 					  top: '15px',
         }
         const styles = {
