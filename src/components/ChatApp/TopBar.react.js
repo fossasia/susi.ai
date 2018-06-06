@@ -19,6 +19,7 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Translate from '../Translate/Translate.react';
+import './TopBar.css'
 
 const cookies = new Cookies();
 let Logged = (props) => (
@@ -204,7 +205,7 @@ class TopBar extends Component {
 						{
 							cookies.get('loggedIn') ?
 								(
-									<label
+									<label className="useremail"
 										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
 										{cookies.get('email')}
 									</label>):
