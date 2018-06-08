@@ -1,21 +1,28 @@
-.forgotpwdlink{
-	color: #999999;
+.login-links{
+	color: #365899;
 	cursor: pointer;
+	font-size: 12px;
 }
-.forgotpwdlink:hover{	
-    color: red;
+.login-links:hover{
+	color: #365899;
+    text-decoration: underline;
 }
 .loginForm{
 	margin: 0 auto;
 	padding: 10px 0;
 }
 
+.login-links-section {
+	display: flex;
+	justify-content: space-evenly;
+	padding: 0 20px 0 20px;
+}
+
 .sty{
 	width: 256px;
 }
-.loginForm h3{
+.loginForm div{
 	margin: 5px 0;
-	font-weight: bold;
 }
 
 @media screen and (max-width: 768px) {
