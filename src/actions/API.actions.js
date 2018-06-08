@@ -32,6 +32,8 @@ export function getLocation(){
       _Location = {
         lat: response.latitude,
         lng: response.longitude,
+        country_code: response.country_code,
+        country_name: response.country_name
       };
     },
     error: function(xhr, status, error) {
@@ -110,7 +112,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   }
   // Send location info of client if available
   if(_Location){
-    url += '&latitude='+_Location.lat+'&longitude='+_Location.lng;
+    url += '&latitude='+_Location.lat+'&longitude='+_Location.lng+'&country_code='+_Location.country_code+'&country_name='+_Location.country_name;
   }
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
@@ -132,24 +134,24 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       // Trying for empty response i.e no answer returned
       try{
       receivedMessage.text = response.answers[0].actions[0].expression;
-      	}
+        }
       catch (err) {
-      	if (err instanceof TypeError) {
-      		let emptyData = [];
-      		emptyData[0] = [];
-      		emptyData[1] = {};
-      		response.answers = [];
-      		response.answers[0] = {
-      			actions: [],
-      			data:emptyData,
-      		};
-      		response.answers[0].actions[0] = {
-      			expression:defaultMessage,
-      			language:'en',
-      			type:'answer',
-      		   		   	};
-        	receivedMessage.text = response.answers[0].actions[0].expression;
-    	}
+        if (err instanceof TypeError) {
+          let emptyData = [];
+          emptyData[0] = [];
+          emptyData[1] = {};
+          response.answers = [];
+          response.answers[0] = {
+            actions: [],
+            data:emptyData,
+          };
+          response.answers[0].actions[0] = {
+            expression:defaultMessage,
+            language:'en',
+            type:'answer',
+                    };
+          receivedMessage.text = response.answers[0].actions[0].expression;
+      }
       }
       if(receivedMessage.lang===undefined){
         receivedMessage.lang = document.documentElement.getAttribute('lang');
