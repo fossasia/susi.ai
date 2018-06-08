@@ -32,8 +32,8 @@ export function getLocation(){
       _Location = {
         lat: response.latitude,
         lng: response.longitude,
-        country_code: response.country_code,
-        country_name: response.country_name
+        countryCode: response.country_code,
+        countryName: response.country_name
       };
     },
     error: function(xhr, status, error) {
@@ -112,7 +112,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   }
   // Send location info of client if available
   if(_Location){
-    url += '&latitude='+_Location.lat+'&longitude='+_Location.lng+'&country_code='+_Location.country_code+'&country_name='+_Location.country_name;
+    url += '&latitude='+_Location.lat+'&longitude='+_Location.lng+'&country_code='+_Location.countryCode+'&country_name='+_Location.countryName;
   }
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
