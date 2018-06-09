@@ -1106,10 +1106,10 @@ class Settings extends Component {
 						<span>
 							<div style={{
 								marginTop: '10px',
-								marginBottom:'0px',
+								marginBottom:'10px',
 								fontSize: '15px',
 								fontWeight: 'bold'}}>
-								<Translate text="Change your Account Password"/>
+								<Translate text="Password"/>
 							</div>
 						</span>
 						<ChangePassword settings={this.state.intialSettings} {...this.props} />
