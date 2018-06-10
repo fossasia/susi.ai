@@ -20,9 +20,16 @@
   display: inline-block;
 }
 
-.settings-container{
+.settings-container-light{
   width: 100%;
   height: 100vh;
+  background: rgb(255, 255, 255);
+}
+
+.settings-container-dark{
+  width: 100%;
+  height: 100vh;
+  background: rgb(0,0,18);
 }
 
 .settings-list{
@@ -104,12 +111,20 @@
   background-color: #fff;
 }
 
-.break-line{
+.break-line-light{
   margin: 0px ;
   width: 100% ;
   height: 1px ;
   border: 0 none ;
   background-color : rgb(242, 242, 242) ;
+}
+
+.break-line-dark{
+  margin: 0px ;
+  width: 100% ;
+  height: 1px ;
+  border: 0 none ;
+  background-color : white ;
 }
 
 .right-chevron{

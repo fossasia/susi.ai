@@ -58,6 +58,7 @@ class MessageComposer extends Component {
       animate: false,
       rows: 1,
       recognizing: false,
+      micAccess: false,
       currentArrowIndex:0// store the index for moving through messages using key
     };
     this.rowComplete = 0;
@@ -73,13 +74,15 @@ class MessageComposer extends Component {
       start: true,
       stop: false,
       open: true,
+      micAccess: true,
       animate: true
     })
   }
 
   onSpeechStart = () => {
     this.setState({
-      recognizing: true
+      recognizing: true,
+      micAccess: true
     });
     flag=1;
   }
@@ -111,9 +114,11 @@ class MessageComposer extends Component {
       stop: false
     });
     if(this.state.result === ''){
-    var x = document.getElementById('snackbar')
-    x.className = 'show';
-    setTimeout(function(){ x.className = x.className.replace('show', ''); }, 3000);
+      var x = document.getElementById('snackbar')
+      if(this.state.micAccess){
+        x.className = 'show';
+        setTimeout(function(){ x.className = x.className.replace('show', ''); }, 3000);
+      }
     }
   }
 

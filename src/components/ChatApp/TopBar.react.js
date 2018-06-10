@@ -19,6 +19,7 @@ import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Translate from '../Translate/Translate.react';
+import './TopBar.css'
 
 const cookies = new Cookies();
 let Logged = (props) => (
@@ -77,7 +78,6 @@ class TopBar extends Component {
 				<Popover
 					{...props}
 					animated={false}
-					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -102,9 +102,9 @@ class TopBar extends Component {
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}
 					/>
-					<MenuItem primaryText={<Translate text="Botbuilder"/>}
+					<MenuItem primaryText={<Translate text="Dashboard"/>}
 						rightIcon={<Extension/>}
-						href="https://skills.susi.ai/botbuilder"
+						href="https://skills.susi.ai/dashboard"
 					/>
 					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
@@ -130,7 +130,6 @@ class TopBar extends Component {
 				<Popover
 					{...props}
 					animated={false}
-					style={{marginLeft:'-25px'}}
 					open={this.state.showOptions}
 					anchorEl={this.state.anchorEl}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -150,9 +149,6 @@ class TopBar extends Component {
 						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
-					<MenuItem primaryText={<Translate text="Settings"/>}
-						containerElement={<Link to="/settings" />}
-						rightIcon={<Settings/>} />
 					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
@@ -185,9 +181,9 @@ class TopBar extends Component {
 				}}>
 				<ToolbarGroup>
 				<div style={{ float: 'left', marginTop: '0px' }}>
-						<a href="https://chat.susi.ai/">
-						<img src={susiWhite} alt="susi-logo" style={logoStyle} />
-						</a>
+					<Link to="/">
+							<img src={susiWhite} alt="susi-logo" style={logoStyle} />
+					</Link>
 				</div>
 				</ToolbarGroup>
 				<ToolbarGroup lastChild={true}>
@@ -207,7 +203,7 @@ class TopBar extends Component {
 						{
 							cookies.get('loggedIn') ?
 								(
-									<label
+									<label className="useremail"
 										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
 										{cookies.get('email')}
 									</label>):

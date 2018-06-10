@@ -759,20 +759,11 @@ class MessageSection extends Component {
         buttonColor = '#4285f4';
         break;
       }
-      case 'dark':{
-        bodyColor = '#000012';
-        TopBarColor = '#19324c';
-        composerColor = '#ffffff';
-        messagePane = '#000000';
-        textArea = '#000000';
-        buttonColor = '#4285f4';
-        break;
-      }
       default:{
         break;
       }
     }
-    document.body.style.setProperty('background-color', bodyColor);
+    document.body.style.setProperty('background-color', this.state.currTheme==='light'?bodyColor:'rgb(0, 0, 18)');
     document.body.style.setProperty('background-image', 'url("'+this.state.bodyBackgroundImage+'")');
     document.body.style.setProperty('background-repeat', 'no-repeat');
     document.body.style.setProperty('background-size', 'cover');

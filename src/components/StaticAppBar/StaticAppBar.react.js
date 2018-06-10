@@ -24,7 +24,6 @@ import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import Extension from 'material-ui/svg-icons/action/extension';
-import Edit from 'material-ui/svg-icons/image/edit';
 
 import { Link } from 'react-router-dom';
 
@@ -50,15 +49,13 @@ let Logged = (props) => (
             }}
             href="https://skills.susi.ai">Skills</a>
         </MenuItem>
-        <MenuItem primaryText="Settings"
-            containerElement={<Link to="/settings" />}
-            rightIcon={<Settings />} />
         <MenuItem
             primaryText="Login"
             onTouchTap={this.handleLogin}
             rightIcon={<SignUpIcon />} />
     </div>
 )
+
 class StaticAppBar extends Component {
     constructor(props) {
         super(props);
@@ -185,69 +182,43 @@ class StaticAppBar extends Component {
             }
             lastScrollTop = st;
         }
-        // When the user is logged in
-        if (cookies.get('loggedIn')) {
-            Logged = (props) => (
-                <div>
-                    <MenuItem primaryText={<Translate text="About"/>}
-                        containerElement={<Link to="/overview" />}
-                        rightIcon={<Info/>}
-                    />
-                    <MenuItem primaryText={<Translate text="Chat"/>}
-                        containerElement={<Link to="/" />}
-                        rightIcon={<Chat/>}
-                    />
-                    <MenuItem primaryText={<Translate text="Skills"/>}
-                        rightIcon={<Dashboard/>}
-                        href="https://skills.susi.ai"
-                    />
-                    <MenuItem primaryText={<Translate text="Themes"/>}
-                        key="custom"
-                        onClick={this.props.handleThemeChanger}
-                        rightIcon={<Edit/>}
-                    />
-                    <MenuItem primaryText={<Translate text="Botbuilder"/>}
-                        rightIcon={<Extension/>}
-                        href="https://skills.susi.ai/botbuilder"
-                    />
-                    <MenuItem primaryText={<Translate text="Settings"/>}
-                        containerElement={<Link to="/settings" />}
-                        rightIcon={<Settings/>}/>
-                    <MenuItem primaryText={<Translate text="Logout"/>}
-                        containerElement={<Link to="/logout" />}
-                        rightIcon={<Exit />}/>
-                </div>
-            )
-            return <Logged />
-        }
 
-        // When the user is not logged in
+        // Return menu items for the hamburger menu
         Logged = (props) => (
             <div>
-                <MenuItem
+                <MenuItem primaryText={<Translate text="About"/>}
                     containerElement={<Link to="/overview" />}
                     rightIcon={<Info />}
-                ><Translate text="About"/>
-                </MenuItem>
-                <MenuItem
+                />
+                <MenuItem primaryText={<Translate text="Chat"/>}
                     containerElement={<Link to="/" />}
                     rightIcon={<Chat />}
-                > <Translate text="Chat"/></MenuItem>
-                <MenuItem
+                />
+                <MenuItem primaryText={<Translate text="Skills"/>}
                     rightIcon={<Dashboard />}
                     href="https://skills.susi.ai"
-                ><Translate text="Skills"/>
-                </MenuItem>
-                <MenuItem
-                    containerElement={<Link to="/settings" />}
-                    rightIcon={<Settings />} >
-                    <Translate text="Settings"/>
-                </MenuItem>
-                <MenuItem
-                    onTouchTap={this.handleLogin}
-                    rightIcon={<SignUpIcon />} >
-                    <Translate text="Login"/>
-                </MenuItem>
+                />
+                {
+                    cookies.get('loggedIn')?
+                        (<div><MenuItem primaryText={<Translate text="Dashboard"/>}
+                            rightIcon={<Extension/>}
+                            href="https://skills.susi.ai/dashboard"
+                        />
+                        <MenuItem primaryText={<Translate text="Settings"/>}
+                            containerElement={<Link to="/settings" />}
+                            rightIcon={<Settings />}
+                        />
+                        </div>): null
+                }
+                {
+                    cookies.get('loggedIn')?
+                    (<MenuItem primaryText={<Translate text="Logout"/>}
+                        containerElement={<Link to="/logout" />}
+                        rightIcon={<Exit />}/>):
+                    (<MenuItem primaryText={<Translate text="Login"/>}
+                        onTouchTap={this.handleLogin}
+                        rightIcon={<SignUpIcon />}/>)
+                }
             </div>
         )
         return <Logged />
@@ -273,8 +244,20 @@ class StaticAppBar extends Component {
             showLeftMenu='none';
         }
         let TopRightMenu = (props) => (
-            <div onScroll={this.handleScroll} >
-                <div>
+            <div onScroll={this.handleScroll}>
+                <div className="topRightMenu">
+                    <div>
+                    {
+                        cookies.get('loggedIn') ?
+                            (
+                                <label
+                                    style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
+                                    {cookies.get('email')}
+                                </label>):
+                            (<label>
+                                </label>)
+                    }
+                    </div>
                     <IconMenu
                         {...props}
                         iconButtonElement={
@@ -289,7 +272,7 @@ class StaticAppBar extends Component {
                     <Popover
                         {...props}
                         animated={false}
-                        style={{ float: 'left', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
+                        style={{ float: 'right', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
                         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -387,10 +370,10 @@ class StaticAppBar extends Component {
         let menuLlinks = topLinks.map((link, i) => {
             return (
                 <MenuItem key={i}
-                          primaryText={link.label}
-                          className="drawerItem"
-                          containerElement={<Link to={link.url} />}
-                          onTouchTap={this.handleDrawerClose} >
+                    primaryText={link.label}
+                    className="drawerItem"
+                    containerElement={<Link to={link.url} />}
+                    onTouchTap={this.handleDrawerClose} >
                 </MenuItem>
             )
         });
@@ -409,7 +392,6 @@ class StaticAppBar extends Component {
                     <AppBar
                         id="headerSection"
                         className="topAppBar"
-
                         title={<div id="rightIconButton"><Link to='/' style={{ float: 'left', marginTop: '-10px',height:'25px',width:'122px' }}>
                             <img src={susiWhite} alt="susi-logo" className="siteTitle" /></Link><TopMenu /></div>}
                         style={{

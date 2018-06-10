@@ -116,7 +116,7 @@ export default class NotFound extends Component {
                       <br />
                         <RaisedButton
                             className='notfound-button'
-                            label='SignIn to SUSI'
+                            label='Login to SUSI'
                             onTouchTap={this.handleLoginOpen}
                             backgroundColor={
                                 UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'}

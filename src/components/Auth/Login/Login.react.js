@@ -1,20 +1,23 @@
+// Packages
 import React, { Component } from 'react';
+import Cookies from 'universal-cookie';
+import PropTypes  from 'prop-types';
+import $ from 'jquery';
+
+// Components
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
-import { Link } from 'react-router-dom';
-import './Login.css';
 import PasswordField from 'material-ui-password-field'
-import $ from 'jquery';
-import PropTypes  from 'prop-types';
-import Cookies from 'universal-cookie';
+import Dialog from 'material-ui/Dialog';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
-import Dialog from 'material-ui/Dialog';
-import CommunicationEmail from 'material-ui/svg-icons/communication/email';
-import ActionLock from 'material-ui/svg-icons/action/lock';
+
+// Static assets
+import './Login.css';
+
 const cookies = new Cookies();
 
 class Login extends Component {
@@ -174,45 +177,38 @@ class Login extends Component {
 	// Handle changes in email and password
 	handleChange = (event) => {
 		let email;
-    let password;
-    let state = this.state;
+		let password;
+		let state = this.state;
 
-    if (event.target.name === 'email') {
-        email = event.target.value.trim();
-        let validEmail =
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-        state.email = email;
-        state.emailError = !(email && validEmail)
-    }
-    else if (event.target.name === 'password') {
-        password = event.target.value;
-        let validPassword = password.length >= 6;
-        state.password = password;
-        state.passwordError = !(password && validPassword);
-    }
+		if (event.target.name === 'email') {
+			email = event.target.value.trim();
+			let validEmail =
+				/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+			state.email = email;
+			state.emailError = !(email && validEmail)
+		}
+		else if (event.target.name === 'password') {
+			password = event.target.value;
+			let validPassword = password.length >= 6;
+			state.password = password;
+			state.passwordError = !(password && validPassword);
+		}
 		if (this.state.emailError) {
 			this.emailErrorMessage = 'Enter a valid Email Address';
-		}
-		else {
+		} else {
 			this.emailErrorMessage = '';
 		}
-
         if (this.state.passwordError) {
             this.passwordErrorMessage
                 = 'Minimum 6 characters required';
-        }
-        else{
+        } else {
         	this.passwordErrorMessage='';
         }
-
-	    if (!state.emailError && !state.passwordError && !state.serverFieldError && this.state.password !== '' && this.state.email !== '')
-	    {
+	    if (!state.emailError && !state.passwordError && !state.serverFieldError && this.state.password !== '' && this.state.email !== '') {
 	    	state.validForm = true;
-	    }
-        else {
+	    } else {
         	state.validForm = false;
         }
-
 		this.setState(state);
 	}
 
@@ -257,12 +253,10 @@ class Login extends Component {
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
-					<h3><Translate text="Login to SUSI"/></h3>
+					<div><Translate text="Log into SUSI"/></div>
 					<form onSubmit={this.handleSubmit}>
 						<div>
-						<CommunicationEmail/>
-							<TextField name="email"
-                type="email"
+							<TextField name="email" type="email"
 								value={this.state.email}
 								onChange={this.handleChange}
 								underlineFocusStyle={underlineFocusStyle}
@@ -271,7 +265,6 @@ class Login extends Component {
 								floatingLabelText={<Translate text="Email"/>} />
 						</div>
 						<div>
-						<ActionLock />
 					        <PasswordField
 						        name='password'
 								style={fieldStyle}
@@ -282,52 +275,41 @@ class Login extends Component {
 								errorText={this.passwordErrorMessage}
 								floatingLabelText={<Translate text="Password"/>} />
 						</div>
-						<div>
-                <CustomServer
-                    checked={this.state.checked}
-                    serverUrl={this.state.serverUrl}
-                    customServerMessage={this.customServerMessage}
-                    onServerChange={this.handleServeChange}/>
-            </div>
-						<span
-						style={{
-							margin: '8px 0',
-							display:'block'
-						}}
-						className="forgotpwdlink"
-							onClick={this.handleForgotPassword}>
-								<Translate text="Forgot Password?"/>
-						</span>
-						<div>
-							<RaisedButton
-								label={!this.state.loading ? <Translate text="Login"/> : undefined}
-								type="submit"
-								backgroundColor={
-									UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-								labelColor="#fff"
-								disabled={!this.state.validForm}
-								style={{margin:'10px 20px 0px 0px '}}
-								icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
-							<RaisedButton
-									label={<Translate text="Sign Up"/>}
-									onClick={this.handleSignUp}
-									backgroundColor={
-										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-									labelColor="#fff" />
-						</div>
-						<h4 style={{
-							margin: '8px 0'
-						}}><Translate text="OR"/></h4>
-						<div>
-							<Link to={'/logout'} >
-								<RaisedButton
-									label={<Translate text="Chat Anonymously"/>}
-									backgroundColor={
-										UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-									labelColor="#fff" />
-							</Link>
+						<RaisedButton
+							label={!this.state.loading ? <Translate text="Log In"/> : undefined}
+							type="submit"
+							backgroundColor={
+								UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
+							labelColor="#fff"
+							disabled={!this.state.validForm}
+							style={{margin:'5px 20px 0px 20px'}}
+							icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
+						<div className="login-links-section">
+							<span
+							style={{
+								margin: '8px 0',
+							}}
+							className="login-links"
+								onClick={this.handleForgotPassword}>
+									<Translate text="Forgot Password?"/>
+							</span>
+							<span
+							style={{
+								margin: '8px 0',
+							}}
+							className="login-links"
+								onClick={this.handleSignUp}>
+									<Translate text="Sign up for SUSI"/>
+							</span>
 						</div>
 					</form>
+					<div>
+						<CustomServer
+							checked={this.state.checked}
+							serverUrl={this.state.serverUrl}
+							customServerMessage={this.customServerMessage}
+							onServerChange={this.handleServeChange}/>
+					</div>
 				</Paper>
 				<Dialog
 					actions={actions}
