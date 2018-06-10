@@ -50,7 +50,7 @@ class Translate extends Component{
     if(defaultPrefLanguage!=='en-US'){
       if(this.lang.hasOwnProperty(defaultPrefLanguage)) {
         arr = Object.keys(this.lang[defaultPrefLanguage]);
-        file = this.lang.defaultPrefLanguage;
+        file = this.lang[defaultPrefLanguage];
       } else {
         arr = Object.keys(jp);
         file = jp;
