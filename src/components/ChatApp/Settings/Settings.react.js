@@ -354,15 +354,6 @@ class Settings extends Component {
 		if (this.preview) {
 			vals.theme = UserPreferencesStore.getTheme(!this.preview);
 			vals.previewTheme = this.state.theme;
-			var SettingsContainer = document.getElementById('settings-container');
-			if(vals.previewTheme==='dark')
-				{
-					SettingsContainer.style.background = '#000012';
-				}
-			else
-			{
-					SettingsContainer.style.background = '#f2f2f2';
-			}
 		}
 		// else save current theme state to theme
 		else {
@@ -398,6 +389,7 @@ class Settings extends Component {
 
 	// Handle change to theme settings
 	handleSelectChange = (event, value) => {
+		(value==='light' || value==='custom')? document.getElementById('settings-container').style.background='rgb(242, 242, 242)' : document.getElementById('settings-container').style.background='rgb(0,0,18)'
 		this.preview = true;
 		this.setState({ theme: value },()=> {
 				this.handleSubmit();
@@ -615,14 +607,6 @@ class Settings extends Component {
 			search: false,
 		});
 
-		if(this.state.theme==='dark')
-		{
-			document.body.style.background = '#000012';
-		}
-		else
-		{
-			document.body.style.background = '#f2f2f2';
-		}
 		this.showWhenLoggedIn = 'none';
 		let searchParams = new URLSearchParams(window.location.search);
 		let tab = searchParams.get('tab');
@@ -1274,25 +1258,25 @@ class Settings extends Component {
 					value={this.state.selectedSetting}
 					>
 					<MenuItem style={{color:themeForegroundColor}} value='Account' className="setting-item" leftIcon={<AccountIcon color={menuIconColor}/>}>Account<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Password' className="setting-item" leftIcon={<LockIcon color={menuIconColor}/>}>Password<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='ChatApp' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Microphone' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Microphone<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Devices' className="setting-item"  leftIcon={<MyDevices color={menuIconColor}/>}>Devices<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Mobile' className="setting-item" leftIcon={<MobileIcon color={menuIconColor} />}>Mobile<ChevronRight style={{color:themeForegroundColor}} className="right-chevron" /></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 				</Menu>
 			</div>
 			<div className="settings-list-dropdown">
@@ -1329,17 +1313,17 @@ class Settings extends Component {
 					value={this.state.selectedSetting}
 				>
 					<MenuItem style={{color:themeForegroundColor}} value='ChatApp' className="setting-item" leftIcon={<ChatIcon color={menuIconColor}/>}>ChatApp<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Theme' className="setting-item" leftIcon={<ThemeIcon color={menuIconColor}/>}>Theme<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Microphone' className="setting-item" leftIcon={<VoiceIcon color={menuIconColor}/>}>Microphone<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Share on Social media' className="setting-item" leftIcon={<ShareIcon color={menuIconColor}/>}>Share on Social media<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
-					<hr className="break-line"/>
+					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 				</Menu>
 			</div>
 			<div className="settings-list-dropdown">
@@ -1383,7 +1367,7 @@ class Settings extends Component {
         }
 
 		return (
-			<div className="settings-container" id="settings-container">
+			<div id="settings-container" className={(UserPreferencesStore.getTheme() === 'light') ? 'settings-container-light' : 'settings-container-dark'}>
 				<StaticAppBar
 					settings={this.state.intialSettings}
 					{...this.props}

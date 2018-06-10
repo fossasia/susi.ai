@@ -32,7 +32,8 @@ class App extends Component{
     if(location.pathname!=='/'){
         document.body.className = 'white-body';
     }
-     return(
+
+    return(
         <MuiThemeProvider muiTheme={muiTheme}>
         <div>
         <Switch>
