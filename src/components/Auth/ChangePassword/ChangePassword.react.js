@@ -135,7 +135,7 @@ export default class ChangePassword extends Component {
             this.emailErrorMessage = '';
             this.passwordErrorMessage = '';
             this.newPasswordErrorMessage = '';
-            this.newPasswordConfirmErrorMessage = <Translate text="Check your password again" />;
+            this.newPasswordConfirmErrorMessage = <Translate text="password don't match" />;
         }
         else {
             this.emailErrorMessage = '';
@@ -241,10 +241,10 @@ export default class ChangePassword extends Component {
             'width': '100%',
             'textAlign': 'left',
             'padding': '10px',
-            paddingTop:'0px',
-            backgroundColor:themeBackgroundColor
+            'paddingTop':'0px',
+            'backgroundColor':themeBackgroundColor
         }
-        const closingStyle ={
+        const closingStyle = {
           position: 'absolute',
           zIndex: 1200,
           fill: '#444',
@@ -254,18 +254,23 @@ export default class ChangePassword extends Component {
           top: '10px',
           cursor:'pointer'
         }
-        const fieldStyle={
-            'width':'256px',
-            color:themeForegroundColor
+        const fieldStyle = {
+          'height': '35px',
+          'borderRadius': 4,
+          'border': '1px solid #ced4da',
+          'fontSize': 16,
+          'padding': '0px 12px',
+          'width': '125%',
         }
-        const inputStyle={
-            color:themeForegroundColor
-        }
-        const underlineFocusStyle= {
-            color: '#4285f4'
-        }
-        const floatingLabelStyle={
-            color:'#9E9E9E'
+        const labelStyle = {
+          'width': '30%',
+          'float':'left',
+          'marginTop':'12px'
+	}
+        const inputStyle = {
+            color:themeForegroundColor,
+            'height': '35px',
+            'marginBottom': '10px'
         }
         const PasswordClass=[`is-strength-${this.state.newPasswordScore}`];
 
@@ -273,6 +278,7 @@ export default class ChangePassword extends Component {
             <div className="changePasswordForm">
                 <Paper zDepth={0} style={styles}>
                     <form onSubmit={this.handleSubmit}>
+                        <div style={labelStyle}>Current Password</div>
                         <div>
                             <PasswordField
                                 name="password"
@@ -281,12 +287,18 @@ export default class ChangePassword extends Component {
                                 onChange={this.handleChange}
                                 inputStyle={inputStyle}
                                 errorText={this.passwordErrorMessage}
-                                underlineFocusStyle={underlineFocusStyle}
-                                floatingLabelStyle={floatingLabelStyle}
-                                visibilityIconStyle={{color:themeForegroundColor}}
-                                floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText={<Translate text="Current Password" />} />
+                                underlineStyle={{display: 'none'}}
+                                disableButton={true}
+                                visibilityButtonStyle={{'display':'none'}}
+                                visibilityIconStyle={{'display':'none'}} />
+                            <div className='forgot'>
+                            <a href='https://accounts.susi.ai/forgotpwd'>
+                              Forgot your password?
+                            </a>
                         </div>
+                        </div>
+                        <br />
+                        <div style={labelStyle}>New Password</div>
                         <div className={PasswordClass.join(' ')}>
                             <PasswordField
                                 name="newPassword"
@@ -294,17 +306,18 @@ export default class ChangePassword extends Component {
                                 value={this.state.newPasswordValue}
                                 onChange={this.handleChange}
                                 inputStyle={inputStyle}
-                                floatingLabelStyle={floatingLabelStyle}
-                                visibilityIconStyle={{color:themeForegroundColor}}
                                 errorText={this.newPasswordErrorMessage}
-                                underlineFocusStyle={underlineFocusStyle}
-                                floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText={<Translate text="New Password" />} />
-                              <div className="ReactPasswordStrength-strength-bar" />
-                              <div>
+                                underlineStyle={{display: 'none'}}
+                                disableButton={true}
+                                visibilityButtonStyle={{'display':'none'}}
+                                visibilityIconStyle={{'display':'none'}} />
+                              <div className="ReactPasswordStrength" />
+                              <div >
                                   {this.state.newPasswordStrength}
                               </div>
                         </div>
+                        <br />
+                        <div style={labelStyle}>Verify Password</div>
                         <div>
                             <PasswordField
                                 name="confirmNewPassword"
@@ -312,17 +325,16 @@ export default class ChangePassword extends Component {
                                 value={this.state.confirmNewPasswordValue}
                                 onChange={this.handleChange}
                                 inputStyle={inputStyle}
-                                floatingLabelStyle={floatingLabelStyle}
-                                visibilityIconStyle={{color:themeForegroundColor}}
                                 errorText={this.newPasswordConfirmErrorMessage}
-                                underlineFocusStyle={underlineFocusStyle}
-                                floatingLabelFocusStyle={underlineFocusStyle}
-                                floatingLabelText={<Translate text="Confirm New Password" />} />
+                                underlineStyle={{display: 'none'}}
+                                disableButton={true}
+                                visibilityButtonStyle={{'display':'none'}}
+                                visibilityIconStyle={{'display':'none'}} />
                         </div>
                         <div>
                             <br />
                             <RaisedButton
-                                label={<Translate text="Change" />}
+                                label={<Translate text="Save Changes" />}
                                 type="submit"
                                 disabled={!this.state.validForm}
                                 backgroundColor='#4285f4'
