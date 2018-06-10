@@ -31,17 +31,17 @@ class Translate extends Component{
   }
 
   lang = {
-    'de-DE': de,
-    'am-AM': am,
-    'es-SP': es,
-    'zh-CH': zh,
-    'hi-IN': hi,
-    'pb-IN': pb,
-    'np-NP': np,
-    'fr-FR': fr,
-    'ru-RU': ru,
-    'gr-GR': gr,
-    'nl-NL': nl
+    "de-DE": de,
+    "am-AM": am,
+    "es-SP": es,
+    "zh-CH": zh,
+    "hi-IN": hi,
+    "pb-IN": pb,
+    "np-NP": np,
+    "fr-FR": fr,
+    "ru-RU": ru,
+    "gr-GR": gr,
+    "nl-NL": nl
   };
 
   componentDidMount() {
@@ -50,14 +50,14 @@ class Translate extends Component{
     if(defaultPrefLanguage!=='en-US'){
       if(this.lang.hasOwnProperty(defaultPrefLanguage)) {
         arr = Object.keys(this.lang[defaultPrefLanguage]);
-        file = this.lang[defaultPrefLanguage];
+        file = this.lang.defaultPrefLanguage;
       } else {
         arr = Object.keys(jp);
         file = jp;
       }
-      arr.forEach((val,index)=>{
-        if (arr[index]===text) {
-        this.changeLanguage(file[arr[index]]);
+      arr.forEach((val,index)=> {
+        if (arr.index===text) {
+        this.changeLanguage(file.arr.index);
         }
       })
     }
