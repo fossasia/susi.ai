@@ -40,13 +40,6 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 5:** Build locally with: ```$ npm run build ```
 * **Step 6:** To deploy at a URL use: ```$ npm run deploy ```
 
-### How to connect to Susi Hardware?
-
-* **Step 1:** Configure your SUSI Hardware Device using instructions found on https://github.com/fossasia/susi_hardware
-* **Step 2:** Go to Settings > Connect to Susi Hardware
-* **Step 3:** Add the default WebSocket URL for your SUSI Hardware Device. If you are using webchat on the same device as the SUSI Hardware, it will be ws://127.0.0.1:9001 . The default port is 9001, unless configured otherwise.
-* **Step 4:** Upon successful connection, you will get a confirmation alert. After that, all your queries to your SUSI Hardware Device and their results will show up on the SUSI Webchat.
-
 ### Running on [Surge](./docs/INSTALLATION_SURGE_ENGLISH.md)
 
 **Click this picture to see video about deploy!**
@@ -134,6 +127,8 @@ After creation and a successful build, your project should have the following fi
 chat.susi.ai/
   README.md
   node_modules/
+  docs/
+  build/
   package.json
   public/
     index.html
@@ -146,6 +141,7 @@ chat.susi.ai/
     images/
     stores/
     utils/
+    App.js
     App.test.js
     ChatDataServer.js
     history.js
@@ -158,8 +154,10 @@ chat.susi.ai/
   LICENSE
 ```
 
-* `public/index.html` is the page template;
+* `public/index.html` is the page template.
+* `docs` contains instructions for setting up the project locally and also for deploying it with Surge. It also contains information regarding Accounting.
 * `src/index.js` is the JavaScript entry point.
+* `src/App.js` is the component which contains React routes to all other components.
 * `src/__tests__/` new tests related to all the components can be created in this folder, this project follows a `jest` testing suite.
 * `src/actions/` contains related action types which can be defined in this folder.
 * `src/components/` any new component can be added in this folder, given that the file is reused or should be unique in some way. All static files are present in this component as well.
