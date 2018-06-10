@@ -200,9 +200,9 @@ class StaticAppBar extends Component {
                 />
                 {
                     cookies.get('loggedIn')?
-                        (<div><MenuItem primaryText={<Translate text="Botbuilder"/>}
+                        (<div><MenuItem primaryText={<Translate text="Dashboard"/>}
                             rightIcon={<Extension/>}
-                            href="https://skills.susi.ai/botbuilder"
+                            href="https://skills.susi.ai/dashboard"
                         />
                         <MenuItem primaryText={<Translate text="Settings"/>}
                             containerElement={<Link to="/settings" />}
