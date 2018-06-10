@@ -45,6 +45,11 @@ export function renderAnchor(text,link){
 export function renderMessageFooter(message,latestMsgID, isLastAction){
 
   let statusIndicator = null;
+  let ticks = (
+    <span>
+     &#9989;
+   </span>
+ );
 
   let footerStyle = {
     display: 'block',
@@ -76,13 +81,16 @@ export function renderMessageFooter(message,latestMsgID, isLastAction){
           color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}
           onClick={()=> window.open(twitterShare, '_blank')}
           />
+          {ticks}
       </li>);
     if(message.id === latestMsgID){
       statusIndicator = (
         <li className='response-time' style={footerStyle}>
           <ClockIcon style={indicatorStyle}
             color={UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#7eaaaf'}/>
-        </li>);
+        </li>
+
+    );
     }
   }
 
