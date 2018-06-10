@@ -244,8 +244,20 @@ class StaticAppBar extends Component {
             showLeftMenu='none';
         }
         let TopRightMenu = (props) => (
-            <div onScroll={this.handleScroll} >
-                <div>
+            <div onScroll={this.handleScroll}>
+                <div className="topRightMenu">
+                    <div>
+                    {
+                        cookies.get('loggedIn') ?
+                            (
+                                <label
+                                    style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
+                                    {cookies.get('email')}
+                                </label>):
+                            (<label>
+                                </label>)
+                    }
+                    </div>
                     <IconMenu
                         {...props}
                         iconButtonElement={
@@ -260,7 +272,7 @@ class StaticAppBar extends Component {
                     <Popover
                         {...props}
                         animated={false}
-                        style={{ float: 'left', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
+                        style={{ float: 'right', position: 'relative', marginTop: '46px', marginLeft: leftGap }}
                         open={this.state.showOptions}
                         anchorEl={this.state.anchorEl}
                         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
