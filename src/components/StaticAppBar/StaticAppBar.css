@@ -50,3 +50,9 @@ a.drawerItem {
         text-align: center;
     }
 }
+
+.topRightMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

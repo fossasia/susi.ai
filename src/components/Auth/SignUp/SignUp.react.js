@@ -387,13 +387,16 @@ export default class SignUp extends Component {
                                 floatingLabelFocusStyle={underlineFocusStyle}
                                 floatingLabelText={<Translate text="Confirm Password" />}/>
                         </div>
-                        <div>
-                            <CustomServer
-                                checked={this.state.checked}
-                                serverUrl={this.state.serverUrl}
-                                customServerMessage={this.customServerMessage}
-                                onServerChange={this.handleServeChange}/>
-                        </div>
+                        <span
+                           style={{
+                                display: 'inline-block',
+                                marginTop: '10px'
+                           }}
+                           className="login-links"
+                               onClick={this.handleOpen}>
+                                   <Translate text="Already have an account? Login here"/>
+                           </span>
+
                         <div>
                             <RaisedButton
                                 label={<Translate text="Sign Up"/>}
@@ -405,20 +408,12 @@ export default class SignUp extends Component {
                                 labelColor="#fff"
                                 style={{margin:'15px 0 0 0 '}} />
                         </div>
-                        <h4 style={{
-                            margin: '5px 0'
-                        }}><Translate text="OR"/></h4>
                         <div>
-                            <h4 style={{
-                            margin: '5px 0'
-                        }}><Translate text="If you have an account please login"/></h4>
-                            <RaisedButton
-                                onTouchTap={this.handleOpen}
-                                label={<Translate text='Login'/>}
-                                backgroundColor={
-                                    UserPreferencesStore.getTheme()==='light'
-                                    ? '#4285f4' : '#19314B'}
-                                labelColor="#fff" />
+                            <CustomServer
+                                checked={this.state.checked}
+                                serverUrl={this.state.serverUrl}
+                                customServerMessage={this.customServerMessage}
+                                onServerChange={this.handleServeChange}/>
                         </div>
                     </form>
                 </Paper>

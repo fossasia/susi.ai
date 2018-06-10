@@ -20,6 +20,7 @@ import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import TextField from 'material-ui/TextField';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
+import NotFound from '../../NotFound/NotFound.react'
 import * as Actions from '../../../actions/';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import React, { Component } from 'react';
@@ -862,7 +863,7 @@ class Settings extends Component {
 					</div>
 					<div style={{textAlign : 'left', marginLeft: '30px !important'}}>
 						<CustomServer
-							checked={this.state.checked}
+							checked={this.state.checked === 'true'}
 							settings={this.state.intialSettings}
 							serverUrl={this.state.serverUrl}
 							customServerMessage={this.customServerMessage}
@@ -1106,10 +1107,10 @@ class Settings extends Component {
 						<span>
 							<div style={{
 								marginTop: '10px',
-								marginBottom:'0px',
+								marginBottom:'10px',
 								fontSize: '15px',
 								fontWeight: 'bold'}}>
-								<Translate text="Change your Account Password"/>
+								<Translate text="Password"/>
 							</div>
 						</span>
 						<ChangePassword settings={this.state.intialSettings} {...this.props} />
@@ -1373,6 +1374,14 @@ class Settings extends Component {
 
 	// to check if something has been modified or not
 	let somethingToSave=this.getSomethingToSave();
+
+		if(!cookies.get('loggedIn'))
+        {
+            return (
+                <NotFound />
+            );
+        }
+
 		return (
 			<div className="settings-container" id="settings-container">
 				<StaticAppBar
