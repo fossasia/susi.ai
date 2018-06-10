@@ -17,6 +17,7 @@ import TopBar from '../TopBar.react';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
+import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
 import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
 import Cookies from 'universal-cookie';
@@ -63,6 +64,7 @@ function getStateFromStores() {
     SnackbarOpenSearchResults:false,
     messageBackgroundImage : backgroundValue.length>1 ? backgroundValue[1] : '',
     showScrollBottom: false,
+    showScrollTop: true,
     searchState: {
       markedMsgs: [],
       markedIDs: [],
@@ -635,11 +637,19 @@ class MessageSection extends Component {
       if(scrollValues.top === 1){
         this.setState({
           showScrollBottom: false,
+          showScrollTop: true
         });
       }
-      else if(!this.state.showScrollBottom){
+      else if(scrollValues.top === 0){
+        this.setState({
+          showScrollTop: false,
+          showScrollBottom: true
+        })
+      }
+      else {
         this.setState({
           showScrollBottom: true,
+          showScrollTop: true
         });
       }
     }
@@ -782,6 +792,19 @@ class MessageSection extends Component {
         float: 'right',
         marginRight: '5px',
         marginBottom: '10px',
+        boxShadow:'none',
+      },
+      backgroundColor: '#fcfcfc',
+      icon : {
+        fill: UserPreferencesStore.getTheme()==='light' ? '#90a4ae' : '#000000'
+      }
+    }
+
+    const scrollTopStyle = {
+      button : {
+        float: 'left',
+        marginLeft: '5px',
+        marginTop: '10px',
         boxShadow:'none',
       },
       backgroundColor: '#fcfcfc',
@@ -968,6 +991,17 @@ class MessageSection extends Component {
                     {this.state.showLoading && getLoadingGIF()}
                   </Scrollbars>
                 </ul>
+                {this.state.showScrollTop &&
+                  <div>
+                    <FloatingActionButton mini={true}
+                      style={scrollTopStyle.button}
+                      backgroundColor={bodyColor}
+                      iconStyle={scrollTopStyle.icon}
+                      onTouchTap={this.forcedScrollToTop}>
+                      <NavigateUp />
+                    </FloatingActionButton>
+                  </div>
+                }
                 {this.state.showScrollBottom &&
                   <div className='scrollBottom'>
                     <FloatingActionButton mini={true}
@@ -1124,6 +1158,11 @@ class MessageSection extends Component {
     if (ul) {
       ul.scrollTop(ul.getScrollHeight());
     }
+  }
+
+  forcedScrollToTop = () => {
+    let ul = this.scrollarea;
+      ul.scrollTop(0);
   }
 
 _onClickPrev = () => {
