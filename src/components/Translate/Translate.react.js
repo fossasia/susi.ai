@@ -31,17 +31,17 @@ class Translate extends Component{
   }
 
   lang = {
-    "de-DE": de,
-    "am-AM": am,
-    "es-SP": es,
-    "zh-CH": zh,
-    "hi-IN": hi,
-    "pb-IN": pb,
-    "np-NP": np,
-    "fr-FR": fr,
-    "ru-RU": ru,
-    "gr-GR": gr,
-    "nl-NL": nl
+    'de-DE': de,
+    'am-AM': am,
+    'es-SP': es,
+    'zh-CH': zh,
+    'hi-IN': hi,
+    'pb-IN': pb,
+    'np-NP': np,
+    'fr-FR': fr,
+    'ru-RU': ru,
+    'gr-GR': gr,
+    'nl-NL': nl
   };
 
   componentDidMount() {
