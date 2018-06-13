@@ -116,7 +116,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   }
   // Add the type of device in the query
   {
-    url += "&device_type=Web Client";
+    url += '&device_type=Web Client';
   }
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
