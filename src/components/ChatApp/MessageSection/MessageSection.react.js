@@ -64,7 +64,7 @@ function getStateFromStores() {
     SnackbarOpenSearchResults:false,
     messageBackgroundImage : backgroundValue.length>1 ? backgroundValue[1] : '',
     showScrollBottom: false,
-    showScrollTop: true,
+    showScrollTop: false,
     searchState: {
       markedMsgs: [],
       markedIDs: [],
@@ -636,8 +636,7 @@ class MessageSection extends Component {
       let scrollValues = scrollarea.getValues();
       if(scrollValues.top === 1){
         this.setState({
-          showScrollBottom: false,
-          showScrollTop: true
+          showScrollBottom: false
         });
       }
       else if(scrollValues.top === 0){
