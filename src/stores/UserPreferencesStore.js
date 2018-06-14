@@ -17,6 +17,7 @@ let _defaults = {
     SpeechRate: 1,
     SpeechPitch: 1,
     TTSLanguage: 'en-US',
+    UserName: '',
     PrefLanguage : 'en-US',
     TimeZone: 'UTC-02',
     ThemeValues: '',
@@ -74,6 +75,10 @@ let UserPreferencesStore = {
       return _defaults.TTSLanguage;
     },
 
+    getUserName(){
+        return _defaults.UserName;
+    },
+
     getPrefLang(){
         return _defaults.PrefLanguage;
     },
@@ -81,6 +86,7 @@ let UserPreferencesStore = {
     getTimeZone(){
         return _defaults.TimeZone;
     },
+
     getBackgroundImage(){
         return _defaults.BackgroundImage;
     },
@@ -155,6 +161,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
             if(settings.hasOwnProperty('ttsLanguage')){
               _defaults.TTSLanguage = settings.ttsLanguage;
             }
+            if(settings.hasOwnProperty('userName')){
+                _defaults.UserName = settings.userName;
+            }
             if(settings.hasOwnProperty('prefLanguage')){
               _defaults.PrefLanguage = settings.prefLanguage;
             }
@@ -199,6 +208,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 _defaults.SpeechRate = settings.speechRate;
                 _defaults.SpeechPitch = settings.speechPitch;
                 _defaults.TTSLanguage = settings.ttsLanguage;
+                _defaults.UserName = settings.userName;
                 _defaults.PrefLanguage = settings.prefLanguage;
                 _defaults.TimeZone = settings.timeZone;
                 _defaults.ThemeValues = settings.customThemeValue;
@@ -242,6 +252,9 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
                 }
                 if(settings.hasOwnProperty('ttsLanguage')){
                   _defaults.TTSLanguage = settings.ttsLanguage;
+                }
+                if(settings.hasOwnProperty('userName')){
+                    _defaults.UserName = settings.userName;
                 }
                 if(settings.hasOwnProperty('prefLanguage')){
                   _defaults.PrefLanguage = settings.prefLanguage;
