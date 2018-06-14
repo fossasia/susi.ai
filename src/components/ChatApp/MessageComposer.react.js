@@ -13,6 +13,8 @@ import ReactFitText from 'react-fittext';
 import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css'
+import $ from 'jquery';
+
 injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
@@ -43,6 +45,15 @@ const closingStyle = {
   right: '0px',
   top: '0px',
   cursor: 'pointer'
+}
+
+$.urlParam = function(name){
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if(results && results.length > 0) {
+    let ans = decodeURIComponent((results[1] + '').replace(/\+/g, '%20'));
+    return  ans;
+  }
+  return 0;
 }
 
 class MessageComposer extends Component {
@@ -159,7 +170,6 @@ class MessageComposer extends Component {
         this.speakDialogClose();
       }
     }
-
   }
 
   componentWillMount() {
@@ -184,6 +194,22 @@ class MessageComposer extends Component {
     else {
       this.Button = <Send />;
       this.speechRecog = false;
+    }
+  }
+
+  componentDidMount() {
+    let testSkill = $.urlParam('testExample');
+    if(testSkill) {
+      let text = testSkill.trim();
+      if (text) {
+        let enterAsSend = UserPreferencesStore.getEnterAsSend();
+        if (!enterAsSend) {
+          text = text.split('\n').join(' ');
+        }
+        setTimeout(() => {
+          Actions.createMessage(text, this.props.threadID, this.props.speechOutputAlways);
+        }, 1);
+      }
     }
   }
 
