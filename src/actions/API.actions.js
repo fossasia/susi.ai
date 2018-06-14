@@ -114,6 +114,10 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   if(_Location){
     url += '&latitude='+_Location.lat+'&longitude='+_Location.lng+'&country_code='+_Location.countryCode+'&country_name='+_Location.countryName;
   }
+  // Add the type of device in the query
+  {
+    url += '&device_type=Web Client';
+  }
   // Ajax Success calls the Dispatcher to CREATE_SUSI_MESSAGE only when the User is online
   if(!offlineMessage){
   $.ajax({
