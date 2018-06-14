@@ -134,6 +134,7 @@ class Settings extends Component {
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultTTSLanguage = defaults.TTSLanguage;
+		let defaultUserName = defaults.UserName;
 		let defaultPrefLanguage = defaults.PrefLanguage;
 		let defaultTimeZone = defaults.TimeZone;
 		let defaultChecked = defaults.checked;
@@ -153,6 +154,7 @@ class Settings extends Component {
 				speechPitch: defaultSpeechPitch,
 				ttsLanguage: defaultTTSLanguage,
 				server: defaultServer,
+				UserName: defaultUserName,
 				PrefLanguage: defaultPrefLanguage,
 				TimeZone: defaultTimeZone,
 				serverUrl: defaultServerUrl,
@@ -175,6 +177,7 @@ class Settings extends Component {
 		let defaultSpeechRate = defaults.SpeechRate;
 		let defaultSpeechPitch = defaults.SpeechPitch;
 		let defaultTTSLanguage = defaults.TTSLanguage;
+		let defaultUserName = defaults.UserName;
 		let defaultPrefLanguage = defaults.PrefLanguage;
 		let defaultTimeZone = defaults.TimeZone;
 		let defaultChecked = defaults.checked;
@@ -218,6 +221,7 @@ class Settings extends Component {
 			speechRate: defaultSpeechRate,
 			speechPitch: defaultSpeechPitch,
 			ttsLanguage: defaultTTSLanguage,
+			UserName: defaultUserName,
 			PrefLanguage: defaultPrefLanguage,
 			TimeZone: defaultTimeZone,
 			showServerChangeDialog: false,
@@ -321,6 +325,7 @@ class Settings extends Component {
 		let newSpeechRate = this.state.speechRate;
 		let newSpeechPitch = this.state.speechPitch;
 		let newTTSLanguage = this.state.ttsLanguage;
+		let newUserName = this.state.UserName;
 		let newPrefLanguage = this.state.PrefLanguage;
 		let newTimeZone = this.state.TimeZone;
 		let checked = this.state.checked;
@@ -342,6 +347,7 @@ class Settings extends Component {
 			speechRate: newSpeechRate,
 			speechPitch: newSpeechPitch,
 			ttsLanguage: newTTSLanguage,
+			userName: newUserName,
 			prefLanguage: newPrefLanguage,
 			timeZone: newTimeZone,
 			countryCode: newCountryCode,
@@ -718,6 +724,9 @@ class Settings extends Component {
 		else if (intialSettings.checked !== classState.checked) {
 			somethingToSave = true;
 		}
+		else if (intialSettings.UserName !== classState.UserName) {
+			somethingToSave = true;
+		}
 		else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
 			somethingToSave = true;
 		}
@@ -750,6 +759,10 @@ class Settings extends Component {
 
 	handleTelephoneNoChange = (event, value) => {
 		this.setState({ 'phoneNo': value });
+	}
+
+	handleUserName = (event, value) => {
+		this.setState({ 'UserName': value });
 	}
 
 	render() {
@@ -830,6 +843,18 @@ class Settings extends Component {
 		const radioIconStyle = {
 			fill: '#4285f4'
 		}
+		const inputStyle = {
+		  'height': '35px',
+		  'marginBottom': '10px'
+		}
+		const fieldStyle = {
+		  'height': '35px',
+		  'borderRadius': 4,
+		  'border': '1px solid #ced4da',
+		  'fontSize': 16,
+		  'padding': '0px 12px',
+		  'width': 'auto',
+		}
 
 		let currentSetting;
 
@@ -839,12 +864,16 @@ class Settings extends Component {
 				<div style={divStyle}>
 					<div style={{
 						marginTop: '10px',
-						marginBottom: '0px',
-						fontSize: '15px',
+						marginBottom: '5px',
+						fontSize: '16px',
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Select Server" />
 					</div>
+					{(UserPreferencesStore.getTheme() ===
+					'light') ?
+					<hr className="break-line-light" style={{height:'2px'}}/> :
+					<hr className="break-line-dark"/>}
 					<div style={{textAlign : 'left', marginLeft: '30px !important'}}>
 						<CustomServer
 							checked={this.state.checked === 'true'}
@@ -862,12 +891,16 @@ class Settings extends Component {
 						<div>
 							<div style={{
 								marginTop: '10px',
-								marginBottom: '0px',
-								fontSize: '15px',
+								marginBottom: '5px',
+								fontSize: '16px',
 								fontWeight: 'bold'
 							}}>
 								<Translate text="Select Server" />
 							</div>
+							{(UserPreferencesStore.getTheme() ===
+							'light') ?
+							<hr className="break-line-light" style={{height:'2px'}}/> :
+							<hr className="break-line-dark"/>}
 							<FlatButton
 								className='settingsBtns'
 								labelStyle={{color:themeForegroundColor}}
@@ -888,12 +921,16 @@ class Settings extends Component {
 						<div>
 							<div style={{
 								marginTop: '10px',
-								marginBottom: '0px',
-								fontSize: '15px',
+								marginBottom: '5px',
+								fontSize: '16px',
 								fontWeight: 'bold'
 							}}>
 								<Translate text="Mic Input" />
-							</div><br />
+							</div>
+							{(UserPreferencesStore.getTheme() ===
+							'light') ?
+							<hr className="break-line-light" style={{height:'2px'}}/> :
+							<hr className="break-line-dark"/>}<br />
 							<div style={{
 								float: 'left',
 								padding: '0px 5px 0px 0px'
@@ -929,12 +966,16 @@ class Settings extends Component {
 					<span>
 						<div style={{
 							marginTop: '10px',
-							marginBottom: '0px',
-							fontSize: '15px',
+							marginBottom: '5px',
+							fontSize: '16px',
 							fontWeight: 'bold'
 						}}>
 							<Translate text="Select Theme" />
 						</div>
+						{(UserPreferencesStore.getTheme() ===
+						'light') ?
+						<hr className="break-line-light" style={{height:'2px'}}/> :
+						<hr className="break-line-dark"/>}
 					</span>
 					<RadioButtonGroup
 						style={{ textAlign: 'left', margin: 20 }}
@@ -973,11 +1014,15 @@ class Settings extends Component {
 					<div>
 						<div style={{
 							marginTop: '10px',
-							marginBottom:'0px',
-							fontSize: '15px',
+							marginBottom:'5px',
+							fontSize: '16px',
 							fontWeight: 'bold'}}>
 							<Translate text="Speech Output"/>
-						</div><br />
+						</div>
+						{(UserPreferencesStore.getTheme() ===
+						'light') ?
+						<hr className="break-line-light" style={{height:'2px'}}/> :
+						<hr className="break-line-dark"/>}<br />
 						<div style={{
 							float: 'left',
 							padding: '0px 5px 0px 0px'
@@ -1032,30 +1077,63 @@ class Settings extends Component {
 					<span>
 						<div style={{
 							marginTop: '10px',
-							marginBottom: '0px',
-							fontSize: '15px',
+							marginBottom: '5px',
+							fontSize: '16px',
 							fontWeight: 'bold'
 						}}>
 							<Translate text="Account" />
 						</div>
+						{(UserPreferencesStore.getTheme() ===
+						'light') ?
+						<hr className="break-line-light" style={{height:'2px'}}/> :
+						<hr className="break-line-dark"/>}
 					</span>
+
+					<div style={{
+						marginTop: '10px',
+						marginBottom: '5px',
+						fontSize: '14px',
+						fontWeight: 'bold'
+					}}>
+						<Translate text="User Name" />
+					</div>
 					<TextField
-						name="email"
-						inputStyle={{color:UserPreferencesStore.getTheme()==='dark'?'#fff':'#333'}}
-                  		value={this.state.identity.name}
-						floatingLabelStyle={floatingLabelStyle}
-                  		floatingLabelText={<Translate text="Your Email"/>} />
+					    name="username"
+					    style={fieldStyle}
+					    value={this.state.UserName}
+					    onChange={this.handleUserName}
+					    inputStyle={inputStyle}
+					    placeholder='Enter your User Name'
+					    underlineStyle={{display: 'none'}}/>
 					<br />
+
+					<div style={{
+						marginTop: '10px',
+						marginBottom: '5px',
+						fontSize: '14px',
+						fontWeight: 'bold'
+					}}>
+						<Translate text="Email" />
+					</div>
+					<TextField
+					    name="username"
+					    style={fieldStyle}
+					    value={this.state.identity.name}
+					    inputStyle={inputStyle}
+					    underlineStyle={{display: 'none'}}/>
+					<br />
+
 					<div style={{
 						marginTop: '10px',
 						marginBottom: '0px',
-						fontSize: '15px',
+						fontSize: '14px',
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Select default language" />
 					</div>
 					<DropDownMenu
 						value={voiceOutput.voiceLang}
+						style={{marginLeft:'-20px'}}
 						disabled={!this.TTSBrowserSupport}
 						labelStyle={{color:themeForegroundColor}}
 						menuStyle={{backgroundColor:themeBackgroundColor}}
@@ -1067,7 +1145,7 @@ class Settings extends Component {
 					<div style={{
 						marginTop: '10px',
 						marginBottom: '0px',
-						fontSize: '15px',
+						fontSize: '14px',
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Select TimeZone" />
@@ -1092,11 +1170,15 @@ class Settings extends Component {
 							<div style={{
 								marginTop: '10px',
 								marginBottom:'10px',
-								fontSize: '15px',
+								fontSize: '16px',
 								fontWeight: 'bold'}}>
 								<Translate text="Password"/>
 							</div>
 						</span>
+						{(UserPreferencesStore.getTheme() ===
+						'light') ?
+						<hr className="break-line-light" style={{height:'2px',marginBottom:'10px'}}/> :
+						<hr className="break-line-dark" style={{height:'2px',marginBottom:'10px'}}/>}
 						<ChangePassword settings={this.state.intialSettings} {...this.props} />
 					</span>
 				</div>
@@ -1110,14 +1192,18 @@ class Settings extends Component {
 						<span>
 							<div style={{
 								marginTop: '10px',
-								marginBottom: '0px',
+								marginBottom: '5px',
 								marginLeft: '30px',
-								fontSize: '15px',
+								fontSize: '16px',
 								fontWeight: 'bold'
 							}}>
 								<Translate text="Devices" />
 							</div>
 						</span>
+						{(UserPreferencesStore.getTheme() ===
+						'light') ?
+						<hr className="break-line-light" style={{height:'2px'}}/> :
+						<hr className="break-line-dark"/>}
 						<div>
 							<div style={{overflowX:'hidden'}}>
 								{ this.state.deviceData
@@ -1141,9 +1227,9 @@ class Settings extends Component {
 					<div>
 						<div style={{
 							marginTop: '10px',
-							marginBottom: '0px',
+							marginBottom: '5px',
 							marginLeft: '30px',
-							fontSize: '15px',
+							fontSize: '16px',
 							fontWeight: 'bold'
 						}}>
 							<Translate text="Mobile" />
@@ -1207,6 +1293,7 @@ class Settings extends Component {
 								value={countryData.countries[this.state.countryCode ? this.state.countryCode : 'US'].countryCallingCodes[0]}
 								style={{ width: '45px', marginLeft: '30px' }}
 							/>
+
 							<TextField name="phonenumber"
 								style={{ width: '150px', marginLeft: '5px' }}
 								onChange={this.handleTelephoneNoChange}
@@ -1225,12 +1312,16 @@ class Settings extends Component {
 				<div style={divStyle}>
 					<div style={{
 						marginTop: '10px',
-						marginBottom: '0px',
-						fontSize: '15px',
+						marginBottom: '5px',
+						fontSize: '16px',
 						fontWeight: 'bold'
 					}}>
 						<Translate text="Preferences" />
-					</div><br />
+					</div>
+						{(UserPreferencesStore.getTheme() ===
+						'light') ?
+						<hr className="break-line-light" style={{height:'2px'}}/> :
+						<hr className="break-line-dark"/>}<br />
 					<div style={{
 						float: 'left',
 						padding: '0px 5px 0px 0px'
@@ -1269,6 +1360,7 @@ class Settings extends Component {
 					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Speech' className="setting-item" leftIcon={<SpeechIcon color={menuIconColor}/>}>Speech<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
+					<MenuItem style={{display:'none'}} value='Account'></MenuItem>
 					<MenuItem style={{color:themeForegroundColor}} value='Server' className="setting-item" leftIcon={<ServerIcon color={menuIconColor}/>}>Server<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
 					{(UserPreferencesStore.getTheme() === 'light') ? <hr className="break-line-light"/> : <hr className="break-line-dark"/>}
 					<MenuItem style={{color:themeForegroundColor}} value='Devices' className="setting-item"  leftIcon={<MyDevices color={menuIconColor}/>}>Devices<ChevronRight style={{color:themeForegroundColor}} className="right-chevron"/></MenuItem>
