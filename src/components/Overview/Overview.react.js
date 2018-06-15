@@ -17,7 +17,6 @@ import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 
 class Overview extends Component{
@@ -147,12 +146,12 @@ class Overview extends Component{
               &nbsp;and <b>iOS devices</b>.
                    Download the App to have access to SUSI on the go.</p>
                    <div className="description__text store_icons">
-                     <Link className="playstore"
-                       target="_blank" to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"> Get it on Google Play
-                     </Link>
-                     <Link className="appstore"
-                       target="_blank" to="https://github.com/fossasia/susi_iOS"> Download on the App Store
-                     </Link>
+                     <a className="playstore"
+                       target="_blank" rel="noopener noreferrer" href='https://play.google.com/store/apps/details?id=org.fossasia.susi.ai'> Get it on Google Play
+                     </a>
+                     <a className="appstore"
+                       target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_iOS'> Download on the App Store
+                     </a>
                    </div>
           </div>
           <div className='img-container'>
@@ -172,11 +171,11 @@ class Overview extends Component{
 	              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
 	                    services and social networks. We are developing plugins for all
 	                    major services including
-	                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,&nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+	                    &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,&nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
+	                    &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_linebot'>Line</a>,
+	                    &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
+	                    &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
+	                    &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
 	                    </p>
 	            </div>
 	          </div>
@@ -215,7 +214,7 @@ class Overview extends Component{
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
               SUSI is having many skills. You can look at the collection of skills at
-              <Link style={{ textDecoration: 'none' }} to="https://skills.susi.ai/" target="_blank"> skills.susi.ai</Link>.
+              <a style={{ textDecoration: 'none' }} href="https://skills.susi.ai/" target="_blank" rel="noopener noreferrer"> skills.susi.ai</a>.
               SUSI skills are divided into groups like knowledge,
               assistant, problem solving, entertainment, shopping
               and small talks. SUSI Skill development is easy and fun. </p>
@@ -231,18 +230,18 @@ class Overview extends Component{
 
             <div className="description__heading">Safe and secure.</div>
             <p className="description__text"><b>SUSI.AI</b> is <b>
-              <Link style={{ textDecoration: 'none', color: '#000' }}
-                target="_blank" to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</Link></b>. The code is always available for security reviews and can be improved by anyone with the knowledge and understanding online.</p>
+              <a style={{ textDecoration: 'none', color: '#000' }}
+                target="_blank" rel="noopener noreferrer" href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</a></b>. The code is always available for security reviews and can be improved by anyone with the knowledge and understanding online.</p>
                     <div className="opensource-logos">
                         <span className="opensource">
-                          <Link to="https://opensource.org/" target="_blank">
+                          <a target="_blank" rel="noopener noreferrer" href="https://opensource.org/" target="_blank">
                           <img src={openSource} alt='osi' />
-                          </Link>
+                          </a>
                         </span>
                         <span className="github_logo">
-                          <Link to="https://github.com/fossasia?utf8=✓&q=susi" target="_blank">
+                          <a target="_blank" rel="noopener noreferrer" href="https://github.com/fossasia?utf8=✓&q=susi">
                           <img src={githubText} alt='ghlogo' />
-                          </Link>
+                          </a>
                         </span>
                     </div>
                   </div>
