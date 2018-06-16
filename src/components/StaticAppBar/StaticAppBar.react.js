@@ -31,10 +31,6 @@ const cookies = new Cookies();
 
 let Logged = (props) => (
     <div>
-        <MenuItem primaryText="About"
-            containerElement={<Link to="/overview" />}
-            rightIcon={<Info />}
-        />
         <MenuItem primaryText="Chat"
             containerElement={<Link to="/" />}
             rightIcon={<Chat />}
@@ -49,6 +45,10 @@ let Logged = (props) => (
             }}
             href="https://skills.susi.ai">Skills</a>
         </MenuItem>
+        <MenuItem primaryText="About"
+            containerElement={<Link to="/overview" />}
+            rightIcon={<Info />}
+        />
         <MenuItem
             primaryText="Login"
             onTouchTap={this.handleLogin}
@@ -186,10 +186,6 @@ class StaticAppBar extends Component {
         // Return menu items for the hamburger menu
         Logged = (props) => (
             <div>
-                <MenuItem primaryText={<Translate text="About"/>}
-                    containerElement={<Link to="/overview" />}
-                    rightIcon={<Info />}
-                />
                 <MenuItem primaryText={<Translate text="Chat"/>}
                     containerElement={<Link to="/" />}
                     rightIcon={<Chat />}
@@ -210,6 +206,10 @@ class StaticAppBar extends Component {
                         />
                         </div>): null
                 }
+                <MenuItem primaryText={<Translate text="About"/>}
+                    containerElement={<Link to="/overview" />}
+                    rightIcon={<Info />}
+                />
                 {
                     cookies.get('loggedIn')?
                     (<MenuItem primaryText={<Translate text="Logout"/>}

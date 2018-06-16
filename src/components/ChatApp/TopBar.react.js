@@ -18,6 +18,7 @@ import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
+import Assessment from 'material-ui/svg-icons/action/assessment';
 import Translate from '../Translate/Translate.react';
 import './TopBar.css'
 
@@ -84,9 +85,9 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText={<Translate text="About"/>}
-						containerElement={<Link to="/overview" />}
-						rightIcon={<Info/>}
+					<MenuItem primaryText={<Translate text="Dashboard"/>}
+						rightIcon={<Assessment />}
+						href="https://skills.susi.ai/dashboard"
 					/>
 					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
@@ -102,13 +103,17 @@ class TopBar extends Component {
 						onClick={this.props.handleThemeChanger}
 						rightIcon={<Edit/>}
 					/>
-					<MenuItem primaryText={<Translate text="Dashboard"/>}
-						rightIcon={<Extension/>}
-						href="https://skills.susi.ai/dashboard"
+					<MenuItem primaryText={<Translate text="Botbuilder"/>}
+						rightIcon={<Extension />}
+						href="https://skills.susi.ai/botbuilder"
 					/>
 					<MenuItem primaryText={<Translate text="Settings"/>}
 						containerElement={<Link to="/settings" />}
 						rightIcon={<Settings/>}/>
+					<MenuItem primaryText={<Translate text="About"/>}
+						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
+					/>
 					<MenuItem primaryText={<Translate text="Logout"/>}
 						containerElement={<Link to="/logout" />}
 						rightIcon={<Exit />}/>
@@ -136,10 +141,6 @@ class TopBar extends Component {
 					targetOrigin={{ horizontal: 'right', vertical: 'top' }}
 					onRequestClose={this.closeOptions}
 				>
-					<MenuItem primaryText={<Translate text="About"/>}
-						containerElement={<Link to="/overview" />}
-						rightIcon={<Info/>}
-					/>
 					<MenuItem primaryText={<Translate text="Chat"/>}
 						containerElement={<Link to="/" />}
 						rightIcon={<Chat/>}
@@ -149,6 +150,10 @@ class TopBar extends Component {
 						href="https://skills.susi.ai"
 					><Translate text="Skills"/>
 					</MenuItem>
+					<MenuItem primaryText={<Translate text="About"/>}
+						containerElement={<Link to="/overview" />}
+						rightIcon={<Info/>}
+					/>
 					<MenuItem primaryText={<Translate text="Login"/>}
 						onTouchTap={this.props.handleOpen}
 					rightIcon={<SignUp/>} />
