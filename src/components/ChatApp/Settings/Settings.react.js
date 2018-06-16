@@ -374,6 +374,7 @@ class Settings extends Component {
 		this.setInitialSettings();
 		// Trigger Actions to save the settings in stores and server
 		this.implementSettings(vals);
+		cookies.set('username',vals.userName);
 	}
 
 	// Store the settings in stores and server

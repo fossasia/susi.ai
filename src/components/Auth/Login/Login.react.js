@@ -218,6 +218,7 @@ class Login extends Component {
 		if (state.success) {
 			cookies.set('loggedIn', loggedIn, { path: '/', maxAge: time });
 			cookies.set('email', email, { path: '/', maxAge: time });
+			cookies.set('username', UserPreferencesStore.getUserName(), { path: '/', maxAge: time });
 			this.props.history.push('/', { showLogin: false });
 			window.location.reload();
 		}
