@@ -32,6 +32,7 @@ import AkshatGarg from '../../images/members/AkshatGarg.jpeg';
 import Sanskar from '../../images/members/Sanskar.jpeg';
 import Arundhati from '../../images/members/Arundhati.jpeg';
 import Anup from '../../images/members/Anup.jpeg';
+import Mohit from '../../images/members/Mohit.jpeg';
 
 let team = [{
   'mentors': [{
@@ -232,6 +233,14 @@ let team = [{
     'designation': 'Android Developer',
     'twitter': 'https://twitter.com/gupta_arundhati',
     'linkedin': 'https://www.linkedin.com/in/gupta-arundhati/',
+    'blog': '#'
+    },{
+    'name': 'Mohit Kumar',
+    'github': 'https://github.com/batbrain7',
+    'avatar': Mohit,
+    'designation': 'Android Developer',
+    'twitter': 'https://twitter.com/kumarmohit97',
+    'linkedin': 'https://www.linkedin.com/in/mohit-kumar-a793a0135/',
     'blog': '#'
     }]
   },
