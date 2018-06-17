@@ -172,11 +172,14 @@ class Overview extends Component{
 	              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
 	                    services and social networks. We are developing plugins for all
 	                    major services including
-	                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,&nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
+                      &nbsp;<a href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
 	                    &nbsp;<a href='https://github.com/fossasia/susi_linebot'>Line</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,&nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
+	                    &nbsp;<a href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
+                      &nbsp;<a href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
 	                    &nbsp;<a href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add&nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
+	                    &nbsp;<a href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add
+                      &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
 	                    </p>
 	            </div>
 	          </div>
