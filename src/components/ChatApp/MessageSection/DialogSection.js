@@ -92,8 +92,6 @@ export default class DialogSection extends Component {
 						width="99%"
 						height="315"
 						src="https://www.youtube.com/embed/9T3iMoAUKYA"
-						gesture="media"
-						allow="encrypted-media"
 						frameBorder="0"
  						scrolling="no"
 						>
