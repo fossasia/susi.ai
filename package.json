@@ -55,10 +55,15 @@
   },
   "devDependencies": {
     "enzyme": "^2.8.2",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-jsx": "0.0.2",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.0.1",
     "gh-pages": "^1.0.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
+    "prettier": "1.13.5",
     "react-scripts": "0.9.5",
     "react-test-renderer": "^15.5.4"
   },
@@ -75,13 +80,20 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint-js": "eslint *.js \"src/**/*.js\"",
-    "lint": "npm run lint-js",
-    "precommit": "npm run lint",
+    "lint": "eslint *.js \"src/**/*.js\"",
+    "precommit": "lint-staged",
+    "format": "prettier --write \"src/**/*.js\"",
     "prepush": "npm run lint",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "surge"
+  },
+   "lint-staged": {
+    "src/**/*.js": [
+      "eslint src --ext .js",
+      "prettier --write",
+      "git add"
+    ]
   }
 }

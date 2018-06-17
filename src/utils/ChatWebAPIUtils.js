@@ -10,22 +10,22 @@ export function createMessage(message) {
     Actions.receiveCreatedMessage(createdMessage, message.id);
     Actions.createSUSIMessage(createdMessage, message.threadID, message.voice);
   });
-};
+}
 
 export function getAllMessages() {
   ChatDataServer.getMessages(messages => {
     Actions.receiveAll(messages);
   });
-};
-
-export function getHistory(){
-	Actions.getHistory();
 }
 
-export function getLocation(){
+export function getHistory() {
+  Actions.getHistory();
+}
+
+export function getLocation() {
   Actions.getLocation();
 }
 
-export function getSettings(){
+export function getSettings() {
   Actions.getSettings();
 }

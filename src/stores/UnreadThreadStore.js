@@ -37,18 +37,16 @@ let UnreadThreadStore = {
       }
     }
     return unreadCount;
-  }
-
+  },
 };
 
 UnreadThreadStore.dispatchToken = ChatAppDispatcher.register(action => {
   ChatAppDispatcher.waitFor([
     ThreadStore.dispatchToken,
-    MessageStore.dispatchToken
+    MessageStore.dispatchToken,
   ]);
 
   switch (action.type) {
-
     case ActionTypes.CLICK_THREAD:
       UnreadThreadStore.emitChange();
       break;
@@ -58,7 +56,7 @@ UnreadThreadStore.dispatchToken = ChatAppDispatcher.register(action => {
       break;
 
     default:
-      // do nothing
+    // do nothing
   }
 });
 

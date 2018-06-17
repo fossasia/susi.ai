@@ -1,5 +1,4 @@
-
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import ThreadListItem from './ThreadListItem.react';
 import ThreadStore from '../../stores/ThreadStore';
 import UnreadThreadStore from '../../stores/UnreadThreadStore';
@@ -8,12 +7,11 @@ function getStateFromStores() {
   return {
     threads: ThreadStore.getAllChrono(),
     currentThreadID: ThreadStore.getCurrentID(),
-    unreadCount: UnreadThreadStore.getCount()
+    unreadCount: UnreadThreadStore.getCount(),
   };
 }
 
 export default class ThreadSection extends Component {
-
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
@@ -40,17 +38,13 @@ export default class ThreadSection extends Component {
       );
     }, this);
     let unread =
-      this.state.unreadCount === 0 ?
-      null :
-      <span>Unread threads: {this.state.unreadCount}</span>;
+      this.state.unreadCount === 0 ? null : (
+        <span>Unread threads: {this.state.unreadCount}</span>
+      );
     return (
       <div className="thread-section">
-        <div className="thread-count">
-          {unread}
-        </div>
-        <ul className="thread-list">
-          {threadListItems}
-          </ul>
+        <div className="thread-count">{unread}</div>
+        <ul className="thread-list">{threadListItems}</ul>
       </div>
     );
   }
@@ -61,5 +55,4 @@ export default class ThreadSection extends Component {
   _onChange() {
     this.setState(getStateFromStores());
   }
-
-};
+}
