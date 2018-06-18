@@ -80,6 +80,7 @@
     "Confirm New Password": "Konfirmasi Kata Sandi Baru",
     "Change": "Ganti",
     "Worst": "Terburuk",
+    "Too Insecure": "Terlalu tidak aman",
     "Bad": "Buruk",
     "Weak": "Lemah",
     "Good": "Bagus",
@@ -99,7 +100,7 @@
     "Change color of": "Ubah warna dari",
     "Body Background Image URL": "Latar Belakang Gambar URL",
     "Remove URL": "Hapus URL",
-    "Message Background Image URL": "Pesan Latar Belakang Gambar URL"
+    "Message Background Image URL": "Pesan Latar Belakang Gambar URL",
     "Select Server": "Pilih Server",	
     "Preferences": "Preferensi",	
     "Mobile": "Mobile",	
