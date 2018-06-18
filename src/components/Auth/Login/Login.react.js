@@ -237,12 +237,29 @@ class Login extends Component {
 			'textAlign': 'center',
 			'padding': '10px'
 		}
-		const fieldStyle={
-			'width':'256px'
+
+		const fieldStyle = {
+			'height': '35px',
+			'borderRadius': 4,
+			'border': '1px solid #ced4da',
+			'fontSize': 16,
+			'padding': '0px 10px',
+			'width': '250px',
+			'marginTop': '10px'
 		}
-	    const underlineFocusStyle= {
-			color: '#4285f4'
+
+		const inputStyle = {
+			'height': '35px',
+			'marginBottom': '10px',
 		}
+
+		const inputpassStyle = {
+			'height': '35px',
+			'marginBottom': '10px',
+			'marginRight':'50px',
+			'width' : '90%'
+		}
+
 		const actions =
            <RaisedButton
 			   label="OK"
@@ -253,55 +270,65 @@ class Login extends Component {
 		return (
 			<div className="loginForm">
 				<Paper zDepth={0} style={styles}>
-					<div><Translate text="Log into SUSI"/></div>
+					<div>
+					  <Translate text="Log into SUSI"/>
+					</div>
+
 					<form onSubmit={this.handleSubmit}>
-						<div>
-							<TextField name="email" type="email"
-								value={this.state.email}
-								onChange={this.handleChange}
-								underlineFocusStyle={underlineFocusStyle}
-      							floatingLabelFocusStyle={underlineFocusStyle}
-								errorText={this.emailErrorMessage}
-								floatingLabelText={<Translate text="Email"/>} />
-						</div>
-						<div>
-					        <PasswordField
-						        name='password'
-								style={fieldStyle}
-						        value={this.state.password}
-								underlineFocusStyle={underlineFocusStyle}
-      							floatingLabelFocusStyle={underlineFocusStyle}
-								onChange={this.handleChange}
-								errorText={this.passwordErrorMessage}
-								floatingLabelText={<Translate text="Password"/>} />
-						</div>
-						<RaisedButton
-							label={!this.state.loading ? <Translate text="Log In"/> : undefined}
-							type="submit"
-							backgroundColor={
-								UserPreferencesStore.getTheme()==='light' ? '#4285f4' : '#19314B'}
-							labelColor="#fff"
-							disabled={!this.state.validForm}
-							style={{margin:'5px 20px 0px 20px'}}
-							icon={this.state.loading ? <CircularProgress size={24} /> : undefined}/>
-						<div className="login-links-section">
-							<span
-							style={{
-								margin: '8px 0',
-							}}
-							className="login-links"
-								onClick={this.handleForgotPassword}>
-									<Translate text="Forgot Password?"/>
-							</span>
-							<span
-							style={{
-								margin: '8px 0',
-							}}
-							className="login-links"
-								onClick={this.handleSignUp}>
-									<Translate text="Sign up for SUSI"/>
-							</span>
-						</div>
+					  <div>
+					    <TextField name="email" type="email"
+					      value={this.state.email}
+					      onChange={this.handleChange}
+					      style={fieldStyle}
+					      inputStyle={inputStyle}
+					      placeholder="Email"
+					      underlineStyle={{display: 'none'}}
+					      errorText={this.emailErrorMessage}/>
+					  </div>
+
+					  <div>
+					    <PasswordField
+					      name='password'
+					      style={fieldStyle}
+					      inputStyle={inputpassStyle}
+					      value={this.state.password}
+					      placeholder="Password"
+					      underlineStyle={{display: 'none'}}
+					      onChange={this.handleChange}
+					      errorText={this.passwordErrorMessage}
+					      visibilityButtonStyle={{
+					        'marginTop':'-3px'}}
+					      visibilityIconStyle={{
+					        'marginTop':'-3px'}}
+					      textFieldStyle={{padding:'0px'}}/>
+					  </div>
+
+					  <RaisedButton
+					    label={!this.state.loading ?
+					      <Translate text="Log In"/> : undefined}
+					    type="submit"
+					    backgroundColor={
+					      UserPreferencesStore.getTheme()==='light' ?
+					        '#4285f4' : '#19314B'}
+					    labelColor="#fff"
+					    disabled={!this.state.validForm}
+					    style={{width:'275px',margin:'10px 0px'}}
+					    icon={this.state.loading ?
+					      <CircularProgress size={24} /> :
+					        undefined}/>
+
+					  <div className="login-links-section">
+					    <span
+					      className="fgtpwd"
+					      onClick={this.handleForgotPassword}>
+					      <Translate text="Forgot Password?"/>
+					    </span>
+					    <span
+					      className="signUp"
+					      onClick={this.handleSignUp}>
+					      <Translate text="Sign up for SUSI"/>
+					    </span>
+					  </div>
 					</form>
 					<div>
 						<CustomServer
