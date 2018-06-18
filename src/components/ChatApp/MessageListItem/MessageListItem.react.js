@@ -68,15 +68,38 @@ class MessageListItem extends React.Component {
       );
     }
 
+    let stringWithLinksOriginal = this.props.message.text;
     let stringWithLinks = this.props.message.text;
+    let emojio = new RegExp(['(\\:\\w+\\:|\\<[\\/\\\\]?3|',
+                            '[\\(\\)\\\\\\D|\\*\\$][\\-\\^]?[\\:\\;\\=]',
+                            '|[\\:\\;\\=B8][\\-\\^]?[3DOPp\\@\\$\\*\\\\\\)\\(\\/\\|])',
+                            '(?=\\s|[\\!\\.\\?]|$)'].join(''));
+    let htmlReg = new RegExp(['<(br|basefont|hr|input|source|frame|param|area|meta|',
+                              '!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|',
+                              '<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big',
+                              '|blockquote|body|button|canvas|caption|center|cite|code|colgroup',
+                              '|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed',
+                              '|fieldset|figcaption|figure|font|footer|form|frameset|head|header',
+                              '|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend',
+                              '|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup',
+                              '|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select',
+                              '|small|span|strike|strong|style|sub|summary|sup|table|tbody|td',
+                              '|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\\/\\2>'].join(''));
+    if (emojio.test(stringWithLinks) || htmlReg.test(stringWithLinks)) {
+      stringWithLinks = this.props.message.text;
+    }
+    else {
+      stringWithLinks = stringWithLinks.replace(/^[`~><%^&?,'"!@#*()_|+=;:<>\{\}\[\]\\\/]*/, '');
+      stringWithLinks = stringWithLinks.replace(/[`~><$%^&@#*()_|+=:<>"'\{\}\[\]\\\/]*$/, '');
+    }
     let replacedText = '';
     let markMsgID = this.props.markID;
     if(this.props.message.hasOwnProperty('mark')
        && markMsgID) {
       let matchString = this.props.message.mark.matchText;
       let isCaseSensitive = this.props.message.mark.isCaseSensitive;
-      if(stringWithLinks){
-        let htmlText = entities.decode(stringWithLinks);
+      if(stringWithLinksOriginal){
+        let htmlText = entities.decode(stringWithLinksOriginal);
         let imgText = imageParse(htmlText);
         let markedText = [];
         let matchStringarr = [];
@@ -114,7 +137,7 @@ class MessageListItem extends React.Component {
     }
     else{
       if(stringWithLinks){
-        replacedText = processText(stringWithLinks);
+        replacedText = processText(stringWithLinksOriginal);
       };
     }
     let messageContainerClasses = 'message-container ' + message.authorName;
