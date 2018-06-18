@@ -20,6 +20,7 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import Translate from '../Translate/Translate.react';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import './TopBar.css'
 
 const cookies = new Cookies();
@@ -210,7 +211,7 @@ class TopBar extends Component {
 								(
 									<label className="useremail"
 										style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
-										{cookies.get('email')}
+										{UserPreferencesStore.getUserName()}
 									</label>):
 								(<label>
 									</label>)
