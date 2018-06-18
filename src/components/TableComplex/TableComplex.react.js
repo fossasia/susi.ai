@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Table,
@@ -11,9 +11,8 @@ import {
 
 // eslint-disable-next-line
 export default class TableComplex extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       stripedRows: false,
       showRowHover: false,
@@ -23,7 +22,7 @@ export default class TableComplex extends Component {
       deselectOnClickaway: true,
       showCheckboxes: false,
       height: 'inherit',
-    }
+    };
   }
 
   render() {
@@ -40,9 +39,15 @@ export default class TableComplex extends Component {
             enableSelectAll={this.state.enableSelectAll}
           >
             <TableRow>
-              <TableHeaderColumn style={{width:'50px'}}>S. No.</TableHeaderColumn>
-              <TableHeaderColumn style={{width:'120px'}}>Mac Address</TableHeaderColumn>
-              <TableHeaderColumn style={{width:'120px'}}>Name of Device</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '50px' }}>
+                S. No.
+              </TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '120px' }}>
+                Mac Address
+              </TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '120px' }}>
+                Name of Device
+              </TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -51,15 +56,20 @@ export default class TableComplex extends Component {
             showRowHover={this.state.showRowHover}
             stripedRows={this.state.stripedRows}
           >
-
-          {/* eslint-disable-next-line */}
-            {this.props.tableData.map( (row, index) => (
+            {/* eslint-disable-next-line */}
+            {this.props.tableData.map((row, index) => (
               <TableRow key={index}>
-                <TableRowColumn style={{width:'50px'}}>{index+1}</TableRowColumn>
-                <TableRowColumn style={{width:'120px'}}>{row.macid}</TableRowColumn>
-                <TableRowColumn style={{width:'120px'}}>{row.devicename}</TableRowColumn>
+                <TableRowColumn style={{ width: '50px' }}>
+                  {index + 1}
+                </TableRowColumn>
+                <TableRowColumn style={{ width: '120px' }}>
+                  {row.macid}
+                </TableRowColumn>
+                <TableRowColumn style={{ width: '120px' }}>
+                  {row.devicename}
+                </TableRowColumn>
               </TableRow>
-              ))}
+            ))}
           </TableBody>
         </Table>
       </div>
@@ -67,6 +77,6 @@ export default class TableComplex extends Component {
   }
 }
 
-TableComplex.propTypes={
-  tableData:PropTypes.array
-}
+TableComplex.propTypes = {
+  tableData: PropTypes.array,
+};
