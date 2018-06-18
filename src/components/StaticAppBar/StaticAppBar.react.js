@@ -24,6 +24,7 @@ import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import Extension from 'material-ui/svg-icons/action/extension';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 import { Link } from 'react-router-dom';
 
@@ -252,7 +253,7 @@ class StaticAppBar extends Component {
                             (
                                 <label
                                     style={{color: 'white', marginRight: '5px', fontSize: '16px', verticalAlign:'center'}}>
-                                    {cookies.get('email')}
+                                    {UserPreferencesStore.getUserName()}
                                 </label>):
                             (<label>
                                 </label>)
