@@ -147,7 +147,7 @@ class Overview extends Component{
                    Download the App to have access to SUSI on the go.</p>
                    <div className="description__text store_icons">
                      <a className="playstore"
-                       target="_blank" rel="noopener noreferrer" href='https://play.google.com/store/apps/details?id=org.fossasia.susi.ai'> Get it on Google Play
+                       target="_blank" rel="noopener noreferrer" href='https://play.google.com/store/apps/details?id=ai.susi'> Get it on Google Play
                      </a>
                      <a className="appstore"
                        target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_iOS'> Download on the App Store
