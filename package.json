@@ -89,7 +89,7 @@
     "predeploy": "npm run build",
     "deploy": "surge"
   },
-   "lint-staged": {
+  "lint-staged": {
     "src/**/*.js": [
       "eslint src --ext .js",
       "prettier --write",
