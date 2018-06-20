@@ -17,7 +17,6 @@ import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 
 class Overview extends Component {
@@ -159,22 +158,24 @@ class Overview extends Component {
               SUSI on the go.
             </p>
             <div className="description__text store_icons">
-              <Link
+              <a
                 className="playstore"
+                rel="noopener noreferrer"
                 target="_blank"
-                to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"
+                href="https://play.google.com/store/apps/details?id=ai.susi"
               >
                 {' '}
                 Get it on Google Play
-              </Link>
-              <Link
+              </a>
+              <a
                 className="appstore"
+                rel="noopener noreferrer"
                 target="_blank"
-                to="https://github.com/fossasia/susi_iOS"
+                href="https://github.com/fossasia/susi_iOS"
               >
                 {' '}
                 Download on the App Store
-              </Link>
+              </a>
             </div>
           </div>
           <div className="img-container">
@@ -196,19 +197,47 @@ class Overview extends Component {
               <p className="description__text">
                 <b>SUSI.AI</b> already runs on many chat services and social
                 networks. We are developing plugins for all major services
-                including &nbsp;<a href="https://github.com/fossasia/susi_tweetbot">
+                including &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_tweetbbot"
+                >
                   Twitter
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_fbbot">
+                </a>, &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_fbbot"
+                >
                   Facebook
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_linebot">
+                </a>, &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_linebot"
+                >
                   Line
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_slackbot">
+                </a>, &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_slackbbot"
+                >
                   Slack
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_wechatbot">
+                </a>, &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_wechatbot"
+                >
                   We Chat
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_viberbot">
+                </a>, &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_viberbot"
+                >
                   Viber
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_gitterbot">
+                </a>, &nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_gitterbot"
+                >
                   Gitter
                 </a>. Just set up SUSI on your channel and add &nbsp;<b>
                   @susi
@@ -264,14 +293,15 @@ class Overview extends Component {
             <p className="description__text">
               SUSI is having many skills. You can look at the collection of
               skills at
-              <Link
+              <a
+                rel="noopener noreferrer"
                 style={{ textDecoration: 'none' }}
-                to="https://skills.susi.ai/"
+                href="https://skills.susi.ai/"
                 target="_blank"
               >
                 {' '}
                 skills.susi.ai
-              </Link>. SUSI skills are divided into groups like knowledge,
+              </a>. SUSI skills are divided into groups like knowledge,
               assistant, problem solving, entertainment, shopping and small
               talks. SUSI Skill development is easy and fun.{' '}
             </p>
@@ -287,29 +317,35 @@ class Overview extends Component {
             <p className="description__text">
               <b>SUSI.AI</b> is{' '}
               <b>
-                <Link
-                  style={{ textDecoration: 'none', color: '#000' }}
+                <a
                   target="_blank"
-                  to="https://github.com/fossasia?utf8=%E2%9C%93&q=susi"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none', color: '#000' }}
+                  href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi"
                 >
                   Open Source
-                </Link>
+                </a>
               </b>. The code is always available for security reviews and can be
               improved by anyone with the knowledge and understanding online.
             </p>
             <div className="opensource-logos">
               <span className="opensource">
-                <Link to="https://opensource.org/" target="_blank">
+                <a
+                  rel="noopener noreferrer"
+                  href="https://opensource.org/"
+                  target="_blank"
+                >
                   <img src={openSource} alt="osi" />
-                </Link>
+                </a>
               </span>
               <span className="github_logo">
-                <Link
-                  to="https://github.com/fossasia?utf8=✓&q=susi"
+                <a
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia?utf8=✓&q=susi"
                   target="_blank"
                 >
                   <img src={githubText} alt="ghlogo" />
-                </Link>
+                </a>
               </span>
             </div>
           </div>
