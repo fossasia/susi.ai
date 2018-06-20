@@ -152,17 +152,31 @@ class Overview extends Component {
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">For your Smartphone</div>
-            <p className="description__text">SUSI is available for <b>Android</b>
-              &nbsp;and <b>iOS devices</b>.
-                   Download the App to have access to SUSI on the go.</p>
-                   <div className="description__text store_icons">
-                     <a className="playstore"
-                       target="_blank" rel="noopener noreferrer" href='https://play.google.com/store/apps/details?id=ai.susi'> Get it on Google Play
-                     </a>
-                     <a className="appstore"
-                       target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_iOS'> Download on the App Store
-                     </a>
-                   </div>
+            <p className="description__text">
+              SUSI is available for <b>Android</b>
+              &nbsp;and <b>iOS devices</b>. Download the App to have access to
+              SUSI on the go.
+            </p>
+            <div className="description__text store_icons">
+              <a
+                className="playstore"
+                rel="noopener noreferrer"
+                target="_blank"
+                href="https://play.google.com/store/apps/details?id=ai.susi"
+              >
+                {' '}
+                Get it on Google Play
+              </a>
+              <a
+                className="appstore"
+                rel="noopener noreferrer"
+                target="_blank"
+                href="https://github.com/fossasia/susi_iOS"
+              >
+                {' '}
+                Download on the App Store
+              </a>
+            </div>
           </div>
           <div className="img-container">
             <img
@@ -183,19 +197,40 @@ class Overview extends Component {
               <p className="description__text">
                 <b>SUSI.AI</b> already runs on many chat services and social
                 networks. We are developing plugins for all major services
-                including &nbsp;<a href="https://github.com/fossasia/susi_tweetbot">
+                including &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_tweetbbot">
                   Twitter
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_fbbot">
-                  Facebook
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_linebot">
+                </a>, &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_fbbot">
+                    Facebook
+                </a>, &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_linebot">
                   Line
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_slackbot">
+                </a>, &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_slackbbot">
                   Slack
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_wechatbot">
+                </a>, &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_wechatbot">
                   We Chat
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_viberbot">
+                </a>, &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_viberbot">
                   Viber
-                </a>, &nbsp;<a href="https://github.com/fossasia/susi_gitterbot">
+                </a>, &nbsp;<a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="https://github.com/fossasia/susi_gitterbot">
                   Gitter
                 </a>. Just set up SUSI on your channel and add &nbsp;<b>
                   @susi
@@ -205,37 +240,23 @@ class Overview extends Component {
             </div>
           </div>
 
-	          <div className="column_section">
-	            <div className="conversation__description custom_description">
-	              <div className='img-container'>
-	                <img src={bots} alt='Android Mockup' className='bots-mockup' />
-	              </div>
-	              <div className="description__heading">On many Platforms</div>
-	              <p className="description__text"><b>SUSI.AI</b> already runs on many chat
-	                    services and social networks. We are developing plugins for all
-	                    major services including
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_tweetbot'>Twitter</a>,
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_fbbot'>Facebook</a>,
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_linebot'>Line</a>,
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_slackbot'>Slack</a>,
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_wechatbot'>We Chat</a>,
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_viberbot'>Viber</a>,
-                      &nbsp;<a target="_blank" rel="noopener noreferrer" href='https://github.com/fossasia/susi_gitterbot'>Gitter</a>. Just set up SUSI on your channel and add
-                      &nbsp;<b>@susi</b> in your conversations and SUSI is ready to help.
-	                    </p>
-	            </div>
-	          </div>
-
-	          <div className="column_section">
-	            <div className='img-container'>
-	              <img src={allDevices} alt='Android Mockup' className='bots-mockup' />
-	            </div>
-	            <div className="conversation__description custom_description">
-	              <div className="description__heading">For all Devices</div>
-	              <p className="description__text"><b >SUSI.AI</b> is available for any android, iOS device and also you can access the web chat application from this URL <a href="https://chat.susi.ai">https://chat.susi.ai</a>
-	              </p>
-	            </div>
-          	</div>
+          <div className="column_section">
+            <div className="img-container">
+              <img
+                src={allDevices}
+                alt="Android Mockup"
+                className="bots-mockup"
+              />
+            </div>
+            <div className="conversation__description custom_description">
+              <div className="description__heading">For all Devices</div>
+              <p className="description__text">
+                <b>SUSI.AI</b> is available for any android, iOS device and also
+                you can access the web chat application from this URL{' '}
+                <a href="https://chat.susi.ai">https://chat.susi.ai</a>
+              </p>
+            </div>
+          </div>
 
           <div className="column_section">
             <div className="conversation__description custom_description">
@@ -263,11 +284,20 @@ class Overview extends Component {
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
-              SUSI is having many skills. You can look at the collection of skills at
-              <a style={{ textDecoration: 'none' }} href="https://skills.susi.ai/" target="_blank" rel="noopener noreferrer"> skills.susi.ai</a>.
-              SUSI skills are divided into groups like knowledge,
-              assistant, problem solving, entertainment, shopping
-              and small talks. SUSI Skill development is easy and fun. </p>
+              SUSI is having many skills. You can look at the collection of
+              skills at
+              <a
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
+                href="https://skills.susi.ai/"
+                target="_blank"
+              >
+                {' '}
+                skills.susi.ai
+              </a>. SUSI skills are divided into groups like knowledge,
+              assistant, problem solving, entertainment, shopping and small
+              talks. SUSI Skill development is easy and fun.{' '}
+            </p>
           </div>
           <div className="img-container">
             <img src={susiSkill} alt="Skills" className="skillWiki" />
@@ -277,26 +307,44 @@ class Overview extends Component {
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
             <div className="description__heading">Safe and secure.</div>
-            <p className="description__text"><b>SUSI.AI</b> is <b>
-              <a style={{ textDecoration: 'none', color: '#000' }}
-                target="_blank" rel="noopener noreferrer" href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</a></b>. The code is always available for security reviews and can be improved by anyone with the knowledge and understanding online.</p>
-                    <div className="opensource-logos">
-                        <span className="opensource">
-                          <a target="_blank" rel="noopener noreferrer" href="https://opensource.org/">
-                          <img src={openSource} alt='osi' />
-                          </a>
-                        </span>
-                        <span className="github_logo">
-                          <a target="_blank" rel="noopener noreferrer" href="https://github.com/fossasia?utf8=✓&q=susi">
-                          <img src={githubText} alt='ghlogo' />
-                          </a>
-                        </span>
-                    </div>
-                  </div>
-                  <div className='img-container'>
-                    <img src={shield} alt='Android Mockup' className='shield'  />
-                  </div>
-                </div>
+            <p className="description__text">
+              <b>SUSI.AI</b> is{' '}
+              <b>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none', color: '#000' }}
+                  href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi"
+                >
+                  Open Source
+                </a>
+              </b>. The code is always available for security reviews and can be
+              improved by anyone with the knowledge and understanding online.
+            </p>
+            <div className="opensource-logos">
+              <span className="opensource">
+                <a
+                  rel="noopener noreferrer"
+                  href="https://opensource.org/"
+                  target="_blank">
+                  <img src={openSource} alt="osi" />
+                </a>
+              </span>
+              <span className="github_logo">
+                <a
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia?utf8=✓&q=susi"
+                  target="_blank"
+                >
+                  <img src={githubText} alt="ghlogo" />
+                </a>
+              </span>
+            </div>
+          </div>
+          <div className="img-container">
+            <img src={shield} alt="Android Mockup" className="shield" />
+          </div>
+        </div>
 
         <Footer />
 
