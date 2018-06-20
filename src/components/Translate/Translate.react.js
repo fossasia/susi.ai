@@ -14,21 +14,20 @@ import nl from './nl.json';
 import pb from './pb.json';
 import np from './np.json';
 
-class Translate extends Component{
-
-  constructor(props){
+class Translate extends Component {
+  constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       text: this.props.text,
-      defaultPrefLanguage: UserPreferencesStore.getPrefLang()
-    }
+      defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
+    };
   }
 
-  changeLanguage = (text) => {
-        this.setState({
-            text:text
-        })
-  }
+  changeLanguage = text => {
+    this.setState({
+      text: text,
+    });
+  };
 
   lang = {
     'de-DE': de,
@@ -41,35 +40,36 @@ class Translate extends Component{
     'fr-FR': fr,
     'ru-RU': ru,
     'gr-GR': gr,
-    'nl-NL': nl
+    'nl-NL': nl,
   };
 
   componentDidMount() {
-    let arr, file, defaultPrefLanguage = this.state.defaultPrefLanguage;
+    let arr,
+      file,
+      defaultPrefLanguage = this.state.defaultPrefLanguage;
     let text = this.state.text;
-    if(defaultPrefLanguage!=='en-US'){
-      if(this.lang.hasOwnProperty(defaultPrefLanguage)) {
+    if (defaultPrefLanguage !== 'en-US') {
+      if (this.lang.hasOwnProperty(defaultPrefLanguage)) {
         arr = Object.keys(this.lang[defaultPrefLanguage]);
         file = this.lang[defaultPrefLanguage];
       } else {
         arr = Object.keys(jp);
         file = jp;
       }
-      arr.forEach((val,index)=> {
-        if (arr.index===text) {
-        this.changeLanguage(file.arr.index);
+      arr.forEach((val, index) => {
+        if (arr.index === text) {
+          this.changeLanguage(file.arr.index);
         }
-      })
+      });
     }
   }
 
   render() {
-    return <span>{this.state.text}</span>
+    return <span>{this.state.text}</span>;
   }
-
 }
 
 Translate.propTypes = {
-  text:PropTypes.string
-}
+  text: PropTypes.string,
+};
 export default Translate;
