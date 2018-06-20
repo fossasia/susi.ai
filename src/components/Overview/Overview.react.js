@@ -19,47 +19,50 @@ import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
 import React, { Component } from 'react';
 
-class Overview extends Component{
-  constructor(props){
+class Overview extends Component {
+  constructor(props) {
     super(props);
-    this.state={
-      video:false,
-    }
+    this.state = {
+      video: false,
+    };
   }
 
   handleTitle = () => {
     this.props.history.push('/');
-  }
+  };
   // Open Video Dialog and close login and sign up dialog
-  handleVideo = () => this.setState({
-    login: false,
-    signup: false,
-    video: true
-  })
+  handleVideo = () =>
+    this.setState({
+      login: false,
+      signup: false,
+      video: true,
+    });
   // Close all the dialogs
-  handleClose = () => this.setState({
-    login: false,
-    signup: false,
-    video: false
-  })
+  handleClose = () =>
+    this.setState({
+      login: false,
+      signup: false,
+      video: false,
+    });
   // Close Video Dialog
-  closeVideo = () => this.setState({
-    video: false
-  })
+  closeVideo = () =>
+    this.setState({
+      video: false,
+    });
 
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
 
-  componentWillMount(){
+  componentWillMount() {
     document.body.style.backgroundColor = '#fff';
   }
 
-
   componentDidMount() {
     // Adding title tag to page
-    document.title = 'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
+    document.title =
+      'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
     $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
@@ -74,34 +77,43 @@ class Overview extends Component{
       height: '40px',
       right: '20px',
       top: '20px',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    };
 
     return (
-
       <div>
+        <StaticAppBar
+          {...this.props}
+          location={this.props.location}
+          closeVideo={this.closeVideo}
+        />
 
-        <StaticAppBar {...this.props}
-          location={this.props.location} closeVideo={this.closeVideo} />
-
-        <div className='section'>
-          <div className='section-container'>
+        <div className="section">
+          <div className="section-container">
             <div className="hero">
-              <img src={susiGif} style={{ margin: '20px 0' }} alt='Meet SUSI'/>
+              <img src={susiGif} style={{ margin: '20px 0' }} alt="Meet SUSI" />
               <h1>
-                Meet SUSI.AI,
-                Your Artificial Intelligence for Personal Assistants,
-                Robots, Help Desks and Chatbots.
+                Meet SUSI.AI, Your Artificial Intelligence for Personal
+                Assistants, Robots, Help Desks and Chatbots.
               </h1>
-              <p>Ask it questions. Tell it to do things. Always ready to help.</p>
-              <a onClick={this.handleVideo} style={{
-                color: '#3367d6',
-                cursor: 'pointer', position: 'relative'
-              }}>
-                <PlayCircle style={{
-                  fill: '#3367d6',
-                  marginRight: '50px'
-                }} /><span className='watchStyle'>Watch</span>
+              <p>
+                Ask it questions. Tell it to do things. Always ready to help.
+              </p>
+              <a
+                onClick={this.handleVideo}
+                style={{
+                  color: '#3367d6',
+                  cursor: 'pointer',
+                  position: 'relative',
+                }}
+              >
+                <PlayCircle
+                  style={{
+                    fill: '#3367d6',
+                    marginRight: '50px',
+                  }}
+                />
+                <span className="watchStyle">Watch</span>
               </a>
             </div>
           </div>
@@ -111,33 +123,31 @@ class Overview extends Component{
           <div className="conversation__description">
             <div className="description__heading">Ask it anything.</div>
             <p className="description__text">
-              Search for the capital of Vietnam or
-                  find translations in different languages.
-                  Ask SUSI for your location, and
-                  what the weather’s like when you get there.</p>
+              Search for the capital of Vietnam or find translations in
+              different languages. Ask SUSI for your location, and what the
+              weather’s like when you get there.
+            </p>
           </div>
-          <div className='img-container'>
-            <img src={susiTestGif} alt='susi-test' className='susi-test' />
+          <div className="img-container">
+            <img src={susiTestGif} alt="susi-test" className="susi-test" />
           </div>
         </div>
-
 
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Tell it to do things.</div>
             <p className="description__text">
-              SUSI can listen to you through the Mic
-                  and answer back on your Speaker.
-                  You can activate the assistant saying
-                  <b> &quot;Hi SUSI&quot;</b> already on many clients and devices.
-                  The more you talk with SUSI the better it gets.
-                  You can even tell SUSI to remember things.</p>
+              SUSI can listen to you through the Mic and answer back on your
+              Speaker. You can activate the assistant saying
+              <b> &quot;Hi SUSI&quot;</b> already on many clients and devices.
+              The more you talk with SUSI the better it gets. You can even tell
+              SUSI to remember things.
+            </p>
           </div>
-          <div className='img-container'>
-            <img src={mapAndroid} alt='Map' className='android-mockup' />
+          <div className="img-container">
+            <img src={mapAndroid} alt="Map" className="android-mockup" />
           </div>
         </div>
-
 
         <div className="section_copy">
           <div className="conversation__description">
@@ -154,13 +164,47 @@ class Overview extends Component{
                      </a>
                    </div>
           </div>
-          <div className='img-container'>
-            <img src={androidMockup} alt='Android Mockup' className='android-mockup' />
+          <div className="img-container">
+            <img
+              src={androidMockup}
+              alt="Android Mockup"
+              className="android-mockup"
+            />
           </div>
         </div>
 
-
         <div className="section_copy">
+          <div className="column_section">
+            <div className="conversation__description custom_description">
+              <div className="img-container">
+                <img src={bots} alt="Android Mockup" className="bots-mockup" />
+              </div>
+              <div className="description__heading">On many Platforms</div>
+              <p className="description__text">
+                <b>SUSI.AI</b> already runs on many chat services and social
+                networks. We are developing plugins for all major services
+                including &nbsp;<a href="https://github.com/fossasia/susi_tweetbot">
+                  Twitter
+                </a>, &nbsp;<a href="https://github.com/fossasia/susi_fbbot">
+                  Facebook
+                </a>, &nbsp;<a href="https://github.com/fossasia/susi_linebot">
+                  Line
+                </a>, &nbsp;<a href="https://github.com/fossasia/susi_slackbot">
+                  Slack
+                </a>, &nbsp;<a href="https://github.com/fossasia/susi_wechatbot">
+                  We Chat
+                </a>, &nbsp;<a href="https://github.com/fossasia/susi_viberbot">
+                  Viber
+                </a>, &nbsp;<a href="https://github.com/fossasia/susi_gitterbot">
+                  Gitter
+                </a>. Just set up SUSI on your channel and add &nbsp;<b>
+                  @susi
+                </b>{' '}
+                in your conversations and SUSI is ready to help.
+              </p>
+            </div>
+          </div>
+
 
 	          <div className="column_section">
 	            <div className="conversation__description custom_description">
@@ -194,44 +238,50 @@ class Overview extends Component{
 	            </div>
           	</div>
 
+
           <div className="column_section">
             <div className="conversation__description custom_description">
-              <div className='img-container'>
-                <img src={manyLanguages} alt='Android Mockup' className='bots-mockup' />
+              <div className="img-container">
+                <img
+                  src={manyLanguages}
+                  alt="Android Mockup"
+                  className="bots-mockup"
+                />
               </div>
-              <div className="description__heading">Use it in many Languages</div>
-              <p className="description__text">You can use <b>SUSI.AI</b> in different
-                     languages. You can ask questions in many languages.
-                      SUSI is intelligent to identify and
-                       answer your question in your language.
-                    </p>
+              <div className="description__heading">
+                Use it in many Languages
+              </div>
+              <p className="description__text">
+                You can use <b>SUSI.AI</b> in different languages. You can ask
+                questions in many languages. SUSI is intelligent to identify and
+                answer your question in your language.
+              </p>
             </div>
-
           </div>
         </div>
-      {/* section_copy ends */}
-
+        {/* section_copy ends */}
 
         <div className="section_center">
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
+
               SUSI is having many skills. You can look at the collection of skills at
               <a style={{ textDecoration: 'none' }} href="https://skills.susi.ai/" target="_blank" rel="noopener noreferrer"> skills.susi.ai</a>.
               SUSI skills are divided into groups like knowledge,
               assistant, problem solving, entertainment, shopping
               and small talks. SUSI Skill development is easy and fun. </p>
+
           </div>
-          <div className='img-container'>
-            <img src={susiSkill} alt='Skills' className='skillWiki'/>
+          <div className="img-container">
+            <img src={susiSkill} alt="Skills" className="skillWiki" />
           </div>
         </div>
 
-
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
-
             <div className="description__heading">Safe and secure.</div>
+
             <p className="description__text"><b>SUSI.AI</b> is <b>
               <a style={{ textDecoration: 'none', color: '#000' }}
                 target="_blank" rel="noopener noreferrer" href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</a></b>. The code is always available for security reviews and can be improved by anyone with the knowledge and understanding online.</p>
@@ -253,6 +303,7 @@ class Overview extends Component{
                   </div>
                 </div>
 
+
         <Footer />
 
         {/* Video */}
@@ -262,22 +313,27 @@ class Overview extends Component{
           className="Video-Modal"
           onRequestClose={this.handleClose}
           contentLabel="Assistant Video"
-          overlayClassName="Video-Overlay">
+          overlayClassName="Video-Overlay"
+        >
           <div className="video-container">
-            <iframe id="player" type="text/html" frameBorder="0" allowFullScreen
-              src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"></iframe>
+            <iframe
+              id="player"
+              type="text/html"
+              frameBorder="0"
+              allowFullScreen
+              src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
+            />
             <Close style={closingStyle} onTouchTap={this.handleClose} />
           </div>
         </Modal>
       </div>
-
     );
-  };
+  }
 }
 
 Overview.propTypes = {
   history: PropTypes.object,
-  location: PropTypes.object
-}
+  location: PropTypes.object,
+};
 
 export default Overview;

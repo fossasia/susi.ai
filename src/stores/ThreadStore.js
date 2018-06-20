@@ -22,7 +22,7 @@ let ThreadStore = {
       _threads[threadID] = {
         id: threadID,
         name: message.threadName,
-        lastMessage: ChatMessageUtils.convertRawMessage(message, _currentID)
+        lastMessage: ChatMessageUtils.convertRawMessage(message, _currentID),
       };
     });
 
@@ -86,14 +86,11 @@ let ThreadStore = {
 
   getCurrent() {
     return this.get(this.getCurrentID());
-  }
-
+  },
 };
 
 ThreadStore.dispatchToken = ChatAppDispatcher.register(action => {
-
-  switch(action.type) {
-
+  switch (action.type) {
     case ActionTypes.CLICK_THREAD:
       _currentID = action.threadID;
       _threads[_currentID].lastMessage.isRead = true;
@@ -111,7 +108,8 @@ ThreadStore.dispatchToken = ChatAppDispatcher.register(action => {
       let rawMessage = action.rawMessage;
       let currentThreadID = ThreadStore.getCurrentID();
       let message = ChatMessageUtils.convertRawMessage(
-        rawMessage, currentThreadID
+        rawMessage,
+        currentThreadID,
       );
       _threads[message.threadID].lastMessage = message;
       ThreadStore.emitChange();
@@ -124,9 +122,8 @@ ThreadStore.dispatchToken = ChatAppDispatcher.register(action => {
       break;
 
     default:
-      // do nothing
+    // do nothing
   }
-
 });
 
 export default ThreadStore;
