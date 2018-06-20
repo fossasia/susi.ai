@@ -226,7 +226,10 @@ class TopBar extends Component {
                   verticalAlign: 'center',
                 }}
               >
-                {UserPreferencesStore.getUserName()}
+                {UserPreferencesStore.getUserName() === '' ||
+                UserPreferencesStore.getUserName() === 'undefined'
+                  ? cookies.get('email')
+                  : UserPreferencesStore.getUserName()}
               </label>
             ) : (
               <label />
