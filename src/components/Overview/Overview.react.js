@@ -205,7 +205,6 @@ class Overview extends Component {
             </div>
           </div>
 
-
 	          <div className="column_section">
 	            <div className="conversation__description custom_description">
 	              <div className='img-container'>
@@ -238,7 +237,6 @@ class Overview extends Component {
 	            </div>
           	</div>
 
-
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className="img-container">
@@ -265,13 +263,11 @@ class Overview extends Component {
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
-
               SUSI is having many skills. You can look at the collection of skills at
               <a style={{ textDecoration: 'none' }} href="https://skills.susi.ai/" target="_blank" rel="noopener noreferrer"> skills.susi.ai</a>.
               SUSI skills are divided into groups like knowledge,
               assistant, problem solving, entertainment, shopping
               and small talks. SUSI Skill development is easy and fun. </p>
-
           </div>
           <div className="img-container">
             <img src={susiSkill} alt="Skills" className="skillWiki" />
@@ -281,7 +277,6 @@ class Overview extends Component {
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
             <div className="description__heading">Safe and secure.</div>
-
             <p className="description__text"><b>SUSI.AI</b> is <b>
               <a style={{ textDecoration: 'none', color: '#000' }}
                 target="_blank" rel="noopener noreferrer" href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">Open Source</a></b>. The code is always available for security reviews and can be improved by anyone with the knowledge and understanding online.</p>
@@ -302,7 +297,6 @@ class Overview extends Component {
                     <img src={shield} alt='Android Mockup' className='shield'  />
                   </div>
                 </div>
-
 
         <Footer />
 
