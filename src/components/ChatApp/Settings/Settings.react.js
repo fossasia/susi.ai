@@ -1292,14 +1292,13 @@ class Settings extends Component {
       );
     } else if (this.state.selectedSetting === 'Devices') {
       currentSetting = (
-        <span style={divStyle}>
-          <div>
+        <span style={{ right: '40px' }}>
+          <div style={divStyle}>
             <span>
               <div
                 style={{
                   marginTop: '10px',
-                  marginBottom: '5px',
-                  marginLeft: '30px',
+                  marginBottom: '10px',
                   fontSize: '16px',
                   fontWeight: 'bold',
                 }}
@@ -1308,14 +1307,23 @@ class Settings extends Component {
               </div>
             </span>
             {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" style={{ height: '2px' }} />
+              <hr
+                className="break-line-light"
+                style={{ height: '2px', marginBottom: '10px' }}
+              />
             ) : (
-              <hr className="break-line-dark" />
+              <hr
+                className="break-line-dark"
+                style={{ height: '2px', marginBottom: '10px' }}
+              />
             )}
             <div>
               <div style={{ overflowX: 'hidden' }}>
                 {this.state.deviceData ? (
-                  <div className="table">
+                  <div
+                    className="table"
+                    style={{ left: '0px', marginTop: '0px', width: '550px' }}
+                  >
                     <TableComplex tableData={obj} />
                   </div>
                 ) : (

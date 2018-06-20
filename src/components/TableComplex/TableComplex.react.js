@@ -39,14 +39,41 @@ export default class TableComplex extends Component {
             enableSelectAll={this.state.enableSelectAll}
           >
             <TableRow>
-              <TableHeaderColumn style={{ width: '50px' }}>
-                S. No.
+              <TableHeaderColumn
+                style={{
+                  width: '120px',
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                }}
+              >
+                Device Name
               </TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '120px' }}>
+              <TableHeaderColumn
+                style={{
+                  width: '120px',
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                }}
+              >
                 Mac Address
               </TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '120px' }}>
-                Name of Device
+              <TableHeaderColumn
+                style={{
+                  width: '120px',
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                }}
+              >
+                Room
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                style={{
+                  width: '120px',
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                }}
+              >
+                Geolocation
               </TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -59,14 +86,41 @@ export default class TableComplex extends Component {
             {/* eslint-disable-next-line */}
             {this.props.tableData.map((row, index) => (
               <TableRow key={index}>
-                <TableRowColumn style={{ width: '50px' }}>
-                  {index + 1}
+                <TableRowColumn
+                  style={{
+                    width: '120px',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }}
+                >
+                  {row.devicename}
                 </TableRowColumn>
-                <TableRowColumn style={{ width: '120px' }}>
+                <TableRowColumn
+                  style={{
+                    width: '120px',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }}
+                >
                   {row.macid}
                 </TableRowColumn>
-                <TableRowColumn style={{ width: '120px' }}>
+                <TableRowColumn
+                  style={{
+                    width: '120px',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }}
+                >
                   {row.devicename}
+                </TableRowColumn>
+                <TableRowColumn
+                  style={{
+                    width: '120px',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }}
+                >
+                  {row.macid}
                 </TableRowColumn>
               </TableRow>
             ))}
