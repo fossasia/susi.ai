@@ -7,10 +7,11 @@ let messages = [
     threadName: 'SUSI',
     authorName: 'SUSI',
     text: null,
-    timestamp: Date.now() - 89999
-  }];
+    timestamp: Date.now() - 89999,
+  },
+];
 
-let threadNameMap = (function () {
+let threadNameMap = (function() {
   let map = {};
   messages.forEach(({ threadID, threadName }) => {
     map[threadID] = threadName;
@@ -22,8 +23,7 @@ export function getMessages(callback) {
   setTimeout(() => {
     callback(messages);
   }, NETWORK_LATENCY);
-};
-
+}
 
 export function postMessage(message, callback) {
   let timestamp = Date.now();
@@ -36,25 +36,20 @@ export function postMessage(message, callback) {
     threadName: threadNameMap[threadID],
     authorName: message.authorName,
     text: message.text,
-    timestamp
+    timestamp,
   };
-
 
   messages.push(createdMessage);
 
   setTimeout(() => {
     callback(createdMessage);
   }, NETWORK_LATENCY);
-};
-
+}
 
 export function postSUSIMessage(message, callback) {
-
   messages.push(message);
-
 
   setTimeout(() => {
     callback(message);
   }, NETWORK_LATENCY);
-
 }
