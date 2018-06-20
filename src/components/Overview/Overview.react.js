@@ -198,39 +198,46 @@ class Overview extends Component {
                 <b>SUSI.AI</b> already runs on many chat services and social
                 networks. We are developing plugins for all major services
                 including &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_tweetbbot">
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_tweetbbot"
+                >
                   Twitter
                 </a>, &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_fbbot">
-                    Facebook
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_fbbot"
+                >
+                  Facebook
                 </a>, &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_linebot">
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_linebot"
+                >
                   Line
                 </a>, &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_slackbbot">
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_slackbbot"
+                >
                   Slack
                 </a>, &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_wechatbot">
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_wechatbot"
+                >
                   We Chat
                 </a>, &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_viberbot">
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_viberbot"
+                >
                   Viber
                 </a>, &nbsp;<a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="https://github.com/fossasia/susi_gitterbot">
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/fossasia/susi_gitterbot"
+                >
                   Gitter
                 </a>. Just set up SUSI on your channel and add &nbsp;<b>
                   @susi
@@ -326,7 +333,8 @@ class Overview extends Component {
                 <a
                   rel="noopener noreferrer"
                   href="https://opensource.org/"
-                  target="_blank">
+                  target="_blank"
+                >
                   <img src={openSource} alt="osi" />
                 </a>
               </span>
