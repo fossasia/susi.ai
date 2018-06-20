@@ -24,6 +24,7 @@ import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import Extension from 'material-ui/svg-icons/action/extension';
+import Assessment from 'material-ui/svg-icons/action/assessment';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 import { Link } from 'react-router-dom';
@@ -196,6 +197,13 @@ class StaticAppBar extends Component {
     // Return menu items for the hamburger menu
     Logged = props => (
       <div>
+        {cookies.get('loggedIn') ? (
+          <MenuItem
+            primaryText={<Translate text="Dashboard" />}
+            rightIcon={<Assessment />}
+            href="https://skills.susi.ai/dashboard"
+          />
+        ) : null}
         <MenuItem
           primaryText={<Translate text="Chat" />}
           containerElement={<Link to="/" />}
@@ -209,9 +217,9 @@ class StaticAppBar extends Component {
         {cookies.get('loggedIn') ? (
           <div>
             <MenuItem
-              primaryText={<Translate text="Dashboard" />}
+              primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
-              href="https://skills.susi.ai/dashboard"
+              href="https://skills.susi.ai/botbuilder"
             />
             <MenuItem
               primaryText={<Translate text="Settings" />}
