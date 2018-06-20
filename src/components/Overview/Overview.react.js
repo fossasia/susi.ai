@@ -333,7 +333,8 @@ class Overview extends Component {
                 <a
                   rel="noopener noreferrer"
                   href="https://opensource.org/"
-                  target="_blank">
+                  target="_blank"
+                >
                   <img src={openSource} alt="osi" />
                 </a>
               </span>
