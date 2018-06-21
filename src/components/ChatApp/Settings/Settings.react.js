@@ -1,6 +1,5 @@
 import './Settings.css';
 import $ from 'jquery';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -13,7 +12,6 @@ import Toggle from 'material-ui/Toggle';
 import Dialog from 'material-ui/Dialog';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
-import CustomServer from '../CustomServer.react';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import './Settings.css';
@@ -38,7 +36,6 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
 import AccountIcon from 'material-ui/svg-icons/action/account-box';
 import LockIcon from 'material-ui/svg-icons/action/lock';
-import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import MyDevices from 'material-ui/svg-icons/device/devices';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
@@ -722,9 +719,6 @@ class Settings extends Component {
     if (selectedSetting === 'Devices') {
       return false;
     }
-    if (selectedSetting === 'Server' && cookies.get('loggedIn')) {
-      return false;
-    }
     if (selectedSetting === 'Share on Social media') {
       return false;
     }
@@ -874,12 +868,6 @@ class Settings extends Component {
       />,
     ];
 
-    const Buttonstyles = {
-      marginBottom: '15px',
-      marginTop: '15px',
-      marginLeft: '35px',
-    };
-
     const divStyle = {
       textAlign: 'left',
       padding: '20px',
@@ -905,67 +893,7 @@ class Settings extends Component {
     let currentSetting;
 
     let voiceOutput = this.populateVoiceList();
-    if (this.state.selectedSetting === 'Server') {
-      currentSetting = (
-        <div style={divStyle}>
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-            }}
-          >
-            <Translate text="Select Server" />
-          </div>
-          {UserPreferencesStore.getTheme() === 'light' ? (
-            <hr className="break-line-light" style={{ height: '2px' }} />
-          ) : (
-            <hr className="break-line-dark" />
-          )}
-          <div style={{ textAlign: 'left', marginLeft: '30px !important' }}>
-            <CustomServer
-              checked={this.state.checked === 'true'}
-              settings={this.state.intialSettings}
-              serverUrl={this.state.serverUrl}
-              customServerMessage={this.customServerMessage}
-              onServerChange={this.handleServeChange}
-            />
-          </div>
-        </div>
-      );
-
-      if (cookies.get('loggedIn')) {
-        currentSetting = (
-          <div style={divStyle}>
-            <div>
-              <div
-                style={{
-                  marginTop: '10px',
-                  marginBottom: '5px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                }}
-              >
-                <Translate text="Select Server" />
-              </div>
-              {UserPreferencesStore.getTheme() === 'light' ? (
-                <hr className="break-line-light" style={{ height: '2px' }} />
-              ) : (
-                <hr className="break-line-dark" />
-              )}
-              <FlatButton
-                className="settingsBtns"
-                labelStyle={{ color: themeForegroundColor }}
-                style={Buttonstyles}
-                label={<Translate text="Select backend server for the app" />}
-                onClick={this.handleServer}
-              />
-            </div>
-          </div>
-        );
-      }
-    } else if (this.state.selectedSetting === 'Microphone') {
+    if (this.state.selectedSetting === 'Microphone') {
       currentSetting = '';
       currentSetting = (
         <div style={divStyle}>
@@ -1604,22 +1532,6 @@ class Settings extends Component {
             <MenuItem style={{ display: 'none' }} value="Account" />
             <MenuItem
               style={{ color: themeForegroundColor }}
-              value="Server"
-              className="setting-item"
-              leftIcon={<ServerIcon color={menuIconColor} />}
-            >
-              Server<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
               value="Devices"
               className="setting-item"
               leftIcon={<MyDevices color={menuIconColor} />}
@@ -1707,11 +1619,6 @@ class Settings extends Component {
             <MenuItem
               primaryText="Speech"
               value="Speech"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Server"
-              value="Server"
               className="setting-item"
             />
             <MenuItem
@@ -1807,22 +1714,6 @@ class Settings extends Component {
             )}
             <MenuItem
               style={{ color: themeForegroundColor }}
-              value="Server"
-              className="setting-item"
-              leftIcon={<ServerIcon color={menuIconColor} />}
-            >
-              Server<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
               value="Share on Social media"
               className="setting-item"
               leftIcon={<ShareIcon color={menuIconColor} />}
@@ -1868,11 +1759,6 @@ class Settings extends Component {
             <MenuItem
               primaryText="Speech"
               value="Speech"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Server"
-              value="Server"
               className="setting-item"
             />
             <MenuItem

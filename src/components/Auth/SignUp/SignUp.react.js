@@ -9,7 +9,6 @@ import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
-import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
 
 export default class SignUp extends Component {
@@ -401,14 +400,6 @@ export default class SignUp extends Component {
                 }
                 labelColor="#fff"
                 style={{ margin: '15px 0 0 0 ' }}
-              />
-            </div>
-            <div>
-              <CustomServer
-                checked={this.state.checked}
-                serverUrl={this.state.serverUrl}
-                customServerMessage={this.customServerMessage}
-                onServerChange={this.handleServeChange}
               />
             </div>
           </form>

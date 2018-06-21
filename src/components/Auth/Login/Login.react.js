@@ -12,7 +12,6 @@ import CircularProgress from 'material-ui/CircularProgress';
 import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import CustomServer from '../../ChatApp/CustomServer.react';
 import Translate from '../../Translate/Translate.react';
 
 // Static assets
@@ -347,14 +346,6 @@ class Login extends Component {
               </span>
             </div>
           </form>
-          <div>
-            <CustomServer
-              checked={this.state.checked}
-              serverUrl={this.state.serverUrl}
-              customServerMessage={this.customServerMessage}
-              onServerChange={this.handleServeChange}
-            />
-          </div>
         </Paper>
         <Dialog
           actions={actions}
