@@ -7,7 +7,6 @@ import './ForgotPassword.css';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import CustomServer from '../../ChatApp/CustomServer.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Translate from '../../Translate/Translate.react';
 
@@ -222,14 +221,6 @@ class ForgotPassword extends Component {
                 underlineFocusStyle={underlineFocusStyle}
                 floatingLabelFocusStyle={underlineFocusStyle}
                 onChange={this.handleChange}
-              />
-            </div>
-            <div>
-              <CustomServer
-                checked={this.state.checked}
-                serverUrl={this.state.serverUrl}
-                customServerMessage={this.customServerMessage}
-                onServerChange={this.handleServeChange}
               />
             </div>
             <div>
