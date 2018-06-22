@@ -33,6 +33,8 @@ import Sanskar from '../../images/members/Sanskar.jpeg';
 import Arundhati from '../../images/members/Arundhati.jpeg';
 import Anup from '../../images/members/Anup.jpeg';
 import Mohit from '../../images/members/Mohit.jpeg';
+import Waigie from '../../images/members/Waigie.jpeg';
+import Weitat from '../../images/members/Weitat.jpeg';
 
 let team = [
   {
@@ -260,6 +262,24 @@ let team = [
         designation: 'Android Developer',
         twitter: 'https://twitter.com/kumarmohit97',
         linkedin: 'https://www.linkedin.com/in/mohit-kumar-a793a0135/',
+        blog: '#',
+      },
+      {
+        name: 'Wai Gie Kok',
+        github: 'http://github.com/woshikie',
+        avatar: Waigie,
+        designation: 'Full Stack Developer',
+        twitter: 'https://twitter.com/kwaigie',
+        linkedin: 'https://www.linkedin.com/in/waigiekok/',
+        blog: '#',
+      },
+      {
+        name: 'Wei Tat Chung',
+        github: 'http://github.com/cweitat',
+        avatar: Weitat,
+        designation: 'Full Stack Developer',
+        twitter: 'https://twitter.com/cweitat',
+        linkedin: 'https://www.linkedin.com/in/cweitat/',
         blog: '#',
       },
     ],
