@@ -320,11 +320,27 @@ export default class SignUp extends Component {
       textAlign: 'center',
       padding: '10px',
     };
+
     const fieldStyle = {
-      width: '256px',
+      height: '35px',
+      borderRadius: 4,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      padding: '0px 10px',
+      width: '250px',
+      marginTop: '10px',
     };
-    const underlineFocusStyle = {
-      color: '#4285f4',
+
+    const inputStyle = {
+      height: '35px',
+      marginBottom: '10px',
+    };
+
+    const inputpassStyle = {
+      height: '35px',
+      marginBottom: '10px',
+      marginRight: '50px',
+      width: '90%',
     };
 
     const PasswordClass = [`is-strength-${this.state.passwordScore}`];
@@ -339,54 +355,56 @@ export default class SignUp extends Component {
             <div>
               <TextField
                 name="email"
+                type="email"
                 value={this.state.email}
                 onChange={this.handleChange}
+                style={fieldStyle}
+                inputStyle={inputStyle}
+                underlineStyle={{ display: 'none' }}
+                placeholder="Email"
                 errorText={this.emailErrorMessage}
-                underlineFocusStyle={underlineFocusStyle}
-                floatingLabelFocusStyle={underlineFocusStyle}
-                floatingLabelText={<Translate text="Email" />}
               />
             </div>
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="password"
                 style={fieldStyle}
+                inputStyle={inputpassStyle}
                 value={this.state.passwordValue}
+                placeholder="Password"
+                underlineStyle={{ display: 'none' }}
                 onChange={this.handleChange}
                 errorText={this.passwordErrorMessage}
-                underlineFocusStyle={underlineFocusStyle}
-                floatingLabelFocusStyle={underlineFocusStyle}
-                floatingLabelText={<Translate text="Password" />}
+                visibilityButtonStyle={{
+                  marginTop: '-3px',
+                }}
+                visibilityIconStyle={{
+                  marginTop: '-3px',
+                }}
+                textFieldStyle={{ padding: '0px' }}
               />
+
               <div className="ReactPasswordStrength-strength-bar" />
-              <div>
-                <p>
-                  <Translate text={this.state.passwordStrength} />
-                </p>
-              </div>
             </div>
             <div>
               <PasswordField
                 name="confirmPassword"
                 style={fieldStyle}
+                inputStyle={inputpassStyle}
                 value={this.state.confirmPasswordValue}
+                placeholder="Confirm Password"
+                underlineStyle={{ display: 'none' }}
                 onChange={this.handleChange}
                 errorText={this.passwordConfirmErrorMessage}
-                underlineFocusStyle={underlineFocusStyle}
-                floatingLabelFocusStyle={underlineFocusStyle}
-                floatingLabelText={<Translate text="Confirm Password" />}
+                visibilityButtonStyle={{
+                  marginTop: '-3px',
+                }}
+                visibilityIconStyle={{
+                  marginTop: '-3px',
+                }}
+                textFieldStyle={{ padding: '0px' }}
               />
             </div>
-            <span
-              style={{
-                display: 'inline-block',
-                marginTop: '10px',
-              }}
-              className="login-links"
-              onClick={this.handleOpen}
-            >
-              <Translate text="Already have an account? Login here" />
-            </span>
 
             <div>
               <RaisedButton
@@ -399,9 +417,20 @@ export default class SignUp extends Component {
                     : '#19314B'
                 }
                 labelColor="#fff"
-                style={{ margin: '15px 0 0 0 ' }}
+                style={{ width: '275px', margin: '10px 0px' }}
               />
             </div>
+
+            <span
+              style={{
+                display: 'inline-block',
+                marginTop: '10px',
+              }}
+              className="login-links"
+              onClick={this.handleOpen}
+            >
+              <Translate text="Already have an account? Login here" />
+            </span>
           </form>
         </Paper>
         {this.state.msg && (
