@@ -5,7 +5,7 @@ Full-Wave Rectifier
 
 <img src="https://fossasia.github.io/pslab-experiments/images/schematics/fullwave.svg" width=500 height=500>
 
-* Full wave rectifiers combine the positive halves of 180 degree out of phase input waveforms such as those output from AC transformers with a center tap.
+*  A Full Wave Rectifier is a circuit, which converts an AC voltage into a pulsating DC voltage using both half cycles of the applied AC voltage. It uses a centre-tap transformer in this case.
 
 * The rectified signal can be further filtered with a capacitor in order to obtain a low ripple DC voltage.
 
