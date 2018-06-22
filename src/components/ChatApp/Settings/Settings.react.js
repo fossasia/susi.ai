@@ -102,7 +102,10 @@ class Settings extends Component {
           keys.forEach(i => {
             let myObj = {
               macid: i,
-              devicename: Object.keys(response.devices[i])[0],
+              devicename: response.devices[i].name,
+              room: response.devices[i].room,
+              latitude: response.devices[i].geolocation.latitude,
+              longitude: response.devices[i].geolocation.longitude,
             };
             obj.push(myObj);
             this.setState({
