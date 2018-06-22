@@ -111,7 +111,7 @@ export default class TableComplex extends Component {
                     wordWrap: 'break-word',
                   }}
                 >
-                  {row.devicename}
+                  {row.room}
                 </TableRowColumn>
                 <TableRowColumn
                   style={{
@@ -120,7 +120,7 @@ export default class TableComplex extends Component {
                     wordWrap: 'break-word',
                   }}
                 >
-                  {row.macid}
+                  {row.latitude}, {row.longitude}
                 </TableRowColumn>
               </TableRow>
             ))}
