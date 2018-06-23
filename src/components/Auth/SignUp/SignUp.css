@@ -32,3 +32,10 @@
 	color: #365899;
 	text-decoration: underline;
 }
+
+.error-message{
+    font-size: 12px;
+    line-height: 12px;
+    color: rgb(244, 67, 54);
+    margin-top: 5.7px;
+}
