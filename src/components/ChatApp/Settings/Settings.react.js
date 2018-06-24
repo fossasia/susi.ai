@@ -41,7 +41,6 @@ import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 const cookies = new Cookies();
 
-let obj = [];
 let defaults = UserPreferencesStore.getPreferences();
 let defaultServerURL = defaults.Server;
 
@@ -68,8 +67,33 @@ class Settings extends Component {
     this.state = {
       dataFetched: false,
       deviceData: false,
+      obj: [],
+      editIdx: -1,
     };
   }
+
+  handleRemove = i => {
+    let data = this.state.obj;
+    this.setState({
+      obj: data.filter((row, j) => j !== i),
+    });
+  };
+
+  startEditing = i => {
+    this.setState({ editIdx: i });
+  };
+
+  stopEditing = () => {
+    this.setState({ editIdx: -1 });
+  };
+
+  handleChange = (e, name, i) => {
+    const value = e.target.value;
+    let data = this.state.obj;
+    this.setState({
+      obj: data.map((row, j) => (j === i ? { ...row, [name]: value } : row)),
+    });
+  };
 
   apiCall = () => {
     $.ajax({
@@ -96,7 +120,7 @@ class Settings extends Component {
       timeout: 3000,
       async: false,
       success: function(response) {
-        obj = [];
+        let obj = [];
         if (response.devices) {
           let keys = Object.keys(response.devices);
           keys.forEach(i => {
@@ -115,6 +139,7 @@ class Settings extends Component {
           if (obj.length) {
             this.setState({
               deviceData: true,
+              obj: obj,
             });
           }
         }
@@ -1255,7 +1280,14 @@ class Settings extends Component {
                     className="table"
                     style={{ left: '0px', marginTop: '0px', width: '550px' }}
                   >
-                    <TableComplex tableData={obj} />
+                    <TableComplex
+                      handleRemove={this.handleRemove}
+                      startEditing={this.startEditing}
+                      editIdx={this.state.editIdx}
+                      stopEditing={this.stopEditing}
+                      handleChange={this.handleChange}
+                      tableData={this.state.obj}
+                    />
                   </div>
                 ) : (
                   <div id="subheading">
