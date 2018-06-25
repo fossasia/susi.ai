@@ -6,6 +6,9 @@ import ShareIcon from 'material-ui/svg-icons/social/share';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class Feedback extends React.Component {
   // Parse skill meta data
@@ -128,7 +131,7 @@ class Feedback extends React.Component {
     let feedbackButtons = null;
     let feedbackStyle = {
       top: 5,
-      display: 'block',
+      display: 'flex',
       position: 'relative',
       float: 'right',
     };
@@ -164,16 +167,22 @@ class Feedback extends React.Component {
 
       feedbackButtons = (
         <span className="feedback" style={feedbackStyle}>
-          <ThumbUp
-            onClick={this.rateSkill.bind(this, 'positive')}
-            style={feedbackIndicator}
-            color={positiveFeedbackColor}
-          />
-          <ThumbDown
-            onClick={this.rateSkill.bind(this, 'negative')}
-            style={feedbackIndicator}
-            color={negativeFeedbackColor}
-          />
+          {cookies.get('loggedIn') ? (
+            <div>
+              <ThumbUp
+                onClick={this.rateSkill.bind(this, 'positive')}
+                style={feedbackIndicator}
+                color={positiveFeedbackColor}
+              />
+              <ThumbDown
+                onClick={this.rateSkill.bind(this, 'negative')}
+                style={feedbackIndicator}
+                color={negativeFeedbackColor}
+              />
+            </div>
+          ) : (
+            ''
+          )}
           <ShareIcon
             style={indicatorStyleShare}
             color={
