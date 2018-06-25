@@ -192,7 +192,7 @@ export default class TableComplex extends Component {
                   }}
                 >
                   <TrashIcon
-                    onClick={() => this.props.handleRemove(index)}
+                    onClick={() => this.props.handleRemoveConfirmation(index)}
                     style={{ cursor: 'pointer' }}
                   />
                 </TableRowColumn>
@@ -211,5 +211,6 @@ TableComplex.propTypes = {
   stopEditing: PropTypes.func,
   handleChange: PropTypes.func,
   handleRemove: PropTypes.func,
+  handleRemoveConfirmation: PropTypes.func,
   editIdx: PropTypes.number,
 };
