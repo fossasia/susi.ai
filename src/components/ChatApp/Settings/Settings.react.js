@@ -74,8 +74,29 @@ class Settings extends Component {
 
   handleRemove = i => {
     let data = this.state.obj;
+    let macid = data[i].macid;
+
     this.setState({
       obj: data.filter((row, j) => j !== i),
+    });
+
+    $.ajax({
+      url:
+        BASE_URL +
+        '/aaa/removeUserDevices.json?macid=' +
+        macid +
+        '&access_token=' +
+        cookies.get('loggedIn'),
+      dataType: 'jsonp',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function(response) {
+        console.log(response);
+      },
+      error: function(errorThrown) {
+        console.log(errorThrown);
+      },
     });
   };
 
