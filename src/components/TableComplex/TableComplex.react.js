@@ -173,7 +173,7 @@ export default class TableComplex extends Component {
                 >
                   {this.props.editIdx === index ? (
                     <CheckIcon
-                      onClick={() => this.props.stopEditing()}
+                      onClick={() => this.props.stopEditing(index)}
                       style={{ cursor: 'pointer' }}
                     />
                   ) : (

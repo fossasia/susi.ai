@@ -104,8 +104,42 @@ class Settings extends Component {
     this.setState({ editIdx: i });
   };
 
-  stopEditing = () => {
+  stopEditing = i => {
+    let data = this.state.obj;
+    let macid = data[i].macid;
+    let devicename = data[i].devicename;
+    let room = data[i].room;
+    let latitude = data[i].latitude;
+    let longitude = data[i].longitude;
+
     this.setState({ editIdx: -1 });
+
+    $.ajax({
+      url:
+        BASE_URL +
+        '/aaa/addNewDevice.json?macid=' +
+        macid +
+        '&name=' +
+        devicename +
+        '&room=' +
+        room +
+        '&latitude=' +
+        latitude +
+        '&longitude=' +
+        longitude +
+        '&access_token=' +
+        cookies.get('loggedIn'),
+      dataType: 'jsonp',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function(response) {
+        console.log(response);
+      },
+      error: function(errorThrown) {
+        console.log(errorThrown);
+      },
+    });
   };
 
   handleChange = (e, name, i) => {
