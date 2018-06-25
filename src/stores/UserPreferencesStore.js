@@ -21,9 +21,10 @@ let _defaults = {
   PrefLanguage: 'en-US',
   TimeZone: 'UTC-02',
   ThemeValues: '',
+  LocalStorage: true,
   CountryCode: 'US',
   CountryDialCode: '+1',
-  phoneNo: '',
+  PhoneNo: '',
   checked: false,
   serverUrl: 'https://api.susi.ai',
   BackgroundImage: '',
@@ -80,6 +81,10 @@ let UserPreferencesStore = {
 
   getPrefLang() {
     return _defaults.PrefLanguage;
+  },
+
+  getPhoneNo() {
+    return _defaults.PhoneNo;
   },
 
   getTimeZone() {
@@ -211,7 +216,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
         _defaults.ThemeValues = settings.customThemeValue;
         _defaults.checked = settings.checked;
         _defaults.serverUrl = settings.serverUrl;
-        _defaults.phoneNo = settings.phoneNo;
+        _defaults.PhoneNo = settings.phoneNo;
         _defaults.countryCode = settings.countryCode;
         _defaults.BackgroundImage = settings.backgroundImage;
       } else {
