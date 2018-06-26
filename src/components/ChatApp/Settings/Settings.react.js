@@ -232,7 +232,7 @@ class Settings extends Component {
     let defaultServerUrl = defaults.serverUrl;
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.phoneNo;
+    let defaultPhoneNo = defaults.PhoneNo;
     this.setState({
       identity,
       intialSettings: {
@@ -252,7 +252,7 @@ class Settings extends Component {
         checked: defaultChecked,
         countryCode: defaultCountryCode,
         countryDialCode: defaultCountryDialCode,
-        phoneNo: defaultPhoneNo,
+        PhoneNo: defaultPhoneNo,
       },
     });
   };
@@ -275,7 +275,7 @@ class Settings extends Component {
     let defaultServerUrl = defaults.serverUrl;
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.phoneNo;
+    let defaultPhoneNo = defaults.PhoneNo;
     let TTSBrowserSupport;
     if ('speechSynthesis' in window) {
       TTSBrowserSupport = true;
@@ -329,7 +329,7 @@ class Settings extends Component {
       slideIndex: 0,
       countryCode: defaultCountryCode,
       countryDialCode: defaultCountryDialCode,
-      phoneNo: defaultPhoneNo,
+      PhoneNo: defaultPhoneNo,
       voiceList: [
         {
           lang: 'am-AM',
@@ -446,7 +446,7 @@ class Settings extends Component {
     let newCountryDialCode = !this.state.countryDialCode
       ? this.intialSettings.countryDialCode
       : this.state.countryDialCode;
-    let newPhoneNo = this.state.phoneNo;
+    let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
       newDefaultServer = newDefaultServer.slice(0, -1);
     }
@@ -868,7 +868,7 @@ class Settings extends Component {
       somethingToSave = true;
     } else if (intialSettings.serverUrl !== classState.serverUrl) {
       somethingToSave = true;
-    } else if (intialSettings.phoneNo !== classState.phoneNo) {
+    } else if (intialSettings.PhoneNo !== classState.PhoneNo) {
       somethingToSave = true;
     } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
       somethingToSave = true;
@@ -885,7 +885,7 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
-    this.setState({ phoneNo: value });
+    this.setState({ PhoneNo: value });
   };
 
   handleUserName = (event, value) => {
@@ -1237,7 +1237,7 @@ class Settings extends Component {
             <Translate text="Email" />
           </div>
           <TextField
-            name="username"
+            name="email"
             style={fieldStyle}
             value={this.state.identity.name}
             inputStyle={inputStyle}
@@ -1427,7 +1427,7 @@ class Settings extends Component {
                 fontSize: '14px',
               }}
             >
-              <Translate text="We will text a verification code to this number. Standard SMS fees may apply." />
+              <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
             </div>
             <div
               style={{
@@ -1493,7 +1493,7 @@ class Settings extends Component {
                       : '#333',
                 }}
                 floatingLabelStyle={floatingLabelStyle}
-                value={this.state.phoneNo}
+                value={this.state.PhoneNo}
                 floatingLabelText={<Translate text="Phone number" />}
               />
             </div>
@@ -1582,6 +1582,22 @@ class Settings extends Component {
             )}
             <MenuItem
               style={{ color: themeForegroundColor }}
+              value="Mobile"
+              className="setting-item"
+              leftIcon={<MobileIcon color={menuIconColor} />}
+            >
+              Mobile<ChevronRight
+                style={{ color: themeForegroundColor }}
+                className="right-chevron"
+              />
+            </MenuItem>
+            {UserPreferencesStore.getTheme() === 'light' ? (
+              <hr className="break-line-light" />
+            ) : (
+              <hr className="break-line-dark" />
+            )}
+            <MenuItem
+              style={{ color: themeForegroundColor }}
               value="ChatApp"
               className="setting-item"
               leftIcon={<ChatIcon color={menuIconColor} />}
@@ -1645,6 +1661,7 @@ class Settings extends Component {
               <hr className="break-line-dark" />
             )}
             <MenuItem style={{ display: 'none' }} value="Account" />
+            <MenuItem style={{ display: 'none' }} value="Mobile" />
             <MenuItem
               style={{ color: themeForegroundColor }}
               value="Devices"
@@ -1652,22 +1669,6 @@ class Settings extends Component {
               leftIcon={<MyDevices color={menuIconColor} />}
             >
               Devices<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Mobile"
-              className="setting-item"
-              leftIcon={<MobileIcon color={menuIconColor} />}
-            >
-              Mobile<ChevronRight
                 style={{ color: themeForegroundColor }}
                 className="right-chevron"
               />

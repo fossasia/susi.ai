@@ -443,11 +443,11 @@ export function getSettings() {
       settings.prefLanguage = settings.PrefLanguage;
       settings.timeZone = settings.TimeZone;
       settings.customThemeValue = settings.ThemeValues;
-      settings.LocalStorage = true;
-      settings.checked = false;
-      settings.CountryCode = 'US';
-      settings.CountryDialCode = '+1';
-      settings.phoneNo = '';
+      settings.LocalStorage = settings.LocalStorage;
+      settings.checked = settings.checked;
+      settings.CountryCode = settings.CountryCode;
+      settings.CountryDialCode = settings.CountryDialCode;
+      settings.phoneNo = settings.PhoneNo;
       settings.serverUrl = 'https://api.susi.ai';
       cookies.set('settings', settings);
       SettingsActions.initialiseSettings(settings);
