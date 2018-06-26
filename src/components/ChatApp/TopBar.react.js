@@ -235,7 +235,7 @@ class TopBar extends Component {
               <label />
             )}
           </div>
-          {!this.props.search ? <Logged /> : null}
+          <Logged />
         </ToolbarGroup>
       </Toolbar>
     );

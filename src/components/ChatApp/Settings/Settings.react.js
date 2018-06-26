@@ -14,6 +14,7 @@ import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
+import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import TextField from 'material-ui/TextField';
@@ -41,7 +42,6 @@ import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 const cookies = new Cookies();
 
-let obj = [];
 let defaults = UserPreferencesStore.getPreferences();
 let defaultServerURL = defaults.Server;
 
@@ -68,8 +68,92 @@ class Settings extends Component {
     this.state = {
       dataFetched: false,
       deviceData: false,
+      obj: [],
+      editIdx: -1,
+      removeDevice: -1,
     };
   }
+
+  handleRemove = i => {
+    let data = this.state.obj;
+    let macid = data[i].macid;
+
+    this.setState({
+      obj: data.filter((row, j) => j !== i),
+    });
+
+    $.ajax({
+      url:
+        BASE_URL +
+        '/aaa/removeUserDevices.json?macid=' +
+        macid +
+        '&access_token=' +
+        cookies.get('loggedIn'),
+      dataType: 'jsonp',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function(response) {
+        console.log(response);
+      },
+      error: function(errorThrown) {
+        console.log(errorThrown);
+      },
+      complete: function(jqXHR, textStatus) {
+        location.reload();
+      },
+    });
+  };
+
+  startEditing = i => {
+    this.setState({ editIdx: i });
+  };
+
+  stopEditing = i => {
+    let data = this.state.obj;
+    let macid = data[i].macid;
+    let devicename = data[i].devicename;
+    let room = data[i].room;
+    let latitude = data[i].latitude;
+    let longitude = data[i].longitude;
+
+    this.setState({ editIdx: -1 });
+
+    $.ajax({
+      url:
+        BASE_URL +
+        '/aaa/addNewDevice.json?macid=' +
+        macid +
+        '&name=' +
+        devicename +
+        '&room=' +
+        room +
+        '&latitude=' +
+        latitude +
+        '&longitude=' +
+        longitude +
+        '&access_token=' +
+        cookies.get('loggedIn'),
+      dataType: 'jsonp',
+      crossDomain: true,
+      timeout: 3000,
+      async: false,
+      success: function(response) {
+        console.log(response);
+      },
+      error: function(errorThrown) {
+        console.log(errorThrown);
+      },
+    });
+  };
+
+  handleChange = (e, name, i) => {
+    const value = e.target.value;
+    let data = this.state.obj;
+    this.setState({
+      obj: data.map((row, j) => (j === i ? { ...row, [name]: value } : row)),
+    });
+  };
 
   apiCall = () => {
     $.ajax({
@@ -96,13 +180,16 @@ class Settings extends Component {
       timeout: 3000,
       async: false,
       success: function(response) {
-        obj = [];
+        let obj = [];
         if (response.devices) {
           let keys = Object.keys(response.devices);
           keys.forEach(i => {
             let myObj = {
               macid: i,
-              devicename: Object.keys(response.devices[i])[0],
+              devicename: response.devices[i].name,
+              room: response.devices[i].room,
+              latitude: response.devices[i].geolocation.latitude,
+              longitude: response.devices[i].geolocation.longitude,
             };
             obj.push(myObj);
             this.setState({
@@ -112,6 +199,7 @@ class Settings extends Component {
           if (obj.length) {
             this.setState({
               deviceData: true,
+              obj: obj,
             });
           }
         }
@@ -144,7 +232,7 @@ class Settings extends Component {
     let defaultServerUrl = defaults.serverUrl;
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.phoneNo;
+    let defaultPhoneNo = defaults.PhoneNo;
     this.setState({
       identity,
       intialSettings: {
@@ -164,7 +252,7 @@ class Settings extends Component {
         checked: defaultChecked,
         countryCode: defaultCountryCode,
         countryDialCode: defaultCountryDialCode,
-        phoneNo: defaultPhoneNo,
+        PhoneNo: defaultPhoneNo,
       },
     });
   };
@@ -187,7 +275,7 @@ class Settings extends Component {
     let defaultServerUrl = defaults.serverUrl;
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.phoneNo;
+    let defaultPhoneNo = defaults.PhoneNo;
     let TTSBrowserSupport;
     if ('speechSynthesis' in window) {
       TTSBrowserSupport = true;
@@ -236,11 +324,12 @@ class Settings extends Component {
       showSignUp: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
       anchorEl: null,
       slideIndex: 0,
       countryCode: defaultCountryCode,
       countryDialCode: defaultCountryDialCode,
-      phoneNo: defaultPhoneNo,
+      PhoneNo: defaultPhoneNo,
       voiceList: [
         {
           lang: 'am-AM',
@@ -332,6 +421,7 @@ class Settings extends Component {
       showLogin: false,
       showSignUp: false,
       showForgotPassword: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -356,7 +446,7 @@ class Settings extends Component {
     let newCountryDialCode = !this.state.countryDialCode
       ? this.intialSettings.countryDialCode
       : this.state.countryDialCode;
-    let newPhoneNo = this.state.phoneNo;
+    let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
       newDefaultServer = newDefaultServer.slice(0, -1);
     }
@@ -528,6 +618,7 @@ class Settings extends Component {
       showSignUp: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -538,6 +629,7 @@ class Settings extends Component {
       showLogin: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -547,6 +639,21 @@ class Settings extends Component {
       showForgotPassword: true,
       showLogin: false,
       showOptions: false,
+      showRemoveConfirmation: false,
+    });
+  };
+
+  // Open Remove Device Confirmation dialog
+  handleRemoveConfirmation = i => {
+    let data = this.state.obj;
+    let devicename = data[i].devicename;
+    this.setState({
+      showRemoveConfirmation: true,
+      showForgotPassword: false,
+      showLogin: false,
+      showOptions: false,
+      removeDevice: i,
+      removeDeviceName: devicename,
     });
   };
 
@@ -761,7 +868,7 @@ class Settings extends Component {
       somethingToSave = true;
     } else if (intialSettings.serverUrl !== classState.serverUrl) {
       somethingToSave = true;
-    } else if (intialSettings.phoneNo !== classState.phoneNo) {
+    } else if (intialSettings.PhoneNo !== classState.PhoneNo) {
       somethingToSave = true;
     } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
       somethingToSave = true;
@@ -778,7 +885,7 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
-    this.setState({ phoneNo: value });
+    this.setState({ PhoneNo: value });
   };
 
   handleUserName = (event, value) => {
@@ -1130,7 +1237,7 @@ class Settings extends Component {
             <Translate text="Email" />
           </div>
           <TextField
-            name="username"
+            name="email"
             style={fieldStyle}
             value={this.state.identity.name}
             inputStyle={inputStyle}
@@ -1252,7 +1359,15 @@ class Settings extends Component {
                     className="table"
                     style={{ left: '0px', marginTop: '0px', width: '550px' }}
                   >
-                    <TableComplex tableData={obj} />
+                    <TableComplex
+                      handleRemove={this.handleRemove}
+                      handleRemoveConfirmation={this.handleRemoveConfirmation}
+                      startEditing={this.startEditing}
+                      editIdx={this.state.editIdx}
+                      stopEditing={this.stopEditing}
+                      handleChange={this.handleChange}
+                      tableData={this.state.obj}
+                    />
                   </div>
                 ) : (
                   <div id="subheading">
@@ -1312,7 +1427,7 @@ class Settings extends Component {
                 fontSize: '14px',
               }}
             >
-              <Translate text="We will text a verification code to this number. Standard SMS fees may apply." />
+              <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
             </div>
             <div
               style={{
@@ -1378,7 +1493,7 @@ class Settings extends Component {
                       : '#333',
                 }}
                 floatingLabelStyle={floatingLabelStyle}
-                value={this.state.phoneNo}
+                value={this.state.PhoneNo}
                 floatingLabelText={<Translate text="Phone number" />}
               />
             </div>
@@ -1467,6 +1582,22 @@ class Settings extends Component {
             )}
             <MenuItem
               style={{ color: themeForegroundColor }}
+              value="Mobile"
+              className="setting-item"
+              leftIcon={<MobileIcon color={menuIconColor} />}
+            >
+              Mobile<ChevronRight
+                style={{ color: themeForegroundColor }}
+                className="right-chevron"
+              />
+            </MenuItem>
+            {UserPreferencesStore.getTheme() === 'light' ? (
+              <hr className="break-line-light" />
+            ) : (
+              <hr className="break-line-dark" />
+            )}
+            <MenuItem
+              style={{ color: themeForegroundColor }}
               value="ChatApp"
               className="setting-item"
               leftIcon={<ChatIcon color={menuIconColor} />}
@@ -1530,6 +1661,7 @@ class Settings extends Component {
               <hr className="break-line-dark" />
             )}
             <MenuItem style={{ display: 'none' }} value="Account" />
+            <MenuItem style={{ display: 'none' }} value="Mobile" />
             <MenuItem
               style={{ color: themeForegroundColor }}
               value="Devices"
@@ -1537,22 +1669,6 @@ class Settings extends Component {
               leftIcon={<MyDevices color={menuIconColor} />}
             >
               Devices<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Mobile"
-              className="setting-item"
-              leftIcon={<MobileIcon color={menuIconColor} />}
-            >
-              Mobile<ChevronRight
                 style={{ color: themeForegroundColor }}
                 className="right-chevron"
               />
@@ -1795,6 +1911,22 @@ class Settings extends Component {
             : 'settings-container-dark'
         }
       >
+        <Dialog
+          className="dialogStyle"
+          modal={false}
+          open={this.state.showRemoveConfirmation}
+          autoScrollBodyContent={true}
+          contentStyle={{ width: '35%', minWidth: '300px' }}
+          onRequestClose={this.handleClose}
+        >
+          <RemoveDeviceDialog
+            {...this.props}
+            deviceIndex={this.state.removeDevice}
+            devicename={this.state.removeDeviceName}
+            handleRemove={this.handleRemove}
+          />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
+        </Dialog>
         <StaticAppBar
           settings={this.state.intialSettings}
           {...this.props}
