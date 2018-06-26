@@ -14,6 +14,7 @@ import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
+import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import TextField from 'material-ui/TextField';
@@ -69,6 +70,7 @@ class Settings extends Component {
       deviceData: false,
       obj: [],
       editIdx: -1,
+      removeDevice: -1,
     };
   }
 
@@ -96,6 +98,9 @@ class Settings extends Component {
       },
       error: function(errorThrown) {
         console.log(errorThrown);
+      },
+      complete: function(jqXHR, textStatus) {
+        location.reload();
       },
     });
   };
@@ -319,6 +324,7 @@ class Settings extends Component {
       showSignUp: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
       anchorEl: null,
       slideIndex: 0,
       countryCode: defaultCountryCode,
@@ -415,6 +421,7 @@ class Settings extends Component {
       showLogin: false,
       showSignUp: false,
       showForgotPassword: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -611,6 +618,7 @@ class Settings extends Component {
       showSignUp: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -621,6 +629,7 @@ class Settings extends Component {
       showLogin: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -630,6 +639,21 @@ class Settings extends Component {
       showForgotPassword: true,
       showLogin: false,
       showOptions: false,
+      showRemoveConfirmation: false,
+    });
+  };
+
+  // Open Remove Device Confirmation dialog
+  handleRemoveConfirmation = i => {
+    let data = this.state.obj;
+    let devicename = data[i].devicename;
+    this.setState({
+      showRemoveConfirmation: true,
+      showForgotPassword: false,
+      showLogin: false,
+      showOptions: false,
+      removeDevice: i,
+      removeDeviceName: devicename,
     });
   };
 
@@ -1337,6 +1361,7 @@ class Settings extends Component {
                   >
                     <TableComplex
                       handleRemove={this.handleRemove}
+                      handleRemoveConfirmation={this.handleRemoveConfirmation}
                       startEditing={this.startEditing}
                       editIdx={this.state.editIdx}
                       stopEditing={this.stopEditing}
@@ -1885,6 +1910,22 @@ class Settings extends Component {
             : 'settings-container-dark'
         }
       >
+        <Dialog
+          className="dialogStyle"
+          modal={false}
+          open={this.state.showRemoveConfirmation}
+          autoScrollBodyContent={true}
+          contentStyle={{ width: '35%', minWidth: '300px' }}
+          onRequestClose={this.handleClose}
+        >
+          <RemoveDeviceDialog
+            {...this.props}
+            deviceIndex={this.state.removeDevice}
+            devicename={this.state.removeDeviceName}
+            handleRemove={this.handleRemove}
+          />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
+        </Dialog>
         <StaticAppBar
           settings={this.state.intialSettings}
           {...this.props}
