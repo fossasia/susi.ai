@@ -10,6 +10,7 @@
     "dateformat": "^2.0.0",
     "flux": "^3.1.2",
     "font-awesome": "^4.7.0",
+    "google-maps-react": "^2.0.2",
     "history": "^4.6.1",
     "html-entities": "^1.2.1",
     "html-react-parser": "^0.3.5",
