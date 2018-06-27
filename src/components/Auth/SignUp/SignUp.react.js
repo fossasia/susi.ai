@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
 import Translate from '../../Translate/Translate.react';
+import Recaptcha from 'react-recaptcha';
+import { KEY } from '../../../config.js';
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -28,6 +30,7 @@ export default class SignUp extends Component {
       open: false,
       openLogin: false,
       openForgotPassword: false,
+      isCaptchaVerified: false,
       validForm: false,
       serverUrl: '',
       checked: false,
@@ -39,11 +42,28 @@ export default class SignUp extends Component {
     this.passwordErrorMessage = '';
     this.passwordConfirmErrorMessage = '';
     this.customServerMessage = '';
+    this.captchaVerifyErrorMessage = '';
 
     if (document.cookie.split('=')[0] === 'loggedIn') {
       window.location.reload();
     }
   }
+
+  onCaptchaLoad = () => {
+    this.setState({
+      isCaptchaVerified: false,
+      captchaVerifyErrorMessage: '',
+    });
+  };
+
+  verifyCaptchaCallback = response => {
+    if (response) {
+      this.setState({
+        isCaptchaVerified: true,
+        captchaVerifyErrorMessage: '',
+      });
+    }
+  };
 
   // Handle closing the dialog
   handleClose = () => {
@@ -60,6 +80,7 @@ export default class SignUp extends Component {
         emailError: true,
         passwordError: true,
         passwordConfirmError: true,
+        isCaptchaVerified: false,
         passwordValue: '',
         passwordStrength: '',
         passwordScore: -1,
@@ -167,14 +188,22 @@ export default class SignUp extends Component {
       this.emailErrorMessage = '';
       this.passwordErrorMessage = 'Minimum 6 characters required';
       this.passwordConfirmErrorMessage = '';
+      this.captchaVerifyErrorMessage = '';
     } else if (this.state.passwordConfirmError) {
       this.emailErrorMessage = '';
       this.passwordErrorMessage = '';
       this.passwordConfirmErrorMessage = 'Check your password again';
+      this.captchaVerifyErrorMessage = '';
+    } else if (!this.state.isCaptchaVerified) {
+      this.emailErrorMessage = '';
+      this.passwordErrorMessage = '';
+      this.passwordConfirmErrorMessage = '';
+      this.captchaVerifyErrorMessage = 'Please confirm you are a human';
     } else {
       this.emailErrorMessage = '';
       this.passwordErrorMessage = '';
       this.passwordConfirmErrorMessage = '';
+      this.captchaVerifyErrorMessage = '';
     }
 
     if (
@@ -210,10 +239,16 @@ export default class SignUp extends Component {
       '&password=' +
       encodeURIComponent(this.state.passwordValue);
 
+    if (!this.state.isCaptchaVerified) {
+      this.setState({
+        captchaVerifyErrorMessage: 'Please verify that you are a human.',
+      });
+    }
     if (
       !this.state.emailError &&
       !this.state.passwordConfirmError &&
-      !this.state.serverFieldError
+      !this.state.serverFieldError &&
+      this.state.isCaptchaVerified
     ) {
       $.ajax({
         url: signupEndPoint,
@@ -405,7 +440,27 @@ export default class SignUp extends Component {
                 textFieldStyle={{ padding: '0px' }}
               />
             </div>
-
+            <div
+              style={{
+                marginTop: '10px',
+              }}
+            >
+              <Recaptcha
+                sitekey={KEY}
+                render="explicit"
+                onloadCallback={this.onCaptchaLoad}
+                verifyCallback={this.verifyCaptchaCallback}
+                badge="inline"
+                type="audio"
+                size="normal"
+              />
+              {!this.state.isCaptchaVerified &&
+                this.state.captchaVerifyErrorMessage && (
+                  <p className="error-message">
+                    <Translate text={this.state.captchaVerifyErrorMessage} />
+                  </p>
+                )}
+            </div>
             <div>
               <RaisedButton
                 label={<Translate text="Sign Up" />}
