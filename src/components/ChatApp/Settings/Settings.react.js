@@ -14,6 +14,7 @@ import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
+import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import TextField from 'material-ui/TextField';
@@ -28,6 +29,10 @@ import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
 import TableComplex from '../../TableComplex/TableComplex.react';
 import TimezonePicker from 'react-timezone';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import SwipeableViews from 'react-swipeable-views';
+import { GoogleApiWrapper } from 'google-maps-react';
+import MapContainer from '../../MapContainer/MapContainer.react';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -68,7 +73,12 @@ class Settings extends Component {
       dataFetched: false,
       deviceData: false,
       obj: [],
+      mapObj: [],
       editIdx: -1,
+      removeDevice: -1,
+      slideIndex: 0,
+      centerLat: 0,
+      centerLng: 0,
     };
   }
 
@@ -96,6 +106,9 @@ class Settings extends Component {
       },
       error: function(errorThrown) {
         console.log(errorThrown);
+      },
+      complete: function(jqXHR, textStatus) {
+        location.reload();
       },
     });
   };
@@ -150,6 +163,12 @@ class Settings extends Component {
     });
   };
 
+  handleTabSlide = value => {
+    this.setState({
+      slideIndex: value,
+    });
+  };
+
   apiCall = () => {
     $.ajax({
       url: url,
@@ -176,6 +195,9 @@ class Settings extends Component {
       async: false,
       success: function(response) {
         let obj = [];
+        let mapObj = [];
+        let centerLat = 0;
+        let centerLng = 0;
         if (response.devices) {
           let keys = Object.keys(response.devices);
           keys.forEach(i => {
@@ -186,15 +208,34 @@ class Settings extends Component {
               latitude: response.devices[i].geolocation.latitude,
               longitude: response.devices[i].geolocation.longitude,
             };
+            let locationData = {
+              lat: parseFloat(response.devices[i].geolocation.latitude),
+              lng: parseFloat(response.devices[i].geolocation.longitude),
+            };
+            centerLat += parseFloat(response.devices[i].geolocation.latitude);
+            centerLng += parseFloat(response.devices[i].geolocation.longitude);
+            let location = {
+              location: locationData,
+            };
             obj.push(myObj);
+            mapObj.push(location);
             this.setState({
               dataFetched: true,
             });
           });
+          centerLat = centerLat / mapObj.length;
+          centerLng = centerLng / mapObj.length;
           if (obj.length) {
             this.setState({
               deviceData: true,
               obj: obj,
+            });
+          }
+          if (mapObj.length) {
+            this.setState({
+              mapObj: mapObj,
+              centerLat: centerLat,
+              centerLng: centerLng,
             });
           }
         }
@@ -227,7 +268,7 @@ class Settings extends Component {
     let defaultServerUrl = defaults.serverUrl;
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.phoneNo;
+    let defaultPhoneNo = defaults.PhoneNo;
     this.setState({
       identity,
       intialSettings: {
@@ -247,7 +288,7 @@ class Settings extends Component {
         checked: defaultChecked,
         countryCode: defaultCountryCode,
         countryDialCode: defaultCountryDialCode,
-        phoneNo: defaultPhoneNo,
+        PhoneNo: defaultPhoneNo,
       },
     });
   };
@@ -270,7 +311,7 @@ class Settings extends Component {
     let defaultServerUrl = defaults.serverUrl;
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.phoneNo;
+    let defaultPhoneNo = defaults.PhoneNo;
     let TTSBrowserSupport;
     if ('speechSynthesis' in window) {
       TTSBrowserSupport = true;
@@ -319,11 +360,12 @@ class Settings extends Component {
       showSignUp: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
       anchorEl: null,
       slideIndex: 0,
       countryCode: defaultCountryCode,
       countryDialCode: defaultCountryDialCode,
-      phoneNo: defaultPhoneNo,
+      PhoneNo: defaultPhoneNo,
       voiceList: [
         {
           lang: 'am-AM',
@@ -415,6 +457,7 @@ class Settings extends Component {
       showLogin: false,
       showSignUp: false,
       showForgotPassword: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -439,7 +482,7 @@ class Settings extends Component {
     let newCountryDialCode = !this.state.countryDialCode
       ? this.intialSettings.countryDialCode
       : this.state.countryDialCode;
-    let newPhoneNo = this.state.phoneNo;
+    let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
       newDefaultServer = newDefaultServer.slice(0, -1);
     }
@@ -611,6 +654,7 @@ class Settings extends Component {
       showSignUp: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -621,6 +665,7 @@ class Settings extends Component {
       showLogin: false,
       showForgotPassword: false,
       showOptions: false,
+      showRemoveConfirmation: false,
     });
   };
 
@@ -630,6 +675,21 @@ class Settings extends Component {
       showForgotPassword: true,
       showLogin: false,
       showOptions: false,
+      showRemoveConfirmation: false,
+    });
+  };
+
+  // Open Remove Device Confirmation dialog
+  handleRemoveConfirmation = i => {
+    let data = this.state.obj;
+    let devicename = data[i].devicename;
+    this.setState({
+      showRemoveConfirmation: true,
+      showForgotPassword: false,
+      showLogin: false,
+      showOptions: false,
+      removeDevice: i,
+      removeDeviceName: devicename,
     });
   };
 
@@ -844,7 +904,7 @@ class Settings extends Component {
       somethingToSave = true;
     } else if (intialSettings.serverUrl !== classState.serverUrl) {
       somethingToSave = true;
-    } else if (intialSettings.phoneNo !== classState.phoneNo) {
+    } else if (intialSettings.PhoneNo !== classState.PhoneNo) {
       somethingToSave = true;
     } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
       somethingToSave = true;
@@ -861,7 +921,7 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
-    this.setState({ phoneNo: value });
+    this.setState({ PhoneNo: value });
   };
 
   handleUserName = (event, value) => {
@@ -870,10 +930,19 @@ class Settings extends Component {
 
   render() {
     document.body.style.setProperty('background-image', 'none');
+
     const bodyStyle = {
       padding: 0,
       textAlign: 'center',
     };
+
+    const styles = {
+      slide: {
+        fontSize: 12,
+        backgroundColor: '#1DA1F5',
+      },
+    };
+
     const themeBackgroundColor =
       this.state.intialSettings.theme === 'dark' ? '#19324c' : '#fff';
     const themeForegroundColor =
@@ -1213,7 +1282,7 @@ class Settings extends Component {
             <Translate text="Email" />
           </div>
           <TextField
-            name="username"
+            name="email"
             style={fieldStyle}
             value={this.state.identity.name}
             inputStyle={inputStyle}
@@ -1329,27 +1398,63 @@ class Settings extends Component {
               />
             )}
             <div>
-              <div style={{ overflowX: 'hidden' }}>
-                {this.state.deviceData ? (
-                  <div
-                    className="table"
-                    style={{ left: '0px', marginTop: '0px', width: '550px' }}
-                  >
-                    <TableComplex
-                      handleRemove={this.handleRemove}
-                      startEditing={this.startEditing}
-                      editIdx={this.state.editIdx}
-                      stopEditing={this.stopEditing}
-                      handleChange={this.handleChange}
-                      tableData={this.state.obj}
-                    />
+              <Tabs
+                onChange={this.handleTabSlide}
+                value={this.state.slideIndex}
+                inkBarStyle={{ background: 'rgb(66, 133, 244)', height: '5px' }}
+              >
+                <Tab label="Table View" value={0} style={styles.slide} />
+                <Tab label="Map View" value={1} style={styles.slide} />
+              </Tabs>
+              <div
+                style={{
+                  height: '10px',
+                }}
+              />
+              <SwipeableViews
+                index={this.state.slideIndex}
+                onChangeIndex={this.handleChange}
+              >
+                <div>
+                  <div style={{ overflowX: 'hidden' }}>
+                    {this.state.deviceData ? (
+                      <div
+                        className="table"
+                        style={{
+                          left: '0px',
+                          marginTop: '0px',
+                          width: '550px',
+                        }}
+                      >
+                        <TableComplex
+                          handleRemove={this.handleRemove}
+                          handleRemoveConfirmation={
+                            this.handleRemoveConfirmation
+                          }
+                          startEditing={this.startEditing}
+                          editIdx={this.state.editIdx}
+                          stopEditing={this.stopEditing}
+                          handleChange={this.handleChange}
+                          tableData={this.state.obj}
+                        />
+                      </div>
+                    ) : (
+                      <div id="subheading">
+                        You do not have any devices connected yet !
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div id="subheading">
-                    You do not have any devices connected yet !
-                  </div>
-                )}
-              </div>
+                </div>
+
+                <div style={{ maxHeight: '300px' }}>
+                  <MapContainer
+                    google={this.props.google}
+                    mapData={this.state.mapObj}
+                    centerLat={this.state.centerLat}
+                    centerLng={this.state.centerLng}
+                  />
+                </div>
+              </SwipeableViews>
             </div>
           </div>
         </span>
@@ -1402,7 +1507,7 @@ class Settings extends Component {
                 fontSize: '14px',
               }}
             >
-              <Translate text="We will text a verification code to this number. Standard SMS fees may apply." />
+              <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
             </div>
             <div
               style={{
@@ -1468,7 +1573,7 @@ class Settings extends Component {
                       : '#333',
                 }}
                 floatingLabelStyle={floatingLabelStyle}
-                value={this.state.phoneNo}
+                value={this.state.PhoneNo}
                 floatingLabelText={<Translate text="Phone number" />}
               />
             </div>
@@ -1557,6 +1662,22 @@ class Settings extends Component {
             )}
             <MenuItem
               style={{ color: themeForegroundColor }}
+              value="Mobile"
+              className="setting-item"
+              leftIcon={<MobileIcon color={menuIconColor} />}
+            >
+              Mobile<ChevronRight
+                style={{ color: themeForegroundColor }}
+                className="right-chevron"
+              />
+            </MenuItem>
+            {UserPreferencesStore.getTheme() === 'light' ? (
+              <hr className="break-line-light" />
+            ) : (
+              <hr className="break-line-dark" />
+            )}
+            <MenuItem
+              style={{ color: themeForegroundColor }}
               value="ChatApp"
               className="setting-item"
               leftIcon={<ChatIcon color={menuIconColor} />}
@@ -1620,6 +1741,7 @@ class Settings extends Component {
               <hr className="break-line-dark" />
             )}
             <MenuItem style={{ display: 'none' }} value="Account" />
+            <MenuItem style={{ display: 'none' }} value="Mobile" />
             <MenuItem
               style={{ color: themeForegroundColor }}
               value="Devices"
@@ -1627,22 +1749,6 @@ class Settings extends Component {
               leftIcon={<MyDevices color={menuIconColor} />}
             >
               Devices<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Mobile"
-              className="setting-item"
-              leftIcon={<MobileIcon color={menuIconColor} />}
-            >
-              Mobile<ChevronRight
                 style={{ color: themeForegroundColor }}
                 className="right-chevron"
               />
@@ -1885,6 +1991,22 @@ class Settings extends Component {
             : 'settings-container-dark'
         }
       >
+        <Dialog
+          className="dialogStyle"
+          modal={false}
+          open={this.state.showRemoveConfirmation}
+          autoScrollBodyContent={true}
+          contentStyle={{ width: '35%', minWidth: '300px' }}
+          onRequestClose={this.handleClose}
+        >
+          <RemoveDeviceDialog
+            {...this.props}
+            deviceIndex={this.state.removeDevice}
+            devicename={this.state.removeDeviceName}
+            handleRemove={this.handleRemove}
+          />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
+        </Dialog>
         <StaticAppBar
           settings={this.state.intialSettings}
           {...this.props}
@@ -1961,6 +2083,9 @@ Settings.propTypes = {
   onSettingsSubmit: PropTypes.func,
   onServerChange: PropTypes.func,
   location: PropTypes.object,
+  google: PropTypes.object,
 };
 
-export default Settings;
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCWxXuqny-dx-1FiMrjCSr6fFvukoy7oEM',
+})(Settings);
