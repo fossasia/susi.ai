@@ -93,9 +93,9 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "eslint src --ext .js",
       "prettier --write",
-      "git add"
+      "eslint --fix",
+      "git add ."
     ]
   }
 }
