@@ -17,6 +17,8 @@ import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 import { injectIntl } from 'react-intl';
+import YouTube from 'react-youtube';
+
 // Format Date for internationalization
 const PostDate = injectIntl(({ date, intl }) => (
   <span
@@ -41,6 +43,8 @@ class MessageListItem extends React.Component {
     super(props);
     this.state = {
       play: false,
+      width: 384,
+      height: 234,
     };
   }
 
@@ -55,7 +59,30 @@ class MessageListItem extends React.Component {
     Actions.resetVoice();
   };
 
+  componentDidMount = () => {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  };
+
+  updateWindowDimensions = () => {
+    this.setState({
+      width: window.innerWidth > 488 ? 384 : 234,
+      height: window.innerWidth > 488 ? 240 : 168,
+    });
+  };
+
   render() {
+    const opts = {
+      height: this.state.height,
+      width: this.state.width,
+      playerVars: {
+        autoplay: 1,
+      },
+    };
     let { message } = this.props;
     let latestUserMsgID = null;
     if (this.props.latestUserMsgID) {
@@ -287,16 +314,21 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'video_play': {
-              let identifierType =
-                data.answers[0].actions[index].identifier_type;
               let identifier = data.answers[0].actions[index].identifier;
-              let src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
               listItems.push(
-                <li className="message-list-item" key={action + index}>
+                <li
+                  className="message-list-item"
+                  key={action + index}
+                  style={{
+                    height: this.state.height + 56,
+                  }}
+                >
                   <section className={messageContainerClasses}>
-                    <div className="message-text">
-                      <iframe src={src} frameBorder="0" allowFullScreen />
-                    </div>
+                    <YouTube
+                      videoId={identifier}
+                      opts={opts}
+                      onReady={this._onReady}
+                    />
                     {renderMessageFooter(
                       message,
                       latestUserMsgID,
