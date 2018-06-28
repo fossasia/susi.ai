@@ -58,6 +58,6 @@ export default class MapContainer extends Component {
 MapContainer.propTypes = {
   centerLat: PropTypes.number,
   centerLng: PropTypes.number,
-  mapData: PropTypes.object,
+  mapData: PropTypes.array,
   google: PropTypes.object,
 };

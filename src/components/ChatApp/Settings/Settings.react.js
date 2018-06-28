@@ -1397,27 +1397,30 @@ class Settings extends Component {
                 style={{ height: '2px', marginBottom: '10px' }}
               />
             )}
-            <div>
-              <Tabs
-                onChange={this.handleTabSlide}
-                value={this.state.slideIndex}
-                inkBarStyle={{ background: 'rgb(66, 133, 244)', height: '5px' }}
-              >
-                <Tab label="Table View" value={0} style={styles.slide} />
-                <Tab label="Map View" value={1} style={styles.slide} />
-              </Tabs>
-              <div
-                style={{
-                  height: '10px',
-                }}
-              />
-              <SwipeableViews
-                index={this.state.slideIndex}
-                onChangeIndex={this.handleChange}
-              >
-                <div>
-                  <div style={{ overflowX: 'hidden' }}>
-                    {this.state.deviceData ? (
+            {this.state.deviceData ? (
+              <div>
+                <Tabs
+                  onChange={this.handleTabSlide}
+                  value={this.state.slideIndex}
+                  inkBarStyle={{
+                    background: 'rgb(66, 133, 244)',
+                    height: '5px',
+                  }}
+                >
+                  <Tab label="Table View" value={0} style={styles.slide} />
+                  <Tab label="Map View" value={1} style={styles.slide} />
+                </Tabs>
+                <div
+                  style={{
+                    height: '10px',
+                  }}
+                />
+                <SwipeableViews
+                  index={this.state.slideIndex}
+                  onChangeIndex={this.handleChange}
+                >
+                  <div>
+                    <div style={{ overflowX: 'hidden' }}>
                       <div
                         className="table"
                         style={{
@@ -1438,24 +1441,24 @@ class Settings extends Component {
                           tableData={this.state.obj}
                         />
                       </div>
-                    ) : (
-                      <div id="subheading">
-                        You do not have any devices connected yet !
-                      </div>
-                    )}
+                    </div>
                   </div>
-                </div>
 
-                <div style={{ maxHeight: '300px' }}>
-                  <MapContainer
-                    google={this.props.google}
-                    mapData={this.state.mapObj}
-                    centerLat={this.state.centerLat}
-                    centerLng={this.state.centerLng}
-                  />
-                </div>
-              </SwipeableViews>
-            </div>
+                  <div style={{ maxHeight: '300px' }}>
+                    <MapContainer
+                      google={this.props.google}
+                      mapData={this.state.mapObj}
+                      centerLat={this.state.centerLat}
+                      centerLng={this.state.centerLng}
+                    />
+                  </div>
+                </SwipeableViews>
+              </div>
+            ) : (
+              <div id="subheading">
+                You do not have any devices connected yet!
+              </div>
+            )}
           </div>
         </span>
       );
