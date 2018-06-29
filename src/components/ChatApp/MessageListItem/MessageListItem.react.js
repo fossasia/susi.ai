@@ -80,7 +80,7 @@ class MessageListItem extends React.Component {
       height: this.state.height,
       width: this.state.width,
       playerVars: {
-        autoplay: 1,
+        autoplay: this.props.latestMessage ? 1 : 0,
       },
     };
     let { message } = this.props;
@@ -465,6 +465,7 @@ class MessageListItem extends React.Component {
 MessageListItem.propTypes = {
   message: PropTypes.object,
   markID: PropTypes.string,
+  latestMessage: PropTypes.bool,
   latestUserMsgID: PropTypes.string,
 };
 
