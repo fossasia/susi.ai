@@ -99,13 +99,27 @@ function getMessageListItem(messages, showLoading, markID) {
       latestUserMsgID = latestUserMsg.id;
     }
   }
+
+  let latestMessage = messages[messages.length - 1];
+
   // return the list of messages
   return messages.map(message => {
+    if (message !== latestMessage) {
+      return (
+        <MessageListItem
+          key={message.id}
+          message={message}
+          latestUserMsgID={latestUserMsgID}
+          latestMessage={false}
+        />
+      );
+    }
     return (
       <MessageListItem
         key={message.id}
         message={message}
         latestUserMsgID={latestUserMsgID}
+        latestMessage={true}
       />
     );
   });
