@@ -33,6 +33,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import { GoogleApiWrapper } from 'google-maps-react';
 import MapContainer from '../../MapContainer/MapContainer.react';
+import { MAP_KEY } from '../../../../src/config.js';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -2090,5 +2091,5 @@ Settings.propTypes = {
 };
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyCWxXuqny-dx-1FiMrjCSr6fFvukoy7oEM',
+  apiKey: MAP_KEY,
 })(Settings);
