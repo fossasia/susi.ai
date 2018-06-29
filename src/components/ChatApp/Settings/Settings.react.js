@@ -75,6 +75,9 @@ class Settings extends Component {
       deviceData: false,
       obj: [],
       mapObj: [],
+      devicenames: [],
+      rooms: [],
+      macids: [],
       editIdx: -1,
       removeDevice: -1,
       slideIndex: 0,
@@ -197,6 +200,9 @@ class Settings extends Component {
       success: function(response) {
         let obj = [];
         let mapObj = [];
+        let devicenames = [];
+        let rooms = [];
+        let macids = [];
         let centerLat = 0;
         let centerLng = 0;
         if (response.devices) {
@@ -220,6 +226,9 @@ class Settings extends Component {
             };
             obj.push(myObj);
             mapObj.push(location);
+            devicenames.push(response.devices[i].name);
+            rooms.push(response.devices[i].room);
+            macids.push(i);
             this.setState({
               dataFetched: true,
             });
@@ -237,6 +246,21 @@ class Settings extends Component {
               mapObj: mapObj,
               centerLat: centerLat,
               centerLng: centerLng,
+            });
+          }
+          if (devicenames.length) {
+            this.setState({
+              devicenames: devicenames,
+            });
+          }
+          if (rooms.length) {
+            this.setState({
+              rooms: rooms,
+            });
+          }
+          if (macids.length) {
+            this.setState({
+              macids: macids,
             });
           }
         }
@@ -1451,6 +1475,9 @@ class Settings extends Component {
                       mapData={this.state.mapObj}
                       centerLat={this.state.centerLat}
                       centerLng={this.state.centerLng}
+                      devicenames={this.state.devicenames}
+                      rooms={this.state.rooms}
+                      macids={this.state.macids}
                     />
                   </div>
                 </SwipeableViews>
