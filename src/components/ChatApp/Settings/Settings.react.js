@@ -1445,7 +1445,7 @@ class Settings extends Component {
                   onChangeIndex={this.handleChange}
                 >
                   <div>
-                    <div style={{ overflowX: 'hidden' }}>
+                    <div style={{ overflowX: 'auto' }}>
                       <div
                         className="table"
                         style={{
