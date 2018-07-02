@@ -5,8 +5,13 @@ import classNames from 'classnames';
 
 class ThreadListItem extends Component {
   render() {
-    let thread = this.props.thread;
-    let lastMessage = thread.lastMessage;
+    let thread = '';
+    let lastMessage = '';
+    if (this.props.thread) {
+      thread = this.props.thread;
+      lastMessage = thread.lastMessage;
+    }
+
     return (
       <li
         className={classNames({
@@ -17,7 +22,7 @@ class ThreadListItem extends Component {
       >
         <h5 className="thread-name">{thread.name}</h5>
         <div className="thread-time">
-          {lastMessage.date.toLocaleTimeString()}
+          {lastMessage ? lastMessage.date.toLocaleTimeString() : null}
         </div>
         <div className="thread-last-message">{lastMessage.text}</div>
       </li>
