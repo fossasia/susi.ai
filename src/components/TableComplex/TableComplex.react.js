@@ -107,97 +107,100 @@ export default class TableComplex extends Component {
             stripedRows={this.state.stripedRows}
           >
             {/* eslint-disable-next-line */}
-            {this.props.tableData.map((row, index) => (
-              <TableRow key={index}>
-                <TableRowColumn
-                  style={{
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                  }}
-                >
-                  {this.props.editIdx === index ? (
-                    <TextField
-                      name={index.toString()}
-                      onChange={e =>
-                        this.props.handleChange(e, 'devicename', index)
-                      }
-                      value={row.devicename}
-                      style={{ fontSize: '13px', width: '80px' }}
-                    />
-                  ) : (
-                    row.devicename
-                  )}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={{
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                    paddingLeft: '0px',
-                    paddingRight: '0px',
-                  }}
-                >
-                  {row.macid}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={{
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                  }}
-                >
-                  {this.props.editIdx === index ? (
-                    <TextField
-                      name={index.toString()}
-                      onChange={e => this.props.handleChange(e, 'room', index)}
-                      value={row.room}
-                      style={{ fontSize: '13px', width: '80px' }}
-                    />
-                  ) : (
-                    row.room
-                  )}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={{
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                  }}
-                >
-                  {row.latitude}, {row.longitude}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={{
-                    width: '40px',
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                    paddingLeft: '0px',
-                  }}
-                >
-                  {this.props.editIdx === index ? (
-                    <CheckIcon
-                      onClick={() => this.props.stopEditing(index)}
+            {this.props.tableData &&
+              this.props.tableData.map((row, index) => (
+                <TableRow key={index}>
+                  <TableRowColumn
+                    style={{
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    {this.props.editIdx === index ? (
+                      <TextField
+                        name={index.toString()}
+                        onChange={e =>
+                          this.props.handleChange(e, 'devicename', index)
+                        }
+                        value={row.devicename}
+                        style={{ fontSize: '13px', width: '80px' }}
+                      />
+                    ) : (
+                      row.devicename
+                    )}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                      paddingLeft: '0px',
+                      paddingRight: '0px',
+                    }}
+                  >
+                    {row.macid}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    {this.props.editIdx === index ? (
+                      <TextField
+                        name={index.toString()}
+                        onChange={e =>
+                          this.props.handleChange(e, 'room', index)
+                        }
+                        value={row.room}
+                        style={{ fontSize: '13px', width: '80px' }}
+                      />
+                    ) : (
+                      row.room
+                    )}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    {row.latitude}, {row.longitude}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{
+                      width: '40px',
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                      paddingLeft: '0px',
+                    }}
+                  >
+                    {this.props.editIdx === index ? (
+                      <CheckIcon
+                        onClick={() => this.props.stopEditing(index)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    ) : (
+                      <EditIcon
+                        onClick={() => this.props.startEditing(index)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    )}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{
+                      width: '40px',
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                      paddingLeft: '0px',
+                    }}
+                  >
+                    <TrashIcon
+                      onClick={() => this.props.handleRemoveConfirmation(index)}
                       style={{ cursor: 'pointer' }}
                     />
-                  ) : (
-                    <EditIcon
-                      onClick={() => this.props.startEditing(index)}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  )}
-                </TableRowColumn>
-                <TableRowColumn
-                  style={{
-                    width: '40px',
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                    paddingLeft: '0px',
-                  }}
-                >
-                  <TrashIcon
-                    onClick={() => this.props.handleRemoveConfirmation(index)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                </TableRowColumn>
-              </TableRow>
-            ))}
+                  </TableRowColumn>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>

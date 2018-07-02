@@ -122,11 +122,13 @@ class TextToSpeechSettings extends Component {
     // `-` and `_` replacement check of lang codes
     if (langCodes.indexOf(currLang) === -1) {
       if (
+        currLang &&
         currLang.indexOf('-') > -1 &&
         langCodes.indexOf(currLang.replace('-', '_')) > -1
       ) {
         voiceOutput.voiceLang = currLang.replace('-', '_');
       } else if (
+        currLang &&
         currLang.indexOf('_') > -1 &&
         langCodes.indexOf(currLang.replace('_', '-')) > -1
       ) {
