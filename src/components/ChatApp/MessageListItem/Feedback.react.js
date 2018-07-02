@@ -12,7 +12,7 @@ class Feedback extends React.Component {
   parseSkill = () => {
     let message = this.props.message;
     let rating = {};
-    if (message.response !== undefined && message.response !== '') {
+    if (message && message.response !== undefined && message.response !== '') {
       if (message.authorName === 'SUSI') {
         if (message.response.answers[0].skills !== undefined) {
           let skill = message.response.answers[0].skills[0];
@@ -133,7 +133,7 @@ class Feedback extends React.Component {
       float: 'right',
     };
 
-    if (message.authorName === 'SUSI') {
+    if (message && message.authorName === 'SUSI') {
       let feedbackIndicator = {
         height: '16px',
         cursor: 'pointer',
@@ -186,7 +186,7 @@ class Feedback extends React.Component {
         </span>
       );
     }
-    if (message.authorName === 'You') {
+    if (message && message.authorName === 'You') {
       feedbackStyle = {};
     }
     return <span>{feedbackButtons}</span>;

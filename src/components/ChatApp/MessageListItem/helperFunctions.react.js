@@ -49,7 +49,7 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
     float: 'left',
   };
 
-  if (message.authorName === 'You') {
+  if (message && message.authorName === 'You') {
     let indicatorStyle = {
       height: '13px',
     };
@@ -100,14 +100,14 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
     }
   }
 
-  if (message.authorName === 'SUSI') {
+  if (message && message.authorName === 'SUSI') {
     footerStyle = {};
   }
 
   return (
     <ul>
       <li className="message-time" style={footerStyle}>
-        <PostDate date={message.date} />
+        <PostDate date={message ? message.date : null} />
         {isLastAction && <Feedback message={message} />}
       </li>
       {statusIndicator}

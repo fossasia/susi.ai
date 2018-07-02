@@ -89,7 +89,7 @@ class MessageListItem extends React.Component {
       latestUserMsgID = this.props.latestUserMsgID;
     }
 
-    if (this.props.message.type === 'date') {
+    if (this.props.message && this.props.message.type === 'date') {
       return (
         <li className="message-list-item">
           <section className="container-date">
@@ -101,10 +101,17 @@ class MessageListItem extends React.Component {
       );
     }
 
-    let stringWithLinks = this.props.message.text;
+    let stringWithLinks = '';
+    if (this.props.message) {
+      stringWithLinks = this.props.message.text;
+    }
     let replacedText = '';
     let markMsgID = this.props.markID;
-    if (this.props.message.hasOwnProperty('mark') && markMsgID) {
+    if (
+      this.props.message &&
+      this.props.message.hasOwnProperty('mark') &&
+      markMsgID
+    ) {
       let matchString = this.props.message.mark.matchText;
       let isCaseSensitive = this.props.message.mark.isCaseSensitive;
       if (stringWithLinks) {
@@ -141,11 +148,14 @@ class MessageListItem extends React.Component {
         });
         replacedText = <Emojify>{markedText}</Emojify>;
       }
-    } else {
+    } else if (stringWithLinks) {
       replacedText = processText(stringWithLinks);
     }
-    let messageContainerClasses = 'message-container ' + message.authorName;
-    if (this.props.message.hasOwnProperty('response')) {
+    let messageContainerClasses = '';
+    if (message) {
+      messageContainerClasses = 'message-container ' + message.authorName;
+    }
+    if (this.props.message && this.props.message.hasOwnProperty('response')) {
       if (Object.keys(this.props.message.response).length > 0) {
         let data = this.props.message.response;
         let actions = this.props.message.actions;

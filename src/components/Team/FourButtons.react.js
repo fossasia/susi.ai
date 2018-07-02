@@ -23,42 +23,46 @@ class FourButtons extends Component {
     let member = this.props.member;
     return (
       <div>
-        <CardActions>
-          <IconButton
-            style={
-              member.github === '#' ? flatButtonStyleNone : flatButtonStyle
-            }
-            href={member.github}
-            target="_blank"
-          >
-            <i className="fa fa-github" />
-          </IconButton>
-          <IconButton
-            style={
-              member.twitter === '#' ? flatButtonStyleNone : flatButtonStyle
-            }
-            href={member.twitter}
-            target="_blank"
-          >
-            <i className="fa fa-twitter" />
-          </IconButton>
-          <IconButton
-            style={
-              member.linkedin === '#' ? flatButtonStyleNone : flatButtonStyle
-            }
-            href={member.linkedin}
-            target="_blank"
-          >
-            <i className="fa fa-linkedin-square" />
-          </IconButton>
-          <IconButton
-            style={member.blog === '#' ? flatButtonStyleNone : flatButtonStyle}
-            href={member.blog}
-            target="_blank"
-          >
-            <i className="fa fa-globe" />
-          </IconButton>
-        </CardActions>
+        {member ? (
+          <CardActions>
+            <IconButton
+              style={
+                member.github === '#' ? flatButtonStyleNone : flatButtonStyle
+              }
+              href={member.github}
+              target="_blank"
+            >
+              <i className="fa fa-github" />
+            </IconButton>
+            <IconButton
+              style={
+                member.twitter === '#' ? flatButtonStyleNone : flatButtonStyle
+              }
+              href={member.twitter}
+              target="_blank"
+            >
+              <i className="fa fa-twitter" />
+            </IconButton>
+            <IconButton
+              style={
+                member.linkedin === '#' ? flatButtonStyleNone : flatButtonStyle
+              }
+              href={member.linkedin}
+              target="_blank"
+            >
+              <i className="fa fa-linkedin-square" />
+            </IconButton>
+            <IconButton
+              style={
+                member.blog === '#' ? flatButtonStyleNone : flatButtonStyle
+              }
+              href={member.blog}
+              target="_blank"
+            >
+              <i className="fa fa-globe" />
+            </IconButton>
+          </CardActions>
+        ) : null}
       </div>
     );
   }
