@@ -79,7 +79,6 @@
 
 ## Multi Instrument
 
-* [Amplitude Modulation](experiments/Multi_Instrument/N_Amplitude_Modulation.md)
 * Band Pass Filter
 * Band Stop Filter
 * [Capacitive Reactance](experiments/Multi_Instrument/O_XC.md)
@@ -93,38 +92,27 @@
 * [Full Wave Rectifier](experiments/Multi_Instrument/M_FullWave.md)
 * [Half Wave Rectifier ](experiments/Multi_Instrument/L_halfWave.md)
 * High Pass Filter
-* [Inductive Reactance](experiments/Multi_Instrument/O_XL.md)
 * Input Characteristics
-* [Inverting OpAmp ](experiments/Multi_Instrument/L_Inverting.md)
 * [Low Pass Filter](experiments/Multi_Instrument/Z_VS_LowPass.md)
-* [LR Phase Shift](experiments/Multi_Instrument/P_InductivePhaseShift.md)
-* [Non-Inverting OpAmp ](experiments/Multi_Instrument/L_NonInverting.md)
 * [Ohms' Law](experiments/Multi_Instrument/E_OhmsLaw.md)
-* [Output Characteristics ](experiments/Multi_Instrument/D_NFET.md)
 * [Zener Diode - IV Characteristics ](experiments/Multi_Instrument/D_ZenerIV.md)
-* [OpAmp Adder ](experiments/Multi_Instrument/L_Summing.md)
-* OpAmp Subtractor
-* OpAmp Differentiator
-* OpAmp Integrator
-* [Precision Rectifier ](experiments/Multi_Instrument/Precision_Rectifier.md)
-* [Piezo Bandwidth](experiments/Multi_Instrument/PiezoFrequencyResponse.md)
-* [Piezo Buzzer](experiments/Multi_Instrument/P_PiezoBuzzer.md)
 * Random Sampling
 * [RC Phase Shift](experiments/Multi_Instrument/P_CapacitivePhaseShift.md)
 * RLC Steady State
 * [RC Integrals, Derivatives](experiments/Multi_Instrument/Q_RC_integ_deriv.md)
 * [Transfer Characteristics ](experiments/Multi_Instrument/D_NFET_GS_ID.md)
 
-
-
-
-
-
-
-
-
-
-
-  
-
-  
+## Experiements Requiring Extra Equipments
+* [Amplitude Modulation](experiments/Multi_Instrument/N_Amplitude_Modulation.md) - High Voltage Power Supply
+* [Inductive Reactance](experiments/Multi_Instrument/O_XL.md) - Solenoid
+* [Inverting OpAmp ](experiments/Multi_Instrument/L_Inverting.md) - Amplifier
+* [LR Phase Shift](experiments/Multi_Instrument/P_InductivePhaseShift.md) - Solenoid 
+* [Non-Inverting OpAmp ](experiments/Multi_Instrument/L_NonInverting.md) - Amplifier
+* [Output Characteristics ](experiments/Multi_Instrument/D_NFET.md) - Amplifier
+* [OpAmp Adder ](experiments/Multi_Instrument/L_Summing.md) - Amplifier
+* OpAmp Subtractor - Amplifier
+* OpAmp Differentiator - Amplifier
+* OpAmp Integrator - Amplifier
+* [Precision Rectifier ](experiments/Multi_Instrument/Precision_Rectifier.md) - Amplifier
+* [Piezo Bandwidth](experiments/Multi_Instrument/PiezoFrequencyResponse.md) - Piezo
+* [Piezo Buzzer](experiments/Multi_Instrument/P_PiezoBuzzer.md) - Piezo
