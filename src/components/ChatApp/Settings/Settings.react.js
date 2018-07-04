@@ -867,10 +867,12 @@ class Settings extends Component {
     return voiceOutput;
   };
 
-  loadSettings = e => {
+  loadSettings = (e, value) => {
     this.setDefaultsSettings(); // on every tab change, load the default settings
-    this.setState({ selectedSetting: e.target.innerText });
-    this.setState({ settingNo: e.target.innerText });
+    this.setState({
+      selectedSetting: window.innerWidth > 1060 ? value : e.target.innerText,
+      settingNo: e.target.innerText,
+    });
     //  Revert to original theme if user navigates away without saving.
     if (this.state.theme !== UserPreferencesStore.getTheme()) {
       this.setState({ theme: UserPreferencesStore.getTheme() }, () => {
@@ -1654,9 +1656,9 @@ class Settings extends Component {
       <div>
         <div className="settings-list">
           <Menu
-            onItemTouchTap={this.loadSettings}
             selectedMenuItemStyle={blueThemeColor}
             style={{ width: '100%' }}
+            onChange={this.loadSettings}
             value={this.state.selectedSetting}
           >
             <MenuItem
@@ -1870,9 +1872,9 @@ class Settings extends Component {
       <div>
         <div className="settings-list">
           <Menu
-            onItemTouchTap={this.loadSettings}
             selectedMenuItemStyle={blueThemeColor}
             style={{ width: '100%', height: '100%' }}
+            onChange={this.loadSettings}
             value={this.state.selectedSetting}
           >
             <MenuItem
