@@ -25,7 +25,7 @@ function handleOnline() {
 // Get Location
 export function getLocation() {
   $.ajax({
-    url: 'http://ip-api.com/json',
+    url: 'https://extreme-ip-lookup.com/json/',
     timeout: 3000,
     async: true,
     success: function(response) {
