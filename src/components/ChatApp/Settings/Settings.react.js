@@ -45,6 +45,10 @@ import LockIcon from 'material-ui/svg-icons/action/lock';
 import MyDevices from 'material-ui/svg-icons/device/devices';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
+import { isProduction } from '../../../utils/helperFunctions';
+
+const cookieDomain = isProduction() ? '.susi.ai' : '';
+
 const cookies = new Cookies();
 
 let defaults = UserPreferencesStore.getPreferences();
@@ -554,7 +558,11 @@ class Settings extends Component {
     this.setInitialSettings();
     // Trigger Actions to save the settings in stores and server
     this.implementSettings(vals);
-    cookies.set('username', vals.userName);
+    let userName = vals.userName;
+    cookies.set('username', userName, {
+      path: '/',
+      domain: cookieDomain,
+    });
   };
 
   // Store the settings in stores and server
