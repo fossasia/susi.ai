@@ -21,6 +21,7 @@ import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
 import { ShareButtons, generateShareIcon } from 'react-share';
+import { BLOG_KEY } from '../../config.js';
 function arrDiff(a1, a2) {
   var a = [],
     diff = [];
@@ -67,7 +68,7 @@ class Blog extends Component {
         //eslint-disable-next-line
         rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
         //eslint-disable-next-line
-        api_key: 'qsmzjtyycc49whsfvf5ikzottxrbditq3burojhd', // put your api key here
+        api_key: BLOG_KEY, // put your api key here
         count: 50,
       },
     }).done(
