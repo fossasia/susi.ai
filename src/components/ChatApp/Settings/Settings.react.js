@@ -1288,7 +1288,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '5px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
@@ -1309,7 +1309,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '5px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
@@ -1328,7 +1328,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '0px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
@@ -1350,7 +1350,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '0px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
