@@ -163,8 +163,9 @@ class StaticAppBar extends Component {
     var lastScrollTop = 0;
     var delta = 5;
     var navbarHeight = $('header').outerHeight();
-    $(window).scroll(function(event) {
+    $(window).scroll(event => {
       didScroll = true;
+      this.setState({ showOptions: false });
     });
     setInterval(function() {
       if (didScroll) {
@@ -307,7 +308,7 @@ class StaticAppBar extends Component {
             {...props}
             animated={false}
             style={{
-              float: 'right',
+              float: 'left',
               position: 'relative',
               marginTop: '46px',
               marginLeft: leftGap,

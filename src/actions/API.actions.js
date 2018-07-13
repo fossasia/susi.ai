@@ -25,15 +25,15 @@ function handleOnline() {
 // Get Location
 export function getLocation() {
   $.ajax({
-    url: 'https://cors-anywhere.herokuapp.com/http://freegeoip.net/json/',
+    url: 'https://extreme-ip-lookup.com/json/',
     timeout: 3000,
     async: true,
     success: function(response) {
       _Location = {
-        lat: response.latitude,
-        lng: response.longitude,
-        countryCode: response.country_code,
-        countryName: response.country_name,
+        lat: response.lat,
+        lng: response.lon,
+        countryCode: response.countryCode,
+        countryName: response.country,
       };
     },
     error: function(xhr, status, error) {
@@ -198,7 +198,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
           }
           // Get RSS responses
           $.ajax({
-            url: 'http://api.duckduckgo.com/?format=json&q=' + query,
+            url: 'https://api.duckduckgo.com/?format=json&q=' + query,
             dataType: 'jsonp',
             crossDomain: true,
             timeout: 3000,

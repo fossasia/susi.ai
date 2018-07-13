@@ -11,7 +11,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
 import Translate from '../../Translate/Translate.react';
 import Recaptcha from 'react-recaptcha';
-import { KEY } from '../../../config.js';
+import { CAPTCHA_KEY } from '../../../config.js';
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -446,7 +446,7 @@ export default class SignUp extends Component {
               }}
             >
               <Recaptcha
-                sitekey={KEY}
+                sitekey={CAPTCHA_KEY}
                 render="explicit"
                 onloadCallback={this.onCaptchaLoad}
                 verifyCallback={this.verifyCaptchaCallback}

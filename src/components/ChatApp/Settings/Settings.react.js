@@ -128,8 +128,15 @@ class Settings extends Component {
     let room = data[i].room;
     let latitude = data[i].latitude;
     let longitude = data[i].longitude;
-
-    this.setState({ editIdx: -1 });
+    let devicenames = this.state.devicenames;
+    devicenames[i] = devicename;
+    let rooms = this.state.rooms;
+    rooms[i] = room;
+    this.setState({
+      editIdx: -1,
+      devicenames: devicenames,
+      rooms: rooms,
+    });
 
     $.ajax({
       url:
@@ -1281,7 +1288,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '5px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
@@ -1302,7 +1309,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '5px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
@@ -1321,7 +1328,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '0px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
@@ -1343,7 +1350,7 @@ class Settings extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '0px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 'bold',
             }}
           >
