@@ -82,6 +82,12 @@
 .setting-item{
   width: 97%;
 }
+
+.Link a {
+  color : #1DA1F5;
+  text-decoration : none;
+}
+
 .settingMenu {
 
     max-width: none;
