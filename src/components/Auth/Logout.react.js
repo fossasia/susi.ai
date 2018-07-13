@@ -1,9 +1,19 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { isProduction } from '../../utils/helperFunctions';
+
+const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 // Clear cookie by setting expiry date
-var deleteCookie = function(name) {
-  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+var deleteCookie = function(name, options = {}) {
+  let cookieString = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+  if (options.domain) {
+    cookieString = `${cookieString}domain=${options.domain};`;
+  }
+  if (options.path) {
+    cookieString = `${cookieString}path=${options.path};`;
+  }
+  document.cookie = cookieString;
 };
 
 class Logout extends Component {
@@ -16,9 +26,10 @@ class Logout extends Component {
 
   componentDidMount() {
     // Clear cookies
-    deleteCookie('loggedIn');
-    deleteCookie('serverUrl');
-    deleteCookie('email');
+    deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
+    deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
+    deleteCookie('emailId', { domain: cookieDomain, path: '/' });
+    deleteCookie('username', { domain: cookieDomain, path: '/' });
     // Redirect to landing page
     this.props.history.push('/');
     window.location.reload();
