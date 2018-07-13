@@ -177,8 +177,8 @@ export default class ChangePassword extends Component {
     }
 
     let email = '';
-    if (cookies.get('email')) {
-      email = cookies.get('email');
+    if (cookies.get('emailId')) {
+      email = cookies.get('emailId');
       console.log(email);
     }
     let changePasswordEndPoint =

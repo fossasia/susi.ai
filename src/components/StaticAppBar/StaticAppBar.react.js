@@ -286,7 +286,7 @@ class StaticAppBar extends Component {
               >
                 {UserPreferencesStore.getUserName() === '' ||
                 UserPreferencesStore.getUserName() === 'undefined'
-                  ? cookies.get('email')
+                  ? cookies.get('emailId')
                   : UserPreferencesStore.getUserName()}
               </label>
             ) : (
