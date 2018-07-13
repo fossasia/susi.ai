@@ -178,7 +178,7 @@ class MessageComposer extends Component {
     }
   };
 
-  componentWillMount() {
+  componentDidMount() {
     let micInputSetting = UserPreferencesStore.getMicInput();
     if (micInputSetting) {
       // Getting the Speech Recognition to test whether possible
@@ -200,9 +200,7 @@ class MessageComposer extends Component {
       this.Button = <Send />;
       this.speechRecog = false;
     }
-  }
 
-  componentDidMount() {
     let testSkill = $.urlParam('testExample');
     if (testSkill) {
       let text = testSkill.trim();

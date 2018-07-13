@@ -74,6 +74,53 @@ let url =
 class Settings extends Component {
   constructor(props) {
     super(props);
+    defaults = UserPreferencesStore.getPreferences();
+    let identity = UserIdentityStore.getIdentity();
+    let defaultServer = defaults.Server;
+    let defaultTheme = UserPreferencesStore.getTheme(this.preview);
+    let defaultEnterAsSend = defaults.EnterAsSend;
+    let defaultMicInput = defaults.MicInput;
+    let defaultSpeechOutput = defaults.SpeechOutput;
+    let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+    let defaultSpeechRate = defaults.SpeechRate;
+    let defaultSpeechPitch = defaults.SpeechPitch;
+    let defaultTTSLanguage = defaults.TTSLanguage;
+    let defaultUserName = defaults.UserName;
+    let defaultPrefLanguage = defaults.PrefLanguage;
+    let defaultTimeZone = defaults.TimeZone;
+    let defaultChecked = defaults.checked;
+    let defaultServerUrl = defaults.serverUrl;
+    let defaultCountryCode = defaults.CountryCode;
+    let defaultCountryDialCode = defaults.CountryDialCode;
+    let defaultPhoneNo = defaults.PhoneNo;
+    let TTSBrowserSupport;
+    if ('speechSynthesis' in window) {
+      TTSBrowserSupport = true;
+    } else {
+      TTSBrowserSupport = false;
+      console.warn(
+        'The current browser does not support the SpeechSynthesis API.',
+      );
+    }
+    let STTBrowserSupport;
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition ||
+      window.mozSpeechRecognition ||
+      window.msSpeechRecognition ||
+      window.oSpeechRecognition;
+
+    if (SpeechRecognition != null) {
+      STTBrowserSupport = true;
+    } else {
+      STTBrowserSupport = false;
+      console.warn(
+        'The current browser does not support the SpeechRecognition API.',
+      );
+    }
+    this.customServerMessage = '';
+    this.TTSBrowserSupport = TTSBrowserSupport;
+    this.STTBrowserSupport = STTBrowserSupport;
     this.state = {
       dataFetched: false,
       deviceData: false,
@@ -87,6 +134,107 @@ class Settings extends Component {
       slideIndex: 0,
       centerLat: 0,
       centerLng: 0,
+      identity,
+      theme: defaultTheme,
+      enterAsSend: defaultEnterAsSend,
+      micInput: defaultMicInput,
+      speechOutput: defaultSpeechOutput,
+      speechOutputAlways: defaultSpeechOutputAlways,
+      server: defaultServer,
+      serverUrl: defaultServerUrl,
+      serverFieldError: false,
+      checked: defaultChecked,
+      validForm: true,
+      speechRate: defaultSpeechRate,
+      speechPitch: defaultSpeechPitch,
+      ttsLanguage: defaultTTSLanguage,
+      UserName: defaultUserName,
+      PrefLanguage: defaultPrefLanguage,
+      TimeZone: defaultTimeZone,
+      showServerChangeDialog: false,
+      showChangePasswordDialog: false,
+      showLogin: false,
+      showSignUp: false,
+      showForgotPassword: false,
+      showOptions: false,
+      showRemoveConfirmation: false,
+      anchorEl: null,
+      countryCode: defaultCountryCode,
+      countryDialCode: defaultCountryDialCode,
+      PhoneNo: defaultPhoneNo,
+      voiceList: [
+        {
+          lang: 'am-AM',
+          name: 'Armenian',
+        },
+        {
+          lang: 'zh-CH',
+          name: 'Chinese',
+        },
+        {
+          lang: 'de-DE',
+          name: 'Deutsch',
+        },
+        {
+          lang: 'gr-GR',
+          name: 'Greek',
+        },
+        {
+          lang: 'hi-IN',
+          name: 'Hindi',
+        },
+        {
+          lang: 'pb-IN',
+          name: 'Punjabi',
+        },
+        {
+          lang: 'np-NP',
+          name: 'Nepali',
+        },
+        {
+          lang: 'ru-RU',
+          name: 'Russian',
+        },
+        {
+          lang: 'es-SP',
+          name: 'Spanish',
+        },
+        {
+          lang: 'fr-FR',
+          name: 'French',
+        },
+        {
+          lang: 'jp-JP',
+          name: 'Japanese',
+        },
+        {
+          lang: 'nl-NL',
+          name: 'Dutch',
+        },
+        {
+          lang: 'en-US',
+          name: 'US English',
+        },
+      ],
+      intialSettings: {
+        theme: defaultTheme,
+        enterAsSend: defaultEnterAsSend,
+        micInput: defaultMicInput,
+        speechOutput: defaultSpeechOutput,
+        speechOutputAlways: defaultSpeechOutputAlways,
+        speechRate: defaultSpeechRate,
+        speechPitch: defaultSpeechPitch,
+        ttsLanguage: defaultTTSLanguage,
+        server: defaultServer,
+        UserName: defaultUserName,
+        PrefLanguage: defaultPrefLanguage,
+        TimeZone: defaultTimeZone,
+        serverUrl: defaultServerUrl,
+        checked: defaultChecked,
+        countryCode: defaultCountryCode,
+        countryDialCode: defaultCountryDialCode,
+        PhoneNo: defaultPhoneNo,
+      },
     };
   }
 
@@ -348,31 +496,6 @@ class Settings extends Component {
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
     let defaultPhoneNo = defaults.PhoneNo;
-    let TTSBrowserSupport;
-    if ('speechSynthesis' in window) {
-      TTSBrowserSupport = true;
-    } else {
-      TTSBrowserSupport = false;
-      console.warn(
-        'The current browser does not support the SpeechSynthesis API.',
-      );
-    }
-    let STTBrowserSupport;
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition ||
-      window.mozSpeechRecognition ||
-      window.msSpeechRecognition ||
-      window.oSpeechRecognition;
-
-    if (SpeechRecognition != null) {
-      STTBrowserSupport = true;
-    } else {
-      STTBrowserSupport = false;
-      console.warn(
-        'The current browser does not support the SpeechRecognition API.',
-      );
-    }
     this.setState({
       theme: defaultTheme,
       enterAsSend: defaultEnterAsSend,
@@ -402,64 +525,7 @@ class Settings extends Component {
       countryCode: defaultCountryCode,
       countryDialCode: defaultCountryDialCode,
       PhoneNo: defaultPhoneNo,
-      voiceList: [
-        {
-          lang: 'am-AM',
-          name: 'Armenian',
-        },
-        {
-          lang: 'zh-CH',
-          name: 'Chinese',
-        },
-        {
-          lang: 'de-DE',
-          name: 'Deutsch',
-        },
-        {
-          lang: 'gr-GR',
-          name: 'Greek',
-        },
-        {
-          lang: 'hi-IN',
-          name: 'Hindi',
-        },
-        {
-          lang: 'pb-IN',
-          name: 'Punjabi',
-        },
-        {
-          lang: 'np-NP',
-          name: 'Nepali',
-        },
-        {
-          lang: 'ru-RU',
-          name: 'Russian',
-        },
-        {
-          lang: 'es-SP',
-          name: 'Spanish',
-        },
-        {
-          lang: 'fr-FR',
-          name: 'French',
-        },
-        {
-          lang: 'jp-JP',
-          name: 'Japanese',
-        },
-        {
-          lang: 'nl-NL',
-          name: 'Dutch',
-        },
-        {
-          lang: 'en-US',
-          name: 'US English',
-        },
-      ],
     });
-    this.customServerMessage = '';
-    this.TTSBrowserSupport = TTSBrowserSupport;
-    this.STTBrowserSupport = STTBrowserSupport;
   };
 
   /**
@@ -760,12 +826,6 @@ class Settings extends Component {
     });
   };
 
-  componentWillMount() {
-    document.body.className = 'white-body';
-    this.setDefaultsSettings();
-    this.setInitialSettings();
-  }
-
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
     UserPreferencesStore.removeChangeListener(
@@ -819,10 +879,10 @@ class Settings extends Component {
 
   // eslint-disable-next-line
   componentDidMount() {
+    document.body.className = 'white-body';
     if (!this.state.dataFetched && cookies.get('loggedIn')) {
       this.apiCall();
     }
-
     document.title =
       'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
     MessageStore.addChangeListener(this._onChange.bind(this));

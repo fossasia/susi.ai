@@ -55,11 +55,8 @@ class Overview extends Component {
     event.target.pauseVideo();
   }
 
-  componentWillMount() {
-    document.body.style.backgroundColor = '#fff';
-  }
-
   componentDidMount() {
+    document.body.style.backgroundColor = '#fff';
     // Adding title tag to page
     document.title =
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
