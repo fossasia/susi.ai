@@ -61,7 +61,7 @@ class ExpandingSearchField extends Component {
     this.props.scrollPrev();
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
