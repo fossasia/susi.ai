@@ -114,7 +114,6 @@ class Blog extends Component {
   nextPage = () => {
     let current = this.state.startPage;
     let size = this.state.posts.length;
-    console.log(size);
     if (current + 10 === size - 10) {
       this.setState({
         startPage: current + 10,
