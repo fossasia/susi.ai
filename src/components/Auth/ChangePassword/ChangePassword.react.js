@@ -179,7 +179,6 @@ export default class ChangePassword extends Component {
     let email = '';
     if (cookies.get('emailId')) {
       email = cookies.get('emailId');
-      console.log(email);
     }
     let changePasswordEndPoint =
       '/aaa/changepassword.json?' +
@@ -192,7 +191,6 @@ export default class ChangePassword extends Component {
       '&access_token=' +
       cookies.get('loggedIn');
     changePasswordEndPoint = BASE_URL + changePasswordEndPoint;
-    console.log(changePasswordEndPoint);
     if (!this.state.passwordError && !this.state.newPasswordConfirmError) {
       $.ajax({
         url: changePasswordEndPoint,

@@ -138,7 +138,6 @@ class ForgotPassword extends Component {
     if (serverUrl !== '') {
       BASE_URL = serverUrl;
     }
-    console.log(BASE_URL);
     if (email && validEmail) {
       $.ajax({
         url: BASE_URL + '/aaa/recoverpassword.json?forgotemail=' + email,
