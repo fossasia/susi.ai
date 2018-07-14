@@ -620,6 +620,48 @@ class MessageSection extends Component {
   };
 
   componentDidMount() {
+    if (this.props.location) {
+      if (this.props.location.state) {
+        if (this.props.location.state.hasOwnProperty('showLogin')) {
+          let showLogin = this.props.location.state.showLogin;
+          this.setState({ showLogin: showLogin });
+        }
+      }
+    }
+
+    switch (this.state.currTheme) {
+      case 'light': {
+        document.body.className = 'white-body';
+        break;
+      }
+      case 'dark': {
+        document.body.className = 'dark-body';
+        break;
+      }
+      default: {
+        // do nothing
+      }
+    }
+
+    UserPreferencesStore.on('change', () => {
+      this.setState({
+        currTheme: UserPreferencesStore.getTheme(),
+      });
+      switch (this.state.currTheme) {
+        case 'light': {
+          document.body.className = 'white-body';
+          break;
+        }
+        case 'dark': {
+          document.body.className = 'dark-body';
+          break;
+        }
+        default: {
+          // do nothing
+        }
+      }
+    });
+
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange.bind(this));
     ThreadStore.addChangeListener(this._onChange.bind(this));
@@ -682,50 +724,6 @@ class MessageSection extends Component {
   componentWillUnmount() {
     MessageStore.removeChangeListener(this._onChange.bind(this));
     ThreadStore.removeChangeListener(this._onChange.bind(this));
-  }
-
-  componentWillMount() {
-    if (this.props.location) {
-      if (this.props.location.state) {
-        if (this.props.location.state.hasOwnProperty('showLogin')) {
-          let showLogin = this.props.location.state.showLogin;
-          this.setState({ showLogin: showLogin });
-        }
-      }
-    }
-
-    switch (this.state.currTheme) {
-      case 'light': {
-        document.body.className = 'white-body';
-        break;
-      }
-      case 'dark': {
-        document.body.className = 'dark-body';
-        break;
-      }
-      default: {
-        // do nothing
-      }
-    }
-
-    UserPreferencesStore.on('change', () => {
-      this.setState({
-        currTheme: UserPreferencesStore.getTheme(),
-      });
-      switch (this.state.currTheme) {
-        case 'light': {
-          document.body.className = 'white-body';
-          break;
-        }
-        case 'dark': {
-          document.body.className = 'dark-body';
-          break;
-        }
-        default: {
-          // do nothing
-        }
-      }
-    });
   }
 
   invertColorTextArea = () => {
