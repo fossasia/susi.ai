@@ -64,7 +64,6 @@ class Login extends Component {
     if (serverUrl !== '') {
       BASE_URL = serverUrl;
     }
-    console.log(BASE_URL);
 
     if (!email || !password) {
       return this.state.isFilled;
@@ -92,7 +91,6 @@ class Login extends Component {
               path: '/',
               domain: cookieDomain,
             });
-            console.log(cookies.get('serverUrl'));
             let accessToken = response.access_token;
             let state = this.state;
             let time = response.valid_seconds;
