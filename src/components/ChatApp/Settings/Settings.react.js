@@ -2143,6 +2143,38 @@ class Settings extends Component {
                   onClick={this.handleSubmit}
                 />
               )}
+              {this.state.selectedSetting !== 'Account' ? (
+                ''
+              ) : (
+                <div style={{ marginRight: '20px' }}>
+                  {UserPreferencesStore.getTheme() === 'light' ? (
+                    <hr
+                      className="break-line-light"
+                      style={{ height: '2px', marginTop: '25px' }}
+                    />
+                  ) : (
+                    <hr
+                      className="break-line-dark"
+                      style={{ height: '2px', marginTop: '25px' }}
+                    />
+                  )}
+
+                  <p
+                    style={{
+                      textAlign: 'center',
+                      marginTop: '20px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <span className="Link">
+                      <a href="https://accounts.susi.ai/delete-account">
+                        Deactivate your account
+                      </a>
+                    </span>
+                  </p>
+                </div>
+              )}
             </div>
           </Paper>
         </div>
