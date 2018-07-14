@@ -164,7 +164,12 @@ export default class TableComplex extends Component {
                       wordWrap: 'break-word',
                     }}
                   >
-                    {row.latitude}, {row.longitude}
+                    {!(
+                      row.latitude === 'Latitude not available.' ||
+                      row.longitude === 'Longitude not available.'
+                    )
+                      ? row.latitude + ', ' + row.longitude
+                      : 'Location not available'}
                   </TableRowColumn>
                   <TableRowColumn
                     style={{

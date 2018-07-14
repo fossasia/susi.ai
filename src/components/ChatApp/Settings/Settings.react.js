@@ -366,6 +366,7 @@ class Settings extends Component {
         let centerLng = 0;
         if (response.devices) {
           let keys = Object.keys(response.devices);
+          let devicesNotAvailable = 0;
           keys.forEach(i => {
             let myObj = {
               macid: i,
@@ -378,8 +379,18 @@ class Settings extends Component {
               lat: parseFloat(response.devices[i].geolocation.latitude),
               lng: parseFloat(response.devices[i].geolocation.longitude),
             };
-            centerLat += parseFloat(response.devices[i].geolocation.latitude);
-            centerLng += parseFloat(response.devices[i].geolocation.longitude);
+            if (
+              myObj.latitude === 'Latitude not available.' ||
+              myObj.longitude === 'Longitude not available.'
+            ) {
+              devicesNotAvailable++;
+            } else {
+              centerLat += parseFloat(response.devices[i].geolocation.latitude);
+              centerLng += parseFloat(
+                response.devices[i].geolocation.longitude,
+              );
+            }
+
             let location = {
               location: locationData,
             };
@@ -392,8 +403,8 @@ class Settings extends Component {
               dataFetched: true,
             });
           });
-          centerLat = centerLat / mapObj.length;
-          centerLng = centerLng / mapObj.length;
+          centerLat = centerLat / (mapObj.length - devicesNotAvailable);
+          centerLng = centerLng / (mapObj.length - devicesNotAvailable);
           if (obj.length) {
             this.setState({
               deviceData: true,
@@ -405,6 +416,7 @@ class Settings extends Component {
               mapObj: mapObj,
               centerLat: centerLat,
               centerLng: centerLng,
+              devicesNotAvailable: devicesNotAvailable,
             });
           }
           if (devicenames.length) {
@@ -1558,6 +1570,12 @@ class Settings extends Component {
                     />
                   </div>
                 </SwipeableViews>
+                {this.state.slideIndex && this.state.devicesNotAvailable ? (
+                  <div style={{ marginTop: '10px' }}>
+                    <b>NOTE: </b>Location info of one or more devices could not
+                    be retrieved.
+                  </div>
+                ) : null}
               </div>
             ) : (
               <div id="subheading">
