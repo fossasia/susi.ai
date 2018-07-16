@@ -57,9 +57,9 @@ export default class ShareOnSocialMedia extends Component {
     if (response.status === 'connected') {
       this.testAPI();
     } else if (response.status === 'not_authorized') {
-      // console.log("login to SUSI");
+      console.log("You're not authorized.");
     } else {
-      // console.log("login to facebook.");
+      console.log("You're not authorized.");
     }
   }
 
