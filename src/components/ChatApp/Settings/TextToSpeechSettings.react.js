@@ -9,9 +9,11 @@ import FontIcon from 'material-ui/FontIcon';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Translate from '../../Translate/Translate.react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 class TextToSpeechSettings extends Component {
   constructor(props) {
+    injectTapEventPlugin();
     super(props);
     this.state = {
       rate: this.props.rate,
