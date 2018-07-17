@@ -74,7 +74,6 @@ class StaticAppBar extends Component {
       showOptions: false,
       anchorEl: null,
       openForgotPassword: false,
-      leftGap: '0px',
     };
   }
   // Open app bar's drawer
@@ -83,9 +82,6 @@ class StaticAppBar extends Component {
   handleDrawerClose = () => this.setState({ openDrawer: false });
   // Show options on touch tap
   showOptions = event => {
-    var p = $('#rightIconButton').width();
-    var screenWidth = $(window).width();
-    this.setState({ leftGap: (screenWidth - p) / 2 + p - 130 });
     event.preventDefault();
     this.setState({
       showOptions: true,
@@ -264,7 +260,6 @@ class StaticAppBar extends Component {
       cursor: 'pointer',
     };
 
-    let leftGap = this.state.leftGap;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
 
@@ -308,10 +303,10 @@ class StaticAppBar extends Component {
             {...props}
             animated={false}
             style={{
-              float: 'left',
+              float: 'right',
               position: 'relative',
-              marginTop: '46px',
-              marginLeft: leftGap,
+              marginTop: '47px',
+              marginRight: '8px',
             }}
             open={this.state.showOptions}
             anchorEl={this.state.anchorEl}

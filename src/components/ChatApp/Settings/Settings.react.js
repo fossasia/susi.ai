@@ -29,7 +29,6 @@ import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
 import TableComplex from '../../TableComplex/TableComplex.react';
 import TimezonePicker from 'react-timezone';
-import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import { GoogleApiWrapper } from 'google-maps-react';
 import MapContainer from '../../MapContainer/MapContainer.react';
@@ -366,6 +365,7 @@ class Settings extends Component {
         let centerLng = 0;
         if (response.devices) {
           let keys = Object.keys(response.devices);
+          let devicesNotAvailable = 0;
           keys.forEach(i => {
             let myObj = {
               macid: i,
@@ -378,8 +378,18 @@ class Settings extends Component {
               lat: parseFloat(response.devices[i].geolocation.latitude),
               lng: parseFloat(response.devices[i].geolocation.longitude),
             };
-            centerLat += parseFloat(response.devices[i].geolocation.latitude);
-            centerLng += parseFloat(response.devices[i].geolocation.longitude);
+            if (
+              myObj.latitude === 'Latitude not available.' ||
+              myObj.longitude === 'Longitude not available.'
+            ) {
+              devicesNotAvailable++;
+            } else {
+              centerLat += parseFloat(response.devices[i].geolocation.latitude);
+              centerLng += parseFloat(
+                response.devices[i].geolocation.longitude,
+              );
+            }
+
             let location = {
               location: locationData,
             };
@@ -392,8 +402,8 @@ class Settings extends Component {
               dataFetched: true,
             });
           });
-          centerLat = centerLat / mapObj.length;
-          centerLng = centerLng / mapObj.length;
+          centerLat = centerLat / (mapObj.length - devicesNotAvailable);
+          centerLng = centerLng / (mapObj.length - devicesNotAvailable);
           if (obj.length) {
             this.setState({
               deviceData: true,
@@ -405,6 +415,7 @@ class Settings extends Component {
               mapObj: mapObj,
               centerLat: centerLat,
               centerLng: centerLng,
+              devicesNotAvailable: devicesNotAvailable,
             });
           }
           if (devicenames.length) {
@@ -1038,13 +1049,6 @@ class Settings extends Component {
       textAlign: 'center',
     };
 
-    const styles = {
-      slide: {
-        fontSize: 12,
-        backgroundColor: '#1DA1F5',
-      },
-    };
-
     const themeBackgroundColor =
       this.state.intialSettings.theme === 'dark' ? '#19324c' : '#fff';
     const themeForegroundColor =
@@ -1501,26 +1505,7 @@ class Settings extends Component {
             )}
             {this.state.deviceData ? (
               <div>
-                <Tabs
-                  onChange={this.handleTabSlide}
-                  value={this.state.slideIndex}
-                  inkBarStyle={{
-                    background: 'rgb(66, 133, 244)',
-                    height: '5px',
-                  }}
-                >
-                  <Tab label="Table View" value={0} style={styles.slide} />
-                  <Tab label="Map View" value={1} style={styles.slide} />
-                </Tabs>
-                <div
-                  style={{
-                    height: '10px',
-                  }}
-                />
-                <SwipeableViews
-                  index={this.state.slideIndex}
-                  onChangeIndex={this.handleChange}
-                >
+                <SwipeableViews>
                   <div>
                     <div style={{ overflowX: 'auto' }}>
                       <div
@@ -1543,21 +1528,28 @@ class Settings extends Component {
                           tableData={this.state.obj}
                         />
                       </div>
+                      <div>
+                        <div style={{ maxHeight: '300px', marginTop: '10px' }}>
+                          <MapContainer
+                            google={this.props.google}
+                            mapData={this.state.mapObj}
+                            centerLat={this.state.centerLat}
+                            centerLng={this.state.centerLng}
+                            devicenames={this.state.devicenames}
+                            rooms={this.state.rooms}
+                            macids={this.state.macids}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div style={{ maxHeight: '300px' }}>
-                    <MapContainer
-                      google={this.props.google}
-                      mapData={this.state.mapObj}
-                      centerLat={this.state.centerLat}
-                      centerLng={this.state.centerLng}
-                      devicenames={this.state.devicenames}
-                      rooms={this.state.rooms}
-                      macids={this.state.macids}
-                    />
-                  </div>
                 </SwipeableViews>
+                {this.state.slideIndex && this.state.devicesNotAvailable ? (
+                  <div style={{ marginTop: '10px' }}>
+                    <b>NOTE: </b>Location info of one or more devices could not
+                    be retrieved.
+                  </div>
+                ) : null}
               </div>
             ) : (
               <div id="subheading">
@@ -2142,6 +2134,38 @@ class Settings extends Component {
                   labelColor="#fff"
                   onClick={this.handleSubmit}
                 />
+              )}
+              {this.state.selectedSetting !== 'Account' ? (
+                ''
+              ) : (
+                <div style={{ marginRight: '20px' }}>
+                  {UserPreferencesStore.getTheme() === 'light' ? (
+                    <hr
+                      className="break-line-light"
+                      style={{ height: '2px', marginTop: '25px' }}
+                    />
+                  ) : (
+                    <hr
+                      className="break-line-dark"
+                      style={{ height: '2px', marginTop: '25px' }}
+                    />
+                  )}
+
+                  <p
+                    style={{
+                      textAlign: 'center',
+                      marginTop: '20px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <span className="Link">
+                      <a href="https://accounts.susi.ai/delete-account">
+                        Deactivate your account
+                      </a>
+                    </span>
+                  </p>
+                </div>
               )}
             </div>
           </Paper>
