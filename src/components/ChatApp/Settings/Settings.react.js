@@ -1034,7 +1034,16 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
-    this.setState({ PhoneNo: value });
+    const re = /^\d*$/;
+    const verify = /^(?:[0-9] ?){6,14}[0-9]$/;
+    if (value === '' || re.test(value)) {
+      this.setState({ PhoneNo: value });
+    }
+    if (!verify.test(value)) {
+      this.setState({ phoneNoError: 'Invalid phone number' });
+    } else {
+      this.setState({ phoneNoError: '' });
+    }
   };
 
   handleUserName = (event, value) => {
@@ -1632,7 +1641,7 @@ class Settings extends Component {
             </div>
             <div
               style={{
-                marginTop: '-10px',
+                marginTop: '20px',
                 marginBottom: '0px',
                 marginLeft: '30px',
                 fontSize: '14px',
@@ -1661,22 +1670,25 @@ class Settings extends Component {
                 }
                 style={{ width: '45px', marginLeft: '30px' }}
               />
-
-              <TextField
-                name="phonenumber"
-                style={{ width: '150px', marginLeft: '5px' }}
-                onChange={this.handleTelephoneNoChange}
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
-                }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={this.state.PhoneNo}
-                floatingLabelText={<Translate text="Phone number" />}
-              />
             </div>
+            <TextField
+              name="phonenumber"
+              style={{
+                width: '150px',
+                marginRight: '230px',
+                float: 'right',
+                marginTop: '-72px',
+              }}
+              onChange={this.handleTelephoneNoChange}
+              inputStyle={{
+                color:
+                  UserPreferencesStore.getTheme() === 'dark' ? '#fff' : '#333',
+              }}
+              floatingLabelStyle={floatingLabelStyle}
+              value={this.state.PhoneNo}
+              errorText={this.state.phoneNoError}
+              floatingLabelText={<Translate text="Phone number" />}
+            />
           </div>
         </span>
       );
@@ -2129,7 +2141,11 @@ class Settings extends Component {
               {this.displaySaveChangesButton() && (
                 <RaisedButton
                   label={<Translate text="Save Changes" />}
-                  disabled={!this.state.validForm || !somethingToSave}
+                  disabled={
+                    !this.state.validForm ||
+                    !somethingToSave ||
+                    this.state.phoneNoError
+                  }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
                   onClick={this.handleSubmit}
