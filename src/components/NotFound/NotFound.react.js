@@ -9,7 +9,9 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import Dialog from 'material-ui/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
-import Footer from '../Footer/Footer.react';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default class NotFound extends Component {
   constructor(props) {
@@ -35,11 +37,15 @@ export default class NotFound extends Component {
   };
   // Open Login Dialog
   handleLoginOpen = () => {
-    this.setState({
-      loginOpen: true,
-      open: false,
-      openForgotPassword: false,
-    });
+    if (cookies.get('loggedIn')) {
+      window.location = 'https://chat.susi.ai/';
+    } else {
+      this.setState({
+        loginOpen: true,
+        open: false,
+        openForgotPassword: false,
+      });
+    }
   };
   // Close Login Dialog
   handleLoginClose = () => {
@@ -123,7 +129,6 @@ export default class NotFound extends Component {
             />
           </div>
         </div>
-        <Footer />
         {/* Login */}
         <Dialog
           className="dialogStyle"
