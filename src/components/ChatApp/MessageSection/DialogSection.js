@@ -18,11 +18,6 @@ export default class DialogSection extends Component {
       top: '10px',
       cursor: 'pointer',
     };
-    const customThemeBodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-      backgroundColor: '#f9f9f9',
-    };
     return (
       <div>
         {/* Login */}
@@ -84,24 +79,6 @@ export default class DialogSection extends Component {
             onTouchTap={this.props.onRequestClose()}
           />
         </Dialog>
-        {/* ThemeChanger */}
-        <Dialog
-          actions={this.props.customSettingsDone}
-          modal={false}
-          open={this.props.openThemeChanger}
-          autoScrollBodyContent={true}
-          bodyStyle={customThemeBodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.props.onRequestClose()}
-        >
-          <div className="settingsComponents">
-            {this.props.ThemeChangerComponents}
-          </div>
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
-        </Dialog>
         <Dialog
           className="dialogStyle"
           contentStyle={{
@@ -134,14 +111,11 @@ DialogSection.propTypes = {
   openSignUp: PropTypes.bool,
   openForgotPassword: PropTypes.bool,
   openHardwareChange: PropTypes.bool,
-  openThemeChanger: PropTypes.bool,
   tour: PropTypes.bool,
   onLoginSignUp: PropTypes.func,
   handleSignUp: PropTypes.func,
   ServerChangeActions: PropTypes.array,
   HardwareActions: PropTypes.array,
-  customSettingsDone: PropTypes.object,
-  ThemeChangerComponents: PropTypes.array,
   actions: PropTypes.object,
   bodyStyle: PropTypes.object,
   onRequestClose: PropTypes.func,
