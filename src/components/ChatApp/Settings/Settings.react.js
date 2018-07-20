@@ -29,7 +29,6 @@ import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
 import TableComplex from '../../TableComplex/TableComplex.react';
 import TimezonePicker from 'react-timezone';
-import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import { GoogleApiWrapper } from 'google-maps-react';
 import MapContainer from '../../MapContainer/MapContainer.react';
@@ -1035,7 +1034,16 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
-    this.setState({ PhoneNo: value });
+    const re = /^\d*$/;
+    const verify = /^(?:[0-9] ?){6,14}[0-9]$/;
+    if (value === '' || re.test(value)) {
+      this.setState({ PhoneNo: value });
+    }
+    if (!verify.test(value)) {
+      this.setState({ phoneNoError: 'Invalid phone number' });
+    } else {
+      this.setState({ phoneNoError: '' });
+    }
   };
 
   handleUserName = (event, value) => {
@@ -1048,13 +1056,6 @@ class Settings extends Component {
     const bodyStyle = {
       padding: 0,
       textAlign: 'center',
-    };
-
-    const styles = {
-      slide: {
-        fontSize: 12,
-        backgroundColor: '#1DA1F5',
-      },
     };
 
     const themeBackgroundColor =
@@ -1513,26 +1514,7 @@ class Settings extends Component {
             )}
             {this.state.deviceData ? (
               <div>
-                <Tabs
-                  onChange={this.handleTabSlide}
-                  value={this.state.slideIndex}
-                  inkBarStyle={{
-                    background: 'rgb(66, 133, 244)',
-                    height: '5px',
-                  }}
-                >
-                  <Tab label="Table View" value={0} style={styles.slide} />
-                  <Tab label="Map View" value={1} style={styles.slide} />
-                </Tabs>
-                <div
-                  style={{
-                    height: '10px',
-                  }}
-                />
-                <SwipeableViews
-                  index={this.state.slideIndex}
-                  onChangeIndex={this.handleChange}
-                >
+                <SwipeableViews>
                   <div>
                     <div style={{ overflowX: 'auto' }}>
                       <div
@@ -1555,19 +1537,20 @@ class Settings extends Component {
                           tableData={this.state.obj}
                         />
                       </div>
+                      <div>
+                        <div style={{ maxHeight: '300px', marginTop: '10px' }}>
+                          <MapContainer
+                            google={this.props.google}
+                            mapData={this.state.mapObj}
+                            centerLat={this.state.centerLat}
+                            centerLng={this.state.centerLng}
+                            devicenames={this.state.devicenames}
+                            rooms={this.state.rooms}
+                            macids={this.state.macids}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-
-                  <div style={{ maxHeight: '300px' }}>
-                    <MapContainer
-                      google={this.props.google}
-                      mapData={this.state.mapObj}
-                      centerLat={this.state.centerLat}
-                      centerLng={this.state.centerLng}
-                      devicenames={this.state.devicenames}
-                      rooms={this.state.rooms}
-                      macids={this.state.macids}
-                    />
                   </div>
                 </SwipeableViews>
                 {this.state.slideIndex && this.state.devicesNotAvailable ? (
@@ -1658,7 +1641,7 @@ class Settings extends Component {
             </div>
             <div
               style={{
-                marginTop: '-10px',
+                marginTop: '20px',
                 marginBottom: '0px',
                 marginLeft: '30px',
                 fontSize: '14px',
@@ -1687,22 +1670,25 @@ class Settings extends Component {
                 }
                 style={{ width: '45px', marginLeft: '30px' }}
               />
-
-              <TextField
-                name="phonenumber"
-                style={{ width: '150px', marginLeft: '5px' }}
-                onChange={this.handleTelephoneNoChange}
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
-                }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={this.state.PhoneNo}
-                floatingLabelText={<Translate text="Phone number" />}
-              />
             </div>
+            <TextField
+              name="phonenumber"
+              style={{
+                width: '150px',
+                marginRight: '230px',
+                float: 'right',
+                marginTop: '-72px',
+              }}
+              onChange={this.handleTelephoneNoChange}
+              inputStyle={{
+                color:
+                  UserPreferencesStore.getTheme() === 'dark' ? '#fff' : '#333',
+              }}
+              floatingLabelStyle={floatingLabelStyle}
+              value={this.state.PhoneNo}
+              errorText={this.state.phoneNoError}
+              floatingLabelText={<Translate text="Phone number" />}
+            />
           </div>
         </span>
       );
@@ -2155,7 +2141,11 @@ class Settings extends Component {
               {this.displaySaveChangesButton() && (
                 <RaisedButton
                   label={<Translate text="Save Changes" />}
-                  disabled={!this.state.validForm || !somethingToSave}
+                  disabled={
+                    !this.state.validForm ||
+                    !somethingToSave ||
+                    this.state.phoneNoError
+                  }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
                   onClick={this.handleSubmit}
