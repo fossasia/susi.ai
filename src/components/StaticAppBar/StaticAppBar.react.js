@@ -25,6 +25,7 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
+import List from 'material-ui/svg-icons/action/list';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 
 import { Link } from 'react-router-dom';
@@ -72,9 +73,9 @@ class StaticAppBar extends Component {
       signup: false,
       open: false,
       showOptions: false,
+      showAdmin: false,
       anchorEl: null,
       openForgotPassword: false,
-      leftGap: '0px',
     };
   }
   // Open app bar's drawer
@@ -83,9 +84,6 @@ class StaticAppBar extends Component {
   handleDrawerClose = () => this.setState({ openDrawer: false });
   // Show options on touch tap
   showOptions = event => {
-    var p = $('#rightIconButton').width();
-    var screenWidth = $(window).width();
-    this.setState({ leftGap: (screenWidth - p) / 2 + p - 130 });
     event.preventDefault();
     this.setState({
       showOptions: true,
@@ -158,6 +156,37 @@ class StaticAppBar extends Component {
   };
 
   componentDidMount() {
+    let url;
+
+    if (cookies.get('loggedIn')) {
+      url =
+        'https://api.susi.ai/aaa/showAdminService.json?access_token=' +
+        cookies.get('loggedIn');
+
+      $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        jsonpCallback: 'pfns',
+        jsonp: 'callback',
+        crossDomain: true,
+        success: function(newResponse) {
+          let ShowAdmin = newResponse.showAdmin;
+          cookies.set('showAdmin', ShowAdmin);
+          this.setState({
+            showAdmin: ShowAdmin,
+          });
+          // console.log(newResponse.showAdmin)
+        }.bind(this),
+        error: function(newErrorThrown) {
+          console.log(newErrorThrown);
+        },
+      });
+
+      this.setState({
+        showAdmin: cookies.get('showAdmin'),
+      });
+    }
+
     window.addEventListener('scroll', this.handleScroll);
     var didScroll;
     var lastScrollTop = 0;
@@ -234,6 +263,13 @@ class StaticAppBar extends Component {
           containerElement={<Link to="/overview" />}
           rightIcon={<Info />}
         />
+        {this.state.showAdmin === true ? (
+          <MenuItem
+            primaryText={<Translate text="Admin" />}
+            rightIcon={<List />}
+            href="https://accounts.susi.ai/admin"
+          />
+        ) : null}
         {cookies.get('loggedIn') ? (
           <MenuItem
             primaryText={<Translate text="Logout" />}
@@ -264,7 +300,6 @@ class StaticAppBar extends Component {
       cursor: 'pointer',
     };
 
-    let leftGap = this.state.leftGap;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
 
@@ -308,10 +343,10 @@ class StaticAppBar extends Component {
             {...props}
             animated={false}
             style={{
-              float: 'left',
+              float: 'right',
               position: 'relative',
-              marginTop: '46px',
-              marginLeft: leftGap,
+              marginTop: '47px',
+              marginRight: '8px',
             }}
             open={this.state.showOptions}
             anchorEl={this.state.anchorEl}

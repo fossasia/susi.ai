@@ -16,11 +16,13 @@ import Edit from 'material-ui/svg-icons/image/edit';
 import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import List from 'material-ui/svg-icons/action/list';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import Translate from '../Translate/Translate.react';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import $ from 'jquery';
 import './TopBar.css';
 
 const cookies = new Cookies();
@@ -42,6 +44,7 @@ class TopBar extends Component {
     super(props);
     this.state = {
       showOptions: false,
+      showAdmin: false,
       anchorEl: null,
     };
   }
@@ -65,6 +68,36 @@ class TopBar extends Component {
       search: false,
     });
 
+    let url;
+
+    if (cookies.get('loggedIn')) {
+      url =
+        'https://api.susi.ai/aaa/showAdminService.json?access_token=' +
+        cookies.get('loggedIn');
+
+      $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        jsonpCallback: 'pfns',
+        jsonp: 'callback',
+        crossDomain: true,
+        success: function(newResponse) {
+          let ShowAdmin = newResponse.showAdmin;
+          cookies.set('showAdmin', ShowAdmin);
+          this.setState({
+            showAdmin: ShowAdmin,
+          });
+          // console.log(newResponse.showAdmin)
+        }.bind(this),
+        error: function(newErrorThrown) {
+          console.log(newErrorThrown);
+        },
+      });
+
+      this.setState({
+        showAdmin: cookies.get('showAdmin'),
+      });
+    }
     // Check Logged in
     if (cookies.get('loggedIn')) {
       Logged = props => (
@@ -79,6 +112,13 @@ class TopBar extends Component {
           <Popover
             {...props}
             animated={false}
+            style={{
+              float: 'right',
+              position: 'unset',
+              left: 'unset',
+              marginTop: '47px',
+              marginRight: '8px',
+            }}
             open={this.state.showOptions}
             anchorEl={this.state.anchorEl}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -119,6 +159,13 @@ class TopBar extends Component {
               containerElement={<Link to="/overview" />}
               rightIcon={<Info />}
             />
+            {this.state.showAdmin === true ? (
+              <MenuItem
+                primaryText={<Translate text="Admin" />}
+                rightIcon={<List />}
+                href="https://accounts.susi.ai/admin"
+              />
+            ) : null}
             <MenuItem
               primaryText={<Translate text="Logout" />}
               containerElement={<Link to="/logout" />}
@@ -143,6 +190,13 @@ class TopBar extends Component {
         <Popover
           {...props}
           animated={false}
+          style={{
+            float: 'right',
+            position: 'unset',
+            left: 'unset',
+            marginTop: '47px',
+            marginRight: '8px',
+          }}
           open={this.state.showOptions}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
