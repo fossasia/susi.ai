@@ -52,7 +52,7 @@ class VoicePlayer extends Component {
     this.setState({ playing: true });
   };
 
-  componentWillReceiveProps({ pause }) {
+  componentDidUpdate({ pause }) {
     if (pause && this.state.playing && this.state.started) {
       return this.pause();
     }
