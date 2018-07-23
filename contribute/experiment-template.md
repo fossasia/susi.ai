@@ -89,7 +89,7 @@ PSLab - http://pslab.io
 
 ## Integrated Project Ideas
 
- - Create Flying bird [link](www.google.com)
+ - Create Disco ball - http://pslab.io
 
 ## References
-[How to create markdown](https://www.youtube.com/watch?v=6A5EpqqDOdk)
+How to create markdown - https://www.youtube.com/watch?v=6A5EpqqDOdk
