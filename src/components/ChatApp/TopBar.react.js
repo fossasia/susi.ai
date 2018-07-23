@@ -25,6 +25,9 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import $ from 'jquery';
 import './TopBar.css';
 import urls from '../../utils/urls';
+import { isProduction } from '../../utils/helperFunctions';
+
+const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 let Logged = props => (
@@ -82,10 +85,13 @@ class TopBar extends Component {
         jsonp: 'callback',
         crossDomain: true,
         success: function(newResponse) {
-          let ShowAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', ShowAdmin);
+          let showAdmin = newResponse.showAdmin;
+          cookies.set('showAdmin', showAdmin, {
+            path: '/',
+            domain: cookieDomain,
+          });
           this.setState({
-            showAdmin: ShowAdmin,
+            showAdmin: showAdmin,
           });
           // console.log(newResponse.showAdmin)
         }.bind(this),
