@@ -10,7 +10,7 @@
 ## Required Components
 ![Picture of Components](http://via.placeholder.com/512?text=Picture%20Of%20Components)
 
-| | Component Name | Amount Needed |
+| | Component Name | Quantity |
 |-| -------------- |---------------|
 | 1 | Lorem | 1 |
 | 2 | Ipsum | 5 |
@@ -45,7 +45,8 @@ Oscilloscope, Multimeter, Logic Analyzer
 -   Sed lacinia ipsum eu quam dignissim, a tristique neque molestie.
 
 ## Videos
-PSLab - http://pslab.io
+PSLab - http://pslab.io  
+PSLab - http://pslab.io  
 
 ## Troubleshoot
 <div id="troubleshoot">
@@ -90,6 +91,8 @@ PSLab - http://pslab.io
 ## Integrated Project Ideas
 
  - Create Disco ball - http://pslab.io
+ - Create Disco ball - http://pslab.io
 
 ## References
+How to create markdown - https://www.youtube.com/watch?v=6A5EpqqDOdk  
 How to create markdown - https://www.youtube.com/watch?v=6A5EpqqDOdk
