@@ -27,7 +27,7 @@ import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import List from 'material-ui/svg-icons/action/list';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
-
+import urls from '../../utils/urls';
 import { Link } from 'react-router-dom';
 
 const cookies = new Cookies();
@@ -46,7 +46,7 @@ let Logged = props => (
           width: '140px',
           display: 'block',
         }}
-        href="https://skills.susi.ai"
+        href={urls.SKILL_URL}
       >
         Skills
       </a>
@@ -159,9 +159,9 @@ class StaticAppBar extends Component {
     let url;
 
     if (cookies.get('loggedIn')) {
-      url =
-        'https://api.susi.ai/aaa/showAdminService.json?access_token=' +
-        cookies.get('loggedIn');
+      url = `${
+        urls.API_URL
+      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
 
       $.ajax({
         url: url,
@@ -231,7 +231,7 @@ class StaticAppBar extends Component {
           <MenuItem
             primaryText={<Translate text="Dashboard" />}
             rightIcon={<Assessment />}
-            href="https://skills.susi.ai/dashboard"
+            href={`${urls.SKILL_URL}/dashboard`}
           />
         ) : null}
         <MenuItem
@@ -242,14 +242,14 @@ class StaticAppBar extends Component {
         <MenuItem
           primaryText={<Translate text="Skills" />}
           rightIcon={<Dashboard />}
-          href="https://skills.susi.ai"
+          href={urls.SKILL_URL}
         />
         {cookies.get('loggedIn') ? (
           <div>
             <MenuItem
               primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
-              href="https://skills.susi.ai/botbuilder"
+              href={`${urls.SKILL_URL}/botbuilder`}
             />
             <MenuItem
               primaryText={<Translate text="Settings" />}
@@ -267,7 +267,7 @@ class StaticAppBar extends Component {
           <MenuItem
             primaryText={<Translate text="Admin" />}
             rightIcon={<List />}
-            href="https://accounts.susi.ai/admin"
+            href={`${urls.ACCOUNT_URL}/admin`}
           />
         ) : null}
         {cookies.get('loggedIn') ? (
@@ -595,5 +595,6 @@ StaticAppBar.propTypes = {
   location: PropTypes.object,
   theme: PropTypes.object,
   closeVideo: PropTypes.func,
+  handleThemeChanger: PropTypes.func,
 };
 export default StaticAppBar;

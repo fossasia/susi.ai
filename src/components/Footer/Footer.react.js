@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import susi from '../../images/susi-logo.svg';
 import './Footer.css';
 import { Link } from 'react-router-dom';
+import urls from '../../utils/urls';
 
 class Footer extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Footer extends Component {
                 <Link to="/blog">Blog</Link>
               </li>
               <li>
-                <a href="https://api.susi.ai">API</a>
+                <a href={urls.API_URL}>API</a>
               </li>
               <li>
                 <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">

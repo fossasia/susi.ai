@@ -18,6 +18,7 @@ import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
 import React, { Component } from 'react';
+import urls from '../../utils/urls';
 
 class Overview extends Component {
   constructor(props) {
@@ -257,7 +258,7 @@ class Overview extends Component {
               <p className="description__text">
                 <b>SUSI.AI</b> is available for any android, iOS device and also
                 you can access the web chat application from this URL{' '}
-                <a href="https://chat.susi.ai">https://chat.susi.ai</a>
+                <a href={urls.CHAT_URL}>{urls.CHAT_URL}</a>
               </p>
             </div>
           </div>
@@ -293,7 +294,7 @@ class Overview extends Component {
               <a
                 rel="noopener noreferrer"
                 style={{ textDecoration: 'none' }}
-                href="https://skills.susi.ai/"
+                href={urls.SKILL_URL}
                 target="_blank"
               >
                 {' '}

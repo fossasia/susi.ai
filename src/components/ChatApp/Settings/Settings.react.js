@@ -46,6 +46,7 @@ import MyDevices from 'material-ui/svg-icons/device/devices';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 import { isProduction } from '../../../utils/helperFunctions';
+import urls from '../../../utils/urls';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
@@ -2280,7 +2281,7 @@ class Settings extends Component {
                     }}
                   >
                     <span className="Link">
-                      <a href="https://accounts.susi.ai/delete-account">
+                      <a href={`${urls.ACCOUNT_URL}/delete-account`}>
                         Deactivate your account
                       </a>
                     </span>
