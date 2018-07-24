@@ -1,4 +1,5 @@
 
+
 # \<Title / Question of Experiment\>
 
 ## Learning Objective
@@ -10,8 +11,8 @@
 ## Required Components
 ![Picture of Components](http://via.placeholder.com/512?text=Picture%20Of%20Components)
 
-| | Component Name | Quantity |
-|-| -------------- |---------------|
+| | Component | Quantity |
+|:-:| ------------ |:--------:|
 | 1 | Lorem | 1 |
 | 2 | Ipsum | 5 |
 | 3 | Dolor | 10 |
@@ -30,7 +31,7 @@ Oscilloscope, Multimeter, Logic Analyzer
 
 ## Step-By-Step Tutorial
 | Step | Instruction | Picture Instruction |
-|--|--|--|
+|:--:|--|:--:|
 | 1 | Ut convallis nec libero ut tempor. | ![Step X](http://via.placeholder.com/256?text=Step+1) |
 | 2 | Ut convallis nec libero ut tempor. | ![Step X](http://via.placeholder.com/256?text=Step+2) |
 | 3 | Ut convallis nec libero ut tempor. | ![Step X](http://via.placeholder.com/256?text=Step+3) |
