@@ -54,7 +54,8 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "enzyme": "^2.8.2",
+    "enzyme": "^2.9.1",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-jsx": "0.0.2",
