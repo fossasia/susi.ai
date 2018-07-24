@@ -24,6 +24,7 @@ import Translate from '../Translate/Translate.react';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import $ from 'jquery';
 import './TopBar.css';
+import urls from '../../utils/urls';
 
 const cookies = new Cookies();
 let Logged = props => (
@@ -71,10 +72,9 @@ class TopBar extends Component {
     let url;
 
     if (cookies.get('loggedIn')) {
-      url =
-        'https://api.susi.ai/aaa/showAdminService.json?access_token=' +
-        cookies.get('loggedIn');
-
+      url = `${
+        urls.API_URL
+      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
       $.ajax({
         url: url,
         dataType: 'jsonp',
@@ -128,14 +128,14 @@ class TopBar extends Component {
             <MenuItem
               primaryText={<Translate text="Dashboard" />}
               rightIcon={<Assessment />}
-              href="https://skills.susi.ai/dashboard"
+              href={`${urls.SKILL_URL}/dashboard`}
             />
             <MenuItem
               primaryText={<Translate text="Chat" />}
               containerElement={<Link to="/" />}
               rightIcon={<Chat />}
             />
-            <MenuItem rightIcon={<Dashboard />} href="https://skills.susi.ai">
+            <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
               <Translate text="Skills" />
             </MenuItem>
             <MenuItem
@@ -147,7 +147,7 @@ class TopBar extends Component {
             <MenuItem
               primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
-              href="https://skills.susi.ai/botbuilder"
+              href={`${urls.SKILL_URL}}/botbuilder`}
             />
             <MenuItem
               primaryText={<Translate text="Settings" />}
@@ -163,7 +163,7 @@ class TopBar extends Component {
               <MenuItem
                 primaryText={<Translate text="Admin" />}
                 rightIcon={<List />}
-                href="https://accounts.susi.ai/admin"
+                href={`${urls.ACCOUNT_URL}/admin`}
               />
             ) : null}
             <MenuItem
@@ -208,7 +208,7 @@ class TopBar extends Component {
             containerElement={<Link to="/" />}
             rightIcon={<Chat />}
           />
-          <MenuItem rightIcon={<Dashboard />} href="https://skills.susi.ai">
+          <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
             <Translate text="Skills" />
           </MenuItem>
           <MenuItem

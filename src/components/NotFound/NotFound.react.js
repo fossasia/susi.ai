@@ -10,6 +10,7 @@ import Dialog from 'material-ui/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Cookies from 'universal-cookie';
+import urls from '../../utils/urls';
 
 const cookies = new Cookies();
 
@@ -38,7 +39,7 @@ export default class NotFound extends Component {
   // Open Login Dialog
   handleLoginOpen = () => {
     if (cookies.get('loggedIn')) {
-      window.location = 'https://chat.susi.ai/';
+      window.location = urls.CHAT_URL;
     } else {
       this.setState({
         loginOpen: true,
