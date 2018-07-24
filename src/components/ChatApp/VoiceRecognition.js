@@ -14,6 +14,7 @@ class VoiceRecognition extends Component {
       window.msSpeechRecognition ||
       window.oSpeechRecognition;
 
+    this.recognition = {};
     if (SpeechRecognition != null) {
       this.recognition = this.createRecognition(SpeechRecognition);
     } else {

@@ -31,7 +31,9 @@ class Logout extends Component {
     deleteCookie('emailId', { domain: cookieDomain, path: '/' });
     deleteCookie('username', { domain: cookieDomain, path: '/' });
     // Redirect to landing page
-    this.props.history.push('/');
+    if (this.props.history) {
+      this.props.history.push('/');
+    }
     window.location.reload();
   }
   render() {
