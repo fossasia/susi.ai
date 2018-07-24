@@ -33,6 +33,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { GoogleApiWrapper } from 'google-maps-react';
 import MapContainer from '../../MapContainer/MapContainer.react';
 import { MAP_KEY } from '../../../../src/config.js';
+import ThemeChanger from './ThemeChanger';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -122,6 +123,7 @@ class Settings extends Component {
     this.TTSBrowserSupport = TTSBrowserSupport;
     this.STTBrowserSupport = STTBrowserSupport;
     this.state = {
+      themeOpen: false,
       dataFetched: false,
       deviceData: false,
       obj: [],
@@ -237,6 +239,14 @@ class Settings extends Component {
       },
     };
   }
+
+  onRequestClose = () => {
+    this.setState({ themeOpen: false });
+  };
+
+  onRequestOpen = () => {
+    this.setState({ themeOpen: false });
+  };
 
   handleRemove = i => {
     let data = this.state.obj;
@@ -573,6 +583,90 @@ class Settings extends Component {
       showForgotPassword: false,
       showRemoveConfirmation: false,
     });
+  };
+
+  handleThemeChanger = () => {
+    this.setState({ themeOpen: true });
+    switch (this.state.currTheme) {
+      case 'light': {
+        this.applyLightTheme();
+        break;
+      }
+      case 'dark': {
+        this.applyDarkTheme();
+        break;
+      }
+      default: {
+        var prevThemeSettings = {};
+        var state = this.state;
+        prevThemeSettings.currTheme = state.currTheme;
+        prevThemeSettings.bodyColor = state.body;
+        prevThemeSettings.TopBarColor = state.header;
+        prevThemeSettings.composerColor = state.composer;
+        prevThemeSettings.messagePane = state.pane;
+        prevThemeSettings.textArea = state.textarea;
+        prevThemeSettings.buttonColor = state.button;
+        prevThemeSettings.bodyBackgroundImage = state.bodyBackgroundImage;
+        prevThemeSettings.messageBackgroundImage = state.messageBackgroundImage;
+        this.setState({ prevThemeSettings });
+      }
+    }
+  };
+
+  applyLightTheme = () => {
+    this.setState({
+      prevThemeSettings: null,
+      body: '#fff',
+      header: '#4285f4',
+      composer: '#f3f2f4',
+      pane: '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme: 'light',
+    });
+    let customData = '';
+    Object.keys(this.customTheme).forEach(key => {
+      customData = customData + this.customTheme[key] + ',';
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+      settingsChanged.backgroundImage =
+        this.state.bodyBackgroundImage +
+        ',' +
+        this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
+  };
+
+  applyDarkTheme = () => {
+    this.setState({
+      prevThemeSettings: null,
+      body: '#fff',
+      header: '#4285f4',
+      composer: '#f3f2f4',
+      pane: '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme: 'dark',
+    });
+    let customData = '';
+    Object.keys(this.customTheme).forEach(key => {
+      customData = customData + this.customTheme[key] + ',';
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'dark';
+    settingsChanged.customThemeValue = customData;
+    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+      settingsChanged.backgroundImage =
+        this.state.bodyBackgroundImage +
+        ',' +
+        this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
   };
 
   // Submit selected Settings
@@ -1262,6 +1356,16 @@ class Settings extends Component {
               label={<Translate text="Custom" />}
             />
           </RadioButtonGroup>
+          <RaisedButton
+            label={<Translate text="Edit theme" />}
+            backgroundColor="#4285f4"
+            labelColor="#fff"
+            onClick={this.handleThemeChanger}
+          />
+          <ThemeChanger
+            themeOpen={this.state.themeOpen}
+            onRequestClose={() => this.onRequestClose}
+          />
         </div>
       );
     } else if (this.state.selectedSetting === 'Speech') {
@@ -2233,6 +2337,7 @@ Settings.propTypes = {
   onServerChange: PropTypes.func,
   location: PropTypes.object,
   google: PropTypes.object,
+  handleThemeChanger: PropTypes.func,
 };
 
 export default GoogleApiWrapper({
