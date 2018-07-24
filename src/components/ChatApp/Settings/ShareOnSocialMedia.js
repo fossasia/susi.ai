@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Translate from '../../Translate/Translate.react';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
+import urls from '../../../utils/urls';
 
 export default class ShareOnSocialMedia extends Component {
   constructor(props) {
@@ -83,7 +84,7 @@ export default class ShareOnSocialMedia extends Component {
       window.FB.ui(
         {
           method: 'share',
-          href: 'https://chat.susi.ai',
+          href: urls.CHAT_URL,
           caption: 'SUSI by FOSSASIA',
           hashtag: '#FOSSASIA',
           quote: 'Lets chat with susi, the open source personal assistant',
@@ -149,7 +150,7 @@ export default class ShareOnSocialMedia extends Component {
               keyboardFocused={false}
               onClick={() =>
                 window.open(
-                  'https://plus.google.com/share?url=https://chat.susi.ai/',
+                  `https://plus.google.com/share?url=${urls.CHAT_URL}`,
                   '_blank',
                 )
               }
