@@ -17,6 +17,7 @@ import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import support from '../../images/support.png';
 import question from '../../images/question.png';
 import React, { Component } from 'react';
+import urls from '../../utils/urls';
 
 class Support extends Component {
   constructor(props) {
@@ -228,17 +229,19 @@ class Support extends Component {
               </div>
             </div>
             <div className=" support-item support-item-with-icon  support-item-no-image">
-              <a href="https://skills.susi.ai">
+              <a href={urls.SKILL_URL}>
                 <div className=" support-item-icon-container">
                   <img alt="code" src={code} className=" support-item-icon" />
                 </div>
               </a>
               <div className="support-description">
-                <a href="https://skills.susi.ai">
+                <a href={urls.SKILL_URL}>
                   <h3 id="stack-overflow">Create and Edit a SUSI.AI skill</h3>
                 </a>
                 <div className="support-description-content">
-                  You can easily create a skill on the SUSI.AI skills editor at<a href="https://skills.susi.ai">
+                  You can easily create a skill on the SUSI.AI skills editor at<a
+                    href={urls.SKILL_URL}
+                  >
                     &nbsp;skills.susi.ai
                   </a>
                 </div>
