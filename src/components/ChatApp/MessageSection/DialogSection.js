@@ -40,10 +40,7 @@ export default class DialogSection extends Component {
             handleForgotPassword={this.props.onForgotPassword()}
             handleSignUp={this.props.handleSignUp}
           />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
+          <Close style={closingStyle} onClick={this.props.onRequestClose()} />
         </Dialog>
         {/* SignUp */}
         <Dialog
@@ -60,10 +57,7 @@ export default class DialogSection extends Component {
             onRequestClose={this.props.onRequestClose()}
             onLoginSignUp={this.props.onLoginSignUp()}
           />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
+          <Close style={closingStyle} onClick={this.props.onRequestClose()} />
         </Dialog>
         {/*  Forgot Password */}
         <Dialog
@@ -79,10 +73,7 @@ export default class DialogSection extends Component {
             onLoginSignUp={this.props.onLoginSignUp()}
             showForgotPassword={this.showForgotPassword}
           />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
+          <Close style={closingStyle} onClick={this.props.onRequestClose()} />
         </Dialog>
         {/* ThemeChanger */}
         <Dialog
@@ -97,10 +88,7 @@ export default class DialogSection extends Component {
           <div className="settingsComponents">
             {this.props.ThemeChangerComponents}
           </div>
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
+          <Close style={closingStyle} onClick={this.props.onRequestClose()} />
         </Dialog>
         <Dialog
           className="dialogStyle"
@@ -121,7 +109,7 @@ export default class DialogSection extends Component {
           />
           <Close
             style={closingStyle}
-            onTouchTap={this.props.onRequestCloseTour()}
+            onClick={this.props.onRequestCloseTour()}
           />
         </Dialog>
       </div>

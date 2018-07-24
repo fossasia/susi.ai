@@ -371,7 +371,7 @@ class Overview extends Component {
               allowFullScreen
               src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
             />
-            <Close style={closingStyle} onTouchTap={this.handleClose} />
+            <Close style={closingStyle} onClick={this.handleClose} />
           </div>
         </Modal>
       </div>

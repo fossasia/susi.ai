@@ -334,14 +334,14 @@ class Blog extends Component {
               <FloatingActionButton
                 style={prevStyle}
                 backgroundColor={'#4285f4'}
-                onTouchTap={this.previousPage}
+                onClick={this.previousPage}
               >
                 <Previous />
               </FloatingActionButton>
               <FloatingActionButton
                 style={nextStyle}
                 backgroundColor={'#4285f4'}
-                onTouchTap={this.nextPage}
+                onClick={this.nextPage}
               >
                 <Next />
               </FloatingActionButton>

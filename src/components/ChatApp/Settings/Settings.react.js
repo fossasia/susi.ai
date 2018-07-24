@@ -1120,7 +1120,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, false)}
+        onClick={this.handleServerToggle.bind(this, false)}
         style={{ margin: '6px' }}
       />,
       <RaisedButton
@@ -1132,7 +1132,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, true)}
+        onClick={this.handleServerToggle.bind(this, true)}
       />,
     ];
 
@@ -2118,7 +2118,7 @@ class Settings extends Component {
             devicename={this.state.removeDeviceName}
             handleRemove={this.handleRemove}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onClick={this.handleClose} />
         </Dialog>
         <StaticAppBar
           settings={this.state.intialSettings}
@@ -2203,7 +2203,7 @@ class Settings extends Component {
             <Translate text="Please login again to change SUSI server" />
             <Close
               style={closingStyle}
-              onTouchTap={this.handleServerToggle.bind(this, false)}
+              onClick={this.handleServerToggle.bind(this, false)}
             />
           </div>
         </Dialog>
@@ -2220,7 +2220,7 @@ class Settings extends Component {
             {...this.props}
             showForgotPassword={this.handleForgotPassword}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onClick={this.handleClose} />
         </Dialog>
       </div>
     );

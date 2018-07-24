@@ -6,7 +6,6 @@ import Mic from 'material-ui/svg-icons/av/mic';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import MessageStore from '../../stores/MessageStore';
 import IconButton from 'material-ui/IconButton';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import VoiceRecognition from './VoiceRecognition';
 import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
@@ -14,8 +13,6 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
 import $ from 'jquery';
-
-injectTapEventPlugin();
 
 let ENTER_KEY_CODE = 13;
 let UP_KEY_CODE = 38;
@@ -296,7 +293,7 @@ class MessageComposer extends Component {
             fill: this.props.micColor,
             margin: '1px 0px 1px 0px',
           }}
-          onTouchTap={this._onClickButton.bind(this)}
+          onClick={this._onClickButton.bind(this)}
           style={style}
         >
           {this.Button}
@@ -321,10 +318,7 @@ class MessageComposer extends Component {
             >
               <Mic style={iconStyles} />
             </div>
-            <Close
-              style={closingStyle}
-              onTouchTap={this.speakDialogCloseButton}
-            />
+            <Close style={closingStyle} onClick={this.speakDialogCloseButton} />
           </div>
         </Modal>
       </div>
