@@ -11,6 +11,7 @@ import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Translate from '../../Translate/Translate.react';
+import urls from '../../../utils/urls';
 
 const cookies = new Cookies();
 
@@ -305,7 +306,7 @@ export default class ChangePassword extends Component {
                 visibilityIconStyle={{ display: 'none' }}
               />
               <div className="forgot">
-                <a href="https://accounts.susi.ai/forgotpwd">
+                <a href={`${urls.ACCOUNT_URL}/forgotpwd`}>
                   Forgot your password?
                 </a>
               </div>
