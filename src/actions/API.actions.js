@@ -6,6 +6,7 @@ import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import MessageStore from '../stores/MessageStore';
 import * as SettingsActions from './Settings.actions';
+import urls from '../utils/urls';
 
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
@@ -448,7 +449,7 @@ export function getSettings() {
       settings.CountryCode = settings.CountryCode;
       settings.CountryDialCode = settings.CountryDialCode;
       settings.phoneNo = settings.PhoneNo;
-      settings.serverUrl = 'https://api.susi.ai';
+      settings.serverUrl = urls.API_URL;
       cookies.set('settings', settings);
       SettingsActions.initialiseSettings(settings);
     }
