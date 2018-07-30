@@ -409,8 +409,8 @@ class Settings extends Component {
               dataFetched: true,
             });
           });
-          centerLat = centerLat / (mapObj.length - devicesNotAvailable);
-          centerLng = centerLng / (mapObj.length - devicesNotAvailable);
+          centerLat /= mapObj.length - devicesNotAvailable;
+          centerLng /= mapObj.length - devicesNotAvailable;
           if (obj.length) {
             this.setState({
               deviceData: true,
