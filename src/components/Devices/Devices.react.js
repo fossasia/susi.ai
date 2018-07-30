@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import $ from 'jquery';
 import Footer from '../Footer/Footer.react';
+import urls from '../../utils/urls';
 
 class Devices extends Component {
   constructor(props) {
@@ -100,7 +101,7 @@ class Devices extends Component {
               <Link
                 style={{ textDecoration: 'none' }}
                 target="_blank"
-                to="https://chat.susi.ai/"
+                to={urls.CHAT_URL}
               >
                 {' '}
                 here
