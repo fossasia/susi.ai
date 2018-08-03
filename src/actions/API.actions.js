@@ -644,7 +644,7 @@ export function getTTSLangText(voiceList) {
       defText;
     $.ajax({
       url: url,
-      dataType: 'json',
+      dataType: 'jsonp',
       crossDomain: true,
       timeout: 3000,
       async: true,
