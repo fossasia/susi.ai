@@ -287,7 +287,7 @@ class Login extends Component {
           UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'
         }
         labelStyle={{ color: '#fff' }}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />
     );
     return (

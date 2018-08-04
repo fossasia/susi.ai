@@ -255,7 +255,7 @@ class ForgotPassword extends Component {
             <Dialog modal={false} open={true} onRequestClose={this.handleClose}>
               <Translate text={this.state.msg} />
 
-              <Close style={closingStyle} onTouchTap={this.handleClose} />
+              <Close style={closingStyle} onClick={this.handleClose} />
             </Dialog>
           </div>
         )}

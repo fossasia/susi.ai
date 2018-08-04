@@ -33,7 +33,9 @@ class Logout extends Component {
     deleteCookie('showAdmin', { domain: cookieDomain, path: '/' });
 
     // Redirect to landing page
-    this.props.history.push('/');
+    if (this.props.history) {
+      this.props.history.push('/');
+    }
     window.location.reload();
   }
   render() {

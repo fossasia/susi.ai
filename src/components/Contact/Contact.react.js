@@ -85,7 +85,7 @@ class Contact extends Component {
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onClick={this.handleClose} />
         </Dialog>
       </div>
     );

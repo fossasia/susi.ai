@@ -535,7 +535,7 @@ class MessageSection extends Component {
     this.child.closeOptions();
   };
 
-  handleActionTouchTap = () => {
+  handleActionClick = () => {
     this.setState({
       SnackbarOpen: false,
     });
@@ -849,7 +849,7 @@ class MessageSection extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />
     );
 
@@ -861,7 +861,7 @@ class MessageSection extends Component {
           labelColor="#fff"
           width="200px"
           keyboardFocused={false}
-          onTouchTap={this.saveThemeSettings}
+          onClick={this.saveThemeSettings}
           style={{ margin: '0 5px' }}
         />
         <RaisedButton
@@ -870,7 +870,7 @@ class MessageSection extends Component {
           labelColor="#fff"
           width="200px"
           keyboardFocused={false}
-          onTouchTap={this.handleRestoreDefaultThemeClick}
+          onClick={this.handleRestoreDefaultThemeClick}
           style={{ margin: '0 5px' }}
         />
       </div>
@@ -943,7 +943,7 @@ class MessageSection extends Component {
             backgroundColor={buttonColor ? buttonColor : '#4285f4'}
             labelColor="#fff"
             keyboardFocused={true}
-            onTouchTap={this.handleRemoveUrlBody}
+            onClick={this.handleRemoveUrlBody}
           />
           <TextField
             name="messageImg"
@@ -969,7 +969,7 @@ class MessageSection extends Component {
             backgroundColor={buttonColor ? buttonColor : '#4285f4'}
             labelColor="#fff"
             keyboardFocused={true}
-            onTouchTap={this.handleRemoveUrlMessage}
+            onClick={this.handleRemoveUrlMessage}
           />
         </div>
       );
@@ -1059,7 +1059,7 @@ class MessageSection extends Component {
                         style={scrollTopStyle.button}
                         backgroundColor={bodyColor}
                         iconStyle={scrollTopStyle.icon}
-                        onTouchTap={this.forcedScrollToTop}
+                        onClick={this.forcedScrollToTop}
                       >
                         <NavigateUp />
                       </FloatingActionButton>
@@ -1072,7 +1072,7 @@ class MessageSection extends Component {
                         style={scrollBottomStyle.button}
                         backgroundColor={bodyColor}
                         iconStyle={scrollBottomStyle.icon}
-                        onTouchTap={this.forcedScrollToBottom}
+                        onClick={this.forcedScrollToBottom}
                       >
                         <NavigateDown />
                       </FloatingActionButton>
@@ -1166,7 +1166,7 @@ class MessageSection extends Component {
             message={<Translate text="Theme Changed" />}
             action="undo"
             autoHideDuration={4000}
-            onActionTouchTap={this.handleActionTouchTap}
+            onActionClick={this.handleActionClick}
             onRequestClose={this.handleRequestClose}
           />
           <Snackbar

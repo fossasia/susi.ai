@@ -5,7 +5,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 class VoicePlayer extends Component {
   constructor(props) {
     super(props);
-
+    this.speech = {};
     if ('speechSynthesis' in window) {
       this.speech = this.createSpeech();
     } else {

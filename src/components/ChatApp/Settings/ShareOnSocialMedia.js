@@ -117,7 +117,7 @@ export default class ShareOnSocialMedia extends Component {
               labelColor="#fff"
               icon={<FontIcon className="fa fa-facebook" />}
               keyboardFocused={false}
-              onTouchTap={this.Share}
+              onClick={this.Share}
             />
           </div>
           <div style={styles.buttonDiv}>
