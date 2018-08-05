@@ -29,6 +29,9 @@ import List from 'material-ui/svg-icons/action/list';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import urls from '../../utils/urls';
 import { Link } from 'react-router-dom';
+import { isProduction } from '../../utils/helperFunctions';
+
+const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 
@@ -170,10 +173,13 @@ class StaticAppBar extends Component {
         jsonp: 'callback',
         crossDomain: true,
         success: function(newResponse) {
-          let ShowAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', ShowAdmin);
+          let showAdmin = newResponse.showAdmin;
+          cookies.set('showAdmin', showAdmin, {
+            path: '/',
+            domain: cookieDomain,
+          });
           this.setState({
-            showAdmin: ShowAdmin,
+            showAdmin: showAdmin,
           });
           // console.log(newResponse.showAdmin)
         }.bind(this),
