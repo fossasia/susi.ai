@@ -1,3 +1,18 @@
-export const CAPTCHA_KEY = '6LfPZGAUAAAAANY4ZLR_lSat_YCuqqcV3sl84ulW';
-export const MAP_KEY = 'AIzaSyCWxXuqny-dx-1FiMrjCSr6fFvukoy7oEM';
-export const BLOG_KEY = 'qsmzjtyycc49whsfvf5ikzottxrbditq3burojhd';
+import $ from 'jquery';
+import urls from './utils/urls';
+
+const url = `${urls.API_URL}/aaa/getApiKeys.json`;
+
+/* global module */
+
+$.ajax({
+  url: url,
+  dataType: 'json',
+  crossDomain: true,
+  timeout: 3000,
+  async: false,
+}).done(function(output) {
+  module.exports.MAP_KEY = output.keys.MAP_KEY;
+  module.exports.CAPTCHA_KEY = output.keys.CAPTCHA_KEY;
+  module.exports.BLOG_KEY = output.keys.BLOG_KEY;
+});
