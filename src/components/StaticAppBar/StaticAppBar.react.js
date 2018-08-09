@@ -2,6 +2,7 @@ import './StaticAppBar.css';
 import $ from 'jquery';
 import AppBar from 'material-ui/AppBar';
 import Chat from 'material-ui/svg-icons/communication/chat';
+import CircleImage from '../CircleImage/CircleImage';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Cookies from 'universal-cookie';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
@@ -28,6 +29,7 @@ import Assessment from 'material-ui/svg-icons/action/assessment';
 import List from 'material-ui/svg-icons/action/list';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import urls from '../../utils/urls';
+import { getAvatarProps } from '../../utils/helperFunctions';
 import { Link } from 'react-router-dom';
 import { isProduction } from '../../utils/helperFunctions';
 
@@ -312,59 +314,72 @@ class StaticAppBar extends Component {
     if (this.props.location.pathname === '/settings') {
       showLeftMenu = 'none';
     }
-    let TopRightMenu = props => (
-      <div onScroll={this.handleScroll}>
-        <div className="topRightMenu">
-          <div>
-            {cookies.get('loggedIn') ? (
-              <label
-                style={{
-                  color: 'white',
-                  marginRight: '5px',
-                  fontSize: '16px',
-                  verticalAlign: 'center',
-                }}
-              >
-                {UserPreferencesStore.getUserName() === '' ||
-                UserPreferencesStore.getUserName() === 'undefined'
-                  ? cookies.get('emailId')
-                  : UserPreferencesStore.getUserName()}
-              </label>
-            ) : (
-              <label />
-            )}
+    let TopRightMenu = props => {
+      const isLoggedIn = !!cookies.get('loggedIn');
+      let avatarProps = null;
+      if (isLoggedIn) {
+        avatarProps = getAvatarProps(cookies.get('emailId'));
+      }
+      return (
+        <div onScroll={this.handleScroll}>
+          <div className="topRightMenu">
+            <div>
+              {isLoggedIn && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CircleImage {...avatarProps} size="32" />
+                  <label
+                    style={{
+                      color: 'white',
+                      marginRight: '5px',
+                      fontSize: '16px',
+                    }}
+                  >
+                    {UserPreferencesStore.getUserName() === '' ||
+                    UserPreferencesStore.getUserName() === 'undefined'
+                      ? cookies.get('emailId')
+                      : UserPreferencesStore.getUserName()}
+                  </label>
+                </div>
+              )}
+            </div>
+            <IconMenu
+              {...props}
+              iconButtonElement={
+                <IconButton iconStyle={{ fill: 'white' }}>
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+              onTouchTap={this.showOptions}
+            />
+            <Popover
+              {...props}
+              animated={false}
+              style={{
+                float: 'right',
+                position: 'relative',
+                marginTop: '47px',
+                marginRight: '8px',
+              }}
+              open={this.state.showOptions}
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              onRequestClose={this.closeOptions}
+            >
+              <Logged />
+            </Popover>
           </div>
-          <IconMenu
-            {...props}
-            iconButtonElement={
-              <IconButton iconStyle={{ fill: 'white' }}>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onTouchTap={this.showOptions}
-          />
-          <Popover
-            {...props}
-            animated={false}
-            style={{
-              float: 'right',
-              position: 'relative',
-              marginTop: '47px',
-              marginRight: '8px',
-            }}
-            open={this.state.showOptions}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onRequestClose={this.closeOptions}
-          >
-            <Logged />
-          </Popover>
         </div>
-      </div>
-    );
+      );
+    };
     const bodyStyle = {
       padding: 0,
       textAlign: 'center',
