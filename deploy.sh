@@ -54,7 +54,7 @@ rm -rf node_modules/
 mv ../build/* .
 cp index.html 404.html
 
-# Staging the new build for commit; and then commiting the lastest build
+# Staging the new build for commit; and then committing the latest build
 git add -A
 git commit --amend --no-edit --allow-empty
 
