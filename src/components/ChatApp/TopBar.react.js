@@ -21,11 +21,12 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import Translate from '../Translate/Translate.react';
+import CircleImage from '../CircleImage/CircleImage';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import $ from 'jquery';
 import './TopBar.css';
 import urls from '../../utils/urls';
-import { isProduction } from '../../utils/helperFunctions';
+import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
@@ -246,6 +247,12 @@ class TopBar extends Component {
       display: 'block',
     };
 
+    const isLoggedIn = !!cookies.get('loggedIn');
+    let avatarProps = null;
+    if (isLoggedIn) {
+      avatarProps = getAvatarProps(cookies.get('emailId'));
+    }
+
     return (
       <Toolbar
         className={appBarClass}
@@ -278,23 +285,29 @@ class TopBar extends Component {
             ) : null}
           </div>
           <div>
-            {cookies.get('loggedIn') ? (
-              <label
-                className="useremail"
+            {isLoggedIn && (
+              <div
                 style={{
-                  color: 'white',
-                  marginRight: '5px',
-                  fontSize: '16px',
-                  verticalAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
                 }}
               >
-                {UserPreferencesStore.getUserName() === '' ||
-                UserPreferencesStore.getUserName() === 'undefined'
-                  ? cookies.get('emailId')
-                  : UserPreferencesStore.getUserName()}
-              </label>
-            ) : (
-              <label />
+                <CircleImage {...avatarProps} size="32" />
+                <label
+                  className="useremail"
+                  style={{
+                    color: 'white',
+                    marginRight: '5px',
+                    fontSize: '16px',
+                  }}
+                >
+                  {UserPreferencesStore.getUserName() === '' ||
+                  UserPreferencesStore.getUserName() === 'undefined'
+                    ? cookies.get('emailId')
+                    : UserPreferencesStore.getUserName()}
+                </label>
+              </div>
             )}
           </div>
           <Logged />
