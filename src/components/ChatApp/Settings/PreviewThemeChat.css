@@ -1,0 +1,89 @@
+.chat-message-container{
+    font-size: 15px;
+    min-height:330px;
+    padding-bottom: 60px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+
+.susi-chat-container{
+    border:1px solid #000000;
+    height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.chat-input{
+    border-radius: 6px;
+}
+
+.chat-footer{
+    height: 40px;
+    border-radius: 8px;
+}
+
+.chat-footer-container{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    position: absolute;
+    bottom: 11px;
+    justify-content: space-evenly;
+    box-shadow: 0 -1px 4px 0 rgba(0,0,0,.12);
+    width: 238px;
+}
+
+.chat-window{
+    margin: 0 20px 0 20px;
+    background-color: #000000;
+    min-width:250px;
+}
+
+.susi-chat-navbar{
+    display: flex;
+    height: 30px;
+    justify-content: space-between;
+}
+
+.susi-logo{
+    width:50px;
+    height: 10px;
+    margin-left:10px;
+}
+
+.chat-input{
+    padding: 0 20px 0 5px;
+    border: none;
+    font-size: 14px;
+}
+
+.chat-input-send{
+    cursor: pointer;
+}
+
+.susi-comment-box{
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    border-radius: 8px;
+    margin:10px;
+    min-width: 50px;
+    max-width: 150px;
+    padding: 12.1px 16.5px;
+    text-align: left;
+}
+
+.susi-comment-you{
+    background-color: #e0e0e0;
+    align-self: flex-end;
+    text-align: left;
+
+}
+
+.susi-comment-susi{
+    background-color: #ffffff;
+    align-self: flex-start;
+}
+
+.chat-messages{
+    display: flex;
+    flex-direction: column;
+}
