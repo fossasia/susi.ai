@@ -293,7 +293,7 @@ class TopBar extends Component {
                   alignItems: 'center',
                 }}
               >
-                <CircleImage {...avatarProps} size="32" />
+                <CircleImage {...avatarProps} size="24" />
                 <label
                   className="useremail"
                   style={{
