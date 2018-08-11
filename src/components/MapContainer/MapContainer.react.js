@@ -12,9 +12,11 @@ export default class MapContainer extends Component {
 
   loadMap() {
     if (this.props && this.props.google) {
+      // Set the prop value to google, and maps to google maps props
       const { google } = this.props;
       const maps = google.maps;
 
+      // Look for HTML div ref ‘map’ in the React DOM and name it ‘node’
       // eslint-disable-next-line
       const mapRef = this.refs.map;
       // eslint-disable-next-line
@@ -23,13 +25,17 @@ export default class MapContainer extends Component {
       const mapConfig = Object.assign(
         {},
         {
+          // Set the center and the default zoom level of the map using the props passed
           center: { lat: this.props.centerLat, lng: this.props.centerLng },
           zoom: 2,
           mapTypeId: 'roadmap',
         },
       );
 
+      // Create a new Google map on the specified node with specified config
       this.map = new maps.Map(node, mapConfig);
+
+      // Create a new InfoWindow to be added as event listener on the map markers
       let infoWindow = new google.maps.InfoWindow();
       let i = 0;
 
@@ -45,6 +51,7 @@ export default class MapContainer extends Component {
           macid: this.props.macids[i],
         });
 
+        // Add event listener to the map markers to open InfoWindow on click
         google.maps.event.addListener(marker, 'click', function() {
           infoWindow.setContent(
             'Mac Address: ' +
