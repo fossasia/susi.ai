@@ -33,6 +33,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { GoogleApiWrapper } from 'google-maps-react';
 import MapContainer from '../../MapContainer/MapContainer.react';
 import { MAP_KEY } from '../../../../src/config.js';
+import ThemeChanger from './ThemeChanger';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -122,6 +123,7 @@ class Settings extends Component {
     this.TTSBrowserSupport = TTSBrowserSupport;
     this.STTBrowserSupport = STTBrowserSupport;
     this.state = {
+      themeOpen: false,
       dataFetched: false,
       deviceData: false,
       obj: [],
@@ -238,14 +240,21 @@ class Settings extends Component {
     };
   }
 
+  onThemeRequestClose = () => {
+    this.setState({ themeOpen: false });
+  };
+
+  // handleRemove() function handles deletion of devices
   handleRemove = i => {
     let data = this.state.obj;
     let macid = data[i].macid;
 
+    // Remove the row whose index does not matches the index passed in parameter
     this.setState({
       obj: data.filter((row, j) => j !== i),
     });
 
+    // Make API call to the endpoint to delete the device on the server side
     $.ajax({
       url:
         BASE_URL +
@@ -269,10 +278,13 @@ class Settings extends Component {
     });
   };
 
+  // startEditing() function handles editing of rows
+  // editIdx is set to the row index which is currently being edited
   startEditing = i => {
     this.setState({ editIdx: i });
   };
 
+  // stopEditing() function handles saving of the changed device config
   stopEditing = i => {
     let data = this.state.obj;
     let macid = data[i].macid;
@@ -284,12 +296,17 @@ class Settings extends Component {
     devicenames[i] = devicename;
     let rooms = this.state.rooms;
     rooms[i] = room;
+
+    // Set the value of editIdx to -1 to denote that no row is currently being edited
+    // Set values for devicenames and rooms to pass as props for the Map View component
     this.setState({
       editIdx: -1,
       devicenames: devicenames,
       rooms: rooms,
     });
 
+    // Make API call to the endpoint for adding new devices
+    // to overwrite the updated config of devices on the existing config on the server
     $.ajax({
       url:
         BASE_URL +
@@ -318,6 +335,7 @@ class Settings extends Component {
     });
   };
 
+  // handleChange() function handles changing of textfield values on keypresses
   handleChange = (e, name, i) => {
     const value = e.target.value;
     let data = this.state.obj;
@@ -332,6 +350,7 @@ class Settings extends Component {
     });
   };
 
+  // apiCall() function fetches user settings and devices from the server
   apiCall = () => {
     $.ajax({
       url: url,
@@ -367,6 +386,8 @@ class Settings extends Component {
         if (response.devices) {
           let keys = Object.keys(response.devices);
           let devicesNotAvailable = 0;
+
+          // Extract device info and store them in an object, namely myObj
           keys.forEach(i => {
             let myObj = {
               macid: i,
@@ -375,6 +396,8 @@ class Settings extends Component {
               latitude: response.devices[i].geolocation.latitude,
               longitude: response.devices[i].geolocation.longitude,
             };
+
+            // Store location info of the device for the Map View
             let locationData = {
               lat: parseFloat(response.devices[i].geolocation.latitude),
               lng: parseFloat(response.devices[i].geolocation.longitude),
@@ -403,6 +426,8 @@ class Settings extends Component {
               dataFetched: true,
             });
           });
+
+          // Find average latitude and longitude to be used as initial center of map
           centerLat /= mapObj.length - devicesNotAvailable;
           centerLng /= mapObj.length - devicesNotAvailable;
           if (obj.length) {
@@ -573,6 +598,90 @@ class Settings extends Component {
       showForgotPassword: false,
       showRemoveConfirmation: false,
     });
+  };
+
+  handleThemeChanger = () => {
+    this.setState({ themeOpen: true });
+    switch (this.state.currTheme) {
+      case 'light': {
+        this.applyLightTheme();
+        break;
+      }
+      case 'dark': {
+        this.applyDarkTheme();
+        break;
+      }
+      default: {
+        var prevThemeSettings = {};
+        var state = this.state;
+        prevThemeSettings.currTheme = state.currTheme;
+        prevThemeSettings.bodyColor = state.body;
+        prevThemeSettings.TopBarColor = state.header;
+        prevThemeSettings.composerColor = state.composer;
+        prevThemeSettings.messagePane = state.pane;
+        prevThemeSettings.textArea = state.textarea;
+        prevThemeSettings.buttonColor = state.button;
+        prevThemeSettings.bodyBackgroundImage = state.bodyBackgroundImage;
+        prevThemeSettings.messageBackgroundImage = state.messageBackgroundImage;
+        this.setState({ prevThemeSettings });
+      }
+    }
+  };
+
+  applyLightTheme = () => {
+    this.setState({
+      prevThemeSettings: null,
+      body: '#fff',
+      header: '#4285f4',
+      composer: '#f3f2f4',
+      pane: '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme: 'light',
+    });
+    let customData = '';
+    Object.keys(this.customTheme).forEach(key => {
+      customData = customData + this.customTheme[key] + ',';
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+      settingsChanged.backgroundImage =
+        this.state.bodyBackgroundImage +
+        ',' +
+        this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
+  };
+
+  applyDarkTheme = () => {
+    this.setState({
+      prevThemeSettings: null,
+      body: '#fff',
+      header: '#4285f4',
+      composer: '#f3f2f4',
+      pane: '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme: 'dark',
+    });
+    let customData = '';
+    Object.keys(this.customTheme).forEach(key => {
+      customData = customData + this.customTheme[key] + ',';
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'dark';
+    settingsChanged.customThemeValue = customData;
+    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+      settingsChanged.backgroundImage =
+        this.state.bodyBackgroundImage +
+        ',' +
+        this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
   };
 
   // Submit selected Settings
@@ -1262,6 +1371,16 @@ class Settings extends Component {
               label={<Translate text="Custom" />}
             />
           </RadioButtonGroup>
+          <RaisedButton
+            label={<Translate text="Edit theme" />}
+            backgroundColor="#4285f4"
+            labelColor="#fff"
+            onClick={this.handleThemeChanger}
+          />
+          <ThemeChanger
+            themeOpen={this.state.themeOpen}
+            onRequestClose={() => this.onThemeRequestClose}
+          />
         </div>
       );
     } else if (this.state.selectedSetting === 'Speech') {
@@ -2233,6 +2352,7 @@ Settings.propTypes = {
   onServerChange: PropTypes.func,
   location: PropTypes.object,
   google: PropTypes.object,
+  handleThemeChanger: PropTypes.func,
 };
 
 export default GoogleApiWrapper({
