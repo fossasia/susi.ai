@@ -70,11 +70,13 @@ class Feedback extends React.Component {
         if (response.accepted) {
           console.log('Skill rated successfully');
         } else {
+          rating = 'pending';
           console.log('Skill rating failed. Try Again');
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         let jsonValue = jqXHR.status;
+        rating = 'pending';
         if (jsonValue === 404) {
           console.log('Skill rating failed. Try Again');
         } else {
@@ -84,33 +86,33 @@ class Feedback extends React.Component {
           console.log('Please check your internet connection');
         }
       },
+    }).always(() => {
+      switch (rating) {
+        case 'positive': {
+          this.setState({
+            ratingGiven: true,
+            positive: !this.state.positive,
+            negative: false,
+          });
+          break;
+        }
+        case 'negative': {
+          this.setState({
+            ratingGiven: true,
+            positive: false,
+            negative: !this.state.negative,
+          });
+          break;
+        }
+        default: {
+          this.setState({
+            ratingGiven: false,
+            positive: false,
+            negative: false,
+          });
+        }
+      }
     });
-
-    switch (rating) {
-      case 'positive': {
-        this.setState({
-          ratingGiven: true,
-          positive: !this.state.positive,
-          negative: false,
-        });
-        break;
-      }
-      case 'negative': {
-        this.setState({
-          ratingGiven: true,
-          positive: false,
-          negative: !this.state.negative,
-        });
-        break;
-      }
-      default: {
-        this.setState({
-          ratingGiven: false,
-          positive: false,
-          negative: false,
-        });
-      }
-    }
     let feedback = this.state.skill;
     // Send feedback to server
     if (
