@@ -347,7 +347,7 @@ class ThemeChanger extends Component {
         autoScrollBodyContent={true}
         bodyStyle={customThemeBodyStyle}
         contentStyle={{ width: '70%', minWidth: '300px' }}
-        onRequestClose={this.props.onRequestClose()}
+        onRequestClose={() => this.props.onRequestClose}
       >
         <div style={{ display: 'flex', padding: '10px' }}>
           <div className="settingsComponents">{components}</div>
