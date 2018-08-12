@@ -64,6 +64,7 @@ class ThemeChanger extends Component {
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
+    this.props.onRequestClose = this.props.onRequestClose.bind(this);
     this.customTheme = {
       header: this.state.header.substring(1),
       pane: this.state.pane.substring(1),
