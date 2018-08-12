@@ -43,6 +43,10 @@ class Feedback extends React.Component {
 
   // Update state to store rating
   rateSkill = rating => {
+  	if (this.state.ratingGiven) {
+  	  return;
+  	}
+
     let defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
     let skill = this.state.skill;
