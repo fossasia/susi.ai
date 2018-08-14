@@ -780,7 +780,7 @@ class MessageSection extends Component {
     }
     document.body.style.setProperty(
       'background-color',
-      this.state.currTheme === 'light' ? bodyColor : 'rgb(0, 0, 18)',
+      this.state.currTheme === 'dark' ? 'rgb(0, 0, 18)' : bodyColor,
     );
     document.body.style.setProperty(
       'background-image',
