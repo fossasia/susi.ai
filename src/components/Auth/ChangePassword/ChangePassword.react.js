@@ -279,6 +279,7 @@ export default class ChangePassword extends Component {
       width: '30%',
       float: 'left',
       marginTop: '12px',
+      color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
     };
     const inputStyle = {
       color: themeForegroundColor,
