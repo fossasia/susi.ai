@@ -80,7 +80,7 @@
 }
 
 .setting-item{
-  width: 97%;
+  width: 100%;
 }
 
 .Link a {
@@ -114,6 +114,7 @@
   width: 35%;
   background-color: #fff;
   height: 500px;
+  overflow: hidden;
 }
 
 .rightMenu {
