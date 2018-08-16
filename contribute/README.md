@@ -14,8 +14,8 @@ Experiments are located within the `basic` and `advanced` folders.
 5. Create a file with the title of experiment as file name.
 6. Paste your codes then commit and push the file to your repo
 7. Make a pull request to our repo!
-8. Thanks for contributing! :smiley:
-
+8. Thanks for contributing! :smiley:  
+Note: use Fritzing to create a breadboard diagram. [https://www.instructables.com/id/Fritzing-A-Tutorial/]
 
 **Suggested Structure**
 
