@@ -2,6 +2,8 @@
   "name": "chat.susi.ai",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://chat.susi.ai/",
+  "repository": "https://github.com/fossasia/chat.susi.ai",
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.42",
     "add-px": "1.0.0",
@@ -107,5 +109,6 @@
       "eslint --fix",
       "git add ."
     ]
-  }
+  },
+  "license": "LGPL-2.1-only"
 }
