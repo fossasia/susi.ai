@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
-import Edit from 'material-ui/svg-icons/image/edit';
 import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
@@ -145,12 +144,6 @@ class TopBar extends Component {
             <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
               <Translate text="Skills" />
             </MenuItem>
-            <MenuItem
-              primaryText={<Translate text="Themes" />}
-              key="custom"
-              onClick={this.props.handleThemeChanger}
-              rightIcon={<Edit />}
-            />
             <MenuItem
               primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
@@ -293,7 +286,7 @@ class TopBar extends Component {
                   alignItems: 'center',
                 }}
               >
-                <CircleImage {...avatarProps} size="32" />
+                <CircleImage {...avatarProps} size="24" />
                 <label
                   className="useremail"
                   style={{
@@ -320,7 +313,6 @@ class TopBar extends Component {
 Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
-  handleThemeChanger: PropTypes.func,
   handleOpen: PropTypes.func,
   handleSignUp: PropTypes.func,
   handleChangePassword: PropTypes.func,
