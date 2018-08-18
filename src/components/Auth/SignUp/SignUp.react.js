@@ -153,6 +153,9 @@ export default class SignUp extends Component {
       let validPassword = password.length >= 6;
       state.passwordValue = password;
       state.passwordError = !(password && validPassword);
+      state.passwordConfirmError = !(
+        password === this.state.confirmPasswordValue
+      );
       if (validPassword) {
         let result = zxcvbn(password);
         state.passwordScore = result.score;
