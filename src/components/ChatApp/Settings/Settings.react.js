@@ -1257,6 +1257,7 @@ class Settings extends Component {
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
+      color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
     };
     const fieldStyle = {
       height: '35px',
