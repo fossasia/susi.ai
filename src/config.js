@@ -8,7 +8,7 @@ const url = `${urls.API_URL}/aaa/getApiKeys.json`;
 $.ajax({
   url: url,
   dataType: 'json',
-  crossDomain: true,
+  crossDomain: false,
   timeout: 3000,
   async: true,
 }).done(function(output) {
