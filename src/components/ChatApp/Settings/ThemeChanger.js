@@ -5,8 +5,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Translate from '../../Translate/Translate.react';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import TextField from 'material-ui/TextField';
-import { CirclePicker } from 'react-color';
+import { Col, Row } from 'react-flexbox-grid';
+import Toggle from 'material-ui/Toggle';
+import ColorPicker from 'material-ui-color-picker';
 import * as Actions from '../../../actions/';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
 import PreviewThemeChat from './PreviewThemeChat';
 
@@ -28,6 +31,8 @@ function getStateFromStores() {
     composer: themeValue.length > 5 ? '#' + themeValue[3] : '#f5f4f6',
     textarea: themeValue.length > 5 ? '#' + themeValue[4] : '#fff',
     button: themeValue.length > 5 ? '#' + themeValue[5] : '#4285f4',
+    showBodyBackgroundImage: false,
+    showMessageBackgroundImage: false,
     bodyBackgroundImage: backgroundValue.length > 1 ? backgroundValue[0] : '',
     messageBackgroundImage:
       backgroundValue.length > 1 ? backgroundValue[1] : '',
@@ -52,12 +57,12 @@ const customThemeBodyStyle = {
 };
 
 const componentsList = [
-  { id: 1, component: 'header', name: 'Header' },
-  { id: 2, component: 'pane', name: 'Message Pane' },
-  { id: 3, component: 'body', name: 'Body' },
-  { id: 4, component: 'composer', name: 'Composer' },
-  { id: 5, component: 'textarea', name: 'Textarea' },
-  { id: 6, component: 'button', name: 'Button' },
+  { id: 1, component: 'pane', name: 'Change Background' },
+  { id: 2, component: 'header', name: 'Chat Header' },
+  { id: 3, component: 'body', name: 'Chat Body' },
+  { id: 4, component: 'composer', name: 'Message Composer' },
+  { id: 5, component: 'textarea', name: 'User Textarea' },
+  { id: 6, component: 'button', name: 'User Button' },
 ];
 
 class ThemeChanger extends Component {
@@ -100,22 +105,6 @@ class ThemeChanger extends Component {
     }
   };
 
-  handleRemoveUrlBody = () => {
-    if (!this.state.bodyBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        bodyBackgroundImage: '',
-      });
-      this.handleChangeBodyBackgroundImage('');
-    }
-  };
-
   handleRemoveUrlMessage = () => {
     if (!this.state.messageBackgroundImage) {
       this.setState({ SnackbarOpenBackground: true });
@@ -144,22 +133,22 @@ class ThemeChanger extends Component {
     let state = this.state;
 
     if (name === 'header') {
-      state.header = color.hex;
+      state.header = color;
       this.customTheme.header = state.header.substring(1);
     } else if (name === 'body') {
-      state.body = color.hex;
+      state.body = color;
       this.customTheme.body = state.body.substring(1);
     } else if (name === 'pane') {
-      state.pane = color.hex;
+      state.pane = color;
       this.customTheme.pane = state.pane.substring(1);
     } else if (name === 'composer') {
-      state.composer = color.hex;
+      state.composer = color;
       this.customTheme.composer = state.composer.substring(1);
     } else if (name === 'textarea') {
-      state.textarea = color.hex;
+      state.textarea = color;
       this.customTheme.textarea = state.textarea.substring(1);
     } else if (name === 'button') {
-      state.button = color.hex;
+      state.button = color;
       this.customTheme.button = state.button.substring(1);
     }
     this.setState(state);
@@ -223,6 +212,15 @@ class ThemeChanger extends Component {
     this.props.onRequestClose()();
   };
 
+  handleClickColorBox = id => {
+    $('#colorPicker' + id).click();
+  };
+  showMessageBackgroundImageToggle = () => {
+    let isInputChecked = !this.state.showMessageBackgroundImage;
+    this.setState({ showMessageBackgroundImage: isInputChecked });
+    this.handleRemoveUrlMessage();
+  };
+
   render() {
     var buttonColor;
     buttonColor = this.state.button;
@@ -253,89 +251,131 @@ class ThemeChanger extends Component {
     const components = componentsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
-          <h4>
-            <Translate text="Color of" /> <Translate text={component.name} />:
-          </h4>
-          <CirclePicker
-            color={component}
-            width={'100%'}
-            colors={[
-              '#f44336',
-              '#e91e63',
-              '#9c27b0',
-              '#673ab7',
-              '#3f51b5',
-              '#2196f3',
-              '#03a9f4',
-              '#00bcd4',
-              '#009688',
-              '#4caf50',
-              '#8bc34a',
-              '#cddc39',
-              '#ffeb3b',
-              '#ffc107',
-              '#ff9800',
-              '#ff5722',
-              '#795548',
-              '#607d8b',
-              '#0f0f0f',
-              '#ffffff',
-            ]}
-            onChangeComplete={this.handleChangeComplete.bind(
-              this,
-              component.component,
-            )}
-            onChange={this.handleColorChange.bind(this, component.id)}
-          />
-
-          <TextField
-            name="backgroundImg"
-            style={{
-              display: component.component === 'body' ? 'block' : 'none',
-            }}
-            onChange={(e, value) => this.handleChangeBodyBackgroundImage(value)}
-            value={this.state.bodyBackgroundImage}
-            floatingLabelText={<Translate text="Body Background Image URL" />}
-          />
-          <RaisedButton
-            name="removeBackgroundBody"
-            key={'RemoveBody'}
-            label={<Translate text="Remove URL" />}
-            style={{
-              display: component.component === 'body' ? 'block' : 'none',
-              width: '150px',
-            }}
-            backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-            labelColor="#fff"
-            keyboardFocused={true}
-            onTouchTap={this.handleRemoveUrlBody}
-          />
-          <TextField
-            name="messageImg"
-            style={{
-              display: component.component === 'pane' ? 'block' : 'none',
-            }}
-            onChange={(e, value) =>
-              this.handleChangeMessageBackgroundImage(value)
-            }
-            value={this.state.messageBackgroundImage}
-            floatingLabelText={
-              <Translate text="Message Background Image URL" />
-            }
-          />
-          <RaisedButton
-            name="removeBackgroundMessage"
-            key={'RemoveMessage'}
-            label={<Translate text="Remove URL" />}
-            style={{
-              display: component.component === 'pane' ? 'block' : 'none',
-              width: '150px',
-            }}
-            backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-            labelColor="#fff"
-            keyboardFocused={true}
-            onTouchTap={this.handleRemoveUrlMessage}
-          />
+          <Row style={{ marginBottom: '15px' }}>
+            <Col xs={12} md={6} lg={6}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div
+                  style={{
+                    fontSize: '18px',
+                    paddingTop: '12px',
+                    fontWeight: '400',
+                    color: 'rgba(0,0,0,.85)',
+                  }}
+                >
+                  {component.name}
+                </div>
+                {component.id === 1 && (
+                  <div style={{ marginTop: '-1px' }}>
+                    <span
+                      className="toggle-label-right"
+                      onClick={this.showMessageBackgroundImageToggle}
+                    >
+                      Color
+                    </span>
+                    <Toggle
+                      label="Image"
+                      labelPosition="right"
+                      labelStyle={{
+                        width: 'auto',
+                        fontSize: '14px',
+                        fontWeight: '300',
+                      }}
+                      defaultToggled={this.state.showMessageBackgroundImage}
+                      onToggle={this.showMessageBackgroundImageToggle}
+                      style={{
+                        textAlign: 'right',
+                        marginTop: '10px',
+                        display: 'inline-block',
+                        width: 'auto',
+                      }}
+                      thumbSwitchedStyle={{
+                        backgroundColor: 'rgb(66, 133, 245)',
+                      }}
+                      trackSwitchedStyle={{
+                        backgroundColor: 'rgba(151, 184, 238, 0.85)',
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </Col>
+            <Col xs={12} md={6} lg={6} style={{ marginTop: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                {component.id !== 1 && (
+                  <div className="color-picker-wrap">
+                    <span
+                      className="color-box"
+                      onClick={() => this.handleClickColorBox(component.id)}
+                      style={{
+                        backgroundColor: this.state[component.component],
+                      }}
+                    />
+                    <div className="colorPicker">
+                      <ColorPicker
+                        className="color-picker"
+                        style={{ display: 'inline-block', width: '60px' }}
+                        name="color"
+                        id={'colorPicker' + component.id}
+                        defaultValue={this.state[component.component]}
+                        onChange={color =>
+                          this.handleChangeComplete(component.component, color)
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+                {component.id === 1 &&
+                  !this.state.showMessageBackgroundImage && (
+                    <div className="color-picker-wrap">
+                      <span
+                        className="color-box"
+                        onClick={() => this.handleClickColorBox(component.id)}
+                        style={{
+                          backgroundColor: this.state[component.component],
+                        }}
+                      />
+                      <div className="colorPicker">
+                        <ColorPicker
+                          className="color-picker"
+                          style={{ display: 'inline-block', width: '60px' }}
+                          name="color"
+                          id={'colorPicker' + component.id}
+                          defaultValue={this.state[component.component]}
+                          onChange={color =>
+                            this.handleChangeComplete(
+                              component.component,
+                              color,
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  )}
+                {component.id === 1 &&
+                  this.state.showMessageBackgroundImage && (
+                    <div className="image-div">
+                      <TextField
+                        name="messageImg"
+                        style={{
+                          width: '180px',
+                          display:
+                            component.component === 'pane' ? 'block' : 'none',
+                        }}
+                        onChange={(e, value) =>
+                          this.handleChangeMessageBackgroundImage(value)
+                        }
+                        value={this.state.messageBackgroundImage}
+                        floatingLabelText={
+                          <span style={{ fontSize: 'unset' }}>
+                            Message Image URL
+                          </span>
+                        }
+                      />
+                    </div>
+                  )}
+              </div>
+            </Col>
+          </Row>
         </div>
       );
     });
@@ -346,10 +386,21 @@ class ThemeChanger extends Component {
         open={this.props.themeOpen}
         autoScrollBodyContent={true}
         bodyStyle={customThemeBodyStyle}
-        contentStyle={{ width: '70%', minWidth: '300px' }}
+        contentStyle={{
+          minWidth: '300px',
+          maxWidth: 'unset',
+          width: '780px',
+        }}
         onRequestClose={this.props.onRequestClose()}
       >
-        <div style={{ display: 'flex', padding: '10px' }}>
+        <div
+          style={{
+            display: 'flex',
+            padding: '10px',
+            height: '700px',
+            width: '600px',
+          }}
+        >
           <div className="settingsComponents">{components}</div>
           <div
             style={{
