@@ -147,7 +147,7 @@ class TopBar extends Component {
             <MenuItem
               primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
-              href={`${urls.SKILL_URL}}/botbuilder`}
+              href={`${urls.SKILL_URL}/botbuilder`}
             />
             <MenuItem
               primaryText={<Translate text="Settings" />}
