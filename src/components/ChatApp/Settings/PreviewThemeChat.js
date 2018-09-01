@@ -111,22 +111,22 @@ class PreviewThemeChat extends Component {
           >
             <div className="chat-message-container">
               <div className="chat-messages">{messages}</div>
-              <div
-                className="chat-footer-container"
-                style={{ backgroundColor: colors.composerColor }}
-              >
-                <div className="chat-footer">
-                  <textarea
-                    type="text"
-                    style={{ backgroundColor: colors.textareColor }}
-                    placeholder="Enter your response"
-                    className="chat-input"
-                    value={this.state.message}
-                    onChange={ev => this.setState({ message: ev.target.value })}
-                  />
-                </div>
-                <Send onClick={this.sendMessage} className="chat-input-send" />
+            </div>
+            <div
+              className="chat-footer-container"
+              style={{ backgroundColor: colors.composerColor }}
+            >
+              <div className="chat-footer">
+                <textarea
+                  type="text"
+                  style={{ backgroundColor: colors.textareColor }}
+                  placeholder="Enter your response"
+                  className="chat-input"
+                  value={this.state.message}
+                  onChange={ev => this.setState({ message: ev.target.value })}
+                />
               </div>
+              <Send onClick={this.sendMessage} className="chat-input-send" />
             </div>
           </div>
         </div>
