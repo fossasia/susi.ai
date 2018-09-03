@@ -34,6 +34,7 @@ function getStateFromStores() {
   }
   return {
     SnackbarOpen: false,
+    player: [],
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
@@ -76,12 +77,17 @@ function getStateFromStores() {
   };
 }
 
-function getMessageListItem(messages, showLoading, markID) {
+function getMessageListItem(messages, showLoading, addYouTube, markID) {
   // markID indicates search mode on
   if (markID) {
     return messages.map(message => {
       return (
-        <MessageListItem key={message.id} message={message} markID={markID} />
+        <MessageListItem
+          key={message.id}
+          message={message}
+          markID={markID}
+          playerAdd={addYouTube}
+        />
       );
     });
   }
@@ -107,6 +113,7 @@ function getMessageListItem(messages, showLoading, markID) {
           message={message}
           latestUserMsgID={latestUserMsgID}
           latestMessage={false}
+          playerAdd={addYouTube}
         />
       );
     }
@@ -116,6 +123,7 @@ function getMessageListItem(messages, showLoading, markID) {
         message={message}
         latestUserMsgID={latestUserMsgID}
         latestMessage={true}
+        playerAdd={addYouTube}
       />
     );
   });
@@ -197,6 +205,23 @@ class MessageSection extends Component {
       button: this.state.button.substring(1),
     };
   }
+
+  pauseAllVideos = () => {
+    this.state.player.forEach(event => {
+      try {
+        if (event.target.getPlayerState() === 1) {
+          event.target.pauseVideo();
+        }
+      } catch (error) {
+        // do nothing,
+      }
+    });
+  };
+
+  addYouTube = playerNew => {
+    this.pauseAllVideos();
+    this.setState(prevState => ({ player: [...prevState.player, playerNew] }));
+  };
 
   // Open Login Dialog
   handleOpen = () => {
@@ -612,11 +637,17 @@ class MessageSection extends Component {
     if (this.state.search) {
       let markID = this.state.searchState.scrollID;
       let markedMessages = this.state.searchState.markedMsgs;
-      messageListItems = getMessageListItem(markedMessages, false, markID);
+      messageListItems = getMessageListItem(
+        markedMessages,
+        false,
+        this.addYouTube,
+        markID,
+      );
     } else {
       messageListItems = getMessageListItem(
         this.state.messages,
         this.state.showLoading,
+        this.addYouTube,
       );
     }
 
@@ -967,7 +998,9 @@ class MessageSection extends Component {
    * Event handler for 'change' events coming from the MessageStore
    */
   _onChange() {
+    let array = this.state.player;
     this.setState(getStateFromStores());
+    this.setState({ player: array });
   }
 }
 
