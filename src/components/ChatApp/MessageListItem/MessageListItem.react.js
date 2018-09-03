@@ -47,6 +47,9 @@ class MessageListItem extends React.Component {
       height: 234,
     };
   }
+  _onReady = event => {
+    this.props.playerAdd(event);
+  };
 
   // Triggered when the voice player is started
   onStart = () => {
@@ -477,6 +480,7 @@ MessageListItem.propTypes = {
   markID: PropTypes.string,
   latestMessage: PropTypes.bool,
   latestUserMsgID: PropTypes.string,
+  playerAdd: PropTypes.func,
 };
 
 export default MessageListItem;
