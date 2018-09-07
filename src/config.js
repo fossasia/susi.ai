@@ -10,7 +10,7 @@ $.ajax({
   dataType: 'json',
   crossDomain: true,
   timeout: 3000,
-  async: false,
+  async: true,
 }).done(function(output) {
   module.exports.MAP_KEY = output.keys.MAP_KEY;
   module.exports.CAPTCHA_KEY = output.keys.CAPTCHA_KEY;
