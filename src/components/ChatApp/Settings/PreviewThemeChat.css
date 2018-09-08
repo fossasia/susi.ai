@@ -1,13 +1,12 @@
 .chat-message-container{
     font-size: 15px;
-    min-height:330px;
+    min-height:250px;
     padding-bottom: 60px;
     box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
 .susi-chat-container{
     border:1px solid #000000;
-    height: 420px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -22,11 +21,9 @@
 }
 
 .chat-footer-container{
-    height: 50px;
     display: flex;
     align-items: center;
-    padding: 6px;
-    position: absolute;
+    padding: 15px;
     bottom: 11px;
     justify-content: space-evenly;
     box-shadow: 0 -1px 4px 0 rgba(0,0,0,.12);

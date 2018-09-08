@@ -397,15 +397,14 @@ class ThemeChanger extends Component {
           style={{
             display: 'flex',
             padding: '10px',
-            height: '700px',
-            width: '600px',
+            height: '550px',
+            justifyContent: 'space-evenly',
           }}
         >
           <div className="settingsComponents">{components}</div>
           <div
             style={{
-              width: '40%',
-              position: 'fixed',
+              width: '60%',
               overflow: 'hidden',
               right: '0',
               padding: '10px',
@@ -422,11 +421,8 @@ class ThemeChanger extends Component {
               button={this.state.button}
             />
           </div>
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
         </div>
+        <Close style={closingStyle} onTouchTap={this.props.onRequestClose()} />
       </Dialog>
     );
   }
