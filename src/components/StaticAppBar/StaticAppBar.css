@@ -58,3 +58,8 @@ a.drawerItem {
     margin-right: -8px;
     margin-top: 1px;
 }
+@media(max-width: 1000px){
+    .topRightLabel{
+        display: None;
+    }
+}
