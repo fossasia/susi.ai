@@ -63,6 +63,7 @@
     vertical-align: middle;
     max-width: 100px;
     display: inline-block;
+    margin-top: 21px;
 }
 
 @media only screen and (min-width: 1400px){
