@@ -1,8 +1,3 @@
-@media only screen and (max-width : 800px) {
-  .susi-logo{
-    margin-left: 50%
-  }
-}
 .footer-wrapper{
     background: #f6f6f6;
     width: 100%;
@@ -67,7 +62,6 @@
     height: 10px;
     vertical-align: middle;
     max-width: 100px;
-    display: inline-block;
     margin-top: 21px;
     width: auto;
 }
@@ -103,5 +97,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
+    }
+    .susi-logo{
+      display: block;
+      margin-left:auto;
+      margin-right: auto;
     }
 }
