@@ -168,9 +168,11 @@ class TextToSpeechSettings extends Component {
           <div
             style={{
               marginBottom: '0px',
+              marginTop: '15px',
               fontSize: 15,
               fontWeight: 'bold',
             }}
+            className="speechSettingDiv"
           >
             <Translate text="Speech Output Language" />
           </div>
