@@ -185,7 +185,7 @@ class Overview extends Component {
           </div>
         </div>
 
-        <div className="section_copy">
+        <div style={{ alignItems: 'unset' }} className="section_copy">
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className="img-container">
