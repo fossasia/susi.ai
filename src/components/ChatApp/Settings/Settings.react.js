@@ -1294,6 +1294,7 @@ class Settings extends Component {
               )}
               <br />
               <div
+                className="reduceSettingDiv"
                 style={{
                   float: 'left',
                   padding: '0px 5px 0px 0px',
@@ -1409,7 +1410,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '0px 5px 0px 0px',
               }}
-              className="speechSettingDiv"
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output only for speech input" />
             </div>
@@ -1431,7 +1432,7 @@ class Settings extends Component {
                 fontSize: '15px',
                 fontWeight: 'bold',
               }}
-              className="speechSettingDiv"
+              className="reduceSettingDiv"
             >
               <Translate text="Speech Output Always ON" />
             </div>
@@ -1441,7 +1442,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '5px 5px 0px 0px',
               }}
-              className="speechSettingDiv"
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output regardless of input type" />
             </div>
@@ -1840,6 +1841,7 @@ class Settings extends Component {
               float: 'left',
               padding: '0px 5px 0px 0px',
             }}
+            className="reduceSettingDiv"
           >
             <Translate text="Send message by pressing ENTER" />
           </div>
