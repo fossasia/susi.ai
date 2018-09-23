@@ -1135,6 +1135,13 @@ class Settings extends Component {
     return somethingToSave;
   };
 
+  getSomethingToEdit = () => {
+    let somethingToEdit = false;
+    if (this.state.theme === 'custom') {
+      somethingToEdit = true;
+    }
+    return somethingToEdit;
+  };
   handleCountryChange = (event, index, value) => {
     this.setState({
       countryCode: value,
@@ -1269,6 +1276,7 @@ class Settings extends Component {
     };
 
     let currentSetting;
+    let somethingToEdit = this.getSomethingToEdit();
 
     let voiceOutput = this.populateVoiceList();
     if (this.state.selectedSetting === 'Microphone') {
@@ -1294,6 +1302,7 @@ class Settings extends Component {
               )}
               <br />
               <div
+                className="reduceSettingDiv"
                 style={{
                   float: 'left',
                   padding: '0px 5px 0px 0px',
@@ -1374,6 +1383,7 @@ class Settings extends Component {
           </RadioButtonGroup>
           <RaisedButton
             label={<Translate text="Edit theme" />}
+            disabled={!somethingToEdit}
             backgroundColor="#4285f4"
             labelColor="#fff"
             onClick={this.handleThemeChanger}
@@ -1409,7 +1419,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '0px 5px 0px 0px',
               }}
-              className="speechSettingDiv"
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output only for speech input" />
             </div>
@@ -1431,7 +1441,7 @@ class Settings extends Component {
                 fontSize: '15px',
                 fontWeight: 'bold',
               }}
-              className="speechSettingDiv"
+              className="reduceSettingDiv"
             >
               <Translate text="Speech Output Always ON" />
             </div>
@@ -1441,7 +1451,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '5px 5px 0px 0px',
               }}
-              className="speechSettingDiv"
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output regardless of input type" />
             </div>
@@ -1840,6 +1850,7 @@ class Settings extends Component {
               float: 'left',
               padding: '0px 5px 0px 0px',
             }}
+            className="reduceSettingDiv"
           >
             <Translate text="Send message by pressing ENTER" />
           </div>
