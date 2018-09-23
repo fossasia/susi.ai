@@ -1135,6 +1135,13 @@ class Settings extends Component {
     return somethingToSave;
   };
 
+  getSomethingToEdit = () => {
+    let somethingToEdit = false;
+    if (this.state.theme === 'custom') {
+      somethingToEdit = true;
+    }
+    return somethingToEdit;
+  };
   handleCountryChange = (event, index, value) => {
     this.setState({
       countryCode: value,
@@ -1269,6 +1276,7 @@ class Settings extends Component {
     };
 
     let currentSetting;
+    let somethingToEdit = this.getSomethingToEdit();
 
     let voiceOutput = this.populateVoiceList();
     if (this.state.selectedSetting === 'Microphone') {
@@ -1374,6 +1382,7 @@ class Settings extends Component {
           </RadioButtonGroup>
           <RaisedButton
             label={<Translate text="Edit theme" />}
+            disabled={!somethingToEdit}
             backgroundColor="#4285f4"
             labelColor="#fff"
             onClick={this.handleThemeChanger}
