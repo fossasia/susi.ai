@@ -276,10 +276,15 @@ export default class ChangePassword extends Component {
       width: '125%',
     };
     const labelStyle = {
-      width: '30%',
       float: 'left',
       marginTop: '12px',
       color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+      minWidth: '30%',
+      width: '150px',
+    };
+    const forgotPassLink = {
+      minWidth: '300px',
+      margin: '-20 auto',
     };
     const inputStyle = {
       color: themeForegroundColor,
@@ -296,6 +301,7 @@ export default class ChangePassword extends Component {
             <div>
               <PasswordField
                 name="password"
+                position="relative"
                 style={fieldStyle}
                 value={this.state.passwordValue}
                 onChange={this.handleChange}
@@ -306,17 +312,14 @@ export default class ChangePassword extends Component {
                 visibilityButtonStyle={{ display: 'none' }}
                 visibilityIconStyle={{ display: 'none' }}
               />
-              <div className="forgot">
-                <a href={`${urls.ACCOUNT_URL}/forgotpwd`}>
-                  Forgot your password?
-                </a>
-              </div>
             </div>
             <br />
             <div style={labelStyle}>New Password</div>
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
+                position="relative"
+                placeholder="Must be at least 6 characters"
                 style={fieldStyle}
                 value={this.state.newPasswordValue}
                 onChange={this.handleChange}
@@ -335,6 +338,8 @@ export default class ChangePassword extends Component {
             <div>
               <PasswordField
                 name="confirmNewPassword"
+                position="relative"
+                placeholder="Must match the new password"
                 style={fieldStyle}
                 value={this.state.confirmNewPasswordValue}
                 onChange={this.handleChange}
@@ -346,7 +351,13 @@ export default class ChangePassword extends Component {
                 visibilityIconStyle={{ display: 'none' }}
               />
             </div>
-            <div>
+            <div style={forgotPassLink}>
+              <br />
+              <div className="forgot">
+                <a href={`${urls.ACCOUNT_URL}/forgotpwd`}>
+                  Forgot your password?
+                </a>
+              </div>
               <br />
               <RaisedButton
                 label={<Translate text="Save Changes" />}
