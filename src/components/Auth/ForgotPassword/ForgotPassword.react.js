@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+/* Material-UI*/
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
-import './ForgotPassword.css';
-import $ from 'jquery';
-import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Close from 'material-ui/svg-icons/navigation/close';
+
+/* CSS*/
+import './ForgotPassword.css';
+
+/* Utils*/
+import $ from 'jquery';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 
 class ForgotPassword extends Component {
@@ -24,6 +31,7 @@ class ForgotPassword extends Component {
       emailError: true,
       validEmail: true,
       validForm: false,
+      loading: false,
     };
 
     this.emailErrorMessage = '';
@@ -131,6 +139,8 @@ class ForgotPassword extends Component {
     let defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
 
+    this.setState({ loading: true });
+
     let serverUrl = this.state.serverUrl;
     if (serverUrl.slice(-1) === '/') {
       serverUrl = serverUrl.slice(0, -1);
@@ -150,6 +160,7 @@ class ForgotPassword extends Component {
             let msg = 'Email does not exist';
             let state = this.state;
             state.msg = msg;
+            state.loading = false;
             this.setState(state);
           },
         },
@@ -163,6 +174,7 @@ class ForgotPassword extends Component {
             state.success = false;
             state.msg += 'Please Try Again';
           }
+          state.loading = false;
           this.setState(state);
         }.bind(this),
         error: function(jqXHR, textStatus, errorThrown) {
@@ -178,6 +190,7 @@ class ForgotPassword extends Component {
           }
           let state = this.state;
           state.msg = msg;
+          state.loading = false;
           this.setState(state);
         }.bind(this),
       });
@@ -203,6 +216,7 @@ class ForgotPassword extends Component {
       top: '10px',
       cursor: 'pointer',
     };
+    let { loading } = this.state;
 
     return (
       <div className="forgotPwdForm">
@@ -226,29 +240,19 @@ class ForgotPassword extends Component {
               {/* Reset Button */}
               <RaisedButton
                 type="submit"
-                label={<Translate text="Reset" />}
+                label={!loading ? <Translate text="Reset" /> : ''}
                 backgroundColor={
                   UserPreferencesStore.getTheme() === 'light'
                     ? '#4285f4'
                     : '#19314B'
                 }
                 labelColor="#fff"
+                style={{ margin: '25px 0 0 0 ' }}
                 disabled={!this.state.validForm}
+                icon={loading ? <CircularProgress size={24} /> : undefined}
               />
             </div>
           </form>
-          {/* Back to Login button */}
-          <RaisedButton
-            onClick={this.props.onLoginSignUp}
-            label={<Translate text="Login" />}
-            backgroundColor={
-              UserPreferencesStore.getTheme() === 'light'
-                ? '#4285f4'
-                : '#19314B'
-            }
-            labelColor="#fff"
-            style={{ margin: '10px 0 0 0' }}
-          />
         </Paper>
         {this.state.msg && (
           <div>
