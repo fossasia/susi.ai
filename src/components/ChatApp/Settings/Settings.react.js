@@ -772,10 +772,8 @@ class Settings extends Component {
   // Handle change to theme settings
   handleSelectChange = (event, value) => {
     value === 'light' || value === 'custom'
-      ? (document.getElementById('settings-container').style.background =
-          'rgb(242, 242, 242)')
-      : (document.getElementById('settings-container').style.background =
-          'rgb(0,0,18)');
+      ? ($('#settings-container').addClass({ 'class': 'settings-container-light' }))
+      : ($('#settings-container').addClass({ 'class': 'settings-container-dark' }));
     this.preview = true;
     this.setState({ theme: value }, () => {
       this.handleSubmit();
@@ -2225,7 +2223,7 @@ class Settings extends Component {
       <div
         id="settings-container"
         className={
-          UserPreferencesStore.getTheme() === 'light'
+          (UserPreferencesStore.getTheme() === 'light' && this.state.settingNo !== 'Theme') || (this.state.settingNo === 'Theme' && this.state.theme === 'light')
             ? 'settings-container-light'
             : 'settings-container-dark'
         }
