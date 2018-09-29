@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+/* Material-UI*/
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
-import './ForgotPassword.css';
-import $ from 'jquery';
-import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Close from 'material-ui/svg-icons/navigation/close';
+
+/* CSS*/
+import './ForgotPassword.css';
+
+/* Utils*/
+import $ from 'jquery';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ChatConstants from '../../../constants/ChatConstants';
 import FlatButton from 'material-ui/FlatButton';
@@ -26,6 +33,7 @@ class ForgotPassword extends Component {
       emailError: true,
       validEmail: true,
       validForm: false,
+      loading: false,
     };
 
     this.emailErrorMessage = '';
@@ -133,6 +141,8 @@ class ForgotPassword extends Component {
     let defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
 
+    this.setState({ loading: true });
+
     let serverUrl = this.state.serverUrl;
     if (serverUrl.slice(-1) === '/') {
       serverUrl = serverUrl.slice(0, -1);
@@ -152,6 +162,7 @@ class ForgotPassword extends Component {
             let msg = 'Email does not exist';
             let state = this.state;
             state.msg = msg;
+            state.loading = false;
             this.setState(state);
           },
         },
@@ -165,6 +176,7 @@ class ForgotPassword extends Component {
             state.success = false;
             state.msg += 'Please Try Again';
           }
+          state.loading = false;
           this.setState(state);
         }.bind(this),
         error: function(jqXHR, textStatus, errorThrown) {
@@ -180,6 +192,7 @@ class ForgotPassword extends Component {
           }
           let state = this.state;
           state.msg = msg;
+          state.loading = false;
           this.setState(state);
         }.bind(this),
       });
@@ -213,6 +226,7 @@ class ForgotPassword extends Component {
       top: '10px',
       cursor: 'pointer',
     };
+    let { loading } = this.state;
 
     return (
       <div className="forgotPwdForm">
@@ -242,6 +256,7 @@ class ForgotPassword extends Component {
                     : '#19314B'
                 }
                 labelColor="#fff"
+                style={{ margin: '25px 0 0 0 ' }}
                 disabled={!this.state.validForm}
                 style={{ marginRight: '15px' }}
               />
