@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Translate from '../../Translate/Translate.react';
+import ChatConstants from '../../../constants/ChatConstants';
+import FlatButton from 'material-ui/FlatButton';
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -185,6 +187,14 @@ class ForgotPassword extends Component {
   };
 
   render() {
+    const actions = (
+      <FlatButton
+        label="OK"
+        backgroundColor={ChatConstants.standardBlue}
+        labelStyle={{ color: '#fff' }}
+        onTouchTap={this.handleClose}
+      />
+    );
     const styles = {
       width: '100%',
       textAlign: 'center',
@@ -222,11 +232,10 @@ class ForgotPassword extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div>
-              {/* Reset Button */}
+            <div style={{ margin: '10px 0 10px 30px' }}>
               <RaisedButton
                 type="submit"
-                label={<Translate text="Reset" />}
+                label="Reset"
                 backgroundColor={
                   UserPreferencesStore.getTheme() === 'light'
                     ? '#4285f4'
@@ -234,21 +243,32 @@ class ForgotPassword extends Component {
                 }
                 labelColor="#fff"
                 disabled={!this.state.validForm}
+                style={{ marginRight: '15px' }}
+              />
+              <RaisedButton
+                label="Cancel"
+                backgroundColor={
+                  UserPreferencesStore.getTheme() === 'light'
+                    ? '#4285f4'
+                    : '#19314B'
+                }
+                labelColor="#fff"
+                onTouchTap={this.props.closeModal}
               />
             </div>
           </form>
-          {/* Back to Login button */}
-          <RaisedButton
-            onClick={this.props.onLoginSignUp}
-            label={<Translate text="Login" />}
-            backgroundColor={
-              UserPreferencesStore.getTheme() === 'light'
-                ? '#4285f4'
-                : '#19314B'
-            }
-            labelColor="#fff"
-            style={{ margin: '10px 0 0 0' }}
-          />
+          {this.state.msg && (
+            <div>
+              <Dialog
+                actions={actions}
+                modal={false}
+                open={true}
+                onRequestClose={this.handleClose}
+              >
+                {this.state.msg}
+              </Dialog>
+            </div>
+          )}
         </Paper>
         {this.state.msg && (
           <div>
@@ -266,6 +286,7 @@ class ForgotPassword extends Component {
 
 ForgotPassword.propTypes = {
   onLoginSignUp: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 export default ForgotPassword;
