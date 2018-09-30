@@ -243,7 +243,10 @@ class TopBar extends Component {
     const isLoggedIn = !!cookies.get('loggedIn');
     let avatarProps = null;
     if (isLoggedIn) {
-      avatarProps = getAvatarProps(cookies.get('emailId'));
+      avatarProps = getAvatarProps(
+        cookies.get('emailId'),
+        cookies.get('loggedIn'),
+      );
     }
 
     return (
