@@ -1,4 +1,3 @@
-import md5 from 'md5';
 import urls from './urls';
 
 export const isProduction = () => {
@@ -6,12 +5,11 @@ export const isProduction = () => {
   return domain.indexOf('.susi.ai') > 0;
 };
 
-export const getAvatarProps = emailId => {
-  const emailHash = md5(emailId);
-  const GRAVATAR_IMAGE_URL = `${urls.GRAVATAR_URL}/${emailHash}.jpg`;
+export const getAvatarProps = (emailId, accessToken) => {
+  const imageUrl = `${urls.API_URL}/getAvatar.png?access_token=${accessToken}`;
   const avatarProps = {
     name: emailId.toUpperCase(),
-    src: GRAVATAR_IMAGE_URL,
+    src: imageUrl,
   };
   return avatarProps;
 };
