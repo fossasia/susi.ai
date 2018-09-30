@@ -700,10 +700,10 @@ class Settings extends Component {
     let checked = this.state.checked;
     let serverUrl = this.state.serverUrl;
     let newCountryCode = !this.state.countryCode
-      ? this.intialSettings.countryCode
+      ? this.state.intialSettings.countryCode
       : this.state.countryCode;
     let newCountryDialCode = !this.state.countryDialCode
-      ? this.intialSettings.countryDialCode
+      ? this.state.intialSettings.countryDialCode
       : this.state.countryDialCode;
     let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
@@ -1150,9 +1150,9 @@ class Settings extends Component {
       this.setState({ PhoneNo: value });
     }
     if (!verify.test(value)) {
-      this.setState({ phoneNoError: 'Invalid phone number' });
+      this.setState({ phoneNoError: 'Invalid phone number', phoneError: true });
     } else {
-      this.setState({ phoneNoError: '' });
+      this.setState({ phoneNoError: '', phoneError: false });
     }
   };
 
@@ -2265,7 +2265,7 @@ class Settings extends Component {
                   disabled={
                     !this.state.validForm ||
                     !somethingToSave ||
-                    this.state.phoneNoError
+                    this.state.phoneError
                   }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
