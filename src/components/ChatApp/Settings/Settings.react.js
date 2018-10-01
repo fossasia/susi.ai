@@ -1375,6 +1375,7 @@ class Settings extends Component {
           </RadioButtonGroup>
           <RaisedButton
             label={<Translate text="Edit theme" />}
+            disabled={this.state.theme !== 'custom'}
             backgroundColor="#4285f4"
             labelColor="#fff"
             onClick={this.handleThemeChanger}
