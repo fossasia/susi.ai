@@ -80,7 +80,7 @@ class Feedback extends React.Component {
         } else {
           console.log('Some error occurred. Try Again');
         }
-        if (status === 'timeout') {
+        if (textStatus === 'timeout') {
           console.log('Please check your internet connection');
         }
       },

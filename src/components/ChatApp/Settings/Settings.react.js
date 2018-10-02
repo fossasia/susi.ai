@@ -1294,6 +1294,7 @@ class Settings extends Component {
               )}
               <br />
               <div
+                className="reduceSettingDiv"
                 style={{
                   float: 'left',
                   padding: '0px 5px 0px 0px',
@@ -1374,6 +1375,7 @@ class Settings extends Component {
           </RadioButtonGroup>
           <RaisedButton
             label={<Translate text="Edit theme" />}
+            disabled={this.state.theme !== 'custom'}
             backgroundColor="#4285f4"
             labelColor="#fff"
             onClick={this.handleThemeChanger}
@@ -1409,6 +1411,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '0px 5px 0px 0px',
               }}
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output only for speech input" />
             </div>
@@ -1430,6 +1433,7 @@ class Settings extends Component {
                 fontSize: '15px',
                 fontWeight: 'bold',
               }}
+              className="reduceSettingDiv"
             >
               <Translate text="Speech Output Always ON" />
             </div>
@@ -1439,6 +1443,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '5px 5px 0px 0px',
               }}
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output regardless of input type" />
             </div>
@@ -1750,7 +1755,12 @@ class Settings extends Component {
               <Translate text="Country/region : " />
               <DropDownMenu
                 maxHeight={300}
-                style={{ width: '250px', position: 'relative', top: '15px' }}
+                style={{
+                  width: '250px',
+                  position: 'relative',
+                  top: '15px',
+                  marginRight: '27px',
+                }}
                 labelStyle={{ color: themeForegroundColor }}
                 menuStyle={{ backgroundColor: themeBackgroundColor }}
                 menuItemStyle={{ color: themeForegroundColor }}
@@ -1762,54 +1772,73 @@ class Settings extends Component {
             </div>
             <div
               style={{
-                marginTop: '20px',
+                marginTop: '45px',
                 marginBottom: '0px',
                 marginLeft: '30px',
                 fontSize: '14px',
               }}
             >
-              <Translate text="Phone number : " />
-              <TextField
-                name="selectedCountry"
-                disabled={true}
-                underlineDisabledStyle={
-                  UserPreferencesStore.getTheme() === 'dark'
-                    ? underlineStyle
-                    : null
-                }
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
+              <span style={{ float: 'left', marginBottom: '35px' }}>
+                Phone number :
+              </span>
+              <div
+                style={{
+                  width: '250px',
+                  marginLeft: '33px',
+                  display: 'inline-block',
                 }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={
-                  countryData.countries[
-                    this.state.countryCode ? this.state.countryCode : 'US'
-                  ].countryCallingCodes[0]
-                }
-                style={{ width: '45px', marginLeft: '30px' }}
-              />
+              >
+                <TextField
+                  name="selectedCountry"
+                  disabled={true}
+                  underlineDisabledStyle={
+                    UserPreferencesStore.getTheme() === 'dark'
+                      ? underlineStyle
+                      : null
+                  }
+                  inputStyle={{
+                    color:
+                      UserPreferencesStore.getTheme() === 'dark'
+                        ? '#fff'
+                        : '#333',
+                  }}
+                  floatingLabelStyle={floatingLabelStyle}
+                  value={
+                    countryData.countries[
+                      this.state.countryCode ? this.state.countryCode : 'US'
+                    ].countryCallingCodes[0]
+                  }
+                  style={{
+                    width: '45px',
+                    marginTop: '-18px',
+                    float: 'left',
+                  }}
+                />
+
+                <TextField
+                  name="phonenumber"
+                  style={{
+                    width: '150px',
+                    float: 'left',
+                    marginTop: '-42px',
+                    marginLeft: '10px',
+                  }}
+                  onChange={this.handleTelephoneNoChange}
+                  inputStyle={{
+                    color:
+                      UserPreferencesStore.getTheme() === 'dark'
+                        ? '#fff'
+                        : '#333',
+                    paddingBottom: '4px',
+                    fontSize: '16px',
+                  }}
+                  floatingLabelStyle={floatingLabelStyle}
+                  value={this.state.PhoneNo}
+                  errorText={this.state.phoneNoError}
+                  floatingLabelText={<Translate text="Phone number" />}
+                />
+              </div>
             </div>
-            <TextField
-              name="phonenumber"
-              style={{
-                width: '150px',
-                marginRight: '230px',
-                float: 'right',
-                marginTop: '-72px',
-              }}
-              onChange={this.handleTelephoneNoChange}
-              inputStyle={{
-                color:
-                  UserPreferencesStore.getTheme() === 'dark' ? '#fff' : '#333',
-              }}
-              floatingLabelStyle={floatingLabelStyle}
-              value={this.state.PhoneNo}
-              errorText={this.state.phoneNoError}
-              floatingLabelText={<Translate text="Phone number" />}
-            />
           </div>
         </span>
       );
@@ -1837,6 +1866,7 @@ class Settings extends Component {
               float: 'left',
               padding: '0px 5px 0px 0px',
             }}
+            className="reduceSettingDiv"
           >
             <Translate text="Send message by pressing ENTER" />
           </div>
