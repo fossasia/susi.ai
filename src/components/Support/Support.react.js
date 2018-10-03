@@ -1,6 +1,7 @@
 import './Support.css';
 import $ from 'jquery';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Cookies from 'universal-cookie';
 import code from '../../images/code.png';
 import Dialog from 'material-ui/Dialog';
 import documentation from '../../images/programmer.png';
@@ -18,6 +19,8 @@ import support from '../../images/support.png';
 import question from '../../images/question.png';
 import React, { Component } from 'react';
 import urls from '../../utils/urls';
+
+const cookies = new Cookies();
 
 class Support extends Component {
   constructor(props) {
@@ -285,19 +288,22 @@ class Support extends Component {
           </div>
         </div>
         <div className="blue-wrapper">
-          <div className="non-flex blue-background">
-            <div className="conversation__description footer-desc">
-              <div className="support__heading center blue-text">
-                Get Started Today
-              </div>
+          {!cookies.get('loggedIn') ? (
+            <div className="non-flex blue-background">
+              <div className="conversation__description footer-desc">
+                <div className="support__heading center blue-text">
+                  Get Started Today
+                </div>
 
-              <RaisedButton
-                label="Sign Up"
-                onTouchTap={this.handleSignUp}
-                style={style}
-              />
+                <RaisedButton
+                  label="Sign Up"
+                  onTouchTap={this.handleSignUp}
+                  style={style}
+                />
+              </div>
             </div>
-          </div>
+          ) : null}
+
           <Footer />
         </div>
 
