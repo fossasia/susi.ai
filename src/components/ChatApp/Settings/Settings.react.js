@@ -700,10 +700,10 @@ class Settings extends Component {
     let checked = this.state.checked;
     let serverUrl = this.state.serverUrl;
     let newCountryCode = !this.state.countryCode
-      ? this.intialSettings.countryCode
+      ? this.state.intialSettings.countryCode
       : this.state.countryCode;
     let newCountryDialCode = !this.state.countryDialCode
-      ? this.intialSettings.countryDialCode
+      ? this.state.intialSettings.countryDialCode
       : this.state.countryDialCode;
     let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
@@ -1257,7 +1257,7 @@ class Settings extends Component {
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
-      color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+      color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
     };
     const fieldStyle = {
       height: '35px',
