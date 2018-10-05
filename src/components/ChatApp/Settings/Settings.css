@@ -98,7 +98,7 @@
 
 .settings-toggle {
   max-width: 5%;
-  float: left;
+  float: right;
 }
 
 .settingsSubmit{
@@ -207,4 +207,10 @@
   .setting-item{
   width: 100%;
 }
+}
+
+@media screen and (max-width: 500px) {
+  .reduceSettingDiv {
+    width: 70%;
+  }
 }
