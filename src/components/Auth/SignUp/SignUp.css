@@ -23,13 +23,13 @@
 }
 
 .login-links {
-	color: #365899;
+	color: white;
 	cursor: pointer;
 	font-size: 12px;
 }
 
 .login-links:hover {
-	color: #365899;
+	color: white;
 	text-decoration: underline;
 }
 
