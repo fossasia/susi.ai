@@ -258,8 +258,8 @@ class TopBar extends Component {
         }}
       >
         <ToolbarGroup>
-          <div style={{ float: 'left', marginTop: '0px' }}>
-            <Link to="/">
+          <div style={{ float: 'left', marginTop: '0px', outline: '0' }}>
+            <Link to="/" style={{ outline: '0' }}>
               <img src={susiWhite} alt="susi-logo" style={logoStyle} />
             </Link>
           </div>

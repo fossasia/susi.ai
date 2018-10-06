@@ -3,6 +3,7 @@
     width: 100%;
     position: relative;
     z-index: 10;
+    max-height: 150px;
 }
 .footer-container a{
     text-decoration: none;
