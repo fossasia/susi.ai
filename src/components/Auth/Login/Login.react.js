@@ -17,6 +17,7 @@ import { isProduction } from '../../../utils/helperFunctions';
 
 // Static assets
 import './Login.css';
+import susiWhite from '../../../images/susi-logo-white.png';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
@@ -256,8 +257,16 @@ class Login extends Component {
       width: '100%',
       textAlign: 'center',
       padding: '10px',
+      backgroundColor: '#0084ff',
+      color: 'white',
     };
-
+    const formStyle = {
+      backgroundColor: '#0084ff',
+      color: '#000000',
+    };
+    const textColor = {
+      color: 'white',
+    };
     const fieldStyle = {
       height: '35px',
       borderRadius: 4,
@@ -266,11 +275,13 @@ class Login extends Component {
       padding: '0px 10px',
       width: '250px',
       marginTop: '10px',
+      color: 'white',
     };
 
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
+      color: 'white',
     };
 
     const inputpassStyle = {
@@ -278,6 +289,7 @@ class Login extends Component {
       marginBottom: '10px',
       marginRight: '50px',
       width: '90%',
+      color: 'white',
     };
 
     const actions = (
@@ -291,14 +303,15 @@ class Login extends Component {
       />
     );
     return (
-      <div className="loginForm">
+      <div className="loginForm" style={formStyle}>
         <Paper zDepth={0} style={styles}>
           <div>
-            <Translate text="Log into SUSI" />
+            <Translate text="Log into " />
+            <img src={susiWhite} alt="susi-logo" className="susi-logo" />
           </div>
 
           <form onSubmit={this.handleSubmit}>
-            <div>
+            <div style={textColor}>
               <TextField
                 name="email"
                 type="email"
@@ -312,7 +325,7 @@ class Login extends Component {
               />
             </div>
 
-            <div>
+            <div style={textColor}>
               <PasswordField
                 name="password"
                 style={fieldStyle}

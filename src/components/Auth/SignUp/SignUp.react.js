@@ -13,6 +13,8 @@ import Translate from '../../Translate/Translate.react';
 import Recaptcha from 'react-recaptcha';
 import { CAPTCHA_KEY } from '../../../config.js';
 
+import susiWhite from '../../../images/susi-logo-white.png';
+
 export default class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -357,6 +359,12 @@ export default class SignUp extends Component {
       width: '100%',
       textAlign: 'center',
       padding: '10px',
+      backgroundColor: '#0084ff',
+      color: 'white',
+    };
+    const formStyle = {
+      backgroundColor: '#0084ff',
+      color: '#000000',
     };
 
     const fieldStyle = {
@@ -367,11 +375,13 @@ export default class SignUp extends Component {
       padding: '0px 10px',
       width: '250px',
       marginTop: '10px',
+      backgroundColor: '#0084ff',
     };
 
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
+      backgroundColor: '#0084ff',
     };
 
     const inputpassStyle = {
@@ -379,15 +389,17 @@ export default class SignUp extends Component {
       marginBottom: '10px',
       marginRight: '50px',
       width: '90%',
+      backgroundColor: '#0084ff',
     };
 
     const PasswordClass = [`is-strength-${this.state.passwordScore}`];
 
     return (
-      <div className="signUpForm">
+      <div className="signUpForm" style={formStyle}>
         <Paper zDepth={0} style={styles}>
           <h3>
-            <Translate text="Sign Up with SUSI" />
+            <Translate text="Sign Up with " />
+            <img src={susiWhite} alt="susi-logo" className="susi-logo" />
           </h3>
           <form onSubmit={this.handleSubmit}>
             <div>
