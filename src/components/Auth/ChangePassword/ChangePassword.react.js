@@ -292,9 +292,16 @@ export default class ChangePassword extends Component {
     };
     const labelStyle = {
       width: '30%',
+      minWidth: '150px',
       float: 'left',
       marginTop: '12px',
       color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+    };
+    const submitBtnStyle = {
+      float: 'left',
+      width: '300px',
+      margin: '0 auto',
+      marginBottom: '50px',
     };
     const inputStyle = {
       color: themeForegroundColor,
@@ -359,15 +366,22 @@ export default class ChangePassword extends Component {
                 visibilityIconStyle={{ display: 'none' }}
               />
             </div>
-            <div>
-              <br />
-              <RaisedButton
-                label={<Translate text="Save Changes" />}
-                type="submit"
-                disabled={!this.state.validForm}
-                backgroundColor="#4285f4"
-                labelColor="#fff"
-              />
+            <div style={submitBtnStyle}>
+              <div className="forgot">
+                <a href={`${urls.ACCOUNT_URL}/forgotpwd`}>
+                  Forgot your password?
+                </a>
+              </div>
+              <div>
+                <br />
+                <RaisedButton
+                  label={<Translate text="Save Changes" />}
+                  type="submit"
+                  disabled={!this.state.validForm}
+                  backgroundColor="#4285f4"
+                  labelColor="#fff"
+                />
+              </div>
             </div>
           </form>
         </Paper>
