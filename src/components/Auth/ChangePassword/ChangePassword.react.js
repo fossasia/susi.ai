@@ -11,7 +11,7 @@ import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Translate from '../../Translate/Translate.react';
-import urls from '../../../utils/urls';
+import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 
 const cookies = new Cookies();
 
@@ -32,6 +32,7 @@ export default class ChangePassword extends Component {
       success: false,
       validForm: false,
       msgOpen: false,
+      showForgotPwd: false,
     };
 
     this.emailErrorMessage = '';
@@ -61,6 +62,19 @@ export default class ChangePassword extends Component {
         msgOpen: false,
       });
     }
+  };
+
+  handleClose = event => {
+    this.setState({
+      showDialog: false,
+      showForgotPwd: false,
+    });
+  };
+  handleForgotPwd = event => {
+    event.preventDefault();
+    this.setState({
+      showForgotPwd: true,
+    });
   };
 
   // Handle changes to current, new and confirm new passwords
@@ -350,9 +364,7 @@ export default class ChangePassword extends Component {
             </div>
             <div style={submitBtnStyle}>
               <div className="forgot">
-                <a href={`${urls.ACCOUNT_URL}/forgotpwd`}>
-                  Forgot your password?
-                </a>
+                <a onClick={this.handleForgotPwd}>Forgot your password?</a>
               </div>
               <div>
                 <br />
@@ -367,6 +379,19 @@ export default class ChangePassword extends Component {
             </div>
           </form>
         </Paper>
+
+        {/* Forgot Password Modal */}
+        <div className="ModalDiv" style={{ width: '50%' }}>
+          <Dialog
+            modal={false}
+            open={this.state.showForgotPwd}
+            onRequestClose={this.handleClose}
+            className="ModalDiv"
+          >
+            <ForgotPassword closeModal={this.handleClose.bind(this)} />
+          </Dialog>
+        </div>
+
         {this.state.msg && (
           <div>
             <Dialog
