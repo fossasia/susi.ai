@@ -190,7 +190,6 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.FEEDBACK_RECEIVED: {
       _feedback = action.feedback;
-      MessageStore.emitChange();
       break;
     }
 
