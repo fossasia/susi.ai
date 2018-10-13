@@ -873,13 +873,27 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
+    if (markedIDs && ul && newIndex === indexLimit) {
+      let currState = this.state.searchState;
+      newIndex = 0;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      currState.scrollID = markedIDs[newIndex];
+      this.setState({
+        searchState: currState,
+      });
+    }
   };
 
   _onClickRecent = () => {
     let newIndex = this.state.searchState.scrollIndex - 1;
     let newSearchCount = this.state.searchState.searchIndex - 1;
     let markedIDs = this.state.searchState.markedIDs;
+    let indexLimit = this.state.searchState.scrollLimit;
     let ul = this.messageList;
+    if (newSearchCount <= 0) {
+      newSearchCount = indexLimit;
+    }
     if (markedIDs && ul && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
@@ -888,6 +902,35 @@ class MessageSection extends Component {
       this.setState({
         searchState: currState,
       });
+    }
+    if (markedIDs && ul && newIndex === 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = this.state.searchState.scrollIndex - 1;
+      newSearchCount = this.state.searchState.searchIndex - 1;
+      markedIDs = this.state.searchState.markedIDs;
+      indexLimit = this.state.searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = this.state.searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
     }
   };
 
