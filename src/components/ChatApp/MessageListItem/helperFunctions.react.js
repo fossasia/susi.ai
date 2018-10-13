@@ -178,7 +178,15 @@ export function imageParse(stringWithLinks) {
         />,
       );
     } else {
-      result.push(Parser(item));
+      let htmlParseItem = Parser(item);
+      if (
+        htmlParseItem.hasOwnProperty('props') &&
+        htmlParseItem.props.children
+      ) {
+        result.push(htmlParseItem);
+      } else {
+        result.push(item);
+      }
     }
   });
   return result;
