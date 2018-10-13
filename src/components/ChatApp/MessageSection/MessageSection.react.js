@@ -891,7 +891,7 @@ class MessageSection extends Component {
     let markedIDs = this.state.searchState.markedIDs;
     let indexLimit = this.state.searchState.scrollLimit;
     let ul = this.messageList;
-    if (newSearchCount === 0) {
+    if (newSearchCount <= 0) {
       newSearchCount = indexLimit;
     }
     if (markedIDs && ul && newIndex >= 0) {
@@ -903,7 +903,7 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
-    if (markedIDs && ul && newIndex === 0) {
+    if (markedIDs && ul && newIndex <= 0) {
       let currState = this.state.searchState;
       newIndex = indexLimit;
       currState.scrollIndex = newIndex;
