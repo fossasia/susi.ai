@@ -202,7 +202,7 @@ class Login extends Component {
       this.emailErrorMessage = '';
     }
     if (this.state.passwordError) {
-      this.passwordErrorMessage = 'Enter a valid Password';
+      this.passwordErrorMessage = 'Enter a valid password';
     } else {
       this.passwordErrorMessage = '';
     }
