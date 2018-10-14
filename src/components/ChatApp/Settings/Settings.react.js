@@ -700,10 +700,10 @@ class Settings extends Component {
     let checked = this.state.checked;
     let serverUrl = this.state.serverUrl;
     let newCountryCode = !this.state.countryCode
-      ? this.intialSettings.countryCode
+      ? this.state.intialSettings.countryCode
       : this.state.countryCode;
     let newCountryDialCode = !this.state.countryDialCode
-      ? this.intialSettings.countryDialCode
+      ? this.state.intialSettings.countryDialCode
       : this.state.countryDialCode;
     let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
@@ -772,10 +772,8 @@ class Settings extends Component {
   // Handle change to theme settings
   handleSelectChange = (event, value) => {
     value === 'light' || value === 'custom'
-      ? (document.getElementById('settings-container').style.background =
-          'rgb(242, 242, 242)')
-      : (document.getElementById('settings-container').style.background =
-          'rgb(0,0,18)');
+      ? $('#settings-container').addClass('settings-container-light')
+      : $('#settings-container').addClass('settings-container-dark');
     this.preview = true;
     this.setState({ theme: value }, () => {
       this.handleSubmit();
@@ -1257,7 +1255,7 @@ class Settings extends Component {
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
-      color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+      color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
     };
     const fieldStyle = {
       height: '35px',
@@ -1755,7 +1753,12 @@ class Settings extends Component {
               <Translate text="Country/region : " />
               <DropDownMenu
                 maxHeight={300}
-                style={{ width: '250px', position: 'relative', top: '15px' }}
+                style={{
+                  width: '250px',
+                  position: 'relative',
+                  top: '15px',
+                  marginRight: '27px',
+                }}
                 labelStyle={{ color: themeForegroundColor }}
                 menuStyle={{ backgroundColor: themeBackgroundColor }}
                 menuItemStyle={{ color: themeForegroundColor }}
@@ -1767,54 +1770,73 @@ class Settings extends Component {
             </div>
             <div
               style={{
-                marginTop: '20px',
+                marginTop: '45px',
                 marginBottom: '0px',
                 marginLeft: '30px',
                 fontSize: '14px',
               }}
             >
-              <Translate text="Phone number : " />
-              <TextField
-                name="selectedCountry"
-                disabled={true}
-                underlineDisabledStyle={
-                  UserPreferencesStore.getTheme() === 'dark'
-                    ? underlineStyle
-                    : null
-                }
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
+              <span style={{ float: 'left', marginBottom: '35px' }}>
+                Phone number :
+              </span>
+              <div
+                style={{
+                  width: '250px',
+                  marginLeft: '33px',
+                  display: 'inline-block',
                 }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={
-                  countryData.countries[
-                    this.state.countryCode ? this.state.countryCode : 'US'
-                  ].countryCallingCodes[0]
-                }
-                style={{ width: '45px', marginLeft: '30px' }}
-              />
+              >
+                <TextField
+                  name="selectedCountry"
+                  disabled={true}
+                  underlineDisabledStyle={
+                    UserPreferencesStore.getTheme() === 'dark'
+                      ? underlineStyle
+                      : null
+                  }
+                  inputStyle={{
+                    color:
+                      UserPreferencesStore.getTheme() === 'dark'
+                        ? '#fff'
+                        : '#333',
+                  }}
+                  floatingLabelStyle={floatingLabelStyle}
+                  value={
+                    countryData.countries[
+                      this.state.countryCode ? this.state.countryCode : 'US'
+                    ].countryCallingCodes[0]
+                  }
+                  style={{
+                    width: '45px',
+                    marginTop: '-18px',
+                    float: 'left',
+                  }}
+                />
+
+                <TextField
+                  name="phonenumber"
+                  style={{
+                    width: '150px',
+                    float: 'left',
+                    marginTop: '-42px',
+                    marginLeft: '10px',
+                  }}
+                  onChange={this.handleTelephoneNoChange}
+                  inputStyle={{
+                    color:
+                      UserPreferencesStore.getTheme() === 'dark'
+                        ? '#fff'
+                        : '#333',
+                    paddingBottom: '4px',
+                    fontSize: '16px',
+                  }}
+                  floatingLabelStyle={floatingLabelStyle}
+                  value={this.state.PhoneNo}
+                  errorText={this.state.phoneNoError}
+                  floatingLabelText={<Translate text="Phone number" />}
+                />
+              </div>
             </div>
-            <TextField
-              name="phonenumber"
-              style={{
-                width: '150px',
-                marginRight: '230px',
-                float: 'right',
-                marginTop: '-72px',
-              }}
-              onChange={this.handleTelephoneNoChange}
-              inputStyle={{
-                color:
-                  UserPreferencesStore.getTheme() === 'dark' ? '#fff' : '#333',
-              }}
-              floatingLabelStyle={floatingLabelStyle}
-              value={this.state.PhoneNo}
-              errorText={this.state.phoneNoError}
-              floatingLabelText={<Translate text="Phone number" />}
-            />
           </div>
         </span>
       );
@@ -2225,7 +2247,9 @@ class Settings extends Component {
       <div
         id="settings-container"
         className={
-          UserPreferencesStore.getTheme() === 'light'
+          (UserPreferencesStore.getTheme() === 'light' &&
+            this.state.settingNo !== 'Theme') ||
+          (this.state.settingNo === 'Theme' && this.state.theme === 'light')
             ? 'settings-container-light'
             : 'settings-container-dark'
         }
