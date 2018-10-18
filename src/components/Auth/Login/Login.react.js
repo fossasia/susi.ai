@@ -193,9 +193,8 @@ class Login extends Component {
       state.emailError = !(email && validEmail);
     } else if (event.target.name === 'password') {
       password = event.target.value;
-      let validPassword = password.length >= 6;
       state.password = password;
-      state.passwordError = !(password && validPassword);
+      state.passwordError = !password;
     }
     if (this.state.emailError) {
       this.emailErrorMessage = 'Enter a valid Email Address';
@@ -203,7 +202,7 @@ class Login extends Component {
       this.emailErrorMessage = '';
     }
     if (this.state.passwordError) {
-      this.passwordErrorMessage = 'Minimum 6 characters required';
+      this.passwordErrorMessage = 'Enter a valid password';
     } else {
       this.passwordErrorMessage = '';
     }
