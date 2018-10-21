@@ -94,13 +94,14 @@ class Login extends Component {
             let accessToken = response.access_token;
             let state = this.state;
             let time = response.valid_seconds;
+            let uuid = response.uuid;
             state.isFilled = true;
             state.accessToken = accessToken;
             state.success = true;
             state.msg = response.message;
             state.time = time;
             this.setState(state);
-            this.handleOnSubmit(accessToken, time, email);
+            this.handleOnSubmit(accessToken, time, email, uuid);
           } else {
             let state = this.state;
             state.msg = 'Login Failed. Try Again';
@@ -193,9 +194,8 @@ class Login extends Component {
       state.emailError = !(email && validEmail);
     } else if (event.target.name === 'password') {
       password = event.target.value;
-      let validPassword = password.length >= 6;
       state.password = password;
-      state.passwordError = !(password && validPassword);
+      state.passwordError = !password;
     }
     if (this.state.emailError) {
       this.emailErrorMessage = 'Enter a valid Email Address';
@@ -203,7 +203,7 @@ class Login extends Component {
       this.emailErrorMessage = '';
     }
     if (this.state.passwordError) {
-      this.passwordErrorMessage = 'Minimum 6 characters required';
+      this.passwordErrorMessage = 'Enter a valid password';
     } else {
       this.passwordErrorMessage = '';
     }
@@ -222,7 +222,7 @@ class Login extends Component {
   };
 
   // Set Cookies on successful Login
-  handleOnSubmit = (loggedIn, time, email) => {
+  handleOnSubmit = (loggedIn, time, email, uuid) => {
     let state = this.state;
     if (state.success) {
       cookies.set('loggedIn', loggedIn, {
@@ -236,6 +236,11 @@ class Login extends Component {
         domain: cookieDomain,
       });
       cookies.set('username', UserPreferencesStore.getUserName(), {
+        path: '/',
+        maxAge: time,
+        domain: cookieDomain,
+      });
+      cookies.set('uuid', uuid, {
         path: '/',
         maxAge: time,
         domain: cookieDomain,
