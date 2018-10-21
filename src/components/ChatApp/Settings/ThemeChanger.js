@@ -105,21 +105,6 @@ class ThemeChanger extends Component {
     }
   };
 
-  handleRemoveUrlMessage = () => {
-    if (!this.state.messageBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        messageBackgroundImage: '',
-      });
-    }
-  };
-
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
     this.setState({ currTheme: 'custom' });
