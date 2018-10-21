@@ -280,7 +280,11 @@ export default class ChangePassword extends Component {
       minWidth: '150px',
       float: 'left',
       marginTop: '12px',
-      color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+      color:
+        UserPreferencesStore.getTheme() === 'light' ||
+        UserPreferencesStore.getTheme() === 'custom'
+          ? 'black'
+          : 'white',
     };
     const submitBtnStyle = {
       float: 'left',
