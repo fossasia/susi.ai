@@ -319,6 +319,7 @@ export default class ChangePassword extends Component {
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
+                placeholder="Must be at least 6 characters"
                 style={fieldStyle}
                 value={this.state.newPasswordValue}
                 onChange={this.handleChange}
@@ -337,6 +338,7 @@ export default class ChangePassword extends Component {
             <div>
               <PasswordField
                 name="confirmNewPassword"
+                placeholder="Must match the new password"
                 style={fieldStyle}
                 value={this.state.confirmNewPasswordValue}
                 onChange={this.handleChange}
