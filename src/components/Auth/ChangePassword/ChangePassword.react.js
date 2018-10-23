@@ -329,7 +329,7 @@ export default class ChangePassword extends Component {
                 visibilityButtonStyle={{ display: 'none' }}
                 visibilityIconStyle={{ display: 'none' }}
               />
-              <div className="ReactPasswordStrength" />
+              <div className="ReactPasswordStrength-strength-bar" />
               <div>{this.state.newPasswordStrength}</div>
             </div>
             <br />
