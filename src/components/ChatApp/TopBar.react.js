@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
@@ -329,4 +330,13 @@ TopBar.propTypes = {
   header: PropTypes.string,
 };
 
-export default TopBar;
+function mapStateToProps({ app }) {
+  return {
+    app,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(TopBar);
