@@ -180,12 +180,12 @@ export function imageParse(stringWithLinks) {
     } else {
       let htmlParseItem = Parser(item);
       if (
-        htmlParseItem.hasOwnProperty('props') &&
-        htmlParseItem.props.children
+        (Array.isArray(htmlParseItem) && htmlParseItem.length === 0) ||
+        (htmlParseItem.hasOwnProperty('props') && !htmlParseItem.props.children)
       ) {
-        result.push(htmlParseItem);
-      } else {
         result.push(item);
+      } else {
+        result.push(htmlParseItem);
       }
     }
   });
