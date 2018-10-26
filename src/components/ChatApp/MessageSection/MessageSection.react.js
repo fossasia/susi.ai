@@ -450,29 +450,29 @@ class MessageSection extends Component {
     });
 
     this._scrollToBottom();
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    ThreadStore.addChangeListener(this._onChange.bind(this));
-    window.addEventListener('offline', this.handleOffline.bind(this));
-    window.addEventListener('online', this.handleOnline.bind(this));
+    MessageStore.addChangeListener(this._onChange);
+    ThreadStore.addChangeListener(this._onChange);
+    window.addEventListener('offline', this.handleOffline);
+    window.addEventListener('online', this.handleOnline);
 
     // let state=this.state;
   }
 
   // Show a snackbar If user offline
-  handleOffline() {
+  handleOffline = () => {
     this.setState({
       snackopen: true,
       snackMessage: 'It seems you are offline!',
     });
-  }
+  };
 
   // Show a snackbar If user online
-  handleOnline() {
+  handleOnline = () => {
     this.setState({
       snackopen: true,
       snackMessage: 'Welcome back!',
     });
-  }
+  };
 
   // Scroll to bottom feature goes here
   onScroll = () => {
@@ -509,8 +509,8 @@ class MessageSection extends Component {
   };
 
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+    MessageStore.removeChangeListener(this._onChange);
+    ThreadStore.removeChangeListener(this._onChange);
   }
 
   invertColorTextArea = () => {
@@ -1003,11 +1003,11 @@ class MessageSection extends Component {
   /**
    * Event handler for 'change' events coming from the MessageStore
    */
-  _onChange() {
+  _onChange = () => {
     let array = this.state.player;
     this.setState(getStateFromStores());
     this.setState({ player: array });
-  }
+  };
 }
 
 MessageSection.propTypes = {
