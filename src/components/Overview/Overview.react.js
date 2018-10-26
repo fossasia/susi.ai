@@ -73,7 +73,7 @@ class Overview extends Component {
       fill: '#fff',
       width: '40px',
       height: '40px',
-      right: '20px',
+      right: '1.5%',
       top: '20px',
       cursor: 'pointer',
     };
