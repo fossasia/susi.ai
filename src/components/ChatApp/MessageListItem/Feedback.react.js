@@ -173,12 +173,12 @@ class Feedback extends React.Component {
       feedbackButtons = (
         <span className="feedback" style={feedbackStyle}>
           <ThumbUp
-            onClick={this.rateSkill.bind(this, 'positive')}
+            onClick={() => this.rateSkill('positive')}
             style={feedbackIndicator}
             color={positiveFeedbackColor}
           />
           <ThumbDown
-            onClick={this.rateSkill.bind(this, 'negative')}
+            onClick={() => this.rateSkill('negative')}
             style={feedbackIndicator}
             color={negativeFeedbackColor}
           />

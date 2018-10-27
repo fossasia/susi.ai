@@ -18,7 +18,7 @@ class ThreadListItem extends Component {
           'thread-list-item': true,
           active: thread.id === this.props.currentThreadID,
         })}
-        onClick={this._onClick.bind(this)}
+        onClick={this._onClick}
       >
         <h5 className="thread-name">{thread.name}</h5>
         <div className="thread-time">
@@ -29,9 +29,9 @@ class ThreadListItem extends Component {
     );
   }
 
-  _onClick() {
+  _onClick = () => {
     Actions.clickThread(this.props.thread.id);
-  }
+  };
 }
 
 ThreadListItem.propTypes = {
