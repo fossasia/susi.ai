@@ -14,14 +14,9 @@ export default class ShareOnSocialMedia extends Component {
       },
       loginStatus: 'not connected',
     };
-    this.Share = this.Share.bind(this);
-    this.facebookLogin = this.facebookLogin.bind(this);
-    this.statusChangeCallback = this.statusChangeCallback.bind(this);
-    this.testAPI = this.testAPI.bind(this);
-    this.checkLoginStatus = this.checkLoginStatus.bind(this);
   }
 
-  facebookLoginAPI() {
+  facebookLoginAPI = () => {
     window.fbAsyncInit = function() {
       window.FB.init({
         appId: '136831073699181',
@@ -43,18 +38,18 @@ export default class ShareOnSocialMedia extends Component {
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'facebook-jssdk');
-  }
+  };
 
   componentDidMount() {
     this.facebookLoginAPI();
   }
 
-  testAPI() {
+  testAPI = () => {
     window.FB.api('/me', function(response) {});
     this.setState({ loginStatus: 'connected' });
-  }
+  };
 
-  statusChangeCallback(response) {
+  statusChangeCallback = response => {
     if (response.status === 'connected') {
       this.testAPI();
     } else if (response.status === 'not_authorized') {
@@ -62,21 +57,19 @@ export default class ShareOnSocialMedia extends Component {
     } else {
       console.log("You're not authorized.");
     }
-  }
+  };
 
-  checkLoginStatus() {
-    window.FB.getLoginStatus(
-      function(response) {
-        this.statusChangeCallback(response);
-      }.bind(this),
-    );
-  }
+  checkLoginStatus = () => {
+    window.FB.getLoginStatus(response => {
+      this.statusChangeCallback(response);
+    });
+  };
 
-  facebookLogin() {
+  facebookLogin = () => {
     window.FB.login(this.checkLoginStatus);
-  }
+  };
 
-  Share() {
+  Share = () => {
     if (
       this.state.loginStatus === 'connected' ||
       this.state.loginStatus === 'not connected'
@@ -92,7 +85,7 @@ export default class ShareOnSocialMedia extends Component {
         function(response) {},
       );
     }
-  }
+  };
 
   render() {
     const styles = {
