@@ -173,16 +173,6 @@ export default class SignUp extends Component {
       state.passwordConfirmError = !(validPassword && confirmPassword);
     }
 
-    if (
-      !this.state.emailError &&
-      !this.state.passwordError &&
-      !this.state.passwordConfirmError
-    ) {
-      state.validForm = true;
-    } else {
-      state.validForm = false;
-    }
-
     this.setState(state);
 
     if (this.state.emailError) {
