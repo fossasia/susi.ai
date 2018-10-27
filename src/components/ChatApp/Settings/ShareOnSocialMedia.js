@@ -28,7 +28,7 @@ export default class ShareOnSocialMedia extends Component {
     };
 
     (function(d, s, id) {
-      var js,
+      let js,
         fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {
         return;

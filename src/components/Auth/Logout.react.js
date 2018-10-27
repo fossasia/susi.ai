@@ -5,7 +5,7 @@ import { isProduction } from '../../utils/helperFunctions';
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 // Clear cookie by setting expiry date
-var deleteCookie = function(name, options = {}) {
+const deleteCookie = function(name, options = {}) {
   let cookieString = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   if (options.domain) {
     cookieString = `${cookieString}domain=${options.domain};`;
