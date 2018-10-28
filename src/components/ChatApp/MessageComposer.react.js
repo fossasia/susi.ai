@@ -277,8 +277,8 @@ class MessageComposer extends Component {
             maxRows={2}
             placeholder="Type a message..."
             value={this.state.text}
-            onChange={this._onChange.bind(this)}
-            onKeyDown={this._onKeyDown.bind(this)}
+            onChange={this._onChange}
+            onKeyDown={this._onKeyDown}
             ref={textarea => {
               this.nameInput = textarea;
             }}
@@ -296,7 +296,7 @@ class MessageComposer extends Component {
             fill: this.props.micColor,
             margin: '1px 0px 1px 0px',
           }}
-          onTouchTap={this._onClickButton.bind(this)}
+          onTouchTap={this._onClickButton}
           style={style}
         >
           {this.Button}
@@ -331,7 +331,7 @@ class MessageComposer extends Component {
     );
   }
 
-  _onClickButton() {
+  _onClickButton = () => {
     flag = 1;
     if (this.state.text === '') {
       if (this.speechRecog) {
@@ -365,9 +365,9 @@ class MessageComposer extends Component {
       }.bind(this),
       5000,
     );
-  }
+  };
 
-  _onChange(event, value) {
+  _onChange = (event, value) => {
     if (this.speechRecog) {
       if (event.target.value !== '') {
         this.Button = <Send />;
@@ -378,9 +378,9 @@ class MessageComposer extends Component {
       this.Button = <Send />;
     }
     this.setState({ text: event.target.value, currentArrowIndex: 0 });
-  }
+  };
 
-  _onKeyDown(event) {
+  _onKeyDown = event => {
     if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
       let EnterAsSend = UserPreferencesStore.getEnterAsSend();
       if (EnterAsSend) {
@@ -445,7 +445,7 @@ class MessageComposer extends Component {
         this.setState({ currentArrowIndex });
       }
     }
-  }
+  };
 }
 
 MessageComposer.propTypes = {

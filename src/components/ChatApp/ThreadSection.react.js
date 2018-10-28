@@ -18,13 +18,13 @@ export default class ThreadSection extends Component {
   }
 
   componentDidMount() {
-    ThreadStore.addChangeListener(this._onChange.bind(this));
-    UnreadThreadStore.addChangeListener(this._onChange.bind(this));
+    ThreadStore.addChangeListener(this._onChange);
+    UnreadThreadStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
-    UnreadThreadStore.removeChangeListener(this._onChange.bind(this));
+    ThreadStore.removeChangeListener(this._onChange);
+    UnreadThreadStore.removeChangeListener(this._onChange);
   }
 
   render() {
@@ -48,11 +48,10 @@ export default class ThreadSection extends Component {
       </div>
     );
   }
-
   /**
    * Event handler for 'change' events coming from the stores
    */
-  _onChange() {
+  _onChange = () => {
     this.setState(getStateFromStores());
-  }
+  };
 }
