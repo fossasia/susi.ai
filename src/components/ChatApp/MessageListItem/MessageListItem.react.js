@@ -94,13 +94,13 @@ class MessageListItem extends React.Component {
 
     if (this.props.message && this.props.message.type === 'date') {
       return (
-        <li className="message-list-item">
+        <div className="message-list-item">
           <section className="container-date">
             <div className="message-text">
               <PostDate date={message.date} />
             </div>
           </section>
-        </li>
+        </div>
       );
     }
 
@@ -189,7 +189,7 @@ class MessageListItem extends React.Component {
               if (data.answers[0].data[0].type === 'gif') {
                 let gifSource = data.answers[0].data[0].embed_url;
                 listItems.push(
-                  <li className="message-list-item" key={action + index}>
+                  <div className="message-list-item" key={action + index}>
                     <section className={messageContainerClasses}>
                       <div className="message-text">
                         <iframe
@@ -204,11 +204,11 @@ class MessageListItem extends React.Component {
                         showFeedback,
                       )}
                     </section>
-                  </li>,
+                  </div>,
                 );
               } else {
                 listItems.push(
-                  <li className="message-list-item" key={action + index}>
+                  <div className="message-list-item" key={action + index}>
                     <section className={messageContainerClasses}>
                       <div className="message-text">{replacedText}</div>
                       {renderMessageFooter(
@@ -217,7 +217,7 @@ class MessageListItem extends React.Component {
                         showFeedback,
                       )}
                     </section>
-                  </li>,
+                  </div>,
                 );
               }
               break;
@@ -226,7 +226,7 @@ class MessageListItem extends React.Component {
               let link = data.answers[0].actions[index].link;
               let text = data.answers[0].actions[index].text;
               listItems.push(
-                <li className="message-list-item" key={action + index}>
+                <div className="message-list-item" key={action + index}>
                   <section className={messageContainerClasses}>
                     <div className="message-text">
                       {renderAnchor(text, link)}
@@ -237,7 +237,7 @@ class MessageListItem extends React.Component {
                       showFeedback,
                     )}
                   </section>
-                </li>,
+                </div>,
               );
               break;
             }
@@ -261,7 +261,7 @@ class MessageListItem extends React.Component {
                       zoom,
                     );
                     listItems.push(
-                      <li className="message-list-item" key={action + index}>
+                      <div className="message-list-item" key={action + index}>
                         <section
                           className={messageContainerClasses}
                           style={{ width: '80%' }}
@@ -276,7 +276,7 @@ class MessageListItem extends React.Component {
                             showFeedback,
                           )}
                         </section>
-                      </li>,
+                      </div>,
                     );
                   },
                   error: function(xhr, status, error) {
@@ -287,7 +287,7 @@ class MessageListItem extends React.Component {
                 mymap = drawMap(lat, lng, zoom);
               }
               listItems.push(
-                <li className="message-list-item" key={action + index}>
+                <div className="message-list-item" key={action + index}>
                   <section
                     className={messageContainerClasses}
                     style={{ width: '80%' }}
@@ -302,7 +302,7 @@ class MessageListItem extends React.Component {
                       showFeedback,
                     )}
                   </section>
-                </li>,
+                </div>,
               );
               break;
             }
@@ -311,7 +311,7 @@ class MessageListItem extends React.Component {
               let count = data.answers[0].actions[index].count;
               let table = drawTable(columns, data.answers[0].data, count);
               listItems.push(
-                <li className="message-list-item" key={action + index}>
+                <div className="message-list-item" key={action + index}>
                   <section className={messageContainerClasses}>
                     <div>
                       <div className="message-text">{table}</div>
@@ -322,14 +322,14 @@ class MessageListItem extends React.Component {
                       showFeedback,
                     )}
                   </section>
-                </li>,
+                </div>,
               );
               break;
             }
             case 'video_play': {
               let identifier = data.answers[0].actions[index].identifier;
               listItems.push(
-                <li
+                <div
                   className="message-list-item"
                   key={action + index}
                   style={{
@@ -348,7 +348,7 @@ class MessageListItem extends React.Component {
                       showFeedback,
                     )}
                   </section>
-                </li>,
+                </div>,
               );
               break;
             }
@@ -358,7 +358,7 @@ class MessageListItem extends React.Component {
               let identifier = data.answers[0].actions[index].identifier;
               let src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
               listItems.push(
-                <li className="message-list-item" key={action + index}>
+                <div className="message-list-item" key={action + index}>
                   <section className={messageContainerClasses}>
                     <div className="message-text">
                       <iframe src={src} frameBorder="0" allowFullScreen />
@@ -369,7 +369,7 @@ class MessageListItem extends React.Component {
                       showFeedback,
                     )}
                   </section>
-                </li>,
+                </div>,
               );
               break;
             }
@@ -465,12 +465,12 @@ class MessageListItem extends React.Component {
     }
 
     return (
-      <li className="message-list-item">
+      <div className="message-list-item">
         <section className={messageContainerClasses}>
           <div className="message-text">{replacedText}</div>
           {renderMessageFooter(message, latestUserMsgID, true)}
         </section>
-      </li>
+      </div>
     );
   }
 }

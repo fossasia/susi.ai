@@ -411,8 +411,10 @@ export default class SignUp extends Component {
                 }}
                 textFieldStyle={{ padding: '0px' }}
               />
-
               <div className="ReactPasswordStrength-strength-bar" />
+              <div>
+                <span>{this.state.passwordStrength}</span>
+              </div>
             </div>
             <div>
               <PasswordField
