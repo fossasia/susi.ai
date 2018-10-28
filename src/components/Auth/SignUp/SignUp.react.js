@@ -144,11 +144,12 @@ export default class SignUp extends Component {
     let state = this.state;
     if (event.target.name === 'email') {
       email = event.target.value.trim();
-      let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+      let validEmail = email.length >= 1;
       state.email = email;
       state.isEmail = validEmail;
-      state.emailError = !(email || validEmail);
-    } else if (event.target.name === 'password') {
+      state.emailError = !(email && validEmail);
+    }
+    if (event.target.name === 'password') {
       password = event.target.value;
       let validPassword = password.length >= 6;
       state.passwordValue = password;
@@ -186,7 +187,7 @@ export default class SignUp extends Component {
     this.setState(state);
 
     if (this.state.emailError) {
-      this.emailErrorMessage = 'Enter a valid Email Address';
+      this.emailErrorMessage = 'Enter a Email Address';
     } else if (this.state.passwordError) {
       this.emailErrorMessage = '';
       this.passwordErrorMessage = 'Minimum 6 characters required';
