@@ -54,14 +54,10 @@ class Devices extends Component {
               to have access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <Link
-                className="play_store"
-                target="_blank"
-                to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"
-              >
+              <a className="play_store" href="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai">
                 {' '}
                 Get It on Google Play
-              </Link>
+              </a>
             </div>
           </div>
           <div className="img-container">
@@ -77,14 +73,10 @@ class Devices extends Component {
               access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <Link
-                className="app_store"
-                target="_blank"
-                to="https://github.com/fossasia/susi_iOS"
-              >
+              <a className="app_store" href="https://github.com/fossasia/susi_iOS">
                 {' '}
                 Download on the App Store
-              </Link>
+              </a>
             </div>
           </div>
           <div className="img-container">
@@ -98,14 +90,13 @@ class Devices extends Component {
             <p className="text_description">
               You can use SUSI.AI Web Chat on your desktop and laptop. Start
               Chatting with SUSI.AI
-              <Link
+              <a
                 style={{ textDecoration: 'none' }}
-                target="_blank"
-                to={urls.CHAT_URL}
+                href={urls.CHAT_URL}
               >
                 {' '}
                 here
-              </Link>
+              </a>
             </p>
           </div>
           <div className="img-container">
