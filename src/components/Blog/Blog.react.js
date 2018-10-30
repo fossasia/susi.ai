@@ -81,15 +81,15 @@ class Blog extends Component {
     );
   }
 
-  scrollStep() {
+  scrollStep = () => {
     if (window.pageYOffset === 0) {
       clearInterval(this.state.intervalId);
     }
     window.scroll(0, window.pageYOffset - 1000);
-  }
+  };
   //  Function to scroll to top of page
   scrollToTop() {
-    let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
+    let intervalId = setInterval(this.scrollStep, 16.66);
     this.setState({ intervalId: intervalId });
   }
   // Function to navigate to previous page

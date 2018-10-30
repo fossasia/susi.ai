@@ -240,7 +240,7 @@ img {
     top: 46px;
     left: 40px;
     right: 40px;
-    background-color: #fff;
+    background-color: #000;
     width: 75%;
     margin: 0 auto;
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
@@ -275,9 +275,9 @@ img {
 .video-container embed {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 5%;
     border: 0;
-    width: 100%;
+    width: 90%;
     height: 100%;
 }
 
