@@ -3,7 +3,7 @@ import susiAndroid from '../../images/susi-test.gif';
 import susiiOSGif from '../../images/ios_demo.gif';
 import susiDesktop from '../../images/susi.gif';
 import './Devices.css';
-import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import $ from 'jquery';
@@ -54,7 +54,10 @@ class Devices extends Component {
               to have access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <a className="play_store" href="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai">
+              <a 
+                  className="play_store" 
+                  href="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"
+              >
                 {' '}
                 Get It on Google Play
               </a>
@@ -73,7 +76,10 @@ class Devices extends Component {
               access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <a className="app_store" href="https://github.com/fossasia/susi_iOS">
+              <a 
+                  className="app_store" 
+                  href="https://github.com/fossasia/susi_iOS"
+              >
                 {' '}
                 Download on the App Store
               </a>
