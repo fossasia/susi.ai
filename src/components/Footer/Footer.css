@@ -28,10 +28,7 @@
     list-style: none;
     list-style-type: none;
 }
-.leftDiv a,.rightDiv a {
-    color:#3367d6;
-    font-family: 'Roboto', sans-serif;
-}
+
 .footer-container a:hover {
     text-decoration: none;
     color:#757575;;
