@@ -140,14 +140,24 @@ class ExpandingSearchField extends Component {
           <span className="counter">
             {this.props.searchIndex}/{this.props.searchCount}
           </span>
-          <IconButton
-            className="displayNone"
-            iconStyle={baseStyles.smallIcon}
-            style={baseStyles.icon}
-            onClick={this.onClickPrev}
-          >
-            <UpIcon />
-          </IconButton>
+          {this.props.searchText === '' ? (
+            <IconButton
+              className="displayNone"
+              iconStyle={baseStyles.smallIcon}
+              style={baseStyles.icon}
+            >
+              <UpIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              className="displayNone"
+              iconStyle={baseStyles.smallIcon}
+              style={baseStyles.icon}
+              onClick={this.onClickPrev}
+            >
+              <UpIcon />
+            </IconButton>
+          )}
           <IconButton
             className="displayNone"
             iconStyle={baseStyles.smallIcon}
