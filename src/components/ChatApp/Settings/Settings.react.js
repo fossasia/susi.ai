@@ -15,7 +15,6 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
-import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import TextField from 'material-ui/TextField';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
