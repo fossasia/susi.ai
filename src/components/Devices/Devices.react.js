@@ -54,7 +54,7 @@ class Devices extends Component {
               to have access to SUSI on the go.
             </p>
             <div className="store_icons">
-              <a className="play_store" href="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai">
+              <a className="play_store" href="https://play.google.com/store/apps/details?id=ai.susi">
                 {' '}
                 Get It on Google Play
               </a>
