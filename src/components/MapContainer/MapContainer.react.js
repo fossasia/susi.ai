@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 // eslint-disable-next-line
 import { InfoWindow } from 'google-maps-react';
 
@@ -15,13 +14,6 @@ export default class MapContainer extends Component {
       // Set the prop value to google, and maps to google maps props
       const { google } = this.props;
       const maps = google.maps;
-
-      // Look for HTML div ref ‘map’ in the React DOM and name it ‘node’
-      // eslint-disable-next-line
-      const mapRef = this.refs.map;
-      // eslint-disable-next-line
-      const node = ReactDOM.findDOMNode(mapRef);
-
       const mapConfig = Object.assign(
         {},
         {
@@ -33,7 +25,7 @@ export default class MapContainer extends Component {
       );
 
       // Create a new Google map on the specified node with specified config
-      this.map = new maps.Map(node, mapConfig);
+      this.map = new maps.Map(this.node, mapConfig);
 
       // Create a new InfoWindow to be added as event listener on the map markers
       let infoWindow = new google.maps.InfoWindow();
@@ -52,7 +44,7 @@ export default class MapContainer extends Component {
         });
 
         // Add event listener to the map markers to open InfoWindow on click
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', () => {
           infoWindow.setContent(
             'Mac Address: ' +
               marker.macid +
@@ -78,8 +70,12 @@ export default class MapContainer extends Component {
     };
 
     return (
-      // eslint-disable-next-line
-      <div ref="map" style={style}>
+      <div
+        ref={ref => {
+          this.node = ref;
+        }}
+        style={style}
+      >
         loading map...
       </div>
     );

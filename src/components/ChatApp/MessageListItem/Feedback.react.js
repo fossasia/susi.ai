@@ -41,11 +41,42 @@ class Feedback extends React.Component {
     };
   }
 
+  removeFeedback() {
+    this.setState({
+      ratingGiven: false,
+      positive: false,
+      negative: false,
+    });
+  }
+
   // Update state to store rating
   rateSkill = rating => {
     let defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
     let skill = this.state.skill;
+
+    // Change the color of Feedback thumbs
+    switch (rating) {
+      case 'positive': {
+        this.setState({
+          ratingGiven: true,
+          positive: !this.state.positive,
+          negative: false,
+        });
+        break;
+      }
+      case 'negative': {
+        this.setState({
+          ratingGiven: true,
+          positive: false,
+          negative: !this.state.negative,
+        });
+        break;
+      }
+      default: {
+        this.removeFeedback();
+      }
+    }
 
     let rateEndPoint =
       BASE_URL +
@@ -66,14 +97,15 @@ class Feedback extends React.Component {
       jsonpCallback: 'p',
       jsonp: 'callback',
       crossDomain: true,
-      success: function(response) {
+      success: response => {
         if (response.accepted) {
           console.log('Skill rated successfully');
         } else {
           console.log('Skill rating failed. Try Again');
+          this.removeFeedback();
         }
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         let jsonValue = jqXHR.status;
         if (jsonValue === 404) {
           console.log('Skill rating failed. Try Again');
@@ -83,34 +115,10 @@ class Feedback extends React.Component {
         if (textStatus === 'timeout') {
           console.log('Please check your internet connection');
         }
+        this.removeFeedback();
       },
     });
 
-    switch (rating) {
-      case 'positive': {
-        this.setState({
-          ratingGiven: true,
-          positive: !this.state.positive,
-          negative: false,
-        });
-        break;
-      }
-      case 'negative': {
-        this.setState({
-          ratingGiven: true,
-          positive: false,
-          negative: !this.state.negative,
-        });
-        break;
-      }
-      default: {
-        this.setState({
-          ratingGiven: false,
-          positive: false,
-          negative: false,
-        });
-      }
-    }
     let feedback = this.state.skill;
     // Send feedback to server
     if (
@@ -165,12 +173,12 @@ class Feedback extends React.Component {
       feedbackButtons = (
         <span className="feedback" style={feedbackStyle}>
           <ThumbUp
-            onClick={this.rateSkill.bind(this, 'positive')}
+            onClick={() => this.rateSkill('positive')}
             style={feedbackIndicator}
             color={positiveFeedbackColor}
           />
           <ThumbDown
-            onClick={this.rateSkill.bind(this, 'negative')}
+            onClick={() => this.rateSkill('negative')}
             style={feedbackIndicator}
             color={negativeFeedbackColor}
           />

@@ -12,7 +12,6 @@ import Dialog from 'material-ui/Dialog';
 import Close from 'material-ui/svg-icons/navigation/close';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
-import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import NotFound from '../../NotFound/NotFound.react';
@@ -510,10 +509,10 @@ class Settings extends Component {
   /**
    * Event handler for 'change' events coming from the UserPreferencesStore
    */
-  _onChangeSettings() {
+  _onChangeSettings = () => {
     this.setInitialSettings();
     this.setDefaultsSettings();
-  }
+  };
 
   // Show change server dialog
   handleServer = () => {
@@ -888,18 +887,16 @@ class Settings extends Component {
   };
 
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    UserPreferencesStore.removeChangeListener(
-      this._onChangeSettings.bind(this),
-    );
+    MessageStore.removeChangeListener(this._onChange);
+    UserPreferencesStore.removeChangeListener(this._onChangeSettings);
   }
 
   // Populate language list
-  _onChange() {
+  _onChange = () => {
     this.setState({
       voiceList: voiceListChange,
     });
-  }
+  };
 
   // eslint-disable-next-line
   componentDidMount() {
@@ -909,8 +906,8 @@ class Settings extends Component {
     }
     document.title =
       'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    UserPreferencesStore.addChangeListener(this._onChangeSettings.bind(this));
+    MessageStore.addChangeListener(this._onChange);
+    UserPreferencesStore.addChangeListener(this._onChangeSettings);
     this.setState({
       search: false,
     });
@@ -1123,7 +1120,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, false)}
+        onTouchTap={() => this.handleServerToggle(false)}
         style={{ margin: '6px' }}
       />,
       <RaisedButton
@@ -1135,7 +1132,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, true)}
+        onTouchTap={() => this.handleServerToggle(true)}
       />,
     ];
 
@@ -1756,7 +1753,7 @@ class Settings extends Component {
           open={this.state.showServerChangeDialog}
           autoScrollBodyContent={true}
           bodyStyle={bodyStyle}
-          onRequestClose={this.handleServerToggle.bind(this, false)}
+          onRequestClose={() => this.handleServerToggle(false)}
         >
           <div>
             <h3>
@@ -1765,7 +1762,7 @@ class Settings extends Component {
             <Translate text="Please login again to change SUSI server" />
             <Close
               style={closingStyle}
-              onTouchTap={this.handleServerToggle.bind(this, false)}
+              onTouchTap={() => this.handleServerToggle(false)}
             />
           </div>
         </Dialog>
