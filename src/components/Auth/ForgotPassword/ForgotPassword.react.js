@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+/* Material-UI*/
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import './ForgotPassword.css';
-import $ from 'jquery';
-import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Close from 'material-ui/svg-icons/navigation/close';
+
+/* CSS*/
+import './ForgotPassword.css';
+
+/* Utils*/
+import $ from 'jquery';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
+import ChatConstants from '../../../constants/ChatConstants';
+import FlatButton from 'material-ui/FlatButton';
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -24,6 +32,7 @@ class ForgotPassword extends Component {
       emailError: true,
       validEmail: true,
       validForm: false,
+      loading: false,
     };
 
     this.emailErrorMessage = '';
@@ -131,6 +140,8 @@ class ForgotPassword extends Component {
     let defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
 
+    this.setState({ loading: true });
+
     let serverUrl = this.state.serverUrl;
     if (serverUrl.slice(-1) === '/') {
       serverUrl = serverUrl.slice(0, -1);
@@ -150,6 +161,7 @@ class ForgotPassword extends Component {
             let msg = 'Email does not exist';
             let state = this.state;
             state.msg = msg;
+            state.loading = false;
             this.setState(state);
           },
         },
@@ -163,6 +175,7 @@ class ForgotPassword extends Component {
             state.success = false;
             state.msg += 'Please Try Again';
           }
+          state.loading = false;
           this.setState(state);
         }.bind(this),
         error: function(jqXHR, textStatus, errorThrown) {
@@ -178,6 +191,7 @@ class ForgotPassword extends Component {
           }
           let state = this.state;
           state.msg = msg;
+          state.loading = false;
           this.setState(state);
         }.bind(this),
       });
@@ -185,6 +199,14 @@ class ForgotPassword extends Component {
   };
 
   render() {
+    const actions = (
+      <FlatButton
+        label="OK"
+        backgroundColor={ChatConstants.standardBlue}
+        labelStyle={{ color: '#fff' }}
+        onTouchTap={this.handleClose}
+      />
+    );
     const styles = {
       width: '100%',
       textAlign: 'center',
@@ -222,33 +244,44 @@ class ForgotPassword extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div>
+            <div style={{ margin: '10px 0 10px 30px' }}>
               {/* Reset Button */}
               <RaisedButton
                 type="submit"
-                label={<Translate text="Reset" />}
+                label="Reset"
                 backgroundColor={
                   UserPreferencesStore.getTheme() === 'light'
                     ? '#4285f4'
                     : '#19314B'
                 }
                 labelColor="#fff"
+                style={{ marginRight: '15px' }}
                 disabled={!this.state.validForm}
+              />
+              <RaisedButton
+                label="Cancel"
+                backgroundColor={
+                  UserPreferencesStore.getTheme() === 'light'
+                    ? '#4285f4'
+                    : '#19314B'
+                }
+                labelColor="#fff"
+                onTouchTap={this.props.closeModal}
               />
             </div>
           </form>
-          {/* Back to Login button */}
-          <RaisedButton
-            onClick={this.props.onLoginSignUp}
-            label={<Translate text="Login" />}
-            backgroundColor={
-              UserPreferencesStore.getTheme() === 'light'
-                ? '#4285f4'
-                : '#19314B'
-            }
-            labelColor="#fff"
-            style={{ margin: '10px 0 0 0' }}
-          />
+          {this.state.msg && (
+            <div>
+              <Dialog
+                actions={actions}
+                modal={false}
+                open={true}
+                onRequestClose={this.handleClose}
+              >
+                {this.state.msg}
+              </Dialog>
+            </div>
+          )}
         </Paper>
         {this.state.msg && (
           <div>
@@ -266,6 +299,7 @@ class ForgotPassword extends Component {
 
 ForgotPassword.propTypes = {
   onLoginSignUp: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 export default ForgotPassword;

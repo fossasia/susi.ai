@@ -450,29 +450,29 @@ class MessageSection extends Component {
     });
 
     this._scrollToBottom();
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    ThreadStore.addChangeListener(this._onChange.bind(this));
-    window.addEventListener('offline', this.handleOffline.bind(this));
-    window.addEventListener('online', this.handleOnline.bind(this));
+    MessageStore.addChangeListener(this._onChange);
+    ThreadStore.addChangeListener(this._onChange);
+    window.addEventListener('offline', this.handleOffline);
+    window.addEventListener('online', this.handleOnline);
 
     // let state=this.state;
   }
 
   // Show a snackbar If user offline
-  handleOffline() {
+  handleOffline = () => {
     this.setState({
       snackopen: true,
       snackMessage: 'It seems you are offline!',
     });
-  }
+  };
 
   // Show a snackbar If user online
-  handleOnline() {
+  handleOnline = () => {
     this.setState({
       snackopen: true,
       snackMessage: 'Welcome back!',
     });
-  }
+  };
 
   // Scroll to bottom feature goes here
   onScroll = () => {
@@ -509,8 +509,8 @@ class MessageSection extends Component {
   };
 
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+    MessageStore.removeChangeListener(this._onChange);
+    ThreadStore.removeChangeListener(this._onChange);
   }
 
   invertColorTextArea = () => {
@@ -684,76 +684,79 @@ class MessageSection extends Component {
               searchState={this.state.searchState}
             />
           </header>
-          {!this.state.search ? (
-            <div>
-              <div className="message-pane">
-                <div className="message-section">
-                  <ul
-                    className="message-list"
-                    ref={c => {
-                      this.messageList = c;
+
+          <div>
+            <div className="message-pane">
+              <div className="message-section">
+                <ul
+                  className="message-list"
+                  ref={c => {
+                    this.messageList = c;
+                  }}
+                  style={messageBackgroundStyles}
+                >
+                  <Scrollbars
+                    renderThumbHorizontal={this.renderThumb}
+                    renderThumbVertical={this.renderThumb}
+                    ref={ref => {
+                      this.scrollarea = ref;
                     }}
-                    style={messageBackgroundStyles}
+                    autoHide
+                    onScroll={this.onScroll}
+                    autoHideTimeout={1000}
+                    autoHideDuration={200}
                   >
-                    <Scrollbars
-                      renderThumbHorizontal={this.renderThumb}
-                      renderThumbVertical={this.renderThumb}
-                      ref={ref => {
-                        this.scrollarea = ref;
-                      }}
-                      autoHide
-                      onScroll={this.onScroll}
-                      autoHideTimeout={1000}
-                      autoHideDuration={200}
+                    {messageListItems}
+                    {!this.state.search &&
+                      this.state.showLoading &&
+                      getLoadingGIF()}
+                  </Scrollbars>
+                </ul>
+                {this.state.showScrollTop && (
+                  <div>
+                    <FloatingActionButton
+                      mini={true}
+                      style={scrollTopStyle.button}
+                      backgroundColor={bodyColor}
+                      iconStyle={scrollTopStyle.icon}
+                      onTouchTap={this.forcedScrollToTop}
                     >
-                      {messageListItems}
-                      {this.state.showLoading && getLoadingGIF()}
-                    </Scrollbars>
-                  </ul>
-                  {this.state.showScrollTop && (
-                    <div>
-                      <FloatingActionButton
-                        mini={true}
-                        style={scrollTopStyle.button}
-                        backgroundColor={bodyColor}
-                        iconStyle={scrollTopStyle.icon}
-                        onTouchTap={this.forcedScrollToTop}
-                      >
-                        <NavigateUp />
-                      </FloatingActionButton>
-                    </div>
-                  )}
-                  {this.state.showScrollBottom && (
-                    <div className="scrollBottom">
-                      <FloatingActionButton
-                        mini={true}
-                        style={scrollBottomStyle.button}
-                        backgroundColor={bodyColor}
-                        iconStyle={scrollBottomStyle.icon}
-                        onTouchTap={this.forcedScrollToBottom}
-                      >
-                        <NavigateDown />
-                      </FloatingActionButton>
-                    </div>
-                  )}
-                  <div
-                    className="compose"
-                    style={{ backgroundColor: composerColor }}
-                  >
-                    <MessageComposer
-                      focus={true}
-                      threadID={this.state.thread.id}
-                      dream={dream}
-                      textarea={textArea}
-                      textcolor={textColor}
-                      speechOutput={speechOutput}
-                      speechOutputAlways={speechOutputAlways}
-                      micColor={this.state.button}
-                    />
+                      <NavigateUp />
+                    </FloatingActionButton>
                   </div>
+                )}
+                {this.state.showScrollBottom && (
+                  <div className="scrollBottom">
+                    <FloatingActionButton
+                      mini={true}
+                      style={scrollBottomStyle.button}
+                      backgroundColor={bodyColor}
+                      iconStyle={scrollBottomStyle.icon}
+                      onTouchTap={this.forcedScrollToBottom}
+                    >
+                      <NavigateDown />
+                    </FloatingActionButton>
+                  </div>
+                )}
+                <div
+                  className="compose"
+                  style={{ backgroundColor: composerColor }}
+                >
+                  <MessageComposer
+                    focus={!this.state.search}
+                    threadID={this.state.thread.id}
+                    dream={dream}
+                    textarea={textArea}
+                    textcolor={textColor}
+                    speechOutput={speechOutput}
+                    speechOutputAlways={speechOutputAlways}
+                    micColor={this.state.button}
+                  />
                 </div>
               </div>
-              {/*  All Dialogs are handled by this components */}
+            </div>
+            {/*  All Dialogs are handled by this components */}
+            {!this.state.search ? (
               <DialogSection
                 {...this.props}
                 openLogin={this.state.showLogin}
@@ -768,48 +771,8 @@ class MessageSection extends Component {
                 onForgotPassword={() => this.forgotPasswordChanged}
                 tour={!cookies.get('visited')}
               />
-            </div>
-          ) : (
-            <div className="message-pane">
-              <div className="message-section">
-                <ul
-                  className="message-list"
-                  ref={c => {
-                    this.messageList = c;
-                  }}
-                  style={this.messageBackgroundStyle}
-                >
-                  <Scrollbars
-                    renderThumbHorizontal={this.renderThumb}
-                    renderThumbVertical={this.renderThumb}
-                    ref={ref => {
-                      this.scrollarea = ref;
-                    }}
-                    autoHide
-                    autoHideTimeout={1000}
-                    autoHideDuration={200}
-                  >
-                    {messageListItems}
-                  </Scrollbars>
-                </ul>
-                <div
-                  className="compose"
-                  style={{ backgroundColor: composerColor }}
-                >
-                  <MessageComposer
-                    focus={false}
-                    threadID={this.state.thread.id}
-                    dream={dream}
-                    textarea={textArea}
-                    textcolor={textColor}
-                    speechOutput={speechOutput}
-                    speechOutputAlways={speechOutputAlways}
-                    micColor={this.state.button}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+            ) : null}
+          </div>
           <Snackbar
             open={this.state.SnackbarOpenBackground}
             message={<Translate text="Please enter a valid URL first" />}
@@ -910,13 +873,27 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
+    if (markedIDs && ul && newIndex === indexLimit) {
+      let currState = this.state.searchState;
+      newIndex = 0;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      currState.scrollID = markedIDs[newIndex];
+      this.setState({
+        searchState: currState,
+      });
+    }
   };
 
   _onClickRecent = () => {
     let newIndex = this.state.searchState.scrollIndex - 1;
     let newSearchCount = this.state.searchState.searchIndex - 1;
     let markedIDs = this.state.searchState.markedIDs;
+    let indexLimit = this.state.searchState.scrollLimit;
     let ul = this.messageList;
+    if (newSearchCount <= 0) {
+      newSearchCount = indexLimit;
+    }
     if (markedIDs && ul && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
@@ -925,6 +902,35 @@ class MessageSection extends Component {
       this.setState({
         searchState: currState,
       });
+    }
+    if (markedIDs && ul && newIndex === 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = this.state.searchState.scrollIndex - 1;
+      newSearchCount = this.state.searchState.searchIndex - 1;
+      markedIDs = this.state.searchState.markedIDs;
+      indexLimit = this.state.searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = this.state.searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
     }
   };
 
@@ -997,11 +1003,11 @@ class MessageSection extends Component {
   /**
    * Event handler for 'change' events coming from the MessageStore
    */
-  _onChange() {
+  _onChange = () => {
     let array = this.state.player;
     this.setState(getStateFromStores());
     this.setState({ player: array });
-  }
+  };
 }
 
 MessageSection.propTypes = {

@@ -73,7 +73,7 @@ class Overview extends Component {
       fill: '#fff',
       width: '40px',
       height: '40px',
-      right: '20px',
+      right: '1.5%',
       top: '20px',
       cursor: 'pointer',
     };
@@ -185,7 +185,7 @@ class Overview extends Component {
           </div>
         </div>
 
-        <div className="section_copy">
+        <div style={{ alignItems: 'unset' }} className="section_copy">
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className="img-container">

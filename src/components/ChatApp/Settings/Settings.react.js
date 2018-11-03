@@ -15,7 +15,6 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
-import './Settings.css';
 import Translate from '../../Translate/Translate.react';
 import TextField from 'material-ui/TextField';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
@@ -572,10 +571,10 @@ class Settings extends Component {
   /**
    * Event handler for 'change' events coming from the UserPreferencesStore
    */
-  _onChangeSettings() {
+  _onChangeSettings = () => {
     this.setInitialSettings();
     this.setDefaultsSettings();
-  }
+  };
 
   // Show change server dialog
   handleServer = () => {
@@ -704,10 +703,10 @@ class Settings extends Component {
     let checked = this.state.checked;
     let serverUrl = this.state.serverUrl;
     let newCountryCode = !this.state.countryCode
-      ? this.intialSettings.countryCode
+      ? this.state.intialSettings.countryCode
       : this.state.countryCode;
     let newCountryDialCode = !this.state.countryDialCode
-      ? this.intialSettings.countryDialCode
+      ? this.state.intialSettings.countryDialCode
       : this.state.countryDialCode;
     let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
@@ -776,10 +775,8 @@ class Settings extends Component {
   // Handle change to theme settings
   handleSelectChange = (event, value) => {
     value === 'light' || value === 'custom'
-      ? (document.getElementById('settings-container').style.background =
-          'rgb(242, 242, 242)')
-      : (document.getElementById('settings-container').style.background =
-          'rgb(0,0,18)');
+      ? $('#settings-container').addClass('settings-container-light')
+      : $('#settings-container').addClass('settings-container-dark');
     this.preview = true;
     this.setState({ theme: value }, () => {
       this.handleSubmit();
@@ -952,14 +949,12 @@ class Settings extends Component {
   };
 
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    UserPreferencesStore.removeChangeListener(
-      this._onChangeSettings.bind(this),
-    );
+    MessageStore.removeChangeListener(this._onChange);
+    UserPreferencesStore.removeChangeListener(this._onChangeSettings);
   }
 
   // Populate language list
-  _onChange() {
+  _onChange = () => {
     this.setState({
       voiceList: [
         {
@@ -1004,7 +999,7 @@ class Settings extends Component {
         },
       ],
     });
-  }
+  };
 
   // eslint-disable-next-line
   componentDidMount() {
@@ -1014,8 +1009,8 @@ class Settings extends Component {
     }
     document.title =
       'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    UserPreferencesStore.addChangeListener(this._onChangeSettings.bind(this));
+    MessageStore.addChangeListener(this._onChange);
+    UserPreferencesStore.addChangeListener(this._onChangeSettings);
     this.setState({
       search: false,
     });
@@ -1237,7 +1232,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, false)}
+        onTouchTap={() => this.handleServerToggle(false)}
         style={{ margin: '6px' }}
       />,
       <RaisedButton
@@ -1249,7 +1244,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, true)}
+        onTouchTap={() => this.handleServerToggle(true)}
       />,
     ];
 
@@ -1265,7 +1260,7 @@ class Settings extends Component {
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
-      color: UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+      color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
     };
     const fieldStyle = {
       height: '35px',
@@ -1302,6 +1297,7 @@ class Settings extends Component {
               )}
               <br />
               <div
+                className="reduceSettingDiv"
                 style={{
                   float: 'left',
                   padding: '0px 5px 0px 0px',
@@ -1382,6 +1378,7 @@ class Settings extends Component {
           </RadioButtonGroup>
           <RaisedButton
             label={<Translate text="Edit theme" />}
+            disabled={this.state.theme !== 'custom'}
             backgroundColor="#4285f4"
             labelColor="#fff"
             onClick={this.handleThemeChanger}
@@ -1417,6 +1414,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '0px 5px 0px 0px',
               }}
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output only for speech input" />
             </div>
@@ -1438,6 +1436,7 @@ class Settings extends Component {
                 fontSize: '15px',
                 fontWeight: 'bold',
               }}
+              className="reduceSettingDiv"
             >
               <Translate text="Speech Output Always ON" />
             </div>
@@ -1447,6 +1446,7 @@ class Settings extends Component {
                 float: 'left',
                 padding: '5px 5px 0px 0px',
               }}
+              className="reduceSettingDiv"
             >
               <Translate text="Enable speech output regardless of input type" />
             </div>
@@ -1465,7 +1465,7 @@ class Settings extends Component {
               rate={this.state.speechRate}
               pitch={this.state.speechPitch}
               lang={this.state.ttsLanguage}
-              newTtsSettings={this.handleNewTextToSpeech.bind(this)}
+              newTtsSettings={this.handleNewTextToSpeech}
             />
           </div>
         </div>
@@ -1758,7 +1758,12 @@ class Settings extends Component {
               <Translate text="Country/region : " />
               <DropDownMenu
                 maxHeight={300}
-                style={{ width: '250px', position: 'relative', top: '15px' }}
+                style={{
+                  width: '250px',
+                  position: 'relative',
+                  top: '15px',
+                  marginRight: '27px',
+                }}
                 labelStyle={{ color: themeForegroundColor }}
                 menuStyle={{ backgroundColor: themeBackgroundColor }}
                 menuItemStyle={{ color: themeForegroundColor }}
@@ -1770,54 +1775,73 @@ class Settings extends Component {
             </div>
             <div
               style={{
-                marginTop: '20px',
+                marginTop: '45px',
                 marginBottom: '0px',
                 marginLeft: '30px',
                 fontSize: '14px',
               }}
             >
-              <Translate text="Phone number : " />
-              <TextField
-                name="selectedCountry"
-                disabled={true}
-                underlineDisabledStyle={
-                  UserPreferencesStore.getTheme() === 'dark'
-                    ? underlineStyle
-                    : null
-                }
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
+              <span style={{ float: 'left', marginBottom: '35px' }}>
+                Phone number :
+              </span>
+              <div
+                style={{
+                  width: '250px',
+                  marginLeft: '33px',
+                  display: 'inline-block',
                 }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={
-                  countryData.countries[
-                    this.state.countryCode ? this.state.countryCode : 'US'
-                  ].countryCallingCodes[0]
-                }
-                style={{ width: '45px', marginLeft: '30px' }}
-              />
+              >
+                <TextField
+                  name="selectedCountry"
+                  disabled={true}
+                  underlineDisabledStyle={
+                    UserPreferencesStore.getTheme() === 'dark'
+                      ? underlineStyle
+                      : null
+                  }
+                  inputStyle={{
+                    color:
+                      UserPreferencesStore.getTheme() === 'dark'
+                        ? '#fff'
+                        : '#333',
+                  }}
+                  floatingLabelStyle={floatingLabelStyle}
+                  value={
+                    countryData.countries[
+                      this.state.countryCode ? this.state.countryCode : 'US'
+                    ].countryCallingCodes[0]
+                  }
+                  style={{
+                    width: '45px',
+                    marginTop: '-18px',
+                    float: 'left',
+                  }}
+                />
+
+                <TextField
+                  name="phonenumber"
+                  style={{
+                    width: '150px',
+                    float: 'left',
+                    marginTop: '-42px',
+                    marginLeft: '10px',
+                  }}
+                  onChange={this.handleTelephoneNoChange}
+                  inputStyle={{
+                    color:
+                      UserPreferencesStore.getTheme() === 'dark'
+                        ? '#fff'
+                        : '#333',
+                    paddingBottom: '4px',
+                    fontSize: '16px',
+                  }}
+                  floatingLabelStyle={floatingLabelStyle}
+                  value={this.state.PhoneNo}
+                  errorText={this.state.phoneNoError}
+                  floatingLabelText={<Translate text="Phone number" />}
+                />
+              </div>
             </div>
-            <TextField
-              name="phonenumber"
-              style={{
-                width: '150px',
-                marginRight: '230px',
-                float: 'right',
-                marginTop: '-72px',
-              }}
-              onChange={this.handleTelephoneNoChange}
-              inputStyle={{
-                color:
-                  UserPreferencesStore.getTheme() === 'dark' ? '#fff' : '#333',
-              }}
-              floatingLabelStyle={floatingLabelStyle}
-              value={this.state.PhoneNo}
-              errorText={this.state.phoneNoError}
-              floatingLabelText={<Translate text="Phone number" />}
-            />
           </div>
         </span>
       );
@@ -1845,6 +1869,7 @@ class Settings extends Component {
               float: 'left',
               padding: '0px 5px 0px 0px',
             }}
+            className="reduceSettingDiv"
           >
             <Translate text="Send message by pressing ENTER" />
           </div>
@@ -2227,7 +2252,9 @@ class Settings extends Component {
       <div
         id="settings-container"
         className={
-          UserPreferencesStore.getTheme() === 'light'
+          (UserPreferencesStore.getTheme() === 'light' &&
+            this.state.settingNo !== 'Theme') ||
+          (this.state.settingNo === 'Theme' && this.state.theme === 'light')
             ? 'settings-container-light'
             : 'settings-container-dark'
         }
@@ -2322,7 +2349,7 @@ class Settings extends Component {
           open={this.state.showServerChangeDialog}
           autoScrollBodyContent={true}
           bodyStyle={bodyStyle}
-          onRequestClose={this.handleServerToggle.bind(this, false)}
+          onRequestClose={() => this.handleServerToggle(false)}
         >
           <div>
             <h3>
@@ -2331,7 +2358,7 @@ class Settings extends Component {
             <Translate text="Please login again to change SUSI server" />
             <Close
               style={closingStyle}
-              onTouchTap={this.handleServerToggle.bind(this, false)}
+              onTouchTap={() => this.handleServerToggle(false)}
             />
           </div>
         </Dialog>

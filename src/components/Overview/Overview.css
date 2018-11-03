@@ -1,9 +1,3 @@
-
-.siteTitle {
-    height: 25px;
-    margin-top: 21px;
-    display: block;
-}
 .iconMenuStyles{
     margin: 10px 0 0 0;
 }
@@ -30,19 +24,19 @@
 .section {
     border-bottom: 1px solid #dfdfdf;
     margin: 0 auto;
-    padding: 100px 20px 120px 20px;
+    padding: 80px 20px 120px 20px;
     position: relative;
     text-align: center;
     max-width: 85%;
     width: 935px;
-    padding-top: 80px;
+    /* padding-top: 80px; */
 }
 .bubble {
     max-width: 370px;
     padding: 12.1px 16.5px 12.1px;
 }
 
- .bubble.hero__bubble {
+.bubble.hero__bubble {
     max-width: 280px;
 }
 .section-container {
@@ -55,7 +49,7 @@
     padding-top: 80px;
 }
 
- .bubble {
+.bubble {
     max-width: 220px;
 }
 
@@ -101,6 +95,7 @@
     width: 935px;
     margin: 0 auto;
 }
+
 .section_center {
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
@@ -118,9 +113,9 @@
     border-bottom: 1px solid #dfdfdf;
 }
 .section_center .img-container {
-  width: 100%;
-  margin-left: 10%;
-  margin-right: 10%;
+    width: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 .center__description {
     width: 100%;
@@ -240,7 +235,7 @@ img {
     top: 46px;
     left: 40px;
     right: 40px;
-    background-color: #fff;
+    background-color: #000;
     width: 75%;
     margin: 0 auto;
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
@@ -275,9 +270,9 @@ img {
 .video-container embed {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 5%;
     border: 0;
-    width: 100%;
+    width: 90%;
     height: 100%;
 }
 
@@ -322,25 +317,25 @@ img {
     line-height: 40px;
 }
 .headroom {
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 .headroom--unfixed {
-  position: relative;
-  transform: translateY(0%);
+    position: relative;
+    transform: translateY(0%);
 }
 .headroom--scrolled {
-  transition: transform 200ms ease-in-out;
+    transition: transform 200ms ease-in-out;
 }
 .headroom--unpinned {
-  position: fixed;
-  transform: translateY(-100%);
+    position: fixed;
+    transform: translateY(-100%);
 }
 .headroom--pinned {
-  position: fixed;
-  transform: translateY(0%);
+    position: fixed;
+    transform: translateY(0%);
 }
 .opensource img{
     height: 85px;
@@ -517,8 +512,8 @@ header {
 
     .img-container{
         max-width: 100%;
-       margin: 0 auto 20px auto;
-       padding: 0px;
+        margin: 0 auto 20px auto;
+        padding: 0px;
     }
 
     .img-conatainer img{
@@ -603,7 +598,7 @@ header {
     .section_center .img-container {
         margin: 0 auto 50px auto;
     }
-   .github_logo img{
+    .github_logo img{
         height: 40px;
         margin-left: 0;
     }
