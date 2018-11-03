@@ -217,6 +217,10 @@ class Settings extends Component {
           lang: 'en-US',
           name: 'US English',
         },
+        {
+          lang: 'ge-GE',
+          name: 'German',
+        },
       ],
       intialSettings: {
         theme: defaultTheme,
@@ -993,6 +997,10 @@ class Settings extends Component {
         {
           lang: 'nl-NL',
           name: 'Dutch',
+        },
+        {
+          lang: 'ge-GE',
+          name: 'German',
         },
       ],
     });

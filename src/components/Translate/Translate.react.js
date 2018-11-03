@@ -13,6 +13,7 @@ import jp from './jp.json';
 import nl from './nl.json';
 import pb from './pb.json';
 import np from './np.json';
+import ge from './ge.json';
 
 class Translate extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class Translate extends Component {
     'ru-RU': ru,
     'gr-GR': gr,
     'nl-NL': nl,
+    'ge-GE': ge,
   };
 
   componentDidMount() {
