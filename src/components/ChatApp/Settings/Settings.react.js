@@ -611,8 +611,8 @@ class Settings extends Component {
         break;
       }
       default: {
-        var prevThemeSettings = {};
-        var state = this.state;
+        let prevThemeSettings = {};
+        let state = this.state;
         prevThemeSettings.currTheme = state.currTheme;
         prevThemeSettings.bodyColor = state.body;
         prevThemeSettings.TopBarColor = state.header;
