@@ -199,7 +199,7 @@ export function parseAndReplace(text) {
 
 // Get hostname for given link
 function urlDomain(data) {
-  var a = document.createElement('a');
+  let a = document.createElement('a');
   a.href = data;
   return a.hostname;
 }
@@ -267,7 +267,7 @@ export function renderTiles(tiles) {
     slidesToShow = 2;
     showArrows = false;
   }
-  var settings = {
+  const settings = {
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
@@ -313,12 +313,12 @@ export function drawTable(columns, tableData, count) {
     rowCount = Math.min(count, tableData.length);
   }
   let rows = [];
-  for (var j = 0; j < rowCount; j++) {
+  for (let j = 0; j < rowCount; j++) {
     let eachrow = tableData[j];
     // Check if the data object can be populated as a table row
     let validRow = true;
-    for (var keyInd = 0; keyInd < parseKeys.length; keyInd++) {
-      var colKey = parseKeys[keyInd];
+    for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
+      let colKey = parseKeys[keyInd];
       if (!eachrow.hasOwnProperty(colKey)) {
         validRow = false;
         break;
