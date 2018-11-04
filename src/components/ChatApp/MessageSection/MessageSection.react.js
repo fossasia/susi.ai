@@ -864,11 +864,12 @@ class MessageSection extends Component {
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
-    if (newSearchCount <= 0) {
-      newSearchCount = indexLimit;
+    if (newSearchCount > indexLimit) {
+      newSearchCount = 1;
+      newIndex = 0;
     }
 
-    if (markedIDs && ul && newIndex < indexLimit) {
+    if (markedIDs && ul && newIndex < indexLimit && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
       currState.searchIndex = newSearchCount;
@@ -877,9 +878,9 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
-    if (markedIDs && ul && newIndex === 0) {
+    if (markedIDs && ul && newIndex === indexLimit) {
       let currState = this.state.searchState;
-      newIndex = indexLimit;
+      newIndex = 0;
       currState.scrollIndex = newIndex;
       currState.searchIndex = 1;
     }
@@ -928,7 +929,7 @@ class MessageSection extends Component {
     }
     if (markedIDs && ul && newIndex === 0) {
       let currState = this.state.searchState;
-      newIndex = indexLimit;
+      newIndex = 0;
       currState.scrollIndex = newIndex;
       currState.searchIndex = 1;
     }
