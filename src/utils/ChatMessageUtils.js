@@ -8,7 +8,7 @@ export function convertRawMessage(rawMessage, currentThreadID) {
 }
 
 export function getCreatedMessageData(text, currentThreadID, voice) {
-  var timestamp = Date.now();
+  const timestamp = Date.now();
   return {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
@@ -22,7 +22,7 @@ export function getCreatedMessageData(text, currentThreadID, voice) {
 }
 
 export function getSUSIMessageData(message, currentThreadID) {
-  var timestamp = Date.now();
+  const timestamp = Date.now();
 
   let receivedMessage = {
     id: 'm_' + timestamp,
