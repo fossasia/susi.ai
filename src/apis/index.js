@@ -33,3 +33,13 @@ export function addUserDevice(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/addNewDevice.json`;
   return ajax.get(url, { macid: macId, name, room, latitude, longitude });
 }
+
+export function getChangePassword(payload) {
+  const { email, password, newPassword } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/changepassword.json`;
+  return ajax.get(url, {
+    changepassword: email,
+    password,
+    newpassword: newPassword,
+  });
+}
