@@ -1,24 +1,37 @@
-import './Overview.css';
-import $ from 'jquery';
-import allDevices from '../../images/all_devices.png';
-import androidMockup from '../../images/android-mockup.jpg';
-import bots from '../../images/bots.jpg';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Footer from '../Footer/Footer.react';
-import githubText from '../../images/github-text-logo.png';
-import manyLanguages from '../../images/many_languages.png';
-import mapAndroid from '../../images/map-android.jpg';
-import Modal from 'react-modal';
-import openSource from '../../images/open-source.png';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import shield from '../../images/shield.svg';
+import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import $ from 'jquery';
+import Modal from 'react-modal';
+import urls from '../../utils/urls';
+import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import Close from 'material-ui/svg-icons/navigation/close';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import React, { Component } from 'react';
-import urls from '../../utils/urls';
+import bots from '../../images/bots.jpg';
+import githubText from '../../images/github-text-logo.png';
+import manyLanguages from '../../images/many_languages.png';
+import allDevices from '../../images/all_devices.png';
+import androidMockup from '../../images/android-mockup.jpg';
+import mapAndroid from '../../images/map-android.jpg';
+import shield from '../../images/shield.svg';
+import openSource from '../../images/open-source.png';
+import './Overview.css';
+
+const style = {
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 120000,
+    fill: '#fff',
+    width: '40px',
+    height: '40px',
+    right: '1.5%',
+    top: '20px',
+    cursor: 'pointer',
+  },
+};
 
 class Overview extends Component {
   constructor(props) {
@@ -27,34 +40,28 @@ class Overview extends Component {
       video: false,
     };
   }
-
-  handleTitle = () => {
-    this.props.history.push('/');
+  // Toggle Video dialog
+  toggleVideoModal = () => {
+    if (this.state.video === true) {
+      this.setState({
+        video: false,
+      });
+    } else {
+      this.setState({
+        video: true,
+      });
+    }
   };
-  // Open Video Dialog and close login and sign up dialog
-  handleVideo = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      video: true,
-    });
-  // Close all the dialogs
-  handleClose = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      video: false,
-    });
-  // Close Video Dialog
-  closeVideo = () =>
-    this.setState({
-      video: false,
-    });
 
-  _onReady(event) {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
-  }
+  // handleVideo = () =>
+  //   this.setState({
+  //     video: true,
+  //   });
+  // // Close Video Dialog
+  // closeVideo = () =>
+  //   this.setState({
+  //     video: false,
+  //   });
 
   componentDidMount() {
     document.body.style.backgroundColor = '#fff';
@@ -67,17 +74,6 @@ class Overview extends Component {
 
   render() {
     document.body.style.setProperty('background-image', 'none');
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 120000,
-      fill: '#fff',
-      width: '40px',
-      height: '40px',
-      right: '1.5%',
-      top: '20px',
-      cursor: 'pointer',
-    };
-
     return (
       <div>
         <StaticAppBar
@@ -98,7 +94,7 @@ class Overview extends Component {
                 Ask it questions. Tell it to do things. Always ready to help.
               </p>
               <a
-                onClick={this.handleVideo}
+                onClick={this.toggleVideoModal}
                 style={{
                   color: '#3367d6',
                   cursor: 'pointer',
@@ -359,7 +355,7 @@ class Overview extends Component {
         <Modal
           isOpen={this.state.video}
           className="Video-Modal"
-          onRequestClose={this.handleClose}
+          onRequestClose={this.toggleVideoModal}
           contentLabel="Assistant Video"
           overlayClassName="Video-Overlay"
         >
@@ -371,7 +367,10 @@ class Overview extends Component {
               allowFullScreen
               src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
             />
-            <Close style={closingStyle} onTouchTap={this.handleClose} />
+            <Close
+              style={style.closingStyle}
+              onTouchTap={this.toggleVideoModal}
+            />
           </div>
         </Modal>
       </div>
