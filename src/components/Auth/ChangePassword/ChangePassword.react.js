@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import $ from 'jquery';
-import './ChangePassword.css';
-import PasswordField from 'material-ui-password-field';
-import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import $ from 'jquery';
 import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import PasswordField from 'material-ui-password-field';
+import Dialog from 'material-ui/Dialog';
 import Close from 'material-ui/svg-icons/navigation/close';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
+import './ChangePassword.css';
 
 const cookies = new Cookies();
 
@@ -20,166 +20,134 @@ export default class ChangePassword extends Component {
     super(props);
 
     this.state = {
-      passwordError: true,
-      newPasswordError: true,
-      newPasswordConfirmError: true,
-      newPasswordValue: '',
-      passwordValue: '',
-      confirmNewPasswordValue: '',
+      password: '',
+      passwordErrorMessage: '',
+      newPassword: '',
+      newPasswordErrorMessage: '',
       newPasswordStrength: '',
       newPasswordScore: -1,
-      msg: '',
+      confirmNewPassword: '',
+      newPasswordConfirmErrorMessage: '',
+      dialogMessage: '',
       success: false,
-      validForm: false,
-      msgOpen: false,
-      showForgotPwd: false,
+      showDialog: false,
+      showForgotPasswordDialog: false,
     };
-
-    this.emailErrorMessage = '';
-    this.passwordErrorMessage = '';
-    this.newPasswordErrorMessage = '';
-    this.newPasswordConfirmErrorMessage = '';
   }
 
-  // Close the Change Password dialog on success
   handleCloseResetPassword = () => {
-    let state = this.state;
-    if (state.success) {
+    const { success } = this.state;
+    if (success) {
       this.props.history.push('/logout');
     } else {
       this.setState({
-        passwordError: true,
-        newPasswordError: true,
-        newPasswordConfirmError: true,
-        newPasswordValue: '',
-        passwordValue: '',
-        confirmNewPasswordValue: '',
+        password: '',
+        passwordErrorMessage: '',
+        newPassword: '',
+        newPasswordErrorMessage: '',
         newPasswordStrength: '',
         newPasswordScore: -1,
-        msg: '',
+        confirmNewPassword: '',
+        newPasswordConfirmErrorMessage: '',
+        dialogMessage: '',
         success: false,
-        validForm: false,
-        msgOpen: false,
+        showDialog: false,
+        showForgotPasswordDialog: false,
       });
     }
   };
 
   handleCloseForgotPassword = event => {
     this.setState({
-      showDialog: false,
-      showForgotPwd: false,
+      showForgotPasswordDialog: false,
     });
   };
 
-  handleForgotPwd = event => {
+  onForgotPassword = event => {
     event.preventDefault();
     this.setState({
-      showForgotPwd: true,
+      showForgotPasswordDialog: true,
     });
   };
 
   // Handle changes to current, new and confirm new passwords
-  handleChange = event => {
-    let password;
-    let newPassword;
-    let confirmNewPassword;
-    let state = this.state;
-
-    if (event.target.name === 'password') {
-      password = event.target.value;
-      state.passwordValue = password;
-      state.passwordError = !password;
-    } else if (event.target.name === 'newPassword') {
-      newPassword = event.target.value;
-      let validNewPassword = newPassword.length >= 6;
-      state.newPasswordValue = newPassword;
-      state.newPasswordError = !(newPassword && validNewPassword);
-      if (validNewPassword) {
-        let result = zxcvbn(newPassword);
-        state.newPasswordScore = result.score;
-        let strength = [
-          <Translate key={1} text="Too Insecure" />,
-          <Translate key={2} text="Bad" />,
-          <Translate key={3} text="Weak" />,
-          <Translate key={4} text="Good" />,
-          <Translate key={5} text="Strong" />,
-        ];
-        state.newPasswordStrength = strength[result.score];
-      } else {
-        state.newPasswordStrength = '';
-        state.newPasswordScore = -1;
+  handleTextFieldChange = event => {
+    switch (event.target.name) {
+      case 'password': {
+        const password = event.target.value.trim();
+        const passwordError = !(password && password.length >= 6);
+        this.setState({
+          password,
+          passwordErrorMessage: passwordError ? (
+            <Translate text="Minimum 6 characters required" />
+          ) : (
+            ''
+          ),
+        });
+        break;
       }
-    } else if (event.target.name === 'confirmNewPassword') {
-      newPassword = this.state.newPasswordValue;
-      confirmNewPassword = event.target.value;
-      let validNewPassword = confirmNewPassword === newPassword;
-      state.confirmNewPasswordValue = confirmNewPassword;
-      state.newPasswordConfirmError = !(validNewPassword && confirmNewPassword);
-    }
+      case 'newPassword': {
+        const newPassword = event.target.value.trim();
+        const newPasswordError = !(newPassword && newPassword.length >= 6);
+        const newPasswordScore = !newPasswordError
+          ? zxcvbn(newPassword).score
+          : -1;
+        const newPasswordStrength = !newPasswordError
+          ? [
+              <Translate key={1} text="Too Insecure" />,
+              <Translate key={2} text="Bad" />,
+              <Translate key={3} text="Weak" />,
+              <Translate key={4} text="Good" />,
+              <Translate key={5} text="Strong" />,
+            ][newPasswordScore]
+          : '';
 
-    if (
-      !this.state.passwordError &&
-      !this.state.newPasswordError &&
-      !this.state.newPasswordConfirmError
-    ) {
-      state.validForm = true;
-    } else {
-      state.validForm = false;
-    }
-
-    this.setState(state);
-
-    if (this.state.passwordError && event.target.name === 'password') {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = (
-        <Translate text="Password field cannot be blank" />
-      );
-      this.newPasswordErrorMessage = '';
-      this.newPasswordConfirmErrorMessage = '';
-    } else if (
-      this.state.newPasswordError &&
-      event.target.name === 'newPassword'
-    ) {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = '';
-      this.newPasswordErrorMessage = (
-        <Translate text="Minimum 6 characters required" />
-      );
-      this.newPasswordConfirmErrorMessage = '';
-    } else if (
-      this.state.newPasswordConfirmError &&
-      event.target.name === 'confirmNewPassword'
-    ) {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = '';
-      this.newPasswordErrorMessage = '';
-      this.newPasswordConfirmErrorMessage = (
-        <Translate text="password don't match" />
-      );
-    } else {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = '';
-      this.newPasswordErrorMessage = '';
-      this.newPasswordConfirmErrorMessage = '';
-    }
-
-    if (
-      this.state.passwordError ||
-      this.state.newPasswordError ||
-      this.state.newPasswordConfirmError
-    ) {
-      this.setState({ validForm: false });
-    } else {
-      this.setState({ validForm: true });
+        this.setState({
+          newPassword,
+          newPasswordErrorMessage: newPasswordError ? (
+            <Translate text="Minimum 6 characters required" />
+          ) : (
+            ''
+          ),
+          newPasswordScore,
+          newPasswordStrength,
+        });
+        break;
+      }
+      case 'confirmNewPassword': {
+        const { newPassword } = this.state;
+        const confirmNewPassword = event.target.value.trim();
+        const newPasswordConfirmError = !(
+          confirmNewPassword && confirmNewPassword === newPassword
+        );
+        this.setState({
+          confirmNewPassword,
+          newPasswordConfirmErrorMessage: newPasswordConfirmError ? (
+            <Translate text="Password does not match" />
+          ) : (
+            ''
+          ),
+        });
+        break;
+      }
+      default:
+        break;
     }
   };
 
-  // Submit the Change Password Form
-  handleSubmit = event => {
+  changePassword = event => {
     event.preventDefault();
 
-    let defaults = UserPreferencesStore.getPreferences();
-    let defaultServerURL = defaults.StandardServer;
+    const {
+      password,
+      newPassword,
+      passwordErrorMessage,
+      newPasswordErrorMessage,
+      newPasswordConfirmErrorMessage,
+    } = this.state;
+
+    const defaults = UserPreferencesStore.getPreferences();
+    const defaultServerURL = defaults.StandardServer;
     let BASE_URL = '';
     if (
       cookies.get('serverUrl') === defaultServerURL ||
@@ -191,22 +159,22 @@ export default class ChangePassword extends Component {
       BASE_URL = cookies.get('serverUrl');
     }
 
-    let email = '';
-    if (cookies.get('emailId')) {
-      email = cookies.get('emailId');
-    }
-    let changePasswordEndPoint =
-      '/aaa/changepassword.json?' +
-      'changepassword=' +
-      email +
-      '&password=' +
-      encodeURIComponent(this.state.passwordValue) +
-      '&newpassword=' +
-      encodeURIComponent(this.state.newPasswordValue) +
-      '&access_token=' +
-      cookies.get('loggedIn');
-    changePasswordEndPoint = BASE_URL + changePasswordEndPoint;
-    if (!this.state.passwordError && !this.state.newPasswordConfirmError) {
+    const email = cookies.get('emailId') ? cookies.get('emailId') : '';
+
+    //eslint-disable-next-line
+    const changePasswordEndPoint = `${BASE_URL}/aaa/changepassword.json?changepassword=${email}&password=${encodeURIComponent(
+      password,
+    )}&newpassword=${encodeURIComponent(
+      newPassword,
+    )}&access_token=${cookies.get('loggedIn')}`;
+
+    if (
+      !(
+        passwordErrorMessage ||
+        newPasswordErrorMessage ||
+        newPasswordConfirmErrorMessage
+      )
+    ) {
       $.ajax({
         url: changePasswordEndPoint,
         dataType: 'jsonp',
@@ -218,43 +186,69 @@ export default class ChangePassword extends Component {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         },
         statusCode: {
-          422: function() {
-            let msg =
+          422: () => {
+            const dialogMessage =
               'Invalid Credentials. Please check your Email or Password.';
-            let state = this.state;
-            state.msg = msg;
-            this.setState(state);
+            this.setState({
+              dialogMessage,
+            });
           },
         },
-        success: function(response) {
-          let state = this.state;
-          let msg;
+        success: response => {
+          let dialogMessage;
+          let success;
           if (response.accepted) {
-            msg = response.message + '\n Please login again.';
-            state.success = true;
+            dialogMessage = response.message + '\n Please login again.';
+            success = true;
           } else {
-            msg = response.message + '\n Please Try Again.';
-            state.success = false;
+            dialogMessage = response.message + '\n Please Try Again.';
+            success = false;
           }
-          state.msgOpen = true;
-          state.msg = msg;
-          this.setState(state);
-        }.bind(this),
-        error: function(jqXHR, textStatus, errorThrown) {
-          let msg = 'Failed. Try Again';
+          this.setState({
+            dialogMessage,
+            success,
+            showDialog: true,
+          });
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+          let dialogMessage = 'Failed. Try Again';
           if (status === 'timeout') {
-            msg = 'Please check your internet connection';
+            dialogMessage = 'Please check your internet connection';
           }
-          let state = this.state;
-          state.msg = msg;
-          state.msgOpen = true;
-          this.setState(state);
-        }.bind(this),
+          this.setState({
+            dialogMessage,
+            showDialog: true,
+          });
+        },
       });
     }
   };
 
   render() {
+    const {
+      password,
+      passwordErrorMessage,
+      newPassword,
+      newPasswordErrorMessage,
+      confirmNewPassword,
+      newPasswordConfirmErrorMessage,
+      newPasswordScore,
+      newPasswordStrength,
+      showForgotPasswordDialog,
+      dialogMessage,
+      showDialog,
+    } = this.state;
+
+    const isValid =
+      !(
+        passwordErrorMessage &&
+        newPasswordErrorMessage &&
+        newPasswordConfirmErrorMessage
+      ) &&
+      password &&
+      newPassword &&
+      confirmNewPassword;
+
     const themeBackgroundColor =
       (this.props.settings && this.props.settings.theme) === 'dark'
         ? '#19324c'
@@ -311,21 +305,21 @@ export default class ChangePassword extends Component {
       height: '35px',
       marginBottom: '10px',
     };
-    const PasswordClass = [`is-strength-${this.state.newPasswordScore}`];
+    const PasswordClass = [`is-strength-${newPasswordScore}`];
 
     return (
       <div className="changePasswordForm">
         <Paper zDepth={0} style={styles}>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.changePassword}>
             <div style={labelStyle}>Current Password</div>
             <div>
               <PasswordField
                 name="password"
                 style={fieldStyle}
-                value={this.state.passwordValue}
-                onChange={this.handleChange}
+                value={password}
+                onChange={this.handleTextFieldChange}
                 inputStyle={inputStyle}
-                errorText={this.passwordErrorMessage}
+                errorText={passwordErrorMessage}
                 underlineStyle={{ display: 'none' }}
                 disableButton={true}
                 visibilityButtonStyle={{ display: 'none' }}
@@ -339,17 +333,17 @@ export default class ChangePassword extends Component {
                 name="newPassword"
                 placeholder="Must be at least 6 characters"
                 style={fieldStyle}
-                value={this.state.newPasswordValue}
-                onChange={this.handleChange}
+                value={newPassword}
+                onChange={this.handleTextFieldChange}
                 inputStyle={inputStyle}
-                errorText={this.newPasswordErrorMessage}
+                errorText={newPasswordErrorMessage}
                 underlineStyle={{ display: 'none' }}
                 disableButton={true}
                 visibilityButtonStyle={{ display: 'none' }}
                 visibilityIconStyle={{ display: 'none' }}
               />
               <div className="ReactPasswordStrength-strength-bar" />
-              <div>{this.state.newPasswordStrength}</div>
+              <div>{newPasswordStrength}</div>
             </div>
             <br />
             <div style={labelStyle}>Verify Password</div>
@@ -358,10 +352,10 @@ export default class ChangePassword extends Component {
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
                 style={fieldStyle}
-                value={this.state.confirmNewPasswordValue}
-                onChange={this.handleChange}
+                value={confirmNewPassword}
+                onChange={this.handleTextFieldChange}
                 inputStyle={inputStyle}
-                errorText={this.newPasswordConfirmErrorMessage}
+                errorText={newPasswordConfirmErrorMessage}
                 underlineStyle={{ display: 'none' }}
                 disableButton={true}
                 visibilityButtonStyle={{ display: 'none' }}
@@ -370,14 +364,14 @@ export default class ChangePassword extends Component {
             </div>
             <div style={submitBtnStyle}>
               <div className="forgot">
-                <a onClick={this.handleForgotPwd}>Forgot your password?</a>
+                <a onClick={this.onForgotPassword}>Forgot your password?</a>
               </div>
               <div>
                 <br />
                 <RaisedButton
                   label={<Translate text="Save Changes" />}
                   type="submit"
-                  disabled={!this.state.validForm}
+                  disabled={!isValid}
                   backgroundColor="#4285f4"
                   labelColor="#fff"
                 />
@@ -390,7 +384,7 @@ export default class ChangePassword extends Component {
         <div className="ModalDiv" style={{ width: '50%' }}>
           <Dialog
             modal={false}
-            open={this.state.showForgotPwd}
+            open={showForgotPasswordDialog}
             onRequestClose={this.handleCloseForgotPassword}
             className="ModalDiv"
           >
@@ -398,14 +392,14 @@ export default class ChangePassword extends Component {
           </Dialog>
         </div>
 
-        {this.state.msg && (
+        {dialogMessage && (
           <div>
             <Dialog
               modal={false}
-              open={this.state.msgOpen}
+              open={showDialog}
               onRequestClose={this.handleCloseResetPassword}
             >
-              <Translate text={this.state.msg} />
+              <Translate text={dialogMessage} />
               <Close
                 style={closingStyle}
                 onTouchTap={this.handleCloseResetPassword}
