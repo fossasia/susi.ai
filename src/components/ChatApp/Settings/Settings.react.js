@@ -1310,12 +1310,7 @@ class Settings extends Component {
         </div>
       );
     } else if (this.state.selectedSetting === 'Share on Social media') {
-      currentSetting = '';
-      currentSetting = (
-        <div style={divStyle}>
-          <ShareOnSocialMedia />
-        </div>
-      );
+      currentSetting = <ShareOnSocialMedia containerStyle={divStyle} />;
     } else if (this.state.selectedSetting === 'Theme') {
       currentSetting = '';
       currentSetting = (
