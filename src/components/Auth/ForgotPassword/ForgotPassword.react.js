@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-/* Material-UI*/
+import $ from 'jquery';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import Close from 'material-ui/svg-icons/navigation/close';
-
-/* CSS*/
-import './ForgotPassword.css';
-
-/* Utils*/
-import $ from 'jquery';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ChatConstants from '../../../constants/ChatConstants';
 import FlatButton from 'material-ui/FlatButton';
+import './ForgotPassword.css';
+
+const styles = {
+  paperStyle: {
+    width: '100%',
+    textAlign: 'center',
+    padding: '10px',
+  },
+  underlineFocusStyle: {
+    color: '#4285f4',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+};
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -24,211 +39,171 @@ class ForgotPassword extends Component {
 
     this.state = {
       email: '',
-      msg: '',
-      success: false,
+      emailError: false,
+      emailErrorMessage: '',
       serverUrl: '',
-      checked: false,
       serverFieldError: false,
-      emailError: true,
-      validEmail: true,
-      validForm: false,
+      customServerMessage: '',
+      checked: false,
+      success: false,
+      dialogMessage: '',
       loading: false,
     };
-
-    this.emailErrorMessage = '';
-    this.customServerMessage = '';
   }
 
-  // Handle Closing the Forgot Password Dialog
-  handleClose = () => {
-    let state = this.state;
-    if (state.success) {
+  closeDialog = () => {
+    const { success } = this.state;
+    if (success) {
       this.setState({
-        msg: '',
+        dialogMessage: '',
       });
     } else {
       this.setState({
         email: '',
-        msg: '',
-        success: false,
+        emailError: false,
         serverUrl: '',
-        checked: false,
         serverFieldError: false,
-        emailError: true,
-        validEmail: false,
-        validForm: false,
+        customServerMessage: '',
+        checked: false,
+        success: false,
+        dialogMessage: '',
       });
     }
   };
 
-  // Handle toggle between custom server and default server
   handleServeChange = event => {
-    let state = this.state;
-    let serverUrl;
+    let { checked, serverUrl, serverFieldError } = this.state;
     if (event.target.value === 'customServer') {
-      state.checked = !state.checked;
+      checked = !checked;
       let defaults = UserPreferencesStore.getPreferences();
-      state.serverUrl = defaults.StandardServer;
-      state.serverFieldError = false;
+      serverUrl = defaults.StandardServer;
+      serverFieldError = false;
     } else if (event.target.name === 'serverUrl') {
       serverUrl = event.target.value;
-      // eslint-disable-next-line
-      let validServerUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i.test(
-        serverUrl,
-      );
-      state.serverUrl = serverUrl;
-      state.serverFieldError = !(serverUrl && validServerUrl);
+      const validServerUrl = new RegExp(
+        [
+          '(http|ftp|https)://[w-]+(.[w-]+)+([w.,@?^=%&amp;:~+#-]*[w@?^=%&amp;~+#-])?',
+        ].join(''),
+        'i',
+      ).test(serverUrl);
+      serverFieldError = !(serverUrl && validServerUrl);
     }
-    this.setState(state);
-
-    if (this.state.serverFieldError) {
-      this.customServerMessage = <Translate text="Enter a valid URL" />;
-    } else {
-      this.customServerMessage = '';
-    }
-
-    if (this.state.emailError || this.state.serverFieldError) {
-      this.setState({ validForm: false });
-    } else {
-      this.setState({ validForm: true });
-    }
+    this.setState({
+      serverUrl,
+      serverFieldError,
+      customServerMessage: serverFieldError ? (
+        <Translate text="Enter a valid URL" />
+      ) : (
+        ''
+      ),
+      checked,
+    });
   };
 
-  // Handle changes in email
-  handleChange = event => {
-    let email;
-    let state = this.state;
+  handleTextFieldChange = event => {
     if (event.target.name === 'email') {
-      email = event.target.value.trim();
-      let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-      state.email = email;
-      state.validEmail = validEmail;
-      state.emailError = !(validEmail && email);
+      const email = event.target.value.trim();
+      const validEmail = new RegExp(
+        ['^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$'].join(''),
+        'i',
+      ).test(email);
+      const emailError = !(validEmail && email);
+      this.setState({
+        email,
+        emailError,
+        emailErrorMessage: emailError ? <Translate text="Invalid Email" /> : '',
+      });
     }
-
-    if (state.emailError) {
-      if (!state.email) {
-        this.emailErrorMessage = <Translate text="This Field Is Required" />;
-      } else if (!state.validEmail) {
-        this.emailErrorMessage = <Translate text="Invalid Email" />;
-      }
-    } else {
-      this.emailErrorMessage = '';
-    }
-
-    if (state.serverFieldError) {
-      this.customServerMessage = <Translate text="Enter a valid URL" />;
-    } else {
-      this.customServerMessage = '';
-    }
-
-    if (!state.emailError && !state.serverFieldError) {
-      state.validForm = true;
-    } else {
-      state.validForm = false;
-    }
-    this.setState(state);
   };
 
-  // Submit the Forgot Password Form
   handleSubmit = event => {
     event.preventDefault();
 
-    let email = this.state.email.trim();
-    let validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-
-    let defaults = UserPreferencesStore.getPreferences();
+    const { email, emailError } = this.state;
+    let { serverUrl } = this.state;
+    const defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
 
     this.setState({ loading: true });
 
-    let serverUrl = this.state.serverUrl;
     if (serverUrl.slice(-1) === '/') {
       serverUrl = serverUrl.slice(0, -1);
     }
     if (serverUrl !== '') {
       BASE_URL = serverUrl;
     }
-    if (email && validEmail) {
+    if (email && !emailError) {
       $.ajax({
-        url: BASE_URL + '/aaa/recoverpassword.json?forgotemail=' + email,
+        url: `${BASE_URL}/aaa/recoverpassword.json?forgotemail=${email}`,
         dataType: 'jsonp',
         crossDomain: true,
         timeout: 3000,
         async: false,
         statusCode: {
-          422: function() {
-            let msg = 'Email does not exist';
-            let state = this.state;
-            state.msg = msg;
-            state.loading = false;
-            this.setState(state);
+          422: () => {
+            this.setState({
+              dialogMessage: 'Email does not exist',
+              loading: false,
+            });
           },
         },
-        success: function(response) {
-          let msg = response.message;
-          let state = this.state;
-          state.msg = msg;
+        success: response => {
+          let dialogMessage = response.message;
+          let success;
           if (response.accepted) {
-            state.success = true;
+            success = true;
           } else {
-            state.success = false;
-            state.msg += 'Please Try Again';
+            success = false;
+            dialogMessage += 'Please Try Again';
           }
-          state.loading = false;
-          this.setState(state);
-        }.bind(this),
-        error: function(jqXHR, textStatus, errorThrown) {
-          let jsonValue = jqXHR.status;
-          let msg = '';
+          this.setState({
+            loading: false,
+            success,
+            dialogMessage,
+          });
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+          const jsonValue = jqXHR.status;
+          let dialogMessage = '';
           if (jsonValue === 404) {
-            msg = 'Email does not exist';
+            dialogMessage = 'Email does not exist';
           } else {
-            msg = 'Failed. Try Again';
+            dialogMessage = 'Failed. Try Again';
           }
           if (status === 'timeout') {
-            msg = 'Please check your internet connection';
+            dialogMessage = 'Please check your internet connection';
           }
-          let state = this.state;
-          state.msg = msg;
-          state.loading = false;
-          this.setState(state);
-        }.bind(this),
+          this.setState({
+            loading: false,
+            dialogMessage,
+          });
+        },
       });
     }
   };
 
   render() {
+    const {
+      email,
+      emailError,
+      emailErrorMessage,
+      serverFieldError,
+      dialogMessage,
+    } = this.state;
+    const isValid = !emailError && !serverFieldError && email;
+
     const actions = (
       <FlatButton
         label="OK"
         backgroundColor={ChatConstants.standardBlue}
         labelStyle={{ color: '#fff' }}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.closeDialog}
       />
     );
-    const styles = {
-      width: '100%',
-      textAlign: 'center',
-      padding: '10px',
-    };
-    const underlineFocusStyle = {
-      color: '#4285f4',
-    };
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
 
     return (
       <div className="forgotPwdForm">
-        <Paper zDepth={0} style={styles}>
+        <Paper zDepth={0} style={styles.paperStyle}>
           <h3>
             <Translate text="Forgot Password ?" />
           </h3>
@@ -237,11 +212,11 @@ class ForgotPassword extends Component {
               <TextField
                 name="email"
                 floatingLabelText={<Translate text="Email" />}
-                errorText={this.emailErrorMessage}
-                value={this.state.email}
-                underlineFocusStyle={underlineFocusStyle}
-                floatingLabelFocusStyle={underlineFocusStyle}
-                onChange={this.handleChange}
+                errorText={emailErrorMessage}
+                value={email}
+                underlineFocusStyle={styles.underlineFocusStyle}
+                floatingLabelFocusStyle={styles.underlineFocusStyle}
+                onChange={this.handleTextFieldChange}
               />
             </div>
             <div style={{ margin: '10px 0 10px 30px' }}>
@@ -256,7 +231,7 @@ class ForgotPassword extends Component {
                 }
                 labelColor="#fff"
                 style={{ marginRight: '15px' }}
-                disabled={!this.state.validForm}
+                disabled={!isValid}
               />
               <RaisedButton
                 label="Cancel"
@@ -270,25 +245,28 @@ class ForgotPassword extends Component {
               />
             </div>
           </form>
-          {this.state.msg && (
+          {dialogMessage && (
             <div>
               <Dialog
                 actions={actions}
                 modal={false}
                 open={true}
-                onRequestClose={this.handleClose}
+                onRequestClose={this.closeDialog}
               >
-                {this.state.msg}
+                {dialogMessage}
               </Dialog>
             </div>
           )}
         </Paper>
-        {this.state.msg && (
+        {dialogMessage && (
           <div>
-            <Dialog modal={false} open={true} onRequestClose={this.handleClose}>
-              <Translate text={this.state.msg} />
+            <Dialog modal={false} open={true} onRequestClose={this.closeDialog}>
+              <Translate text={dialogMessage} />
 
-              <Close style={closingStyle} onTouchTap={this.handleClose} />
+              <Close
+                style={styles.closingStyle}
+                onTouchTap={this.closeDialog}
+              />
             </Dialog>
           </div>
         )}
