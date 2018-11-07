@@ -7,30 +7,24 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
 import $ from 'jquery';
 
-class Feedback extends React.Component {
-  // Parse skill meta data
-  parseSkill = () => {
-    let message = this.props.message;
-    let rating = {};
-    if (message && message.response !== undefined && message.response !== '') {
-      if (message.authorName === 'SUSI') {
-        if (message.response.answers[0].skills !== undefined) {
-          let skill = message.response.answers[0].skills[0];
-          let parsed = skill.split('/');
-          if (parsed.length === 7) {
-            rating.model = parsed[3];
-            rating.group = parsed[4];
-            rating.language = parsed[5];
-            rating.skill = parsed[6].slice(0, -4);
-          }
-        } else {
-          return null;
-        }
-      }
-    }
-    return rating;
-  };
+const styles = {
+  feedbackStyle: {
+    top: 5,
+    display: 'block',
+    position: 'relative',
+    float: 'right',
+  },
+  feedbackIndicator: {
+    height: '16px',
+    cursor: 'pointer',
+  },
+  indicatorStyleShare: {
+    height: '13px',
+    cursor: 'pointer',
+  },
+};
 
+class Feedback extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,6 +34,26 @@ class Feedback extends React.Component {
       skill: this.parseSkill(),
     };
   }
+
+  parseSkill = () => {
+    const { message } = this.props;
+    let rating = {};
+    if (message && message.response && message.authorName === 'SUSI') {
+      if (message.response.answers[0].skills !== undefined) {
+        let skill = message.response.answers[0].skills[0];
+        let parsed = skill.split('/');
+        if (parsed.length === 7) {
+          rating.model = parsed[3];
+          rating.group = parsed[4];
+          rating.language = parsed[5];
+          rating.skill = parsed[6].slice(0, -4);
+        }
+      } else {
+        return null;
+      }
+    }
+    return rating;
+  };
 
   removeFeedback() {
     this.setState({
@@ -51,16 +65,15 @@ class Feedback extends React.Component {
 
   // Update state to store rating
   rateSkill = rating => {
-    let defaults = UserPreferencesStore.getPreferences();
-    let BASE_URL = defaults.Server;
-    let skill = this.state.skill;
+    const defaults = UserPreferencesStore.getPreferences();
+    const BASE_URL = defaults.Server;
+    const { skill, positive, negative } = this.state;
 
-    // Change the color of Feedback thumbs
     switch (rating) {
       case 'positive': {
         this.setState({
           ratingGiven: true,
-          positive: !this.state.positive,
+          positive: !positive,
           negative: false,
         });
         break;
@@ -69,7 +82,7 @@ class Feedback extends React.Component {
         this.setState({
           ratingGiven: true,
           positive: false,
-          negative: !this.state.negative,
+          negative: !negative,
         });
         break;
       }
@@ -78,18 +91,11 @@ class Feedback extends React.Component {
       }
     }
 
-    let rateEndPoint =
-      BASE_URL +
-      '/cms/rateSkill.json?model=' +
-      skill.model +
-      '&group=' +
-      skill.group +
-      '&language=' +
-      skill.language +
-      '&skill=' +
-      skill.skill +
-      '&rating=' +
-      rating;
+    const rateEndPoint = `${BASE_URL}/cms/rateSkill.json?model=${
+      skill.model
+    }&group=${skill.group}&language=${skill.language}&skill=${
+      skill.skill
+    }&rating=${rating}`;
 
     $.ajax({
       url: rateEndPoint,
@@ -119,71 +125,51 @@ class Feedback extends React.Component {
       },
     });
 
-    let feedback = this.state.skill;
-    // Send feedback to server
+    let feedback = skill;
     if (
       !(Object.keys(feedback).length === 0 && feedback.constructor === Object)
     ) {
       feedback.rating = rating;
-      this.props.message.feedback.rating = rating;
       Actions.saveFeedback(feedback);
     }
   };
 
-  render() {
-    let message = this.props.message;
-
-    let feedbackButtons = null;
-    let feedbackStyle = {
-      top: 5,
-      display: 'block',
-      position: 'relative',
-      float: 'right',
-    };
+  feedbackButtonsGenerator = () => {
+    const { message } = this.props;
+    const { positive, negative } = this.state;
 
     if (message && message.authorName === 'SUSI') {
-      let feedbackIndicator = {
-        height: '16px',
-        cursor: 'pointer',
-      };
+      const shareMessageSUSI = encodeURIComponent(
+        (message.text ? message.text : '').trim(),
+      );
+      const shareTag = encodeURIComponent(' #SUSI.AI');
+      const twitterShare = `https://twitter.com/intent/tweet?text=${shareMessageSUSI}${shareTag}`;
 
-      let shareMessageSUSI = message.text === undefined ? '' : message.text;
-      shareMessageSUSI = encodeURIComponent(shareMessageSUSI.trim());
-      let shareTag = ' #SUSI.AI';
-      shareTag = encodeURIComponent(shareTag);
-      let twitterShare =
-        'https://twitter.com/intent/tweet?text=' + shareMessageSUSI + shareTag;
-      let indicatorStyleShare = {
-        height: '13px',
-        cursor: 'pointer',
-      };
-
-      let feedbackColor =
+      const feedbackColor =
         UserPreferencesStore.getTheme() === 'light' ? '#90a4ae' : '#7eaaaf';
       let positiveFeedbackColor = feedbackColor;
       let negativeFeedbackColor = feedbackColor;
-      if (this.state.positive) {
+      if (positive) {
         positiveFeedbackColor =
           UserPreferencesStore.getTheme() === 'light' ? '#1685e5' : '#00ff7f';
-      } else if (this.state.negative) {
+      } else if (negative) {
         negativeFeedbackColor =
           UserPreferencesStore.getTheme() === 'light' ? '#d1462f' : '#f23e3e';
       }
-
-      feedbackButtons = (
-        <span className="feedback" style={feedbackStyle}>
+      return (
+        <span className="feedback" style={styles.feedbackStyle}>
           <ThumbUp
             onClick={() => this.rateSkill('positive')}
-            style={feedbackIndicator}
+            style={styles.feedbackIndicator}
             color={positiveFeedbackColor}
           />
           <ThumbDown
             onClick={() => this.rateSkill('negative')}
-            style={feedbackIndicator}
+            style={styles.feedbackIndicator}
             color={negativeFeedbackColor}
           />
           <ShareIcon
-            style={indicatorStyleShare}
+            style={styles.indicatorStyleShare}
             color={
               UserPreferencesStore.getTheme() === 'light'
                 ? '#90a4ae'
@@ -194,10 +180,11 @@ class Feedback extends React.Component {
         </span>
       );
     }
-    if (message && message.authorName === 'You') {
-      feedbackStyle = {};
-    }
-    return <span>{feedbackButtons}</span>;
+    return null;
+  };
+
+  render() {
+    return <span>{this.feedbackButtonsGenerator()}</span>;
   }
 }
 

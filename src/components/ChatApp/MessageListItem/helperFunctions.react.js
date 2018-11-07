@@ -3,6 +3,9 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
 import Emojify from 'react-emojione';
+import Slider from 'react-slick';
+import { injectIntl } from 'react-intl';
+import Parser from 'html-react-parser';
 import {
   Table,
   TableBody,
@@ -13,14 +16,11 @@ import {
 } from 'material-ui/Table';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { divIcon } from 'leaflet';
-import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import ShareIcon from 'material-ui/svg-icons/social/share';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import Parser from 'html-react-parser';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { injectIntl } from 'react-intl';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -32,16 +32,14 @@ class ExtendedMarker extends Marker {
 }
 
 // Render anchor for given text
-export function renderAnchor(text, link) {
-  return (
-    <a href={link} target="_blank" rel="noopener noreferrer">
-      {text}
-    </a>
-  );
-}
+export const renderAnchor = (text, link) => (
+  <a href={link} target="_blank" rel="noopener noreferrer">
+    {text}
+  </a>
+);
 
 // Returns the message time and status indicator
-export function renderMessageFooter(message, latestMsgID, isLastAction) {
+export const renderMessageFooter = (message, latestMsgID, isLastAction) => {
   let statusIndicator = null;
 
   let footerStyle = {
@@ -50,19 +48,16 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
   };
 
   if (message && message.authorName === 'You') {
-    let indicatorStyle = {
+    const indicatorStyle = {
       height: '13px',
     };
-    let indicatorStyleShare = {
+    const indicatorStyleShare = {
       height: '13px',
       cursor: 'pointer',
     };
-    let shareMessageYou = message.text;
-    shareMessageYou = encodeURIComponent(shareMessageYou.trim());
-    let shareTag = ' #SUSI.AI';
-    shareTag = encodeURIComponent(shareTag);
-    let twitterShare =
-      'https://twitter.com/intent/tweet?text=' + shareMessageYou + shareTag;
+    const shareMessageYou = encodeURIComponent(message.text.trim());
+    const shareTag = encodeURIComponent(' #SUSI.AI');
+    const twitterShare = `https://twitter.com/intent/tweet?text=${shareMessageYou}${shareTag}`;
     statusIndicator = (
       <li className="response-time" style={footerStyle}>
         <TickIcon
@@ -113,7 +108,8 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
       {statusIndicator}
     </ul>
   );
-}
+};
+
 // Format Date for internationalization
 const PostDate = injectIntl(({ date, intl }) => (
   <span
@@ -130,31 +126,36 @@ const PostDate = injectIntl(({ date, intl }) => (
   </span>
 ));
 
+// Linkify the text
+export const parseAndReplace = text => {
+  return <Linkify properties={{ target: '_blank' }}>{text}</Linkify>;
+};
+
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis
-export function processText(text, type) {
+export const processText = (text, type) => {
   if (text) {
     text = text.toString();
     let processedText = '';
     switch (type) {
       case 'websearch-rss': {
-        let htmlText = Parser(text);
+        const htmlText = Parser(text);
         processedText = <Emojify>{htmlText}</Emojify>;
         break;
       }
       default: {
-        let imgText = imageParse(text);
-        let replacedText = parseAndReplace(imgText);
+        const imgText = imageParse(text);
+        const replacedText = parseAndReplace(imgText);
         processedText = <Emojify>{replacedText}</Emojify>;
       }
     }
     return processedText;
   }
   return text;
-}
+};
 
 // Parse for image links to render images and gifs
 export function imageParse(stringWithLinks) {
-  let replacePattern = new RegExp(
+  const replacePattern = new RegExp(
     [
       '((?:https?:\\/\\/)(?:[a-zA-Z]{1}',
       '(?:[\\w-]+\\.)+(?:[\\w]{2,5}))',
@@ -164,10 +165,10 @@ export function imageParse(stringWithLinks) {
     ].join(''),
     'gim',
   );
-  let splits = stringWithLinks.split(replacePattern);
+  const splits = stringWithLinks.split(replacePattern);
   let result = [];
   splits.forEach((item, key) => {
-    let checkmatch = item.match(replacePattern);
+    const checkmatch = item.match(replacePattern);
     if (checkmatch) {
       result.push(
         <img
@@ -178,7 +179,7 @@ export function imageParse(stringWithLinks) {
         />,
       );
     } else {
-      let htmlParseItem = Parser(item);
+      const htmlParseItem = Parser(item);
       if (
         (Array.isArray(htmlParseItem) && htmlParseItem.length === 0) ||
         (htmlParseItem.hasOwnProperty('props') && !htmlParseItem.props.children)
@@ -192,20 +193,15 @@ export function imageParse(stringWithLinks) {
   return result;
 }
 
-// Linkify the text
-export function parseAndReplace(text) {
-  return <Linkify properties={{ target: '_blank' }}>{text}</Linkify>;
-}
-
 // Get hostname for given link
-function urlDomain(data) {
+const urlDomain = data => {
   let a = document.createElement('a');
   a.href = data;
   return a.hostname;
-}
+};
 
 // Draw Tiles for Websearch RSS data
-export function drawCards(tilesData) {
+export const drawCards = tilesData => {
   const titleStyle = {
     marginTop: '-10px',
     whiteSpace: 'nowrap',
@@ -224,11 +220,11 @@ export function drawCards(tilesData) {
     }
   });
 
-  let resultTiles = tilesData.map((tile, i) => {
-    let cardText = tile.description;
-    if (!cardText) {
-      cardText = tile.descriptionShort;
-    }
+  const resultTiles = tilesData.map((tile, i) => {
+    const cardText = tile.description
+      ? tile.description
+      : tile.descriptionShort;
+
     return (
       <Card
         className={cardClass}
@@ -251,15 +247,15 @@ export function drawCards(tilesData) {
     );
   });
   return resultTiles;
-}
+};
 
 // Render Websearch RSS tiles
-export function renderTiles(tiles) {
+export const renderTiles = tiles => {
   if (tiles.length === 0) {
-    let noResultFound = 'NO Results Found';
+    const noResultFound = 'NO Results Found';
     return <center>{noResultFound}</center>;
   }
-  let resultTiles = drawCards(tiles);
+  const resultTiles = drawCards(tiles);
   let slidesToShow = 3;
   let showArrows = true;
   if (window.matchMedia('only screen and (max-width: 768px)').matches) {
@@ -280,10 +276,10 @@ export function renderTiles(tiles) {
       {resultTiles}
     </Slider>
   );
-}
+};
 
 // Create a Table as SUSI Response
-export function drawTable(columns, tableData, count) {
+export const drawTable = (columns, tableData, count) => {
   let parseKeys;
   let showColName = true;
   // Check the dataType specifying table columns
@@ -294,7 +290,7 @@ export function drawTable(columns, tableData, count) {
     parseKeys = Object.keys(columns);
   }
   // Create the Table Header
-  let tableheader = parseKeys.map((key, i) => {
+  const tableheader = parseKeys.map((key, i) => {
     return (
       <TableHeaderColumn
         key={i}
@@ -314,11 +310,11 @@ export function drawTable(columns, tableData, count) {
   }
   let rows = [];
   for (let j = 0; j < rowCount; j++) {
-    let eachrow = tableData[j];
+    const eachrow = tableData[j];
     // Check if the data object can be populated as a table row
     let validRow = true;
     for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
-      let colKey = parseKeys[keyInd];
+      const colKey = parseKeys[keyInd];
       if (!eachrow.hasOwnProperty(colKey)) {
         validRow = false;
         break;
@@ -326,7 +322,7 @@ export function drawTable(columns, tableData, count) {
     }
     // Populate a Table Row
     if (validRow) {
-      let rowcols = parseKeys.map((key, i) => {
+      const rowcols = parseKeys.map((key, i) => {
         return (
           <TableRowColumn
             key={i}
@@ -357,11 +353,11 @@ export function drawTable(columns, tableData, count) {
   );
 
   return table;
-}
+};
 
 // Draw a Map
 export function drawMap(lat, lng, zoom) {
-  let position = [lat, lng];
+  const position = [lat, lng];
   const icon = divIcon({
     className: 'map-marker-icon',
     iconSize: [35, 35],

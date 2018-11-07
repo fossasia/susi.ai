@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl } from 'react-intl';
+import YouTube from 'react-youtube';
 import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import { AllHtmlEntities } from 'html-entities';
@@ -16,8 +18,6 @@ import {
 import VoicePlayer from './VoicePlayer';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import * as Actions from '../../../actions/';
-import { injectIntl } from 'react-intl';
-import YouTube from 'react-youtube';
 
 // Format Date for internationalization
 const PostDate = injectIntl(({ date, intl }) => (
@@ -79,6 +79,8 @@ class MessageListItem extends React.Component {
   };
 
   render() {
+    const { latestUserMsgID, message, markID } = this.props;
+
     const opts = {
       height: this.state.height,
       width: this.state.width,
@@ -86,13 +88,8 @@ class MessageListItem extends React.Component {
         autoplay: this.props.latestMessage ? 1 : 0,
       },
     };
-    let { message } = this.props;
-    let latestUserMsgID = null;
-    if (this.props.latestUserMsgID) {
-      latestUserMsgID = this.props.latestUserMsgID;
-    }
 
-    if (this.props.message && this.props.message.type === 'date') {
+    if (message && message.type === 'date') {
       return (
         <div className="message-list-item">
           <section className="container-date">
@@ -104,28 +101,22 @@ class MessageListItem extends React.Component {
       );
     }
 
-    let stringWithLinks = '';
-    if (this.props.message) {
-      stringWithLinks = this.props.message.text;
-    }
+    const stringWithLinks = message ? message.text : '';
+    const markMsgID = markID;
+
     let replacedText = '';
-    let markMsgID = this.props.markID;
-    if (
-      this.props.message &&
-      this.props.message.hasOwnProperty('mark') &&
-      markMsgID
-    ) {
-      let matchString = this.props.message.mark.matchText;
-      let isCaseSensitive = this.props.message.mark.isCaseSensitive;
+    if (message && message.hasOwnProperty('mark') && markMsgID) {
+      const matchString = message.mark.matchText;
+      const isCaseSensitive = message.mark.isCaseSensitive;
       if (stringWithLinks) {
-        let htmlText = entities.decode(stringWithLinks);
-        let imgText = imageParse(htmlText);
+        const htmlText = entities.decode(stringWithLinks);
+        const imgText = imageParse(htmlText);
         let markedText = [];
         let matchStringarr = [];
         matchStringarr.push(matchString);
         imgText.forEach((part, key) => {
           if (typeof part === 'string') {
-            if (this.props.message.id === markMsgID) {
+            if (message.id === markMsgID) {
               markedText.push(
                 <TextHighlight
                   key={key}
@@ -158,24 +149,24 @@ class MessageListItem extends React.Component {
     if (message) {
       messageContainerClasses = 'message-container ' + message.authorName;
     }
-    if (this.props.message && this.props.message.hasOwnProperty('response')) {
-      if (Object.keys(this.props.message.response).length > 0) {
-        let data = this.props.message.response;
-        let actions = this.props.message.actions;
+    if (message && message.hasOwnProperty('response')) {
+      if (Object.keys(message.response).length > 0) {
+        const data = message.response;
+        let actions = message.actions;
         let listItems = [];
-        let mapIndex = actions.indexOf('map');
+        const mapIndex = actions.indexOf('map');
         let mapAnchor = null;
         if (mapIndex > -1) {
           if (actions.indexOf('anchor')) {
-            let anchorIndex = actions.indexOf('anchor');
-            let link = data.answers[0].actions[anchorIndex].link;
-            let text = data.answers[0].actions[anchorIndex].text;
+            const anchorIndex = actions.indexOf('anchor');
+            const link = data.answers[0].actions[anchorIndex].link;
+            const text = data.answers[0].actions[anchorIndex].text;
             mapAnchor = renderAnchor(text, link);
           }
           actions = ['map'];
         }
         let noResultsFound = false;
-        let lastAction = actions[actions.length - 1];
+        const lastAction = actions[actions.length - 1];
         actions.forEach((action, index) => {
           let showFeedback = lastAction === action;
           switch (action) {
@@ -223,8 +214,8 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'anchor': {
-              let link = data.answers[0].actions[index].link;
-              let text = data.answers[0].actions[index].text;
+              const link = data.answers[0].actions[index].link;
+              const text = data.answers[0].actions[index].text;
               listItems.push(
                 <div className="message-list-item" key={action + index}>
                   <section className={messageContainerClasses}>
@@ -243,18 +234,18 @@ class MessageListItem extends React.Component {
             }
             case 'map': {
               index = mapIndex;
-              let lat = parseFloat(data.answers[0].actions[index].latitude);
-              let lng = parseFloat(data.answers[0].actions[index].longitude);
-              let zoom = parseFloat(data.answers[0].actions[index].zoom);
+              const lat = parseFloat(data.answers[0].actions[index].latitude);
+              const lng = parseFloat(data.answers[0].actions[index].longitude);
+              const zoom = parseFloat(data.answers[0].actions[index].zoom);
               let mymap;
-              let mapNotFound = 'Map was not made';
+              const mapNotFound = 'Map was not made';
               if (isNaN(lat) || isNaN(lng)) {
                 $.ajax({
                   url:
                     'https://cors-anywhere.herokuapp.com/http://freegeoip.net/json/',
                   timeout: 3000,
                   async: true,
-                  success: function(response) {
+                  success: response => {
                     mymap = drawMap(
                       response.latitude,
                       response.longitude,
@@ -279,7 +270,7 @@ class MessageListItem extends React.Component {
                       </div>,
                     );
                   },
-                  error: function(xhr, status, error) {
+                  error: (xhr, status, error) => {
                     mymap = mapNotFound;
                   },
                 });
@@ -307,9 +298,9 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'table': {
-              let columns = data.answers[0].actions[index].columns;
-              let count = data.answers[0].actions[index].count;
-              let table = drawTable(columns, data.answers[0].data, count);
+              const columns = data.answers[0].actions[index].columns;
+              const count = data.answers[0].actions[index].count;
+              const table = drawTable(columns, data.answers[0].data, count);
               listItems.push(
                 <div className="message-list-item" key={action + index}>
                   <section className={messageContainerClasses}>
@@ -327,7 +318,7 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'video_play': {
-              let identifier = data.answers[0].actions[index].identifier;
+              const identifier = data.answers[0].actions[index].identifier;
               listItems.push(
                 <div
                   className="message-list-item"
@@ -353,10 +344,10 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'audio_play': {
-              let identifierType =
+              const identifierType =
                 data.answers[0].actions[index].identifier_type;
-              let identifier = data.answers[0].actions[index].identifier;
-              let src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
+              const identifier = data.answers[0].actions[index].identifier;
+              const src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
               listItems.push(
                 <div className="message-list-item" key={action + index}>
                   <section className={messageContainerClasses}>
@@ -374,7 +365,7 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'rss': {
-              let rssTiles = this.props.message.rssResults;
+              const rssTiles = this.props.message.rssResults;
               if (rssTiles.length === 0) {
                 noResultsFound = true;
               }
@@ -393,7 +384,7 @@ class MessageListItem extends React.Component {
               break;
             }
             case 'websearch': {
-              let websearchTiles = this.props.message.websearchresults;
+              const websearchTiles = this.props.message.websearchresults;
               if (websearchTiles.length === 0) {
                 noResultsFound = true;
               }
@@ -417,21 +408,15 @@ class MessageListItem extends React.Component {
           }
         });
 
-        if (
-          noResultsFound &&
-          this.props.message.text === 'I found this on the web:'
-        ) {
+        if (noResultsFound && message.text === 'I found this on the web:') {
           listItems.splice(0, 1);
         }
 
         // Only set voice Outputs for text responses
         let voiceOutput;
-        if (this.props.message.text !== undefined) {
+        if (message.text !== undefined) {
           // Remove all hyper links
-          voiceOutput = this.props.message.text.replace(
-            /(?:https?|ftp):\/\/[\n\S]+/g,
-            '',
-          );
+          voiceOutput = message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
         } else {
           voiceOutput = '';
         }
@@ -441,14 +426,12 @@ class MessageListItem extends React.Component {
           locale = UserPreferencesStore.getTTSLanguage();
         }
 
-        let ttsLanguage = this.props.message.lang
-          ? this.props.message.lang
-          : locale;
+        const ttsLanguage = message.lang ? message.lang : locale;
 
         return (
           <div>
             {listItems}
-            {this.props.message.voice && (
+            {message.voice && (
               <VoicePlayer
                 play
                 text={voiceOutput}
