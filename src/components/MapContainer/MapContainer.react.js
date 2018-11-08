@@ -38,9 +38,9 @@ export default class MapContainer extends Component {
           position: { lat: location.location.lat, lng: location.location.lng },
           map: this.map,
           title: 'Click to see device information.',
-          devicename: this.props.devicenames[i],
+          devicename: this.props.deviceNames[i],
           room: this.props.rooms[i],
-          macid: this.props.macids[i],
+          macid: this.props.macIds[i],
         });
 
         // Add event listener to the map markers to open InfoWindow on click
@@ -86,8 +86,8 @@ MapContainer.propTypes = {
   centerLat: PropTypes.number,
   centerLng: PropTypes.number,
   mapData: PropTypes.array,
-  devicenames: PropTypes.array,
+  deviceNames: PropTypes.array,
   rooms: PropTypes.array,
-  macids: PropTypes.array,
+  macIds: PropTypes.array,
   google: PropTypes.object,
 };
