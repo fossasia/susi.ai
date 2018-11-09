@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import $ from 'jquery';
-import './ChangePassword.css';
-import PasswordField from 'material-ui-password-field';
-import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import PasswordField from 'material-ui-password-field';
+import Dialog from 'material-ui/Dialog';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import ajax from '../../../helpers/ajax';
+import './ChangePassword.css';
 
 const cookies = new Cookies();
 
@@ -196,6 +196,7 @@ export default class ChangePassword extends Component {
       email = cookies.get('emailId');
     }
     let changePasswordEndPoint =
+      BASE_URL +
       '/aaa/changepassword.json?' +
       'changepassword=' +
       email +
@@ -205,52 +206,42 @@ export default class ChangePassword extends Component {
       encodeURIComponent(this.state.newPasswordValue) +
       '&access_token=' +
       cookies.get('loggedIn');
-    changePasswordEndPoint = BASE_URL + changePasswordEndPoint;
+
     if (!this.state.passwordError && !this.state.newPasswordConfirmError) {
-      $.ajax({
-        url: changePasswordEndPoint,
-        dataType: 'jsonp',
-        crossDomain: true,
-        timeout: 3000,
-        async: false,
-        headers: {
-          Accept: 'application/json, application/xml, text/play, text/html',
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        },
-        statusCode: {
-          422: function() {
-            let msg =
-              'Invalid Credentials. Please check your Email or Password.';
-            let state = this.state;
-            state.msg = msg;
-            this.setState(state);
+      ajax
+        .postJSON(changePasswordEndPoint, {
+          dataType: 'jsonp',
+          async: false,
+          headers: {
+            Accept: 'application/json, application/xml, text/play, text/html',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
           },
-        },
-        success: function(response) {
-          let state = this.state;
-          let msg;
+        })
+        .then(response => {
+          let msg, success, msgOpen;
           if (response.accepted) {
             msg = response.message + '\n Please login again.';
-            state.success = true;
+            success = true;
           } else {
             msg = response.message + '\n Please Try Again.';
-            state.success = false;
+            success = false;
           }
-          state.msgOpen = true;
-          state.msg = msg;
-          this.setState(state);
-        }.bind(this),
-        error: function(jqXHR, textStatus, errorThrown) {
-          let msg = 'Failed. Try Again';
+          msgOpen = true;
+          this.setState({ msgOpen, msg, success });
+        })
+        .catch(response => {
+          let stateUpdate = { msg: 'Failed. Try Again', msgOpen: true };
+          if (response.statusCode === 422) {
+            stateUpdate.msg =
+              'Invalid Credentials. Please check your Email or Password.';
+            this.setState(stateUpdate);
+            return;
+          }
           if (status === 'timeout') {
-            msg = 'Please check your internet connection';
+            stateUpdate.msg = 'Please check your internet connection';
           }
-          let state = this.state;
-          state.msg = msg;
-          state.msgOpen = true;
-          this.setState(state);
-        }.bind(this),
-      });
+          this.setState(stateUpdate);
+        });
     }
   };
 
