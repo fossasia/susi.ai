@@ -1,7 +1,7 @@
 import './index.css';
 import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
 import * as Actions from './actions/';
-import App from './App'
+import App from './App';
 import MessageStore from './stores/MessageStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -23,23 +23,22 @@ ChatWebAPIUtils.getLocation();
 ChatWebAPIUtils.getHistory();
 ChatWebAPIUtils.getAllMessages();
 
-
 let defaults = UserPreferencesStore.getPreferences();
 let defaultPrefLanguage = defaults.PrefLanguage;
 
-window.speechSynthesis.onvoiceschanged = function () {
-	if (!MessageStore.getTTSInitStatus()) {
-		var speechSynthesisVoices = speechSynthesis.getVoices();
-		Actions.getTTSLangText(speechSynthesisVoices);
-		Actions.initialiseTTSVoices(speechSynthesisVoices);
-	}
+window.speechSynthesis.onvoiceschanged = function() {
+  if (!MessageStore.getTTSInitStatus()) {
+    const speechSynthesisVoices = speechSynthesis.getVoices();
+    Actions.getTTSLangText(speechSynthesisVoices);
+    Actions.initialiseTTSVoices(speechSynthesisVoices);
+  }
 };
 
 ReactDOM.render(
-	<IntlProvider locale={defaultPrefLanguage}>
-		<Router>
-				<App />
-		</Router>
-	</IntlProvider>,
-	document.getElementById('root')
+  <IntlProvider locale={defaultPrefLanguage}>
+    <Router>
+      <App />
+    </Router>
+  </IntlProvider>,
+  document.getElementById('root'),
 );

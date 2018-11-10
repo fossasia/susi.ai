@@ -30,8 +30,6 @@
     "Select backend server for the app": "Выбрать сервер приложений",
     "Account Settings": "Настройки аккаунта",
     "Change Password": "Изменить пароль",
-    "Connect to SUSI Hardware": "Подключение к оборудованию SUSI",
-    "Add address to connect to Hardware": "Добавить адрес для подключения к оборудованию",
     "Save": "Сохранить",
     "Change Server": "Изменить сервер",
     "Please login again to change SUSI server": "Войдите в систему снова, чтобы изменить SUSI-сервер.",

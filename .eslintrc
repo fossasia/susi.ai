@@ -3,9 +3,10 @@
   "plugins": [
     "react",
     "babel",
-    "jsx"
+    "jsx",
+    "prettier"
   ],
-  "extends": ["plugin:react/recommended"],
+  "extends": ["plugin:react/recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module",
@@ -15,7 +16,8 @@
   },
   "env": {
     "browser": true,
-    "jasmine": true
+    "jasmine": true,
+    "es6": true
   },
   "globals": {
     "document": true,
@@ -25,6 +27,7 @@
     "window" : true
   },
   "rules": {
+  	"prettier/prettier": "error",
     // Enforce the spacing around the * in generator functions.
     "generator-star-spacing": [2, "after"],
     // Disallow using variables outside the blocks they are defined (especially
@@ -198,9 +201,9 @@
     // Disallow unreachable statements after a return, throw, continue, or break
     // statement.
     "no-unreachable": 2,
-    // Disallow global and local variables that arent used, but allow unused function arguments.
-    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
     // Allow using variables before they are defined.
+  	"no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    // Disallow global and local variables that arent used, but allow unused function arguments.
     "no-use-before-define": 0,
     // We use var-only-at-top-level instead of no-var as we allow top level
     // vars.
@@ -258,6 +261,8 @@
     "newline-after-var": 0,
     // disallow the use of alert, confirm, and prompt
     "no-alert": 0,
+    // disallow the use of deprecated react changes and lifecycle methods
+    "react/no-deprecated": 0,
     // disallow comparisons to null without a type-checking operator
     "no-eq-null": 0,
     // disallow overwriting functions written as function declarations

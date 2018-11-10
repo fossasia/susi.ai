@@ -30,8 +30,6 @@
     "Select backend server for the app": "Válassza ki a backend kiszolgálót az alkalmazáshoz",
     "Account Settings": "Fiók beállítások",
     "Change Password": "Jelszó módosítása",
-    "Connect to SUSI Hardware": "Csatlakozzon a SUSI Hardverhez",
-    "Add address to connect to Hardware": "Cím hozzáadása a hardverhez való csatlakozáshoz",
     "Save": "Mentés",
     "Change Server": "Szerver megváltoztatása",
     "Please login again to change SUSI server": "Kérjük, jelentkezzen be újra a SUSI szerver módosításához",

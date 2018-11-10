@@ -3,12 +3,12 @@ export function convertRawMessage(rawMessage, currentThreadID) {
   return {
     ...rawMessage,
     date: new Date(rawMessage.timestamp),
-    isRead: rawMessage.threadID === currentThreadID
+    isRead: rawMessage.threadID === currentThreadID,
   };
-};
+}
 
 export function getCreatedMessageData(text, currentThreadID, voice) {
-  var timestamp = Date.now();
+  const timestamp = Date.now();
   return {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
@@ -17,14 +17,14 @@ export function getCreatedMessageData(text, currentThreadID, voice) {
     text: text,
     isRead: true,
     type: 'message',
-    voice: voice
+    voice: voice,
   };
-};
+}
 
 export function getSUSIMessageData(message, currentThreadID) {
-  var timestamp = Date.now();
+  const timestamp = Date.now();
 
-  let receivedMessage =  {
+  let receivedMessage = {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
     authorName: 'SUSI', // hard coded for the example

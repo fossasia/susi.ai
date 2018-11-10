@@ -23,26 +23,25 @@ function _markAllInThreadRead(threadID) {
   }
 }
 
-function _addDates(allMsgs){
+function _addDates(allMsgs) {
   let msgsWithDates = [];
   let currDate = null;
-  allMsgs.forEach((message)=>{
-    if(currDate === null){
+  allMsgs.forEach(message => {
+    if (currDate === null) {
       let dateMsg = {
-          id: 'd_'+Date.parse(message.date),
-          threadID: 't_1',
-          date: message.date,
-          type: 'date',
-        };
+        id: 'd_' + Date.parse(message.date),
+        threadID: 't_1',
+        date: message.date,
+        type: 'date',
+      };
       msgsWithDates.push(dateMsg);
-    }
-    else if(currDate.getDate() !== message.date.getDate()){
+    } else if (currDate.getDate() !== message.date.getDate()) {
       let dateMsg = {
-          id: 'd_'+Date.parse(message.date),
-          threadID: 't_1',
-          date: message.date,
-          type: 'date',
-        };
+        id: 'd_' + Date.parse(message.date),
+        threadID: 't_1',
+        date: message.date,
+        type: 'date',
+      };
       msgsWithDates.push(dateMsg);
     }
     currDate = message.date;
@@ -75,22 +74,21 @@ let MessageStore = {
 
   getAll() {
     return _messages;
-
   },
 
   getTTSVoiceList() {
     return TTSVoices;
   },
 
-  getTTSInitStatus(){
+  getTTSInitStatus() {
     return _initialisedVoices;
   },
 
-  getLoadStatus(){
+  getLoadStatus() {
     return _showLoading;
   },
 
-  getFeedback(){
+  getFeedback() {
     return _feedback;
   },
 
@@ -107,8 +105,7 @@ let MessageStore = {
     threadMessages.sort((a, b) => {
       if (a.date < b.date) {
         return -1;
-      }
-      else if (a.date > b.date) {
+      } else if (a.date > b.date) {
         return 1;
       }
       return 0;
@@ -122,24 +119,23 @@ let MessageStore = {
 
   resetVoiceForThread(threadID) {
     for (let id in _messages) {
-      if ((_messages[id].threadID === threadID) &&
-          (_messages[id].authorName === 'SUSI')) {
-          _messages[id].voice = false;
-          _messages[id].feedback.isRated = true;
+      if (
+        _messages[id].threadID === threadID &&
+        _messages[id].authorName === 'SUSI'
+      ) {
+        _messages[id].voice = false;
+        _messages[id].feedback.isRated = true;
       }
     }
   },
 
-  resetVoiceForCurrentThread(){
+  resetVoiceForCurrentThread() {
     this.resetVoiceForThread(ThreadStore.getCurrentID());
-  }
-
+  },
 };
 
 MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
-
-  switch(action.type) {
-
+  switch (action.type) {
     case ActionTypes.CLICK_THREAD:
       ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
       _markAllInThreadRead(ThreadStore.getCurrentID());
@@ -176,11 +172,11 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
     case ActionTypes.STORE_HISTORY_MESSAGE: {
       let message = action.message;
       historyBuffer.push(message);
-      if(historyBuffer.length === (message.historyCognitionsCount*2)){
-        historyBuffer.forEach((cognition,index)=>{
+      if (historyBuffer.length === message.historyCognitionsCount * 2) {
+        historyBuffer.forEach((cognition, index) => {
           _messages[cognition.id] = cognition;
         });
-        historyBuffer.splice(0,historyBuffer.length)
+        historyBuffer.splice(0, historyBuffer.length);
       }
       MessageStore.emitChange();
       break;
@@ -194,7 +190,6 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.FEEDBACK_RECEIVED: {
       _feedback = action.feedback;
-      MessageStore.emitChange();
       break;
     }
 
@@ -206,9 +201,8 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(action => {
     }
 
     default:
-      // do nothing
+    // do nothing
   }
-
 });
 
 export default MessageStore;

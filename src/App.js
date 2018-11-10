@@ -17,47 +17,48 @@ import { Switch, Route } from 'react-router-dom';
 import React, { Component } from 'react';
 
 const muiTheme = getMuiTheme({
-    toggle: {
-        thumbOnColor: '#5ab1fc',
-        trackOnColor: '#4285f4'
-    }
+  toggle: {
+    thumbOnColor: '#5ab1fc',
+    trackOnColor: '#4285f4',
+  },
 });
 
-class App extends Component{
-  closeVideo = () => this.setState({
-    video: false
-  })
+class App extends Component {
+  closeVideo = () =>
+    this.setState({
+      video: false,
+    });
 
- render(){
-    if(location.pathname!=='/'){
-        document.body.className = 'white-body';
+  render() {
+    if (location.pathname !== '/') {
+      document.body.className = 'white-body';
     }
-     return(
-        <MuiThemeProvider muiTheme={muiTheme}>
+
+    return (
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-        <Switch>
-            <Route exact path='/' component={ChatApp}/>
+          <Switch>
+            <Route exact path="/" component={ChatApp} />
             <Route exact path="/overview" component={Overview} />
             <Route exact path="/devices" component={Devices} />
-            <Route exact path='/team' component={Team} />
-            <Route exact path='/blog' component={Blog} />
-            <Route exact path='/contact' component={Contact} />
+            <Route exact path="/team" component={Team} />
+            <Route exact path="/blog" component={Blog} />
+            <Route exact path="/contact" component={Contact} />
             <Route exact path="/support" component={Support} />
             <Route exact path="/terms" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/settings" component={Settings} />
             <Route exact path="*" component={NotFound} />
-        </Switch>
+          </Switch>
         </div>
-        </MuiThemeProvider>
-     );
- }
+      </MuiThemeProvider>
+    );
+  }
 }
 App.propTypes = {
-    history: PropTypes.object,
-    location: PropTypes.object,
-    closeVideo: PropTypes.func
-}
-
+  history: PropTypes.object,
+  location: PropTypes.object,
+  closeVideo: PropTypes.func,
+};
 export default App;

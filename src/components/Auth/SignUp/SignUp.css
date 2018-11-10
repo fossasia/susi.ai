@@ -1,24 +1,83 @@
-.forgotpwdlink{
+.forgotpwdlink {
 	text-decoration: none;
 	color: #999999;
 	margin-bottom: 20px;
 }
 
-.signUpForm{
+.signUpForm {
 	margin: 0 auto;
 	padding: 10px 0;
 }
 
-.sty{
+.sty {
 	width: 256px;
 }
-.signUpForm h3{
-	font-family: 'Open Sans', sans-serif;
+.signUpForm h3 {
 	margin: 5px 0;
-	font-weight: 500;
+	font-weight: bold;
 }
 @media screen and (max-width: 768px) {
-	.signUpForm h3{
+	.signUpForm h3 {
 		font-size: 16px;
 	}
+}
+
+.login-links {
+	color: #365899;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.login-links:hover {
+	color: #365899;
+	text-decoration: underline;
+}
+
+.error-message{
+    font-size: 12px;
+    line-height: 12px;
+    color: rgb(244, 67, 54);
+    margin-top: 5.7px;
+}
+
+.is-strength-0 { color: #D1462F; }
+.is-strength-1 { color: #D1462F; }
+.is-strength-2 { color: #57B8FF; }
+.is-strength-3 { color: #57B8FF; }
+.is-strength-4 { color: #2FBF71; }
+ .ReactPasswordStrength-strength-bar {
+  height: 2px;
+  position: relative;
+	top: 1px;
+	right: 1px;
+  transition: width 300ms ease-out;
+}
+ .is-strength--1 .ReactPasswordStrength-strength-bar {
+  background: #D1462F;
+  display: none;
+}
+ .is-strength-0 .ReactPasswordStrength-strength-bar {
+  background: #D1462F;
+  width: 50px;
+  display: block;
+}
+ .is-strength-1 .ReactPasswordStrength-strength-bar {
+  background: #D1462F;
+  width: 70px;
+  display: block;
+}
+ .is-strength-2 .ReactPasswordStrength-strength-bar {
+  background: #57B8FF;
+  width: 141px;
+  display: block;
+}
+ .is-strength-3 .ReactPasswordStrength-strength-bar {
+  background: #57B8FF;
+  width: 192px;
+  display: block;
+}
+ .is-strength-4 .ReactPasswordStrength-strength-bar {
+  background: #2FBF71;
+  width: 256px;
+  display: block;
 }

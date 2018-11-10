@@ -2,20 +2,21 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 
-// eslint-disable-next-line
 class VoicePlayer extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     if ('speechSynthesis' in window) {
-      this.speech = this.createSpeech()
+      this.speech = this.createSpeech();
     } else {
-      console.warn('The current browser does not support the speechSynthesis API.')
+      console.warn(
+        'The current browser does not support the speechSynthesis API.',
+      );
     }
     this.state = {
       started: false,
-      playing: false
-    }
+      playing: false,
+    };
   }
 
   createSpeech = () => {
@@ -25,72 +26,69 @@ class VoicePlayer extends Component {
       rate: UserPreferencesStore.getSpeechRate(),
       pitch: UserPreferencesStore.getSpeechPitch(),
       lang: UserPreferencesStore.getTTSLanguage(),
-    }
-    let speech = new SpeechSynthesisUtterance()
-    Object.assign(speech, defaults, this.props)
-    return speech
-  }
+    };
+    let speech = new SpeechSynthesisUtterance();
+    Object.assign(speech, defaults, this.props);
+    return speech;
+  };
 
   speak = () => {
-    window.speechSynthesis.speak(this.speech)
-    this.setState({ started: true, playing: true })
-  }
+    window.speechSynthesis.speak(this.speech);
+    this.setState({ started: true, playing: true });
+  };
 
   cancel = () => {
-    window.speechSynthesis.cancel()
-    this.setState({ started: false, playing: false })
-  }
+    window.speechSynthesis.cancel();
+    this.setState({ started: false, playing: false });
+  };
 
   pause = () => {
-    window.speechSynthesis.pause()
-    this.setState({ playing: false })
-  }
+    window.speechSynthesis.pause();
+    this.setState({ playing: false });
+  };
 
   resume = () => {
-    window.speechSynthesis.resume()
-    this.setState({ playing: true })
-  }
+    window.speechSynthesis.resume();
+    this.setState({ playing: true });
+  };
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillReceiveProps ({ pause }) {
+  componentDidUpdate({ pause }) {
     if (pause && this.state.playing && this.state.started) {
-      return this.pause()
+      return this.pause();
     }
 
     if (!pause && !this.state.playing && this.state.started) {
-      return this.resume()
+      return this.resume();
     }
   }
 
-  shouldComponentUpdate () {
-    return false
+  shouldComponentUpdate() {
+    return false;
   }
 
-  componentDidMount () {
-    const events = [
-      { name: 'start', action: this.props.onStart }
-    ]
+  componentDidMount() {
+    const events = [{ name: 'start', action: this.props.onStart }];
 
     events.forEach(e => {
-      this.speech.addEventListener(e.name, e.action)
-    })
+      this.speech.addEventListener(e.name, e.action);
+    });
 
     this.speech.addEventListener('end', () => {
-      this.setState({ started: false })
-      this.props.onEnd()
-    })
+      this.setState({ started: false });
+      this.props.onEnd();
+    });
 
     if (this.props.play) {
-      this.speak()
+      this.speak();
     }
   }
 
-  componentWillUnmount () {
-    this.cancel()
+  componentWillUnmount() {
+    this.cancel();
   }
 
-  render () {
-    return null
+  render() {
+    return null;
   }
 }
 
@@ -102,6 +100,6 @@ VoicePlayer.propTypes = {
   rate: PropTypes.number,
   pitch: PropTypes.number,
   onStart: PropTypes.func,
-  onEnd: PropTypes.func
+  onEnd: PropTypes.func,
 };
-export default VoicePlayer
+export default VoicePlayer;

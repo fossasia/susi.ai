@@ -14,22 +14,25 @@ export function getHistory() {
   let defaults = UserPreferencesStore.getPreferences();
   let defaultServerURL = defaults.Server;
 
-  if(cookies.get('serverUrl')===defaultServerURL||
-    cookies.get('serverUrl')===null||
-    cookies.get('serverUrl')=== undefined){
+  if (
+    cookies.get('serverUrl') === defaultServerURL ||
+    cookies.get('serverUrl') === null ||
+    cookies.get('serverUrl') === undefined
+  ) {
     BASE_URL = defaultServerURL;
-  }
-  else{
-    BASE_URL= cookies.get('serverUrl');
+  } else {
+    BASE_URL = cookies.get('serverUrl');
   }
 
   let url = '';
-  if(cookies.get('loggedIn')===null||
-    cookies.get('loggedIn')===undefined){
-    url = BASE_URL+'/susi/memory.json';
-  }
-  else{
-    url = BASE_URL+'/susi/memory.json?access_token='+cookies.get('loggedIn');
+  if (
+    cookies.get('loggedIn') === null ||
+    cookies.get('loggedIn') === undefined
+  ) {
+    url = BASE_URL + '/susi/memory.json';
+  } else {
+    url =
+      BASE_URL + '/susi/memory.json?access_token=' + cookies.get('loggedIn');
   }
   $.ajax({
     url: url,
@@ -37,12 +40,10 @@ export function getHistory() {
     crossDomain: true,
     timeout: 3000,
     async: false,
-    success: function (history) {
+    success: function(history) {
+      const historyCognitionsCount = history.cognitions.length;
 
-      var historyCognitionsCount = history.cognitions.length;
-
-      history.cognitions.forEach((cognition) => {
-
+      history.cognitions.forEach(cognition => {
         let susiMsg = {
           id: 'm_',
           threadID: 't_1',
@@ -57,9 +58,9 @@ export function getHistory() {
           type: 'message',
           lang: 'en-US',
           feedback: {
-              isRated: true,
-              rating: null,
-            },
+            isRated: true,
+            rating: null,
+          },
           historyCognitionsCount: historyCognitionsCount,
         };
 
@@ -86,26 +87,26 @@ export function getHistory() {
         susiMsg.response = cognition;
 
         let actions = [];
-        cognition.answers[0].actions.forEach((actionObj) => {
+        cognition.answers[0].actions.forEach(actionObj => {
           actions.push(actionObj.type);
         });
         susiMsg.actions = actions;
 
         if (actions.indexOf('websearch') >= 0) {
           $.ajax({
-            url: 'http://api.duckduckgo.com/?format=json&q=' + query,
+            url: 'https://api.duckduckgo.com/?format=json&q=' + query,
             dataType: 'jsonp',
             crossDomain: true,
             timeout: 3000,
             async: false,
-            success: function (data) {
+            success: function(data) {
               susiMsg.websearchresults = data.RelatedTopics;
               if (data.AbstractText) {
                 let abstractTile = {
                   Text: '',
                   FirstURL: '',
                   Icon: { URL: '' },
-                }
+                };
                 abstractTile.Text = data.AbstractText;
                 abstractTile.FirstURL = data.AbstractURL;
                 abstractTile.Icon.URL = data.Image;
@@ -116,78 +117,93 @@ export function getHistory() {
               if (status === 'timeout') {
                 console.log('Please check your internet connection');
               }
-            }
+            },
           });
-        }
-        else if (actions.indexOf('rss') >= 0) {
+        } else if (actions.indexOf('rss') >= 0) {
           let actionIndex = actions.indexOf('rss');
           let actionJson = susiMsg.response.answers[0].actions[actionIndex];
           let count = -1;
-          if(actionJson.hasOwnProperty('count')){
+          if (actionJson.hasOwnProperty('count')) {
             count = actionJson.count;
           }
           let data = susiMsg.response.answers[0].data;
-          if(count === -1 || count > data.length){
+          if (count === -1 || count > data.length) {
             count = data.length;
           }
-          var pushedDataIndices = [];
-          var remainingDataIndices = [];
-          data.forEach((rssData,index) => {
-            if(rssData.hasOwnProperty('image') && pushedDataIndices.length < count){
+          let pushedDataIndices = [];
+          let remainingDataIndices = [];
+          data.forEach((rssData, index) => {
+            if (
+              rssData.hasOwnProperty('image') &&
+              pushedDataIndices.length < count
+            ) {
               susiMsg.rssResults.push(rssData);
               pushedDataIndices.push(index);
-            }
-            else{
+            } else {
               remainingDataIndices.push(index);
             }
           });
           count -= pushedDataIndices.length;
-          if(count === 0){
+          if (count === 0) {
             let message = userMsg;
             ChatAppDispatcher.dispatch({
               type: ActionTypes.STORE_HISTORY_MESSAGE,
-              message
+              message,
             });
 
             message = susiMsg;
             ChatAppDispatcher.dispatch({
               type: ActionTypes.STORE_HISTORY_MESSAGE,
-              message
+              message,
             });
+          } else {
+            previewURLForImage(
+              userMsg,
+              susiMsg,
+              BASE_URL,
+              data,
+              count,
+              remainingDataIndices,
+              0,
+              0,
+            );
           }
-          else{
-            previewURLForImage(userMsg,susiMsg,BASE_URL,data,
-                              count,remainingDataIndices,0,0);
-          }
-        }
-        else{
+        } else {
           let message = userMsg;
           ChatAppDispatcher.dispatch({
             type: ActionTypes.STORE_HISTORY_MESSAGE,
-            message
+            message,
           });
 
           message = susiMsg;
           ChatAppDispatcher.dispatch({
             type: ActionTypes.STORE_HISTORY_MESSAGE,
-            message
+            message,
           });
         }
       });
     },
     error: function(xhr, status, error) {
-         if (status === 'timeout') {
-                console.log('Please check your internet connection');
-        }
-    }
+      if (status === 'timeout') {
+        console.log('Please check your internet connection');
+      }
+    },
   });
 }
 
-function previewURLForImage(userMsg,susiMsg,BASE_URL,data,
-                            count,remainingDataIndices,j,resultsAdded){
-  var dataIndex = remainingDataIndices[j];
+function previewURLForImage(
+  userMsg,
+  susiMsg,
+  BASE_URL,
+  data,
+  count,
+  remainingDataIndices,
+  j,
+  resultsAdded,
+) {
+  let dataIndex = remainingDataIndices[j];
   let respData = data[dataIndex];
-  let previewURL = BASE_URL+'/susi/linkPreview.json?url='+respData.link;
+  let previewURL = BASE_URL + '/susi/linkPreview.json?url=' + respData.link;
   console.log(previewURL);
   $.ajax({
     url: previewURL,
@@ -195,52 +211,66 @@ function previewURLForImage(userMsg,susiMsg,BASE_URL,data,
     crossDomain: true,
     timeout: 3000,
     async: false,
-    success: function (rssResponse) {
-      if(rssResponse.accepted){
+    success: function(rssResponse) {
+      if (rssResponse.accepted) {
         respData.image = rssResponse.image;
         respData.descriptionShort = rssResponse.descriptionShort;
         susiMsg.rssResults.push(respData);
         resultsAdded += 1;
       }
-      if(resultsAdded === count || j === remainingDataIndices.length - 1){
+      if (resultsAdded === count || j === remainingDataIndices.length - 1) {
         let message = userMsg;
         ChatAppDispatcher.dispatch({
           type: ActionTypes.STORE_HISTORY_MESSAGE,
-          message
+          message,
         });
 
         message = susiMsg;
         ChatAppDispatcher.dispatch({
           type: ActionTypes.STORE_HISTORY_MESSAGE,
-          message
+          message,
         });
-      }
-      else{
-        j+=1;
-        previewURLForImage(userMsg,susiMsg,BASE_URL,data,
-                          count,remainingDataIndices,j,resultsAdded);
+      } else {
+        j += 1;
+        previewURLForImage(
+          userMsg,
+          susiMsg,
+          BASE_URL,
+          data,
+          count,
+          remainingDataIndices,
+          j,
+          resultsAdded,
+        );
       }
     },
     error: function(xhr, status, error) {
       console.log(error);
-      if(j === remainingDataIndices.length - 1){
+      if (j === remainingDataIndices.length - 1) {
         let message = userMsg;
         ChatAppDispatcher.dispatch({
           type: ActionTypes.STORE_HISTORY_MESSAGE,
-          message
+          message,
         });
 
         message = susiMsg;
         ChatAppDispatcher.dispatch({
           type: ActionTypes.STORE_HISTORY_MESSAGE,
-          message
+          message,
         });
+      } else {
+        j += 1;
+        previewURLForImage(
+          userMsg,
+          susiMsg,
+          BASE_URL,
+          data,
+          count,
+          remainingDataIndices,
+          j,
+          resultsAdded,
+        );
       }
-      else{
-        j+=1;
-        previewURLForImage(userMsg,susiMsg,BASE_URL,data,
-                          count,remainingDataIndices,j,resultsAdded);
-      }
-    }
+    },
   });
 }

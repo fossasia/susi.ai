@@ -1,7 +1,6 @@
 import keyMirror from 'keymirror';
 
 export default {
-
   ActionTypes: keyMirror({
     CLICK_THREAD: null,
     CREATE_MESSAGE: null,
@@ -17,8 +16,7 @@ export default {
     SETTINGS_CHANGED: null,
     RESET_MESSAGE_VOICE: null,
     FEEDBACK_RECEIVED: null,
-    CHANGE_CUSTOM_THEME:null,
-    INIT_THEME_CUSTOM_THEME:null,
-  })
-
+    CHANGE_CUSTOM_THEME: null,
+    INIT_THEME_CUSTOM_THEME: null,
+  }),
 };

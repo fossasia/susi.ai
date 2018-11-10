@@ -14,95 +14,62 @@ import nl from './nl.json';
 import pb from './pb.json';
 import np from './np.json';
 
-class Translate extends Component{
-
-  constructor(props){
+class Translate extends Component {
+  constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       text: this.props.text,
-      defaultPrefLanguage: UserPreferencesStore.getPrefLang()
-    }
+      defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
+    };
   }
 
-  changeLanguage = (text) => {
-        this.setState({
-            text:text
-        })
-  }
+  changeLanguage = text => {
+    this.setState({
+      text: text,
+    });
+  };
+
+  lang = {
+    'de-DE': de,
+    'am-AM': am,
+    'es-SP': es,
+    'zh-CH': zh,
+    'hi-IN': hi,
+    'pb-IN': pb,
+    'np-NP': np,
+    'fr-FR': fr,
+    'ru-RU': ru,
+    'gr-GR': gr,
+    'nl-NL': nl,
+  };
 
   componentDidMount() {
-    let defaultPrefLanguage = this.state.defaultPrefLanguage;
-
-    var arr, file;
-
+    let arr,
+      file,
+      defaultPrefLanguage = this.state.defaultPrefLanguage;
     let text = this.state.text;
-    if(defaultPrefLanguage!=='en-US'){
-
-      if(defaultPrefLanguage==='de-DE'){
-        arr = Object.keys(de);
-        file = de;
-      }
-      else if(defaultPrefLanguage==='am-AM'){
-        arr = Object.keys(am);
-        file = am;
-      }
-      else if(defaultPrefLanguage==='es-SP'){
-        arr = Object.keys(es);
-        file = es;
-      }
-      else if(defaultPrefLanguage==='zh-CH'){
-        arr = Object.keys(zh);
-        file = zh;
-			}
-      else if(defaultPrefLanguage==='hi-IN'){
-        arr = Object.keys(hi);
-        file = hi;
-      }
-			else if(defaultPrefLanguage==='pb-IN'){
-        arr = Object.keys(pb);
-        file = pb;
-      }
-			else if(defaultPrefLanguage==='np-NP'){
-        arr = Object.keys(np);
-        file = np;
-      }
-      else if(defaultPrefLanguage==='fr-FR'){
-        arr = Object.keys(fr);
-        file = fr;
-      }
-      else if(defaultPrefLanguage==='ru-RU'){
-        arr = Object.keys(ru);
-        file = ru;
-      }
-      else if(defaultPrefLanguage==='gr-GR'){
-        arr = Object.keys(gr);
-        file = gr;
-      }
-      else if(defaultPrefLanguage==='nl-NL'){
-        arr = Object.keys(nl);
-        file = nl;
-      }
-      else{
+    if (defaultPrefLanguage !== 'en-US') {
+      if (this.lang.hasOwnProperty(defaultPrefLanguage)) {
+        arr = Object.keys(this.lang[defaultPrefLanguage]);
+        file = this.lang[defaultPrefLanguage];
+      } else {
         arr = Object.keys(jp);
         file = jp;
       }
-
-      for (let key=0;key<arr.length;key++) {
-        if (arr[key]===text) {
-            this.changeLanguage(file[arr[key]]);
+      arr.forEach((val, index) => {
+        if (arr.index === text) {
+          this.changeLanguage(file.arr.index);
         }
-      }
-
+      });
+    }
   }
-}
+
   render() {
-    return <span>{this.state.text}</span>
+    return <span>{this.state.text}</span>;
   }
-
 }
-
 
 Translate.propTypes = {
-  text:PropTypes.string
-}
+  text: PropTypes.string,
+};
 export default Translate;

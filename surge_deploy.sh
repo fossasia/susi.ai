@@ -9,7 +9,7 @@ npm i -g surge
 npm install
 npm run build
 rm -rf node_modules/
-cp /build/index.html /build/404.html
+cp build/index.html build/404.html
 
 export SURGE_LOGIN=fossasiasusichat@example.com
 # Token of a dummy account.

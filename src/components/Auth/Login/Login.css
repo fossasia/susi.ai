@@ -1,25 +1,48 @@
-.forgotpwdlink{
-	color: #999999;
-	cursor: pointer;
+.fgtpwd{
+  margin-left:20%;
+  color: #365899;
+  cursor: pointer;
+  font-size: 12px;
 }
-.forgotpwdlink:hover{	
-    color: red;
+.signUp{
+  margin-right:20%;
+  color: #365899;
+  cursor: pointer;
+  font-size: 12px;
+}
+.login-links:hover{
+  color: #365899;
+  text-decoration: underline;
 }
 .loginForm{
-	margin: 0 auto;
-	padding: 10px 0;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+.login-links-section {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 20px 0 20px;
+  margin-top:10px;
 }
 
 .sty{
-	width: 256px;
+  width: 256px;
 }
-.loginForm h3{
-	margin: 5px 0;
-	font-weight: bold;
+.loginForm div{
+  margin: 5px 0;
 }
 
+@media screen and (max-width: 1100px) {
+  .fgtpwd{
+    margin-left:5%;
+  }
+  .signUp{
+    margin-right:5%;
+  }
+}
 @media screen and (max-width: 768px) {
-	.loginForm h3{
-		font-size: 16px;
-	}
+  .loginForm h3{
+    font-size: 16px;
+  }
 }
