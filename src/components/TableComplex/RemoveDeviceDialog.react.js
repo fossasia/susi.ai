@@ -28,7 +28,7 @@ class RemoveDeviceDialog extends Component {
     removeDeviceBtn.style.transition = 'none';
     
     let deviceName = document.getElementById('devicename').parentNode;
-    deviceName.style.width: fieldWidth - 16;
+    deviceName.style.width = fieldWidth - 16;
     
   // Handle changes in device name
   handleChange = event => {
