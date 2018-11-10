@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import './RemoveDeviceDialog.css';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import Translate from '../Translate/Translate.react';
 
 class RemoveDeviceDialog extends Component {
@@ -19,14 +18,12 @@ class RemoveDeviceDialog extends Component {
 
   componentDidMount = () => {
     let field = document.getElementById('returnDiv');
+    let removeDeviceBtn = document.getElementById('removeDeviceButton');
     let fieldWidth = field.style.width;
     field.style.padding = '0px';
     field.style.color = '#900';
-    
-    let removeDeviceBtn = document.getElementById('removeDeviceButton');
     removeDeviceBtn.style.width = fieldWidth + 6;
     removeDeviceBtn.style.transition = 'none';
-    
     let deviceName = document.getElementById('devicename').parentNode;
     deviceName.style.width = fieldWidth - 16;
   }; 
