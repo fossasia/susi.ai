@@ -18,18 +18,18 @@ class RemoveDeviceDialog extends Component {
   }
 
   componentDidMount = () => {
-    let fieldWidth = $('#returnDiv').width();
-    $('#returnDiv')
-      .parent()
-      .css({ padding: '0px', color: 'red' });
-    $('#removeDeviceButton').css({
-      width: fieldWidth + 6,
-      transition: 'none',
-    });
-    $('#devicename')
-      .parent()
-      .css({ width: fieldWidth - 16 });
-  };
+    let field = document.getElementById('returnDiv');
+    let fieldWidth = field.style.width;
+    field.style.padding = '0px';
+    field.style.color = '#900';
+    
+    let removeDeviceBtn = document.getElementById('removeDeviceButton');
+    removeDeviceBtn.style.width = fieldWidth + 6;
+    removeDeviceBtn.style.transition = 'none';
+    
+    let deviceName = document.getElementById('devicename').parentNode;
+    deviceName.style.width: fieldWidth - 16;
+    
   // Handle changes in device name
   handleChange = event => {
     this.setState({
