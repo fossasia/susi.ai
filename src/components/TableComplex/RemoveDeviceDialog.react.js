@@ -17,14 +17,14 @@ class RemoveDeviceDialog extends Component {
   }
 
   componentDidMount = () => {
-    let field = document.getElementById('returnDiv');
-    let removeDeviceBtn = document.getElementById('removeDeviceButton');
+    let field = this.returnDiv;
+    let removeDeviceBtn = this.removeDeviceButton;
     let fieldWidth = field.style.width;
     field.style.padding = '0px';
     field.style.color = '#900';
     removeDeviceBtn.style.width = fieldWidth + 6;
     removeDeviceBtn.style.transition = 'none';
-    let deviceName = document.getElementById('devicename').parentNode;
+    let deviceName = this.deviceName;
     deviceName.style.width = fieldWidth - 16;
   }; 
   // Handle changes in device name
@@ -56,7 +56,7 @@ class RemoveDeviceDialog extends Component {
     };
 
     return (
-      <div className="removeDeviceForm" id="returnDiv">
+      <div className="removeDeviceForm" id="returnDiv" ref={el = this.returnDiv = el}>
         <Paper zDepth={0} style={styles}>
           <div
             style={{
@@ -105,7 +105,7 @@ class RemoveDeviceDialog extends Component {
             <p style={{ marginTop: '0px', marginBottom: '10px' }}>
               Please type in the name of the device to confirm.
             </p>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'center' }} ref={el = this.deviceName = el}>
               <TextField
                 id="devicename"
                 name="devicename"
@@ -144,6 +144,7 @@ class RemoveDeviceDialog extends Component {
                   verticalAlign: 'middle',
                 }}
                 disabled={!this.state.correctName}
+                ref={el = this.removeDeviceButton = el}
               />
             </div>
           </div>
