@@ -28,7 +28,7 @@ let defaultPrefLanguage = defaults.PrefLanguage;
 
 window.speechSynthesis.onvoiceschanged = function() {
   if (!MessageStore.getTTSInitStatus()) {
-    var speechSynthesisVoices = speechSynthesis.getVoices();
+    const speechSynthesisVoices = speechSynthesis.getVoices();
     Actions.getTTSLangText(speechSynthesisVoices);
     Actions.initialiseTTSVoices(speechSynthesisVoices);
   }

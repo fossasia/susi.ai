@@ -13,3 +13,15 @@ export const getAvatarProps = (emailId, accessToken) => {
   };
   return avatarProps;
 };
+
+export const sortCountryLexographical = countryData => {
+  countryData.countries.all.sort(function(a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+};

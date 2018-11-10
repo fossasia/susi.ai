@@ -228,7 +228,7 @@ class TopBar extends Component {
   }
 
   render() {
-    var backgroundCol = this.props.header;
+    const backgroundCol = this.props.header;
 
     let appBarClass = 'app-bar';
     if (this.props.search) {

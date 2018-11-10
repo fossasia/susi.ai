@@ -23,19 +23,19 @@ import Footer from '../Footer/Footer.react';
 import { ShareButtons, generateShareIcon } from 'react-share';
 import { BLOG_KEY } from '../../config.js';
 function arrDiff(a1, a2) {
-  var a = [],
+  let a = [],
     diff = [];
-  for (var f = 0; f < a1.length; f++) {
+  for (let f = 0; f < a1.length; f++) {
     a[a1[f]] = true;
   }
-  for (var z = 0; z < a2.length; z++) {
+  for (let z = 0; z < a2.length; z++) {
     if (a[a2[z]]) {
       delete a[a2[z]];
     } else {
       a[a2[z]] = true;
     }
   }
-  for (var k in a) {
+  for (let k in a) {
     diff.push(k);
   }
   return diff;
@@ -81,15 +81,15 @@ class Blog extends Component {
     );
   }
 
-  scrollStep() {
+  scrollStep = () => {
     if (window.pageYOffset === 0) {
       clearInterval(this.state.intervalId);
     }
     window.scroll(0, window.pageYOffset - 1000);
-  }
+  };
   //  Function to scroll to top of page
   scrollToTop() {
-    let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
+    let intervalId = setInterval(this.scrollStep, 16.66);
     this.setState({ intervalId: intervalId });
   }
   // Function to navigate to previous page
@@ -203,7 +203,7 @@ class Blog extends Component {
                     }
                   });
 
-                  var tags = arrDiff(category, posts.categories);
+                  let tags = arrDiff(category, posts.categories);
                   let fCategory = category.map(cat => (
                     <span key={cat}>
                       <a
