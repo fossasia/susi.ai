@@ -29,7 +29,7 @@ class RemoveDeviceDialog extends Component {
     
     let deviceName = document.getElementById('devicename').parentNode;
     deviceName.style.width = fieldWidth - 16;
-    
+  }; 
   // Handle changes in device name
   handleChange = event => {
     this.setState({
