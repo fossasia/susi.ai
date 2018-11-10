@@ -1,26 +1,9 @@
-.iconMenuStyles{
-    margin: 10px 0 0 0;
-}
-.muidocs-icon-navigation-expand-more{
-    display: block !important;
-    visibility: visible;
-    color: #757575 !important;
-    fill: #757575 !important;
-}
 .top-menu{
     margin: 5px -10px 0px 0;
     float: left;
     color: #e5e5e5;
 }
-.topMenu-item span:hover{
-    color: #fff !important;
-    transition: 0.5s all linear;
-}
 
-.app-logo{
-    height: 24px;
-    width: 74px;
-}
 .section {
     border-bottom: 1px solid #dfdfdf;
     margin: 0 auto;
@@ -29,16 +12,8 @@
     text-align: center;
     max-width: 85%;
     width: 935px;
-    /* padding-top: 80px; */
-}
-.bubble {
-    max-width: 370px;
-    padding: 12.1px 16.5px 12.1px;
 }
 
-.bubble.hero__bubble {
-    max-width: 280px;
-}
 .section-container {
     margin: 0 auto;
     padding: 100px 20px 120px 20px;
@@ -47,10 +22,6 @@
     max-width: 85%;
     width: 935px;
     padding-top: 80px;
-}
-
-.bubble {
-    max-width: 220px;
 }
 
 .hero h1 {
@@ -93,7 +64,6 @@
     justify-content: space-between;
     border-bottom: 1px solid #dfdfdf;
     width: 935px;
-    margin: 0 auto;
 }
 
 .section_center {
@@ -146,15 +116,7 @@
     padding: 100px 20px 110px 20px;
     border-bottom: none;
 }
-.bots{
-    display: flex;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: justify;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    max-width: 300px;
-}
+
 .conversation__description .description__heading {
     font-size: 42px;
     margin-bottom: 5px;
@@ -200,36 +162,21 @@ img {
     width: 50%;
     font-family: 'Roboto', sans-serif;
 }
-.inLineLogo{
-    height: 16px;
-    width: 100px;
-    background: url('../../images/susi-logo.svg') center center no-repeat;
-    background-size: contain;
-    display: inline-block;
-}
+
 .shield{
     width:250px;
     padding: 10px;
     margin: 0 auto;
     display: block;
 }
-.alignLeft{
-    flex:1 50%;
-    display: flex;
-    flex-flow: row wrap;
-}
-.alignRight{
-    flex: 2 50%;
-    display: flex;
-    flex-flow: row wrap;
-    flex-direction: row-reverse;
-}
+
 .susi-test{
     text-align: left;
     width: 60%;
     margin-left: 30%;
     max-width: 313px;
 }
+
 .Video-Modal{
     position: absolute;
     top: 46px;
@@ -248,15 +195,6 @@ img {
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.07);
-}
-
-.alignLeft,.alignRight{
-    list-style: none;
-    list-style-type: none;
-}
-.leftDiv a,.rightDiv a {
-    color:#3367d6 !important;
-    font-family: 'Roboto', sans-serif;
 }
 
 .video-container {
@@ -348,33 +286,15 @@ img {
     vertical-align: middle;
     display: inline-block;
 }
-header {
-    height: 46px;
-    position: fixed;
-    top: 0;
-    transition: top 0.9s ease-in-out;
-    width: 100%;
-    background: rgb(66, 133, 244);
 
-}
-.nav-down{
-    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28) !important;
-}
-
-.nav-up {
-    top: -100px;
-}
 .opensource-logos{
     width: 100%;
     height: 100%;
 }
 @media only screen and (min-width: 1400px){
-    .section_copy{
-        max-width: 1050px;
-    }
-    .topAppBar{
+    /* .topAppBar{
         margin: 0 auto;
-    }
+    } */
     .section_copy{
         width: 1050px;
         margin:0 auto;
@@ -418,9 +338,7 @@ header {
     .description__text{
         max-width: 100%;
     }
-    .bots{
-        max-width: 500px;
-    }
+    
     .img-container{
         width: 50%;
         text-align: center;
@@ -429,13 +347,7 @@ header {
         margin:auto;
         width: 50%;
     }
-    .alignLeft{
-    flex:1 100%;
-    }
-    .alignRight{
-        flex:1 100%;
-        clear: left;
-    }
+    
     .android-mockup {
         max-width: 50%;
         margin-left: 0%;
@@ -456,24 +368,21 @@ header {
         margin-top: 0;
         max-width: 100%;
     }
-    .bubble {
-        max-width: 180px;
-    }
+
     .hero h1 {
         font-size: 36px;
         line-height: 42px;
     }
+    
     .hero p,.description__text {
         font-size: 16px;
         line-height: 24px;
     }
+
     .section-container {
         padding: 60px 20px;
     }
-    .muidocs-icon-navigation-expand-more{
-        display: block !important;
-        visibility: visible;
-    }
+
     .opensource-logos{
         width: 480px;
         margin: 0 auto;
@@ -506,10 +415,6 @@ header {
         max-width: 100%;
     }
 
-    .bots{
-        max-width: 500px;
-    }
-
     .img-container{
         max-width: 100%;
         margin: 0 auto 20px auto;
@@ -531,25 +436,7 @@ header {
     .column_section{
         width: 100%;
     }
-    .alignLeft,.alignRight{
-        flex:1 100%;
-        display: block;
-        padding-left: 0;
-        list-style: none;
-        list-style-type: none;
-    }
-    .alignLeft li,.alignRight li{
-        float: left;
-        padding: 0 30px 15px 0;
-    }
 
-    .alignLeft a, .alignRight a{
-        margin-left: 0px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-    }
     .Video-Modal{
         left: 20px;
         right: 20px;
