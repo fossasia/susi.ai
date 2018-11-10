@@ -44,7 +44,7 @@ class PreviewThemeChat extends Component {
   };
 
   addMessage = (message, author) => {
-    var messageObj = { message, author };
+    const messageObj = { message, author };
     this.setState({ messages: [...this.state.messages, messageObj] });
   };
 

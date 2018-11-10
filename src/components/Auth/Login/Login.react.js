@@ -51,10 +51,10 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    var email = this.state.email.trim();
-    var password = this.state.password.trim();
+    const email = this.state.email.trim();
+    const password = this.state.password.trim();
 
-    let defaults = UserPreferencesStore.getPreferences();
+    const defaults = UserPreferencesStore.getPreferences();
     let BASE_URL = defaults.Server;
 
     let serverUrl = this.state.serverUrl;
@@ -150,7 +150,7 @@ class Login extends Component {
     let serverUrl;
     if (event.target.value === 'customServer') {
       state.checked = !state.checked;
-      let defaults = UserPreferencesStore.getPreferences();
+      const defaults = UserPreferencesStore.getPreferences();
       state.serverUrl = defaults.StandardServer;
       state.serverFieldError = false;
     } else if (event.target.name === 'serverUrl') {

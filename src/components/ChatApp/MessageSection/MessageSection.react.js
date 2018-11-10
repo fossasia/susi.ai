@@ -450,29 +450,29 @@ class MessageSection extends Component {
     });
 
     this._scrollToBottom();
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    ThreadStore.addChangeListener(this._onChange.bind(this));
-    window.addEventListener('offline', this.handleOffline.bind(this));
-    window.addEventListener('online', this.handleOnline.bind(this));
+    MessageStore.addChangeListener(this._onChange);
+    ThreadStore.addChangeListener(this._onChange);
+    window.addEventListener('offline', this.handleOffline);
+    window.addEventListener('online', this.handleOnline);
 
     // let state=this.state;
   }
 
   // Show a snackbar If user offline
-  handleOffline() {
+  handleOffline = () => {
     this.setState({
       snackopen: true,
       snackMessage: 'It seems you are offline!',
     });
-  }
+  };
 
   // Show a snackbar If user online
-  handleOnline() {
+  handleOnline = () => {
     this.setState({
       snackopen: true,
       snackMessage: 'Welcome back!',
     });
-  }
+  };
 
   // Scroll to bottom feature goes here
   onScroll = () => {
@@ -509,8 +509,8 @@ class MessageSection extends Component {
   };
 
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
+    MessageStore.removeChangeListener(this._onChange);
+    ThreadStore.removeChangeListener(this._onChange);
   }
 
   invertColorTextArea = () => {
@@ -864,6 +864,10 @@ class MessageSection extends Component {
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
+    if (newSearchCount <= 0) {
+      newSearchCount = indexLimit;
+    }
+
     if (markedIDs && ul && newIndex < indexLimit) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
@@ -873,15 +877,34 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
-    if (markedIDs && ul && newIndex === indexLimit) {
+    if (markedIDs && ul && newIndex === 0) {
       let currState = this.state.searchState;
-      newIndex = 0;
+      newIndex = indexLimit;
       currState.scrollIndex = newIndex;
       currState.searchIndex = 1;
-      currState.scrollID = markedIDs[newIndex];
-      this.setState({
-        searchState: currState,
-      });
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = this.state.searchState.scrollIndex + 1;
+      newSearchCount = this.state.searchState.searchIndex + 1;
+      markedIDs = this.state.searchState.markedIDs;
+      indexLimit = this.state.searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = this.state.searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
     }
   };
 
@@ -1003,11 +1026,11 @@ class MessageSection extends Component {
   /**
    * Event handler for 'change' events coming from the MessageStore
    */
-  _onChange() {
+  _onChange = () => {
     let array = this.state.player;
     this.setState(getStateFromStores());
     this.setState({ player: array });
-  }
+  };
 }
 
 MessageSection.propTypes = {

@@ -3,6 +3,7 @@ import Translate from '../../Translate/Translate.react';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import urls from '../../../utils/urls';
+import PropTypes from 'prop-types';
 
 export default class ShareOnSocialMedia extends Component {
   constructor(props) {
@@ -14,14 +15,9 @@ export default class ShareOnSocialMedia extends Component {
       },
       loginStatus: 'not connected',
     };
-    this.Share = this.Share.bind(this);
-    this.facebookLogin = this.facebookLogin.bind(this);
-    this.statusChangeCallback = this.statusChangeCallback.bind(this);
-    this.testAPI = this.testAPI.bind(this);
-    this.checkLoginStatus = this.checkLoginStatus.bind(this);
   }
 
-  facebookLoginAPI() {
+  facebookLoginAPI = () => {
     window.fbAsyncInit = function() {
       window.FB.init({
         appId: '136831073699181',
@@ -33,7 +29,7 @@ export default class ShareOnSocialMedia extends Component {
     };
 
     (function(d, s, id) {
-      var js,
+      let js,
         fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {
         return;
@@ -43,18 +39,18 @@ export default class ShareOnSocialMedia extends Component {
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'facebook-jssdk');
-  }
+  };
 
   componentDidMount() {
     this.facebookLoginAPI();
   }
 
-  testAPI() {
+  testAPI = () => {
     window.FB.api('/me', function(response) {});
     this.setState({ loginStatus: 'connected' });
-  }
+  };
 
-  statusChangeCallback(response) {
+  statusChangeCallback = response => {
     if (response.status === 'connected') {
       this.testAPI();
     } else if (response.status === 'not_authorized') {
@@ -62,21 +58,19 @@ export default class ShareOnSocialMedia extends Component {
     } else {
       console.log("You're not authorized.");
     }
-  }
+  };
 
-  checkLoginStatus() {
-    window.FB.getLoginStatus(
-      function(response) {
-        this.statusChangeCallback(response);
-      }.bind(this),
-    );
-  }
+  checkLoginStatus = () => {
+    window.FB.getLoginStatus(response => {
+      this.statusChangeCallback(response);
+    });
+  };
 
-  facebookLogin() {
+  facebookLogin = () => {
     window.FB.login(this.checkLoginStatus);
-  }
+  };
 
-  Share() {
+  Share = () => {
     if (
       this.state.loginStatus === 'connected' ||
       this.state.loginStatus === 'not connected'
@@ -92,7 +86,7 @@ export default class ShareOnSocialMedia extends Component {
         function(response) {},
       );
     }
-  }
+  };
 
   render() {
     const styles = {
@@ -105,62 +99,69 @@ export default class ShareOnSocialMedia extends Component {
     };
 
     return (
-      <div>
+      <div style={this.props.divStyle}>
         <div>
-          <div style={styles.buttonDiv}>
-            <Translate text="Share about SUSI on Facebook" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Facebook" />}
-              style={this.state.style}
-              backgroundColor="#3B5998"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-facebook" />}
-              keyboardFocused={false}
-              onTouchTap={this.Share}
-            />
-          </div>
-          <div style={styles.buttonDiv}>
-            <Translate text="Share about SUSI on Twitter" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Twitter" />}
-              style={this.state.style}
-              backgroundColor="#00aced"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-twitter twitterIcon" />}
-              keyboardFocused={false}
-              onClick={() =>
-                window.open(
-                  'https://twitter.com/intent/tweet?text=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai_',
-                  '_blank',
-                )
-              }
-            />
-          </div>
-          <div style={styles.buttonDiv}>
-            <Translate text="Share about SUSI on Google +" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Google+" />}
-              style={this.state.style}
-              backgroundColor="#d34836"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-google-plus" />}
-              keyboardFocused={false}
-              onClick={() =>
-                window.open(
-                  `https://plus.google.com/share?url=${urls.CHAT_URL}`,
-                  '_blank',
-                )
-              }
-            />
+          <div>
+            <div style={styles.buttonDiv}>
+              <Translate text="Share about SUSI on Facebook" />
+              <br />
+              <RaisedButton
+                label={<Translate text="Share on Facebook" />}
+                style={this.state.style}
+                backgroundColor="#3B5998"
+                labelColor="#fff"
+                icon={<FontIcon className="fa fa-facebook" />}
+                keyboardFocused={false}
+                onTouchTap={this.Share}
+              />
+            </div>
+            <div style={styles.buttonDiv}>
+              <Translate text="Share about SUSI on Twitter" />
+              <br />
+              <RaisedButton
+                label={<Translate text="Share on Twitter" />}
+                style={this.state.style}
+                backgroundColor="#00aced"
+                labelColor="#fff"
+                icon={<FontIcon className="fa fa-twitter twitterIcon" />}
+                keyboardFocused={false}
+                onClick={() =>
+                  window.open(
+                    'https://twitter.com/intent/tweet?text=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai_',
+                    '_blank',
+                  )
+                }
+              />
+            </div>
+            <div style={styles.buttonDiv}>
+              <Translate text="Share about SUSI on Google +" />
+              <br />
+              <RaisedButton
+                label={<Translate text="Share on Google+" />}
+                style={this.state.style}
+                backgroundColor="#d34836"
+                labelColor="#fff"
+                icon={<FontIcon className="fa fa-google-plus" />}
+                keyboardFocused={false}
+                onClick={() =>
+                  window.open(
+                    `https://plus.google.com/share?url=${urls.CHAT_URL}`,
+                    '_blank',
+                  )
+                }
+              />
+            </div>
           </div>
         </div>
       </div>
     );
   }
 }
+
+ShareOnSocialMedia.propTypes = {
+  divStyle: PropTypes.object,
+};
+
 // Resources:
 // https://developers.facebook.com/docs/facebook-login/web
 // https://developers.facebook.com/docs/sharing/reference/share-dialog
