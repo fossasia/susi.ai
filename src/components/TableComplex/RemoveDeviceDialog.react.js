@@ -19,13 +19,22 @@ class RemoveDeviceDialog extends Component {
   componentDidMount = () => {
     let field = this.returnDiv;
     let removeDeviceBtn = this.removeDeviceButton;
-    let fieldWidth = field.style.width;
-    field.style.padding = '0px';
-    field.style.color = '#900';
-    removeDeviceBtn.style.width = fieldWidth + 6;
-    removeDeviceBtn.style.transition = 'none';
     let deviceName = this.deviceName;
-    deviceName.style.width = fieldWidth - 16;
+    let fieldWidth = field.style.width;
+    const fieldStyle = {
+      padding: '0px',
+      color: '#900',
+    };
+    const removeDeviceBtnStyle = {
+      width: fieldWidth + 6,
+      transition: 'none',
+    };
+    const deviceNameStyle = {
+      width: fieldWidth - 16,
+    };
+    field.style = fieldStyle;
+    removeDeviceBtn.style = removeDeviceBtnStyle;
+    deviceName.style = deviceNameStyle;
   };
   // Handle changes in device name
   handleChange = event => {
