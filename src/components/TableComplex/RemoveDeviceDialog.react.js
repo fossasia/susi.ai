@@ -26,7 +26,7 @@ class RemoveDeviceDialog extends Component {
     removeDeviceBtn.style.transition = 'none';
     let deviceName = this.deviceName;
     deviceName.style.width = fieldWidth - 16;
-  }; 
+  };
   // Handle changes in device name
   handleChange = event => {
     this.setState({
@@ -56,7 +56,11 @@ class RemoveDeviceDialog extends Component {
     };
 
     return (
-      <div className="removeDeviceForm" id="returnDiv" ref={el = this.returnDiv = el}>
+      <div
+        className="removeDeviceForm"
+        id="returnDiv"
+        ref={el => (this.returnDiv = el)}
+      >
         <Paper zDepth={0} style={styles}>
           <div
             style={{
@@ -105,7 +109,10 @@ class RemoveDeviceDialog extends Component {
             <p style={{ marginTop: '0px', marginBottom: '10px' }}>
               Please type in the name of the device to confirm.
             </p>
-            <div style={{ textAlign: 'center' }} ref={el = this.deviceName = el}>
+            <div
+              style={{ textAlign: 'center' }}
+              ref={el => (this.deviceName = el)}
+            >
               <TextField
                 id="devicename"
                 name="devicename"
@@ -144,7 +151,7 @@ class RemoveDeviceDialog extends Component {
                   verticalAlign: 'middle',
                 }}
                 disabled={!this.state.correctName}
-                ref={el = this.removeDeviceButton = el}
+                ref={el => (this.removeDeviceButton = el)}
               />
             </div>
           </div>
