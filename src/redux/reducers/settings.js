@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
+import { invertColor } from '../../utils/invertColor';
 
 const defaultState = {
   theme: 'light',
@@ -31,6 +32,7 @@ const defaultState = {
   checked: false,
   serverUrl: 'https://api.susi.ai',
   backgroundImage: '',
+  messageBackgroundImage: '',
 };
 
 export default handleActions(
@@ -86,7 +88,10 @@ export default handleActions(
       return {
         ...state,
         theme,
-        customThemeValue,
+        customThemeValue: {
+          ...customThemeValue,
+          textColor: invertColor(customThemeValue.textarea),
+        },
       };
     },
     [actionTypes.SETTINGS_SET_MICROPHONE_SETTINGS](state, { payload }) {
@@ -111,11 +116,6 @@ export default handleActions(
         speechRate,
         speechPitch,
         ttsLanguage,
-      };
-    },
-    [actionTypes.APP_LOGOUT](state, { payload }) {
-      return {
-        ...defaultState,
       };
     },
   },

@@ -46,23 +46,28 @@ const styles = {
 
 class TopBar extends Component {
   static propTypes = {
-    handleOpen: PropTypes.func,
+    onRequestOpenLogin: PropTypes.func,
     handleSignUp: PropTypes.func,
     handleChangePassword: PropTypes.func,
     handleOptions: PropTypes.func,
     handleRequestClose: PropTypes.func,
     handleToggle: PropTypes.func,
     searchTextChanged: PropTypes.func,
-    _onClickSearch: PropTypes.func,
-    _onClickExit: PropTypes.func,
-    _onClickRecent: PropTypes.func,
-    _onClickPrev: PropTypes.func,
+    openSearch: PropTypes.func,
+    exitSearch: PropTypes.func,
+    nextSearchItem: PropTypes.func,
+    previousSearchItem: PropTypes.func,
     search: PropTypes.bool,
     searchState: PropTypes.object,
     header: PropTypes.string,
+    email: PropTypes.string,
+    accessToken: PropTypes.string,
     userName: PropTypes.string,
-    app: PropTypes.object,
-    onRequestOpenLogin: PropTypes.func,
+  };
+
+  static defaultProps = {
+    email: '',
+    userName: '',
   };
 
   constructor(props) {
@@ -134,16 +139,18 @@ class TopBar extends Component {
   render() {
     const { popoverStyle, logoStyle } = styles;
     const backgroundCol = this.props.header;
-    const { email, accessToken, userName } = this.props.app;
     const { showAdmin, showOptions, anchorEl } = this.state;
     const {
       searchState,
       search,
       searchTextChanged,
-      _onClickSearch,
-      _onClickExit,
-      _onClickRecent,
-      _onClickPrev,
+      exitSearch,
+      openSearch,
+      nextSearchItem,
+      previousSearchItem,
+      email,
+      accessToken,
+      userName,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -180,10 +187,10 @@ class TopBar extends Component {
                 open={search}
                 searchCount={searchState.scrollLimit}
                 onTextChange={searchTextChanged}
-                activateSearch={_onClickSearch}
-                exitSearch={_onClickExit}
-                scrollRecent={_onClickRecent}
-                scrollPrev={_onClickPrev}
+                activateSearch={openSearch}
+                exitSearch={exitSearch}
+                scrollRecent={nextSearchItem}
+                scrollPrev={previousSearchItem}
               />
             ) : null}
           </div>
@@ -290,9 +297,12 @@ class TopBar extends Component {
   }
 }
 
-function mapStateToProps({ app }) {
+function mapStateToProps(store) {
+  const { email, accessToken, userName } = store.app;
   return {
-    app,
+    email,
+    accessToken,
+    userName,
   };
 }
 
