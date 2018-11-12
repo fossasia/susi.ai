@@ -21,7 +21,6 @@ import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import MessageStore from '../../stores/MessageStore';
-import * as Actions from '../../actions/';
 
 injectTapEventPlugin();
 
@@ -59,7 +58,6 @@ const styles = {
 
 class MessageComposer extends Component {
   static propTypes = {
-    threadID: PropTypes.string.isRequired,
     dream: PropTypes.string,
     textarea: PropTypes.string,
     textcolor: PropTypes.string,
@@ -88,17 +86,14 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    const { threadID, speechOutputAlways } = this.props;
     const micInputSetting = UserPreferencesStore.getMicInput();
     if (micInputSetting) {
-      // Getting the Speech Recognition to test whether possible
       const SpeechRecognition =
         window.SpeechRecognition ||
         window.webkitSpeechRecognition ||
         window.mozSpeechRecognition ||
         window.msSpeechRecognition ||
         window.oSpeechRecognition;
-      // Setting buttons accordingly
       if (SpeechRecognition != null) {
         this.Button = <MicIcon />;
         this.speechRecog = true;
@@ -119,9 +114,7 @@ class MessageComposer extends Component {
         if (!enterAsSend) {
           text = text.split('\n').join(' ');
         }
-        setTimeout(() => {
-          Actions.createMessage(text, threadID, speechOutputAlways);
-        }, 1);
+        setTimeout(() => {}, 1);
       }
     }
   }
@@ -170,8 +163,6 @@ class MessageComposer extends Component {
   };
 
   onEnd = () => {
-    const { speechOutputAlways, speechOutput, threadID } = this.props;
-    const { result } = this.state;
     this.setState({
       start: false,
       stop: false,
@@ -180,15 +171,7 @@ class MessageComposer extends Component {
       color: '#000',
       recognizing: false,
     });
-
-    let voiceResponse = false;
-    if (speechOutputAlways || speechOutput) {
-      voiceResponse = true;
-    }
     this.Button = <MicIcon />;
-    if (result) {
-      Actions.createMessage(result, threadID, voiceResponse);
-    }
   };
 
   speakDialogClose = () => {
@@ -247,7 +230,6 @@ class MessageComposer extends Component {
   _onClickButton = () => {
     const { recognizing } = this.state;
     let { text } = this.state;
-    const { threadID, speechOutputAlways } = this.props;
     this.flag = 1;
     if (text === '') {
       if (this.speechRecog) {
@@ -262,7 +244,6 @@ class MessageComposer extends Component {
         if (!enterAsSend) {
           text = text.split('\n').join(' ');
         }
-        Actions.createMessage(text, threadID, speechOutputAlways);
       }
       if (this.speechRecog) {
         this.Button = <MicIcon />;
@@ -291,15 +272,12 @@ class MessageComposer extends Component {
 
   _onKeyDown = event => {
     let { text, currentArrowIndex } = this.state;
-    const { threadID, speechOutputAlways } = this.props;
     if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
       const enterAsSend = UserPreferencesStore.getEnterAsSend();
       if (enterAsSend) {
         event.preventDefault();
         text = text.trim().replace(/\n|\r\n|\r/g, ' ');
         if (text) {
-          Actions.createMessage(text, threadID, speechOutputAlways);
-
           formatUserMessage({
             text,
             voice: this.props.speechOutputAlways,

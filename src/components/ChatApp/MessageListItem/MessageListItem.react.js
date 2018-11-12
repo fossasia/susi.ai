@@ -115,7 +115,7 @@ class MessageListItem extends React.Component {
       this.props.message.hasOwnProperty('mark') &&
       markMsgID
     ) {
-      let matchString = this.props.message.mark.matchText;
+      let matchString = this.props.message.mark.searchText;
       let isCaseSensitive = this.props.message.mark.isCaseSensitive;
       if (stringWithLinks) {
         let htmlText = entities.decode(stringWithLinks);

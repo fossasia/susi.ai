@@ -6,7 +6,8 @@ const defaultState = {
   messagesByID: {},
   unreadMessageIDs: [],
   feedbackByID: {},
-  showLoading: false,
+  loadingHistory: false,
+  loadingReply: false,
   initialisedVoices: false,
   TTSVoices: [],
   historyBuffer: [],
@@ -29,7 +30,7 @@ export default handleActions(
         ...state,
         messages,
         messagesByID,
-        showLoading: true,
+        loadingReply: true,
       };
     },
     [actionTypes.MESSAGES_CREATE_SUSI_MESSAGE](state, { payload }) {
@@ -47,7 +48,7 @@ export default handleActions(
         ...state,
         messages,
         messagesByID,
-        showLoading: false,
+        loadingReply: false,
       };
     },
     [actionTypes.MESSAGES_STORE_HISTORY_MESSAGE](state, { payload }) {
@@ -101,6 +102,12 @@ export default handleActions(
         TTSVoices,
       };
     },
+    [actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER](state, { payload }) {
+      return {
+        ...defaultState,
+        loadingHistory: true,
+      };
+    },
     [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
       let { messagePairArray } = payload;
       messagePairArray = messagePairArray.reverse();
@@ -117,6 +124,7 @@ export default handleActions(
         ...defaultState,
         messages,
         messagesByID,
+        loadingHistory: false,
       };
     },
     [actionTypes.APP_LOGOUT](state, { payload }) {
