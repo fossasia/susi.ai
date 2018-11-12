@@ -850,6 +850,9 @@ class MessageSection extends Component {
     let ul = this.scrollarea;
     if (ul) {
       ul.scrollTop(ul.getScrollHeight());
+      this.setState({
+        showScrollTop: true,
+      });
     }
   };
 
