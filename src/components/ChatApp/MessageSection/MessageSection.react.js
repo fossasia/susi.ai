@@ -1,29 +1,36 @@
-import MessageComposer from '../MessageComposer.react';
-import Snackbar from 'material-ui/Snackbar';
-import MessageListItem from '../MessageListItem/MessageListItem.react';
-import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
-import ThreadStore from '../../../stores/ThreadStore';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import PropTypes from 'prop-types';
-import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import loadingGIF from '../../../images/loading.gif';
-import DialogSection from './DialogSection';
-import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
-import TopBar from '../TopBar.react';
+import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
+import Cookies from 'universal-cookie';
+import $ from 'jquery';
+import Snackbar from 'material-ui/Snackbar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
+import TopBar from '../TopBar.react';
 import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
-import Cookies from 'universal-cookie';
+import MessageComposer from '../MessageComposer.react';
+import loadingGIF from '../../../images/loading.gif';
+import MessageListItem from '../MessageListItem/MessageListItem.react';
+import MessageStore from '../../../stores/MessageStore';
+import ThreadStore from '../../../stores/ThreadStore';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import DialogSection from './DialogSection';
+
+const styles = {
+  bodyStyle: {
+    padding: 0,
+    textAlign: 'center',
+  },
+};
 
 const cookies = new Cookies();
 
-function getStateFromStores() {
-  var themeValue = [];
-  var backgroundValue = [];
+const getStateFromStores = () => {
+  let themeValue = [];
+  let backgroundValue = [];
   // get Theme data from server
   if (UserPreferencesStore.getThemeValues()) {
     themeValue = UserPreferencesStore.getThemeValues().split(',');
@@ -75,7 +82,7 @@ function getStateFromStores() {
       searchText: '',
     },
   };
-}
+};
 
 function getMessageListItem(messages, showLoading, addYouTube, markID) {
   // markID indicates search mode on
@@ -95,14 +102,14 @@ function getMessageListItem(messages, showLoading, addYouTube, markID) {
   // Get message ID waiting for server response
   let latestUserMsgID = null;
   if (showLoading && messages) {
-    let msgCount = messages.length;
+    const msgCount = messages.length;
     if (msgCount > 0) {
       let latestUserMsg = messages[msgCount - 1];
       latestUserMsgID = latestUserMsg.id;
     }
   }
 
-  let latestMessage = messages[messages.length - 1];
+  const latestMessage = messages[messages.length - 1];
 
   // return the list of messages
   return messages.map(message => {
@@ -130,14 +137,14 @@ function getMessageListItem(messages, showLoading, addYouTube, markID) {
 }
 
 // markdown search results
-function searchMsgs(messages, matchString, isCaseSensitive) {
+const searchMsgs = (messages, matchString, isCaseSensitive) => {
   let markingData = {
     allmsgs: [],
     markedIDs: [],
     markedIndices: [],
   };
   messages.forEach((msg, id) => {
-    let orgMsgText = msg.text;
+    const orgMsgText = msg.text;
     let msgCopy = $.extend(true, {}, msg);
     let msgText = orgMsgText;
     if (orgMsgText) {
@@ -145,7 +152,7 @@ function searchMsgs(messages, matchString, isCaseSensitive) {
         matchString = matchString.toLowerCase();
         msgText = msgText.toLowerCase();
       }
-      let match = msgText.indexOf(matchString);
+      const match = msgText.indexOf(matchString);
       if (match !== -1) {
         msgCopy.mark = {
           matchText: matchString,
@@ -158,10 +165,10 @@ function searchMsgs(messages, matchString, isCaseSensitive) {
     markingData.allmsgs.push(msgCopy);
   });
   return markingData;
-}
+};
 
-function getLoadingGIF() {
-  let messageContainerClasses = 'message-container SUSI';
+const getLoadingGIF = () => {
+  const messageContainerClasses = 'message-container SUSI';
   const LoadingComponent = (
     <li className="message-list-item">
       <section className={messageContainerClasses}>
@@ -174,7 +181,7 @@ function getLoadingGIF() {
     </li>
   );
   return LoadingComponent;
-}
+};
 
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string },
@@ -207,7 +214,8 @@ class MessageSection extends Component {
   }
 
   pauseAllVideos = () => {
-    this.state.player.forEach(event => {
+    const { player } = this.state;
+    player.forEach(event => {
       try {
         if (event.target.getPlayerState() === 1) {
           event.target.pauseVideo();
@@ -244,7 +252,11 @@ class MessageSection extends Component {
 
   // Close all dialog boxes
   handleClose = () => {
-    var prevThemeSettings = this.state.prevThemeSettings;
+    const {
+      prevThemeSettings,
+      messageBackgroundImage,
+      bodyBackgroundImage,
+    } = this.state;
     this.setState({
       showLogin: false,
       showSignUp: false,
@@ -286,23 +298,22 @@ class MessageSection extends Component {
       });
 
       let settingsChanged = {};
-      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
+      settingsChanged.theme = prevThemeSettings.currTheme;
       settingsChanged.customThemeValue = customData;
-      if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-        settingsChanged.backgroundImage =
-          this.state.bodyBackgroundImage +
-          ',' +
-          this.state.messageBackgroundImage;
+      if (bodyBackgroundImage || messageBackgroundImage) {
+        //eslint-disable-next-line
+        settingsChanged.backgroundImage = `${bodyBackgroundImage},${messageBackgroundImage}`;
       }
       Actions.settingsChanged(settingsChanged);
-      this.setState({ currTheme: this.state.prevThemeSettings.currTheme });
       this.setState({
         showLogin: false,
         showSignUp: false,
         openForgotPassword: false,
+        currTheme: prevThemeSettings.currTheme,
       });
     }
   };
+
   handleCloseTour = () => {
     this.setState({
       showLogin: false,
@@ -353,9 +364,10 @@ class MessageSection extends Component {
 
   // Executes on search text changes
   searchTextChanged = event => {
-    let matchString = event.target.value;
-    let messages = this.state.messages;
-    let markingData = searchMsgs(
+    const { messages } = this.state;
+    let { searchState } = this.state;
+    const matchString = event.target.value;
+    const markingData = searchMsgs(
       messages,
       matchString,
       this.state.searchState.caseSensitive,
@@ -365,7 +377,7 @@ class MessageSection extends Component {
       SnackbarOpenSearchResults: false,
     });
     if (matchString) {
-      let searchState = {
+      searchState = {
         markedMsgs: markingData.allmsgs,
         markedIDs: markingData.markedIDs,
         markedIndices: markingData.markedIndices,
@@ -385,10 +397,10 @@ class MessageSection extends Component {
         });
       }
       this.setState({
-        searchState: searchState,
+        searchState,
       });
     } else {
-      let searchState = {
+      searchState = {
         markedMsgs: markingData.allmsgs,
         markedIDs: markingData.markedIDs,
         markedIndices: markingData.markedIndices,
@@ -401,22 +413,24 @@ class MessageSection extends Component {
         searchText: '',
       };
       this.setState({
-        searchState: searchState,
+        searchState,
       });
     }
   };
 
   componentDidMount() {
-    if (this.props.location) {
-      if (this.props.location.state) {
-        if (this.props.location.state.hasOwnProperty('showLogin')) {
-          let showLogin = this.props.location.state.showLogin;
+    const { location } = this.props;
+    const { currTheme } = this.state;
+    if (location) {
+      if (location.state) {
+        if (location.state.hasOwnProperty('showLogin')) {
+          const showLogin = location.state.showLogin;
           this.setState({ showLogin: showLogin });
         }
       }
     }
 
-    switch (this.state.currTheme) {
+    switch (currTheme) {
       case 'light': {
         document.body.className = 'white-body';
         break;
@@ -434,7 +448,7 @@ class MessageSection extends Component {
       this.setState({
         currTheme: UserPreferencesStore.getTheme(),
       });
-      switch (this.state.currTheme) {
+      switch (currTheme) {
         case 'light': {
           document.body.className = 'white-body';
           break;
@@ -454,9 +468,239 @@ class MessageSection extends Component {
     ThreadStore.addChangeListener(this._onChange);
     window.addEventListener('offline', this.handleOffline);
     window.addEventListener('online', this.handleOnline);
-
-    // let state=this.state;
   }
+
+  componentDidUpdate() {
+    const { currTheme, search, searchState } = this.state;
+    switch (currTheme) {
+      case 'light': {
+        document.body.className = 'white-body';
+        break;
+      }
+      case 'dark': {
+        document.body.className = 'dark-body';
+        break;
+      }
+      default: {
+        // do nothing
+      }
+    }
+
+    if (search) {
+      if (searchState.scrollIndex === -1 || searchState.scrollIndex === null) {
+        this._scrollToBottom();
+      } else {
+        let markedIDs = searchState.markedIDs;
+        let markedIndices = searchState.markedIndices;
+        let limit = searchState.scrollLimit;
+        let ul = this.messageList;
+        if (markedIDs && ul && limit > 0) {
+          let currentID = markedIndices[searchState.scrollIndex];
+          this.scrollarea.view.childNodes[currentID].scrollIntoView();
+        }
+      }
+    } else {
+      this._scrollToBottom();
+    }
+  }
+
+  _scrollToBottom = () => {
+    let ul = this.scrollarea;
+    if (ul && !this.state.showScrollBottom) {
+      ul.scrollTop(ul.getScrollHeight());
+    }
+  };
+
+  forcedScrollToBottom = () => {
+    let ul = this.scrollarea;
+    if (ul) {
+      ul.scrollTop(ul.getScrollHeight());
+    }
+  };
+
+  forcedScrollToTop = () => {
+    let ul = this.scrollarea;
+    ul.scrollTop(0);
+  };
+
+  _onClickPrev = () => {
+    const { searchState } = this.state;
+    let newIndex = searchState.scrollIndex + 1;
+    let newSearchCount = searchState.searchIndex + 1;
+    let indexLimit = searchState.scrollLimit;
+    let markedIDs = searchState.markedIDs;
+    let ul = this.messageList;
+    if (newSearchCount <= 0) {
+      newSearchCount = indexLimit;
+    }
+
+    if (markedIDs && ul && newIndex < indexLimit) {
+      let currState = searchState;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = newSearchCount;
+      currState.scrollID = markedIDs[newIndex];
+      this.setState({
+        searchState: currState,
+      });
+    }
+    if (markedIDs && ul && newIndex === 0) {
+      let currState = searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = searchState.scrollIndex + 1;
+      newSearchCount = searchState.searchIndex + 1;
+      markedIDs = searchState.markedIDs;
+      indexLimit = searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
+    }
+  };
+
+  _onClickRecent = () => {
+    const { searchState } = this.state;
+    let newIndex = searchState.scrollIndex - 1;
+    let newSearchCount = searchState.searchIndex - 1;
+    let markedIDs = searchState.markedIDs;
+    let indexLimit = searchState.scrollLimit;
+    let ul = this.messageList;
+    if (newSearchCount <= 0) {
+      newSearchCount = indexLimit;
+    }
+    if (markedIDs && ul && newIndex >= 0) {
+      let currState = searchState;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = newSearchCount;
+      currState.scrollID = markedIDs[newIndex];
+      this.setState({
+        searchState: currState,
+      });
+    }
+    if (markedIDs && ul && newIndex === 0) {
+      let currState = searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = searchState.scrollIndex - 1;
+      newSearchCount = searchState.searchIndex - 1;
+      markedIDs = searchState.markedIDs;
+      indexLimit = searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
+    }
+  };
+
+  _onClickSearch = () => {
+    let { searchState } = this.state;
+    const { SnackbarOpenSearchResults, messages } = this.state;
+    searchState.markedMsgs = messages;
+    if (SnackbarOpenSearchResults) {
+      this.setState({
+        SnackbarOpenSearchResults: false,
+      });
+    }
+    this.setState({
+      search: true,
+      searchState,
+    });
+  };
+
+  _onClickExit = () => {
+    let { searchState } = this.state;
+    const { SnackbarOpenSearchResults } = this.state;
+    searchState.searchText = '';
+    searchState.searchIndex = 0;
+    searchState.scrollLimit = 0;
+    if (SnackbarOpenSearchResults) {
+      this.setState({
+        SnackbarOpenSearchResults: false,
+      });
+    }
+    this.setState({
+      search: false,
+      searchState: searchState,
+    });
+  };
+
+  handleOptions = event => {
+    event.preventDefault();
+    let { searchState } = this.state;
+    searchState.open = true;
+    searchState.anchorEl = event.currentTarget;
+    this.setState({
+      searchState,
+    });
+  };
+
+  handleToggle = (event, isInputChecked) => {
+    let { searchState } = this.state;
+    const { messages } = this.state;
+    searchState = {
+      markedMsgs: messages,
+      markedIDs: [],
+      markedIndices: [],
+      scrollLimit: 0,
+      scrollIndex: -1,
+      scrollID: null,
+      caseSensitive: isInputChecked,
+      open: true,
+      searchText: searchState.searchText,
+    };
+    this.setState({
+      searchState,
+    });
+  };
+
+  handleRequestClose = () => {
+    let { searchState } = this.state;
+    searchState.open = false;
+    this.setState({
+      searchState,
+    });
+  };
+
+  /**
+   * Event handler for 'change' events coming from the MessageStore
+   */
+  _onChange = () => {
+    const { player } = this.state;
+    this.setState(getStateFromStores());
+    this.setState({ player });
+  };
 
   // Show a snackbar If user offline
   handleOffline = () => {
@@ -476,7 +720,7 @@ class MessageSection extends Component {
 
   // Scroll to bottom feature goes here
   onScroll = () => {
-    let scrollarea = this.scrollarea;
+    const scrollarea = this.scrollarea;
     if (scrollarea) {
       let scrollValues = scrollarea.getValues();
       if (scrollValues.top === 1) {
@@ -515,8 +759,8 @@ class MessageSection extends Component {
 
   invertColorTextArea = () => {
     // get the text are code
-    var hex = this.state.textarea;
-    hex = hex.slice(1);
+    const { textarea } = this.state.textarea;
+    let hex = textarea.slice(1);
 
     // convert 3-digit hex to 6-digits.
     if (hex.length === 3) {
@@ -533,56 +777,40 @@ class MessageSection extends Component {
   };
 
   render() {
-    var bodyColor;
-    var TopBarColor;
-    var composerColor;
-    var messagePane;
-    var textArea;
-    // eslint-disable-next-line
-    var buttonColor;
-    var textColor;
-
-    switch (this.state.currTheme) {
-      case 'custom': {
-        bodyColor = this.state.body;
-        TopBarColor = this.state.header;
-        composerColor = this.state.composer;
-        messagePane = this.state.pane;
-        textArea = this.state.textarea;
-        textColor = this.invertColorTextArea();
-        buttonColor = this.state.button;
-        break;
-      }
-      case 'light': {
-        bodyColor = '#fff';
-        TopBarColor = '#4285f4';
-        composerColor = '#f3f2f4';
-        messagePane = '#f3f2f4';
-        textArea = '#fff';
-        buttonColor = '#4285f4';
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-    document.body.style.setProperty(
-      'background-color',
-      this.state.currTheme === 'dark' ? 'rgb(0, 0, 18)' : bodyColor,
-    );
-    document.body.style.setProperty(
-      'background-image',
-      'url("' + this.state.bodyBackgroundImage + '")',
-    );
-    document.body.style.setProperty('background-repeat', 'no-repeat');
-    document.body.style.setProperty('background-size', 'cover');
-
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-
+    let bodyColor,
+      TopBarColor,
+      composerColor,
+      messagePane,
+      textArea,
+      textColor,
+      backgroundCol;
     const { dream } = this.props;
+    const {
+      currTheme,
+      body,
+      header,
+      composer,
+      pane,
+      textarea,
+      bodyBackgroundImage,
+      messageBackgroundImage,
+      search,
+      searchState,
+      messages,
+      showLoading,
+      thread,
+      button,
+      showLogin,
+      showSignUp,
+      openForgotPassword,
+      SnackbarOpenBackground,
+      SnackbarOpen,
+      snackopen,
+      snackMessage,
+      SnackbarOpenSearchResults,
+      showScrollTop,
+      showScrollBottom,
+    } = this.state;
 
     const scrollBottomStyle = {
       button: {
@@ -597,7 +825,6 @@ class MessageSection extends Component {
           UserPreferencesStore.getTheme() === 'light' ? '#90a4ae' : '#000000',
       },
     };
-
     const scrollTopStyle = {
       button: {
         float: 'left',
@@ -612,8 +839,40 @@ class MessageSection extends Component {
       },
     };
 
-    var backgroundCol;
-    let topBackground = this.state.currTheme;
+    switch (currTheme) {
+      case 'custom': {
+        bodyColor = body;
+        TopBarColor = header;
+        composerColor = composer;
+        messagePane = pane;
+        textArea = textarea;
+        textColor = this.invertColorTextArea();
+        break;
+      }
+      case 'light': {
+        bodyColor = '#fff';
+        TopBarColor = '#4285f4';
+        composerColor = '#f3f2f4';
+        messagePane = '#f3f2f4';
+        textArea = '#fff';
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    document.body.style.setProperty(
+      'background-color',
+      currTheme === 'dark' ? 'rgb(0, 0, 18)' : bodyColor,
+    );
+    document.body.style.setProperty(
+      'background-image',
+      `url("${bodyBackgroundImage}")`,
+    );
+    document.body.style.setProperty('background-repeat', 'no-repeat');
+    document.body.style.setProperty('background-size', 'cover');
+
+    const topBackground = currTheme;
     switch (topBackground) {
       case 'light': {
         backgroundCol = '#4285f4';
@@ -628,15 +887,13 @@ class MessageSection extends Component {
       }
     }
 
-    let speechOutput = UserPreferencesStore.getSpeechOutput();
-    let speechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
-
-    var body = this.state.body;
+    const speechOutput = UserPreferencesStore.getSpeechOutput();
+    const speechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
 
     let messageListItems = [];
-    if (this.state.search) {
-      let markID = this.state.searchState.scrollID;
-      let markedMessages = this.state.searchState.markedMsgs;
+    if (search) {
+      let markID = searchState.scrollID;
+      let markedMessages = searchState.markedMsgs;
       messageListItems = getMessageListItem(
         markedMessages,
         false,
@@ -645,16 +902,16 @@ class MessageSection extends Component {
       );
     } else {
       messageListItems = getMessageListItem(
-        this.state.messages,
-        this.state.showLoading,
+        messages,
+        showLoading,
         this.addYouTube,
       );
     }
 
-    if (this.state.thread) {
+    if (thread) {
       const messageBackgroundStyles = {
         backgroundColor: messagePane,
-        backgroundImage: `url(${this.state.messageBackgroundImage})`,
+        backgroundImage: `url(${messageBackgroundImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%',
       };
@@ -707,12 +964,10 @@ class MessageSection extends Component {
                     autoHideDuration={200}
                   >
                     {messageListItems}
-                    {!this.state.search &&
-                      this.state.showLoading &&
-                      getLoadingGIF()}
+                    {!search && showLoading && getLoadingGIF()}
                   </Scrollbars>
                 </ul>
-                {this.state.showScrollTop && (
+                {showScrollTop && (
                   <div>
                     <FloatingActionButton
                       mini={true}
@@ -725,7 +980,7 @@ class MessageSection extends Component {
                     </FloatingActionButton>
                   </div>
                 )}
-                {this.state.showScrollBottom && (
+                {showScrollBottom && (
                   <div className="scrollBottom">
                     <FloatingActionButton
                       mini={true}
@@ -743,26 +998,26 @@ class MessageSection extends Component {
                   style={{ backgroundColor: composerColor }}
                 >
                   <MessageComposer
-                    focus={!this.state.search}
-                    threadID={this.state.thread.id}
+                    focus={!search}
+                    threadID={thread.id}
                     dream={dream}
                     textarea={textArea}
                     textcolor={textColor}
                     speechOutput={speechOutput}
                     speechOutputAlways={speechOutputAlways}
-                    micColor={this.state.button}
+                    micColor={button}
                   />
                 </div>
               </div>
             </div>
             {/*  All Dialogs are handled by this components */}
-            {!this.state.search ? (
+            {!search ? (
               <DialogSection
                 {...this.props}
-                openLogin={this.state.showLogin}
-                openSignUp={this.state.showSignUp}
-                openForgotPassword={this.state.openForgotPassword}
-                bodyStyle={bodyStyle}
+                openLogin={showLogin}
+                openSignUp={showSignUp}
+                openForgotPassword={openForgotPassword}
+                bodyStyle={styles.bodyStyle}
                 handleSignUp={this.handleSignUp}
                 onRequestClose={() => this.handleClose}
                 onRequestCloseTour={() => this.handleCloseTour}
@@ -774,12 +1029,12 @@ class MessageSection extends Component {
             ) : null}
           </div>
           <Snackbar
-            open={this.state.SnackbarOpenBackground}
+            open={SnackbarOpenBackground}
             message={<Translate text="Please enter a valid URL first" />}
             autoHideDuration={4000}
           />
           <Snackbar
-            open={this.state.SnackbarOpen}
+            open={SnackbarOpen}
             message={<Translate text="Theme Changed" />}
             action="undo"
             autoHideDuration={4000}
@@ -788,12 +1043,12 @@ class MessageSection extends Component {
           />
           <Snackbar
             autoHideDuration={4000}
-            open={this.state.snackopen}
-            message={<Translate text={this.state.snackMessage} />}
+            open={snackopen}
+            message={<Translate text={snackMessage} />}
           />
           <Snackbar
             autoHideDuration={4000}
-            open={this.state.SnackbarOpenSearchResults && !this.state.snackopen}
+            open={SnackbarOpenSearchResults && !snackopen}
             message={<Translate text="No Results!" />}
           />
         </div>
@@ -802,238 +1057,6 @@ class MessageSection extends Component {
 
     return <div className="message-section" />;
   }
-
-  componentDidUpdate() {
-    switch (this.state.currTheme) {
-      case 'light': {
-        document.body.className = 'white-body';
-        break;
-      }
-      case 'dark': {
-        document.body.className = 'dark-body';
-        break;
-      }
-      default: {
-        // do nothing
-      }
-    }
-
-    if (this.state.search) {
-      if (
-        this.state.searchState.scrollIndex === -1 ||
-        this.state.searchState.scrollIndex === null
-      ) {
-        this._scrollToBottom();
-      } else {
-        let markedIDs = this.state.searchState.markedIDs;
-        let markedIndices = this.state.searchState.markedIndices;
-        let limit = this.state.searchState.scrollLimit;
-        let ul = this.messageList;
-        if (markedIDs && ul && limit > 0) {
-          let currentID = markedIndices[this.state.searchState.scrollIndex];
-          this.scrollarea.view.childNodes[currentID].scrollIntoView();
-        }
-      }
-    } else {
-      this._scrollToBottom();
-    }
-  }
-
-  _scrollToBottom = () => {
-    let ul = this.scrollarea;
-    if (ul && !this.state.showScrollBottom) {
-      ul.scrollTop(ul.getScrollHeight());
-    }
-  };
-
-  forcedScrollToBottom = () => {
-    let ul = this.scrollarea;
-    if (ul) {
-      ul.scrollTop(ul.getScrollHeight());
-      this.setState({
-        showScrollTop: true,
-      });
-    }
-  };
-
-  forcedScrollToTop = () => {
-    let ul = this.scrollarea;
-    ul.scrollTop(0);
-  };
-
-  _onClickPrev = () => {
-    let newIndex = this.state.searchState.scrollIndex + 1;
-    let newSearchCount = this.state.searchState.searchIndex + 1;
-    let indexLimit = this.state.searchState.scrollLimit;
-    let markedIDs = this.state.searchState.markedIDs;
-    let ul = this.messageList;
-    if (newSearchCount <= 0) {
-      newSearchCount = indexLimit;
-    }
-
-    if (markedIDs && ul && newIndex < indexLimit) {
-      let currState = this.state.searchState;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = newSearchCount;
-      currState.scrollID = markedIDs[newIndex];
-      this.setState({
-        searchState: currState,
-      });
-    }
-    if (markedIDs && ul && newIndex === 0) {
-      let currState = this.state.searchState;
-      newIndex = indexLimit;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = 1;
-    }
-    if (markedIDs && ul && newIndex < 0) {
-      let currState = this.state.searchState;
-      newIndex = indexLimit;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = 1;
-      newIndex = this.state.searchState.scrollIndex + 1;
-      newSearchCount = this.state.searchState.searchIndex + 1;
-      markedIDs = this.state.searchState.markedIDs;
-      indexLimit = this.state.searchState.scrollLimit;
-      ul = this.messageList;
-      if (newSearchCount <= 0) {
-        newSearchCount = indexLimit;
-      }
-      if (markedIDs && ul && newIndex >= 0) {
-        currState = this.state.searchState;
-        currState.scrollIndex = newIndex;
-        currState.searchIndex = newSearchCount;
-        currState.scrollID = markedIDs[newIndex];
-        this.setState({
-          searchState: currState,
-        });
-      }
-    }
-  };
-
-  _onClickRecent = () => {
-    let newIndex = this.state.searchState.scrollIndex - 1;
-    let newSearchCount = this.state.searchState.searchIndex - 1;
-    let markedIDs = this.state.searchState.markedIDs;
-    let indexLimit = this.state.searchState.scrollLimit;
-    let ul = this.messageList;
-    if (newSearchCount <= 0) {
-      newSearchCount = indexLimit;
-    }
-    if (markedIDs && ul && newIndex >= 0) {
-      let currState = this.state.searchState;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = newSearchCount;
-      currState.scrollID = markedIDs[newIndex];
-      this.setState({
-        searchState: currState,
-      });
-    }
-    if (markedIDs && ul && newIndex === 0) {
-      let currState = this.state.searchState;
-      newIndex = indexLimit;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = 1;
-    }
-    if (markedIDs && ul && newIndex < 0) {
-      let currState = this.state.searchState;
-      newIndex = indexLimit;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = 1;
-      newIndex = this.state.searchState.scrollIndex - 1;
-      newSearchCount = this.state.searchState.searchIndex - 1;
-      markedIDs = this.state.searchState.markedIDs;
-      indexLimit = this.state.searchState.scrollLimit;
-      ul = this.messageList;
-      if (newSearchCount <= 0) {
-        newSearchCount = indexLimit;
-      }
-      if (markedIDs && ul && newIndex >= 0) {
-        currState = this.state.searchState;
-        currState.scrollIndex = newIndex;
-        currState.searchIndex = newSearchCount;
-        currState.scrollID = markedIDs[newIndex];
-        this.setState({
-          searchState: currState,
-        });
-      }
-    }
-  };
-
-  _onClickSearch = () => {
-    let searchState = this.state.searchState;
-    searchState.markedMsgs = this.state.messages;
-    if (this.state.SnackbarOpenSearchResults) {
-      this.setState({
-        SnackbarOpenSearchResults: false,
-      });
-    }
-    this.setState({
-      search: true,
-      searchState: searchState,
-    });
-  };
-
-  _onClickExit = () => {
-    let searchState = this.state.searchState;
-    searchState.searchText = '';
-    searchState.searchIndex = 0;
-    searchState.scrollLimit = 0;
-    if (this.state.SnackbarOpenSearchResults) {
-      this.setState({
-        SnackbarOpenSearchResults: false,
-      });
-    }
-    this.setState({
-      search: false,
-      searchState: searchState,
-    });
-  };
-
-  handleOptions = event => {
-    event.preventDefault();
-    let searchState = this.state.searchState;
-    searchState.open = true;
-    searchState.anchorEl = event.currentTarget;
-    this.setState({
-      searchState: searchState,
-    });
-  };
-
-  handleToggle = (event, isInputChecked) => {
-    let searchTextPrev = this.state.searchState.searchText;
-    let searchState = {
-      markedMsgs: this.state.messages,
-      markedIDs: [],
-      markedIndices: [],
-      scrollLimit: 0,
-      scrollIndex: -1,
-      scrollID: null,
-      caseSensitive: isInputChecked,
-      open: true,
-      searchText: searchTextPrev,
-    };
-    this.setState({
-      searchState: searchState,
-    });
-  };
-
-  handleRequestClose = () => {
-    let searchState = this.state.searchState;
-    searchState.open = false;
-    this.setState({
-      searchState: searchState,
-    });
-  };
-
-  /**
-   * Event handler for 'change' events coming from the MessageStore
-   */
-  _onChange = () => {
-    let array = this.state.player;
-    this.setState(getStateFromStores());
-    this.setState({ player: array });
-  };
 }
 
 MessageSection.propTypes = {

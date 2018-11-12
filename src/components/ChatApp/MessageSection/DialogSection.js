@@ -1,13 +1,13 @@
-import Dialog from 'material-ui/Dialog';
 import React from 'react';
+import PropTypes from 'prop-types';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 import Login from '../../Auth/Login/Login.react';
 import SignUp from '../../Auth/SignUp/SignUp.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
-import PropTypes from 'prop-types';
-import Close from 'material-ui/svg-icons/navigation/close';
 
-const DialogSection = props => {
-  const closingStyle = {
+const styles = {
+  closingStyle: {
     position: 'absolute',
     zIndex: 1200,
     fill: '#444',
@@ -16,7 +16,10 @@ const DialogSection = props => {
     right: '10px',
     top: '10px',
     cursor: 'pointer',
-  };
+  },
+};
+
+const DialogSection = props => {
   return (
     <div>
       {/* Login */}
@@ -34,7 +37,10 @@ const DialogSection = props => {
           handleForgotPassword={props.onForgotPassword()}
           handleSignUp={props.handleSignUp}
         />
-        <Close style={closingStyle} onTouchTap={props.onRequestClose()} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={props.onRequestClose()}
+        />
       </Dialog>
       {/* SignUp */}
       <Dialog
@@ -51,7 +57,10 @@ const DialogSection = props => {
           onRequestClose={props.onRequestClose()}
           onLoginSignUp={props.onLoginSignUp()}
         />
-        <Close style={closingStyle} onTouchTap={props.onRequestClose()} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={props.onRequestClose()}
+        />
       </Dialog>
       {/*  Forgot Password */}
       <Dialog
@@ -63,7 +72,10 @@ const DialogSection = props => {
         onRequestClose={props.onRequestClose()}
       >
         <ForgotPassword {...props} onLoginSignUp={props.onLoginSignUp()} />
-        <Close style={closingStyle} onTouchTap={props.onRequestClose()} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={props.onRequestClose()}
+        />
       </Dialog>
       <Dialog
         className="dialogStyle"
@@ -82,7 +94,10 @@ const DialogSection = props => {
           frameBorder="0"
           scrolling="no"
         />
-        <Close style={closingStyle} onTouchTap={props.onRequestCloseTour()} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={props.onRequestCloseTour()}
+        />
       </Dialog>
     </div>
   );
