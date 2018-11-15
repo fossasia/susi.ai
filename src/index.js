@@ -5,6 +5,7 @@ import App from './App';
 import MessageStore from './stores/MessageStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import UserPreferencesStore from './stores/UserPreferencesStore';
 // Internationalization
 import en from 'react-intl/locale-data/en';
@@ -15,6 +16,7 @@ import ru from 'react-intl/locale-data/ru';
 import { IntlProvider } from 'react-intl';
 import { addLocaleData } from 'react-intl';
 import { BrowserRouter as Router } from 'react-router-dom';
+import store from './store';
 
 addLocaleData([...en, ...fr, ...es, ...de, ...ru]);
 
@@ -35,10 +37,12 @@ window.speechSynthesis.onvoiceschanged = function() {
 };
 
 ReactDOM.render(
-  <IntlProvider locale={defaultPrefLanguage}>
-    <Router>
-      <App />
-    </Router>
-  </IntlProvider>,
+  <Provider store={store} key="provider">
+    <IntlProvider locale={defaultPrefLanguage}>
+      <Router>
+        <App />
+      </Router>
+    </IntlProvider>
+  </Provider>,
   document.getElementById('root'),
 );
