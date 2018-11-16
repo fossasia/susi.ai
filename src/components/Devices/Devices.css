@@ -1,4 +1,3 @@
-
 .head_section {
     border-bottom: 1px solid #dfdfdf;
     background: #f7f7f7;
@@ -104,15 +103,6 @@
     text-align: left;
     width: 100%;
     margin-left: 10%;
-}
-
-.alignLeft,.alignRight{
-    list-style: none;
-    list-style-type: none;
-}
-.leftDiv a,.rightDiv a {
-    color:#3367d6;
-    font-family: 'Roboto', sans-serif;
 }
 
 @media only screen and (min-width: 1400px){
