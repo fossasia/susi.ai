@@ -16,7 +16,8 @@
   },
   "env": {
     "browser": true,
-    "jasmine": true
+    "jasmine": true,
+    "es6": true
   },
   "globals": {
     "document": true,

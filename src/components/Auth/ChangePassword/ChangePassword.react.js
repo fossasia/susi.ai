@@ -86,9 +86,8 @@ export default class ChangePassword extends Component {
 
     if (event.target.name === 'password') {
       password = event.target.value;
-      let validPassword = password.length >= 6;
       state.passwordValue = password;
-      state.passwordError = !(password && validPassword);
+      state.passwordError = !password;
     } else if (event.target.name === 'newPassword') {
       newPassword = event.target.value;
       let validNewPassword = newPassword.length >= 6;
@@ -132,7 +131,7 @@ export default class ChangePassword extends Component {
     if (this.state.passwordError && event.target.name === 'password') {
       this.emailErrorMessage = '';
       this.passwordErrorMessage = (
-        <Translate text="Minimum 6 characters required" />
+        <Translate text="Password field cannot be blank" />
       );
       this.newPasswordErrorMessage = '';
       this.newPasswordConfirmErrorMessage = '';
