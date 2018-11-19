@@ -91,7 +91,8 @@ export default class ChangePassword extends Component {
       state.passwordError = !password;
     } else if (event.target.name === 'newPassword') {
       newPassword = event.target.value;
-      let validNewPassword = newPassword.length >= 6;
+      let validNewPassword =
+        newPassword.length >= 6 && newPassword.length <= 64;
       state.newPasswordValue = newPassword;
       state.newPasswordError = !(newPassword && validNewPassword);
       if (validNewPassword) {
@@ -143,7 +144,7 @@ export default class ChangePassword extends Component {
       this.emailErrorMessage = '';
       this.passwordErrorMessage = '';
       this.newPasswordErrorMessage = (
-        <Translate text="Minimum 6 characters required" />
+        <Translate text="Must be between 6 to 64 characters" />
       );
       this.newPasswordConfirmErrorMessage = '';
     } else if (
@@ -337,7 +338,7 @@ export default class ChangePassword extends Component {
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
-                placeholder="Must be at least 6 characters"
+                placeholder="Must be between 6 to 64 characters"
                 style={fieldStyle}
                 value={this.state.newPasswordValue}
                 onChange={this.handleChange}
