@@ -42,7 +42,7 @@ export default class ChangePassword extends Component {
   }
 
   // Close the Change Password dialog on success
-  handleClose = () => {
+  handleCloseResetPassword = () => {
     let state = this.state;
     if (state.success) {
       this.props.history.push('/logout');
@@ -64,12 +64,13 @@ export default class ChangePassword extends Component {
     }
   };
 
-  handleClose = event => {
+  handleCloseForgotPassword = event => {
     this.setState({
       showDialog: false,
       showForgotPwd: false,
     });
   };
+
   handleForgotPwd = event => {
     event.preventDefault();
     this.setState({
@@ -390,10 +391,10 @@ export default class ChangePassword extends Component {
           <Dialog
             modal={false}
             open={this.state.showForgotPwd}
-            onRequestClose={this.handleClose}
+            onRequestClose={this.handleCloseForgotPassword}
             className="ModalDiv"
           >
-            <ForgotPassword closeModal={this.handleClose} />
+            <ForgotPassword closeModal={this.handleCloseForgotPassword} />
           </Dialog>
         </div>
 
@@ -402,10 +403,13 @@ export default class ChangePassword extends Component {
             <Dialog
               modal={false}
               open={this.state.msgOpen}
-              onRequestClose={this.handleClose}
+              onRequestClose={this.handleCloseResetPassword}
             >
               <Translate text={this.state.msg} />
-              <Close style={closingStyle} onTouchTap={this.handleClose} />
+              <Close
+                style={closingStyle}
+                onTouchTap={this.handleCloseResetPassword}
+              />
             </Dialog>
           </div>
         )}
