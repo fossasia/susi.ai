@@ -1,5 +1,6 @@
 import './Settings.css';
 import $ from 'jquery';
+import { withRouter } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -1229,6 +1230,7 @@ class Settings extends Component {
           containerStyle={divStyle}
           intialSettings={this.state.intialSettings}
           themeVal={UserPreferencesStore.getTheme()}
+          {...this.props}
         />
       );
     } else if (this.state.selectedSetting === 'Devices') {
@@ -1795,6 +1797,8 @@ Settings.propTypes = {
   handleThemeChanger: PropTypes.func,
 };
 
-export default GoogleApiWrapper({
-  apiKey: MAP_KEY,
-})(Settings);
+export default withRouter(
+  GoogleApiWrapper({
+    apiKey: MAP_KEY,
+  })(Settings),
+);
