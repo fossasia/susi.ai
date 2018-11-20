@@ -20,7 +20,7 @@ import shield from '../../images/shield.svg';
 import openSource from '../../images/open-source.png';
 import './Overview.css';
 
-const style = {
+const styles = {
   closingStyle: {
     position: 'absolute',
     zIndex: 120000,
@@ -37,31 +37,15 @@ class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      video: false,
+      isVideoModalOpen: false,
     };
   }
   // Toggle Video dialog
   toggleVideoModal = () => {
-    if (this.state.video === true) {
-      this.setState({
-        video: false,
-      });
-    } else {
-      this.setState({
-        video: true,
-      });
-    }
+    this.setState(prevState => ({
+      isVideoModalOpen: !prevState.isVideoModalOpen,
+    }));
   };
-
-  // handleVideo = () =>
-  //   this.setState({
-  //     video: true,
-  //   });
-  // // Close Video Dialog
-  // closeVideo = () =>
-  //   this.setState({
-  //     video: false,
-  //   });
 
   componentDidMount() {
     document.body.style.backgroundColor = '#fff';
@@ -353,7 +337,7 @@ class Overview extends Component {
         {/* Video */}
 
         <Modal
-          isOpen={this.state.video}
+          isOpen={this.state.isVideoModalOpen}
           className="Video-Modal"
           onRequestClose={this.toggleVideoModal}
           contentLabel="Assistant Video"
@@ -368,7 +352,7 @@ class Overview extends Component {
               src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
             />
             <Close
-              style={style.closingStyle}
+              style={styles.closingStyle}
               onTouchTap={this.toggleVideoModal}
             />
           </div>
