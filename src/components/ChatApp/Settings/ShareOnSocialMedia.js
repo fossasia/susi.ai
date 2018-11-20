@@ -4,6 +4,7 @@ import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import Translate from '../../Translate/Translate.react';
 import urls from '../../../utils/urls';
+import PropTypes from 'prop-types';
 
 const styles = {
   buttonStyle: {

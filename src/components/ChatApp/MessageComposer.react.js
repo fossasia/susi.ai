@@ -20,7 +20,7 @@ injectTapEventPlugin();
 let ENTER_KEY_CODE = 13;
 let UP_KEY_CODE = 38;
 let DOWN_KEY_CODE = 40;
-var flag = 1;
+let flag = 1;
 const style = {
   mini: true,
   bottom: '14px',
@@ -48,7 +48,7 @@ const closingStyle = {
 };
 
 $.urlParam = function(name) {
-  var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(
+  let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(
     window.location.href,
   );
   if (results && results.length > 0) {
@@ -130,7 +130,7 @@ class MessageComposer extends Component {
       stop: false,
     });
     if (this.state.result === '') {
-      var x = document.getElementById('snackbar');
+      let x = document.getElementById('snackbar');
       if (this.state.micAccess) {
         x.className = 'show';
         setTimeout(function() {
