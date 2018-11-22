@@ -28,7 +28,7 @@ export default class ThreadSection extends Component {
   }
 
   render() {
-    let threadListItems = this.state.threads.map(function(thread) {
+    const threadListItems = this.state.threads.map(function(thread) {
       return (
         <ThreadListItem
           key={thread.id}
@@ -37,7 +37,7 @@ export default class ThreadSection extends Component {
         />
       );
     }, this);
-    let unread =
+    const unread =
       this.state.unreadCount === 0 ? null : (
         <span>Unread threads: {this.state.unreadCount}</span>
       );
