@@ -196,10 +196,10 @@ class StaticAppBar extends Component {
     }
 
     window.addEventListener('scroll', this.handleScroll);
-    var didScroll;
-    var lastScrollTop = 0;
-    var delta = 5;
-    var navbarHeight = $('header').outerHeight();
+    let didScroll;
+    let lastScrollTop = 0;
+    let delta = 5;
+    let navbarHeight = $('header').outerHeight();
     $(window).scroll(event => {
       didScroll = true;
       this.setState({ showOptions: false });
@@ -212,7 +212,7 @@ class StaticAppBar extends Component {
     }, 500);
 
     function hasScrolled() {
-      var st = $(window).scrollTop();
+      let st = $(window).scrollTop();
       // Make sure they scroll more than delta
       if (Math.abs(lastScrollTop - st) <= delta) {
         return;
@@ -411,7 +411,7 @@ class StaticAppBar extends Component {
       height: '64px',
       textDecoration: 'none',
     };
-    var topLinks = [
+    const topLinks = [
       {
         label: 'Overview',
         url: '/overview',

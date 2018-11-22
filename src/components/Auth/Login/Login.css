@@ -1,20 +1,18 @@
-.fgtpwd{
+.forgot-password{
   margin-left:20%;
   color: #365899;
   cursor: pointer;
   font-size: 12px;
 }
-.signUp{
+
+.sign-up{
   margin-right:20%;
   color: #365899;
   cursor: pointer;
   font-size: 12px;
 }
-.login-links:hover{
-  color: #365899;
-  text-decoration: underline;
-}
-.loginForm{
+
+.login-form{
   margin: 0 auto;
   padding: 10px 0;
 }
@@ -26,23 +24,23 @@
   margin-top:10px;
 }
 
-.sty{
-  width: 256px;
-}
-.loginForm div{
+.login-form div{
   margin: 5px 0;
 }
 
+.message {
+  margin-top: 8px;
+}
 @media screen and (max-width: 1100px) {
-  .fgtpwd{
+  .forgot-password{
     margin-left:5%;
   }
-  .signUp{
+  .sign-up{
     margin-right:5%;
   }
 }
 @media screen and (max-width: 768px) {
-  .loginForm h3{
+  .login-form h3{
     font-size: 16px;
   }
 }
