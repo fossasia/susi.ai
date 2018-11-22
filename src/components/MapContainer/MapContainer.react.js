@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import { InfoWindow } from 'google-maps-react';
 
-import PropTypes from 'prop-types';
+const style = {
+  mapDisplay: {
+    width: '100%',
+    height: '300px',
+  },
+};
 
-export default class MapContainer extends Component {
+class MapContainer extends Component {
   componentDidUpdate() {
     this.loadMap();
   }
@@ -38,9 +44,9 @@ export default class MapContainer extends Component {
           position: { lat: location.location.lat, lng: location.location.lng },
           map: this.map,
           title: 'Click to see device information.',
-          devicename: this.props.devicenames[i],
+          devicename: this.props.deviceNames[i],
           room: this.props.rooms[i],
-          macid: this.props.macids[i],
+          macid: this.props.macIds[i],
         });
 
         // Add event listener to the map markers to open InfoWindow on click
@@ -64,17 +70,12 @@ export default class MapContainer extends Component {
   }
 
   render() {
-    const style = {
-      width: '100%',
-      height: '300px',
-    };
-
     return (
       <div
         ref={ref => {
           this.node = ref;
         }}
-        style={style}
+        style={style.mapDisplay}
       >
         loading map...
       </div>
@@ -86,8 +87,10 @@ MapContainer.propTypes = {
   centerLat: PropTypes.number,
   centerLng: PropTypes.number,
   mapData: PropTypes.array,
-  devicenames: PropTypes.array,
+  deviceNames: PropTypes.array,
   rooms: PropTypes.array,
-  macids: PropTypes.array,
+  macIds: PropTypes.array,
   google: PropTypes.object,
 };
+
+export default MapContainer;

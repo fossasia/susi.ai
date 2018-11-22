@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
@@ -233,7 +234,7 @@ class TopBar extends Component {
   }
 
   render() {
-    var backgroundCol = this.props.header;
+    const backgroundCol = this.props.header;
 
     let appBarClass = 'app-bar';
     if (this.props.search) {
@@ -329,4 +330,13 @@ TopBar.propTypes = {
   header: PropTypes.string,
 };
 
-export default TopBar;
+function mapStateToProps({ app }) {
+  return {
+    app,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(TopBar);
