@@ -101,6 +101,7 @@ class Login extends Component {
             this.setState({
               message: 'Login Failed. Try Again',
               password: '',
+              loading: false,
             });
           }
         })
@@ -108,6 +109,7 @@ class Login extends Component {
           this.setState({
             message: 'Login Failed. Try Again',
             password: '',
+            loading: false,
           });
         });
     }
