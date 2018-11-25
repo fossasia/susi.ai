@@ -1,23 +1,39 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
-import './NotFound.css';
-import LogoImg from '../../images/susi-logo.svg';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import Login from '../Auth/Login/Login.react';
-import SignUp from '../Auth/SignUp/SignUp.react';
+import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Close from 'material-ui/svg-icons/navigation/close';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import Login from '../Auth/Login/Login.react';
+import SignUp from '../Auth/SignUp/SignUp.react';
 import Cookies from 'universal-cookie';
 import urls from '../../utils/urls';
+import './NotFound.css';
+import LogoImg from '../../images/susi-logo.svg';
 
 const cookies = new Cookies();
+
+const style = {
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+  bodyStyle: {
+    padding: 0,
+    textAlign: 'center',
+  },
+};
 
 export default class NotFound extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       open: false,
       loginOpen: false,
@@ -63,30 +79,6 @@ export default class NotFound extends Component {
   };
   render() {
     document.body.style.setProperty('background-image', 'none');
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-    const closingStyleLogin = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
     return (
       <div>
         <div className="container-fluid not-found-banner">
@@ -136,7 +128,7 @@ export default class NotFound extends Component {
           modal={true}
           open={this.state.loginOpen}
           autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
+          bodyStyle={style.bodyStyle}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
@@ -144,7 +136,7 @@ export default class NotFound extends Component {
             {...this.props}
             handleForgotPassword={this.handleForgotPassword}
           />
-          <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
+          <Close style={style.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         {/* SignUp */}
         <Dialog
@@ -152,7 +144,7 @@ export default class NotFound extends Component {
           modal={true}
           open={this.state.open}
           autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
+          bodyStyle={style.bodyStyle}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
@@ -161,7 +153,7 @@ export default class NotFound extends Component {
             onRequestClose={this.handleClose}
             onLoginSignUp={this.handleLoginOpen}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={style.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         <Dialog
           className="dialogStyle"
@@ -175,7 +167,7 @@ export default class NotFound extends Component {
             {...this.props}
             showForgotPassword={this.showForgotPassword}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={style.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
       </div>
     );

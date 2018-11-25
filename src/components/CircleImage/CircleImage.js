@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 /* Utils */
@@ -25,93 +25,93 @@ function sumChars(str) {
   return sum;
 }
 
-export default class CircleImage extends Component {
-  static propTypes = {
-    borderRadius: PropTypes.string,
-    src: PropTypes.string,
-    srcset: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    color: PropTypes.string,
-    colors: PropTypes.array,
-    size: PropTypes.string,
-    style: PropTypes.object,
-    className: PropTypes.string,
+const CircleImage = props => {
+  const {
+    src,
+    srcset,
+    name,
+    color,
+    colors,
+    style,
+    borderRadius = '100%',
+    className,
+  } = props;
+
+  const size = addPx(props.size);
+
+  const styles = {
+    imageStyle: {
+      display: 'block',
+      borderRadius,
+    },
+    innerStyle: {
+      lineHeight: size,
+      textAlign: 'center',
+      overflow: 'initial',
+      marginRight: 10,
+      borderRadius,
+    },
   };
 
-  static defaultProps = {
-    colors: defaultColors,
-  };
+  let { imageStyle, innerStyle } = styles;
+  const nameInitials = initials(name);
+  let innerElement,
+    classes = [className, 'CircleImage'];
 
-  render() {
-    const {
-      src,
-      srcset,
-      name,
-      color,
-      colors,
-      style,
-      borderRadius = '100%',
-      className,
-    } = this.props;
-
-    let size = addPx(this.props.size);
-
-    let styles = {
-      imageStyle: {
-        display: 'block',
-        borderRadius,
-      },
-      innerStyle: {
-        lineHeight: size,
-        textAlign: 'center',
-        overflow: 'initial',
-        marginRight: 10,
-        borderRadius,
-      },
-    };
-
-    let { imageStyle, innerStyle } = styles;
-    const nameInitials = initials(name);
-    let innerElement,
-      classes = [className, 'CircleImage'];
-
-    if (size) {
-      imageStyle.width = innerStyle.width = innerStyle.maxWidth = size;
-      imageStyle.height = innerStyle.height = innerStyle.maxHeight = size;
-    }
-
-    if (src || srcset) {
-      innerElement = (
-        <img
-          className="CircleImage--img"
-          style={imageStyle}
-          src={src}
-          srcSet={srcset}
-          alt={name}
-        />
-      );
-    } else {
-      let backgroundColor = '';
-
-      if (color) {
-        backgroundColor = color;
-      } else {
-        // Pick a deterministic color from the list
-        const i = sumChars(name) % colors.length;
-        backgroundColor = colors[i];
-      }
-
-      innerStyle.backgroundColor = backgroundColor;
-      classes.push(`CircleImage--${contrast(innerStyle.backgroundColor)}`);
-      innerElement = nameInitials;
-    }
-
-    return (
-      <div aria-label={name} className={classes.join(' ')} style={style}>
-        <div className="CircleImage--inner" style={innerStyle}>
-          {innerElement}
-        </div>
-      </div>
-    );
+  if (size) {
+    imageStyle.width = innerStyle.width = innerStyle.maxWidth = size;
+    imageStyle.height = innerStyle.height = innerStyle.maxHeight = size;
   }
-}
+
+  if (src || srcset) {
+    innerElement = (
+      <img
+        className="CircleImage--img"
+        style={imageStyle}
+        src={src}
+        srcSet={srcset}
+        alt={name}
+      />
+    );
+  } else {
+    let backgroundColor = '';
+
+    if (color) {
+      backgroundColor = color;
+    } else {
+      // Pick a deterministic color from the list
+      const i = sumChars(name) % colors.length;
+      backgroundColor = colors[i];
+    }
+
+    innerStyle.backgroundColor = backgroundColor;
+    classes.push(`CircleImage--${contrast(innerStyle.backgroundColor)}`);
+    innerElement = nameInitials;
+  }
+
+  return (
+    <div aria-label={name} className={classes.join(' ')} style={style}>
+      <div className="CircleImage--inner" style={innerStyle}>
+        {innerElement}
+      </div>
+    </div>
+  );
+};
+
+CircleImage.propTypes = {
+  borderRadius: PropTypes.string,
+  src: PropTypes.string,
+  srcset: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  colors: PropTypes.array,
+  size: PropTypes.string,
+  style: PropTypes.object,
+  className: PropTypes.string,
+};
+
+CircleImage.defaultProps = {
+  colors: defaultColors,
+};
+
+export default CircleImage;

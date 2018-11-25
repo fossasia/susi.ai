@@ -171,7 +171,7 @@
     // in a small helper function rather than having to come up with another
     // random name.
     // Still, making this a warning can help people avoid being confused.
-    "no-shadow": 2,
+    "no-shadow": 0,
     // Require empty line at end of file
     "eol-last": "error",
     // Disallow shadowing of names such as arguments.
