@@ -13,4 +13,5 @@ export default {
     actionTypes.APP_GET_CHANGE_PASSWORD,
     apis.getChangePassword,
   ),
+  getSignup: createAction(actionTypes.APP_GET_SIGNUP, apis.getSignup),
 };
