@@ -895,7 +895,7 @@ class Settings extends Component {
   // Populate language list
   _onChange = () => {
     this.setState({
-      voiceList: voiceListChange
+      voiceList: voiceListChange,
     });
   };
 
