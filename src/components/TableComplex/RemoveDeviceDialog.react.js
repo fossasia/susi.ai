@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import './RemoveDeviceDialog.css';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import Translate from '../Translate/Translate.react';
 
 class RemoveDeviceDialog extends Component {
@@ -18,17 +17,24 @@ class RemoveDeviceDialog extends Component {
   }
 
   componentDidMount = () => {
-    let fieldWidth = $('#returnDiv').width();
-    $('#returnDiv')
-      .parent()
-      .css({ padding: '0px', color: 'red' });
-    $('#removeDeviceButton').css({
+    let field = this.returnDiv;
+    let removeDeviceBtn = this.removeDeviceButton;
+    let deviceName = this.deviceName;
+    let fieldWidth = field.style.width;
+    const fieldStyle = {
+      padding: '0px',
+      color: '#900',
+    };
+    const removeDeviceBtnStyle = {
       width: fieldWidth + 6,
       transition: 'none',
-    });
-    $('#devicename')
-      .parent()
-      .css({ width: fieldWidth - 16 });
+    };
+    const deviceNameStyle = {
+      width: fieldWidth - 16,
+    };
+    field.style = fieldStyle;
+    removeDeviceBtn.style = removeDeviceBtnStyle;
+    deviceName.style = deviceNameStyle;
   };
   // Handle changes in device name
   handleChange = event => {
@@ -59,7 +65,11 @@ class RemoveDeviceDialog extends Component {
     };
 
     return (
-      <div className="removeDeviceForm" id="returnDiv">
+      <div
+        className="removeDeviceForm"
+        id="returnDiv"
+        ref={el => (this.returnDiv = el)}
+      >
         <Paper zDepth={0} style={styles}>
           <div
             style={{
@@ -86,7 +96,7 @@ class RemoveDeviceDialog extends Component {
               lineHeight: '1.5',
             }}
           >
-            Unexpected bad things will happen if you don’t read this!
+            Unexpected bad things will happen if you don't read this!
           </div>
           <div
             style={{
@@ -108,7 +118,10 @@ class RemoveDeviceDialog extends Component {
             <p style={{ marginTop: '0px', marginBottom: '10px' }}>
               Please type in the name of the device to confirm.
             </p>
-            <div style={{ textAlign: 'center' }}>
+            <div
+              style={{ textAlign: 'center' }}
+              ref={el => (this.deviceName = el)}
+            >
               <TextField
                 id="devicename"
                 name="devicename"
@@ -147,6 +160,7 @@ class RemoveDeviceDialog extends Component {
                   verticalAlign: 'middle',
                 }}
                 disabled={!this.state.correctName}
+                ref={el => (this.removeDeviceButton = el)}
               />
             </div>
           </div>
