@@ -7,4 +7,5 @@ export default _.mapKeys([
   'SETTINGS_REMOVE_USER_DEVICE',
   'SETTINGS_ADD_USER_DEVICE',
   'APP_GET_CHANGE_PASSWORD',
+  'APP_GET_SIGNUP',
 ]);
