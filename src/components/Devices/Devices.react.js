@@ -29,6 +29,7 @@ const Devices = props => {
           </div>
         </div>
       </div>
+      <div>
         <div className="device_section">
           <div className="device_description">
             <div className="heading">Android devices</div>
@@ -65,28 +66,27 @@ const Devices = props => {
             <img src={susiiOSGif} alt="susi-iOS" className="susi-test" />
           </div>
         </div>
-      </div>
-      <div className="device_section bottom_section">
-        <div className="device_description">
-          <div className="heading">Desktops and Laptops</div>
-          <p className="text_description">
-            You can use SUSI.AI Web Chat on your desktop and laptop. Start
-            Chatting with SUSI.AI
-            <Link
-              style={{ textDecoration: 'none' }}
-              target="_blank"
-              to={urls.CHAT_URL}
-            >
-              {' '}
-              here
-            </Link>
-          </p>
-        </div>
-        <div className="img-container">
-          <img src={susiDesktop} alt="susi-webchat" className="susi-desktop" />
-        </div>
-      </div>
-
+       <div className="device_section bottom_section">
+          <div className="device_description">
+            <div className="heading">Desktops and Laptops</div>
+            <p className="text_description">
+              You can use SUSI.AI Web Chat on your desktop and laptop. Start
+              Chatting with SUSI.AI
+              <Link
+                style={{ textDecoration: 'none' }}
+                target="_blank"
+                to={urls.CHAT_URL}
+              >
+                {' '}
+                here
+              </Link>
+            </p>
+          </div>
+          <div className="img-container">
+            <img src={susiDesktop} alt="susi-webchat" className="susi-desktop" />
+          </div>
+       </div>
+     </div>
       <Footer />
     </div>
   );
