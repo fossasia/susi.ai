@@ -5,27 +5,27 @@ import * as ChatDataServer from '../ChatDataServer';
   The createMessage function receives the client's message and calls for
   a SUSI Message creation using Actions.createSUSIMessage()
 */
-export function createMessage(message) {
+export const createMessage = message => {
   ChatDataServer.postMessage(message, createdMessage => {
     Actions.receiveCreatedMessage(createdMessage, message.id);
     Actions.createSUSIMessage(createdMessage, message.threadID, message.voice);
   });
-}
+};
 
-export function getAllMessages() {
+export const getAllMessages = () => {
   ChatDataServer.getMessages(messages => {
     Actions.receiveAll(messages);
   });
-}
+};
 
-export function getHistory() {
+export const getHistory = () => {
   Actions.getHistory();
-}
+};
 
-export function getLocation() {
+export const getLocation = () => {
   Actions.getLocation();
-}
+};
 
-export function getSettings() {
+export const getSettings = () => {
   Actions.getSettings();
-}
+};
