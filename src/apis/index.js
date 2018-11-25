@@ -17,6 +17,22 @@ export function getLogin(payload) {
   return ajax.get(url, { login: email, password, type: 'access-token' });
 }
 
+export function getSignup(payload) {
+  const { email, password } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/signup.json`;
+  return ajax.get(url, { signup: email, password });
+}
+
+export function getChangePassword(payload) {
+  const { email, password, newPassword } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/changepassword.json`;
+  return ajax.get(url, {
+    changepassword: email,
+    password,
+    newpassword: newPassword,
+  });
+}
+
 export function getUserSettings() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserSettings.json`;
   return ajax.get(url, {});
@@ -32,14 +48,4 @@ export function addUserDevice(payload) {
   const { macId, name, room, latitude, longitude } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/addNewDevice.json`;
   return ajax.get(url, { macid: macId, name, room, latitude, longitude });
-}
-
-export function getChangePassword(payload) {
-  const { email, password, newPassword } = payload;
-  const url = `${API_URL}/${AUTH_API_PREFIX}/changepassword.json`;
-  return ajax.get(url, {
-    changepassword: email,
-    password,
-    newpassword: newPassword,
-  });
 }
