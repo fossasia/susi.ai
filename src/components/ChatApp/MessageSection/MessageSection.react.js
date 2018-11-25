@@ -850,6 +850,9 @@ class MessageSection extends Component {
     let ul = this.scrollarea;
     if (ul) {
       ul.scrollTop(ul.getScrollHeight());
+      this.setState({
+        showScrollTop: true,
+      });
     }
   };
 
@@ -878,9 +881,9 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
-    if (markedIDs && ul && newIndex === indexLimit) {
+    if (markedIDs && ul && newIndex === 0) {
       let currState = this.state.searchState;
-      newIndex = 0;
+      newIndex = indexLimit;
       currState.scrollIndex = newIndex;
       currState.searchIndex = 1;
     }
