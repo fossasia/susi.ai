@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import de from './de.json';
@@ -9,28 +9,13 @@ import hi from './hi.json';
 import fr from './fr.json';
 import gr from './gr.json';
 import ru from './ru.json';
-import jp from './jp.json';
 import nl from './nl.json';
 import pb from './pb.json';
 import np from './np.json';
 import ge from './ge.json';
 
-class Translate extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: this.props.text,
-      defaultPrefLanguage: UserPreferencesStore.getPrefLang(),
-    };
-  }
-
-  changeLanguage = text => {
-    this.setState({
-      text: text,
-    });
-  };
-
-  lang = {
+const Translate = props => {
+  const lang = {
     'de-DE': de,
     'am-AM': am,
     'es-SP': es,
@@ -45,31 +30,21 @@ class Translate extends Component {
     'ge-GE': ge,
   };
 
-  componentDidMount() {
-    let arr,
-      file,
-      defaultPrefLanguage = this.state.defaultPrefLanguage;
-    let text = this.state.text;
-    if (defaultPrefLanguage !== 'en-US') {
-      if (this.lang.hasOwnProperty(defaultPrefLanguage)) {
-        arr = Object.keys(this.lang[defaultPrefLanguage]);
-        file = this.lang[defaultPrefLanguage];
-      } else {
-        arr = Object.keys(jp);
-        file = jp;
-      }
-      arr.forEach((val, index) => {
-        if (arr.index === text) {
-          this.changeLanguage(file.arr.index);
-        }
-      });
-    }
-  }
+  const getTranslation = text => {
+    const defaultPrefLanguage = UserPreferencesStore.getPrefLang();
+    let translatedText;
 
-  render() {
-    return <span>{this.state.text}</span>;
-  }
-}
+    if (defaultPrefLanguage !== 'en-US') {
+      if (lang.hasOwnProperty(defaultPrefLanguage)) {
+        translatedText = lang[defaultPrefLanguage][text];
+      }
+    }
+
+    return !translatedText ? text : translatedText;
+  };
+
+  return <span> {getTranslation(props.text)} </span>;
+};
 
 Translate.propTypes = {
   text: PropTypes.string,
