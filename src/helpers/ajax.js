@@ -2,6 +2,9 @@ import axios from 'axios';
 import _ from 'lodash';
 import queryString from 'query-string';
 import { camelizeKeys, toFormData } from '../utils';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const obj = {};
 
@@ -14,6 +17,14 @@ const obj = {};
       crossDomain: true,
       ...settings,
     };
+
+    if (cookies.get('loggedIn')) {
+      payload = {
+        // eslint-disable-next-line camelcase
+        access_token: cookies.get('loggedIn'),
+        ...payload,
+      };
+    }
 
     return new Promise(function(resolve, reject) {
       let methodArgs = [];

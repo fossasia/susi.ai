@@ -1,330 +1,310 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import $ from 'jquery';
-import './ChangePassword.css';
-import PasswordField from 'material-ui-password-field';
-import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import PasswordField from 'material-ui-password-field';
+import Dialog from 'material-ui/Dialog';
+import CircularProgress from 'material-ui/CircularProgress';
 import Close from 'material-ui/svg-icons/navigation/close';
+import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
+import actions from '../../../redux/actions/app';
+import './ChangePassword.css';
 
 const cookies = new Cookies();
 
-export default class ChangePassword extends Component {
+const styles = {
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+  fieldStyle: {
+    height: '35px',
+    borderRadius: 4,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '0px 12px',
+    width: '125%',
+  },
+  labelStyle: {
+    width: '30%',
+    minWidth: '150px',
+    float: 'left',
+    marginTop: '12px',
+    color:
+      UserPreferencesStore.getTheme() === 'light' ||
+      UserPreferencesStore.getTheme() === 'custom'
+        ? 'black'
+        : 'white',
+  },
+  submitBtnStyle: {
+    float: 'left',
+    width: '300px',
+    margin: '0 auto',
+    marginBottom: '50px',
+  },
+  inputStyle: {
+    height: '35px',
+    marginBottom: '10px',
+  },
+  containerStyles: {
+    width: '100%',
+    textAlign: 'left',
+    padding: '10px',
+    paddingTop: '0px',
+  },
+};
+
+class ChangePassword extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+    settings: PropTypes.object,
+    actions: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
-      passwordError: true,
-      newPasswordError: true,
-      newPasswordConfirmError: true,
-      newPasswordValue: '',
-      passwordValue: '',
-      confirmNewPasswordValue: '',
+      password: '',
+      passwordErrorMessage: '',
+      newPassword: '',
+      newPasswordErrorMessage: '',
       newPasswordStrength: '',
       newPasswordScore: -1,
-      msg: '',
+      confirmNewPassword: '',
+      newPasswordConfirmErrorMessage: '',
+      dialogMessage: '',
       success: false,
-      validForm: false,
-      msgOpen: false,
-      showForgotPwd: false,
+      showDialog: false,
+      showForgotPasswordDialog: false,
+      loading: false,
     };
-
-    this.emailErrorMessage = '';
-    this.passwordErrorMessage = '';
-    this.newPasswordErrorMessage = '';
-    this.newPasswordConfirmErrorMessage = '';
   }
 
-  // Close the Change Password dialog on success
-  handleClose = () => {
-    let state = this.state;
-    if (state.success) {
+  handleCloseResetPassword = () => {
+    const { success } = this.state;
+    if (success) {
       this.props.history.push('/logout');
     } else {
       this.setState({
-        passwordError: true,
-        newPasswordError: true,
-        newPasswordConfirmError: true,
-        newPasswordValue: '',
-        passwordValue: '',
-        confirmNewPasswordValue: '',
+        password: '',
+        passwordErrorMessage: '',
+        newPassword: '',
+        newPasswordErrorMessage: '',
         newPasswordStrength: '',
         newPasswordScore: -1,
-        msg: '',
+        confirmNewPassword: '',
+        newPasswordConfirmErrorMessage: '',
+        dialogMessage: '',
         success: false,
-        validForm: false,
-        msgOpen: false,
+        showDialog: false,
+        showForgotPasswordDialog: false,
+        loading: false,
       });
     }
   };
 
-  handleClose = event => {
+  handleCloseForgotPassword = event => {
     this.setState({
-      showDialog: false,
-      showForgotPwd: false,
+      showForgotPasswordDialog: false,
     });
   };
-  handleForgotPwd = event => {
+
+  onForgotPassword = event => {
     event.preventDefault();
     this.setState({
-      showForgotPwd: true,
+      showForgotPasswordDialog: true,
     });
   };
 
   // Handle changes to current, new and confirm new passwords
-  handleChange = event => {
-    let password;
-    let newPassword;
-    let confirmNewPassword;
-    let state = this.state;
-
-    if (event.target.name === 'password') {
-      password = event.target.value;
-      state.passwordValue = password;
-      state.passwordError = !password;
-    } else if (event.target.name === 'newPassword') {
-      newPassword = event.target.value;
-      let validNewPassword = newPassword.length >= 6;
-      state.newPasswordValue = newPassword;
-      state.newPasswordError = !(newPassword && validNewPassword);
-      if (validNewPassword) {
-        let result = zxcvbn(newPassword);
-        state.newPasswordScore = result.score;
-        let strength = [
-          <Translate key={1} text="Too Insecure" />,
-          <Translate key={2} text="Bad" />,
-          <Translate key={3} text="Weak" />,
-          <Translate key={4} text="Good" />,
-          <Translate key={5} text="Strong" />,
-        ];
-        state.newPasswordStrength = strength[result.score];
-      } else {
-        state.newPasswordStrength = '';
-        state.newPasswordScore = -1;
+  handleTextFieldChange = event => {
+    switch (event.target.name) {
+      case 'password': {
+        const password = event.target.value.trim();
+        const passwordError = !(password && password.length >= 6);
+        this.setState({
+          password,
+          passwordErrorMessage: passwordError ? (
+            <Translate text="Minimum 6 characters required" />
+          ) : (
+            ''
+          ),
+        });
+        break;
       }
-    } else if (event.target.name === 'confirmNewPassword') {
-      newPassword = this.state.newPasswordValue;
-      confirmNewPassword = event.target.value;
-      let validNewPassword = confirmNewPassword === newPassword;
-      state.confirmNewPasswordValue = confirmNewPassword;
-      state.newPasswordConfirmError = !(validNewPassword && confirmNewPassword);
-    }
+      case 'newPassword': {
+        const newPassword = event.target.value.trim();
+        const newPasswordError = !(newPassword && newPassword.length >= 6);
+        const newPasswordScore = !newPasswordError
+          ? zxcvbn(newPassword).score
+          : -1;
+        const newPasswordStrength = !newPasswordError
+          ? [
+              <Translate key={1} text="Too Insecure" />,
+              <Translate key={2} text="Bad" />,
+              <Translate key={3} text="Weak" />,
+              <Translate key={4} text="Good" />,
+              <Translate key={5} text="Strong" />,
+            ][newPasswordScore]
+          : '';
 
-    if (
-      !this.state.passwordError &&
-      !this.state.newPasswordError &&
-      !this.state.newPasswordConfirmError
-    ) {
-      state.validForm = true;
-    } else {
-      state.validForm = false;
-    }
-
-    this.setState(state);
-
-    if (this.state.passwordError && event.target.name === 'password') {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = (
-        <Translate text="Password field cannot be blank" />
-      );
-      this.newPasswordErrorMessage = '';
-      this.newPasswordConfirmErrorMessage = '';
-    } else if (
-      this.state.newPasswordError &&
-      event.target.name === 'newPassword'
-    ) {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = '';
-      this.newPasswordErrorMessage = (
-        <Translate text="Minimum 6 characters required" />
-      );
-      this.newPasswordConfirmErrorMessage = '';
-    } else if (
-      this.state.newPasswordConfirmError &&
-      event.target.name === 'confirmNewPassword'
-    ) {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = '';
-      this.newPasswordErrorMessage = '';
-      this.newPasswordConfirmErrorMessage = (
-        <Translate text="password don't match" />
-      );
-    } else {
-      this.emailErrorMessage = '';
-      this.passwordErrorMessage = '';
-      this.newPasswordErrorMessage = '';
-      this.newPasswordConfirmErrorMessage = '';
-    }
-
-    if (
-      this.state.passwordError ||
-      this.state.newPasswordError ||
-      this.state.newPasswordConfirmError
-    ) {
-      this.setState({ validForm: false });
-    } else {
-      this.setState({ validForm: true });
+        this.setState({
+          newPassword,
+          newPasswordErrorMessage: newPasswordError ? (
+            <Translate text="Minimum 6 characters required" />
+          ) : (
+            ''
+          ),
+          newPasswordScore,
+          newPasswordStrength,
+        });
+        break;
+      }
+      case 'confirmNewPassword': {
+        const { newPassword } = this.state;
+        const confirmNewPassword = event.target.value.trim();
+        const newPasswordConfirmError = !(
+          confirmNewPassword && confirmNewPassword === newPassword
+        );
+        this.setState({
+          confirmNewPassword,
+          newPasswordConfirmErrorMessage: newPasswordConfirmError ? (
+            <Translate text="Password does not match" />
+          ) : (
+            ''
+          ),
+        });
+        break;
+      }
+      default:
+        break;
     }
   };
 
-  // Submit the Change Password Form
-  handleSubmit = event => {
+  changePassword = event => {
     event.preventDefault();
+    const {
+      password,
+      newPassword,
+      passwordErrorMessage,
+      newPasswordErrorMessage,
+      newPasswordConfirmErrorMessage,
+    } = this.state;
+    const { actions } = this.props;
 
-    let defaults = UserPreferencesStore.getPreferences();
-    let defaultServerURL = defaults.StandardServer;
-    let BASE_URL = '';
+    const email = cookies.get('emailId') ? cookies.get('emailId') : '';
+
     if (
-      cookies.get('serverUrl') === defaultServerURL ||
-      cookies.get('serverUrl') === null ||
-      cookies.get('serverUrl') === undefined
+      !(
+        passwordErrorMessage ||
+        newPasswordErrorMessage ||
+        newPasswordConfirmErrorMessage
+      )
     ) {
-      BASE_URL = defaultServerURL;
-    } else {
-      BASE_URL = cookies.get('serverUrl');
-    }
-
-    let email = '';
-    if (cookies.get('emailId')) {
-      email = cookies.get('emailId');
-    }
-    let changePasswordEndPoint =
-      '/aaa/changepassword.json?' +
-      'changepassword=' +
-      email +
-      '&password=' +
-      encodeURIComponent(this.state.passwordValue) +
-      '&newpassword=' +
-      encodeURIComponent(this.state.newPasswordValue) +
-      '&access_token=' +
-      cookies.get('loggedIn');
-    changePasswordEndPoint = BASE_URL + changePasswordEndPoint;
-    if (!this.state.passwordError && !this.state.newPasswordConfirmError) {
-      $.ajax({
-        url: changePasswordEndPoint,
-        dataType: 'jsonp',
-        crossDomain: true,
-        timeout: 3000,
-        async: false,
-        headers: {
-          Accept: 'application/json, application/xml, text/play, text/html',
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        },
-        statusCode: {
-          422: function() {
-            let msg =
-              'Invalid Credentials. Please check your Email or Password.';
-            let state = this.state;
-            state.msg = msg;
-            this.setState(state);
-          },
-        },
-        success: function(response) {
-          let state = this.state;
-          let msg;
-          if (response.accepted) {
-            msg = response.message + '\n Please login again.';
-            state.success = true;
-          } else {
-            msg = response.message + '\n Please Try Again.';
-            state.success = false;
-          }
-          state.msgOpen = true;
-          state.msg = msg;
-          this.setState(state);
-        }.bind(this),
-        error: function(jqXHR, textStatus, errorThrown) {
-          let msg = 'Failed. Try Again';
-          if (status === 'timeout') {
-            msg = 'Please check your internet connection';
-          }
-          let state = this.state;
-          state.msg = msg;
-          state.msgOpen = true;
-          this.setState(state);
-        }.bind(this),
+      this.setState({
+        loading: true,
       });
+      actions
+        .getChangePassword({
+          email,
+          password: encodeURIComponent(password),
+          newPassword: encodeURIComponent(newPassword),
+        })
+        .then(({ payload }) => {
+          let dialogMessage;
+          let success;
+          if (payload.accepted) {
+            dialogMessage = `${payload.message}\n Please login again.`;
+            success = true;
+          } else {
+            dialogMessage = `${payload.message}\n Please Try Again.`;
+            success = false;
+          }
+          this.setState({
+            dialogMessage,
+            success,
+            showDialog: true,
+            loading: false,
+          });
+        })
+        .catch(error => {
+          this.setState({
+            dialogMessage: 'Failed. Try Again',
+            showDialog: true,
+            loading: false,
+          });
+        });
     }
   };
 
   render() {
-    const themeBackgroundColor =
-      (this.props.settings && this.props.settings.theme) === 'dark'
-        ? '#19324c'
-        : '#fff';
-    const themeForegroundColor =
-      (this.props.settings && this.props.settings.theme) === 'dark'
-        ? '#fff'
-        : '#272727';
+    const {
+      password,
+      passwordErrorMessage,
+      newPassword,
+      newPasswordErrorMessage,
+      confirmNewPassword,
+      newPasswordConfirmErrorMessage,
+      newPasswordScore,
+      newPasswordStrength,
+      showForgotPasswordDialog,
+      dialogMessage,
+      showDialog,
+      loading,
+    } = this.state;
 
-    const styles = {
-      width: '100%',
-      textAlign: 'left',
-      padding: '10px',
-      paddingTop: '0px',
-      backgroundColor: themeBackgroundColor,
-    };
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-    const fieldStyle = {
-      height: '35px',
-      borderRadius: 4,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      padding: '0px 12px',
-      width: '125%',
-    };
-    const labelStyle = {
-      width: '30%',
-      minWidth: '150px',
-      float: 'left',
-      marginTop: '12px',
-      color:
-        UserPreferencesStore.getTheme() === 'light' ||
-        UserPreferencesStore.getTheme() === 'custom'
-          ? 'black'
-          : 'white',
-    };
-    const submitBtnStyle = {
-      float: 'left',
-      width: '300px',
-      margin: '0 auto',
-      marginBottom: '50px',
-    };
-    const inputStyle = {
-      color: themeForegroundColor,
-      height: '35px',
-      marginBottom: '10px',
-    };
-    const PasswordClass = [`is-strength-${this.state.newPasswordScore}`];
+    const { settings } = this.props;
+
+    const isValid =
+      !passwordErrorMessage &&
+      !newPasswordErrorMessage &&
+      !newPasswordConfirmErrorMessage &&
+      password &&
+      newPassword &&
+      confirmNewPassword;
+
+    const themeBackgroundColor =
+      (settings && settings.theme) === 'dark' ? '#19324c' : '#fff';
+    const themeForegroundColor =
+      (settings && settings.theme) === 'dark' ? '#fff' : '#272727';
+
+    const PasswordClass = [`is-strength-${newPasswordScore}`];
 
     return (
       <div className="changePasswordForm">
-        <Paper zDepth={0} style={styles}>
-          <form onSubmit={this.handleSubmit}>
-            <div style={labelStyle}>Current Password</div>
+        <Paper
+          zDepth={0}
+          style={{
+            ...styles.containerStyles,
+            backgroundColor: themeBackgroundColor,
+          }}
+        >
+          <form onSubmit={this.changePassword}>
+            <div style={styles.labelStyle}>Current Password</div>
             <div>
               <PasswordField
                 name="password"
-                style={fieldStyle}
-                value={this.state.passwordValue}
-                onChange={this.handleChange}
-                inputStyle={inputStyle}
-                errorText={this.passwordErrorMessage}
+                style={styles.fieldStyle}
+                value={password}
+                onChange={this.handleTextFieldChange}
+                inputStyle={{
+                  ...styles.inputStyle,
+                  color: themeForegroundColor,
+                }}
+                errorText={passwordErrorMessage}
                 underlineStyle={{ display: 'none' }}
                 disableButton={true}
                 visibilityButtonStyle={{ display: 'none' }}
@@ -332,53 +312,62 @@ export default class ChangePassword extends Component {
               />
             </div>
             <br />
-            <div style={labelStyle}>New Password</div>
+            <div style={styles.labelStyle}>New Password</div>
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
                 placeholder="Must be at least 6 characters"
-                style={fieldStyle}
-                value={this.state.newPasswordValue}
-                onChange={this.handleChange}
-                inputStyle={inputStyle}
-                errorText={this.newPasswordErrorMessage}
+                style={styles.fieldStyle}
+                value={newPassword}
+                onChange={this.handleTextFieldChange}
+                inputStyle={{
+                  ...styles.inputStyle,
+                  color: themeForegroundColor,
+                }}
+                errorText={newPasswordErrorMessage}
                 underlineStyle={{ display: 'none' }}
                 disableButton={true}
                 visibilityButtonStyle={{ display: 'none' }}
                 visibilityIconStyle={{ display: 'none' }}
               />
               <div className="ReactPasswordStrength-strength-bar" />
-              <div>{this.state.newPasswordStrength}</div>
+              <div>{newPasswordStrength}</div>
             </div>
             <br />
-            <div style={labelStyle}>Verify Password</div>
+            <div style={styles.labelStyle}>Verify Password</div>
             <div>
               <PasswordField
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
-                style={fieldStyle}
-                value={this.state.confirmNewPasswordValue}
-                onChange={this.handleChange}
-                inputStyle={inputStyle}
-                errorText={this.newPasswordConfirmErrorMessage}
+                style={styles.fieldStyle}
+                value={confirmNewPassword}
+                onChange={this.handleTextFieldChange}
+                inputStyle={{
+                  ...styles.inputStyle,
+                  color: themeForegroundColor,
+                }}
+                errorText={newPasswordConfirmErrorMessage}
                 underlineStyle={{ display: 'none' }}
                 disableButton={true}
                 visibilityButtonStyle={{ display: 'none' }}
                 visibilityIconStyle={{ display: 'none' }}
               />
             </div>
-            <div style={submitBtnStyle}>
+            <div style={styles.submitBtnStyle}>
               <div className="forgot">
-                <a onClick={this.handleForgotPwd}>Forgot your password?</a>
+                <a onClick={this.onForgotPassword}>Forgot your password?</a>
               </div>
               <div>
                 <br />
                 <RaisedButton
-                  label={<Translate text="Save Changes" />}
+                  label={
+                    !loading ? <Translate text="Save Changes" /> : undefined
+                  }
                   type="submit"
-                  disabled={!this.state.validForm}
+                  disabled={!isValid || loading}
                   backgroundColor="#4285f4"
                   labelColor="#fff"
+                  icon={loading ? <CircularProgress size={24} /> : undefined}
                 />
               </div>
             </div>
@@ -389,23 +378,26 @@ export default class ChangePassword extends Component {
         <div className="ModalDiv" style={{ width: '50%' }}>
           <Dialog
             modal={false}
-            open={this.state.showForgotPwd}
-            onRequestClose={this.handleClose}
+            open={showForgotPasswordDialog}
+            onRequestClose={this.handleCloseForgotPassword}
             className="ModalDiv"
           >
-            <ForgotPassword closeModal={this.handleClose} />
+            <ForgotPassword closeModal={this.handleCloseForgotPassword} />
           </Dialog>
         </div>
 
-        {this.state.msg && (
+        {dialogMessage && (
           <div>
             <Dialog
               modal={false}
-              open={this.state.msgOpen}
-              onRequestClose={this.handleClose}
+              open={showDialog}
+              onRequestClose={this.handleCloseResetPassword}
             >
-              <Translate text={this.state.msg} />
-              <Close style={closingStyle} onTouchTap={this.handleClose} />
+              <Translate text={dialogMessage} />
+              <Close
+                style={styles.closingStyle}
+                onTouchTap={this.handleCloseResetPassword}
+              />
             </Dialog>
           </div>
         )}
@@ -414,7 +406,13 @@ export default class ChangePassword extends Component {
   }
 }
 
-ChangePassword.propTypes = {
-  history: PropTypes.object,
-  settings: PropTypes.object,
-};
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ChangePassword);
