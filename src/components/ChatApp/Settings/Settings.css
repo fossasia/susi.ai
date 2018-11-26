@@ -26,13 +26,13 @@
 
 .settings-container-light{
   width: 100%;
-  height: 100vh;
+  height: 117vh;
   background: rgb(242, 242, 242);
 }
 
 .settings-container-dark{
   width: 100%;
-  height: 100vh;
+  height: 117vh;
   background: rgb(0,0,18);
 }
 

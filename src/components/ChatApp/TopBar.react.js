@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
@@ -228,7 +229,7 @@ class TopBar extends Component {
   }
 
   render() {
-    var backgroundCol = this.props.header;
+    const backgroundCol = this.props.header;
 
     let appBarClass = 'app-bar';
     if (this.props.search) {
@@ -243,7 +244,10 @@ class TopBar extends Component {
     const isLoggedIn = !!cookies.get('loggedIn');
     let avatarProps = null;
     if (isLoggedIn) {
-      avatarProps = getAvatarProps(cookies.get('emailId'));
+      avatarProps = getAvatarProps(
+        cookies.get('emailId'),
+        cookies.get('loggedIn'),
+      );
     }
 
     return (
@@ -329,4 +333,13 @@ TopBar.propTypes = {
   header: PropTypes.string,
 };
 
-export default TopBar;
+function mapStateToProps({ app }) {
+  return {
+    app,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(TopBar);

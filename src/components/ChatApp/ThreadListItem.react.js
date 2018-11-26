@@ -1,38 +1,38 @@
 import * as Actions from '../../actions/';
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-class ThreadListItem extends Component {
-  render() {
-    let thread = '';
-    let lastMessage = '';
-    if (this.props.thread) {
-      thread = this.props.thread;
-      lastMessage = thread.lastMessage;
+const ThreadListItem = props => {
+  const _onClick = () => {
+    if (props.thread) {
+      Actions.clickThread(props.thread.id);
     }
+  };
 
-    return (
-      <li
-        className={classNames({
-          'thread-list-item': true,
-          active: thread.id === this.props.currentThreadID,
-        })}
-        onClick={this._onClick}
-      >
-        <h5 className="thread-name">{thread.name}</h5>
-        <div className="thread-time">
-          {lastMessage ? lastMessage.date.toLocaleTimeString() : null}
-        </div>
-        <div className="thread-last-message">{lastMessage.text}</div>
-      </li>
-    );
+  let thread = '';
+  let lastMessage = '';
+  if (props.thread) {
+    thread = props.thread;
+    lastMessage = thread.lastMessage;
   }
 
-  _onClick = () => {
-    Actions.clickThread(this.props.thread.id);
-  };
-}
+  return (
+    <li
+      className={classNames({
+        'thread-list-item': true,
+        active: thread.id === props.currentThreadID,
+      })}
+      onClick={_onClick()}
+    >
+      <h5 className="thread-name">{thread.name}</h5>
+      <div className="thread-time">
+        {lastMessage ? lastMessage.date.toLocaleTimeString() : null}
+      </div>
+      <div className="thread-last-message">{lastMessage.text}</div>
+    </li>
+  );
+};
 
 ThreadListItem.propTypes = {
   thread: PropTypes.object,
