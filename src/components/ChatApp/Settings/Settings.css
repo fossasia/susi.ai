@@ -73,7 +73,7 @@
 }
 
 .image-div{
-    margin-top:-40px;	
+    margin-top:-40px;
 }
 
 .colorPicker{
@@ -108,7 +108,7 @@
 }
 
 .setting-item{
-  width: 100%;
+  width: 322px;
 }
 
 .Link a {
@@ -206,7 +206,7 @@
 
   .setting-item{
   width: 100%;
-}
+  }
 }
 
 @media screen and (max-width: 500px) {
