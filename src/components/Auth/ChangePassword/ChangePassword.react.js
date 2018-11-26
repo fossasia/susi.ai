@@ -134,7 +134,11 @@ class ChangePassword extends Component {
     switch (event.target.name) {
       case 'password': {
         const password = event.target.value.trim();
-        const passwordError = !(password && password.length >= 6 && password.length <= 64);
+        const passwordError = !(
+          password &&
+          password.length >= 6 &&
+          password.length <= 64
+        );
         this.setState({
           password,
           passwordErrorMessage: passwordError ? (
@@ -147,7 +151,11 @@ class ChangePassword extends Component {
       }
       case 'newPassword': {
         const newPassword = event.target.value.trim();
-        const newPasswordError = !(newPassword && newPassword.length >= 6 && newPassword.length <= 64);
+        const newPasswordError = !(
+          newPassword &&
+          newPassword.length >= 6 &&
+          newPassword.length <= 64
+        );
         const newPasswordScore = !newPasswordError
           ? zxcvbn(newPassword).score
           : -1;
