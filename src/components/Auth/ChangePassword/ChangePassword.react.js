@@ -134,11 +134,15 @@ class ChangePassword extends Component {
     switch (event.target.name) {
       case 'password': {
         const password = event.target.value.trim();
-        const passwordError = !(password && password.length >= 6);
+        const passwordError = !(
+          password &&
+          password.length >= 6 &&
+          password.length <= 64
+        );
         this.setState({
           password,
           passwordErrorMessage: passwordError ? (
-            <Translate text="Minimum 6 characters required" />
+            <Translate text="Must be between 6 to 64 characters" />
           ) : (
             ''
           ),
@@ -147,7 +151,11 @@ class ChangePassword extends Component {
       }
       case 'newPassword': {
         const newPassword = event.target.value.trim();
-        const newPasswordError = !(newPassword && newPassword.length >= 6);
+        const newPasswordError = !(
+          newPassword &&
+          newPassword.length >= 6 &&
+          newPassword.length <= 64
+        );
         const newPasswordScore = !newPasswordError
           ? zxcvbn(newPassword).score
           : -1;
@@ -164,7 +172,7 @@ class ChangePassword extends Component {
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
-            <Translate text="Minimum 6 characters required" />
+            <Translate text="Must be between 6 to 64 characters" />
           ) : (
             ''
           ),
@@ -316,7 +324,7 @@ class ChangePassword extends Component {
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
-                placeholder="Must be at least 6 characters"
+                placeholder="Must be between 6 to 64 characters"
                 style={styles.fieldStyle}
                 value={newPassword}
                 onChange={this.handleTextFieldChange}
