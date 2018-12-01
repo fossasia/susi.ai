@@ -26,13 +26,13 @@
 
 .settings-container-light{
   width: 100%;
-  height: 100vh;
+  height: 117vh;
   background: rgb(242, 242, 242);
 }
 
 .settings-container-dark{
   width: 100%;
-  height: 100vh;
+  height: 117vh;
   background: rgb(0,0,18);
 }
 
@@ -73,7 +73,7 @@
 }
 
 .image-div{
-    margin-top:-40px;	
+    margin-top:-40px;
 }
 
 .colorPicker{
@@ -108,7 +108,7 @@
 }
 
 .setting-item{
-  width: 100%;
+  width: 322px;
 }
 
 .Link a {
@@ -206,7 +206,7 @@
 
   .setting-item{
   width: 100%;
-}
+  }
 }
 
 @media screen and (max-width: 500px) {

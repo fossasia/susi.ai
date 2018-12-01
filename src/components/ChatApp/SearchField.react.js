@@ -16,6 +16,7 @@ const additionalStyles = {
 };
 
 const ESCAPE_KEY = 27;
+const F_KEY = 70;
 
 class ExpandingSearchField extends Component {
   constructor(props) {
@@ -30,10 +31,25 @@ class ExpandingSearchField extends Component {
     }
   };
 
+  toggleSearch = () => {
+    this.setState({ isOpen: !this.props.open });
+    if (!this.props.open) {
+      this.props.activateSearch();
+    } else {
+      this.props.exitSearch();
+    }
+  };
+
   handleKeyDown = event => {
     switch (event.keyCode) {
       case ESCAPE_KEY:
         this.closeSearch();
+        break;
+      case F_KEY:
+        if (event.ctrlKey || event.metaKey) {
+          this.toggleSearch();
+          event.preventDefault();
+        }
         break;
       default:
         break;
@@ -41,12 +57,7 @@ class ExpandingSearchField extends Component {
   };
 
   onClick = () => {
-    this.setState({ isOpen: !this.props.open });
-    if (!this.props.open) {
-      this.props.activateSearch();
-    } else {
-      this.props.exitSearch();
-    }
+    this.toggleSearch();
   };
 
   onChange = event => {

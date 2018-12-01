@@ -53,17 +53,17 @@ const allCategories = [
 const arrDiff = (a1, a2) => {
   let a = [],
     diff = [];
-  for (var f = 0; f < a1.length; f++) {
+  for (let f = 0; f < a1.length; f++) {
     a[a1[f]] = true;
   }
-  for (var z = 0; z < a2.length; z++) {
+  for (let z = 0; z < a2.length; z++) {
     if (a[a2[z]]) {
       delete a[a2[z]];
     } else {
       a[a2[z]] = true;
     }
   }
-  for (var k in a) {
+  for (let k in a) {
     diff.push(k);
   }
   return diff;
@@ -110,12 +110,12 @@ class Blog extends Component {
     );
   }
 
-  scrollStep() {
+  scrollStep = () => {
     if (window.pageYOffset === 0) {
       clearInterval(this.state.intervalId);
     }
     window.scroll(0, window.pageYOffset - 1000);
-  }
+  };
   //  Function to scroll to top of page
   scrollToTop() {
     const intervalId = setInterval(this.scrollStep, 16.66);
