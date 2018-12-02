@@ -15,6 +15,7 @@ import PasswordField from 'material-ui-password-field';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
+import { isEmail } from '../../../utils';
 
 // Static assets
 import './Login.css';
@@ -78,13 +79,12 @@ class Login extends Component {
     const { actions } = this.props;
     let email = this.state.email.trim();
     const password = this.state.password;
-    const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
     if (!email || !password) {
       return;
     }
 
-    if (email && validEmail) {
+    if (isEmail(email)) {
       this.setState({ loading: true });
       actions
         .getLogin({ email, password: encodeURIComponent(password) })
@@ -137,10 +137,7 @@ class Login extends Component {
 
     if (event.target.name === 'email') {
       email = event.target.value.trim();
-      const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        email,
-      );
-      if (!(email && validEmail)) {
+      if (!isEmail(email)) {
         emailErrorMessage = 'Enter a valid Email Address';
       } else {
         emailErrorMessage = '';
