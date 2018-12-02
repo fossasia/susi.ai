@@ -12,6 +12,7 @@ import ru from './ru.json';
 import nl from './nl.json';
 import pb from './pb.json';
 import np from './np.json';
+import ge from './ge.json';
 
 const Translate = props => {
   const lang = {
@@ -26,6 +27,7 @@ const Translate = props => {
     'ru-RU': ru,
     'gr-GR': gr,
     'nl-NL': nl,
+    'ge-GE': ge,
   };
 
   const getTranslation = text => {

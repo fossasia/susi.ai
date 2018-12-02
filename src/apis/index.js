@@ -49,3 +49,9 @@ export function addUserDevice(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/addNewDevice.json`;
   return ajax.get(url, { macid: macId, name, room, latitude, longitude });
 }
+
+export function getForgotPassword(payload) {
+  const { email } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/recoverpassword.json`;
+  return ajax.get(url, { forgotemail: email });
+}
