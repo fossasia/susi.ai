@@ -16,6 +16,7 @@ import './SignUp.css';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { CAPTCHA_KEY } from '../../../config.js';
+import { isEmail } from '../../../utils';
 import actions from '../../../redux/actions/app';
 
 const styles = {
@@ -98,13 +99,9 @@ class SignUp extends Component {
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
-        const validEmail = new RegExp(
-          ['^[A-Z0-9._%+-]+@[A-Z0-', '9.-]+.[A-Z]{2,4}$'].join(''),
-          'i',
-        ).test(email);
         this.setState({
           email,
-          emailErrorMessage: !(validEmail && email)
+          emailErrorMessage: !isEmail(email)
             ? 'Enter a valid Email Address'
             : '',
           signupErrorMessage: '',

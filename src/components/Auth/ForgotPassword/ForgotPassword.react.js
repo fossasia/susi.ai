@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import actions from '../../../redux/actions/app';
+import { isEmail } from '../../../utils';
 import './ForgotPassword.css';
 
 const styles = {
@@ -42,11 +43,7 @@ class ForgotPassword extends Component {
   handleTextFieldChange = event => {
     if (event.target.name === 'email') {
       const email = event.target.value.trim();
-      const validEmail = new RegExp(
-        ['^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$'].join(''),
-        'i',
-      ).test(email);
-      const emailError = !(validEmail && email);
+      const emailError = !isEmail(email);
       this.setState({
         email,
         emailErrorMessage: emailError ? <Translate text="Invalid Email" /> : '',
