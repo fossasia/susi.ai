@@ -1,7 +1,10 @@
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
+// import { Cookies } from 'react-cookie';
+// import actions from '../redux/actions/messages';
 const { API_URL } = urls;
 const AUTH_API_PREFIX = 'aaa';
+const CHAT_API_PREFIX = 'susi';
 
 /* Export API calls from this file
 Example function -
@@ -54,4 +57,30 @@ export function getForgotPassword(payload) {
   const { email } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/recoverpassword.json`;
   return ajax.get(url, { forgotemail: email });
+}
+
+export function getSusiReply(payload) {
+  console.log(payload);
+  const { message } = payload;
+
+  const url = `${API_URL}/${CHAT_API_PREFIX}/chat.json`;
+  const locale = document.documentElement.getAttribute('lang');
+
+  // add location information if available
+  // TODO
+
+  // check for connectivity only then call this
+  // TODO
+
+  return ajax.get(url, {
+    q: encodeURIComponent(message.text),
+    language: locale,
+    //eslint-disable-next-line
+    device_type: 'Web Client',
+  });
+}
+
+export function getHistory() {
+  const url = `${API_URL}/${CHAT_API_PREFIX}/memory.json`;
+  return ajax.get(url, {});
 }

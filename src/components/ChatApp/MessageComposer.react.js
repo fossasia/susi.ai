@@ -14,6 +14,14 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
 import $ from 'jquery';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import actions from '../../redux/actions/messages';
+import {
+  formatUserMessage,
+  formatSusiMessage,
+} from '../../utils/formatMessage';
+import * as apis from '../../apis';
 
 injectTapEventPlugin();
 
@@ -393,6 +401,25 @@ class MessageComposer extends Component {
             this.props.threadID,
             this.props.speechOutputAlways,
           );
+          const userMessage = formatUserMessage({
+            text,
+            voice: this.props.speechOutputAlways,
+          });
+          this.props.actions
+            .createMessage(userMessage)
+            .then(
+              apis.getSusiReply(userMessage).then(response => {
+                this.props.actions.createSusiMessage(
+                  formatSusiMessage({
+                    response,
+                    voice: this.props.speechOutputAlways,
+                  }),
+                );
+              }),
+            )
+            .catch(error => {
+              console.log(error);
+            });
         }
         this.setState({ text: '', currentArrowIndex: 0 });
         if (this.speechRecog) {
@@ -457,6 +484,18 @@ MessageComposer.propTypes = {
   speechOutputAlways: PropTypes.bool,
   micColor: PropTypes.string,
   focus: PropTypes.bool,
+  actions: PropTypes.object,
 };
 
-export default MessageComposer;
+// export default MessageComposer;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(MessageComposer);
