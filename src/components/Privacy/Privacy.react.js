@@ -1,5 +1,4 @@
 import '../Terms/Terms.css';
-import $ from 'jquery';
 import Footer from '../Footer/Footer.react';
 import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
@@ -23,8 +22,12 @@ class Privacy extends Component {
     // Adding title tag to page
     document.title =
       'Privacy Policy - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }
 
   showOptions = event => {

@@ -1,5 +1,4 @@
 import './Terms.css';
-import $ from 'jquery';
 import Footer from '../Footer/Footer.react';
 import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
@@ -21,7 +20,11 @@ class Terms extends Component {
 
   componentDidMount() {
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
     // Adding title tag to page
     document.title =
       'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
