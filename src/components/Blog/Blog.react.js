@@ -1,5 +1,4 @@
-import './Blog.css';
-import 'font-awesome/css/font-awesome.min.css';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
 import $ from 'jquery';
@@ -10,36 +9,66 @@ import {
   CardText,
   CardActions,
 } from 'material-ui/Card';
-import susi from '../../images/susi-logo.svg';
 import dateFormat from 'dateformat';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import React, { Component } from 'react';
+import { ShareButtons, generateShareIcon } from 'react-share';
 import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
-import { ShareButtons, generateShareIcon } from 'react-share';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { BLOG_KEY } from '../../config.js';
-function arrDiff(a1, a2) {
-  var a = [],
+import './Blog.css';
+import 'font-awesome/css/font-awesome.min.css';
+import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import susi from '../../images/susi-logo.svg';
+const { FacebookShareButton, TwitterShareButton } = ShareButtons;
+const FacebookIcon = generateShareIcon('facebook');
+const TwitterIcon = generateShareIcon('twitter');
+
+const loadingStyle = {
+  marginTop: '20px',
+  position: 'relative',
+};
+const allCategories = [
+  'FOSSASIA',
+  'GSoC',
+  'SUSI.AI',
+  'Tutorial',
+  'Android',
+  'API',
+  'App generator',
+  'CodeHeat',
+  'Community',
+  'Event',
+  'Event Management',
+  'loklak',
+  'Meilix',
+  'Open Event',
+  'Phimpme',
+  'Pocket Science Lab',
+  'yaydoc',
+];
+
+const arrDiff = (a1, a2) => {
+  let a = [],
     diff = [];
-  for (var f = 0; f < a1.length; f++) {
+  for (let f = 0; f < a1.length; f++) {
     a[a1[f]] = true;
   }
-  for (var z = 0; z < a2.length; z++) {
+  for (let z = 0; z < a2.length; z++) {
     if (a[a2[z]]) {
       delete a[a2[z]];
     } else {
       a[a2[z]] = true;
     }
   }
-  for (var k in a) {
+  for (let k in a) {
     diff.push(k);
   }
   return diff;
-}
+};
+
 class Blog extends Component {
   constructor(props) {
     super(props);
@@ -81,20 +110,20 @@ class Blog extends Component {
     );
   }
 
-  scrollStep() {
+  scrollStep = () => {
     if (window.pageYOffset === 0) {
       clearInterval(this.state.intervalId);
     }
     window.scroll(0, window.pageYOffset - 1000);
-  }
+  };
   //  Function to scroll to top of page
   scrollToTop() {
-    let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
+    const intervalId = setInterval(this.scrollStep, 16.66);
     this.setState({ intervalId: intervalId });
   }
   // Function to navigate to previous page
   previousPage = () => {
-    let current = this.state.startPage;
+    const current = this.state.startPage;
     if (current - 10 === 0) {
       this.setState({
         startPage: current - 10,
@@ -112,9 +141,8 @@ class Blog extends Component {
   };
   // Function to navigate to next page
   nextPage = () => {
-    let current = this.state.startPage;
-    let size = this.state.posts.length;
-    console.log(size);
+    const current = this.state.startPage;
+    const size = this.state.posts.length;
     if (current + 10 === size - 10) {
       this.setState({
         startPage: current + 10,
@@ -132,9 +160,6 @@ class Blog extends Component {
   };
 
   render() {
-    const { FacebookShareButton, TwitterShareButton } = ShareButtons;
-    const FacebookIcon = generateShareIcon('facebook');
-    const TwitterIcon = generateShareIcon('twitter');
     const nextStyle = {
       visibility: this.state.nextDisplay,
       marginLeft: '10px',
@@ -144,29 +169,6 @@ class Blog extends Component {
       visibility: this.state.prevDisplay,
     };
 
-    const loadingStyle = {
-      marginTop: '20px',
-      position: 'relative',
-    };
-    const allCategories = [
-      'FOSSASIA',
-      'GSoC',
-      'SUSI.AI',
-      'Tutorial',
-      'Android',
-      'API',
-      'App generator',
-      'CodeHeat',
-      'Community',
-      'Event',
-      'Event Management',
-      'loklak',
-      'Meilix',
-      'Open Event',
-      'Phimpme',
-      'Pocket Science Lab',
-      'yaydoc',
-    ];
     return (
       <div>
         <StaticAppBar {...this.props} location={this.props.location} />
@@ -190,10 +192,10 @@ class Blog extends Component {
               {this.state.posts
                 .slice(this.state.startPage, this.state.startPage + 10)
                 .map((posts, i) => {
-                  let description = htmlToText
+                  const description = htmlToText
                     .fromString(posts.description)
                     .split('…');
-                  let content = posts.content;
+                  const content = posts.content;
                   let category = [];
                   posts.categories.forEach(cat => {
                     let k = 0;
@@ -204,8 +206,8 @@ class Blog extends Component {
                     }
                   });
 
-                  var tags = arrDiff(category, posts.categories);
-                  let fCategory = category.map(cat => (
+                  const tags = arrDiff(category, posts.categories);
+                  const fCategory = category.map(cat => (
                     <span key={cat}>
                       <a
                         className="tagname"
@@ -219,7 +221,7 @@ class Blog extends Component {
                       </a>
                     </span>
                   ));
-                  let ftags = tags.map(tag => (
+                  const ftags = tags.map(tag => (
                     <span key={tag}>
                       <a
                         className="tagname"
@@ -236,13 +238,13 @@ class Blog extends Component {
                   let htmlContent = content.replace(/<img.*?>/, '');
                   htmlContent = renderHTML(htmlContent);
                   let image = susi;
-                  let regExp = /\[(.*?)\]/;
-                  let imageUrl = regExp.exec(description[0]);
+                  const regExp = /\[(.*?)\]/;
+                  const imageUrl = regExp.exec(description[0]);
                   if (imageUrl) {
                     image = imageUrl[1];
                   }
-                  let date = posts.pubDate.split(' ');
-                  let d = new Date(date[0]);
+                  const date = posts.pubDate.split(' ');
+                  const d = new Date(date[0]);
                   return (
                     <div key={i} className="section_blog">
                       <Card style={{ width: '100%', padding: '0' }}>

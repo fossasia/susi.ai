@@ -9,12 +9,9 @@ import PropTypes from 'prop-types';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import loadingGIF from '../../../images/loading.gif';
 import DialogSection from './DialogSection';
-import RaisedButton from 'material-ui/RaisedButton';
-import { CirclePicker } from 'react-color';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import TopBar from '../TopBar.react';
-import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
@@ -37,6 +34,7 @@ function getStateFromStores() {
   }
   return {
     SnackbarOpen: false,
+    player: [],
     SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
@@ -47,7 +45,6 @@ function getStateFromStores() {
     showLogin: false,
     openForgotPassword: false,
     showSignUp: false,
-    showThemeChanger: false,
     showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
@@ -80,12 +77,17 @@ function getStateFromStores() {
   };
 }
 
-function getMessageListItem(messages, showLoading, markID) {
+function getMessageListItem(messages, showLoading, addYouTube, markID) {
   // markID indicates search mode on
   if (markID) {
     return messages.map(message => {
       return (
-        <MessageListItem key={message.id} message={message} markID={markID} />
+        <MessageListItem
+          key={message.id}
+          message={message}
+          markID={markID}
+          playerAdd={addYouTube}
+        />
       );
     });
   }
@@ -111,6 +113,7 @@ function getMessageListItem(messages, showLoading, markID) {
           message={message}
           latestUserMsgID={latestUserMsgID}
           latestMessage={false}
+          playerAdd={addYouTube}
         />
       );
     }
@@ -120,6 +123,7 @@ function getMessageListItem(messages, showLoading, markID) {
         message={message}
         latestUserMsgID={latestUserMsgID}
         latestMessage={true}
+        playerAdd={addYouTube}
       />
     );
   });
@@ -202,51 +206,21 @@ class MessageSection extends Component {
     };
   }
 
-  handleColorChange = (name, color) => {
-    // Current Changes
-  };
-  // Add Image as a background image
-  handleChangeBodyBackgroundImage = backImage => {
-    this.setState({ bodyBackgroundImage: backImage });
+  pauseAllVideos = () => {
+    this.state.player.forEach(event => {
+      try {
+        if (event.target.getPlayerState() === 1) {
+          event.target.pauseVideo();
+        }
+      } catch (error) {
+        // do nothing,
+      }
+    });
   };
 
-  handleChangeMessageBackgroundImage = backImage => {
-    this.setState({ messageBackgroundImage: backImage });
-  };
-
-  // get the selected custom colour
-  handleChangeComplete = (name, color) => {
-    this.setState({ currTheme: 'custom' });
-    let currSettings = UserPreferencesStore.getPreferences();
-    let settingsChanged = {};
-    if (currSettings.Theme !== 'custom') {
-      settingsChanged.theme = 'custom';
-      Actions.settingsChanged(settingsChanged);
-    }
-    // Send these Settings to Server
-    let state = this.state;
-
-    if (name === 'header') {
-      state.header = color.hex;
-      this.customTheme.header = state.header.substring(1);
-    } else if (name === 'body') {
-      state.body = color.hex;
-      this.customTheme.body = state.body.substring(1);
-    } else if (name === 'pane') {
-      state.pane = color.hex;
-      this.customTheme.pane = state.pane.substring(1);
-    } else if (name === 'composer') {
-      state.composer = color.hex;
-      this.customTheme.composer = state.composer.substring(1);
-    } else if (name === 'textarea') {
-      state.textarea = color.hex;
-      this.customTheme.textarea = state.textarea.substring(1);
-    } else if (name === 'button') {
-      state.button = color.hex;
-      this.customTheme.button = state.button.substring(1);
-    }
-    this.setState(state);
-    document.body.style.setProperty('background-color', this.state.body);
+  addYouTube = playerNew => {
+    this.pauseAllVideos();
+    this.setState(prevState => ({ player: [...prevState.player, playerNew] }));
   };
 
   // Open Login Dialog
@@ -268,73 +242,12 @@ class MessageSection extends Component {
     this.child.closeOptions();
   };
 
-  handleRemoveUrlBody = () => {
-    if (!this.state.bodyBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        bodyBackgroundImage: '',
-      });
-    }
-  };
-
-  handleRemoveUrlMessage = () => {
-    if (!this.state.messageBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        messageBackgroundImage: '',
-      });
-    }
-  };
-
-  handleRemoveUrlBody = () => {
-    if (!this.state.bodyBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        bodyBackgroundImage: '',
-      });
-      this.handleChangeBodyBackgroundImage('');
-    }
-  };
-
-  handleRemoveUrlMessage = () => {
-    if (!this.state.messageBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        messageBackgroundImage: '',
-      });
-    }
-  };
   // Close all dialog boxes
   handleClose = () => {
     var prevThemeSettings = this.state.prevThemeSettings;
     this.setState({
       showLogin: false,
       showSignUp: false,
-      showThemeChanger: false,
       openForgotPassword: false,
     });
 
@@ -386,7 +299,6 @@ class MessageSection extends Component {
       this.setState({
         showLogin: false,
         showSignUp: false,
-        showThemeChanger: false,
         openForgotPassword: false,
       });
     }
@@ -395,135 +307,10 @@ class MessageSection extends Component {
     this.setState({
       showLogin: false,
       showSignUp: false,
-      showThemeChanger: false,
       openForgotPassword: false,
       tour: false,
     });
     cookies.set('visited', true, { path: '/' });
-  };
-  // Save Custom Theme settings on server
-  saveThemeSettings = () => {
-    let customData = '';
-    Object.keys(this.customTheme).forEach(key => {
-      customData = customData + this.customTheme[key] + ',';
-    });
-
-    let settingsChanged = {};
-    settingsChanged.theme = 'custom';
-    settingsChanged.customThemeValue = customData;
-    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-      settingsChanged.backgroundImage =
-        this.state.bodyBackgroundImage +
-        ',' +
-        this.state.messageBackgroundImage;
-    }
-    Actions.settingsChanged(settingsChanged);
-    this.setState({ currTheme: 'custom' });
-    this.setState({
-      showLogin: false,
-      showSignUp: false,
-      showThemeChanger: false,
-      openForgotPassword: false,
-    });
-  };
-
-  handleRestoreDefaultThemeClick = () => {
-    this.setState({
-      showLogin: false,
-      showSignUp: false,
-      showThemeChanger: false,
-      openForgotPassword: false,
-    });
-    var prevTheme = this.state.prevThemeSettings.currTheme;
-    var currTheme = this.state.currTheme;
-    if (
-      (currTheme === 'custom' && prevTheme === 'dark') ||
-      currTheme === 'dark'
-    ) {
-      this.applyDarkTheme();
-    } else {
-      this.applyLightTheme();
-    }
-  };
-
-  applyLightTheme = () => {
-    this.setState({
-      prevThemeSettings: null,
-      body: '#fff',
-      header: '#4285f4',
-      composer: '#f3f2f4',
-      pane: '#f3f2f4',
-      textarea: '#fff',
-      button: '#4285f4',
-      currTheme: 'light',
-    });
-    let customData = '';
-    Object.keys(this.customTheme).forEach(key => {
-      customData = customData + this.customTheme[key] + ',';
-    });
-
-    let settingsChanged = {};
-    settingsChanged.theme = 'light';
-    settingsChanged.customThemeValue = customData;
-    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-      settingsChanged.backgroundImage =
-        this.state.bodyBackgroundImage +
-        ',' +
-        this.state.messageBackgroundImage;
-    }
-    Actions.settingsChanged(settingsChanged);
-  };
-
-  applyDarkTheme = () => {
-    this.setState({
-      prevThemeSettings: null,
-      body: '#fff',
-      header: '#4285f4',
-      composer: '#f3f2f4',
-      pane: '#f3f2f4',
-      textarea: '#fff',
-      button: '#4285f4',
-      currTheme: 'dark',
-    });
-    let customData = '';
-    Object.keys(this.customTheme).forEach(key => {
-      customData = customData + this.customTheme[key] + ',';
-    });
-
-    let settingsChanged = {};
-    settingsChanged.theme = 'dark';
-    settingsChanged.customThemeValue = customData;
-    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-      settingsChanged.backgroundImage =
-        this.state.bodyBackgroundImage +
-        ',' +
-        this.state.messageBackgroundImage;
-    }
-    Actions.settingsChanged(settingsChanged);
-  };
-
-  handleThemeChanger = () => {
-    this.setState({ showThemeChanger: true });
-    // save the previous theme settings
-    if (this.state.currTheme === 'light') {
-      // remove the previous custom theme memory
-      this.applyLightTheme();
-    }
-    var prevThemeSettings = {};
-    var state = this.state;
-    prevThemeSettings.currTheme = state.currTheme;
-    if (state.currTheme === 'custom') {
-      prevThemeSettings.bodyColor = state.body;
-      prevThemeSettings.TopBarColor = state.header;
-      prevThemeSettings.composerColor = state.composer;
-      prevThemeSettings.messagePane = state.pane;
-      prevThemeSettings.textArea = state.textarea;
-      prevThemeSettings.buttonColor = state.button;
-      prevThemeSettings.bodyBackgroundImage = state.bodyBackgroundImage;
-      prevThemeSettings.messageBackgroundImage = state.messageBackgroundImage;
-    }
-    this.setState({ prevThemeSettings });
-    this.child.closeOptions();
   };
 
   // Show forgot password dialog
@@ -620,71 +407,6 @@ class MessageSection extends Component {
   };
 
   componentDidMount() {
-    this._scrollToBottom();
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    ThreadStore.addChangeListener(this._onChange.bind(this));
-    window.addEventListener('offline', this.handleOffline.bind(this));
-    window.addEventListener('online', this.handleOnline.bind(this));
-
-    // let state=this.state;
-  }
-
-  // Show a snackbar If user offline
-  handleOffline() {
-    this.setState({
-      snackopen: true,
-      snackMessage: 'It seems you are offline!',
-    });
-  }
-
-  // Show a snackbar If user online
-  handleOnline() {
-    this.setState({
-      snackopen: true,
-      snackMessage: 'Welcome back!',
-    });
-  }
-
-  // Scroll to bottom feature goes here
-  onScroll = () => {
-    let scrollarea = this.scrollarea;
-    if (scrollarea) {
-      let scrollValues = scrollarea.getValues();
-      if (scrollValues.top === 1) {
-        this.setState({
-          showScrollBottom: false,
-        });
-      } else if (scrollValues.top === 0) {
-        this.setState({
-          showScrollTop: false,
-          showScrollBottom: true,
-        });
-      } else {
-        this.setState({
-          showScrollBottom: true,
-          showScrollTop: true,
-        });
-      }
-    }
-  };
-
-  renderThumb = ({ style, ...props }) => {
-    const finalThumbStyle = {
-      ...style,
-      cursor: 'pointer',
-      borderRadius: 'inherit',
-      backgroundColor: 'rgba(200, 200, 200, 0.4)',
-    };
-
-    return <div style={finalThumbStyle} {...props} />;
-  };
-
-  componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
-  }
-
-  componentWillMount() {
     if (this.props.location) {
       if (this.props.location.state) {
         if (this.props.location.state.hasOwnProperty('showLogin')) {
@@ -726,6 +448,69 @@ class MessageSection extends Component {
         }
       }
     });
+
+    this._scrollToBottom();
+    MessageStore.addChangeListener(this._onChange);
+    ThreadStore.addChangeListener(this._onChange);
+    window.addEventListener('offline', this.handleOffline);
+    window.addEventListener('online', this.handleOnline);
+
+    // let state=this.state;
+  }
+
+  // Show a snackbar If user offline
+  handleOffline = () => {
+    this.setState({
+      snackopen: true,
+      snackMessage: 'It seems you are offline!',
+    });
+  };
+
+  // Show a snackbar If user online
+  handleOnline = () => {
+    this.setState({
+      snackopen: true,
+      snackMessage: 'Welcome back!',
+    });
+  };
+
+  // Scroll to bottom feature goes here
+  onScroll = () => {
+    let scrollarea = this.scrollarea;
+    if (scrollarea) {
+      let scrollValues = scrollarea.getValues();
+      if (scrollValues.top === 1) {
+        this.setState({
+          showScrollBottom: false,
+        });
+      } else if (scrollValues.top === 0) {
+        this.setState({
+          showScrollTop: false,
+          showScrollBottom: true,
+        });
+      } else {
+        this.setState({
+          showScrollBottom: true,
+          showScrollTop: true,
+        });
+      }
+    }
+  };
+
+  renderThumb = ({ style, ...props }) => {
+    const finalThumbStyle = {
+      ...style,
+      cursor: 'pointer',
+      borderRadius: 'inherit',
+      backgroundColor: 'rgba(200, 200, 200, 0.4)',
+    };
+
+    return <div style={finalThumbStyle} {...props} />;
+  };
+
+  componentWillUnmount() {
+    MessageStore.removeChangeListener(this._onChange);
+    ThreadStore.removeChangeListener(this._onChange);
   }
 
   invertColorTextArea = () => {
@@ -753,6 +538,7 @@ class MessageSection extends Component {
     var composerColor;
     var messagePane;
     var textArea;
+    // eslint-disable-next-line
     var buttonColor;
     var textColor;
 
@@ -782,7 +568,7 @@ class MessageSection extends Component {
     }
     document.body.style.setProperty(
       'background-color',
-      this.state.currTheme === 'light' ? bodyColor : 'rgb(0, 0, 18)',
+      this.state.currTheme === 'dark' ? 'rgb(0, 0, 18)' : bodyColor,
     );
     document.body.style.setProperty(
       'background-image',
@@ -842,141 +628,6 @@ class MessageSection extends Component {
       }
     }
 
-    const actions = (
-      <RaisedButton
-        label={<Translate text="Cancel" />}
-        backgroundColor={
-          UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'
-        }
-        labelColor="#fff"
-        width="200px"
-        keyboardFocused={true}
-        onTouchTap={this.handleClose}
-      />
-    );
-
-    const customSettingsDone = (
-      <div>
-        <RaisedButton
-          label={<Translate text="Save" />}
-          backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-          labelColor="#fff"
-          width="200px"
-          keyboardFocused={false}
-          onTouchTap={this.saveThemeSettings}
-          style={{ margin: '0 5px' }}
-        />
-        <RaisedButton
-          label={<Translate text="Reset" />}
-          backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-          labelColor="#fff"
-          width="200px"
-          keyboardFocused={false}
-          onTouchTap={this.handleRestoreDefaultThemeClick}
-          style={{ margin: '0 5px' }}
-        />
-      </div>
-    );
-    // Custom Theme feature Component
-    const componentsList = [
-      { id: 1, component: 'header', name: 'Header' },
-      { id: 2, component: 'pane', name: 'Message Pane' },
-      { id: 3, component: 'body', name: 'Body' },
-      { id: 4, component: 'composer', name: 'Composer' },
-      { id: 5, component: 'textarea', name: 'Textarea' },
-      { id: 6, component: 'button', name: 'Button' },
-    ];
-
-    const components = componentsList.map(component => {
-      return (
-        <div key={component.id} className="circleChoose">
-          <h4>
-            <Translate text="Color of" /> <Translate text={component.name} />:
-          </h4>
-          <CirclePicker
-            color={component}
-            width={'100%'}
-            colors={[
-              '#f44336',
-              '#e91e63',
-              '#9c27b0',
-              '#673ab7',
-              '#3f51b5',
-              '#2196f3',
-              '#03a9f4',
-              '#00bcd4',
-              '#009688',
-              '#4caf50',
-              '#8bc34a',
-              '#cddc39',
-              '#ffeb3b',
-              '#ffc107',
-              '#ff9800',
-              '#ff5722',
-              '#795548',
-              '#607d8b',
-              '#0f0f0f',
-              '#ffffff',
-            ]}
-            onChangeComplete={this.handleChangeComplete.bind(
-              this,
-              component.component,
-            )}
-            onChange={this.handleColorChange.bind(this, component.id)}
-          />
-
-          <TextField
-            name="backgroundImg"
-            style={{
-              display: component.component === 'body' ? 'block' : 'none',
-            }}
-            onChange={(e, value) => this.handleChangeBodyBackgroundImage(value)}
-            value={this.state.bodyBackgroundImage}
-            floatingLabelText={<Translate text="Body Background Image URL" />}
-          />
-          <RaisedButton
-            name="removeBackgroundBody"
-            key={'RemoveBody'}
-            label={<Translate text="Remove URL" />}
-            style={{
-              display: component.component === 'body' ? 'block' : 'none',
-              width: '150px',
-            }}
-            backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-            labelColor="#fff"
-            keyboardFocused={true}
-            onTouchTap={this.handleRemoveUrlBody}
-          />
-          <TextField
-            name="messageImg"
-            style={{
-              display: component.component === 'pane' ? 'block' : 'none',
-            }}
-            onChange={(e, value) =>
-              this.handleChangeMessageBackgroundImage(value)
-            }
-            value={this.state.messageBackgroundImage}
-            floatingLabelText={
-              <Translate text="Message Background Image URL" />
-            }
-          />
-          <RaisedButton
-            name="removeBackgroundMessage"
-            key={'RemoveMessage'}
-            label={<Translate text="Remove URL" />}
-            style={{
-              display: component.component === 'pane' ? 'block' : 'none',
-              width: '150px',
-            }}
-            backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-            labelColor="#fff"
-            keyboardFocused={true}
-            onTouchTap={this.handleRemoveUrlMessage}
-          />
-        </div>
-      );
-    });
-
     let speechOutput = UserPreferencesStore.getSpeechOutput();
     let speechOutputAlways = UserPreferencesStore.getSpeechOutputAlways();
 
@@ -986,11 +637,17 @@ class MessageSection extends Component {
     if (this.state.search) {
       let markID = this.state.searchState.scrollID;
       let markedMessages = this.state.searchState.markedMsgs;
-      messageListItems = getMessageListItem(markedMessages, false, markID);
+      messageListItems = getMessageListItem(
+        markedMessages,
+        false,
+        this.addYouTube,
+        markID,
+      );
     } else {
       messageListItems = getMessageListItem(
         this.state.messages,
         this.state.showLoading,
+        this.addYouTube,
       );
     }
 
@@ -1013,7 +670,6 @@ class MessageSection extends Component {
               ref={instance => {
                 this.child = instance;
               }}
-              handleThemeChanger={this.handleThemeChanger}
               handleOpen={this.handleOpen}
               handleSignUp={this.handleSignUp}
               handleOptions={this.handleOptions}
@@ -1028,96 +684,8 @@ class MessageSection extends Component {
               searchState={this.state.searchState}
             />
           </header>
-          {!this.state.search ? (
-            <div>
-              <div className="message-pane">
-                <div className="message-section">
-                  <ul
-                    className="message-list"
-                    ref={c => {
-                      this.messageList = c;
-                    }}
-                    style={messageBackgroundStyles}
-                  >
-                    <Scrollbars
-                      renderThumbHorizontal={this.renderThumb}
-                      renderThumbVertical={this.renderThumb}
-                      ref={ref => {
-                        this.scrollarea = ref;
-                      }}
-                      autoHide
-                      onScroll={this.onScroll}
-                      autoHideTimeout={1000}
-                      autoHideDuration={200}
-                    >
-                      {messageListItems}
-                      {this.state.showLoading && getLoadingGIF()}
-                    </Scrollbars>
-                  </ul>
-                  {this.state.showScrollTop && (
-                    <div>
-                      <FloatingActionButton
-                        mini={true}
-                        style={scrollTopStyle.button}
-                        backgroundColor={bodyColor}
-                        iconStyle={scrollTopStyle.icon}
-                        onTouchTap={this.forcedScrollToTop}
-                      >
-                        <NavigateUp />
-                      </FloatingActionButton>
-                    </div>
-                  )}
-                  {this.state.showScrollBottom && (
-                    <div className="scrollBottom">
-                      <FloatingActionButton
-                        mini={true}
-                        style={scrollBottomStyle.button}
-                        backgroundColor={bodyColor}
-                        iconStyle={scrollBottomStyle.icon}
-                        onTouchTap={this.forcedScrollToBottom}
-                      >
-                        <NavigateDown />
-                      </FloatingActionButton>
-                    </div>
-                  )}
-                  <div
-                    className="compose"
-                    style={{ backgroundColor: composerColor }}
-                  >
-                    <MessageComposer
-                      focus={true}
-                      threadID={this.state.thread.id}
-                      dream={dream}
-                      textarea={textArea}
-                      textcolor={textColor}
-                      speechOutput={speechOutput}
-                      speechOutputAlways={speechOutputAlways}
-                      micColor={this.state.button}
-                    />
-                  </div>
-                </div>
-              </div>
-              {/*  All Dialogs are handled by this components */}
-              <DialogSection
-                {...this.props}
-                openLogin={this.state.showLogin}
-                openSignUp={this.state.showSignUp}
-                openForgotPassword={this.state.openForgotPassword}
-                openThemeChanger={this.state.showThemeChanger}
-                ThemeChangerComponents={components}
-                bodyStyle={bodyStyle}
-                actions={actions}
-                handleSignUp={this.handleSignUp}
-                customSettingsDone={customSettingsDone}
-                onRequestClose={() => this.handleClose}
-                onRequestCloseTour={() => this.handleCloseTour}
-                onSaveThemeSettings={() => this.handleSaveTheme}
-                onLoginSignUp={() => this.handleOpen}
-                onForgotPassword={() => this.forgotPasswordChanged}
-                tour={!cookies.get('visited')}
-              />
-            </div>
-          ) : (
+
+          <div>
             <div className="message-pane">
               <div className="message-section">
                 <ul
@@ -1125,7 +693,7 @@ class MessageSection extends Component {
                   ref={c => {
                     this.messageList = c;
                   }}
-                  style={this.messageBackgroundStyle}
+                  style={messageBackgroundStyles}
                 >
                   <Scrollbars
                     renderThumbHorizontal={this.renderThumb}
@@ -1134,18 +702,48 @@ class MessageSection extends Component {
                       this.scrollarea = ref;
                     }}
                     autoHide
+                    onScroll={this.onScroll}
                     autoHideTimeout={1000}
                     autoHideDuration={200}
                   >
                     {messageListItems}
+                    {!this.state.search &&
+                      this.state.showLoading &&
+                      getLoadingGIF()}
                   </Scrollbars>
                 </ul>
+                {this.state.showScrollTop && (
+                  <div>
+                    <FloatingActionButton
+                      mini={true}
+                      style={scrollTopStyle.button}
+                      backgroundColor={bodyColor}
+                      iconStyle={scrollTopStyle.icon}
+                      onTouchTap={this.forcedScrollToTop}
+                    >
+                      <NavigateUp />
+                    </FloatingActionButton>
+                  </div>
+                )}
+                {this.state.showScrollBottom && (
+                  <div className="scrollBottom">
+                    <FloatingActionButton
+                      mini={true}
+                      style={scrollBottomStyle.button}
+                      backgroundColor={bodyColor}
+                      iconStyle={scrollBottomStyle.icon}
+                      onTouchTap={this.forcedScrollToBottom}
+                    >
+                      <NavigateDown />
+                    </FloatingActionButton>
+                  </div>
+                )}
                 <div
                   className="compose"
                   style={{ backgroundColor: composerColor }}
                 >
                   <MessageComposer
-                    focus={false}
+                    focus={!this.state.search}
                     threadID={this.state.thread.id}
                     dream={dream}
                     textarea={textArea}
@@ -1157,7 +755,24 @@ class MessageSection extends Component {
                 </div>
               </div>
             </div>
-          )}
+            {/*  All Dialogs are handled by this components */}
+            {!this.state.search ? (
+              <DialogSection
+                {...this.props}
+                openLogin={this.state.showLogin}
+                openSignUp={this.state.showSignUp}
+                openForgotPassword={this.state.openForgotPassword}
+                bodyStyle={bodyStyle}
+                handleSignUp={this.handleSignUp}
+                onRequestClose={() => this.handleClose}
+                onRequestCloseTour={() => this.handleCloseTour}
+                onSaveThemeSettings={() => this.handleSaveTheme}
+                onLoginSignUp={() => this.handleOpen}
+                onForgotPassword={() => this.forgotPasswordChanged}
+                tour={!cookies.get('visited')}
+              />
+            ) : null}
+          </div>
           <Snackbar
             open={this.state.SnackbarOpenBackground}
             message={<Translate text="Please enter a valid URL first" />}
@@ -1235,6 +850,9 @@ class MessageSection extends Component {
     let ul = this.scrollarea;
     if (ul) {
       ul.scrollTop(ul.getScrollHeight());
+      this.setState({
+        showScrollTop: true,
+      });
     }
   };
 
@@ -1249,7 +867,12 @@ class MessageSection extends Component {
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
-    if (markedIDs && ul && newIndex < indexLimit) {
+    if (newSearchCount > indexLimit) {
+      newSearchCount = 1;
+      newIndex = 0;
+    }
+
+    if (markedIDs && ul && newIndex < indexLimit && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
       currState.searchIndex = newSearchCount;
@@ -1258,13 +881,46 @@ class MessageSection extends Component {
         searchState: currState,
       });
     }
+    if (markedIDs && ul && newIndex === 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = this.state.searchState.scrollIndex + 1;
+      newSearchCount = this.state.searchState.searchIndex + 1;
+      markedIDs = this.state.searchState.markedIDs;
+      indexLimit = this.state.searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = this.state.searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
+    }
   };
 
   _onClickRecent = () => {
     let newIndex = this.state.searchState.scrollIndex - 1;
     let newSearchCount = this.state.searchState.searchIndex - 1;
     let markedIDs = this.state.searchState.markedIDs;
+    let indexLimit = this.state.searchState.scrollLimit;
     let ul = this.messageList;
+    if (newSearchCount <= 0) {
+      newSearchCount = indexLimit;
+    }
     if (markedIDs && ul && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
@@ -1273,6 +929,35 @@ class MessageSection extends Component {
       this.setState({
         searchState: currState,
       });
+    }
+    if (markedIDs && ul && newIndex === 0) {
+      let currState = this.state.searchState;
+      newIndex = 0;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+    }
+    if (markedIDs && ul && newIndex < 0) {
+      let currState = this.state.searchState;
+      newIndex = indexLimit;
+      currState.scrollIndex = newIndex;
+      currState.searchIndex = 1;
+      newIndex = this.state.searchState.scrollIndex - 1;
+      newSearchCount = this.state.searchState.searchIndex - 1;
+      markedIDs = this.state.searchState.markedIDs;
+      indexLimit = this.state.searchState.scrollLimit;
+      ul = this.messageList;
+      if (newSearchCount <= 0) {
+        newSearchCount = indexLimit;
+      }
+      if (markedIDs && ul && newIndex >= 0) {
+        currState = this.state.searchState;
+        currState.scrollIndex = newIndex;
+        currState.searchIndex = newSearchCount;
+        currState.scrollID = markedIDs[newIndex];
+        this.setState({
+          searchState: currState,
+        });
+      }
     }
   };
 
@@ -1345,9 +1030,11 @@ class MessageSection extends Component {
   /**
    * Event handler for 'change' events coming from the MessageStore
    */
-  _onChange() {
+  _onChange = () => {
+    let array = this.state.player;
     this.setState(getStateFromStores());
-  }
+    this.setState({ player: array });
+  };
 }
 
 MessageSection.propTypes = {

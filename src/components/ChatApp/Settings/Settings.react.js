@@ -1,5 +1,6 @@
 import './Settings.css';
 import $ from 'jquery';
+import { withRouter } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -8,31 +9,24 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import UserIdentityStore from '../../../stores/UserIdentityStore';
 import MessageStore from '../../../stores/MessageStore';
 import Cookies from 'universal-cookie';
-import Toggle from 'material-ui/Toggle';
 import Dialog from 'material-ui/Dialog';
-import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Close from 'material-ui/svg-icons/navigation/close';
-import ChangePassword from '../../Auth/ChangePassword/ChangePassword.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
-import './Settings.css';
 import Translate from '../../Translate/Translate.react';
-import TextField from 'material-ui/TextField';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import NotFound from '../../NotFound/NotFound.react';
 import * as Actions from '../../../actions/';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
-import TableComplex from '../../TableComplex/TableComplex.react';
-import TimezonePicker from 'react-timezone';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import SwipeableViews from 'react-swipeable-views';
 import { GoogleApiWrapper } from 'google-maps-react';
-import MapContainer from '../../MapContainer/MapContainer.react';
+import {
+  voiceList,
+  voiceListChange,
+} from './../../../constants/SettingsVoiceConstants.js';
 import { MAP_KEY } from '../../../../src/config.js';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
@@ -45,6 +39,24 @@ import LockIcon from 'material-ui/svg-icons/action/lock';
 import MyDevices from 'material-ui/svg-icons/device/devices';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
+import {
+  isProduction,
+  sortCountryLexographical,
+} from '../../../utils/helperFunctions';
+import urls from '../../../utils/urls';
+import { isPhoneNumber } from '../../../utils';
+
+import MicrophoneTab from './MicrophoneTab.react';
+import ThemeChangeTab from './ThemeChangeTab.react';
+import SpeechTab from './SpeechTab.react';
+import AccountTab from './AccountTab.react';
+import PasswordTab from './PasswordTab.react';
+import DevicesTab from './DevicesTab.react';
+import MobileTab from './MobileTab.react';
+import ChatAppTab from './ChatAppTab.react';
+
+const cookieDomain = isProduction() ? '.susi.ai' : '';
+
 const cookies = new Cookies();
 
 let defaults = UserPreferencesStore.getPreferences();
@@ -67,10 +79,47 @@ let url =
   'access_token=' +
   cookies.get('loggedIn');
 
+const divStyle = {
+  textAlign: 'left',
+  padding: '20px',
+  marginLeft: '10px',
+};
+
 class Settings extends Component {
   constructor(props) {
     super(props);
+    defaults = UserPreferencesStore.getPreferences();
+    let identity = UserIdentityStore.getIdentity();
+    let defaultServer = defaults.Server;
+    let defaultTheme = UserPreferencesStore.getTheme(this.preview);
+    let defaultEnterAsSend = defaults.EnterAsSend;
+    let defaultMicInput = defaults.MicInput;
+    let defaultSpeechOutput = defaults.SpeechOutput;
+    let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
+    let defaultSpeechRate = defaults.SpeechRate;
+    let defaultSpeechPitch = defaults.SpeechPitch;
+    let defaultTTSLanguage = defaults.TTSLanguage;
+    let defaultUserName = defaults.UserName;
+    let defaultPrefLanguage = defaults.PrefLanguage;
+    let defaultTimeZone = defaults.TimeZone;
+    let defaultChecked = defaults.checked;
+    let defaultServerUrl = defaults.serverUrl;
+    let defaultCountryCode = defaults.CountryCode;
+    let defaultCountryDialCode = defaults.CountryDialCode;
+    let defaultPhoneNo = defaults.PhoneNo;
+    let TTSBrowserSupport;
+    if ('speechSynthesis' in window) {
+      TTSBrowserSupport = true;
+    } else {
+      TTSBrowserSupport = false;
+      console.warn(
+        'The current browser does not support the SpeechSynthesis API.',
+      );
+    }
+    this.customServerMessage = '';
+    this.TTSBrowserSupport = TTSBrowserSupport;
     this.state = {
+      themeOpen: false,
       dataFetched: false,
       deviceData: false,
       obj: [],
@@ -83,17 +132,72 @@ class Settings extends Component {
       slideIndex: 0,
       centerLat: 0,
       centerLng: 0,
+      identity,
+      theme: defaultTheme,
+      enterAsSend: defaultEnterAsSend,
+      micInput: defaultMicInput,
+      speechOutput: defaultSpeechOutput,
+      speechOutputAlways: defaultSpeechOutputAlways,
+      server: defaultServer,
+      serverUrl: defaultServerUrl,
+      serverFieldError: false,
+      checked: defaultChecked,
+      validForm: true,
+      speechRate: defaultSpeechRate,
+      speechPitch: defaultSpeechPitch,
+      ttsLanguage: defaultTTSLanguage,
+      UserName: defaultUserName,
+      PrefLanguage: defaultPrefLanguage,
+      TimeZone: defaultTimeZone,
+      showServerChangeDialog: false,
+      showChangePasswordDialog: false,
+      showLogin: false,
+      showSignUp: false,
+      showForgotPassword: false,
+      showOptions: false,
+      showRemoveConfirmation: false,
+      anchorEl: null,
+      countryCode: defaultCountryCode,
+      countryDialCode: defaultCountryDialCode,
+      PhoneNo: defaultPhoneNo,
+      voiceList: voiceList,
+      intialSettings: {
+        theme: defaultTheme,
+        enterAsSend: defaultEnterAsSend,
+        micInput: defaultMicInput,
+        speechOutput: defaultSpeechOutput,
+        speechOutputAlways: defaultSpeechOutputAlways,
+        speechRate: defaultSpeechRate,
+        speechPitch: defaultSpeechPitch,
+        ttsLanguage: defaultTTSLanguage,
+        server: defaultServer,
+        UserName: defaultUserName,
+        PrefLanguage: defaultPrefLanguage,
+        TimeZone: defaultTimeZone,
+        serverUrl: defaultServerUrl,
+        checked: defaultChecked,
+        countryCode: defaultCountryCode,
+        countryDialCode: defaultCountryDialCode,
+        PhoneNo: defaultPhoneNo,
+      },
     };
   }
 
+  onThemeRequestClose = () => {
+    this.setState({ themeOpen: false });
+  };
+
+  // handleRemove() function handles deletion of devices
   handleRemove = i => {
     let data = this.state.obj;
     let macid = data[i].macid;
 
+    // Remove the row whose index does not matches the index passed in parameter
     this.setState({
       obj: data.filter((row, j) => j !== i),
     });
 
+    // Make API call to the endpoint to delete the device on the server side
     $.ajax({
       url:
         BASE_URL +
@@ -117,10 +221,13 @@ class Settings extends Component {
     });
   };
 
+  // startEditing() function handles editing of rows
+  // editIdx is set to the row index which is currently being edited
   startEditing = i => {
     this.setState({ editIdx: i });
   };
 
+  // stopEditing() function handles saving of the changed device config
   stopEditing = i => {
     let data = this.state.obj;
     let macid = data[i].macid;
@@ -132,12 +239,17 @@ class Settings extends Component {
     devicenames[i] = devicename;
     let rooms = this.state.rooms;
     rooms[i] = room;
+
+    // Set the value of editIdx to -1 to denote that no row is currently being edited
+    // Set values for devicenames and rooms to pass as props for the Map View component
     this.setState({
       editIdx: -1,
       devicenames: devicenames,
       rooms: rooms,
     });
 
+    // Make API call to the endpoint for adding new devices
+    // to overwrite the updated config of devices on the existing config on the server
     $.ajax({
       url:
         BASE_URL +
@@ -166,6 +278,7 @@ class Settings extends Component {
     });
   };
 
+  // handleChange() function handles changing of textfield values on keypresses
   handleChange = (e, name, i) => {
     const value = e.target.value;
     let data = this.state.obj;
@@ -180,6 +293,7 @@ class Settings extends Component {
     });
   };
 
+  // apiCall() function fetches user settings and devices from the server
   apiCall = () => {
     $.ajax({
       url: url,
@@ -214,6 +328,9 @@ class Settings extends Component {
         let centerLng = 0;
         if (response.devices) {
           let keys = Object.keys(response.devices);
+          let devicesNotAvailable = 0;
+
+          // Extract device info and store them in an object, namely myObj
           keys.forEach(i => {
             let myObj = {
               macid: i,
@@ -222,12 +339,24 @@ class Settings extends Component {
               latitude: response.devices[i].geolocation.latitude,
               longitude: response.devices[i].geolocation.longitude,
             };
+
+            // Store location info of the device for the Map View
             let locationData = {
               lat: parseFloat(response.devices[i].geolocation.latitude),
               lng: parseFloat(response.devices[i].geolocation.longitude),
             };
-            centerLat += parseFloat(response.devices[i].geolocation.latitude);
-            centerLng += parseFloat(response.devices[i].geolocation.longitude);
+            if (
+              myObj.latitude === 'Latitude not available.' ||
+              myObj.longitude === 'Longitude not available.'
+            ) {
+              devicesNotAvailable++;
+            } else {
+              centerLat += parseFloat(response.devices[i].geolocation.latitude);
+              centerLng += parseFloat(
+                response.devices[i].geolocation.longitude,
+              );
+            }
+
             let location = {
               location: locationData,
             };
@@ -240,8 +369,10 @@ class Settings extends Component {
               dataFetched: true,
             });
           });
-          centerLat = centerLat / mapObj.length;
-          centerLng = centerLng / mapObj.length;
+
+          // Find average latitude and longitude to be used as initial center of map
+          centerLat /= mapObj.length - devicesNotAvailable;
+          centerLng /= mapObj.length - devicesNotAvailable;
           if (obj.length) {
             this.setState({
               deviceData: true,
@@ -253,6 +384,7 @@ class Settings extends Component {
               mapObj: mapObj,
               centerLat: centerLat,
               centerLng: centerLng,
+              devicesNotAvailable: devicesNotAvailable,
             });
           }
           if (devicenames.length) {
@@ -344,31 +476,6 @@ class Settings extends Component {
     let defaultCountryCode = defaults.CountryCode;
     let defaultCountryDialCode = defaults.CountryDialCode;
     let defaultPhoneNo = defaults.PhoneNo;
-    let TTSBrowserSupport;
-    if ('speechSynthesis' in window) {
-      TTSBrowserSupport = true;
-    } else {
-      TTSBrowserSupport = false;
-      console.warn(
-        'The current browser does not support the SpeechSynthesis API.',
-      );
-    }
-    let STTBrowserSupport;
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition ||
-      window.mozSpeechRecognition ||
-      window.msSpeechRecognition ||
-      window.oSpeechRecognition;
-
-    if (SpeechRecognition != null) {
-      STTBrowserSupport = true;
-    } else {
-      STTBrowserSupport = false;
-      console.warn(
-        'The current browser does not support the SpeechRecognition API.',
-      );
-    }
     this.setState({
       theme: defaultTheme,
       enterAsSend: defaultEnterAsSend,
@@ -398,73 +505,16 @@ class Settings extends Component {
       countryCode: defaultCountryCode,
       countryDialCode: defaultCountryDialCode,
       PhoneNo: defaultPhoneNo,
-      voiceList: [
-        {
-          lang: 'am-AM',
-          name: 'Armenian',
-        },
-        {
-          lang: 'zh-CH',
-          name: 'Chinese',
-        },
-        {
-          lang: 'de-DE',
-          name: 'Deutsch',
-        },
-        {
-          lang: 'gr-GR',
-          name: 'Greek',
-        },
-        {
-          lang: 'hi-IN',
-          name: 'Hindi',
-        },
-        {
-          lang: 'pb-IN',
-          name: 'Punjabi',
-        },
-        {
-          lang: 'np-NP',
-          name: 'Nepali',
-        },
-        {
-          lang: 'ru-RU',
-          name: 'Russian',
-        },
-        {
-          lang: 'es-SP',
-          name: 'Spanish',
-        },
-        {
-          lang: 'fr-FR',
-          name: 'French',
-        },
-        {
-          lang: 'jp-JP',
-          name: 'Japanese',
-        },
-        {
-          lang: 'nl-NL',
-          name: 'Dutch',
-        },
-        {
-          lang: 'en-US',
-          name: 'US English',
-        },
-      ],
     });
-    this.customServerMessage = '';
-    this.TTSBrowserSupport = TTSBrowserSupport;
-    this.STTBrowserSupport = STTBrowserSupport;
   };
 
   /**
    * Event handler for 'change' events coming from the UserPreferencesStore
    */
-  _onChangeSettings() {
+  _onChangeSettings = () => {
     this.setInitialSettings();
     this.setDefaultsSettings();
-  }
+  };
 
   // Show change server dialog
   handleServer = () => {
@@ -493,6 +543,90 @@ class Settings extends Component {
     });
   };
 
+  handleThemeChanger = () => {
+    this.setState({ themeOpen: true });
+    switch (this.state.currTheme) {
+      case 'light': {
+        this.applyLightTheme();
+        break;
+      }
+      case 'dark': {
+        this.applyDarkTheme();
+        break;
+      }
+      default: {
+        let prevThemeSettings = {};
+        let state = this.state;
+        prevThemeSettings.currTheme = state.currTheme;
+        prevThemeSettings.bodyColor = state.body;
+        prevThemeSettings.TopBarColor = state.header;
+        prevThemeSettings.composerColor = state.composer;
+        prevThemeSettings.messagePane = state.pane;
+        prevThemeSettings.textArea = state.textarea;
+        prevThemeSettings.buttonColor = state.button;
+        prevThemeSettings.bodyBackgroundImage = state.bodyBackgroundImage;
+        prevThemeSettings.messageBackgroundImage = state.messageBackgroundImage;
+        this.setState({ prevThemeSettings });
+      }
+    }
+  };
+
+  applyLightTheme = () => {
+    this.setState({
+      prevThemeSettings: null,
+      body: '#fff',
+      header: '#4285f4',
+      composer: '#f3f2f4',
+      pane: '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme: 'light',
+    });
+    let customData = '';
+    Object.keys(this.customTheme).forEach(key => {
+      customData = customData + this.customTheme[key] + ',';
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'light';
+    settingsChanged.customThemeValue = customData;
+    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+      settingsChanged.backgroundImage =
+        this.state.bodyBackgroundImage +
+        ',' +
+        this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
+  };
+
+  applyDarkTheme = () => {
+    this.setState({
+      prevThemeSettings: null,
+      body: '#fff',
+      header: '#4285f4',
+      composer: '#f3f2f4',
+      pane: '#f3f2f4',
+      textarea: '#fff',
+      button: '#4285f4',
+      currTheme: 'dark',
+    });
+    let customData = '';
+    Object.keys(this.customTheme).forEach(key => {
+      customData = customData + this.customTheme[key] + ',';
+    });
+
+    let settingsChanged = {};
+    settingsChanged.theme = 'dark';
+    settingsChanged.customThemeValue = customData;
+    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
+      settingsChanged.backgroundImage =
+        this.state.bodyBackgroundImage +
+        ',' +
+        this.state.messageBackgroundImage;
+    }
+    Actions.settingsChanged(settingsChanged);
+  };
+
   // Submit selected Settings
   handleSubmit = () => {
     let newDefaultServer = this.state.server;
@@ -509,10 +643,10 @@ class Settings extends Component {
     let checked = this.state.checked;
     let serverUrl = this.state.serverUrl;
     let newCountryCode = !this.state.countryCode
-      ? this.intialSettings.countryCode
+      ? this.state.intialSettings.countryCode
       : this.state.countryCode;
     let newCountryDialCode = !this.state.countryDialCode
-      ? this.intialSettings.countryDialCode
+      ? this.state.intialSettings.countryDialCode
       : this.state.countryDialCode;
     let newPhoneNo = this.state.PhoneNo;
     if (newDefaultServer.slice(-1) === '/') {
@@ -554,7 +688,11 @@ class Settings extends Component {
     this.setInitialSettings();
     // Trigger Actions to save the settings in stores and server
     this.implementSettings(vals);
-    cookies.set('username', vals.userName);
+    let userName = vals.userName;
+    cookies.set('username', userName, {
+      path: '/',
+      domain: cookieDomain,
+    });
   };
 
   // Store the settings in stores and server
@@ -577,10 +715,8 @@ class Settings extends Component {
   // Handle change to theme settings
   handleSelectChange = (event, value) => {
     value === 'light' || value === 'custom'
-      ? (document.getElementById('settings-container').style.background =
-          'rgb(242, 242, 242)')
-      : (document.getElementById('settings-container').style.background =
-          'rgb(0,0,18)');
+      ? $('#settings-container').addClass('settings-container-light')
+      : $('#settings-container').addClass('settings-container-dark');
     this.preview = true;
     this.setState({ theme: value }, () => {
       this.handleSubmit();
@@ -752,73 +888,28 @@ class Settings extends Component {
     });
   };
 
-  componentWillMount() {
-    document.body.className = 'white-body';
-    this.setDefaultsSettings();
-    this.setInitialSettings();
-  }
-
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange.bind(this));
-    UserPreferencesStore.removeChangeListener(
-      this._onChangeSettings.bind(this),
-    );
+    MessageStore.removeChangeListener(this._onChange);
+    UserPreferencesStore.removeChangeListener(this._onChangeSettings);
   }
 
   // Populate language list
-  _onChange() {
+  _onChange = () => {
     this.setState({
-      voiceList: [
-        {
-          lang: 'de-DE',
-          name: 'Deutsch',
-        },
-        {
-          lang: 'am-AM',
-          name: 'Armenian',
-        },
-        {
-          lang: 'en-US',
-          name: 'US English',
-        },
-        {
-          lang: 'gr-GR',
-          name: 'Greek',
-        },
-        {
-          lang: 'hi-IN',
-          name: 'Hindi',
-        },
-        {
-          lang: 'fr-FR',
-          name: 'French',
-        },
-        {
-          lang: 'ru-RU',
-          name: 'Russian',
-        },
-        {
-          lang: 'jp-JP',
-          name: 'Japanese',
-        },
-        {
-          lang: 'nl-NL',
-          name: 'Dutch',
-        },
-      ],
+      voiceList: voiceListChange,
     });
-  }
+  };
 
   // eslint-disable-next-line
   componentDidMount() {
+    document.body.className = 'white-body';
     if (!this.state.dataFetched && cookies.get('loggedIn')) {
       this.apiCall();
     }
-
     document.title =
       'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    MessageStore.addChangeListener(this._onChange.bind(this));
-    UserPreferencesStore.addChangeListener(this._onChangeSettings.bind(this));
+    MessageStore.addChangeListener(this._onChange);
+    UserPreferencesStore.addChangeListener(this._onChangeSettings);
     this.setState({
       search: false,
     });
@@ -955,26 +1046,26 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
-    this.setState({ PhoneNo: value });
+    const re = /^\d*$/;
+    if (value === '' || re.test(value)) {
+      this.setState({ PhoneNo: value });
+    }
+    if (!isPhoneNumber(value)) {
+      this.setState({ phoneNoError: 'Invalid phone number' });
+    } else {
+      this.setState({ phoneNoError: '' });
+    }
   };
 
   handleUserName = (event, value) => {
     this.setState({ UserName: value });
   };
-
   render() {
     document.body.style.setProperty('background-image', 'none');
 
     const bodyStyle = {
       padding: 0,
       textAlign: 'center',
-    };
-
-    const styles = {
-      slide: {
-        fontSize: 12,
-        backgroundColor: '#1DA1F5',
-      },
     };
 
     const themeBackgroundColor =
@@ -992,15 +1083,7 @@ class Settings extends Component {
     };
     const menuIconColor =
       this.state.intialSettings.theme === 'dark' ? themeForegroundColor : null;
-    countryData.countries.all.sort(function(a, b) {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
+    sortCountryLexographical(countryData);
     let countries = countryData.countries.all.map((country, i) => {
       if (countryData.countries.all[i].countryCallingCodes[0]) {
         return (
@@ -1038,7 +1121,7 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, false)}
+        onTouchTap={() => this.handleServerToggle(false)}
         style={{ margin: '6px' }}
       />,
       <RaisedButton
@@ -1050,15 +1133,9 @@ class Settings extends Component {
         labelColor="#fff"
         width="200px"
         keyboardFocused={false}
-        onTouchTap={this.handleServerToggle.bind(this, true)}
+        onTouchTap={() => this.handleServerToggle(true)}
       />,
     ];
-
-    const divStyle = {
-      textAlign: 'left',
-      padding: '20px',
-      marginLeft: '10px',
-    };
 
     const radioIconStyle = {
       fill: '#4285f4',
@@ -1066,6 +1143,7 @@ class Settings extends Component {
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
+      color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
     };
     const fieldStyle = {
       height: '35px',
@@ -1076,585 +1154,139 @@ class Settings extends Component {
       width: 'auto',
     };
 
-    let currentSetting;
+    let currentSetting = '';
 
     let voiceOutput = this.populateVoiceList();
     if (this.state.selectedSetting === 'Microphone') {
-      currentSetting = '';
       currentSetting = (
-        <div style={divStyle}>
-          <div>
-            <div>
-              <div
-                style={{
-                  marginTop: '10px',
-                  marginBottom: '5px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                }}
-              >
-                <Translate text="Mic Input" />
-              </div>
-              {UserPreferencesStore.getTheme() === 'light' ? (
-                <hr className="break-line-light" style={{ height: '2px' }} />
-              ) : (
-                <hr className="break-line-dark" />
-              )}
-              <br />
-              <div
-                style={{
-                  float: 'left',
-                  padding: '0px 5px 0px 0px',
-                }}
-              >
-                <Translate text="Enable mic to give voice input " />
-              </div>
-              <Toggle
-                className="settings-toggle"
-                labelStyle={{ color: themeForegroundColor }}
-                disabled={!this.STTBrowserSupport}
-                onToggle={this.handleMicInput}
-                toggled={this.state.micInput}
-              />
-              <br />
-            </div>
-          </div>
-        </div>
+        <MicrophoneTab
+          containerStyle={divStyle}
+          themeForegroundColor={themeForegroundColor}
+          themeVal={UserPreferencesStore.getTheme()}
+          handleMicInput={this.handleChange}
+          micInput={this.state.micInput}
+        />
       );
     } else if (this.state.selectedSetting === 'Share on Social media') {
-      currentSetting = '';
-      currentSetting = (
-        <div style={divStyle}>
-          <ShareOnSocialMedia />
-        </div>
-      );
+      currentSetting = <ShareOnSocialMedia containerStyle={divStyle} />;
     } else if (this.state.selectedSetting === 'Theme') {
-      currentSetting = '';
       currentSetting = (
-        <div style={divStyle}>
-          <span>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '5px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-              }}
-            >
-              <Translate text="Select Theme" />
-            </div>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" style={{ height: '2px' }} />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-          </span>
-          <RadioButtonGroup
-            style={{ textAlign: 'left', margin: 20 }}
-            onChange={this.handleSelectChange}
-            name="Theme"
-            valueSelected={this.state.theme}
-          >
-            <RadioButton
-              style={{ width: '20%', display: 'block' }}
-              iconStyle={radioIconStyle}
-              labelStyle={{ color: themeForegroundColor }}
-              value="light"
-              label={<Translate text="Light" />}
-            />
-            <RadioButton
-              style={{ width: '20%', display: 'block' }}
-              iconStyle={radioIconStyle}
-              labelStyle={{ color: themeForegroundColor }}
-              value="dark"
-              label={<Translate text="Dark" />}
-            />
-            <RadioButton
-              style={{
-                width: '20%',
-                display: cookies.get('loggedIn') ? 'inline-block' : 'none',
-              }}
-              iconStyle={radioIconStyle}
-              labelStyle={{ color: themeForegroundColor }}
-              value="custom"
-              label={<Translate text="Custom" />}
-            />
-          </RadioButtonGroup>
-        </div>
+        <ThemeChangeTab
+          containerStyle={divStyle}
+          themeForegroundColor={themeForegroundColor}
+          radioIconStyle={radioIconStyle}
+          themeVal={UserPreferencesStore.getTheme()}
+          theme={this.state.theme}
+          handleSelectChange={this.handleSelectChange}
+          isLoggedIn={cookies.get('loggedIn')}
+          onThemeRequestClose={this.onRequestClose}
+          handleThemeChanger={this.handleThemeChanger}
+          themeOpen={this.state.themeOpen}
+        />
       );
     } else if (this.state.selectedSetting === 'Speech') {
       currentSetting = (
-        <div style={divStyle}>
-          <div>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '5px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-              }}
-            >
-              <Translate text="Speech Output" />
-            </div>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" style={{ height: '2px' }} />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <br />
-            <div
-              style={{
-                float: 'left',
-                padding: '0px 5px 0px 0px',
-              }}
-            >
-              <Translate text="Enable speech output only for speech input" />
-            </div>
-            <Toggle
-              className="settings-toggle"
-              disabled={!this.TTSBrowserSupport}
-              labelStyle={{ color: themeForegroundColor }}
-              onToggle={this.handleSpeechOutput}
-              toggled={this.state.speechOutput}
-            />
-            <br />
-            <br />
-          </div>
-          <div>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '0px',
-                fontSize: '15px',
-                fontWeight: 'bold',
-              }}
-            >
-              <Translate text="Speech Output Always ON" />
-            </div>
-            <br />
-            <div
-              style={{
-                float: 'left',
-                padding: '5px 5px 0px 0px',
-              }}
-            >
-              <Translate text="Enable speech output regardless of input type" />
-            </div>
-            <Toggle
-              className="settings-toggle"
-              disabled={!this.TTSBrowserSupport}
-              labelStyle={{ color: themeForegroundColor }}
-              onToggle={this.handleSpeechOutputAlways}
-              toggled={this.state.speechOutputAlways}
-            />
-            <br />
-            <br />
-          </div>
-          <div>
-            <TextToSpeechSettings
-              rate={this.state.speechRate}
-              pitch={this.state.speechPitch}
-              lang={this.state.ttsLanguage}
-              newTtsSettings={this.handleNewTextToSpeech.bind(this)}
-            />
-          </div>
-        </div>
+        <SpeechTab
+          containerStyle={divStyle}
+          themeForegroundColor={themeForegroundColor}
+          themeVal={UserPreferencesStore.getTheme()}
+          handleSpeechOutputAlways={this.handleSpeechOutputAlways}
+          speechOutputAlways={this.state.speechOutputAlways}
+          speechRate={this.state.speechRate}
+          speechPitch={this.state.speechPitch}
+          ttsLanguage={this.state.ttsLanguage}
+          handleNewTextToSpeech={this.handleNewTextToSpeech}
+          handleSpeechOutput={this.handleSpeechOutput}
+          speechOutput={this.state.speechOutput}
+        />
       );
     } else if (
       this.state.selectedSetting === 'Account' &&
       cookies.get('loggedIn')
     ) {
       currentSetting = (
-        <div style={divStyle}>
-          <span>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '5px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-              }}
-            >
-              <Translate text="Account" />
-            </div>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" style={{ height: '2px' }} />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-          </span>
-
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-              fontSize: '15px',
-              fontWeight: 'bold',
-            }}
-          >
-            <Translate text="User Name" />
-          </div>
-          <TextField
-            name="username"
-            style={fieldStyle}
-            value={this.state.UserName}
-            onChange={this.handleUserName}
-            inputStyle={inputStyle}
-            placeholder="Enter your User Name"
-            underlineStyle={{ display: 'none' }}
-          />
-          <br />
-
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-              fontSize: '15px',
-              fontWeight: 'bold',
-            }}
-          >
-            <Translate text="Email" />
-          </div>
-          <TextField
-            name="email"
-            style={fieldStyle}
-            value={this.state.identity.name}
-            inputStyle={inputStyle}
-            underlineStyle={{ display: 'none' }}
-          />
-          <br />
-
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '0px',
-              fontSize: '15px',
-              fontWeight: 'bold',
-            }}
-          >
-            <Translate text="Select default language" />
-          </div>
-          <DropDownMenu
-            value={voiceOutput.voiceLang}
-            style={{ marginLeft: '-20px' }}
-            disabled={!this.TTSBrowserSupport}
-            labelStyle={{ color: themeForegroundColor }}
-            menuStyle={{ backgroundColor: themeBackgroundColor }}
-            menuItemStyle={{ color: themeForegroundColor }}
-            onChange={this.handlePrefLang}
-          >
-            {voiceOutput.voiceMenu}
-          </DropDownMenu>
-          <br />
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '0px',
-              fontSize: '15px',
-              fontWeight: 'bold',
-            }}
-          >
-            <Translate text="Select TimeZone" />
-          </div>
-          <br />
-          <TimezonePicker
-            value={this.state.TimeZone}
-            onChange={timezone => this.handleTimeZone(timezone)}
-            inputProps={{
-              placeholder: 'Select Timezone...',
-              name: 'timezone',
-            }}
-          />
-        </div>
+        <AccountTab
+          containerStyle={divStyle}
+          themeForegroundColor={themeForegroundColor}
+          fieldStyle={fieldStyle}
+          inputStyle={inputStyle}
+          themeBackgroundColor={themeBackgroundColor}
+          themeVal={UserPreferencesStore.getTheme()}
+          userName={this.state.UserName}
+          handleUserName={this.handleUserName}
+          identityName={this.state.identity.name}
+          timeZone={this.state.TimeZone}
+          handlePrefLang={this.handlePrefLang}
+          handleTimeZone={this.handleTimeZone}
+          voiceOutput={voiceOutput}
+        />
       );
     } else if (
       this.state.selectedSetting === 'Password' &&
       cookies.get('loggedIn')
     ) {
       currentSetting = (
-        <div style={divStyle}>
-          <span>
-            <span>
-              <div
-                style={{
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                }}
-              >
-                <Translate text="Password" />
-              </div>
-            </span>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr
-                className="break-line-light"
-                style={{ height: '2px', marginBottom: '10px' }}
-              />
-            ) : (
-              <hr
-                className="break-line-dark"
-                style={{ height: '2px', marginBottom: '10px' }}
-              />
-            )}
-            <ChangePassword
-              settings={this.state.intialSettings}
-              {...this.props}
-            />
-          </span>
-        </div>
+        <PasswordTab
+          containerStyle={divStyle}
+          intialSettings={this.state.intialSettings}
+          themeVal={UserPreferencesStore.getTheme()}
+          {...this.props}
+        />
       );
     } else if (this.state.selectedSetting === 'Devices') {
       currentSetting = (
-        <span style={{ right: '40px' }}>
-          <div style={divStyle}>
-            <span>
-              <div
-                style={{
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                }}
-              >
-                <Translate text="Devices" />
-              </div>
-            </span>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr
-                className="break-line-light"
-                style={{ height: '2px', marginBottom: '10px' }}
-              />
-            ) : (
-              <hr
-                className="break-line-dark"
-                style={{ height: '2px', marginBottom: '10px' }}
-              />
-            )}
-            {this.state.deviceData ? (
-              <div>
-                <Tabs
-                  onChange={this.handleTabSlide}
-                  value={this.state.slideIndex}
-                  inkBarStyle={{
-                    background: 'rgb(66, 133, 244)',
-                    height: '5px',
-                  }}
-                >
-                  <Tab label="Table View" value={0} style={styles.slide} />
-                  <Tab label="Map View" value={1} style={styles.slide} />
-                </Tabs>
-                <div
-                  style={{
-                    height: '10px',
-                  }}
-                />
-                <SwipeableViews
-                  index={this.state.slideIndex}
-                  onChangeIndex={this.handleChange}
-                >
-                  <div>
-                    <div style={{ overflowX: 'auto' }}>
-                      <div
-                        className="table"
-                        style={{
-                          left: '0px',
-                          marginTop: '0px',
-                          width: '550px',
-                        }}
-                      >
-                        <TableComplex
-                          handleRemove={this.handleRemove}
-                          handleRemoveConfirmation={
-                            this.handleRemoveConfirmation
-                          }
-                          startEditing={this.startEditing}
-                          editIdx={this.state.editIdx}
-                          stopEditing={this.stopEditing}
-                          handleChange={this.handleChange}
-                          tableData={this.state.obj}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ maxHeight: '300px' }}>
-                    <MapContainer
-                      google={this.props.google}
-                      mapData={this.state.mapObj}
-                      centerLat={this.state.centerLat}
-                      centerLng={this.state.centerLng}
-                      devicenames={this.state.devicenames}
-                      rooms={this.state.rooms}
-                      macids={this.state.macids}
-                    />
-                  </div>
-                </SwipeableViews>
-              </div>
-            ) : (
-              <div id="subheading">
-                You do not have any devices connected yet!
-              </div>
-            )}
-          </div>
-        </span>
+        <DevicesTab
+          containerStyle={divStyle}
+          themeVal={UserPreferencesStore.getTheme()}
+          deviceData={this.state.deviceData}
+          handleRemove={this.handleRemove}
+          handleRemoveConfirmation={this.handleRemoveConfirmation}
+          startEditing={this.startEditing}
+          editIdx={this.state.editIdx}
+          stopEditing={this.stopEditing}
+          handleChange={this.handleChange}
+          tableData={this.state.obj}
+          mapObj={this.state.mapObj}
+          google={this.props.google}
+          centerLat={this.state.centerLat}
+          centerLng={this.state.centerLng}
+          deviceNames={this.state.devicenames}
+          rooms={this.state.rooms}
+          macIds={this.state.macids}
+          slideIndex={this.state.slideIndex}
+          devicesNotAvailable={this.state.devicesNotAvailable}
+        />
       );
     } else if (
       this.state.selectedSetting === 'Mobile' &&
       cookies.get('loggedIn')
     ) {
       currentSetting = (
-        <span style={divStyle}>
-          <div>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '5px',
-                marginLeft: '30px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-              }}
-            >
-              <Translate text="Mobile" />
-            </div>
-            <div
-              style={{
-                marginTop: '0px',
-                marginBottom: '0px',
-                marginLeft: '30px',
-                fontSize: '14px',
-              }}
-            >
-              <Translate text="Expand your experience, get closer, and stay current" />
-            </div>
-            <hr color="#f8f8f8" />
-            <div
-              style={{
-                marginTop: '0px',
-                marginBottom: '0px',
-                marginLeft: '30px',
-                fontSize: '15px',
-                fontWeight: 'bold',
-              }}
-            >
-              <Translate text="Add your phone number" />
-            </div>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '0px',
-                marginLeft: '30px',
-                fontSize: '14px',
-              }}
-            >
-              <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
-            </div>
-            <div
-              style={{
-                marginTop: '10px',
-                marginBottom: '0px',
-                marginLeft: '30px',
-                fontSize: '14px',
-              }}
-            >
-              <Translate text="Country/region : " />
-              <DropDownMenu
-                maxHeight={300}
-                style={{ width: '250px', position: 'relative', top: '15px' }}
-                labelStyle={{ color: themeForegroundColor }}
-                menuStyle={{ backgroundColor: themeBackgroundColor }}
-                menuItemStyle={{ color: themeForegroundColor }}
-                value={this.state.countryCode ? this.state.countryCode : 'US'}
-                onChange={this.handleCountryChange}
-              >
-                {countries}
-              </DropDownMenu>
-            </div>
-            <div
-              style={{
-                marginTop: '-10px',
-                marginBottom: '0px',
-                marginLeft: '30px',
-                fontSize: '14px',
-              }}
-            >
-              <Translate text="Phone number : " />
-              <TextField
-                name="selectedCountry"
-                disabled={true}
-                underlineDisabledStyle={
-                  UserPreferencesStore.getTheme() === 'dark'
-                    ? underlineStyle
-                    : null
-                }
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
-                }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={
-                  countryData.countries[
-                    this.state.countryCode ? this.state.countryCode : 'US'
-                  ].countryCallingCodes[0]
-                }
-                style={{ width: '45px', marginLeft: '30px' }}
-              />
-
-              <TextField
-                name="phonenumber"
-                style={{ width: '150px', marginLeft: '5px' }}
-                onChange={this.handleTelephoneNoChange}
-                inputStyle={{
-                  color:
-                    UserPreferencesStore.getTheme() === 'dark'
-                      ? '#fff'
-                      : '#333',
-                }}
-                floatingLabelStyle={floatingLabelStyle}
-                value={this.state.PhoneNo}
-                floatingLabelText={<Translate text="Phone number" />}
-              />
-            </div>
-          </div>
-        </span>
+        <MobileTab
+          containerStyle={divStyle}
+          floatingLabelStyle={floatingLabelStyle}
+          themeBackgroundColor={themeBackgroundColor}
+          themeForegroundColor={themeForegroundColor}
+          underlineStyle={underlineStyle}
+          themeVal={UserPreferencesStore.getTheme()}
+          phoneNo={this.state.PhoneNo}
+          phoneNoError={this.state.phoneNoError}
+          countryCode={this.state.countryCode}
+          countries={countries}
+          countryData={countryData.countries}
+          handleCountryChange={this.handleCountryChange}
+          handleTelephoneNoChange={this.handleTelephoneNoChange}
+        />
       );
     } else {
       currentSetting = (
-        <div style={divStyle}>
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-            }}
-          >
-            <Translate text="Preferences" />
-          </div>
-          {UserPreferencesStore.getTheme() === 'light' ? (
-            <hr className="break-line-light" style={{ height: '2px' }} />
-          ) : (
-            <hr className="break-line-dark" />
-          )}
-          <br />
-          <div
-            style={{
-              float: 'left',
-              padding: '0px 5px 0px 0px',
-            }}
-          >
-            <Translate text="Send message by pressing ENTER" />
-          </div>
-          <Toggle
-            className="settings-toggle"
-            onToggle={this.handleEnterAsSend}
-            labelStyle={{ color: themeForegroundColor }}
-            toggled={this.state.enterAsSend}
-          />
-          <br />
-        </div>
+        <ChatAppTab
+          containerStyle={divStyle}
+          themeVal={UserPreferencesStore.getTheme()}
+          themeForegroundColor={themeForegroundColor}
+          enterAsSend={this.state.enterAsSend}
+          handleEnterAsSend={this.handleEnterAsSend}
+        />
       );
     }
 
@@ -2026,7 +1658,9 @@ class Settings extends Component {
       <div
         id="settings-container"
         className={
-          UserPreferencesStore.getTheme() === 'light'
+          (UserPreferencesStore.getTheme() === 'light' &&
+            this.state.settingNo !== 'Theme') ||
+          (this.state.settingNo === 'Theme' && this.state.theme === 'light')
             ? 'settings-container-light'
             : 'settings-container-dark'
         }
@@ -2069,11 +1703,47 @@ class Settings extends Component {
               {this.displaySaveChangesButton() && (
                 <RaisedButton
                   label={<Translate text="Save Changes" />}
-                  disabled={!this.state.validForm || !somethingToSave}
+                  disabled={
+                    !this.state.validForm ||
+                    !somethingToSave ||
+                    this.state.phoneNoError
+                  }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
                   onClick={this.handleSubmit}
                 />
+              )}
+              {this.state.selectedSetting !== 'Account' ? (
+                ''
+              ) : (
+                <div style={{ marginRight: '20px' }}>
+                  {UserPreferencesStore.getTheme() === 'light' ? (
+                    <hr
+                      className="break-line-light"
+                      style={{ height: '2px', marginTop: '25px' }}
+                    />
+                  ) : (
+                    <hr
+                      className="break-line-dark"
+                      style={{ height: '2px', marginTop: '25px' }}
+                    />
+                  )}
+
+                  <p
+                    style={{
+                      textAlign: 'center',
+                      marginTop: '20px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <span className="Link">
+                      <a href={`${urls.ACCOUNT_URL}/delete-account`}>
+                        Deactivate your account
+                      </a>
+                    </span>
+                  </p>
+                </div>
               )}
             </div>
           </Paper>
@@ -2085,7 +1755,7 @@ class Settings extends Component {
           open={this.state.showServerChangeDialog}
           autoScrollBodyContent={true}
           bodyStyle={bodyStyle}
-          onRequestClose={this.handleServerToggle.bind(this, false)}
+          onRequestClose={() => this.handleServerToggle(false)}
         >
           <div>
             <h3>
@@ -2094,7 +1764,7 @@ class Settings extends Component {
             <Translate text="Please login again to change SUSI server" />
             <Close
               style={closingStyle}
-              onTouchTap={this.handleServerToggle.bind(this, false)}
+              onTouchTap={() => this.handleServerToggle(false)}
             />
           </div>
         </Dialog>
@@ -2124,8 +1794,11 @@ Settings.propTypes = {
   onServerChange: PropTypes.func,
   location: PropTypes.object,
   google: PropTypes.object,
+  handleThemeChanger: PropTypes.func,
 };
 
-export default GoogleApiWrapper({
-  apiKey: MAP_KEY,
-})(Settings);
+export default withRouter(
+  GoogleApiWrapper({
+    apiKey: MAP_KEY,
+  })(Settings),
+);

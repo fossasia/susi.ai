@@ -3,6 +3,7 @@
     width: 100%;
     position: relative;
     z-index: 10;
+    max-height: 150px;
 }
 .footer-container a{
     text-decoration: none;
@@ -27,10 +28,7 @@
     list-style: none;
     list-style-type: none;
 }
-.leftDiv a,.rightDiv a {
-    color:#3367d6;
-    font-family: 'Roboto', sans-serif;
-}
+
 .footer-container a:hover {
     text-decoration: none;
     color:#757575;;
@@ -58,11 +56,11 @@
     justify-content: space-between
 }
 .susi-logo{
-    margin: 10px 0;
-    height: 30px;
+    height: 10px;
     vertical-align: middle;
     max-width: 100px;
-    display: inline-block;
+    margin-top: 21px;
+    width: auto;
 }
 
 @media only screen and (min-width: 1400px){
@@ -97,5 +95,9 @@
         text-overflow: ellipsis;
         display: block;
     }
+    .susi-logo{
+      display: block;
+      margin-left:auto;
+      margin-right: auto;
+    }
 }
-

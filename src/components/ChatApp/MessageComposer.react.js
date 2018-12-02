@@ -20,7 +20,7 @@ injectTapEventPlugin();
 let ENTER_KEY_CODE = 13;
 let UP_KEY_CODE = 38;
 let DOWN_KEY_CODE = 40;
-var flag = 1;
+let flag = 1;
 const style = {
   mini: true,
   bottom: '14px',
@@ -48,7 +48,7 @@ const closingStyle = {
 };
 
 $.urlParam = function(name) {
-  var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(
+  let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(
     window.location.href,
   );
   if (results && results.length > 0) {
@@ -130,7 +130,7 @@ class MessageComposer extends Component {
       stop: false,
     });
     if (this.state.result === '') {
-      var x = document.getElementById('snackbar');
+      let x = document.getElementById('snackbar');
       if (this.state.micAccess) {
         x.className = 'show';
         setTimeout(function() {
@@ -178,7 +178,7 @@ class MessageComposer extends Component {
     }
   };
 
-  componentWillMount() {
+  componentDidMount() {
     let micInputSetting = UserPreferencesStore.getMicInput();
     if (micInputSetting) {
       // Getting the Speech Recognition to test whether possible
@@ -200,9 +200,7 @@ class MessageComposer extends Component {
       this.Button = <Send />;
       this.speechRecog = false;
     }
-  }
 
-  componentDidMount() {
     let testSkill = $.urlParam('testExample');
     if (testSkill) {
       let text = testSkill.trim();
@@ -279,8 +277,8 @@ class MessageComposer extends Component {
             maxRows={2}
             placeholder="Type a message..."
             value={this.state.text}
-            onChange={this._onChange.bind(this)}
-            onKeyDown={this._onKeyDown.bind(this)}
+            onChange={this._onChange}
+            onKeyDown={this._onKeyDown}
             ref={textarea => {
               this.nameInput = textarea;
             }}
@@ -298,7 +296,7 @@ class MessageComposer extends Component {
             fill: this.props.micColor,
             margin: '1px 0px 1px 0px',
           }}
-          onTouchTap={this._onClickButton.bind(this)}
+          onTouchTap={this._onClickButton}
           style={style}
         >
           {this.Button}
@@ -333,7 +331,7 @@ class MessageComposer extends Component {
     );
   }
 
-  _onClickButton() {
+  _onClickButton = () => {
     flag = 1;
     if (this.state.text === '') {
       if (this.speechRecog) {
@@ -367,9 +365,9 @@ class MessageComposer extends Component {
       }.bind(this),
       5000,
     );
-  }
+  };
 
-  _onChange(event, value) {
+  _onChange = (event, value) => {
     if (this.speechRecog) {
       if (event.target.value !== '') {
         this.Button = <Send />;
@@ -380,9 +378,9 @@ class MessageComposer extends Component {
       this.Button = <Send />;
     }
     this.setState({ text: event.target.value, currentArrowIndex: 0 });
-  }
+  };
 
-  _onKeyDown(event) {
+  _onKeyDown = event => {
     if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
       let EnterAsSend = UserPreferencesStore.getEnterAsSend();
       if (EnterAsSend) {
@@ -447,7 +445,7 @@ class MessageComposer extends Component {
         this.setState({ currentArrowIndex });
       }
     }
-  }
+  };
 }
 
 MessageComposer.propTypes = {

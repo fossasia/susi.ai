@@ -1,3 +1,9 @@
+.siteTitle {
+    height: 25px;
+    margin-top: 21px;
+    display: block;
+}
+
 .topAppBar button{
     display: none !important;
 }
@@ -55,4 +61,11 @@ a.drawerItem {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: -8px;
+    margin-top: 1px;
+}
+@media(max-width: 1000px){
+    .topRightLabel{
+        display: None;
+    }
 }

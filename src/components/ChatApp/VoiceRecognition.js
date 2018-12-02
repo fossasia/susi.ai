@@ -73,7 +73,7 @@ class VoiceRecognition extends Component {
     this.recognition.abort();
   };
 
-  componentWillReceiveProps({ stop }) {
+  componentDidUpdate({ stop }) {
     if (stop) {
       this.stop();
     }

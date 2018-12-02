@@ -1,65 +1,54 @@
-import './Overview.css';
-import $ from 'jquery';
-import allDevices from '../../images/all_devices.png';
-import androidMockup from '../../images/android-mockup.jpg';
-import bots from '../../images/bots.jpg';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Footer from '../Footer/Footer.react';
-import githubText from '../../images/github-text-logo.png';
-import manyLanguages from '../../images/many_languages.png';
-import mapAndroid from '../../images/map-android.jpg';
-import Modal from 'react-modal';
-import openSource from '../../images/open-source.png';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import shield from '../../images/shield.svg';
+import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import $ from 'jquery';
+import Modal from 'react-modal';
+import urls from '../../utils/urls';
+import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import Close from 'material-ui/svg-icons/navigation/close';
 import susiGif from '../../images/susi.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import React, { Component } from 'react';
+import bots from '../../images/bots.jpg';
+import githubText from '../../images/github-text-logo.png';
+import manyLanguages from '../../images/many_languages.png';
+import allDevices from '../../images/all_devices.png';
+import androidMockup from '../../images/android-mockup.jpg';
+import mapAndroid from '../../images/map-android.jpg';
+import shield from '../../images/shield.svg';
+import openSource from '../../images/open-source.png';
+import './Overview.css';
+
+const styles = {
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 120000,
+    fill: '#fff',
+    width: '40px',
+    height: '40px',
+    right: '1.5%',
+    top: '20px',
+    cursor: 'pointer',
+  },
+};
 
 class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      video: false,
+      isVideoModalOpen: false,
     };
   }
-
-  handleTitle = () => {
-    this.props.history.push('/');
+  // Toggle Video dialog
+  toggleVideoModal = () => {
+    this.setState(prevState => ({
+      isVideoModalOpen: !prevState.isVideoModalOpen,
+    }));
   };
-  // Open Video Dialog and close login and sign up dialog
-  handleVideo = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      video: true,
-    });
-  // Close all the dialogs
-  handleClose = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      video: false,
-    });
-  // Close Video Dialog
-  closeVideo = () =>
-    this.setState({
-      video: false,
-    });
-
-  _onReady(event) {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
-  }
-
-  componentWillMount() {
-    document.body.style.backgroundColor = '#fff';
-  }
 
   componentDidMount() {
+    document.body.style.backgroundColor = '#fff';
     // Adding title tag to page
     document.title =
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
@@ -68,18 +57,8 @@ class Overview extends Component {
   }
 
   render() {
+    const { closingStyle } = styles;
     document.body.style.setProperty('background-image', 'none');
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 120000,
-      fill: '#fff',
-      width: '40px',
-      height: '40px',
-      right: '20px',
-      top: '20px',
-      cursor: 'pointer',
-    };
-
     return (
       <div>
         <StaticAppBar
@@ -100,7 +79,7 @@ class Overview extends Component {
                 Ask it questions. Tell it to do things. Always ready to help.
               </p>
               <a
-                onClick={this.handleVideo}
+                onClick={this.toggleVideoModal}
                 style={{
                   color: '#3367d6',
                   cursor: 'pointer',
@@ -187,7 +166,7 @@ class Overview extends Component {
           </div>
         </div>
 
-        <div className="section_copy">
+        <div style={{ alignItems: 'unset' }} className="section_copy">
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className="img-container">
@@ -260,7 +239,7 @@ class Overview extends Component {
               <p className="description__text">
                 <b>SUSI.AI</b> is available for any android, iOS device and also
                 you can access the web chat application from this URL{' '}
-                <a href="https://chat.susi.ai">https://chat.susi.ai</a>
+                <a href={urls.CHAT_URL}>{urls.CHAT_URL}</a>
               </p>
             </div>
           </div>
@@ -296,7 +275,7 @@ class Overview extends Component {
               <a
                 rel="noopener noreferrer"
                 style={{ textDecoration: 'none' }}
-                href="https://skills.susi.ai/"
+                href={urls.SKILL_URL}
                 target="_blank"
               >
                 {' '}
@@ -359,9 +338,9 @@ class Overview extends Component {
         {/* Video */}
 
         <Modal
-          isOpen={this.state.video}
+          isOpen={this.state.isVideoModalOpen}
           className="Video-Modal"
-          onRequestClose={this.handleClose}
+          onRequestClose={this.toggleVideoModal}
           contentLabel="Assistant Video"
           overlayClassName="Video-Overlay"
         >
@@ -373,7 +352,7 @@ class Overview extends Component {
               allowFullScreen
               src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
             />
-            <Close style={closingStyle} onTouchTap={this.handleClose} />
+            <Close style={closingStyle} onTouchTap={this.toggleVideoModal} />
           </div>
         </Modal>
       </div>

@@ -40,6 +40,7 @@ export default class TableComplex extends Component {
           fixedHeader={false}
           style={{ width: 'auto', tableLayout: 'auto' }}
         >
+          {/* Table header columns for Table View */}
           <TableHeader
             displaySelectAll={this.state.showCheckboxes}
             adjustForCheckbox={this.state.showCheckboxes}
@@ -82,6 +83,7 @@ export default class TableComplex extends Component {
               >
                 Geolocation
               </TableHeaderColumn>
+              {/* Table header columns for edit and delete icon */}
               <TableHeaderColumn
                 style={{
                   width: '40px',
@@ -116,6 +118,11 @@ export default class TableComplex extends Component {
                       wordWrap: 'break-word',
                     }}
                   >
+                    {/*
+                    editIdx denotes the row number which is being edited
+                    On changing value of device name, handleChange() function is called
+                    This function shows the updated value of device name in the textfield
+                  */}
                     {this.props.editIdx === index ? (
                       <TextField
                         name={index.toString()}
@@ -145,6 +152,10 @@ export default class TableComplex extends Component {
                       wordWrap: 'break-word',
                     }}
                   >
+                    {/*
+                    On changing of the value of room, handleChange() function is called
+                    This function shows the updated value of room in the textfield
+                  */}
                     {this.props.editIdx === index ? (
                       <TextField
                         name={index.toString()}
@@ -164,7 +175,13 @@ export default class TableComplex extends Component {
                       wordWrap: 'break-word',
                     }}
                   >
-                    {row.latitude}, {row.longitude}
+                    {/* If location info is not available, display a message */}
+                    {!(
+                      row.latitude === 'Latitude not available.' ||
+                      row.longitude === 'Longitude not available.'
+                    )
+                      ? row.latitude + ', ' + row.longitude
+                      : 'Location not available'}
                   </TableRowColumn>
                   <TableRowColumn
                     style={{
@@ -174,6 +191,10 @@ export default class TableComplex extends Component {
                       paddingLeft: '0px',
                     }}
                   >
+                    {/*
+                    Decide between edit icon and check icon for each row,
+                    depending on the value of editIdx.
+                  */}
                     {this.props.editIdx === index ? (
                       <CheckIcon
                         onClick={() => this.props.stopEditing(index)}
@@ -194,6 +215,9 @@ export default class TableComplex extends Component {
                       paddingLeft: '0px',
                     }}
                   >
+                    {/*
+                    Handle opening of delete confirmation dialog on clicking delete icon
+                  */}
                     <TrashIcon
                       onClick={() => this.props.handleRemoveConfirmation(index)}
                       style={{ cursor: 'pointer' }}

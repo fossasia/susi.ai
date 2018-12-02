@@ -1,22 +1,47 @@
-import './Support.css';
-import $ from 'jquery';
-import Close from 'material-ui/svg-icons/navigation/close';
-import code from '../../images/code.png';
-import Dialog from 'material-ui/Dialog';
-import documentation from '../../images/programmer.png';
-import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import Footer from '../Footer/Footer.react';
-import github from '../../images/github.png';
-import googleGroups from '../../images/google-groups.png';
-import Login from '../Auth/Login/Login.react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
+import Cookies from 'universal-cookie';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import stackoverflow from '../../images/stackoverflow.png';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import support from '../../images/support.png';
 import question from '../../images/question.png';
-import React, { Component } from 'react';
+import urls from '../../utils/urls';
+import documentation from '../../images/programmer.png';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import Footer from '../Footer/Footer.react';
+import github from '../../images/github.png';
+import googleGroups from '../../images/google-groups.png';
+import Login from '../Auth/Login/Login.react';
+import code from '../../images/code.png';
+import './Support.css';
+
+const cookies = new Cookies();
+
+const styles = {
+  buttonStyle: {
+    marginTop: '25px',
+    marginBottom: '25px',
+  },
+  bodyStyle: {
+    padding: 0,
+    textAlign: 'center',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+};
 
 class Support extends Component {
   constructor(props) {
@@ -58,6 +83,7 @@ class Support extends Component {
       showLogin: false,
     });
   };
+
   // Close all dialogs
   handleClose = () => {
     this.setState({
@@ -69,26 +95,8 @@ class Support extends Component {
 
   render() {
     document.body.style.setProperty('background-image', 'none');
-    const style = {
-      marginTop: '25px',
-      marginBottom: '25px',
-    };
 
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
+    const { showLogin, showSignUp, showForgotPassword } = this.state;
 
     return (
       <div>
@@ -228,17 +236,19 @@ class Support extends Component {
               </div>
             </div>
             <div className=" support-item support-item-with-icon  support-item-no-image">
-              <a href="https://skills.susi.ai">
+              <a href={urls.SKILL_URL}>
                 <div className=" support-item-icon-container">
                   <img alt="code" src={code} className=" support-item-icon" />
                 </div>
               </a>
               <div className="support-description">
-                <a href="https://skills.susi.ai">
+                <a href={urls.SKILL_URL}>
                   <h3 id="stack-overflow">Create and Edit a SUSI.AI skill</h3>
                 </a>
                 <div className="support-description-content">
-                  You can easily create a skill on the SUSI.AI skills editor at<a href="https://skills.susi.ai">
+                  You can easily create a skill on the SUSI.AI skills editor at<a
+                    href={urls.SKILL_URL}
+                  >
                     &nbsp;skills.susi.ai
                   </a>
                 </div>
@@ -282,19 +292,22 @@ class Support extends Component {
           </div>
         </div>
         <div className="blue-wrapper">
-          <div className="non-flex blue-background">
-            <div className="conversation__description footer-desc">
-              <div className="support__heading center blue-text">
-                Get Started Today
-              </div>
+          {!cookies.get('loggedIn') ? (
+            <div className="non-flex blue-background">
+              <div className="conversation__description footer-desc">
+                <div className="support__heading center blue-text">
+                  Get Started Today
+                </div>
 
-              <RaisedButton
-                label="Sign Up"
-                onTouchTap={this.handleSignUp}
-                style={style}
-              />
+                <RaisedButton
+                  label="Sign Up"
+                  onTouchTap={this.handleSignUp}
+                  style={styles.buttonStyle}
+                />
+              </div>
             </div>
-          </div>
+          ) : null}
+
           <Footer />
         </div>
 
@@ -302,9 +315,9 @@ class Support extends Component {
         <Dialog
           className="dialogStyle"
           modal={true}
-          open={this.state.showLogin}
+          open={showLogin}
           autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
+          bodyStyle={styles.bodyStyle}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
@@ -312,15 +325,15 @@ class Support extends Component {
             {...this.props}
             handleForgotPassword={this.handleForgotPassword}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         {/* SignUp */}
         <Dialog
           className="dialogStyle"
           modal={true}
-          open={this.state.showSignUp}
+          open={showSignUp}
           autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
+          bodyStyle={styles.bodyStyle}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
@@ -329,13 +342,13 @@ class Support extends Component {
             onRequestClose={this.handleClose}
             onLoginSignUp={this.handleLogin}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         {/* ForgotPassword */}
         <Dialog
           className="dialogStyle"
           modal={false}
-          open={this.state.showForgotPassword}
+          open={showForgotPassword}
           autoScrollBodyContent={true}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
@@ -344,7 +357,7 @@ class Support extends Component {
             {...this.props}
             showForgotPassword={this.handleForgotPassword}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
       </div>
     );

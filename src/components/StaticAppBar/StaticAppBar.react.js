@@ -1,35 +1,43 @@
-import './StaticAppBar.css';
-import $ from 'jquery';
-import AppBar from 'material-ui/AppBar';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Cookies from 'universal-cookie';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
-import Exit from 'material-ui/svg-icons/action/exit-to-app';
-import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import Info from 'material-ui/svg-icons/action/info';
-import Login from '../Auth/Login/Login.react';
 import MenuItem from 'material-ui/MenuItem';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
-import React, { Component } from 'react';
+import Cookies from 'universal-cookie';
+import $ from 'jquery';
+import Translate from '../Translate/Translate.react';
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import Login from '../Auth/Login/Login.react';
 import SignUp from '../Auth/SignUp/SignUp.react';
+import CircleImage from '../CircleImage/CircleImage';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import Info from 'material-ui/svg-icons/action/info';
+import urls from '../../utils/urls';
+import { getAvatarProps } from '../../utils/helperFunctions';
+import { isProduction } from '../../utils/helperFunctions';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
+import Chat from 'material-ui/svg-icons/communication/chat';
+import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import susiWhite from '../../images/susi-logo-white.png';
-import Translate from '../Translate/Translate.react';
+import Close from 'material-ui/svg-icons/navigation/close';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import List from 'material-ui/svg-icons/action/list';
+import './StaticAppBar.css';
 
-import { Link } from 'react-router-dom';
+const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
+
+const baseUrl = window.location.protocol + '//' + window.location.host + '/';
 
 let Logged = props => (
   <div>
@@ -45,7 +53,7 @@ let Logged = props => (
           width: '140px',
           display: 'block',
         }}
-        href="https://skills.susi.ai"
+        href={urls.SKILL_URL}
       >
         Skills
       </a>
@@ -63,18 +71,49 @@ let Logged = props => (
   </div>
 );
 
+const styles = {
+  bodyStyle: {
+    padding: 0,
+    textAlign: 'center',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+  labelStyle: {
+    padding: '0px 25px 7px 25px',
+    font: '500 14px Roboto,sans-serif',
+    margin: '0 2px',
+    textTransform: 'none',
+    textDecoration: 'none',
+    wordSpacing: '2px',
+    color: '#f2f2f2',
+    verticalAlign: 'bottom',
+  },
+  linkStyle: {
+    color: '#fff',
+    height: '64px',
+    textDecoration: 'none',
+  },
+};
+
 class StaticAppBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      baseUrl: window.location.protocol + '//' + window.location.host + '/',
       login: false,
       signup: false,
       open: false,
       showOptions: false,
+      showAdmin: false,
       anchorEl: null,
       openForgotPassword: false,
-      leftGap: '0px',
     };
   }
   // Open app bar's drawer
@@ -83,9 +122,6 @@ class StaticAppBar extends Component {
   handleDrawerClose = () => this.setState({ openDrawer: false });
   // Show options on touch tap
   showOptions = event => {
-    var p = $('#rightIconButton').width();
-    var screenWidth = $(window).width();
-    this.setState({ leftGap: (screenWidth - p) / 2 + p - 130 });
     event.preventDefault();
     this.setState({
       showOptions: true,
@@ -158,24 +194,52 @@ class StaticAppBar extends Component {
   };
 
   componentDidMount() {
+    let url;
+
+    if (cookies.get('loggedIn')) {
+      url = `${
+        urls.API_URL
+      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
+
+      $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        jsonpCallback: 'pfns',
+        jsonp: 'callback',
+        crossDomain: true,
+        success: function(newResponse) {
+          let showAdmin = newResponse.showAdmin;
+          cookies.set('showAdmin', showAdmin, {
+            path: '/',
+            domain: cookieDomain,
+          });
+          this.setState({
+            showAdmin: showAdmin,
+          });
+          // console.log(newResponse.showAdmin)
+        }.bind(this),
+        error: newErrorThrown => {
+          console.log(newErrorThrown);
+        },
+      });
+
+      this.setState({
+        showAdmin: cookies.get('showAdmin'),
+      });
+    }
+
     window.addEventListener('scroll', this.handleScroll);
-    var didScroll;
-    var lastScrollTop = 0;
-    var delta = 5;
-    var navbarHeight = $('header').outerHeight();
+    let didScroll;
+    let lastScrollTop = 0;
+    let delta = 5;
+    let navbarHeight = $('header').outerHeight();
     $(window).scroll(event => {
       didScroll = true;
       this.setState({ showOptions: false });
     });
-    setInterval(function() {
-      if (didScroll) {
-        hasScrolled();
-        didScroll = false;
-      }
-    }, 500);
 
-    function hasScrolled() {
-      var st = $(window).scrollTop();
+    const hasScrolled = () => {
+      let st = $(window).scrollTop();
       // Make sure they scroll more than delta
       if (Math.abs(lastScrollTop - st) <= delta) {
         return;
@@ -193,7 +257,14 @@ class StaticAppBar extends Component {
           .addClass('nav-down');
       }
       lastScrollTop = st;
-    }
+    };
+
+    setInterval(() => {
+      if (didScroll) {
+        hasScrolled();
+        didScroll = false;
+      }
+    }, 500);
 
     // Return menu items for the hamburger menu
     Logged = props => (
@@ -202,7 +273,7 @@ class StaticAppBar extends Component {
           <MenuItem
             primaryText={<Translate text="Dashboard" />}
             rightIcon={<Assessment />}
-            href="https://skills.susi.ai/dashboard"
+            href={`${urls.SKILL_URL}/dashboard`}
           />
         ) : null}
         <MenuItem
@@ -213,14 +284,14 @@ class StaticAppBar extends Component {
         <MenuItem
           primaryText={<Translate text="Skills" />}
           rightIcon={<Dashboard />}
-          href="https://skills.susi.ai"
+          href={urls.SKILL_URL}
         />
         {cookies.get('loggedIn') ? (
           <div>
             <MenuItem
               primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
-              href="https://skills.susi.ai/botbuilder"
+              href={`${urls.SKILL_URL}/botbuilder`}
             />
             <MenuItem
               primaryText={<Translate text="Settings" />}
@@ -234,6 +305,13 @@ class StaticAppBar extends Component {
           containerElement={<Link to="/overview" />}
           rightIcon={<Info />}
         />
+        {this.state.showAdmin === true ? (
+          <MenuItem
+            primaryText={<Translate text="Admin" />}
+            rightIcon={<List />}
+            href={`${urls.ACCOUNT_URL}/admin`}
+          />
+        ) : null}
         {cookies.get('loggedIn') ? (
           <MenuItem
             primaryText={<Translate text="Logout" />}
@@ -253,141 +331,115 @@ class StaticAppBar extends Component {
   }
 
   render() {
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-
-    let leftGap = this.state.leftGap;
+    const { bodyStyle, closingStyle, labelStyle, linkStyle } = styles;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
 
     if (this.props.location.pathname === '/settings') {
       showLeftMenu = 'none';
     }
-    let TopRightMenu = props => (
-      <div onScroll={this.handleScroll}>
-        <div className="topRightMenu">
-          <div>
-            {cookies.get('loggedIn') ? (
-              <label
-                style={{
-                  color: 'white',
-                  marginRight: '5px',
-                  fontSize: '16px',
-                  verticalAlign: 'center',
-                }}
-              >
-                {UserPreferencesStore.getUserName() === '' ||
-                UserPreferencesStore.getUserName() === 'undefined'
-                  ? cookies.get('email')
-                  : UserPreferencesStore.getUserName()}
-              </label>
-            ) : (
-              <label />
-            )}
+    const TopRightMenu = props => {
+      const isLoggedIn = !!cookies.get('loggedIn');
+      let avatarProps = null;
+      if (isLoggedIn) {
+        avatarProps = getAvatarProps(cookies.get('emailId'));
+      }
+      return (
+        <div onScroll={this.handleScroll}>
+          <div className="topRightMenu">
+            <div>
+              {isLoggedIn && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CircleImage {...avatarProps} size="32" />
+                  <label
+                    className="topRightLabel"
+                    style={{
+                      color: 'white',
+                      marginRight: '5px',
+                      fontSize: '16px',
+                    }}
+                  >
+                    {UserPreferencesStore.getUserName() === '' ||
+                    UserPreferencesStore.getUserName() === 'undefined'
+                      ? cookies.get('emailId')
+                      : UserPreferencesStore.getUserName()}
+                  </label>
+                </div>
+              )}
+            </div>
+            <IconMenu
+              {...props}
+              iconButtonElement={
+                <IconButton iconStyle={{ fill: 'white' }}>
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+              onTouchTap={this.showOptions}
+            />
+            <Popover
+              {...props}
+              animated={false}
+              style={{
+                float: 'right',
+                position: 'relative',
+                marginTop: '47px',
+                marginRight: '8px',
+              }}
+              open={this.state.showOptions}
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              onRequestClose={this.closeOptions}
+            >
+              <Logged />
+            </Popover>
           </div>
-          <IconMenu
-            {...props}
-            iconButtonElement={
-              <IconButton iconStyle={{ fill: 'white' }}>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onTouchTap={this.showOptions}
-          />
-          <Popover
-            {...props}
-            animated={false}
-            style={{
-              float: 'left',
-              position: 'relative',
-              marginTop: '46px',
-              marginLeft: leftGap,
-            }}
-            open={this.state.showOptions}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onRequestClose={this.closeOptions}
-          >
-            <Logged />
-          </Popover>
         </div>
-      </div>
-    );
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-    const closingStyleLogin = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-    const labelStyle = {
-      padding: '0px 25px 7px 25px',
-      font: '500 14px Roboto,sans-serif',
-      margin: '0 2px',
-      textTransform: 'none',
-      textDecoration: 'none',
-      wordSpacing: '2px',
-      color: '#f2f2f2',
-      verticalAlign: 'bottom',
+      );
     };
 
-    const linkstyle = {
-      color: '#fff',
-      height: '64px',
-      textDecoration: 'none',
-    };
-    var topLinks = [
+    const topLinks = [
       {
         label: 'Overview',
         url: '/overview',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Devices',
         url: '/devices',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Blog',
         url: '/blog',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Team',
         url: '/team',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Support',
         url: '/support',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
     ];
 
-    let navLlinks = topLinks.map((link, i) => {
+    const navLlinks = topLinks.map((link, i) => {
       if (this.props.location.pathname === link.url) {
         link.labelStyle = {
           borderBottom: '2px solid #fff',
@@ -407,7 +459,7 @@ class StaticAppBar extends Component {
         </Link>
       );
     });
-    let menuLlinks = topLinks.map((link, i) => {
+    const menuLlinks = topLinks.map((link, i) => {
       return (
         <MenuItem
           key={i}
@@ -483,10 +535,7 @@ class StaticAppBar extends Component {
             className="drawerAppBar"
             title={
               <div>
-                <a
-                  href={this.state.baseUrl}
-                  style={{ float: 'left', marginTop: '-10px' }}
-                >
+                <a href={baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
                   <img src={susiWhite} alt="susi-logo" className="siteTitle" />
                 </a>
                 <TopMenu />
@@ -516,7 +565,7 @@ class StaticAppBar extends Component {
             handleSignUp={this.handleSignUp}
             handleForgotPassword={this.handleForgotPassword}
           />
-          <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         {/* SignUp */}
         <Dialog
@@ -560,6 +609,5 @@ StaticAppBar.propTypes = {
   location: PropTypes.object,
   theme: PropTypes.object,
   closeVideo: PropTypes.func,
-  handleThemeChanger: PropTypes.func,
 };
 export default StaticAppBar;

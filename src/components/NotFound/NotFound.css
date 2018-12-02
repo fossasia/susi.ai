@@ -1,7 +1,6 @@
 .not-found-banner{
     text-align: center;
     margin: 0 auto;
-    background: url(../../images/not-found-bg.jpg);
     background-size: cover;
     min-height: 74vh;
     width: 100%;
@@ -25,36 +24,6 @@
     width: 100%;
   }
 .notfound-button{
-  width: 40%;
-  margin: 10px 10% ;
-}
-
-@media screen and (min-width: 1920px) {
-  .notfound-button{
-    width: 40%;
-  }
-}
-
-@media screen and (max-width: 991px) {
-    .notfound-button{
-      width: 40%;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .notfound-button{
-      width: 60%;
-    }
-}
-
-@media screen and (max-width: 479px) {
-    .notfound-button{
-      width: 80%;
-    }
-}
-
-@media screen and (max-width: 359px) {
-    .notfound-button{
-      width: 80%;
-    }
+  width: 300px;
+  margin: 10px;
 }

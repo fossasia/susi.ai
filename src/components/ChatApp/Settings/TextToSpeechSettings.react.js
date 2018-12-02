@@ -168,16 +168,21 @@ class TextToSpeechSettings extends Component {
           <div
             style={{
               marginBottom: '0px',
+              marginTop: '15px',
               fontSize: 15,
               fontWeight: 'bold',
-              color: 'rgba(0, 0, 0, 0.87)',
             }}
+            className="speechSettingDiv"
           >
             <Translate text="Speech Output Language" />
           </div>
           <DropDownMenu
             value={voiceOutput.voiceLang}
             onChange={this.handleTTSVoices}
+            labelStyle={{
+              color:
+                UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
+            }}
           >
             {voiceOutput.voiceMenu}
           </DropDownMenu>
@@ -188,7 +193,6 @@ class TextToSpeechSettings extends Component {
               marginBottom: '0px',
               fontSize: 15,
               fontWeight: 'bold',
-              color: 'rgba(0, 0, 0, 0.87)',
             }}
           >
             <Translate text="Speech Output Rate" />
@@ -212,7 +216,6 @@ class TextToSpeechSettings extends Component {
               marginBottom: '0px',
               fontSize: 15,
               fontWeight: 'bold',
-              color: 'rgba(0, 0, 0, 0.87)',
             }}
           >
             <Translate text="Speech Output Pitch" />

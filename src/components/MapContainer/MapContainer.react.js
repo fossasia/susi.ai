@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import { InfoWindow } from 'google-maps-react';
 
-import PropTypes from 'prop-types';
+const style = {
+  mapDisplay: {
+    width: '100%',
+    height: '300px',
+  },
+};
 
-export default class MapContainer extends Component {
+class MapContainer extends Component {
   componentDidUpdate() {
     this.loadMap();
   }
 
   loadMap() {
     if (this.props && this.props.google) {
+      // Set the prop value to google, and maps to google maps props
       const { google } = this.props;
       const maps = google.maps;
-
-      // eslint-disable-next-line
-      const mapRef = this.refs.map;
-      // eslint-disable-next-line
-      const node = ReactDOM.findDOMNode(mapRef);
-
       const mapConfig = Object.assign(
         {},
         {
+          // Set the center and the default zoom level of the map using the props passed
           center: { lat: this.props.centerLat, lng: this.props.centerLng },
           zoom: 2,
           mapTypeId: 'roadmap',
         },
       );
 
-      this.map = new maps.Map(node, mapConfig);
+      // Create a new Google map on the specified node with specified config
+      this.map = new maps.Map(this.node, mapConfig);
+
+      // Create a new InfoWindow to be added as event listener on the map markers
       let infoWindow = new google.maps.InfoWindow();
       let i = 0;
 
@@ -40,12 +44,13 @@ export default class MapContainer extends Component {
           position: { lat: location.location.lat, lng: location.location.lng },
           map: this.map,
           title: 'Click to see device information.',
-          devicename: this.props.devicenames[i],
+          devicename: this.props.deviceNames[i],
           room: this.props.rooms[i],
-          macid: this.props.macids[i],
+          macid: this.props.macIds[i],
         });
 
-        google.maps.event.addListener(marker, 'click', function() {
+        // Add event listener to the map markers to open InfoWindow on click
+        google.maps.event.addListener(marker, 'click', () => {
           infoWindow.setContent(
             'Mac Address: ' +
               marker.macid +
@@ -65,14 +70,13 @@ export default class MapContainer extends Component {
   }
 
   render() {
-    const style = {
-      width: '100%',
-      height: '300px',
-    };
-
     return (
-      // eslint-disable-next-line
-      <div ref="map" style={style}>
+      <div
+        ref={ref => {
+          this.node = ref;
+        }}
+        style={style.mapDisplay}
+      >
         loading map...
       </div>
     );
@@ -83,8 +87,10 @@ MapContainer.propTypes = {
   centerLat: PropTypes.number,
   centerLng: PropTypes.number,
   mapData: PropTypes.array,
-  devicenames: PropTypes.array,
+  deviceNames: PropTypes.array,
   rooms: PropTypes.array,
-  macids: PropTypes.array,
+  macIds: PropTypes.array,
   google: PropTypes.object,
 };
+
+export default MapContainer;

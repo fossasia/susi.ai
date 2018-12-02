@@ -41,7 +41,7 @@ export function getHistory() {
     timeout: 3000,
     async: false,
     success: function(history) {
-      var historyCognitionsCount = history.cognitions.length;
+      const historyCognitionsCount = history.cognitions.length;
 
       history.cognitions.forEach(cognition => {
         let susiMsg = {
@@ -94,7 +94,7 @@ export function getHistory() {
 
         if (actions.indexOf('websearch') >= 0) {
           $.ajax({
-            url: 'http://api.duckduckgo.com/?format=json&q=' + query,
+            url: 'https://api.duckduckgo.com/?format=json&q=' + query,
             dataType: 'jsonp',
             crossDomain: true,
             timeout: 3000,
@@ -130,8 +130,8 @@ export function getHistory() {
           if (count === -1 || count > data.length) {
             count = data.length;
           }
-          var pushedDataIndices = [];
-          var remainingDataIndices = [];
+          let pushedDataIndices = [];
+          let remainingDataIndices = [];
           data.forEach((rssData, index) => {
             if (
               rssData.hasOwnProperty('image') &&
@@ -201,7 +201,7 @@ function previewURLForImage(
   j,
   resultsAdded,
 ) {
-  var dataIndex = remainingDataIndices[j];
+  let dataIndex = remainingDataIndices[j];
   let respData = data[dataIndex];
   let previewURL = BASE_URL + '/susi/linkPreview.json?url=' + respData.link;
   console.log(previewURL);

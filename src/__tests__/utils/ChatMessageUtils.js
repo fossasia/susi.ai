@@ -1,8 +1,8 @@
 import * as ChatMessageUtils from '../../utils/ChatMessageUtils';
 
 it('check getSUSIMessageData util', () => {
-  var timestamp = Date.now();
-  var message = {
+  const timestamp = Date.now();
+  const message = {
     id: 'm_' + timestamp,
     threadID: 't_1',
     authorName: 'SUSI',
@@ -23,10 +23,10 @@ it('check getSUSIMessageData util', () => {
 });
 
 it('check getCreatedMessageData util', () => {
-  var timestamp = Date.now();
-  var messageText = 'Hello';
-  var currentThreadID = 't_1';
-  var message = {
+  const timestamp = Date.now();
+  const messageText = 'Hello';
+  const currentThreadID = 't_1';
+  const message = {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
     authorName: 'You',
@@ -45,8 +45,8 @@ it('check getCreatedMessageData util', () => {
 });
 
 it('check convertRawMessage util', () => {
-  var currentThreadID = 't_1';
-  var rawMessage = {
+  const currentThreadID = 't_1';
+  const rawMessage = {
     authorName: 'SUSI',
     id: 'm_2',
     text: 'hi',

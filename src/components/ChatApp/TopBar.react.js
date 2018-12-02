@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
@@ -12,16 +13,22 @@ import { Link } from 'react-router-dom';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
-import Edit from 'material-ui/svg-icons/image/edit';
 import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import List from 'material-ui/svg-icons/action/list';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import Translate from '../Translate/Translate.react';
+import CircleImage from '../CircleImage/CircleImage';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import $ from 'jquery';
 import './TopBar.css';
+import urls from '../../utils/urls';
+import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
+
+const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 let Logged = props => (
@@ -42,6 +49,7 @@ class TopBar extends Component {
     super(props);
     this.state = {
       showOptions: false,
+      showAdmin: false,
       anchorEl: null,
     };
   }
@@ -65,6 +73,38 @@ class TopBar extends Component {
       search: false,
     });
 
+    let url;
+
+    if (cookies.get('loggedIn')) {
+      url = `${
+        urls.API_URL
+      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
+      $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        jsonpCallback: 'pfns',
+        jsonp: 'callback',
+        crossDomain: true,
+        success: function(newResponse) {
+          let showAdmin = newResponse.showAdmin;
+          cookies.set('showAdmin', showAdmin, {
+            path: '/',
+            domain: cookieDomain,
+          });
+          this.setState({
+            showAdmin: showAdmin,
+          });
+          // console.log(newResponse.showAdmin)
+        }.bind(this),
+        error: function(newErrorThrown) {
+          console.log(newErrorThrown);
+        },
+      });
+
+      this.setState({
+        showAdmin: cookies.get('showAdmin'),
+      });
+    }
     // Check Logged in
     if (cookies.get('loggedIn')) {
       Logged = props => (
@@ -79,6 +119,13 @@ class TopBar extends Component {
           <Popover
             {...props}
             animated={false}
+            style={{
+              float: 'right',
+              position: 'unset',
+              left: 'unset',
+              marginTop: '47px',
+              marginRight: '8px',
+            }}
             open={this.state.showOptions}
             anchorEl={this.state.anchorEl}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -88,26 +135,20 @@ class TopBar extends Component {
             <MenuItem
               primaryText={<Translate text="Dashboard" />}
               rightIcon={<Assessment />}
-              href="https://skills.susi.ai/dashboard"
+              href={`${urls.SKILL_URL}/dashboard`}
             />
             <MenuItem
               primaryText={<Translate text="Chat" />}
               containerElement={<Link to="/" />}
               rightIcon={<Chat />}
             />
-            <MenuItem rightIcon={<Dashboard />} href="https://skills.susi.ai">
+            <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
               <Translate text="Skills" />
             </MenuItem>
             <MenuItem
-              primaryText={<Translate text="Themes" />}
-              key="custom"
-              onClick={this.props.handleThemeChanger}
-              rightIcon={<Edit />}
-            />
-            <MenuItem
               primaryText={<Translate text="Botbuilder" />}
               rightIcon={<Extension />}
-              href="https://skills.susi.ai/botbuilder"
+              href={`${urls.SKILL_URL}/botbuilder`}
             />
             <MenuItem
               primaryText={<Translate text="Settings" />}
@@ -119,6 +160,13 @@ class TopBar extends Component {
               containerElement={<Link to="/overview" />}
               rightIcon={<Info />}
             />
+            {this.state.showAdmin === true ? (
+              <MenuItem
+                primaryText={<Translate text="Admin" />}
+                rightIcon={<List />}
+                href={`${urls.ACCOUNT_URL}/admin`}
+              />
+            ) : null}
             <MenuItem
               primaryText={<Translate text="Logout" />}
               containerElement={<Link to="/logout" />}
@@ -143,6 +191,13 @@ class TopBar extends Component {
         <Popover
           {...props}
           animated={false}
+          style={{
+            float: 'right',
+            position: 'unset',
+            left: 'unset',
+            marginTop: '47px',
+            marginRight: '8px',
+          }}
           open={this.state.showOptions}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -154,7 +209,7 @@ class TopBar extends Component {
             containerElement={<Link to="/" />}
             rightIcon={<Chat />}
           />
-          <MenuItem rightIcon={<Dashboard />} href="https://skills.susi.ai">
+          <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
             <Translate text="Skills" />
           </MenuItem>
           <MenuItem
@@ -174,7 +229,7 @@ class TopBar extends Component {
   }
 
   render() {
-    var backgroundCol = this.props.header;
+    const backgroundCol = this.props.header;
 
     let appBarClass = 'app-bar';
     if (this.props.search) {
@@ -186,6 +241,15 @@ class TopBar extends Component {
       display: 'block',
     };
 
+    const isLoggedIn = !!cookies.get('loggedIn');
+    let avatarProps = null;
+    if (isLoggedIn) {
+      avatarProps = getAvatarProps(
+        cookies.get('emailId'),
+        cookies.get('loggedIn'),
+      );
+    }
+
     return (
       <Toolbar
         className={appBarClass}
@@ -195,8 +259,8 @@ class TopBar extends Component {
         }}
       >
         <ToolbarGroup>
-          <div style={{ float: 'left', marginTop: '0px' }}>
-            <Link to="/">
+          <div style={{ float: 'left', marginTop: '0px', outline: '0' }}>
+            <Link to="/" style={{ outline: '0' }}>
               <img src={susiWhite} alt="susi-logo" style={logoStyle} />
             </Link>
           </div>
@@ -218,23 +282,29 @@ class TopBar extends Component {
             ) : null}
           </div>
           <div>
-            {cookies.get('loggedIn') ? (
-              <label
-                className="useremail"
+            {isLoggedIn && (
+              <div
                 style={{
-                  color: 'white',
-                  marginRight: '5px',
-                  fontSize: '16px',
-                  verticalAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
                 }}
               >
-                {UserPreferencesStore.getUserName() === '' ||
-                UserPreferencesStore.getUserName() === 'undefined'
-                  ? cookies.get('email')
-                  : UserPreferencesStore.getUserName()}
-              </label>
-            ) : (
-              <label />
+                <CircleImage {...avatarProps} size="24" />
+                <label
+                  className="useremail"
+                  style={{
+                    color: 'white',
+                    marginRight: '5px',
+                    fontSize: '16px',
+                  }}
+                >
+                  {UserPreferencesStore.getUserName() === '' ||
+                  UserPreferencesStore.getUserName() === 'undefined'
+                    ? cookies.get('emailId')
+                    : UserPreferencesStore.getUserName()}
+                </label>
+              </div>
             )}
           </div>
           <Logged />
@@ -247,7 +317,6 @@ class TopBar extends Component {
 Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
-  handleThemeChanger: PropTypes.func,
   handleOpen: PropTypes.func,
   handleSignUp: PropTypes.func,
   handleChangePassword: PropTypes.func,
@@ -264,4 +333,13 @@ TopBar.propTypes = {
   header: PropTypes.string,
 };
 
-export default TopBar;
+function mapStateToProps({ app }) {
+  return {
+    app,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(TopBar);

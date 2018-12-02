@@ -6,6 +6,7 @@ import ChatConstants from '../constants/ChatConstants';
 import UserPreferencesStore from '../stores/UserPreferencesStore';
 import MessageStore from '../stores/MessageStore';
 import * as SettingsActions from './Settings.actions';
+import urls from '../utils/urls';
 
 const cookies = new Cookies();
 let ActionTypes = ChatConstants.ActionTypes;
@@ -102,7 +103,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
   }
   let url = '';
   // Fetching local browser language
-  var locale = document.documentElement.getAttribute('lang');
+  const locale = document.documentElement.getAttribute('lang');
   if (
     cookies.get('loggedIn') === null ||
     cookies.get('loggedIn') === undefined
@@ -222,7 +223,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
                 count--;
               }
               for (
-                var tileKey = 0;
+                let tileKey = 0;
                 tileKey < data.RelatedTopics.length && count > 0;
                 tileKey++
               ) {
@@ -275,8 +276,8 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
           if (count === -1 || count > data.length) {
             count = data.length;
           }
-          var pushedDataIndices = [];
-          var remainingDataIndices = [];
+          let pushedDataIndices = [];
+          let remainingDataIndices = [];
           data.forEach((rssData, index) => {
             if (
               rssData.hasOwnProperty('image') &&
@@ -350,7 +351,7 @@ function previewURLForImage(
   j,
   resultsAdded,
 ) {
-  var dataIndex = remainingDataIndices[j];
+  let dataIndex = remainingDataIndices[j];
   let respData = data[dataIndex];
   let previewURL = BASE_URL + '/susi/linkPreview.json?url=' + respData.link;
   console.log(previewURL);
@@ -448,7 +449,7 @@ export function getSettings() {
       settings.CountryCode = settings.CountryCode;
       settings.CountryDialCode = settings.CountryDialCode;
       settings.phoneNo = settings.PhoneNo;
-      settings.serverUrl = 'https://api.susi.ai';
+      settings.serverUrl = urls.API_URL;
       cookies.set('settings', settings);
       SettingsActions.initialiseSettings(settings);
     }
@@ -643,7 +644,7 @@ export function getTTSLangText(voiceList) {
       defText;
     $.ajax({
       url: url,
-      dataType: 'json',
+      dataType: 'jsonp',
       crossDomain: true,
       timeout: 3000,
       async: true,

@@ -1,15 +1,38 @@
 import ChatAppDispatcher from '../dispatcher/ChatAppDispatcher';
 import ChatConstants from '../constants/ChatConstants';
 import { EventEmitter } from 'events';
+import urls from '../utils/urls';
 
 let ActionTypes = ChatConstants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
+const SETTINGS = [
+  { default: 'Theme', setting: 'theme' },
+  { default: 'PreviewTheme', setting: 'previewTheme' },
+  { default: 'TTSLanguage', setting: 'ttsLanguage' },
+  { default: 'UserName', setting: 'userName' },
+  { default: 'PrefLanguage', setting: 'prefLanguage' },
+  { default: 'TimeZone', setting: 'timeZone' },
+  { default: 'ThemeValues', setting: 'customThemeValue' },
+  { default: 'checked', setting: 'checked' },
+  { default: 'serverUrl', setting: 'serverUrl' },
+  { default: 'CountryDialCode', setting: 'countryDialCode' },
+  { default: 'PhoneNo', setting: 'phoneNo' },
+  { default: 'CountryCode', setting: 'countryCode' },
+  { default: 'BackgroundImage', setting: 'backgroundImage' },
+  { default: 'EnterAsSend', setting: 'enterAsSend' },
+  { default: 'MicInput', setting: 'micInput' },
+  { default: 'SpeechOutput', setting: 'speechOutput' },
+  { default: 'SpeechOutputAlways', setting: 'speechOutputAlways' },
+  { default: 'SpeechPitch', setting: 'speechPitch' },
+  { default: 'SpeechOutputAlways', setting: 'speechOutputAlways' },
+];
+
 let _defaults = {
   Theme: 'light',
   PreviewTheme: 'light',
-  Server: 'https://api.susi.ai',
-  StandardServer: 'https://api.susi.ai',
+  Server: urls.API_URL,
+  StandardServer: urls.API_URL,
   EnterAsSend: true,
   MicInput: true,
   SpeechOutput: true,
@@ -26,9 +49,51 @@ let _defaults = {
   CountryDialCode: '+1',
   PhoneNo: '',
   checked: false,
-  serverUrl: 'https://api.susi.ai',
+  serverUrl: urls.API_URL,
   BackgroundImage: '',
 };
+
+function setDefaults(settings) {
+  SETTINGS.forEach(element => {
+    if (
+      element.setting === 'enterAsSend' ||
+      element.setting === 'micInput' ||
+      element.setting === 'speechOutput'
+    ) {
+      if (settings.hasOwnProperty(element.setting)) {
+        _defaults[element.default] = checkForFalse(settings[element.setting]);
+      }
+    } else if (element.setting === 'speechOutputAlways') {
+      if (settings.hasOwnProperty(element.setting)) {
+        _defaults[element.default] = checkForTrue(settings[element.setting]);
+      }
+    } else if (
+      element.setting === 'speechRate' ||
+      element.setting === 'speechPitch'
+    ) {
+      if (settings.hasOwnProperty(element.setting)) {
+        let initSpeechProperty = parseFloat(settings[element.setting]);
+        if (!isNaN(initSpeechProperty)) {
+          _defaults[element.default] = initSpeechProperty;
+        }
+      }
+    } else if (settings.hasOwnProperty(element.setting)) {
+      _defaults[element.default] = settings[element.setting];
+    }
+  });
+
+  if (settings.hasOwnProperty('checked')) {
+    _defaults.checked = settings.checked;
+  } else {
+    _defaults.checked = false;
+  }
+  if (settings.hasOwnProperty('serverUrl')) {
+    _defaults.serverUrl = settings.serverUrl;
+  } else {
+    _defaults.serverUrl = '';
+  }
+}
+
 // Store handling all User Preferences
 let UserPreferencesStore = {
   ...EventEmitter.prototype,
@@ -128,78 +193,14 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
 
     case ActionTypes.SETTINGS_CHANGED: {
       let settings = action.settings;
-      if (settings.hasOwnProperty('theme')) {
-        _defaults.Theme = settings.theme;
-      }
-      if (settings.hasOwnProperty('previewTheme')) {
-        _defaults.PreviewTheme = settings.previewTheme;
-      }
-      if (settings.hasOwnProperty('enterAsSend')) {
-        _defaults.EnterAsSend = checkForFalse(settings.enterAsSend);
-      }
-      if (settings.hasOwnProperty('micInput')) {
-        _defaults.MicInput = checkForFalse(settings.micInput);
-      }
-      if (settings.hasOwnProperty('speechOutput')) {
-        _defaults.SpeechOutput = checkForFalse(settings.speechOutput);
-      }
-      if (settings.hasOwnProperty('speechOutputAlways')) {
-        _defaults.SpeechOutputAlways = checkForTrue(
-          settings.speechOutputAlways,
-        );
-      }
-      if (settings.hasOwnProperty('speechRate')) {
-        let initSpeechRate = parseFloat(settings.speechRate);
-        if (!isNaN(initSpeechRate)) {
-          _defaults.SpeechRate = initSpeechRate;
-        }
-      }
-      if (settings.hasOwnProperty('speechPitch')) {
-        let initSpeechPitch = parseFloat(settings.speechPitch);
-        if (!isNaN(initSpeechPitch)) {
-          _defaults.SpeechPitch = initSpeechPitch;
-        }
-      }
-      if (settings.hasOwnProperty('ttsLanguage')) {
-        _defaults.TTSLanguage = settings.ttsLanguage;
-      }
-      if (settings.hasOwnProperty('userName')) {
-        _defaults.UserName = settings.userName;
-      }
-      if (settings.hasOwnProperty('prefLanguage')) {
-        _defaults.PrefLanguage = settings.prefLanguage;
-      }
-      if (settings.hasOwnProperty('timeZone')) {
-        _defaults.TimeZone = settings.timeZone;
-      }
-      if (settings.hasOwnProperty('customThemeValue')) {
-        _defaults.ThemeValues = settings.customThemeValue;
-      }
-      if (settings.hasOwnProperty('checked')) {
-        _defaults.checked = settings.checked;
-      }
-      if (settings.hasOwnProperty('serverUrl')) {
-        _defaults.serverUrl = settings.serverUrl;
-      }
-      if (settings.hasOwnProperty('countryDialCode')) {
-        _defaults.CountryDialCode = settings.countryDialCode;
-      }
-      if (settings.hasOwnProperty('phoneNo')) {
-        _defaults.PhoneNo = settings.phoneNo;
-      }
-      if (settings.hasOwnProperty('countryCode')) {
-        _defaults.CountryCode = settings.countryCode;
-      }
-
-      if (settings.hasOwnProperty('backgroundImage')) {
-        _defaults.BackgroundImage = settings.backgroundImage;
-      }
+      setDefaults(settings);
       UserPreferencesStore.emitChange();
       break;
     }
 
     case ActionTypes.INIT_SETTINGS: {
       let settings = action.settings;
+
       if (settings.hasOwnProperty('LocalStorage')) {
         _defaults.Theme = settings.theme;
         _defaults.PreviewTheme = settings.previewTheme;
@@ -220,75 +221,7 @@ UserPreferencesStore.dispatchToken = ChatAppDispatcher.register(action => {
         _defaults.countryCode = settings.countryCode;
         _defaults.BackgroundImage = settings.backgroundImage;
       } else {
-        if (settings.hasOwnProperty('theme')) {
-          _defaults.Theme = settings.theme;
-        }
-        if (settings.hasOwnProperty('previewTheme')) {
-          _defaults.PreviewTheme = settings.previewTheme;
-        }
-        if (settings.hasOwnProperty('enterAsSend')) {
-          _defaults.EnterAsSend = checkForFalse(settings.enterAsSend);
-        }
-        if (settings.hasOwnProperty('micInput')) {
-          _defaults.MicInput = checkForFalse(settings.micInput);
-        }
-        if (settings.hasOwnProperty('speechOutput')) {
-          _defaults.SpeechOutput = checkForFalse(settings.speechOutput);
-        }
-        if (settings.hasOwnProperty('speechOutputAlways')) {
-          _defaults.SpeechOutputAlways = checkForTrue(
-            settings.speechOutputAlways,
-          );
-        }
-        if (settings.hasOwnProperty('speechRate')) {
-          let initSpeechRate = parseFloat(settings.speechRate);
-          if (!isNaN(initSpeechRate)) {
-            _defaults.SpeechRate = initSpeechRate;
-          }
-        }
-        if (settings.hasOwnProperty('speechPitch')) {
-          let initSpeechPitch = parseFloat(settings.speechPitch);
-          if (!isNaN(initSpeechPitch)) {
-            _defaults.SpeechPitch = initSpeechPitch;
-          }
-        }
-        if (settings.hasOwnProperty('ttsLanguage')) {
-          _defaults.TTSLanguage = settings.ttsLanguage;
-        }
-        if (settings.hasOwnProperty('userName')) {
-          _defaults.UserName = settings.userName;
-        }
-        if (settings.hasOwnProperty('prefLanguage')) {
-          _defaults.PrefLanguage = settings.prefLanguage;
-        }
-        if (settings.hasOwnProperty('timeZone')) {
-          _defaults.TimeZone = settings.timeZone;
-        }
-        if (settings.hasOwnProperty('customThemeValue')) {
-          _defaults.ThemeValues = settings.customThemeValue;
-        }
-        if (settings.hasOwnProperty('countryDialCode')) {
-          _defaults.CountryDialCode = settings.countryDialCode;
-        }
-        if (settings.hasOwnProperty('phoneNo')) {
-          _defaults.PhoneNo = settings.phoneNo;
-        }
-        if (settings.hasOwnProperty('countryCode')) {
-          _defaults.CountryCode = settings.countryCode;
-        }
-        if (settings.hasOwnProperty('backgroundImage')) {
-          _defaults.BackgroundImage = settings.backgroundImage;
-        }
-        if (settings.hasOwnProperty('checked')) {
-          _defaults.checked = settings.checked;
-        } else {
-          _defaults.checked = false;
-        }
-        if (settings.hasOwnProperty('serverUrl')) {
-          _defaults.serverUrl = settings.serverUrl;
-        } else {
-          _defaults.serverUrl = '';
-        }
+        setDefaults(settings);
       }
       UserPreferencesStore.emitChange();
       break;

@@ -178,7 +178,15 @@ export function imageParse(stringWithLinks) {
         />,
       );
     } else {
-      result.push(Parser(item));
+      let htmlParseItem = Parser(item);
+      if (
+        (Array.isArray(htmlParseItem) && htmlParseItem.length === 0) ||
+        (htmlParseItem.hasOwnProperty('props') && !htmlParseItem.props.children)
+      ) {
+        result.push(item);
+      } else {
+        result.push(htmlParseItem);
+      }
     }
   });
   return result;
@@ -191,7 +199,7 @@ export function parseAndReplace(text) {
 
 // Get hostname for given link
 function urlDomain(data) {
-  var a = document.createElement('a');
+  let a = document.createElement('a');
   a.href = data;
   return a.hostname;
 }
@@ -259,7 +267,7 @@ export function renderTiles(tiles) {
     slidesToShow = 2;
     showArrows = false;
   }
-  var settings = {
+  const settings = {
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
@@ -287,7 +295,17 @@ export function drawTable(columns, tableData, count) {
   }
   // Create the Table Header
   let tableheader = parseKeys.map((key, i) => {
-    return <TableHeaderColumn key={i}>{columns[key]}</TableHeaderColumn>;
+    return (
+      <TableHeaderColumn
+        key={i}
+        style={{
+          whiteSpace: 'normal',
+          wordWrap: 'break-word',
+        }}
+      >
+        {columns[key]}
+      </TableHeaderColumn>
+    );
   });
   // Calculate #rows in table
   let rowCount = tableData.length;
@@ -295,12 +313,12 @@ export function drawTable(columns, tableData, count) {
     rowCount = Math.min(count, tableData.length);
   }
   let rows = [];
-  for (var j = 0; j < rowCount; j++) {
+  for (let j = 0; j < rowCount; j++) {
     let eachrow = tableData[j];
     // Check if the data object can be populated as a table row
     let validRow = true;
-    for (var keyInd = 0; keyInd < parseKeys.length; keyInd++) {
-      var colKey = parseKeys[keyInd];
+    for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
+      let colKey = parseKeys[keyInd];
       if (!eachrow.hasOwnProperty(colKey)) {
         validRow = false;
         break;
@@ -310,7 +328,13 @@ export function drawTable(columns, tableData, count) {
     if (validRow) {
       let rowcols = parseKeys.map((key, i) => {
         return (
-          <TableRowColumn key={i}>
+          <TableRowColumn
+            key={i}
+            style={{
+              whiteSpace: 'normal',
+              wordWrap: 'break-word',
+            }}
+          >
             <Linkify properties={{ target: '_blank' }}>
               <abbr title={eachrow[key]}>{processText(eachrow[key])}</abbr>
             </Linkify>
@@ -323,7 +347,7 @@ export function drawTable(columns, tableData, count) {
   // Populate the Table
   const table = (
     <MuiThemeProvider>
-      <Table selectable={false}>
+      <Table selectable={false} style={{ width: 'auto', tableLayout: 'auto' }}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           {showColName && <TableRow>{tableheader}</TableRow>}
         </TableHeader>
