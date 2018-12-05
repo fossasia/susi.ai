@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
-import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import Footer from '../Footer/Footer.react';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import '../Terms/Terms.css';
 
 const Privacy = props => {
@@ -10,7 +10,7 @@ const Privacy = props => {
   document.title =
     'Privacy Policy - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   //  Scrolling to top of page when component loads
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
+  scrollToTopAnimation();
   document.body.style.setProperty('background-image', 'none');
   return (
     <div>

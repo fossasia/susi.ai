@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import $ from 'jquery';
 import Modal from 'react-modal';
 import urls from '../../utils/urls';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
 import Close from 'material-ui/svg-icons/navigation/close';
 import susiGif from '../../images/susi.gif';
@@ -53,7 +53,7 @@ class Overview extends Component {
     document.title =
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
   }
 
   render() {
