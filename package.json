@@ -51,6 +51,7 @@
     "react-leaflet": "1.9.1",
     "react-linkify": "0.2.2",
     "react-loading-animation": "1.4.0",
+    "react-lottie": "^1.2.3",
     "react-modal": "2.4.1",
     "react-recaptcha": "2.3.10",
     "react-redux": "5.0.7",
