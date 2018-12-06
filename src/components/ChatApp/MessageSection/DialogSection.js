@@ -1,26 +1,11 @@
 import Dialog from 'material-ui/Dialog';
-import Button from 'material-ui/RaisedButton';
 import React from 'react';
 import Login from '../../Auth/Login/Login.react';
 import SignUp from '../../Auth/SignUp/SignUp.react';
 import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import PropTypes from 'prop-types';
 import Close from 'material-ui/svg-icons/navigation/close';
-import Lottie from 'react-lottie';
-import * as susianim from '../../../anim/susi.json';
-import Divider from 'material-ui/Divider';
-// https://www.youtube.com/watch?v=9T3iMoAUKYA
-const defaultOptions = {
-  loop: false,
-  autoplay: true,
-  animationData: susianim,
-  rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice',
-  },
-};
-const style = {
-  margin: 12,
-};
+
 const DialogSection = props => {
   const closingStyle = {
     position: 'absolute',
@@ -83,23 +68,20 @@ const DialogSection = props => {
       <Dialog
         className="dialogStyle"
         contentStyle={{
-          width: '50%',
+          width: '45%',
           minWidth: '300px',
           textAlign: 'center',
         }}
         title="Welcome to SUSI.AI Web Chat"
         open={props.tour}
       >
-        <Lottie options={defaultOptions} />
-        <Divider />
-        <a href="https://www.youtube.com/watch?v=9T3iMoAUKYA" target="_blank">
-          <Button
-            label="Learn More with Youtube"
-            secondary={true}
-            style={style}
-            onTouchTap={props.onRequestCloseTour()}
-          />
-        </a>
+        <iframe
+          width="99%"
+          height="315"
+          src="https://www.youtube.com/embed/9T3iMoAUKYA"
+          frameBorder="0"
+          scrolling="no"
+        />
         <Close style={closingStyle} onTouchTap={props.onRequestCloseTour()} />
       </Dialog>
     </div>
