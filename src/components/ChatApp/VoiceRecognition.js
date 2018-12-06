@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 
 let counter = 0;
 
-const speechDefaults = {
-  continuous: true,
-  interimResults: true,
-  lang: 'en-US',
-};
-
 class VoiceRecognition extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +24,13 @@ class VoiceRecognition extends Component {
   }
 
   createRecognition = SpeechRecognition => {
-    const options = Object.assign({}, speechDefaults, this.props);
+    const defaults = {
+      continuous: true,
+      interimResults: true,
+      lang: 'en-US',
+    };
+
+    const options = Object.assign({}, defaults, this.props);
 
     let recognition = new SpeechRecognition();
 
@@ -84,12 +84,13 @@ class VoiceRecognition extends Component {
       { name: 'start', action: this.props.onStart },
       { name: 'end', action: this.props.onEnd },
       { name: 'speechstart', action: this.props.onSpeechStart },
-      { name: 'result', action: this.bindResult },
     ];
 
     events.forEach(event => {
       this.recognition.addEventListener(event.name, event.action);
     });
+
+    this.recognition.addEventListener('result', this.bindResult);
 
     this.start();
   }
