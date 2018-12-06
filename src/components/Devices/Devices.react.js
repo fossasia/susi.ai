@@ -1,23 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import Footer from '../Footer/Footer.react';
+import urls from '../../utils/urls';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import susiAndroid from '../../images/susi-test.gif';
 import susiiOSGif from '../../images/ios_demo.gif';
 import susiDesktop from '../../images/susi.gif';
 import './Devices.css';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import $ from 'jquery';
-import Footer from '../Footer/Footer.react';
-import urls from '../../utils/urls';
 
 const Devices = props => {
   // Adding title tag to page
   document.title =
     'SUSI.AI - Open Source AI for Any Device, Android, iOS, Robots, Help Desks, Linux';
   //  Scrolling to top of page when component loads
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-  document.body.style.setProperty('background-image', 'none');
+  scrollToTopAnimation();
   return (
     <div>
       <StaticAppBar {...props} location={props.location} />

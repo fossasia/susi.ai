@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import Cookies from 'universal-cookie';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
@@ -14,6 +13,7 @@ import urls from '../../utils/urls';
 import documentation from '../../images/programmer.png';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import Footer from '../Footer/Footer.react';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import github from '../../images/github.png';
 import googleGroups from '../../images/google-groups.png';
 import Login from '../Auth/Login/Login.react';
@@ -58,7 +58,7 @@ class Support extends Component {
     document.title =
       'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
   }
   // Open login dialog and close signup and forgot password dialog
   handleLogin = () => {

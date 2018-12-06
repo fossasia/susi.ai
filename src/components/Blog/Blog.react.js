@@ -17,6 +17,7 @@ import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { BLOG_KEY } from '../../config.js';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
@@ -87,7 +88,7 @@ class Blog extends Component {
     document.title =
       'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
     //  Ajax call to convert the RSS feed to JSON format
     $.ajax({
       url: 'https://api.rss2json.com/v1/api.json',
