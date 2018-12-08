@@ -20,6 +20,6 @@ Here you find step by step instructions for Pocket Science Lab (PSLab) using the
 
 ## Template for Experiments
 
-Please help to contribute more step by step tutorials for experiments. Please use the [experiment template][template-howto) to get started.
+Please help to contribute more step by step tutorials for experiments. Please use the [experiment template](template-howto) to get started.
 
 
