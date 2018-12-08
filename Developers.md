@@ -1,8 +1,8 @@
 <h1>Instructions for users</h1>
-<h2>how to use Susi Ai</h2>
+<h2>How to use SUSI AI</h2>
 <h3>For Android</h3>
 <ol>
-<li>First install Susi Ai App Using Playstore 
+<li>First install SUSI AI App Using Playstore 
 <li>Here is the Link -:<a href="https://play.google.com/store/apps/details?id=ai.susi&hl=en">https://play.google.com/store/apps/details?id=ai.susi&hl=en<a/>
 <li>Login or signup
 <li> Ask your questions.
