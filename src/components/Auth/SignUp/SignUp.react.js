@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 // Components
 import Recaptcha from 'react-recaptcha';
@@ -17,7 +16,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { CAPTCHA_KEY } from '../../../config.js';
 import { isEmail } from '../../../utils';
-import actions from '../../../redux/actions/app';
+import { getSignup } from '../../../redux/actions/app';
 
 const styles = {
   paperStyle: {
@@ -51,7 +50,7 @@ class SignUp extends Component {
     history: PropTypes.object,
     onRequestClose: PropTypes.func,
     onLoginSignUp: PropTypes.func,
-    actions: PropTypes.object,
+    getSignup: PropTypes.func,
   };
 
   constructor(props) {
@@ -158,7 +157,7 @@ class SignUp extends Component {
       isCaptchaVerified,
     } = this.state;
 
-    const { actions } = this.props;
+    const { getSignup } = this.props;
 
     if (!isCaptchaVerified) {
       this.setState({
@@ -172,11 +171,10 @@ class SignUp extends Component {
       isCaptchaVerified
     ) {
       this.setState({ loading: true });
-      actions
-        .getSignup({
-          email,
-          password: encodeURIComponent(password),
-        })
+      getSignup({
+        email,
+        password: encodeURIComponent(password),
+      })
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setState({
@@ -365,13 +363,7 @@ class SignUp extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-  };
-}
-
 export default connect(
   null,
-  mapDispatchToProps,
+  { getSignup },
 )(SignUp);

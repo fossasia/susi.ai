@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
 import Cookies from 'universal-cookie';
@@ -13,7 +12,7 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
-import actions from '../../../redux/actions/app';
+import { getChangePassword } from '../../../redux/actions/app';
 import './ChangePassword.css';
 
 const cookies = new Cookies();
@@ -70,7 +69,7 @@ class ChangePassword extends Component {
   static propTypes = {
     history: PropTypes.object,
     settings: PropTypes.object,
-    actions: PropTypes.object,
+    getChangePassword: PropTypes.func,
   };
 
   constructor(props) {
@@ -211,7 +210,7 @@ class ChangePassword extends Component {
       newPasswordErrorMessage,
       newPasswordConfirmErrorMessage,
     } = this.state;
-    const { actions } = this.props;
+    const { getChangePassword } = this.props;
 
     const email = cookies.get('emailId') ? cookies.get('emailId') : '';
 
@@ -225,12 +224,11 @@ class ChangePassword extends Component {
       this.setState({
         loading: true,
       });
-      actions
-        .getChangePassword({
-          email,
-          password: encodeURIComponent(password),
-          newPassword: encodeURIComponent(newPassword),
-        })
+      getChangePassword({
+        email,
+        password: encodeURIComponent(password),
+        newPassword: encodeURIComponent(newPassword),
+      })
         .then(({ payload }) => {
           let dialogMessage;
           let success;
@@ -414,13 +412,7 @@ class ChangePassword extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-  };
-}
-
 export default connect(
   null,
-  mapDispatchToProps,
+  { getChangePassword },
 )(ChangePassword);

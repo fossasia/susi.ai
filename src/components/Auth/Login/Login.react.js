@@ -2,9 +2,8 @@
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../../redux/actions/app';
+import { getLogin } from '../../../redux/actions/app';
 
 // Components
 import Paper from 'material-ui/Paper';
@@ -56,7 +55,7 @@ class Login extends Component {
     history: PropTypes.object,
     handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
-    actions: PropTypes.object,
+    getLogin: PropTypes.func,
   };
 
   constructor(props) {
@@ -76,7 +75,7 @@ class Login extends Component {
   // Submit the Login Form
   handleSubmit = e => {
     e.preventDefault();
-    const { actions } = this.props;
+    const { getLogin } = this.props;
     let email = this.state.email.trim();
     const password = this.state.password;
 
@@ -86,8 +85,7 @@ class Login extends Component {
 
     if (isEmail(email)) {
       this.setState({ loading: true });
-      actions
-        .getLogin({ email, password: encodeURIComponent(password) })
+      getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setCookies({ ...payload, email });
@@ -280,13 +278,7 @@ class Login extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-  };
-}
-
 export default connect(
   null,
-  mapDispatchToProps,
+  { getLogin },
 )(Login);

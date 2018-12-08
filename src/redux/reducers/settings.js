@@ -1,5 +1,9 @@
 import { handleActions } from 'redux-actions';
-import actionTypes from '../actionTypes';
+import {
+  APP_GET_USER_SETTINGS,
+  SETTINGS_REMOVE_USER_DEVICE,
+  SETTINGS_ADD_USER_DEVICE,
+} from '../actionTypes';
 
 const defaultState = {
   theme: 'light',
@@ -28,17 +32,17 @@ const defaultState = {
 
 export default handleActions(
   {
-    [actionTypes.APP_GET_USER_SETTINGS](state, { payload }) {
+    [APP_GET_USER_SETTINGS](state, { payload }) {
       return {
         ...state,
       };
     },
-    [actionTypes.SETTINGS_REMOVE_USER_DEVICE](state, { payload }) {
+    [SETTINGS_REMOVE_USER_DEVICE](state, { payload }) {
       return {
         ...state,
       };
     },
-    [actionTypes.SETTINGS_ADD_USER_DEVICE](state, { payload }) {
+    [SETTINGS_ADD_USER_DEVICE](state, { payload }) {
       return {
         ...state,
       };

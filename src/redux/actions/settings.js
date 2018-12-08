@@ -1,5 +1,9 @@
 import { createAction } from 'redux-actions';
-import actionTypes from '../actionTypes';
+import {
+  SETTINGS_GET_USER_SETTINGS,
+  SETTINGS_REMOVE_USER_DEVICE,
+  SETTINGS_ADD_USER_DEVICE,
+} from '../actionTypes';
 import * as apis from '../../apis';
 
 // const returnArgumentsFn = function(payload) {
@@ -8,15 +12,12 @@ import * as apis from '../../apis';
 
 export default {
   getUserSettings: createAction(
-    actionTypes.SETTINGS_GET_USER_SETTINGS,
+    SETTINGS_GET_USER_SETTINGS,
     apis.getUserSettings,
   ),
   removeUserDevice: createAction(
-    actionTypes.SETTINGS_REMOVE_USER_DEVICE,
+    SETTINGS_REMOVE_USER_DEVICE,
     apis.removeUserDevice,
   ),
-  addUserDevice: createAction(
-    actionTypes.SETTINGS_ADD_USER_DEVICE,
-    apis.addUserDevice,
-  ),
+  addUserDevice: createAction(SETTINGS_ADD_USER_DEVICE, apis.addUserDevice),
 };

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -8,7 +7,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
-import actions from '../../../redux/actions/app';
+import { getForgotPassword } from '../../../redux/actions/app';
 import { isEmail } from '../../../utils';
 import './ForgotPassword.css';
 
@@ -25,7 +24,7 @@ const styles = {
 
 class ForgotPassword extends Component {
   static propTypes = {
-    actions: PropTypes.object,
+    getForgotPassword: PropTypes.func,
   };
 
   constructor(props) {
@@ -55,14 +54,13 @@ class ForgotPassword extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { actions } = this.props;
+    const { getForgotPassword } = this.props;
     const { email, emailErrorMessage } = this.state;
 
     this.setState({ dialogMessage: '' });
     if (email && !emailErrorMessage) {
       this.setState({ loading: true });
-      actions
-        .getForgotPassword({ email })
+      getForgotPassword({ email })
         .then(({ payload }) => {
           let dialogMessage = payload.message;
           let success;
@@ -144,13 +142,7 @@ class ForgotPassword extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-  };
-}
-
 export default connect(
   null,
-  mapDispatchToProps,
+  { getForgotPassword },
 )(ForgotPassword);
