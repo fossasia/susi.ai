@@ -401,25 +401,27 @@ class MessageComposer extends Component {
             this.props.threadID,
             this.props.speechOutputAlways,
           );
-          const userMessage = formatUserMessage({
+
+          formatUserMessage({
             text,
             voice: this.props.speechOutputAlways,
-          });
-          this.props.actions
-            .createMessage(userMessage)
-            .then(
-              apis.getSusiReply(userMessage).then(response => {
-                this.props.actions.createSusiMessage(
+          }).then(userMessage => {
+            this.props.actions
+              .createMessage(userMessage)
+              .then(
+                apis.getSusiReply(userMessage).then(response => {
                   formatSusiMessage({
                     response,
                     voice: this.props.speechOutputAlways,
-                  }),
-                );
-              }),
-            )
-            .catch(error => {
-              console.log(error);
-            });
+                  }).then(susiMessage => {
+                    this.props.actions.createSusiMessage(susiMessage);
+                  });
+                }),
+              )
+              .catch(error => {
+                console.log(error);
+              });
+          });
         }
         this.setState({ text: '', currentArrowIndex: 0 });
         if (this.speechRecog) {

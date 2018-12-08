@@ -20,9 +20,10 @@ class ChatApp extends Component {
     this.props.actions
       .initializeMessageStore()
       .then(({ payload }) => {
-        this.props.actions.createHistoryMessages(
-          createMessagePairArray(payload),
-        );
+        createMessagePairArray(payload).then(messagePairArray => {
+          console.log(messagePairArray);
+          return this.props.actions.createHistoryMessages(messagePairArray);
+        });
       })
       .catch(error => {
         console.log(error);

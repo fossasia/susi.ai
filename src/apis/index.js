@@ -84,3 +84,11 @@ export function getHistory() {
   const url = `${API_URL}/${CHAT_API_PREFIX}/memory.json`;
   return ajax.get(url, {});
 }
+
+export function getWebSearchResults(query) {
+  return ajax.get('https://api.duckduckgo.com', { format: 'json', q: query });
+}
+
+export function previewURLForImage() {
+  return ajax.get();
+}
