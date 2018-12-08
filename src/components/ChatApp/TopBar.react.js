@@ -17,6 +17,7 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import List from 'material-ui/svg-icons/action/list';
+import Share from 'material-ui/svg-icons/social/share';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
@@ -172,6 +173,11 @@ class TopBar extends Component {
               containerElement={<Link to="/logout" />}
               rightIcon={<Exit />}
             />
+            <MenuItem
+              primaryText={<Translate text="Share" />}
+              onTouchTap={this.props.handleShare}
+              rightIcon={<Share />}
+            />
           </Popover>
         </div>
       );
@@ -221,6 +227,11 @@ class TopBar extends Component {
             primaryText={<Translate text="Login" />}
             onTouchTap={this.props.handleOpen}
             rightIcon={<SignUp />}
+          />
+          <MenuItem
+            primaryText={<Translate text="Share" />}
+            onTouchTap={this.props.handleShare}
+            rightIcon={<Share />}
           />
         </Popover>
       </div>
@@ -272,6 +283,7 @@ class TopBar extends Component {
                 searchText={this.props.searchState.searchText}
                 searchIndex={this.props.searchState.searchIndex}
                 open={this.props.search}
+                openShare={this.props.openShare}
                 searchCount={this.props.searchState.scrollLimit}
                 onTextChange={this.props.searchTextChanged}
                 activateSearch={this.props._onClickSearch}
@@ -318,8 +330,11 @@ Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
   handleOpen: PropTypes.func,
+  handleShare: PropTypes.func,
+  handleShareClose: PropTypes.func,
   handleSignUp: PropTypes.func,
   handleChangePassword: PropTypes.func,
+  openShare: PropTypes.bool,
   handleOptions: PropTypes.func,
   handleRequestClose: PropTypes.func,
   handleToggle: PropTypes.func,

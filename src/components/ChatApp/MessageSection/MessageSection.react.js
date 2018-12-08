@@ -47,6 +47,7 @@ function getStateFromStores() {
     showSignUp: false,
     showHardwareChangeDialog: false,
     showHardware: false,
+    openShare: false,
     showServerChangeDialog: false,
     header: themeValue.length > 5 ? '#' + themeValue[0] : '#4285f4',
     pane: themeValue.length > 5 ? '#' + themeValue[1] : '#f5f4f6',
@@ -218,6 +219,13 @@ class MessageSection extends Component {
     });
   };
 
+  handleShare = () => {
+    this.setState({ openShare: true });
+  };
+  handleShareClose = () => {
+    console.log(this.state.openShare);
+    this.setState({ openShare: false });
+  };
   addYouTube = playerNew => {
     this.pauseAllVideos();
     this.setState(prevState => ({ player: [...prevState.player, playerNew] }));
@@ -232,7 +240,13 @@ class MessageSection extends Component {
     });
     this.child.closeOptions();
   };
-
+  handleShare = () => {
+    this.setState({ openShare: true });
+  };
+  handleShareClose = () => {
+    console.log(this.state.openShare);
+    this.setState({ openShare: false });
+  };
   // Open Sign Up Dialog
   handleSignUp = () => {
     this.setState({
@@ -673,6 +687,9 @@ class MessageSection extends Component {
               handleOpen={this.handleOpen}
               handleSignUp={this.handleSignUp}
               handleOptions={this.handleOptions}
+              openShare={this.openShare}
+              handleShare={this.handleShare}
+              handleShareClose={this.handleShareClose}
               handleRequestClose={this.handleRequestClose}
               handleToggle={this.handleToggle}
               searchTextChanged={this.searchTextChanged}
@@ -763,7 +780,8 @@ class MessageSection extends Component {
                 openSignUp={this.state.showSignUp}
                 openForgotPassword={this.state.openForgotPassword}
                 bodyStyle={bodyStyle}
-                handleSignUp={this.handleSignUp}
+                openShare={this.state.openShare}
+                handleShareClose={this.handleShareClose}
                 onRequestClose={() => this.handleClose}
                 onRequestCloseTour={() => this.handleCloseTour}
                 onSaveThemeSettings={() => this.handleSaveTheme}
