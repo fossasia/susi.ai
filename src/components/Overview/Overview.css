@@ -177,34 +177,15 @@ img {
     max-width: 313px;
 }
 .example-btn{
-<<<<<<< HEAD
-<<<<<<< HEAD
     margin-right: 40px;
     margin-bottom: 25px;
     margin-top:25px;
 }
 .rowdiv{
-display: flex;
-justify-content: center;
-flex-wrap: wrap;
-flex-shrink: 4;
-=======
-    margin-right: 45px;
-    margin-bottom: 25px;
-    margin-top:25px;
-    
->>>>>>> 389c129... Added an example section
-=======
-    margin-right: 40px;
-    margin-bottom: 25px;
-    margin-top:25px;
-}
-.rowdiv{
-display: flex;
-justify-content: center;
-flex-wrap: wrap;
-flex-shrink: 4;
->>>>>>> 27f5adf... Added example section
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-shrink: 4;
 }
 .Video-Modal{
     position: absolute;

@@ -48,11 +48,11 @@ const styles = {
 };
 const buttonAttributes = [
   { label: 'Search', icon: <ActionSearch />, gif: WebDemo },
-  { label: 'Location', Icon: <Locationsvg />, gif: LocationDemo },
-  { label: 'GIFs', Icon: <GIF />, gif: GIFDemo },
-  { label: 'Jokes', Icon: <Action />, gif: JokesDemo },
-  { label: 'Facts', Icon: <Web />, gif: FactsDemo },
-  { label: 'Math', Icon: <PlusOne />, gif: MathDemo },
+  { label: 'Location', icon: <Locationsvg />, gif: LocationDemo },
+  { label: 'GIFs', icon: <GIF />, gif: GIFDemo },
+  { label: 'Jokes', icon: <Action />, gif: JokesDemo },
+  { label: 'Facts', icon: <Web />, gif: FactsDemo },
+  { label: 'Math', icon: <PlusOne />, gif: MathDemo },
 ];
 
 class Overview extends Component {
@@ -162,13 +162,13 @@ class Overview extends Component {
               Don"t forget, these are only a few 😊
             </p>
             <div className="rowdiv">
-              {this.gifArray.map((button, index) => (
+              {buttonAttributes.map((button, index) => (
                 <RaisedButton
                   className="example-btn"
-                  label={buttonAttributes[index].label}
+                  label={button.label}
                   primary={gifIndex === index}
                   onClick={e => this.changeGIF(index)}
-                  icon={buttonAttributes[index].icon}
+                  icon={button.icon}
                 />
               ))}
             </div>
