@@ -33,6 +33,8 @@ import PlusOne from 'material-ui/svg-icons/social/plus-one';
 import { ActionSearch } from 'material-ui/svg-icons';
 
 import './Overview.css';
+import { blue600 } from 'material-ui/styles/colors';
+import { white, black } from 'material-ui/styles/colors';
 
 const styles = {
   closingStyle: {
@@ -83,7 +85,7 @@ class Overview extends Component {
       const newGifIndex = (gifIndex + 1) % 6;
       this.setState({ gifIndex: newGifIndex });
       this.changeGIF(newGifIndex);
-    }, 7000);
+    }, 9000);
   }
 
   componentWillUnmount() {
@@ -166,7 +168,8 @@ class Overview extends Component {
                 <RaisedButton
                   className="example-btn"
                   label={button.label}
-                  primary={gifIndex === index}
+                  labelColor={gifIndex === index ? white : black}
+                  backgroundColor={gifIndex === index ? blue600 : white}
                   onClick={e => this.changeGIF(index)}
                   icon={button.icon}
                 />
