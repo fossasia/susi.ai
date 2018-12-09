@@ -90,14 +90,9 @@ class MessageSection extends Component {
         searchText: '',
       },
     };
-    this.messageStoreLength = 0;
   }
 
-  componentDidMount() {
-    this.scrollToBottom();
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { search, searchState } = this.state;
     const { messages } = this.props;
     if (search) {
@@ -113,8 +108,7 @@ class MessageSection extends Component {
           this.scrollarea.view.childNodes[currentID].scrollIntoView();
         }
       }
-    } else if (messages.length !== this.messageStoreLength) {
-      this.messageStoreLength = messages.length;
+    } else if (prevProps.messages.length !== messages.length) {
       this.scrollToBottom();
     }
   }
@@ -579,22 +573,19 @@ class MessageSection extends Component {
                       </FloatingActionButton>
                     </div>
                   )}
-                  <div
-                    className="compose"
-                    style={{ backgroundColor: composer }}
-                  >
-                    <MessageComposer
-                      focus={!search}
-                      dream={dream}
-                      textarea={textarea}
-                      textcolor={textColor}
-                      speechOutput={speechOutput}
-                      speechOutputAlways={speechOutputAlways}
-                      micColor={button}
-                    />
-                  </div>
                 </div>
               )}
+              <div className="compose" style={{ backgroundColor: composer }}>
+                <MessageComposer
+                  focus={!search}
+                  dream={dream}
+                  textarea={textarea}
+                  textcolor={textColor}
+                  speechOutput={speechOutput}
+                  speechOutputAlways={speechOutputAlways}
+                  micColor={button}
+                />
+              </div>
             </div>
           </div>
           {/*  Tour Dialog is handled by this components */}
