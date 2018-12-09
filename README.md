@@ -2,6 +2,11 @@
 
 Here you find step by step instructions for Pocket Science Lab (PSLab) using the PSLab hardware and Android app. Please help by building up this website.
 
+## How to use PSLab Instruments on Android
+
+* How to use the PSLab Oscilloscope?
+* How to use the PSLab Multimeter?
+* How to use the PSLab Wavelength Generator?
 
 ## Experiments
 
