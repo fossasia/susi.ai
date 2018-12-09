@@ -101,7 +101,7 @@ export default handleActions(
         TTSVoices,
       };
     },
-    [actionTypes.MESSAGES_CREATE_HISTORY_MESSAGES](state, { payload }) {
+    [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
       let { messagePairArray } = payload;
       messagePairArray = messagePairArray.reverse();
       let messages = [];
@@ -117,6 +117,11 @@ export default handleActions(
         ...defaultState,
         messages,
         messagesByID,
+      };
+    },
+    [actionTypes.APP_LOGOUT](state, { payload }) {
+      return {
+        ...defaultState,
       };
     },
   },

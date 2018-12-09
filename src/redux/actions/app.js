@@ -2,9 +2,9 @@ import { createAction } from 'redux-actions';
 import actionTypes from '../actionTypes';
 import * as apis from '../../apis';
 
-// const returnArgumentsFn = function(payload) {
-//   return Promise.resolve(payload);
-// };
+const returnArgumentsFn = function(payload) {
+  return Promise.resolve(payload);
+};
 
 export default {
   getApiKeys: createAction(actionTypes.APP_GET_API_KEYS, apis.fetchApiKeys),
@@ -18,4 +18,5 @@ export default {
     actionTypes.APP_GET_FORGOT_PASSWORD,
     apis.getForgotPassword,
   ),
+  logout: createAction(actionTypes.APP_LOGOUT, returnArgumentsFn),
 };
