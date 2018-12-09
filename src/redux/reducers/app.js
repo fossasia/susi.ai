@@ -6,7 +6,7 @@ const defaultState = {
   email: '',
   accessToken: '',
   uuid: '',
-  isAdmin: false,
+  showAdmin: false,
   apiKeys: {},
 };
 
@@ -23,6 +23,13 @@ export default handleActions(
         ...state,
         uuid,
         accessToken,
+      };
+    },
+    [actionTypes.APP_GET_ADMIN](state, { payload }) {
+      const { isAdmin } = payload;
+      return {
+        ...state,
+        isAdmin,
       };
     },
   },

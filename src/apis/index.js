@@ -1,7 +1,11 @@
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
+import Cookies from 'universal-cookie';
+// import { Cookies } from 'react-cookie';
+// import actions from '../redux/actions/messages';
 const { API_URL } = urls;
 const AUTH_API_PREFIX = 'aaa';
+const cookies = new Cookies();
 
 /* Export API calls from this file
 Example function -
@@ -31,6 +35,12 @@ export function getChangePassword(payload) {
     password,
     newpassword: newPassword,
   });
+}
+
+export function getAdmin() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/showAdminService.json}`;
+  // eslint-disable-next-line camelcase
+  return ajax.get(url, { access_token: cookies.get('loggedIn') });
 }
 
 export function getUserSettings() {
