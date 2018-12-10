@@ -177,11 +177,14 @@ class Overview extends Component {
             </div>
           </div>
           <div className="img-container">
-            <img
-              src={buttonAttributes[gifIndex].gif}
-              alt="susi-web"
-              className="susi-test"
-            />
+            {buttonAttributes.map((img, index) => (
+              <img
+                src={buttonAttributes[gifIndex].gif}
+                style={gifIndex === index ? {} : { display: 'none' }}
+                alt="susi-web"
+                className="susi-test"
+              />
+            ))}
           </div>
         </div>
         <div className="section_copy">
