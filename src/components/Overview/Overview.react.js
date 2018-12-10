@@ -85,7 +85,7 @@ class Overview extends Component {
       const newGifIndex = (gifIndex + 1) % 6;
       this.setState({ gifIndex: newGifIndex });
       this.changeGIF(newGifIndex);
-    }, 9000);
+    }, 7000);
   }
 
   componentWillUnmount() {
