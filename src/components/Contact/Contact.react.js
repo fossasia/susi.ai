@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Contact.css';
 
 const Contact = props => {
   document.title =
     'Contact Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
+  scrollToTopAnimation();
 
   document.body.style.setProperty('background-image', 'none');
 

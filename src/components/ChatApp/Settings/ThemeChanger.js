@@ -9,7 +9,6 @@ import { Col, Row } from 'react-flexbox-grid';
 import Toggle from 'material-ui/Toggle';
 import ColorPicker from 'material-ui-color-picker';
 import * as Actions from '../../../actions/';
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import PreviewThemeChat from './PreviewThemeChat';
 
@@ -198,7 +197,7 @@ class ThemeChanger extends Component {
   };
 
   handleClickColorBox = id => {
-    $('#colorPicker' + id).click();
+    document.querySelector('#colorPicker' + id).click();
   };
   showMessageBackgroundImageToggle = () => {
     let isInputChecked = !this.state.showMessageBackgroundImage;

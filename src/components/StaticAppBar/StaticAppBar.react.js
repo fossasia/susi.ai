@@ -114,6 +114,7 @@ class StaticAppBar extends Component {
       showAdmin: false,
       anchorEl: null,
       openForgotPassword: false,
+      headerClass: 'nav-down',
     };
   }
   // Open app bar's drawer
@@ -232,14 +233,15 @@ class StaticAppBar extends Component {
     let didScroll;
     let lastScrollTop = 0;
     let delta = 5;
-    let navbarHeight = $('header').outerHeight();
-    $(window).scroll(event => {
+    let navbarHeight = getComputedStyle(document.querySelector('header'))
+      .height;
+    window.addEventListener('scroll', event => {
       didScroll = true;
       this.setState({ showOptions: false });
     });
 
     const hasScrolled = () => {
-      let st = $(window).scrollTop();
+      let st = window.scrollY;
       // Make sure they scroll more than delta
       if (Math.abs(lastScrollTop - st) <= delta) {
         return;
@@ -248,13 +250,9 @@ class StaticAppBar extends Component {
       // This is necessary so you never see what is "behind" the navbar.
       if (st > lastScrollTop && st > navbarHeight + 400) {
         // Scroll Down
-        $('header')
-          .removeClass('nav-down')
-          .addClass('nav-up');
-      } else if (st + $(window).height() < $(document).height()) {
-        $('header')
-          .removeClass('nav-up')
-          .addClass('nav-down');
+        this.setState({ headerClass: 'nav-up' });
+      } else if (st + window.innerHeight < document.body.scrollHeight) {
+        this.setState({ headerClass: 'nav-down' });
       }
       lastScrollTop = st;
     };
@@ -490,7 +488,7 @@ class StaticAppBar extends Component {
     return (
       <div>
         <header
-          className="nav-down"
+          className={this.state.headerClass}
           style={{ backgroundColor: themeBackgroundColor }}
         >
           <AppBar

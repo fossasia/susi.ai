@@ -715,8 +715,8 @@ class Settings extends Component {
   // Handle change to theme settings
   handleSelectChange = (event, value) => {
     value === 'light' || value === 'custom'
-      ? $('#settings-container').addClass('settings-container-light')
-      : $('#settings-container').addClass('settings-container-dark');
+      ? (this.props.className = 'settings-container-light')
+      : (this.props.className = 'settings-container-dark');
     this.preview = true;
     this.setState({ theme: value }, () => {
       this.handleSubmit();
@@ -1795,6 +1795,7 @@ Settings.propTypes = {
   location: PropTypes.object,
   google: PropTypes.object,
   handleThemeChanger: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default withRouter(
