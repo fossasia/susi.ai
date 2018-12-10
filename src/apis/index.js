@@ -1,5 +1,6 @@
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
+import { BLOG_KEY } from '../config.js';
 // import { Cookies } from 'react-cookie';
 // import actions from '../redux/actions/messages';
 const { API_URL } = urls;
@@ -78,6 +79,17 @@ export function getSusiReply(payload) {
     //eslint-disable-next-line
     device_type: 'Web Client',
   });
+}
+
+export function getSusiPreviewReply(message) {
+  const url = `${API_URL}/${CHAT_API_PREFIX}/chat.json`;
+  return ajax.get(url, { q: message });
+}
+
+export function getBlogReponse() {
+  const url = 'https://api.rss2json.com/v1/api.json';
+  //eslint-disable-next-line
+  return ajax.get(url, { count: '50', api_key: BLOG_KEY });
 }
 
 export function getHistory() {

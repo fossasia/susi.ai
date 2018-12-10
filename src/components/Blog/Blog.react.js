@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
-import $ from 'jquery';
 import {
   Card,
   CardMedia,
@@ -16,13 +15,13 @@ import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import { BLOG_KEY } from '../../config.js';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import susi from '../../images/susi-logo.svg';
+import { getBlogReponse } from '../../apis';
 const { FacebookShareButton, TwitterShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
@@ -90,25 +89,16 @@ class Blog extends Component {
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
     //  Ajax call to convert the RSS feed to JSON format
-    $.ajax({
-      url: 'https://api.rss2json.com/v1/api.json',
-      method: 'GET',
-      dataType: 'json',
-      data: {
-        //eslint-disable-next-line
-        rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
-        //eslint-disable-next-line
-        api_key: BLOG_KEY, // put your api key here
-        count: 50,
-      },
-    }).done(
-      function(response) {
-        if (response.status !== 'ok') {
-          throw response.message;
+    getBlogReponse()
+      .then(({ payload }) => {
+        if (payload.status !== 'ok') {
+          throw payload.message;
         }
-        this.setState({ posts: response.items, postRendered: true });
-      }.bind(this),
-    );
+        this.setState({ posts: payload.items, postRendered: true });
+      })
+      .catch(error => {
+        console.log("Couldn't fetch blog response");
+      });
   }
 
   scrollStep = () => {
