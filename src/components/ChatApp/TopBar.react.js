@@ -224,7 +224,7 @@ class TopBar extends Component {
           />
           <MenuItem
             primaryText={<Translate text="Login" />}
-            onTouchTap={this.props.handleOpen}
+            onTouchTap={this.props.onRequestOpenLogin}
             rightIcon={<SignUp />}
           />
         </Popover>
@@ -317,7 +317,7 @@ class TopBar extends Component {
 Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
-  handleOpen: PropTypes.func,
+  onRequestOpenLogin: PropTypes.func,
   handleSignUp: PropTypes.func,
   handleChangePassword: PropTypes.func,
   handleOptions: PropTypes.func,
