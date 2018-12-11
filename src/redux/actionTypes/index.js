@@ -3,7 +3,6 @@ import _ from 'lodash';
 export default _.mapKeys([
   'APP_GET_LOGIN',
   'APP_GET_API_KEYS',
-  'APP_GET_FORGOT_PASSWORD',
   'APP_GET_ADMIN',
   'SETTINGS_GET_USER_SETTINGS',
   'SETTINGS_REMOVE_USER_DEVICE',
