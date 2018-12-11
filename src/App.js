@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Snackbar from 'material-ui/Snackbar';
 import Blog from './components/Blog/Blog.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
 import Contact from './components/Contact/Contact.react';
@@ -40,8 +41,35 @@ class App extends Component {
       openLogin: false,
       openSignUp: false,
       openForgotPassword: false,
+      snackBarOpen: false,
+      snackBarMessage: '',
+      snackBarDuration: 4000,
+      snackBarAction: null,
+      snackBarActionHandler: null,
     };
   }
+
+  componentDidMount = () => {
+    window.addEventListener('offline', this.onUserOffline);
+    window.addEventListener('online', this.onUserOnline);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener('offline', this.onUserOffline);
+    window.removeEventListener('online', this.onUserOnline);
+  };
+
+  onUserOffline = () => {
+    this.openSnackBar({
+      snackBarMessage: 'It seems you are offline!',
+    });
+  };
+
+  onUserOnline = () => {
+    this.openSnackBar({
+      snackBarMessage: 'Welcome back!',
+    });
+  };
 
   closeVideo = () =>
     this.setState({
@@ -80,8 +108,42 @@ class App extends Component {
     });
   };
 
+  openSnackBar = ({
+    snackBarMessage,
+    snackBarDuration = 4000,
+    snackBarActionHandler,
+    snackBarAction,
+  }) => {
+    this.setState({
+      snackBarOpen: true,
+      snackBarMessage,
+      snackBarDuration,
+      snackBarActionHandler,
+      snackBarAction,
+    });
+  };
+
+  closeSnackBar = () => {
+    this.setState({
+      snackBarOpen: false,
+      snackBarMessage: '',
+      snackBarDuration: 4000,
+      snackBarAction: null,
+      snackBarActionHandler: null,
+    });
+  };
+
   render() {
-    const { openLogin, openSignUp, openForgotPassword } = this.state;
+    const {
+      openLogin,
+      openSignUp,
+      openForgotPassword,
+      snackBarOpen,
+      snackBarMessage,
+      snackBarDuration,
+      snackBarAction,
+      snackBarActionHandler,
+    } = this.state;
 
     if (location.pathname !== '/') {
       document.body.className = 'white-body';
@@ -105,6 +167,14 @@ class App extends Component {
             openForgotPassword={openForgotPassword}
             onRequestClose={this.onRequestClose}
           />
+          <Snackbar
+            autoHideDuration={snackBarDuration}
+            action={snackBarAction}
+            onActionTouchTap={snackBarActionHandler}
+            open={snackBarOpen}
+            message={snackBarMessage}
+            onRequestClose={this.closeSnackBar}
+          />
           <Switch>
             <Route
               exact
@@ -113,6 +183,8 @@ class App extends Component {
                 <ChatApp
                   {...routeProps}
                   onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
                 />
               )}
             />
