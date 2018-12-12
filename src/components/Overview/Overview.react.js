@@ -167,7 +167,7 @@ class Overview extends Component {
               that you never thought of before. Susi can do a lot of things that
               you might not expect. Here are some examples of what SUSI can do.
               <br />
-              Don"t forget, these are only a few 😊
+              Don't forget, these are only a few 😊
             </p>
             <div className="rowdiv">
               {buttonAttributes.map((button, index) => (
