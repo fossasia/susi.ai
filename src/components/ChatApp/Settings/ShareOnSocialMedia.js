@@ -96,14 +96,14 @@ const ShareOnSocialMedia = props => {
             />
           </div>
           <div style={buttonStyle}>
-            <Translate text="Share about SUSI on Google +" />
+            <Translate text="Share about SUSI on Google+" />
             <br />
             <RaisedButton
               label={<Translate text="Share on Google+" />}
               style={raisedButtonStyle}
               backgroundColor="#d34836"
               labelColor="#fff"
-              icon={<FontIcon className="fa fa-google-plus" />}
+              icon={<FontIcon className="fa fa-google-plus-circle" />}
               keyboardFocused={false}
               onClick={() =>
                 window.open(
