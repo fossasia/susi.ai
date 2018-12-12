@@ -8,27 +8,26 @@ const { FacebookShareButton, TwitterShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
 import Close from 'material-ui/svg-icons/navigation/close';
-const DialogSection = props => {
-  const shareUrl = 'http://chat.susi.ai';
-  const title =
-    'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
-  const ShowParent = {
+
+const styles = {
+  ShareIconContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '8px',
-  };
-  const IconStyle = {
+  },
+  IconTitleStyle: {
     height: '48px',
     lineHeight: '48px',
     verticalAlign: 'center',
-    marginLeft: '32px',
-  };
-  const IconParent = {
+    padding: '0 0 0 5px',
+  },
+  IconWrapperStyle: {
     marginTop: '16px',
     display: 'flex',
     alignItems: 'flex-start',
-  };
-  const closingStyle = {
+    width: '100%',
+  },
+
+  closingStyle: {
     position: 'absolute',
     zIndex: 1200,
     fill: '#444',
@@ -37,47 +36,63 @@ const DialogSection = props => {
     right: '10px',
     top: '10px',
     cursor: 'pointer',
-  };
+  },
+  contentStyle: {
+    width: '350px',
+    minWidth: '350px',
+    textAlign: 'center',
+  },
+  titleWrapperStyle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+};
+
+const DialogSection = props => {
+  const shareUrl = 'http://chat.susi.ai';
+  const title =
+    'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
   return (
     <div>
       {/* Share */}
       <Dialog
-        contentStyle={{
-          width: '350px',
-          minWidth: '350px',
-          textAlign: 'center',
-        }}
+        contentStyle={styles.contentStyle}
         open={props.openShare}
         onRequestClose={props.handleShareClose}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <div style={styles.titleWrapperStyle}>
           <h3>Share about SUSI</h3>
           <div style={{ flex: 1 }} />
           <IconButton onTouchTap={props.handleShareClose}>
             <CloseIcon size={32} />
           </IconButton>
         </div>
-        <div style={ShowParent}>
-          <div style={IconParent}>
-            <FacebookShareButton url={shareUrl} quote={title}>
+        <div style={styles.ShareIconContainer}>
+          <div className="HoverIcon">
+            <FacebookShareButton
+              url={shareUrl}
+              quote={title}
+              style={styles.IconWrapperStyle}
+            >
               <div>
                 <FacebookIcon size={42} />
               </div>
+
+              <div style={styles.IconTitleStyle}>Facebook</div>
             </FacebookShareButton>
-            <div style={IconStyle}>Facebook</div>
           </div>
-          <div style={IconParent}>
-            <TwitterShareButton className="fb-ic" url={shareUrl} title={title}>
+          <div className="HoverIcon">
+            <TwitterShareButton
+              style={styles.IconWrapperStyle}
+              url={shareUrl}
+              title={title}
+            >
               <div>
                 <TwitterIcon size={42} />
               </div>
+
+              <div style={styles.IconTitleStyle}>Twitter</div>
             </TwitterShareButton>
-            <div style={IconStyle}>Twitter</div>
           </div>
         </div>
       </Dialog>
@@ -98,7 +113,10 @@ const DialogSection = props => {
           frameBorder="0"
           scrolling="no"
         />
-        <Close style={closingStyle} onTouchTap={props.onRequestCloseTour()} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={props.onRequestCloseTour()}
+        />
       </Dialog>
     </div>
   );
