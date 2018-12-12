@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
-import { Link } from 'react-router-dom';
+import $ from 'jquery';
+import Translate from '../Translate/Translate.react';
+import CircleImage from '../CircleImage/CircleImage';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import urls from '../../utils/urls';
+import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
+import './TopBar.css';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
@@ -21,17 +27,26 @@ import Share from 'material-ui/svg-icons/social/share';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
-import Translate from '../Translate/Translate.react';
-import CircleImage from '../CircleImage/CircleImage';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import $ from 'jquery';
-import './TopBar.css';
-import urls from '../../utils/urls';
-import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
+
+const styles = {
+  popoverStyle: {
+    float: 'right',
+    position: 'unset',
+    left: 'unset',
+    marginTop: '47px',
+    marginRight: '8px',
+  },
+  logoStyle: {
+    height: '25px',
+    display: 'block',
+  },
+};
+
 let Logged = props => (
   <IconMenu
     {...props}
@@ -44,6 +59,8 @@ let Logged = props => (
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   />
 );
+
+const { popoverStyle, logoStyle } = styles;
 
 class TopBar extends Component {
   constructor(props) {
@@ -120,13 +137,7 @@ class TopBar extends Component {
           <Popover
             {...props}
             animated={false}
-            style={{
-              float: 'right',
-              position: 'unset',
-              left: 'unset',
-              marginTop: '47px',
-              marginRight: '8px',
-            }}
+            style={popoverStyle}
             open={this.state.showOptions}
             anchorEl={this.state.anchorEl}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -197,13 +208,7 @@ class TopBar extends Component {
         <Popover
           {...props}
           animated={false}
-          style={{
-            float: 'right',
-            position: 'unset',
-            left: 'unset',
-            marginTop: '47px',
-            marginRight: '8px',
-          }}
+          style={popoverStyle}
           open={this.state.showOptions}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -225,7 +230,7 @@ class TopBar extends Component {
           />
           <MenuItem
             primaryText={<Translate text="Login" />}
-            onTouchTap={this.props.handleOpen}
+            onTouchTap={this.props.onRequestOpenLogin}
             rightIcon={<SignUp />}
           />
           <MenuItem
@@ -246,11 +251,6 @@ class TopBar extends Component {
     if (this.props.search) {
       appBarClass = 'app-bar-search';
     }
-
-    let logoStyle = {
-      height: '25px',
-      display: 'block',
-    };
 
     const isLoggedIn = !!cookies.get('loggedIn');
     let avatarProps = null;
@@ -329,9 +329,9 @@ class TopBar extends Component {
 Logged.muiName = 'IconMenu';
 
 TopBar.propTypes = {
-  handleOpen: PropTypes.func,
   handleShare: PropTypes.func,
   handleShareClose: PropTypes.func,
+  onRequestOpenLogin: PropTypes.func,
   handleSignUp: PropTypes.func,
   handleChangePassword: PropTypes.func,
   openShare: PropTypes.bool,

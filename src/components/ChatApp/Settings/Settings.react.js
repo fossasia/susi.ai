@@ -44,6 +44,7 @@ import {
   sortCountryLexographical,
 } from '../../../utils/helperFunctions';
 import urls from '../../../utils/urls';
+import { isPhoneNumber } from '../../../utils';
 
 import MicrophoneTab from './MicrophoneTab.react';
 import ThemeChangeTab from './ThemeChangeTab.react';
@@ -1046,11 +1047,10 @@ class Settings extends Component {
 
   handleTelephoneNoChange = (event, value) => {
     const re = /^\d*$/;
-    const verify = /^(?:[0-9] ?){6,14}[0-9]$/;
     if (value === '' || re.test(value)) {
       this.setState({ PhoneNo: value });
     }
-    if (!verify.test(value)) {
+    if (!isPhoneNumber(value)) {
       this.setState({ phoneNoError: 'Invalid phone number' });
     } else {
       this.setState({ phoneNoError: '' });

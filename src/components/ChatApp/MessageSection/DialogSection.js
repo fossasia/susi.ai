@@ -1,6 +1,5 @@
 import Dialog from 'material-ui/Dialog';
 import React from 'react';
-import Login from '../../Auth/Login/Login.react';
 import PropTypes from 'prop-types';
 import { ShareButtons, generateShareIcon } from 'react-share';
 import IconButton from 'material-ui/IconButton';
@@ -41,23 +40,6 @@ const DialogSection = props => {
   };
   return (
     <div>
-      {/* Login */}
-      <Dialog
-        className="dialogStyle"
-        modal={false}
-        open={props.openLogin}
-        autoScrollBodyContent={true}
-        bodyStyle={props.bodyStyle}
-        contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={props.onRequestClose()}
-      >
-        <Login
-          {...props}
-          handleForgotPassword={props.onForgotPassword()}
-          handleSignUp={props.handleSignUp}
-        />
-        <Close style={closingStyle} onTouchTap={props.onRequestClose()} />
-      </Dialog>
       {/* Share */}
       <Dialog
         contentStyle={{
@@ -66,7 +48,6 @@ const DialogSection = props => {
           textAlign: 'center',
         }}
         open={props.openShare}
-        bodyStyle={props.bodyStyle}
         onRequestClose={props.handleShareClose}
       >
         <div
@@ -100,7 +81,6 @@ const DialogSection = props => {
           </div>
         </div>
       </Dialog>
-
       <Dialog
         className="dialogStyle"
         contentStyle={{
@@ -125,24 +105,11 @@ const DialogSection = props => {
 };
 
 DialogSection.propTypes = {
-  openLogin: PropTypes.bool,
-  openSignUp: PropTypes.bool,
-  openForgotPassword: PropTypes.bool,
-  openHardwareChange: PropTypes.bool,
   tour: PropTypes.bool,
   openShare: PropTypes.bool,
-  onLoginSignUp: PropTypes.func,
-  handleSignUp: PropTypes.func,
   handleShareClose: PropTypes.func,
   handleShare: PropTypes.func,
-  ServerChangeActions: PropTypes.array,
-  HardwareActions: PropTypes.array,
-  bodyStyle: PropTypes.object,
-  onRequestClose: PropTypes.func,
   onRequestCloseTour: PropTypes.func,
-  onSaveThemeSettings: PropTypes.func,
-  onForgotPassword: PropTypes.func,
-  onSignedUp: PropTypes.func,
 };
 
 export default DialogSection;

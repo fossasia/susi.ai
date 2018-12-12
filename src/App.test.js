@@ -1,8 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ChatApp from './components/ChatApp/ChatApp.react';
+import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+const mockStore = configureMockStore();
+const store = mockStore({});
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<ChatApp />, div);
+describe('<MessageComposer />', () => {
+  it('render ChatApp without crashing', () => {
+    shallow(
+      <Provider store={store}>
+        <ChatApp />
+      </Provider>,
+    );
+  });
 });
