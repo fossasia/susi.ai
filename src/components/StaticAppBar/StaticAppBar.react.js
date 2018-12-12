@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
@@ -19,7 +20,6 @@ import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Info from 'material-ui/svg-icons/action/info';
 import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
-import { isProduction } from '../../utils/helperFunctions';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
@@ -32,8 +32,6 @@ import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import List from 'material-ui/svg-icons/action/list';
 import './StaticAppBar.css';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 
@@ -111,7 +109,6 @@ class StaticAppBar extends Component {
       signup: false,
       open: false,
       showOptions: false,
-      showAdmin: false,
       anchorEl: null,
       openForgotPassword: false,
     };
@@ -194,40 +191,6 @@ class StaticAppBar extends Component {
   };
 
   componentDidMount() {
-    let url;
-
-    if (cookies.get('loggedIn')) {
-      url = `${
-        urls.API_URL
-      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
-
-      $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'pfns',
-        jsonp: 'callback',
-        crossDomain: true,
-        success: function(newResponse) {
-          let showAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', showAdmin, {
-            path: '/',
-            domain: cookieDomain,
-          });
-          this.setState({
-            showAdmin: showAdmin,
-          });
-          // console.log(newResponse.showAdmin)
-        }.bind(this),
-        error: newErrorThrown => {
-          console.log(newErrorThrown);
-        },
-      });
-
-      this.setState({
-        showAdmin: cookies.get('showAdmin'),
-      });
-    }
-
     window.addEventListener('scroll', this.handleScroll);
     let didScroll;
     let lastScrollTop = 0;
@@ -305,7 +268,7 @@ class StaticAppBar extends Component {
           containerElement={<Link to="/overview" />}
           rightIcon={<Info />}
         />
-        {this.state.showAdmin === true ? (
+        {this.props.isAdmin === true ? (
           <MenuItem
             primaryText={<Translate text="Admin" />}
             rightIcon={<List />}
@@ -603,11 +566,23 @@ class StaticAppBar extends Component {
     );
   }
 }
+
+function mapStateToProps({ app }) {
+  return {
+    isAdmin: app.isAdmin,
+  };
+}
+
 StaticAppBar.propTypes = {
   history: PropTypes.object,
   settings: PropTypes.object,
   location: PropTypes.object,
   theme: PropTypes.object,
   closeVideo: PropTypes.func,
+  isAdmin: PropTypes.bool,
 };
-export default StaticAppBar;
+
+export default connect(
+  mapStateToProps,
+  null,
+)(StaticAppBar);

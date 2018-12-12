@@ -25,6 +25,13 @@ export default handleActions(
         accessToken,
       };
     },
+    [actionTypes.APP_GET_ADMIN](state, { payload }) {
+      const { isAdmin } = payload;
+      return {
+        ...state,
+        isAdmin,
+      };
+    },
   },
   defaultState,
 );
