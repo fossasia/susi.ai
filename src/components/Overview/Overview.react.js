@@ -80,6 +80,7 @@ class Overview extends Component {
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
+
     this.exampleTime = setInterval(() => {
       const { gifIndex } = this.state;
       const newGifIndex = (gifIndex + 1) % 6;
@@ -97,6 +98,11 @@ class Overview extends Component {
       gifIndex: index,
     });
   }
+
+  handleGIFChange = index => {
+    this.changeGIF(index);
+    clearInterval(this.exampleTime);
+  };
 
   render() {
     const { gifIndex } = this.state;
@@ -170,7 +176,7 @@ class Overview extends Component {
                   label={button.label}
                   labelColor={gifIndex === index ? white : black}
                   backgroundColor={gifIndex === index ? blue600 : white}
-                  onClick={e => this.changeGIF(index)}
+                  onClick={e => this.handleGIFChange(index)}
                   icon={button.icon}
                 />
               ))}
