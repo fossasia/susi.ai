@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
-import { Link } from 'react-router-dom';
+import Translate from '../Translate/Translate.react';
+import CircleImage from '../CircleImage/CircleImage';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import urls from '../../utils/urls';
+import { getAvatarProps } from '../../utils/helperFunctions';
+import './TopBar.css';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
@@ -20,15 +25,7 @@ import List from 'material-ui/svg-icons/action/list';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
-import Translate from '../Translate/Translate.react';
-import CircleImage from '../CircleImage/CircleImage';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import $ from 'jquery';
-import './TopBar.css';
-import urls from '../../utils/urls';
-import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 const cookies = new Cookies();
 let Logged = props => (
@@ -49,7 +46,6 @@ class TopBar extends Component {
     super(props);
     this.state = {
       showOptions: false,
-      showAdmin: false,
       anchorEl: null,
     };
   }
@@ -73,38 +69,6 @@ class TopBar extends Component {
       search: false,
     });
 
-    let url;
-
-    if (cookies.get('loggedIn')) {
-      url = `${
-        urls.API_URL
-      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
-      $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'pfns',
-        jsonp: 'callback',
-        crossDomain: true,
-        success: function(newResponse) {
-          let showAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', showAdmin, {
-            path: '/',
-            domain: cookieDomain,
-          });
-          this.setState({
-            showAdmin: showAdmin,
-          });
-          // console.log(newResponse.showAdmin)
-        }.bind(this),
-        error: function(newErrorThrown) {
-          console.log(newErrorThrown);
-        },
-      });
-
-      this.setState({
-        showAdmin: cookies.get('showAdmin'),
-      });
-    }
     // Check Logged in
     if (cookies.get('loggedIn')) {
       Logged = props => (
@@ -160,7 +124,7 @@ class TopBar extends Component {
               containerElement={<Link to="/overview" />}
               rightIcon={<Info />}
             />
-            {this.state.showAdmin === true ? (
+            {this.props.isAdmin === true ? (
               <MenuItem
                 primaryText={<Translate text="Admin" />}
                 rightIcon={<List />}
@@ -328,11 +292,12 @@ TopBar.propTypes = {
   search: PropTypes.bool,
   searchState: PropTypes.object,
   header: PropTypes.string,
+  isAdmin: PropTypes.bool,
 };
 
 function mapStateToProps({ app }) {
   return {
-    app,
+    isAdmin: app.isAdmin,
   };
 }
 

@@ -1,11 +1,7 @@
-import './StaticAppBar.css';
-import $ from 'jquery';
-import AppBar from 'material-ui/AppBar';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import CircleImage from '../CircleImage/CircleImage';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Cookies from 'universal-cookie';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
@@ -20,6 +16,12 @@ import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
 import React, { Component } from 'react';
 import SignUp from '../Auth/SignUp/SignUp.react';
+import CircleImage from '../CircleImage/CircleImage';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import Info from 'material-ui/svg-icons/action/info';
+import urls from '../../utils/urls';
+import { getAvatarProps } from '../../utils/helperFunctions';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
 import susiWhite from '../../images/susi-logo-white.png';
@@ -32,8 +34,6 @@ import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
 import { Link } from 'react-router-dom';
 import { isProduction } from '../../utils/helperFunctions';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 
@@ -78,7 +78,6 @@ class StaticAppBar extends Component {
       signup: false,
       open: false,
       showOptions: false,
-      showAdmin: false,
       anchorEl: null,
       openForgotPassword: false,
     };
@@ -161,40 +160,6 @@ class StaticAppBar extends Component {
   };
 
   componentDidMount() {
-    let url;
-
-    if (cookies.get('loggedIn')) {
-      url = `${
-        urls.API_URL
-      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
-
-      $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'pfns',
-        jsonp: 'callback',
-        crossDomain: true,
-        success: function(newResponse) {
-          let showAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', showAdmin, {
-            path: '/',
-            domain: cookieDomain,
-          });
-          this.setState({
-            showAdmin: showAdmin,
-          });
-          // console.log(newResponse.showAdmin)
-        }.bind(this),
-        error: function(newErrorThrown) {
-          console.log(newErrorThrown);
-        },
-      });
-
-      this.setState({
-        showAdmin: cookies.get('showAdmin'),
-      });
-    }
-
     window.addEventListener('scroll', this.handleScroll);
     let didScroll;
     let lastScrollTop = 0;
@@ -271,7 +236,7 @@ class StaticAppBar extends Component {
           containerElement={<Link to="/overview" />}
           rightIcon={<Info />}
         />
-        {this.state.showAdmin === true ? (
+        {this.props.isAdmin === true ? (
           <MenuItem
             primaryText={<Translate text="Admin" />}
             rightIcon={<List />}
@@ -611,11 +576,22 @@ class StaticAppBar extends Component {
     );
   }
 }
+
+function mapStateToProps({ app }) {
+  return {
+    isAdmin: app.isAdmin,
+  };
+}
+
 StaticAppBar.propTypes = {
   history: PropTypes.object,
   settings: PropTypes.object,
   location: PropTypes.object,
   theme: PropTypes.object,
   closeVideo: PropTypes.func,
+  isAdmin: PropTypes.bool,
 };
-export default StaticAppBar;
+export default connect(
+  mapStateToProps,
+  null,
+)(StaticAppBar);
