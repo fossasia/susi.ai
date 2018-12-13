@@ -1,5 +1,8 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const defaultState = {
   theme: 'light',
@@ -26,6 +29,8 @@ const defaultState = {
   backgroundImage: '',
 };
 
+const cookiesSettingsValues = cookies.get('settings');
+
 export default handleActions(
   {
     [actionTypes.APP_GET_USER_SETTINGS](state, { payload }) {
@@ -44,5 +49,8 @@ export default handleActions(
       };
     },
   },
-  defaultState,
+  {
+    ...defaultState,
+    ...cookiesSettingsValues,
+  },
 );
