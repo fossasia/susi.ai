@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import ExpandingSearchField from './SearchField.react';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
-import { Link } from 'react-router-dom';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
@@ -26,13 +25,7 @@ import List from 'material-ui/svg-icons/action/list';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
-import Translate from '../Translate/Translate.react';
-import CircleImage from '../CircleImage/CircleImage';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import $ from 'jquery';
-import './TopBar.css';
-import urls from '../../utils/urls';
-import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 const cookies = new Cookies();
 let Logged = props => (
