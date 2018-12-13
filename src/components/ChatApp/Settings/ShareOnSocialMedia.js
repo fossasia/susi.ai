@@ -14,7 +14,7 @@ const styles = {
   },
   raisedButtonStyle: {
     margin: 20,
-    width: '220px',
+    width: '240px',
   },
 };
 
