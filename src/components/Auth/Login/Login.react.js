@@ -12,9 +12,12 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PasswordField from 'material-ui-password-field';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
+import { isEmail } from '../../../utils';
 
 // Static assets
 import './Login.css';
@@ -48,14 +51,27 @@ const styles = {
     marginRight: '50px',
     width: '90%',
   },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
 };
 
 class Login extends Component {
   static propTypes = {
-    history: PropTypes.object,
     handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
     actions: PropTypes.object,
+    openLogin: PropTypes.bool,
+    onRequestClose: PropTypes.func,
+    onRequestOpenSignUp: PropTypes.func,
+    onRequestOpenForgotPassword: PropTypes.func,
   };
 
   constructor(props) {
@@ -78,13 +94,12 @@ class Login extends Component {
     const { actions } = this.props;
     let email = this.state.email.trim();
     const password = this.state.password;
-    const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
     if (!email || !password) {
       return;
     }
 
-    if (email && validEmail) {
+    if (isEmail(email)) {
       this.setState({ loading: true });
       actions
         .getLogin({ email, password: encodeURIComponent(password) })
@@ -96,7 +111,7 @@ class Login extends Component {
               message: payload.message,
               loading: false,
             });
-            this.props.history.replace('/', { showLogin: false });
+            this.props.onRequestClose();
           } else {
             this.setState({
               message: 'Login Failed. Try Again',
@@ -106,6 +121,7 @@ class Login extends Component {
           }
         })
         .catch(error => {
+          console.log(error);
           this.setState({
             message: 'Login Failed. Try Again',
             password: '',
@@ -120,11 +136,6 @@ class Login extends Component {
     this.props.handleForgotPassword();
   };
 
-  // Open SignUp Dialog
-  handleSignUp = () => {
-    this.props.handleSignUp();
-  };
-
   // Handle changes in email and password
   handleChange = event => {
     let {
@@ -137,10 +148,7 @@ class Login extends Component {
 
     if (event.target.name === 'email') {
       email = event.target.value.trim();
-      const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        email,
-      );
-      if (!(email && validEmail)) {
+      if (!isEmail(email)) {
         emailErrorMessage = 'Enter a valid Email Address';
       } else {
         emailErrorMessage = '';
@@ -210,75 +218,101 @@ class Login extends Component {
       loading,
       message,
     } = this.state;
-    const { containerStyle, fieldStyle, inputStyle, inputpassStyle } = styles;
+    const {
+      openLogin,
+      onRequestClose,
+      onRequestOpenSignUp,
+      onRequestOpenForgotPassword,
+    } = this.props;
+    const {
+      containerStyle,
+      fieldStyle,
+      inputStyle,
+      inputpassStyle,
+      closingStyle,
+    } = styles;
 
     return (
-      <div className="login-form">
-        <Paper zDepth={0} style={containerStyle}>
-          <div>
-            <Translate text="Log into SUSI" />
-          </div>
-          <form onSubmit={this.handleSubmit}>
+      <Dialog
+        className="dialogStyle"
+        modal={false}
+        open={openLogin}
+        autoScrollBodyContent={true}
+        bodyStyle={{
+          padding: 0,
+          textAlign: 'center',
+        }}
+        contentStyle={{ width: '35%', minWidth: '300px' }}
+        onRequestClose={onRequestClose}
+      >
+        <div className="login-form">
+          <Paper zDepth={0} style={containerStyle}>
             <div>
-              <TextField
-                name="email"
-                type="email"
-                value={email}
-                onChange={this.handleChange}
-                style={fieldStyle}
-                inputStyle={inputStyle}
-                placeholder="Email"
-                underlineStyle={{ display: 'none' }}
-                errorText={emailErrorMessage}
+              <Translate text="Log into SUSI" />
+            </div>
+            <form onSubmit={this.handleSubmit}>
+              <div>
+                <TextField
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={this.handleChange}
+                  style={fieldStyle}
+                  inputStyle={inputStyle}
+                  placeholder="Email"
+                  underlineStyle={{ display: 'none' }}
+                  errorText={emailErrorMessage}
+                />
+              </div>
+              <div>
+                <PasswordField
+                  name="password"
+                  style={fieldStyle}
+                  inputStyle={inputpassStyle}
+                  value={password}
+                  placeholder="Password"
+                  underlineStyle={{ display: 'none' }}
+                  onChange={this.handleChange}
+                  errorText={passwordErrorMessage}
+                  visibilityButtonStyle={{
+                    marginTop: '-3px',
+                  }}
+                  visibilityIconStyle={{
+                    marginTop: '-3px',
+                  }}
+                  textFieldStyle={{ padding: '0px' }}
+                />
+              </div>
+              {message && <div className="message">{message}</div>}
+              <RaisedButton
+                label={!loading && <Translate text="Log In" />}
+                type="submit"
+                backgroundColor={
+                  UserPreferencesStore.getTheme() === 'light'
+                    ? '#4285f4'
+                    : '#19314B'
+                }
+                labelColor="#fff"
+                disabled={!validForm || loading}
+                style={{ width: '275px', margin: '10px 0px' }}
+                icon={loading && <CircularProgress size={24} />}
               />
-            </div>
-            <div>
-              <PasswordField
-                name="password"
-                style={fieldStyle}
-                inputStyle={inputpassStyle}
-                value={password}
-                placeholder="Password"
-                underlineStyle={{ display: 'none' }}
-                onChange={this.handleChange}
-                errorText={passwordErrorMessage}
-                visibilityButtonStyle={{
-                  marginTop: '-3px',
-                }}
-                visibilityIconStyle={{
-                  marginTop: '-3px',
-                }}
-                textFieldStyle={{ padding: '0px' }}
-              />
-            </div>
-            {message !== '' ? <div className="message">{message}</div> : null}
-            <RaisedButton
-              label={!loading ? <Translate text="Log In" /> : undefined}
-              type="submit"
-              backgroundColor={
-                UserPreferencesStore.getTheme() === 'light'
-                  ? '#4285f4'
-                  : '#19314B'
-              }
-              labelColor="#fff"
-              disabled={!validForm || loading}
-              style={{ width: '275px', margin: '10px 0px' }}
-              icon={loading ? <CircularProgress size={24} /> : undefined}
-            />
-            <div className="login-links-section">
-              <span
-                className="forgot-password"
-                onClick={this.handleForgotPassword}
-              >
-                <Translate text="Forgot Password?" />
-              </span>
-              <span className="sign-up" onClick={this.handleSignUp}>
-                <Translate text="Sign up for SUSI" />
-              </span>
-            </div>
-          </form>
-        </Paper>
-      </div>
+              <div className="login-links-section">
+                <span
+                  className="forgot-password"
+                  onClick={onRequestOpenForgotPassword}
+                >
+                  <Translate text="Forgot Password?" />
+                </span>
+                <span className="sign-up" onClick={onRequestOpenSignUp}>
+                  <Translate text="Sign up for SUSI" />
+                </span>
+              </div>
+            </form>
+          </Paper>
+        </div>
+        <Close style={closingStyle} onTouchTap={onRequestClose} />
+      </Dialog>
     );
   }
 }
