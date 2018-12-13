@@ -54,6 +54,20 @@ class ForgotPassword extends Component {
     };
   }
 
+  handleDialogClose = () => {
+    const { onRequestClose } = this.props;
+
+    this.setState({
+      email: '',
+      emailErrorMessage: '',
+      success: false,
+      dialogMessage: '',
+      loading: false,
+    });
+
+    onRequestClose();
+  };
+
   handleTextFieldChange = event => {
     if (event.target.name === 'email') {
       const email = event.target.value.trim();
@@ -110,7 +124,7 @@ class ForgotPassword extends Component {
       success,
       loading,
     } = this.state;
-    const { openForgotPassword, onRequestClose } = this.props;
+    const { openForgotPassword } = this.props;
     const isValid = !emailErrorMessage && email;
 
     return (
@@ -124,7 +138,7 @@ class ForgotPassword extends Component {
           textAlign: 'center',
         }}
         contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={onRequestClose}
+        onRequestClose={this.handleDialogClose}
       >
         <div className="forgotPwdForm">
           <Paper zDepth={0} style={styles.paperStyle}>
@@ -167,7 +181,10 @@ class ForgotPassword extends Component {
             </form>
           </Paper>
         </div>
-        <Close style={styles.closingStyle} onTouchTap={onRequestClose} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={this.handleDialogClose}
+        />
       </Dialog>
     );
   }
