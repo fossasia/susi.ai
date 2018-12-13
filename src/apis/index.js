@@ -33,6 +33,11 @@ export function getChangePassword(payload) {
   });
 }
 
+export function getAdmin() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/showAdminService.json`;
+  return ajax.get(url, {});
+}
+
 export function getUserSettings() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserSettings.json`;
   return ajax.get(url, {});

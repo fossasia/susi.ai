@@ -112,6 +112,23 @@ class Login extends Component {
             loading: false,
           });
         });
+      actions
+        .getAdmin()
+        .then(({ payload }) => {
+          let { showAdmin, accepted } = payload;
+          if (accepted) {
+            cookies.set('isAdmin', showAdmin, {
+              path: '/',
+              domain: cookieDomain,
+            });
+          }
+          this.setState({
+            isAdmin: showAdmin,
+          });
+        })
+        .catch(error => {
+          console.log('Failed to get admin');
+        });
     }
   };
 
