@@ -31,6 +31,7 @@ const loadingStyle = {
   marginTop: '20px',
   position: 'relative',
 };
+
 const allCategories = [
   'FOSSASIA',
   'GSoC',
@@ -71,9 +72,13 @@ const arrDiff = (a1, a2) => {
 };
 
 class Blog extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+    location: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
-
     this.state = {
       posts: [],
       postRendered: false,
@@ -84,12 +89,10 @@ class Blog extends Component {
   }
 
   componentDidMount() {
-    // Adding title tag to page
     document.title =
       'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
-    //  Scrolling to top of page when component loads
+
     scrollToTopAnimation();
-    //  Ajax call to convert the RSS feed to JSON format
     $.ajax({
       url: 'https://api.rss2json.com/v1/api.json',
       method: 'GET',
@@ -98,17 +101,19 @@ class Blog extends Component {
         //eslint-disable-next-line
         rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
         //eslint-disable-next-line
-        api_key: BLOG_KEY, // put your api key here
-        count: 50,
+        api_key: BLOG_KEY,
+        // count: 50,
       },
-    }).done(
-      function(response) {
+    })
+      .done(response => {
         if (response.status !== 'ok') {
           throw response.message;
         }
         this.setState({ posts: response.items, postRendered: true });
-      }.bind(this),
-    );
+      })
+      .fail(error => {
+        console.log(error);
+      });
   }
 
   scrollStep = () => {
@@ -358,9 +363,5 @@ class Blog extends Component {
     );
   }
 }
-Blog.propTypes = {
-  history: PropTypes.object,
-  location: PropTypes.object,
-};
 
 export default Blog;
