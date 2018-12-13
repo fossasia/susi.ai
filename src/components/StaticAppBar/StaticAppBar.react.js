@@ -35,6 +35,8 @@ import './StaticAppBar.css';
 
 const cookies = new Cookies();
 
+const baseUrl = window.location.protocol + '//' + window.location.host + '/';
+
 let Logged = props => (
   <div>
     <MenuItem
@@ -67,11 +69,42 @@ let Logged = props => (
   </div>
 );
 
+const styles = {
+  bodyStyle: {
+    padding: 0,
+    textAlign: 'center',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+  labelStyle: {
+    padding: '0px 25px 7px 25px',
+    font: '500 14px Roboto,sans-serif',
+    margin: '0 2px',
+    textTransform: 'none',
+    textDecoration: 'none',
+    wordSpacing: '2px',
+    color: '#f2f2f2',
+    verticalAlign: 'bottom',
+  },
+  linkStyle: {
+    color: '#fff',
+    height: '64px',
+    textDecoration: 'none',
+  },
+};
+
 class StaticAppBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      baseUrl: window.location.protocol + '//' + window.location.host + '/',
       login: false,
       signup: false,
       open: false,
@@ -167,14 +200,8 @@ class StaticAppBar extends Component {
       didScroll = true;
       this.setState({ showOptions: false });
     });
-    setInterval(function() {
-      if (didScroll) {
-        hasScrolled();
-        didScroll = false;
-      }
-    }, 500);
 
-    function hasScrolled() {
+    const hasScrolled = () => {
       let st = $(window).scrollTop();
       // Make sure they scroll more than delta
       if (Math.abs(lastScrollTop - st) <= delta) {
@@ -193,7 +220,14 @@ class StaticAppBar extends Component {
           .addClass('nav-down');
       }
       lastScrollTop = st;
-    }
+    };
+
+    setInterval(() => {
+      if (didScroll) {
+        hasScrolled();
+        didScroll = false;
+      }
+    }, 500);
 
     // Return menu items for the hamburger menu
     Logged = props => (
@@ -260,24 +294,14 @@ class StaticAppBar extends Component {
   }
 
   render() {
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-
+    const { bodyStyle, closingStyle, labelStyle, linkStyle } = styles;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
 
     if (this.props.location.pathname === '/settings') {
       showLeftMenu = 'none';
     }
-    let TopRightMenu = props => {
+    const TopRightMenu = props => {
       const isLoggedIn = !!cookies.get('loggedIn');
       let avatarProps = null;
       if (isLoggedIn) {
@@ -344,70 +368,41 @@ class StaticAppBar extends Component {
         </div>
       );
     };
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-    const closingStyleLogin = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-    const labelStyle = {
-      padding: '0px 25px 7px 25px',
-      font: '500 14px Roboto,sans-serif',
-      margin: '0 2px',
-      textTransform: 'none',
-      textDecoration: 'none',
-      wordSpacing: '2px',
-      color: '#f2f2f2',
-      verticalAlign: 'bottom',
-    };
 
-    const linkstyle = {
-      color: '#fff',
-      height: '64px',
-      textDecoration: 'none',
-    };
     const topLinks = [
       {
         label: 'Overview',
         url: '/overview',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Devices',
         url: '/devices',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Blog',
         url: '/blog',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Team',
         url: '/team',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
       {
         label: 'Support',
         url: '/support',
-        style: linkstyle,
-        labelStyle: labelStyle,
+        style: linkStyle,
+        labelStyle,
       },
     ];
 
-    let navLlinks = topLinks.map((link, i) => {
+    const navLlinks = topLinks.map((link, i) => {
       if (this.props.location.pathname === link.url) {
         link.labelStyle = {
           borderBottom: '2px solid #fff',
@@ -427,7 +422,7 @@ class StaticAppBar extends Component {
         </Link>
       );
     });
-    let menuLlinks = topLinks.map((link, i) => {
+    const menuLlinks = topLinks.map((link, i) => {
       return (
         <MenuItem
           key={i}
@@ -503,10 +498,7 @@ class StaticAppBar extends Component {
             className="drawerAppBar"
             title={
               <div>
-                <a
-                  href={this.state.baseUrl}
-                  style={{ float: 'left', marginTop: '-10px' }}
-                >
+                <a href={baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
                   <img src={susiWhite} alt="susi-logo" className="siteTitle" />
                 </a>
                 <TopMenu />
@@ -536,7 +528,7 @@ class StaticAppBar extends Component {
             handleSignUp={this.handleSignUp}
             handleForgotPassword={this.handleForgotPassword}
           />
-          <Close style={closingStyleLogin} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         {/* SignUp */}
         <Dialog
