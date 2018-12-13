@@ -14,7 +14,7 @@ const styles = {
   },
   raisedButtonStyle: {
     margin: 20,
-    width: '220px',
+    width: '240px',
   },
 };
 
@@ -103,7 +103,7 @@ const ShareOnSocialMedia = props => {
               style={raisedButtonStyle}
               backgroundColor="#d34836"
               labelColor="#fff"
-              icon={<FontIcon className="fa fa-google-plus-circle" />}
+              icon={<FontIcon className="fa fa-google-plus" />}
               keyboardFocused={false}
               onClick={() =>
                 window.open(
