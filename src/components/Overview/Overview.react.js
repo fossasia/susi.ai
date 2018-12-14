@@ -127,6 +127,8 @@ class Overview extends Component {
                   color: '#3367d6',
                   cursor: 'pointer',
                   position: 'relative',
+                  lineHeight: '24px',
+                  display: 'block',
                 }}
               >
                 <PlayCircle
