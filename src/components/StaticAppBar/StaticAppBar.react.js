@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -27,7 +26,6 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import susiWhite from '../../images/susi-logo-white.png';
-import Close from 'material-ui/svg-icons/navigation/close';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import List from 'material-ui/svg-icons/action/list';
@@ -193,6 +191,14 @@ class StaticAppBar extends Component {
     });
   };
 
+  onRequestClose = () => {
+    this.setState({
+      login: false,
+      signup: false,
+      openForgotPassword: false,
+    });
+  };
+
   componentDidMount() {
     let url;
 
@@ -331,7 +337,7 @@ class StaticAppBar extends Component {
   }
 
   render() {
-    const { bodyStyle, closingStyle, labelStyle, linkStyle } = styles;
+    const { labelStyle, linkStyle } = styles;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
 
@@ -551,54 +557,23 @@ class StaticAppBar extends Component {
           {menuLlinks}
         </Drawer>
         {/* Login */}
-        <Dialog
-          className="dialogStyle"
-          modal={true}
-          open={this.state.login}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <Login
-            {...this.props}
-            handleSignUp={this.handleSignUp}
-            handleForgotPassword={this.handleForgotPassword}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
+        <Login
+          openLogin={this.state.login}
+          onRequestOpenSignUp={this.handleSignUp}
+          onRequestOpenForgotPassword={this.handleForgotPassword}
+          onRequestClose={this.onRequestClose}
+        />
         {/* SignUp */}
-        <Dialog
-          className="dialogStyle"
-          modal={true}
-          open={this.state.signup}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <SignUp
-            {...this.props}
-            onRequestClose={this.handleClose}
-            onLoginSignUp={this.handleLogin}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.state.openForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <ForgotPassword
-            {...this.props}
-            showForgotPassword={this.showForgotPassword}
-            onLoginSignUp={this.handleLogin}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
+        <SignUp
+          openSignUp={this.state.signup}
+          handleLogin={this.handleSignUp}
+          onRequestOpenLogin={this.handleLogin}
+          onRequestClose={this.onRequestClose}
+        />
+        <ForgotPassword
+          openForgotPassword={this.state.openForgotPassword}
+          onRequestClose={this.onRequestClose}
+        />
       </div>
     );
   }
