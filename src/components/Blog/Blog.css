@@ -4,7 +4,7 @@
 .social-btns{
     width: 100%;
     display: flex;
-    padding: 10px 25px 20px 25px;
+    padding: 10px 0 20px 10px;
     
 }
 .SocialMediaShareButton {
@@ -22,7 +22,7 @@
 .blog_navigation {
     position: absolute;
     right: 15%;
-    bottom: 150px;
+    bottom: 0.5%;
 }
 
 .section_blog{
@@ -177,7 +177,8 @@ table{
     .section_blog{
         max-width: 100%;
         width: 85%;
-        padding: 0 20px;
+        padding: 0% 5% 5% 5%;
+        align-self: center;
     }
     .featured_image {
         height: 300px;
@@ -190,4 +191,3 @@ table{
         bottom: 200px;
     } 
 }
-
