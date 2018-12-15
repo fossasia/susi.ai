@@ -88,6 +88,23 @@ class Login extends Component {
     };
   }
 
+  handleDialogClose = () => {
+    const { onRequestClose } = this.props;
+
+    this.setState({
+      email: '',
+      password: '',
+      success: false,
+      validForm: false,
+      emailErrorMessage: '',
+      passwordErrorMessage: '',
+      loading: false,
+      message: '',
+    });
+
+    onRequestClose();
+  };
+
   // Submit the Login Form
   handleSubmit = e => {
     e.preventDefault();
@@ -111,7 +128,7 @@ class Login extends Component {
               message: payload.message,
               loading: false,
             });
-            this.props.onRequestClose();
+            this.handleDialogClose();
           } else {
             this.setState({
               message: 'Login Failed. Try Again',
@@ -220,7 +237,6 @@ class Login extends Component {
     } = this.state;
     const {
       openLogin,
-      onRequestClose,
       onRequestOpenSignUp,
       onRequestOpenForgotPassword,
     } = this.props;
@@ -243,7 +259,7 @@ class Login extends Component {
           textAlign: 'center',
         }}
         contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={onRequestClose}
+        onRequestClose={this.handleDialogClose}
       >
         <div className="login-form">
           <Paper zDepth={0} style={containerStyle}>
@@ -311,7 +327,7 @@ class Login extends Component {
             </form>
           </Paper>
         </div>
-        <Close style={closingStyle} onTouchTap={onRequestClose} />
+        <Close style={closingStyle} onTouchTap={this.handleDialogClose} />
       </Dialog>
     );
   }
