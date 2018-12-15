@@ -13,8 +13,10 @@ const defaultState = {
 export default handleActions(
   {
     [actionTypes.APP_GET_API_KEYS](state, { payload }) {
+      const { keys } = payload;
       return {
         ...state,
+        apiKeys: { ...keys },
       };
     },
     [actionTypes.APP_GET_LOGIN](state, { payload }) {
