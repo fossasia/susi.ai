@@ -34,7 +34,6 @@
     "moment": "2.22.2",
     "npm": "6.3.0",
     "prop-types": "15.6.2",
-    "query-string": "6.2.0",
     "react": "15.6.2",
     "react-bootstrap": "0.31.5",
     "react-color": "2.14.1",
