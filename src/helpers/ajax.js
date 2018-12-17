@@ -1,6 +1,5 @@
 import axios from 'axios';
 import _ from 'lodash';
-import queryString from 'query-string';
 import { camelizeKeys, toFormData } from '../utils';
 import Cookies from 'universal-cookie';
 
@@ -43,9 +42,9 @@ const obj = {};
         };
       } else if (method === 'get') {
         if (payload) {
-          url += `?${queryString.stringify(payload, {
-            encode: false,
-          })}`;
+          url += `?${Object.keys(payload)
+            .map(key => key + '=' + payload[key])
+            .join('&')}`;
         }
       }
 
