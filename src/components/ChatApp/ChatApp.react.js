@@ -1,13 +1,33 @@
 import MessageSection from './MessageSection/MessageSection.react';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './ChatApp.css';
 import history from '../../history';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import actions from '../../redux/actions/messages';
+import { createMessagePairArray } from '../../utils/formatMessage';
 
-export default class ChatApp extends Component {
+class ChatApp extends Component {
+  static propTypes = {
+    actions: PropTypes.object,
+  };
+
   componentDidMount() {
     document.title = 'SUSI.AI Chat - Open Source Artificial Intelligence';
     // force an update if the URL changes
     history.listen(() => this.forceUpdate());
+    this.props.actions
+      .initializeMessageStore()
+      .then(({ payload }) => {
+        createMessagePairArray(payload).then(messagePairArray => {
+          console.log(messagePairArray);
+          return this.props.actions.createHistoryMessages(messagePairArray);
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -18,3 +38,14 @@ export default class ChatApp extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ChatApp);

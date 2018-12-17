@@ -124,6 +124,7 @@ export function createSUSIMessage(createdMessage, currentThreadID, voice) {
       '&access_token=' +
       cookies.get('loggedIn');
   }
+
   // Send location info of client if available
   if (_Location) {
     url +=
