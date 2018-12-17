@@ -91,6 +91,28 @@ class SignUp extends Component {
     }
   }
 
+  handleDialogClose = () => {
+    const { onRequestClose } = this.props;
+
+    this.setState({
+      email: '',
+      emailErrorMessage: '',
+      password: '',
+      passwordErrorMessage: '',
+      passwordScore: -1,
+      passwordStrength: '',
+      confirmPassword: '',
+      passwordConfirmErrorMessage: '',
+      isCaptchaVerified: false,
+      captchaVerifyErrorMessage: '',
+      signupErrorMessage: '',
+      success: false,
+      loading: false,
+    });
+
+    onRequestClose();
+  };
+
   onCaptchaLoad = () => {
     this.setState({
       isCaptchaVerified: false,
@@ -234,7 +256,7 @@ class SignUp extends Component {
       loading,
       success,
     } = this.state;
-    const { openSignUp, onRequestClose, onRequestOpenLogin } = this.props;
+    const { openSignUp, onRequestOpenLogin } = this.props;
 
     const isValid =
       email &&
@@ -258,7 +280,7 @@ class SignUp extends Component {
           textAlign: 'center',
         }}
         contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={onRequestClose}
+        onRequestClose={this.handleDialogClose}
       >
         <div className="signUpForm">
           <Paper zDepth={0} style={styles.paperStyle}>
@@ -376,7 +398,10 @@ class SignUp extends Component {
             </form>
           </Paper>
         </div>
-        <Close style={styles.closingStyle} onTouchTap={onRequestClose} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={this.handleDialogClose}
+        />
       </Dialog>
     );
   }
