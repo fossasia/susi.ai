@@ -15,3 +15,26 @@ export const getAvatarProps = emailId => {
   };
   return avatarProps;
 };
+
+export const sortCountryLexographical = countryData => {
+  countryData.countries.all.sort(function(a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
+export const urlParam = param => {
+  let results = new RegExp('[?&]' + param + '=([^&#]*)').exec(
+    window.location.href,
+  );
+  if (results && results.length > 0) {
+    let ans = decodeURIComponent((results[1] + '').replace(/\+/g, '%20'));
+    return ans;
+  }
+  return 0;
+};
