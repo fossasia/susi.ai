@@ -16,8 +16,8 @@ import {
   formatUserMessage,
   formatSusiMessage,
 } from '../../utils/formatMessage';
-import * as apis from '../../apis';
 import { urlParam } from '../../utils/helperFunctions';
+import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import MessageStore from '../../stores/MessageStore';
