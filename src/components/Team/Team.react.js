@@ -6,8 +6,8 @@ import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import 'font-awesome/css/font-awesome.min.css';
 import FourButtons from './FourButtons.react';
-import $ from 'jquery';
 import Footer from '../Footer/Footer.react';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 
 class Support extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Support extends Component {
 
   componentDidMount() {
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
     // Adding title tag to page
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';

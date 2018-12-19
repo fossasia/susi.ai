@@ -14,7 +14,7 @@ const styles = {
   },
   raisedButtonStyle: {
     margin: 20,
-    width: '220px',
+    width: '240px',
   },
 };
 
@@ -96,7 +96,7 @@ const ShareOnSocialMedia = props => {
             />
           </div>
           <div style={buttonStyle}>
-            <Translate text="Share about SUSI on Google +" />
+            <Translate text="Share about SUSI on Google+" />
             <br />
             <RaisedButton
               label={<Translate text="Share on Google+" />}

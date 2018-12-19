@@ -15,7 +15,6 @@ import TopBar from '../TopBar.react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
-import * as Actions from '../../../actions/';
 import Translate from '../../Translate/Translate.react';
 import Cookies from 'universal-cookie';
 
@@ -42,9 +41,6 @@ function getStateFromStores() {
     tour: true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
-    showLogin: false,
-    openForgotPassword: false,
-    showSignUp: false,
     showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
@@ -189,10 +185,6 @@ class MessageSection extends Component {
     dream: '',
   };
 
-  state = {
-    showLogin: false,
-  };
-
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
@@ -223,103 +215,11 @@ class MessageSection extends Component {
     this.setState(prevState => ({ player: [...prevState.player, playerNew] }));
   };
 
-  // Open Login Dialog
-  handleOpen = () => {
-    this.setState({
-      showLogin: true,
-      showSignUp: false,
-      openForgotPassword: false,
-    });
-    this.child.closeOptions();
-  };
-
-  // Open Sign Up Dialog
-  handleSignUp = () => {
-    this.setState({
-      showSignUp: true,
-      showLogin: false,
-    });
-    this.child.closeOptions();
-  };
-
-  // Close all dialog boxes
-  handleClose = () => {
-    var prevThemeSettings = this.state.prevThemeSettings;
-    this.setState({
-      showLogin: false,
-      showSignUp: false,
-      openForgotPassword: false,
-    });
-
-    if (
-      prevThemeSettings &&
-      prevThemeSettings.hasOwnProperty('currTheme') &&
-      prevThemeSettings.currTheme === 'custom'
-    ) {
-      this.setState({
-        currTheme: prevThemeSettings.currTheme,
-        body: prevThemeSettings.bodyColor,
-        header: prevThemeSettings.TopBarColor,
-        composer: prevThemeSettings.composerColor,
-        pane: prevThemeSettings.messagePane,
-        textarea: prevThemeSettings.textArea,
-        button: prevThemeSettings.buttonColor,
-        bodyBackgroundImage: prevThemeSettings.bodyBackgroundImage,
-        messageBackgroundImage: prevThemeSettings.messageBackgroundImage,
-      });
-    } else {
-      // default theme
-      this.setState({
-        body: '#fff',
-        header: '#4285f4',
-        composer: '#f3f2f4',
-        pane: '#f3f2f4',
-        textarea: '#fff',
-        button:
-          this.state.prevThemeSettings.currTheme === 'light'
-            ? '#4285f4'
-            : '#19314B',
-      });
-      let customData = '';
-      Object.keys(this.customTheme).forEach(key => {
-        customData = customData + this.customTheme[key] + ',';
-      });
-
-      let settingsChanged = {};
-      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
-      settingsChanged.customThemeValue = customData;
-      if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-        settingsChanged.backgroundImage =
-          this.state.bodyBackgroundImage +
-          ',' +
-          this.state.messageBackgroundImage;
-      }
-      Actions.settingsChanged(settingsChanged);
-      this.setState({ currTheme: this.state.prevThemeSettings.currTheme });
-      this.setState({
-        showLogin: false,
-        showSignUp: false,
-        openForgotPassword: false,
-      });
-    }
-  };
   handleCloseTour = () => {
     this.setState({
-      showLogin: false,
-      showSignUp: false,
-      openForgotPassword: false,
       tour: false,
     });
     cookies.set('visited', true, { path: '/' });
-  };
-
-  // Show forgot password dialog
-  forgotPasswordChanged = () => {
-    this.setState({
-      showLogin: false,
-      openForgotPassword: true,
-    });
-    this.child.closeOptions();
   };
 
   handleActionTouchTap = () => {
@@ -407,15 +307,6 @@ class MessageSection extends Component {
   };
 
   componentDidMount() {
-    if (this.props.location) {
-      if (this.props.location.state) {
-        if (this.props.location.state.hasOwnProperty('showLogin')) {
-          let showLogin = this.props.location.state.showLogin;
-          this.setState({ showLogin: showLogin });
-        }
-      }
-    }
-
     switch (this.state.currTheme) {
       case 'light': {
         document.body.className = 'white-body';
@@ -577,11 +468,6 @@ class MessageSection extends Component {
     document.body.style.setProperty('background-repeat', 'no-repeat');
     document.body.style.setProperty('background-size', 'cover');
 
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-
     const { dream } = this.props;
 
     const scrollBottomStyle = {
@@ -670,8 +556,6 @@ class MessageSection extends Component {
               ref={instance => {
                 this.child = instance;
               }}
-              handleOpen={this.handleOpen}
-              handleSignUp={this.handleSignUp}
               handleOptions={this.handleOptions}
               handleRequestClose={this.handleRequestClose}
               handleToggle={this.handleToggle}
@@ -759,16 +643,7 @@ class MessageSection extends Component {
             {!this.state.search ? (
               <DialogSection
                 {...this.props}
-                openLogin={this.state.showLogin}
-                openSignUp={this.state.showSignUp}
-                openForgotPassword={this.state.openForgotPassword}
-                bodyStyle={bodyStyle}
-                handleSignUp={this.handleSignUp}
-                onRequestClose={() => this.handleClose}
                 onRequestCloseTour={() => this.handleCloseTour}
-                onSaveThemeSettings={() => this.handleSaveTheme}
-                onLoginSignUp={() => this.handleOpen}
-                onForgotPassword={() => this.forgotPasswordChanged}
                 tour={!cookies.get('visited')}
               />
             ) : null}
@@ -867,11 +742,12 @@ class MessageSection extends Component {
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
-    if (newSearchCount <= 0) {
-      newSearchCount = indexLimit;
+    if (newSearchCount > indexLimit) {
+      newSearchCount = 1;
+      newIndex = 0;
     }
 
-    if (markedIDs && ul && newIndex < indexLimit) {
+    if (markedIDs && ul && newIndex < indexLimit && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
       currState.searchIndex = newSearchCount;
@@ -931,7 +807,7 @@ class MessageSection extends Component {
     }
     if (markedIDs && ul && newIndex === 0) {
       let currState = this.state.searchState;
-      newIndex = indexLimit;
+      newIndex = 0;
       currState.scrollIndex = newIndex;
       currState.searchIndex = 1;
     }
