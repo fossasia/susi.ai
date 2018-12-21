@@ -24,14 +24,7 @@ const MicrophoneTab = props => {
     <div style={props.containerStyle}>
       <div>
         <div>
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-            }}
-          >
+          <div style={props.tabHeadingStyle}>
             <Translate text="Mic Input" />
           </div>
           {props.themeVal === 'light' ? (
@@ -69,6 +62,7 @@ MicrophoneTab.propTypes = {
   micInput: PropTypes.bool,
   themeForegroundColor: PropTypes.string,
   themeVal: PropTypes.string,
+  tabHeadingStyle: PropTypes.object,
 };
 
 export default MicrophoneTab;
