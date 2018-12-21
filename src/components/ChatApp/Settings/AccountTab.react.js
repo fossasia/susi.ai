@@ -5,6 +5,13 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import TimezonePicker from 'react-timezone';
 import PropTypes from 'prop-types';
 
+const headingStyle = {
+  marginTop: '10px',
+  marginBottom: '5px',
+  fontSize: '15px',
+  fontWeight: 'bold',
+};
+
 const AccountTab = props => {
   let TTSBrowserSupport;
   if ('speechSynthesis' in window) {
@@ -15,18 +22,10 @@ const AccountTab = props => {
       'The current browser does not support the SpeechSynthesis API.',
     );
   }
-
   return (
     <div style={props.containerStyle}>
       <span>
-        <div
-          style={{
-            marginTop: '10px',
-            marginBottom: '5px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={headingStyle}>
           <Translate text="Account" />
         </div>
         {props.themeVal === 'light' ? (
@@ -36,14 +35,7 @@ const AccountTab = props => {
         )}
       </span>
 
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '5px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={headingStyle}>
         <Translate text="User Name" />
       </div>
       <TextField
@@ -57,14 +49,7 @@ const AccountTab = props => {
       />
       <br />
 
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '5px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={headingStyle}>
         <Translate text="Email" />
       </div>
       <TextField
@@ -76,14 +61,7 @@ const AccountTab = props => {
       />
       <br />
 
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '0px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={{ ...headingStyle, marginBottom: 0 }}>
         <Translate text="Select default language" />
       </div>
       <DropDownMenu
@@ -98,14 +76,7 @@ const AccountTab = props => {
         {props.voiceOutput.voiceMenu}
       </DropDownMenu>
       <br />
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '0px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={{ ...headingStyle, marginBottom: 0 }}>
         <Translate text="Select TimeZone" />
       </div>
       <br />
