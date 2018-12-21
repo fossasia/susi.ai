@@ -46,6 +46,11 @@ export function getUserSettings() {
   return ajax.get(url, {});
 }
 
+export function setUserSettings(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/changeUserSettings.json`;
+  return ajax.get(url, payload);
+}
+
 export function removeUserDevice(payload) {
   const { macId } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/removeUserDevices.json`;
@@ -82,6 +87,22 @@ export function getSusiReply(payload) {
     language: locale,
     //eslint-disable-next-line
     device_type: 'Web Client',
+  });
+}
+
+export function getSusiPreviewReply(message) {
+  const url = `${API_URL}/${CHAT_API_PREFIX}/chat.json`;
+  return ajax.get(url, { q: message });
+}
+
+export function getBlogReponse(blogKey) {
+  const url = 'https://api.rss2json.com/v1/api.json';
+  return ajax.get(url, {
+    count: '50',
+    //eslint-disable-next-line
+    api_key: blogKey,
+    //eslint-disable-next-line
+    rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
   });
 }
 
