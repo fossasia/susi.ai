@@ -18,4 +18,5 @@ export default {
     actionTypes.APP_GET_FORGOT_PASSWORD,
     apis.getForgotPassword,
   ),
+  getAdmin: createAction(actionTypes.APP_GET_ADMIN, apis.getAdmin),
 };

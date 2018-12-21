@@ -126,7 +126,7 @@ class Login extends Component {
               message: payload.message,
               loading: false,
             });
-            this.handleDialogClose();
+            this.checkAdmin();
           } else {
             this.setState({
               message: 'Login Failed. Try Again',
@@ -146,6 +146,27 @@ class Login extends Component {
           });
         });
     }
+  };
+
+  checkAdmin = () => {
+    actions
+      .getAdmin()
+      .then(({ payload }) => {
+        let { showAdmin, accepted } = payload;
+        if (accepted) {
+          cookies.set('isAdmin', showAdmin, {
+            path: '/',
+            domain: cookieDomain,
+          });
+        }
+        this.setState({
+          isAdmin: showAdmin,
+        });
+      })
+      .catch(error => {
+        console.log('Failed to get admin');
+      });
+    this.handleDialogClose();
   };
 
   // Open Forgot Password Dialog

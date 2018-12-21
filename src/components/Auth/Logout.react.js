@@ -21,7 +21,7 @@ const Logout = props => {
   deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
   deleteCookie('emailId', { domain: cookieDomain, path: '/' });
   deleteCookie('username', { domain: cookieDomain, path: '/' });
-  deleteCookie('showAdmin', { domain: cookieDomain, path: '/' });
+  deleteCookie('isAdmin', { domain: cookieDomain, path: '/' });
   deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
   // Redirect to landing page
