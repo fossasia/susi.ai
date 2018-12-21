@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
 import $ from 'jquery';
+import { connect } from 'react-redux';
 import {
   Card,
   CardMedia,
@@ -16,7 +17,6 @@ import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import { BLOG_KEY } from '../../config.js';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -71,9 +71,14 @@ const arrDiff = (a1, a2) => {
 };
 
 class Blog extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+    location: PropTypes.object,
+    blogKey: PropTypes.string,
+  };
+
   constructor(props) {
     super(props);
-
     this.state = {
       posts: [],
       postRendered: false,
@@ -84,12 +89,24 @@ class Blog extends Component {
   }
 
   componentDidMount() {
-    // Adding title tag to page
+    const { blogKey } = this.props;
     document.title =
       'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
-    //  Scrolling to top of page when component loads
     scrollToTopAnimation();
-    //  Ajax call to convert the RSS feed to JSON format
+    if (blogKey) {
+      this.getPosts(blogKey);
+    }
+  }
+
+  componentWillReceiveProps = props => {
+    const { blogKey } = props;
+    const { posts } = this.state;
+    if (posts.length === 0 && blogKey) {
+      this.getPosts(blogKey);
+    }
+  };
+
+  getPosts = blogKey => {
     $.ajax({
       url: 'https://api.rss2json.com/v1/api.json',
       method: 'GET',
@@ -98,18 +115,16 @@ class Blog extends Component {
         //eslint-disable-next-line
         rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
         //eslint-disable-next-line
-        api_key: BLOG_KEY, // put your api key here
+        api_key: blogKey,
         count: 50,
       },
-    }).done(
-      function(response) {
-        if (response.status !== 'ok') {
-          throw response.message;
-        }
-        this.setState({ posts: response.items, postRendered: true });
-      }.bind(this),
-    );
-  }
+    }).done(response => {
+      if (response.status !== 'ok') {
+        throw response.message;
+      }
+      this.setState({ posts: response.items, postRendered: true });
+    });
+  };
 
   scrollStep = () => {
     if (window.pageYOffset === 0) {
@@ -358,9 +373,15 @@ class Blog extends Component {
     );
   }
 }
-Blog.propTypes = {
-  history: PropTypes.object,
-  location: PropTypes.object,
-};
 
-export default Blog;
+function mapStateToProps(store) {
+  const { blogKey } = store.app.apiKeys;
+  return {
+    blogKey,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Blog);

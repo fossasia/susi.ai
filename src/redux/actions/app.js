@@ -2,12 +2,12 @@ import { createAction } from 'redux-actions';
 import actionTypes from '../actionTypes';
 import * as apis from '../../apis';
 
-const returnArgumentsFn = function(payload) {
-  return Promise.resolve(payload);
-};
+// const returnArgumentsFn = function(payload) {
+//   return Promise.resolve(payload);
+// };
 
 export default {
-  getApiKeys: createAction(actionTypes.APP_GET_API_KEYS, returnArgumentsFn),
+  getApiKeys: createAction(actionTypes.APP_GET_API_KEYS, apis.fetchApiKeys),
   getLogin: createAction(actionTypes.APP_GET_LOGIN, apis.getLogin),
   getChangePassword: createAction(
     actionTypes.APP_GET_CHANGE_PASSWORD,

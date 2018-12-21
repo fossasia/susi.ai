@@ -1,6 +1,6 @@
 import './Settings.css';
 import $ from 'jquery';
-import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -22,12 +22,10 @@ import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
-import { GoogleApiWrapper } from 'google-maps-react';
 import {
   voiceList,
   voiceListChange,
 } from './../../../constants/SettingsVoiceConstants.js';
-import { MAP_KEY } from '../../../../src/config.js';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -1247,7 +1245,7 @@ class Settings extends Component {
           handleChange={this.handleChange}
           tableData={this.state.obj}
           mapObj={this.state.mapObj}
-          google={this.props.google}
+          mapKey={this.props.mapKey}
           centerLat={this.state.centerLat}
           centerLng={this.state.centerLng}
           deviceNames={this.state.devicenames}
@@ -1795,10 +1793,17 @@ Settings.propTypes = {
   location: PropTypes.object,
   google: PropTypes.object,
   handleThemeChanger: PropTypes.func,
+  mapKey: PropTypes.string,
 };
 
-export default withRouter(
-  GoogleApiWrapper({
-    apiKey: MAP_KEY,
-  })(Settings),
-);
+function mapStateToProps(store) {
+  const { mapKey } = store.app.apiKeys;
+  return {
+    mapKey,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Settings);
