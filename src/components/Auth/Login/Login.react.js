@@ -78,11 +78,10 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      success: false,
-      validForm: false,
       emailErrorMessage: '',
+      password: '',
       passwordErrorMessage: '',
+      success: false,
       loading: false,
       message: '',
     };
@@ -109,8 +108,7 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { actions } = this.props;
-    let email = this.state.email.trim();
-    const password = this.state.password;
+    const { email, password } = this.state;
 
     if (!email || !password) {
       return;
@@ -133,6 +131,7 @@ class Login extends Component {
             this.setState({
               message: 'Login Failed. Try Again',
               password: '',
+              success: false,
               loading: false,
             });
           }
@@ -142,6 +141,7 @@ class Login extends Component {
           this.setState({
             message: 'Login Failed. Try Again',
             password: '',
+            success: false,
             loading: false,
           });
         });
@@ -155,42 +155,30 @@ class Login extends Component {
 
   // Handle changes in email and password
   handleChange = event => {
-    let {
-      email,
-      password,
-      emailErrorMessage,
-      passwordErrorMessage,
-      validForm,
-    } = this.state;
-
-    if (event.target.name === 'email') {
-      email = event.target.value.trim();
-      if (!isEmail(email)) {
-        emailErrorMessage = 'Enter a valid Email Address';
-      } else {
-        emailErrorMessage = '';
+    switch (event.target.name) {
+      case 'email': {
+        const email = event.target.value.trim();
+        this.setState({
+          email,
+          emailErrorMessage: !isEmail(email)
+            ? 'Enter a valid Email Address'
+            : '',
+          message: '',
+        });
+        break;
       }
-    } else if (event.target.name === 'password') {
-      password = event.target.value;
-      if (!password) {
-        passwordErrorMessage = 'Enter a valid password';
-      } else {
-        passwordErrorMessage = '';
+      case 'password': {
+        const password = event.target.value.trim();
+        this.setState({
+          password,
+          passwordErrorMessage: !password ? 'Enter a valid password' : '',
+          message: '',
+        });
+        break;
       }
+      default:
+        break;
     }
-
-    if (emailErrorMessage === '' && passwordErrorMessage === '') {
-      validForm = true;
-    } else {
-      validForm = false;
-    }
-    this.setState({
-      email,
-      password,
-      emailErrorMessage,
-      passwordErrorMessage,
-      validForm,
-    });
   };
 
   // Set Cookies on successful Login
@@ -231,9 +219,9 @@ class Login extends Component {
       password,
       emailErrorMessage,
       passwordErrorMessage,
-      validForm,
       loading,
       message,
+      success,
     } = this.state;
     const {
       openLogin,
@@ -247,6 +235,9 @@ class Login extends Component {
       inputpassStyle,
       closingStyle,
     } = styles;
+
+    const isValid =
+      email && !emailErrorMessage && password && !passwordErrorMessage;
 
     return (
       <Dialog
@@ -299,7 +290,11 @@ class Login extends Component {
                   textFieldStyle={{ padding: '0px' }}
                 />
               </div>
-              {message && <div className="message">{message}</div>}
+              {message && (
+                <div style={{ color: success ? '#388e3c' : '#f44336' }}>
+                  {message}
+                </div>
+              )}
               <RaisedButton
                 label={!loading && <Translate text="Log In" />}
                 type="submit"
@@ -309,7 +304,7 @@ class Login extends Component {
                     : '#19314B'
                 }
                 labelColor="#fff"
-                disabled={!validForm || loading}
+                disabled={!isValid || loading}
                 style={{ width: '275px', margin: '10px 0px' }}
                 icon={loading && <CircularProgress size={24} />}
               />

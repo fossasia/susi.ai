@@ -1,5 +1,4 @@
 import MessageComposer from '../MessageComposer.react';
-import Snackbar from 'material-ui/Snackbar';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
@@ -15,7 +14,6 @@ import TopBar from '../TopBar.react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
-import Translate from '../../Translate/Translate.react';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -32,9 +30,7 @@ function getStateFromStores() {
     backgroundValue = UserPreferencesStore.getBackgroundImage().split(',');
   }
   return {
-    SnackbarOpen: false,
     player: [],
-    SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     currTheme: UserPreferencesStore.getTheme(),
@@ -52,9 +48,6 @@ function getStateFromStores() {
     textarea: themeValue.length > 5 ? '#' + themeValue[4] : '#fff',
     button: themeValue.length > 5 ? '#' + themeValue[5] : '#4285f4',
     bodyBackgroundImage: backgroundValue.length > 1 ? backgroundValue[0] : '',
-    snackopen: false,
-    snackMessage: 'It seems you are offline!',
-    SnackbarOpenSearchResults: false,
     messageBackgroundImage:
       backgroundValue.length > 1 ? backgroundValue[1] : '',
     showScrollBottom: false,
@@ -180,6 +173,10 @@ const urlPropsQueryConfig = {
 class MessageSection extends Component {
   static propTypes = {
     dream: PropTypes.string,
+    location: PropTypes.object,
+    history: PropTypes.object,
+    openSnackBar: PropTypes.func,
+    closeSnackBar: PropTypes.func,
   };
 
   static defaultProps = {
@@ -237,35 +234,6 @@ class MessageSection extends Component {
     cookies.set('visited', true, { path: '/' });
   };
 
-  handleActionTouchTap = () => {
-    this.setState({
-      SnackbarOpen: false,
-    });
-    switch (this.state.currTheme) {
-      case 'light': {
-        this.settingsChanged({
-          Theme: 'dark',
-        });
-        break;
-      }
-      case 'dark': {
-        this.settingsChanged({
-          Theme: 'light',
-        });
-        break;
-      }
-      default: {
-        // do nothing
-      }
-    }
-  };
-
-  handleRequestClose = () => {
-    this.setState({
-      SnackbarOpen: false,
-    });
-  };
-
   // Executes on search text changes
   searchTextChanged = event => {
     let matchString = event.target.value;
@@ -275,10 +243,7 @@ class MessageSection extends Component {
       matchString,
       this.state.searchState.caseSensitive,
     );
-    // to make the snackbar hide by default
-    this.setState({
-      SnackbarOpenSearchResults: false,
-    });
+
     if (matchString) {
       let searchState = {
         markedMsgs: markingData.allmsgs,
@@ -293,14 +258,13 @@ class MessageSection extends Component {
         searchText: matchString,
       };
       if (markingData.markedIDs.length === 0 && matchString.trim().length > 0) {
-        // if no Messages are marked(i.e no result) and the search query is not empty
         searchState.searchIndex = 0;
-        this.setState({
-          SnackbarOpenSearchResults: true,
+        this.props.openSnackBar({
+          snackBarMessage: 'No Results!',
         });
       }
       this.setState({
-        searchState: searchState,
+        searchState,
       });
     } else {
       let searchState = {
@@ -358,27 +322,7 @@ class MessageSection extends Component {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange);
     ThreadStore.addChangeListener(this._onChange);
-    window.addEventListener('offline', this.handleOffline);
-    window.addEventListener('online', this.handleOnline);
-
-    // let state=this.state;
   }
-
-  // Show a snackbar If user offline
-  handleOffline = () => {
-    this.setState({
-      snackopen: true,
-      snackMessage: 'It seems you are offline!',
-    });
-  };
-
-  // Show a snackbar If user online
-  handleOnline = () => {
-    this.setState({
-      snackopen: true,
-      snackMessage: 'Welcome back!',
-    });
-  };
 
   // Scroll to bottom feature goes here
   onScroll = () => {
@@ -668,29 +612,6 @@ class MessageSection extends Component {
               />
             ) : null}
           </div>
-          <Snackbar
-            open={this.state.SnackbarOpenBackground}
-            message={<Translate text="Please enter a valid URL first" />}
-            autoHideDuration={4000}
-          />
-          <Snackbar
-            open={this.state.SnackbarOpen}
-            message={<Translate text="Theme Changed" />}
-            action="undo"
-            autoHideDuration={4000}
-            onActionTouchTap={this.handleActionTouchTap}
-            onRequestClose={this.handleRequestClose}
-          />
-          <Snackbar
-            autoHideDuration={4000}
-            open={this.state.snackopen}
-            message={<Translate text={this.state.snackMessage} />}
-          />
-          <Snackbar
-            autoHideDuration={4000}
-            open={this.state.SnackbarOpenSearchResults && !this.state.snackopen}
-            message={<Translate text="No Results!" />}
-          />
         </div>
       );
     }
@@ -859,11 +780,7 @@ class MessageSection extends Component {
   _onClickSearch = () => {
     let searchState = this.state.searchState;
     searchState.markedMsgs = this.state.messages;
-    if (this.state.SnackbarOpenSearchResults) {
-      this.setState({
-        SnackbarOpenSearchResults: false,
-      });
-    }
+    this.props.closeSnackBar();
     this.setState({
       search: true,
       searchState: searchState,
@@ -875,11 +792,7 @@ class MessageSection extends Component {
     searchState.searchText = '';
     searchState.searchIndex = 0;
     searchState.scrollLimit = 0;
-    if (this.state.SnackbarOpenSearchResults) {
-      this.setState({
-        SnackbarOpenSearchResults: false,
-      });
-    }
+    this.props.closeSnackBar();
     this.setState({
       search: false,
       searchState: searchState,
@@ -931,10 +844,5 @@ class MessageSection extends Component {
     this.setState({ player: array });
   };
 }
-
-MessageSection.propTypes = {
-  location: PropTypes.object,
-  history: PropTypes.object,
-};
 
 export default addUrlProps({ urlPropsQueryConfig })(MessageSection);
