@@ -85,6 +85,22 @@ export function getSusiReply(payload) {
   });
 }
 
+export function getSusiPreviewReply(message) {
+  const url = `${API_URL}/${CHAT_API_PREFIX}/chat.json`;
+  return ajax.get(url, { q: message });
+}
+
+export function getBlogReponse(blogKey) {
+  const url = 'https://api.rss2json.com/v1/api.json';
+  return ajax.get(url, {
+    count: '50',
+    //eslint-disable-next-line
+    api_key: blogKey,
+    //eslint-disable-next-line
+    rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
+  });
+}
+
 export function getHistory() {
   const url = `${API_URL}/${CHAT_API_PREFIX}/memory.json`;
   return ajax.get(url, {});
