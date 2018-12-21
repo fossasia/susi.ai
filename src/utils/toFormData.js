@@ -13,7 +13,7 @@ function serialize(params, obj, traditional, scope) {
         key =
           scope +
           '[' +
-          (hash || type == 'object' || type == 'array' ? key : '') +
+          (hash || type === 'object' || type === 'array' ? key : '') +
           ']';
       }
     }
@@ -22,7 +22,7 @@ function serialize(params, obj, traditional, scope) {
       params.add(value.name, value.value);
     }
     // recurse into nested objects
-    else if (type == 'array' || (!traditional && type == 'object')) {
+    else if (type === 'array' || (!traditional && type === 'object')) {
       serialize(params, value, traditional, key);
     } else {
       params.add(key, value);

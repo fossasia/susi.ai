@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// eslint-disable-next-line
-import { InfoWindow } from 'google-maps-react';
 
 const style = {
   mapDisplay: {

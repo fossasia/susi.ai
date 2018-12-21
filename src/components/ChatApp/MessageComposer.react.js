@@ -1,68 +1,88 @@
-import * as Actions from '../../actions/';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Send from 'material-ui/svg-icons/content/send';
-import Mic from 'material-ui/svg-icons/av/mic';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
-import MessageStore from '../../stores/MessageStore';
-import IconButton from 'material-ui/IconButton';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import VoiceRecognition from './VoiceRecognition';
-import Modal from 'react-modal';
 import ReactFitText from 'react-fittext';
-import Close from 'material-ui/svg-icons/navigation/close';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import Modal from 'react-modal';
+import $ from 'jquery';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import SendIcon from 'material-ui/svg-icons/content/send';
+import MicIcon from 'material-ui/svg-icons/av/mic';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
-import $ from 'jquery';
+import actions from '../../redux/actions/messages';
+import {
+  formatUserMessage,
+  formatSusiMessage,
+} from '../../utils/formatMessage';
+import * as apis from '../../apis';
+import VoiceRecognition from './VoiceRecognition';
+import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import MessageStore from '../../stores/MessageStore';
+import * as Actions from '../../actions/';
 
 injectTapEventPlugin();
 
-let ENTER_KEY_CODE = 13;
-let UP_KEY_CODE = 38;
-let DOWN_KEY_CODE = 40;
-let flag = 1;
-const style = {
-  mini: true,
-  bottom: '14px',
-  right: '5px',
-  position: 'absolute',
-};
-const iconStyles = {
-  color: '#fff',
-  fill: 'currentcolor',
-  height: '40px',
-  width: '40px',
-  marginTop: '20px',
-  userSelect: 'none',
-  transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-};
-const closingStyle = {
-  position: 'absolute',
-  zIndex: 120000,
-  fill: '#444',
-  width: '20px',
-  height: '20px',
-  right: '0px',
-  top: '0px',
-  cursor: 'pointer',
+const ENTER_KEY_CODE = 13;
+const UP_KEY_CODE = 38;
+const DOWN_KEY_CODE = 40;
+
+const styles = {
+  buttonStyle: {
+    mini: true,
+    bottom: '14px',
+    right: '5px',
+    position: 'absolute',
+  },
+  iconStyles: {
+    color: '#fff',
+    fill: 'currentcolor',
+    height: '40px',
+    width: '40px',
+    marginTop: '20px',
+    userSelect: 'none',
+    transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 120000,
+    fill: '#444',
+    width: '20px',
+    height: '20px',
+    right: '0px',
+    top: '0px',
+    cursor: 'pointer',
+  },
 };
 
 $.urlParam = function(name) {
-  let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(
-    window.location.href,
-  );
+  const results = new RegExp(`[?&]${name}=([^&#]*)`).exec(window.location.href);
   if (results && results.length > 0) {
-    let ans = decodeURIComponent((results[1] + '').replace(/\+/g, '%20'));
+    const ans = decodeURIComponent(`${results[1]}`.replace(/\+/g, '%20'));
     return ans;
   }
   return 0;
 };
 
 class MessageComposer extends Component {
+  static propTypes = {
+    threadID: PropTypes.string.isRequired,
+    dream: PropTypes.string,
+    textarea: PropTypes.string,
+    textcolor: PropTypes.string,
+    speechOutput: PropTypes.bool,
+    speechOutputAlways: PropTypes.bool,
+    micColor: PropTypes.string,
+    focus: PropTypes.bool,
+    actions: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      text: props.dream ? `dream ${props.dream}` : '',
       start: false,
       stop: false,
       open: false,
@@ -71,12 +91,71 @@ class MessageComposer extends Component {
       rows: 1,
       recognizing: false,
       micAccess: false,
-      currentArrowIndex: 0, // store the index for moving through messages using key
+      currentArrowIndex: -1, // current message indexed at -1, latest message at 0
     };
-    this.rowComplete = 0;
-    this.numberoflines = 0;
-    if (props.dream !== '') {
-      this.state = { text: 'dream ' + props.dream };
+    this.flag = 1;
+  }
+
+  componentDidMount() {
+    const { threadID, speechOutputAlways } = this.props;
+    const micInputSetting = UserPreferencesStore.getMicInput();
+    if (micInputSetting) {
+      // Getting the Speech Recognition to test whether possible
+      const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition ||
+        window.oSpeechRecognition;
+      // Setting buttons accordingly
+      if (SpeechRecognition != null) {
+        this.Button = <MicIcon />;
+        this.speechRecog = true;
+      } else {
+        this.Button = <SendIcon />;
+        this.speechRecog = false;
+      }
+    } else {
+      this.Button = <SendIcon />;
+      this.speechRecog = false;
+    }
+
+    let testSkill = $.urlParam('testExample');
+    if (testSkill) {
+      let text = testSkill.trim();
+      if (text) {
+        let enterAsSend = UserPreferencesStore.getEnterAsSend();
+        if (!enterAsSend) {
+          text = text.split('\n').join(' ');
+        }
+        setTimeout(() => {
+          Actions.createMessage(text, threadID, speechOutputAlways);
+        }, 1);
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    const micInputSetting = UserPreferencesStore.getMicInput();
+    if (micInputSetting) {
+      // Getting the Speech Recognition to test whether possible
+      const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition ||
+        window.oSpeechRecognition;
+      // Setting buttons accordingly
+      if (SpeechRecognition != null) {
+        this.Button = <MicIcon />;
+        this.speechRecog = true;
+      } else {
+        this.Button = <SendIcon />;
+        this.speechRecog = false;
+      }
+    } else {
+      this.Button = <SendIcon />;
+      this.speechRecog = false;
     }
   }
 
@@ -96,10 +175,12 @@ class MessageComposer extends Component {
       recognizing: true,
       micAccess: true,
     });
-    flag = 1;
+    this.flag = 1;
   };
 
   onEnd = () => {
+    const { speechOutputAlways, speechOutput, threadID } = this.props;
+    const { result } = this.state;
     this.setState({
       start: false,
       stop: false,
@@ -110,30 +191,27 @@ class MessageComposer extends Component {
     });
 
     let voiceResponse = false;
-    if (this.props.speechOutputAlways || this.props.speechOutput) {
+    if (speechOutputAlways || speechOutput) {
       voiceResponse = true;
     }
-    this.Button = <Mic />;
-    if (this.state.result) {
-      Actions.createMessage(
-        this.state.result,
-        this.props.threadID,
-        voiceResponse,
-      );
+    this.Button = <MicIcon />;
+    if (result) {
+      Actions.createMessage(result, threadID, voiceResponse);
     }
   };
 
   speakDialogClose = () => {
+    const { result, micAccess } = this.state;
     this.setState({
       open: false,
       start: false,
       stop: false,
     });
-    if (this.state.result === '') {
+    if (result === '') {
       let x = document.getElementById('snackbar');
-      if (this.state.micAccess) {
+      if (micAccess) {
         x.className = 'show';
-        setTimeout(function() {
+        setTimeout(() => {
           x.className = x.className.replace('show', '');
         }, 3000);
       }
@@ -151,26 +229,23 @@ class MessageComposer extends Component {
       rows: 1,
       recognizing: false,
     });
-    flag = 0;
+    this.flag = 0;
   };
 
   onResult = ({ interimTranscript, finalTranscript }) => {
     if (interimTranscript === undefined) {
-      let result = finalTranscript;
       this.setState({
-        result: result,
+        result: finalTranscript,
         color: '#ccc',
       });
     } else {
-      let result = interimTranscript;
       this.setState({
-        result: result,
+        result: interimTranscript,
         color: '#ccc',
       });
       if (finalTranscript) {
-        result = finalTranscript;
         this.setState({
-          result: result,
+          result: finalTranscript,
           color: '#000',
         });
         this.speakDialogClose();
@@ -178,76 +253,118 @@ class MessageComposer extends Component {
     }
   };
 
-  componentDidMount() {
-    let micInputSetting = UserPreferencesStore.getMicInput();
-    if (micInputSetting) {
-      // Getting the Speech Recognition to test whether possible
-      const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition ||
-        window.mozSpeechRecognition ||
-        window.msSpeechRecognition ||
-        window.oSpeechRecognition;
-      // Setting buttons accordingly
-      if (SpeechRecognition != null) {
-        this.Button = <Mic />;
-        this.speechRecog = true;
+  _onClickButton = () => {
+    const { text, recognizing } = this.state;
+    const { threadID, speechOutputAlways } = this.props;
+    this.flag = 1;
+    if (text === '') {
+      if (this.speechRecog) {
+        this.setState({ start: true });
       } else {
-        this.Button = <Send />;
-        this.speechRecog = false;
+        this.setState({ start: false });
       }
     } else {
-      this.Button = <Send />;
-      this.speechRecog = false;
-    }
-
-    let testSkill = $.urlParam('testExample');
-    if (testSkill) {
-      let text = testSkill.trim();
+      let text = text.trim();
       if (text) {
         let enterAsSend = UserPreferencesStore.getEnterAsSend();
         if (!enterAsSend) {
           text = text.split('\n').join(' ');
         }
-        setTimeout(() => {
-          Actions.createMessage(
-            text,
-            this.props.threadID,
-            this.props.speechOutputAlways,
-          );
-        }, 1);
+        Actions.createMessage(text, threadID, speechOutputAlways);
       }
+      if (this.speechRecog) {
+        this.Button = <MicIcon />;
+      }
+      this.setState({ text: '', currentArrowIndex: -1 });
     }
-  }
+    setTimeout(() => {
+      if (recognizing === false && this.flag !== 0) {
+        this.speakDialogClose();
+      }
+    }, 5000);
+  };
 
-  componentDidUpdate() {
-    let micInputSetting = UserPreferencesStore.getMicInput();
-    if (micInputSetting) {
-      // Getting the Speech Recognition to test whether possible
-      const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition ||
-        window.mozSpeechRecognition ||
-        window.msSpeechRecognition ||
-        window.oSpeechRecognition;
-      // Setting buttons accordingly
-      if (SpeechRecognition != null) {
-        this.Button = <Mic />;
-        this.speechRecog = true;
+  _onChange = (event, value) => {
+    if (this.speechRecog) {
+      if (event.target.value !== '') {
+        this.Button = <SendIcon />;
       } else {
-        this.Button = <Send />;
-        this.speechRecog = false;
+        this.Button = <MicIcon />;
       }
     } else {
-      this.Button = <Send />;
-      this.speechRecog = false;
+      this.Button = <SendIcon />;
     }
-  }
+    this.setState({ text: event.target.value, currentArrowIndex: -1 });
+  };
+
+  _onKeyDown = event => {
+    let { text, currentArrowIndex } = this.state;
+    const { threadID, speechOutputAlways } = this.props;
+    if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
+      const enterAsSend = UserPreferencesStore.getEnterAsSend();
+      if (enterAsSend) {
+        event.preventDefault();
+        text = text.trim().replace(/\n|\r\n|\r/g, ' ');
+        if (text) {
+          Actions.createMessage(text, threadID, speechOutputAlways);
+
+          formatUserMessage({
+            text,
+            voice: this.props.speechOutputAlways,
+          }).then(userMessage => {
+            this.props.actions
+              .createMessage(userMessage)
+              .then(
+                apis.getSusiReply(userMessage).then(response => {
+                  formatSusiMessage({
+                    response,
+                    voice: this.props.speechOutputAlways,
+                  }).then(susiMessage => {
+                    this.props.actions.createSusiMessage(susiMessage);
+                  });
+                }),
+              )
+              .catch(error => {
+                console.log(error);
+              });
+          });
+        }
+        this.setState({ text: '', currentArrowIndex: -1 });
+        if (this.speechRecog) {
+          this.Button = <MicIcon />;
+        }
+      }
+    } else if (event.keyCode === UP_KEY_CODE) {
+      event.preventDefault();
+      const messages = MessageStore.getAllForCurrentThread().filter(
+        message => message.authorName === 'You',
+      );
+      if (currentArrowIndex + 1 < messages.length) {
+        currentArrowIndex++;
+        const text = messages[messages.length - 1 - currentArrowIndex].text;
+        this.setState({ text, currentArrowIndex });
+      }
+    } else if (event.keyCode === DOWN_KEY_CODE) {
+      event.preventDefault();
+      const messages = MessageStore.getAllForCurrentThread().filter(
+        message => message.authorName === 'You',
+      );
+      if (currentArrowIndex - 1 > -1) {
+        currentArrowIndex--;
+        const text = messages[messages.length - 1 - currentArrowIndex].text;
+        this.setState({ text, currentArrowIndex });
+      } else {
+        this.setState({ text: '', currentArrowIndex: -1 });
+      }
+    }
+  };
 
   render() {
+    const { start, stop, text, open, color, result, animate } = this.state;
+    const { textarea, textcolor, focus, micColor } = this.props;
     return (
       <div className="message-composer">
-        {this.state.start && (
+        {start && (
           <VoiceRecognition
             onStart={this.onStart}
             onspeechend={this.onspeechend}
@@ -256,7 +373,7 @@ class MessageComposer extends Component {
             onSpeechStart={this.onSpeechStart}
             continuous={true}
             lang="en-US"
-            stop={this.state.stop}
+            stop={stop}
           />
         )}
 
@@ -264,10 +381,7 @@ class MessageComposer extends Component {
           {"Sorry, didn't hear anything."} <br /> {'Please speak again.'}
         </div>
 
-        <div
-          className="textBack"
-          style={{ backgroundColor: this.props.textarea }}
-        >
+        <div className="textBack" style={{ backgroundColor: textarea }}>
           {/* TextareaAutosize node package used to get
           the auto sizing feature of the chat message composer */}
           <TextareaAutosize
@@ -276,53 +390,49 @@ class MessageComposer extends Component {
             minRows={1}
             maxRows={2}
             placeholder="Type a message..."
-            value={this.state.text}
+            value={text}
             onChange={this._onChange}
             onKeyDown={this._onKeyDown}
             ref={textarea => {
               this.nameInput = textarea;
             }}
             style={{
-              background: this.props.textarea,
-              color: this.props.textcolor,
+              background: textarea,
+              color: textcolor,
               lineHeight: '15px',
             }}
-            autoFocus={this.props.focus}
+            autoFocus={focus}
           />
         </div>
         <IconButton
           className="send_button"
           iconStyle={{
-            fill: this.props.micColor,
+            fill: micColor,
             margin: '1px 0px 1px 0px',
           }}
           onTouchTap={this._onClickButton}
-          style={style}
+          style={styles.buttonStyle}
         >
           {this.Button}
         </IconButton>
 
         <Modal
-          isOpen={this.state.open}
+          isOpen={open}
           className="Modal"
           contentLabel="Speak Now"
           overlayClassName="Overlay"
         >
           <div className="voice-response">
             <ReactFitText compressor={0.5} minFontSize={12} maxFontSize={26}>
-              <h1 style={{ color: this.state.color }} className="voice-output">
-                {this.state.result !== '' ? this.state.result : 'Speak Now...'}
+              <h1 style={{ color: color }} className="voice-output">
+                {result !== '' ? result : 'Speak Now...'}
               </h1>
             </ReactFitText>
-            <div
-              className={
-                this.state.animate ? 'mic-container active' : 'mic-container'
-              }
-            >
-              <Mic style={iconStyles} />
+            <div className={animate ? 'mic-container active' : 'mic-container'}>
+              <MicIcon style={styles.iconStyles} />
             </div>
-            <Close
-              style={closingStyle}
+            <CloseIcon
+              style={styles.closingStyle}
               onTouchTap={this.speakDialogCloseButton}
             />
           </div>
@@ -330,133 +440,15 @@ class MessageComposer extends Component {
       </div>
     );
   }
+}
 
-  _onClickButton = () => {
-    flag = 1;
-    if (this.state.text === '') {
-      if (this.speechRecog) {
-        this.setState({ start: true });
-      } else {
-        this.setState({ start: false });
-      }
-    } else {
-      let text = this.state.text.trim();
-      if (text) {
-        let EnterAsSend = UserPreferencesStore.getEnterAsSend();
-        if (!EnterAsSend) {
-          text = text.split('\n').join(' ');
-        }
-        Actions.createMessage(
-          text,
-          this.props.threadID,
-          this.props.speechOutputAlways,
-        );
-      }
-      if (this.speechRecog) {
-        this.Button = <Mic />;
-      }
-      this.setState({ text: '', currentArrowIndex: 0 });
-    }
-    setTimeout(
-      function() {
-        if (this.state.recognizing === false && flag !== 0) {
-          this.speakDialogClose();
-        }
-      }.bind(this),
-      5000,
-    );
-  };
-
-  _onChange = (event, value) => {
-    if (this.speechRecog) {
-      if (event.target.value !== '') {
-        this.Button = <Send />;
-      } else {
-        this.Button = <Mic />;
-      }
-    } else {
-      this.Button = <Send />;
-    }
-    this.setState({ text: event.target.value, currentArrowIndex: 0 });
-  };
-
-  _onKeyDown = event => {
-    if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
-      let EnterAsSend = UserPreferencesStore.getEnterAsSend();
-      if (EnterAsSend) {
-        event.preventDefault();
-        let text = this.state.text.trim();
-        text = text.replace(/\n|\r\n|\r/g, ' ');
-        if (text) {
-          Actions.createMessage(
-            text,
-            this.props.threadID,
-            this.props.speechOutputAlways,
-          );
-        }
-        this.setState({ text: '', currentArrowIndex: 0 });
-        if (this.speechRecog) {
-          this.Button = <Mic />;
-        }
-      }
-    } else if (event.keyCode === UP_KEY_CODE) {
-      event.preventDefault();
-      const messages = MessageStore.getAllForCurrentThread();
-      let currentArrowIndex = this.state.currentArrowIndex;
-      let curIndex = 0;
-      for (let i = messages.length - 1; i >= 0; i--) {
-        let obj = messages[i];
-        if (obj.authorName === 'You') {
-          if (curIndex === currentArrowIndex) {
-            this.setState({
-              text: obj.text,
-              currentArrowIndex: currentArrowIndex + 1,
-            });
-            currentArrowIndex++;
-            break;
-          }
-          curIndex++;
-        }
-      }
-      this.setState({ currentArrowIndex });
-    } else if (event.keyCode === DOWN_KEY_CODE) {
-      event.preventDefault();
-      const messages = MessageStore.getAllForCurrentThread();
-      let currentArrowIndex = this.state.currentArrowIndex;
-      let curIndex = 0;
-      if (currentArrowIndex <= 1) {
-        // empty text field
-        this.setState({ text: '', currentArrowIndex: 0 });
-      } else {
-        for (let i = messages.length - 1; i >= 0; i--) {
-          let obj = messages[i];
-          if (obj.authorName === 'You') {
-            if (curIndex === currentArrowIndex - 2) {
-              this.setState({
-                text: obj.text,
-                currentArrowIndex: currentArrowIndex + 1,
-              });
-              currentArrowIndex--;
-              break;
-            }
-            curIndex++;
-          }
-        }
-        this.setState({ currentArrowIndex });
-      }
-    }
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 
-MessageComposer.propTypes = {
-  threadID: PropTypes.string.isRequired,
-  dream: PropTypes.string,
-  textarea: PropTypes.string,
-  textcolor: PropTypes.string,
-  speechOutput: PropTypes.bool,
-  speechOutputAlways: PropTypes.bool,
-  micColor: PropTypes.string,
-  focus: PropTypes.bool,
-};
-
-export default MessageComposer;
+export default connect(
+  null,
+  mapDispatchToProps,
+)(MessageComposer);

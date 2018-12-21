@@ -1,5 +1,4 @@
 import MessageComposer from '../MessageComposer.react';
-import Snackbar from 'material-ui/Snackbar';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
 import MessageStore from '../../../stores/MessageStore';
 import React, { Component } from 'react';
@@ -15,8 +14,6 @@ import TopBar from '../TopBar.react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
 import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
-import * as Actions from '../../../actions/';
-import Translate from '../../Translate/Translate.react';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -33,18 +30,13 @@ function getStateFromStores() {
     backgroundValue = UserPreferencesStore.getBackgroundImage().split(',');
   }
   return {
-    SnackbarOpen: false,
     player: [],
-    SnackbarOpenBackground: false,
     messages: MessageStore.getAllForCurrentThread(),
     thread: ThreadStore.getCurrent(),
     currTheme: UserPreferencesStore.getTheme(),
     tour: true,
     search: false,
     showLoading: MessageStore.getLoadStatus(),
-    showLogin: false,
-    openForgotPassword: false,
-    showSignUp: false,
     showHardwareChangeDialog: false,
     showHardware: false,
     showServerChangeDialog: false,
@@ -55,9 +47,6 @@ function getStateFromStores() {
     textarea: themeValue.length > 5 ? '#' + themeValue[4] : '#fff',
     button: themeValue.length > 5 ? '#' + themeValue[5] : '#4285f4',
     bodyBackgroundImage: backgroundValue.length > 1 ? backgroundValue[0] : '',
-    snackopen: false,
-    snackMessage: 'It seems you are offline!',
-    SnackbarOpenSearchResults: false,
     messageBackgroundImage:
       backgroundValue.length > 1 ? backgroundValue[1] : '',
     showScrollBottom: false,
@@ -183,14 +172,14 @@ const urlPropsQueryConfig = {
 class MessageSection extends Component {
   static propTypes = {
     dream: PropTypes.string,
+    location: PropTypes.object,
+    history: PropTypes.object,
+    openSnackBar: PropTypes.func,
+    closeSnackBar: PropTypes.func,
   };
 
   static defaultProps = {
     dream: '',
-  };
-
-  state = {
-    showLogin: false,
   };
 
   constructor(props) {
@@ -223,132 +212,11 @@ class MessageSection extends Component {
     this.setState(prevState => ({ player: [...prevState.player, playerNew] }));
   };
 
-  // Open Login Dialog
-  handleOpen = () => {
-    this.setState({
-      showLogin: true,
-      showSignUp: false,
-      openForgotPassword: false,
-    });
-    this.child.closeOptions();
-  };
-
-  // Open Sign Up Dialog
-  handleSignUp = () => {
-    this.setState({
-      showSignUp: true,
-      showLogin: false,
-    });
-    this.child.closeOptions();
-  };
-
-  // Close all dialog boxes
-  handleClose = () => {
-    var prevThemeSettings = this.state.prevThemeSettings;
-    this.setState({
-      showLogin: false,
-      showSignUp: false,
-      openForgotPassword: false,
-    });
-
-    if (
-      prevThemeSettings &&
-      prevThemeSettings.hasOwnProperty('currTheme') &&
-      prevThemeSettings.currTheme === 'custom'
-    ) {
-      this.setState({
-        currTheme: prevThemeSettings.currTheme,
-        body: prevThemeSettings.bodyColor,
-        header: prevThemeSettings.TopBarColor,
-        composer: prevThemeSettings.composerColor,
-        pane: prevThemeSettings.messagePane,
-        textarea: prevThemeSettings.textArea,
-        button: prevThemeSettings.buttonColor,
-        bodyBackgroundImage: prevThemeSettings.bodyBackgroundImage,
-        messageBackgroundImage: prevThemeSettings.messageBackgroundImage,
-      });
-    } else {
-      // default theme
-      this.setState({
-        body: '#fff',
-        header: '#4285f4',
-        composer: '#f3f2f4',
-        pane: '#f3f2f4',
-        textarea: '#fff',
-        button:
-          this.state.prevThemeSettings.currTheme === 'light'
-            ? '#4285f4'
-            : '#19314B',
-      });
-      let customData = '';
-      Object.keys(this.customTheme).forEach(key => {
-        customData = customData + this.customTheme[key] + ',';
-      });
-
-      let settingsChanged = {};
-      settingsChanged.theme = this.state.prevThemeSettings.currTheme;
-      settingsChanged.customThemeValue = customData;
-      if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-        settingsChanged.backgroundImage =
-          this.state.bodyBackgroundImage +
-          ',' +
-          this.state.messageBackgroundImage;
-      }
-      Actions.settingsChanged(settingsChanged);
-      this.setState({ currTheme: this.state.prevThemeSettings.currTheme });
-      this.setState({
-        showLogin: false,
-        showSignUp: false,
-        openForgotPassword: false,
-      });
-    }
-  };
   handleCloseTour = () => {
     this.setState({
-      showLogin: false,
-      showSignUp: false,
-      openForgotPassword: false,
       tour: false,
     });
     cookies.set('visited', true, { path: '/' });
-  };
-
-  // Show forgot password dialog
-  forgotPasswordChanged = () => {
-    this.setState({
-      showLogin: false,
-      openForgotPassword: true,
-    });
-    this.child.closeOptions();
-  };
-
-  handleActionTouchTap = () => {
-    this.setState({
-      SnackbarOpen: false,
-    });
-    switch (this.state.currTheme) {
-      case 'light': {
-        this.settingsChanged({
-          Theme: 'dark',
-        });
-        break;
-      }
-      case 'dark': {
-        this.settingsChanged({
-          Theme: 'light',
-        });
-        break;
-      }
-      default: {
-        // do nothing
-      }
-    }
-  };
-
-  handleRequestClose = () => {
-    this.setState({
-      SnackbarOpen: false,
-    });
   };
 
   // Executes on search text changes
@@ -360,10 +228,7 @@ class MessageSection extends Component {
       matchString,
       this.state.searchState.caseSensitive,
     );
-    // to make the snackbar hide by default
-    this.setState({
-      SnackbarOpenSearchResults: false,
-    });
+
     if (matchString) {
       let searchState = {
         markedMsgs: markingData.allmsgs,
@@ -378,14 +243,13 @@ class MessageSection extends Component {
         searchText: matchString,
       };
       if (markingData.markedIDs.length === 0 && matchString.trim().length > 0) {
-        // if no Messages are marked(i.e no result) and the search query is not empty
         searchState.searchIndex = 0;
-        this.setState({
-          SnackbarOpenSearchResults: true,
+        this.props.openSnackBar({
+          snackBarMessage: 'No Results!',
         });
       }
       this.setState({
-        searchState: searchState,
+        searchState,
       });
     } else {
       let searchState = {
@@ -407,15 +271,6 @@ class MessageSection extends Component {
   };
 
   componentDidMount() {
-    if (this.props.location) {
-      if (this.props.location.state) {
-        if (this.props.location.state.hasOwnProperty('showLogin')) {
-          let showLogin = this.props.location.state.showLogin;
-          this.setState({ showLogin: showLogin });
-        }
-      }
-    }
-
     switch (this.state.currTheme) {
       case 'light': {
         document.body.className = 'white-body';
@@ -452,27 +307,7 @@ class MessageSection extends Component {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange);
     ThreadStore.addChangeListener(this._onChange);
-    window.addEventListener('offline', this.handleOffline);
-    window.addEventListener('online', this.handleOnline);
-
-    // let state=this.state;
   }
-
-  // Show a snackbar If user offline
-  handleOffline = () => {
-    this.setState({
-      snackopen: true,
-      snackMessage: 'It seems you are offline!',
-    });
-  };
-
-  // Show a snackbar If user online
-  handleOnline = () => {
-    this.setState({
-      snackopen: true,
-      snackMessage: 'Welcome back!',
-    });
-  };
 
   // Scroll to bottom feature goes here
   onScroll = () => {
@@ -577,11 +412,6 @@ class MessageSection extends Component {
     document.body.style.setProperty('background-repeat', 'no-repeat');
     document.body.style.setProperty('background-size', 'cover');
 
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-
     const { dream } = this.props;
 
     const scrollBottomStyle = {
@@ -670,8 +500,6 @@ class MessageSection extends Component {
               ref={instance => {
                 this.child = instance;
               }}
-              handleOpen={this.handleOpen}
-              handleSignUp={this.handleSignUp}
               handleOptions={this.handleOptions}
               handleRequestClose={this.handleRequestClose}
               handleToggle={this.handleToggle}
@@ -759,43 +587,11 @@ class MessageSection extends Component {
             {!this.state.search ? (
               <DialogSection
                 {...this.props}
-                openLogin={this.state.showLogin}
-                openSignUp={this.state.showSignUp}
-                openForgotPassword={this.state.openForgotPassword}
-                bodyStyle={bodyStyle}
-                handleSignUp={this.handleSignUp}
-                onRequestClose={() => this.handleClose}
                 onRequestCloseTour={() => this.handleCloseTour}
-                onSaveThemeSettings={() => this.handleSaveTheme}
-                onLoginSignUp={() => this.handleOpen}
-                onForgotPassword={() => this.forgotPasswordChanged}
                 tour={!cookies.get('visited')}
               />
             ) : null}
           </div>
-          <Snackbar
-            open={this.state.SnackbarOpenBackground}
-            message={<Translate text="Please enter a valid URL first" />}
-            autoHideDuration={4000}
-          />
-          <Snackbar
-            open={this.state.SnackbarOpen}
-            message={<Translate text="Theme Changed" />}
-            action="undo"
-            autoHideDuration={4000}
-            onActionTouchTap={this.handleActionTouchTap}
-            onRequestClose={this.handleRequestClose}
-          />
-          <Snackbar
-            autoHideDuration={4000}
-            open={this.state.snackopen}
-            message={<Translate text={this.state.snackMessage} />}
-          />
-          <Snackbar
-            autoHideDuration={4000}
-            open={this.state.SnackbarOpenSearchResults && !this.state.snackopen}
-            message={<Translate text="No Results!" />}
-          />
         </div>
       );
     }
@@ -867,11 +663,12 @@ class MessageSection extends Component {
     let indexLimit = this.state.searchState.scrollLimit;
     let markedIDs = this.state.searchState.markedIDs;
     let ul = this.messageList;
-    if (newSearchCount <= 0) {
-      newSearchCount = indexLimit;
+    if (newSearchCount > indexLimit) {
+      newSearchCount = 1;
+      newIndex = 0;
     }
 
-    if (markedIDs && ul && newIndex < indexLimit) {
+    if (markedIDs && ul && newIndex < indexLimit && newIndex >= 0) {
       let currState = this.state.searchState;
       currState.scrollIndex = newIndex;
       currState.searchIndex = newSearchCount;
@@ -931,7 +728,7 @@ class MessageSection extends Component {
     }
     if (markedIDs && ul && newIndex === 0) {
       let currState = this.state.searchState;
-      newIndex = indexLimit;
+      newIndex = 0;
       currState.scrollIndex = newIndex;
       currState.searchIndex = 1;
     }
@@ -963,11 +760,7 @@ class MessageSection extends Component {
   _onClickSearch = () => {
     let searchState = this.state.searchState;
     searchState.markedMsgs = this.state.messages;
-    if (this.state.SnackbarOpenSearchResults) {
-      this.setState({
-        SnackbarOpenSearchResults: false,
-      });
-    }
+    this.props.closeSnackBar();
     this.setState({
       search: true,
       searchState: searchState,
@@ -979,11 +772,7 @@ class MessageSection extends Component {
     searchState.searchText = '';
     searchState.searchIndex = 0;
     searchState.scrollLimit = 0;
-    if (this.state.SnackbarOpenSearchResults) {
-      this.setState({
-        SnackbarOpenSearchResults: false,
-      });
-    }
+    this.props.closeSnackBar();
     this.setState({
       search: false,
       searchState: searchState,
@@ -1035,10 +824,5 @@ class MessageSection extends Component {
     this.setState({ player: array });
   };
 }
-
-MessageSection.propTypes = {
-  location: PropTypes.object,
-  history: PropTypes.object,
-};
 
 export default addUrlProps({ urlPropsQueryConfig })(MessageSection);
