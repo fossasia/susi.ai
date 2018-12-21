@@ -41,6 +41,11 @@ export function getUserSettings() {
   return ajax.get(url, {});
 }
 
+export function setUserSettings(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/changeUserSettings.json`;
+  return ajax.get(url, payload);
+}
+
 export function removeUserDevice(payload) {
   const { macId } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/removeUserDevices.json`;
