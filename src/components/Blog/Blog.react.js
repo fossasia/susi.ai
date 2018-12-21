@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
-import $ from 'jquery';
 import { connect } from 'react-redux';
 import {
   Card,
@@ -18,6 +17,7 @@ import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
+import { getBlogReponse } from '../../apis';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
@@ -107,23 +107,16 @@ class Blog extends Component {
   };
 
   getPosts = blogKey => {
-    $.ajax({
-      url: 'https://api.rss2json.com/v1/api.json',
-      method: 'GET',
-      dataType: 'json',
-      data: {
-        //eslint-disable-next-line
-        rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
-        //eslint-disable-next-line
-        api_key: blogKey,
-        count: 50,
-      },
-    }).done(response => {
-      if (response.status !== 'ok') {
-        throw response.message;
-      }
-      this.setState({ posts: response.items, postRendered: true });
-    });
+    getBlogReponse(blogKey)
+      .then(payload => {
+        if (payload.status !== 'ok') {
+          throw payload.message;
+        }
+        this.setState({ posts: payload.items, postRendered: true });
+      })
+      .catch(error => {
+        console.log("Couldn't fetch blog response");
+      });
   };
 
   scrollStep = () => {
