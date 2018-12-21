@@ -174,6 +174,7 @@ class Overview extends Component {
             <div className="rowdiv">
               {buttonAttributes.map((button, index) => (
                 <RaisedButton
+                  key={index}
                   className="example-btn"
                   label={button.label}
                   labelColor={gifIndex === index ? white : black}
@@ -187,6 +188,7 @@ class Overview extends Component {
           <div className="img-container">
             {buttonAttributes.map((img, index) => (
               <img
+                key={index}
                 src={buttonAttributes[gifIndex].gif}
                 style={gifIndex === index ? {} : { display: 'none' }}
                 alt="susi-web"

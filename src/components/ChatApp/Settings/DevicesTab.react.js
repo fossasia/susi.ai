@@ -1,4 +1,5 @@
 import React from 'react';
+import { GoogleApiWrapper } from 'google-maps-react';
 import Translate from '../../Translate/Translate.react';
 import TableComplex from '../../TableComplex/TableComplex.react';
 import SwipeableViews from 'react-swipeable-views';
@@ -57,15 +58,17 @@ const DevicesTab = props => {
                   </div>
                   <div>
                     <div style={{ maxHeight: '300px', marginTop: '10px' }}>
-                      <MapContainer
-                        google={props.google}
-                        mapData={props.mapObj}
-                        centerLat={props.centerLat}
-                        centerLng={props.centerLng}
-                        deviceNames={props.deviceNames}
-                        rooms={props.rooms}
-                        macIds={props.macIds}
-                      />
+                      {props.mapKey && (
+                        <MapContainer
+                          google={props.google}
+                          mapData={props.mapObj}
+                          centerLat={props.centerLat}
+                          centerLng={props.centerLng}
+                          deviceNames={props.deviceNames}
+                          rooms={props.rooms}
+                          macIds={props.macIds}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -87,6 +90,7 @@ const DevicesTab = props => {
 };
 
 DevicesTab.propTypes = {
+  google: PropTypes.object,
   centerLat: PropTypes.number,
   centerLng: PropTypes.number,
   deviceData: PropTypes.bool,
@@ -94,7 +98,7 @@ DevicesTab.propTypes = {
   devicesNotAvailable: PropTypes.number,
   containerStyle: PropTypes.object,
   editIdx: PropTypes.number,
-  google: PropTypes.object,
+  mapKey: PropTypes.string,
   handleChange: PropTypes.func,
   handleRemove: PropTypes.func,
   handleRemoveConfirmation: PropTypes.func,
@@ -108,4 +112,6 @@ DevicesTab.propTypes = {
   themeVal: PropTypes.string,
 };
 
-export default DevicesTab;
+export default GoogleApiWrapper(props => ({ apiKey: props.mapKey }))(
+  DevicesTab,
+);

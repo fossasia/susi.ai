@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactFitText from 'react-fittext';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Modal from 'react-modal';
-import $ from 'jquery';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SendIcon from 'material-ui/svg-icons/content/send';
@@ -17,6 +16,7 @@ import {
   formatUserMessage,
   formatSusiMessage,
 } from '../../utils/formatMessage';
+import { urlParam } from '../../utils/helperFunctions';
 import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
@@ -55,15 +55,6 @@ const styles = {
     top: '0px',
     cursor: 'pointer',
   },
-};
-
-$.urlParam = function(name) {
-  const results = new RegExp(`[?&]${name}=([^&#]*)`).exec(window.location.href);
-  if (results && results.length > 0) {
-    const ans = decodeURIComponent(`${results[1]}`.replace(/\+/g, '%20'));
-    return ans;
-  }
-  return 0;
 };
 
 class MessageComposer extends Component {
@@ -120,7 +111,7 @@ class MessageComposer extends Component {
       this.speechRecog = false;
     }
 
-    let testSkill = $.urlParam('testExample');
+    let testSkill = urlParam('testExample');
     if (testSkill) {
       let text = testSkill.trim();
       if (text) {
@@ -254,7 +245,8 @@ class MessageComposer extends Component {
   };
 
   _onClickButton = () => {
-    const { text, recognizing } = this.state;
+    const { recognizing } = this.state;
+    let { text } = this.state;
     const { threadID, speechOutputAlways } = this.props;
     this.flag = 1;
     if (text === '') {
@@ -264,7 +256,7 @@ class MessageComposer extends Component {
         this.setState({ start: false });
       }
     } else {
-      let text = text.trim();
+      text = text.trim();
       if (text) {
         let enterAsSend = UserPreferencesStore.getEnterAsSend();
         if (!enterAsSend) {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Snackbar from 'material-ui/Snackbar';
@@ -19,6 +22,7 @@ import Privacy from './components/Privacy/Privacy.react';
 import Login from './components/Auth/Login/Login.react';
 import SignUp from './components/Auth/SignUp/SignUp.react';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
+import actions from './redux/actions/app';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -32,6 +36,7 @@ class App extends Component {
     history: PropTypes.object,
     location: PropTypes.object,
     closeVideo: PropTypes.func,
+    actions: PropTypes.object,
   };
 
   constructor(props) {
@@ -52,6 +57,8 @@ class App extends Component {
   componentDidMount = () => {
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
+
+    this.props.actions.getApiKeys();
   };
 
   componentWillUnmount = () => {
@@ -206,4 +213,15 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+}
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(App),
+);
