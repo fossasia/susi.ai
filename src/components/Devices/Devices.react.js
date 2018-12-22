@@ -36,14 +36,14 @@ const Devices = props => {
             have access to SUSI on the go.
           </p>
           <div className="store_icons">
-            <Link
+            <a
               className="play_store"
               target="_blank"
-              to="https://play.google.com/store/apps/details?id=org.fossasia.susi.ai"
+              href="https://play.google.com/store/apps/details?id=ai.susi&hl=en"
             >
               {' '}
               Get It on Google Play
-            </Link>
+            </a>
           </div>
         </div>
         <div className="img-container">
@@ -59,14 +59,14 @@ const Devices = props => {
             access to SUSI on the go.
           </p>
           <div className="store_icons">
-            <Link
+            <a
               className="app_store"
               target="_blank"
-              to="https://github.com/fossasia/susi_iOS"
+              href="https://github.com/fossasia/susi_iOS"
             >
               {' '}
               Download on the App Store
-            </Link>
+            </a>
           </div>
         </div>
         <div className="img-container">
