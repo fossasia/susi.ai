@@ -99,7 +99,8 @@
     ]
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "lint": "eslint *.js \"src/**/*.js\"",
     "precommit": "lint-staged",
@@ -107,6 +108,7 @@
     "prepush": "npm run lint",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build",
     "predeploy": "npm run build",
     "deploy": "surge"
   },
