@@ -2,6 +2,8 @@
 @import "~slick-carousel/slick/slick-theme.css";
 body {
   background: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .dark-body{
   background-repeat: no-repeat;
@@ -861,6 +863,14 @@ abbr[title] {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.loader-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @-webkit-keyframes fadein {
