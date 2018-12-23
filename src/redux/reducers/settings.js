@@ -113,6 +113,11 @@ export default handleActions(
         ttsLanguage,
       };
     },
+    [actionTypes.APP_LOGOUT](state, { payload }) {
+      return {
+        ...defaultState,
+      };
+    },
   },
   defaultState,
 );

@@ -21,12 +21,12 @@ const messageActions = {
     actionTypes.MESSAGES_FEEDBACK_RECEIVED,
     returnArgumentsFn,
   ),
-  initializeMessageStore: createAction(
+  getHistoryFromServer: createAction(
     actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER,
     apis.getHistory,
   ),
-  createHistoryMessages: createAction(
-    actionTypes.MESSAGES_CREATE_HISTORY_MESSAGES,
+  initializeMessageStore: createAction(
+    actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE,
     returnArgumentsFn,
   ),
 };
