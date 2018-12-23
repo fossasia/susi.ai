@@ -1737,7 +1737,7 @@ class Settings extends Component {
                   >
                     <span className="Link">
                       <a href={`${urls.ACCOUNT_URL}/delete-account`}>
-                        Deactivate your account
+                        Delete your account
                       </a>
                     </span>
                   </p>
