@@ -7,7 +7,7 @@ const returnArgumentsFn = function(payload) {
 };
 
 export default {
-  getApiKeys: createAction(actionTypes.APP_GET_API_KEYS, returnArgumentsFn),
+  getApiKeys: createAction(actionTypes.APP_GET_API_KEYS, apis.fetchApiKeys),
   getLogin: createAction(actionTypes.APP_GET_LOGIN, apis.getLogin),
   getChangePassword: createAction(
     actionTypes.APP_GET_CHANGE_PASSWORD,
@@ -18,4 +18,5 @@ export default {
     actionTypes.APP_GET_FORGOT_PASSWORD,
     apis.getForgotPassword,
   ),
+  logout: createAction(actionTypes.APP_LOGOUT, returnArgumentsFn),
 };
