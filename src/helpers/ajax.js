@@ -28,9 +28,9 @@ const obj = {};
     return new Promise(function(resolve, reject) {
       let methodArgs = [];
       /*
-                If ajax.post is used, by default sending form data
-                use postJSON instead for json data
-            */
+        If ajax.post is used, by default sending form data
+        use postJSON instead for json data
+      */
       if (method === 'post') {
         if (payload && payload instanceof FormData !== true) {
           payload = toFormData(payload);
