@@ -10,7 +10,6 @@ import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import Close from 'material-ui/svg-icons/navigation/close';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import actions from '../../../redux/actions/app';
@@ -42,11 +41,7 @@ const styles = {
     minWidth: '150px',
     float: 'left',
     marginTop: '12px',
-    color:
-      UserPreferencesStore.getTheme() === 'light' ||
-      UserPreferencesStore.getTheme() === 'custom'
-        ? 'black'
-        : 'white',
+    color: 'white',
   },
   submitBtnStyle: {
     float: 'left',
