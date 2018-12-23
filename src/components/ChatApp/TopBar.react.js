@@ -122,74 +122,6 @@ class TopBar extends Component {
         showAdmin: cookies.get('showAdmin'),
       });
     }
-    // Check Logged in
-    if (cookies.get('loggedIn')) {
-      Logged = props => (
-        <div>
-          <IconButton
-            {...props}
-            iconStyle={{ fill: 'white' }}
-            onTouchTap={this.showOptions}
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <Popover
-            {...props}
-            animated={false}
-            style={popoverStyle}
-            open={this.state.showOptions}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onRequestClose={this.closeOptions}
-          >
-            <MenuItem
-              primaryText={<Translate text="Dashboard" />}
-              rightIcon={<Assessment />}
-              href={`${urls.SKILL_URL}/dashboard`}
-            />
-            <MenuItem
-              primaryText={<Translate text="Chat" />}
-              containerElement={<Link to="/" />}
-              rightIcon={<Chat />}
-            />
-            <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
-              <Translate text="Skills" />
-            </MenuItem>
-            <MenuItem
-              primaryText={<Translate text="Botbuilder" />}
-              rightIcon={<Extension />}
-              href={`${urls.SKILL_URL}/botbuilder`}
-            />
-            <MenuItem
-              primaryText={<Translate text="Settings" />}
-              containerElement={<Link to="/settings" />}
-              rightIcon={<Settings />}
-            />
-            <MenuItem
-              primaryText={<Translate text="About" />}
-              containerElement={<Link to="/overview" />}
-              rightIcon={<Info />}
-            />
-            {this.state.showAdmin === true ? (
-              <MenuItem
-                primaryText={<Translate text="Admin" />}
-                rightIcon={<List />}
-                href={`${urls.ACCOUNT_URL}/admin`}
-              />
-            ) : null}
-            <MenuItem
-              primaryText={<Translate text="Logout" />}
-              containerElement={<Link to="/logout" />}
-              rightIcon={<Exit />}
-            />
-          </Popover>
-        </div>
-      );
-      return <Logged />;
-    }
-
-    // If Not Logged In
     Logged = props => (
       <div>
         <IconButton
@@ -209,6 +141,13 @@ class TopBar extends Component {
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           onRequestClose={this.closeOptions}
         >
+          {cookies.get('loggedIn') ? (
+            <MenuItem
+              primaryText={<Translate text="Dashboard" />}
+              rightIcon={<Assessment />}
+              href={`${urls.SKILL_URL}/dashboard`}
+            />
+          ) : null}
           <MenuItem
             primaryText={<Translate text="Chat" />}
             containerElement={<Link to="/" />}
@@ -217,16 +156,45 @@ class TopBar extends Component {
           <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
             <Translate text="Skills" />
           </MenuItem>
+          {cookies.get('loggedIn') ? (
+            <MenuItem
+              primaryText={<Translate text="Botbuilder" />}
+              rightIcon={<Extension />}
+              href={`${urls.SKILL_URL}/botbuilder`}
+            />
+          ) : null}
+          {cookies.get('loggedIn') ? (
+            <MenuItem
+              primaryText={<Translate text="Settings" />}
+              containerElement={<Link to="/settings" />}
+              rightIcon={<Settings />}
+            />
+          ) : null}
           <MenuItem
             primaryText={<Translate text="About" />}
             containerElement={<Link to="/overview" />}
             rightIcon={<Info />}
           />
-          <MenuItem
-            primaryText={<Translate text="Login" />}
-            onTouchTap={this.props.onRequestOpenLogin}
-            rightIcon={<SignUp />}
-          />
+          {this.state.showAdmin === true ? (
+            <MenuItem
+              primaryText={<Translate text="Admin" />}
+              rightIcon={<List />}
+              href={`${urls.ACCOUNT_URL}/admin`}
+            />
+          ) : null}
+          {cookies.get('loggedIn') ? (
+            <MenuItem
+              primaryText={<Translate text="Logout" />}
+              containerElement={<Link to="/logout" />}
+              rightIcon={<Exit />}
+            />
+          ) : (
+            <MenuItem
+              primaryText={<Translate text="Login" />}
+              onTouchTap={this.props.onRequestOpenLogin}
+              rightIcon={<SignUp />}
+            />
+          )}
         </Popover>
       </div>
     );

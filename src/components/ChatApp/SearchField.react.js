@@ -180,7 +180,7 @@ class ExpandingSearchField extends Component {
             className="displayNone"
             iconStyle={baseStyles.smallIcon}
             style={baseStyles.icon}
-            onClick={this.onClickPrev}
+            onClick={this.onClickRecent}
           >
             <UpIcon />
           </IconButton>
@@ -188,7 +188,7 @@ class ExpandingSearchField extends Component {
             className="displayNone"
             iconStyle={baseStyles.smallIcon}
             style={baseStyles.icon}
-            onClick={this.onClickRecent}
+            onClick={this.onClickPrev}
           >
             <DownIcon />
           </IconButton>
