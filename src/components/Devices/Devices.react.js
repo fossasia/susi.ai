@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import urls from '../../utils/urls';
@@ -80,14 +79,14 @@ const Devices = props => {
           <p className="text_description">
             You can use SUSI.AI Web Chat on your desktop and laptop. Start
             Chatting with SUSI.AI
-            <Link
+            <a
               style={{ textDecoration: 'none' }}
               target="_blank"
-              to={urls.CHAT_URL}
+              href={urls.CHAT_URL}
             >
               {' '}
               here
-            </Link>
+            </a>
           </p>
         </div>
         <div className="img-container">
