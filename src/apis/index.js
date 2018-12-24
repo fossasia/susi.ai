@@ -65,7 +65,6 @@ export function getForgotPassword(payload) {
 }
 
 export function getSusiReply(payload) {
-  console.log(payload);
   const { message } = payload;
 
   const url = `${API_URL}/${CHAT_API_PREFIX}/chat.json`;
