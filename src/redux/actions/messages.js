@@ -33,6 +33,7 @@ const messageActions = {
     actionTypes.MESSAGES_SAVE_SKILL_FEEDBACK,
     returnArgumentsFn,
   ),
+  resetMessageVoice: createAction(actionTypes.MESSAGES_RESET_MESSAGE_VOICE),
 };
 
 export default messageActions;
