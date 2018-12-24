@@ -1,10 +1,10 @@
-import Dialog from 'material-ui/Dialog';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 
-const DialogSection = props => {
-  const closingStyle = {
+const styles = {
+  closingStyle: {
     position: 'absolute',
     zIndex: 1200,
     fill: '#444',
@@ -13,7 +13,10 @@ const DialogSection = props => {
     right: '10px',
     top: '10px',
     cursor: 'pointer',
-  };
+  },
+};
+
+const DialogSection = props => {
   return (
     <div>
       <Dialog
@@ -33,7 +36,10 @@ const DialogSection = props => {
           frameBorder="0"
           scrolling="no"
         />
-        <Close style={closingStyle} onTouchTap={props.onRequestCloseTour()} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={props.onRequestCloseTour()}
+        />
       </Dialog>
     </div>
   );
