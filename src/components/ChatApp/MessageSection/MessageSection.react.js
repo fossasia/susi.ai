@@ -78,6 +78,7 @@ class MessageSection extends Component {
       showLoading: false,
       showScrollBottom: false,
       showScrollTop: false,
+      openShare: false,
       searchState: {
         markedMessagesByID: {},
         markedIDs: [],
@@ -131,6 +132,13 @@ class MessageSection extends Component {
     this.setState(prevState => ({ player: [...prevState.player, newPlayer] }));
   };
 
+  handleShare = () => {
+    this.setState({ openShare: true });
+  };
+  handleShareClose = () => {
+    console.log(this.state.openShare);
+    this.setState({ openShare: false });
+  };
   handleCloseTour = () => {
     this.setState({
       tour: false,
@@ -501,6 +509,9 @@ class MessageSection extends Component {
             searchTextChanged={this.searchTextChanged}
             openSearch={this.openSearch}
             exitSearch={this.exitSearch}
+            openShare={this.openShare}
+            handleShare={this.handleShare}
+            handleShareClose={this.handleShareClose}
             nextSearchItem={this.nextSearchItem}
             previousSearchItem={this.previousSearchItem}
             search={this.state.search}
@@ -575,6 +586,15 @@ class MessageSection extends Component {
                   )}
                 </div>
               )}
+              {!this.state.search ? (
+                <DialogSection
+                  {...this.props}
+                  openShare={this.state.openShare}
+                  handleShareClose={this.handleShareClose}
+                  onRequestCloseTour={() => this.handleCloseTour}
+                  tour={!cookies.get('visited')}
+                />
+              ) : null}
               <div className="compose" style={{ backgroundColor: composer }}>
                 <MessageComposer
                   focus={!search}
