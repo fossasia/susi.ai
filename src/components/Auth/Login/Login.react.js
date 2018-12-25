@@ -4,7 +4,8 @@ import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../../redux/actions/app';
+import appActions from '../../../redux/actions/app';
+import messagesActions from '../../../redux/actions/messages';
 
 // Components
 import Paper from 'material-ui/Paper';
@@ -18,6 +19,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
+import { createMessagePairArray } from '../../../utils/formatMessage';
 
 // Static assets
 import './Login.css';
@@ -67,9 +69,9 @@ class Login extends Component {
   static propTypes = {
     handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
+    onRequestClose: PropTypes.func,
     actions: PropTypes.object,
     openLogin: PropTypes.bool,
-    onRequestClose: PropTypes.func,
     onRequestOpenSignUp: PropTypes.func,
     onRequestOpenForgotPassword: PropTypes.func,
   };
@@ -89,7 +91,6 @@ class Login extends Component {
 
   handleDialogClose = () => {
     const { onRequestClose } = this.props;
-
     this.setState({
       email: '',
       password: '',
@@ -100,15 +101,17 @@ class Login extends Component {
       loading: false,
       message: '',
     });
-
     onRequestClose();
   };
 
-  // Submit the Login Form
   handleSubmit = e => {
     e.preventDefault();
-    const { actions } = this.props;
-    const { email, password } = this.state;
+    const {
+      getHistoryFromServer,
+      initializeMessageStore,
+      getLogin,
+    } = this.props.actions;
+    const { password, email } = this.state;
 
     if (!email || !password) {
       return;
@@ -116,11 +119,19 @@ class Login extends Component {
 
     if (isEmail(email)) {
       this.setState({ loading: true });
-      actions
-        .getLogin({ email, password: encodeURIComponent(password) })
+      getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setCookies({ ...payload, email });
+            getHistoryFromServer()
+              .then(({ payload }) => {
+                createMessagePairArray(payload).then(messagePairArray => {
+                  initializeMessageStore(messagePairArray);
+                });
+              })
+              .catch(error => {
+                console.log(error);
+              });
             this.setState({
               success: true,
               message: payload.message,
@@ -148,13 +159,12 @@ class Login extends Component {
     }
   };
 
-  // Open Forgot Password Dialog
   handleForgotPassword = () => {
     this.props.handleForgotPassword();
   };
 
   // Handle changes in email and password
-  handleChange = event => {
+  handleTextFieldChange = event => {
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
@@ -181,7 +191,6 @@ class Login extends Component {
     }
   };
 
-  // Set Cookies on successful Login
   setCookies = payload => {
     const { accessToken, time, email, uuid } = payload;
     const defaults = UserPreferencesStore.getPreferences();
@@ -210,7 +219,6 @@ class Login extends Component {
       maxAge: time,
       domain: cookieDomain,
     });
-    window.location.reload();
   };
 
   render() {
@@ -263,7 +271,7 @@ class Login extends Component {
                   name="email"
                   type="email"
                   value={email}
-                  onChange={this.handleChange}
+                  onChange={this.handleTextFieldChange}
                   style={fieldStyle}
                   inputStyle={inputStyle}
                   placeholder="Email"
@@ -279,7 +287,7 @@ class Login extends Component {
                   value={password}
                   placeholder="Password"
                   underlineStyle={{ display: 'none' }}
-                  onChange={this.handleChange}
+                  onChange={this.handleTextFieldChange}
                   errorText={passwordErrorMessage}
                   visibilityButtonStyle={{
                     marginTop: '-3px',
@@ -330,7 +338,10 @@ class Login extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(
+      { ...appActions, ...messagesActions },
+      dispatch,
+    ),
   };
 }
 

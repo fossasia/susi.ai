@@ -2,6 +2,8 @@
 @import "~slick-carousel/slick/slick-theme.css";
 body {
   background: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .dark-body{
   background-repeat: no-repeat;
@@ -592,9 +594,6 @@ textarea {
   .textBack {
     width: 81%;
   }
-  .Modal{
-    padding: 25px 0px 25px 0px;
-  }
   .voice-output{
     width: 100%;
     text-align: center;
@@ -863,6 +862,14 @@ abbr[title] {
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
+.loader-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @-webkit-keyframes fadein {
   from {
     bottom: 0;
@@ -905,4 +912,7 @@ abbr[title] {
     bottom: 0;
     opacity: 0;
   }
+}
+.HoverIcon:hover{
+  background-color: rgba(0, 0, 0, 0.08)
 }
