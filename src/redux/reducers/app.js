@@ -20,6 +20,10 @@ const cookiesAppValues = {
   accessToken: loggedIn,
   userName: username,
   isAdmin,
+  location: {
+    countryCode: '',
+    countryName: '',
+  },
 };
 
 export default handleActions(
