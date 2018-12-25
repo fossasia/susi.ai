@@ -589,9 +589,6 @@ textarea {
   .textBack {
     width: 81%;
   }
-  .Modal{
-    padding: 25px 0px 25px 0px;
-  }
   .voice-output{
     width: 100%;
     text-align: center;
@@ -910,4 +907,7 @@ abbr[title] {
     bottom: 0;
     opacity: 0;
   }
+}
+.HoverIcon:hover{
+  background-color: rgba(0, 0, 0, 0.08)
 }
