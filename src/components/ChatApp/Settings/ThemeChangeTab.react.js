@@ -9,14 +9,7 @@ const ThemeChangeTab = props => {
   return (
     <div style={props.containerStyle}>
       <span>
-        <div
-          style={{
-            marginTop: '10px',
-            marginBottom: '5px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={props.tabHeadingStyle}>
           <Translate text="Select Theme" />
         </div>
         {props.theme === 'light' ? (
@@ -82,6 +75,7 @@ ThemeChangeTab.propTypes = {
   onThemeRequestClose: PropTypes.func,
   isLoggedIn: PropTypes.string,
   themeOpen: PropTypes.bool,
+  tabHeadingStyle: PropTypes.object,
 };
 
 export default ThemeChangeTab;
