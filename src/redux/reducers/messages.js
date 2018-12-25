@@ -5,7 +5,7 @@ const defaultState = {
   messages: [],
   messagesByID: {},
   unreadMessageIDs: [],
-  feedbackByID: {},
+  skillFeedbackByMessageId: {},
   loadingHistory: false,
   loadingReply: false,
   initialisedVoices: false,
@@ -83,14 +83,14 @@ export default handleActions(
         messagesByID,
       };
     },
-    [actionTypes.MESSAGES_FEEDBACK_RECEIVED](state, { payload }) {
-      // ACTION needed
-      const { messageID, feedback } = payload;
-      let { feedbackByID } = state;
-      feedbackByID[messageID] = feedback;
+    [actionTypes.MESSAGES_SAVE_SKILL_FEEDBACK](state, { payload }) {
+      const { messageId, feedback } = payload;
       return {
         ...state,
-        feedbackByID,
+        skillFeedbackByMessageId: {
+          ...state.skillFeedbackByMessageId,
+          [messageId]: feedback,
+        },
       };
     },
     [actionTypes.MESSAGES_INIT_TTS_VOICES](state, { payload }) {

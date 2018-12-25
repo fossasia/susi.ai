@@ -6,14 +6,7 @@ import PropTypes from 'prop-types';
 const ChatAppTab = props => {
   return (
     <div style={props.containerStyle}>
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '5px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={props.tabHeadingStyle}>
         <Translate text="Preferences" />
       </div>
       {props.themeVal === 'light' ? (
@@ -43,6 +36,7 @@ const ChatAppTab = props => {
 };
 
 ChatAppTab.propTypes = {
+  tabHeadingStyle: PropTypes.object,
   containerStyle: PropTypes.object,
   enterAsSend: PropTypes.bool,
   themeForegroundColor: PropTypes.string,
