@@ -200,7 +200,16 @@ class App extends Component {
             <Route exact path="/team" component={Team} />
             <Route exact path="/blog" component={Blog} />
             <Route exact path="/contact" component={Contact} />
-            <Route exact path="/support" component={Support} />
+            <Route
+              exact
+              path="/support"
+              render={routeProps => (
+                <Support
+                  {...routeProps}
+                  openSignUp={this.onRequestOpenSignUp}
+                />
+              )}
+            />
             <Route exact path="/terms" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/logout" component={Logout} />
