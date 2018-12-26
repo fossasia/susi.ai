@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import * as $ from 'jquery';
-import './PreviewThemeChat.css';
+import PropTypes from 'prop-types';
+import { getSusiPreviewReply } from '../../../apis/index';
 import susiWhite from '../../../images/susi-logo-white.png';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Send from 'material-ui/svg-icons/content/send';
-import PropTypes from 'prop-types';
+import './PreviewThemeChat.css';
 
 class PreviewThemeChat extends Component {
   constructor(props) {
@@ -18,28 +18,22 @@ class PreviewThemeChat extends Component {
   sendMessage = event => {
     event.preventDefault();
     this.addMessage(this.state.message, 'You');
-    let self = this;
-    $.ajax({
-      type: 'GET',
-      url:
-        'https://api.susi.ai/susi/chat.json?q=' +
-        encodeURIComponent(this.state.message),
-      contentType: 'application/json',
-      dataType: 'json',
-      success: function(data) {
-        if (data.answers[0]) {
-          self.addMessage(data.answers[0].actions[0].expression, 'SUSI');
+
+    let message = encodeURIComponent(this.state.message);
+    getSusiPreviewReply(message)
+      .then(payload => {
+        if (payload.answers[0]) {
+          this.addMessage(payload.answers[0].actions[0].expression, 'SUSI');
         } else {
-          self.addMessage(
+          this.addMessage(
             'Sorry, I could not understand what you just said.',
             'SUSI',
           );
         }
-      },
-      error: function(e) {
-        console.log(e);
-      },
-    });
+      })
+      .catch(error => {
+        console.log('Could not fetch reply');
+      });
     this.setState({ message: '' });
   };
 

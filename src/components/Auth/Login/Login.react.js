@@ -4,7 +4,8 @@ import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../../redux/actions/app';
+import appActions from '../../../redux/actions/app';
+import messagesActions from '../../../redux/actions/messages';
 
 // Components
 import Paper from 'material-ui/Paper';
@@ -12,10 +13,13 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PasswordField from 'material-ui-password-field';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
+import { createMessagePairArray } from '../../../utils/formatMessage';
 
 // Static assets
 import './Login.css';
@@ -49,19 +53,45 @@ const styles = {
     marginRight: '50px',
     width: '90%',
   },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
 };
 
 class Login extends Component {
   static propTypes = {
-    history: PropTypes.object,
     handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
+    onRequestClose: PropTypes.func,
     actions: PropTypes.object,
+    openLogin: PropTypes.bool,
+    onRequestOpenSignUp: PropTypes.func,
+    onRequestOpenForgotPassword: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
+      emailErrorMessage: '',
+      password: '',
+      passwordErrorMessage: '',
+      success: false,
+      loading: false,
+      message: '',
+    };
+  }
+
+  handleDialogClose = () => {
+    const { onRequestClose } = this.props;
+    this.setState({
       email: '',
       password: '',
       success: false,
@@ -70,15 +100,18 @@ class Login extends Component {
       passwordErrorMessage: '',
       loading: false,
       message: '',
-    };
-  }
+    });
+    onRequestClose();
+  };
 
-  // Submit the Login Form
   handleSubmit = e => {
     e.preventDefault();
-    const { actions } = this.props;
-    let email = this.state.email.trim();
-    const password = this.state.password;
+    const {
+      getHistoryFromServer,
+      initializeMessageStore,
+      getLogin,
+    } = this.props.actions;
+    const { password, email } = this.state;
 
     if (!email || !password) {
       return;
@@ -86,86 +119,78 @@ class Login extends Component {
 
     if (isEmail(email)) {
       this.setState({ loading: true });
-      actions
-        .getLogin({ email, password: encodeURIComponent(password) })
+      getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setCookies({ ...payload, email });
+            getHistoryFromServer()
+              .then(({ payload }) => {
+                createMessagePairArray(payload).then(messagePairArray => {
+                  initializeMessageStore(messagePairArray);
+                });
+              })
+              .catch(error => {
+                console.log(error);
+              });
             this.setState({
               success: true,
               message: payload.message,
               loading: false,
             });
-            this.props.history.replace('/', { showLogin: false });
+            this.handleDialogClose();
           } else {
             this.setState({
               message: 'Login Failed. Try Again',
               password: '',
+              success: false,
               loading: false,
             });
           }
         })
         .catch(error => {
+          console.log(error);
           this.setState({
             message: 'Login Failed. Try Again',
             password: '',
+            success: false,
             loading: false,
           });
         });
     }
   };
 
-  // Open Forgot Password Dialog
   handleForgotPassword = () => {
     this.props.handleForgotPassword();
   };
 
-  // Open SignUp Dialog
-  handleSignUp = () => {
-    this.props.handleSignUp();
-  };
-
   // Handle changes in email and password
-  handleChange = event => {
-    let {
-      email,
-      password,
-      emailErrorMessage,
-      passwordErrorMessage,
-      validForm,
-    } = this.state;
-
-    if (event.target.name === 'email') {
-      email = event.target.value.trim();
-      if (!isEmail(email)) {
-        emailErrorMessage = 'Enter a valid Email Address';
-      } else {
-        emailErrorMessage = '';
+  handleTextFieldChange = event => {
+    switch (event.target.name) {
+      case 'email': {
+        const email = event.target.value.trim();
+        this.setState({
+          email,
+          emailErrorMessage: !isEmail(email)
+            ? 'Enter a valid Email Address'
+            : '',
+          message: '',
+        });
+        break;
       }
-    } else if (event.target.name === 'password') {
-      password = event.target.value;
-      if (!password) {
-        passwordErrorMessage = 'Enter a valid password';
-      } else {
-        passwordErrorMessage = '';
+      case 'password': {
+        const password = event.target.value.trim();
+        this.setState({
+          password,
+          passwordErrorMessage: !password ? 'Enter a valid password' : '',
+          message: '',
+        });
+        break;
       }
+      default:
+        break;
     }
-
-    if (emailErrorMessage === '' && passwordErrorMessage === '') {
-      validForm = true;
-    } else {
-      validForm = false;
-    }
-    this.setState({
-      email,
-      password,
-      emailErrorMessage,
-      passwordErrorMessage,
-      validForm,
-    });
   };
 
-  // Set Cookies on successful Login
   setCookies = payload => {
     const { accessToken, time, email, uuid } = payload;
     const defaults = UserPreferencesStore.getPreferences();
@@ -194,7 +219,6 @@ class Login extends Component {
       maxAge: time,
       domain: cookieDomain,
     });
-    window.location.reload();
   };
 
   render() {
@@ -203,86 +227,121 @@ class Login extends Component {
       password,
       emailErrorMessage,
       passwordErrorMessage,
-      validForm,
       loading,
       message,
+      success,
     } = this.state;
-    const { containerStyle, fieldStyle, inputStyle, inputpassStyle } = styles;
+    const {
+      openLogin,
+      onRequestOpenSignUp,
+      onRequestOpenForgotPassword,
+    } = this.props;
+    const {
+      containerStyle,
+      fieldStyle,
+      inputStyle,
+      inputpassStyle,
+      closingStyle,
+    } = styles;
+
+    const isValid =
+      email && !emailErrorMessage && password && !passwordErrorMessage;
 
     return (
-      <div className="login-form">
-        <Paper zDepth={0} style={containerStyle}>
-          <div>
-            <Translate text="Log into SUSI" />
-          </div>
-          <form onSubmit={this.handleSubmit}>
+      <Dialog
+        className="dialogStyle"
+        modal={false}
+        open={openLogin}
+        autoScrollBodyContent={true}
+        bodyStyle={{
+          padding: 0,
+          textAlign: 'center',
+        }}
+        contentStyle={{ width: '35%', minWidth: '300px' }}
+        onRequestClose={this.handleDialogClose}
+      >
+        <div className="login-form">
+          <Paper zDepth={0} style={containerStyle}>
             <div>
-              <TextField
-                name="email"
-                type="email"
-                value={email}
-                onChange={this.handleChange}
-                style={fieldStyle}
-                inputStyle={inputStyle}
-                placeholder="Email"
-                underlineStyle={{ display: 'none' }}
-                errorText={emailErrorMessage}
+              <Translate text="Log into SUSI" />
+            </div>
+            <form onSubmit={this.handleSubmit}>
+              <div>
+                <TextField
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={this.handleTextFieldChange}
+                  style={fieldStyle}
+                  inputStyle={inputStyle}
+                  placeholder="Email"
+                  underlineStyle={{ display: 'none' }}
+                  errorText={emailErrorMessage}
+                />
+              </div>
+              <div>
+                <PasswordField
+                  name="password"
+                  style={fieldStyle}
+                  inputStyle={inputpassStyle}
+                  value={password}
+                  placeholder="Password"
+                  underlineStyle={{ display: 'none' }}
+                  onChange={this.handleTextFieldChange}
+                  errorText={passwordErrorMessage}
+                  visibilityButtonStyle={{
+                    marginTop: '-3px',
+                  }}
+                  visibilityIconStyle={{
+                    marginTop: '-3px',
+                  }}
+                  textFieldStyle={{ padding: '0px' }}
+                />
+              </div>
+              {message && (
+                <div style={{ color: success ? '#388e3c' : '#f44336' }}>
+                  {message}
+                </div>
+              )}
+              <RaisedButton
+                label={!loading && <Translate text="Log In" />}
+                type="submit"
+                backgroundColor={
+                  UserPreferencesStore.getTheme() === 'light'
+                    ? '#4285f4'
+                    : '#19314B'
+                }
+                labelColor="#fff"
+                disabled={!isValid || loading}
+                style={{ width: '275px', margin: '10px 0px' }}
+                icon={loading && <CircularProgress size={24} />}
               />
-            </div>
-            <div>
-              <PasswordField
-                name="password"
-                style={fieldStyle}
-                inputStyle={inputpassStyle}
-                value={password}
-                placeholder="Password"
-                underlineStyle={{ display: 'none' }}
-                onChange={this.handleChange}
-                errorText={passwordErrorMessage}
-                visibilityButtonStyle={{
-                  marginTop: '-3px',
-                }}
-                visibilityIconStyle={{
-                  marginTop: '-3px',
-                }}
-                textFieldStyle={{ padding: '0px' }}
-              />
-            </div>
-            {message !== '' ? <div className="message">{message}</div> : null}
-            <RaisedButton
-              label={!loading ? <Translate text="Log In" /> : undefined}
-              type="submit"
-              backgroundColor={
-                UserPreferencesStore.getTheme() === 'light'
-                  ? '#4285f4'
-                  : '#19314B'
-              }
-              labelColor="#fff"
-              disabled={!validForm || loading}
-              style={{ width: '275px', margin: '10px 0px' }}
-              icon={loading ? <CircularProgress size={24} /> : undefined}
-            />
-            <div className="login-links-section">
-              <span
-                className="forgot-password"
-                onClick={this.handleForgotPassword}
-              >
-                <Translate text="Forgot Password?" />
-              </span>
-              <span className="sign-up" onClick={this.handleSignUp}>
-                <Translate text="Sign up for SUSI" />
-              </span>
-            </div>
-          </form>
-        </Paper>
-      </div>
+              <div className="login-links-section">
+                <span
+                  className="forgot-password"
+                  onClick={onRequestOpenForgotPassword}
+                >
+                  <Translate text="Forgot Password?" />
+                </span>
+                <span className="sign-up" onClick={onRequestOpenSignUp}>
+                  <Translate text="Sign up for SUSI" />
+                </span>
+              </div>
+            </form>
+          </Paper>
+        </div>
+        <Close style={closingStyle} onTouchTap={this.handleDialogClose} />
+      </Dialog>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(
+      { ...appActions, ...messagesActions },
+      dispatch,
+    ),
   };
 }
 

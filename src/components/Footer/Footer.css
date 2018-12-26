@@ -27,6 +27,7 @@
 .alignLeft,.alignRight{
     list-style: none;
     list-style-type: none;
+    display: flex;
 }
 
 .footer-container a:hover {

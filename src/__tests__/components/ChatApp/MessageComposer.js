@@ -10,7 +10,7 @@ describe('<MessageComposer />', () => {
   it('render MessageComposer without crashing', () => {
     shallow(
       <Provider store={store}>
-        <MessageComposer threadID="t_1" />
+        <MessageComposer />
       </Provider>,
     );
   });
