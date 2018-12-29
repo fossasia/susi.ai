@@ -422,12 +422,15 @@ class MessageListItem extends React.Component {
               let { latitude, longitude, zoom } = answer.actions[mapIndex];
               latitude = parseFloat(latitude);
               longitude = parseFloat(longitude);
+              // console.log(latitude);
               zoom = parseFloat(zoom);
               let mymap;
               if (isNaN(latitude) || isNaN(longitude)) {
+                // if(true) {
                 getDefaultMapData()
                   .then(response => {
                     mymap = drawMap(
+                      // console.log(response.latitude),
                       response.latitude,
                       response.longitude,
                       zoom,
@@ -447,7 +450,7 @@ class MessageListItem extends React.Component {
                     );
                   })
                   .catch(error => {
-                    console.log(error);
+                    // console.log(error);
                     mymap = 'Map not found!';
                   });
               } else {

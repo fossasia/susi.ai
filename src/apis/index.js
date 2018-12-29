@@ -3,6 +3,8 @@ import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
 
 const { API_URL } = urls;
+const { USER_IP_URL } = urls;
+const { LAT_LNG_OF_USER } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
@@ -138,8 +140,15 @@ export function postSkillFeedback(payload) {
   });
 }
 
+export function getUserIP() {
+  return ajax.get(`${USER_IP_URL}`, {
+    token: 'b3398b832bf0d7',
+  });
+}
+
 export function getDefaultMapData() {
-  return ajax.get('http://api.ipstack.com/134.201.250.155', {
-    accessKey: '31fe38d0ec112087bc85f47241a58387',
+  const ip_user = getUserIP();
+  return ajax.get(`${LAT_LNG_OF_USER}` + ip_user, {
+    access_key: 'a618116f941185727af98d1fdbe5665d',
   });
 }
