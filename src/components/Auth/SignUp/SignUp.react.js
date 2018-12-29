@@ -17,7 +17,6 @@ import zxcvbn from 'zxcvbn';
 import './SignUp.css';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
-import { CAPTCHA_KEY } from '../../../config.js';
 import { isEmail } from '../../../utils';
 import actions from '../../../redux/actions/app';
 
@@ -65,6 +64,7 @@ class SignUp extends Component {
     actions: PropTypes.object,
     openSignUp: PropTypes.bool,
     onRequestOpenLogin: PropTypes.func,
+    captchaKey: PropTypes.string,
   };
 
   constructor(props) {
@@ -263,7 +263,7 @@ class SignUp extends Component {
       loading,
       success,
     } = this.state;
-    const { openSignUp, onRequestOpenLogin } = this.props;
+    const { openSignUp, onRequestOpenLogin, captchaKey } = this.props;
 
     const isValid =
       email &&
@@ -356,7 +356,7 @@ class SignUp extends Component {
                 }}
               >
                 <Recaptcha
-                  sitekey={CAPTCHA_KEY}
+                  sitekey={captchaKey}
                   render="explicit"
                   onloadCallback={this.onCaptchaLoad}
                   verifyCallback={this.onCaptchaSuccess}
@@ -414,6 +414,13 @@ class SignUp extends Component {
   }
 }
 
+function mapStateToProps(store) {
+  const { captchaKey } = store.app.apiKeys;
+  return {
+    captchaKey,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
@@ -421,6 +428,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SignUp);

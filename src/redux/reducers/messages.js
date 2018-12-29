@@ -5,8 +5,9 @@ const defaultState = {
   messages: [],
   messagesByID: {},
   unreadMessageIDs: [],
-  feedbackByID: {},
-  showLoading: false,
+  skillFeedbackByMessageId: {},
+  loadingHistory: false,
+  loadingReply: false,
   initialisedVoices: false,
   TTSVoices: [],
   historyBuffer: [],
@@ -29,7 +30,7 @@ export default handleActions(
         ...state,
         messages,
         messagesByID,
-        showLoading: true,
+        loadingReply: true,
       };
     },
     [actionTypes.MESSAGES_CREATE_SUSI_MESSAGE](state, { payload }) {
@@ -47,7 +48,7 @@ export default handleActions(
         ...state,
         messages,
         messagesByID,
-        showLoading: false,
+        loadingReply: false,
       };
     },
     [actionTypes.MESSAGES_STORE_HISTORY_MESSAGE](state, { payload }) {
@@ -82,14 +83,14 @@ export default handleActions(
         messagesByID,
       };
     },
-    [actionTypes.MESSAGES_FEEDBACK_RECEIVED](state, { payload }) {
-      // ACTION needed
-      const { messageID, feedback } = payload;
-      let { feedbackByID } = state;
-      feedbackByID[messageID] = feedback;
+    [actionTypes.MESSAGES_SAVE_SKILL_FEEDBACK](state, { payload }) {
+      const { messageId, feedback } = payload;
       return {
         ...state,
-        feedbackByID,
+        skillFeedbackByMessageId: {
+          ...state.skillFeedbackByMessageId,
+          [messageId]: feedback,
+        },
       };
     },
     [actionTypes.MESSAGES_INIT_TTS_VOICES](state, { payload }) {
@@ -101,7 +102,13 @@ export default handleActions(
         TTSVoices,
       };
     },
-    [actionTypes.MESSAGES_CREATE_HISTORY_MESSAGES](state, { payload }) {
+    [actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER](state, { payload }) {
+      return {
+        ...defaultState,
+        loadingHistory: true,
+      };
+    },
+    [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
       let { messagePairArray } = payload;
       messagePairArray = messagePairArray.reverse();
       let messages = [];
@@ -117,6 +124,12 @@ export default handleActions(
         ...defaultState,
         messages,
         messagesByID,
+        loadingHistory: false,
+      };
+    },
+    [actionTypes.APP_LOGOUT](state, { payload }) {
+      return {
+        ...defaultState,
       };
     },
   },
