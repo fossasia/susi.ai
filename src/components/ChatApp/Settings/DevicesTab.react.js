@@ -11,14 +11,7 @@ const DevicesTab = props => {
     <span style={{ right: '40px' }}>
       <div style={props.containerStyle}>
         <span>
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '10px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-            }}
-          >
+          <div style={props.tabHeadingStyle}>
             <Translate text="Devices" />
           </div>
         </span>
@@ -110,6 +103,7 @@ DevicesTab.propTypes = {
   startEditing: PropTypes.func,
   stopEditing: PropTypes.func,
   themeVal: PropTypes.string,
+  tabHeadingStyle: PropTypes.object,
 };
 
 export default GoogleApiWrapper(props => ({ apiKey: props.mapKey }))(

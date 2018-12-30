@@ -6,46 +6,28 @@ import PropTypes from 'prop-types';
 
 const MobileTab = props => {
   return (
-    <span style={props.containerStyle}>
+    <div style={props.containerStyle}>
       <div>
-        <div
-          style={{
-            marginTop: '10px',
-            marginBottom: '5px',
-            marginLeft: '30px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={props.tabHeadingStyle}>
           <Translate text="Mobile" />
         </div>
         <div
           style={{
             marginTop: '0px',
             marginBottom: '0px',
-            marginLeft: '30px',
             fontSize: '14px',
           }}
         >
           <Translate text="Expand your experience, get closer, and stay current" />
         </div>
         <hr color="#f8f8f8" />
-        <div
-          style={{
-            marginTop: '0px',
-            marginBottom: '0px',
-            marginLeft: '30px',
-            fontSize: '15px',
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={props.headingStyle}>
           <Translate text="Add your phone number" />
         </div>
         <div
           style={{
             marginTop: '10px',
             marginBottom: '0px',
-            marginLeft: '30px',
             fontSize: '14px',
           }}
         >
@@ -55,7 +37,6 @@ const MobileTab = props => {
           style={{
             marginTop: '10px',
             marginBottom: '0px',
-            marginLeft: '30px',
             fontSize: '14px',
           }}
         >
@@ -81,17 +62,17 @@ const MobileTab = props => {
           style={{
             marginTop: '45px',
             marginBottom: '0px',
-            marginLeft: '30px',
             fontSize: '14px',
           }}
         >
-          <span style={{ float: 'left', marginBottom: '35px' }}>
+          <span
+            style={{ float: 'left', marginBottom: '35px', minWidth: '130px' }}
+          >
             Phone number :
           </span>
           <div
             style={{
               width: '250px',
-              marginLeft: '33px',
               display: 'inline-block',
             }}
           >
@@ -138,7 +119,7 @@ const MobileTab = props => {
           </div>
         </div>
       </div>
-    </span>
+    </div>
   );
 };
 
@@ -150,6 +131,8 @@ MobileTab.propTypes = {
   containerStyle: PropTypes.object,
   floatingLabelStyle: PropTypes.object,
   phoneNoError: PropTypes.string,
+  headingStyle: PropTypes.object,
+  tabHeadingStyle: PropTypes.object,
   themeBackgroundColor: PropTypes.string,
   themeForegroundColor: PropTypes.string,
   themeVal: PropTypes.string,

@@ -14,6 +14,7 @@ import SignUp from 'material-ui/svg-icons/action/account-circle';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import List from 'material-ui/svg-icons/action/list';
+import Share from 'material-ui/svg-icons/social/share';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
@@ -53,6 +54,10 @@ class TopBar extends Component {
     handleRequestClose: PropTypes.func,
     handleToggle: PropTypes.func,
     searchTextChanged: PropTypes.func,
+
+    handleShare: PropTypes.func,
+    handleShareClose: PropTypes.func,
+    openShare: PropTypes.bool,
     openSearch: PropTypes.func,
     exitSearch: PropTypes.func,
     nextSearchItem: PropTypes.func,
@@ -146,6 +151,7 @@ class TopBar extends Component {
       searchTextChanged,
       exitSearch,
       openSearch,
+      openShare,
       nextSearchItem,
       previousSearchItem,
       email,
@@ -183,6 +189,7 @@ class TopBar extends Component {
             {searchState ? (
               <ExpandingSearchField
                 searchText={searchState.searchText}
+                openShare={openShare}
                 searchIndex={searchState.searchIndex}
                 open={search}
                 searchCount={searchState.scrollLimit}
@@ -290,6 +297,12 @@ class TopBar extends Component {
                 rightIcon={<SignUp />}
               />
             )}
+
+            <MenuItem
+              primaryText={<Translate text="Share" />}
+              onTouchTap={this.props.handleShare}
+              rightIcon={<Share />}
+            />
           </Popover>
         </ToolbarGroup>
       </Toolbar>
