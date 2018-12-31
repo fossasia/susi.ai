@@ -46,6 +46,7 @@ const AccountTab = props => {
         inputStyle={props.inputStyle}
         placeholder="Enter your User Name"
         underlineStyle={{ display: 'none' }}
+        errorText={props.userNameError}
       />
       <br />
 
@@ -97,6 +98,7 @@ AccountTab.propTypes = {
   userName: PropTypes.string,
   containerStyle: PropTypes.object,
   fieldStyle: PropTypes.object,
+  userNameError: PropTypes.string,
   handlePrefLang: PropTypes.func,
   handleTimeZone: PropTypes.func,
   handleUserName: PropTypes.func,
