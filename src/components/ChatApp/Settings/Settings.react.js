@@ -15,7 +15,6 @@ import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
-import NotFound from '../../NotFound/NotFound.react';
 import * as Actions from '../../../actions/';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
@@ -1677,10 +1676,6 @@ class Settings extends Component {
 
     // to check if something has been modified or not
     let somethingToSave = this.getSomethingToSave();
-
-    if (!cookies.get('loggedIn')) {
-      return <NotFound />;
-    }
 
     return (
       <div
