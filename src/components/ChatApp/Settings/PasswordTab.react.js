@@ -8,14 +8,7 @@ const PasswordTab = props => {
     <div style={props.containerStyle}>
       <span>
         <span>
-          <div
-            style={{
-              marginTop: '10px',
-              marginBottom: '10px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-            }}
-          >
+          <div style={props.tabHeadingStyle}>
             <Translate text="Password" />
           </div>
         </span>
@@ -40,6 +33,7 @@ PasswordTab.propTypes = {
   containerStyle: PropTypes.object,
   intialSettings: PropTypes.object,
   themeVal: PropTypes.string,
+  tabHeadingStyle: PropTypes.object,
 };
 
 export default PasswordTab;

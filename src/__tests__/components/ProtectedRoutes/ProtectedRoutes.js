@@ -1,16 +1,16 @@
 import React from 'react';
-import Feedback from '../../../../components/ChatApp/MessageListItem/Feedback.react';
+import ProtectedRoute from '../../../components/ProtectedRoute';
 import { shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<Feedback />', () => {
-  it('render Feedback without crashing', () => {
+describe('<ProtectedRoute />', () => {
+  it('render ProtectedRoute without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Feedback />
+        <ProtectedRoute />
       </Provider>,
     );
   });

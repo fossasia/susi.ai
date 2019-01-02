@@ -5,13 +5,6 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import TimezonePicker from 'react-timezone';
 import PropTypes from 'prop-types';
 
-const headingStyle = {
-  marginTop: '10px',
-  marginBottom: '5px',
-  fontSize: '15px',
-  fontWeight: 'bold',
-};
-
 const AccountTab = props => {
   let TTSBrowserSupport;
   if ('speechSynthesis' in window) {
@@ -25,7 +18,7 @@ const AccountTab = props => {
   return (
     <div style={props.containerStyle}>
       <span>
-        <div style={headingStyle}>
+        <div style={props.tabHeadingStyle}>
           <Translate text="Account" />
         </div>
         {props.themeVal === 'light' ? (
@@ -35,7 +28,7 @@ const AccountTab = props => {
         )}
       </span>
 
-      <div style={headingStyle}>
+      <div style={props.headingStyle}>
         <Translate text="User Name" />
       </div>
       <TextField
@@ -50,7 +43,7 @@ const AccountTab = props => {
       />
       <br />
 
-      <div style={headingStyle}>
+      <div style={props.headingStyle}>
         <Translate text="Email" />
       </div>
       <TextField
@@ -62,7 +55,7 @@ const AccountTab = props => {
       />
       <br />
 
-      <div style={{ ...headingStyle, marginBottom: 0 }}>
+      <div style={{ ...props.headingStyle, marginBottom: 0 }}>
         <Translate text="Select default language" />
       </div>
       <DropDownMenu
@@ -77,7 +70,7 @@ const AccountTab = props => {
         {props.voiceOutput.voiceMenu}
       </DropDownMenu>
       <br />
-      <div style={{ ...headingStyle, marginBottom: 0 }}>
+      <div style={{ ...props.headingStyle, marginBottom: 0 }}>
         <Translate text="Select TimeZone" />
       </div>
       <br />
@@ -97,6 +90,8 @@ AccountTab.propTypes = {
   timeZone: PropTypes.string,
   userName: PropTypes.string,
   containerStyle: PropTypes.object,
+  tabHeadingStyle: PropTypes.object,
+  headingStyle: PropTypes.object,
   fieldStyle: PropTypes.object,
   userNameError: PropTypes.string,
   handlePrefLang: PropTypes.func,

@@ -17,14 +17,7 @@ const SpeechTab = props => {
   return (
     <div style={props.containerStyle}>
       <div>
-        <div
-          style={{
-            marginTop: '10px',
-            marginBottom: '5px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={props.headingStyle}>
           <Translate text="Speech Output" />
         </div>
         {props.themeVal === 'light' ? (
@@ -53,15 +46,7 @@ const SpeechTab = props => {
         <br />
       </div>
       <div>
-        <div
-          style={{
-            marginTop: '10px',
-            marginBottom: '0px',
-            fontSize: '15px',
-            fontWeight: 'bold',
-          }}
-          className="reduceSettingDiv"
-        >
+        <div style={props.headingStyle} className="reduceSettingDiv">
           <Translate text="Speech Output Always ON" />
         </div>
         <br />
@@ -90,6 +75,9 @@ const SpeechTab = props => {
           pitch={props.speechPitch}
           lang={props.ttsLanguage}
           newTtsSettings={props.handleNewTextToSpeech.bind(this)}
+          themeForegroundColor={props.themeForegroundColor}
+          themeVal={props.themeVal}
+          headingStyle={props.headingStyle}
         />
       </div>
     </div>
@@ -98,6 +86,8 @@ const SpeechTab = props => {
 
 SpeechTab.propTypes = {
   containerStyle: PropTypes.object,
+  headingStyle: PropTypes.object,
+  tabHeadingStyle: PropTypes.object,
   handleNewTextToSpeech: PropTypes.func,
   handleSpeechOutput: PropTypes.func,
   handleSpeechOutputAlways: PropTypes.func,

@@ -15,7 +15,6 @@ import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
-import NotFound from '../../NotFound/NotFound.react';
 import * as Actions from '../../../actions/';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
@@ -1159,6 +1158,20 @@ class Settings extends Component {
       width: 'auto',
     };
 
+    const tabHeadingStyle = {
+      marginTop: '10px',
+      marginBottom: '5px',
+      fontSize: '16px',
+      fontWeight: 'bold',
+    };
+
+    const headingStyle = {
+      marginTop: '10px',
+      marginBottom: '5px',
+      fontSize: '15px',
+      fontWeight: 'bold',
+    };
+
     let currentSetting = '';
 
     let voiceOutput = this.populateVoiceList();
@@ -1168,16 +1181,23 @@ class Settings extends Component {
           containerStyle={divStyle}
           themeForegroundColor={themeForegroundColor}
           themeVal={UserPreferencesStore.getTheme()}
-          handleMicInput={this.handleChange}
+          handleMicInput={this.handleMicInput}
+          tabHeadingStyle={tabHeadingStyle}
           micInput={this.state.micInput}
         />
       );
     } else if (this.state.selectedSetting === 'Share on Social media') {
-      currentSetting = <ShareOnSocialMedia containerStyle={divStyle} />;
+      currentSetting = (
+        <ShareOnSocialMedia
+          containerStyle={divStyle}
+          headingStyle={headingStyle}
+        />
+      );
     } else if (this.state.selectedSetting === 'Theme') {
       currentSetting = (
         <ThemeChangeTab
           containerStyle={divStyle}
+          tabHeadingStyle={tabHeadingStyle}
           themeForegroundColor={themeForegroundColor}
           radioIconStyle={radioIconStyle}
           themeVal={UserPreferencesStore.getTheme()}
@@ -1193,6 +1213,8 @@ class Settings extends Component {
       currentSetting = (
         <SpeechTab
           containerStyle={divStyle}
+          tabHeadingStyle={tabHeadingStyle}
+          headingStyle={headingStyle}
           themeForegroundColor={themeForegroundColor}
           themeVal={UserPreferencesStore.getTheme()}
           handleSpeechOutputAlways={this.handleSpeechOutputAlways}
@@ -1215,6 +1237,8 @@ class Settings extends Component {
           themeForegroundColor={themeForegroundColor}
           fieldStyle={fieldStyle}
           inputStyle={inputStyle}
+          headingStyle={headingStyle}
+          tabHeadingStyle={tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
           themeVal={UserPreferencesStore.getTheme()}
           userName={this.state.userName}
@@ -1233,6 +1257,7 @@ class Settings extends Component {
     ) {
       currentSetting = (
         <PasswordTab
+          tabHeadingStyle={tabHeadingStyle}
           containerStyle={divStyle}
           intialSettings={this.state.intialSettings}
           themeVal={UserPreferencesStore.getTheme()}
@@ -1242,6 +1267,7 @@ class Settings extends Component {
     } else if (this.state.selectedSetting === 'Devices') {
       currentSetting = (
         <DevicesTab
+          tabHeadingStyle={tabHeadingStyle}
           containerStyle={divStyle}
           themeVal={UserPreferencesStore.getTheme()}
           deviceData={this.state.deviceData}
@@ -1271,6 +1297,8 @@ class Settings extends Component {
         <MobileTab
           containerStyle={divStyle}
           floatingLabelStyle={floatingLabelStyle}
+          headingStyle={headingStyle}
+          tabHeadingStyle={tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
           themeForegroundColor={themeForegroundColor}
           underlineStyle={underlineStyle}
@@ -1287,6 +1315,7 @@ class Settings extends Component {
     } else {
       currentSetting = (
         <ChatAppTab
+          tabHeadingStyle={tabHeadingStyle}
           containerStyle={divStyle}
           themeVal={UserPreferencesStore.getTheme()}
           themeForegroundColor={themeForegroundColor}
@@ -1655,10 +1684,6 @@ class Settings extends Component {
 
     // to check if something has been modified or not
     let somethingToSave = this.getSomethingToSave();
-
-    if (!cookies.get('loggedIn')) {
-      return <NotFound />;
-    }
 
     return (
       <div
