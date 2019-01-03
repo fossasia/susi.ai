@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import appActions from '../../../redux/actions/app';
 import messagesActions from '../../../redux/actions/messages';
+import settingsActions from '../../../redux/actions/settings';
 
 // Components
 import Paper from 'material-ui/Paper';
@@ -119,6 +120,7 @@ class Login extends Component {
           let snackBarMessage;
           if (payload.accepted) {
             this.setCookies({ ...payload, email });
+            actions.getHistoryFromServer();
             actions
               .getHistoryFromServer()
               .then(({ payload }) => {
@@ -332,7 +334,7 @@ class Login extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...appActions, ...messagesActions },
+      { ...appActions, ...messagesActions, ...settingsActions },
       dispatch,
     ),
   };

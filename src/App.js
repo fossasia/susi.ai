@@ -22,8 +22,9 @@ import Privacy from './components/Privacy/Privacy.react';
 import Login from './components/Auth/Login/Login.react';
 import SignUp from './components/Auth/SignUp/SignUp.react';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
-import actions from './redux/actions/app';
 import ProtectedRoute from './components/ProtectedRoute';
+import appActions from './redux/actions/app';
+import settingsActions from './redux/actions/settings';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -38,6 +39,7 @@ class App extends Component {
     location: PropTypes.object,
     closeVideo: PropTypes.func,
     actions: PropTypes.object,
+    accessToken: PropTypes.string,
   };
 
   constructor(props) {
@@ -56,10 +58,14 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    const { actions, accessToken } = this.props;
+    const { getApiKeys, getUserSettings } = actions;
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
-
-    this.props.actions.getApiKeys();
+    getApiKeys();
+    if (accessToken) {
+      getUserSettings();
+    }
   };
 
   componentWillUnmount = () => {
@@ -232,15 +238,28 @@ class App extends Component {
   }
 }
 
+function mapStateToProps(store) {
+  const { accessToken } = store.app;
+  return {
+    accessToken,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(
+      {
+        ...appActions,
+        ...settingsActions,
+      },
+      dispatch,
+    ),
   };
 }
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(App),
 );

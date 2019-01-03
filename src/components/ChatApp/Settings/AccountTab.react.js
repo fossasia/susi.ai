@@ -49,9 +49,10 @@ const AccountTab = props => {
       <TextField
         name="email"
         style={props.fieldStyle}
-        value={props.identityName}
+        value={props.email}
         inputStyle={props.inputStyle}
         underlineStyle={{ display: 'none' }}
+        disabled={true}
       />
       <br />
 
@@ -97,7 +98,7 @@ AccountTab.propTypes = {
   handlePrefLang: PropTypes.func,
   handleTimeZone: PropTypes.func,
   handleUserName: PropTypes.func,
-  identityName: PropTypes.string,
+  email: PropTypes.string,
   inputStyle: PropTypes.object,
   themeBackgroundColor: PropTypes.string,
   themeForegroundColor: PropTypes.string,

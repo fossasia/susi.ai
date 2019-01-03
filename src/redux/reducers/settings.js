@@ -37,12 +37,24 @@ const defaultState = {
 
 export default handleActions(
   {
-    [actionTypes.APP_GET_USER_SETTINGS](state, { payload }) {
+    [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { payload }) {
+      // TODO
+      // server sending string values
+      // Handle customThemeValues
       return {
-        ...payload,
+        ...payload.settings,
+        customThemeValue: {
+          header: '#4285f4',
+          pane: '#f3f2f4',
+          body: '#fff',
+          composer: '#f3f2f4',
+          textarea: '#fff',
+          button: '#4285f4',
+          textColor: '#000',
+        },
       };
     },
-    [actionTypes.APP_SET_USER_SETTINGS](state, { payload }) {
+    [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
       return {
         ...state,
       };
@@ -53,6 +65,7 @@ export default handleActions(
       };
     },
     [actionTypes.SETTINGS_ADD_USER_DEVICE](state, { payload }) {
+      console.log(payload);
       return {
         ...state,
       };

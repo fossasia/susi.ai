@@ -5,13 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import UserIdentityStore from '../../../stores/UserIdentityStore';
-import MessageStore from '../../../stores/MessageStore';
 import Cookies from 'universal-cookie';
 import Dialog from 'material-ui/Dialog';
 import Close from 'material-ui/svg-icons/navigation/close';
-import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
@@ -21,10 +17,7 @@ import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
-import {
-  voiceList,
-  voiceListChange,
-} from './../../../constants/SettingsVoiceConstants.js';
+import { voiceList } from './../../../constants/SettingsVoiceConstants.js';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -36,10 +29,7 @@ import LockIcon from 'material-ui/svg-icons/action/lock';
 import MyDevices from 'material-ui/svg-icons/device/devices';
 import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
 import ShareIcon from 'material-ui/svg-icons/social/share';
-import {
-  isProduction,
-  sortCountryLexographical,
-} from '../../../utils/helperFunctions';
+import { sortCountryLexographical } from '../../../utils/helperFunctions';
 import urls from '../../../utils/urls';
 import { isPhoneNumber } from '../../../utils';
 
@@ -51,70 +41,102 @@ import PasswordTab from './PasswordTab.react';
 import DevicesTab from './DevicesTab.react';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
+import { bindActionCreators } from 'redux';
+import settingsActions from '../../../redux/actions/settings';
 
 const cookies = new Cookies();
 
-let defaults = UserPreferencesStore.getPreferences();
-let defaultServerURL = defaults.Server;
+const styles = {
+  divStyle: {
+    textAlign: 'left',
+    padding: '20px',
+    marginLeft: '10px',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
 
-let BASE_URL = '';
-if (
-  cookies.get('serverUrl') === defaultServerURL ||
-  cookies.get('serverUrl') === null ||
-  cookies.get('serverUrl') === undefined
-) {
-  BASE_URL = defaultServerURL;
-} else {
-  BASE_URL = cookies.get('serverUrl');
-}
-
-let url =
-  BASE_URL +
-  '/aaa/listUserSettings.json?' +
-  'access_token=' +
-  cookies.get('loggedIn');
-
-const divStyle = {
-  textAlign: 'left',
-  padding: '20px',
-  marginLeft: '10px',
+  radioIconStyle: {
+    fill: '#4285f4',
+  },
+  inputStyle: {
+    height: '35px',
+    marginBottom: '10px',
+  },
+  fieldStyle: {
+    height: '35px',
+    borderRadius: 4,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '0px 12px',
+    width: 'auto',
+  },
+  tabHeadingStyle: {
+    marginTop: '10px',
+    marginBottom: '5px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+  },
+  headingStyle: {
+    marginTop: '10px',
+    marginBottom: '5px',
+    fontSize: '15px',
+    fontWeight: 'bold',
+  },
+  menuStyle: {
+    marginTop: 20,
+    textAlign: 'center',
+    display: 'inline-block',
+  },
 };
 
 class Settings extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+    onSettingsSubmit: PropTypes.func,
+    onServerChange: PropTypes.func,
+    location: PropTypes.object,
+    google: PropTypes.object,
+    handleThemeChanger: PropTypes.func,
+    mapKey: PropTypes.string,
+    theme: PropTypes.string,
+    enterAsSend: PropTypes.bool,
+    micInput: PropTypes.bool,
+    speechOutput: PropTypes.bool,
+    speechOutputAlways: PropTypes.bool,
+    speechRate: PropTypes.number,
+    speechPitch: PropTypes.number,
+    ttsLanguage: PropTypes.string,
+    userName: PropTypes.string,
+    prefLanguage: PropTypes.string,
+    timeZone: PropTypes.string,
+    customThemeValue: PropTypes.object,
+    localStorage: PropTypes.bool,
+    countryCode: PropTypes.string,
+    countryDialCode: PropTypes.string,
+    phoneNo: PropTypes.string,
+    checked: PropTypes.bool,
+    backgroundImage: PropTypes.string,
+    messageBackgroundImage: PropTypes.string,
+    email: PropTypes.string,
+    actions: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
-    defaults = UserPreferencesStore.getPreferences();
-    let identity = UserIdentityStore.getIdentity();
-    let defaultServer = defaults.Server;
-    let defaultTheme = UserPreferencesStore.getTheme(this.preview);
-    let defaultEnterAsSend = defaults.EnterAsSend;
-    let defaultMicInput = defaults.MicInput;
-    let defaultSpeechOutput = defaults.SpeechOutput;
-    let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
-    let defaultSpeechRate = defaults.SpeechRate;
-    let defaultSpeechPitch = defaults.SpeechPitch;
-    let defaultTTSLanguage = defaults.TTSLanguage;
-    let defaultUserName = defaults.UserName;
-    let defaultPrefLanguage = defaults.PrefLanguage;
-    let defaultTimeZone = defaults.TimeZone;
-    let defaultChecked = defaults.checked;
-    let defaultServerUrl = defaults.serverUrl;
-    let defaultCountryCode = defaults.CountryCode;
-    let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.PhoneNo;
-    let TTSBrowserSupport;
-    if ('speechSynthesis' in window) {
-      TTSBrowserSupport = true;
-    } else {
-      TTSBrowserSupport = false;
+    if (!('speechSynthesis' in window)) {
       console.warn(
         'The current browser does not support the SpeechSynthesis API.',
       );
     }
-    this.customServerMessage = '';
-    this.TTSBrowserSupport = TTSBrowserSupport;
+
     this.state = {
       themeOpen: false,
       dataFetched: false,
@@ -129,23 +151,6 @@ class Settings extends Component {
       slideIndex: 0,
       centerLat: 0,
       centerLng: 0,
-      identity,
-      theme: defaultTheme,
-      enterAsSend: defaultEnterAsSend,
-      micInput: defaultMicInput,
-      speechOutput: defaultSpeechOutput,
-      speechOutputAlways: defaultSpeechOutputAlways,
-      server: defaultServer,
-      serverUrl: defaultServerUrl,
-      serverFieldError: false,
-      checked: defaultChecked,
-      validForm: true,
-      speechRate: defaultSpeechRate,
-      speechPitch: defaultSpeechPitch,
-      ttsLanguage: defaultTTSLanguage,
-      userName: defaultUserName,
-      PrefLanguage: defaultPrefLanguage,
-      TimeZone: defaultTimeZone,
       showServerChangeDialog: false,
       showChangePasswordDialog: false,
       showLogin: false,
@@ -154,146 +159,36 @@ class Settings extends Component {
       showOptions: false,
       showRemoveConfirmation: false,
       anchorEl: null,
-      countryCode: defaultCountryCode,
-      countryDialCode: defaultCountryDialCode,
-      PhoneNo: defaultPhoneNo,
-      voiceList: voiceList,
-      intialSettings: {
-        theme: defaultTheme,
-        enterAsSend: defaultEnterAsSend,
-        micInput: defaultMicInput,
-        speechOutput: defaultSpeechOutput,
-        speechOutputAlways: defaultSpeechOutputAlways,
-        speechRate: defaultSpeechRate,
-        speechPitch: defaultSpeechPitch,
-        ttsLanguage: defaultTTSLanguage,
-        server: defaultServer,
-        userName: defaultUserName,
-        PrefLanguage: defaultPrefLanguage,
-        TimeZone: defaultTimeZone,
-        serverUrl: defaultServerUrl,
-        checked: defaultChecked,
-        countryCode: defaultCountryCode,
-        countryDialCode: defaultCountryDialCode,
-        PhoneNo: defaultPhoneNo,
-      },
     };
+    this.isDirty = false;
+    this.oldSettingSnapShot = {};
   }
 
   onThemeRequestClose = () => {
+    // TODO
+    // RESET THEME
     this.setState({ themeOpen: false });
   };
 
-  // handleRemove() function handles deletion of devices
-  handleRemove = i => {
-    let data = this.state.obj;
-    let macid = data[i].macid;
-
-    // Remove the row whose index does not matches the index passed in parameter
-    this.setState({
-      obj: data.filter((row, j) => j !== i),
-    });
-
-    // Make API call to the endpoint to delete the device on the server side
-    $.ajax({
-      url:
-        BASE_URL +
-        '/aaa/removeUserDevices.json?macid=' +
-        macid +
-        '&access_token=' +
-        cookies.get('loggedIn'),
-      dataType: 'jsonp',
-      crossDomain: true,
-      timeout: 3000,
-      async: false,
-      success: function(response) {
-        console.log(response);
-      },
-      error: function(errorThrown) {
-        console.log(errorThrown);
-      },
-      complete: function(jqXHR, textStatus) {
-        location.reload();
-      },
-    });
-  };
-
-  // startEditing() function handles editing of rows
-  // editIdx is set to the row index which is currently being edited
-  startEditing = i => {
-    this.setState({ editIdx: i });
-  };
-
-  // stopEditing() function handles saving of the changed device config
-  stopEditing = i => {
-    let data = this.state.obj;
-    let macid = data[i].macid;
-    let devicename = data[i].devicename;
-    let room = data[i].room;
-    let latitude = data[i].latitude;
-    let longitude = data[i].longitude;
-    let devicenames = this.state.devicenames;
-    devicenames[i] = devicename;
-    let rooms = this.state.rooms;
-    rooms[i] = room;
-
-    // Set the value of editIdx to -1 to denote that no row is currently being edited
-    // Set values for devicenames and rooms to pass as props for the Map View component
-    this.setState({
-      editIdx: -1,
-      devicenames: devicenames,
-      rooms: rooms,
-    });
-
-    // Make API call to the endpoint for adding new devices
-    // to overwrite the updated config of devices on the existing config on the server
-    $.ajax({
-      url:
-        BASE_URL +
-        '/aaa/addNewDevice.json?macid=' +
-        macid +
-        '&name=' +
-        devicename +
-        '&room=' +
-        room +
-        '&latitude=' +
-        latitude +
-        '&longitude=' +
-        longitude +
-        '&access_token=' +
-        cookies.get('loggedIn'),
-      dataType: 'jsonp',
-      crossDomain: true,
-      timeout: 3000,
-      async: false,
-      success: function(response) {
-        console.log(response);
-      },
-      error: function(errorThrown) {
-        console.log(errorThrown);
-      },
-    });
-  };
-
   // handleChange() function handles changing of textfield values on keypresses
-  handleChange = (e, name, i) => {
-    const value = e.target.value;
-    let data = this.state.obj;
-    this.setState({
-      obj: data.map((row, j) => (j === i ? { ...row, [name]: value } : row)),
-    });
-  };
+  // handleChange = (e, name, i) => {
+  //   const value = e.target.value;
+  //   let data = this.state.obj;
+  //   this.setState({
+  //     obj: data.map((row, j) => (j === i ? { ...row, [name]: value } : row)),
+  //   });
+  // };
 
-  handleTabSlide = value => {
-    this.setState({
-      slideIndex: value,
-    });
-  };
+  // handleTabSlide = value => {
+  //   this.setState({
+  //     slideIndex: value,
+  //   });
+  // };
 
   // apiCall() function fetches user settings and devices from the server
   apiCall = () => {
     $.ajax({
-      url: url,
+      // url: url,
       type: 'GET',
       dataType: 'jsonp',
       statusCode: {
@@ -407,118 +302,7 @@ class Settings extends Component {
     });
   };
 
-  // Boolean to store the state of preview i.e which theme to display
   preview = false;
-  // save a variable in state holding the initial state of the settings
-  setInitialSettings = () => {
-    defaults = UserPreferencesStore.getPreferences();
-    let identity = UserIdentityStore.getIdentity();
-    let defaultServer = defaults.Server;
-    let defaultTheme = UserPreferencesStore.getTheme(this.preview);
-    let defaultEnterAsSend = defaults.EnterAsSend;
-    let defaultMicInput = defaults.MicInput;
-    let defaultSpeechOutput = defaults.SpeechOutput;
-    let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
-    let defaultSpeechRate = defaults.SpeechRate;
-    let defaultSpeechPitch = defaults.SpeechPitch;
-    let defaultTTSLanguage = defaults.TTSLanguage;
-    let defaultUserName = defaults.UserName;
-    let defaultPrefLanguage = defaults.PrefLanguage;
-    let defaultTimeZone = defaults.TimeZone;
-    let defaultChecked = defaults.checked;
-    let defaultServerUrl = defaults.serverUrl;
-    let defaultCountryCode = defaults.CountryCode;
-    let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.PhoneNo;
-    this.setState({
-      identity,
-      intialSettings: {
-        theme: defaultTheme,
-        enterAsSend: defaultEnterAsSend,
-        micInput: defaultMicInput,
-        speechOutput: defaultSpeechOutput,
-        speechOutputAlways: defaultSpeechOutputAlways,
-        speechRate: defaultSpeechRate,
-        speechPitch: defaultSpeechPitch,
-        ttsLanguage: defaultTTSLanguage,
-        server: defaultServer,
-        userName: defaultUserName,
-        PrefLanguage: defaultPrefLanguage,
-        TimeZone: defaultTimeZone,
-        serverUrl: defaultServerUrl,
-        checked: defaultChecked,
-        countryCode: defaultCountryCode,
-        countryDialCode: defaultCountryDialCode,
-        PhoneNo: defaultPhoneNo,
-      },
-    });
-  };
-  // extract values from store to get the initial settings
-  setDefaultsSettings = () => {
-    defaults = UserPreferencesStore.getPreferences();
-    let defaultServer = defaults.Server;
-    let defaultTheme = UserPreferencesStore.getTheme(this.preview);
-    let defaultEnterAsSend = defaults.EnterAsSend;
-    let defaultMicInput = defaults.MicInput;
-    let defaultSpeechOutput = defaults.SpeechOutput;
-    let defaultSpeechOutputAlways = defaults.SpeechOutputAlways;
-    let defaultSpeechRate = defaults.SpeechRate;
-    let defaultSpeechPitch = defaults.SpeechPitch;
-    let defaultTTSLanguage = defaults.TTSLanguage;
-    let defaultUserName = defaults.UserName;
-    let defaultPrefLanguage = defaults.PrefLanguage;
-    let defaultTimeZone = defaults.TimeZone;
-    let defaultChecked = defaults.checked;
-    let defaultServerUrl = defaults.serverUrl;
-    let defaultCountryCode = defaults.CountryCode;
-    let defaultCountryDialCode = defaults.CountryDialCode;
-    let defaultPhoneNo = defaults.PhoneNo;
-    this.setState({
-      theme: defaultTheme,
-      enterAsSend: defaultEnterAsSend,
-      micInput: defaultMicInput,
-      speechOutput: defaultSpeechOutput,
-      speechOutputAlways: defaultSpeechOutputAlways,
-      server: defaultServer,
-      serverUrl: defaultServerUrl,
-      serverFieldError: false,
-      checked: defaultChecked,
-      validForm: true,
-      speechRate: defaultSpeechRate,
-      speechPitch: defaultSpeechPitch,
-      ttsLanguage: defaultTTSLanguage,
-      userName: defaultUserName,
-      PrefLanguage: defaultPrefLanguage,
-      TimeZone: defaultTimeZone,
-      showServerChangeDialog: false,
-      showChangePasswordDialog: false,
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-      anchorEl: null,
-      slideIndex: 0,
-      countryCode: defaultCountryCode,
-      countryDialCode: defaultCountryDialCode,
-      PhoneNo: defaultPhoneNo,
-    });
-  };
-
-  /**
-   * Event handler for 'change' events coming from the UserPreferencesStore
-   */
-  _onChangeSettings = () => {
-    this.setInitialSettings();
-    this.setDefaultsSettings();
-  };
-
-  // Show change server dialog
-  handleServer = () => {
-    this.setState({
-      showServerChangeDialog: true,
-    });
-  };
 
   // Show change password dialog
   handleChangePassword = () => {
@@ -533,39 +317,36 @@ class Settings extends Component {
       showServerChangeDialog: false,
       showChangePasswordDialog: false,
       showOptions: false,
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
       showRemoveConfirmation: false,
     });
   };
 
   handleThemeChanger = () => {
-    this.setState({ themeOpen: true });
-    switch (this.state.currTheme) {
-      case 'light': {
-        this.applyLightTheme();
-        break;
-      }
-      case 'dark': {
-        this.applyDarkTheme();
-        break;
-      }
-      default: {
-        let prevThemeSettings = {};
-        let state = this.state;
-        prevThemeSettings.currTheme = state.currTheme;
-        prevThemeSettings.bodyColor = state.body;
-        prevThemeSettings.TopBarColor = state.header;
-        prevThemeSettings.composerColor = state.composer;
-        prevThemeSettings.messagePane = state.pane;
-        prevThemeSettings.textArea = state.textarea;
-        prevThemeSettings.buttonColor = state.button;
-        prevThemeSettings.bodyBackgroundImage = state.bodyBackgroundImage;
-        prevThemeSettings.messageBackgroundImage = state.messageBackgroundImage;
-        this.setState({ prevThemeSettings });
-      }
-    }
+    // this.setState({ themeOpen: true });
+    // switch (this.state.currTheme) {
+    //   case 'light': {
+    //     this.applyLightTheme();
+    //     break;
+    //   }
+    //   case 'dark': {
+    //     this.applyDarkTheme();
+    //     break;
+    //   }
+    //   default: {
+    //     let prevThemeSettings = {};
+    //     let state = this.state;
+    //     prevThemeSettings.currTheme = state.currTheme;
+    //     prevThemeSettings.bodyColor = state.body;
+    //     prevThemeSettings.TopBarColor = state.header;
+    //     prevThemeSettings.composerColor = state.composer;
+    //     prevThemeSettings.messagePane = state.pane;
+    //     prevThemeSettings.textArea = state.textarea;
+    //     prevThemeSettings.buttonColor = state.button;
+    //     prevThemeSettings.bodyBackgroundImage = state.bodyBackgroundImage;
+    //     prevThemeSettings.messageBackgroundImage = state.messageBackgroundImage;
+    //     this.setState({ prevThemeSettings });
+    //   }
+    // }
   };
 
   applyLightTheme = () => {
@@ -624,91 +405,6 @@ class Settings extends Component {
     Actions.settingsChanged(settingsChanged);
   };
 
-  // Submit selected Settings
-  handleSubmit = () => {
-    let newDefaultServer = this.state.server;
-    let newEnterAsSend = this.state.enterAsSend;
-    let newMicInput = this.state.micInput;
-    let newSpeechOutput = this.state.speechOutput;
-    let newSpeechOutputAlways = this.state.speechOutputAlways;
-    let newSpeechRate = this.state.speechRate;
-    let newSpeechPitch = this.state.speechPitch;
-    let newTTSLanguage = this.state.ttsLanguage;
-    let newUserName = this.state.userName;
-    let newPrefLanguage = this.state.PrefLanguage;
-    let newTimeZone = this.state.TimeZone;
-    let checked = this.state.checked;
-    let serverUrl = this.state.serverUrl;
-    let newCountryCode = !this.state.countryCode
-      ? this.state.intialSettings.countryCode
-      : this.state.countryCode;
-    let newCountryDialCode = !this.state.countryDialCode
-      ? this.state.intialSettings.countryDialCode
-      : this.state.countryDialCode;
-    let newPhoneNo = this.state.PhoneNo;
-    if (newDefaultServer.slice(-1) === '/') {
-      newDefaultServer = newDefaultServer.slice(0, -1);
-    }
-    let vals = {
-      server: newDefaultServer,
-      enterAsSend: newEnterAsSend,
-      micInput: newMicInput,
-      speechOutput: newSpeechOutput,
-      speechOutputAlways: newSpeechOutputAlways,
-      speechRate: newSpeechRate,
-      speechPitch: newSpeechPitch,
-      ttsLanguage: newTTSLanguage,
-      userName: newUserName,
-      prefLanguage: newPrefLanguage,
-      timeZone: newTimeZone,
-      countryCode: newCountryCode,
-      countryDialCode: newCountryDialCode,
-      phoneNo: newPhoneNo,
-      checked,
-      serverUrl,
-    };
-    // if preview, save current theme state to previewTheme
-    if (this.preview) {
-      vals.theme = UserPreferencesStore.getTheme(!this.preview);
-      vals.previewTheme = this.state.theme;
-    }
-    // else save current theme state to theme
-    else {
-      vals.theme = this.state.theme;
-      vals.previewTheme = UserPreferencesStore.getTheme(this.preview);
-    }
-    let settings = Object.assign({}, vals);
-    settings.LocalStorage = true;
-    // Store in cookies for anonymous user
-    cookies.set('settings', settings);
-    console.log('settings saved', settings);
-    this.setInitialSettings();
-    // Trigger Actions to save the settings in stores and server
-    this.implementSettings(vals);
-    let userName = vals.userName;
-    cookies.set('username', userName, {
-      path: '/',
-      domain: cookieDomain,
-    });
-  };
-
-  // Store the settings in stores and server
-  implementSettings = values => {
-    let currSettings = UserPreferencesStore.getPreferences();
-    let resetVoice = false;
-    if (currSettings.SpeechOutput !== values.speechOutput) {
-      resetVoice = true;
-    }
-    if (currSettings.SpeechOutputAlways !== values.speechOutputAlways) {
-      resetVoice = true;
-    }
-    Actions.settingsChanged(values);
-    if (resetVoice) {
-      Actions.resetVoice();
-    }
-    this.props.history.push(`/settings?tab=${this.state.selectedSetting}`);
-  };
-
   // Handle change to theme settings
   handleSelectChange = (event, value) => {
     value === 'light' || value === 'custom'
@@ -721,141 +417,10 @@ class Settings extends Component {
     });
   };
 
-  // Handle change to enter as send settings
-  handleEnterAsSend = (event, isInputChecked) => {
-    this.setState({
-      enterAsSend: isInputChecked,
-    });
-  };
-
-  // Handle change to mic input settings
-  handleMicInput = (event, isInputChecked) => {
-    this.setState({
-      micInput: isInputChecked,
-    });
-  };
-
-  // Handle change to speech output on speech input settings
-  handleSpeechOutput = (event, isInputChecked) => {
-    this.setState({
-      speechOutput: isInputChecked,
-    });
-  };
-
-  // Handle change to speech output always settings
-  handleSpeechOutputAlways = (event, isInputChecked) => {
-    this.setState({
-      speechOutputAlways: isInputChecked,
-    });
-  };
-
-  // save new TTS settings
-  handleNewTextToSpeech = settings => {
-    this.setState({
-      speechRate: settings.speechRate,
-      speechPitch: settings.speechPitch,
-      ttsLanguage: settings.ttsLanguage,
-    });
-  };
-
-  // Handle toggle between default server and custom server
-  handleServeChange = event => {
-    let state = this.state;
-    let serverUrl;
-    if (event.target.value === 'customServer') {
-      state.checked = !state.checked;
-      defaults = UserPreferencesStore.getPreferences();
-      state.serverUrl = defaults.StandardServer;
-      state.serverFieldError = false;
-    } else if (event.target.name === 'serverUrl') {
-      serverUrl = event.target.value;
-      //eslint-disable-next-line
-      let validServerUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i.test(
-        serverUrl,
-      );
-      state.serverUrl = serverUrl;
-      state.serverFieldError = !(serverUrl && validServerUrl);
-    }
-    this.setState(state);
-
-    if (this.state.serverFieldError) {
-      this.customServerMessage = 'Enter a valid URL';
-    } else {
-      this.customServerMessage = '';
-    }
-
-    if (this.state.serverFieldError && this.state.checked) {
-      this.setState({ validForm: false });
-    } else {
-      this.setState({ validForm: true });
-    }
-  };
-
-  handleServerToggle = changeServer => {
-    if (changeServer) {
-      // Logout the user and show the login screen again
-      this.props.history.push('/logout');
-      this.setState({
-        showLogin: true,
-      });
-    } else {
-      // Go back to settings dialog
-      this.setState({
-        showServerChangeDialog: false,
-      });
-    }
-  };
-
   // Close settings and redirect to landing page
   onRequestClose = () => {
     this.props.history.push('/');
     window.location.reload();
-  };
-
-  // Open Login dialog
-  handleLogin = () => {
-    this.setState({
-      showLogin: true,
-      showSignUp: false,
-      showForgotPassword: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-    });
-  };
-
-  // Open SignUp dialog
-  handleSignUp = () => {
-    this.setState({
-      showSignUp: true,
-      showLogin: false,
-      showForgotPassword: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-    });
-  };
-
-  // Open Forgot Password dialog
-  handleForgotPassword = () => {
-    this.setState({
-      showForgotPassword: true,
-      showLogin: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-    });
-  };
-
-  // Open Remove Device Confirmation dialog
-  handleRemoveConfirmation = i => {
-    let data = this.state.obj;
-    let devicename = data[i].devicename;
-    this.setState({
-      showRemoveConfirmation: true,
-      showForgotPassword: false,
-      showLogin: false,
-      showOptions: false,
-      removeDevice: i,
-      removeDeviceName: devicename,
-    });
   };
 
   // Show Top Bar drop down menu
@@ -863,18 +428,6 @@ class Settings extends Component {
     this.setState({
       showOptions: true,
       anchorEl: event.currentTarget,
-    });
-  };
-
-  handlePrefLang = (event, index, value) => {
-    this.setState({
-      PrefLanguage: value,
-    });
-  };
-
-  handleTimeZone = value => {
-    this.setState({
-      TimeZone: value,
     });
   };
 
@@ -886,30 +439,20 @@ class Settings extends Component {
   };
 
   componentWillUnmount() {
-    MessageStore.removeChangeListener(this._onChange);
-    UserPreferencesStore.removeChangeListener(this._onChangeSettings);
+    if (this.isDirty) {
+      this.resetSettings();
+    }
   }
-
-  // Populate language list
-  _onChange = () => {
-    this.setState({
-      voiceList: voiceListChange,
-    });
-  };
 
   // eslint-disable-next-line
   componentDidMount() {
     document.body.className = 'white-body';
-    if (!this.state.dataFetched && cookies.get('loggedIn')) {
-      this.apiCall();
-    }
+    // TODO
+    // if (!this.state.dataFetched && cookies.get('loggedIn')) {
+    //   this.apiCall();
+    // }
     document.title =
       'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    MessageStore.addChangeListener(this._onChange);
-    UserPreferencesStore.addChangeListener(this._onChangeSettings);
-    this.setState({
-      search: false,
-    });
 
     this.showWhenLoggedIn = 'none';
     let searchParams = new URLSearchParams(window.location.search);
@@ -926,11 +469,17 @@ class Settings extends Component {
     this.showWhenLoggedIn = 'none';
   }
 
+  componentDidUpdate = prevProps => {
+    if (this.isDirty && this.oldSettingSnapShot === {}) {
+      this.oldSettingSnapShot = prevProps;
+    }
+  };
+
   // Generate language list drop down menu items
   populateVoiceList = () => {
-    let voices = this.state.voiceList;
+    const { prefLanguage } = this.props;
     let langCodes = [];
-    let voiceMenu = voices.map((voice, index) => {
+    let voiceMenu = voiceList.map((voice, index) => {
       langCodes.push(voice.lang);
       return (
         <MenuItem
@@ -940,43 +489,31 @@ class Settings extends Component {
         />
       );
     });
-    let currLang = this.state.PrefLanguage;
+
     let voiceOutput = {
       voiceMenu: voiceMenu,
-      voiceLang: currLang,
+      voiceLang: prefLanguage,
     };
     // `-` and `_` replacement check of lang codes
-    if (langCodes.indexOf(currLang) === -1) {
+    if (langCodes.indexOf(prefLanguage) === -1) {
       if (
-        currLang.indexOf('-') > -1 &&
-        langCodes.indexOf(currLang.replace('-', '_')) > -1
+        prefLanguage.indexOf('-') > -1 &&
+        langCodes.indexOf(prefLanguage.replace('-', '_')) > -1
       ) {
-        voiceOutput.voiceLang = currLang.replace('-', '_');
+        voiceOutput.voiceLang = prefLanguage.replace('-', '_');
       } else if (
-        currLang.indexOf('_') > -1 &&
-        langCodes.indexOf(currLang.replace('_', '-')) > -1
+        prefLanguage.indexOf('_') > -1 &&
+        langCodes.indexOf(prefLanguage.replace('_', '-')) > -1
       ) {
-        voiceOutput.voiceLang = currLang.replace('_', '-');
+        voiceOutput.voiceLang = prefLanguage.replace('_', '-');
       }
     }
     return voiceOutput;
   };
 
-  loadSettings = (e, value) => {
-    this.setDefaultsSettings(); // on every tab change, load the default settings
-    this.setState({
-      selectedSetting: window.innerWidth > 1060 ? value : e.target.innerText,
-      settingNo: e.target.innerText,
-    });
-    //  Revert to original theme if user navigates away without saving.
-    if (this.state.theme !== UserPreferencesStore.getTheme()) {
-      this.setState({ theme: UserPreferencesStore.getTheme() }, () => {
-        this.handleSubmit();
-      });
-    }
-  };
-
   displaySaveChangesButton = () => {
+    // TODO
+    // GET RID OF THIS
     let selectedSetting = this.state.selectedSetting;
     if (selectedSetting === 'Password') {
       return false;
@@ -990,52 +527,231 @@ class Settings extends Component {
     return true; // display the button otherwise
   };
 
-  getSomethingToSave = () => {
-    let somethingToSave = false;
-    const intialSettings = this.state.intialSettings;
-    const classState = this.state;
-    if (UserPreferencesStore.getTheme() !== this.state.theme) {
-      somethingToSave = true;
-    } else if (intialSettings.enterAsSend !== classState.enterAsSend) {
-      somethingToSave = true;
-    } else if (intialSettings.micInput !== classState.micInput) {
-      somethingToSave = true;
-    } else if (intialSettings.speechOutput !== classState.speechOutput) {
-      somethingToSave = true;
-    } else if (
-      intialSettings.speechOutputAlways !== classState.speechOutputAlways
-    ) {
-      somethingToSave = true;
-    } else if (intialSettings.speechRate !== classState.speechRate) {
-      somethingToSave = true;
-    } else if (intialSettings.speechPitch !== classState.speechPitch) {
-      somethingToSave = true;
-    } else if (intialSettings.ttsLanguage !== classState.ttsLanguage) {
-      somethingToSave = true;
-    } else if (intialSettings.server !== classState.server) {
-      somethingToSave = true;
-    } else if (intialSettings.checked !== classState.checked) {
-      somethingToSave = true;
-    } else if (intialSettings.UserName !== classState.userName) {
-      somethingToSave = true;
-    } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
-      somethingToSave = true;
-    } else if (intialSettings.TimeZone !== classState.TimeZone) {
-      somethingToSave = true;
-    } else if (intialSettings.countryCode !== classState.countryCode) {
-      somethingToSave = true;
-    } else if (intialSettings.serverUrl !== classState.serverUrl) {
-      somethingToSave = true;
-    } else if (intialSettings.PhoneNo !== classState.PhoneNo) {
-      somethingToSave = true;
-    } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
-      somethingToSave = true;
+  checkIsDirty = (e, value) => {
+    if (this.isDirty) {
+      this.resetSettings();
+      this.isDirty = false;
     }
-    return somethingToSave;
+    this.setState({
+      selectedSetting: window.innerWidth > 1060 ? value : e.target.innerText,
+      settingNo: e.target.innerText,
+    });
   };
 
-  handleCountryChange = (event, index, value) => {
+  resetSettings = () => {
+    const { actions } = this.props;
+    const {
+      theme,
+      micInput,
+      speechOutput,
+      speechOutputAlways,
+      speechPitch,
+      speechRate,
+      ttsLanguage,
+      userName,
+      timeZone,
+      phoneNo,
+      countryCode,
+      enterAsSend,
+      prefLanguage,
+      countryDialCode,
+      customThemeValue,
+    } = this.oldSettingSnapShot;
+    actions.setAccountSettings({
+      userName,
+      timeZone,
+      prefLanguage,
+    });
+    actions.setMobileSettings({
+      phoneNo,
+      countryCode,
+      countryDialCode,
+    });
+    actions.setChatPreferencesSettings({
+      enterAsSend,
+    });
+    actions.setSpeechSettings({
+      speechOutput,
+      speechOutputAlways,
+      speechRate,
+      speechPitch,
+      ttsLanguage,
+    });
+    actions.setMicrophoneSettings({
+      micInput,
+    });
+    actions.setThemeSettings({
+      theme,
+      customThemeValue,
+    });
+    // ADD username change
+  };
+
+  saveSettings = () => {
+    // TODO
+    // Save not working when customThemeValues is being passed to it
+    const {
+      theme,
+      micInput,
+      speechOutput,
+      speechOutputAlways,
+      speechPitch,
+      speechRate,
+      ttsLanguage,
+      userName,
+      email,
+      timeZone,
+      phoneNo,
+      countryCode,
+      enterAsSend,
+      prefLanguage,
+      countryDialCode,
+      actions,
+      customThemeValue,
+    } = this.props;
+    actions
+      .setUserSettings({
+        theme,
+        micInput,
+        speechOutput,
+        speechOutputAlways,
+        speechPitch,
+        speechRate,
+        ttsLanguage,
+        userName,
+        email,
+        timeZone,
+        phoneNo,
+        countryCode,
+        enterAsSend,
+        prefLanguage,
+        countryDialCode,
+        customThemeValue,
+      })
+      .then(response => {
+        this.isDirty = false;
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  handleUserNameChange = (event, value) => {
+    // TODO
+    this.setState({ userName: value });
+  };
+
+  handleTimeZone = value => {
+    this.isDirty = true;
+    const { actions, userName, prefLanguage } = this.props;
+    const { setAccountSettings } = actions;
+    setAccountSettings({
+      userName,
+      timeZone: value,
+      prefLanguage,
+    });
+  };
+
+  handlePrefLang = (event, index, value) => {
+    this.isDirty = true;
+    const { actions, userName, timeZone } = this.props;
+    const { setAccountSettings } = actions;
+    setAccountSettings({
+      userName,
+      timeZone,
+      prefLanguage: value,
+    });
+  };
+
+  handleRemoveDevice = i => {
+    // TODO
+    const { actions } = this.props;
+    const { removeUserDevice } = actions;
+    let data = this.state.obj;
+    let macid = data[i].macid;
+
+    // Remove the row whose index does not matches the index passed in parameter
     this.setState({
+      obj: data.filter((row, j) => j !== i),
+    });
+
+    removeUserDevice({
+      macId: macid,
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  handleRemoveDeviceConfirmation = i => {
+    // TODO
+    let data = this.state.obj;
+    let devicename = data[i].devicename;
+    this.setState({
+      showRemoveConfirmation: true,
+      showForgotPassword: false,
+      showLogin: false,
+      showOptions: false,
+      removeDevice: i,
+      removeDeviceName: devicename,
+    });
+  };
+
+  // editIdx is set to the row index which is currently being edited
+  startEditing = i => {
+    // TODO
+    this.setState({ editIdx: i });
+  };
+
+  // stopEditing() function handles saving of the changed device config
+  stopEditing = i => {
+    // TODO
+    const { actions } = this.props;
+    const { addUserDevice } = actions;
+    let data = this.state.obj;
+    let macid = data[i].macid;
+    let devicename = data[i].devicename;
+    let room = data[i].room;
+    let latitude = data[i].latitude;
+    let longitude = data[i].longitude;
+    let devicenames = this.state.devicenames;
+    devicenames[i] = devicename;
+    let rooms = this.state.rooms;
+    rooms[i] = room;
+
+    // Set the value of editIdx to -1 to denote that no row is currently being edited
+    // Set values for devicenames and rooms to pass as props for the Map View component
+    this.setState({
+      editIdx: -1,
+      devicenames: devicenames,
+      rooms: rooms,
+    });
+
+    addUserDevice({
+      macId: macid,
+      name: devicename,
+      room,
+      latitude,
+      longitude,
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  handleCountryDetailsChange = (event, index, value) => {
+    this.isDirty = true;
+    const { actions, phoneNo } = this.props;
+    const { setMobileSettings } = actions;
+    setMobileSettings({
+      phoneNo,
       countryCode: value,
       countryDialCode:
         countryData.countries[value ? value : 'US'].countryCallingCodes[0],
@@ -1043,9 +759,16 @@ class Settings extends Component {
   };
 
   handleTelephoneNoChange = (event, value) => {
+    this.isDirty = true;
+    const { actions, countryCode, countryDialCode } = this.props;
+    const { setMobileSettings } = actions;
     const re = /^\d*$/;
-    if (value === '' || re.test(value)) {
-      this.setState({ PhoneNo: value });
+    if (!value || re.test(value)) {
+      setMobileSettings({
+        phoneNo: value,
+        countryCode,
+        countryDialCode,
+      });
     }
     if (!isPhoneNumber(value)) {
       this.setState({ phoneNoError: 'Invalid phone number' });
@@ -1054,285 +777,287 @@ class Settings extends Component {
     }
   };
 
-  handleUserName = (event, value) => {
-    const re = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
-    this.setState({ userName: value });
-    if (value !== '' && !re.test(value)) {
-      this.setState({ userNameError: 'Invalid User Name' });
-    } else {
-      this.setState({ userNameError: '' });
-    }
+  handleEnterAsSendChange = (event, isInputChecked) => {
+    this.isDirty = true;
+    const { actions } = this.props;
+    const { setChatPreferencesSettings } = actions;
+    setChatPreferencesSettings({
+      enterAsSend: isInputChecked,
+    });
+  };
+
+  handleMicInput = (event, isInputChecked) => {
+    this.isDirty = true;
+    const { actions } = this.props;
+    const { setMicrophoneSettings } = actions;
+    setMicrophoneSettings({
+      micInput: isInputChecked,
+    });
+  };
+
+  handleSpeechOutputChange = (event, isInputChecked) => {
+    this.isDirty = true;
+    const {
+      speechOutputAlways,
+      speechRate,
+      speechPitch,
+      ttsLanguage,
+      actions,
+    } = this.props;
+    const { setSpeechSettings } = actions;
+    setSpeechSettings({
+      speechOutput: isInputChecked,
+      speechOutputAlways,
+      speechRate,
+      speechPitch,
+      ttsLanguage,
+    });
+  };
+
+  handleSpeechOutputAlwaysChange = (event, isInputChecked) => {
+    this.isDirty = true;
+    const {
+      speechOutput,
+      speechRate,
+      speechPitch,
+      ttsLanguage,
+      actions,
+    } = this.props;
+    const { setSpeechSettings } = actions;
+    setSpeechSettings({
+      speechOutput,
+      speechOutputAlways: isInputChecked,
+      speechRate,
+      speechPitch,
+      ttsLanguage,
+    });
+  };
+
+  handleNewTextToSpeechChange = settings => {
+    this.isDirty = true;
+    const { speechOutput, speechOutputAlways, actions } = this.props;
+    const { setSpeechSettings } = actions;
+    setSpeechSettings({
+      speechOutput,
+      speechOutputAlways,
+      speechRate: settings.speechRate,
+      speechPitch: settings.speechPitch,
+      ttsLanguage: settings.ttsLanguage,
+    });
   };
 
   render() {
-    document.body.style.setProperty('background-image', 'none');
+    const {
+      theme,
+      micInput,
+      speechOutput,
+      speechOutputAlways,
+      speechPitch,
+      speechRate,
+      ttsLanguage,
+      userName,
+      email,
+      timeZone,
+      phoneNo,
+      countryCode,
+      enterAsSend,
+      mapKey,
+    } = this.props;
+    const {
+      selectedSetting,
+      deviceData,
+      obj,
+      mapObj,
+      centerLat,
+      centerLng,
+      devicenames,
+      rooms,
+      macids,
+      slideIndex,
+      editIdx,
+      devicesNotAvailable,
+      phoneNoError,
+      settingNo,
+      showRemoveConfirmation,
+      removeDevice,
+      removeDeviceName,
+      themeOpen,
+    } = this.state;
+    // document.body.style.setProperty('background-image', 'none');
 
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-
-    const themeBackgroundColor =
-      this.state.intialSettings.theme === 'dark' ? '#19324c' : '#fff';
-    const themeForegroundColor =
-      this.state.intialSettings.theme === 'dark' ? '#fff' : '#272727';
-
-    const floatingLabelStyle = {
-      color: '#9e9e9e',
-    };
+    const themeBackgroundColor = theme === 'dark' ? '#19324c' : '#fff';
+    const themeForegroundColor = theme === 'dark' ? '#fff' : '#272727';
     const underlineStyle = {
-      color: this.state.intialSettings.theme === 'dark' ? '#9E9E9E' : null,
-      borderColor:
-        this.state.intialSettings.theme === 'dark' ? '#9E9E9E' : null,
+      color: theme === 'dark' ? '#9E9E9E' : null,
+      borderColor: theme === 'dark' ? '#9E9E9E' : null,
     };
-    const menuIconColor =
-      this.state.intialSettings.theme === 'dark' ? themeForegroundColor : null;
+    const menuIconColor = theme === 'dark' ? themeForegroundColor : null;
     sortCountryLexographical(countryData);
-    let countries = countryData.countries.all.map((country, i) => {
-      if (countryData.countries.all[i].countryCallingCodes[0]) {
+
+    const countries = countryData.countries.all.map((country, i) => {
+      if (country.countryCallingCodes[0]) {
         return (
           <MenuItem
-            value={countryData.countries.all[i].alpha2}
+            value={country.alpha2}
             key={i}
-            primaryText={
-              countryData.countries.all[i].name +
-              ' ' +
-              countryData.countries.all[i].countryCallingCodes[0]
-            }
+            primaryText={`${country.name} ${country.countryCallingCodes[0]}`}
           />
         );
       }
       return null;
     });
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
 
-    const serverDialogActions = [
-      <RaisedButton
-        key={'Cancel'}
-        label={<Translate text="Cancel" />}
-        backgroundColor={
-          UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'
-        }
-        labelColor="#fff"
-        width="200px"
-        keyboardFocused={false}
-        onTouchTap={() => this.handleServerToggle(false)}
-        style={{ margin: '6px' }}
-      />,
-      <RaisedButton
-        key={'OK'}
-        label={<Translate text="OK" />}
-        backgroundColor={
-          UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'
-        }
-        labelColor="#fff"
-        width="200px"
-        keyboardFocused={false}
-        onTouchTap={() => this.handleServerToggle(true)}
-      />,
-    ];
+    let currentSettingComponent = '';
+    const voiceOutput = this.populateVoiceList();
 
-    const radioIconStyle = {
-      fill: '#4285f4',
-    };
-    const inputStyle = {
-      height: '35px',
-      marginBottom: '10px',
-      color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
-    };
-    const fieldStyle = {
-      height: '35px',
-      borderRadius: 4,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      padding: '0px 12px',
-      width: 'auto',
-    };
-
-    const tabHeadingStyle = {
-      marginTop: '10px',
-      marginBottom: '5px',
-      fontSize: '16px',
-      fontWeight: 'bold',
-    };
-
-    const headingStyle = {
-      marginTop: '10px',
-      marginBottom: '5px',
-      fontSize: '15px',
-      fontWeight: 'bold',
-    };
-
-    let currentSetting = '';
-
-    let voiceOutput = this.populateVoiceList();
-    if (this.state.selectedSetting === 'Microphone') {
-      currentSetting = (
+    if (selectedSetting === 'Microphone') {
+      currentSettingComponent = (
         <MicrophoneTab
-          containerStyle={divStyle}
+          containerStyle={styles.divStyle}
           themeForegroundColor={themeForegroundColor}
-          themeVal={UserPreferencesStore.getTheme()}
+          themeVal={theme}
+          tabHeadingStyle={styles.tabHeadingStyle}
+          micInput={micInput}
           handleMicInput={this.handleMicInput}
-          tabHeadingStyle={tabHeadingStyle}
-          micInput={this.state.micInput}
         />
       );
-    } else if (this.state.selectedSetting === 'Share on Social media') {
-      currentSetting = (
+    } else if (selectedSetting === 'Share on Social media') {
+      currentSettingComponent = (
         <ShareOnSocialMedia
-          containerStyle={divStyle}
-          headingStyle={headingStyle}
+          containerStyle={styles.divStyle}
+          headingStyle={styles.headingStyle}
         />
       );
-    } else if (this.state.selectedSetting === 'Theme') {
-      currentSetting = (
+    } else if (selectedSetting === 'Theme') {
+      currentSettingComponent = (
         <ThemeChangeTab
-          containerStyle={divStyle}
-          tabHeadingStyle={tabHeadingStyle}
+          containerStyle={styles.divStyle}
+          tabHeadingStyle={styles.tabHeadingStyle}
           themeForegroundColor={themeForegroundColor}
-          radioIconStyle={radioIconStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          theme={this.state.theme}
+          radioIconStyle={styles.radioIconStyle}
+          themeVal={theme}
+          theme={theme}
           handleSelectChange={this.handleSelectChange}
           isLoggedIn={cookies.get('loggedIn')}
           onThemeRequestClose={this.onRequestClose}
           handleThemeChanger={this.handleThemeChanger}
-          themeOpen={this.state.themeOpen}
+          themeOpen={themeOpen}
         />
       );
-    } else if (this.state.selectedSetting === 'Speech') {
-      currentSetting = (
+    } else if (selectedSetting === 'Speech') {
+      currentSettingComponent = (
         <SpeechTab
-          containerStyle={divStyle}
-          tabHeadingStyle={tabHeadingStyle}
-          headingStyle={headingStyle}
+          containerStyle={styles.divStyle}
+          tabHeadingStyle={styles.tabHeadingStyle}
+          headingStyle={styles.headingStyle}
           themeForegroundColor={themeForegroundColor}
-          themeVal={UserPreferencesStore.getTheme()}
-          handleSpeechOutputAlways={this.handleSpeechOutputAlways}
-          speechOutputAlways={this.state.speechOutputAlways}
-          speechRate={this.state.speechRate}
-          speechPitch={this.state.speechPitch}
-          ttsLanguage={this.state.ttsLanguage}
-          handleNewTextToSpeech={this.handleNewTextToSpeech}
-          handleSpeechOutput={this.handleSpeechOutput}
-          speechOutput={this.state.speechOutput}
+          themeVal={theme}
+          speechOutputAlways={speechOutputAlways}
+          speechRate={speechRate}
+          speechPitch={speechPitch}
+          ttsLanguage={ttsLanguage}
+          speechOutput={speechOutput}
+          handleNewTextToSpeech={this.handleNewTextToSpeechChange}
+          handleSpeechOutput={this.handleSpeechOutputChange}
+          handleSpeechOutputAlways={this.handleSpeechOutputAlwaysChange}
         />
       );
-    } else if (
-      this.state.selectedSetting === 'Account' &&
-      cookies.get('loggedIn')
-    ) {
-      currentSetting = (
+    } else if (selectedSetting === 'Account' && cookies.get('loggedIn')) {
+      currentSettingComponent = (
         <AccountTab
-          containerStyle={divStyle}
+          containerStyle={styles.divStyle}
           themeForegroundColor={themeForegroundColor}
-          fieldStyle={fieldStyle}
-          inputStyle={inputStyle}
-          headingStyle={headingStyle}
-          tabHeadingStyle={tabHeadingStyle}
+          fieldStyle={styles.fieldStyle}
+          inputStyle={{
+            ...styles.inputStyle,
+            color: theme === 'dark' ? 'white' : 'black',
+          }}
+          headingStyle={styles.headingStyle}
+          tabHeadingStyle={styles.tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
-          themeVal={UserPreferencesStore.getTheme()}
-          userName={this.state.userName}
-          handleUserName={this.handleUserName}
-          userNameError={this.state.userNameError}
-          identityName={this.state.identity.name}
-          timeZone={this.state.TimeZone}
+          themeVal={theme}
+          userName={userName}
+          email={email}
+          timeZone={timeZone}
+          voiceOutput={voiceOutput}
+          handleUserName={this.handleUserNameChange}
           handlePrefLang={this.handlePrefLang}
           handleTimeZone={this.handleTimeZone}
-          voiceOutput={voiceOutput}
         />
       );
-    } else if (
-      this.state.selectedSetting === 'Password' &&
-      cookies.get('loggedIn')
-    ) {
-      currentSetting = (
+    } else if (selectedSetting === 'Password') {
+      currentSettingComponent = (
         <PasswordTab
-          tabHeadingStyle={tabHeadingStyle}
-          containerStyle={divStyle}
-          intialSettings={this.state.intialSettings}
-          themeVal={UserPreferencesStore.getTheme()}
-          {...this.props}
+          tabHeadingStyle={styles.tabHeadingStyle}
+          containerStyle={styles.divStyle}
+          themeVal={theme}
         />
       );
-    } else if (this.state.selectedSetting === 'Devices') {
-      currentSetting = (
+    } else if (selectedSetting === 'Devices') {
+      currentSettingComponent = (
         <DevicesTab
-          tabHeadingStyle={tabHeadingStyle}
-          containerStyle={divStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          deviceData={this.state.deviceData}
-          handleRemove={this.handleRemove}
-          handleRemoveConfirmation={this.handleRemoveConfirmation}
+          tabHeadingStyle={styles.tabHeadingStyle}
+          containerStyle={styles.divStyle}
+          themeVal={theme}
+          deviceData={deviceData}
+          tableData={obj}
+          mapObj={mapObj}
+          mapKey={mapKey}
+          centerLat={centerLat}
+          centerLng={centerLng}
+          deviceNames={devicenames}
+          rooms={rooms}
+          macIds={macids}
+          slideIndex={slideIndex}
+          editIdx={editIdx}
+          devicesNotAvailable={devicesNotAvailable}
+          handleRemove={this.handleRemoveDevice}
+          handleRemoveConfirmation={this.handleRemoveDeviceConfirmation}
           startEditing={this.startEditing}
-          editIdx={this.state.editIdx}
           stopEditing={this.stopEditing}
-          handleChange={this.handleChange}
-          tableData={this.state.obj}
-          mapObj={this.state.mapObj}
-          mapKey={this.props.mapKey}
-          centerLat={this.state.centerLat}
-          centerLng={this.state.centerLng}
-          deviceNames={this.state.devicenames}
-          rooms={this.state.rooms}
-          macIds={this.state.macids}
-          slideIndex={this.state.slideIndex}
-          devicesNotAvailable={this.state.devicesNotAvailable}
         />
       );
-    } else if (
-      this.state.selectedSetting === 'Mobile' &&
-      cookies.get('loggedIn')
-    ) {
-      currentSetting = (
+    } else if (selectedSetting === 'Mobile') {
+      currentSettingComponent = (
         <MobileTab
-          containerStyle={divStyle}
-          floatingLabelStyle={floatingLabelStyle}
-          headingStyle={headingStyle}
-          tabHeadingStyle={tabHeadingStyle}
+          containerStyle={styles.divStyle}
+          floatingLabelStyle={{ color: '#9e9e9e' }}
+          headingStyle={styles.headingStyle}
+          tabHeadingStyle={styles.tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
           themeForegroundColor={themeForegroundColor}
           underlineStyle={underlineStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          phoneNo={this.state.PhoneNo}
-          phoneNoError={this.state.phoneNoError}
-          countryCode={this.state.countryCode}
+          themeVal={theme}
+          phoneNo={phoneNo}
+          phoneNoError={phoneNoError}
+          countryCode={countryCode}
           countries={countries}
           countryData={countryData.countries}
-          handleCountryChange={this.handleCountryChange}
+          handleCountryChange={this.handleCountryDetailsChange}
           handleTelephoneNoChange={this.handleTelephoneNoChange}
         />
       );
     } else {
-      currentSetting = (
+      currentSettingComponent = (
         <ChatAppTab
-          tabHeadingStyle={tabHeadingStyle}
-          containerStyle={divStyle}
-          themeVal={UserPreferencesStore.getTheme()}
+          tabHeadingStyle={styles.tabHeadingStyle}
+          containerStyle={styles.divStyle}
+          themeVal={theme}
           themeForegroundColor={themeForegroundColor}
-          enterAsSend={this.state.enterAsSend}
-          handleEnterAsSend={this.handleEnterAsSend}
+          enterAsSend={enterAsSend}
+          handleEnterAsSend={this.handleEnterAsSendChange}
         />
       );
     }
 
     let blueThemeColor = { color: 'rgb(66, 133, 244)' };
-    let menuItems = cookies.get('loggedIn') ? (
+    let menuItems = (
       <div>
         <div className="settings-list">
           <Menu
             selectedMenuItemStyle={blueThemeColor}
             style={{ width: '100%' }}
-            onChange={this.loadSettings}
+            onChange={this.checkIsDirty}
             value={this.state.selectedSetting}
           >
             <MenuItem
@@ -1346,7 +1071,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1362,7 +1087,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1378,7 +1103,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1394,7 +1119,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1410,7 +1135,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1426,7 +1151,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1442,7 +1167,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1460,7 +1185,7 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
@@ -1476,17 +1201,18 @@ class Settings extends Component {
                 className="right-chevron"
               />
             </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
+            {theme === 'light' ? (
               <hr className="break-line-light" />
             ) : (
               <hr className="break-line-dark" />
             )}
           </Menu>
         </div>
+
         <div className="settings-list-dropdown">
           <DropDownMenu
             selectedMenuItemStyle={blueThemeColor}
-            onChange={this.loadSettings}
+            onChange={this.checkIsDirty}
             value={this.state.selectedSetting}
             labelStyle={{ color: themeForegroundColor }}
             menuStyle={{ backgroundColor: themeBackgroundColor }}
@@ -1542,156 +1268,14 @@ class Settings extends Component {
           </DropDownMenu>
         </div>
       </div>
-    ) : (
-      <div>
-        <div className="settings-list">
-          <Menu
-            selectedMenuItemStyle={blueThemeColor}
-            style={{ width: '100%', height: '100%' }}
-            onChange={this.loadSettings}
-            value={this.state.selectedSetting}
-          >
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="ChatApp"
-              className="setting-item"
-              leftIcon={<ChatIcon color={menuIconColor} />}
-            >
-              ChatApp<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Theme"
-              className="setting-item"
-              leftIcon={<ThemeIcon color={menuIconColor} />}
-            >
-              Theme<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Microphone"
-              className="setting-item"
-              leftIcon={<VoiceIcon color={menuIconColor} />}
-            >
-              Microphone<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Speech"
-              className="setting-item"
-              leftIcon={<SpeechIcon color={menuIconColor} />}
-            >
-              Speech<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Share on Social media"
-              className="setting-item"
-              leftIcon={<ShareIcon color={menuIconColor} />}
-            >
-              Share on Social media<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-          </Menu>
-        </div>
-        <div className="settings-list-dropdown">
-          <DropDownMenu
-            selectedMenuItemStyle={blueThemeColor}
-            onChange={this.loadSettings}
-            value={this.state.selectedSetting}
-            style={{ width: '100%' }}
-            labelStyle={{ color: themeForegroundColor }}
-            menuStyle={{ backgroundColor: themeBackgroundColor }}
-            menuItemStyle={{ color: themeForegroundColor }}
-            autoWidth={false}
-          >
-            <MenuItem
-              primaryText="ChatApp"
-              value="ChatApp"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Theme"
-              value="Theme"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Microphone"
-              value="Microphone"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Speech"
-              value="Speech"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Share on Social media"
-              value="Share on Social media"
-              className="setting-item"
-            />
-          </DropDownMenu>
-        </div>
-      </div>
     );
-
-    let menuStyle = {
-      marginTop: 20,
-      textAlign: 'center',
-      display: 'inline-block',
-      backgroundColor: themeBackgroundColor,
-      color: themeForegroundColor,
-    };
-
-    // to check if something has been modified or not
-    let somethingToSave = this.getSomethingToSave();
 
     return (
       <div
         id="settings-container"
         className={
-          (UserPreferencesStore.getTheme() === 'light' &&
-            this.state.settingNo !== 'Theme') ||
-          (this.state.settingNo === 'Theme' && this.state.theme === 'light')
+          (theme === 'light' && settingNo !== 'Theme') ||
+          (settingNo === 'Theme' && theme === 'light')
             ? 'settings-container-light'
             : 'settings-container-dark'
         }
@@ -1699,21 +1283,21 @@ class Settings extends Component {
         <Dialog
           className="dialogStyle"
           modal={false}
-          open={this.state.showRemoveConfirmation}
+          open={showRemoveConfirmation}
           autoScrollBodyContent={true}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
           <RemoveDeviceDialog
             {...this.props}
-            deviceIndex={this.state.removeDevice}
-            devicename={this.state.removeDeviceName}
+            deviceIndex={removeDevice}
+            devicename={removeDeviceName}
             handleRemove={this.handleRemove}
           />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
+          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         <StaticAppBar
-          settings={this.state.intialSettings}
+          settings={{ theme }}
           {...this.props}
           location={this.props.location}
         />
@@ -1728,28 +1312,36 @@ class Settings extends Component {
           >
             {menuItems}
           </Paper>
-          <Paper className="rightMenu" style={menuStyle} zDepth={1}>
-            {currentSetting}
+          <Paper
+            className="rightMenu"
+            style={{
+              ...styles.menuStyle,
+              backgroundColor: themeBackgroundColor,
+              color: themeForegroundColor,
+            }}
+            zDepth={1}
+          >
+            {currentSettingComponent}
             <div className="settingsSubmit">
               {this.displaySaveChangesButton() && (
                 <RaisedButton
                   label={<Translate text="Save Changes" />}
                   disabled={
-                    !this.state.validForm ||
-                    !somethingToSave ||
-                    this.state.phoneNoError ||
-                    this.state.userNameError
+                    // !this.state.validForm ||
+                    !this.isDirty
+                    // ||
+                    // this.state.phoneNoError
                   }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
-                  onClick={this.handleSubmit}
+                  onClick={this.saveSettings}
                 />
               )}
-              {this.state.selectedSetting !== 'Account' ? (
+              {selectedSetting !== 'Account' ? (
                 ''
               ) : (
                 <div style={{ marginRight: '20px' }}>
-                  {UserPreferencesStore.getTheme() === 'light' ? (
+                  {theme === 'light' ? (
                     <hr
                       className="break-line-light"
                       style={{ height: '2px', marginTop: '25px' }}
@@ -1780,64 +1372,29 @@ class Settings extends Component {
             </div>
           </Paper>
         </div>
-        {/* Change Server */}
-        <Dialog
-          actions={serverDialogActions}
-          modal={false}
-          open={this.state.showServerChangeDialog}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          onRequestClose={() => this.handleServerToggle(false)}
-        >
-          <div>
-            <h3>
-              <Translate text="Change Server" />
-            </h3>
-            <Translate text="Please login again to change SUSI server" />
-            <Close
-              style={closingStyle}
-              onTouchTap={() => this.handleServerToggle(false)}
-            />
-          </div>
-        </Dialog>
-        {/* ForgotPassword */}
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.state.showForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <ForgotPassword
-            {...this.props}
-            showForgotPassword={this.handleForgotPassword}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
       </div>
     );
   }
 }
 
-Settings.propTypes = {
-  history: PropTypes.object,
-  onSettingsSubmit: PropTypes.func,
-  onServerChange: PropTypes.func,
-  location: PropTypes.object,
-  google: PropTypes.object,
-  handleThemeChanger: PropTypes.func,
-  mapKey: PropTypes.string,
-};
-
 function mapStateToProps(store) {
   const { mapKey } = store.app.apiKeys;
+  const { userName, email } = store.app;
   return {
     mapKey,
+    userName,
+    email,
+    ...store.settings,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...settingsActions }, dispatch),
   };
 }
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Settings);

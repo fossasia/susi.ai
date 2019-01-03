@@ -1,7 +1,6 @@
 /* eslint camelcase: 0 */
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
-
 const { API_URL } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';
@@ -40,8 +39,26 @@ export function getUserSettings() {
 }
 
 export function setUserSettings(payload) {
+  let modifiedPayload = {};
+  Object.keys(payload).forEach((key, index) => {
+    modifiedPayload =
+      key === 'customThemeValue'
+        ? {
+            ...modifiedPayload,
+            [`key${(index + 1).toString()}`]: key,
+            [`value${(index + 1).toString()}`]: JSON.stringify(payload[key]),
+          }
+        : {
+            ...modifiedPayload,
+            [`key${(index + 1).toString()}`]: key,
+            [`value${(index + 1).toString()}`]: payload[key].toString(),
+          };
+  });
+  const numberOfKeysValuePairs = Object.keys(payload).length.toString();
+  modifiedPayload = { ...modifiedPayload, count: numberOfKeysValuePairs };
+  console.log(modifiedPayload);
   const url = `${API_URL}/${AUTH_API_PREFIX}/changeUserSettings.json`;
-  return ajax.get(url, payload);
+  return ajax.get(url, modifiedPayload);
 }
 
 export function removeUserDevice(payload) {

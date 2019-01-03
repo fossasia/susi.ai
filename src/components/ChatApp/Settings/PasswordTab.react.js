@@ -23,7 +23,7 @@ const PasswordTab = props => {
             style={{ height: '2px', marginBottom: '10px' }}
           />
         )}
-        <ChangePassword settings={props.intialSettings} {...props} />
+        <ChangePassword {...props} />
       </span>
     </div>
   );
@@ -31,7 +31,6 @@ const PasswordTab = props => {
 
 PasswordTab.propTypes = {
   containerStyle: PropTypes.object,
-  intialSettings: PropTypes.object,
   themeVal: PropTypes.string,
   tabHeadingStyle: PropTypes.object,
 };

@@ -607,7 +607,6 @@ StaticAppBar.propTypes = {
   history: PropTypes.object,
   settings: PropTypes.object,
   location: PropTypes.object,
-  theme: PropTypes.object,
   closeVideo: PropTypes.func,
 };
 export default StaticAppBar;

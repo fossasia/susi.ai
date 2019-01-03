@@ -2,9 +2,9 @@ import { createAction } from 'redux-actions';
 import actionTypes from '../actionTypes';
 import * as apis from '../../apis';
 
-// const returnArgumentsFn = function(payload) {
-//   return Promise.resolve(payload);
-// };
+const returnArgumentsFn = function(payload) {
+  return Promise.resolve(payload);
+};
 
 export default {
   getUserSettings: createAction(
@@ -26,26 +26,26 @@ export default {
 
   setAccountSettings: createAction(
     actionTypes.SETTINGS_SET_ACCOUNT_SETTINGS,
-    apis.setUserSettings,
+    returnArgumentsFn,
   ),
   setMobileSettings: createAction(
     actionTypes.SETTINGS_SET_MOBILE_SETTINGS,
-    apis.setUserSettings,
+    returnArgumentsFn,
   ),
   setChatPreferencesSettings: createAction(
     actionTypes.SETTINGS_SET_CHAT_PREFERENCES_SETTINGS,
-    apis.setUserSettings,
+    returnArgumentsFn,
   ),
   setThemeSettings: createAction(
     actionTypes.SETTINGS_SET_THEME_SETTINGS,
-    apis.setUserSettings,
+    returnArgumentsFn,
   ),
   setMicrophoneSettings: createAction(
     actionTypes.SETTINGS_SET_MICROPHONE_SETTINGS,
-    apis.setUserSettings,
+    returnArgumentsFn,
   ),
   setSpeechSettings: createAction(
     actionTypes.SETTINGS_SET_SPEECH_SETTINGS,
-    apis.setUserSettings,
+    returnArgumentsFn,
   ),
 };

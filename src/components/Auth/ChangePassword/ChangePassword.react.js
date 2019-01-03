@@ -69,7 +69,7 @@ const styles = {
 class ChangePassword extends Component {
   static propTypes = {
     history: PropTypes.object,
-    settings: PropTypes.object,
+    theme: PropTypes.string,
     actions: PropTypes.object,
   };
 
@@ -287,7 +287,7 @@ class ChangePassword extends Component {
       loading,
     } = this.state;
 
-    const { settings } = this.props;
+    const { theme } = this.props;
 
     const isValid =
       !passwordErrorMessage &&
@@ -297,10 +297,8 @@ class ChangePassword extends Component {
       newPassword &&
       confirmNewPassword;
 
-    const themeBackgroundColor =
-      (settings && settings.theme) === 'dark' ? '#19324c' : '#fff';
-    const themeForegroundColor =
-      (settings && settings.theme) === 'dark' ? '#fff' : '#272727';
+    const themeBackgroundColor = theme === 'dark' ? '#19324c' : '#fff';
+    const themeForegroundColor = theme === 'dark' ? '#fff' : '#272727';
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
@@ -427,6 +425,13 @@ class ChangePassword extends Component {
   }
 }
 
+function mapStateToProps(store) {
+  const { theme } = store.settings;
+  return {
+    theme,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
@@ -434,6 +439,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ChangePassword);
