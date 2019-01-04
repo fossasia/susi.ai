@@ -23,6 +23,7 @@ import Login from './components/Auth/Login/Login.react';
 import SignUp from './components/Auth/SignUp/SignUp.react';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
 import actions from './redux/actions/app';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -200,12 +201,21 @@ class App extends Component {
             <Route exact path="/team" component={Team} />
             <Route exact path="/blog" component={Blog} />
             <Route exact path="/contact" component={Contact} />
-            <Route exact path="/support" component={Support} />
+            <Route
+              exact
+              path="/support"
+              render={routeProps => (
+                <Support
+                  {...routeProps}
+                  openSignUp={this.onRequestOpenSignUp}
+                />
+              )}
+            />
             <Route exact path="/terms" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/logout" component={Logout} />
-            <Route exact path="/settings" component={Settings} />
-            <Route exact path="*" component={NotFound} />
+            <ProtectedRoute exact path="/settings" component={Settings} />
+            <Route exact path="/*:path(error-404|)" component={NotFound} />
           </Switch>
         </div>
       </MuiThemeProvider>
