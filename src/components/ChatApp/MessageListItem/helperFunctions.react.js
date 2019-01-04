@@ -85,7 +85,7 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
         />
       </li>
     );
-    footerStyle.float = 'right';
+    footerStyle = { ...footerStyle, float: 'right' };
   }
 
   return (
