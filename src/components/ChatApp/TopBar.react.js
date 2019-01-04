@@ -54,8 +54,7 @@ class TopBar extends Component {
     handleRequestClose: PropTypes.func,
     handleToggle: PropTypes.func,
     searchTextChanged: PropTypes.func,
-    handleShare: PropTypes.func,
-    handleShareClose: PropTypes.func,
+    toggleShareClose: PropTypes.func,
     openSearch: PropTypes.func,
     exitSearch: PropTypes.func,
     nextSearchItem: PropTypes.func,
@@ -154,7 +153,7 @@ class TopBar extends Component {
       accessToken,
       userName,
       header,
-      handleShare,
+      toggleShareClose,
       onRequestOpenLogin,
     } = this.props;
 
@@ -283,7 +282,7 @@ class TopBar extends Component {
               )}
             <MenuItem
               primaryText={<Translate text="Share" />}
-              onTouchTap={handleShare}
+              onTouchTap={toggleShareClose}
               rightIcon={<Share />}
             />
             {accessToken ? (

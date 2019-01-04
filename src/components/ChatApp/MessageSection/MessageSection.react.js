@@ -138,6 +138,12 @@ class MessageSection extends Component {
   handleShareClose = () => {
     this.setState({ isShareOpen: false });
   };
+
+  toggleShareClose = () => {
+    const { isShareOpen } = this.state;
+    this.setState({ isShareOpen: !isShareOpen });
+  };
+
   handleCloseTour = () => {
     this.setState({
       tour: false,
@@ -514,8 +520,7 @@ class MessageSection extends Component {
             searchTextChanged={this.searchTextChanged}
             openSearch={this.openSearch}
             exitSearch={this.exitSearch}
-            handleShare={this.handleShare}
-            handleShareClose={this.handleShareClose}
+            toggleShareClose={this.toggleShareClose}
             nextSearchItem={this.nextSearchItem}
             previousSearchItem={this.previousSearchItem}
             search={search}
@@ -608,7 +613,7 @@ class MessageSection extends Component {
             <DialogSection
               {...this.props}
               isShareOpen={isShareOpen}
-              handleShareClose={this.handleShareClose}
+              toggleShareClose={this.toggleShareClose}
               onRequestCloseTour={this.handleCloseTour}
               tour={!cookies.get('visited')}
             />
