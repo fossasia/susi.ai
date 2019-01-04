@@ -143,7 +143,7 @@ class Settings extends Component {
       speechRate: defaultSpeechRate,
       speechPitch: defaultSpeechPitch,
       ttsLanguage: defaultTTSLanguage,
-      UserName: defaultUserName,
+      userName: defaultUserName,
       PrefLanguage: defaultPrefLanguage,
       TimeZone: defaultTimeZone,
       showServerChangeDialog: false,
@@ -168,7 +168,7 @@ class Settings extends Component {
         speechPitch: defaultSpeechPitch,
         ttsLanguage: defaultTTSLanguage,
         server: defaultServer,
-        UserName: defaultUserName,
+        userName: defaultUserName,
         PrefLanguage: defaultPrefLanguage,
         TimeZone: defaultTimeZone,
         serverUrl: defaultServerUrl,
@@ -442,7 +442,7 @@ class Settings extends Component {
         speechPitch: defaultSpeechPitch,
         ttsLanguage: defaultTTSLanguage,
         server: defaultServer,
-        UserName: defaultUserName,
+        userName: defaultUserName,
         PrefLanguage: defaultPrefLanguage,
         TimeZone: defaultTimeZone,
         serverUrl: defaultServerUrl,
@@ -487,7 +487,7 @@ class Settings extends Component {
       speechRate: defaultSpeechRate,
       speechPitch: defaultSpeechPitch,
       ttsLanguage: defaultTTSLanguage,
-      UserName: defaultUserName,
+      userName: defaultUserName,
       PrefLanguage: defaultPrefLanguage,
       TimeZone: defaultTimeZone,
       showServerChangeDialog: false,
@@ -634,7 +634,7 @@ class Settings extends Component {
     let newSpeechRate = this.state.speechRate;
     let newSpeechPitch = this.state.speechPitch;
     let newTTSLanguage = this.state.ttsLanguage;
-    let newUserName = this.state.UserName;
+    let newUserName = this.state.userName;
     let newPrefLanguage = this.state.PrefLanguage;
     let newTimeZone = this.state.TimeZone;
     let checked = this.state.checked;
@@ -1016,7 +1016,7 @@ class Settings extends Component {
       somethingToSave = true;
     } else if (intialSettings.checked !== classState.checked) {
       somethingToSave = true;
-    } else if (intialSettings.UserName !== classState.UserName) {
+    } else if (intialSettings.UserName !== classState.userName) {
       somethingToSave = true;
     } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
       somethingToSave = true;
@@ -1055,8 +1055,15 @@ class Settings extends Component {
   };
 
   handleUserName = (event, value) => {
-    this.setState({ UserName: value });
+    const re = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+    this.setState({ userName: value });
+    if (value !== '' && !re.test(value)) {
+      this.setState({ userNameError: 'Invalid User Name' });
+    } else {
+      this.setState({ userNameError: '' });
+    }
   };
+
   render() {
     document.body.style.setProperty('background-image', 'none');
 
@@ -1234,8 +1241,9 @@ class Settings extends Component {
           tabHeadingStyle={tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
           themeVal={UserPreferencesStore.getTheme()}
-          userName={this.state.UserName}
+          userName={this.state.userName}
           handleUserName={this.handleUserName}
+          userNameError={this.state.userNameError}
           identityName={this.state.identity.name}
           timeZone={this.state.TimeZone}
           handlePrefLang={this.handlePrefLang}
@@ -1729,7 +1737,8 @@ class Settings extends Component {
                   disabled={
                     !this.state.validForm ||
                     !somethingToSave ||
-                    this.state.phoneNoError
+                    this.state.phoneNoError ||
+                    this.state.userNameError
                   }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
