@@ -23,7 +23,7 @@ const ShareButton = ({ message, color }) => {
 
 ShareButton.propTypes = {
   message: PropTypes.object,
-  color: PropTypes.String,
+  color: PropTypes.string,
 };
 
 export default ShareButton;
