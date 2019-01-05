@@ -1,5 +1,5 @@
 import './index.css';
-import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
+// import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
 import * as Actions from './actions/';
 import App from './App';
 import MessageStore from './stores/MessageStore';
@@ -20,10 +20,10 @@ import store from './store';
 
 addLocaleData([...en, ...fr, ...es, ...de, ...ru]);
 
-ChatWebAPIUtils.getSettings();
-ChatWebAPIUtils.getLocation();
-ChatWebAPIUtils.getHistory();
-ChatWebAPIUtils.getAllMessages();
+// ChatWebAPIUtils.getSettings();
+// ChatWebAPIUtils.getLocation();
+// ChatWebAPIUtils.getHistory();
+// ChatWebAPIUtils.getAllMessages();
 
 let defaults = UserPreferencesStore.getPreferences();
 let defaultPrefLanguage = defaults.PrefLanguage;

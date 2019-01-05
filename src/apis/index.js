@@ -34,28 +34,17 @@ export function getChangePassword(payload) {
 }
 
 export function getUserSettings() {
+  console.log('hit');
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserSettings.json`;
   return ajax.get(url, {});
 }
 
 export function setUserSettings(payload) {
-  let modifiedPayload = {};
-  Object.keys(payload).forEach((key, index) => {
-    modifiedPayload =
-      key === 'customThemeValue'
-        ? {
-            ...modifiedPayload,
-            [`key${(index + 1).toString()}`]: key,
-            [`value${(index + 1).toString()}`]: JSON.stringify(payload[key]),
-          }
-        : {
-            ...modifiedPayload,
-            [`key${(index + 1).toString()}`]: key,
-            [`value${(index + 1).toString()}`]: payload[key].toString(),
-          };
-  });
-  const numberOfKeysValuePairs = Object.keys(payload).length.toString();
-  modifiedPayload = { ...modifiedPayload, count: numberOfKeysValuePairs };
+  const modifiedPayload = {
+    count: 1,
+    key1: 'settings',
+    value1: JSON.stringify(payload),
+  };
   console.log(modifiedPayload);
   const url = `${API_URL}/${AUTH_API_PREFIX}/changeUserSettings.json`;
   return ajax.get(url, modifiedPayload);

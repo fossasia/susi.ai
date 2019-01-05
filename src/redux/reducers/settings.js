@@ -38,20 +38,20 @@ const defaultState = {
 export default handleActions(
   {
     [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { payload }) {
-      // TODO
-      // server sending string values
-      // Handle customThemeValues
+      let savedSettings = {
+        ...defaultState,
+      };
+      console.log(payload);
+      if (payload.settings) {
+        console.log(JSON.parse(payload.settings.settings));
+        savedSettings = {
+          ...savedSettings,
+          ...JSON.parse(payload.settings.settings),
+        };
+      }
+      console.log(savedSettings);
       return {
-        ...payload.settings,
-        customThemeValue: {
-          header: '#4285f4',
-          pane: '#f3f2f4',
-          body: '#fff',
-          composer: '#f3f2f4',
-          textarea: '#fff',
-          button: '#4285f4',
-          textColor: '#000',
-        },
+        ...savedSettings,
       };
     },
     [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
