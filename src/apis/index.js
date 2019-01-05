@@ -137,3 +137,8 @@ export function postSkillFeedback(payload) {
     device_type: 'Web Client',
   });
 }
+
+export function getAdmin() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/showAdminService.json`;
+  return ajax.get(url, {});
+}

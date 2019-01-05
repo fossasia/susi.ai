@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
@@ -23,13 +21,9 @@ import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
 import urls from '../../utils/urls';
-import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
+import { getAvatarProps } from '../../utils/helperFunctions';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
-
-const cookies = new Cookies();
 
 const styles = {
   popoverStyle: {
@@ -65,6 +59,7 @@ class TopBar extends Component {
     email: PropTypes.string,
     accessToken: PropTypes.string,
     userName: PropTypes.string,
+    isAdmin: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -76,7 +71,6 @@ class TopBar extends Component {
     super(props);
     this.state = {
       showOptions: false,
-      showAdmin: false,
       anchorEl: null,
       userName: '',
       uuid: '',
@@ -88,40 +82,6 @@ class TopBar extends Component {
     this.setState({
       search: false,
     });
-    this.postLoginInitialization();
-  }
-
-  postLoginInitialization() {
-    if (cookies.get('loggedIn')) {
-      const url = `${
-        urls.API_URL
-      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
-      $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'pfns',
-        jsonp: 'callback',
-        crossDomain: true,
-        success: function(newResponse) {
-          let showAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', showAdmin, {
-            path: '/',
-            domain: cookieDomain,
-          });
-          this.setState({
-            showAdmin: showAdmin,
-          });
-          // console.log(newResponse.showAdmin)
-        }.bind(this),
-        error: function(newErrorThrown) {
-          console.log(newErrorThrown);
-        },
-      });
-
-      this.setState({
-        showAdmin: cookies.get('showAdmin'),
-      });
-    }
   }
 
   showOptions = event => {
@@ -140,7 +100,7 @@ class TopBar extends Component {
 
   render() {
     const { popoverStyle, logoStyle } = styles;
-    const { showAdmin, showOptions, anchorEl } = this.state;
+    const { showOptions, anchorEl } = this.state;
     const {
       searchState,
       search,
@@ -155,6 +115,7 @@ class TopBar extends Component {
       header,
       toggleShareClose,
       onRequestOpenLogin,
+      isAdmin,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -272,14 +233,13 @@ class TopBar extends Component {
               rightIcon={<Info />}
             />
 
-            {accessToken &&
-              showAdmin && (
-                <MenuItem
-                  primaryText={<Translate text="Admin" />}
-                  rightIcon={<List />}
-                  href={`${urls.ACCOUNT_URL}/admin`}
-                />
-              )}
+            {isAdmin && (
+              <MenuItem
+                primaryText={<Translate text="Admin" />}
+                rightIcon={<List />}
+                href={`${urls.ACCOUNT_URL}/admin`}
+              />
+            )}
             <MenuItem
               primaryText={<Translate text="Share" />}
               onTouchTap={toggleShareClose}
@@ -306,11 +266,12 @@ class TopBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, userName } = store.app;
+  const { email, accessToken, userName, isAdmin } = store.app;
   return {
     email,
     accessToken,
     userName,
+    isAdmin,
   };
 }
 

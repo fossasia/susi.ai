@@ -137,7 +137,7 @@ class Login extends Component {
               message: payload.message,
               loading: false,
             });
-            this.handleDialogClose();
+            this.callGetAdmin(payload.accessToken);
           } else {
             this.setState({
               message: 'Login Failed. Try Again',
@@ -157,6 +157,17 @@ class Login extends Component {
           });
         });
     }
+  };
+
+  callGetAdmin = accessToken => {
+    this.props.actions
+      .getAdmin(accessToken)
+      .then(({ response }) => {
+        this.handleDialogClose();
+      })
+      .catch(error => {
+        console.log('Failed to get admin');
+      });
   };
 
   handleForgotPassword = () => {
