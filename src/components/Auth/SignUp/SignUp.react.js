@@ -348,15 +348,17 @@ class SignUp extends Component {
                   marginTop: '10px',
                 }}
               >
-                <Recaptcha
-                  sitekey={captchaKey}
-                  render="explicit"
-                  onloadCallback={this.onCaptchaLoad}
-                  verifyCallback={this.onCaptchaSuccess}
-                  badge="inline"
-                  type="audio"
-                  size="normal"
-                />
+                {captchaKey && (
+                  <Recaptcha
+                    sitekey={captchaKey}
+                    render="explicit"
+                    onloadCallback={this.onCaptchaLoad}
+                    verifyCallback={this.onCaptchaSuccess}
+                    badge="inline"
+                    type="audio"
+                    size="normal"
+                  />
+                )}
                 {!isCaptchaVerified &&
                   captchaVerifyErrorMessage && (
                     <p className="error-message">
