@@ -1,8 +1,7 @@
 /* eslint camelcase: 0 */
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
-// import { Cookies } from 'react-cookie';
-// import actions from '../redux/actions/messages';
+
 const { API_URL } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';
@@ -136,5 +135,11 @@ export function postSkillFeedback(payload) {
     country_name: countryName,
     country_code: countryCode,
     device_type: 'Web Client',
+  });
+}
+
+export function getDefaultMapData() {
+  return ajax.get('http://api.ipstack.com/134.201.250.155', {
+    access_key: '31fe38d0ec112087bc85f47241a58387',
   });
 }
