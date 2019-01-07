@@ -101,9 +101,9 @@ const Privacy = props => {
             </p>
             <h2>Privacy and Copyright Protection</h2>
             <p>
-              SUSI’s privacy policies ensures that your personal data is safe
-              and protected. By using our Services, you agree that SUSI can use
-              such data in accordance with our privacy policies.
+              SUSI’s privacy policies ensure that your personal data is safe and
+              protected. By using our Services, you agree that SUSI can use such
+              data in accordance with our privacy policies.
               <br />
               <br />
               We respond to notices of alleged copyright infringement and
@@ -129,15 +129,16 @@ const Privacy = props => {
               adaptations or other changes we make so that your content works
               better with our Services), communicate, publish, publicly perform,
               publicly display and distribute such content. The rights you grant
-              in license are for the limited purpose of operating, promoting,
-              and improving our Services, and to develop new ones. This license
-              continues even if you stop using our Services (for example, for a
-              business listing you have added to SUSI Maps). Some Services may
-              offer you ways to access and remove content that has been provided
-              to that Service. Also, in some of our Services, there are terms or
-              settings that narrow the scope of our use of the content submitted
-              in those Services. Make sure you have the necessary rights to
-              grant license for any content that you submit to our Services.
+              in the license are for the limited purpose of operating,
+              promoting, and improving our Services, and to develop new ones.
+              This license continues even if you stop using our Services (for
+              example, for a business listing you have added to SUSI Maps). Some
+              Services may offer you ways to access and remove content that has
+              been provided to that Service. Also, in some of our Services,
+              there are terms or settings that narrow the scope of our use of
+              the content submitted in those Services. Make sure you have the
+              necessary rights to a grant license for any content that you
+              submit to our Services.
               <br />
               <br />
               If you have a SUSI Account, we may display your Profile name,
@@ -151,7 +152,7 @@ const Privacy = props => {
             </p>
             <h2>About Software in our Services</h2>
             <p>
-              When a Service requires or includes downloadable software,
+              When a Service requires or includes downloadable software, the
               software may update automatically on your device once a new
               version or feature is available. Some Services may let you adjust
               your automatic update settings.
@@ -167,7 +168,7 @@ const Privacy = props => {
               Most of our services are offered through Free Software and/or Open
               Source Software. You may copy, modify, distribute, sell, or lease
               these applications and share the source code of that software as
-              stated in the License agreement provided with the Software.
+              stated in the License Agreement provided with the Software.
               <br />
               <br />
             </p>
@@ -228,9 +229,8 @@ const Privacy = props => {
               the Services again).
               <br />
               <br />
-              In all cases, SUSI, and its suppliers and distributors, will not
-              be liable for any loss or damage that is not reasonably
-              foreseeable.
+              In all cases, SUSI, and its suppliers and distributors will not be
+              liable for any loss or damage that is not reasonably foreseeable.
               <br />
               <br />
               We recognize that in some countries, you might have legal rights
@@ -248,7 +248,7 @@ const Privacy = props => {
               SUSI and its affiliates, officers, agents, and employees from any
               claim, suit or action arising from or related to the use of the
               Services or violation of these terms, including any liability or
-              expense arising from claims, losses , damages, suits, judgments,
+              expense arising from claims, losses, damages, suits, judgments,
               litigation costs and attorneys’ fees.
               <br />
               <br />
@@ -258,10 +258,10 @@ const Privacy = props => {
               We may modify these terms or any additional terms that apply to a
               Service to, for example, reflect changes to the law or changes to
               our Services. You should look at the terms regularly. We’ll post
-              notice of modifications to these terms on page. We’ll post notice
-              of modified additional terms in the applicable Service. Changes
-              will not apply retroactively and will become effective no sooner
-              than fourteen days after they are posted. However,changes
+              notice of modifications to these terms on the page. We’ll post
+              notice of modified additional terms in the applicable Service.
+              Changes will not apply retroactively and will become effective no
+              sooner than fourteen days after they are posted. However,changes
               addressing new functions for a Service or changes made for legal
               reasons will be effective immediately. If you do not agree to the
               modified terms for a Service, you should discontinue your use of

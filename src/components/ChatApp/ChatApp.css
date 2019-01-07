@@ -559,6 +559,7 @@ textarea {
   -moz-box-shadow: none;
   margin-top: 3px;
   background: #fff;
+  color: #001d38;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   min-height: 80%;
@@ -812,7 +813,7 @@ abbr[title] {
 
 @media only screen and (max-width: 560px){
   .app-bar-search img {
-    display: none !important;
+    width: 0px;
   }
   .search{
     width: 100px !important;
