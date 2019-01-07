@@ -809,7 +809,7 @@ abbr[title] {
 
 @media only screen and (max-width: 560px){
   .app-bar-search img {
-    display: none !important;
+    width: 0px;
   }
   .search{
     width: 100px !important;
