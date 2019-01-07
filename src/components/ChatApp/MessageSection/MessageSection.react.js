@@ -144,6 +144,13 @@ class MessageSection extends Component {
     this.setState({ isShareOpen: !isShareOpen });
   };
 
+  handleShare = () => {
+    this.setState({ openShare: true });
+  };
+  handleShareClose = () => {
+    console.log(this.state.openShare);
+    this.setState({ openShare: false });
+  };
   handleCloseTour = () => {
     this.setState({
       tour: false,
