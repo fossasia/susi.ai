@@ -12,6 +12,14 @@ export const voiceList = [
     name: 'Deutsch',
   },
   {
+    lang: 'nl-NL',
+    name: 'Dutch',
+  },
+  {
+    lang: 'fr-FR',
+    name: 'French',
+  },
+  {
     lang: 'gr-GR',
     name: 'Greek',
   },
@@ -20,12 +28,16 @@ export const voiceList = [
     name: 'Hindi',
   },
   {
-    lang: 'pb-IN',
-    name: 'Punjabi',
+    lang: 'jp-JP',
+    name: 'Japanese',
   },
   {
     lang: 'np-NP',
     name: 'Nepali',
+  },
+  {
+    lang: 'pb-IN',
+    name: 'Punjabi',
   },
   {
     lang: 'ru-RU',
@@ -36,18 +48,6 @@ export const voiceList = [
     name: 'Spanish',
   },
   {
-    lang: 'fr-FR',
-    name: 'French',
-  },
-  {
-    lang: 'jp-JP',
-    name: 'Japanese',
-  },
-  {
-    lang: 'nl-NL',
-    name: 'Dutch',
-  },
-  {
     lang: 'en-US',
     name: 'US English',
   },
@@ -55,16 +55,24 @@ export const voiceList = [
 
 export const voiceListChange = [
   {
-    lang: 'de-DE',
-    name: 'Deutsch',
-  },
-  {
     lang: 'am-AM',
     name: 'Armenian',
   },
   {
-    lang: 'en-US',
-    name: 'US English',
+    lang: 'zh-CH',
+    name: 'Chinese',
+  },
+  {
+    lang: 'de-DE',
+    name: 'Deutsch',
+  },
+  {
+    lang: 'nl-NL',
+    name: 'Dutch',
+  },
+  {
+    lang: 'fr-FR',
+    name: 'French',
   },
   {
     lang: 'gr-GR',
@@ -75,19 +83,27 @@ export const voiceListChange = [
     name: 'Hindi',
   },
   {
-    lang: 'fr-FR',
-    name: 'French',
+    lang: 'jp-JP',
+    name: 'Japanese',
+  },
+  {
+    lang: 'np-NP',
+    name: 'Nepali',
+  },
+  {
+    lang: 'pb-IN',
+    name: 'Punjabi',
   },
   {
     lang: 'ru-RU',
     name: 'Russian',
   },
   {
-    lang: 'jp-JP',
-    name: 'Japanese',
+    lang: 'es-SP',
+    name: 'Spanish',
   },
   {
-    lang: 'nl-NL',
-    name: 'Dutch',
+    lang: 'en-US',
+    name: 'US English',
   },
 ];
