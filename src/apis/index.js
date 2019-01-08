@@ -1,8 +1,7 @@
 /* eslint camelcase: 0 */
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
-// import { Cookies } from 'react-cookie';
-// import actions from '../redux/actions/messages';
+
 const { API_URL } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';

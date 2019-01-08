@@ -54,10 +54,7 @@ class TopBar extends Component {
     handleRequestClose: PropTypes.func,
     handleToggle: PropTypes.func,
     searchTextChanged: PropTypes.func,
-
-    handleShare: PropTypes.func,
-    handleShareClose: PropTypes.func,
-    openShare: PropTypes.bool,
+    toggleShareClose: PropTypes.func,
     openSearch: PropTypes.func,
     exitSearch: PropTypes.func,
     nextSearchItem: PropTypes.func,
@@ -143,7 +140,6 @@ class TopBar extends Component {
 
   render() {
     const { popoverStyle, logoStyle } = styles;
-    const backgroundCol = this.props.header;
     const { showAdmin, showOptions, anchorEl } = this.state;
     const {
       searchState,
@@ -151,16 +147,18 @@ class TopBar extends Component {
       searchTextChanged,
       exitSearch,
       openSearch,
-      openShare,
       nextSearchItem,
       previousSearchItem,
       email,
       accessToken,
       userName,
+      header,
+      toggleShareClose,
+      onRequestOpenLogin,
     } = this.props;
 
     let appBarClass = 'app-bar';
-    if (this.props.search) {
+    if (search) {
       appBarClass = 'app-bar-search';
     }
 
@@ -173,7 +171,7 @@ class TopBar extends Component {
       <Toolbar
         className={appBarClass}
         style={{
-          backgroundColor: backgroundCol,
+          backgroundColor: header,
           height: '46px',
         }}
       >
@@ -189,7 +187,6 @@ class TopBar extends Component {
             {searchState ? (
               <ExpandingSearchField
                 searchText={searchState.searchText}
-                openShare={openShare}
                 searchIndex={searchState.searchIndex}
                 open={search}
                 searchCount={searchState.scrollLimit}
@@ -283,7 +280,11 @@ class TopBar extends Component {
                   href={`${urls.ACCOUNT_URL}/admin`}
                 />
               )}
-
+            <MenuItem
+              primaryText={<Translate text="Share" />}
+              onTouchTap={toggleShareClose}
+              rightIcon={<Share />}
+            />
             {accessToken ? (
               <MenuItem
                 primaryText={<Translate text="Logout" />}
@@ -293,16 +294,10 @@ class TopBar extends Component {
             ) : (
               <MenuItem
                 primaryText={<Translate text="Login" />}
-                onTouchTap={this.props.onRequestOpenLogin}
+                onTouchTap={onRequestOpenLogin}
                 rightIcon={<SignUp />}
               />
             )}
-
-            <MenuItem
-              primaryText={<Translate text="Share" />}
-              onTouchTap={this.props.handleShare}
-              rightIcon={<Share />}
-            />
           </Popover>
         </ToolbarGroup>
       </Toolbar>

@@ -10,23 +10,22 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
 
 const styles = {
-  ShareIconContainer: {
+  shareIconContainer: {
     display: 'flex',
     flexDirection: 'column',
   },
-  IconTitleStyle: {
+  iconTitleStyle: {
     height: '48px',
     lineHeight: '48px',
     verticalAlign: 'center',
     padding: '0 0 0 5px',
   },
-  IconWrapperStyle: {
+  iconWrapperStyle: {
     marginTop: '16px',
     display: 'flex',
     alignItems: 'flex-start',
     width: '100%',
   },
-
   closingStyle: {
     position: 'absolute',
     zIndex: 1200,
@@ -52,38 +51,46 @@ const DialogSection = props => {
   const shareUrl = 'http://chat.susi.ai';
   const title =
     'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
+  const { isShareOpen, tour, onRequestCloseTour, toggleShareClose } = props;
+  const {
+    contentStyle,
+    titleWrapperStyle,
+    shareIconContainer,
+    iconWrapperStyle,
+    iconTitleStyle,
+    closingStyle,
+  } = styles;
   return (
     <div>
       {/* Share */}
       <Dialog
-        contentStyle={styles.contentStyle}
-        open={props.openShare}
-        onRequestClose={props.handleShareClose}
+        contentStyle={contentStyle}
+        open={isShareOpen}
+        onRequestClose={toggleShareClose}
       >
-        <div style={styles.titleWrapperStyle}>
+        <div style={titleWrapperStyle}>
           <h3>Share about SUSI</h3>
           <div style={{ flex: 1 }} />
-          <IconButton onTouchTap={props.handleShareClose}>
+          <IconButton onTouchTap={toggleShareClose}>
             <CloseIcon size={32} />
           </IconButton>
         </div>
-        <div style={styles.ShareIconContainer}>
+        <div style={shareIconContainer}>
           <div className="HoverIcon">
             <FacebookShareButton
               url={shareUrl}
               quote={title}
-              style={styles.IconWrapperStyle}
+              style={iconWrapperStyle}
             >
               <div>
                 <FacebookIcon size={42} />
               </div>
-
-              <div style={styles.IconTitleStyle}>Facebook</div>
+              <div style={iconTitleStyle}>Facebook</div>
             </FacebookShareButton>
           </div>
           <div className="HoverIcon">
             <TwitterShareButton
-              style={styles.IconWrapperStyle}
+              style={iconWrapperStyle}
               url={shareUrl}
               title={title}
             >
@@ -91,7 +98,7 @@ const DialogSection = props => {
                 <TwitterIcon size={42} />
               </div>
 
-              <div style={styles.IconTitleStyle}>Twitter</div>
+              <div style={iconTitleStyle}>Twitter</div>
             </TwitterShareButton>
           </div>
         </div>
@@ -104,7 +111,7 @@ const DialogSection = props => {
           textAlign: 'center',
         }}
         title="Welcome to SUSI.AI Web Chat"
-        open={props.tour}
+        open={tour}
       >
         <iframe
           width="99%"
@@ -113,10 +120,7 @@ const DialogSection = props => {
           frameBorder="0"
           scrolling="no"
         />
-        <Close
-          style={styles.closingStyle}
-          onTouchTap={props.onRequestCloseTour()}
-        />
+        <Close style={closingStyle} onTouchTap={onRequestCloseTour} />
       </Dialog>
     </div>
   );
@@ -124,9 +128,8 @@ const DialogSection = props => {
 
 DialogSection.propTypes = {
   tour: PropTypes.bool,
-  openShare: PropTypes.bool,
-  handleShareClose: PropTypes.func,
-  handleShare: PropTypes.func,
+  isShareOpen: PropTypes.bool,
+  toggleShareClose: PropTypes.func,
   onRequestCloseTour: PropTypes.func,
 };
 
