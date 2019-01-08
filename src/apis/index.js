@@ -137,9 +137,3 @@ export function postSkillFeedback(payload) {
     device_type: 'Web Client',
   });
 }
-
-export function getDefaultMapData() {
-  return ajax.get('http://api.ipstack.com/134.201.250.155', {
-    access_key: '31fe38d0ec112087bc85f47241a58387',
-  });
-}
