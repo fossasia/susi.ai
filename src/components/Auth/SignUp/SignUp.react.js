@@ -145,10 +145,14 @@ class SignUp extends Component {
         break;
       }
       case 'password': {
+        const { confirmPassword, passwordConfirmErrorMessage } = this.state;
         const password = event.target.value.trim();
         const passwordScore = zxcvbn(password).score;
         const strength = ['Worst', 'Bad', 'Weak', 'Good', 'Strong'];
         const passwordError = !(password.length >= 6 && password);
+        const passwordConfirmError =
+          (confirmPassword || passwordConfirmErrorMessage) &&
+          !(confirmPassword === password);
         this.setState({
           password,
           passwordErrorMessage: passwordError
@@ -156,6 +160,9 @@ class SignUp extends Component {
             : '',
           passwordScore: passwordError ? -1 : passwordScore,
           passwordStrength: passwordError ? '' : strength[passwordScore],
+          passwordConfirmErrorMessage: passwordConfirmError
+            ? 'Password does not match'
+            : '',
           signupErrorMessage: '',
         });
         break;

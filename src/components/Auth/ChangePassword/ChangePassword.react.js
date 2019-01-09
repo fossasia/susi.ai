@@ -150,6 +150,10 @@ class ChangePassword extends Component {
         break;
       }
       case 'newPassword': {
+        const {
+          confirmNewPassword,
+          newPasswordConfirmErrorMessage,
+        } = this.state;
         const newPassword = event.target.value.trim();
         const newPasswordError = !(
           newPassword &&
@@ -169,6 +173,10 @@ class ChangePassword extends Component {
             ][newPasswordScore]
           : '';
 
+        const newPasswordConfirmError =
+          (confirmNewPassword || newPasswordConfirmErrorMessage) &&
+          !(confirmNewPassword === newPassword);
+
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
@@ -178,6 +186,11 @@ class ChangePassword extends Component {
           ),
           newPasswordScore,
           newPasswordStrength,
+          newPasswordConfirmErrorMessage: newPasswordConfirmError ? (
+            <Translate text="Password does not match" />
+          ) : (
+            ''
+          ),
         });
         break;
       }
