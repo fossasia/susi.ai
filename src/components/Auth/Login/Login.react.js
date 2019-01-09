@@ -74,6 +74,7 @@ class Login extends Component {
     openLogin: PropTypes.bool,
     onRequestOpenSignUp: PropTypes.func,
     onRequestOpenForgotPassword: PropTypes.func,
+    openSnackBar: PropTypes.func,
   };
 
   constructor(props) {
@@ -85,7 +86,6 @@ class Login extends Component {
       passwordErrorMessage: '',
       success: false,
       loading: false,
-      message: '',
     };
   }
 
@@ -95,22 +95,16 @@ class Login extends Component {
       email: '',
       password: '',
       success: false,
-      validForm: false,
       emailErrorMessage: '',
       passwordErrorMessage: '',
       loading: false,
-      message: '',
     });
     onRequestClose();
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      getHistoryFromServer,
-      initializeMessageStore,
-      getLogin,
-    } = this.props.actions;
+    const { actions, openSnackBar } = this.props;
     const { password, email } = this.state;
 
     if (!email || !password) {
@@ -119,14 +113,17 @@ class Login extends Component {
 
     if (isEmail(email)) {
       this.setState({ loading: true });
-      getLogin({ email, password: encodeURIComponent(password) })
+      actions
+        .getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
+          let snackBarMessage;
           if (payload.accepted) {
             this.setCookies({ ...payload, email });
-            getHistoryFromServer()
+            actions
+              .getHistoryFromServer()
               .then(({ payload }) => {
                 createMessagePairArray(payload).then(messagePairArray => {
-                  initializeMessageStore(messagePairArray);
+                  actions.initializeMessageStore(messagePairArray);
                 });
               })
               .catch(error => {
@@ -134,26 +131,31 @@ class Login extends Component {
               });
             this.setState({
               success: true,
-              message: payload.message,
               loading: false,
             });
             this.callGetAdmin(payload.accessToken);
+            snackBarMessage = payload.message;
           } else {
             this.setState({
-              message: 'Login Failed. Try Again',
               password: '',
               success: false,
               loading: false,
             });
+            snackBarMessage = 'Signup Failed. Try Again';
           }
+          openSnackBar({
+            snackBarMessage,
+          });
         })
         .catch(error => {
           console.log(error);
           this.setState({
-            message: 'Login Failed. Try Again',
             password: '',
             success: false,
             loading: false,
+          });
+          openSnackBar({
+            snackBarMessage: 'Login Failed. Try Again',
           });
         });
     }
@@ -184,7 +186,6 @@ class Login extends Component {
           emailErrorMessage: !isEmail(email)
             ? 'Enter a valid Email Address'
             : '',
-          message: '',
         });
         break;
       }
@@ -193,7 +194,6 @@ class Login extends Component {
         this.setState({
           password,
           passwordErrorMessage: !password ? 'Enter a valid password' : '',
-          message: '',
         });
         break;
       }
@@ -239,8 +239,6 @@ class Login extends Component {
       emailErrorMessage,
       passwordErrorMessage,
       loading,
-      message,
-      success,
     } = this.state;
     const {
       openLogin,
@@ -309,11 +307,6 @@ class Login extends Component {
                   textFieldStyle={{ padding: '0px' }}
                 />
               </div>
-              {message && (
-                <div style={{ color: success ? '#388e3c' : '#f44336' }}>
-                  {message}
-                </div>
-              )}
               <RaisedButton
                 label={!loading && <Translate text="Log In" />}
                 type="submit"

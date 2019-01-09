@@ -165,15 +165,18 @@ class App extends Component {
             onRequestOpenForgotPassword={this.onRequestOpenForgotPassword}
             onRequestOpenSignUp={this.onRequestOpenSignUp}
             onRequestClose={this.onRequestClose}
+            openSnackBar={this.openSnackBar}
           />
           <SignUp
             openSignUp={openSignUp}
             onRequestClose={this.onRequestClose}
             onRequestOpenLogin={this.onRequestOpenLogin}
+            openSnackBar={this.openSnackBar}
           />
           <ForgotPassword
             openForgotPassword={openForgotPassword}
             onRequestClose={this.onRequestClose}
+            openSnackBar={this.openSnackBar}
           />
           <Snackbar
             autoHideDuration={snackBarDuration}
@@ -213,7 +216,13 @@ class App extends Component {
             />
             <Route exact path="/terms" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
-            <Route exact path="/logout" component={Logout} />
+            <Route
+              exact
+              path="/logout"
+              render={routeProps => (
+                <Logout {...routeProps} openSnackBar={this.openSnackBar} />
+              )}
+            />
             <ProtectedRoute exact path="/settings" component={Settings} />
             <Route exact path="/*:path(error-404|)" component={NotFound} />
           </Switch>

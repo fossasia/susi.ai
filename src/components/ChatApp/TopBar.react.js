@@ -200,21 +200,28 @@ class TopBar extends Component {
           >
             {accessToken && (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Dashboard" />}
                 rightIcon={<Assessment />}
                 href={`${urls.SKILL_URL}/dashboard`}
               />
             )}
             <MenuItem
+              onClick={this.closeOptions}
               primaryText={<Translate text="Chat" />}
               containerElement={<Link to="/" />}
               rightIcon={<Chat />}
             />
-            <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
+            <MenuItem
+              rightIcon={<Dashboard />}
+              href={urls.SKILL_URL}
+              onClick={this.closeOptions}
+            >
               <Translate text="Skills" />
             </MenuItem>
             {accessToken && (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Botbuilder" />}
                 rightIcon={<Extension />}
                 href={`${urls.SKILL_URL}/botbuilder`}
@@ -222,12 +229,14 @@ class TopBar extends Component {
             )}
             {accessToken && (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Settings" />}
                 containerElement={<Link to="/settings" />}
                 rightIcon={<Settings />}
               />
             )}
             <MenuItem
+              onClick={this.closeOptions}
               primaryText={<Translate text="About" />}
               containerElement={<Link to="/overview" />}
               rightIcon={<Info />}
@@ -241,18 +250,21 @@ class TopBar extends Component {
               />
             )}
             <MenuItem
+              onClick={this.closeOptions}
               primaryText={<Translate text="Share" />}
               onTouchTap={toggleShareClose}
               rightIcon={<Share />}
             />
             {accessToken ? (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Logout" />}
                 containerElement={<Link to="/logout" />}
                 rightIcon={<Exit />}
               />
             ) : (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Login" />}
                 onTouchTap={onRequestOpenLogin}
                 rightIcon={<SignUp />}
