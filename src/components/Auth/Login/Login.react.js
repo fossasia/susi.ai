@@ -118,6 +118,8 @@ class Login extends Component {
         .then(({ payload }) => {
           let snackBarMessage;
           if (payload.accepted) {
+            // eslint-disable-next-line camelcase
+            this.props.actions.getAdmin({ access_token: payload.accessToken });
             this.setCookies({ ...payload, email });
             actions
               .getHistoryFromServer()

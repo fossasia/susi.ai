@@ -19,4 +19,5 @@ export default {
     apis.getForgotPassword,
   ),
   logout: createAction(actionTypes.APP_LOGOUT, returnArgumentsFn),
+  getAdmin: createAction(actionTypes.APP_GET_ADMIN, apis.getAdmin),
 };
