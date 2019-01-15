@@ -283,7 +283,7 @@ class SignUp extends Component {
       !passwordErrorMessage &&
       confirmPassword &&
       !passwordConfirmErrorMessage &&
-      isCaptchaVerified;
+      (isCaptchaVerified || !captchaKey);
 
     const PasswordClass = [`is-strength-${passwordScore}`];
 
