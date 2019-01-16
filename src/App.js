@@ -165,15 +165,18 @@ class App extends Component {
             onRequestOpenForgotPassword={this.onRequestOpenForgotPassword}
             onRequestOpenSignUp={this.onRequestOpenSignUp}
             onRequestClose={this.onRequestClose}
+            openSnackBar={this.openSnackBar}
           />
           <SignUp
             openSignUp={openSignUp}
             onRequestClose={this.onRequestClose}
             onRequestOpenLogin={this.onRequestOpenLogin}
+            openSnackBar={this.openSnackBar}
           />
           <ForgotPassword
             openForgotPassword={openForgotPassword}
             onRequestClose={this.onRequestClose}
+            openSnackBar={this.openSnackBar}
           />
           <Snackbar
             autoHideDuration={snackBarDuration}
@@ -196,24 +199,109 @@ class App extends Component {
                 />
               )}
             />
-            <Route exact path="/overview" component={Overview} />
-            <Route exact path="/devices" component={Devices} />
-            <Route exact path="/team" component={Team} />
-            <Route exact path="/blog" component={Blog} />
-            <Route exact path="/contact" component={Contact} />
+            <Route
+              exact
+              path="/overview"
+              render={routeProps => (
+                <Overview
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/devices"
+              render={routeProps => (
+                <Devices
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/team"
+              render={routeProps => (
+                <Team
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/blog"
+              render={routeProps => (
+                <Blog
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/contact"
+              render={routeProps => (
+                <Contact
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
             <Route
               exact
               path="/support"
               render={routeProps => (
                 <Support
                   {...routeProps}
-                  openSignUp={this.onRequestOpenSignUp}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
                 />
               )}
             />
-            <Route exact path="/terms" component={Terms} />
-            <Route exact path="/privacy" component={Privacy} />
-            <Route exact path="/logout" component={Logout} />
+            <Route
+              exact
+              path="/terms"
+              render={routeProps => (
+                <Terms
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/privacy"
+              render={routeProps => (
+                <Privacy
+                  {...routeProps}
+                  onRequestOpenLogin={this.onRequestOpenLogin}
+                  closeSnackBar={this.closeSnackBar}
+                  openSnackBar={this.openSnackBar}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/logout"
+              render={routeProps => (
+                <Logout {...routeProps} openSnackBar={this.openSnackBar} />
+              )}
+            />
             <ProtectedRoute exact path="/settings" component={Settings} />
             <Route exact path="/*:path(error-404|)" component={NotFound} />
           </Switch>

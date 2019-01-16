@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Dialog from 'material-ui/Dialog';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -11,15 +12,12 @@ import Popover from 'material-ui/Popover';
 import Cookies from 'universal-cookie';
 import $ from 'jquery';
 import Translate from '../Translate/Translate.react';
-import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import Login from '../Auth/Login/Login.react';
-import SignUp from '../Auth/SignUp/SignUp.react';
 import CircleImage from '../CircleImage/CircleImage';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Info from 'material-ui/svg-icons/action/info';
+import actions from '../../redux/actions/app';
 import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
-import { isProduction } from '../../utils/helperFunctions';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
 import Settings from 'material-ui/svg-icons/action/settings';
@@ -27,65 +25,16 @@ import Chat from 'material-ui/svg-icons/communication/chat';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import susiWhite from '../../images/susi-logo-white.png';
-import Close from 'material-ui/svg-icons/navigation/close';
 import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import List from 'material-ui/svg-icons/action/list';
 import './StaticAppBar.css';
 
-const cookieDomain = isProduction() ? '.susi.ai' : '';
-
 const cookies = new Cookies();
 
 const baseUrl = window.location.protocol + '//' + window.location.host + '/';
 
-let Logged = props => (
-  <div>
-    <MenuItem
-      primaryText="Chat"
-      containerElement={<Link to="/" />}
-      rightIcon={<Chat />}
-    />
-    <MenuItem rightIcon={<Dashboard />}>
-      <a
-        style={{
-          color: 'rgba(0, 0, 0, 0.87)',
-          width: '140px',
-          display: 'block',
-        }}
-        href={urls.SKILL_URL}
-      >
-        Skills
-      </a>
-    </MenuItem>
-    <MenuItem
-      primaryText="About"
-      containerElement={<Link to="/overview" />}
-      rightIcon={<Info />}
-    />
-    <MenuItem
-      primaryText="Login"
-      onTouchTap={this.handleLogin}
-      rightIcon={<SignUpIcon />}
-    />
-  </div>
-);
-
 const styles = {
-  bodyStyle: {
-    padding: 0,
-    textAlign: 'center',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
   labelStyle: {
     padding: '0px 25px 7px 25px',
     font: '500 14px Roboto,sans-serif',
@@ -101,38 +50,79 @@ const styles = {
     height: '64px',
     textDecoration: 'none',
   },
+  circleImageWrapperStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  circleImageStyle: {
+    color: 'white',
+    marginRight: '5px',
+    fontSize: '16px',
+  },
+  popOverStyle: {
+    float: 'right',
+    position: 'relative',
+    marginTop: '47px',
+    marginRight: '8px',
+  },
+  linkLabelStyle: {
+    borderBottom: '2px solid #fff',
+    padding: '0px 25px 12px 25px',
+    margin: '0 2px',
+    color: '#fff',
+    textDecoration: 'none',
+    font: '700 14px Roboto,sans-serif',
+    wordSpacing: '2px',
+    textTransform: 'none',
+    verticalAlign: 'bottom',
+  },
 };
 
 class StaticAppBar extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+    settings: PropTypes.object,
+    location: PropTypes.object,
+    theme: PropTypes.object,
+    closeVideo: PropTypes.func,
+    onRequestOpenLogin: PropTypes.func,
+    isAdmin: PropTypes.bool,
+    accessToken: PropTypes.string,
+    actions: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      login: false,
-      signup: false,
-      open: false,
-      showOptions: false,
+      isPopUpMenuOpen: false,
       showAdmin: false,
       anchorEl: null,
-      openForgotPassword: false,
+      isDrawerOpen: false,
     };
   }
-  // Open app bar's drawer
-  handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
-  // Close app bar's drawer
-  handleDrawerClose = () => this.setState({ openDrawer: false });
-  // Show options on touch tap
-  showOptions = event => {
+
+  handleDrawerToggle = () => {
+    const { isDrawerOpen } = this.state;
+    this.setState({
+      isDrawerOpen: !isDrawerOpen,
+    });
+  };
+
+  handleDrawerClose = () => this.setState({ isDrawerOpen: false });
+
+  showPopUpMenu = event => {
     event.preventDefault();
     this.setState({
-      showOptions: true,
+      isPopUpMenuOpen: true,
       anchorEl: event.currentTarget,
     });
   };
-  // Close options on touch tap
-  closeOptions = () => {
-    if (this.state.showOptions) {
+
+  closePopUpMenu = () => {
+    if (this.state.isPopUpMenuOpen) {
       this.setState({
-        showOptions: false,
+        isPopUpMenuOpen: false,
       });
     }
   };
@@ -142,92 +132,29 @@ class StaticAppBar extends Component {
   handleTitle = () => {
     this.props.history.push('/');
   };
-  // Open login dialog and close signup dialog and options
+
   handleLogin = () => {
-    this.setState({
-      login: true,
-      signup: false,
-      showOptions: false,
-      openForgotPassword: false,
-    });
-    if (this.props.location.pathname === 'overview') {
-      this.props.closeVideo();
+    const { onRequestOpenLogin, location, closeVideo } = this.props;
+    if (location.pathname === 'overview') {
+      closeVideo();
     }
+    this.closePopUpMenu();
+    onRequestOpenLogin();
   };
-  // Close all dialogs and options
-  handleClose = () => {
-    this.setState({
-      login: false,
-      signup: false,
-      openForgotPassword: false,
-      showOptions: false,
-    });
-    if (this.props.location.pathname === 'overview') {
-      this.props.closeVideo();
-    }
-  };
-  // Open Signup dialog and close login dialog and options
-  handleSignUp = () => {
-    this.setState({
-      signup: true,
-      login: false,
-      showOptions: false,
-    });
-    if (this.props.location.pathname === 'overview') {
-      this.props.closeVideo();
-    }
-  };
-  // Handle scroll events
+
   handleScroll = event => {
     let scrollTop = event.srcElement.body.scrollTop,
       itemTranslate = scrollTop > 60;
     if (itemTranslate) {
-      this.closeOptions();
+      this.closePopUpMenu();
     }
-  };
-  // Open Forgot Password dialog and close login dialog
-  handleForgotPassword = () => {
-    this.setState({
-      openForgotPassword: true,
-      login: false,
-    });
   };
 
   componentDidMount() {
-    let url;
-
-    if (cookies.get('loggedIn')) {
-      url = `${
-        urls.API_URL
-      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
-
-      $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'pfns',
-        jsonp: 'callback',
-        crossDomain: true,
-        success: function(newResponse) {
-          let showAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', showAdmin, {
-            path: '/',
-            domain: cookieDomain,
-          });
-          this.setState({
-            showAdmin: showAdmin,
-          });
-          // console.log(newResponse.showAdmin)
-        }.bind(this),
-        error: newErrorThrown => {
-          console.log(newErrorThrown);
-        },
-      });
-
-      this.setState({
-        showAdmin: cookies.get('showAdmin'),
-      });
+    const { isAdmin, accessToken, actions } = this.props;
+    if (isAdmin === null && accessToken) {
+      actions.getAdmin();
     }
-
     window.addEventListener('scroll', this.handleScroll);
     let didScroll;
     let lastScrollTop = 0;
@@ -235,7 +162,7 @@ class StaticAppBar extends Component {
     let navbarHeight = $('header').outerHeight();
     $(window).scroll(event => {
       didScroll = true;
-      this.setState({ showOptions: false });
+      this.setState({ isPopUpMenuOpen: false });
     });
 
     const hasScrolled = () => {
@@ -265,17 +192,31 @@ class StaticAppBar extends Component {
         didScroll = false;
       }
     }, 500);
+  }
 
-    // Return menu items for the hamburger menu
-    Logged = props => (
+  render() {
+    const {
+      labelStyle,
+      linkStyle,
+      circleImageStyle,
+      circleImageWrapperStyle,
+      popOverStyle,
+      linkLabelStyle,
+    } = styles;
+    const { accessToken, settings, location } = this.props;
+    const { isPopUpMenuOpen, anchorEl, isDrawerOpen } = this.state;
+    // Check the path to show or not to show top bar left menu
+    let showLeftMenu = 'block';
+
+    const Logged = props => (
       <div>
-        {cookies.get('loggedIn') ? (
+        {accessToken && (
           <MenuItem
             primaryText={<Translate text="Dashboard" />}
             rightIcon={<Assessment />}
             href={`${urls.SKILL_URL}/dashboard`}
           />
-        ) : null}
+        )}
         <MenuItem
           primaryText={<Translate text="Chat" />}
           containerElement={<Link to="/" />}
@@ -286,7 +227,7 @@ class StaticAppBar extends Component {
           rightIcon={<Dashboard />}
           href={urls.SKILL_URL}
         />
-        {cookies.get('loggedIn') ? (
+        {accessToken && (
           <div>
             <MenuItem
               primaryText={<Translate text="Botbuilder" />}
@@ -299,7 +240,7 @@ class StaticAppBar extends Component {
               rightIcon={<Settings />}
             />
           </div>
-        ) : null}
+        )}
         <MenuItem
           primaryText={<Translate text="About" />}
           containerElement={<Link to="/overview" />}
@@ -312,7 +253,7 @@ class StaticAppBar extends Component {
             href={`${urls.ACCOUNT_URL}/admin`}
           />
         ) : null}
-        {cookies.get('loggedIn') ? (
+        {accessToken ? (
           <MenuItem
             primaryText={<Translate text="Logout" />}
             containerElement={<Link to="/logout" />}
@@ -327,44 +268,23 @@ class StaticAppBar extends Component {
         )}
       </div>
     );
-    return <Logged />;
-  }
 
-  render() {
-    const { bodyStyle, closingStyle, labelStyle, linkStyle } = styles;
-    // Check the path to show or not to show top bar left menu
-    let showLeftMenu = 'block';
-
-    if (this.props.location.pathname === '/settings') {
+    if (location.pathname === '/settings') {
       showLeftMenu = 'none';
     }
     const TopRightMenu = props => {
-      const isLoggedIn = !!cookies.get('loggedIn');
       let avatarProps = null;
-      if (isLoggedIn) {
+      if (accessToken) {
         avatarProps = getAvatarProps(cookies.get('emailId'));
       }
       return (
         <div onScroll={this.handleScroll}>
           <div className="topRightMenu">
             <div>
-              {isLoggedIn && (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
+              {accessToken && (
+                <div style={circleImageWrapperStyle}>
                   <CircleImage {...avatarProps} size="32" />
-                  <label
-                    className="topRightLabel"
-                    style={{
-                      color: 'white',
-                      marginRight: '5px',
-                      fontSize: '16px',
-                    }}
-                  >
+                  <label className="topRightLabel" style={circleImageStyle}>
                     {UserPreferencesStore.getUserName() === '' ||
                     UserPreferencesStore.getUserName() === 'undefined'
                       ? cookies.get('emailId')
@@ -382,22 +302,17 @@ class StaticAppBar extends Component {
               }
               targetOrigin={{ horizontal: 'right', vertical: 'top' }}
               anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-              onTouchTap={this.showOptions}
+              onTouchTap={this.showPopUpMenu}
             />
             <Popover
               {...props}
               animated={false}
-              style={{
-                float: 'right',
-                position: 'relative',
-                marginTop: '47px',
-                marginRight: '8px',
-              }}
-              open={this.state.showOptions}
-              anchorEl={this.state.anchorEl}
+              style={popOverStyle}
+              open={isPopUpMenuOpen}
+              anchorEl={anchorEl}
               anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
               targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-              onRequestClose={this.closeOptions}
+              onRequestClose={this.closePopUpMenu}
             >
               <Logged />
             </Popover>
@@ -439,34 +354,23 @@ class StaticAppBar extends Component {
       },
     ];
 
-    const navLlinks = topLinks.map((link, i) => {
-      if (this.props.location.pathname === link.url) {
-        link.labelStyle = {
-          borderBottom: '2px solid #fff',
-          padding: '0px 25px 12px 25px',
-          margin: '0 2px',
-          color: '#fff',
-          textDecoration: 'none',
-          font: '700 14px Roboto,sans-serif',
-          wordSpacing: '2px',
-          textTransform: 'none',
-          verticalAlign: 'bottom',
-        };
+    const navLlinks = topLinks.map((link, index) => {
+      if (location.pathname === link.url) {
+        link.labelStyle = linkLabelStyle;
       }
       return (
-        <Link key={i} to={link.url} style={link.labelStyle}>
+        <Link key={index} to={link.url} style={link.labelStyle}>
           {link.label}
         </Link>
       );
     });
-    const menuLlinks = topLinks.map((link, i) => {
+    const menuLlinks = topLinks.map((link, index) => {
       return (
         <MenuItem
-          key={i}
+          key={index}
           primaryText={link.label}
           className="drawerItem"
           containerElement={<Link to={link.url} />}
-          onTouchTap={this.handleDrawerClose}
         />
       );
     });
@@ -484,9 +388,7 @@ class StaticAppBar extends Component {
       </div>
     );
     const themeBackgroundColor =
-      this.props.settings && this.props.settings.theme === 'dark'
-        ? 'rgb(25, 50, 76)'
-        : '#4285f4';
+      settings && settings.theme === 'dark' ? 'rgb(25, 50, 76)' : '#4285f4';
     return (
       <div>
         <header
@@ -518,7 +420,7 @@ class StaticAppBar extends Component {
               boxShadow: 'none',
             }}
             showMenuIconButton={showLeftMenu !== 'none'}
-            onLeftIconButtonTouchTap={this.handleDrawer}
+            onLeftIconButtonTouchTap={this.handleDrawerToggle}
             iconStyleLeft={{ marginTop: '-2px' }}
             iconStyleRight={{ marginTop: '-2px' }}
             iconElementRight={<TopRightMenu />}
@@ -528,8 +430,8 @@ class StaticAppBar extends Component {
           docked={false}
           width={200}
           containerStyle={{ overflow: 'hidden' }}
-          open={this.state.openDrawer}
-          onRequestChange={openDrawer => this.setState({ openDrawer })}
+          open={isDrawerOpen}
+          onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}
         >
           <AppBar
             className="drawerAppBar"
@@ -550,64 +452,26 @@ class StaticAppBar extends Component {
           />
           {menuLlinks}
         </Drawer>
-        {/* Login */}
-        <Dialog
-          className="dialogStyle"
-          modal={true}
-          open={this.state.login}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <Login
-            {...this.props}
-            handleSignUp={this.handleSignUp}
-            handleForgotPassword={this.handleForgotPassword}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
-        {/* SignUp */}
-        <Dialog
-          className="dialogStyle"
-          modal={true}
-          open={this.state.signup}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <SignUp
-            {...this.props}
-            onRequestClose={this.handleClose}
-            onLoginSignUp={this.handleLogin}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.state.openForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <ForgotPassword
-            {...this.props}
-            showForgotPassword={this.showForgotPassword}
-            onLoginSignUp={this.handleLogin}
-          />
-          <Close style={closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
       </div>
     );
   }
 }
-StaticAppBar.propTypes = {
-  history: PropTypes.object,
-  settings: PropTypes.object,
-  location: PropTypes.object,
-  theme: PropTypes.object,
-  closeVideo: PropTypes.func,
-};
-export default StaticAppBar;
+
+function mapStateToProps({ app }) {
+  return {
+    isAdmin: app.isAdmin,
+    accessToken: app.accessToken,
+    settings: app.settings,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StaticAppBar);
