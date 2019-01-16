@@ -149,10 +149,6 @@ class StaticAppBar extends Component {
   };
 
   componentDidMount() {
-    const { isAdmin, accessToken, actions } = this.props;
-    if (isAdmin === null && accessToken) {
-      actions.getAdmin();
-    }
     window.addEventListener('scroll', this.handleScroll);
     let didScroll;
     let lastScrollTop = 0;
