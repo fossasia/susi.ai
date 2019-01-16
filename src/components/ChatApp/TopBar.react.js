@@ -82,9 +82,6 @@ class TopBar extends Component {
     this.setState({
       search: false,
     });
-    if (this.props.isAdmin === null && this.props.accessToken) {
-      this.props.actions.getAdmin();
-    }
   }
 
   showOptions = event => {
@@ -118,6 +115,7 @@ class TopBar extends Component {
       header,
       toggleShareClose,
       onRequestOpenLogin,
+      isAdmin,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -245,7 +243,7 @@ class TopBar extends Component {
             />
 
             {accessToken &&
-              this.props.isAdmin && (
+              isAdmin && (
                 <MenuItem
                   primaryText={<Translate text="Admin" />}
                   rightIcon={<List />}

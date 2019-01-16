@@ -38,6 +38,7 @@ class App extends Component {
     location: PropTypes.object,
     closeVideo: PropTypes.func,
     actions: PropTypes.object,
+    accessToken: PropTypes.string,
   };
 
   constructor(props) {
@@ -56,10 +57,12 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    const { actions, accessToken } = this.props;
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
 
-    this.props.actions.getApiKeys();
+    actions.getApiKeys();
+    accessToken && actions.getAdmin();
   };
 
   componentWillUnmount = () => {
@@ -317,9 +320,16 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+function mapStateToProps(store) {
+  const { app } = store;
+  return {
+    ...app,
+  };
+}
+
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(App),
 );
