@@ -74,14 +74,18 @@ const AccountTab = props => {
         <Translate text="Select TimeZone" />
       </div>
       <br />
-      <TimezonePicker
-        value={props.timeZone}
-        onChange={timezone => props.handleTimeZone(timezone)}
-        inputProps={{
-          placeholder: 'Select Timezone...',
-          name: 'timezone',
-        }}
-      />
+      <div className="time-zone">
+        <div className="time-zone-dropdown">
+          <TimezonePicker
+            value={props.timeZone}
+            onChange={timezone => props.handleTimeZone(timezone)}
+            inputProps={{
+              placeholder: 'Select Timezone...',
+              name: 'timezone',
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
