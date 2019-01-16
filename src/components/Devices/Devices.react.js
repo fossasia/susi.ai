@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import urls from '../../utils/urls';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
@@ -17,7 +16,6 @@ const Devices = props => {
   scrollToTopAnimation();
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <div className="head_section">
         <div className="container">
           <div className="heading">

@@ -15,7 +15,6 @@ import { ShareButtons, generateShareIcon } from 'react-share';
 import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import { getBlogReponse } from '../../apis';
 import './Blog.css';
@@ -180,7 +179,6 @@ class Blog extends Component {
 
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <div className="head_section">
           <div className="container">
             <div className="heading">

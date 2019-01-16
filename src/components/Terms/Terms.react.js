@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Terms.css';
 
@@ -44,7 +43,6 @@ class Terms extends Component {
   render() {
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <div className="head_section">
           <div className="container">
             <div className="heading">

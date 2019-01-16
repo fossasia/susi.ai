@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import '../Terms/Terms.css';
@@ -14,7 +13,6 @@ const Privacy = props => {
   document.body.style.setProperty('background-image', 'none');
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <div className="head_section">
         <div className="container">
           <div className="heading">

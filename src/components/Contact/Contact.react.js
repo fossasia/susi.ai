@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import './Contact.css';
 
@@ -14,7 +13,6 @@ const Contact = props => {
 
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <div className="gray-wrapper">
         <div className="white-grey">
           <div className="conversation__description">

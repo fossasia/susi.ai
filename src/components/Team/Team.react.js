@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import SocialLinkButtons from './SocialLinkButtons';
 import Footer from '../Footer/Footer.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
@@ -65,7 +64,6 @@ export default class Team extends Component {
 
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <div className="head_section">
           <div className="container">
             <div className="heading">

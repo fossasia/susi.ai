@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Modal from 'react-modal';
 import urls from '../../utils/urls';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
@@ -110,12 +109,6 @@ class Overview extends Component {
     document.body.style.setProperty('background-image', 'none');
     return (
       <div>
-        <StaticAppBar
-          {...this.props}
-          location={this.props.location}
-          closeVideo={this.closeVideo}
-        />
-
         <div className="section">
           <div className="section-container">
             <div className="hero">

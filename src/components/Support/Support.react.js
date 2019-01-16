@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import RaisedButton from 'material-ui/RaisedButton';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import { urls } from '../../utils';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
@@ -56,7 +55,6 @@ export default class Support extends Component {
   render() {
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <div className="gray-wrapper">
           <div className="white-grey">
             <div className="conversation__description">
