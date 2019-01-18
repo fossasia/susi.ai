@@ -129,6 +129,7 @@ class Login extends Component {
                 });
               })
               .catch(error => {
+                actions.initializeMessageStoreFailed();
                 console.log(error);
               });
             this.setState({
