@@ -27,13 +27,18 @@ const Logout = props => {
   deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
   if (props.history) {
-    props.actions.logout();
+    props.actions.logout().then(() => {
+      props.openSnackBar({
+        snackBarMessage: 'You have logged out successfully',
+      });
+    });
     props.history.push('/');
   }
   return null;
 };
 
 Logout.propTypes = {
+  openSnackBar: PropTypes.func,
   history: PropTypes.object,
 };
 

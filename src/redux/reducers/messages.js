@@ -7,6 +7,7 @@ const defaultState = {
   unreadMessageIDs: [],
   skillFeedbackByMessageId: {},
   loadingHistory: false,
+  loadingHistoryError: false,
   loadingReply: false,
   initialisedVoices: false,
   TTSVoices: [],
@@ -106,6 +107,7 @@ export default handleActions(
       return {
         ...defaultState,
         loadingHistory: true,
+        loadingHistoryError: false,
       };
     },
     [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
@@ -125,6 +127,13 @@ export default handleActions(
         messages,
         messagesByID,
         loadingHistory: false,
+      };
+    },
+    [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE_FAILED](state, { payload }) {
+      return {
+        ...defaultState,
+        loadingHistory: false,
+        loadingHistoryError: true,
       };
     },
     [actionTypes.APP_LOGOUT](state, { payload }) {
