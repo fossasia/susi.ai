@@ -77,7 +77,7 @@ export function getSusiReply(payload) {
   return ajax.get(url, {
     q: encodeURIComponent(message.text),
     language: locale,
-    //eslint-disable-next-line
+    // eslint-disable-next-line
     device_type: 'Web Client',
   });
 }
@@ -91,9 +91,9 @@ export function getBlogReponse(blogKey) {
   const url = 'https://api.rss2json.com/v1/api.json';
   return ajax.get(url, {
     count: '50',
-    //eslint-disable-next-line
+    // eslint-disable-next-line
     api_key: blogKey,
-    //eslint-disable-next-line
+    // eslint-disable-next-line
     rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
   });
 }
