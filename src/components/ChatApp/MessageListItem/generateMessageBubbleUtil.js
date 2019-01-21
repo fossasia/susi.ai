@@ -4,12 +4,12 @@ import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import VoicePlayer from './VoicePlayer';
 import YouTube from 'react-youtube';
-import { getDefaultMapData } from '../../../apis';
+// import { getDefaultMapData } from '../../../apis';
 import { injectIntl } from 'react-intl';
 import {
   imageParse,
   processText,
-  drawMap,
+  // drawMap,
   drawTable,
   renderMessageFooter,
   renderAnchor,
@@ -106,29 +106,29 @@ const generateAnchorBubble = (
   );
 };
 
-const generateMapBubble = (
-  action,
-  index,
-  messageContainerClasses,
-  replacedText,
-  mapAnchor,
-  mymap,
-  message,
-  latestUserMsgID,
-  showFeedback,
-) => {
-  return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses} style={{ width: '80%' }}>
-        <div className="message-text">{replacedText}</div>
-        <div>{mapAnchor}</div>
-        <br />
-        <div>{mymap}</div>
-        {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
-  );
-};
+// const generateMapBubble = (
+//   action,
+//   index,
+//   messageContainerClasses,
+//   replacedText,
+//   mapAnchor,
+//   mymap,
+//   message,
+//   latestUserMsgID,
+//   showFeedback,
+// ) => {
+//   return (
+//     <div className="message-list-item" key={action + index}>
+//       <section className={messageContainerClasses} style={{ width: '80%' }}>
+//         <div className="message-text">{replacedText}</div>
+//         <div>{mapAnchor}</div>
+//         <br />
+//         <div>{mymap}</div>
+//         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
+//       </section>
+//     </div>
+//   );
+// };
 
 const generateTableBubble = (
   action,
@@ -295,15 +295,16 @@ export const generateMessageBubble = (
       const answer = message.response.answers[0];
       let actions = message.actions;
       let listItems = [];
-      let mapIndex = actions.indexOf('map');
+      // let mapIndex = actions.indexOf('map');
 
-      let mapAnchor = null;
+      // let mapAnchor = null;
       if (actions.indexOf('map') > -1) {
         if (actions.indexOf('anchor')) {
           const anchorIndex = actions.indexOf('anchor');
           const link = answer.actions[anchorIndex].link;
           const text = answer.actions[anchorIndex].text;
-          mapAnchor = renderAnchor(text, link);
+          // mapAnchor = renderAnchor(text, link);
+          renderAnchor(text, link);
         }
         actions = ['map'];
       }
@@ -364,52 +365,52 @@ export const generateMessageBubble = (
             );
             break;
           }
-          case 'map': {
-            let { latitude, longitude, zoom } = answer.actions[mapIndex];
-            latitude = parseFloat(latitude);
-            longitude = parseFloat(longitude);
-            zoom = parseFloat(zoom);
-            let mymap;
-            if (isNaN(latitude) || isNaN(longitude)) {
-              getDefaultMapData()
-                .then(response => {
-                  mymap = drawMap(response.latitude, response.longitude, zoom);
-                  listItems.push(
-                    generateMapBubble(
-                      action,
-                      index,
-                      messageContainerClasses,
-                      replacedText,
-                      mapAnchor,
-                      mymap,
-                      message,
-                      latestUserMsgID,
-                      showFeedback,
-                    ),
-                  );
-                })
-                .catch(error => {
-                  console.log(error);
-                  mymap = 'Map not found!';
-                });
-            } else {
-              mymap = drawMap(latitude, longitude, zoom);
-            }
-            listItems.push(
-              generateMapBubble(
-                action,
-                index,
-                messageContainerClasses,
-                replacedText,
-                mapAnchor,
-                mymap,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
+          // case 'map': {
+          //   let { latitude, longitude, zoom } = answer.actions[mapIndex];
+          //   latitude = parseFloat(latitude);
+          //   longitude = parseFloat(longitude);
+          //   zoom = parseFloat(zoom);
+          //   let mymap;
+          //   if (isNaN(latitude) || isNaN(longitude)) {
+          //     getDefaultMapData()
+          //       .then(response => {
+          //         mymap = drawMap(response.latitude, response.longitude, zoom);
+          //         listItems.push(
+          //           generateMapBubble(
+          //             action,
+          //             index,
+          //             messageContainerClasses,
+          //             replacedText,
+          //             mapAnchor,
+          //             mymap,
+          //             message,
+          //             latestUserMsgID,
+          //             showFeedback,
+          //           ),
+          //         );
+          //       })
+          //       .catch(error => {
+          //         console.log(error);
+          //         mymap = 'Map not found!';
+          //       });
+          //   } else {
+          //     mymap = drawMap(latitude, longitude, zoom);
+          //   }
+          //   listItems.push(
+          //     generateMapBubble(
+          //       action,
+          //       index,
+          //       messageContainerClasses,
+          //       replacedText,
+          //       mapAnchor,
+          //       mymap,
+          //       message,
+          //       latestUserMsgID,
+          //       showFeedback,
+          //     ),
+          //   );
+          //   break;
+          // }
           case 'table': {
             let { columns, count } = answer.actions[index];
             let table = drawTable(columns, answer.data, count);

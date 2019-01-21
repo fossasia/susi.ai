@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { ShareButtons, generateShareIcon } from 'react-share';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 const { FacebookShareButton, TwitterShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
-
 const styles = {
   shareIconContainer: {
     display: 'flex',

@@ -213,7 +213,7 @@ class Settings extends Component {
         console.log(errorThrown);
       },
       complete: function(jqXHR, textStatus) {
-        location.reload();
+        window.location.reload();
       },
     });
   };
@@ -769,7 +769,7 @@ class Settings extends Component {
       state.serverFieldError = false;
     } else if (event.target.name === 'serverUrl') {
       serverUrl = event.target.value;
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       let validServerUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/i.test(
         serverUrl,
       );

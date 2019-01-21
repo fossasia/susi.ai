@@ -37,6 +37,7 @@ const styles = {
   messageBackgroundStyles: {
     backgroundRepeat: 'no-repeat',
     backgroundSize: '100% 100%',
+    bottom: '120px',
   },
 };
 

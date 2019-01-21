@@ -1,4 +1,4 @@
-export const invertColorTextArea = textarea => {
+export const invertColor = textarea => {
   // get the text are code
   let hex = textarea.slice(1);
 

@@ -153,7 +153,7 @@ class App extends Component {
       snackBarActionHandler,
     } = this.state;
 
-    if (location.pathname !== '/') {
+    if (window.location.pathname !== '/') {
       document.body.className = 'white-body';
     }
 

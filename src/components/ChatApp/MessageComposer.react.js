@@ -20,6 +20,7 @@ import { urlParam } from '../../utils/helperFunctions';
 import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import { getAllUserMessages } from '../../utils/messageFilter';
+import commonWords from './words.json';
 
 injectTapEventPlugin();
 
@@ -86,6 +87,7 @@ class MessageComposer extends Component {
       speechRecognitionTextcolor: '#000',
     };
     this.userMessageHistory = [];
+    this.suggestionList = [];
     const { micInput } = this.props;
     if (micInput) {
       const SpeechRecognition =
@@ -254,6 +256,22 @@ class MessageComposer extends Component {
   }
 
   onTextFieldChange = (event, value) => {
+    var searchWords = event.target.value.split(' ');
+    var wordList = commonWords.commonWords;
+    if (searchWords[searchWords.length - 1].length >= 1) {
+      var numOfSuggestion = 0;
+      for (var j = 0; j < wordList.length; j++) {
+        if (
+          wordList[j].substring(
+            0,
+            searchWords[searchWords.length - 1].length,
+          ) == searchWords[searchWords.length - 1].toLowerCase()
+        ) {
+          this.suggestionList[numOfSuggestion % 5] = wordList[j];
+          numOfSuggestion += 1;
+        }
+      }
+    }
     this.setState({ text: event.target.value, currentMessageIndex: -1 });
   };
 
@@ -304,6 +322,39 @@ class MessageComposer extends Component {
     }
   };
 
+  suggestions = () => {
+    if (this.suggestionList.length == 0) {
+      return;
+    }
+
+    var suggestions = [];
+    for (var i = 0; i <= 4; i++) {
+      suggestions.push(
+        <button
+          key={i}
+          className="suggestions"
+          value={this.suggestionList[i]}
+          onClick={this.insertSuggestedWord}
+        >
+          {this.suggestionList[i]}
+        </button>,
+      );
+    }
+    return suggestions;
+  };
+
+  insertSuggestedWord = event => {
+    var updatedSearch;
+    var { text } = this.state;
+    if (text.lastIndexOf(' ') == -1) {
+      updatedSearch = event.target.value;
+    } else {
+      var lastIndex = text.lastIndexOf(' ');
+      updatedSearch = text.substring(0, lastIndex) + ' ' + event.target.value;
+    }
+    this.setState({ text: updatedSearch });
+  };
+
   render() {
     const {
       isListening,
@@ -315,6 +366,7 @@ class MessageComposer extends Component {
     const { textarea, textcolor, focus, micColor } = this.props;
     return (
       <div className="message-composer">
+        <div className="suggestion_box">{this.suggestions()}</div>
         {isListening && (
           <VoiceRecognition
             onStart={this.onStart}
