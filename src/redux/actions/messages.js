@@ -25,6 +25,10 @@ const messageActions = {
     actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE,
     returnArgumentsFn,
   ),
+  initializeMessageStoreFailed: createAction(
+    actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE_FAILED,
+    returnArgumentsFn,
+  ),
   postSkillFeedback: createAction(
     actionTypes.MESSAGES_POST_SKILL_FEEDBACK,
     apis.postSkillFeedback,

@@ -1,50 +1,33 @@
-.footer-wrapper{
+html {
+    overflow-x: hidden;
+}
+.footer-wrap{
     background: #f6f6f6;
     width: 100%;
     position: relative;
     z-index: 10;
-    max-height: 150px;
-}
-.footer-container a{
-    text-decoration: none;
-    color: #414141;
-    font-size: 1em;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-    margin-right: 20px;
-}
-
-.footer-container{
-    padding: 30px 50px 30px 50px;
+    border: 1px solid #ddd;
     display: flex;
-    max-width: 100%;
-    width: 100%;
-    margin: 0 auto;
-
-}
-
-.alignLeft,.alignRight{
-    list-style: none;
-    list-style-type: none;
-    display: flex;
-}
-
-.footer-container a:hover {
-    text-decoration: none;
-    color:#757575;;
-}
-.footer{
-    background: #f6f6f6;
-    margin-top: 40px;
-    min-height: 100px;
-    max-width: 100%;
-    width: 100%;
     bottom: 0;
-    position: relative;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
+    left: 0;
+    margin-top: 35px;
+}
+
+.footer-container {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
     align-items: center;
+    padding: 30px;
+    width: 100%;
+}
+
+.footer-content{
+    background: #f6f6f6;
+    margin-top:0px;
+    min-height: 20px;
+    max-width: 100%;
+    width: 100%;
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
@@ -54,7 +37,48 @@
     -ms-flex-flow: row wrap;
     flex-flow: row wrap;
     -webkit-box-pack: justify;
-    justify-content: space-between
+    justify-content: space-between;
+}
+
+.footer-content li {
+    padding: 8px;
+}
+
+.footer-content li a{
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    color: #414141;
+}
+
+.footer-content ul{
+    list-style: none;
+    list-style-type: none;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-pack: justify;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin: 8px;
+    padding: 0;
+}
+
+.footer-content li a:hover {
+    color:#3367d6;
+}
+
+.susi-logo-footer{
+    height: 30px;
+    vertical-align: middle;
+    max-width: 100px;
+    margin: 10px 48px 10px 0px;
 }
 .susi-logo{
     height: 10px;
@@ -64,41 +88,42 @@
     width: auto;
 }
 
-@media only screen and (min-width: 1400px){
-    .footer{
-        max-width: 100%;
+.footer-left {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-pack: justify;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+@media only screen and (max-width: 800px) {
+    .susi-logo{
+        display: block;
+        margin-left:auto;
+        margin-right: auto;
     }
-    .footer-container{
-        width: 1050px;
-        margin: 0 auto;
+}
+@media only screen and (max-width: 745px){
+
+    .footer-content {
+        padding-top: 0px;
+        justify-content: center;
     }
 
-}
-@media only screen and (max-width: 800px){
-    .alignLeft,.alignRight{
-        flex:1 100%;
-        display: block;
-        padding-left: 0;
-        list-style: none;
-        list-style-type: none;
-    }
-    .alignLeft li,.alignRight li{
-        float: left;
-        padding: 0 30px 15px 0;
-    }
-    .footer-container{
-        display: block;
-        padding: 30px 30px 30px 40px;
-    }
-    .alignLeft a, .alignRight a{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .footer-container {
         display: block;
     }
-    .susi-logo{
-      display: block;
-      margin-left:auto;
-      margin-right: auto;
+
+    .susi-logo-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .susi-logo-footer {
+        margin: 10px;
     }
 }

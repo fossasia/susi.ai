@@ -65,6 +65,7 @@ class SignUp extends Component {
     openSignUp: PropTypes.bool,
     onRequestOpenLogin: PropTypes.func,
     captchaKey: PropTypes.string,
+    openSnackBar: PropTypes.func,
   };
 
   constructor(props) {
@@ -144,10 +145,14 @@ class SignUp extends Component {
         break;
       }
       case 'password': {
+        const { confirmPassword, passwordConfirmErrorMessage } = this.state;
         const password = event.target.value.trim();
         const passwordScore = zxcvbn(password).score;
         const strength = ['Worst', 'Bad', 'Weak', 'Good', 'Strong'];
         const passwordError = !(password.length >= 6 && password);
+        const passwordConfirmError =
+          (confirmPassword || passwordConfirmErrorMessage) &&
+          !(confirmPassword === password);
         this.setState({
           password,
           passwordErrorMessage: passwordError
@@ -155,6 +160,9 @@ class SignUp extends Component {
             : '',
           passwordScore: passwordError ? -1 : passwordScore,
           passwordStrength: passwordError ? '' : strength[passwordScore],
+          passwordConfirmErrorMessage: passwordConfirmError
+            ? 'Password does not match'
+            : '',
           signupErrorMessage: '',
         });
         break;
@@ -193,7 +201,7 @@ class SignUp extends Component {
       isCaptchaVerified,
     } = this.state;
 
-    const { actions } = this.props;
+    const { actions, openSnackBar } = this.props;
 
     if (!isCaptchaVerified) {
       this.setState({
@@ -215,26 +223,36 @@ class SignUp extends Component {
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setState({
+              password: '',
+              confirmPassword: '',
+              passwordStrength: '',
+              passwordScore: -1,
               signupErrorMessage: payload.message,
               success: true,
               loading: false,
             });
           } else {
             this.setState({
-              signupErrorMessage: 'Failed. Try Again',
               password: '',
               success: false,
               loading: false,
+            });
+            openSnackBar({
+              snackBarMessage: 'Signup Failed. Try Again',
+              snackBarDuration: 6000,
             });
           }
         })
         .catch(error => {
           console.log(error);
           this.setState({
-            signupErrorMessage: 'Signup Failed. Try Again',
             success: false,
             password: '',
             loading: false,
+          });
+          openSnackBar({
+            snackBarMessage: 'Signup Failed. Try Again',
+            snackBarDuration: 6000,
           });
         });
     }
@@ -348,15 +366,17 @@ class SignUp extends Component {
                   marginTop: '10px',
                 }}
               >
-                <Recaptcha
-                  sitekey={captchaKey}
-                  render="explicit"
-                  onloadCallback={this.onCaptchaLoad}
-                  verifyCallback={this.onCaptchaSuccess}
-                  badge="inline"
-                  type="audio"
-                  size="normal"
-                />
+                {captchaKey && (
+                  <Recaptcha
+                    sitekey={captchaKey}
+                    render="explicit"
+                    onloadCallback={this.onCaptchaLoad}
+                    verifyCallback={this.onCaptchaSuccess}
+                    badge="inline"
+                    type="audio"
+                    size="normal"
+                  />
+                )}
                 {!isCaptchaVerified &&
                   captchaVerifyErrorMessage && (
                     <p className="error-message">

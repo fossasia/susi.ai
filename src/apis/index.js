@@ -151,4 +151,7 @@ export function getDefaultMapData() {
   return ajax.get(`${LAT_LNG_OF_USER}` + ip_user, {
     access_key: 'a618116f941185727af98d1fdbe5665d',
   });
+export function getAdmin(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/showAdminService.json`;
+  return ajax.get(url, payload);
 }

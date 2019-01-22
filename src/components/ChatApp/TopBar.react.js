@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import Cookies from 'universal-cookie';
 import Popover from 'material-ui/Popover';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
@@ -22,14 +21,11 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
+import actions from '../../redux/actions/app';
 import urls from '../../utils/urls';
-import { isProduction, getAvatarProps } from '../../utils/helperFunctions';
+import { getAvatarProps } from '../../utils/helperFunctions';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
-
-const cookies = new Cookies();
 
 const styles = {
   popoverStyle: {
@@ -65,6 +61,8 @@ class TopBar extends Component {
     email: PropTypes.string,
     accessToken: PropTypes.string,
     userName: PropTypes.string,
+    isAdmin: PropTypes.bool,
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
@@ -76,11 +74,7 @@ class TopBar extends Component {
     super(props);
     this.state = {
       showOptions: false,
-      showAdmin: false,
       anchorEl: null,
-      userName: '',
-      uuid: '',
-      email: '',
     };
   }
 
@@ -88,40 +82,6 @@ class TopBar extends Component {
     this.setState({
       search: false,
     });
-    this.postLoginInitialization();
-  }
-
-  postLoginInitialization() {
-    if (cookies.get('loggedIn')) {
-      const url = `${
-        urls.API_URL
-      }/aaa/showAdminService.json?access_token=${cookies.get('loggedIn')}`;
-      $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        jsonpCallback: 'pfns',
-        jsonp: 'callback',
-        crossDomain: true,
-        success: function(newResponse) {
-          let showAdmin = newResponse.showAdmin;
-          cookies.set('showAdmin', showAdmin, {
-            path: '/',
-            domain: cookieDomain,
-          });
-          this.setState({
-            showAdmin: showAdmin,
-          });
-          // console.log(newResponse.showAdmin)
-        }.bind(this),
-        error: function(newErrorThrown) {
-          console.log(newErrorThrown);
-        },
-      });
-
-      this.setState({
-        showAdmin: cookies.get('showAdmin'),
-      });
-    }
   }
 
   showOptions = event => {
@@ -140,7 +100,7 @@ class TopBar extends Component {
 
   render() {
     const { popoverStyle, logoStyle } = styles;
-    const { showAdmin, showOptions, anchorEl } = this.state;
+    const { showOptions, anchorEl } = this.state;
     const {
       searchState,
       search,
@@ -155,6 +115,7 @@ class TopBar extends Component {
       header,
       toggleShareClose,
       onRequestOpenLogin,
+      isAdmin,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -239,21 +200,28 @@ class TopBar extends Component {
           >
             {accessToken && (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Dashboard" />}
                 rightIcon={<Assessment />}
                 href={`${urls.SKILL_URL}/dashboard`}
               />
             )}
             <MenuItem
+              onClick={this.closeOptions}
               primaryText={<Translate text="Chat" />}
               containerElement={<Link to="/" />}
               rightIcon={<Chat />}
             />
-            <MenuItem rightIcon={<Dashboard />} href={urls.SKILL_URL}>
+            <MenuItem
+              rightIcon={<Dashboard />}
+              href={urls.SKILL_URL}
+              onClick={this.closeOptions}
+            >
               <Translate text="Skills" />
             </MenuItem>
             {accessToken && (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Botbuilder" />}
                 rightIcon={<Extension />}
                 href={`${urls.SKILL_URL}/botbuilder`}
@@ -261,19 +229,21 @@ class TopBar extends Component {
             )}
             {accessToken && (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Settings" />}
                 containerElement={<Link to="/settings" />}
                 rightIcon={<Settings />}
               />
             )}
             <MenuItem
+              onClick={this.closeOptions}
               primaryText={<Translate text="About" />}
               containerElement={<Link to="/overview" />}
               rightIcon={<Info />}
             />
 
             {accessToken &&
-              showAdmin && (
+              isAdmin && (
                 <MenuItem
                   primaryText={<Translate text="Admin" />}
                   rightIcon={<List />}
@@ -281,18 +251,21 @@ class TopBar extends Component {
                 />
               )}
             <MenuItem
+              onClick={this.closeOptions}
               primaryText={<Translate text="Share" />}
               onTouchTap={toggleShareClose}
               rightIcon={<Share />}
             />
             {accessToken ? (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Logout" />}
                 containerElement={<Link to="/logout" />}
                 rightIcon={<Exit />}
               />
             ) : (
               <MenuItem
+                onClick={this.closeOptions}
                 primaryText={<Translate text="Login" />}
                 onTouchTap={onRequestOpenLogin}
                 rightIcon={<SignUp />}
@@ -306,15 +279,22 @@ class TopBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, userName } = store.app;
+  const { email, accessToken, userName, isAdmin } = store.app;
   return {
     email,
     accessToken,
     userName,
+    isAdmin,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(TopBar);

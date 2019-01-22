@@ -23,17 +23,21 @@ const Logout = props => {
   deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
   deleteCookie('emailId', { domain: cookieDomain, path: '/' });
   deleteCookie('username', { domain: cookieDomain, path: '/' });
-  deleteCookie('isAdmin', { domain: cookieDomain, path: '/' });
   deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
   if (props.history) {
-    props.actions.logout();
+    props.actions.logout().then(() => {
+      props.openSnackBar({
+        snackBarMessage: 'You have logged out successfully',
+      });
+    });
     props.history.push('/');
   }
   return null;
 };
 
 Logout.propTypes = {
+  openSnackBar: PropTypes.func,
   history: PropTypes.object,
 };
 

@@ -85,7 +85,6 @@ const DialogSection = props => {
               <div>
                 <FacebookIcon size={42} />
               </div>
-
               <div style={iconTitleStyle}>Facebook</div>
             </FacebookShareButton>
           </div>
