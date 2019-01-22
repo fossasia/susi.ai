@@ -9,11 +9,9 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Popover from 'material-ui/Popover';
-import Cookies from 'universal-cookie';
 import $ from 'jquery';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Info from 'material-ui/svg-icons/action/info';
 import actions from '../../redux/actions/app';
 import urls from '../../utils/urls';
@@ -29,8 +27,6 @@ import Extension from 'material-ui/svg-icons/action/extension';
 import Assessment from 'material-ui/svg-icons/action/assessment';
 import List from 'material-ui/svg-icons/action/list';
 import './StaticAppBar.css';
-
-const cookies = new Cookies();
 
 const baseUrl = window.location.protocol + '//' + window.location.host + '/';
 
@@ -90,6 +86,8 @@ class StaticAppBar extends Component {
     isAdmin: PropTypes.bool,
     accessToken: PropTypes.string,
     actions: PropTypes.object,
+    email: PropTypes.string,
+    userName: PropTypes.string,
   };
 
   constructor(props) {
@@ -151,10 +149,6 @@ class StaticAppBar extends Component {
   };
 
   componentDidMount() {
-    const { isAdmin, accessToken, actions } = this.props;
-    if (isAdmin === null && accessToken) {
-      actions.getAdmin();
-    }
     window.addEventListener('scroll', this.handleScroll);
     let didScroll;
     let lastScrollTop = 0;
@@ -203,7 +197,7 @@ class StaticAppBar extends Component {
       popOverStyle,
       linkLabelStyle,
     } = styles;
-    const { accessToken, settings, location } = this.props;
+    const { accessToken, settings, location, email, userName } = this.props;
     const { isPopUpMenuOpen, anchorEl, isDrawerOpen } = this.state;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
@@ -275,7 +269,7 @@ class StaticAppBar extends Component {
     const TopRightMenu = props => {
       let avatarProps = null;
       if (accessToken) {
-        avatarProps = getAvatarProps(cookies.get('emailId'));
+        avatarProps = getAvatarProps(email);
       }
       return (
         <div onScroll={this.handleScroll}>
@@ -285,10 +279,7 @@ class StaticAppBar extends Component {
                 <div style={circleImageWrapperStyle}>
                   <CircleImage {...avatarProps} size="32" />
                   <label className="topRightLabel" style={circleImageStyle}>
-                    {UserPreferencesStore.getUserName() === '' ||
-                    UserPreferencesStore.getUserName() === 'undefined'
-                      ? cookies.get('emailId')
-                      : UserPreferencesStore.getUserName()}
+                    {!userName ? email : userName}
                   </label>
                 </div>
               )}
@@ -457,11 +448,11 @@ class StaticAppBar extends Component {
   }
 }
 
-function mapStateToProps({ app }) {
+function mapStateToProps(store) {
+  const { app, settings } = store;
   return {
-    isAdmin: app.isAdmin,
-    accessToken: app.accessToken,
-    settings: app.settings,
+    ...app,
+    ...settings,
   };
 }
 

@@ -22,14 +22,16 @@ class ChatApp extends Component {
   }
 
   componentDidMount() {
-    const { getHistoryFromServer, initializeMessageStore } = this.props.actions;
-    getHistoryFromServer()
+    const { actions } = this.props;
+    actions
+      .getHistoryFromServer()
       .then(({ payload }) => {
         createMessagePairArray(payload).then(messagePairArray => {
-          initializeMessageStore(messagePairArray);
+          actions.initializeMessageStore(messagePairArray);
         });
       })
       .catch(error => {
+        actions.initializeMessageStoreFailed();
         console.log(error);
       });
     document.title = 'SUSI.AI Chat - Open Source Artificial Intelligence';

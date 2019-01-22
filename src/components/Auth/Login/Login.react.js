@@ -116,26 +116,30 @@ class Login extends Component {
       actions
         .getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
+          const { accessToken, time, uuid } = payload;
           let snackBarMessage;
           if (payload.accepted) {
-            // eslint-disable-next-line camelcase
-            actions.getAdmin({ access_token: payload.accessToken });
-            this.setCookies({ ...payload, email });
+            snackBarMessage = payload.message;
             actions
-              .getHistoryFromServer()
+              // eslint-disable-next-line camelcase
+              .getAdmin({ access_token: payload.accessToken })
               .then(({ payload }) => {
-                createMessagePairArray(payload).then(messagePairArray => {
-                  actions.initializeMessageStore(messagePairArray);
+                this.setCookies({ accessToken, time, uuid, email });
+                actions.getHistoryFromServer().then(({ payload }) => {
+                  // eslint-disable-next-line
+                  createMessagePairArray(payload).then(messagePairArray => {
+                    actions.initializeMessageStore(messagePairArray);
+                  });
+                });
+                this.setState({
+                  success: true,
+                  loading: false,
                 });
               })
               .catch(error => {
+                actions.initializeMessageStoreFailed();
                 console.log(error);
               });
-            this.setState({
-              success: true,
-              loading: false,
-            });
-            snackBarMessage = payload.message;
             this.handleDialogClose();
           } else {
             this.setState({
@@ -143,7 +147,7 @@ class Login extends Component {
               success: false,
               loading: false,
             });
-            snackBarMessage = 'Signup Failed. Try Again';
+            snackBarMessage = 'Login Failed. Try Again';
           }
           openSnackBar({
             snackBarMessage,
