@@ -89,12 +89,10 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
   }
 
   return (
-    <ul>
-      <li className="message-time" style={footerStyle}>
-        <PostDate date={message ? message.date : null} />
-        {isLastAction && <Feedback message={message} />}
-        {footerContent}
-      </li>
+    <ul className="message-time" style={footerStyle}>
+      <PostDate date={message ? message.date : null} />
+      {isLastAction && <Feedback message={message} />}
+      {footerContent}
     </ul>
   );
 }
