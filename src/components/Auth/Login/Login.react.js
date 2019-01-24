@@ -283,6 +283,7 @@ class Login extends Component {
       marginBottom: '10px',
       marginRight: '50px',
       width: '90%',
+      right: '4px',
     };
 
     const actions = (
