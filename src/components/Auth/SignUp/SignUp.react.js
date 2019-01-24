@@ -379,6 +379,7 @@ export default class SignUp extends Component {
       marginBottom: '10px',
       marginRight: '50px',
       width: '90%',
+      right: '4px',
     };
 
     const PasswordClass = [`is-strength-${this.state.passwordScore}`];
