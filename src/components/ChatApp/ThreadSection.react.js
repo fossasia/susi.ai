@@ -18,17 +18,17 @@ export default class ThreadSection extends Component {
   }
 
   componentDidMount() {
-    ThreadStore.addChangeListener(this._onChange.bind(this));
-    UnreadThreadStore.addChangeListener(this._onChange.bind(this));
+    ThreadStore.addChangeListener(this._onChange);
+    UnreadThreadStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
-    ThreadStore.removeChangeListener(this._onChange.bind(this));
-    UnreadThreadStore.removeChangeListener(this._onChange.bind(this));
+    ThreadStore.removeChangeListener(this._onChange);
+    UnreadThreadStore.removeChangeListener(this._onChange);
   }
 
   render() {
-    let threadListItems = this.state.threads.map(function(thread) {
+    const threadListItems = this.state.threads.map(function(thread) {
       return (
         <ThreadListItem
           key={thread.id}
@@ -37,7 +37,7 @@ export default class ThreadSection extends Component {
         />
       );
     }, this);
-    let unread =
+    const unread =
       this.state.unreadCount === 0 ? null : (
         <span>Unread threads: {this.state.unreadCount}</span>
       );
@@ -48,11 +48,10 @@ export default class ThreadSection extends Component {
       </div>
     );
   }
-
   /**
    * Event handler for 'change' events coming from the stores
    */
-  _onChange() {
+  _onChange = () => {
     this.setState(getStateFromStores());
-  }
+  };
 }

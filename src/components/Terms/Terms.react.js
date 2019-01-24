@@ -1,9 +1,9 @@
-import './Terms.css';
-import $ from 'jquery';
-import Footer from '../Footer/Footer.react';
-import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Footer from '../Footer/Footer.react';
+import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
+import './Terms.css';
 
 class Terms extends Component {
   constructor(props) {
@@ -21,7 +21,8 @@ class Terms extends Component {
 
   componentDidMount() {
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
+
     // Adding title tag to page
     document.title =
       'Terms and Conditions - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
@@ -41,7 +42,6 @@ class Terms extends Component {
   }
 
   render() {
-    document.body.style.setProperty('background-image', 'none');
     return (
       <div>
         <StaticAppBar {...this.props} location={this.props.location} />

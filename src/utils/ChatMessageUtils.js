@@ -1,14 +1,14 @@
 // Message Utils required for Chat
-export function convertRawMessage(rawMessage, currentThreadID) {
+export const convertRawMessage = (rawMessage, currentThreadID) => {
   return {
     ...rawMessage,
     date: new Date(rawMessage.timestamp),
     isRead: rawMessage.threadID === currentThreadID,
   };
-}
+};
 
-export function getCreatedMessageData(text, currentThreadID, voice) {
-  var timestamp = Date.now();
+export const getCreatedMessageData = (text, currentThreadID, voice) => {
+  const timestamp = Date.now();
   return {
     id: 'm_' + timestamp,
     threadID: currentThreadID,
@@ -19,10 +19,10 @@ export function getCreatedMessageData(text, currentThreadID, voice) {
     type: 'message',
     voice: voice,
   };
-}
+};
 
-export function getSUSIMessageData(message, currentThreadID) {
-  var timestamp = Date.now();
+export const getSUSIMessageData = (message, currentThreadID) => {
+  const timestamp = Date.now();
 
   let receivedMessage = {
     id: 'm_' + timestamp,
@@ -42,4 +42,4 @@ export function getSUSIMessageData(message, currentThreadID) {
     feedback: message.feedback,
   };
   return receivedMessage;
-}
+};

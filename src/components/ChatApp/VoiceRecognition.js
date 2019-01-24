@@ -3,10 +3,23 @@ import PropTypes from 'prop-types';
 
 let counter = 0;
 
+const speechDefaults = {
+  continuous: true,
+  interimResults: true,
+  lang: 'en-US',
+};
+
 class VoiceRecognition extends Component {
+  static propTypes = {
+    onStart: PropTypes.func,
+    onEnd: PropTypes.func,
+    onResult: PropTypes.func,
+    continuous: PropTypes.bool,
+    lang: PropTypes.string,
+  };
+
   constructor(props) {
     super(props);
-
     const SpeechRecognition =
       window.SpeechRecognition ||
       window.webkitSpeechRecognition ||
@@ -24,13 +37,7 @@ class VoiceRecognition extends Component {
   }
 
   createRecognition = SpeechRecognition => {
-    const defaults = {
-      continuous: true,
-      interimResults: true,
-      lang: 'en-US',
-    };
-
-    const options = Object.assign({}, defaults, this.props);
+    const options = Object.assign({}, speechDefaults, this.props);
 
     let recognition = new SpeechRecognition();
 
@@ -57,6 +64,7 @@ class VoiceRecognition extends Component {
     }
     this.props.onResult({ interimTranscript, finalTranscript });
   };
+
   start = () => {
     this.recognition.start();
   };
@@ -65,33 +73,20 @@ class VoiceRecognition extends Component {
     this.recognition.stop();
   };
 
-  stop = () => {
-    this.recognition.stop();
-  };
-
   abort = () => {
     this.recognition.abort();
   };
 
-  componentDidUpdate({ stop }) {
-    if (stop) {
-      this.stop();
-    }
-  }
-
   componentDidMount() {
+    const { onStart, onEnd } = this.props;
     const events = [
-      { name: 'start', action: this.props.onStart },
-      { name: 'end', action: this.props.onEnd },
-      { name: 'speechstart', action: this.props.onSpeechStart },
+      { name: 'start', action: onStart },
+      { name: 'end', action: onEnd },
+      { name: 'result', action: this.bindResult },
     ];
-
     events.forEach(event => {
       this.recognition.addEventListener(event.name, event.action);
     });
-
-    this.recognition.addEventListener('result', this.bindResult);
-
     this.start();
   }
 
@@ -103,15 +98,5 @@ class VoiceRecognition extends Component {
     return null;
   }
 }
-
-VoiceRecognition.propTypes = {
-  onStart: PropTypes.func,
-  onSpeechStart: PropTypes.func,
-  onEnd: PropTypes.func,
-  onResult: PropTypes.func,
-  continuous: PropTypes.bool,
-  lang: PropTypes.string,
-  stop: PropTypes.bool,
-};
 
 export default VoiceRecognition;

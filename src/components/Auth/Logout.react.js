@@ -1,11 +1,13 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isProduction } from '../../utils/helperFunctions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import actions from '../../redux/actions/app';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 // Clear cookie by setting expiry date
-var deleteCookie = function(name, options = {}) {
+const deleteCookie = function(name, options = {}) {
   let cookieString = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   if (options.domain) {
     cookieString = `${cookieString}domain=${options.domain};`;
@@ -16,34 +18,36 @@ var deleteCookie = function(name, options = {}) {
   document.cookie = cookieString;
 };
 
-class Logout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: '',
-    };
-  }
+const Logout = props => {
+  deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
+  deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
+  deleteCookie('emailId', { domain: cookieDomain, path: '/' });
+  deleteCookie('username', { domain: cookieDomain, path: '/' });
+  deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
-  componentDidMount() {
-    // Clear cookies
-    deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
-    deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
-    deleteCookie('emailId', { domain: cookieDomain, path: '/' });
-    deleteCookie('username', { domain: cookieDomain, path: '/' });
-    deleteCookie('showAdmin', { domain: cookieDomain, path: '/' });
-    deleteCookie('uuid', { domain: cookieDomain, path: '/' });
-
-    // Redirect to landing page
-    this.props.history.push('/');
-    window.location.reload();
+  if (props.history) {
+    props.actions.logout().then(() => {
+      props.openSnackBar({
+        snackBarMessage: 'You have logged out successfully',
+      });
+    });
+    props.history.push('/');
   }
-  render() {
-    return null;
-  }
-}
+  return null;
+};
 
 Logout.propTypes = {
+  openSnackBar: PropTypes.func,
   history: PropTypes.object,
 };
 
-export default Logout;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Logout);
