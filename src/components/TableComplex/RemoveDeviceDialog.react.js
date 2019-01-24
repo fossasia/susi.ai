@@ -1,11 +1,31 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import './RemoveDeviceDialog.css';
-import PropTypes from 'prop-types';
-import $ from 'jquery';
 import Translate from '../Translate/Translate.react';
+import './RemoveDeviceDialog.css';
+
+const styles = {
+  paperStyle: {
+    width: '100%',
+    textAlign: 'center',
+    padding: '0px',
+  },
+  fieldStyle: {
+    height: '35px',
+    borderRadius: 4,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '0px 10px',
+    width: '250px',
+    marginTop: '0px',
+  },
+  inputStyle: {
+    height: '35px',
+    marginBottom: '10px',
+  },
+};
 
 class RemoveDeviceDialog extends Component {
   constructor(props) {
@@ -18,17 +38,24 @@ class RemoveDeviceDialog extends Component {
   }
 
   componentDidMount = () => {
-    let fieldWidth = $('#returnDiv').width();
-    $('#returnDiv')
-      .parent()
-      .css({ padding: '0px', color: 'red' });
-    $('#removeDeviceButton').css({
+    let field = this.returnDiv;
+    let removeDeviceBtn = this.removeDeviceButton;
+    let deviceName = this.deviceName;
+    const fieldWidth = field.style.width;
+    const fieldStyle = {
+      padding: '0px',
+      color: '#900',
+    };
+    const removeDeviceBtnStyle = {
       width: fieldWidth + 6,
       transition: 'none',
-    });
-    $('#devicename')
-      .parent()
-      .css({ width: fieldWidth - 16 });
+    };
+    const deviceNameStyle = {
+      width: fieldWidth - 16,
+    };
+    field.style = fieldStyle;
+    removeDeviceBtn.style = removeDeviceBtnStyle;
+    deviceName.style = deviceNameStyle;
   };
   // Handle changes in device name
   handleChange = event => {
@@ -39,28 +66,14 @@ class RemoveDeviceDialog extends Component {
   };
 
   render() {
-    const styles = {
-      width: '100%',
-      textAlign: 'center',
-      padding: '0px',
-    };
-    const fieldStyle = {
-      height: '35px',
-      borderRadius: 4,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      padding: '0px 10px',
-      width: '250px',
-      marginTop: '0px',
-    };
-    const inputStyle = {
-      height: '35px',
-      marginBottom: '10px',
-    };
-
+    const { paperStyle, fieldStyle, inputStyle } = styles;
     return (
-      <div className="removeDeviceForm" id="returnDiv">
-        <Paper zDepth={0} style={styles}>
+      <div
+        className="removeDeviceForm"
+        id="returnDiv"
+        ref={el => (this.returnDiv = el)}
+      >
+        <Paper zDepth={0} style={paperStyle}>
           <div
             style={{
               backgroundColor: '#f6f8fa',
@@ -86,7 +99,7 @@ class RemoveDeviceDialog extends Component {
               lineHeight: '1.5',
             }}
           >
-            Unexpected bad things will happen if you don’t read this!
+            Unexpected bad things will happen if you don't read this!
           </div>
           <div
             style={{
@@ -108,7 +121,10 @@ class RemoveDeviceDialog extends Component {
             <p style={{ marginTop: '0px', marginBottom: '10px' }}>
               Please type in the name of the device to confirm.
             </p>
-            <div style={{ textAlign: 'center' }}>
+            <div
+              style={{ textAlign: 'center' }}
+              ref={el => (this.deviceName = el)}
+            >
               <TextField
                 id="devicename"
                 name="devicename"
@@ -147,6 +163,7 @@ class RemoveDeviceDialog extends Component {
                   verticalAlign: 'middle',
                 }}
                 disabled={!this.state.correctName}
+                ref={el => (this.removeDeviceButton = el)}
               />
             </div>
           </div>

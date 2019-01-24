@@ -1,125 +1,136 @@
-import Dialog from 'material-ui/Dialog';
-import React, { Component } from 'react';
-import Login from '../../Auth/Login/Login.react';
-import SignUp from '../../Auth/SignUp/SignUp.react';
-import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { ShareButtons, generateShareIcon } from 'react-share';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+const { FacebookShareButton, TwitterShareButton } = ShareButtons;
+const FacebookIcon = generateShareIcon('facebook');
+const TwitterIcon = generateShareIcon('twitter');
 import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from 'material-ui/Dialog';
 
-export default class DialogSection extends Component {
-  render() {
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
-    return (
-      <div>
-        {/* Login */}
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.props.openLogin}
-          autoScrollBodyContent={true}
-          bodyStyle={this.props.bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.props.onRequestClose()}
-        >
-          <Login
-            {...this.props}
-            handleForgotPassword={this.props.onForgotPassword()}
-            handleSignUp={this.props.handleSignUp}
-          />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
-        </Dialog>
-        {/* SignUp */}
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.props.openSignUp}
-          autoScrollBodyContent={true}
-          bodyStyle={this.props.bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.props.onRequestClose()}
-        >
-          <SignUp
-            {...this.props}
-            onRequestClose={this.props.onRequestClose()}
-            onLoginSignUp={this.props.onLoginSignUp()}
-          />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
-        </Dialog>
-        {/*  Forgot Password */}
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.props.openForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.props.onRequestClose()}
-        >
-          <ForgotPassword
-            {...this.props}
-            onLoginSignUp={this.props.onLoginSignUp()}
-            showForgotPassword={this.showForgotPassword}
-          />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestClose()}
-          />
-        </Dialog>
-        <Dialog
-          className="dialogStyle"
-          contentStyle={{
-            width: '45%',
-            minWidth: '300px',
-            textAlign: 'center',
-          }}
-          title="Welcome to SUSI.AI Web Chat"
-          open={this.props.tour}
-        >
-          <iframe
-            width="99%"
-            height="315"
-            src="https://www.youtube.com/embed/9T3iMoAUKYA"
-            frameBorder="0"
-            scrolling="no"
-          />
-          <Close
-            style={closingStyle}
-            onTouchTap={this.props.onRequestCloseTour()}
-          />
-        </Dialog>
-      </div>
-    );
-  }
-}
+const styles = {
+  shareIconContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  iconTitleStyle: {
+    height: '48px',
+    lineHeight: '48px',
+    verticalAlign: 'center',
+    padding: '0 0 0 5px',
+  },
+  iconWrapperStyle: {
+    marginTop: '16px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 1200,
+    fill: '#444',
+    width: '26px',
+    height: '26px',
+    right: '10px',
+    top: '10px',
+    cursor: 'pointer',
+  },
+  contentStyle: {
+    width: '350px',
+    minWidth: '350px',
+    textAlign: 'center',
+  },
+  titleWrapperStyle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+};
+
+const DialogSection = props => {
+  const shareUrl = 'http://chat.susi.ai';
+  const title =
+    'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
+  const { isShareOpen, tour, onRequestCloseTour, toggleShareClose } = props;
+  const {
+    contentStyle,
+    titleWrapperStyle,
+    shareIconContainer,
+    iconWrapperStyle,
+    iconTitleStyle,
+    closingStyle,
+  } = styles;
+  return (
+    <div>
+      {/* Share */}
+      <Dialog
+        contentStyle={contentStyle}
+        open={isShareOpen}
+        onRequestClose={toggleShareClose}
+      >
+        <div style={titleWrapperStyle}>
+          <h3>Share about SUSI</h3>
+          <div style={{ flex: 1 }} />
+          <IconButton onTouchTap={toggleShareClose}>
+            <CloseIcon size={32} />
+          </IconButton>
+        </div>
+        <div style={shareIconContainer}>
+          <div className="HoverIcon">
+            <FacebookShareButton
+              url={shareUrl}
+              quote={title}
+              style={iconWrapperStyle}
+            >
+              <div>
+                <FacebookIcon size={42} />
+              </div>
+              <div style={iconTitleStyle}>Facebook</div>
+            </FacebookShareButton>
+          </div>
+          <div className="HoverIcon">
+            <TwitterShareButton
+              style={iconWrapperStyle}
+              url={shareUrl}
+              title={title}
+            >
+              <div>
+                <TwitterIcon size={42} />
+              </div>
+
+              <div style={iconTitleStyle}>Twitter</div>
+            </TwitterShareButton>
+          </div>
+        </div>
+      </Dialog>
+      <Dialog
+        className="dialogStyle"
+        contentStyle={{
+          width: '45%',
+          minWidth: '300px',
+          textAlign: 'center',
+        }}
+        title="Welcome to SUSI.AI Web Chat"
+        open={tour}
+      >
+        <iframe
+          width="99%"
+          height="315"
+          src="https://www.youtube.com/embed/9T3iMoAUKYA"
+          frameBorder="0"
+          scrolling="no"
+        />
+        <Close style={closingStyle} onTouchTap={onRequestCloseTour} />
+      </Dialog>
+    </div>
+  );
+};
 
 DialogSection.propTypes = {
-  openLogin: PropTypes.bool,
-  openSignUp: PropTypes.bool,
-  openForgotPassword: PropTypes.bool,
-  openHardwareChange: PropTypes.bool,
   tour: PropTypes.bool,
-  onLoginSignUp: PropTypes.func,
-  handleSignUp: PropTypes.func,
-  ServerChangeActions: PropTypes.array,
-  HardwareActions: PropTypes.array,
-  bodyStyle: PropTypes.object,
-  onRequestClose: PropTypes.func,
+  isShareOpen: PropTypes.bool,
+  toggleShareClose: PropTypes.func,
   onRequestCloseTour: PropTypes.func,
-  onSaveThemeSettings: PropTypes.func,
-  onForgotPassword: PropTypes.func,
-  onSignedUp: PropTypes.func,
 };
+
+export default DialogSection;

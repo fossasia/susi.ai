@@ -1,60 +1,77 @@
-import './Overview.css';
-import $ from 'jquery';
-import allDevices from '../../images/all_devices.png';
-import androidMockup from '../../images/android-mockup.jpg';
-import bots from '../../images/bots.jpg';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Footer from '../Footer/Footer.react';
-import githubText from '../../images/github-text-logo.png';
-import manyLanguages from '../../images/many_languages.png';
-import mapAndroid from '../../images/map-android.jpg';
-import Modal from 'react-modal';
-import openSource from '../../images/open-source.png';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import shield from '../../images/shield.svg';
+import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import Modal from 'react-modal';
+import urls from '../../utils/urls';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
+import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
+import Close from 'material-ui/svg-icons/navigation/close';
 import susiGif from '../../images/susi.gif';
+import GIFDemo from '../../images/gif.gif';
+import WebDemo from '../../images/web.gif';
+import LocationDemo from '../../images/location.gif';
+import JokesDemo from '../../images/joke.gif';
+import FactsDemo from '../../images/fact.gif';
+import MathDemo from '../../images/math.gif';
 import susiSkill from '../../images/susi_skill.png';
 import susiTestGif from '../../images/susi-test.gif';
-import React, { Component } from 'react';
-import urls from '../../utils/urls';
+import bots from '../../images/bots.jpg';
+import githubText from '../../images/github-text-logo.png';
+import manyLanguages from '../../images/many_languages.png';
+import allDevices from '../../images/all_devices.png';
+import androidMockup from '../../images/android-mockup.jpg';
+import mapAndroid from '../../images/map-android.jpg';
+import shield from '../../images/shield.svg';
+import openSource from '../../images/open-source.png';
+import Web from 'material-ui/svg-icons/av/web';
+import GIF from 'material-ui/svg-icons/action/gif';
+import Locationsvg from 'material-ui/svg-icons/communication/location-on';
+import Action from 'material-ui/svg-icons/communication/chat-bubble';
+import { RaisedButton } from 'material-ui';
+import PlusOne from 'material-ui/svg-icons/social/plus-one';
+import { ActionSearch } from 'material-ui/svg-icons';
+
+import './Overview.css';
+import { blue600 } from 'material-ui/styles/colors';
+import { white, black } from 'material-ui/styles/colors';
+
+const styles = {
+  closingStyle: {
+    position: 'absolute',
+    zIndex: 120000,
+    fill: '#fff',
+    width: '40px',
+    height: '40px',
+    right: '1.5%',
+    top: '20px',
+    cursor: 'pointer',
+  },
+};
+const buttonAttributes = [
+  { label: 'Search', icon: <ActionSearch />, gif: WebDemo },
+  { label: 'Location', icon: <Locationsvg />, gif: LocationDemo },
+  { label: 'GIFs', icon: <GIF />, gif: GIFDemo },
+  { label: 'Jokes', icon: <Action />, gif: JokesDemo },
+  { label: 'Facts', icon: <Web />, gif: FactsDemo },
+  { label: 'Math', icon: <PlusOne />, gif: MathDemo },
+];
 
 class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      video: false,
+      gifIndex: 0,
+      isVideoModalOpen: false,
     };
   }
+  // Toggle Video dialog
 
-  handleTitle = () => {
-    this.props.history.push('/');
+  toggleVideoModal = () => {
+    this.setState(prevState => ({
+      isVideoModalOpen: !prevState.isVideoModalOpen,
+    }));
   };
-  // Open Video Dialog and close login and sign up dialog
-  handleVideo = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      video: true,
-    });
-  // Close all the dialogs
-  handleClose = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      video: false,
-    });
-  // Close Video Dialog
-  closeVideo = () =>
-    this.setState({
-      video: false,
-    });
-
-  _onReady(event) {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
-  }
 
   componentDidMount() {
     document.body.style.backgroundColor = '#fff';
@@ -62,22 +79,35 @@ class Overview extends Component {
     document.title =
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
+
+    this.exampleTime = setInterval(() => {
+      const { gifIndex } = this.state;
+      const newGifIndex = (gifIndex + 1) % 6;
+      this.setState({ gifIndex: newGifIndex });
+      this.changeGIF(newGifIndex);
+    }, 7000);
   }
 
-  render() {
-    document.body.style.setProperty('background-image', 'none');
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 120000,
-      fill: '#fff',
-      width: '40px',
-      height: '40px',
-      right: '20px',
-      top: '20px',
-      cursor: 'pointer',
-    };
+  componentWillUnmount() {
+    clearInterval(this.exampleTime);
+  }
 
+  changeGIF(index) {
+    this.setState({
+      gifIndex: index,
+    });
+  }
+
+  handleGIFChange = index => {
+    this.changeGIF(index);
+    clearInterval(this.exampleTime);
+  };
+
+  render() {
+    const { gifIndex } = this.state;
+    const { closingStyle } = styles;
+    document.body.style.setProperty('background-image', 'none');
     return (
       <div>
         <StaticAppBar
@@ -98,11 +128,13 @@ class Overview extends Component {
                 Ask it questions. Tell it to do things. Always ready to help.
               </p>
               <a
-                onClick={this.handleVideo}
+                onClick={this.toggleVideoModal}
                 style={{
                   color: '#3367d6',
                   cursor: 'pointer',
                   position: 'relative',
+                  lineHeight: '24px',
+                  display: 'block',
                 }}
               >
                 <PlayCircle
@@ -116,7 +148,6 @@ class Overview extends Component {
             </div>
           </div>
         </div>
-
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Ask it anything.</div>
@@ -130,7 +161,42 @@ class Overview extends Component {
             <img src={susiTestGif} alt="susi-test" className="susi-test" />
           </div>
         </div>
-
+        <div className="section_copy">
+          <div className="conversation__description">
+            <div className="description__heading">Explore What it can do.</div>
+            <p className="description__text">
+              From finding GIF of your favorite cartoon to exploring new things
+              that you never thought of before. Susi can do a lot of things that
+              you might not expect. Here are some examples of what SUSI can do.
+              <br />
+              Don't forget, these are only a few 😊
+            </p>
+            <div className="rowdiv">
+              {buttonAttributes.map((button, index) => (
+                <RaisedButton
+                  key={index}
+                  className="example-btn"
+                  label={button.label}
+                  labelColor={gifIndex === index ? white : black}
+                  backgroundColor={gifIndex === index ? blue600 : white}
+                  onClick={e => this.handleGIFChange(index)}
+                  icon={button.icon}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="img-container">
+            {buttonAttributes.map((img, index) => (
+              <img
+                key={index}
+                src={buttonAttributes[gifIndex].gif}
+                style={gifIndex === index ? {} : { display: 'none' }}
+                alt="susi-web"
+                className="susi-test"
+              />
+            ))}
+          </div>
+        </div>
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">Tell it to do things.</div>
@@ -357,9 +423,9 @@ class Overview extends Component {
         {/* Video */}
 
         <Modal
-          isOpen={this.state.video}
+          isOpen={this.state.isVideoModalOpen}
           className="Video-Modal"
-          onRequestClose={this.handleClose}
+          onRequestClose={this.toggleVideoModal}
           contentLabel="Assistant Video"
           overlayClassName="Video-Overlay"
         >
@@ -371,14 +437,13 @@ class Overview extends Component {
               allowFullScreen
               src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
             />
-            <Close style={closingStyle} onTouchTap={this.handleClose} />
+            <Close style={closingStyle} onTouchTap={this.toggleVideoModal} />
           </div>
         </Modal>
       </div>
     );
   }
 }
-
 Overview.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,

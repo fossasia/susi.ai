@@ -1,174 +1,66 @@
 import React, { Component } from 'react';
-import './Team.css';
 import PropTypes from 'prop-types';
-import team from './TeamList';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import 'font-awesome/css/font-awesome.min.css';
-import FourButtons from './FourButtons.react';
-import $ from 'jquery';
+import SocialLinkButtons from './SocialLinkButtons';
 import Footer from '../Footer/Footer.react';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
+import TEAM_MEMBERS from './constants';
+import 'font-awesome/css/font-awesome.min.css';
+import './Team.css';
 
-class Support extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      showOptions: false,
-      login: false,
-      signup: false,
-      openDrawer: false,
-      baseUrl: window.location.protocol + '//' + window.location.host + '/',
-      team: team,
-    };
-  }
+export default class Team extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+    location: PropTypes.object,
+  };
 
   componentDidMount() {
     //  Scrolling to top of page when component loads
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    scrollToTopAnimation();
     // Adding title tag to page
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   }
 
-  showOptions = event => {
-    event.preventDefault();
-    this.setState({
-      showOptions: true,
-      anchorEl: event.currentTarget,
-    });
+  createMemberCard = (member, key) => {
+    return (
+      <Card className="team-card" key={key}>
+        <CardMedia className="container_div">
+          <img
+            /* eslint no-undef: 0 */
+            src={require(`../../images/members/${member.avatar}`)}
+            alt={member.name}
+            className="image"
+          />
+          <div className="overlay">
+            <div className="text">
+              <SocialLinkButtons member={member} />
+            </div>
+          </div>
+        </CardMedia>
+        <CardTitle
+          titleStyle={{ fontSize: '20px' }}
+          title={member.name}
+          subtitle={member.designation}
+        />
+      </Card>
+    );
   };
-
-  closeOptions = () => {
-    this.setState({
-      showOptions: false,
-    });
-  };
-
-  handleToggle = () => this.setState({ open: !this.state.open });
-
-  handleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
-
-  handleDrawerClose = () => this.setState({ openDrawer: false });
-
-  handleTitle = () => {
-    this.props.history.push('/');
-  };
-  // Open login dialog and close signup dialog
-  handleLogin = () =>
-    this.setState({
-      login: true,
-      signup: false,
-    });
-  // Close all dialogs
-  handleClose = () =>
-    this.setState({
-      login: false,
-      signup: false,
-      open: false,
-    });
-  // Open Signup dialog and close login dialog
-  handleSignUp = () =>
-    this.setState({
-      signup: true,
-      login: false,
-    });
-
-  _onReady(event) {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
-  }
 
   render() {
     document.body.style.setProperty('background-image', 'none');
-    let mentors = team[0].mentors.map((mentor, i) => {
-      return (
-        <Card className="team-card" key={i}>
-          <CardMedia className="container_div">
-            <img src={mentor.avatar} alt={mentor.name} className="image" />
-            <div className="overlay">
-              <div className="text">
-                <FourButtons member={mentor} />
-              </div>
-            </div>
-          </CardMedia>
-          <CardTitle
-            titleStyle={{ fontSize: '20px' }}
-            title={mentor.name}
-            subtitle={mentor.designation}
-          />
-        </Card>
-      );
+    const mentors = TEAM_MEMBERS.MENTORS.map((mentor, i) => {
+      return this.createMemberCard(mentor, i);
     });
-    let managers = team[3].managers.map((manager, i) => {
-      return (
-        <Card className="team-card" key={i}>
-          <CardMedia className="container_div">
-            <img src={manager.avatar} alt={manager.name} className="image" />
-            <div className="overlay">
-              <div className="text">
-                <FourButtons member={manager} />
-              </div>
-            </div>
-          </CardMedia>
-          <CardTitle
-            titleStyle={{ fontSize: '20px' }}
-            title={manager.name}
-            subtitle={manager.designation}
-          />
-        </Card>
-      );
+    const managers = TEAM_MEMBERS.MANAGERS.map((manager, i) => {
+      return this.createMemberCard(manager, i);
     });
-    function compare(a, b) {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    }
-
-    team[1].server.sort(compare);
-    let server = team[1].server.map((serv, i) => {
-      return (
-        <Card className="team-card" key={i}>
-          <CardMedia className="container_div">
-            <img src={serv.avatar} alt={serv.name} className="image" />
-            <div className="overlay">
-              <div className="text">
-                <FourButtons member={serv} />
-              </div>
-            </div>
-          </CardMedia>
-          <CardTitle
-            titleStyle={{ fontSize: '20px', lineHeight: '25px' }}
-            title={serv.name}
-            subtitle={serv.designation}
-          />
-        </Card>
-      );
+    const developers = TEAM_MEMBERS.DEVELOPERS.map((developer, i) => {
+      return this.createMemberCard(developer, i);
     });
-
-    team[2].alumni.sort(compare);
-    let alumni = team[2].alumni.map((alum, i) => {
-      return (
-        <Card className="team-card" key={i}>
-          <CardMedia className="container_div">
-            <img src={alum.avatar} alt={alum.name} className="image" />
-            <div className="overlay">
-              <div className="text">
-                <FourButtons member={alum} />
-              </div>
-            </div>
-          </CardMedia>
-          <CardTitle
-            titleStyle={{ fontSize: '20px', lineHeight: '25px' }}
-            title={alum.name}
-            subtitle={alum.designation}
-          />
-        </Card>
-      );
+    const alumnis = TEAM_MEMBERS.ALUMNIS.map((alum, i) => {
+      return this.createMemberCard(alum, i);
     });
 
     return (
@@ -187,41 +79,25 @@ class Support extends Component {
           </div>
           <div className="team-container">{mentors}</div>
         </div>
-
-        <div
-          className="section-team managers"
-          style={{
-            paddingBottom: '240px',
-          }}
-        >
+        <div className="section-team managers">
           <div className="team-header ">
             <div className="support__heading">Project Managers</div>
           </div>
           <div className="team-container">{managers}</div>
         </div>
 
-        <div
-          className="section-team developers"
-          style={{
-            paddingBottom: '240px',
-          }}
-        >
+        <div className="section-team developers">
           <div className="team-header ">
             <div className="support__heading">Developers</div>
           </div>
-          <div className="team-container">{server}</div>
+          <div className="team-container">{developers}</div>
         </div>
 
-        <div
-          className="section-team developers"
-          style={{
-            paddingBottom: '240px',
-          }}
-        >
+        <div className="section-team developers">
           <div className="team-header ">
             <div className="support__heading">Alumni</div>
           </div>
-          <div className="team-container">{alumni}</div>
+          <div className="team-container">{alumnis}</div>
         </div>
 
         <Footer />
@@ -229,10 +105,3 @@ class Support extends Component {
     );
   }
 }
-
-Support.propTypes = {
-  history: PropTypes.object,
-  location: PropTypes.object,
-};
-
-export default Support;

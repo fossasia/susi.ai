@@ -2,6 +2,7 @@ import React from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
+import ShareButton from './ShareButton';
 import Emojify from 'react-emojione';
 import {
   Table,
@@ -16,11 +17,20 @@ import { divIcon } from 'leaflet';
 import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
-import ShareIcon from 'material-ui/svg-icons/social/share';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { injectIntl } from 'react-intl';
+
+const styles = {
+  footerStyle: {
+    display: 'block',
+    float: 'left',
+  },
+  indicatorStyle: {
+    height: '13px',
+  },
+};
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -42,66 +52,40 @@ export function renderAnchor(text, link) {
 
 // Returns the message time and status indicator
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
-  let statusIndicator = null;
-
-  let footerStyle = {
-    display: 'block',
-    float: 'left',
-  };
+  let footerContent = null;
+  let { footerStyle, indicatorStyle } = styles;
+  const isLightTheme = UserPreferencesStore.getTheme() === 'light';
 
   if (message && message.authorName === 'You') {
-    let indicatorStyle = {
-      height: '13px',
-    };
-    let indicatorStyleShare = {
-      height: '13px',
-      cursor: 'pointer',
-    };
-    let shareMessageYou = message.text;
-    shareMessageYou = encodeURIComponent(shareMessageYou.trim());
-    let shareTag = ' #SUSI.AI';
-    shareTag = encodeURIComponent(shareTag);
-    let twitterShare =
-      'https://twitter.com/intent/tweet?text=' + shareMessageYou + shareTag;
-    statusIndicator = (
-      <li className="response-time" style={footerStyle}>
-        <TickIcon
-          style={indicatorStyle}
-          color={
-            UserPreferencesStore.getTheme() === 'light' ? '#90a4ae' : '#7eaaaf'
-          }
-        />
-      </li>
-    );
-    statusIndicator = (
-      <li className="response-time" style={footerStyle}>
-        <ShareIcon
-          style={indicatorStyleShare}
-          color={
-            UserPreferencesStore.getTheme() === 'light' ? '#90a4ae' : '#7eaaaf'
-          }
-          onClick={() => window.open(twitterShare, '_blank')}
-        />
-      </li>
-    );
     if (message.id === latestMsgID) {
-      statusIndicator = (
+      footerContent = (
         <li className="response-time" style={footerStyle}>
           <ClockIcon
             style={indicatorStyle}
-            color={
-              UserPreferencesStore.getTheme() === 'light'
-                ? '#90a4ae'
-                : '#7eaaaf'
-            }
+            color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+          />
+        </li>
+      );
+    } else {
+      footerContent = (
+        <li className="response-time" style={footerStyle}>
+          <TickIcon
+            style={indicatorStyle}
+            color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
           />
         </li>
       );
     }
-  }
-
-  if (message && message.authorName === 'SUSI') {
-    footerStyle = {};
+  } else if (message && message.authorName === 'SUSI') {
+    footerContent = (
+      <li className="response-time" style={footerStyle}>
+        <ShareButton
+          message={message}
+          color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+        />
+      </li>
+    );
+    footerStyle = { ...footerStyle, float: 'right' };
   }
 
   return (
@@ -109,8 +93,8 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
       <li className="message-time" style={footerStyle}>
         <PostDate date={message ? message.date : null} />
         {isLastAction && <Feedback message={message} />}
+        {footerContent}
       </li>
-      {statusIndicator}
     </ul>
   );
 }
@@ -180,12 +164,12 @@ export function imageParse(stringWithLinks) {
     } else {
       let htmlParseItem = Parser(item);
       if (
-        htmlParseItem.hasOwnProperty('props') &&
-        htmlParseItem.props.children
+        (Array.isArray(htmlParseItem) && htmlParseItem.length === 0) ||
+        (htmlParseItem.hasOwnProperty('props') && !htmlParseItem.props.children)
       ) {
-        result.push(htmlParseItem);
-      } else {
         result.push(item);
+      } else {
+        result.push(htmlParseItem);
       }
     }
   });
@@ -199,7 +183,7 @@ export function parseAndReplace(text) {
 
 // Get hostname for given link
 function urlDomain(data) {
-  var a = document.createElement('a');
+  let a = document.createElement('a');
   a.href = data;
   return a.hostname;
 }
@@ -267,7 +251,7 @@ export function renderTiles(tiles) {
     slidesToShow = 2;
     showArrows = false;
   }
-  var settings = {
+  const settings = {
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
@@ -313,12 +297,12 @@ export function drawTable(columns, tableData, count) {
     rowCount = Math.min(count, tableData.length);
   }
   let rows = [];
-  for (var j = 0; j < rowCount; j++) {
+  for (let j = 0; j < rowCount; j++) {
     let eachrow = tableData[j];
     // Check if the data object can be populated as a table row
     let validRow = true;
-    for (var keyInd = 0; keyInd < parseKeys.length; keyInd++) {
-      var colKey = parseKeys[keyInd];
+    for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
+      let colKey = parseKeys[keyInd];
       if (!eachrow.hasOwnProperty(colKey)) {
         validRow = false;
         break;

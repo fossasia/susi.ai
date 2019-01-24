@@ -16,16 +16,28 @@ const additionalStyles = {
 };
 
 const ESCAPE_KEY = 27;
+const F_KEY = 70;
 
 class ExpandingSearchField extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false };
+    this.state = { isOpen: false, indexCnt: 0 };
   }
 
-  closeSearch = () => {
+  closeSearch = state => {
     if (this.props.open) {
       this.setState({ isOpen: false });
+      this.setState({ indexCnt: 0 });
+      this.props.exitSearch();
+    }
+  };
+
+  toggleSearch = () => {
+    this.setState({ isOpen: !this.props.open });
+    if (!this.props.open) {
+      this.props.activateSearch();
+    } else {
+      this.closeSearch();
       this.props.exitSearch();
     }
   };
@@ -35,30 +47,61 @@ class ExpandingSearchField extends Component {
       case ESCAPE_KEY:
         this.closeSearch();
         break;
+      case F_KEY:
+        if (event.ctrlKey || event.metaKey) {
+          this.toggleSearch();
+          event.preventDefault();
+        }
+        break;
       default:
         break;
     }
   };
 
   onClick = () => {
-    this.setState({ isOpen: !this.props.open });
-    if (!this.props.open) {
-      this.props.activateSearch();
-    } else {
-      this.props.exitSearch();
-    }
+    this.toggleSearch();
   };
 
   onChange = event => {
     this.props.onTextChange(event);
+    setTimeout(() => {
+      this.setState({ indexCnt: this.props.searchCount });
+    }, 10);
   };
 
-  onClickRecent = () => {
-    this.props.scrollRecent();
+  onClickRecent = (state, props) => {
+    const { searchCount } = this.props;
+
+    const { indexCnt } = this.state;
+    if (searchCount !== 0) {
+      this.props.scrollRecent();
+      this.setState({
+        indexCnt: (indexCnt % searchCount) + 1,
+      });
+    }
   };
 
-  onClickPrev = () => {
-    this.props.scrollPrev();
+  onClickPrev = (state, props) => {
+    const { searchCount } = this.props;
+
+    const { indexCnt } = this.state;
+    if (searchCount !== 0) {
+      this.props.scrollPrev();
+    }
+    if (indexCnt > 1) {
+      this.setState({ indexCnt: indexCnt - 1 });
+    } else if (indexCnt === 1) {
+      for (let i = 0; i < searchCount; i++) {
+        if (searchCount !== 0) {
+          this.props.scrollRecent();
+        }
+      }
+      this.setState({ indexCnt: searchCount });
+    } else if (indexCnt < 1) {
+      if (searchCount !== 0) {
+        this.setState({ indexCnt: searchCount - 1 });
+      }
+    }
   };
 
   componentDidMount() {
@@ -92,6 +135,10 @@ class ExpandingSearchField extends Component {
 
       frame: {},
     };
+
+    const { searchCount } = this.props;
+
+    const { indexCnt } = this.state;
 
     const searchStyle = {
       WebkitTextFillColor: 'white',
@@ -127,7 +174,7 @@ class ExpandingSearchField extends Component {
             autoFocus={true}
           />
           <span className="counter">
-            {this.props.searchIndex}/{this.props.searchCount}
+            {indexCnt}/{searchCount}
           </span>
           <IconButton
             className="displayNone"
