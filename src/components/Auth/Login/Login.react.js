@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import appActions from '../../../redux/actions/app';
 import messagesActions from '../../../redux/actions/messages';
 
@@ -75,6 +76,8 @@ class Login extends Component {
     onRequestOpenSignUp: PropTypes.func,
     onRequestOpenForgotPassword: PropTypes.func,
     openSnackBar: PropTypes.func,
+    location: PropTypes.object,
+    history: PropTypes.object,
   };
 
   constructor(props) {
@@ -104,13 +107,12 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { actions, openSnackBar } = this.props;
+    const { actions, openSnackBar, location, history } = this.props;
     const { password, email } = this.state;
 
     if (!email || !password) {
       return;
     }
-
     if (isEmail(email)) {
       this.setState({ loading: true });
       actions
@@ -125,16 +127,20 @@ class Login extends Component {
               .getAdmin({ access_token: payload.accessToken })
               .then(({ payload }) => {
                 this.setCookies({ accessToken, time, uuid, email });
-                actions.getHistoryFromServer().then(({ payload }) => {
-                  // eslint-disable-next-line
-                  createMessagePairArray(payload).then(messagePairArray => {
-                    actions.initializeMessageStore(messagePairArray);
+                if (location.pathname !== '/') {
+                  history.push('/');
+                } else {
+                  actions.getHistoryFromServer().then(({ payload }) => {
+                    // eslint-disable-next-line
+                    createMessagePairArray(payload).then(messagePairArray => {
+                      actions.initializeMessageStore(messagePairArray);
+                    });
                   });
-                });
-                this.setState({
-                  success: true,
-                  loading: false,
-                });
+                  this.setState({
+                    success: true,
+                    loading: false,
+                  });
+                }
               })
               .catch(error => {
                 actions.initializeMessageStoreFailed();
@@ -344,7 +350,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Login);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(Login),
+);
