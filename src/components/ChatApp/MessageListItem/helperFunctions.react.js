@@ -4,6 +4,7 @@ import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
 import ShareButton from './ShareButton';
 import Emojify from 'react-emojione';
+import './MessageListItem.css';
 import {
   Table,
   TableBody,
@@ -21,16 +22,6 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Parser from 'html-react-parser';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { injectIntl } from 'react-intl';
-
-const styles = {
-  footerStyle: {
-    display: 'block',
-    float: 'left',
-  },
-  indicatorStyle: {
-    height: '13px',
-  },
-};
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -53,65 +44,67 @@ export function renderAnchor(text, link) {
 // Returns the message time and status indicator
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
-  let { footerStyle, indicatorStyle } = styles;
+
   const isLightTheme = UserPreferencesStore.getTheme() === 'light';
 
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
+        <div className="message-status">
           <ClockIcon
-            style={indicatorStyle}
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+            style={{ height: '16px' }}
           />
-        </li>
+        </div>
       );
     } else {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
+        <div className="message-status">
           <TickIcon
-            style={indicatorStyle}
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+            style={{ height: '16px' }}
           />
-        </li>
+        </div>
       );
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <li className="response-time" style={footerStyle}>
+      <div className="shareButton message-status">
         <ShareButton
           message={message}
           color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
         />
-      </li>
+      </div>
     );
-    footerStyle = { ...footerStyle, float: 'right' };
   }
 
   return (
-    <ul>
-      <li className="message-time" style={footerStyle}>
-        <PostDate date={message ? message.date : null} />
-        {isLastAction && <Feedback message={message} />}
+    <div>
+      <div className="message-footer">
         {footerContent}
-      </li>
-    </ul>
+        <div className="message-recieve-time">
+          <PostDate date={message ? message.date : null} />
+        </div>
+        <div className="message-feedback">
+          {isLastAction && <Feedback message={message} />}
+        </div>
+      </div>
+    </div>
   );
 }
 // Format Date for internationalization
 const PostDate = injectIntl(({ date, intl }) => (
-  <span
+  <div
     title={intl.formatDate(date, {
       hour: 'numeric',
       minute: 'numeric',
     })}
   >
-    {' '}
     {intl.formatDate(date, {
       hour: 'numeric',
       minute: 'numeric',
     })}
-  </span>
+  </div>
 ));
 
 // Proccess the text for HTML Spl Chars, Images, Links and Emojis

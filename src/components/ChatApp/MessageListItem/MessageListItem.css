@@ -1,0 +1,21 @@
+.feedbackContainer{
+    display: flex;
+    align-items: center;
+}
+
+.message-footer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.message-recieve-time{
+    color: #90a4ae;
+    font-size: 12px;
+}
+
+.message-status{
+    display: flex;
+    align-items: center;
+}
