@@ -367,6 +367,7 @@ export default class SignUp extends Component {
       padding: '0px 10px',
       width: '250px',
       marginTop: '10px',
+      right: '4px'
     };
 
     const inputStyle = {
