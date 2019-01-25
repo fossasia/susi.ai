@@ -4,7 +4,6 @@ import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
 import ShareButton from './ShareButton';
 import Emojify from 'react-emojione';
-import './MessageListItem.css';
 import {
   Table,
   TableBody,
@@ -47,10 +46,27 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
 
   const isLightTheme = UserPreferencesStore.getTheme() === 'light';
 
+  const styles = {
+    status: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    recieveTime: {
+      color: '#90a4ae',
+      fontSize: '12px',
+    },
+    footer: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      marginTop: '5px',
+    },
+  };
+
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <div className="message-status">
+        <div style={styles.status}>
           <ClockIcon
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
             style={{ height: '16px' }}
@@ -59,7 +75,7 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
       );
     } else {
       footerContent = (
-        <div className="message-status">
+        <div style={styles.status}>
           <TickIcon
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
             style={{ height: '16px' }}
@@ -69,7 +85,7 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <div className="shareButton message-status">
+      <div className="shareButton" style={styles.status}>
         <ShareButton
           message={message}
           color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
@@ -79,16 +95,12 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
   }
 
   return (
-    <div>
-      <div className="message-footer">
-        {footerContent}
-        <div className="message-recieve-time">
-          <PostDate date={message ? message.date : null} />
-        </div>
-        <div className="message-feedback">
-          {isLastAction && <Feedback message={message} />}
-        </div>
+    <div style={styles.footer}>
+      {footerContent}
+      <div style={styles.recieveTime}>
+        <PostDate date={message ? message.date : null} />
       </div>
+      <div>{isLastAction && <Feedback message={message} />}</div>
     </div>
   );
 }

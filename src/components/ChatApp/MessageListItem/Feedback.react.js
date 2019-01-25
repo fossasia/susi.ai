@@ -5,7 +5,6 @@ import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import './MessageListItem.css';
 import actions from '../../../redux/actions/messages';
 import _ from 'lodash';
 
@@ -89,6 +88,17 @@ class Feedback extends React.Component {
   };
 
   render() {
+    const styles = {
+      button: {
+        height: '16px',
+        cursor: 'pointer',
+      },
+      container: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+    };
+
     const { message, skillFeedbackByMessageId } = this.props;
     let feedback = skillFeedbackByMessageId[message.id]
       ? skillFeedbackByMessageId[message.id]
@@ -99,15 +109,15 @@ class Feedback extends React.Component {
     return (
       <div>
         {message && message.authorName === 'SUSI' ? (
-          <div className="feedbackContainer">
+          <div style={styles.container}>
             <ThumbUp
               onClick={() => this.postSkillFeedback('positive')}
-              style={{ height: '16px', cursor: 'pointer' }}
+              style={styles.button}
               color={feedback === 'positive' ? '#66a867' : defaultFeedbackColor}
             />
             <ThumbDown
               onClick={() => this.postSkillFeedback('negative')}
-              style={{ height: '16px', cursor: 'pointer' }}
+              style={styles.button}
               color={feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor}
             />
           </div>
