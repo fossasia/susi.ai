@@ -61,7 +61,7 @@ a.drawerItem {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: -8px;
+    margin-right: 8px;
     margin-top: 1px;
 }
 @media(max-width: 1000px){
