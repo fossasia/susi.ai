@@ -175,6 +175,13 @@
 .email-field:hover{
     cursor: not-allowed;
 }
+.time-zone{
+  padding-bottom: 30px;
+}
+.time-zone-dropdown{
+ position: absolute;
+ z-index: 99;
+}
 
 
 @media only screen and (max-width: 1060px){
