@@ -10,7 +10,6 @@ import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import Close from 'material-ui/svg-icons/navigation/close';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import actions from '../../../redux/actions/app';
@@ -42,11 +41,6 @@ const styles = {
     minWidth: '150px',
     float: 'left',
     marginTop: '12px',
-    color:
-      UserPreferencesStore.getTheme() === 'light' ||
-      UserPreferencesStore.getTheme() === 'custom'
-        ? 'black'
-        : 'white',
   },
   submitBtnStyle: {
     float: 'left',
@@ -304,6 +298,8 @@ class ChangePassword extends Component {
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
+    const { labelStyle } = styles.labelStyle;
+
     return (
       <div className="changePasswordForm">
         <Paper
@@ -314,7 +310,9 @@ class ChangePassword extends Component {
           }}
         >
           <form onSubmit={this.changePassword}>
-            <div style={styles.labelStyle}>Current Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              Current Password
+            </div>
             <div>
               <PasswordField
                 name="password"
@@ -333,7 +331,9 @@ class ChangePassword extends Component {
               />
             </div>
             <br />
-            <div style={styles.labelStyle}>New Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              New Password
+            </div>
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
@@ -355,7 +355,9 @@ class ChangePassword extends Component {
               <div>{newPasswordStrength}</div>
             </div>
             <br />
-            <div style={styles.labelStyle}>Verify Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              Verify Password
+            </div>
             <div>
               <PasswordField
                 name="confirmNewPassword"
