@@ -51,6 +51,7 @@ import PasswordTab from './PasswordTab.react';
 import DevicesTab from './DevicesTab.react';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
+import Footer from '../../Footer/Footer.react';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
@@ -1815,6 +1816,7 @@ class Settings extends Component {
           />
           <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
+        <Footer />
       </div>
     );
   }
