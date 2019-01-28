@@ -309,7 +309,14 @@ class Login extends Component {
                 />
               </div>
               <RaisedButton
-                label={!loading && <Translate text="Log In" />}
+                label={
+                  !loading && (
+                    <span style={{ marginTop: '0px' }}>
+                      {' '}
+                      <Translate text="Log In" />{' '}
+                    </span>
+                  )
+                }
                 type="submit"
                 backgroundColor={
                   UserPreferencesStore.getTheme() === 'light'
@@ -318,7 +325,7 @@ class Login extends Component {
                 }
                 labelColor="#fff"
                 disabled={!isValid || loading}
-                style={{ width: '275px', margin: '10px 0px' }}
+                style={{ width: '275px' }}
                 icon={loading && <CircularProgress size={24} />}
               />
               <div className="login-links-section">
