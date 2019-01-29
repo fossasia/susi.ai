@@ -296,7 +296,7 @@ class Terms extends Component {
                 post notice of modified additional terms in the applicable
                 Service. Changes will not apply retroactively and will become
                 effective no sooner than fourteen days after they are posted.
-                However,changes addressing new functions for a Service or
+                However, changes addressing new functions for a Service or
                 changes made for legal reasons will be effective immediately. If
                 you do not agree to the modified terms for a Service, you should
                 discontinue your use of that Service.
