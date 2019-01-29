@@ -31,6 +31,7 @@
 .message {
   margin-top: 8px;
 }
+
 @media screen and (max-width: 1100px) {
   .forgot-password{
     margin-left:5%;
