@@ -283,8 +283,7 @@ class Terms extends Component {
                 employees from any claim, suit or action arising from or related
                 to the use of the Services or violation of these terms,
                 including any liability or expense arising from claims, losses,
-                damages, suits, judgments, litigation costs, and attorneys’
-                fees.
+                damages, suits, judgments, litigation costs and attorneys’ fees.
                 <br />
                 <br />
               </p>
