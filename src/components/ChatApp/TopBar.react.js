@@ -10,6 +10,7 @@ import Popover from 'material-ui/Popover';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import SignUp from 'material-ui/svg-icons/action/account-circle';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Info from 'material-ui/svg-icons/action/info';
 import Dashboard from 'material-ui/svg-icons/action/dashboard';
 import List from 'material-ui/svg-icons/action/list';
@@ -44,6 +45,7 @@ const styles = {
 class TopBar extends Component {
   static propTypes = {
     onRequestOpenLogin: PropTypes.func,
+    onRequestOpenSignUp: PropTypes.func,
     handleSignUp: PropTypes.func,
     handleChangePassword: PropTypes.func,
     handleOptions: PropTypes.func,
@@ -115,6 +117,7 @@ class TopBar extends Component {
       header,
       toggleShareClose,
       onRequestOpenLogin,
+      onRequestOpenSignUp,
       isAdmin,
     } = this.props;
 
@@ -256,6 +259,16 @@ class TopBar extends Component {
               onTouchTap={toggleShareClose}
               rightIcon={<Share />}
             />
+            {accessToken ? (
+              <div />
+            ) : (
+              <MenuItem
+                onClick={this.closeOptions}
+                primaryText={<Translate text="Sign Up" />}
+                onTouchTap={onRequestOpenSignUp}
+                rightIcon={<PersonAdd />}
+              />
+            )}
             {accessToken ? (
               <MenuItem
                 onClick={this.closeOptions}

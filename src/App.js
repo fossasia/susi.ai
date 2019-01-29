@@ -196,6 +196,7 @@ class App extends Component {
               render={routeProps => (
                 <ChatApp
                   {...routeProps}
+                  onRequestOpenSignUp={this.onRequestOpenSignUp}
                   onRequestOpenLogin={this.onRequestOpenLogin}
                   closeSnackBar={this.closeSnackBar}
                   openSnackBar={this.openSnackBar}
