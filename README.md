@@ -1,5 +1,7 @@
 # PSLab Experiments
 
+[![Twitter Follow](https://img.shields.io/twitter/follow/pslabio.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/pslabio)
+
 Here you find step by step instructions for Pocket Science Lab (PSLab) using the PSLab hardware and Android app. Please help by building up this website.
 
 ## How to use PSLab Instruments on Android
