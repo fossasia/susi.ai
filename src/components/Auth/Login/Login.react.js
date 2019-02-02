@@ -4,7 +4,9 @@ import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../../redux/actions/app';
+import { withRouter } from 'react-router';
+import appActions from '../../../redux/actions/app';
+import messagesActions from '../../../redux/actions/messages';
 
 // Components
 import Paper from 'material-ui/Paper';
@@ -18,6 +20,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
+import { createMessagePairArray } from '../../../utils/formatMessage';
 
 // Static assets
 import './Login.css';
@@ -67,133 +70,139 @@ class Login extends Component {
   static propTypes = {
     handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
+    onRequestClose: PropTypes.func,
     actions: PropTypes.object,
     openLogin: PropTypes.bool,
-    onRequestClose: PropTypes.func,
     onRequestOpenSignUp: PropTypes.func,
     onRequestOpenForgotPassword: PropTypes.func,
+    openSnackBar: PropTypes.func,
+    location: PropTypes.object,
+    history: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      success: false,
-      validForm: false,
       emailErrorMessage: '',
+      password: '',
       passwordErrorMessage: '',
+      success: false,
       loading: false,
-      message: '',
     };
   }
 
   handleDialogClose = () => {
     const { onRequestClose } = this.props;
-
     this.setState({
       email: '',
       password: '',
       success: false,
-      validForm: false,
       emailErrorMessage: '',
       passwordErrorMessage: '',
       loading: false,
-      message: '',
     });
-
     onRequestClose();
   };
 
-  // Submit the Login Form
   handleSubmit = e => {
     e.preventDefault();
-    const { actions } = this.props;
-    let email = this.state.email.trim();
-    const password = this.state.password;
+    const { actions, openSnackBar, location, history } = this.props;
+    const { password, email } = this.state;
 
     if (!email || !password) {
       return;
     }
-
     if (isEmail(email)) {
       this.setState({ loading: true });
       actions
         .getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
+          const { accessToken, time, uuid } = payload;
+          let snackBarMessage;
           if (payload.accepted) {
-            this.setCookies({ ...payload, email });
-            this.setState({
-              success: true,
-              message: payload.message,
-              loading: false,
-            });
+            snackBarMessage = payload.message;
+            actions
+              // eslint-disable-next-line camelcase
+              .getAdmin({ access_token: payload.accessToken })
+              .then(({ payload }) => {
+                this.setCookies({ accessToken, time, uuid, email });
+                if (location.pathname !== '/') {
+                  history.push('/');
+                } else {
+                  actions.getHistoryFromServer().then(({ payload }) => {
+                    // eslint-disable-next-line
+                    createMessagePairArray(payload).then(messagePairArray => {
+                      actions.initializeMessageStore(messagePairArray);
+                    });
+                  });
+                  this.setState({
+                    success: true,
+                    loading: false,
+                  });
+                }
+              })
+              .catch(error => {
+                actions.initializeMessageStoreFailed();
+                console.log(error);
+              });
             this.handleDialogClose();
           } else {
             this.setState({
-              message: 'Login Failed. Try Again',
               password: '',
+              success: false,
               loading: false,
             });
+            snackBarMessage = 'Login Failed. Try Again';
           }
+          openSnackBar({
+            snackBarMessage,
+          });
         })
         .catch(error => {
           console.log(error);
           this.setState({
-            message: 'Login Failed. Try Again',
             password: '',
+            success: false,
             loading: false,
+          });
+          openSnackBar({
+            snackBarMessage: 'Login Failed. Try Again',
           });
         });
     }
   };
 
-  // Open Forgot Password Dialog
   handleForgotPassword = () => {
     this.props.handleForgotPassword();
   };
 
   // Handle changes in email and password
-  handleChange = event => {
-    let {
-      email,
-      password,
-      emailErrorMessage,
-      passwordErrorMessage,
-      validForm,
-    } = this.state;
-
-    if (event.target.name === 'email') {
-      email = event.target.value.trim();
-      if (!isEmail(email)) {
-        emailErrorMessage = 'Enter a valid Email Address';
-      } else {
-        emailErrorMessage = '';
+  handleTextFieldChange = event => {
+    switch (event.target.name) {
+      case 'email': {
+        const email = event.target.value.trim();
+        this.setState({
+          email,
+          emailErrorMessage: !isEmail(email)
+            ? 'Enter a valid Email Address'
+            : '',
+        });
+        break;
       }
-    } else if (event.target.name === 'password') {
-      password = event.target.value;
-      if (!password) {
-        passwordErrorMessage = 'Enter a valid password';
-      } else {
-        passwordErrorMessage = '';
+      case 'password': {
+        const password = event.target.value.trim();
+        this.setState({
+          password,
+          passwordErrorMessage: !password ? 'Enter a valid password' : '',
+        });
+        break;
       }
+      default:
+        break;
     }
-
-    if (emailErrorMessage === '' && passwordErrorMessage === '') {
-      validForm = true;
-    } else {
-      validForm = false;
-    }
-    this.setState({
-      email,
-      password,
-      emailErrorMessage,
-      passwordErrorMessage,
-      validForm,
-    });
   };
 
-  // Set Cookies on successful Login
   setCookies = payload => {
     const { accessToken, time, email, uuid } = payload;
     const defaults = UserPreferencesStore.getPreferences();
@@ -222,7 +231,6 @@ class Login extends Component {
       maxAge: time,
       domain: cookieDomain,
     });
-    window.location.reload();
   };
 
   render() {
@@ -231,9 +239,7 @@ class Login extends Component {
       password,
       emailErrorMessage,
       passwordErrorMessage,
-      validForm,
       loading,
-      message,
     } = this.state;
     const {
       openLogin,
@@ -247,6 +253,9 @@ class Login extends Component {
       inputpassStyle,
       closingStyle,
     } = styles;
+
+    const isValid =
+      email && !emailErrorMessage && password && !passwordErrorMessage;
 
     return (
       <Dialog
@@ -272,7 +281,7 @@ class Login extends Component {
                   name="email"
                   type="email"
                   value={email}
-                  onChange={this.handleChange}
+                  onChange={this.handleTextFieldChange}
                   style={fieldStyle}
                   inputStyle={inputStyle}
                   placeholder="Email"
@@ -288,7 +297,7 @@ class Login extends Component {
                   value={password}
                   placeholder="Password"
                   underlineStyle={{ display: 'none' }}
-                  onChange={this.handleChange}
+                  onChange={this.handleTextFieldChange}
                   errorText={passwordErrorMessage}
                   visibilityButtonStyle={{
                     marginTop: '-3px',
@@ -299,7 +308,6 @@ class Login extends Component {
                   textFieldStyle={{ padding: '0px' }}
                 />
               </div>
-              {message && <div className="message">{message}</div>}
               <RaisedButton
                 label={!loading && <Translate text="Log In" />}
                 type="submit"
@@ -309,7 +317,7 @@ class Login extends Component {
                     : '#19314B'
                 }
                 labelColor="#fff"
-                disabled={!validForm || loading}
+                disabled={!isValid || loading}
                 style={{ width: '275px', margin: '10px 0px' }}
                 icon={loading && <CircularProgress size={24} />}
               />
@@ -335,11 +343,16 @@ class Login extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(
+      { ...appActions, ...messagesActions },
+      dispatch,
+    ),
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Login);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(Login),
+);

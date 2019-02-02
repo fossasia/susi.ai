@@ -145,6 +145,10 @@ class ChangePassword extends Component {
         break;
       }
       case 'newPassword': {
+        const {
+          confirmNewPassword,
+          newPasswordConfirmErrorMessage,
+        } = this.state;
         const newPassword = event.target.value.trim();
         const newPasswordError = !(
           newPassword &&
@@ -164,6 +168,10 @@ class ChangePassword extends Component {
             ][newPasswordScore]
           : '';
 
+        const newPasswordConfirmError =
+          (confirmNewPassword || newPasswordConfirmErrorMessage) &&
+          !(confirmNewPassword === newPassword);
+
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
@@ -173,6 +181,11 @@ class ChangePassword extends Component {
           ),
           newPasswordScore,
           newPasswordStrength,
+          newPasswordConfirmErrorMessage: newPasswordConfirmError ? (
+            <Translate text="Password does not match" />
+          ) : (
+            ''
+          ),
         });
         break;
       }
@@ -286,6 +299,8 @@ class ChangePassword extends Component {
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
+    const { labelStyle } = styles.labelStyle;
+
     return (
       <div className="changePasswordForm">
         <Paper
@@ -296,7 +311,9 @@ class ChangePassword extends Component {
           }}
         >
           <form onSubmit={this.changePassword}>
-            <div style={styles.labelStyle}>Current Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              Current Password
+            </div>
             <div>
               <PasswordField
                 name="password"
@@ -315,7 +332,9 @@ class ChangePassword extends Component {
               />
             </div>
             <br />
-            <div style={styles.labelStyle}>New Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              New Password
+            </div>
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
@@ -337,7 +356,9 @@ class ChangePassword extends Component {
               <div>{newPasswordStrength}</div>
             </div>
             <br />
-            <div style={styles.labelStyle}>Verify Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              Verify Password
+            </div>
             <div>
               <PasswordField
                 name="confirmNewPassword"

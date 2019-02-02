@@ -2,7 +2,6 @@ import MessageSection from './MessageSection/MessageSection.react';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ChatApp.css';
-import history from '../../history';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import actions from '../../redux/actions/messages';
@@ -11,23 +10,31 @@ import { createMessagePairArray } from '../../utils/formatMessage';
 class ChatApp extends Component {
   static propTypes = {
     actions: PropTypes.object,
+    app: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    const { uuid } = props.app;
+    this.state = {
+      uuid,
+    };
+  }
+
   componentDidMount() {
-    document.title = 'SUSI.AI Chat - Open Source Artificial Intelligence';
-    // force an update if the URL changes
-    history.listen(() => this.forceUpdate());
-    this.props.actions
-      .initializeMessageStore()
+    const { actions } = this.props;
+    actions
+      .getHistoryFromServer()
       .then(({ payload }) => {
         createMessagePairArray(payload).then(messagePairArray => {
-          console.log(messagePairArray);
-          return this.props.actions.createHistoryMessages(messagePairArray);
+          actions.initializeMessageStore(messagePairArray);
         });
       })
       .catch(error => {
+        actions.initializeMessageStoreFailed();
         console.log(error);
       });
+    document.title = 'SUSI.AI Chat - Open Source Artificial Intelligence';
   }
 
   render() {
@@ -39,6 +46,12 @@ class ChatApp extends Component {
   }
 }
 
+function mapStateToProps({ app }) {
+  return {
+    app,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
@@ -46,6 +59,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ChatApp);

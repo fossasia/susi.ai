@@ -15,18 +15,10 @@ const AccountTab = props => {
       'The current browser does not support the SpeechSynthesis API.',
     );
   }
-
   return (
     <div style={props.containerStyle}>
       <span>
-        <div
-          style={{
-            marginTop: '10px',
-            marginBottom: '5px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={props.tabHeadingStyle}>
           <Translate text="Account" />
         </div>
         {props.themeVal === 'light' ? (
@@ -36,14 +28,7 @@ const AccountTab = props => {
         )}
       </span>
 
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '5px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={props.headingStyle}>
         <Translate text="User Name" />
       </div>
       <TextField
@@ -54,17 +39,11 @@ const AccountTab = props => {
         inputStyle={props.inputStyle}
         placeholder="Enter your User Name"
         underlineStyle={{ display: 'none' }}
+        errorText={props.userNameError}
       />
       <br />
 
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '5px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={props.headingStyle}>
         <Translate text="Email" />
       </div>
       <TextField
@@ -76,14 +55,7 @@ const AccountTab = props => {
       />
       <br />
 
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '0px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={{ ...props.headingStyle, marginBottom: 0 }}>
         <Translate text="Select default language" />
       </div>
       <DropDownMenu
@@ -98,25 +70,22 @@ const AccountTab = props => {
         {props.voiceOutput.voiceMenu}
       </DropDownMenu>
       <br />
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '0px',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
+      <div style={{ ...props.headingStyle, marginBottom: 0 }}>
         <Translate text="Select TimeZone" />
       </div>
       <br />
-      <TimezonePicker
-        value={props.timeZone}
-        onChange={timezone => props.handleTimeZone(timezone)}
-        inputProps={{
-          placeholder: 'Select Timezone...',
-          name: 'timezone',
-        }}
-      />
+      <div className="time-zone">
+        <div className="time-zone-dropdown">
+          <TimezonePicker
+            value={props.timeZone}
+            onChange={timezone => props.handleTimeZone(timezone)}
+            inputProps={{
+              placeholder: 'Select Timezone...',
+              name: 'timezone',
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -125,7 +94,10 @@ AccountTab.propTypes = {
   timeZone: PropTypes.string,
   userName: PropTypes.string,
   containerStyle: PropTypes.object,
+  tabHeadingStyle: PropTypes.object,
+  headingStyle: PropTypes.object,
   fieldStyle: PropTypes.object,
+  userNameError: PropTypes.string,
   handlePrefLang: PropTypes.func,
   handleTimeZone: PropTypes.func,
   handleUserName: PropTypes.func,
