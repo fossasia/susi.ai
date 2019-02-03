@@ -20,9 +20,10 @@
     vertical-align: middle;
 }
 .blog_navigation {
-    position: absolute;
-    right: 15%;
-    bottom: 0.5%;
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+    
 }
 
 .section_blog{

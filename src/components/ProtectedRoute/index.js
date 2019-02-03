@@ -1,24 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import NotFound from '../NotFound/NotFound.react';
 
 const ProtectedRoute = props => {
-  const { accessToken, location, component: Component, ...rest } = props;
+  const { accessToken, component: Component, ...restProps } = props;
   return (
     <Route
-      {...rest}
+      {...restProps}
       render={routeProps =>
-        accessToken ? (
-          <Component {...routeProps} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/error-404',
-              state: { from: location },
-            }}
-          />
-        )
+        accessToken ? <Component {...routeProps} /> : <NotFound />
       }
     />
   );
