@@ -22,6 +22,23 @@ import Parser from 'html-react-parser';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { injectIntl } from 'react-intl';
 
+const styles = {
+  statusStyle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  recieveTimeStyle: {
+    color: '#90a4ae',
+    fontSize: '12px',
+  },
+  footerStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: '5px',
+  },
+};
+
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
   componentDidMount() {
@@ -45,28 +62,12 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
 
   const isLightTheme = UserPreferencesStore.getTheme() === 'light';
-
-  const styles = {
-    status: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-    recieveTime: {
-      color: '#90a4ae',
-      fontSize: '12px',
-    },
-    footer: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      marginTop: '5px',
-    },
-  };
+  const { statusStyle, footerStyle, recieveTimeStyle } = styles;
 
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <div style={styles.status}>
+        <div style={statusStyle}>
           <ClockIcon
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
             style={{ height: '16px' }}
@@ -75,7 +76,7 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
       );
     } else {
       footerContent = (
-        <div style={styles.status}>
+        <div style={statusStyle}>
           <TickIcon
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
             style={{ height: '16px' }}
@@ -85,7 +86,7 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <div className="shareButton" style={styles.status}>
+      <div className="shareButton" style={statusStyle}>
         <ShareButton
           message={message}
           color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
@@ -95,9 +96,9 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
   }
 
   return (
-    <div style={styles.footer}>
+    <div style={footerStyle}>
       {footerContent}
-      <div style={styles.recieveTime}>
+      <div style={recieveTimeStyle}>
         <PostDate date={message ? message.date : null} />
       </div>
       <div>{isLastAction && <Feedback message={message} />}</div>

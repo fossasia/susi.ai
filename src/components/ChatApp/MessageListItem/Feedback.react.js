@@ -8,6 +8,17 @@ import { connect } from 'react-redux';
 import actions from '../../../redux/actions/messages';
 import _ from 'lodash';
 
+const styles = {
+  buttonStyle: {
+    height: '16px',
+    cursor: 'pointer',
+  },
+  containerStyle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+};
+
 class Feedback extends React.Component {
   static propTypes = {
     message: PropTypes.object,
@@ -88,18 +99,8 @@ class Feedback extends React.Component {
   };
 
   render() {
-    const styles = {
-      button: {
-        height: '16px',
-        cursor: 'pointer',
-      },
-      container: {
-        display: 'flex',
-        alignItems: 'center',
-      },
-    };
-
     const { message, skillFeedbackByMessageId } = this.props;
+    const { buttonStyle, containerStyle } = styles;
     let feedback = skillFeedbackByMessageId[message.id]
       ? skillFeedbackByMessageId[message.id]
       : '';
@@ -109,15 +110,15 @@ class Feedback extends React.Component {
     return (
       <div>
         {message && message.authorName === 'SUSI' ? (
-          <div style={styles.container}>
+          <div style={containerStyle}>
             <ThumbUp
               onClick={() => this.postSkillFeedback('positive')}
-              style={styles.button}
+              style={buttonStyle}
               color={feedback === 'positive' ? '#66a867' : defaultFeedbackColor}
             />
             <ThumbDown
               onClick={() => this.postSkillFeedback('negative')}
-              style={styles.button}
+              style={buttonStyle}
               color={feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor}
             />
           </div>
