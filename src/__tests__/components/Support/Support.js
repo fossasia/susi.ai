@@ -1,9 +1,17 @@
 import React from 'react';
 import Support from '../../../components/Support/Support.react';
 import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 describe('<Support />', () => {
   it('renders Support without crashing', () => {
-    shallow(<Support location={{ pathname: '/support' }} />);
+    shallow(
+      <Provider store={store}>
+        <Support location={{ pathname: '/support' }} />
+      </Provider>,
+    );
   });
 });
