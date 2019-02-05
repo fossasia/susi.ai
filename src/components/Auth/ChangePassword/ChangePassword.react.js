@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
-import Cookies from 'universal-cookie';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import PasswordField from 'material-ui-password-field';
@@ -14,8 +13,6 @@ import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import actions from '../../../redux/actions/app';
 import './ChangePassword.css';
-
-const cookies = new Cookies();
 
 const styles = {
   closingStyle: {
@@ -65,6 +62,7 @@ class ChangePassword extends Component {
     history: PropTypes.object,
     settings: PropTypes.object,
     actions: PropTypes.object,
+    email: PropTypes.string,
   };
 
   constructor(props) {
@@ -218,9 +216,7 @@ class ChangePassword extends Component {
       newPasswordErrorMessage,
       newPasswordConfirmErrorMessage,
     } = this.state;
-    const { actions } = this.props;
-
-    const email = cookies.get('emailId') ? cookies.get('emailId') : '';
+    const { actions, email } = this.props;
 
     if (
       !(
@@ -298,14 +294,21 @@ class ChangePassword extends Component {
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
-    const { labelStyle } = styles.labelStyle;
+    const {
+      closingStyle,
+      fieldStyle,
+      labelStyle,
+      submitBtnStyle,
+      inputStyle,
+      containerStyles,
+    } = styles;
 
     return (
       <div className="changePasswordForm">
         <Paper
           zDepth={0}
           style={{
-            ...styles.containerStyles,
+            ...containerStyles,
             backgroundColor: themeBackgroundColor,
           }}
         >
@@ -316,11 +319,11 @@ class ChangePassword extends Component {
             <div>
               <PasswordField
                 name="password"
-                style={styles.fieldStyle}
+                style={fieldStyle}
                 value={password}
                 onChange={this.handleTextFieldChange}
                 inputStyle={{
-                  ...styles.inputStyle,
+                  ...inputStyle,
                   color: themeForegroundColor,
                 }}
                 errorText={passwordErrorMessage}
@@ -338,11 +341,11 @@ class ChangePassword extends Component {
               <PasswordField
                 name="newPassword"
                 placeholder="Must be between 6 to 64 characters"
-                style={styles.fieldStyle}
+                style={fieldStyle}
                 value={newPassword}
                 onChange={this.handleTextFieldChange}
                 inputStyle={{
-                  ...styles.inputStyle,
+                  ...inputStyle,
                   color: themeForegroundColor,
                 }}
                 errorText={newPasswordErrorMessage}
@@ -362,11 +365,11 @@ class ChangePassword extends Component {
               <PasswordField
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
-                style={styles.fieldStyle}
+                style={fieldStyle}
                 value={confirmNewPassword}
                 onChange={this.handleTextFieldChange}
                 inputStyle={{
-                  ...styles.inputStyle,
+                  ...inputStyle,
                   color: themeForegroundColor,
                 }}
                 errorText={newPasswordConfirmErrorMessage}
@@ -376,7 +379,7 @@ class ChangePassword extends Component {
                 visibilityIconStyle={{ display: 'none' }}
               />
             </div>
-            <div style={styles.submitBtnStyle}>
+            <div style={submitBtnStyle}>
               <div className="forgot">
                 <a onClick={this.onForgotPassword}>Forgot your password?</a>
               </div>
@@ -418,7 +421,7 @@ class ChangePassword extends Component {
             >
               <Translate text={dialogMessage} />
               <Close
-                style={styles.closingStyle}
+                style={closingStyle}
                 onTouchTap={this.handleCloseResetPassword}
               />
             </Dialog>
@@ -429,6 +432,13 @@ class ChangePassword extends Component {
   }
 }
 
+function mapStateToProps(store) {
+  const { email } = store.app;
+  return {
+    email,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
@@ -436,6 +446,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ChangePassword);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'universal-cookie';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
@@ -15,34 +15,19 @@ import googleGroups from '../../images/google-groups.png';
 import code from '../../images/code.png';
 import './Support.css';
 
-const cookies = new Cookies();
-
 const styles = {
   buttonStyle: {
     marginTop: '25px',
     marginBottom: '25px',
   },
-  bodyStyle: {
-    padding: 0,
-    textAlign: 'center',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
 };
 
-export default class Support extends Component {
+class Support extends Component {
   static propTypes = {
     history: PropTypes.object,
     location: PropTypes.object,
     openSignUp: PropTypes.func,
+    accessToken: PropTypes.string,
   };
 
   componentDidMount() {
@@ -54,9 +39,11 @@ export default class Support extends Component {
   }
 
   render() {
+    const { buttonStyle } = styles;
+    const { location, openSignUp, accessToken } = this.props;
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
+        <StaticAppBar {...this.props} location={location} />
         <div className="gray-wrapper">
           <div className="white-grey">
             <div className="conversation__description">
@@ -248,7 +235,7 @@ export default class Support extends Component {
           </div>
         </div>
         <div className="blue-wrapper">
-          {!cookies.get('loggedIn') ? (
+          {!accessToken ? (
             <div className="non-flex blue-background">
               <div className="conversation__description footer-desc">
                 <div className="support__heading center blue-text">
@@ -257,8 +244,8 @@ export default class Support extends Component {
 
                 <RaisedButton
                   label="Sign Up"
-                  onTouchTap={this.props.openSignUp}
-                  style={styles.buttonStyle}
+                  onTouchTap={openSignUp}
+                  style={buttonStyle}
                 />
               </div>
             </div>
@@ -270,3 +257,15 @@ export default class Support extends Component {
     );
   }
 }
+
+function mapStateToProps(store) {
+  const { accessToken } = store.app;
+  return {
+    accessToken,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Support);
