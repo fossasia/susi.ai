@@ -245,14 +245,20 @@ class SignUp extends Component {
           }
         })
         .catch(error => {
-          console.log(error);
           this.setState({
             success: false,
             password: '',
             loading: false,
           });
+          let snackBarMessage;
+          if (error.statusCode === 422) {
+            snackBarMessage =
+              'Already registered. Please signup with a different email account';
+          } else {
+            snackBarMessage = 'Signup Failed. Try Again';
+          }
           openSnackBar({
-            snackBarMessage: 'Signup Failed. Try Again',
+            snackBarMessage,
             snackBarDuration: 6000,
           });
         });
@@ -284,7 +290,7 @@ class SignUp extends Component {
       !passwordErrorMessage &&
       confirmPassword &&
       !passwordConfirmErrorMessage &&
-      isCaptchaVerified;
+      (isCaptchaVerified || !captchaKey);
 
     const PasswordClass = [`is-strength-${passwordScore}`];
 
