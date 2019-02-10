@@ -21,6 +21,7 @@ class TextToSpeechSettings extends Component {
       voiceList: MessageStore.getTTSVoiceList(),
     };
     this.speechSynthesisExample = 'This is an example of speech synthesis';
+    this.speechDemo = 'Hi! I am SUSI';
   }
 
   // Triggered when the voice player is started
@@ -225,7 +226,7 @@ class TextToSpeechSettings extends Component {
         {this.state.playExample && (
           <VoicePlayer
             play={this.state.play}
-            text={voiceOutput.voiceText}
+            text={this.speechDemo}
             rate={this.state.rate}
             pitch={this.state.pitch}
             lang={this.state.ttsLanguage}
