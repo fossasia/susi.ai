@@ -626,6 +626,7 @@ class Settings extends Component {
 
   // Submit selected Settings
   handleSubmit = () => {
+    alert('Changes Saved!!');
     let newDefaultServer = this.state.server;
     let newEnterAsSend = this.state.enterAsSend;
     let newMicInput = this.state.micInput;
