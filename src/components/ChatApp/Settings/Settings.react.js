@@ -83,6 +83,10 @@ const divStyle = {
 };
 
 class Settings extends Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    openSnackBar: PropTypes.func,
+  };
   constructor(props) {
     super(props);
     defaults = UserPreferencesStore.getPreferences();
@@ -626,11 +630,17 @@ class Settings extends Component {
 
   // Submit selected Settings
   handleSubmit = () => {
-    var x = document.getElementById('snackbar');
-    x.className = 'show';
-    setTimeout(function() {
-      x.className = x.className.replace('show', '');
-    }, 3000);
+    const { openSnackBar } = this.props;
+    openSnackBar({
+      snackBarMessage: 'Changes Saved..',
+      snackBarDuration: 3000,
+    });
+
+    // var x = document.getElementById('snackbar');
+    // x.className = 'show';
+    // setTimeout(function() {
+    //   x.className = x.className.replace('show', '');
+    // }, 3000);
     let newDefaultServer = this.state.server;
     let newEnterAsSend = this.state.enterAsSend;
     let newMicInput = this.state.micInput;
