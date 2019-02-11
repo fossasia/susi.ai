@@ -50,7 +50,7 @@ const styles = {
   },
   inputpassStyle: {
     height: '35px',
-    marginBottom: '10px',
+    marginTop: '-9px',
     marginRight: '50px',
     width: '90%',
   },
@@ -300,10 +300,10 @@ class Login extends Component {
                   onChange={this.handleTextFieldChange}
                   errorText={passwordErrorMessage}
                   visibilityButtonStyle={{
-                    marginTop: '-3px',
+                    marginTop: '-5px',
                   }}
                   visibilityIconStyle={{
-                    marginTop: '-3px',
+                    marginTop: '-4px',
                   }}
                   textFieldStyle={{ padding: '0px' }}
                 />
