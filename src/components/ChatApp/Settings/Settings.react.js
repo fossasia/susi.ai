@@ -636,11 +636,6 @@ class Settings extends Component {
       snackBarDuration: 3000,
     });
 
-    // var x = document.getElementById('snackbar');
-    // x.className = 'show';
-    // setTimeout(function() {
-    //   x.className = x.className.replace('show', '');
-    // }, 3000);
     let newDefaultServer = this.state.server;
     let newEnterAsSend = this.state.enterAsSend;
     let newMicInput = this.state.micInput;
