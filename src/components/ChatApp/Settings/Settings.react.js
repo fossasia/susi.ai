@@ -626,7 +626,11 @@ class Settings extends Component {
 
   // Submit selected Settings
   handleSubmit = () => {
-    alert('Changes Saved!!');
+    var x = document.getElementById('snackbar');
+    x.className = 'show';
+    setTimeout(function() {
+      x.className = x.className.replace('show', '');
+    }, 3000);
     let newDefaultServer = this.state.server;
     let newEnterAsSend = this.state.enterAsSend;
     let newMicInput = this.state.micInput;
@@ -1732,6 +1736,7 @@ class Settings extends Component {
           <Paper className="rightMenu" style={menuStyle} zDepth={1}>
             {currentSetting}
             <div className="settingsSubmit">
+              <div id="snackbar">Changes Saved..</div>
               {this.displaySaveChangesButton() && (
                 <RaisedButton
                   label={<Translate text="Save Changes" />}
