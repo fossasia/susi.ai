@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { debounce } from 'lodash';
 
 // Components
 import Recaptcha from 'react-recaptcha';
@@ -19,6 +20,7 @@ import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isEmail } from '../../../utils';
 import actions from '../../../redux/actions/app';
+import { getEmailExists } from '../../../apis';
 
 const styles = {
   paperStyle: {
@@ -91,6 +93,8 @@ class SignUp extends Component {
     if (document.cookie.split('=')[0] === 'loggedIn') {
       window.location.reload();
     }
+
+    this.debouncedIsEmailAvailable = debounce(this.isEmailAvailable, 700);
   }
 
   handleDialogClose = () => {
@@ -132,17 +136,36 @@ class SignUp extends Component {
     }
   };
 
+  isEmailAvailable = () => {
+    const { email, emailErrorMessage } = this.state;
+    if (!emailErrorMessage) {
+      getEmailExists({
+        email,
+      }).then(payload => {
+        const { exists } = payload;
+        this.setState({
+          emailErrorMessage: exists
+            ? 'Email ID already taken, please use another account'
+            : '',
+        });
+      });
+    }
+  };
+
   handleTextFieldChange = event => {
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
-        this.setState({
-          email,
-          emailErrorMessage: !isEmail(email)
-            ? 'Enter a valid Email Address'
-            : '',
-          signupErrorMessage: '',
-        });
+        this.setState(
+          {
+            email,
+            emailErrorMessage: !isEmail(email)
+              ? 'Enter a valid Email Address'
+              : '',
+            signupErrorMessage: '',
+          },
+          this.debouncedIsEmailAvailable,
+        );
         break;
       }
       case 'password': {
