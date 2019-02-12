@@ -142,3 +142,11 @@ export function getAdmin(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/showAdminService.json`;
   return ajax.get(url, payload);
 }
+
+export function getEmailExists(payload) {
+  const { email } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/checkRegistration.json`;
+  return ajax.get(url, {
+    check_email: email,
+  });
+}
