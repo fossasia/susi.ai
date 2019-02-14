@@ -111,10 +111,17 @@ class ForgotPassword extends Component {
             loading: false,
             success: false,
           });
-          openSnackBar({
-            snackBarMessage: 'Failed. Try Again',
-            snackBarDuration: 6000,
-          });
+          if (error.statusCode === 422) {
+            openSnackBar({
+              snackBarMessage: 'Email does not exist.',
+              snackBarDuration: 6000,
+            });
+          } else {
+            openSnackBar({
+              snackBarMessage: 'Failed. Try Again',
+              snackBarDuration: 6000,
+            });
+          }
         });
     }
   };
