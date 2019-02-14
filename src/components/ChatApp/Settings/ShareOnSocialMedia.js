@@ -95,24 +95,6 @@ const ShareOnSocialMedia = props => {
               }
             />
           </div>
-          <div style={props.headingStyle}>
-            <Translate text="Share about SUSI on Google+" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Google+" />}
-              style={raisedButtonStyle}
-              backgroundColor="#d34836"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-google-plus" />}
-              keyboardFocused={false}
-              onClick={() =>
-                window.open(
-                  `https://plus.google.com/share?url=${urls.CHAT_URL}`,
-                  '_blank',
-                )
-              }
-            />
-          </div>
         </div>
       </div>
     </div>
