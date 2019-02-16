@@ -83,6 +83,7 @@ class NotFound extends Component {
   };
   render() {
     const { closingStyle, bodyStyle } = style;
+    const { accessToken } = this.props;
     document.body.style.setProperty('background-image', 'none');
     return (
       <div>
@@ -106,25 +107,29 @@ class NotFound extends Component {
               />
             </Link>
             <br />
-            <RaisedButton
-              className="notfound-button"
-              label="SignUp to SUSI"
-              onTouchTap={this.handleOpen}
-              backgroundColor={
-                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-              }
-              labelColor="#fff"
-            />
-            <br />
-            <RaisedButton
-              className="notfound-button"
-              label="Login to SUSI"
-              onTouchTap={this.handleLoginOpen}
-              backgroundColor={
-                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-              }
-              labelColor="#fff"
-            />
+            {!accessToken && (
+              <div>
+                <RaisedButton
+                  className="notfound-button"
+                  label="SignUp to SUSI"
+                  onTouchTap={this.handleOpen}
+                  backgroundColor={
+                    UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
+                  }
+                  labelColor="#fff"
+                />
+                <br />
+                <RaisedButton
+                  className="notfound-button"
+                  label="Login to SUSI"
+                  onTouchTap={this.handleLoginOpen}
+                  backgroundColor={
+                    UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
+                  }
+                  labelColor="#fff"
+                />
+              </div>
+            )}
           </div>
         </div>
         {/* Login */}
