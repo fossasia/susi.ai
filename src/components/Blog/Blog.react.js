@@ -177,6 +177,12 @@ class Blog extends Component {
     const prevStyle = {
       visibility: this.state.prevDisplay,
     };
+    const toTopStyle = {
+      right: 80,
+      bottom: 80,
+      position: 'fixed',
+      zIndex: '10',
+    };
 
     return (
       <div>
@@ -362,6 +368,15 @@ class Blog extends Component {
             <Footer />
           </div>
         )}
+        <FloatingActionButton
+          style={toTopStyle}
+          backgroundColor={'#4285f4'}
+          onClick={() => {
+            scrollToTopAnimation();
+          }}
+        >
+          <span className="fa fa-chevron-up" />
+        </FloatingActionButton>
       </div>
     );
   }
