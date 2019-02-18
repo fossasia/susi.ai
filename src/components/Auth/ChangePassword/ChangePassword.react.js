@@ -166,8 +166,8 @@ class ChangePassword extends Component {
           : '';
 
         const newPasswordConfirmError =
-          (confirmNewPassword || newPasswordConfirmErrorMessage) &&
-          !(confirmNewPassword === newPassword);
+          ((confirmNewPassword || newPasswordConfirmErrorMessage) &&
+          !(confirmNewPassword === newPassword)) || (newPassword === '' && newPasswordConfirmErrorMessage);
 
         this.setState({
           newPassword,
