@@ -127,9 +127,9 @@ class ChangePassword extends Component {
       case 'password': {
         const password = event.target.value.trim();
         const passwordError = !(
-          password==="" ||
-          (password.length >= 6 &&
-          password.length <= 64)
+          password &&
+          password.length >= 6 &&
+          password.length <= 64
         );
         this.setState({
           password,
@@ -148,14 +148,14 @@ class ChangePassword extends Component {
         } = this.state;
         const newPassword = event.target.value.trim();
         const newPasswordError = !(
-          newPassword==="" ||
-          (newPassword.length >= 6 &&
-          newPassword.length <= 64)
+          newPassword &&
+          newPassword.length >= 6 &&
+          newPassword.length <= 64
         );
-        const newPasswordScore = !(newPasswordError||newPassword==="")
+        const newPasswordScore = !newPasswordError
           ? zxcvbn(newPassword).score
           : -1;
-        const newPasswordStrength = !(newPasswordError||newPassword==="")
+        const newPasswordStrength = !newPasswordError
           ? [
               <Translate key={1} text="Too Insecure" />,
               <Translate key={2} text="Bad" />,
@@ -190,7 +190,7 @@ class ChangePassword extends Component {
         const { newPassword } = this.state;
         const confirmNewPassword = event.target.value.trim();
         const newPasswordConfirmError = !(
-          confirmNewPassword==="" || confirmNewPassword === newPassword
+          confirmNewPassword && confirmNewPassword === newPassword
         );
         this.setState({
           confirmNewPassword,
