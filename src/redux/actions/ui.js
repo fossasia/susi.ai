@@ -1,49 +1,15 @@
-import { handleActions } from 'redux-actions';
+import { createAction } from 'redux-actions';
 import actionTypes from '../actionTypes';
 
-const defaultState = {
-  modalProps: {
-    isModalOpen: false,
-    modalType: '',
-  },
-  snackBarProps: {
-    isSnackBarOpen: false,
-    snackBarMessage: '',
-  },
+const returnArgumentsFn = function(payload) {
+  return Promise.resolve(payload);
 };
 
-export default handleActions(
-  {
-    [actionTypes.UI_OPEN_MODAL](state, payload) {
-      return {
-        ...state,
-        modalProps: {
-          isModalOpen: true,
-          ...payload,
-        },
-      };
-    },
-    [actionTypes.UI_CLOSE_MODAL](state) {
-      return {
-        ...state,
-        modalProps: defaultState.modalProps,
-      };
-    },
-    [actionTypes.UI_OPEN_SNACKBAR](state, payload) {
-      return {
-        ...state,
-        snackBarProps: {
-          isSnackBarOpen: true,
-          ...payload,
-        },
-      };
-    },
-    [actionTypes.UI_CLOSE_SNACKBAR](state) {
-      return {
-        ...state,
-        snackBarProps: defaultState.snackBarProps,
-      };
-    },
-  },
-  defaultState,
-);
+const dialogActions = {
+  openModal: createAction(actionTypes.UI_OPEN_MODAL, returnArgumentsFn),
+  closeModal: createAction(actionTypes.UI_CLOSE_MODAL, returnArgumentsFn),
+  openSnackBar: createAction(actionTypes.UI_OPEN_SNACKBAR, returnArgumentsFn),
+  closeSnackBar: createAction(actionTypes.UI_CLOSE_SNACKBAR, returnArgumentsFn),
+};
+
+export default dialogActions;
