@@ -260,4 +260,4 @@ chat.susi.ai/
 
 ## License
 
-This repository is under a GNU LESSER GENERAL PUBLIC LICENSE 2.1.
+This repository is under a GNU LESSER GENERAL PUBLIC LICENSE 2.1, see the [LICENSE.md](https://github.com/fossasia/chat.susi.ai/blob/master/LICENSE) file for details
