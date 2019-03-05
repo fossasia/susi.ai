@@ -24,22 +24,21 @@ export const getCreatedMessageData = (text, currentThreadID, voice) => {
 export const getSUSIMessageData = (message, currentThreadID) => {
   const timestamp = Date.now();
 
-  let receivedMessage = {
-    id: 'm_' + timestamp,
-    threadID: currentThreadID,
-    authorName: 'SUSI', // hard coded for the example
-    text: message.text,
-    response: message.response,
-    actions: message.actions,
-    websearchresults: message.websearchresults,
-    rssResults: message.rssResults,
-    date: new Date(timestamp),
-    isRead: true,
-    responseTime: message.responseTime,
-    type: 'message',
-    voice: message.voice,
-    lang: message.lang,
-    feedback: message.feedback,
+  return {
+      id: 'm_' + timestamp,
+      threadID: currentThreadID,
+      authorName: 'SUSI', // hard coded for the example
+      text: message.text,
+      response: message.response,
+      actions: message.actions,
+      websearchresults: message.websearchresults,
+      rssResults: message.rssResults,
+      date: new Date(timestamp),
+      isRead: true,
+      responseTime: message.responseTime,
+      type: 'message',
+      voice: message.voice,
+      lang: message.lang,
+      feedback: message.feedback,
   };
-  return receivedMessage;
 };

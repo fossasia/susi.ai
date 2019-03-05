@@ -11,8 +11,7 @@ export const scrollToTopAnimation = (
 
   const animateScroll = () => {
     currentTime += increment;
-    const val = Math.easeInOutQuad(currentTime, start, change, duration);
-    element.scrollTop = val;
+      element.scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
     if (currentTime < duration) {
       setTimeout(animateScroll, increment);
     }

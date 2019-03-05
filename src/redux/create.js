@@ -1,5 +1,5 @@
-import { createStore as _createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
+import {applyMiddleware, createStore as _createStore} from 'redux';
+import {routerMiddleware} from 'react-router-redux';
 import reduxPromise from 'redux-promise';
 import reducers from './reducers';
 
@@ -12,12 +12,10 @@ export default function createStore(history) {
   let finalCreateStore;
   finalCreateStore = applyMiddleware(...middleware)(_createStore);
 
-  const store = finalCreateStore(
-    reducers,
-    {},
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+  return finalCreateStore(
+      reducers,
+      {},
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.__REDUX_DEVTOOLS_EXTENSION__(),
   );
-
-  return store;
 }

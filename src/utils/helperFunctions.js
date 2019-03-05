@@ -7,11 +7,10 @@ export const isProduction = () => {
 
 export const getAvatarProps = (emailId, accessToken) => {
   const imageUrl = `${urls.API_URL}/getAvatar.png?access_token=${accessToken}`;
-  const avatarProps = {
-    name: emailId.toUpperCase(),
-    src: imageUrl,
+    return {
+      name: emailId.toUpperCase(),
+      src: imageUrl,
   };
-  return avatarProps;
 };
 
 export const sortCountryLexographical = countryData => {
@@ -31,8 +30,7 @@ export const urlParam = param => {
     window.location.href,
   );
   if (results && results.length > 0) {
-    let ans = decodeURIComponent((results[1] + '').replace(/\+/g, '%20'));
-    return ans;
+      return decodeURIComponent((results[1] + '').replace(/\+/g, '%20'));
   }
   return 0;
 };

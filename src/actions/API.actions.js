@@ -653,8 +653,7 @@ export function getTTSLangText(voiceList) {
       success: function(response) {
         if (response[0]) {
           if (response[0][0]) {
-            let translatedText = response[0][0][0];
-            voice.translatedText = translatedText;
+              voice.translatedText = response[0][0][0];
             // console.log(url);
           }
         }

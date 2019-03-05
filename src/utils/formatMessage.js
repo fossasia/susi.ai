@@ -87,7 +87,7 @@ const susiMessageGenerator = (timestamp, voice, response) => {
   });
   receivedMessage.actions = actions;
 
-  // Websearch
+  // Web search
   if (actions.indexOf('websearch') >= 0) {
     const actionIndex = actions.indexOf('websearch');
     const actionJson = response.answers[0].actions[actionIndex];
