@@ -9,7 +9,6 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Popover from 'material-ui/Popover';
-import $ from 'jquery';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
 import Info from 'material-ui/svg-icons/action/info';
@@ -148,36 +147,59 @@ class StaticAppBar extends Component {
     }
   };
 
+  componentWillUnmount() {
+    this.mounted = false;
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
   componentDidMount() {
+    this.mounted = true;
+    const { accessToken } = this.props;
     window.addEventListener('scroll', this.handleScroll);
+    if (accessToken) {
+      this.initializeShowAdminService();
+      this.initializeListUserSettings();
+    }
+
     let didScroll;
     let lastScrollTop = 0;
     let delta = 5;
-    let navbarHeight = $('header').outerHeight();
-    $(window).scroll(event => {
+    let windowHeight =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+    let headerElement = document.getElementsByTagName('header')[0];
+    const navbarHeight = headerElement.offsetHeight;
+
+    window.addEventListener('scroll', () => {
       didScroll = true;
-      this.setState({ isPopUpMenuOpen: false });
+      if (this.mounted) {
+        this.setState({ showOptions: false });
+      }
     });
 
     const hasScrolled = () => {
-      let st = $(window).scrollTop();
+      let { scrollTop } = document.scrollingElement;
       // Make sure they scroll more than delta
-      if (Math.abs(lastScrollTop - st) <= delta) {
+      if (Math.abs(lastScrollTop - scrollTop) <= delta) {
         return;
       }
       // If they scrolled down and are past the navbar, add class .nav-up.
-      // This is necessary so you never see what is "behind" the navbar.
-      if (st > lastScrollTop && st > navbarHeight + 400) {
+      // This is necessary so you never see what is 'behind' the navbar.
+      if (
+        scrollTop > lastScrollTop &&
+        scrollTop > navbarHeight + 400 &&
+        this.mounted
+      ) {
+        this.setState({ scroll: 'nav-up' });
+      } else if (
+        scrollTop + windowHeight < document.body.scrollHeight &&
+        this.mounted
+      ) {
         // Scroll Down
-        $('header')
-          .removeClass('nav-down')
-          .addClass('nav-up');
-      } else if (st + $(window).height() < $(document).height()) {
-        $('header')
-          .removeClass('nav-up')
-          .addClass('nav-down');
+        this.setState({ scroll: 'nav-down' });
       }
-      lastScrollTop = st;
+      lastScrollTop = scrollTop;
     };
 
     setInterval(() => {
