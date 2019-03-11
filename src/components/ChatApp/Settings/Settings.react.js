@@ -1827,6 +1827,7 @@ Settings.propTypes = {
   location: PropTypes.object,
   google: PropTypes.object,
   handleThemeChanger: PropTypes.func,
+  className: PropTypes.string,
   mapKey: PropTypes.string,
 };
 
