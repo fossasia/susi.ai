@@ -3,20 +3,16 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
-import Cookies from 'universal-cookie';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import PasswordField from 'material-ui-password-field';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import Close from 'material-ui/svg-icons/navigation/close';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import actions from '../../../redux/actions/app';
 import './ChangePassword.css';
-
-const cookies = new Cookies();
 
 const styles = {
   closingStyle: {
@@ -42,11 +38,6 @@ const styles = {
     minWidth: '150px',
     float: 'left',
     marginTop: '12px',
-    color:
-      UserPreferencesStore.getTheme() === 'light' ||
-      UserPreferencesStore.getTheme() === 'custom'
-        ? 'black'
-        : 'white',
   },
   submitBtnStyle: {
     float: 'left',
@@ -71,6 +62,7 @@ class ChangePassword extends Component {
     history: PropTypes.object,
     settings: PropTypes.object,
     actions: PropTypes.object,
+    email: PropTypes.string,
   };
 
   constructor(props) {
@@ -150,6 +142,10 @@ class ChangePassword extends Component {
         break;
       }
       case 'newPassword': {
+        const {
+          confirmNewPassword,
+          newPasswordConfirmErrorMessage,
+        } = this.state;
         const newPassword = event.target.value.trim();
         const newPasswordError = !(
           newPassword &&
@@ -169,6 +165,10 @@ class ChangePassword extends Component {
             ][newPasswordScore]
           : '';
 
+        const newPasswordConfirmError =
+          (confirmNewPassword || newPasswordConfirmErrorMessage) &&
+          !(confirmNewPassword === newPassword);
+
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
@@ -178,6 +178,11 @@ class ChangePassword extends Component {
           ),
           newPasswordScore,
           newPasswordStrength,
+          newPasswordConfirmErrorMessage: newPasswordConfirmError ? (
+            <Translate text="Password does not match" />
+          ) : (
+            ''
+          ),
         });
         break;
       }
@@ -211,9 +216,7 @@ class ChangePassword extends Component {
       newPasswordErrorMessage,
       newPasswordConfirmErrorMessage,
     } = this.state;
-    const { actions } = this.props;
-
-    const email = cookies.get('emailId') ? cookies.get('emailId') : '';
+    const { actions, email } = this.props;
 
     if (
       !(
@@ -291,25 +294,36 @@ class ChangePassword extends Component {
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
+    const {
+      closingStyle,
+      fieldStyle,
+      labelStyle,
+      submitBtnStyle,
+      inputStyle,
+      containerStyles,
+    } = styles;
+
     return (
       <div className="changePasswordForm">
         <Paper
           zDepth={0}
           style={{
-            ...styles.containerStyles,
+            ...containerStyles,
             backgroundColor: themeBackgroundColor,
           }}
         >
           <form onSubmit={this.changePassword}>
-            <div style={styles.labelStyle}>Current Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              Current Password
+            </div>
             <div>
               <PasswordField
                 name="password"
-                style={styles.fieldStyle}
+                style={fieldStyle}
                 value={password}
                 onChange={this.handleTextFieldChange}
                 inputStyle={{
-                  ...styles.inputStyle,
+                  ...inputStyle,
                   color: themeForegroundColor,
                 }}
                 errorText={passwordErrorMessage}
@@ -320,16 +334,18 @@ class ChangePassword extends Component {
               />
             </div>
             <br />
-            <div style={styles.labelStyle}>New Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              New Password
+            </div>
             <div className={PasswordClass.join(' ')}>
               <PasswordField
                 name="newPassword"
                 placeholder="Must be between 6 to 64 characters"
-                style={styles.fieldStyle}
+                style={fieldStyle}
                 value={newPassword}
                 onChange={this.handleTextFieldChange}
                 inputStyle={{
-                  ...styles.inputStyle,
+                  ...inputStyle,
                   color: themeForegroundColor,
                 }}
                 errorText={newPasswordErrorMessage}
@@ -342,16 +358,18 @@ class ChangePassword extends Component {
               <div>{newPasswordStrength}</div>
             </div>
             <br />
-            <div style={styles.labelStyle}>Verify Password</div>
+            <div style={{ ...labelStyle, color: themeForegroundColor }}>
+              Verify Password
+            </div>
             <div>
               <PasswordField
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
-                style={styles.fieldStyle}
+                style={fieldStyle}
                 value={confirmNewPassword}
                 onChange={this.handleTextFieldChange}
                 inputStyle={{
-                  ...styles.inputStyle,
+                  ...inputStyle,
                   color: themeForegroundColor,
                 }}
                 errorText={newPasswordConfirmErrorMessage}
@@ -361,7 +379,7 @@ class ChangePassword extends Component {
                 visibilityIconStyle={{ display: 'none' }}
               />
             </div>
-            <div style={styles.submitBtnStyle}>
+            <div style={submitBtnStyle}>
               <div className="forgot">
                 <a onClick={this.onForgotPassword}>Forgot your password?</a>
               </div>
@@ -403,7 +421,7 @@ class ChangePassword extends Component {
             >
               <Translate text={dialogMessage} />
               <Close
-                style={styles.closingStyle}
+                style={closingStyle}
                 onTouchTap={this.handleCloseResetPassword}
               />
             </Dialog>
@@ -414,6 +432,13 @@ class ChangePassword extends Component {
   }
 }
 
+function mapStateToProps(store) {
+  const { email } = store.app;
+  return {
+    email,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
@@ -421,6 +446,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ChangePassword);

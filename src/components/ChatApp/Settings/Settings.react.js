@@ -1,6 +1,6 @@
 import './Settings.css';
 import $ from 'jquery';
-import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,19 +15,16 @@ import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
-import NotFound from '../../NotFound/NotFound.react';
 import * as Actions from '../../../actions/';
 import React, { Component } from 'react';
 import Menu from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
-import { GoogleApiWrapper } from 'google-maps-react';
 import {
   voiceList,
   voiceListChange,
 } from './../../../constants/SettingsVoiceConstants.js';
-import { MAP_KEY } from '../../../../src/config.js';
 // Icons
 import ChatIcon from 'material-ui/svg-icons/communication/chat';
 import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
@@ -146,7 +143,7 @@ class Settings extends Component {
       speechRate: defaultSpeechRate,
       speechPitch: defaultSpeechPitch,
       ttsLanguage: defaultTTSLanguage,
-      UserName: defaultUserName,
+      userName: defaultUserName,
       PrefLanguage: defaultPrefLanguage,
       TimeZone: defaultTimeZone,
       showServerChangeDialog: false,
@@ -171,7 +168,7 @@ class Settings extends Component {
         speechPitch: defaultSpeechPitch,
         ttsLanguage: defaultTTSLanguage,
         server: defaultServer,
-        UserName: defaultUserName,
+        userName: defaultUserName,
         PrefLanguage: defaultPrefLanguage,
         TimeZone: defaultTimeZone,
         serverUrl: defaultServerUrl,
@@ -445,7 +442,7 @@ class Settings extends Component {
         speechPitch: defaultSpeechPitch,
         ttsLanguage: defaultTTSLanguage,
         server: defaultServer,
-        UserName: defaultUserName,
+        userName: defaultUserName,
         PrefLanguage: defaultPrefLanguage,
         TimeZone: defaultTimeZone,
         serverUrl: defaultServerUrl,
@@ -490,7 +487,7 @@ class Settings extends Component {
       speechRate: defaultSpeechRate,
       speechPitch: defaultSpeechPitch,
       ttsLanguage: defaultTTSLanguage,
-      UserName: defaultUserName,
+      userName: defaultUserName,
       PrefLanguage: defaultPrefLanguage,
       TimeZone: defaultTimeZone,
       showServerChangeDialog: false,
@@ -637,7 +634,7 @@ class Settings extends Component {
     let newSpeechRate = this.state.speechRate;
     let newSpeechPitch = this.state.speechPitch;
     let newTTSLanguage = this.state.ttsLanguage;
-    let newUserName = this.state.UserName;
+    let newUserName = this.state.userName;
     let newPrefLanguage = this.state.PrefLanguage;
     let newTimeZone = this.state.TimeZone;
     let checked = this.state.checked;
@@ -1019,7 +1016,7 @@ class Settings extends Component {
       somethingToSave = true;
     } else if (intialSettings.checked !== classState.checked) {
       somethingToSave = true;
-    } else if (intialSettings.UserName !== classState.UserName) {
+    } else if (intialSettings.UserName !== classState.userName) {
       somethingToSave = true;
     } else if (intialSettings.PrefLanguage !== classState.PrefLanguage) {
       somethingToSave = true;
@@ -1058,8 +1055,15 @@ class Settings extends Component {
   };
 
   handleUserName = (event, value) => {
-    this.setState({ UserName: value });
+    const re = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+    this.setState({ userName: value });
+    if (value !== '' && !re.test(value)) {
+      this.setState({ userNameError: 'Invalid User Name' });
+    } else {
+      this.setState({ userNameError: '' });
+    }
   };
+
   render() {
     document.body.style.setProperty('background-image', 'none');
 
@@ -1154,6 +1158,20 @@ class Settings extends Component {
       width: 'auto',
     };
 
+    const tabHeadingStyle = {
+      marginTop: '10px',
+      marginBottom: '5px',
+      fontSize: '16px',
+      fontWeight: 'bold',
+    };
+
+    const headingStyle = {
+      marginTop: '10px',
+      marginBottom: '5px',
+      fontSize: '15px',
+      fontWeight: 'bold',
+    };
+
     let currentSetting = '';
 
     let voiceOutput = this.populateVoiceList();
@@ -1163,16 +1181,23 @@ class Settings extends Component {
           containerStyle={divStyle}
           themeForegroundColor={themeForegroundColor}
           themeVal={UserPreferencesStore.getTheme()}
-          handleMicInput={this.handleChange}
+          handleMicInput={this.handleMicInput}
+          tabHeadingStyle={tabHeadingStyle}
           micInput={this.state.micInput}
         />
       );
     } else if (this.state.selectedSetting === 'Share on Social media') {
-      currentSetting = <ShareOnSocialMedia containerStyle={divStyle} />;
+      currentSetting = (
+        <ShareOnSocialMedia
+          containerStyle={divStyle}
+          headingStyle={headingStyle}
+        />
+      );
     } else if (this.state.selectedSetting === 'Theme') {
       currentSetting = (
         <ThemeChangeTab
           containerStyle={divStyle}
+          tabHeadingStyle={tabHeadingStyle}
           themeForegroundColor={themeForegroundColor}
           radioIconStyle={radioIconStyle}
           themeVal={UserPreferencesStore.getTheme()}
@@ -1188,6 +1213,8 @@ class Settings extends Component {
       currentSetting = (
         <SpeechTab
           containerStyle={divStyle}
+          tabHeadingStyle={tabHeadingStyle}
+          headingStyle={headingStyle}
           themeForegroundColor={themeForegroundColor}
           themeVal={UserPreferencesStore.getTheme()}
           handleSpeechOutputAlways={this.handleSpeechOutputAlways}
@@ -1210,10 +1237,13 @@ class Settings extends Component {
           themeForegroundColor={themeForegroundColor}
           fieldStyle={fieldStyle}
           inputStyle={inputStyle}
+          headingStyle={headingStyle}
+          tabHeadingStyle={tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
           themeVal={UserPreferencesStore.getTheme()}
-          userName={this.state.UserName}
+          userName={this.state.userName}
           handleUserName={this.handleUserName}
+          userNameError={this.state.userNameError}
           identityName={this.state.identity.name}
           timeZone={this.state.TimeZone}
           handlePrefLang={this.handlePrefLang}
@@ -1227,6 +1257,7 @@ class Settings extends Component {
     ) {
       currentSetting = (
         <PasswordTab
+          tabHeadingStyle={tabHeadingStyle}
           containerStyle={divStyle}
           intialSettings={this.state.intialSettings}
           themeVal={UserPreferencesStore.getTheme()}
@@ -1236,6 +1267,7 @@ class Settings extends Component {
     } else if (this.state.selectedSetting === 'Devices') {
       currentSetting = (
         <DevicesTab
+          tabHeadingStyle={tabHeadingStyle}
           containerStyle={divStyle}
           themeVal={UserPreferencesStore.getTheme()}
           deviceData={this.state.deviceData}
@@ -1247,7 +1279,7 @@ class Settings extends Component {
           handleChange={this.handleChange}
           tableData={this.state.obj}
           mapObj={this.state.mapObj}
-          google={this.props.google}
+          mapKey={this.props.mapKey}
           centerLat={this.state.centerLat}
           centerLng={this.state.centerLng}
           deviceNames={this.state.devicenames}
@@ -1265,6 +1297,8 @@ class Settings extends Component {
         <MobileTab
           containerStyle={divStyle}
           floatingLabelStyle={floatingLabelStyle}
+          headingStyle={headingStyle}
+          tabHeadingStyle={tabHeadingStyle}
           themeBackgroundColor={themeBackgroundColor}
           themeForegroundColor={themeForegroundColor}
           underlineStyle={underlineStyle}
@@ -1281,6 +1315,7 @@ class Settings extends Component {
     } else {
       currentSetting = (
         <ChatAppTab
+          tabHeadingStyle={tabHeadingStyle}
           containerStyle={divStyle}
           themeVal={UserPreferencesStore.getTheme()}
           themeForegroundColor={themeForegroundColor}
@@ -1650,10 +1685,6 @@ class Settings extends Component {
     // to check if something has been modified or not
     let somethingToSave = this.getSomethingToSave();
 
-    if (!cookies.get('loggedIn')) {
-      return <NotFound />;
-    }
-
     return (
       <div
         id="settings-container"
@@ -1706,7 +1737,8 @@ class Settings extends Component {
                   disabled={
                     !this.state.validForm ||
                     !somethingToSave ||
-                    this.state.phoneNoError
+                    this.state.phoneNoError ||
+                    this.state.userNameError
                   }
                   backgroundColor="#4285f4"
                   labelColor="#fff"
@@ -1739,7 +1771,7 @@ class Settings extends Component {
                   >
                     <span className="Link">
                       <a href={`${urls.ACCOUNT_URL}/delete-account`}>
-                        Deactivate your account
+                        Delete your account
                       </a>
                     </span>
                   </p>
@@ -1795,11 +1827,17 @@ Settings.propTypes = {
   location: PropTypes.object,
   google: PropTypes.object,
   handleThemeChanger: PropTypes.func,
-  className: PropTypes.string,
+  mapKey: PropTypes.string,
 };
 
-export default withRouter(
-  GoogleApiWrapper({
-    apiKey: MAP_KEY,
-  })(Settings),
-);
+function mapStateToProps(store) {
+  const { mapKey } = store.app.apiKeys;
+  return {
+    mapKey,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Settings);

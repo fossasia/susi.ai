@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
@@ -7,12 +9,8 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import UserPreferencesStore from '../../stores/UserPreferencesStore';
 import Login from '../Auth/Login/Login.react';
 import SignUp from '../Auth/SignUp/SignUp.react';
-import Cookies from 'universal-cookie';
-import urls from '../../utils/urls';
 import './NotFound.css';
 import LogoImg from '../../images/susi-logo.svg';
-
-const cookies = new Cookies();
 
 const style = {
   closingStyle: {
@@ -31,7 +29,12 @@ const style = {
   },
 };
 
-export default class NotFound extends Component {
+class NotFound extends Component {
+  static propTypes = {
+    accessToken: PropTypes.string,
+    history: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -54,8 +57,9 @@ export default class NotFound extends Component {
   };
   // Open Login Dialog
   handleLoginOpen = () => {
-    if (cookies.get('loggedIn')) {
-      window.location = urls.CHAT_URL;
+    const { accessToken, history } = this.props;
+    if (accessToken) {
+      history.replace('');
     } else {
       this.setState({
         loginOpen: true,
@@ -78,6 +82,8 @@ export default class NotFound extends Component {
     });
   };
   render() {
+    const { closingStyle, bodyStyle } = style;
+    const { accessToken } = this.props;
     document.body.style.setProperty('background-image', 'none');
     return (
       <div>
@@ -101,25 +107,29 @@ export default class NotFound extends Component {
               />
             </Link>
             <br />
-            <RaisedButton
-              className="notfound-button"
-              label="SignUp to SUSI"
-              onTouchTap={this.handleOpen}
-              backgroundColor={
-                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-              }
-              labelColor="#fff"
-            />
-            <br />
-            <RaisedButton
-              className="notfound-button"
-              label="Login to SUSI"
-              onTouchTap={this.handleLoginOpen}
-              backgroundColor={
-                UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-              }
-              labelColor="#fff"
-            />
+            {!accessToken && (
+              <div>
+                <RaisedButton
+                  className="notfound-button"
+                  label="SignUp to SUSI"
+                  onTouchTap={this.handleOpen}
+                  backgroundColor={
+                    UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
+                  }
+                  labelColor="#fff"
+                />
+                <br />
+                <RaisedButton
+                  className="notfound-button"
+                  label="Login to SUSI"
+                  onTouchTap={this.handleLoginOpen}
+                  backgroundColor={
+                    UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
+                  }
+                  labelColor="#fff"
+                />
+              </div>
+            )}
           </div>
         </div>
         {/* Login */}
@@ -128,7 +138,7 @@ export default class NotFound extends Component {
           modal={true}
           open={this.state.loginOpen}
           autoScrollBodyContent={true}
-          bodyStyle={style.bodyStyle}
+          bodyStyle={bodyStyle}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
@@ -136,7 +146,7 @@ export default class NotFound extends Component {
             {...this.props}
             handleForgotPassword={this.handleForgotPassword}
           />
-          <Close style={style.closingStyle} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         {/* SignUp */}
         <Dialog
@@ -144,7 +154,7 @@ export default class NotFound extends Component {
           modal={true}
           open={this.state.open}
           autoScrollBodyContent={true}
-          bodyStyle={style.bodyStyle}
+          bodyStyle={bodyStyle}
           contentStyle={{ width: '35%', minWidth: '300px' }}
           onRequestClose={this.handleClose}
         >
@@ -153,7 +163,7 @@ export default class NotFound extends Component {
             onRequestClose={this.handleClose}
             onLoginSignUp={this.handleLoginOpen}
           />
-          <Close style={style.closingStyle} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
         <Dialog
           className="dialogStyle"
@@ -167,9 +177,21 @@ export default class NotFound extends Component {
             {...this.props}
             showForgotPassword={this.showForgotPassword}
           />
-          <Close style={style.closingStyle} onTouchTap={this.handleClose} />
+          <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
       </div>
     );
   }
 }
+
+function mapStateToProps(store) {
+  const { accessToken } = store.app;
+  return {
+    accessToken,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(NotFound);

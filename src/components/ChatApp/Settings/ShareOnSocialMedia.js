@@ -14,7 +14,7 @@ const styles = {
   },
   raisedButtonStyle: {
     margin: 20,
-    width: '220px',
+    width: '240px',
   },
 };
 
@@ -59,12 +59,12 @@ const shareToFacebook = () => {
 
 const ShareOnSocialMedia = props => {
   initFacebookAPI();
-  const { buttonStyle, raisedButtonStyle } = styles;
+  const { raisedButtonStyle } = styles;
   return (
     <div style={props.containerStyle}>
       <div>
         <div>
-          <div style={buttonStyle}>
+          <div style={props.headingStyle}>
             <Translate text="Share about SUSI on Facebook" />
             <br />
             <RaisedButton
@@ -77,7 +77,7 @@ const ShareOnSocialMedia = props => {
               onTouchTap={shareToFacebook}
             />
           </div>
-          <div style={buttonStyle}>
+          <div style={props.headingStyle}>
             <Translate text="Share about SUSI on Twitter" />
             <br />
             <RaisedButton
@@ -95,24 +95,6 @@ const ShareOnSocialMedia = props => {
               }
             />
           </div>
-          <div style={buttonStyle}>
-            <Translate text="Share about SUSI on Google +" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Google+" />}
-              style={raisedButtonStyle}
-              backgroundColor="#d34836"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-google-plus" />}
-              keyboardFocused={false}
-              onClick={() =>
-                window.open(
-                  `https://plus.google.com/share?url=${urls.CHAT_URL}`,
-                  '_blank',
-                )
-              }
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -121,6 +103,7 @@ const ShareOnSocialMedia = props => {
 
 ShareOnSocialMedia.propTypes = {
   containerStyle: PropTypes.object,
+  headingStyle: PropTypes.object,
 };
 
 export default ShareOnSocialMedia;

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { debounce } from 'lodash';
 
 // Components
 import Recaptcha from 'react-recaptcha';
@@ -17,9 +18,9 @@ import zxcvbn from 'zxcvbn';
 import './SignUp.css';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
-import { CAPTCHA_KEY } from '../../../config.js';
 import { isEmail } from '../../../utils';
 import actions from '../../../redux/actions/app';
+import { getEmailExists } from '../../../apis';
 
 const styles = {
   paperStyle: {
@@ -65,6 +66,8 @@ class SignUp extends Component {
     actions: PropTypes.object,
     openSignUp: PropTypes.bool,
     onRequestOpenLogin: PropTypes.func,
+    captchaKey: PropTypes.string,
+    openSnackBar: PropTypes.func,
   };
 
   constructor(props) {
@@ -89,7 +92,31 @@ class SignUp extends Component {
     if (document.cookie.split('=')[0] === 'loggedIn') {
       window.location.reload();
     }
+
+    this.debouncedIsEmailAvailable = debounce(this.isEmailAvailable, 700);
   }
+
+  handleDialogClose = () => {
+    const { onRequestClose } = this.props;
+
+    this.setState({
+      email: '',
+      emailErrorMessage: '',
+      password: '',
+      passwordErrorMessage: '',
+      passwordScore: -1,
+      passwordStrength: '',
+      confirmPassword: '',
+      passwordConfirmErrorMessage: '',
+      isCaptchaVerified: false,
+      captchaVerifyErrorMessage: '',
+      signupErrorMessage: '',
+      success: false,
+      loading: false,
+    });
+
+    onRequestClose();
+  };
 
   onCaptchaLoad = () => {
     this.setState({
@@ -108,24 +135,47 @@ class SignUp extends Component {
     }
   };
 
+  isEmailAvailable = () => {
+    const { email, emailErrorMessage } = this.state;
+    if (!emailErrorMessage) {
+      getEmailExists({
+        email,
+      }).then(payload => {
+        const { exists } = payload;
+        this.setState({
+          emailErrorMessage: exists
+            ? 'Email ID already taken, please use another account'
+            : '',
+        });
+      });
+    }
+  };
+
   handleTextFieldChange = event => {
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
-        this.setState({
-          email,
-          emailErrorMessage: !isEmail(email)
-            ? 'Enter a valid Email Address'
-            : '',
-          signupErrorMessage: '',
-        });
+        this.setState(
+          {
+            email,
+            emailErrorMessage: !isEmail(email)
+              ? 'Enter a valid Email Address'
+              : '',
+            signupErrorMessage: '',
+          },
+          this.debouncedIsEmailAvailable,
+        );
         break;
       }
       case 'password': {
+        const { confirmPassword, passwordConfirmErrorMessage } = this.state;
         const password = event.target.value.trim();
         const passwordScore = zxcvbn(password).score;
         const strength = ['Worst', 'Bad', 'Weak', 'Good', 'Strong'];
         const passwordError = !(password.length >= 6 && password);
+        const passwordConfirmError =
+          (confirmPassword || passwordConfirmErrorMessage) &&
+          !(confirmPassword === password);
         this.setState({
           password,
           passwordErrorMessage: passwordError
@@ -133,6 +183,9 @@ class SignUp extends Component {
             : '',
           passwordScore: passwordError ? -1 : passwordScore,
           passwordStrength: passwordError ? '' : strength[passwordScore],
+          passwordConfirmErrorMessage: passwordConfirmError
+            ? 'Password does not match'
+            : '',
           signupErrorMessage: '',
         });
         break;
@@ -171,7 +224,7 @@ class SignUp extends Component {
       isCaptchaVerified,
     } = this.state;
 
-    const { actions } = this.props;
+    const { actions, openSnackBar } = this.props;
 
     if (!isCaptchaVerified) {
       this.setState({
@@ -193,26 +246,42 @@ class SignUp extends Component {
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setState({
+              password: '',
+              confirmPassword: '',
+              passwordStrength: '',
+              passwordScore: -1,
               signupErrorMessage: payload.message,
               success: true,
               loading: false,
             });
           } else {
             this.setState({
-              signupErrorMessage: 'Failed. Try Again',
               password: '',
               success: false,
               loading: false,
             });
+            openSnackBar({
+              snackBarMessage: 'Signup Failed. Try Again',
+              snackBarDuration: 6000,
+            });
           }
         })
         .catch(error => {
-          console.log(error);
           this.setState({
-            signupErrorMessage: 'Signup Failed. Try Again',
             success: false,
             password: '',
             loading: false,
+          });
+          let snackBarMessage;
+          if (error.statusCode === 422) {
+            snackBarMessage =
+              'Already registered. Please signup with a different email account';
+          } else {
+            snackBarMessage = 'Signup Failed. Try Again';
+          }
+          openSnackBar({
+            snackBarMessage,
+            snackBarDuration: 6000,
           });
         });
     }
@@ -234,7 +303,7 @@ class SignUp extends Component {
       loading,
       success,
     } = this.state;
-    const { openSignUp, onRequestClose, onRequestOpenLogin } = this.props;
+    const { openSignUp, onRequestOpenLogin, captchaKey } = this.props;
 
     const isValid =
       email &&
@@ -243,7 +312,7 @@ class SignUp extends Component {
       !passwordErrorMessage &&
       confirmPassword &&
       !passwordConfirmErrorMessage &&
-      isCaptchaVerified;
+      (isCaptchaVerified || !captchaKey);
 
     const PasswordClass = [`is-strength-${passwordScore}`];
 
@@ -258,7 +327,7 @@ class SignUp extends Component {
           textAlign: 'center',
         }}
         contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={onRequestClose}
+        onRequestClose={this.handleDialogClose}
       >
         <div className="signUpForm">
           <Paper zDepth={0} style={styles.paperStyle}>
@@ -326,15 +395,17 @@ class SignUp extends Component {
                   marginTop: '10px',
                 }}
               >
-                <Recaptcha
-                  sitekey={CAPTCHA_KEY}
-                  render="explicit"
-                  onloadCallback={this.onCaptchaLoad}
-                  verifyCallback={this.onCaptchaSuccess}
-                  badge="inline"
-                  type="audio"
-                  size="normal"
-                />
+                {captchaKey && (
+                  <Recaptcha
+                    sitekey={captchaKey}
+                    render="explicit"
+                    onloadCallback={this.onCaptchaLoad}
+                    verifyCallback={this.onCaptchaSuccess}
+                    badge="inline"
+                    type="audio"
+                    size="normal"
+                  />
+                )}
                 {!isCaptchaVerified &&
                   captchaVerifyErrorMessage && (
                     <p className="error-message">
@@ -376,10 +447,20 @@ class SignUp extends Component {
             </form>
           </Paper>
         </div>
-        <Close style={styles.closingStyle} onTouchTap={onRequestClose} />
+        <Close
+          style={styles.closingStyle}
+          onTouchTap={this.handleDialogClose}
+        />
       </Dialog>
     );
   }
+}
+
+function mapStateToProps(store) {
+  const { captchaKey } = store.app.apiKeys;
+  return {
+    captchaKey,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -389,6 +470,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SignUp);

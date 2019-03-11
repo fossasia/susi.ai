@@ -12,9 +12,19 @@
   font-size: 12px;
 }
 
+.forgot-password:hover{
+  color: #365899;
+	text-decoration: underline;
+}
+
+.sign-up:hover{
+  color: #365899;
+	text-decoration: underline;
+}
+
 .login-form{
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 50px 0;
 }
 
 .login-links-section {
@@ -25,7 +35,8 @@
 }
 
 .login-form div{
-  margin: 5px 0;
+  margin: 5px 100;
+  padding: 5px 100;
 }
 
 .message {

@@ -80,6 +80,7 @@ class Overview extends Component {
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
+
     this.exampleTime = setInterval(() => {
       const { gifIndex } = this.state;
       const newGifIndex = (gifIndex + 1) % 6;
@@ -97,6 +98,11 @@ class Overview extends Component {
       gifIndex: index,
     });
   }
+
+  handleGIFChange = index => {
+    this.changeGIF(index);
+    clearInterval(this.exampleTime);
+  };
 
   render() {
     const { gifIndex } = this.state;
@@ -127,6 +133,8 @@ class Overview extends Component {
                   color: '#3367d6',
                   cursor: 'pointer',
                   position: 'relative',
+                  lineHeight: '24px',
+                  display: 'block',
                 }}
               >
                 <PlayCircle
@@ -161,16 +169,17 @@ class Overview extends Component {
               that you never thought of before. Susi can do a lot of things that
               you might not expect. Here are some examples of what SUSI can do.
               <br />
-              Don"t forget, these are only a few 😊
+              Don't forget, these are only a few 😊
             </p>
             <div className="rowdiv">
               {buttonAttributes.map((button, index) => (
                 <RaisedButton
+                  key={index}
                   className="example-btn"
                   label={button.label}
                   labelColor={gifIndex === index ? white : black}
                   backgroundColor={gifIndex === index ? blue600 : white}
-                  onClick={e => this.changeGIF(index)}
+                  onClick={e => this.handleGIFChange(index)}
                   icon={button.icon}
                 />
               ))}
@@ -179,6 +188,7 @@ class Overview extends Component {
           <div className="img-container">
             {buttonAttributes.map((img, index) => (
               <img
+                key={index}
                 src={buttonAttributes[gifIndex].gif}
                 style={gifIndex === index ? {} : { display: 'none' }}
                 alt="susi-web"

@@ -1,8 +1,10 @@
 .chat-message-container{
     font-size: 15px;
-    min-height:250px;
     padding-bottom: 60px;
-    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+    box-shadow: 2px 0 3px -3px #000000, -2px 0 3px -3px #000000;
+    height: 280px;
+    overflow-y: overlay;
+    overflow-x: hidden;
 }
 
 .susi-chat-container{
@@ -77,4 +79,12 @@
 .chat-messages{
     display: flex;
     flex-direction: column;
+}
+
+.susi-preview-logo{
+    height: 12px;
+    vertical-align: middle;
+    max-width: 84px;
+    width: auto;
+    padding: 8px;
 }

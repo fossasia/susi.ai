@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import MessageStore from '../../../stores/MessageStore';
 import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -22,6 +21,7 @@ class TextToSpeechSettings extends Component {
       voiceList: MessageStore.getTTSVoiceList(),
     };
     this.speechSynthesisExample = 'This is an example of speech synthesis';
+    this.speechDemo = 'Hi! I am SUSI';
   }
 
   // Triggered when the voice player is started
@@ -165,36 +165,19 @@ class TextToSpeechSettings extends Component {
     return (
       <div className="settingsForm">
         <div>
-          <div
-            style={{
-              marginBottom: '0px',
-              marginTop: '15px',
-              fontSize: 15,
-              fontWeight: 'bold',
-            }}
-            className="speechSettingDiv"
-          >
+          <div style={this.props.headingStyle} className="speechSettingDiv">
             <Translate text="Speech Output Language" />
           </div>
           <DropDownMenu
             value={voiceOutput.voiceLang}
             onChange={this.handleTTSVoices}
-            labelStyle={{
-              color:
-                UserPreferencesStore.getTheme() === 'light' ? 'black' : 'white',
-            }}
+            labelStyle={{ color: this.props.themeForegroundColor }}
           >
             {voiceOutput.voiceMenu}
           </DropDownMenu>
         </div>
         <div>
-          <div
-            style={{
-              marginBottom: '0px',
-              fontSize: 15,
-              fontWeight: 'bold',
-            }}
-          >
+          <div style={this.props.headingStyle}>
             <Translate text="Speech Output Rate" />
           </div>
           <Slider
@@ -211,13 +194,7 @@ class TextToSpeechSettings extends Component {
           />
         </div>
         <div>
-          <div
-            style={{
-              marginBottom: '0px',
-              fontSize: 15,
-              fontWeight: 'bold',
-            }}
-          >
+          <div style={this.props.headingStyle}>
             <Translate text="Speech Output Pitch" />
           </div>
           <Slider
@@ -240,9 +217,7 @@ class TextToSpeechSettings extends Component {
             icon={<FontIcon className="fa fa-volume-up" />}
             labelColor="#fff"
             backgroundColor={
-              UserPreferencesStore.getTheme() === 'light'
-                ? '#4285f4'
-                : '#19314B'
+              this.props.themeVal === 'light' ? '#4285f4' : '#19314B'
             }
             label={<Translate text="Play Demonstration" />}
             onClick={this.playDemo}
@@ -251,7 +226,7 @@ class TextToSpeechSettings extends Component {
         {this.state.playExample && (
           <VoicePlayer
             play={this.state.play}
-            text={voiceOutput.voiceText}
+            text={this.speechDemo}
             rate={this.state.rate}
             pitch={this.state.pitch}
             lang={this.state.ttsLanguage}
@@ -269,6 +244,9 @@ TextToSpeechSettings.propTypes = {
   pitch: PropTypes.number,
   lang: PropTypes.string,
   newTtsSettings: PropTypes.func,
+  themeVal: PropTypes.string,
+  themeForegroundColor: PropTypes.string,
+  headingStyle: PropTypes.object,
 };
 
 export default TextToSpeechSettings;
