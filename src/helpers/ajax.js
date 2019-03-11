@@ -14,10 +14,11 @@ const obj = {};
       timeout: 30000,
       dataType: 'json',
       crossDomain: true,
+      isTokenRequired: true,
       ...settings,
     };
 
-    if (cookies.get('loggedIn')) {
+    if (cookies.get('loggedIn') && settings.isTokenRequired) {
       payload = {
         // eslint-disable-next-line camelcase
         access_token: cookies.get('loggedIn'),
@@ -28,8 +29,8 @@ const obj = {};
     return new Promise(function(resolve, reject) {
       let methodArgs = [];
       /*
-        If ajax.post is used, by default sending form data
-        use postJSON instead for json data
+          If ajax.post is used, by default sending form data
+          use postJSON instead for json data
       */
       if (method === 'post') {
         if (payload && payload instanceof FormData !== true) {
@@ -67,8 +68,8 @@ const obj = {};
         function(data = {}, ...restSuccessArgs) {
           const statusCode = _.get(data, 'status');
           /*
-                        Send only api resonse
-                    */
+              Send only api resonse
+          */
           let responseData = { statusCode, ..._.get(data, 'data') };
 
           if (method === 'all') {
