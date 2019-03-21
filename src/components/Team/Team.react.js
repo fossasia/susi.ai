@@ -8,6 +8,7 @@ import { scrollToTopAnimation } from '../../utils/animateScroll';
 import TEAM_MEMBERS from './constants';
 import 'font-awesome/css/font-awesome.min.css';
 import './Team.css';
+import ToTopButton from '../Button/ToTopButton.react';
 
 export default class Team extends Component {
   static propTypes = {
@@ -100,6 +101,7 @@ export default class Team extends Component {
           <div className="team-container">{alumnis}</div>
         </div>
 
+        <ToTopButton />
         <Footer />
       </div>
     );
