@@ -23,6 +23,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import susi from '../../images/susi-logo.svg';
+import ToTopButton from '../Button/ToTopButton.react';
 const { FacebookShareButton, TwitterShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
@@ -176,12 +177,6 @@ class Blog extends Component {
 
     const prevStyle = {
       visibility: this.state.prevDisplay,
-    };
-    const toTopStyle = {
-      right: 80,
-      bottom: 80,
-      position: 'fixed',
-      zIndex: '10',
     };
 
     return (
@@ -368,15 +363,7 @@ class Blog extends Component {
             <Footer />
           </div>
         )}
-        <FloatingActionButton
-          style={toTopStyle}
-          backgroundColor={'#4285f4'}
-          onClick={() => {
-            scrollToTopAnimation();
-          }}
-        >
-          <span className="fa fa-chevron-up" />
-        </FloatingActionButton>
+        <ToTopButton />
       </div>
     );
   }
