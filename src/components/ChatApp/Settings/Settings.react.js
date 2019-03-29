@@ -1765,6 +1765,7 @@ class Settings extends Component {
                     style={{
                       textAlign: 'center',
                       marginTop: '20px',
+                      marginBottom: '0',
                       display: 'flex',
                       justifyContent: 'center',
                     }}

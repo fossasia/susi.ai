@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import { ShareButtons, generateShareIcon } from 'react-share';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
-const { FacebookShareButton, TwitterShareButton } = ShareButtons;
+const {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+} = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
+const LinkedinIcon = generateShareIcon('linkedin');
 import Close from 'material-ui/svg-icons/navigation/close';
 import Dialog from 'material-ui/Dialog';
 
@@ -100,6 +105,19 @@ const DialogSection = props => {
 
               <div style={iconTitleStyle}>Twitter</div>
             </TwitterShareButton>
+          </div>
+          <div className="HoverIcon">
+            <LinkedinShareButton
+              style={iconWrapperStyle}
+              url={shareUrl}
+              title={title}
+            >
+              <div>
+                <LinkedinIcon size={42} />
+              </div>
+
+              <div style={iconTitleStyle}>LinkedIn</div>
+            </LinkedinShareButton>
           </div>
         </div>
       </Dialog>
