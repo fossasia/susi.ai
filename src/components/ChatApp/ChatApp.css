@@ -421,25 +421,20 @@ header{
   list-style-type: none;
   font-size: 12px;
   color: #90a4ae;
-  margin: 3px 0px -3px -38px;
   padding: 0;
   text-align: right;
 }
 .response-time{
-  margin: 3px -9px -3px 1px;
+  margin-top: 4px;
 }
 .feedback{
   list-style-type: none;
   font-size: 12px;
   color: #90a4ae;
-  margin: -4px -5px -7px 10px;
-  padding: 0;
-  text-align: left;
 }
 .dark .message-time, .thread-time{
   float: right;
   color: #7eaaaf;
-  margin: 3px 0px -3px -38px;
 
 }
 
@@ -564,6 +559,7 @@ textarea {
   -moz-box-shadow: none;
   margin-top: 3px;
   background: #fff;
+  color: #001d38;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   min-height: 80%;
@@ -594,9 +590,6 @@ textarea {
   .textBack {
     width: 81%;
   }
-  .Modal{
-    padding: 25px 0px 25px 0px;
-  }
   .voice-output{
     width: 100%;
     text-align: center;
@@ -625,6 +618,10 @@ textarea {
   height: 150px;
   width: 100%;
   margin: 0 auto;
+}
+
+.leaflet-popup-content {
+  color: black;
 }
 
 .chatapp {
@@ -816,7 +813,7 @@ abbr[title] {
 
 @media only screen and (max-width: 560px){
   .app-bar-search img {
-    display: none !important;
+    width: 0px;
   }
   .search{
     width: 100px !important;
@@ -915,4 +912,7 @@ abbr[title] {
     bottom: 0;
     opacity: 0;
   }
+}
+.HoverIcon:hover{
+  background-color: rgba(0, 0, 0, 0.08)
 }

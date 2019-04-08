@@ -104,7 +104,6 @@
 .settingsSubmit{
       text-align: left ;
       margin-left: 30px;
-      margin-bottom: 16px;
 }
 
 .setting-item{
@@ -112,8 +111,13 @@
 }
 
 .Link a {
-  color : #1DA1F5;
+  color : #f75959;
   text-decoration : none;
+}
+
+.Link a:hover {
+  color: #ff0000;
+  transition: all 0.2s ease-in-out;
 }
 
 .settingMenu {
@@ -174,6 +178,13 @@
 
 .email-field:hover{
     cursor: not-allowed;
+}
+.time-zone{
+  padding-bottom: 30px;
+}
+.time-zone-dropdown{
+ position: absolute;
+ z-index: 99;
 }
 
 

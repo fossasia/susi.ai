@@ -1,14 +1,12 @@
+/* eslint camelcase: 0 */
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
-// import { Cookies } from 'react-cookie';
-// import actions from '../redux/actions/messages';
+
 const { API_URL } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';
+const CMS_API_PREFIX = 'cms';
 
-/* Export API calls from this file
-Example function -
-*/
 export function fetchApiKeys(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/getApiKeys.json`;
   return ajax.get(url);
@@ -65,7 +63,6 @@ export function getForgotPassword(payload) {
 }
 
 export function getSusiReply(payload) {
-  console.log(payload);
   const { message } = payload;
 
   const url = `${API_URL}/${CHAT_API_PREFIX}/chat.json`;
@@ -112,4 +109,44 @@ export function getWebSearchResults(query) {
 
 export function previewURLForImage() {
   return ajax.get();
+}
+
+export function postSkillFeedback(payload) {
+  const {
+    model,
+    group,
+    language,
+    skill,
+    feedback,
+    reply,
+    query,
+    countryName,
+    countryCode,
+  } = payload;
+  const url = `${API_URL}/${CMS_API_PREFIX}/feedbackLog.json`;
+  return ajax.get(url, {
+    model,
+    group,
+    language,
+    skill,
+    rating: feedback,
+    susi_reply: reply,
+    user_query: query,
+    country_name: countryName,
+    country_code: countryCode,
+    device_type: 'Web Client',
+  });
+}
+
+export function getAdmin(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/showAdminService.json`;
+  return ajax.get(url, payload);
+}
+
+export function getEmailExists(payload) {
+  const { email } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/checkRegistration.json`;
+  return ajax.get(url, {
+    check_email: email,
+  });
 }

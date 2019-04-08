@@ -40,6 +40,7 @@ class ForgotPassword extends Component {
     actions: PropTypes.object,
     openForgotPassword: PropTypes.bool,
     onRequestClose: PropTypes.func,
+    openSnackBar: PropTypes.func,
   };
 
   constructor(props) {
@@ -49,7 +50,6 @@ class ForgotPassword extends Component {
       email: '',
       emailErrorMessage: '',
       success: false,
-      dialogMessage: '',
       loading: false,
     };
   }
@@ -61,7 +61,6 @@ class ForgotPassword extends Component {
       email: '',
       emailErrorMessage: '',
       success: false,
-      dialogMessage: '',
       loading: false,
     });
 
@@ -75,7 +74,6 @@ class ForgotPassword extends Component {
       this.setState({
         email,
         emailErrorMessage: emailError ? <Translate text="Invalid Email" /> : '',
-        dialogMessage: '',
       });
     }
   };
@@ -83,47 +81,53 @@ class ForgotPassword extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { actions } = this.props;
+    const { actions, openSnackBar } = this.props;
     const { email, emailErrorMessage } = this.state;
 
-    this.setState({ dialogMessage: '' });
     if (email && !emailErrorMessage) {
       this.setState({ loading: true });
       actions
         .getForgotPassword({ email })
         .then(({ payload }) => {
-          let dialogMessage = payload.message;
+          let snackBarMessage = payload.message;
           let success;
           if (payload.accepted) {
             success = true;
           } else {
             success = false;
-            dialogMessage = 'Please Try Again';
+            snackBarMessage = 'Please Try Again';
           }
           this.setState({
             success,
-            dialogMessage,
             loading: false,
+          });
+          openSnackBar({
+            snackBarMessage,
+            snackBarDuration: 8000,
           });
         })
         .catch(error => {
           this.setState({
             loading: false,
             success: false,
-            dialogMessage: 'Failed. Try Again',
           });
+          if (error.statusCode === 422) {
+            openSnackBar({
+              snackBarMessage: 'Email does not exist.',
+              snackBarDuration: 6000,
+            });
+          } else {
+            openSnackBar({
+              snackBarMessage: 'Failed. Try Again',
+              snackBarDuration: 6000,
+            });
+          }
         });
     }
   };
 
   render() {
-    const {
-      email,
-      emailErrorMessage,
-      dialogMessage,
-      success,
-      loading,
-    } = this.state;
+    const { email, emailErrorMessage, loading } = this.state;
     const { openForgotPassword } = this.props;
     const isValid = !emailErrorMessage && email;
 
@@ -156,11 +160,6 @@ class ForgotPassword extends Component {
                   floatingLabelFocusStyle={styles.underlineFocusStyle}
                   onChange={this.handleTextFieldChange}
                 />
-                {dialogMessage && (
-                  <div style={{ color: success ? '#388e3c' : '#f44336' }}>
-                    {dialogMessage}
-                  </div>
-                )}
               </div>
               <div style={{ margin: '10px 0px' }}>
                 {/* Reset Button */}

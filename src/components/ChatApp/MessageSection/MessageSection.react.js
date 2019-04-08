@@ -78,6 +78,7 @@ class MessageSection extends Component {
       showLoading: false,
       showScrollBottom: false,
       showScrollTop: false,
+      isShareOpen: false,
       searchState: {
         markedMessagesByID: {},
         markedIDs: [],
@@ -90,14 +91,9 @@ class MessageSection extends Component {
         searchText: '',
       },
     };
-    this.messageStoreLength = 0;
   }
 
-  componentDidMount() {
-    this.scrollToBottom();
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { search, searchState } = this.state;
     const { messages } = this.props;
     if (search) {
@@ -113,8 +109,7 @@ class MessageSection extends Component {
           this.scrollarea.view.childNodes[currentID].scrollIntoView();
         }
       }
-    } else if (messages.length !== this.messageStoreLength) {
-      this.messageStoreLength = messages.length;
+    } else if (prevProps.messages.length !== messages.length) {
       this.scrollToBottom();
     }
   }
@@ -137,6 +132,25 @@ class MessageSection extends Component {
     this.setState(prevState => ({ player: [...prevState.player, newPlayer] }));
   };
 
+  handleShare = () => {
+    this.setState({ isShareOpen: true });
+  };
+  handleShareClose = () => {
+    this.setState({ isShareOpen: false });
+  };
+
+  toggleShareClose = () => {
+    const { isShareOpen } = this.state;
+    this.setState({ isShareOpen: !isShareOpen });
+  };
+
+  handleShare = () => {
+    this.setState({ openShare: true });
+  };
+  handleShareClose = () => {
+    console.log(this.state.openShare);
+    this.setState({ openShare: false });
+  };
   handleCloseTour = () => {
     this.setState({
       tour: false,
@@ -370,7 +384,7 @@ class MessageSection extends Component {
             key={id}
             message={messagesByID[id]}
             markID={markID}
-            playerAdd={addYouTube}
+            addYouTube={addYouTube}
           />
         );
       });
@@ -393,7 +407,7 @@ class MessageSection extends Component {
             message={messagesByID[id]}
             latestUserMsgID={latestUserMsgID}
             latestMessage={false}
-            playerAdd={addYouTube}
+            addYouTube={addYouTube}
           />
         );
       }
@@ -403,7 +417,7 @@ class MessageSection extends Component {
           message={messagesByID[id]}
           latestUserMsgID={latestUserMsgID}
           latestMessage={true}
-          playerAdd={addYouTube}
+          addYouTube={addYouTube}
         />
       );
     });
@@ -448,7 +462,13 @@ class MessageSection extends Component {
       messageBackgroundImage,
       loadingReply,
     } = this.props;
-    const { search, searchState, showScrollTop, showScrollBottom } = this.state;
+    const {
+      search,
+      searchState,
+      showScrollTop,
+      showScrollBottom,
+      isShareOpen,
+    } = this.state;
     const {
       scrollBottomStyle,
       scrollTopStyle,
@@ -507,10 +527,11 @@ class MessageSection extends Component {
             searchTextChanged={this.searchTextChanged}
             openSearch={this.openSearch}
             exitSearch={this.exitSearch}
+            toggleShareClose={this.toggleShareClose}
             nextSearchItem={this.nextSearchItem}
             previousSearchItem={this.previousSearchItem}
-            search={this.state.search}
-            searchState={this.state.searchState}
+            search={search}
+            searchState={searchState}
           />
         </header>
 
@@ -579,29 +600,28 @@ class MessageSection extends Component {
                       </FloatingActionButton>
                     </div>
                   )}
-                  <div
-                    className="compose"
-                    style={{ backgroundColor: composer }}
-                  >
-                    <MessageComposer
-                      focus={!search}
-                      dream={dream}
-                      textarea={textarea}
-                      textcolor={textColor}
-                      speechOutput={speechOutput}
-                      speechOutputAlways={speechOutputAlways}
-                      micColor={button}
-                    />
-                  </div>
                 </div>
               )}
+              <div className="compose" style={{ backgroundColor: composer }}>
+                <MessageComposer
+                  focus={!search}
+                  dream={dream}
+                  textarea={textarea}
+                  textcolor={textColor}
+                  speechOutput={speechOutput}
+                  speechOutputAlways={speechOutputAlways}
+                  micColor={button}
+                />
+              </div>
             </div>
           </div>
           {/*  Tour Dialog is handled by this components */}
           {!search ? (
             <DialogSection
               {...this.props}
-              onRequestCloseTour={() => this.handleCloseTour}
+              isShareOpen={isShareOpen}
+              toggleShareClose={this.toggleShareClose}
+              onRequestCloseTour={this.handleCloseTour}
               tour={!cookies.get('visited')}
             />
           ) : null}

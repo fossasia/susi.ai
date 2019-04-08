@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { getSusiPreviewReply } from '../../../apis/index';
 import susiWhite from '../../../images/susi-logo-white.png';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import loadingGIF from '../../../images/loading.gif';
 import Send from 'material-ui/svg-icons/content/send';
 import './PreviewThemeChat.css';
 
@@ -10,36 +11,72 @@ class PreviewThemeChat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [{ message: 'Hi I am Susi', author: 'Susi' }],
+      messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
       message: '',
     };
   }
 
   sendMessage = event => {
-    event.preventDefault();
-    this.addMessage(this.state.message, 'You');
+    const { message } = this.state;
+    if (message.trim().length > 0) {
+      this.addMessage(message, 'You');
+      const encodedMessage = encodeURIComponent(message);
+      getSusiPreviewReply(encodedMessage)
+        .then(payload => {
+          const { messages } = this.state;
+          let index;
+          for (let i = 0; i < messages.length; i++) {
+            if (messages[i].loading === true) {
+              index = i;
+              break;
+            }
+          }
 
-    let message = encodeURIComponent(this.state.message);
-    getSusiPreviewReply(message)
-      .then(payload => {
-        if (payload.answers[0]) {
-          this.addMessage(payload.answers[0].actions[0].expression, 'SUSI');
-        } else {
-          this.addMessage(
-            'Sorry, I could not understand what you just said.',
-            'SUSI',
-          );
-        }
-      })
-      .catch(error => {
-        console.log('Could not fetch reply');
-      });
-    this.setState({ message: '' });
+          let messageObj;
+          if (payload.answers[0]) {
+            messageObj = {
+              message: payload.answers[0].actions[0].expression,
+              author: 'SUSI',
+              loading: false,
+            };
+          } else {
+            messageObj = {
+              message: 'Sorry, I could not understand what you just said.',
+              author: 'SUSI',
+              loading: false,
+            };
+          }
+          this.setState(prevState => ({
+            messages: [
+              ...prevState.messages.slice(0, index),
+              messageObj,
+              ...prevState.messages.slice(index + 1),
+            ],
+          }));
+        })
+        .catch(error => {
+          console.log('Could not fetch reply');
+        });
+      this.setState({ message: '' });
+    }
   };
 
-  addMessage = (message, author) => {
-    const messageObj = { message, author };
-    this.setState({ messages: [...this.state.messages, messageObj] });
+  addMessage = (message, author, loading = false) => {
+    const messageObj = { message, author, loading };
+    const loadingObj = {
+      message: (
+        <img
+          src={loadingGIF}
+          style={{ height: '10px', width: 'auto' }}
+          alt="please wait.."
+        />
+      ),
+      author: 'SUSI',
+      loading: true,
+    };
+    this.setState({
+      messages: [...this.state.messages, messageObj, loadingObj],
+    });
   };
 
   render() {
@@ -88,7 +125,11 @@ class PreviewThemeChat extends Component {
             className="susi-chat-navbar"
             style={{ backgroundColor: colors.headerColor }}
           >
-            <img src={susiWhite} alt="susi-logo" className="susi-logo" />
+            <img
+              src={susiWhite}
+              alt="susi-logo"
+              className="susi-preview-logo"
+            />
             <MoreVertIcon
               className="morevertIcon"
               style={{ height: '30px', width: '15px' }}
@@ -118,6 +159,16 @@ class PreviewThemeChat extends Component {
                   className="chat-input"
                   value={this.state.message}
                   onChange={ev => this.setState({ message: ev.target.value })}
+                  onKeyDown={event => {
+                    if (event.keyCode === 13) {
+                      this.sendMessage();
+                    }
+                  }}
+                  onKeyPress={event => {
+                    if (event.which === 13) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <Send onClick={this.sendMessage} className="chat-input-send" />

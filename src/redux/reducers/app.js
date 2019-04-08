@@ -9,17 +9,20 @@ const defaultState = {
   email: '',
   accessToken: '',
   uuid: '',
-  isAdmin: false,
+  isAdmin: null,
   apiKeys: {},
 };
 
-const { emailId, uuid, loggedIn, username, isAdmin } = cookies.getAll();
+const { emailId, uuid, loggedIn, username } = cookies.getAll();
 const cookiesAppValues = {
   email: emailId,
   uuid,
   accessToken: loggedIn,
   userName: username,
-  isAdmin,
+  location: {
+    countryCode: '',
+    countryName: '',
+  },
 };
 
 export default handleActions(
@@ -44,6 +47,13 @@ export default handleActions(
     [actionTypes.APP_LOGOUT](state, { payload }) {
       return {
         ...defaultState,
+      };
+    },
+    [actionTypes.APP_GET_ADMIN](state, { payload }) {
+      const { showAdmin: isAdmin } = payload;
+      return {
+        ...state,
+        isAdmin,
       };
     },
   },

@@ -5,8 +5,9 @@ const defaultState = {
   messages: [],
   messagesByID: {},
   unreadMessageIDs: [],
-  feedbackByID: {},
+  skillFeedbackByMessageId: {},
   loadingHistory: false,
+  loadingHistoryError: false,
   loadingReply: false,
   initialisedVoices: false,
   TTSVoices: [],
@@ -83,14 +84,14 @@ export default handleActions(
         messagesByID,
       };
     },
-    [actionTypes.MESSAGES_FEEDBACK_RECEIVED](state, { payload }) {
-      // ACTION needed
-      const { messageID, feedback } = payload;
-      let { feedbackByID } = state;
-      feedbackByID[messageID] = feedback;
+    [actionTypes.MESSAGES_SAVE_SKILL_FEEDBACK](state, { payload }) {
+      const { messageId, feedback } = payload;
       return {
         ...state,
-        feedbackByID,
+        skillFeedbackByMessageId: {
+          ...state.skillFeedbackByMessageId,
+          [messageId]: feedback,
+        },
       };
     },
     [actionTypes.MESSAGES_INIT_TTS_VOICES](state, { payload }) {
@@ -106,6 +107,7 @@ export default handleActions(
       return {
         ...defaultState,
         loadingHistory: true,
+        loadingHistoryError: false,
       };
     },
     [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
@@ -125,6 +127,13 @@ export default handleActions(
         messages,
         messagesByID,
         loadingHistory: false,
+      };
+    },
+    [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE_FAILED](state, { payload }) {
+      return {
+        ...defaultState,
+        loadingHistory: false,
+        loadingHistoryError: true,
       };
     },
     [actionTypes.APP_LOGOUT](state, { payload }) {

@@ -59,12 +59,12 @@ const shareToFacebook = () => {
 
 const ShareOnSocialMedia = props => {
   initFacebookAPI();
-  const { buttonStyle, raisedButtonStyle } = styles;
+  const { raisedButtonStyle } = styles;
   return (
     <div style={props.containerStyle}>
       <div>
         <div>
-          <div style={buttonStyle}>
+          <div style={props.headingStyle}>
             <Translate text="Share about SUSI on Facebook" />
             <br />
             <RaisedButton
@@ -77,7 +77,7 @@ const ShareOnSocialMedia = props => {
               onTouchTap={shareToFacebook}
             />
           </div>
-          <div style={buttonStyle}>
+          <div style={props.headingStyle}>
             <Translate text="Share about SUSI on Twitter" />
             <br />
             <RaisedButton
@@ -95,19 +95,19 @@ const ShareOnSocialMedia = props => {
               }
             />
           </div>
-          <div style={buttonStyle}>
-            <Translate text="Share about SUSI on Google+" />
+          <div style={props.headingStyle}>
+            <Translate text="Share about SUSI on LinkedIn" />
             <br />
             <RaisedButton
-              label={<Translate text="Share on Google+" />}
+              label={<Translate text="Share on LinkedIn" />}
               style={raisedButtonStyle}
-              backgroundColor="#d34836"
+              backgroundColor="#0077B5"
               labelColor="#fff"
-              icon={<FontIcon className="fa fa-google-plus" />}
+              icon={<FontIcon className="fa fa-linkedin" />}
               keyboardFocused={false}
               onClick={() =>
                 window.open(
-                  `https://plus.google.com/share?url=${urls.CHAT_URL}`,
+                  'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
                   '_blank',
                 )
               }
@@ -121,6 +121,7 @@ const ShareOnSocialMedia = props => {
 
 ShareOnSocialMedia.propTypes = {
   containerStyle: PropTypes.object,
+  headingStyle: PropTypes.object,
 };
 
 export default ShareOnSocialMedia;

@@ -6,7 +6,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fossasia/susi_webchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
-Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.
+SUSI.AI is an artificial intelligence system, combining pattern matching, internet data, data flow, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.
 
 
 [![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/?repo=https://github.com/fossasia/chat.susi.ai)
@@ -65,14 +65,14 @@ Still having problems? Watch this video to clear your doubts [How to setup SUSI 
   
 ## Speech Recognition and Synthesis
 
-The SUSI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for speech recognition and synthesis. To test whether your browser supports Text To Speech, open your browser console and run the following:
+The SUSI.AI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for speech recognition and synthesis. To test whether your browser supports Text To Speech, open your browser console and run the following:
 
 ```
 var msg = new SpeechSynthesisUtterance('Hello World');
 window.speechSynthesis.speak(msg)
 ```
 
-If you get speech output, then the Web API Speech Synthesis is supported by your browser and the text-to-speech features of SUSI Web Chat will work. The Web Speech API has support for all latest Chrome/-ium browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are a few bugs with some Chromium versions please check [this link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758) on how to fix them locally.
+If you get speech output, then the Web API Speech Synthesis is supported by your browser and the text-to-speech features of SUSI.AI Web Chat will work. The Web Speech API has support for all latest Chrome/-ium browsers as mentioned in the [Web Speech API Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). However there are a few bugs with some Chromium versions please check [this link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742758) on how to fix them locally.
 
 ## Accounting, Anonymous User, Logged in Users
 
@@ -98,7 +98,7 @@ The response from the memory servlet is of the form:
 	"session" : {},
 }
 ```
-A sample susi response is of the form :
+A sample SUSI.AI response is of the form :
 ```
 {
 	"query" : 
@@ -110,7 +110,7 @@ A sample susi response is of the form :
 ```
 So each cognition has ```query``` as well as  ```answer ``` and thus we get a conversation message pair in the chat history.
 
-The cognitions contain a list of SUSI responses of the above form using which chat history is rendered.
+The cognitions contain a list of SUSI.AI responses of the above form using which chat history is rendered.
 
 All the user messages are stored in a log file. The memory servlet digs out the history of the required user from the log file. The log uses the identity of the user and accesses only that information which has been stored for the user. If the user is not logged on, no information is available.
 The conversation log is NOT stored for a particular IP. It’s stored for an Identity within the AAA system.
@@ -178,7 +178,7 @@ chat.susi.ai/
 
 ## Translations
 
-### How to add translations in new languages for SUSI Web Chat Components using Weblate
+### How to add translations in new languages for SUSI.AI Web Chat Components using Weblate
 * Go to [https://hosted.weblate.org/projects/susi-ai/chat/](https://hosted.weblate.org/projects/susi-ai/chat/) and Login using your Github Account.
 * Select Chat component to add new translations.
 * Click on `Start new translation` and choose a new language for which you want to add translations.
@@ -198,7 +198,7 @@ chat.susi.ai/
 * Application Background Colour: ![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
 * Message History Background Colour: ![#f5f4f6](https://placehold.it/15/f5f4f6/000000?text=+) `#f5f4f6`
 * Chat Bubble Colour
-    * SUSI Chat bubbles: ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
+    * SUSI.AI Chat bubbles: ![#fffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
     * User Chat bubbles: ![#e0e0e0](https://placehold.it/15/e0e0e0/000000?text=+) `#e0e0e0`
 * Top Bar Colour: ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
 * Buttons Colour: ![#4285f4](https://placehold.it/15/0084ff/000000?text=+) `#4285f4`
@@ -230,7 +230,7 @@ chat.susi.ai/
 * Application Background Colour: ![#000000](https://placehold.it/15/000000/000000?text=+) `#000000`
 * Message History Background Colour: ![#183850](https://placehold.it/15/183850/000000?text=+) `#183850`
 * Chat Bubble Colour
-    * SUSI Chat bubbles: ![#199393](https://placehold.it/15/199393/000000?text=+) `#199393`
+    * SUSI.AI Chat bubbles: ![#199393](https://placehold.it/15/199393/000000?text=+) `#199393`
     * User Chat bubbles: ![#199393](https://placehold.it/15/199393/000000?text=+) `#199393`
 * Top Bar Colour: ![#000000](https://placehold.it/15/000000/000000?text=+) `#000000`
 * Buttons Colour: ![#000000](https://placehold.it/15/000000/000000?text=+) `#000000`

@@ -1,57 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'universal-cookie';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import SignUp from '../Auth/SignUp/SignUp.react';
-import stackoverflow from '../../images/stackoverflow.png';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import Footer from '../Footer/Footer.react';
+import { urls } from '../../utils';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
+import stackoverflow from '../../images/stackoverflow.png';
 import support from '../../images/support.png';
 import question from '../../images/question.png';
-import urls from '../../utils/urls';
 import documentation from '../../images/programmer.png';
-import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import Footer from '../Footer/Footer.react';
-import { scrollToTopAnimation } from '../../utils/animateScroll';
 import github from '../../images/github.png';
 import googleGroups from '../../images/google-groups.png';
-import Login from '../Auth/Login/Login.react';
 import code from '../../images/code.png';
 import './Support.css';
-
-const cookies = new Cookies();
 
 const styles = {
   buttonStyle: {
     marginTop: '25px',
     marginBottom: '25px',
   },
-  bodyStyle: {
-    padding: 0,
-    textAlign: 'center',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
 };
 
 class Support extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
-    };
-  }
+  static propTypes = {
+    history: PropTypes.object,
+    location: PropTypes.object,
+    openSignUp: PropTypes.func,
+    accessToken: PropTypes.string,
+  };
 
   componentDidMount() {
     // Adding title tag to page
@@ -60,47 +37,13 @@ class Support extends Component {
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
   }
-  // Open login dialog and close signup and forgot password dialog
-  handleLogin = () => {
-    this.setState({
-      showLogin: true,
-      showSignUp: false,
-      showForgotPassword: false,
-    });
-  };
-  //  Open Signup dialog and close login and forgot password dialog
-  handleSignUp = () => {
-    this.setState({
-      showSignUp: true,
-      showLogin: false,
-      showForgotPassword: false,
-    });
-  };
-  // Open Forgot Password dialog and close login dialog
-  handleForgotPassword = () => {
-    this.setState({
-      showForgotPassword: true,
-      showLogin: false,
-    });
-  };
-
-  // Close all dialogs
-  handleClose = () => {
-    this.setState({
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
-    });
-  };
 
   render() {
-    document.body.style.setProperty('background-image', 'none');
-
-    const { showLogin, showSignUp, showForgotPassword } = this.state;
-
+    const { buttonStyle } = styles;
+    const { location, openSignUp, accessToken } = this.props;
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
+        <StaticAppBar {...this.props} location={location} />
         <div className="gray-wrapper">
           <div className="white-grey">
             <div className="conversation__description">
@@ -292,7 +235,7 @@ class Support extends Component {
           </div>
         </div>
         <div className="blue-wrapper">
-          {!cookies.get('loggedIn') ? (
+          {!accessToken ? (
             <div className="non-flex blue-background">
               <div className="conversation__description footer-desc">
                 <div className="support__heading center blue-text">
@@ -301,8 +244,8 @@ class Support extends Component {
 
                 <RaisedButton
                   label="Sign Up"
-                  onTouchTap={this.handleSignUp}
-                  style={styles.buttonStyle}
+                  onTouchTap={openSignUp}
+                  style={buttonStyle}
                 />
               </div>
             </div>
@@ -310,63 +253,19 @@ class Support extends Component {
 
           <Footer />
         </div>
-
-        {/* Login */}
-        <Dialog
-          className="dialogStyle"
-          modal={true}
-          open={showLogin}
-          autoScrollBodyContent={true}
-          bodyStyle={styles.bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <Login
-            {...this.props}
-            handleForgotPassword={this.handleForgotPassword}
-          />
-          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
-        {/* SignUp */}
-        <Dialog
-          className="dialogStyle"
-          modal={true}
-          open={showSignUp}
-          autoScrollBodyContent={true}
-          bodyStyle={styles.bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <SignUp
-            {...this.props}
-            onRequestClose={this.handleClose}
-            onLoginSignUp={this.handleLogin}
-          />
-          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
-        {/* ForgotPassword */}
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={showForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <ForgotPassword
-            {...this.props}
-            showForgotPassword={this.handleForgotPassword}
-          />
-          <Close style={styles.closingStyle} onTouchTap={this.handleClose} />
-        </Dialog>
       </div>
     );
   }
 }
 
-Support.propTypes = {
-  history: PropTypes.object,
-  location: PropTypes.object,
-};
+function mapStateToProps(store) {
+  const { accessToken } = store.app;
+  return {
+    accessToken,
+  };
+}
 
-export default Support;
+export default connect(
+  mapStateToProps,
+  null,
+)(Support);
