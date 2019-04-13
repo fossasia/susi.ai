@@ -726,6 +726,9 @@ class Settings extends Component {
     this.setState({
       enterAsSend: isInputChecked,
     });
+    setTimeout(() => {
+      this.handleSubmit();
+    }, 500);
   };
 
   // Handle change to mic input settings
@@ -733,6 +736,9 @@ class Settings extends Component {
     this.setState({
       micInput: isInputChecked,
     });
+    setTimeout(() => {
+      this.handleSubmit();
+    }, 500);
   };
 
   // Handle change to speech output on speech input settings
@@ -985,6 +991,12 @@ class Settings extends Component {
       return false;
     }
     if (selectedSetting === 'Share on Social media') {
+      return false;
+    }
+    if (selectedSetting === 'ChatApp') {
+      return false;
+    }
+    if (selectedSetting === 'Microphone') {
       return false;
     }
     return true; // display the button otherwise
