@@ -630,6 +630,7 @@ export function makeServerCall(url) {
     },
     error: function(errorThrown) {
       console.log(errorThrown);
+      return null;
     },
   });
 }

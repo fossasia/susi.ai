@@ -51,6 +51,7 @@ import PasswordTab from './PasswordTab.react';
 import DevicesTab from './DevicesTab.react';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
+import Snackbar from 'material-ui/Snackbar';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
@@ -177,6 +178,8 @@ class Settings extends Component {
         countryDialCode: defaultCountryDialCode,
         PhoneNo: defaultPhoneNo,
       },
+      openSnackbar: false,
+      msgSnackbar: '',
     };
   }
 
@@ -702,7 +705,17 @@ class Settings extends Component {
     if (currSettings.SpeechOutputAlways !== values.speechOutputAlways) {
       resetVoice = true;
     }
-    Actions.settingsChanged(values);
+    if (Actions.settingsChanged(values) !== null) {
+      this.setState({
+        openSnackbar: true,
+        msgSnackbar: 'Settings Saved',
+      });
+    } else {
+      this.setState({
+        openSnackbar: true,
+        msgSnackbar: 'Settings not saved',
+      });
+    }
     if (resetVoice) {
       Actions.resetVoice();
     }
@@ -1816,6 +1829,15 @@ class Settings extends Component {
           />
           <Close style={closingStyle} onTouchTap={this.handleClose} />
         </Dialog>
+        {/* Message Snackbar */}
+        <Snackbar
+          open={this.state.openSnackbar}
+          message={this.state.msgSnackbar}
+          autoHideDuration={2000}
+          onRequestClose={() => {
+            this.setState({ openSnackbar: false });
+          }}
+        />
       </div>
     );
   }
