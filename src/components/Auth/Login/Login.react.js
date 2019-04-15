@@ -50,7 +50,7 @@ const styles = {
   },
   inputpassStyle: {
     height: '35px',
-    marginBottom: '10px',
+    marginBottom: '-9px',
     marginRight: '50px',
     width: '90%',
   },
