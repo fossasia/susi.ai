@@ -632,10 +632,9 @@ class Settings extends Component {
   handleSubmit = () => {
     const { openSnackBar } = this.props;
     openSnackBar({
-      snackBarMessage: 'Changes Saved..',
+      snackBarMessage: 'Changes saved..',
       snackBarDuration: 3000,
     });
-
     let newDefaultServer = this.state.server;
     let newEnterAsSend = this.state.enterAsSend;
     let newMicInput = this.state.micInput;
@@ -729,6 +728,11 @@ class Settings extends Component {
       this.handleSubmit();
       this.preview = false;
     });
+    const { openSnackBar } = this.props;
+    openSnackBar({
+      snackBarMessage: 'Theme altered',
+      snackBarDuration: 3000,
+    });
   };
 
   // Handle change to enter as send settings
@@ -743,6 +747,11 @@ class Settings extends Component {
     this.setState({
       micInput: isInputChecked,
     });
+    const { openSnackBar } = this.props;
+    openSnackBar({
+      snackBarMessage: 'Microphone Input altered.',
+      snackBarDuration: 3000,
+    });
   };
 
   // Handle change to speech output on speech input settings
@@ -750,12 +759,22 @@ class Settings extends Component {
     this.setState({
       speechOutput: isInputChecked,
     });
+    const { openSnackBar } = this.props;
+    openSnackBar({
+      snackBarMessage: 'Speech output wrt input altered..',
+      snackBarDuration: 3000,
+    });
   };
 
   // Handle change to speech output always settings
   handleSpeechOutputAlways = (event, isInputChecked) => {
     this.setState({
       speechOutputAlways: isInputChecked,
+    });
+    const { openSnackBar } = this.props;
+    openSnackBar({
+      snackBarMessage: 'Speech output regardless of input altered..',
+      snackBarDuration: 3000,
     });
   };
 
