@@ -30,17 +30,17 @@ const Contact = props => {
         <div className="contact-content">
           <h5>SUSI</h5>
           <p>
-            93 Mau Than Street<br />
-            Can Tho<br />
-            Viet Nam<br />
-            Phone +84 (0) 907 65 29 27<br />
+            6 Eu Tong Sen Street<br />
+            #5-07 The Central,<br />
+            Singapore 059817<br />
+            Phone +65 83435672<br />
             Email: support@susper.net<br />
-            Board of Directors: Phuc Hau Dang<br />
-            Susper Ltd. is registered in Can Tho, Viet Nam.
+            Board of Directors: Phuc Hong Dang<br />
           </p>
         </div>
         <div className="contact-content-last">
-          Report a safety or abuse issue affecting our products.<br />
+          Report a safety or abuse issue affecting our products.
+          <br />
           If you know of a safety or abuse problem with any of SUSI{"'"} s
           services{','}
           we{"'"}d like to hear about it right away. Please use our contact form
