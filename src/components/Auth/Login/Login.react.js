@@ -53,6 +53,7 @@ const styles = {
     marginBottom: '10px',
     marginRight: '50px',
     width: '90%',
+    right: '4px',
   },
   closingStyle: {
     position: 'absolute',
