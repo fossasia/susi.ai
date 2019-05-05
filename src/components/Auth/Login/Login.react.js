@@ -88,6 +88,7 @@ class Login extends Component {
       emailErrorMessage: '',
       password: '',
       passwordErrorMessage: '',
+      passwordLengthErrorMessage: '',
       success: false,
       loading: false,
     };
@@ -101,6 +102,7 @@ class Login extends Component {
       success: false,
       emailErrorMessage: '',
       passwordErrorMessage: '',
+      passwordLengthErrorMessage: '',
       loading: false,
     });
     onRequestClose();
@@ -196,6 +198,10 @@ class Login extends Component {
         this.setState({
           password,
           passwordErrorMessage: !password ? 'Enter a valid password' : '',
+          passwordLengthErrorMessage:
+            password.length < 6
+              ? 'Password should be atleast 6 characters'
+              : '',
         });
         break;
       }
@@ -240,6 +246,7 @@ class Login extends Component {
       password,
       emailErrorMessage,
       passwordErrorMessage,
+      passwordLengthErrorMessage,
       loading,
     } = this.state;
     const {
@@ -256,7 +263,11 @@ class Login extends Component {
     } = styles;
 
     const isValid =
-      email && !emailErrorMessage && password && !passwordErrorMessage;
+      email &&
+      !emailErrorMessage &&
+      password &&
+      !passwordErrorMessage &&
+      !passwordLengthErrorMessage;
 
     return (
       <Dialog
@@ -299,7 +310,7 @@ class Login extends Component {
                   placeholder="Password"
                   underlineStyle={{ display: 'none' }}
                   onChange={this.handleTextFieldChange}
-                  errorText={passwordErrorMessage}
+                  errorText={passwordErrorMessage || passwordLengthErrorMessage}
                   visibilityButtonStyle={{
                     marginTop: '-3px',
                   }}

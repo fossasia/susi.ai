@@ -23,6 +23,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import susi from '../../images/susi-logo.svg';
+import ToTopButton from '../Button/ToTopButton.react';
 const { FacebookShareButton, TwitterShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
@@ -362,6 +363,7 @@ class Blog extends Component {
             <Footer />
           </div>
         )}
+        <ToTopButton />
       </div>
     );
   }

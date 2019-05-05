@@ -156,12 +156,12 @@ const TEAM_MEMBERS = {
     },
     {
       name: 'Jogendra Kumar',
-      github: 'http://github.com/imjog',
+      github: 'http://github.com/jogendra',
       avatar: 'Jogendra.jpeg',
       designation: 'iOS Developer',
       twitter: 'https://twitter.com/imjog24',
       linkedin: 'https://www.linkedin.com/in/jogendrasingh24/',
-      blog: '#',
+      blog: 'https://jogendra.github.io/',
     },
 
     {

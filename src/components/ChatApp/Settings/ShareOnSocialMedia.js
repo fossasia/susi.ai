@@ -95,6 +95,24 @@ const ShareOnSocialMedia = props => {
               }
             />
           </div>
+          <div style={props.headingStyle}>
+            <Translate text="Share about SUSI on LinkedIn" />
+            <br />
+            <RaisedButton
+              label={<Translate text="Share on LinkedIn" />}
+              style={raisedButtonStyle}
+              backgroundColor="#0077B5"
+              labelColor="#fff"
+              icon={<FontIcon className="fa fa-linkedin" />}
+              keyboardFocused={false}
+              onClick={() =>
+                window.open(
+                  'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                  '_blank',
+                )
+              }
+            />
+          </div>
         </div>
       </div>
     </div>
