@@ -579,7 +579,7 @@ class MessageSection extends Component {
                         iconStyle={{
                           fill: theme === 'light' ? '#90a4ae' : '#000000',
                         }}
-                        onTouchTap={this.scrollToTop}
+                        onClick={this.scrollToTop}
                       >
                         <NavigateUp />
                       </FloatingActionButton>
@@ -594,7 +594,7 @@ class MessageSection extends Component {
                         iconStyle={{
                           fill: theme === 'light' ? '#90a4ae' : '#000000',
                         }}
-                        onTouchTap={this.scrollToBottom}
+                        onClick={this.scrollToBottom}
                       >
                         <NavigateDown />
                       </FloatingActionButton>

@@ -154,12 +154,7 @@ class StaticAppBar extends Component {
 
   componentDidMount() {
     this.mounted = true;
-    const { accessToken } = this.props;
     window.addEventListener('scroll', this.handleScroll);
-    if (accessToken) {
-      this.initializeShowAdminService();
-      this.initializeListUserSettings();
-    }
 
     let didScroll;
     let lastScrollTop = 0;
@@ -278,7 +273,7 @@ class StaticAppBar extends Component {
         ) : (
           <MenuItem
             primaryText={<Translate text="Login" />}
-            onTouchTap={this.handleLogin}
+            onClick={this.handleLogin}
             rightIcon={<SignUpIcon />}
           />
         )}
@@ -315,7 +310,7 @@ class StaticAppBar extends Component {
               }
               targetOrigin={{ horizontal: 'right', vertical: 'top' }}
               anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-              onTouchTap={this.showPopUpMenu}
+              onClick={this.showPopUpMenu}
             />
             <Popover
               {...props}
@@ -461,7 +456,7 @@ class StaticAppBar extends Component {
               height: '46px',
               boxShadow: 'none',
             }}
-            onTouchTap={this.handleDrawerClose}
+            onClick={this.handleDrawerClose}
           />
           {menuLlinks}
         </Drawer>

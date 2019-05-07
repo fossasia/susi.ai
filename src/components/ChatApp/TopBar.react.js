@@ -183,10 +183,7 @@ class TopBar extends Component {
             )}
           </div>
           {/* Pop over menu */}
-          <IconButton
-            iconStyle={{ fill: 'white' }}
-            onTouchTap={this.showOptions}
-          >
+          <IconButton iconStyle={{ fill: 'white' }} onClick={this.showOptions}>
             <MoreVertIcon />
           </IconButton>
           <Popover
@@ -251,9 +248,8 @@ class TopBar extends Component {
                 />
               )}
             <MenuItem
-              onClick={this.closeOptions}
               primaryText={<Translate text="Share" />}
-              onTouchTap={toggleShareClose}
+              onClick={toggleShareClose}
               rightIcon={<Share />}
             />
             {accessToken ? (
@@ -265,9 +261,8 @@ class TopBar extends Component {
               />
             ) : (
               <MenuItem
-                onClick={this.closeOptions}
                 primaryText={<Translate text="Login" />}
-                onTouchTap={onRequestOpenLogin}
+                onClick={onRequestOpenLogin}
                 rightIcon={<SignUp />}
               />
             )}

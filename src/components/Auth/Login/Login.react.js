@@ -347,7 +347,7 @@ class Login extends Component {
             </form>
           </Paper>
         </div>
-        <Close style={closingStyle} onTouchTap={this.handleDialogClose} />
+        <Close style={closingStyle} onClick={this.handleDialogClose} />
       </Dialog>
     );
   }
