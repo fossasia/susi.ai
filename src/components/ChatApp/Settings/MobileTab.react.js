@@ -1,8 +1,12 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import TextField from 'material-ui/TextField';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const MobileTab = props => {
   return (
@@ -26,96 +30,75 @@ const MobileTab = props => {
         </div>
         <div
           style={{
-            marginTop: '10px',
-            marginBottom: '0px',
-            fontSize: '14px',
+            marginBottom: '0.5rem',
+            fontSize: '0.9rem',
           }}
         >
           <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
         </div>
         <div
           style={{
-            marginTop: '10px',
-            marginBottom: '0px',
+            marginTop: '2rem',
             fontSize: '14px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <Translate text="Country/region : " />
-          <DropDownMenu
-            maxHeight={300}
-            style={{
-              width: '250px',
-              position: 'relative',
-              top: '15px',
-              marginRight: '27px',
-            }}
-            labelStyle={{ color: props.themeForegroundColor }}
-            menuStyle={{ backgroundColor: props.themeBackgroundColor }}
-            menuItemStyle={{ color: props.themeForegroundColor }}
-            value={props.countryCode ? props.countryCode : 'US'}
-            onChange={props.handleCountryChange}
-          >
-            {props.countries}
-          </DropDownMenu>
+          <div style={{ marginRight: '2rem' }}>
+            <Translate text="Country/region : " />
+          </div>
+          <div>
+            <Select
+              style={{
+                width: '12rem',
+              }}
+              value={props.countryCode ? props.countryCode : 'US'}
+              onChange={props.handleCountryChange}
+            >
+              {props.countries}
+            </Select>
+          </div>
         </div>
         <div
           style={{
-            marginTop: '45px',
-            marginBottom: '0px',
+            marginTop: '1rem',
             fontSize: '14px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <span
-            style={{ float: 'left', marginBottom: '35px', minWidth: '130px' }}
-          >
-            Phone number :
-          </span>
-          <div
-            style={{
-              width: '250px',
-              display: 'inline-block',
-            }}
-          >
-            <TextField
-              name="selectedCountry"
-              disabled={true}
-              underlineDisabledStyle={
-                props.themeVal === 'dark' ? props.underlineStyle : null
-              }
-              inputStyle={{
-                color: props.themeVal === 'dark' ? '#fff' : '#333',
-              }}
-              floatingLabelStyle={props.floatingLabelStyle}
-              value={
-                props.countryData[props.countryCode ? props.countryCode : 'US']
-                  .countryCallingCodes[0]
-              }
+          <div style={{ marginRight: '2rem' }}>Phone number :</div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div
               style={{
-                width: '45px',
-                marginTop: '-18px',
-                float: 'left',
+                top: '-2px',
+                position: 'relative',
               }}
-            />
-
-            <TextField
-              name="phonenumber"
-              style={{
-                width: '150px',
-                float: 'left',
-                marginTop: '-42px',
-                marginLeft: '10px',
-              }}
-              onChange={props.handleTelephoneNoChange}
-              inputStyle={{
-                color: props.themeVal === 'dark' ? '#fff' : '#333',
-                paddingBottom: '4px',
-                fontSize: '16px',
-              }}
-              floatingLabelStyle={props.floatingLabelStyle}
-              value={props.phoneNo}
-              errorText={props.phoneNoError}
-              floatingLabelText={<Translate text="Phone number" />}
-            />
+            >
+              <TextField
+                style={{ width: '45px' }}
+                name="selectedCountry"
+                disabled={true}
+                value={
+                  props.countryData[
+                    props.countryCode ? props.countryCode : 'US'
+                  ].countryCallingCodes[0]
+                }
+              />
+            </div>
+            <div style={{ marginLeft: '10px', width: '9rem' }}>
+              <FormControl error={props.phoneNoError !== ''}>
+                <InputLabel>Phone Number</InputLabel>
+                <Input
+                  value={props.phoneNo}
+                  onChange={props.handleTelephoneNoChange}
+                  aria-describedby="phone-error-text"
+                />
+                <FormHelperText error={props.phoneNoError !== ''}>
+                  {props.phoneNoError}
+                </FormHelperText>
+              </FormControl>
+            </div>
           </div>
         </div>
       </div>

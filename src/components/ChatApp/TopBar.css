@@ -3,3 +3,8 @@
 		display:none;
 	}
 }
+
+.popover_class {
+	min-height: 500px;
+	width: 400px;
+}

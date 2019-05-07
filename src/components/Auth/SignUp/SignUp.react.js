@@ -7,27 +7,22 @@ import { debounce } from 'lodash';
 
 // Components
 import Recaptcha from 'react-recaptcha';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@material-ui/core/Button';
 import PasswordField from 'material-ui-password-field';
-import CircularProgress from 'material-ui/CircularProgress';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Close from '@material-ui/icons/Close';
+import Dialog from '@material-ui/core/Dialog';
 import zxcvbn from 'zxcvbn';
 import './SignUp.css';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isEmail } from '../../../utils';
 import actions from '../../../redux/actions/app';
 import { getEmailExists } from '../../../apis';
 
 const styles = {
-  paperStyle: {
-    width: '100%',
-    textAlign: 'center',
-    padding: '10px',
-  },
   fieldStyle: {
     height: '35px',
     borderRadius: 4,
@@ -40,13 +35,6 @@ const styles = {
   inputStyle: {
     height: '35px',
     marginBottom: '10px',
-  },
-  inputpassStyle: {
-    height: '35px',
-    marginBottom: '10px',
-    marginRight: '50px',
-    width: '90%',
-    right: '4px',
   },
   closingStyle: {
     position: 'absolute',
@@ -319,134 +307,121 @@ class SignUp extends Component {
 
     return (
       <Dialog
-        className="dialogStyle"
-        modal={false}
+        maxWidth={'sm'}
+        fullWidth={true}
         open={openSignUp}
-        autoScrollBodyContent={true}
-        bodyStyle={{
-          padding: 0,
-          textAlign: 'center',
-        }}
-        contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={this.handleDialogClose}
+        onClose={this.handleDialogClose}
       >
         <div className="signUpForm">
-          <Paper zDepth={0} style={styles.paperStyle}>
-            <h3>
-              <Translate text="Sign Up with SUSI" />
-            </h3>
-            <form onSubmit={this.onSignup}>
-              <div>
-                <TextField
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={this.handleTextFieldChange}
-                  style={styles.fieldStyle}
-                  inputStyle={styles.inputStyle}
-                  underlineStyle={{ display: 'none' }}
-                  placeholder="Email"
-                  errorText={emailErrorMessage}
-                />
-              </div>
-              <div className={PasswordClass.join(' ')}>
-                <PasswordField
-                  name="password"
-                  style={styles.fieldStyle}
-                  inputStyle={styles.inputpassStyle}
-                  value={password}
-                  placeholder="Password"
-                  underlineStyle={{ display: 'none' }}
-                  onChange={this.handleTextFieldChange}
-                  errorText={passwordErrorMessage}
-                  visibilityButtonStyle={{
-                    marginTop: '-3px',
-                  }}
-                  visibilityIconStyle={{
-                    marginTop: '-3px',
-                  }}
-                  textFieldStyle={{ padding: '0px' }}
-                />
-                <div className="ReactPasswordStrength-strength-bar" />
-                <div>
-                  <span>{passwordStrength}</span>
-                </div>
-              </div>
-              <div>
-                <PasswordField
-                  name="confirmPassword"
-                  style={styles.fieldStyle}
-                  inputStyle={styles.inputpassStyle}
-                  value={confirmPassword}
-                  placeholder="Confirm Password"
-                  underlineStyle={{ display: 'none' }}
-                  onChange={this.handleTextFieldChange}
-                  errorText={passwordConfirmErrorMessage}
-                  visibilityButtonStyle={{
-                    marginTop: '-3px',
-                  }}
-                  visibilityIconStyle={{
-                    marginTop: '-3px',
-                  }}
-                  textFieldStyle={{ padding: '0px' }}
-                />
-              </div>
-              <div
-                style={{
-                  marginTop: '10px',
-                }}
-              >
-                {captchaKey && (
-                  <Recaptcha
-                    sitekey={captchaKey}
-                    render="explicit"
-                    onloadCallback={this.onCaptchaLoad}
-                    verifyCallback={this.onCaptchaSuccess}
-                    badge="inline"
-                    type="audio"
-                    size="normal"
-                  />
-                )}
-                {!isCaptchaVerified &&
-                  captchaVerifyErrorMessage && (
-                    <p className="error-message">
-                      <Translate text={captchaVerifyErrorMessage} />
-                    </p>
-                  )}
-              </div>
-              {signupErrorMessage && (
-                <div style={{ color: success ? '#388e3c' : '#f44336' }}>
-                  {signupErrorMessage}
-                </div>
+          <h3>
+            <Translate text="Sign Up with SUSI" />
+          </h3>
+          <div>
+            <FormControl error={emailErrorMessage !== ''}>
+              <OutlinedInput
+                labelWidth={0}
+                name="email"
+                value={email}
+                onChange={this.handleTextFieldChange}
+                aria-describedby="email-error-text"
+                style={{ width: '17rem', height: '2.1rem' }}
+                placeholder="Email"
+              />
+              <FormHelperText error={emailErrorMessage !== ''}>
+                {emailErrorMessage}
+              </FormHelperText>
+            </FormControl>
+          </div>
+          <div className={PasswordClass.join(' ')}>
+            <FormControl error={passwordErrorMessage !== ''}>
+              <PasswordField
+                name="password"
+                style={styles.fieldStyle}
+                value={password}
+                placeholder="Password"
+                onChange={this.handleTextFieldChange}
+              />
+              <FormHelperText error={passwordErrorMessage !== ''}>
+                {passwordErrorMessage}
+              </FormHelperText>
+            </FormControl>
+            <div className="ReactPasswordStrength-strength-bar" />
+            <div>
+              <span>{passwordStrength}</span>
+            </div>
+          </div>
+          <div>
+            <FormControl error={passwordConfirmErrorMessage !== ''}>
+              <PasswordField
+                name="confirmPassword"
+                style={styles.fieldStyle}
+                value={confirmPassword}
+                placeholder="Confirm Password"
+                onChange={this.handleTextFieldChange}
+              />
+              <FormHelperText error={passwordConfirmErrorMessage !== ''}>
+                {passwordConfirmErrorMessage}
+              </FormHelperText>
+            </FormControl>
+          </div>
+          <div
+            style={{
+              marginTop: '10px',
+            }}
+          >
+            {captchaKey && (
+              <Recaptcha
+                sitekey={captchaKey}
+                render="explicit"
+                onloadCallback={this.onCaptchaLoad}
+                verifyCallback={this.onCaptchaSuccess}
+                badge="inline"
+                type="audio"
+                size="normal"
+              />
+            )}
+            {!isCaptchaVerified &&
+              captchaVerifyErrorMessage && (
+                <p className="error-message">
+                  <Translate text={captchaVerifyErrorMessage} />
+                </p>
               )}
-              <div>
-                <RaisedButton
-                  label={!loading && <Translate text="Sign Up" />}
-                  type="submit"
-                  disabled={!isValid || loading}
-                  backgroundColor={
-                    UserPreferencesStore.getTheme() === 'light'
-                      ? '#4285f4'
-                      : '#19314B'
-                  }
-                  labelColor="#fff"
-                  style={{ width: '275px', margin: '10px 0px' }}
-                  icon={loading && <CircularProgress size={24} />}
-                />
-              </div>
+          </div>
+          {signupErrorMessage && (
+            <div style={{ color: success ? '#388e3c' : '#f44336' }}>
+              {signupErrorMessage}
+            </div>
+          )}
+          <div>
+            <Button
+              onClick={this.onSignup}
+              variant="contained"
+              color="primary"
+              disabled={!isValid || loading}
+              style={{
+                width: '275px',
+                margin: '10px auto',
+                display: 'block',
+              }}
+            >
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Translate text="Sign Up" />
+              )}
+            </Button>
+          </div>
 
-              <span
-                style={{
-                  display: 'inline-block',
-                  marginTop: '10px',
-                }}
-                className="login-links"
-                onClick={onRequestOpenLogin}
-              >
-                <Translate text="Already have an account? Login here" />
-              </span>
-            </form>
-          </Paper>
+          <span
+            style={{
+              display: 'inline-block',
+              marginTop: '10px',
+            }}
+            className="login-links"
+            onClick={onRequestOpenLogin}
+          >
+            <Translate text="Already have an account? Login here" />
+          </span>
         </div>
         <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
       </Dialog>

@@ -144,12 +144,10 @@ class RemoveDeviceDialog extends Component {
     );
   }
 }
-
 RemoveDeviceDialog.propTypes = {
   onLoginSignUp: PropTypes.func,
   devicename: PropTypes.string,
   deviceIndex: PropTypes.number,
   handleRemove: PropTypes.func,
 };
-
 export default RemoveDeviceDialog;

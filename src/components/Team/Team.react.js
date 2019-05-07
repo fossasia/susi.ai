@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardMedia, CardTitle } from 'material-ui/Card';
+import Card from '@material-ui/core/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import SocialLinkButtons from './SocialLinkButtons';
 import Footer from '../Footer/Footer.react';
@@ -8,6 +8,7 @@ import { scrollToTopAnimation } from '../../utils/animateScroll';
 import TEAM_MEMBERS from './constants';
 import 'font-awesome/css/font-awesome.min.css';
 import './Team.css';
+import Typography from '@material-ui/core/Typography';
 import ToTopButton from '../Button/ToTopButton.react';
 
 export default class Team extends Component {
@@ -27,7 +28,7 @@ export default class Team extends Component {
   createMemberCard = (member, key) => {
     return (
       <Card className="team-card" key={key}>
-        <CardMedia className="container_div">
+        <div className="container_div">
           <img
             /* eslint no-undef: 0 */
             src={require(`../../images/members/${member.avatar}`)}
@@ -39,12 +40,13 @@ export default class Team extends Component {
               <SocialLinkButtons member={member} />
             </div>
           </div>
-        </CardMedia>
-        <CardTitle
-          titleStyle={{ fontSize: '20px' }}
-          title={member.name}
-          subtitle={member.designation}
-        />
+        </div>
+        <div style={{ padding: '1rem' }}>
+          <Typography variant="h5" gutterBottom>
+            {member.name}
+          </Typography>
+          <Typography variant="subtitle1">{member.designation}</Typography>
+        </div>
       </Card>
     );
   };

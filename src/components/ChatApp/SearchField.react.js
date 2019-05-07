@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, IconButton } from 'material-ui';
-import SearchIcon from 'material-ui/svg-icons/action/search';
-import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
-import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
-import ExitIcon from 'material-ui/svg-icons/navigation/close';
+import { TextField, IconButton } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import UpIcon from '@material-ui/icons/ArrowUpward';
+import DownIcon from '@material-ui/icons/ArrowDownward';
+import ExitIcon from '@material-ui/icons/Close';
 
 const animationStyle = {
   transition: 'width 0.75s cubic-bezier(0.000, 0.795, 0.000, 1.000)',
@@ -140,11 +140,6 @@ class ExpandingSearchField extends Component {
 
     const { indexCnt } = this.state;
 
-    const searchStyle = {
-      WebkitTextFillColor: 'white',
-      color: 'white',
-    };
-
     let textStyle = this.props.open ? baseStyles.open : baseStyles.closed;
     textStyle = Object.assign(
       textStyle,
@@ -165,38 +160,41 @@ class ExpandingSearchField extends Component {
         <div style={divStyle} className="searchComponent">
           <TextField
             name="search"
-            className="search displayNone"
             placeholder="Search..."
-            inputStyle={searchStyle}
-            style={textStyle}
             value={this.props.searchText}
             onChange={event => this.onChange(event)}
             autoFocus={true}
+            style={{ marginTop: '11px' }}
+            InputProps={{
+              style: {
+                color: 'white',
+              },
+            }}
           />
-          <span className="counter">
+          <span style={{ marginTop: '11px' }} className="counter">
             {indexCnt}/{searchCount}
           </span>
           <IconButton
             className="displayNone"
-            iconStyle={baseStyles.smallIcon}
             style={baseStyles.icon}
             onClick={this.onClickPrev}
+            color="inherit"
           >
             <UpIcon />
           </IconButton>
           <IconButton
             className="displayNone"
-            iconStyle={baseStyles.smallIcon}
             style={baseStyles.icon}
             onClick={this.onClickRecent}
+            color="inherit"
           >
             <DownIcon />
           </IconButton>
           <IconButton
             className="displayCloseNone"
-            iconStyle={baseStyles.smallIcon}
             style={baseStyles.icon}
             onClick={this.onClick}
+            color="inherit"
           >
             <ExitIcon />
           </IconButton>
@@ -207,18 +205,12 @@ class ExpandingSearchField extends Component {
       <div style={divStyle}>
         <IconButton
           className="displayNone displayCloseNone"
-          iconStyle={baseStyles.smallIcon}
           style={baseStyles.icon}
           onClick={this.onClick}
+          color="inherit"
         >
           <SearchIcon />
         </IconButton>
-        <TextField
-          name="search"
-          value={this.props.searchText}
-          style={textStyle}
-          inputStyle={searchStyle}
-        />
       </div>
     );
   }

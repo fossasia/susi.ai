@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ShareButtons, generateShareIcon } from 'react-share';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
 const {
   FacebookShareButton,
   TwitterShareButton,
@@ -11,13 +9,16 @@ const {
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
 const LinkedinIcon = generateShareIcon('linkedin');
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
+import Close from '@material-ui/icons/Close';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { DialogContainer } from '../../Commons/Container';
 
 const styles = {
   shareIconContainer: {
     display: 'flex',
     flexDirection: 'column',
+    margin: '0.7rem 2.5rem',
   },
   iconTitleStyle: {
     height: '48px',
@@ -41,14 +42,8 @@ const styles = {
     top: '10px',
     cursor: 'pointer',
   },
-  contentStyle: {
-    width: '350px',
-    minWidth: '350px',
-    textAlign: 'center',
-  },
   titleWrapperStyle: {
-    display: 'flex',
-    alignItems: 'center',
+    textAlign: 'center',
   },
 };
 
@@ -58,7 +53,6 @@ const DialogSection = props => {
     'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
   const { isShareOpen, tour, onRequestCloseTour, toggleShareClose } = props;
   const {
-    contentStyle,
     titleWrapperStyle,
     shareIconContainer,
     iconWrapperStyle,
@@ -69,16 +63,13 @@ const DialogSection = props => {
     <div>
       {/* Share */}
       <Dialog
-        contentStyle={contentStyle}
+        maxWidth={'xs'}
+        fullWidth={true}
         open={isShareOpen}
-        onRequestClose={toggleShareClose}
+        onClose={toggleShareClose}
       >
         <div style={titleWrapperStyle}>
           <h3>Share about SUSI</h3>
-          <div style={{ flex: 1 }} />
-          <IconButton onClick={toggleShareClose}>
-            <CloseIcon size={32} />
-          </IconButton>
         </div>
         <div style={shareIconContainer}>
           <div className="HoverIcon">
@@ -120,25 +111,20 @@ const DialogSection = props => {
             </LinkedinShareButton>
           </div>
         </div>
+        <Close style={closingStyle} onClick={toggleShareClose} />
       </Dialog>
-      <Dialog
-        className="dialogStyle"
-        contentStyle={{
-          width: '45%',
-          minWidth: '300px',
-          textAlign: 'center',
-        }}
-        title="Welcome to SUSI.AI Web Chat"
-        open={tour}
-      >
-        <iframe
-          width="99%"
-          height="315"
-          src="https://www.youtube.com/embed/9T3iMoAUKYA"
-          frameBorder="0"
-          scrolling="no"
-        />
-        <Close style={closingStyle} onClick={onRequestCloseTour} />
+      <Dialog fullWidth={true} maxWidth={'sm'} open={tour}>
+        <DialogContainer>
+          <DialogTitle>Welcome to SUSI.AI Web Chat</DialogTitle>
+          <iframe
+            width="99%"
+            height="315"
+            src="https://www.youtube.com/embed/9T3iMoAUKYA"
+            frameBorder="0"
+            scrolling="no"
+          />
+          <Close style={closingStyle} onClick={onRequestCloseTour} />
+        </DialogContainer>
       </Dialog>
     </div>
   );

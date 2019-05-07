@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import ThumbDown from '@material-ui/icons/ThumbDown';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

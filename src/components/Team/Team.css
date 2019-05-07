@@ -34,11 +34,6 @@
 .team__heading b{
     font-weight: 600;
 }
-.image {
-  display: block;
-  width: 90%;
-  height: auto;
-}
 
 .overlay {
   position: absolute;
@@ -65,7 +60,6 @@
   color: white;
   font-size: 20px;
   position: absolute;
-  overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

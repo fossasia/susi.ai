@@ -1,7 +1,8 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
-import Toggle from 'material-ui/Toggle';
+import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
+import { FlexContainer } from '../../Commons/Container';
 
 const MicrophoneTab = props => {
   let STTBrowserSupport;
@@ -32,24 +33,19 @@ const MicrophoneTab = props => {
           ) : (
             <hr className="break-line-dark" />
           )}
-          <br />
-          <div
-            className="reduceSettingDiv"
-            style={{
-              float: 'left',
-              padding: '0px 5px 0px 0px',
-            }}
-          >
-            <Translate text="Enable mic to give voice input " />
-          </div>
-          <Toggle
-            className="settings-toggle"
-            labelStyle={{ color: props.themeForegroundColor }}
-            disabled={!STTBrowserSupport}
-            onToggle={props.handleMicInput}
-            toggled={props.micInput}
-          />
-          <br />
+          <FlexContainer>
+            <div className="reduceSettingDiv">
+              <Translate text="Enable mic to give voice input " />
+            </div>
+            <div>
+              <Switch
+                color="primary"
+                disabled={!STTBrowserSupport}
+                onChange={props.handleMicInput}
+                checked={props.micInput}
+              />
+            </div>
+          </FlexContainer>
         </div>
       </div>
     </div>

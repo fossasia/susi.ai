@@ -112,16 +112,18 @@ export default handleActions(
     },
     [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
       let { messagePairArray } = payload;
-      messagePairArray = messagePairArray.reverse();
       let messages = [];
       let messagesByID = {};
-      messagePairArray.forEach(messagePair => {
-        const { userMessage, susiMessage } = messagePair;
-        messages.push(userMessage.id);
-        messages.push(susiMessage.id);
-        messagesByID[userMessage.id] = userMessage;
-        messagesByID[susiMessage.id] = susiMessage;
-      });
+      if (Array.isArray(messagePairArray)) {
+        messagePairArray = messagePairArray.reverse();
+        messagePairArray.forEach(messagePair => {
+          const { userMessage, susiMessage } = messagePair;
+          messages.push(userMessage.id);
+          messages.push(susiMessage.id);
+          messagesByID[userMessage.id] = userMessage;
+          messagesByID[susiMessage.id] = susiMessage;
+        });
+      }
       return {
         ...defaultState,
         messages,
