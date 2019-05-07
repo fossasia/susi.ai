@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ShareIcon from 'material-ui/svg-icons/social/share';
+import ShareIcon from '@material-ui/icons/Share';
 
 const buttonStyle = {
   height: 13,

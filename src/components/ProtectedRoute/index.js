@@ -18,7 +18,7 @@ const ProtectedRoute = props => {
 
 ProtectedRoute.propTypes = {
   history: PropTypes.object,
-  component: PropTypes.React,
+  component: PropTypes.func,
   location: PropTypes.object,
   accessToken: PropTypes.string,
 };

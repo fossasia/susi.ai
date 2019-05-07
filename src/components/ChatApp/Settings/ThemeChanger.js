@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import Close from 'material-ui/svg-icons/navigation/close';
-import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import Close from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
 import Translate from '../../Translate/Translate.react';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
-import TextField from 'material-ui/TextField';
+import TextField from '@material-ui/core/TextField';
 import { Col, Row } from 'react-flexbox-grid';
-import Toggle from 'material-ui/Toggle';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ColorPicker from 'material-ui-color-picker';
 import * as Actions from '../../../actions/';
 import $ from 'jquery';
@@ -48,12 +50,6 @@ const closingStyle = {
   right: '10px',
   top: '10px',
   cursor: 'pointer',
-};
-
-const customThemeBodyStyle = {
-  padding: 0,
-  textAlign: 'center',
-  backgroundColor: '#f9f9f9',
 };
 
 const componentsList = [
@@ -207,32 +203,6 @@ class ThemeChanger extends Component {
   };
 
   render() {
-    let buttonColor;
-    buttonColor = this.state.button;
-
-    const customSettingsDone = (
-      <div>
-        <RaisedButton
-          label={<Translate text="Save" />}
-          backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-          labelColor="#fff"
-          width="200px"
-          keyboardFocused={false}
-          onClick={this.saveThemeSettings}
-          style={{ margin: '0 5px' }}
-        />
-        <RaisedButton
-          label={<Translate text="Reset" />}
-          backgroundColor={buttonColor ? buttonColor : '#4285f4'}
-          labelColor="#fff"
-          width="200px"
-          keyboardFocused={false}
-          onClick={this.handleRestoreDefaultThemeClick}
-          style={{ margin: '0 5px' }}
-        />
-      </div>
-    );
-
     const components = componentsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
@@ -252,33 +222,19 @@ class ThemeChanger extends Component {
                 {component.id === 1 && (
                   <div style={{ marginTop: '-1px' }}>
                     <span
-                      className="toggle-label-right"
+                      style={{ paddingRight: '0.7rem' }}
                       onClick={this.showMessageBackgroundImageToggle}
                     >
                       Color
                     </span>
-                    <Toggle
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={this.state.showMessageBackgroundImage}
+                          onChange={this.showMessageBackgroundImageToggle}
+                        />
+                      }
                       label="Image"
-                      labelPosition="right"
-                      labelStyle={{
-                        width: 'auto',
-                        fontSize: '14px',
-                        fontWeight: '300',
-                      }}
-                      defaultToggled={this.state.showMessageBackgroundImage}
-                      onToggle={this.showMessageBackgroundImageToggle}
-                      style={{
-                        textAlign: 'right',
-                        marginTop: '10px',
-                        display: 'inline-block',
-                        width: 'auto',
-                      }}
-                      thumbSwitchedStyle={{
-                        backgroundColor: 'rgb(66, 133, 245)',
-                      }}
-                      trackSwitchedStyle={{
-                        backgroundColor: 'rgba(151, 184, 238, 0.85)',
-                      }}
                     />
                   </div>
                 )}
@@ -341,16 +297,11 @@ class ThemeChanger extends Component {
                     <div className="image-div">
                       <TextField
                         name="messageImg"
-                        style={{
-                          width: '180px',
-                          display:
-                            component.component === 'pane' ? 'block' : 'none',
-                        }}
                         onChange={(e, value) =>
                           this.handleChangeMessageBackgroundImage(value)
                         }
                         value={this.state.messageBackgroundImage}
-                        floatingLabelText={
+                        label={
                           <span style={{ fontSize: 'unset' }}>
                             Message Image URL
                           </span>
@@ -366,17 +317,10 @@ class ThemeChanger extends Component {
     });
     return (
       <Dialog
-        actions={customSettingsDone}
-        modal={false}
+        maxWidth={'md'}
+        fullWidth={true}
         open={this.props.themeOpen}
-        autoScrollBodyContent={true}
-        bodyStyle={customThemeBodyStyle}
-        contentStyle={{
-          minWidth: '300px',
-          maxWidth: 'unset',
-          width: '780px',
-        }}
-        onRequestClose={this.props.onRequestClose()}
+        onClose={this.props.onRequestClose()}
       >
         <div
           style={{
@@ -408,6 +352,26 @@ class ThemeChanger extends Component {
           </div>
         </div>
         <Close style={closingStyle} onClick={this.props.onRequestClose()} />
+        <DialogActions>
+          <div>
+            <Button
+              onClick={this.saveThemeSettings}
+              style={{ margin: '0 5px' }}
+              variant="contained"
+              color="primary"
+            >
+              <Translate text="Save" />
+            </Button>
+            <Button
+              onClick={this.handleRestoreDefaultThemeClick}
+              style={{ margin: '0 5px' }}
+              variant="contained"
+              color="primary"
+            >
+              <Translate text="Reset" />
+            </Button>
+          </div>
+        </DialogActions>
       </Dialog>
     );
   }

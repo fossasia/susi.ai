@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from '@material-ui/core/Button';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import { urls } from '../../utils';
@@ -242,11 +242,13 @@ class Support extends Component {
                   Get Started Today
                 </div>
 
-                <RaisedButton
-                  label="Sign Up"
+                <Button
+                  variant="contained"
                   onClick={openSignUp}
                   style={buttonStyle}
-                />
+                >
+                  Sign Up
+                </Button>
               </div>
             </div>
           ) : null}

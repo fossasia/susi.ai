@@ -7,11 +7,11 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn,
-} from 'material-ui/Table';
-import TextField from 'material-ui/TextField';
-import EditIcon from 'material-ui/svg-icons/image/edit';
-import TrashIcon from 'material-ui/svg-icons/action/delete';
-import CheckIcon from 'material-ui/svg-icons/navigation/check';
+} from '@material-ui/core/Table';
+import TextField from '@material-ui/core/TextField';
+import EditIcon from '@material-ui/icons/Edit';
+import TrashIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
 
 const styles = {
   tableViewStyle: {
@@ -85,7 +85,6 @@ const TableComplex = props => {
                       name={index.toString()}
                       onChange={e => props.handleChange(e, 'devicename', index)}
                       value={row.devicename}
-                      style={{ fontSize: '13px', width: '80px' }}
                     />
                   ) : (
                     row.devicename
@@ -116,7 +115,6 @@ const TableComplex = props => {
                       name={index.toString()}
                       onChange={e => props.handleChange(e, 'room', index)}
                       value={row.room}
-                      style={{ fontSize: '13px', width: '80px' }}
                     />
                   ) : (
                     row.room

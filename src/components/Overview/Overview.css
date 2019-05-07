@@ -183,9 +183,11 @@ img {
 }
 .rowdiv{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     flex-wrap: wrap;
-    flex-shrink: 4;
+    align-content: space-around;
+    height: 9rem;
+    width: 27rem;
 }
 .Video-Modal{
     position: absolute;

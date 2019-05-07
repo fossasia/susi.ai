@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getSusiPreviewReply } from '../../../apis/index';
 import susiWhite from '../../../images/susi-logo-white.png';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import loadingGIF from '../../../images/loading.gif';
-import Send from 'material-ui/svg-icons/content/send';
+import Send from '@material-ui/icons/Send';
 import './PreviewThemeChat.css';
 
 class PreviewThemeChat extends Component {

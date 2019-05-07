@@ -1,7 +1,8 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
-import Toggle from 'material-ui/Toggle';
+import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
+import { FlexContainer } from '../../Commons/Container';
 
 const ChatAppTab = props => {
   return (
@@ -15,22 +16,19 @@ const ChatAppTab = props => {
         <hr className="break-line-dark" />
       )}
       <br />
-      <div
-        style={{
-          float: 'left',
-          padding: '0px 5px 0px 0px',
-        }}
-        className="reduceSettingDiv"
-      >
-        <Translate text="Send message by pressing ENTER" />
-      </div>
-      <Toggle
-        className="settings-toggle"
-        onToggle={props.handleEnterAsSend}
-        labelStyle={{ color: props.themeForegroundColor }}
-        toggled={props.enterAsSend}
-      />
-      <br />
+      <FlexContainer>
+        <div className="reduceSettingDiv">
+          <Translate text="Send message by pressing ENTER" />
+        </div>
+        <div>
+          <Switch
+            color="primary"
+            className="settings-toggle"
+            onChange={props.handleEnterAsSend}
+            checked={props.enterAsSend}
+          />
+        </div>
+      </FlexContainer>
     </div>
   );
 };
@@ -39,7 +37,6 @@ ChatAppTab.propTypes = {
   tabHeadingStyle: PropTypes.object,
   containerStyle: PropTypes.object,
   enterAsSend: PropTypes.bool,
-  themeForegroundColor: PropTypes.string,
   themeVal: PropTypes.string,
   handleEnterAsSend: PropTypes.func,
 };

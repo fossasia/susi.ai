@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import PasswordField from 'material-ui-password-field';
-import Dialog from 'material-ui/Dialog';
-import CircularProgress from 'material-ui/CircularProgress';
-import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from '@material-ui/core/Dialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Close from '@material-ui/icons/Close';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import actions from '../../../redux/actions/app';
@@ -31,7 +32,7 @@ const styles = {
     border: '1px solid #ced4da',
     fontSize: 16,
     padding: '0px 12px',
-    width: '125%',
+    width: '17rem',
   },
   labelStyle: {
     width: '30%',
@@ -48,12 +49,6 @@ const styles = {
   inputStyle: {
     height: '35px',
     marginBottom: '10px',
-  },
-  containerStyles: {
-    width: '100%',
-    textAlign: 'left',
-    padding: '10px',
-    paddingTop: '0px',
   },
 };
 
@@ -287,126 +282,93 @@ class ChangePassword extends Component {
       newPassword &&
       confirmNewPassword;
 
-    const themeBackgroundColor =
-      (settings && settings.theme) === 'dark' ? '#19324c' : '#fff';
     const themeForegroundColor =
       (settings && settings.theme) === 'dark' ? '#fff' : '#272727';
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
-    const {
-      closingStyle,
-      fieldStyle,
-      labelStyle,
-      submitBtnStyle,
-      inputStyle,
-      containerStyles,
-    } = styles;
+    const { closingStyle, fieldStyle, labelStyle, submitBtnStyle } = styles;
 
     return (
       <div className="changePasswordForm">
-        <Paper
-          zDepth={0}
-          style={{
-            ...containerStyles,
-            backgroundColor: themeBackgroundColor,
-          }}
-        >
-          <form onSubmit={this.changePassword}>
-            <div style={{ ...labelStyle, color: themeForegroundColor }}>
-              Current Password
-            </div>
-            <div>
-              <PasswordField
-                name="password"
-                style={fieldStyle}
-                value={password}
-                onChange={this.handleTextFieldChange}
-                inputStyle={{
-                  ...inputStyle,
-                  color: themeForegroundColor,
-                }}
-                errorText={passwordErrorMessage}
-                underlineStyle={{ display: 'none' }}
-                disableButton={true}
-                visibilityButtonStyle={{ display: 'none' }}
-                visibilityIconStyle={{ display: 'none' }}
-              />
-            </div>
-            <br />
-            <div style={{ ...labelStyle, color: themeForegroundColor }}>
-              New Password
-            </div>
-            <div className={PasswordClass.join(' ')}>
-              <PasswordField
-                name="newPassword"
-                placeholder="Must be between 6 to 64 characters"
-                style={fieldStyle}
-                value={newPassword}
-                onChange={this.handleTextFieldChange}
-                inputStyle={{
-                  ...inputStyle,
-                  color: themeForegroundColor,
-                }}
-                errorText={newPasswordErrorMessage}
-                underlineStyle={{ display: 'none' }}
-                disableButton={true}
-                visibilityButtonStyle={{ display: 'none' }}
-                visibilityIconStyle={{ display: 'none' }}
-              />
-              <div className="ReactPasswordStrength-strength-bar" />
-              <div>{newPasswordStrength}</div>
-            </div>
-            <br />
-            <div style={{ ...labelStyle, color: themeForegroundColor }}>
-              Verify Password
-            </div>
-            <div>
-              <PasswordField
-                name="confirmNewPassword"
-                placeholder="Must match the new password"
-                style={fieldStyle}
-                value={confirmNewPassword}
-                onChange={this.handleTextFieldChange}
-                inputStyle={{
-                  ...inputStyle,
-                  color: themeForegroundColor,
-                }}
-                errorText={newPasswordConfirmErrorMessage}
-                underlineStyle={{ display: 'none' }}
-                disableButton={true}
-                visibilityButtonStyle={{ display: 'none' }}
-                visibilityIconStyle={{ display: 'none' }}
-              />
-            </div>
-            <div style={submitBtnStyle}>
-              <div className="forgot">
-                <a onClick={this.onForgotPassword}>Forgot your password?</a>
-              </div>
-              <div>
-                <br />
-                <RaisedButton
-                  label={
-                    !loading ? <Translate text="Save Changes" /> : undefined
-                  }
-                  type="submit"
-                  disabled={!isValid || loading}
-                  backgroundColor="#4285f4"
-                  labelColor="#fff"
-                  icon={loading ? <CircularProgress size={24} /> : undefined}
-                />
-              </div>
-            </div>
-          </form>
-        </Paper>
+        <div style={{ ...labelStyle, color: themeForegroundColor }}>
+          Current Password
+        </div>
+        <div>
+          <FormControl error={passwordErrorMessage !== ''}>
+            <PasswordField
+              name="password"
+              style={fieldStyle}
+              value={password}
+              onChange={this.handleTextFieldChange}
+            />
+            <FormHelperText error={passwordErrorMessage !== ''}>
+              {passwordErrorMessage}
+            </FormHelperText>
+          </FormControl>
+        </div>
+        <div style={{ ...labelStyle, color: themeForegroundColor }}>
+          New Password
+        </div>
+        <div className={PasswordClass.join(' ')}>
+          <FormControl error={newPasswordErrorMessage !== ''}>
+            <PasswordField
+              name="newPassword"
+              placeholder="Must be between 6-64 characters"
+              style={fieldStyle}
+              value={newPassword}
+              onChange={this.handleTextFieldChange}
+            />
+            <FormHelperText error={newPasswordErrorMessage !== ''}>
+              {newPasswordErrorMessage}
+            </FormHelperText>
+          </FormControl>
+          <div className="ReactPasswordStrength-strength-bar" />
+          <div>{newPasswordStrength}</div>
+        </div>
+        <div style={{ ...labelStyle, color: themeForegroundColor }}>
+          Verify Password
+        </div>
+        <div>
+          <FormControl error={newPasswordConfirmErrorMessage !== ''}>
+            <PasswordField
+              name="confirmNewPassword"
+              placeholder="Must match the new password"
+              style={fieldStyle}
+              value={confirmNewPassword}
+              onChange={this.handleTextFieldChange}
+            />
+            <FormHelperText error={newPasswordConfirmErrorMessage !== ''}>
+              {newPasswordConfirmErrorMessage}
+            </FormHelperText>
+          </FormControl>
+        </div>
+        <div style={submitBtnStyle}>
+          <div className="forgot">
+            <a onClick={this.onForgotPassword}>Forgot your password?</a>
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={!isValid || loading}
+              onClick={this.changePassword}
+            >
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Translate text="Save Changes" />
+              )}
+            </Button>
+          </div>
+        </div>
 
         {/* Forgot Password Modal */}
         <div className="ModalDiv" style={{ width: '50%' }}>
           <Dialog
-            modal={false}
             open={showForgotPasswordDialog}
-            onRequestClose={this.handleCloseForgotPassword}
-            className="ModalDiv"
+            onClose={this.handleCloseForgotPassword}
           >
             <ForgotPassword closeModal={this.handleCloseForgotPassword} />
           </Dialog>
@@ -414,11 +376,7 @@ class ChangePassword extends Component {
 
         {dialogMessage && (
           <div>
-            <Dialog
-              modal={false}
-              open={showDialog}
-              onRequestClose={this.handleCloseResetPassword}
-            >
+            <Dialog open={showDialog} onClose={this.handleCloseResetPassword}>
               <Translate text={dialogMessage} />
               <Close
                 style={closingStyle}

@@ -1,12 +1,10 @@
 .forgot-password{
-  margin-left:20%;
   color: #365899;
   cursor: pointer;
   font-size: 12px;
 }
 
 .sign-up{
-  margin-right:20%;
   color: #365899;
   cursor: pointer;
   font-size: 12px;
@@ -24,7 +22,8 @@
 
 .login-form{
   margin: 0 auto;
-  padding: 50px 0;
+  padding: 50px 50px;
+  text-align: center;
 }
 
 .login-links-section {
@@ -42,14 +41,7 @@
 .message {
   margin-top: 8px;
 }
-@media screen and (max-width: 1100px) {
-  .forgot-password{
-    margin-left:5%;
-  }
-  .sign-up{
-    margin-right:5%;
-  }
-}
+
 @media screen and (max-width: 768px) {
   .login-form h3{
     font-size: 16px;

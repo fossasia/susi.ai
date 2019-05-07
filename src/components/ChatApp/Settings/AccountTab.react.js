@@ -1,7 +1,9 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
-import TextField from 'material-ui/TextField';
-import DropDownMenu from 'material-ui/DropDownMenu';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import TimezonePicker from 'react-timezone';
 import PropTypes from 'prop-types';
 
@@ -31,49 +33,44 @@ const AccountTab = props => {
       <div style={props.headingStyle}>
         <Translate text="User Name" />
       </div>
-      <TextField
-        name="username"
-        style={props.fieldStyle}
-        value={props.userName}
-        onChange={props.handleUserName}
-        inputStyle={props.inputStyle}
-        placeholder="Enter your User Name"
-        underlineStyle={{ display: 'none' }}
-        errorText={props.userNameError}
-      />
-      <br />
-
-      <div style={props.headingStyle}>
+      <FormControl error={props.userNameError !== ''}>
+        <OutlinedInput
+          labelWidth={0}
+          name="username"
+          value={props.userName}
+          onChange={props.handleUserName}
+          aria-describedby="email-error-text"
+          style={{ width: '16rem', height: '2.1rem' }}
+          placeholder="Enter your User Name"
+        />
+        <FormHelperText error={props.userNameError !== ''}>
+          {props.userNameError}
+        </FormHelperText>
+      </FormControl>
+      <div style={{ ...props.headingStyle, marginTop: '0' }}>
         <Translate text="Email" />
       </div>
-      <TextField
+      <OutlinedInput
+        labelWidth={0}
         name="email"
-        style={props.fieldStyle}
         value={props.identityName}
-        inputStyle={props.inputStyle}
-        underlineStyle={{ display: 'none' }}
+        style={{ width: '16rem', height: '2.1rem' }}
+        disabled={true}
       />
-      <br />
-
       <div style={{ ...props.headingStyle, marginBottom: 0 }}>
         <Translate text="Select default language" />
       </div>
-      <DropDownMenu
+      <Select
         value={props.voiceOutput.voiceLang}
-        style={{ marginLeft: '-20px' }}
         disabled={!TTSBrowserSupport}
-        labelStyle={{ color: props.themeForegroundColor }}
-        menuStyle={{ backgroundColor: props.themeBackgroundColor }}
-        menuItemStyle={{ color: props.themeForegroundColor }}
         onChange={props.handlePrefLang}
+        style={{ margin: '1rem 0' }}
       >
         {props.voiceOutput.voiceMenu}
-      </DropDownMenu>
-      <br />
-      <div style={{ ...props.headingStyle, marginBottom: 0 }}>
+      </Select>
+      <div style={props.headingStyle}>
         <Translate text="Select TimeZone" />
       </div>
-      <br />
       <div className="time-zone">
         <div className="time-zone-dropdown">
           <TimezonePicker
@@ -96,7 +93,6 @@ AccountTab.propTypes = {
   containerStyle: PropTypes.object,
   tabHeadingStyle: PropTypes.object,
   headingStyle: PropTypes.object,
-  fieldStyle: PropTypes.object,
   userNameError: PropTypes.string,
   handlePrefLang: PropTypes.func,
   handleTimeZone: PropTypes.func,

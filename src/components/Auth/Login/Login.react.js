@@ -9,13 +9,14 @@ import appActions from '../../../redux/actions/app';
 import messagesActions from '../../../redux/actions/messages';
 
 // Components
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PasswordField from 'material-ui-password-field';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
+import Close from '@material-ui/icons/Close';
+import Dialog from '@material-ui/core/Dialog';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
@@ -33,7 +34,6 @@ const styles = {
   containerStyle: {
     width: '100%',
     textAlign: 'center',
-    padding: '10px',
   },
   fieldStyle: {
     height: '35px',
@@ -47,13 +47,6 @@ const styles = {
   inputStyle: {
     height: '35px',
     marginBottom: '10px',
-  },
-  inputpassStyle: {
-    height: '35px',
-    marginBottom: '10px',
-    marginRight: '50px',
-    width: '90%',
-    right: '4px',
   },
   closingStyle: {
     position: 'absolute',
@@ -88,7 +81,6 @@ class Login extends Component {
       emailErrorMessage: '',
       password: '',
       passwordErrorMessage: '',
-      passwordLengthErrorMessage: '',
       success: false,
       loading: false,
     };
@@ -102,7 +94,6 @@ class Login extends Component {
       success: false,
       emailErrorMessage: '',
       passwordErrorMessage: '',
-      passwordLengthErrorMessage: '',
       loading: false,
     });
     onRequestClose();
@@ -195,13 +186,13 @@ class Login extends Component {
       }
       case 'password': {
         const password = event.target.value.trim();
+        let passwordErrorMessage = '';
+        if (!password || password.length < 6) {
+          passwordErrorMessage = 'Password should be atleast 6 characters';
+        }
         this.setState({
           password,
-          passwordErrorMessage: !password ? 'Enter a valid password' : '',
-          passwordLengthErrorMessage:
-            password.length < 6
-              ? 'Password should be atleast 6 characters'
-              : '',
+          passwordErrorMessage,
         });
         break;
       }
@@ -246,7 +237,6 @@ class Login extends Component {
       password,
       emailErrorMessage,
       passwordErrorMessage,
-      passwordLengthErrorMessage,
       loading,
     } = this.state;
     const {
@@ -254,98 +244,80 @@ class Login extends Component {
       onRequestOpenSignUp,
       onRequestOpenForgotPassword,
     } = this.props;
-    const {
-      containerStyle,
-      fieldStyle,
-      inputStyle,
-      inputpassStyle,
-      closingStyle,
-    } = styles;
+    const { fieldStyle, closingStyle } = styles;
 
     const isValid =
-      email &&
-      !emailErrorMessage &&
-      password &&
-      !passwordErrorMessage &&
-      !passwordLengthErrorMessage;
+      email && !emailErrorMessage && password && !passwordErrorMessage;
 
     return (
       <Dialog
-        className="dialogStyle"
-        modal={false}
+        maxWidth={'sm'}
+        fullWidth={true}
         open={openLogin}
-        autoScrollBodyContent={true}
-        bodyStyle={{
-          padding: 0,
-          textAlign: 'center',
-        }}
-        contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={this.handleDialogClose}
+        onClose={this.handleDialogClose}
       >
         <div className="login-form">
-          <Paper zDepth={0} style={containerStyle}>
-            <div>
-              <Translate text="Log into SUSI" />
-            </div>
-            <form onSubmit={this.handleSubmit}>
-              <div>
-                <TextField
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={this.handleTextFieldChange}
-                  style={fieldStyle}
-                  inputStyle={inputStyle}
-                  placeholder="Email"
-                  underlineStyle={{ display: 'none' }}
-                  errorText={emailErrorMessage}
-                />
-              </div>
-              <div>
-                <PasswordField
-                  name="password"
-                  style={fieldStyle}
-                  inputStyle={inputpassStyle}
-                  value={password}
-                  placeholder="Password"
-                  underlineStyle={{ display: 'none' }}
-                  onChange={this.handleTextFieldChange}
-                  errorText={passwordErrorMessage || passwordLengthErrorMessage}
-                  visibilityButtonStyle={{
-                    marginTop: '-3px',
-                  }}
-                  visibilityIconStyle={{
-                    marginTop: '-3px',
-                  }}
-                  textFieldStyle={{ padding: '0px' }}
-                />
-              </div>
-              <RaisedButton
-                label={!loading && <Translate text="Log In" />}
-                type="submit"
-                backgroundColor={
-                  UserPreferencesStore.getTheme() === 'light'
-                    ? '#4285f4'
-                    : '#19314B'
-                }
-                labelColor="#fff"
-                disabled={!isValid || loading}
-                style={{ width: '275px', margin: '10px 0px' }}
-                icon={loading && <CircularProgress size={24} />}
+          <h3>
+            <Translate text="Log into SUSI" />
+          </h3>
+          <div>
+            <FormControl error={emailErrorMessage !== ''}>
+              <OutlinedInput
+                labelWidth={0}
+                name="email"
+                value={email}
+                onChange={this.handleTextFieldChange}
+                aria-describedby="email-error-text"
+                style={{ width: '17rem', height: '2.1rem' }}
+                placeholder="Email"
               />
-              <div className="login-links-section">
-                <span
-                  className="forgot-password"
-                  onClick={onRequestOpenForgotPassword}
-                >
-                  <Translate text="Forgot Password?" />
-                </span>
-                <span className="sign-up" onClick={onRequestOpenSignUp}>
-                  <Translate text="Sign up for SUSI" />
-                </span>
-              </div>
-            </form>
-          </Paper>
+              <FormHelperText error={emailErrorMessage !== ''}>
+                {emailErrorMessage}
+              </FormHelperText>
+            </FormControl>
+          </div>
+          <div>
+            <FormControl error={passwordErrorMessage !== ''}>
+              <PasswordField
+                name="password"
+                style={fieldStyle}
+                value={password}
+                placeholder="Password"
+                onChange={this.handleTextFieldChange}
+              />
+              <FormHelperText error={passwordErrorMessage !== ''}>
+                {passwordErrorMessage}
+              </FormHelperText>
+            </FormControl>
+          </div>
+          <Button
+            onClick={this.handleSubmit}
+            variant="contained"
+            color="primary"
+            disabled={!isValid || loading}
+            style={{
+              width: '275px',
+              margin: '10px auto',
+              display: 'block',
+            }}
+          >
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Translate text="Log In" />
+            )}
+          </Button>
+          <div className="login-links-section">
+            <span
+              className="forgot-password"
+              onClick={onRequestOpenForgotPassword}
+            >
+              <Translate text="Forgot Password?" />
+            </span>
+            <span className="sign-up" onClick={onRequestOpenSignUp}>
+              <Translate text="Sign up for SUSI" />
+            </span>
+          </div>
         </div>
         <Close style={closingStyle} onClick={this.handleDialogClose} />
       </Dialog>

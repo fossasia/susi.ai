@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
 import Translate from '../../Translate/Translate.react';
 import urls from '../../../utils/urls';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   buttonStyle: {
@@ -17,6 +18,27 @@ const styles = {
     width: '240px',
   },
 };
+
+const classes = () => ({
+  twitter: {
+    backgroundColor: '#00aced',
+    '&:hover': {
+      backgroundColor: '#009CD5',
+    },
+  },
+  linkedin: {
+    backgroundColor: '#0077B5',
+    '&:hover': {
+      backgroundColor: '#006AA2',
+    },
+    facebook: {
+      backgroundColor: '#3B5998',
+      '&:hover': {
+        backgroundColor: '#354F88',
+      },
+    },
+  },
+});
 
 const initFacebookAPI = () => {
   window.fbAsyncInit = () => {
@@ -60,59 +82,69 @@ const shareToFacebook = () => {
 const ShareOnSocialMedia = props => {
   initFacebookAPI();
   const { raisedButtonStyle } = styles;
+  const { classes } = props;
   return (
     <div style={props.containerStyle}>
       <div>
         <div>
           <div style={props.headingStyle}>
             <Translate text="Share about SUSI on Facebook" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Facebook" />}
-              style={raisedButtonStyle}
-              backgroundColor="#3B5998"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-facebook" />}
-              keyboardFocused={false}
-              onClick={shareToFacebook}
-            />
           </div>
+          <Button
+            color="primary"
+            className={classes.facebook}
+            onClick={shareToFacebook}
+            variant="contained"
+            style={raisedButtonStyle}
+          >
+            <Icon
+              style={{ marginRight: '0.6rem' }}
+              className="fa fa-facebook"
+            />
+            <Translate text="Share on Facebook" />
+          </Button>
           <div style={props.headingStyle}>
             <Translate text="Share about SUSI on Twitter" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on Twitter" />}
-              style={raisedButtonStyle}
-              backgroundColor="#00aced"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-twitter twitterIcon" />}
-              keyboardFocused={false}
-              onClick={() =>
-                window.open(
-                  'https://twitter.com/intent/tweet?text=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai_',
-                  '_blank',
-                )
-              }
-            />
           </div>
+          <Button
+            color="primary"
+            className={classes.twitter}
+            onClick={() =>
+              window.open(
+                'https://twitter.com/intent/tweet?text=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai_',
+                '_blank',
+              )
+            }
+            variant="contained"
+            style={raisedButtonStyle}
+          >
+            <Icon
+              style={{ marginRight: '0.6rem' }}
+              className="fa fa-twitter twitterIcon"
+            />
+            <Translate text="Share on Twitter" />
+          </Button>
           <div style={props.headingStyle}>
             <Translate text="Share about SUSI on LinkedIn" />
-            <br />
-            <RaisedButton
-              label={<Translate text="Share on LinkedIn" />}
-              style={raisedButtonStyle}
-              backgroundColor="#0077B5"
-              labelColor="#fff"
-              icon={<FontIcon className="fa fa-linkedin" />}
-              keyboardFocused={false}
-              onClick={() =>
-                window.open(
-                  'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
-                  '_blank',
-                )
-              }
-            />
           </div>
+          <Button
+            color="primary"
+            className={classes.linkedin}
+            onClick={() =>
+              window.open(
+                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                '_blank',
+              )
+            }
+            variant="contained"
+            style={raisedButtonStyle}
+          >
+            <Icon
+              style={{ marginRight: '0.6rem' }}
+              className="fa fa-linkedin"
+            />
+            <Translate text="Share on Linkedin" />
+          </Button>
         </div>
       </div>
     </div>
@@ -122,9 +154,10 @@ const ShareOnSocialMedia = props => {
 ShareOnSocialMedia.propTypes = {
   containerStyle: PropTypes.object,
   headingStyle: PropTypes.object,
+  classes: PropTypes.object,
 };
 
-export default ShareOnSocialMedia;
+export default withStyles(classes)(ShareOnSocialMedia);
 
 // Resources:
 // https://developers.facebook.com/docs/facebook-login/web

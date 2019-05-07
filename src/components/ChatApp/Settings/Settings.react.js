@@ -866,9 +866,9 @@ class Settings extends Component {
     });
   };
 
-  handlePrefLang = (event, index, value) => {
+  handlePrefLang = event => {
     this.setState({
-      PrefLanguage: value,
+      PrefLanguage: event.target.value,
     });
   };
 
@@ -933,11 +933,9 @@ class Settings extends Component {
     let voiceMenu = voices.map((voice, index) => {
       langCodes.push(voice.lang);
       return (
-        <MenuItem
-          value={voice.lang}
-          key={index}
-          primaryText={voice.name + ' (' + voice.lang + ')'}
-        />
+        <MenuItem value={voice.lang} key={index}>
+          {voice.name + ' (' + voice.lang + ')'}
+        </MenuItem>
       );
     });
     let currLang = this.state.PrefLanguage;
@@ -1034,7 +1032,8 @@ class Settings extends Component {
     return somethingToSave;
   };
 
-  handleCountryChange = (event, index, value) => {
+  handleCountryChange = (event, index) => {
+    const { value } = event.target;
     this.setState({
       countryCode: value,
       countryDialCode:
@@ -1042,7 +1041,8 @@ class Settings extends Component {
     });
   };
 
-  handleTelephoneNoChange = (event, value) => {
+  handleTelephoneNoChange = event => {
+    const { value } = event.target;
     const re = /^\d*$/;
     if (value === '' || re.test(value)) {
       this.setState({ PhoneNo: value });
@@ -1091,15 +1091,11 @@ class Settings extends Component {
     let countries = countryData.countries.all.map((country, i) => {
       if (countryData.countries.all[i].countryCallingCodes[0]) {
         return (
-          <MenuItem
-            value={countryData.countries.all[i].alpha2}
-            key={i}
-            primaryText={
-              countryData.countries.all[i].name +
+          <MenuItem value={countryData.countries.all[i].alpha2} key={i}>
+            {countryData.countries.all[i].name +
               ' ' +
-              countryData.countries.all[i].countryCallingCodes[0]
-            }
-          />
+              countryData.countries.all[i].countryCallingCodes[0]}
+          </MenuItem>
         );
       }
       return null;
@@ -1144,31 +1140,20 @@ class Settings extends Component {
     const radioIconStyle = {
       fill: '#4285f4',
     };
+
     const inputStyle = {
       height: '35px',
       marginBottom: '10px',
       color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
     };
-    const fieldStyle = {
-      height: '35px',
-      borderRadius: 4,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      padding: '0px 12px',
-      width: 'auto',
-    };
 
     const tabHeadingStyle = {
-      marginTop: '10px',
-      marginBottom: '5px',
-      fontSize: '16px',
-      fontWeight: 'bold',
+      fontSize: '1.5rem',
     };
 
     const headingStyle = {
-      marginTop: '10px',
-      marginBottom: '5px',
-      fontSize: '15px',
+      marginTop: '1rem',
+      marginBottom: '0.5rem',
       fontWeight: 'bold',
     };
 
@@ -1235,7 +1220,6 @@ class Settings extends Component {
         <AccountTab
           containerStyle={divStyle}
           themeForegroundColor={themeForegroundColor}
-          fieldStyle={fieldStyle}
           inputStyle={inputStyle}
           headingStyle={headingStyle}
           tabHeadingStyle={tabHeadingStyle}

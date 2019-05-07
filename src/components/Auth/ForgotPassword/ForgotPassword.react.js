@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import CircularProgress from 'material-ui/CircularProgress';
-import RaisedButton from 'material-ui/RaisedButton';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import Close from '@material-ui/icons/Close';
+import Dialog from '@material-ui/core/Dialog';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import Translate from '../../Translate/Translate.react';
 import actions from '../../../redux/actions/app';
 import { isEmail } from '../../../utils';
@@ -68,14 +69,12 @@ class ForgotPassword extends Component {
   };
 
   handleTextFieldChange = event => {
-    if (event.target.name === 'email') {
-      const email = event.target.value.trim();
-      const emailError = !isEmail(email);
-      this.setState({
-        email,
-        emailErrorMessage: emailError ? <Translate text="Invalid Email" /> : '',
-      });
-    }
+    const email = event.target.value.trim();
+    const emailError = !isEmail(email);
+    this.setState({
+      email,
+      emailErrorMessage: emailError ? <Translate text="Invalid Email" /> : '',
+    });
   };
 
   handleSubmit = event => {
@@ -130,55 +129,47 @@ class ForgotPassword extends Component {
     const { email, emailErrorMessage, loading } = this.state;
     const { openForgotPassword } = this.props;
     const isValid = !emailErrorMessage && email;
-
     return (
       <Dialog
-        className="dialogStyle"
-        modal={false}
         open={openForgotPassword}
-        autoScrollBodyContent={true}
-        bodyStyle={{
-          padding: 0,
-          textAlign: 'center',
-        }}
-        contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={this.handleDialogClose}
+        onClose={this.handleDialogClose}
+        maxWidth={'sm'}
+        fullWidth={true}
       >
         <div className="forgotPwdForm">
-          <Paper zDepth={0} style={styles.paperStyle}>
-            <h3>
-              <Translate text="Forgot Password ?" />
-            </h3>
-            <form onSubmit={this.handleSubmit}>
-              <div>
-                <TextField
-                  name="email"
-                  floatingLabelText={<Translate text="Email" />}
-                  errorText={emailErrorMessage}
-                  value={email}
-                  underlineFocusStyle={styles.underlineFocusStyle}
-                  floatingLabelFocusStyle={styles.underlineFocusStyle}
-                  onChange={this.handleTextFieldChange}
-                />
-              </div>
-              <div style={{ margin: '10px 0px' }}>
-                {/* Reset Button */}
-                <RaisedButton
-                  type="submit"
-                  label={!loading && 'Reset'}
-                  backgroundColor={
-                    UserPreferencesStore.getTheme() === 'light'
-                      ? '#4285f4'
-                      : '#19314B'
-                  }
-                  labelColor="#fff"
-                  style={{ width: '200px', margin: '10px 0px' }}
-                  disabled={!isValid || loading}
-                  icon={loading && <CircularProgress size={24} />}
-                />
-              </div>
-            </form>
-          </Paper>
+          <h3>
+            <Translate text="Forgot Password ?" />
+          </h3>
+          <div style={{ margin: '1.1rem 0' }}>
+            <FormControl error={emailErrorMessage !== ''}>
+              <InputLabel>Email</InputLabel>
+              <Input
+                value={email}
+                onChange={this.handleTextFieldChange}
+                aria-describedby="email-error-text"
+                style={{ width: '256px' }}
+              />
+              <FormHelperText error={emailErrorMessage !== ''}>
+                {emailErrorMessage}
+              </FormHelperText>
+            </FormControl>
+          </div>
+          <div style={{ margin: '10px 0' }}>
+            {/* Reset Button */}
+            <Button
+              onClick={this.handleSubmit}
+              color="primary"
+              variant="contained"
+              style={{
+                width: '200px',
+                margin: '10px auto',
+                display: 'block',
+              }}
+              disabled={!isValid || loading}
+            >
+              {loading ? <CircularProgress size={24} /> : 'Reset'}
+            </Button>
+          </div>
         </div>
         <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
       </Dialog>
