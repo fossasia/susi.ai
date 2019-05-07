@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import Dialog from 'material-ui/Dialog';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import Close from 'material-ui/svg-icons/navigation/close';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import Close from '@material-ui/icons/Close';
 import Login from '../Auth/Login/Login.react';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import './NotFound.css';
@@ -22,10 +21,6 @@ const style = {
     right: '10px',
     top: '10px',
     cursor: 'pointer',
-  },
-  bodyStyle: {
-    padding: 0,
-    textAlign: 'center',
   },
 };
 
@@ -82,7 +77,7 @@ class NotFound extends Component {
     });
   };
   render() {
-    const { closingStyle, bodyStyle } = style;
+    const { closingStyle } = style;
     const { accessToken } = this.props;
     document.body.style.setProperty('background-image', 'none');
     return (
@@ -96,51 +91,49 @@ class NotFound extends Component {
           <h1>404</h1>
           <h2>Page not found</h2>
           <div className="button-wrapper">
-            <Link to={'/'} className="actionButton">
-              <RaisedButton
+            <Link
+              style={{ textDecoration: 'none' }}
+              to={'/'}
+              className="actionButton"
+            >
+              <Button
+                variant="contained"
+                color="primary"
                 className="notfound-button"
-                label="Chat With SUSI"
-                backgroundColor={
-                  UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-                }
-                labelColor="#fff"
-              />
+              >
+                Chat With SUSI
+              </Button>
             </Link>
             <br />
             {!accessToken && (
               <div>
-                <RaisedButton
+                <Button
                   className="notfound-button"
-                  label="SignUp to SUSI"
                   onClick={this.handleOpen}
-                  backgroundColor={
-                    UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-                  }
-                  labelColor="#fff"
-                />
+                  variant="contained"
+                  color="primary"
+                >
+                  SignUp to SUSI
+                </Button>
                 <br />
-                <RaisedButton
+                <Button
                   className="notfound-button"
-                  label="Login to SUSI"
+                  variant="contained"
+                  color="primary"
                   onClick={this.handleLoginOpen}
-                  backgroundColor={
-                    UserPreferencesStore.getTheme() ? '#4285f4' : '#19314B'
-                  }
-                  labelColor="#fff"
-                />
+                >
+                  Login to SUSI
+                </Button>
               </div>
             )}
           </div>
         </div>
         {/* Login */}
         <Dialog
-          className="dialogStyle"
-          modal={true}
+          maxWidth={'sm'}
+          fullWidth={true}
           open={this.state.loginOpen}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         >
           <Login
             {...this.props}
@@ -150,13 +143,10 @@ class NotFound extends Component {
         </Dialog>
         {/* SignUp */}
         <Dialog
-          className="dialogStyle"
-          modal={true}
+          maxWidth={'sm'}
+          fullWidth={true}
           open={this.state.open}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         >
           <SignUp
             {...this.props}
@@ -166,12 +156,10 @@ class NotFound extends Component {
           <Close style={closingStyle} onClick={this.handleClose} />
         </Dialog>
         <Dialog
-          className="dialogStyle"
-          modal={false}
+          maxWidth={'sm'}
+          fullWidth={true}
           open={this.state.openForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         >
           <ForgotPassword
             {...this.props}

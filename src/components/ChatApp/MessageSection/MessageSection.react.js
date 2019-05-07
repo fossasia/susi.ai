@@ -618,6 +618,8 @@ class MessageSection extends Component {
           {/*  Tour Dialog is handled by this components */}
           {!search ? (
             <DialogSection
+              maxWidth={'sm'}
+              fullWidth={true}
               {...this.props}
               isShareOpen={isShareOpen}
               toggleShareClose={this.toggleShareClose}

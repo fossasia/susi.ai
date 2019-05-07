@@ -2,7 +2,8 @@ import React from 'react';
 import Translate from '../../Translate/Translate.react';
 import PropTypes from 'prop-types';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
-import Toggle from 'material-ui/Toggle';
+import Switch from '@material-ui/core/Switch';
+import { FlexContainer } from '../../Commons/Container';
 
 const SpeechTab = props => {
   let TTSBrowserSupport;
@@ -25,49 +26,37 @@ const SpeechTab = props => {
         ) : (
           <hr className="break-line-dark" />
         )}
-        <br />
-        <div
-          style={{
-            float: 'left',
-            padding: '0px 5px 0px 0px',
-          }}
-          className="reduceSettingDiv"
-        >
-          <Translate text="Enable speech output only for speech input" />
-        </div>
-        <Toggle
-          className="settings-toggle"
-          disabled={!TTSBrowserSupport}
-          labelStyle={{ color: props.themeForegroundColor }}
-          onToggle={props.handleSpeechOutput}
-          toggled={props.speechOutput}
-        />
-        <br />
-        <br />
+        <FlexContainer>
+          <div>
+            <Translate text="Enable speech output only for speech input" />
+          </div>
+          <div>
+            <Switch
+              color="primary"
+              disabled={!TTSBrowserSupport}
+              onChange={props.handleSpeechOutput}
+              checked={props.speechOutput}
+            />
+          </div>
+        </FlexContainer>
       </div>
       <div>
         <div style={props.headingStyle} className="reduceSettingDiv">
           <Translate text="Speech Output Always ON" />
         </div>
-        <br />
-        <div
-          style={{
-            float: 'left',
-            padding: '5px 5px 0px 0px',
-          }}
-          className="reduceSettingDiv"
-        >
-          <Translate text="Enable speech output regardless of input type" />
-        </div>
-        <Toggle
-          className="settings-toggle"
-          disabled={!TTSBrowserSupport}
-          labelStyle={{ color: props.themeForegroundColor }}
-          onToggle={props.handleSpeechOutputAlways}
-          toggled={props.speechOutputAlways}
-        />
-        <br />
-        <br />
+        <FlexContainer>
+          <div>
+            <Translate text="Enable speech output regardless of input type" />
+          </div>
+          <div>
+            <Switch
+              color="primary"
+              disabled={!TTSBrowserSupport}
+              onChange={props.handleSpeechOutputAlways}
+              checked={props.speechOutputAlways}
+            />
+          </div>
+        </FlexContainer>
       </div>
       <div>
         <TextToSpeechSettings

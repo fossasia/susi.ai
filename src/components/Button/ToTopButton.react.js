@@ -1,4 +1,4 @@
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Fab from '@material-ui/core/Fab';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import React from 'react';
 
@@ -11,15 +11,15 @@ const toTopStyle = {
 
 const ToTopButton = () => {
   return (
-    <FloatingActionButton
+    <Fab
       style={toTopStyle}
-      backgroundColor={'#4285f4'}
       onClick={() => {
         scrollToTopAnimation();
       }}
+      color="primary"
     >
       <span className="fa fa-chevron-up" />
-    </FloatingActionButton>
+    </Fab>
   );
 };
 

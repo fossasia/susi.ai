@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import Popover from 'material-ui/Popover';
-import Settings from 'material-ui/svg-icons/action/settings';
-import Exit from 'material-ui/svg-icons/action/exit-to-app';
-import SignUp from 'material-ui/svg-icons/action/account-circle';
-import Info from 'material-ui/svg-icons/action/info';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
-import List from 'material-ui/svg-icons/action/list';
-import Share from 'material-ui/svg-icons/social/share';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import Extension from 'material-ui/svg-icons/action/extension';
-import Assessment from 'material-ui/svg-icons/action/assessment';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Toolbar from '@material-ui/core/Toolbar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import Settings from '@material-ui/icons/Settings';
+import Exit from '@material-ui/icons/ExitToApp';
+import SignUp from '@material-ui/icons/AccountCircle';
+import Info from '@material-ui/icons/Info';
+import Dashboard from '@material-ui/icons/Dashboard';
+import List from '@material-ui/icons/List';
+import Share from '@material-ui/icons/Share';
+import Chat from '@material-ui/icons/Chat';
+import Extension from '@material-ui/icons/Extension';
+import Assessment from '@material-ui/icons/Assessment';
+import Menu from '@material-ui/core/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
@@ -26,15 +28,9 @@ import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
+import AppBar from '@material-ui/core/AppBar';
 
 const styles = {
-  popoverStyle: {
-    float: 'right',
-    position: 'unset',
-    left: 'unset',
-    marginTop: '47px',
-    marginRight: '8px',
-  },
   logoStyle: {
     height: '25px',
     display: 'block',
@@ -73,7 +69,6 @@ class TopBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showOptions: false,
       anchorEl: null,
     };
   }
@@ -84,23 +79,22 @@ class TopBar extends Component {
     });
   }
 
-  showOptions = event => {
-    event.preventDefault();
+  handleClick = event => {
     this.setState({
-      showOptions: true,
       anchorEl: event.currentTarget,
     });
   };
 
-  closeOptions = () => {
+  handleClose = () => {
     this.setState({
-      showOptions: false,
+      anchorEl: null,
     });
   };
 
   render() {
-    const { popoverStyle, logoStyle } = styles;
-    const { showOptions, anchorEl } = this.state;
+    const { logoStyle } = styles;
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
     const {
       searchState,
       search,
@@ -112,7 +106,6 @@ class TopBar extends Component {
       email,
       accessToken,
       userName,
-      header,
       toggleShareClose,
       onRequestOpenLogin,
       isAdmin,
@@ -129,146 +122,193 @@ class TopBar extends Component {
     }
 
     return (
-      <Toolbar
-        className={appBarClass}
-        style={{
-          backgroundColor: header,
-          height: '46px',
-        }}
-      >
-        <ToolbarGroup>
+      <AppBar position="static">
+        <Toolbar className={appBarClass} variant="dense">
           <div style={{ float: 'left', marginTop: '0px', outline: '0' }}>
             <Link to="/" style={{ outline: '0' }}>
               <img src={susiWhite} alt="susi-logo" style={logoStyle} />
             </Link>
           </div>
-        </ToolbarGroup>
-        <ToolbarGroup lastChild={true}>
-          <div style={{ marginTop: '-7px' }}>
-            {searchState ? (
-              <ExpandingSearchField
-                searchText={searchState.searchText}
-                searchIndex={searchState.searchIndex}
-                open={search}
-                searchCount={searchState.scrollLimit}
-                onTextChange={searchTextChanged}
-                activateSearch={openSearch}
-                exitSearch={exitSearch}
-                scrollRecent={nextSearchItem}
-                scrollPrev={previousSearchItem}
-              />
-            ) : null}
-          </div>
-          <div>
-            {accessToken && (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <CircleImage {...avatarProps} size="24" />
-                <label
-                  className="useremail"
+          <div style={{ display: 'flex' }}>
+            <div style={{ marginTop: '-7px' }}>
+              {searchState ? (
+                <ExpandingSearchField
+                  searchText={searchState.searchText}
+                  searchIndex={searchState.searchIndex}
+                  open={search}
+                  searchCount={searchState.scrollLimit}
+                  onTextChange={searchTextChanged}
+                  activateSearch={openSearch}
+                  exitSearch={exitSearch}
+                  scrollRecent={nextSearchItem}
+                  scrollPrev={previousSearchItem}
+                />
+              ) : null}
+            </div>
+            <div>
+              {accessToken && (
+                <div
                   style={{
-                    color: 'white',
-                    marginRight: '5px',
-                    fontSize: '16px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: '10.5px',
                   }}
                 >
-                  {userName ? userName : email}
-                </label>
-              </div>
-            )}
-          </div>
-          {/* Pop over menu */}
-          <IconButton iconStyle={{ fill: 'white' }} onClick={this.showOptions}>
-            <MoreVertIcon />
-          </IconButton>
-          <Popover
-            animated={false}
-            style={popoverStyle}
-            open={showOptions}
-            anchorEl={anchorEl}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onRequestClose={this.closeOptions}
-          >
-            {accessToken && (
-              <MenuItem
-                onClick={this.closeOptions}
-                primaryText={<Translate text="Dashboard" />}
-                rightIcon={<Assessment />}
-                href={`${urls.SKILL_URL}/dashboard`}
-              />
-            )}
-            <MenuItem
-              onClick={this.closeOptions}
-              primaryText={<Translate text="Chat" />}
-              containerElement={<Link to="/" />}
-              rightIcon={<Chat />}
-            />
-            <MenuItem
-              rightIcon={<Dashboard />}
-              href={urls.SKILL_URL}
-              onClick={this.closeOptions}
-            >
-              <Translate text="Skills" />
-            </MenuItem>
-            {accessToken && (
-              <MenuItem
-                onClick={this.closeOptions}
-                primaryText={<Translate text="Botbuilder" />}
-                rightIcon={<Extension />}
-                href={`${urls.SKILL_URL}/botbuilder`}
-              />
-            )}
-            {accessToken && (
-              <MenuItem
-                onClick={this.closeOptions}
-                primaryText={<Translate text="Settings" />}
-                containerElement={<Link to="/settings" />}
-                rightIcon={<Settings />}
-              />
-            )}
-            <MenuItem
-              onClick={this.closeOptions}
-              primaryText={<Translate text="About" />}
-              containerElement={<Link to="/overview" />}
-              rightIcon={<Info />}
-            />
-
-            {accessToken &&
-              isAdmin && (
-                <MenuItem
-                  primaryText={<Translate text="Admin" />}
-                  rightIcon={<List />}
-                  href={`${urls.ACCOUNT_URL}/admin`}
-                />
+                  <CircleImage {...avatarProps} size="24" />
+                  <label
+                    className="useremail"
+                    style={{
+                      color: 'white',
+                      marginRight: '5px',
+                      fontSize: '16px',
+                    }}
+                  >
+                    {userName ? userName : email}
+                  </label>
+                </div>
               )}
-            <MenuItem
-              primaryText={<Translate text="Share" />}
-              onClick={toggleShareClose}
-              rightIcon={<Share />}
-            />
-            {accessToken ? (
-              <MenuItem
-                onClick={this.closeOptions}
-                primaryText={<Translate text="Logout" />}
-                containerElement={<Link to="/logout" />}
-                rightIcon={<Exit />}
-              />
-            ) : (
-              <MenuItem
-                primaryText={<Translate text="Login" />}
-                onClick={onRequestOpenLogin}
-                rightIcon={<SignUp />}
-              />
-            )}
-          </Popover>
-        </ToolbarGroup>
-      </Toolbar>
+            </div>
+            {/* Pop over menu */}
+            <IconButton
+              aria-owns={open ? 'menu-popper' : undefined}
+              aria-haspopup="true"
+              color="inherit"
+              onClick={this.handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="menu-popper"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={this.handleClose}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              getContentAnchorEl={null}
+            >
+              <MenuItem key="placeholder" style={{ display: 'none' }} />
+              {accessToken && (
+                <a
+                  href={`${urls.SKILL_URL}/dashboard`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <MenuItem onClick={this.handleClose}>
+                    <ListItemIcon>
+                      <Assessment />
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Translate text="Dashboard" />
+                    </ListItemText>
+                  </MenuItem>
+                </a>
+              )}
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                <MenuItem onClick={this.handleClose}>
+                  <ListItemIcon>
+                    <Chat />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Translate text="Chat" />
+                  </ListItemText>
+                </MenuItem>
+              </Link>
+              <a href={`${urls.SKILL_URL}`} style={{ textDecoration: 'none' }}>
+                <MenuItem onClick={this.handleClose}>
+                  <ListItemIcon>
+                    <Dashboard />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Translate text="Skills" />
+                  </ListItemText>
+                </MenuItem>
+              </a>
+              {accessToken && (
+                <a
+                  href={`${urls.SKILL_URL}/botbuilder`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <MenuItem onClick={this.handleClose}>
+                    <ListItemIcon>
+                      <Extension />
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Translate text="Botbuilder" />
+                    </ListItemText>
+                  </MenuItem>
+                </a>
+              )}
+              {accessToken && (
+                <Link to="/settings" style={{ textDecoration: 'none' }}>
+                  <MenuItem onClick={this.handleClose}>
+                    <ListItemIcon>
+                      <Settings />
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Translate text="Settings" />
+                    </ListItemText>
+                  </MenuItem>
+                </Link>
+              )}
+              <Link to="/overview" style={{ textDecoration: 'none' }}>
+                <MenuItem onClick={this.handleClose}>
+                  <ListItemIcon>
+                    <Info />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Translate text="About" />
+                  </ListItemText>
+                </MenuItem>
+              </Link>
+              {accessToken &&
+                isAdmin && (
+                  <a
+                    href={`${urls.ACCOUNT_URL}/admin`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <MenuItem onClick={this.handleClose}>
+                      <ListItemIcon>
+                        <List />
+                      </ListItemIcon>
+                      <ListItemText>
+                        <Translate text="Admin" />
+                      </ListItemText>
+                    </MenuItem>
+                  </a>
+                )}
+              <MenuItem onClick={toggleShareClose}>
+                <ListItemIcon>
+                  <Share />
+                </ListItemIcon>
+                <ListItemText>
+                  <Translate text="Share" />
+                </ListItemText>
+              </MenuItem>
+              {accessToken ? (
+                <Link to="/logout" style={{ textDecoration: 'none' }}>
+                  <MenuItem onClick={this.handleClose}>
+                    <ListItemIcon>
+                      <Exit />
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Translate text="Logout" />
+                    </ListItemText>
+                  </MenuItem>
+                </Link>
+              ) : (
+                <MenuItem onClick={onRequestOpenLogin}>
+                  <ListItemIcon>
+                    <SignUp />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Translate text="Login" />
+                  </ListItemText>
+                </MenuItem>
+              )}
+            </Menu>
+          </div>
+        </Toolbar>
+      </AppBar>
     );
   }
 }

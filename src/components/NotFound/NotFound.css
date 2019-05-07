@@ -23,7 +23,7 @@
 .button-wrapper{
     width: 100%;
   }
-.notfound-button{
+  .button-wrapper .notfound-button{
   width: 300px;
-  margin: 10px;
+  margin: 0.7rem;
 }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MessageStore from '../../../stores/MessageStore';
-import Slider from 'material-ui/Slider';
-import RaisedButton from 'material-ui/RaisedButton';
+import Slider from '@material-ui/lab/Slider';
+import Button from '@material-ui/core/Button';
 import VoicePlayer from '../MessageListItem/VoicePlayer';
-import FontIcon from 'material-ui/FontIcon';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
+import Icon from '@material-ui/core/Icon';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../../Translate/Translate.react';
 
 class TextToSpeechSettings extends Component {
@@ -106,11 +106,9 @@ class TextToSpeechSettings extends Component {
       }
       langCodes.push(voice.lang);
       return (
-        <MenuItem
-          value={voice.lang}
-          key={index}
-          primaryText={voice.name + ' (' + voice.lang + ')'}
-        />
+        <MenuItem value={voice.lang} key={index}>
+          {voice.name + ' (' + voice.lang + ')'}
+        </MenuItem>
       );
     });
     let currLang = this.state.ttsLanguage;
@@ -153,28 +151,16 @@ class TextToSpeechSettings extends Component {
   };
 
   render() {
-    const Buttonstyles = {
-      marginBottom: 16,
-    };
-    const SliderStyle = {
-      marginBottom: '20px',
-    };
-
     let voiceOutput = this.populateVoiceList();
-
     return (
       <div className="settingsForm">
         <div>
           <div style={this.props.headingStyle} className="speechSettingDiv">
             <Translate text="Speech Output Language" />
           </div>
-          <DropDownMenu
-            value={voiceOutput.voiceLang}
-            onChange={this.handleTTSVoices}
-            labelStyle={{ color: this.props.themeForegroundColor }}
-          >
+          <Select value={voiceOutput.voiceLang} onChange={this.handleTTSVoices}>
             {voiceOutput.voiceMenu}
-          </DropDownMenu>
+          </Select>
         </div>
         <div>
           <div style={this.props.headingStyle}>
@@ -185,13 +171,11 @@ class TextToSpeechSettings extends Component {
             max={2}
             value={this.state.rate}
             onChange={this.handleRate}
-            sliderStyle={SliderStyle}
+            style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
           />
-          <RaisedButton
-            style={Buttonstyles}
-            label={<Translate text="Reset to normal" />}
-            onClick={this.resetRate}
-          />
+          <Button variant="contained" onClick={this.resetRate}>
+            <Translate text="Reset to normal" />
+          </Button>
         </div>
         <div>
           <div style={this.props.headingStyle}>
@@ -202,26 +186,25 @@ class TextToSpeechSettings extends Component {
             max={2}
             value={this.state.pitch}
             onChange={this.handlePitch}
-            sliderStyle={SliderStyle}
+            style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
           />
-          <RaisedButton
-            style={Buttonstyles}
-            label={<Translate text="Reset to normal" />}
-            onClick={this.resetPitch}
-          />
+          <Button variant="contained" onClick={this.resetPitch}>
+            <Translate text="Reset to normal" />
+          </Button>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <RaisedButton
+          <Button
+            variant="contained"
             className="settingsBtns"
-            style={Buttonstyles}
-            icon={<FontIcon className="fa fa-volume-up" />}
-            labelColor="#fff"
-            backgroundColor={
-              this.props.themeVal === 'light' ? '#4285f4' : '#19314B'
-            }
-            label={<Translate text="Play Demonstration" />}
             onClick={this.playDemo}
-          />
+            color="secondary"
+          >
+            <Icon
+              style={{ marginRight: '0.7rem' }}
+              className="fa fa-volume-up"
+            />
+            <Translate text="Play Demonstration" />
+          </Button>
         </div>
         {this.state.playExample && (
           <VoicePlayer

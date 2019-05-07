@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IconButton from 'material-ui/IconButton';
-import { CardActions } from 'material-ui/Card';
+import IconButton from '@material-ui/core/IconButton';
+import CardActions from '@material-ui/core/CardActions';
 
 const styles = {
   contentStyle: {
-    minWidth: '23%',
     fontSize: '25px',
     color: '#fff',
-    padding: '0% 2%',
     marginRight: '5px',
     marginLeft: '5px',
   },
@@ -31,29 +29,45 @@ const SocialLinkButtons = props => {
         <CardActions>
           <IconButton
             style={github === '#' ? emptyStyle : contentStyle}
-            href={github}
-            target="_blank"
+            onClick={() =>
+              window.open(
+                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                '_blank',
+              )
+            }
           >
             <i className="fa fa-github" />
           </IconButton>
           <IconButton
             style={twitter === '#' ? emptyStyle : contentStyle}
-            href={twitter}
-            target="_blank"
+            onClick={() =>
+              window.open(
+                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                '_blank',
+              )
+            }
           >
             <i className="fa fa-twitter" />
           </IconButton>
           <IconButton
             style={linkedin === '#' ? emptyStyle : contentStyle}
-            href={linkedin}
-            target="_blank"
+            onClick={() =>
+              window.open(
+                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                '_blank',
+              )
+            }
           >
             <i className="fa fa-linkedin-square" />
           </IconButton>
           <IconButton
             style={blog === '#' ? emptyStyle : contentStyle}
-            href={blog}
-            target="_blank"
+            onClick={() =>
+              window.open(
+                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                '_blank',
+              )
+            }
           >
             <i className="fa fa-globe" />
           </IconButton>

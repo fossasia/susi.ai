@@ -4,10 +4,10 @@ import ReactFitText from 'react-fittext';
 import Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import SendIcon from 'material-ui/svg-icons/content/send';
-import MicIcon from 'material-ui/svg-icons/av/mic';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import Send from '@material-ui/icons/Send';
+import Mic from '@material-ui/icons/Mic';
+import IconButton from '@material-ui/core/IconButton';
+import Close from '@material-ui/icons/Close';
 import TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
 import actions from '../../redux/actions/messages';
@@ -59,7 +59,6 @@ class MessageComposer extends Component {
     textcolor: PropTypes.string,
     speechOutput: PropTypes.bool,
     speechOutputAlways: PropTypes.bool,
-    micColor: PropTypes.string,
     focus: PropTypes.bool,
     actions: PropTypes.object,
     enterAsSend: PropTypes.bool,
@@ -309,7 +308,7 @@ class MessageComposer extends Component {
       speechRecognitionTextcolor,
       speechToTextOutput,
     } = this.state;
-    const { textarea, textcolor, focus, micColor } = this.props;
+    const { textarea, textcolor, focus } = this.props;
     return (
       <div className="message-composer">
         {isListening && (
@@ -344,14 +343,10 @@ class MessageComposer extends Component {
         </div>
         <IconButton
           className="send_button"
-          iconStyle={{
-            fill: micColor,
-            margin: '1px 0px 1px 0px',
-          }}
           onClick={this.onClickButton}
           style={styles.buttonStyle}
         >
-          {this.speechToTextAvailable && !text ? <MicIcon /> : <SendIcon />}
+          {this.speechToTextAvailable && !text ? <Mic /> : <Send />}
         </IconButton>
 
         <Modal
@@ -372,9 +367,9 @@ class MessageComposer extends Component {
             <div
               className={isListening ? 'mic-container active' : 'mic-container'}
             >
-              <MicIcon style={styles.iconStyles} />
+              <Mic style={styles.iconStyles} />
             </div>
-            <CloseIcon
+            <Close
               style={styles.closingStyle}
               onClick={this.speechDialogCloseButton}
             />

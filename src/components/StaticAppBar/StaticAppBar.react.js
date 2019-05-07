@@ -428,7 +428,6 @@ class StaticAppBar extends Component {
               boxShadow: 'none',
             }}
             showMenuIconButton={showLeftMenu !== 'none'}
-            onLeftIconButtonTouchTap={this.handleDrawerToggle}
             iconStyleLeft={{ marginTop: '-2px' }}
             iconStyleRight={{ marginTop: '-2px' }}
             iconElementRight={<TopRightMenu />}

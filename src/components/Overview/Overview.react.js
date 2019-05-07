@@ -5,8 +5,8 @@ import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Modal from 'react-modal';
 import urls from '../../utils/urls';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-filled';
-import Close from 'material-ui/svg-icons/navigation/close';
+import PlayCircle from '@material-ui/icons/PlayCircleFilled';
+import Close from '@material-ui/icons/Close';
 import susiGif from '../../images/susi.gif';
 import GIFDemo from '../../images/gif.gif';
 import WebDemo from '../../images/web.gif';
@@ -24,17 +24,15 @@ import androidMockup from '../../images/android-mockup.jpg';
 import mapAndroid from '../../images/map-android.jpg';
 import shield from '../../images/shield.svg';
 import openSource from '../../images/open-source.png';
-import Web from 'material-ui/svg-icons/av/web';
-import GIF from 'material-ui/svg-icons/action/gif';
-import Locationsvg from 'material-ui/svg-icons/communication/location-on';
-import Action from 'material-ui/svg-icons/communication/chat-bubble';
-import { RaisedButton } from 'material-ui';
-import PlusOne from 'material-ui/svg-icons/social/plus-one';
-import { ActionSearch } from 'material-ui/svg-icons';
-
+import Web from '@material-ui/icons/Web';
+import GIF from '@material-ui/icons/Gif';
+import LocationOn from '@material-ui/icons/LocationOn';
+import Action from '@material-ui/icons/ChatBubble';
+import Button from '@material-ui/core/Button';
+import PlusOne from '@material-ui/icons/PlusOne';
+import Search from '@material-ui/icons/Search';
 import './Overview.css';
-import { blue600 } from 'material-ui/styles/colors';
-import { white, black } from 'material-ui/styles/colors';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   closingStyle: {
@@ -48,9 +46,20 @@ const styles = {
     cursor: 'pointer',
   },
 };
+
+const classes = {
+  button: {
+    backgroundColor: '#ffffff',
+    '&:focus': {
+      backgroundColor: '#4285f4',
+      color: '#ffffff',
+    },
+  },
+};
+
 const buttonAttributes = [
-  { label: 'Search', icon: <ActionSearch />, gif: WebDemo },
-  { label: 'Location', icon: <Locationsvg />, gif: LocationDemo },
+  { label: 'Search', icon: <Search />, gif: WebDemo },
+  { label: 'Location', icon: <LocationOn />, gif: LocationDemo },
   { label: 'GIFs', icon: <GIF />, gif: GIFDemo },
   { label: 'Jokes', icon: <Action />, gif: JokesDemo },
   { label: 'Facts', icon: <Web />, gif: FactsDemo },
@@ -107,7 +116,7 @@ class Overview extends Component {
   render() {
     const { gifIndex } = this.state;
     const { closingStyle } = styles;
-    document.body.style.setProperty('background-image', 'none');
+    const { classes } = this.props;
     return (
       <div>
         <StaticAppBar
@@ -173,15 +182,15 @@ class Overview extends Component {
             </p>
             <div className="rowdiv">
               {buttonAttributes.map((button, index) => (
-                <RaisedButton
+                <Button
                   key={index}
-                  className="example-btn"
-                  label={button.label}
-                  labelColor={gifIndex === index ? white : black}
-                  backgroundColor={gifIndex === index ? blue600 : white}
+                  className={classes.button}
+                  variant="contained"
                   onClick={e => this.handleGIFChange(index)}
-                  icon={button.icon}
-                />
+                >
+                  {button.icon}
+                  {button.label}
+                </Button>
               ))}
             </div>
           </div>
@@ -212,7 +221,6 @@ class Overview extends Component {
             <img src={mapAndroid} alt="Map" className="android-mockup" />
           </div>
         </div>
-
         <div className="section_copy">
           <div className="conversation__description">
             <div className="description__heading">For your Smartphone</div>
@@ -250,7 +258,6 @@ class Overview extends Component {
             />
           </div>
         </div>
-
         <div style={{ alignItems: 'unset' }} className="section_copy">
           <div className="column_section">
             <div className="conversation__description custom_description">
@@ -310,7 +317,6 @@ class Overview extends Component {
               </p>
             </div>
           </div>
-
           <div className="column_section">
             <div className="img-container">
               <img
@@ -328,7 +334,6 @@ class Overview extends Component {
               </p>
             </div>
           </div>
-
           <div className="column_section">
             <div className="conversation__description custom_description">
               <div className="img-container">
@@ -350,7 +355,6 @@ class Overview extends Component {
           </div>
         </div>
         {/* section_copy ends */}
-
         <div className="section_center">
           <div className="center__description">
             <div className="description__heading">SUSI Skills</div>
@@ -374,7 +378,6 @@ class Overview extends Component {
             <img src={susiSkill} alt="Skills" className="skillWiki" />
           </div>
         </div>
-
         <div className="section_copy safe_and_secure">
           <div className="conversation__description">
             <div className="description__heading">Safe and secure.</div>
@@ -417,11 +420,8 @@ class Overview extends Component {
             <img src={shield} alt="Android Mockup" className="shield" />
           </div>
         </div>
-
         <Footer />
-
         {/* Video */}
-
         <Modal
           isOpen={this.state.isVideoModalOpen}
           className="Video-Modal"
@@ -447,6 +447,6 @@ class Overview extends Component {
 Overview.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
+  classes: PropTypes.object,
 };
-
-export default Overview;
+export default withStyles(classes)(Overview);

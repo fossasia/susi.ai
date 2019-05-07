@@ -1,9 +1,11 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Button from '@material-ui/core/Button';
 import ThemeChanger from './ThemeChanger';
 import PropTypes from 'prop-types';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const ThemeChangeTab = props => {
   return (
@@ -18,44 +20,36 @@ const ThemeChangeTab = props => {
           <hr className="break-line-dark" />
         )}
       </span>
-      <RadioButtonGroup
+      <RadioGroup
         style={{ textAlign: 'left', margin: 20 }}
         onChange={props.handleSelectChange}
         name="Theme"
-        valueSelected={props.theme}
+        value={props.theme}
       >
-        <RadioButton
-          style={{ width: '20%', display: 'block' }}
-          iconStyle={props.radioIconStyle}
-          labelStyle={{ color: props.themeForegroundColor }}
+        <FormControlLabel
           value="light"
+          control={<Radio color="primary" />}
           label={<Translate text="Light" />}
         />
-        <RadioButton
-          style={{ width: '20%', display: 'block' }}
-          iconStyle={props.radioIconStyle}
-          labelStyle={{ color: props.themeForegroundColor }}
+        <FormControlLabel
           value="dark"
+          control={<Radio color="primary" />}
           label={<Translate text="Dark" />}
         />
-        <RadioButton
-          style={{
-            width: '20%',
-            display: props.isLoggedIn ? 'inline-block' : 'none',
-          }}
-          iconStyle={props.radioIconStyle}
-          labelStyle={{ color: props.themeForegroundColor }}
+        <FormControlLabel
           value="custom"
+          control={<Radio color="primary" />}
           label={<Translate text="Custom" />}
         />
-      </RadioButtonGroup>
-      <RaisedButton
-        label={<Translate text="Edit theme" />}
+      </RadioGroup>
+      <Button
         disabled={props.theme !== 'custom'}
-        backgroundColor="#4285f4"
-        labelColor="#fff"
         onClick={props.handleThemeChanger}
-      />
+        variant="contained"
+        color="primary"
+      >
+        <Translate text="Edit theme" />
+      </Button>
       <ThemeChanger
         themeOpen={props.themeOpen}
         onRequestClose={() => props.onThemeRequestClose}
