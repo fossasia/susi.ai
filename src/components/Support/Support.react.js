@@ -244,7 +244,7 @@ class Support extends Component {
 
                 <RaisedButton
                   label="Sign Up"
-                  onTouchTap={openSignUp}
+                  onClick={openSignUp}
                   style={buttonStyle}
                 />
               </div>

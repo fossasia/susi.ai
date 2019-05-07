@@ -70,7 +70,9 @@ class VoicePlayer extends Component {
     const events = [{ name: 'start', action: this.props.onStart }];
 
     events.forEach(e => {
-      this.speech.addEventListener(e.name, e.action);
+      if (this.speech) {
+        this.speech.addEventListener(e.name, e.action);
+      }
     });
 
     this.speech.addEventListener('end', () => {

@@ -74,7 +74,7 @@ const ShareOnSocialMedia = props => {
               labelColor="#fff"
               icon={<FontIcon className="fa fa-facebook" />}
               keyboardFocused={false}
-              onTouchTap={shareToFacebook}
+              onClick={shareToFacebook}
             />
           </div>
           <div style={props.headingStyle}>
