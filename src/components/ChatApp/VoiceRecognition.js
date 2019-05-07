@@ -85,7 +85,9 @@ class VoiceRecognition extends Component {
       { name: 'result', action: this.bindResult },
     ];
     events.forEach(event => {
-      this.recognition.addEventListener(event.name, event.action);
+      if (this.recognition) {
+        this.recognition.addEventListener(event.name, event.action);
+      }
     });
     this.start();
   }

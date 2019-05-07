@@ -37,26 +37,6 @@ class RemoveDeviceDialog extends Component {
     };
   }
 
-  componentDidMount = () => {
-    let field = this.returnDiv;
-    let removeDeviceBtn = this.removeDeviceButton;
-    let deviceName = this.deviceName;
-    const fieldWidth = field.style.width;
-    const fieldStyle = {
-      padding: '0px',
-      color: '#900',
-    };
-    const removeDeviceBtnStyle = {
-      width: fieldWidth + 6,
-      transition: 'none',
-    };
-    const deviceNameStyle = {
-      width: fieldWidth - 16,
-    };
-    field.style = fieldStyle;
-    removeDeviceBtn.style = removeDeviceBtnStyle;
-    deviceName.style = deviceNameStyle;
-  };
   // Handle changes in device name
   handleChange = event => {
     this.setState({
@@ -68,11 +48,7 @@ class RemoveDeviceDialog extends Component {
   render() {
     const { paperStyle, fieldStyle, inputStyle } = styles;
     return (
-      <div
-        className="removeDeviceForm"
-        id="returnDiv"
-        ref={el => (this.returnDiv = el)}
-      >
+      <div className="removeDeviceForm">
         <Paper zDepth={0} style={paperStyle}>
           <div
             style={{
@@ -121,10 +97,7 @@ class RemoveDeviceDialog extends Component {
             <p style={{ marginTop: '0px', marginBottom: '10px' }}>
               Please type in the name of the device to confirm.
             </p>
-            <div
-              style={{ textAlign: 'center' }}
-              ref={el => (this.deviceName = el)}
-            >
+            <div style={{ textAlign: 'center', padding: '0 8px' }}>
               <TextField
                 id="devicename"
                 name="devicename"
@@ -163,7 +136,6 @@ class RemoveDeviceDialog extends Component {
                   verticalAlign: 'middle',
                 }}
                 disabled={!this.state.correctName}
-                ref={el => (this.removeDeviceButton = el)}
               />
             </div>
           </div>

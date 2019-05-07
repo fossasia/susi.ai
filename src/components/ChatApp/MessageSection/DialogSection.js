@@ -76,7 +76,7 @@ const DialogSection = props => {
         <div style={titleWrapperStyle}>
           <h3>Share about SUSI</h3>
           <div style={{ flex: 1 }} />
-          <IconButton onTouchTap={toggleShareClose}>
+          <IconButton onClick={toggleShareClose}>
             <CloseIcon size={32} />
           </IconButton>
         </div>
@@ -138,7 +138,7 @@ const DialogSection = props => {
           frameBorder="0"
           scrolling="no"
         />
-        <Close style={closingStyle} onTouchTap={onRequestCloseTour} />
+        <Close style={closingStyle} onClick={onRequestCloseTour} />
       </Dialog>
     </div>
   );

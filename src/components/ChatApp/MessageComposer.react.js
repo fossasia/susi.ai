@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactFitText from 'react-fittext';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -20,8 +19,6 @@ import { urlParam } from '../../utils/helperFunctions';
 import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import { getAllUserMessages } from '../../utils/messageFilter';
-
-injectTapEventPlugin();
 
 const ENTER_KEY_CODE = 13;
 const UP_KEY_CODE = 38;
@@ -351,7 +348,7 @@ class MessageComposer extends Component {
             fill: micColor,
             margin: '1px 0px 1px 0px',
           }}
-          onTouchTap={this.onClickButton}
+          onClick={this.onClickButton}
           style={styles.buttonStyle}
         >
           {this.speechToTextAvailable && !text ? <MicIcon /> : <SendIcon />}
@@ -379,7 +376,7 @@ class MessageComposer extends Component {
             </div>
             <CloseIcon
               style={styles.closingStyle}
-              onTouchTap={this.speechDialogCloseButton}
+              onClick={this.speechDialogCloseButton}
             />
           </div>
         </Modal>

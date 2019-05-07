@@ -180,10 +180,7 @@ class ForgotPassword extends Component {
             </form>
           </Paper>
         </div>
-        <Close
-          style={styles.closingStyle}
-          onTouchTap={this.handleDialogClose}
-        />
+        <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
       </Dialog>
     );
   }
