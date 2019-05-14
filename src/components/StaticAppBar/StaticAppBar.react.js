@@ -214,7 +214,14 @@ class StaticAppBar extends Component {
       popOverStyle,
       linkLabelStyle,
     } = styles;
-    const { accessToken, settings, location, email, userName } = this.props;
+    const {
+      accessToken,
+      settings,
+      location,
+      email,
+      userName,
+      isAdmin,
+    } = this.props;
     const { isPopUpMenuOpen, anchorEl, isDrawerOpen } = this.state;
     // Check the path to show or not to show top bar left menu
     let showLeftMenu = 'block';
@@ -257,7 +264,7 @@ class StaticAppBar extends Component {
           containerElement={<Link to="/overview" />}
           rightIcon={<Info />}
         />
-        {this.state.showAdmin === true ? (
+        {isAdmin === true ? (
           <MenuItem
             primaryText={<Translate text="Admin" />}
             rightIcon={<List />}

@@ -24,6 +24,7 @@ import SignUp from './components/Auth/SignUp/SignUp.react';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
 import actions from './redux/actions/app';
 import ProtectedRoute from './components/ProtectedRoute';
+import { getSettings } from './utils/ChatWebAPIUtils';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -63,6 +64,7 @@ class App extends Component {
 
     actions.getApiKeys();
     accessToken && actions.getAdmin();
+    accessToken && getSettings();
   };
 
   componentWillUnmount = () => {
