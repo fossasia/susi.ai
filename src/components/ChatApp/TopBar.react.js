@@ -181,7 +181,7 @@ class TopBar extends Component {
             <Menu
               id="menu-popper"
               anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
+              open={open}
               onClose={this.handleClose}
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}

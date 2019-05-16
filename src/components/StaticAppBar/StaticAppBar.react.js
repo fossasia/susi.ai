@@ -2,132 +2,184 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Popover from 'material-ui/Popover';
+import Toolbar from '@material-ui/core/Toolbar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '@material-ui/icons/Menu';
+import Menu from '@material-ui/core/Menu';
 import Translate from '../Translate/Translate.react';
+import styled from 'styled-components';
 import CircleImage from '../CircleImage/CircleImage';
-import Info from 'material-ui/svg-icons/action/info';
-import actions from '../../redux/actions/app';
+import Info from '@material-ui/icons/Info';
 import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SignUpIcon from 'material-ui/svg-icons/action/account-circle';
-import Settings from 'material-ui/svg-icons/action/settings';
-import Chat from 'material-ui/svg-icons/communication/chat';
-import Dashboard from 'material-ui/svg-icons/action/dashboard';
-import Exit from 'material-ui/svg-icons/action/exit-to-app';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SignUpIcon from '@material-ui/icons/AccountCircle';
+import Settings from '@material-ui/icons/Settings';
+import Chat from '@material-ui/icons/Chat';
+import Dashboard from '@material-ui/icons/Dashboard';
+import Exit from '@material-ui/icons/ExitToApp';
 import susiWhite from '../../images/susi-logo-white.png';
-import Extension from 'material-ui/svg-icons/action/extension';
-import Assessment from 'material-ui/svg-icons/action/assessment';
-import List from 'material-ui/svg-icons/action/list';
-import './StaticAppBar.css';
+import Extension from '@material-ui/icons/Extension';
+import Assessment from '@material-ui/icons/Assessment';
+import ListIcon from '@material-ui/icons/List';
+import PeopleIcon from '@material-ui/icons/People';
+import BlogIcon from '@material-ui/icons/ChromeReaderMode';
+import DevicesIcon from '@material-ui/icons/Devices';
+import InfoIcon from '@material-ui/icons/Info';
+import SupportIcon from '@material-ui/icons/Face';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
 
-const baseUrl = window.location.protocol + '//' + window.location.host + '/';
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-const styles = {
-  labelStyle: {
-    padding: '0px 25px 7px 25px',
-    font: '500 14px Roboto,sans-serif',
-    margin: '0 2px',
-    textTransform: 'none',
-    textDecoration: 'none',
-    wordSpacing: '2px',
-    color: '#f2f2f2',
-    verticalAlign: 'bottom',
+const BurgerMenuContainer = styled.div`
+  display: none;
+  margin-right: 0.5rem;
+  @media (max-width: 800px) {
+    display: block;
+  }
+`;
+
+const NavLinkContainer = styled.div`
+  display: block;
+  @media (max-width: 800px) {
+    display: none;
+  }
+`;
+
+const NavLink = styled.a`
+  padding: 0px 25px ${props => (props.isActive ? '12px' : '7px')};
+  font: ${props => (props.isActive ? '700' : '500')} 14px Roboto, sans-serif;
+  margin: 0 2px;
+  text-transform: none;
+  text-decoration: none;
+  word-spacing: 2px;
+  color: ${props => (props.isActive ? '#fff' : '#f2f2f2')};
+  vertical-align: bottom;
+  border-bottom: ${props => (props.isActive ? '2px solid #fff' : '0px')};
+`;
+
+const UserDetail = styled.label`
+  color: white;
+  margin-right: 5px;
+  @media (max-width: 1000px) {
+    display: None;
+  }
+`;
+
+const TopRightMenuContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: -8px;
+  margin-top: 1px;
+`;
+
+const SusiLogo = styled.img`
+  height: 1.5rem;
+  display: block;
+`;
+
+const topLinks = [
+  {
+    label: 'Overview',
+    url: '/overview',
+    icon: <InfoIcon />,
   },
-  linkStyle: {
-    color: '#fff',
-    height: '64px',
-    textDecoration: 'none',
+  {
+    label: 'Devices',
+    url: '/devices',
+    icon: <DevicesIcon />,
   },
-  circleImageWrapperStyle: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+  {
+    label: 'Blog',
+    url: '/blog',
+    icon: <BlogIcon />,
   },
-  circleImageStyle: {
-    color: 'white',
-    marginRight: '5px',
-    fontSize: '16px',
+  {
+    label: 'Team',
+    url: '/team',
+    icon: <PeopleIcon />,
   },
-  popOverStyle: {
-    float: 'right',
-    position: 'relative',
-    marginTop: '47px',
-    marginRight: '8px',
+  {
+    label: 'Support',
+    url: '/support',
+    icon: <SupportIcon />,
   },
-  linkLabelStyle: {
-    borderBottom: '2px solid #fff',
-    padding: '0px 25px 12px 25px',
-    margin: '0 2px',
-    color: '#fff',
-    textDecoration: 'none',
-    font: '700 14px Roboto,sans-serif',
-    wordSpacing: '2px',
-    textTransform: 'none',
-    verticalAlign: 'bottom',
-  },
-};
+];
+
+const navLinks = topLinks.map((link, index) => {
+  return (
+    <NavLink
+      isActive={window.location.pathname === link.url}
+      key={link.label}
+      href={link.url}
+    >
+      {link.label}
+    </NavLink>
+  );
+});
+
+const menuLinks = topLinks.map(link => {
+  return (
+    <ListItem button key={link.label}>
+      <ListItemIcon>{link.icon}</ListItemIcon>
+      <ListItemText primary={link.label} />
+    </ListItem>
+  );
+});
+
+const TopMenu = () => (
+  <div style={{ marginLeft: '2rem' }}>
+    <NavLinkContainer>{navLinks}</NavLinkContainer>
+  </div>
+);
 
 class StaticAppBar extends Component {
   static propTypes = {
     history: PropTypes.object,
     settings: PropTypes.object,
     location: PropTypes.object,
-    theme: PropTypes.object,
     closeVideo: PropTypes.func,
     onRequestOpenLogin: PropTypes.func,
     isAdmin: PropTypes.bool,
     accessToken: PropTypes.string,
-    actions: PropTypes.object,
     email: PropTypes.string,
     userName: PropTypes.string,
+    app: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      isPopUpMenuOpen: false,
-      showAdmin: false,
       anchorEl: null,
-      isDrawerOpen: false,
+      drawerOpen: false,
     };
   }
 
   handleDrawerToggle = () => {
-    const { isDrawerOpen } = this.state;
-    this.setState({
-      isDrawerOpen: !isDrawerOpen,
-    });
+    this.setState(prevState => ({ drawerOpen: !prevState.drawerOpen }));
   };
 
-  handleDrawerClose = () => this.setState({ isDrawerOpen: false });
-
-  showPopUpMenu = event => {
-    event.preventDefault();
+  handleMenuClick = event => {
     this.setState({
-      isPopUpMenuOpen: true,
       anchorEl: event.currentTarget,
     });
   };
 
-  closePopUpMenu = () => {
-    if (this.state.isPopUpMenuOpen) {
-      this.setState({
-        isPopUpMenuOpen: false,
-      });
-    }
-  };
-
-  handleToggle = () => this.setState({ open: !this.state.open });
-
-  handleTitle = () => {
-    this.props.history.push('/');
+  handleMenuClose = () => {
+    this.setState({
+      anchorEl: null,
+    });
   };
 
   handleLogin = () => {
@@ -135,7 +187,7 @@ class StaticAppBar extends Component {
     if (location.pathname === 'overview') {
       closeVideo();
     }
-    this.closePopUpMenu();
+    this.handleMenuClose();
     onRequestOpenLogin();
   };
 
@@ -143,7 +195,7 @@ class StaticAppBar extends Component {
     let scrollTop = event.srcElement.body.scrollTop,
       itemTranslate = scrollTop > 60;
     if (itemTranslate) {
-      this.closePopUpMenu();
+      this.handleMenuClose();
     }
   };
 
@@ -206,258 +258,188 @@ class StaticAppBar extends Component {
   }
 
   render() {
-    const {
-      labelStyle,
-      linkStyle,
-      circleImageStyle,
-      circleImageWrapperStyle,
-      popOverStyle,
-      linkLabelStyle,
-    } = styles;
-    const { accessToken, settings, location, email, userName } = this.props;
-    const { isPopUpMenuOpen, anchorEl, isDrawerOpen } = this.state;
+    const { accessToken, email, userName, isAdmin } = this.props.app;
+    const { anchorEl, drawerOpen } = this.state;
+    const open = Boolean(anchorEl);
     // Check the path to show or not to show top bar left menu
-    let showLeftMenu = 'block';
 
     const Logged = props => (
       <div>
         {accessToken && (
-          <MenuItem
-            primaryText={<Translate text="Dashboard" />}
-            rightIcon={<Assessment />}
+          <a
             href={`${urls.SKILL_URL}/dashboard`}
-          />
+            style={{ textDecoration: 'none' }}
+          >
+            <MenuItem>
+              <ListItemIcon>
+                <Assessment />
+              </ListItemIcon>
+              <ListItemText>
+                <Translate text="Dashboard" />
+              </ListItemText>
+            </MenuItem>
+          </a>
         )}
-        <MenuItem
-          primaryText={<Translate text="Chat" />}
-          containerElement={<Link to="/" />}
-          rightIcon={<Chat />}
-        />
-        <MenuItem
-          primaryText={<Translate text="Skills" />}
-          rightIcon={<Dashboard />}
-          href={urls.SKILL_URL}
-        />
+
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <MenuItem>
+            <ListItemIcon>
+              <Chat />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="Chat" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <a href={`${urls.SKILL_URL}`} style={{ textDecoration: 'none' }}>
+          <MenuItem onClick={this.handleMenuClose}>
+            <ListItemIcon>
+              <Dashboard />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="Skills" />
+            </ListItemText>
+          </MenuItem>
+        </a>
         {accessToken && (
           <div>
-            <MenuItem
-              primaryText={<Translate text="Botbuilder" />}
-              rightIcon={<Extension />}
+            <a
               href={`${urls.SKILL_URL}/botbuilder`}
-            />
-            <MenuItem
-              primaryText={<Translate text="Settings" />}
-              containerElement={<Link to="/settings" />}
-              rightIcon={<Settings />}
-            />
+              style={{ textDecoration: 'none' }}
+            >
+              <MenuItem onClick={this.handleMenuClose}>
+                <ListItemIcon>
+                  <Extension />
+                </ListItemIcon>
+                <ListItemText>
+                  <Translate text="Botbuilder" />
+                </ListItemText>
+              </MenuItem>
+            </a>
+            <Link to="/settings" style={{ textDecoration: 'none' }}>
+              <MenuItem onClick={this.handleMenuClose}>
+                <ListItemIcon>
+                  <Settings />
+                </ListItemIcon>
+                <ListItemText>
+                  <Translate text="Settings" />
+                </ListItemText>
+              </MenuItem>
+            </Link>
           </div>
         )}
-        <MenuItem
-          primaryText={<Translate text="About" />}
-          containerElement={<Link to="/overview" />}
-          rightIcon={<Info />}
-        />
-        {this.state.showAdmin === true ? (
-          <MenuItem
-            primaryText={<Translate text="Admin" />}
-            rightIcon={<List />}
+        <Link to="/overview" style={{ textDecoration: 'none' }}>
+          <MenuItem onClick={this.handleMenuClose}>
+            <ListItemIcon>
+              <Info />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="About" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        {isAdmin ? (
+          <a
             href={`${urls.ACCOUNT_URL}/admin`}
-          />
+            style={{ textDecoration: 'none' }}
+          >
+            <MenuItem onClick={this.handleMenuClose}>
+              <ListItemIcon>
+                <ListIcon />
+              </ListItemIcon>
+              <ListItemText>
+                <Translate text="Admin" />
+              </ListItemText>
+            </MenuItem>
+          </a>
         ) : null}
         {accessToken ? (
-          <MenuItem
-            primaryText={<Translate text="Logout" />}
-            containerElement={<Link to="/logout" />}
-            rightIcon={<Exit />}
-          />
+          <Link to="/logout" style={{ textDecoration: 'none' }}>
+            <MenuItem onClick={this.handleMenuClose}>
+              <ListItemIcon>
+                <Exit />
+              </ListItemIcon>
+              <ListItemText>
+                <Translate text="Logout" />
+              </ListItemText>
+            </MenuItem>
+          </Link>
         ) : (
-          <MenuItem
-            primaryText={<Translate text="Login" />}
-            onClick={this.handleLogin}
-            rightIcon={<SignUpIcon />}
-          />
+          <MenuItem onClick={this.handleLogin}>
+            <ListItemIcon>
+              <SignUpIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="Login" />
+            </ListItemText>
+          </MenuItem>
         )}
       </div>
     );
 
-    if (location.pathname === '/settings') {
-      showLeftMenu = 'none';
+    let avatarProps = null;
+    if (accessToken) {
+      avatarProps = getAvatarProps(email);
     }
-    const TopRightMenu = props => {
-      let avatarProps = null;
-      if (accessToken) {
-        avatarProps = getAvatarProps(email);
-      }
-      return (
-        <div onScroll={this.handleScroll}>
-          <div className="topRightMenu">
-            <div>
-              {accessToken && (
-                <div style={circleImageWrapperStyle}>
-                  <CircleImage {...avatarProps} size="32" />
-                  <label className="topRightLabel" style={circleImageStyle}>
-                    {!userName ? email : userName}
-                  </label>
-                </div>
-              )}
-            </div>
-            <IconMenu
-              {...props}
-              iconButtonElement={
-                <IconButton iconStyle={{ fill: 'white' }}>
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-              onClick={this.showPopUpMenu}
-            />
-            <Popover
-              {...props}
-              animated={false}
-              style={popOverStyle}
-              open={isPopUpMenuOpen}
-              anchorEl={anchorEl}
-              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-              onRequestClose={this.closePopUpMenu}
-            >
-              <Logged />
-            </Popover>
-          </div>
-        </div>
-      );
-    };
-
-    const topLinks = [
-      {
-        label: 'Overview',
-        url: '/overview',
-        style: linkStyle,
-        labelStyle,
-      },
-      {
-        label: 'Devices',
-        url: '/devices',
-        style: linkStyle,
-        labelStyle,
-      },
-      {
-        label: 'Blog',
-        url: '/blog',
-        style: linkStyle,
-        labelStyle,
-      },
-      {
-        label: 'Team',
-        url: '/team',
-        style: linkStyle,
-        labelStyle,
-      },
-      {
-        label: 'Support',
-        url: '/support',
-        style: linkStyle,
-        labelStyle,
-      },
-    ];
-
-    const navLlinks = topLinks.map((link, index) => {
-      if (location.pathname === link.url) {
-        link.labelStyle = linkLabelStyle;
-      }
-      return (
-        <Link key={index} to={link.url} style={link.labelStyle}>
-          {link.label}
-        </Link>
-      );
-    });
-    const menuLlinks = topLinks.map((link, index) => {
-      return (
-        <MenuItem
-          key={index}
-          primaryText={link.label}
-          className="drawerItem"
-          containerElement={<Link to={link.url} />}
-        />
-      );
-    });
-
-    const TopMenu = props => (
-      <div
-        style={{ position: 'relative', top: '-11px', display: showLeftMenu }}
-      >
-        <div
-          className="top-menu"
-          style={{ position: 'relative', left: '46px' }}
-        >
-          {navLlinks}
-        </div>
-      </div>
-    );
-    const themeBackgroundColor =
-      settings && settings.theme === 'dark' ? 'rgb(25, 50, 76)' : '#4285f4';
     return (
       <div>
-        <header
-          className="nav-down"
-          style={{ backgroundColor: themeBackgroundColor }}
-        >
-          <AppBar
-            id="headerSection"
-            className="topAppBar"
-            title={
-              <div id="rightIconButton">
-                <Link
-                  to="/"
-                  style={{
-                    float: 'left',
-                    marginTop: '-10px',
-                    height: '25px',
-                    width: '122px',
-                  }}
+        <AppBar position="static">
+          <Toolbar className="app-bar" variant="dense">
+            <FlexContainer>
+              <BurgerMenuContainer>
+                <IconButton
+                  aria-label="Menu"
+                  color="inherit"
+                  onClick={this.handleDrawerToggle}
                 >
-                  <img src={susiWhite} alt="susi-logo" className="siteTitle" />
-                </Link>
-                <TopMenu />
-              </div>
-            }
-            style={{
-              backgroundColor: themeBackgroundColor,
-              height: '46px',
-              boxShadow: 'none',
-            }}
-            showMenuIconButton={showLeftMenu !== 'none'}
-            iconStyleLeft={{ marginTop: '-2px' }}
-            iconStyleRight={{ marginTop: '-2px' }}
-            iconElementRight={<TopRightMenu />}
-          />
-        </header>
-        <Drawer
-          docked={false}
-          width={200}
-          containerStyle={{ overflow: 'hidden' }}
-          open={isDrawerOpen}
-          onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}
-        >
-          <AppBar
-            className="drawerAppBar"
-            title={
+                  <MenuIcon />
+                </IconButton>
+              </BurgerMenuContainer>
               <div>
-                <a href={baseUrl} style={{ float: 'left', marginTop: '-10px' }}>
-                  <img src={susiWhite} alt="susi-logo" className="siteTitle" />
-                </a>
-                <TopMenu />
+                <Link to="/" style={{ outline: '0' }}>
+                  <SusiLogo src={susiWhite} alt="susi-logo" />
+                </Link>
               </div>
-            }
-            style={{
-              backgroundColor: '#4285f4',
-              height: '46px',
-              boxShadow: 'none',
-            }}
-            onClick={this.handleDrawerClose}
-          />
-          {menuLlinks}
+              <TopMenu />
+            </FlexContainer>
+            <div>
+              <div onScroll={this.handleScroll}>
+                <TopRightMenuContainer>
+                  <div>
+                    {accessToken && (
+                      <FlexContainer>
+                        <CircleImage {...avatarProps} size="32" />
+                        <UserDetail>{!userName ? email : userName}</UserDetail>
+                      </FlexContainer>
+                    )}
+                  </div>
+                  <IconButton
+                    aria-owns={open ? 'menu-popper' : undefined}
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={this.handleMenuClick}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-popper"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={this.handleMenuClose}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    getContentAnchorEl={null}
+                  >
+                    <MenuItem key="placeholder" style={{ display: 'none' }} />
+                    <Logged />
+                  </Menu>
+                </TopRightMenuContainer>
+              </div>
+            </div>
+          </Toolbar>
+        </AppBar>
+        <Drawer open={drawerOpen} onClose={this.handleDrawerToggle}>
+          <List>{menuLinks}</List>
         </Drawer>
       </div>
     );
@@ -465,20 +447,12 @@ class StaticAppBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { app, settings } = store;
   return {
-    ...app,
-    ...settings,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
+    app: store.app,
   };
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(StaticAppBar);
