@@ -52,29 +52,17 @@ import DevicesTab from './DevicesTab.react';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
 
+import {
+  addUserDevice,
+  removeUserDevice,
+  getUserSettings,
+} from '../../../apis/index';
+
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 
 let defaults = UserPreferencesStore.getPreferences();
-let defaultServerURL = defaults.Server;
-
-let BASE_URL = '';
-if (
-  cookies.get('serverUrl') === defaultServerURL ||
-  cookies.get('serverUrl') === null ||
-  cookies.get('serverUrl') === undefined
-) {
-  BASE_URL = defaultServerURL;
-} else {
-  BASE_URL = cookies.get('serverUrl');
-}
-
-let url =
-  BASE_URL +
-  '/aaa/listUserSettings.json?' +
-  'access_token=' +
-  cookies.get('loggedIn');
 
 const divStyle = {
   textAlign: 'left',
@@ -195,27 +183,14 @@ class Settings extends Component {
     });
 
     // Make API call to the endpoint to delete the device on the server side
-    $.ajax({
-      url:
-        BASE_URL +
-        '/aaa/removeUserDevices.json?macid=' +
-        macid +
-        '&access_token=' +
-        cookies.get('loggedIn'),
-      dataType: 'jsonp',
-      crossDomain: true,
-      timeout: 3000,
-      async: false,
-      success: function(response) {
-        console.log(response);
-      },
-      error: function(errorThrown) {
-        console.log(errorThrown);
-      },
-      complete: function(jqXHR, textStatus) {
+    removeUserDevice({ macid })
+      .then(payload => {})
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
         location.reload();
-      },
-    });
+      });
   };
 
   // startEditing() function handles editing of rows
@@ -247,32 +222,12 @@ class Settings extends Component {
 
     // Make API call to the endpoint for adding new devices
     // to overwrite the updated config of devices on the existing config on the server
-    $.ajax({
-      url:
-        BASE_URL +
-        '/aaa/addNewDevice.json?macid=' +
-        macid +
-        '&name=' +
-        devicename +
-        '&room=' +
-        room +
-        '&latitude=' +
-        latitude +
-        '&longitude=' +
-        longitude +
-        '&access_token=' +
-        cookies.get('loggedIn'),
-      dataType: 'jsonp',
-      crossDomain: true,
-      timeout: 3000,
-      async: false,
-      success: function(response) {
-        console.log(response);
-      },
-      error: function(errorThrown) {
-        console.log(errorThrown);
-      },
-    });
+
+    addUserDevice({ macid, devicename, room, latitude, longitude })
+      .then(payload => {})
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   // handleChange() function handles changing of textfield values on keypresses
@@ -292,30 +247,9 @@ class Settings extends Component {
 
   // apiCall() function fetches user settings and devices from the server
   apiCall = () => {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      dataType: 'jsonp',
-      statusCode: {
-        404: function(xhr) {
-          if (window.console) {
-            console.log(xhr.responseText);
-          }
-          console.log('Error 404: Resources not found!');
-          document.location.reload();
-        },
-        503: function(xhr) {
-          if (window.console) {
-            console.log(xhr.responseText);
-          }
-          console.log('Error 503: Server not responding!');
-          document.location.reload();
-        },
-      },
-      crossDomain: true,
-      timeout: 3000,
-      async: false,
-      success: function(response) {
+    getUserSettings()
+      .then(payload => {
+        const { devices } = payload;
         let obj = [];
         let mapObj = [];
         let devicenames = [];
@@ -323,24 +257,26 @@ class Settings extends Component {
         let macids = [];
         let centerLat = 0;
         let centerLng = 0;
-        if (response.devices) {
-          let keys = Object.keys(response.devices);
+        if (devices) {
+          let keys = Object.keys(devices);
           let devicesNotAvailable = 0;
 
           // Extract device info and store them in an object, namely myObj
           keys.forEach(i => {
+            const { name, room, geolocation } = devices[i];
+            const { latitude, longitude } = geolocation;
             let myObj = {
               macid: i,
-              devicename: response.devices[i].name,
-              room: response.devices[i].room,
-              latitude: response.devices[i].geolocation.latitude,
-              longitude: response.devices[i].geolocation.longitude,
+              devicename: name,
+              room,
+              latitude,
+              longitude,
             };
 
             // Store location info of the device for the Map View
             let locationData = {
-              lat: parseFloat(response.devices[i].geolocation.latitude),
-              lng: parseFloat(response.devices[i].geolocation.longitude),
+              lat: parseFloat(latitude),
+              lng: parseFloat(longitude),
             };
             if (
               myObj.latitude === 'Latitude not available.' ||
@@ -348,10 +284,8 @@ class Settings extends Component {
             ) {
               devicesNotAvailable++;
             } else {
-              centerLat += parseFloat(response.devices[i].geolocation.latitude);
-              centerLng += parseFloat(
-                response.devices[i].geolocation.longitude,
-              );
+              centerLat += parseFloat(latitude);
+              centerLng += parseFloat(longitude);
             }
 
             let location = {
@@ -359,8 +293,8 @@ class Settings extends Component {
             };
             obj.push(myObj);
             mapObj.push(location);
-            devicenames.push(response.devices[i].name);
-            rooms.push(response.devices[i].room);
+            devicenames.push(name);
+            rooms.push(room);
             macids.push(i);
             this.setState({
               dataFetched: true,
@@ -378,33 +312,32 @@ class Settings extends Component {
           }
           if (mapObj.length) {
             this.setState({
-              mapObj: mapObj,
-              centerLat: centerLat,
-              centerLng: centerLng,
-              devicesNotAvailable: devicesNotAvailable,
+              mapObj,
+              centerLat,
+              centerLng,
+              devicesNotAvailable,
             });
           }
           if (devicenames.length) {
             this.setState({
-              devicenames: devicenames,
+              devicenames,
             });
           }
           if (rooms.length) {
             this.setState({
-              rooms: rooms,
+              rooms,
             });
           }
           if (macids.length) {
             this.setState({
-              macids: macids,
+              macids,
             });
           }
         }
-      }.bind(this),
-      error: function(errorThrown) {
-        console.log(errorThrown);
-      },
-    });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   // Boolean to store the state of preview i.e which theme to display
