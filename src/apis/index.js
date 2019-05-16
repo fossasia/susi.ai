@@ -45,15 +45,15 @@ export function setUserSettings(payload) {
 }
 
 export function removeUserDevice(payload) {
-  const { macId } = payload;
+  const { macid } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/removeUserDevices.json`;
-  return ajax.get(url, { macid: macId });
+  return ajax.get(url, { macid });
 }
 
 export function addUserDevice(payload) {
-  const { macId, name, room, latitude, longitude } = payload;
+  const { macid, devicename: name, room, latitude, longitude } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/addNewDevice.json`;
-  return ajax.get(url, { macid: macId, name, room, latitude, longitude });
+  return ajax.get(url, { macid, name, room, latitude, longitude });
 }
 
 export function getForgotPassword(payload) {
