@@ -32,7 +32,7 @@
     line-height: 22px;
     text-align: justify;
     margin: 0 auto;
-    padding: 100px 20px 100px 20px;
+    padding: 2.5rem 0;
     position: relative;
     max-width: 100%;
     width: 935px;
@@ -43,41 +43,19 @@
     -ms-flex-pack: justify;
     flex-flow: row wrap;
     justify-content: space-between;
-    border-bottom: 1px solid #dfdfdf;
 }
-.noUnderline span a{
-    text-decoration: none;
-}
-.noUnderline span a:hover{
-    color: inherit;
-}    
+
 .section_blog a{
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
     color: inherit;
     height: 30px;
-    word-break: break-all;
 }
 .section_blog a:hover{
-    text-decoration: none;
+    text-decoration: underline;
     color: rgba(51,51,51,0.7);
 }
-.section_blog{
-    font-size: 16px;
-    text-align: justify;
-}
-.section_blog p{
-    font-size: 16px;
-    text-align: justify;
-}
-.section_blog p span{
-    font-size: 16px;
-    text-align: justify;
-}
-.cardActions{
-    background: #f7f7f7;
-    padding: 50px 50px 50px 50px !important;
-}
+
 .section_blog img{
     text-align: center;
     display: block;
@@ -87,56 +65,7 @@
     padding-left: 10px;
     font-size: 18px;
 }
-.categoryContainer{
-    color: rgba(51,51,51,0.7);
-    line-height: 25px;
-    padding: 0 10px 0 0;
-}
-.categoryContainer span:after { content: ", "; }
-.categoryContainer span:last-child:after { content: ""; }
-.categoryContainer a{
-    text-decoration: none;
-}
-.categoryContainer a:hover{
-    text-decoration: underline
-}    
-.authorsContainer{
-    color: rgba(51,51,51,0.7);
-    line-height: 25px;
-    padding: 0 10px 0 0;
-}
-.authorsContainer a{
-    text-decoration: none
-}   
-.authorsContainer a:hover{
-    text-decoration: underline
-}    
-.calendarContainer{
-    color: rgba(51,51,51,0.7);
-    line-height: 25px;
-    float: left;
-    padding: 0 10px 0 0;
-    
-}
-.calendarContainer a{
-    text-decoration: none;
-}
-.calendarContainer a:hover{
-    text-decoration: underline
-}    
-.tagsContainer a { text-decoration: none; display: inline; list-style-type: none; }
-.tagsContainer span:after { content: ", "; }
-.tagsContainer span:last-child:after { content: ""; }
-.tagsContainer{
-    line-height: 25px;
-    color: rgba(51,51,51,0.7);
-    margin: 0 5px;
-    padding: 0 10px 0 0;
-    
-}
-.tagsContainer a:hover{
-    text-decoration: underline;
-}
+
 .tagIcon{
     padding-right: 10px;
 }

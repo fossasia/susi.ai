@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
 import { connect } from 'react-redux';
-import {
-  Card,
-  CardMedia,
-  CardTitle,
-  CardText,
-  CardActions,
-} from 'material-ui/Card';
+import { Card, CardMedia } from '@material-ui/core';
 import dateFormat from 'dateformat';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Fab from '@material-ui/core/Fab';
 import { ShareButtons, generateShareIcon } from 'react-share';
+import styled from 'styled-components';
+import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
 import Footer from '../Footer/Footer.react';
@@ -20,8 +16,8 @@ import { scrollToTopAnimation } from '../../utils/animateScroll';
 import { getBlogReponse } from '../../apis';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
-import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import Previous from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import Next from '@material-ui/icons/KeyboardArrowRight';
+import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../images/susi-logo.svg';
 import ToTopButton from '../Button/ToTopButton.react';
 const { FacebookShareButton, TwitterShareButton } = ShareButtons;
@@ -70,6 +66,47 @@ const arrDiff = (a1, a2) => {
   }
   return diff;
 };
+
+const styles = {
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  card: {
+    position: 'relative',
+  },
+  overlay: {
+    position: 'relative',
+    left: '0px',
+    background: 'rgba(0, 0, 0, 0.54)',
+    width: '100%',
+    padding: '1rem',
+    marginTop: '-3.5rem',
+  },
+  link: {
+    fontSize: '0.875rem',
+    textDecoration: 'none',
+  },
+};
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: baseline;
+  color: rgba(51, 51, 51, 0.7);
+  line-height: 25px;
+  margin-right: 2rem;
+`;
+
+const BlogPostContainer = styled.div`
+  padding: 1rem;
+`;
+
+const BlogFooter = styled.div`
+  padding: 3rem;
+  background: #f7f7f7;
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 class Blog extends Component {
   static propTypes = {
@@ -217,10 +254,10 @@ class Blog extends Component {
                   });
 
                   const tags = arrDiff(category, posts.categories);
-                  const fCategory = category.map(cat => (
-                    <span key={cat}>
+                  const fCategory = category
+                    .map(cat => (
                       <a
-                        className="tagname"
+                        key={cat}
                         href={
                           'http://blog.fossasia.org/category/' +
                           cat.replace(/\s+/g, '-').toLowerCase()
@@ -229,12 +266,12 @@ class Blog extends Component {
                       >
                         {cat}
                       </a>
-                    </span>
-                  ));
-                  const ftags = tags.map(tag => (
-                    <span key={tag}>
+                    ))
+                    .reduce((prev, curr) => [prev, ', ', curr]);
+                  const ftags = tags
+                    .map(tag => (
                       <a
-                        className="tagname"
+                        key={tag}
                         href={
                           'http://blog.fossasia.org/tag/' +
                           tag.replace(/\s+/g, '-').toLowerCase()
@@ -243,8 +280,8 @@ class Blog extends Component {
                       >
                         {tag}
                       </a>
-                    </span>
-                  ));
+                    ))
+                    .reduce((prev, curr) => [prev, ', ', curr]);
                   let htmlContent = content.replace(/<img.*?>/, '');
                   htmlContent = renderHTML(htmlContent);
                   let image = susi;
@@ -257,42 +294,46 @@ class Blog extends Component {
                   const d = new Date(date[0]);
                   return (
                     <div key={i} className="section_blog">
-                      <Card style={{ width: '100%', padding: '0' }}>
+                      <Card style={styles.card}>
                         <CardMedia
-                          overlay={
-                            <CardTitle
-                              className="noUnderline"
-                              subtitle={renderHTML(
-                                '<a href="' +
-                                  posts.link +
-                                  '" >Published on ' +
-                                  dateFormat(d, 'dddd, mmmm dS, yyyy') +
-                                  '</a>',
-                              )}
-                            />
-                          }
-                        >
-                          <img
-                            className="featured_image"
-                            src={image}
-                            alt={posts.title}
-                          />
-                        </CardMedia>
-                        <CardTitle
-                          className="noUnderline"
-                          title={posts.title}
-                          subtitle={renderHTML(
-                            'by <a href="http://blog.fossasia.org/author/' +
-                              posts.author +
-                              '" >' +
-                              posts.author +
-                              '</a>',
-                          )}
+                          image={image}
+                          className="featured_image"
+                          style={styles.media}
                         />
-                        <CardText style={{ fontSize: '16px' }}>
-                          {' '}
-                          {htmlContent}
-                        </CardText>
+                        <div style={styles.overlay}>
+                          <a
+                            style={{
+                              ...styles.link,
+                              color: 'rgba(255, 255, 255, 0.54)',
+                            }}
+                            href={posts.link}
+                          >{`Published on ${dateFormat(
+                            d,
+                            'dddd, mmmm dS, yyyy',
+                          )}`}</a>
+                        </div>
+                        <BlogPostContainer>
+                          <Typography variant="h4">{posts.title}</Typography>
+                          <Typography
+                            variant="subtitle1"
+                            style={{
+                              ...styles.link,
+                              color: 'rgba(0, 0, 0, 0.54)',
+                              marginBottom: '2rem',
+                            }}
+                          >
+                            {renderHTML(
+                              'by <a href="http://blog.fossasia.org/author/' +
+                                posts.author +
+                                '" >' +
+                                posts.author +
+                                '</a>',
+                            )}
+                          </Typography>
+                          <Typography variant="body1" gutterBottom>
+                            {htmlContent}
+                          </Typography>
+                        </BlogPostContainer>
                         <div className="social-btns">
                           <TwitterShareButton
                             url={posts.guid}
@@ -306,20 +347,20 @@ class Blog extends Component {
                             <FacebookIcon size={32} round={true} />
                           </FacebookShareButton>
                         </div>
-                        <CardActions className="cardActions">
-                          <span className="calendarContainer">
+                        <BlogFooter>
+                          <FlexBox>
                             <i className="fa fa-calendar tagIcon" />
-                            {renderHTML(
-                              '<a href="' +
-                                posts.link +
-                                '">' +
-                                dateFormat(d, 'mmmm dd, yyyy') +
-                                '</a>',
-                            )}
-                          </span>
-                          <span className="authorsContainer">
+                            <a
+                              style={{ whiteSpace: 'nowrap' }}
+                              href={posts.link}
+                            >
+                              {dateFormat(d, 'mmmm dd, yyyy')}
+                            </a>
+                          </FlexBox>
+                          <FlexBox>
                             <i className="fa fa-user tagIcon" />
                             <a
+                              style={{ whiteSpace: 'nowrap' }}
                               rel="noopener noreferrer"
                               href={
                                 'http://blog.fossasia.org/author/' +
@@ -328,36 +369,32 @@ class Blog extends Component {
                             >
                               {posts.author}
                             </a>
-                          </span>
-                          <span className="categoryContainer">
+                          </FlexBox>
+                          <FlexBox>
                             <i className="fa fa-folder-open-o tagIcon" />
                             {fCategory}
-                          </span>
-                          <span className="tagsContainer">
+                          </FlexBox>
+                          <FlexBox>
                             <i className="fa fa-tags tagIcon" />
-                            {ftags}
-                          </span>
-                        </CardActions>
+                            <div>{ftags}</div>
+                          </FlexBox>
+                        </BlogFooter>
                       </Card>
                     </div>
                   );
                 })}
             </div>
             <div className="blog_navigation">
-              <FloatingActionButton
+              <Fab
                 style={prevStyle}
-                backgroundColor={'#4285f4'}
                 onClick={this.previousPage}
+                color="primary"
               >
                 <Previous />
-              </FloatingActionButton>
-              <FloatingActionButton
-                style={nextStyle}
-                backgroundColor={'#4285f4'}
-                onClick={this.nextPage}
-              >
+              </Fab>
+              <Fab style={nextStyle} onClick={this.nextPage} color="primary">
                 <Next />
-              </FloatingActionButton>
+              </Fab>
             </div>
             <div className="post_bottom" />
             <Footer />
