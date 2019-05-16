@@ -13,7 +13,10 @@ import Close from '@material-ui/icons/Close';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import actions from '../../../redux/actions/app';
+import isMobileView from '../../../utils/isMobileView';
 import './ChangePassword.css';
+
+const mobileView = isMobileView();
 
 const styles = {
   closingStyle: {
@@ -32,7 +35,7 @@ const styles = {
     border: '1px solid #ced4da',
     fontSize: 16,
     padding: '0px 12px',
-    width: '17rem',
+    width: mobileView ? '14rem' : '17rem',
   },
   labelStyle: {
     width: '30%',

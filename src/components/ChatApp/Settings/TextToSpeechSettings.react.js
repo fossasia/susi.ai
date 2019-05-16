@@ -8,6 +8,7 @@ import Icon from '@material-ui/core/Icon';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../../Translate/Translate.react';
+import isMobileView from '../../../utils/isMobileView';
 
 class TextToSpeechSettings extends Component {
   constructor(props) {
@@ -151,6 +152,7 @@ class TextToSpeechSettings extends Component {
   };
 
   render() {
+    let mobileView = isMobileView();
     let voiceOutput = this.populateVoiceList();
     return (
       <div className="settingsForm">
@@ -192,7 +194,8 @@ class TextToSpeechSettings extends Component {
             <Translate text="Reset to normal" />
           </Button>
         </div>
-        <div style={{ textAlign: 'center' }}>
+
+        <div style={{ textAlign: mobileView ? 'left' : 'center' }}>
           <Button
             variant="contained"
             className="settingsBtns"

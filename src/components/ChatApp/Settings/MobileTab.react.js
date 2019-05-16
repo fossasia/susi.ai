@@ -7,8 +7,10 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import isMobileView from '../../../utils/isMobileView';
 
 const MobileTab = props => {
+  let mobileView = isMobileView();
   return (
     <div style={props.containerStyle}>
       <div>
@@ -44,13 +46,13 @@ const MobileTab = props => {
             alignItems: 'center',
           }}
         >
-          <div style={{ marginRight: '2rem' }}>
-            <Translate text="Country/region : " />
+          <div style={{ marginRight: mobileView ? '1rem' : '2rem' }}>
+            <Translate text="Country/region :" />
           </div>
           <div>
             <Select
               style={{
-                width: '12rem',
+                width: mobileView ? '9rem' : '12rem',
               }}
               value={props.countryCode ? props.countryCode : 'US'}
               onChange={props.handleCountryChange}
@@ -67,7 +69,9 @@ const MobileTab = props => {
             alignItems: 'center',
           }}
         >
-          <div style={{ marginRight: '2rem' }}>Phone number :</div>
+          <div style={{ marginRight: mobileView ? '1rem' : '2rem' }}>
+            Phone number :
+          </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
               style={{
@@ -86,7 +90,12 @@ const MobileTab = props => {
                 }
               />
             </div>
-            <div style={{ marginLeft: '10px', width: '9rem' }}>
+            <div
+              style={{
+                marginLeft: '10px',
+                width: mobileView ? '8rem' : '9rem',
+              }}
+            >
               <FormControl error={props.phoneNoError !== ''}>
                 <InputLabel>Phone Number</InputLabel>
                 <Input
