@@ -63,8 +63,8 @@
 }
 
 .settingsBtns {
-  top: 5px;
-  margin-left: 20px ;
+  top: 1rem;
+  margin-left: 20px;
 }
 
 .settingsComponents{
@@ -99,6 +99,7 @@
 .settingsSubmit{
       text-align: left ;
       margin-left: 30px;
+      margin-bottom: 1rem;
 }
 
 .setting-item{
@@ -174,14 +175,15 @@
 .email-field:hover{
     cursor: not-allowed;
 }
+
 .time-zone{
   padding-bottom: 30px;
 }
+
 .time-zone-dropdown{
  position: absolute;
  z-index: 99;
 }
-
 
 @media only screen and (max-width: 1060px){
   .settings-list-dropdown{
@@ -218,5 +220,11 @@
 @media screen and (max-width: 500px) {
   .reduceSettingDiv {
     width: 70%;
+  }
+  .settingsSubmit {
+    margin: 0rem 0rem 1.25rem 1.875rem;
+  }
+  .settingsBtns {
+    margin-left: 0rem;
   }
 }
