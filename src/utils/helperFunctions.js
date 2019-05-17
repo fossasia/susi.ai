@@ -36,3 +36,12 @@ export const urlParam = param => {
   }
   return 0;
 };
+
+// Helper Logger to disable console.* in Production mode
+export const Logger = () => {
+  if (isProduction()) {
+    console.log = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+  }
+};
