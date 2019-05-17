@@ -184,14 +184,20 @@ class MessageSection extends Component {
   scrollToBottom = () => {
     const scrollBar = this.scrollarea;
     if (scrollBar) {
-      scrollBar.scrollTop(scrollBar.getScrollHeight());
+      scrollBar.view.scroll({
+        top: scrollBar.getScrollHeight(),
+        behavior: 'smooth',
+      });
     }
   };
 
   scrollToTop = () => {
     const scrollBar = this.scrollarea;
     if (scrollBar) {
-      scrollBar.scrollTop(0);
+      scrollBar.view.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
     }
   };
 
