@@ -97,7 +97,6 @@ class Login extends Component {
   };
 
   handleSubmit = e => {
-    e.preventDefault();
     const { actions, location, history } = this.props;
     const { password, email } = this.state;
 
@@ -222,6 +221,12 @@ class Login extends Component {
     });
   };
 
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
   render() {
     const {
       email,
@@ -244,6 +249,7 @@ class Login extends Component {
         fullWidth={true}
         open={modalProps && modalProps.modalType === 'login'}
         onClose={this.handleDialogClose}
+        onKeyUp={this.onEnterKey}
       >
         <div className="login-form">
           <h3>
@@ -259,6 +265,7 @@ class Login extends Component {
                 aria-describedby="email-error-text"
                 style={{ width: '17rem', height: '2.1rem' }}
                 placeholder="Email"
+                autoFocus={true}
               />
               <FormHelperText error={emailErrorMessage !== ''}>
                 {emailErrorMessage}

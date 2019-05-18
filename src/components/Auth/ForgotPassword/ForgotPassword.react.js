@@ -122,6 +122,12 @@ class ForgotPassword extends Component {
     }
   };
 
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
   render() {
     const { email, emailErrorMessage, loading } = this.state;
     const { modalProps, actions } = this.props;
@@ -136,6 +142,7 @@ class ForgotPassword extends Component {
         onClose={actions.closeModal}
         maxWidth={'sm'}
         fullWidth={true}
+        onKeyUp={this.onEnterKey}
       >
         <div className="forgotPwdForm">
           <h3>
@@ -149,6 +156,7 @@ class ForgotPassword extends Component {
                 onChange={this.handleTextFieldChange}
                 aria-describedby="email-error-text"
                 style={{ width: '256px' }}
+                autofocus={true}
               />
               <FormHelperText error={emailErrorMessage !== ''}>
                 {emailErrorMessage}

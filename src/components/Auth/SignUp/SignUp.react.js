@@ -198,7 +198,6 @@ class SignUp extends Component {
   };
 
   onSignup = event => {
-    event.preventDefault();
     this.setState({
       signupErrorMessage: '',
     });
@@ -271,6 +270,12 @@ class SignUp extends Component {
     }
   };
 
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.onSignup();
+    }
+  };
+
   render() {
     const {
       email,
@@ -310,6 +315,7 @@ class SignUp extends Component {
           modalProps.modalType === 'signUp'
         }
         onClose={actions.closeModal}
+        onKeyUp={this.onEnterKey}
       >
         <div className="signUpForm">
           <h3>
@@ -325,6 +331,7 @@ class SignUp extends Component {
                 aria-describedby="email-error-text"
                 style={{ width: '17rem', height: '2.1rem' }}
                 placeholder="Email"
+                autoFocus={true}
               />
               <FormHelperText error={emailErrorMessage !== ''}>
                 {emailErrorMessage}
