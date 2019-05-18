@@ -12,8 +12,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Close from '@material-ui/icons/Close';
 import Translate from '../../Translate/Translate.react';
 import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
-import actions from '../../../redux/actions/app';
+import appActions from '../../../redux/actions/app';
+import uiActions from '../../../redux/actions/ui';
 import isMobileView from '../../../utils/isMobileView';
+import { DialogContainer } from '../../Commons/Container';
 import './ChangePassword.css';
 
 const mobileView = isMobileView();
@@ -49,10 +51,6 @@ const styles = {
     margin: '0 auto',
     marginBottom: '50px',
   },
-  inputStyle: {
-    height: '35px',
-    marginBottom: '10px',
-  },
 };
 
 class ChangePassword extends Component {
@@ -77,8 +75,6 @@ class ChangePassword extends Component {
       newPasswordConfirmErrorMessage: '',
       dialogMessage: '',
       success: false,
-      showDialog: false,
-      showForgotPasswordDialog: false,
       loading: false,
     };
   }
@@ -99,24 +95,9 @@ class ChangePassword extends Component {
         newPasswordConfirmErrorMessage: '',
         dialogMessage: '',
         success: false,
-        showDialog: false,
-        showForgotPasswordDialog: false,
         loading: false,
       });
     }
-  };
-
-  handleCloseForgotPassword = event => {
-    this.setState({
-      showForgotPasswordDialog: false,
-    });
-  };
-
-  onForgotPassword = event => {
-    event.preventDefault();
-    this.setState({
-      showForgotPasswordDialog: true,
-    });
   };
 
   // Handle changes to current, new and confirm new passwords
@@ -245,14 +226,12 @@ class ChangePassword extends Component {
           this.setState({
             dialogMessage,
             success,
-            showDialog: true,
             loading: false,
           });
         })
         .catch(error => {
           this.setState({
             dialogMessage: 'Failed. Try Again',
-            showDialog: true,
             loading: false,
           });
         });
@@ -269,13 +248,11 @@ class ChangePassword extends Component {
       newPasswordConfirmErrorMessage,
       newPasswordScore,
       newPasswordStrength,
-      showForgotPasswordDialog,
       dialogMessage,
-      showDialog,
       loading,
     } = this.state;
 
-    const { settings } = this.props;
+    const { settings, actions } = this.props;
 
     const isValid =
       !passwordErrorMessage &&
@@ -348,7 +325,11 @@ class ChangePassword extends Component {
         </div>
         <div style={submitBtnStyle}>
           <div className="forgot">
-            <a onClick={this.onForgotPassword}>Forgot your password?</a>
+            <a
+              onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
+            >
+              Forgot your password?
+            </a>
           </div>
           <div>
             <Button
@@ -368,26 +349,22 @@ class ChangePassword extends Component {
         </div>
 
         {/* Forgot Password Modal */}
-        <div className="ModalDiv" style={{ width: '50%' }}>
-          <Dialog
-            open={showForgotPasswordDialog}
-            onClose={this.handleCloseForgotPassword}
-          >
-            <ForgotPassword closeModal={this.handleCloseForgotPassword} />
-          </Dialog>
-        </div>
+        <ForgotPassword />
 
-        {dialogMessage && (
-          <div>
-            <Dialog open={showDialog} onClose={this.handleCloseResetPassword}>
-              <Translate text={dialogMessage} />
-              <Close
-                style={closingStyle}
-                onClick={this.handleCloseResetPassword}
-              />
-            </Dialog>
-          </div>
-        )}
+        <Dialog
+          open={dialogMessage}
+          onClose={this.handleCloseResetPassword}
+          maxWidth={'xs'}
+          fullWidth={true}
+        >
+          <DialogContainer>
+            <Translate text={dialogMessage} />
+            <Close
+              style={closingStyle}
+              onClick={this.handleCloseResetPassword}
+            />
+          </DialogContainer>
+        </Dialog>
       </div>
     );
   }
@@ -402,7 +379,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
   };
 }
 

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import appActions from '../../../redux/actions/app';
 import messagesActions from '../../../redux/actions/messages';
+import uiActions from '../../../redux/actions/ui';
 
 // Components
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -62,16 +63,12 @@ const styles = {
 
 class Login extends Component {
   static propTypes = {
-    handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
-    onRequestClose: PropTypes.func,
     actions: PropTypes.object,
-    openLogin: PropTypes.bool,
-    onRequestOpenSignUp: PropTypes.func,
-    onRequestOpenForgotPassword: PropTypes.func,
     openSnackBar: PropTypes.func,
     location: PropTypes.object,
     history: PropTypes.object,
+    modalProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -87,7 +84,7 @@ class Login extends Component {
   }
 
   handleDialogClose = () => {
-    const { onRequestClose } = this.props;
+    const { actions } = this.props;
     this.setState({
       email: '',
       password: '',
@@ -96,12 +93,12 @@ class Login extends Component {
       passwordErrorMessage: '',
       loading: false,
     });
-    onRequestClose();
+    actions.closeModal();
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const { actions, openSnackBar, location, history } = this.props;
+    const { actions, location, history } = this.props;
     const { password, email } = this.state;
 
     if (!email || !password) {
@@ -112,8 +109,8 @@ class Login extends Component {
       actions
         .getLogin({ email, password: encodeURIComponent(password) })
         .then(({ payload }) => {
-          const { accessToken, time, uuid } = payload;
           let snackBarMessage;
+          const { accessToken, time, uuid } = payload;
           if (payload.accepted) {
             snackBarMessage = payload.message;
             actions
@@ -142,16 +139,14 @@ class Login extends Component {
               });
             this.handleDialogClose();
           } else {
+            snackBarMessage = 'Login Failed. Try Again';
             this.setState({
               password: '',
               success: false,
               loading: false,
             });
-            snackBarMessage = 'Login Failed. Try Again';
           }
-          openSnackBar({
-            snackBarMessage,
-          });
+          actions.openSnackBar({ snackBarMessage });
         })
         .catch(error => {
           console.log(error);
@@ -160,15 +155,11 @@ class Login extends Component {
             success: false,
             loading: false,
           });
-          openSnackBar({
+          actions.openSnackBar({
             snackBarMessage: 'Login Failed. Try Again',
           });
         });
     }
-  };
-
-  handleForgotPassword = () => {
-    this.props.handleForgotPassword();
   };
 
   // Handle changes in email and password
@@ -239,21 +230,19 @@ class Login extends Component {
       passwordErrorMessage,
       loading,
     } = this.state;
-    const {
-      openLogin,
-      onRequestOpenSignUp,
-      onRequestOpenForgotPassword,
-    } = this.props;
+    const { actions } = this.props;
     const { fieldStyle, closingStyle } = styles;
 
     const isValid =
       email && !emailErrorMessage && password && !passwordErrorMessage;
 
+    const { modalProps } = this.props;
+
     return (
       <Dialog
         maxWidth={'sm'}
         fullWidth={true}
-        open={openLogin}
+        open={modalProps && modalProps.modalType === 'login'}
         onClose={this.handleDialogClose}
       >
         <div className="login-form">
@@ -310,11 +299,14 @@ class Login extends Component {
           <div className="login-links-section">
             <span
               className="forgot-password"
-              onClick={onRequestOpenForgotPassword}
+              onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
             >
               <Translate text="Forgot Password?" />
             </span>
-            <span className="sign-up" onClick={onRequestOpenSignUp}>
+            <span
+              className="sign-up"
+              onClick={() => actions.openModal({ modalType: 'signUp' })}
+            >
               <Translate text="Sign up for SUSI" />
             </span>
           </div>
@@ -328,15 +320,22 @@ class Login extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...appActions, ...messagesActions },
+      { ...appActions, ...messagesActions, ...uiActions },
       dispatch,
     ),
   };
 }
 
+function mapStateToProps(store) {
+  return {
+    ...store.skills,
+    modalProps: store.ui.modalProps,
+  };
+}
+
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(Login),
 );

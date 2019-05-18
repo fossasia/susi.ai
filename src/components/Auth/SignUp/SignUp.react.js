@@ -19,7 +19,8 @@ import zxcvbn from 'zxcvbn';
 import './SignUp.css';
 import Translate from '../../Translate/Translate.react';
 import { isEmail } from '../../../utils';
-import actions from '../../../redux/actions/app';
+import appActions from '../../../redux/actions/app';
+import uiActions from '../../../redux/actions/ui';
 import { getEmailExists } from '../../../apis';
 
 const styles = {
@@ -50,13 +51,10 @@ const styles = {
 
 class SignUp extends Component {
   static propTypes = {
-    onRequestClose: PropTypes.func,
-    onLoginSignUp: PropTypes.func,
     actions: PropTypes.object,
-    openSignUp: PropTypes.bool,
-    onRequestOpenLogin: PropTypes.func,
     captchaKey: PropTypes.string,
     openSnackBar: PropTypes.func,
+    modalProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -86,7 +84,7 @@ class SignUp extends Component {
   }
 
   handleDialogClose = () => {
-    const { onRequestClose } = this.props;
+    const { actions } = this.props;
 
     this.setState({
       email: '',
@@ -104,7 +102,7 @@ class SignUp extends Component {
       loading: false,
     });
 
-    onRequestClose();
+    actions.closeModal();
   };
 
   onCaptchaLoad = () => {
@@ -213,7 +211,7 @@ class SignUp extends Component {
       isCaptchaVerified,
     } = this.state;
 
-    const { actions, openSnackBar } = this.props;
+    const { getSignup, openSnackBar } = this.props.actions;
 
     if (!isCaptchaVerified) {
       this.setState({
@@ -227,11 +225,10 @@ class SignUp extends Component {
       isCaptchaVerified
     ) {
       this.setState({ loading: true });
-      actions
-        .getSignup({
-          email,
-          password: encodeURIComponent(password),
-        })
+      getSignup({
+        email,
+        password: encodeURIComponent(password),
+      })
         .then(({ payload }) => {
           if (payload.accepted) {
             this.setState({
@@ -251,7 +248,6 @@ class SignUp extends Component {
             });
             openSnackBar({
               snackBarMessage: 'Signup Failed. Try Again',
-              snackBarDuration: 6000,
             });
           }
         })
@@ -270,7 +266,6 @@ class SignUp extends Component {
           }
           openSnackBar({
             snackBarMessage,
-            snackBarDuration: 6000,
           });
         });
     }
@@ -292,7 +287,7 @@ class SignUp extends Component {
       loading,
       success,
     } = this.state;
-    const { openSignUp, onRequestOpenLogin, captchaKey } = this.props;
+    const { actions, modalProps, captchaKey } = this.props;
 
     const isValid =
       email &&
@@ -309,8 +304,12 @@ class SignUp extends Component {
       <Dialog
         maxWidth={'sm'}
         fullWidth={true}
-        open={openSignUp}
-        onClose={this.handleDialogClose}
+        open={
+          modalProps &&
+          modalProps.isModalOpen &&
+          modalProps.modalType === 'signUp'
+        }
+        onClose={actions.closeModal}
       >
         <div className="signUpForm">
           <h3>
@@ -418,7 +417,7 @@ class SignUp extends Component {
               marginTop: '10px',
             }}
             className="login-links"
-            onClick={onRequestOpenLogin}
+            onClick={() => actions.openModal({ modalType: 'login' })}
           >
             <Translate text="Already have an account? Login here" />
           </span>
@@ -433,12 +432,13 @@ function mapStateToProps(store) {
   const { captchaKey } = store.app.apiKeys;
   return {
     captchaKey,
+    modalProps: store.ui.modalProps,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
   };
 }
 

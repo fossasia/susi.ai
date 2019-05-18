@@ -17,6 +17,8 @@ import CircleImage from '../CircleImage/CircleImage';
 import Info from '@material-ui/icons/Info';
 import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
+import { bindActionCreators } from 'redux';
+import uiActions from '../../redux/actions/ui';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SignUpIcon from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
@@ -149,13 +151,12 @@ class StaticAppBar extends Component {
     history: PropTypes.object,
     settings: PropTypes.object,
     location: PropTypes.object,
-    closeVideo: PropTypes.func,
-    onRequestOpenLogin: PropTypes.func,
     isAdmin: PropTypes.bool,
     accessToken: PropTypes.string,
     email: PropTypes.string,
     userName: PropTypes.string,
     app: PropTypes.string,
+    actions: PropTypes.object,
   };
 
   constructor(props) {
@@ -183,12 +184,9 @@ class StaticAppBar extends Component {
   };
 
   handleLogin = () => {
-    const { onRequestOpenLogin, location, closeVideo } = this.props;
-    if (location.pathname === 'overview') {
-      closeVideo();
-    }
+    const { actions } = this.props;
     this.handleMenuClose();
-    onRequestOpenLogin();
+    actions.openModal({ modalType: 'login' });
   };
 
   handleScroll = event => {
@@ -452,7 +450,13 @@ function mapStateToProps(store) {
   };
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(StaticAppBar);
