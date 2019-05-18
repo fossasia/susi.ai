@@ -14,6 +14,7 @@ const PasswordTab = props => {
 PasswordTab.propTypes = {
   intialSettings: PropTypes.object,
   themeVal: PropTypes.string,
+  actions: PropTypes.object,
 };
 
 export default PasswordTab;

@@ -98,7 +98,6 @@ class Settings extends Component {
     this.customServerMessage = '';
     this.TTSBrowserSupport = TTSBrowserSupport;
     this.state = {
-      themeOpen: false,
       dataFetched: false,
       deviceData: false,
       obj: [],
@@ -161,10 +160,6 @@ class Settings extends Component {
       },
     };
   }
-
-  onThemeRequestClose = () => {
-    this.setState({ themeOpen: false });
-  };
 
   // handleRemove() function handles deletion of devices
   handleRemove = i => {
@@ -468,7 +463,6 @@ class Settings extends Component {
   };
 
   handleThemeChanger = () => {
-    this.setState({ themeOpen: true });
     switch (this.state.currTheme) {
       case 'light': {
         this.applyLightTheme();
@@ -1079,9 +1073,7 @@ class Settings extends Component {
             theme={this.state.theme}
             handleSelectChange={this.handleSelectChange}
             isLoggedIn={cookies.get('loggedIn')}
-            onThemeRequestClose={this.onRequestClose}
             handleThemeChanger={this.handleThemeChanger}
-            themeOpen={this.state.themeOpen}
           />
         );
         break;

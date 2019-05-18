@@ -119,7 +119,7 @@ class Overview extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <StaticAppBar {...this.props} closeVideo={this.closeVideo} />
+        <StaticAppBar {...this.props} />
 
         <div className="section">
           <div className="section-container">

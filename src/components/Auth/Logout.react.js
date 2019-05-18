@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import { isProduction } from '../../utils/helperFunctions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../redux/actions/app';
+import appActions from '../../redux/actions/app';
+import uiActions from '../../redux/actions/ui';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
@@ -18,32 +19,32 @@ const deleteCookie = function(name, options = {}) {
   document.cookie = cookieString;
 };
 
-const Logout = props => {
+const Logout = ({ actions, history }) => {
   deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
   deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
   deleteCookie('emailId', { domain: cookieDomain, path: '/' });
   deleteCookie('username', { domain: cookieDomain, path: '/' });
   deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
-  if (props.history) {
-    props.actions.logout().then(() => {
-      props.openSnackBar({
+  if (history) {
+    actions.logout().then(() => {
+      actions.openSnackBar({
         snackBarMessage: 'You have logged out successfully',
       });
     });
-    props.history.push('/');
+    history.push('/');
   }
   return null;
 };
 
 Logout.propTypes = {
-  openSnackBar: PropTypes.func,
+  actions: PropTypes.object,
   history: PropTypes.object,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
   };
 }
 
