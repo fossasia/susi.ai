@@ -9,12 +9,13 @@ const defaultState = {
   snackBarProps: {
     isSnackBarOpen: false,
     snackBarMessage: '',
+    snackBarDuration: 4000,
   },
 };
 
 export default handleActions(
   {
-    [actionTypes.UI_OPEN_MODAL](state, payload) {
+    [actionTypes.UI_OPEN_MODAL](state, { payload }) {
       return {
         ...state,
         modalProps: {
@@ -29,10 +30,11 @@ export default handleActions(
         modalProps: defaultState.modalProps,
       };
     },
-    [actionTypes.UI_OPEN_SNACKBAR](state, payload) {
+    [actionTypes.UI_OPEN_SNACKBAR](state, { payload }) {
       return {
         ...state,
         snackBarProps: {
+          ...state.snackBarProps,
           isSnackBarOpen: true,
           ...payload,
         },

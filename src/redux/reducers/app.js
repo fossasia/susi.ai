@@ -11,9 +11,10 @@ const defaultState = {
   uuid: '',
   isAdmin: null,
   apiKeys: {},
+  visited: false,
 };
 
-const { emailId, uuid, loggedIn, username } = cookies.getAll();
+const { emailId, uuid, loggedIn, username, visited } = cookies.getAll();
 const cookiesAppValues = {
   email: emailId,
   uuid,
@@ -23,6 +24,7 @@ const cookiesAppValues = {
     countryCode: '',
     countryName: '',
   },
+  visited,
 };
 
 export default handleActions(
@@ -54,6 +56,12 @@ export default handleActions(
       return {
         ...state,
         isAdmin,
+      };
+    },
+    [actionTypes.APP_SET_VISITED_STATE](state, { payload }) {
+      return {
+        ...state,
+        visited: true,
       };
     },
   },
