@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleApiWrapper } from 'google-maps-react';
-import Translate from '../../Translate/Translate.react';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import TableComplex from '../../TableComplex/TableComplex.react';
 import SwipeableViews from 'react-swipeable-views';
 import MapContainer from '../../MapContainer/MapContainer.react';
@@ -9,23 +9,7 @@ import PropTypes from 'prop-types';
 const DevicesTab = props => {
   return (
     <span style={{ right: '40px' }}>
-      <div style={props.containerStyle}>
-        <span>
-          <div style={props.tabHeadingStyle}>
-            <Translate text="Devices" />
-          </div>
-        </span>
-        {props.themeVal === 'light' ? (
-          <hr
-            className="break-line-light"
-            style={{ height: '2px', marginBottom: '10px' }}
-          />
-        ) : (
-          <hr
-            className="break-line-dark"
-            style={{ height: '2px', marginBottom: '10px' }}
-          />
-        )}
+      <SettingsTabWrapper heading="Devices" theme={props.themeVal}>
         {props.deviceData ? (
           <div>
             <SwipeableViews>
@@ -77,7 +61,7 @@ const DevicesTab = props => {
         ) : (
           <div id="subheading">You do not have any devices connected yet!</div>
         )}
-      </div>
+      </SettingsTabWrapper>
     </span>
   );
 };
