@@ -1,5 +1,6 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -18,18 +19,7 @@ const AccountTab = props => {
     );
   }
   return (
-    <div style={props.containerStyle}>
-      <span>
-        <div style={props.tabHeadingStyle}>
-          <Translate text="Account" />
-        </div>
-        {props.themeVal === 'light' ? (
-          <hr className="break-line-light" style={{ height: '2px' }} />
-        ) : (
-          <hr className="break-line-dark" />
-        )}
-      </span>
-
+    <SettingsTabWrapper heading="Account" theme={props.themeVal}>
       <div style={props.headingStyle}>
         <Translate text="User Name" />
       </div>
@@ -83,7 +73,7 @@ const AccountTab = props => {
           />
         </div>
       </div>
-    </div>
+    </SettingsTabWrapper>
   );
 };
 
