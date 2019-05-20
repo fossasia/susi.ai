@@ -131,7 +131,7 @@ const navLinks = topLinks.map((link, index) => {
 
 const menuLinks = topLinks.map(link => {
   return (
-    <ListItem button key={link.label}>
+    <ListItem button key={link.label} component={Link} to={link.url}>
       <ListItemIcon>{link.icon}</ListItemIcon>
       <ListItemText primary={link.label} />
     </ListItem>
