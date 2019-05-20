@@ -1,5 +1,6 @@
 import React from 'react';
 import Translate from '../../Translate/Translate.react';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import PropTypes from 'prop-types';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
@@ -16,30 +17,20 @@ const SpeechTab = props => {
     );
   }
   return (
-    <div style={props.containerStyle}>
-      <div>
-        <div style={props.headingStyle}>
-          <Translate text="Speech Output" />
+    <SettingsTabWrapper heading="Speech Output" theme={props.themeVal}>
+      <FlexContainer>
+        <div>
+          <Translate text="Enable speech output only for speech input" />
         </div>
-        {props.themeVal === 'light' ? (
-          <hr className="break-line-light" style={{ height: '2px' }} />
-        ) : (
-          <hr className="break-line-dark" />
-        )}
-        <FlexContainer>
-          <div>
-            <Translate text="Enable speech output only for speech input" />
-          </div>
-          <div>
-            <Switch
-              color="primary"
-              disabled={!TTSBrowserSupport}
-              onChange={props.handleSpeechOutput}
-              checked={props.speechOutput}
-            />
-          </div>
-        </FlexContainer>
-      </div>
+        <div>
+          <Switch
+            color="primary"
+            disabled={!TTSBrowserSupport}
+            onChange={props.handleSpeechOutput}
+            checked={props.speechOutput}
+          />
+        </div>
+      </FlexContainer>
       <div>
         <div style={props.headingStyle} className="reduceSettingDiv">
           <Translate text="Speech Output Always ON" />
@@ -69,7 +60,7 @@ const SpeechTab = props => {
           headingStyle={props.headingStyle}
         />
       </div>
-    </div>
+    </SettingsTabWrapper>
   );
 };
 
