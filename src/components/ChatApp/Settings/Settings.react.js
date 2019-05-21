@@ -64,12 +64,6 @@ const cookies = new Cookies();
 
 let defaults = UserPreferencesStore.getPreferences();
 
-const divStyle = {
-  textAlign: 'left',
-  padding: '20px',
-  marginLeft: '10px',
-};
-
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -104,7 +98,6 @@ class Settings extends Component {
     this.customServerMessage = '';
     this.TTSBrowserSupport = TTSBrowserSupport;
     this.state = {
-      themeOpen: false,
       dataFetched: false,
       deviceData: false,
       obj: [],
@@ -167,10 +160,6 @@ class Settings extends Component {
       },
     };
   }
-
-  onThemeRequestClose = () => {
-    this.setState({ themeOpen: false });
-  };
 
   // handleRemove() function handles deletion of devices
   handleRemove = i => {
@@ -474,7 +463,6 @@ class Settings extends Component {
   };
 
   handleThemeChanger = () => {
-    this.setState({ themeOpen: true });
     switch (this.state.currTheme) {
       case 'light': {
         this.applyLightTheme();
@@ -1000,11 +988,6 @@ class Settings extends Component {
   render() {
     document.body.style.setProperty('background-image', 'none');
 
-    const bodyStyle = {
-      padding: 0,
-      textAlign: 'center',
-    };
-
     const themeBackgroundColor =
       this.state.intialSettings.theme === 'dark' ? '#19324c' : '#fff';
     const themeForegroundColor =
@@ -1044,32 +1027,6 @@ class Settings extends Component {
       cursor: 'pointer',
     };
 
-    const serverDialogActions = [
-      <RaisedButton
-        key={'Cancel'}
-        label={<Translate text="Cancel" />}
-        backgroundColor={
-          UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'
-        }
-        labelColor="#fff"
-        width="200px"
-        keyboardFocused={false}
-        onClick={() => this.handleServerToggle(false)}
-        style={{ margin: '6px' }}
-      />,
-      <RaisedButton
-        key={'OK'}
-        label={<Translate text="OK" />}
-        backgroundColor={
-          UserPreferencesStore.getTheme() === 'light' ? '#4285f4' : '#19314B'
-        }
-        labelColor="#fff"
-        width="200px"
-        keyboardFocused={false}
-        onClick={() => this.handleServerToggle(true)}
-      />,
-    ];
-
     const radioIconStyle = {
       fill: '#4285f4',
     };
@@ -1080,10 +1037,6 @@ class Settings extends Component {
       color: UserPreferencesStore.getTheme() === 'dark' ? 'white' : 'black',
     };
 
-    const tabHeadingStyle = {
-      fontSize: '1.5rem',
-    };
-
     const headingStyle = {
       marginTop: '1rem',
       marginBottom: '0.5rem',
@@ -1092,165 +1045,153 @@ class Settings extends Component {
 
     let currentSetting = '';
 
+    const { selectedSetting } = this.state;
+
     let voiceOutput = this.populateVoiceList();
-    if (this.state.selectedSetting === 'Microphone') {
-      currentSetting = (
-        <MicrophoneTab
-          containerStyle={divStyle}
-          themeForegroundColor={themeForegroundColor}
-          themeVal={UserPreferencesStore.getTheme()}
-          handleMicInput={this.handleMicInput}
-          tabHeadingStyle={tabHeadingStyle}
-          micInput={this.state.micInput}
-        />
-      );
-    } else if (this.state.selectedSetting === 'Share on Social media') {
-      currentSetting = (
-        <ShareOnSocialMedia
-          containerStyle={divStyle}
-          headingStyle={headingStyle}
-        />
-      );
-    } else if (this.state.selectedSetting === 'Theme') {
-      currentSetting = (
-        <ThemeChangeTab
-          containerStyle={divStyle}
-          tabHeadingStyle={tabHeadingStyle}
-          themeForegroundColor={themeForegroundColor}
-          radioIconStyle={radioIconStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          theme={this.state.theme}
-          handleSelectChange={this.handleSelectChange}
-          isLoggedIn={cookies.get('loggedIn')}
-          onThemeRequestClose={this.onRequestClose}
-          handleThemeChanger={this.handleThemeChanger}
-          themeOpen={this.state.themeOpen}
-        />
-      );
-    } else if (this.state.selectedSetting === 'Speech') {
-      currentSetting = (
-        <SpeechTab
-          containerStyle={divStyle}
-          tabHeadingStyle={tabHeadingStyle}
-          headingStyle={headingStyle}
-          themeForegroundColor={themeForegroundColor}
-          themeVal={UserPreferencesStore.getTheme()}
-          handleSpeechOutputAlways={this.handleSpeechOutputAlways}
-          speechOutputAlways={this.state.speechOutputAlways}
-          speechRate={this.state.speechRate}
-          speechPitch={this.state.speechPitch}
-          ttsLanguage={this.state.ttsLanguage}
-          handleNewTextToSpeech={this.handleNewTextToSpeech}
-          handleSpeechOutput={this.handleSpeechOutput}
-          speechOutput={this.state.speechOutput}
-        />
-      );
-    } else if (
-      this.state.selectedSetting === 'Account' &&
-      cookies.get('loggedIn')
-    ) {
-      currentSetting = (
-        <AccountTab
-          containerStyle={divStyle}
-          themeForegroundColor={themeForegroundColor}
-          inputStyle={inputStyle}
-          headingStyle={headingStyle}
-          tabHeadingStyle={tabHeadingStyle}
-          themeBackgroundColor={themeBackgroundColor}
-          themeVal={UserPreferencesStore.getTheme()}
-          userName={this.state.userName}
-          handleUserName={this.handleUserName}
-          userNameError={this.state.userNameError}
-          identityName={this.state.identity.name}
-          timeZone={this.state.TimeZone}
-          handlePrefLang={this.handlePrefLang}
-          handleTimeZone={this.handleTimeZone}
-          voiceOutput={voiceOutput}
-        />
-      );
-    } else if (
-      this.state.selectedSetting === 'Password' &&
-      cookies.get('loggedIn')
-    ) {
-      currentSetting = (
-        <PasswordTab
-          tabHeadingStyle={tabHeadingStyle}
-          containerStyle={divStyle}
-          intialSettings={this.state.intialSettings}
-          themeVal={UserPreferencesStore.getTheme()}
-          {...this.props}
-        />
-      );
-    } else if (this.state.selectedSetting === 'Devices') {
-      currentSetting = (
-        <DevicesTab
-          tabHeadingStyle={tabHeadingStyle}
-          containerStyle={divStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          deviceData={this.state.deviceData}
-          handleRemove={this.handleRemove}
-          handleRemoveConfirmation={this.handleRemoveConfirmation}
-          startEditing={this.startEditing}
-          editIdx={this.state.editIdx}
-          stopEditing={this.stopEditing}
-          handleChange={this.handleChange}
-          tableData={this.state.obj}
-          mapObj={this.state.mapObj}
-          mapKey={this.props.mapKey}
-          centerLat={this.state.centerLat}
-          centerLng={this.state.centerLng}
-          deviceNames={this.state.devicenames}
-          rooms={this.state.rooms}
-          macIds={this.state.macids}
-          slideIndex={this.state.slideIndex}
-          devicesNotAvailable={this.state.devicesNotAvailable}
-        />
-      );
-    } else if (
-      this.state.selectedSetting === 'Mobile' &&
-      cookies.get('loggedIn')
-    ) {
-      currentSetting = (
-        <MobileTab
-          containerStyle={divStyle}
-          floatingLabelStyle={floatingLabelStyle}
-          headingStyle={headingStyle}
-          tabHeadingStyle={tabHeadingStyle}
-          themeBackgroundColor={themeBackgroundColor}
-          themeForegroundColor={themeForegroundColor}
-          underlineStyle={underlineStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          phoneNo={this.state.PhoneNo}
-          phoneNoError={this.state.phoneNoError}
-          countryCode={this.state.countryCode}
-          countries={countries}
-          countryData={countryData.countries}
-          handleCountryChange={this.handleCountryChange}
-          handleTelephoneNoChange={this.handleTelephoneNoChange}
-        />
-      );
-    } else {
-      currentSetting = (
-        <ChatAppTab
-          tabHeadingStyle={tabHeadingStyle}
-          containerStyle={divStyle}
-          themeVal={UserPreferencesStore.getTheme()}
-          themeForegroundColor={themeForegroundColor}
-          enterAsSend={this.state.enterAsSend}
-          handleEnterAsSend={this.handleEnterAsSend}
-        />
-      );
+    switch (selectedSetting) {
+      case 'Microphone': {
+        currentSetting = (
+          <MicrophoneTab
+            themeForegroundColor={themeForegroundColor}
+            themeVal={UserPreferencesStore.getTheme()}
+            handleMicInput={this.handleMicInput}
+            micInput={this.state.micInput}
+          />
+        );
+        break;
+      }
+      case 'Share on Social media': {
+        currentSetting = <ShareOnSocialMedia headingStyle={headingStyle} />;
+        break;
+      }
+      case 'Theme': {
+        currentSetting = (
+          <ThemeChangeTab
+            themeForegroundColor={themeForegroundColor}
+            radioIconStyle={radioIconStyle}
+            themeVal={UserPreferencesStore.getTheme()}
+            theme={this.state.theme}
+            handleSelectChange={this.handleSelectChange}
+            isLoggedIn={cookies.get('loggedIn')}
+            handleThemeChanger={this.handleThemeChanger}
+          />
+        );
+        break;
+      }
+      case 'Speech': {
+        currentSetting = (
+          <SpeechTab
+            headingStyle={headingStyle}
+            themeForegroundColor={themeForegroundColor}
+            themeVal={UserPreferencesStore.getTheme()}
+            handleSpeechOutputAlways={this.handleSpeechOutputAlways}
+            speechOutputAlways={this.state.speechOutputAlways}
+            speechRate={this.state.speechRate}
+            speechPitch={this.state.speechPitch}
+            ttsLanguage={this.state.ttsLanguage}
+            handleNewTextToSpeech={this.handleNewTextToSpeech}
+            handleSpeechOutput={this.handleSpeechOutput}
+            speechOutput={this.state.speechOutput}
+          />
+        );
+        break;
+      }
+      case 'Account': {
+        currentSetting = (
+          <AccountTab
+            themeForegroundColor={themeForegroundColor}
+            inputStyle={inputStyle}
+            headingStyle={headingStyle}
+            themeBackgroundColor={themeBackgroundColor}
+            themeVal={UserPreferencesStore.getTheme()}
+            userName={this.state.userName}
+            handleUserName={this.handleUserName}
+            userNameError={this.state.userNameError}
+            identityName={this.state.identity.name}
+            timeZone={this.state.TimeZone}
+            handlePrefLang={this.handlePrefLang}
+            handleTimeZone={this.handleTimeZone}
+            voiceOutput={voiceOutput}
+          />
+        );
+        break;
+      }
+      case 'Password': {
+        currentSetting = (
+          <PasswordTab
+            intialSettings={this.state.intialSettings}
+            themeVal={UserPreferencesStore.getTheme()}
+            {...this.props}
+          />
+        );
+        break;
+      }
+      case 'Devices': {
+        currentSetting = (
+          <DevicesTab
+            themeVal={UserPreferencesStore.getTheme()}
+            deviceData={this.state.deviceData}
+            handleRemove={this.handleRemove}
+            handleRemoveConfirmation={this.handleRemoveConfirmation}
+            startEditing={this.startEditing}
+            editIdx={this.state.editIdx}
+            stopEditing={this.stopEditing}
+            handleChange={this.handleChange}
+            tableData={this.state.obj}
+            mapObj={this.state.mapObj}
+            mapKey={this.props.mapKey}
+            centerLat={this.state.centerLat}
+            centerLng={this.state.centerLng}
+            deviceNames={this.state.devicenames}
+            rooms={this.state.rooms}
+            macIds={this.state.macids}
+            slideIndex={this.state.slideIndex}
+            devicesNotAvailable={this.state.devicesNotAvailable}
+          />
+        );
+        break;
+      }
+      case 'Mobile': {
+        currentSetting = (
+          <MobileTab
+            floatingLabelStyle={floatingLabelStyle}
+            headingStyle={headingStyle}
+            themeBackgroundColor={themeBackgroundColor}
+            themeForegroundColor={themeForegroundColor}
+            underlineStyle={underlineStyle}
+            themeVal={UserPreferencesStore.getTheme()}
+            phoneNo={this.state.PhoneNo}
+            phoneNoError={this.state.phoneNoError}
+            countryCode={this.state.countryCode}
+            countries={countries}
+            countryData={countryData.countries}
+            handleCountryChange={this.handleCountryChange}
+            handleTelephoneNoChange={this.handleTelephoneNoChange}
+          />
+        );
+        break;
+      }
+      default: {
+        currentSetting = (
+          <ChatAppTab
+            themeVal={UserPreferencesStore.getTheme()}
+            themeForegroundColor={themeForegroundColor}
+            enterAsSend={this.state.enterAsSend}
+            handleEnterAsSend={this.handleEnterAsSend}
+          />
+        );
+      }
     }
 
     let blueThemeColor = { color: 'rgb(66, 133, 244)' };
-    let menuItems = cookies.get('loggedIn') ? (
+    let menuItems = (
       <div>
         <div className="settings-list">
           <Menu
             selectedMenuItemStyle={blueThemeColor}
             style={{ width: '100%' }}
             onChange={this.loadSettings}
-            value={this.state.selectedSetting}
+            value={selectedSetting}
           >
             <MenuItem
               style={{ color: themeForegroundColor }}
@@ -1404,7 +1345,7 @@ class Settings extends Component {
           <DropDownMenu
             selectedMenuItemStyle={blueThemeColor}
             onChange={this.loadSettings}
-            value={this.state.selectedSetting}
+            value={selectedSetting}
             labelStyle={{ color: themeForegroundColor }}
             menuStyle={{ backgroundColor: themeBackgroundColor }}
             menuItemStyle={{ color: themeForegroundColor }}
@@ -1449,136 +1390,6 @@ class Settings extends Component {
             <MenuItem
               primaryText="Mobile"
               value="Mobile"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Share on Social media"
-              value="Share on Social media"
-              className="setting-item"
-            />
-          </DropDownMenu>
-        </div>
-      </div>
-    ) : (
-      <div>
-        <div className="settings-list">
-          <Menu
-            selectedMenuItemStyle={blueThemeColor}
-            style={{ width: '100%', height: '100%' }}
-            onChange={this.loadSettings}
-            value={this.state.selectedSetting}
-          >
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="ChatApp"
-              className="setting-item"
-              leftIcon={<ChatIcon color={menuIconColor} />}
-            >
-              ChatApp<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Theme"
-              className="setting-item"
-              leftIcon={<ThemeIcon color={menuIconColor} />}
-            >
-              Theme<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Microphone"
-              className="setting-item"
-              leftIcon={<VoiceIcon color={menuIconColor} />}
-            >
-              Microphone<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Speech"
-              className="setting-item"
-              leftIcon={<SpeechIcon color={menuIconColor} />}
-            >
-              Speech<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Share on Social media"
-              className="setting-item"
-              leftIcon={<ShareIcon color={menuIconColor} />}
-            >
-              Share on Social media<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-          </Menu>
-        </div>
-        <div className="settings-list-dropdown">
-          <DropDownMenu
-            selectedMenuItemStyle={blueThemeColor}
-            onChange={this.loadSettings}
-            value={this.state.selectedSetting}
-            style={{ width: '100%' }}
-            labelStyle={{ color: themeForegroundColor }}
-            menuStyle={{ backgroundColor: themeBackgroundColor }}
-            menuItemStyle={{ color: themeForegroundColor }}
-            autoWidth={false}
-          >
-            <MenuItem
-              primaryText="ChatApp"
-              value="ChatApp"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Theme"
-              value="Theme"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Microphone"
-              value="Microphone"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Speech"
-              value="Speech"
               className="setting-item"
             />
             <MenuItem
@@ -1662,7 +1473,7 @@ class Settings extends Component {
                   onClick={this.handleSubmit}
                 />
               )}
-              {this.state.selectedSetting !== 'Account' ? (
+              {selectedSetting !== 'Account' ? (
                 ''
               ) : (
                 <div style={{ marginRight: '20px' }}>
@@ -1697,42 +1508,22 @@ class Settings extends Component {
               )}
             </div>
           </Paper>
-        </div>
-        {/* Change Server */}
-        <Dialog
-          actions={serverDialogActions}
-          modal={false}
-          open={this.state.showServerChangeDialog}
-          autoScrollBodyContent={true}
-          bodyStyle={bodyStyle}
-          onRequestClose={() => this.handleServerToggle(false)}
-        >
-          <div>
-            <h3>
-              <Translate text="Change Server" />
-            </h3>
-            <Translate text="Please login again to change SUSI server" />
-            <Close
-              style={closingStyle}
-              onClick={() => this.handleServerToggle(false)}
+          {/* ForgotPassword */}
+          <Dialog
+            className="dialogStyle"
+            modal={false}
+            open={this.state.showForgotPassword}
+            autoScrollBodyContent={true}
+            contentStyle={{ width: '35%', minWidth: '300px' }}
+            onRequestClose={this.handleClose}
+          >
+            <ForgotPassword
+              {...this.props}
+              showForgotPassword={this.handleForgotPassword}
             />
-          </div>
-        </Dialog>
-        {/* ForgotPassword */}
-        <Dialog
-          className="dialogStyle"
-          modal={false}
-          open={this.state.showForgotPassword}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
-        >
-          <ForgotPassword
-            {...this.props}
-            showForgotPassword={this.handleForgotPassword}
-          />
-          <Close style={closingStyle} onClick={this.handleClose} />
-        </Dialog>
+            <Close style={closingStyle} onClick={this.handleClose} />
+          </Dialog>
+        </div>
       </div>
     );
   }

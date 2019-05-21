@@ -23,7 +23,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
-import actions from '../../redux/actions/app';
+import appActions from '../../redux/actions/app';
+import uiActions from '../../redux/actions/ui';
 import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
 import ExpandingSearchField from './SearchField.react';
@@ -39,14 +40,11 @@ const styles = {
 
 class TopBar extends Component {
   static propTypes = {
-    onRequestOpenLogin: PropTypes.func,
-    handleSignUp: PropTypes.func,
     handleChangePassword: PropTypes.func,
     handleOptions: PropTypes.func,
     handleRequestClose: PropTypes.func,
     handleToggle: PropTypes.func,
     searchTextChanged: PropTypes.func,
-    toggleShareClose: PropTypes.func,
     openSearch: PropTypes.func,
     exitSearch: PropTypes.func,
     nextSearchItem: PropTypes.func,
@@ -91,6 +89,12 @@ class TopBar extends Component {
     });
   };
 
+  openModal = name => {
+    const { actions } = this.props;
+    this.handleClose();
+    actions.openModal({ modalType: name });
+  };
+
   render() {
     const { logoStyle } = styles;
     const { anchorEl } = this.state;
@@ -106,8 +110,6 @@ class TopBar extends Component {
       email,
       accessToken,
       userName,
-      toggleShareClose,
-      onRequestOpenLogin,
       isAdmin,
     } = this.props;
 
@@ -181,7 +183,7 @@ class TopBar extends Component {
             <Menu
               id="menu-popper"
               anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
+              open={open}
               onClose={this.handleClose}
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -276,7 +278,7 @@ class TopBar extends Component {
                     </MenuItem>
                   </a>
                 )}
-              <MenuItem onClick={toggleShareClose}>
+              <MenuItem onClick={() => this.openModal('share')}>
                 <ListItemIcon>
                   <Share />
                 </ListItemIcon>
@@ -296,7 +298,7 @@ class TopBar extends Component {
                   </MenuItem>
                 </Link>
               ) : (
-                <MenuItem onClick={onRequestOpenLogin}>
+                <MenuItem onClick={() => this.openModal('login')}>
                   <ListItemIcon>
                     <SignUp />
                   </ListItemIcon>
@@ -325,7 +327,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
   };
 }
 

@@ -16,9 +16,13 @@ import ru from 'react-intl/locale-data/ru';
 import { IntlProvider } from 'react-intl';
 import { addLocaleData } from 'react-intl';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Logger } from './utils/helperFunctions';
 import store from './store';
 
 addLocaleData([...en, ...fr, ...es, ...de, ...ru]);
+
+// Disable console.* in production mode
+Logger();
 
 ChatWebAPIUtils.getSettings();
 ChatWebAPIUtils.getLocation();

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import Cookies from 'universal-cookie';
 import CircularProgress from 'material-ui/CircularProgress';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
@@ -14,6 +13,8 @@ import loadingGIF from '../../../images/loading.gif';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
 import DialogSection from './DialogSection';
 import { searchMessages } from '../../../utils/searchMessages';
+import { bindActionCreators } from 'redux';
+import uiActions from '../../../redux/actions/ui';
 
 const styles = {
   scrollBottomStyle: {
@@ -40,8 +41,6 @@ const styles = {
   },
 };
 
-const cookies = new Cookies();
-
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string },
 };
@@ -63,6 +62,7 @@ class MessageSection extends Component {
     closeSnackBar: PropTypes.func,
     backgroundImage: PropTypes.string,
     messageBackgroundImage: PropTypes.string,
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
@@ -73,12 +73,10 @@ class MessageSection extends Component {
     super(props);
     this.state = {
       player: [],
-      tour: true,
       search: false,
       showLoading: false,
       showScrollBottom: false,
       showScrollTop: false,
-      isShareOpen: false,
       searchState: {
         markedMessagesByID: {},
         markedIDs: [],
@@ -132,32 +130,6 @@ class MessageSection extends Component {
     this.setState(prevState => ({ player: [...prevState.player, newPlayer] }));
   };
 
-  handleShare = () => {
-    this.setState({ isShareOpen: true });
-  };
-  handleShareClose = () => {
-    this.setState({ isShareOpen: false });
-  };
-
-  toggleShareClose = () => {
-    const { isShareOpen } = this.state;
-    this.setState({ isShareOpen: !isShareOpen });
-  };
-
-  handleShare = () => {
-    this.setState({ openShare: true });
-  };
-  handleShareClose = () => {
-    console.log(this.state.openShare);
-    this.setState({ openShare: false });
-  };
-  handleCloseTour = () => {
-    this.setState({
-      tour: false,
-    });
-    cookies.set('visited', true, { path: '/' });
-  };
-
   onScroll = () => {
     const { showScrollBottom, showScrollTop } = this.state;
     if (this.scrollarea) {
@@ -184,22 +156,28 @@ class MessageSection extends Component {
   scrollToBottom = () => {
     const scrollBar = this.scrollarea;
     if (scrollBar) {
-      scrollBar.scrollTop(scrollBar.getScrollHeight());
+      scrollBar.view.scroll({
+        top: scrollBar.getScrollHeight(),
+        behavior: 'smooth',
+      });
     }
   };
 
   scrollToTop = () => {
     const scrollBar = this.scrollarea;
     if (scrollBar) {
-      scrollBar.scrollTop(0);
+      scrollBar.view.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
     }
   };
 
   searchTextChanged = event => {
-    const { messages, messagesByID, openSnackBar, closeSnackBar } = this.props;
+    const { messages, messagesByID, actions } = this.props;
     let { searchState } = this.state;
     const searchText = event.target.value;
-    closeSnackBar();
+    actions.closeSnackBar();
     if (searchText.trim()) {
       const markingData = searchMessages(
         messages,
@@ -221,7 +199,7 @@ class MessageSection extends Component {
       };
       if (markedIDs.length === 0 && searchText.trim()) {
         // if no Messages are marked(i.e no result) and the search query is not empty
-        openSnackBar({
+        actions.openSnackBar({
           snackBarMessage: 'No result found!',
           snackBarDuration: 3000,
         });
@@ -347,9 +325,9 @@ class MessageSection extends Component {
 
   openSearch = () => {
     let { searchState } = this.state;
-    const { messagesByID, closeSnackBar } = this.props;
+    const { messagesByID, actions } = this.props;
     searchState.markedMessagesByID = messagesByID;
-    closeSnackBar();
+    actions.closeSnackBar();
     this.setState({
       search: true,
       searchState,
@@ -358,11 +336,11 @@ class MessageSection extends Component {
 
   exitSearch = () => {
     let { searchState } = this.state;
-    const { closeSnackBar } = this.props;
+    const { actions } = this.props;
     searchState.searchText = '';
     searchState.searchIndex = 0;
     searchState.scrollLimit = 0;
-    closeSnackBar();
+    actions.closeSnackBar();
     this.setState({
       search: false,
       searchState,
@@ -462,13 +440,7 @@ class MessageSection extends Component {
       messageBackgroundImage,
       loadingReply,
     } = this.props;
-    const {
-      search,
-      searchState,
-      showScrollTop,
-      showScrollBottom,
-      isShareOpen,
-    } = this.state;
+    const { search, searchState, showScrollTop, showScrollBottom } = this.state;
     const {
       scrollBottomStyle,
       scrollTopStyle,
@@ -527,7 +499,6 @@ class MessageSection extends Component {
             searchTextChanged={this.searchTextChanged}
             openSearch={this.openSearch}
             exitSearch={this.exitSearch}
-            toggleShareClose={this.toggleShareClose}
             nextSearchItem={this.nextSearchItem}
             previousSearchItem={this.previousSearchItem}
             search={search}
@@ -616,17 +587,7 @@ class MessageSection extends Component {
             </div>
           </div>
           {/*  Tour Dialog is handled by this components */}
-          {!search ? (
-            <DialogSection
-              maxWidth={'sm'}
-              fullWidth={true}
-              {...this.props}
-              isShareOpen={isShareOpen}
-              toggleShareClose={this.toggleShareClose}
-              onRequestCloseTour={this.handleCloseTour}
-              tour={!cookies.get('visited')}
-            />
-          ) : null}
+          {!search ? <DialogSection /> : null}
         </div>
       </div>
     );
@@ -637,10 +598,17 @@ function mapStateToProps(store) {
   return {
     ...store.messages,
     ...store.settings,
+    modalProps: store.ui.modalProps,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
   };
 }
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(addUrlProps({ urlPropsQueryConfig })(MessageSection));

@@ -10,7 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
-import actions from '../../redux/actions/messages';
+import messageActions from '../../redux/actions/messages';
+import uiActions from '../../redux/actions/ui';
 import {
   formatUserMessage,
   formatSusiMessage,
@@ -175,15 +176,14 @@ class MessageComposer extends Component {
 
   speechDialogClose = () => {
     const { speechToTextOutput, micAccess } = this.state;
-    const { openSnackBar } = this.props;
+    const { actions } = this.props;
     this.setState({
       isSpeechDialogOpen: false,
       isListening: false,
     });
     if (speechToTextOutput === '' && micAccess) {
-      openSnackBar({
+      actions.openSnackBar({
         snackBarMessage: "Sorry, didn't hear anything. Please speak again.",
-        snackBarDuration: 4000,
       });
     }
   };
@@ -382,7 +382,7 @@ class MessageComposer extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...messageActions, ...uiActions }, dispatch),
   };
 }
 

@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { ShareButtons, generateShareIcon } from 'react-share';
+import Cookies from 'universal-cookie';
 const {
   FacebookShareButton,
   TwitterShareButton,
@@ -12,7 +15,11 @@ const LinkedinIcon = generateShareIcon('linkedin');
 import Close from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import uiActions from '../../../redux/actions/ui';
+import appActions from '../../../redux/actions/app';
 import { DialogContainer } from '../../Commons/Container';
+
+const cookies = new Cookies();
 
 const styles = {
   shareIconContainer: {
@@ -51,7 +58,7 @@ const DialogSection = props => {
   const shareUrl = 'http://chat.susi.ai';
   const title =
     'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
-  const { isShareOpen, tour, onRequestCloseTour, toggleShareClose } = props;
+  const { actions, modalProps, visited } = props;
   const {
     titleWrapperStyle,
     shareIconContainer,
@@ -59,14 +66,22 @@ const DialogSection = props => {
     iconTitleStyle,
     closingStyle,
   } = styles;
+  const handleCloseTour = () => {
+    cookies.set('visited', true, { path: '/' });
+    actions.setVisited();
+  };
   return (
     <div>
       {/* Share */}
       <Dialog
         maxWidth={'xs'}
         fullWidth={true}
-        open={isShareOpen}
-        onClose={toggleShareClose}
+        open={
+          modalProps &&
+          modalProps.isModalOpen &&
+          modalProps.modalType === 'share'
+        }
+        onClose={actions.closeModal}
       >
         <div style={titleWrapperStyle}>
           <h3>Share about SUSI</h3>
@@ -111,9 +126,9 @@ const DialogSection = props => {
             </LinkedinShareButton>
           </div>
         </div>
-        <Close style={closingStyle} onClick={toggleShareClose} />
+        <Close style={closingStyle} onClick={actions.closeModal} />
       </Dialog>
-      <Dialog fullWidth={true} maxWidth={'sm'} open={tour}>
+      <Dialog fullWidth={true} maxWidth={'sm'} open={!visited}>
         <DialogContainer>
           <DialogTitle>Welcome to SUSI.AI Web Chat</DialogTitle>
           <iframe
@@ -123,7 +138,7 @@ const DialogSection = props => {
             frameBorder="0"
             scrolling="no"
           />
-          <Close style={closingStyle} onClick={onRequestCloseTour} />
+          <Close style={closingStyle} onClick={() => handleCloseTour()} />
         </DialogContainer>
       </Dialog>
     </div>
@@ -131,10 +146,25 @@ const DialogSection = props => {
 };
 
 DialogSection.propTypes = {
-  tour: PropTypes.bool,
-  isShareOpen: PropTypes.bool,
-  toggleShareClose: PropTypes.func,
-  onRequestCloseTour: PropTypes.func,
+  actions: PropTypes.object,
+  modalProps: PropTypes.object,
+  visited: PropTypes.bool,
 };
 
-export default DialogSection;
+function mapStateToProps(store) {
+  return {
+    modalProps: store.ui.modalProps,
+    visited: store.app.visited,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DialogSection);
