@@ -160,6 +160,7 @@ class ExpandingSearchField extends Component {
         <div style={divStyle} className="searchComponent">
           <TextField
             name="search"
+            className="searchInputField"
             placeholder="Search..."
             value={this.props.searchText}
             onChange={event => this.onChange(event)}
@@ -168,7 +169,6 @@ class ExpandingSearchField extends Component {
             InputProps={{
               style: {
                 color: 'white',
-                width: '92px',
               },
             }}
           />

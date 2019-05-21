@@ -826,6 +826,9 @@ abbr[title] {
   .search{
     width: 100px !important;
   }
+  .searchInputField{
+    width: 92px;
+  }
 }
 @media only screen and (max-width: 480px){
   .search{
