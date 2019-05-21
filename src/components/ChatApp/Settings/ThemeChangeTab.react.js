@@ -7,23 +7,28 @@ import SettingsTabWrapper from './SettingsTabWrapper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
-import ThemeChanger from './ThemeChanger';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const ThemeChangeTab = props => {
-  const { actions, handleThemeChanger } = props;
+  const {
+    actions,
+    handleThemeChanger,
+    theme,
+    themeVal,
+    handleSelectChange,
+  } = props;
   const handleThemeChange = () => {
     actions.openModal({ modalType: 'themeChange' });
     handleThemeChanger();
   };
   return (
-    <SettingsTabWrapper heading="Select Theme" theme={props.themeVal}>
+    <SettingsTabWrapper heading="Select Theme" theme={themeVal}>
       <RadioGroup
         style={{ textAlign: 'left', margin: 20 }}
-        onChange={props.handleSelectChange}
+        onChange={handleSelectChange}
         name="Theme"
-        value={props.theme}
+        value={theme}
       >
         <FormControlLabel
           value="light"
@@ -42,14 +47,13 @@ const ThemeChangeTab = props => {
         />
       </RadioGroup>
       <Button
-        disabled={props.theme !== 'custom'}
-        onClick={() => handleThemeChange}
+        disabled={theme !== 'custom'}
+        onClick={handleThemeChange}
         variant="contained"
         color="primary"
       >
         <Translate text="Edit theme" />
       </Button>
-      <ThemeChanger />
     </SettingsTabWrapper>
   );
 };
