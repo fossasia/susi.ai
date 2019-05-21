@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Close from '@material-ui/icons/Close';
-import Dialog from '@material-ui/core/Dialog';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
@@ -14,17 +14,8 @@ import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import { isEmail } from '../../../utils';
-import './ForgotPassword.css';
 
 const styles = {
-  paperStyle: {
-    width: '100%',
-    textAlign: 'center',
-    padding: '10px',
-  },
-  underlineFocusStyle: {
-    color: '#4285f4',
-  },
   closingStyle: {
     position: 'absolute',
     zIndex: 1200,
@@ -41,7 +32,6 @@ class ForgotPassword extends Component {
   static propTypes = {
     actions: PropTypes.object,
     openSnackBar: PropTypes.func,
-    modalProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -124,64 +114,46 @@ class ForgotPassword extends Component {
 
   render() {
     const { email, emailErrorMessage, loading } = this.state;
-    const { modalProps, actions } = this.props;
     const isValid = !emailErrorMessage && email;
     return (
-      <Dialog
-        open={
-          modalProps &&
-          modalProps.isModalOpen &&
-          modalProps.modalType === 'forgotPassword'
-        }
-        onClose={actions.closeModal}
-        maxWidth={'sm'}
-        fullWidth={true}
-      >
-        <div className="forgotPwdForm">
-          <h3>
-            <Translate text="Forgot Password ?" />
-          </h3>
-          <div style={{ margin: '1.1rem 0' }}>
-            <FormControl error={emailErrorMessage !== ''}>
-              <InputLabel>Email</InputLabel>
-              <Input
-                value={email}
-                onChange={this.handleTextFieldChange}
-                aria-describedby="email-error-text"
-                style={{ width: '256px' }}
-              />
-              <FormHelperText error={emailErrorMessage !== ''}>
-                {emailErrorMessage}
-              </FormHelperText>
-            </FormControl>
-          </div>
-          <div style={{ margin: '10px 0' }}>
-            {/* Reset Button */}
-            <Button
-              onClick={this.handleSubmit}
-              color="primary"
-              variant="contained"
-              style={{
-                width: '200px',
-                margin: '10px auto',
-                display: 'block',
-              }}
-              disabled={!isValid || loading}
-            >
-              {loading ? <CircularProgress size={24} /> : 'Reset'}
-            </Button>
-          </div>
+      <React.Fragment>
+        <DialogTitle>
+          <Translate text="Forgot Password ?" />
+        </DialogTitle>
+        <div style={{ margin: '1.1rem 0' }}>
+          <FormControl error={emailErrorMessage !== ''}>
+            <InputLabel>Email</InputLabel>
+            <Input
+              value={email}
+              onChange={this.handleTextFieldChange}
+              aria-describedby="email-error-text"
+              style={{ width: '256px' }}
+            />
+            <FormHelperText error={emailErrorMessage !== ''}>
+              {emailErrorMessage}
+            </FormHelperText>
+          </FormControl>
+        </div>
+        <div style={{ margin: '10px 0' }}>
+          {/* Reset Button */}
+          <Button
+            onClick={this.handleSubmit}
+            color="primary"
+            variant="contained"
+            style={{
+              width: '200px',
+              margin: '10px auto',
+              display: 'block',
+            }}
+            disabled={!isValid || loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Reset'}
+          </Button>
         </div>
         <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
-      </Dialog>
+      </React.Fragment>
     );
   }
-}
-
-function mapStateToProps(store) {
-  return {
-    modalProps: store.ui.modalProps,
-  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -191,6 +163,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(ForgotPassword);

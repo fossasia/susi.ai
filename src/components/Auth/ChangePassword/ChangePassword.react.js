@@ -11,7 +11,6 @@ import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Close from '@material-ui/icons/Close';
 import Translate from '../../Translate/Translate.react';
-import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import isMobileView from '../../../utils/isMobileView';
@@ -347,10 +346,6 @@ class ChangePassword extends Component {
             </Button>
           </div>
         </div>
-
-        {/* Forgot Password Modal */}
-        <ForgotPassword />
-
         <Dialog
           open={dialogMessage}
           onClose={this.handleCloseResetPassword}
