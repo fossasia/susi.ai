@@ -168,6 +168,7 @@ class ExpandingSearchField extends Component {
             InputProps={{
               style: {
                 color: 'white',
+                width: '92px',
               },
             }}
           />
