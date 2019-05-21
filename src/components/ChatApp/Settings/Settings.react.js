@@ -11,7 +11,6 @@ import MessageStore from '../../../stores/MessageStore';
 import Cookies from 'universal-cookie';
 import Dialog from 'material-ui/Dialog';
 import Close from 'material-ui/svg-icons/navigation/close';
-import ForgotPassword from '../../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
@@ -127,11 +126,6 @@ class Settings extends Component {
       userName: defaultUserName,
       PrefLanguage: defaultPrefLanguage,
       TimeZone: defaultTimeZone,
-      showServerChangeDialog: false,
-      showChangePasswordDialog: false,
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
       showOptions: false,
       showRemoveConfirmation: false,
       anchorEl: null,
@@ -412,11 +406,6 @@ class Settings extends Component {
       userName: defaultUserName,
       PrefLanguage: defaultPrefLanguage,
       TimeZone: defaultTimeZone,
-      showServerChangeDialog: false,
-      showChangePasswordDialog: false,
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
       showOptions: false,
       showRemoveConfirmation: false,
       anchorEl: null,
@@ -435,29 +424,10 @@ class Settings extends Component {
     this.setDefaultsSettings();
   };
 
-  // Show change server dialog
-  handleServer = () => {
-    this.setState({
-      showServerChangeDialog: true,
-    });
-  };
-
-  // Show change password dialog
-  handleChangePassword = () => {
-    this.setState({
-      showChangePasswordDialog: true,
-    });
-  };
-
   // Close all open dialogs
   handleClose = () => {
     this.setState({
-      showServerChangeDialog: false,
-      showChangePasswordDialog: false,
       showOptions: false,
-      showLogin: false,
-      showSignUp: false,
-      showForgotPassword: false,
       showRemoveConfirmation: false,
     });
   };
@@ -712,57 +682,10 @@ class Settings extends Component {
     }
   };
 
-  handleServerToggle = changeServer => {
-    if (changeServer) {
-      // Logout the user and show the login screen again
-      this.props.history.push('/logout');
-      this.setState({
-        showLogin: true,
-      });
-    } else {
-      // Go back to settings dialog
-      this.setState({
-        showServerChangeDialog: false,
-      });
-    }
-  };
-
   // Close settings and redirect to landing page
   onRequestClose = () => {
     this.props.history.push('/');
     window.location.reload();
-  };
-
-  // Open Login dialog
-  handleLogin = () => {
-    this.setState({
-      showLogin: true,
-      showSignUp: false,
-      showForgotPassword: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-    });
-  };
-
-  // Open SignUp dialog
-  handleSignUp = () => {
-    this.setState({
-      showSignUp: true,
-      showLogin: false,
-      showForgotPassword: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-    });
-  };
-
-  // Open Forgot Password dialog
-  handleForgotPassword = () => {
-    this.setState({
-      showForgotPassword: true,
-      showLogin: false,
-      showOptions: false,
-      showRemoveConfirmation: false,
-    });
   };
 
   // Open Remove Device Confirmation dialog
@@ -771,8 +694,6 @@ class Settings extends Component {
     let devicename = data[i].devicename;
     this.setState({
       showRemoveConfirmation: true,
-      showForgotPassword: false,
-      showLogin: false,
       showOptions: false,
       removeDevice: i,
       removeDeviceName: devicename,
@@ -1508,21 +1429,6 @@ class Settings extends Component {
               )}
             </div>
           </Paper>
-          {/* ForgotPassword */}
-          <Dialog
-            className="dialogStyle"
-            modal={false}
-            open={this.state.showForgotPassword}
-            autoScrollBodyContent={true}
-            contentStyle={{ width: '35%', minWidth: '300px' }}
-            onRequestClose={this.handleClose}
-          >
-            <ForgotPassword
-              {...this.props}
-              showForgotPassword={this.handleForgotPassword}
-            />
-            <Close style={closingStyle} onClick={this.handleClose} />
-          </Dialog>
         </div>
       </div>
     );
