@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Close from '@material-ui/icons/Close';
@@ -10,6 +12,7 @@ import { Col, Row } from 'react-flexbox-grid';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ColorPicker from 'material-ui-color-picker';
+import uiActions from '../../../redux/actions/ui';
 import * as Actions from '../../../actions/';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -136,10 +139,6 @@ class ThemeChanger extends Component {
     document.body.style.setProperty('background-color', this.state.body);
   };
 
-  onRequestClose = () => {
-    this.setState({ open: false });
-  };
-
   invertColorTextArea = () => {
     // get the text are code
     let hex = this.state.textarea;
@@ -160,7 +159,6 @@ class ThemeChanger extends Component {
   };
 
   handleRestoreDefaultThemeClick = () => {
-    this.props.onRequestClose()();
     const prevTheme = this.state.prevThemeSettings.currTheme;
     let currTheme = this.state.currTheme;
     if (
@@ -174,6 +172,7 @@ class ThemeChanger extends Component {
   };
 
   saveThemeSettings = () => {
+    const { actions } = this.props;
     let customData = '';
     Object.keys(this.customTheme).forEach(key => {
       customData = customData + this.customTheme[key] + ',';
@@ -190,7 +189,7 @@ class ThemeChanger extends Component {
     }
     Actions.settingsChanged(settingsChanged);
     this.setState({ currTheme: 'custom' });
-    this.props.onRequestClose()();
+    actions.closeModal();
   };
 
   handleClickColorBox = id => {
@@ -203,6 +202,7 @@ class ThemeChanger extends Component {
   };
 
   render() {
+    const { actions, modalProps } = this.props;
     const components = componentsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
@@ -319,8 +319,12 @@ class ThemeChanger extends Component {
       <Dialog
         maxWidth={'md'}
         fullWidth={true}
-        open={this.props.themeOpen}
-        onClose={this.props.onRequestClose()}
+        open={
+          modalProps &&
+          modalProps.isModalOpen &&
+          modalProps.modalType === 'themeChange'
+        }
+        onClose={actions.closeModal}
       >
         <div
           style={{
@@ -351,7 +355,7 @@ class ThemeChanger extends Component {
             />
           </div>
         </div>
-        <Close style={closingStyle} onClick={this.props.onRequestClose()} />
+        <Close style={closingStyle} onClick={actions.closeModal} />
         <DialogActions>
           <div>
             <Button
@@ -378,8 +382,23 @@ class ThemeChanger extends Component {
 }
 
 ThemeChanger.propTypes = {
-  themeOpen: PropTypes.bool,
-  onRequestClose: PropTypes.func,
+  actions: PropTypes.object,
+  modalProps: PropTypes.object,
 };
 
-export default ThemeChanger;
+function mapStateToProps(store) {
+  return {
+    modalProps: store.ui.modalProps,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ThemeChanger);

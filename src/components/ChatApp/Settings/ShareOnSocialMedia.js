@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import Translate from '../../Translate/Translate.react';
@@ -84,7 +85,7 @@ const ShareOnSocialMedia = props => {
   const { raisedButtonStyle } = styles;
   const { classes } = props;
   return (
-    <div style={props.containerStyle}>
+    <SettingsTabWrapper heading="" theme={props.themeVal}>
       <div>
         <div>
           <div style={props.headingStyle}>
@@ -147,7 +148,7 @@ const ShareOnSocialMedia = props => {
           </Button>
         </div>
       </div>
-    </div>
+    </SettingsTabWrapper>
   );
 };
 
@@ -155,6 +156,7 @@ ShareOnSocialMedia.propTypes = {
   containerStyle: PropTypes.object,
   headingStyle: PropTypes.object,
   classes: PropTypes.object,
+  themeVal: PropTypes.string,
 };
 
 export default withStyles(classes)(ShareOnSocialMedia);

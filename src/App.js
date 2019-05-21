@@ -24,7 +24,8 @@ import Privacy from './components/Privacy/Privacy.react';
 import Login from './components/Auth/Login/Login.react';
 import SignUp from './components/Auth/SignUp/SignUp.react';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
-import actions from './redux/actions/app';
+import appActions from './redux/actions/app';
+import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const muiTheme = getMuiTheme({
@@ -38,24 +39,10 @@ class App extends Component {
   static propTypes = {
     history: PropTypes.object,
     location: PropTypes.object,
-    closeVideo: PropTypes.func,
     actions: PropTypes.object,
     accessToken: PropTypes.string,
+    snackBarProps: PropTypes.object,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      video: false,
-      openLogin: false,
-      openSignUp: false,
-      openForgotPassword: false,
-      snackBarOpen: false,
-      snackBarMessage: '',
-      snackBarDuration: 4000,
-      snackBarAction: null,
-    };
-  }
 
   componentDidMount = () => {
     const { actions, accessToken } = this.props;
@@ -72,236 +59,48 @@ class App extends Component {
   };
 
   onUserOffline = () => {
-    this.openSnackBar({
+    const { actions } = this.props;
+    actions.openSnackBar({
       snackBarMessage: 'It seems you are offline!',
     });
   };
 
   onUserOnline = () => {
-    this.openSnackBar({
+    const { actions } = this.props;
+    actions.openSnackBar({
       snackBarMessage: 'Welcome back!',
-    });
-  };
-
-  closeVideo = () =>
-    this.setState({
-      video: false,
-    });
-
-  onRequestOpenLogin = () => {
-    this.setState({
-      openLogin: true,
-      openSignUp: false,
-      openForgotPassword: false,
-    });
-  };
-
-  onRequestOpenSignUp = () => {
-    this.setState({
-      openSignUp: true,
-      openLogin: false,
-      openForgotPassword: false,
-    });
-  };
-
-  onRequestOpenForgotPassword = () => {
-    this.setState({
-      openLogin: false,
-      openSignUp: false,
-      openForgotPassword: true,
-    });
-  };
-
-  onRequestClose = () => {
-    this.setState({
-      openLogin: false,
-      openSignUp: false,
-      openForgotPassword: false,
-    });
-  };
-
-  openSnackBar = ({
-    snackBarMessage,
-    snackBarDuration = 4000,
-    snackBarAction,
-  }) => {
-    this.setState({
-      snackBarOpen: true,
-      snackBarMessage,
-      snackBarDuration,
-      snackBarAction,
-    });
-  };
-
-  closeSnackBar = () => {
-    this.setState({
-      snackBarOpen: false,
-      snackBarMessage: '',
-      snackBarDuration: 4000,
-      snackBarAction: null,
     });
   };
 
   render() {
     const {
-      openLogin,
-      openSignUp,
-      openForgotPassword,
-      snackBarOpen,
-      snackBarMessage,
-      snackBarDuration,
-      snackBarAction,
-    } = this.state;
-
-    if (location.pathname !== '/') {
-      document.body.className = 'white-body';
-    }
-
+      actions,
+      snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
+    } = this.props;
     return (
       <MuiThemeProviderNext theme={theme}>
         <MuiThemeProvider muiTheme={muiTheme}>
           <div>
-            <Login
-              openLogin={openLogin}
-              onRequestOpenForgotPassword={this.onRequestOpenForgotPassword}
-              onRequestOpenSignUp={this.onRequestOpenSignUp}
-              onRequestClose={this.onRequestClose}
-              openSnackBar={this.openSnackBar}
-            />
-            <SignUp
-              openSignUp={openSignUp}
-              onRequestClose={this.onRequestClose}
-              onRequestOpenLogin={this.onRequestOpenLogin}
-              openSnackBar={this.openSnackBar}
-            />
-            <ForgotPassword
-              openForgotPassword={openForgotPassword}
-              onRequestClose={this.onRequestClose}
-              openSnackBar={this.openSnackBar}
-            />
+            <Login />
+            <SignUp />
+            <ForgotPassword />
             <Snackbar
               autoHideDuration={snackBarDuration}
-              action={snackBarAction}
-              open={snackBarOpen}
+              open={isSnackBarOpen}
               message={snackBarMessage}
-              onClose={this.closeSnackBar}
+              onClose={actions.closeSnackBar}
             />
             <Switch>
-              <Route
-                exact
-                path="/"
-                render={routeProps => (
-                  <ChatApp
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/overview"
-                render={routeProps => (
-                  <Overview
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/devices"
-                render={routeProps => (
-                  <Devices
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/team"
-                render={routeProps => (
-                  <Team
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/blog"
-                render={routeProps => (
-                  <Blog
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/contact"
-                render={routeProps => (
-                  <Contact
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/support"
-                render={routeProps => (
-                  <Support
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/terms"
-                render={routeProps => (
-                  <Terms
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/privacy"
-                render={routeProps => (
-                  <Privacy
-                    {...routeProps}
-                    onRequestOpenLogin={this.onRequestOpenLogin}
-                    closeSnackBar={this.closeSnackBar}
-                    openSnackBar={this.openSnackBar}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/logout"
-                render={routeProps => (
-                  <Logout {...routeProps} openSnackBar={this.openSnackBar} />
-                )}
-              />
+              <Route exact path="/" component={ChatApp} />
+              <Route exact path="/overview" component={Overview} />
+              <Route exact path="/devices" component={Devices} />
+              <Route exact path="/team" component={Team} />
+              <Route exact path="/blog" component={Blog} />
+              <Route exact path="/contact" component={Contact} />
+              <Route exact path="/support" component={Support} />
+              <Route exact path="/terms" component={Terms} />
+              <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/logout" component={Logout} />
               <ProtectedRoute exact path="/settings" component={Settings} />
               <Route exact path="/*:path(error-404|)" component={NotFound} />
             </Switch>
@@ -314,14 +113,14 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
   };
 }
 
 function mapStateToProps(store) {
-  const { app } = store;
   return {
-    ...app,
+    ...store.ui,
+    ...store.app,
   };
 }
 

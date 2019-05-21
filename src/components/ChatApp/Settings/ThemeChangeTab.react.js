@@ -1,5 +1,9 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import uiActions from '../../../redux/actions/ui';
 import Translate from '../../Translate/Translate.react';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
@@ -8,18 +12,13 @@ import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const ThemeChangeTab = props => {
+  const { actions, handleThemeChanger } = props;
+  const handleThemeChange = () => {
+    actions.openModal({ modalType: 'themeChange' });
+    handleThemeChanger();
+  };
   return (
-    <div style={props.containerStyle}>
-      <span>
-        <div style={props.tabHeadingStyle}>
-          <Translate text="Select Theme" />
-        </div>
-        {props.theme === 'light' ? (
-          <hr className="break-line-light" style={{ height: '2px' }} />
-        ) : (
-          <hr className="break-line-dark" />
-        )}
-      </span>
+    <SettingsTabWrapper heading="Select Theme" theme={props.themeVal}>
       <RadioGroup
         style={{ textAlign: 'left', margin: 20 }}
         onChange={props.handleSelectChange}
@@ -44,17 +43,14 @@ const ThemeChangeTab = props => {
       </RadioGroup>
       <Button
         disabled={props.theme !== 'custom'}
-        onClick={props.handleThemeChanger}
+        onClick={() => handleThemeChange}
         variant="contained"
         color="primary"
       >
         <Translate text="Edit theme" />
       </Button>
-      <ThemeChanger
-        themeOpen={props.themeOpen}
-        onRequestClose={() => props.onThemeRequestClose}
-      />
-    </div>
+      <ThemeChanger />
+    </SettingsTabWrapper>
   );
 };
 
@@ -66,10 +62,17 @@ ThemeChangeTab.propTypes = {
   theme: PropTypes.string,
   themeForegroundColor: PropTypes.string,
   themeVal: PropTypes.string,
-  onThemeRequestClose: PropTypes.func,
-  isLoggedIn: PropTypes.string,
-  themeOpen: PropTypes.bool,
   tabHeadingStyle: PropTypes.object,
+  actions: PropTypes.object,
 };
 
-export default ThemeChangeTab;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ThemeChangeTab);
