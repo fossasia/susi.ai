@@ -11,7 +11,6 @@ import TopBar from '../TopBar.react';
 import MessageComposer from '../MessageComposer.react';
 import loadingGIF from '../../../images/loading.gif';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
-import DialogSection from './DialogSection';
 import { searchMessages } from '../../../utils/searchMessages';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
@@ -586,8 +585,6 @@ class MessageSection extends Component {
               </div>
             </div>
           </div>
-          {/*  Tour Dialog is handled by this components */}
-          {!search ? <DialogSection /> : null}
         </div>
       </div>
     );
@@ -598,7 +595,6 @@ function mapStateToProps(store) {
   return {
     ...store.messages,
     ...store.settings,
-    modalProps: store.ui.modalProps,
   };
 }
 

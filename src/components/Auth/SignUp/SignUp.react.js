@@ -8,13 +8,13 @@ import { debounce } from 'lodash';
 // Components
 import Recaptcha from 'react-recaptcha';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import PasswordField from 'material-ui-password-field';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Close from '@material-ui/icons/Close';
-import Dialog from '@material-ui/core/Dialog';
 import zxcvbn from 'zxcvbn';
 import './SignUp.css';
 import Translate from '../../Translate/Translate.react';
@@ -54,7 +54,6 @@ class SignUp extends Component {
     actions: PropTypes.object,
     captchaKey: PropTypes.string,
     openSnackBar: PropTypes.func,
-    modalProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -287,7 +286,7 @@ class SignUp extends Component {
       loading,
       success,
     } = this.state;
-    const { actions, modalProps, captchaKey } = this.props;
+    const { actions, captchaKey } = this.props;
 
     const isValid =
       email &&
@@ -301,19 +300,12 @@ class SignUp extends Component {
     const PasswordClass = [`is-strength-${passwordScore}`];
 
     return (
-      <Dialog
-        maxWidth={'sm'}
-        fullWidth={true}
-        open={
-          modalProps &&
-          modalProps.isModalOpen &&
-          modalProps.modalType === 'signUp'
-        }
-        onClose={actions.closeModal}
-      >
+      <React.Fragment>
         <div className="signUpForm">
           <h3>
-            <Translate text="Sign Up with SUSI" />
+            <DialogTitle>
+              <Translate text="Sign Up with SUSI" />
+            </DialogTitle>
           </h3>
           <div>
             <FormControl error={emailErrorMessage !== ''}>
@@ -423,7 +415,7 @@ class SignUp extends Component {
           </span>
         </div>
         <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
-      </Dialog>
+      </React.Fragment>
     );
   }
 }
@@ -432,7 +424,6 @@ function mapStateToProps(store) {
   const { captchaKey } = store.app.apiKeys;
   return {
     captchaKey,
-    modalProps: store.ui.modalProps,
   };
 }
 

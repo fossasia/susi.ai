@@ -17,7 +17,6 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PasswordField from 'material-ui-password-field';
 import Close from '@material-ui/icons/Close';
-import Dialog from '@material-ui/core/Dialog';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
@@ -32,10 +31,6 @@ const cookieDomain = isProduction() ? '.susi.ai' : '';
 const cookies = new Cookies();
 
 const styles = {
-  containerStyle: {
-    width: '100%',
-    textAlign: 'center',
-  },
   fieldStyle: {
     height: '35px',
     borderRadius: 4,
@@ -68,7 +63,6 @@ class Login extends Component {
     openSnackBar: PropTypes.func,
     location: PropTypes.object,
     history: PropTypes.object,
-    modalProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -236,15 +230,8 @@ class Login extends Component {
     const isValid =
       email && !emailErrorMessage && password && !passwordErrorMessage;
 
-    const { modalProps } = this.props;
-
     return (
-      <Dialog
-        maxWidth={'sm'}
-        fullWidth={true}
-        open={modalProps && modalProps.modalType === 'login'}
-        onClose={this.handleDialogClose}
-      >
+      <React.Fragment>
         <div className="login-form">
           <h3>
             <Translate text="Log into SUSI" />
@@ -312,7 +299,7 @@ class Login extends Component {
           </div>
         </div>
         <Close style={closingStyle} onClick={this.handleDialogClose} />
-      </Dialog>
+      </React.Fragment>
     );
   }
 }
@@ -329,7 +316,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(store) {
   return {
     ...store.skills,
-    modalProps: store.ui.modalProps,
   };
 }
 

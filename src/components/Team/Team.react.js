@@ -17,13 +17,33 @@ export default class Team extends Component {
     location: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      showScrollToTop: false,
+    };
+  }
+
   componentDidMount() {
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
     // Adding title tag to page
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
+    /* Adding scroll event Listener to window,
+    to display ToTopButton only when the user has scrolled 90px*/
+    window.addEventListener('scroll', this.showScrollToTop);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.showScrollToTop);
+  }
+
+  showScrollToTop = () => {
+    this.setState({
+      showScrollToTop: window.scrollY >= 90,
+    });
+  };
 
   createMemberCard = (member, key) => {
     return (
@@ -52,6 +72,7 @@ export default class Team extends Component {
   };
 
   render() {
+    const { showScrollToTop } = this.state;
     document.body.style.setProperty('background-image', 'none');
     const mentors = TEAM_MEMBERS.MENTORS.map((mentor, i) => {
       return this.createMemberCard(mentor, i);
@@ -103,7 +124,9 @@ export default class Team extends Component {
           <div className="team-container">{alumnis}</div>
         </div>
 
-        <ToTopButton />
+        <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>
+          <ToTopButton />
+        </div>
         <Footer />
       </div>
     );
