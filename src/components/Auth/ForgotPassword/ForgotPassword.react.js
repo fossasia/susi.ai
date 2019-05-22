@@ -68,8 +68,6 @@ class ForgotPassword extends Component {
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-
     const { actions } = this.props;
     const { email, emailErrorMessage } = this.state;
 
@@ -112,6 +110,12 @@ class ForgotPassword extends Component {
     }
   };
 
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
   render() {
     const { email, emailErrorMessage, loading } = this.state;
     const isValid = !emailErrorMessage && email;
@@ -128,6 +132,8 @@ class ForgotPassword extends Component {
               onChange={this.handleTextFieldChange}
               aria-describedby="email-error-text"
               style={{ width: '256px' }}
+              onKeyUp={this.onEnterKey}
+              autofocus={true}
             />
             <FormHelperText error={emailErrorMessage !== ''}>
               {emailErrorMessage}
