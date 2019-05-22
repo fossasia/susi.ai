@@ -11,7 +11,7 @@ const defaultState = {
   uuid: '',
   isAdmin: null,
   apiKeys: {},
-  visited: false,
+  visited: true,
 };
 
 const { emailId, uuid, loggedIn, username, visited } = cookies.getAll();
