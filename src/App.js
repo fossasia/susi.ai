@@ -21,12 +21,10 @@ import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
 import Privacy from './components/Privacy/Privacy.react';
-import Login from './components/Auth/Login/Login.react';
-import SignUp from './components/Auth/SignUp/SignUp.react';
-import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
 import appActions from './redux/actions/app';
 import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/ProtectedRoute';
+import DialogSection from '../src/components/Dialog/DialogSection.react';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -81,9 +79,7 @@ class App extends Component {
       <MuiThemeProviderNext theme={theme}>
         <MuiThemeProvider muiTheme={muiTheme}>
           <div>
-            <Login />
-            <SignUp />
-            <ForgotPassword />
+            <DialogSection />
             <Snackbar
               autoHideDuration={snackBarDuration}
               open={isSnackBarOpen}

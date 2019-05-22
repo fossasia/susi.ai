@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
@@ -202,7 +201,7 @@ class ThemeChanger extends Component {
   };
 
   render() {
-    const { actions, modalProps } = this.props;
+    const { actions } = this.props;
     const components = componentsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
@@ -316,16 +315,7 @@ class ThemeChanger extends Component {
       );
     });
     return (
-      <Dialog
-        maxWidth={'md'}
-        fullWidth={true}
-        open={
-          modalProps &&
-          modalProps.isModalOpen &&
-          modalProps.modalType === 'themeChange'
-        }
-        onClose={actions.closeModal}
-      >
+      <React.Fragment>
         <div
           style={{
             display: 'flex',
@@ -376,21 +366,14 @@ class ThemeChanger extends Component {
             </Button>
           </div>
         </DialogActions>
-      </Dialog>
+      </React.Fragment>
     );
   }
 }
 
 ThemeChanger.propTypes = {
   actions: PropTypes.object,
-  modalProps: PropTypes.object,
 };
-
-function mapStateToProps(store) {
-  return {
-    modalProps: store.ui.modalProps,
-  };
-}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -399,6 +382,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(ThemeChanger);
