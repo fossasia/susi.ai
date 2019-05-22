@@ -123,6 +123,7 @@ class Blog extends Component {
       startPage: 0,
       nextDisplay: 'visible',
       prevDisplay: 'hidden',
+      showScrollToTop: false,
     };
   }
 
@@ -134,6 +135,9 @@ class Blog extends Component {
     if (blogKey) {
       this.getPosts(blogKey);
     }
+    /* Adding scroll event Listener to window,
+    to display ToTopButton only when the user has scrolled 90px*/
+    window.addEventListener('scroll', this.showScrollToTop);
   }
 
   componentWillReceiveProps = props => {
@@ -206,6 +210,16 @@ class Blog extends Component {
     this.scrollToTop();
   };
 
+  showScrollToTop = () => {
+    this.setState({
+      showScrollToTop: window.scrollY >= 90,
+    });
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.showScrollToTop);
+  }
+
   render() {
     const nextStyle = {
       visibility: this.state.nextDisplay,
@@ -215,6 +229,8 @@ class Blog extends Component {
     const prevStyle = {
       visibility: this.state.prevDisplay,
     };
+
+    const { showScrollToTop } = this.state;
 
     return (
       <div>
@@ -400,7 +416,9 @@ class Blog extends Component {
             <Footer />
           </div>
         )}
-        <ToTopButton />
+        <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>
+          <ToTopButton />
+        </div>
       </div>
     );
   }
