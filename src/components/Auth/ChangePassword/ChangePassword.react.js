@@ -9,27 +9,17 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import PasswordField from 'material-ui-password-field';
 import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import isMobileView from '../../../utils/isMobileView';
-import { DialogContainer } from '../../Commons/Container';
+import { DialogContainer } from '../../shared/Container';
 import './ChangePassword.css';
 
 const mobileView = isMobileView();
 
 const styles = {
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
   fieldStyle: {
     height: '35px',
     borderRadius: 4,
@@ -266,7 +256,7 @@ class ChangePassword extends Component {
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
-    const { closingStyle, fieldStyle, labelStyle, submitBtnStyle } = styles;
+    const { fieldStyle, labelStyle, submitBtnStyle } = styles;
 
     return (
       <div className="changePasswordForm">
@@ -354,10 +344,7 @@ class ChangePassword extends Component {
         >
           <DialogContainer>
             <Translate text={dialogMessage} />
-            <Close
-              style={closingStyle}
-              onClick={this.handleCloseResetPassword}
-            />
+            <CloseButton onClick={this.handleCloseResetPassword} />
           </DialogContainer>
         </Dialog>
       </div>

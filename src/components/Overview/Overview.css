@@ -188,6 +188,7 @@ img {
     align-content: space-around;
     height: 9rem;
     width: 27rem;
+    margin: 0 auto;
 }
 .Video-Modal{
     position: absolute;

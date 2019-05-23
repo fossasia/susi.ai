@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import SocialLinkButtons from './SocialLinkButtons';
 import Footer from '../Footer/Footer.react';
+import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import TEAM_MEMBERS from './constants';
 import 'font-awesome/css/font-awesome.min.css';
@@ -90,13 +91,7 @@ export default class Team extends Component {
     return (
       <div>
         <StaticAppBar {...this.props} location={this.props.location} />
-        <div className="head_section">
-          <div className="container">
-            <div className="heading">
-              <h1>Team</h1>
-            </div>
-          </div>
-        </div>
+        <Header title="Team" />
         <div className="section-team founders">
           <div className="team-header">
             <div className="support__heading">Project Founders</div>

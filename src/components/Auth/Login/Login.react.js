@@ -16,7 +16,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PasswordField from 'material-ui-password-field';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../../shared/CloseButton';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
@@ -43,16 +43,6 @@ const styles = {
   inputStyle: {
     height: '35px',
     marginBottom: '10px',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
   },
 };
 
@@ -230,7 +220,7 @@ class Login extends Component {
       loading,
     } = this.state;
     const { actions } = this.props;
-    const { fieldStyle, closingStyle } = styles;
+    const { fieldStyle } = styles;
 
     const isValid =
       email && !emailErrorMessage && password && !passwordErrorMessage;
@@ -306,7 +296,7 @@ class Login extends Component {
             </span>
           </div>
         </div>
-        <Close style={closingStyle} onClick={this.handleDialogClose} />
+        <CloseButton onClick={this.handleDialogClose} />
       </React.Fragment>
     );
   }

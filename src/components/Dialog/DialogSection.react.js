@@ -12,7 +12,7 @@ import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import ThemeChanger from '../ChatApp/Settings/ThemeChanger';
-import { DialogContainer } from '../Commons/Container';
+import { DialogContainer } from '../shared/Container';
 
 const DialogData = {
   share: { component: <Share />, size: 'xs' },
