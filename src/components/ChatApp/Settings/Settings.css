@@ -43,12 +43,11 @@
     width: 100%;
 }
 
-
 .settings-list-dropdown{
-    padding: 0px 0px;
     user-select: none;
-    width: 100%;
     display: none;
+    margin: 0.5rem auto;
+    padding: 0 1.5rem;
 }
 
 .siteTitle {
@@ -187,7 +186,7 @@
 
 @media only screen and (max-width: 1060px){
   .settings-list-dropdown{
-    display: inline-block;
+    display: block;
   }
 
   .settings-list{

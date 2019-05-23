@@ -1,23 +1,25 @@
 import './Settings.css';
 import $ from 'jquery';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import UserIdentityStore from '../../../stores/UserIdentityStore';
 import MessageStore from '../../../stores/MessageStore';
 import Cookies from 'universal-cookie';
-import Dialog from 'material-ui/Dialog';
-import Close from 'material-ui/svg-icons/navigation/close';
+import Dialog from '@material-ui/core/Dialog';
+import Close from '@material-ui/icons/Close';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import * as Actions from '../../../actions/';
 import React, { Component } from 'react';
-import Menu from 'material-ui/Menu';
-import Paper from 'material-ui/Paper';
+import MenuList from '@material-ui/core/MenuList';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
 import countryData from 'country-data';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
 import {
@@ -25,16 +27,16 @@ import {
   voiceListChange,
 } from './../../../constants/SettingsVoiceConstants.js';
 // Icons
-import ChatIcon from 'material-ui/svg-icons/communication/chat';
-import ThemeIcon from 'material-ui/svg-icons/action/invert-colors';
-import VoiceIcon from 'material-ui/svg-icons/action/settings-voice';
-import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
-import SpeechIcon from 'material-ui/svg-icons/action/record-voice-over';
-import AccountIcon from 'material-ui/svg-icons/action/account-box';
-import LockIcon from 'material-ui/svg-icons/action/lock';
-import MyDevices from 'material-ui/svg-icons/device/devices';
-import MobileIcon from 'material-ui/svg-icons/hardware/phone-android';
-import ShareIcon from 'material-ui/svg-icons/social/share';
+import ChatIcon from '@material-ui/icons/Chat';
+import ThemeIcon from '@material-ui/icons/InvertColors';
+import VoiceIcon from '@material-ui/icons/SettingsVoice';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import SpeechIcon from '@material-ui/icons/RecordVoiceOver';
+import AccountIcon from '@material-ui/icons/AccountBox';
+import LockIcon from '@material-ui/icons/Lock';
+import MyDevices from '@material-ui/icons/Devices';
+import MobileIcon from '@material-ui/icons/PhoneAndroid';
+import ShareIcon from '@material-ui/icons/Share';
 import {
   isProduction,
   sortCountryLexographical,
@@ -62,6 +64,18 @@ const cookieDomain = isProduction() ? '.susi.ai' : '';
 const cookies = new Cookies();
 
 let defaults = UserPreferencesStore.getPreferences();
+
+const menuObj = [
+  { name: 'Account', icon: <AccountIcon /> },
+  { name: 'Password', icon: <LockIcon /> },
+  { name: 'Mobile', icon: <MobileIcon /> },
+  { name: 'ChatApp', icon: <ChatIcon /> },
+  { name: 'Theme', icon: <ThemeIcon /> },
+  { name: 'Microphone', icon: <VoiceIcon /> },
+  { name: 'Speech', icon: <SpeechIcon /> },
+  { name: 'Devices', icon: <MyDevices /> },
+  { name: 'Share on social media', icon: <ShareIcon /> },
+];
 
 class Settings extends Component {
   constructor(props) {
@@ -805,8 +819,7 @@ class Settings extends Component {
   loadSettings = (e, value) => {
     this.setDefaultsSettings(); // on every tab change, load the default settings
     this.setState({
-      selectedSetting: window.innerWidth > 1060 ? value : e.target.innerText,
-      settingNo: e.target.innerText,
+      selectedSetting: e.target.innerText || e.target.value,
     });
     //  Revert to original theme if user navigates away without saving.
     if (this.state.theme !== UserPreferencesStore.getTheme()) {
@@ -906,6 +919,47 @@ class Settings extends Component {
     }
   };
 
+  generateMenu = () => {
+    return menuObj.map(obj => {
+      return (
+        <React.Fragment>
+          <MenuItem
+            onClick={this.loadSettings}
+            style={{
+              color:
+                this.state.intialSettings.theme === 'dark' ? '#fff' : '#272727',
+            }}
+            selected={this.state.selectedSetting === obj.name}
+          >
+            <ListItemIcon>{obj.icon}</ListItemIcon>
+            <ListItemText>{obj.name}</ListItemText>
+            <ListItemIcon>
+              <ChevronRight />
+            </ListItemIcon>
+          </MenuItem>
+
+          <hr
+            className={
+              UserPreferencesStore.getTheme() === 'light'
+                ? 'break-line-light'
+                : 'break-line-dark'
+            }
+          />
+        </React.Fragment>
+      );
+    });
+  };
+
+  generateDropDownMenu = () => {
+    return menuObj.map(obj => {
+      return (
+        <MenuItem key={obj.name} value={obj.name} className="setting-item">
+          {obj.name}
+        </MenuItem>
+      );
+    });
+  };
+
   render() {
     document.body.style.setProperty('background-image', 'none');
 
@@ -922,8 +976,6 @@ class Settings extends Component {
       borderColor:
         this.state.intialSettings.theme === 'dark' ? '#9E9E9E' : null,
     };
-    const menuIconColor =
-      this.state.intialSettings.theme === 'dark' ? themeForegroundColor : null;
     sortCountryLexographical(countryData);
     let countries = countryData.countries.all.map((country, i) => {
       if (countryData.countries.all[i].countryCallingCodes[0]) {
@@ -1104,223 +1156,22 @@ class Settings extends Component {
       }
     }
 
-    let blueThemeColor = { color: 'rgb(66, 133, 244)' };
     let menuItems = (
-      <div>
+      <React.Fragment>
         <div className="settings-list">
-          <Menu
-            selectedMenuItemStyle={blueThemeColor}
-            style={{ width: '100%' }}
-            onChange={this.loadSettings}
-            value={selectedSetting}
-          >
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Account"
-              className="setting-item"
-              leftIcon={<AccountIcon color={menuIconColor} />}
-            >
-              Account<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Password"
-              className="setting-item"
-              leftIcon={<LockIcon color={menuIconColor} />}
-            >
-              Password<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Mobile"
-              className="setting-item"
-              leftIcon={<MobileIcon color={menuIconColor} />}
-            >
-              Mobile<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="ChatApp"
-              className="setting-item"
-              leftIcon={<ChatIcon color={menuIconColor} />}
-            >
-              ChatApp<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Theme"
-              className="setting-item"
-              leftIcon={<ThemeIcon color={menuIconColor} />}
-            >
-              Theme<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Microphone"
-              className="setting-item"
-              leftIcon={<VoiceIcon color={menuIconColor} />}
-            >
-              Microphone<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Speech"
-              className="setting-item"
-              leftIcon={<SpeechIcon color={menuIconColor} />}
-            >
-              Speech<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem style={{ display: 'none' }} value="Account" />
-            <MenuItem style={{ display: 'none' }} value="Mobile" />
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Devices"
-              className="setting-item"
-              leftIcon={<MyDevices color={menuIconColor} />}
-            >
-              Devices<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-            <MenuItem
-              style={{ color: themeForegroundColor }}
-              value="Share on Social media"
-              className="setting-item"
-              leftIcon={<ShareIcon color={menuIconColor} />}
-            >
-              Share on Social media<ChevronRight
-                style={{ color: themeForegroundColor }}
-                className="right-chevron"
-              />
-            </MenuItem>
-            {UserPreferencesStore.getTheme() === 'light' ? (
-              <hr className="break-line-light" />
-            ) : (
-              <hr className="break-line-dark" />
-            )}
-          </Menu>
+          <MenuList>{this.generateMenu()}</MenuList>
         </div>
         <div className="settings-list-dropdown">
-          <DropDownMenu
-            selectedMenuItemStyle={blueThemeColor}
+          <Select
             onChange={this.loadSettings}
             value={selectedSetting}
-            labelStyle={{ color: themeForegroundColor }}
-            menuStyle={{ backgroundColor: themeBackgroundColor }}
-            menuItemStyle={{ color: themeForegroundColor }}
             style={{ width: '100%' }}
             autoWidth={false}
           >
-            <MenuItem
-              primaryText="Account"
-              value="Account"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Password"
-              value="Password"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="ChatApp"
-              value="ChatApp"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Theme"
-              value="Theme"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Microphone"
-              value="Microphone"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Speech"
-              value="Speech"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Devices"
-              value="Devices"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Mobile"
-              value="Mobile"
-              className="setting-item"
-            />
-            <MenuItem
-              primaryText="Share on Social media"
-              value="Share on Social media"
-              className="setting-item"
-            />
-          </DropDownMenu>
+            {this.generateDropDownMenu()}
+          </Select>
         </div>
-      </div>
+      </React.Fragment>
     );
 
     let menuStyle = {
@@ -1333,25 +1184,24 @@ class Settings extends Component {
 
     // to check if something has been modified or not
     let somethingToSave = this.getSomethingToSave();
-
     return (
       <div
         id="settings-container"
         className={
           (UserPreferencesStore.getTheme() === 'light' &&
-            this.state.settingNo !== 'Theme') ||
-          (this.state.settingNo === 'Theme' && this.state.theme === 'light')
+            this.state.selectedSetting !== 'Theme') ||
+          (this.state.selectedSetting === 'Theme' &&
+            this.state.theme === 'light')
             ? 'settings-container-light'
             : 'settings-container-dark'
         }
       >
         <Dialog
-          className="dialogStyle"
           modal={false}
+          maxWidth={'sm'}
+          fullWidth={true}
           open={this.state.showRemoveConfirmation}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '35%', minWidth: '300px' }}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         >
           <RemoveDeviceDialog
             {...this.props}
@@ -1369,7 +1219,6 @@ class Settings extends Component {
         <div className="settingMenu">
           <Paper
             className="leftMenu tabStyle"
-            zDepth={1}
             style={{
               backgroundColor: themeBackgroundColor,
               color: themeForegroundColor,
@@ -1377,22 +1226,23 @@ class Settings extends Component {
           >
             {menuItems}
           </Paper>
-          <Paper className="rightMenu" style={menuStyle} zDepth={1}>
+          <Paper className="rightMenu" style={menuStyle}>
             {currentSetting}
             <div className="settingsSubmit">
               {this.displaySaveChangesButton() && (
-                <RaisedButton
-                  label={<Translate text="Save Changes" />}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSubmit}
                   disabled={
                     !this.state.validForm ||
                     !somethingToSave ||
                     this.state.phoneNoError ||
                     this.state.userNameError
                   }
-                  backgroundColor="#4285f4"
-                  labelColor="#fff"
-                  onClick={this.handleSubmit}
-                />
+                >
+                  <Translate text="Save Changes" />
+                </Button>
               )}
               {selectedSetting !== 'Account' ? (
                 ''
@@ -1410,15 +1260,7 @@ class Settings extends Component {
                     />
                   )}
 
-                  <p
-                    style={{
-                      textAlign: 'center',
-                      marginTop: '20px',
-                      marginBottom: '0',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                  >
+                  <p style={{ textAlign: 'center' }}>
                     <span className="Link">
                       <a href={`${urls.ACCOUNT_URL}/delete-account`}>
                         Delete your account
