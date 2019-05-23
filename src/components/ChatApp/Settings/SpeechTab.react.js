@@ -4,7 +4,7 @@ import SettingsTabWrapper from './SettingsTabWrapper';
 import PropTypes from 'prop-types';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
-import { FlexContainer } from '../../Commons/Container';
+import { FlexContainer } from '../../shared/Container';
 
 const SpeechTab = props => {
   let TTSBrowserSupport;

@@ -10,7 +10,7 @@ import UserIdentityStore from '../../../stores/UserIdentityStore';
 import MessageStore from '../../../stores/MessageStore';
 import Cookies from 'universal-cookie';
 import Dialog from '@material-ui/core/Dialog';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../../shared/CloseButton';
 import RemoveDeviceDialog from '../../TableComplex/RemoveDeviceDialog.react';
 import Translate from '../../Translate/Translate.react';
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
@@ -989,16 +989,6 @@ class Settings extends Component {
       }
       return null;
     });
-    const closingStyle = {
-      position: 'absolute',
-      zIndex: 1200,
-      fill: '#444',
-      width: '26px',
-      height: '26px',
-      right: '10px',
-      top: '10px',
-      cursor: 'pointer',
-    };
 
     const radioIconStyle = {
       fill: '#4285f4',
@@ -1209,7 +1199,7 @@ class Settings extends Component {
             devicename={this.state.removeDeviceName}
             handleRemove={this.handleRemove}
           />
-          <Close style={closingStyle} onClick={this.handleClose} />
+          <CloseButton onClick={this.handleClose} />
         </Dialog>
         <StaticAppBar
           settings={this.state.intialSettings}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
 import urls from '../../utils/urls';
+import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import susiAndroid from '../../images/susi-test.gif';
 import susiiOSGif from '../../images/ios_demo.gif';
@@ -18,15 +19,10 @@ const Devices = props => {
   return (
     <div>
       <StaticAppBar {...props} location={props.location} />
-      <div className="head_section">
-        <div className="container">
-          <div className="heading">
-            <h1>Devices</h1>
-            <p>SUSI.AI is available on many platform</p>
-          </div>
-        </div>
-      </div>
-
+      <Header
+        title="Devices"
+        subtitle="SUSI.AI is available on many platform"
+      />
       <div className="device_section">
         <div className="device_description">
           <div className="heading">Android devices</div>
@@ -73,7 +69,7 @@ const Devices = props => {
         </div>
       </div>
 
-      <div className="device_section bottom_section">
+      <div className="device_section">
         <div className="device_description">
           <div className="heading">Desktops and Laptops</div>
           <p className="text_description">

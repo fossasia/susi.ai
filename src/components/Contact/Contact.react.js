@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
+import { HeadSection } from '../shared/About';
+import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Contact.css';
 
 const Contact = props => {
   document.title =
     'Contact Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
-
+  scrollToTopAnimation();
   document.body.style.setProperty('background-image', 'none');
 
   return (
     <div>
       <StaticAppBar {...props} location={props.location} />
-      <div className="gray-wrapper">
+      <HeadSection>
         <div className="white-grey">
           <div className="conversation__description">
             <div className="support__heading">Contact Us</div>
@@ -25,7 +25,7 @@ const Contact = props => {
             </p>
           </div>
         </div>
-      </div>
+      </HeadSection>
       <div className="section">
         <div className="contact-content">
           <h5>SUSI</h5>

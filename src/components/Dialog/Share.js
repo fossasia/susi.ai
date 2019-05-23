@@ -1,6 +1,6 @@
 import React from 'react';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../shared/CloseButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
@@ -26,16 +26,6 @@ const styles = {
     alignItems: 'flex-start',
     width: '100%',
   },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
 };
 
 const shareUrl = 'http://chat.susi.ai';
@@ -56,7 +46,7 @@ const TextContainer = styled.div`
 `;
 
 const Share = ({ actions }) => {
-  const { iconWrapperStyle, closingStyle } = styles;
+  const { iconWrapperStyle } = styles;
   return (
     <React.Fragment>
       <DialogTitle>Share about SUSI</DialogTitle>
@@ -98,7 +88,7 @@ const Share = ({ actions }) => {
           </LinkedinShareButton>
         </div>
       </ShareIconContainer>
-      <Close style={closingStyle} onClick={actions.closeModal} />
+      <CloseButton onClick={actions.closeModal} />
     </React.Fragment>
   );
 };
