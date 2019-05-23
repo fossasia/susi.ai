@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
+import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import '../Terms/Terms.css';
 
@@ -15,14 +16,7 @@ const Privacy = props => {
   return (
     <div>
       <StaticAppBar {...props} location={props.location} />
-      <div className="head_section">
-        <div className="container">
-          <div className="heading">
-            <h1>Privacy</h1>
-            <p>Privacy Policy for SUSI</p>
-          </div>
-        </div>
-      </div>
+      <Header title="Privacy" subtitle="Privacy Policy for SUSI" />
       <div className="section">
         <div className="section-container">
           <div className="terms-list">

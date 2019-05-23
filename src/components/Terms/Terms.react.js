@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
+import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Terms.css';
 
@@ -45,14 +46,7 @@ class Terms extends Component {
     return (
       <div>
         <StaticAppBar {...this.props} location={this.props.location} />
-        <div className="head_section">
-          <div className="container">
-            <div className="heading">
-              <h1>Terms of Service</h1>
-              <p>Thanks for using SUSI.AI.</p>
-            </div>
-          </div>
-        </div>
+        <Header title="Terms of Service" subtitle="Thanks for using SUSI.AI." />
         <div className="section">
           <div className="section-container">
             <div className="terms-list">

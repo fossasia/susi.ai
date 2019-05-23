@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DialogActions from '@material-ui/core/DialogActions';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../../shared/CloseButton';
 import Button from '@material-ui/core/Button';
 import Translate from '../../Translate/Translate.react';
 import UserPreferencesStore from '../../../stores/UserPreferencesStore';
@@ -42,17 +42,6 @@ function getStateFromStores() {
       backgroundValue.length > 1 ? backgroundValue[1] : '',
   };
 }
-
-const closingStyle = {
-  position: 'absolute',
-  zIndex: 1200,
-  fill: '#444',
-  width: '26px',
-  height: '26px',
-  right: '10px',
-  top: '10px',
-  cursor: 'pointer',
-};
 
 const componentsList = [
   { id: 1, component: 'pane', name: 'Change Background' },
@@ -345,7 +334,7 @@ class ThemeChanger extends Component {
             />
           </div>
         </div>
-        <Close style={closingStyle} onClick={actions.closeModal} />
+        <CloseButton onClick={actions.closeModal} />
         <DialogActions>
           <div>
             <Button

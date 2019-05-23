@@ -20,6 +20,7 @@ import Next from '@material-ui/icons/KeyboardArrowRight';
 import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../images/susi-logo.svg';
 import ToTopButton from '../Button/ToTopButton.react';
+import { Header } from '../shared/About';
 const { FacebookShareButton, TwitterShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
@@ -235,14 +236,7 @@ class Blog extends Component {
     return (
       <div>
         <StaticAppBar {...this.props} location={this.props.location} />
-        <div className="head_section">
-          <div className="container">
-            <div className="heading">
-              <h1>Blog</h1>
-              <p>Latest Blog Posts on SUSI.AI</p>
-            </div>
-          </div>
-        </div>
+        <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
         <Loading style={loadingStyle} isLoading={!this.state.postRendered} />
         {!this.state.postRendered && (
           <div>
@@ -338,13 +332,15 @@ class Blog extends Component {
                               marginBottom: '2rem',
                             }}
                           >
-                            {renderHTML(
-                              'by <a href="http://blog.fossasia.org/author/' +
-                                posts.author +
-                                '" >' +
-                                posts.author +
-                                '</a>',
-                            )}
+                            by
+                            <a
+                              style={{ paddingLeft: '0.3rem' }}
+                              href={`http://blog.fossasia.org/author/${
+                                posts.author
+                              }`}
+                            >
+                              {posts.author}
+                            </a>
                           </Typography>
                           <Typography variant="body1" gutterBottom>
                             {htmlContent}

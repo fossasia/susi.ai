@@ -14,9 +14,9 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import PasswordField from 'material-ui-password-field';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Close from '@material-ui/icons/Close';
 import zxcvbn from 'zxcvbn';
 import './SignUp.css';
+import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import { isEmail } from '../../../utils';
 import appActions from '../../../redux/actions/app';
@@ -36,16 +36,6 @@ const styles = {
   inputStyle: {
     height: '35px',
     marginBottom: '10px',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
   },
 };
 
@@ -423,7 +413,7 @@ class SignUp extends Component {
             <Translate text="Already have an account? Login here" />
           </span>
         </div>
-        <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
+        <CloseButton onClick={this.handleDialogClose} />
       </React.Fragment>
     );
   }

@@ -3,7 +3,7 @@ import Translate from '../../Translate/Translate.react';
 import SettingsTabWrapper from './SettingsTabWrapper';
 import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
-import { FlexContainer } from '../../Commons/Container';
+import { FlexContainer } from '../../shared/Container';
 
 const MicrophoneTab = props => {
   let STTBrowserSupport;
