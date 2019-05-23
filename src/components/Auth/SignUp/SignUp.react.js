@@ -197,7 +197,6 @@ class SignUp extends Component {
   };
 
   onSignup = event => {
-    event.preventDefault();
     this.setState({
       signupErrorMessage: '',
     });
@@ -270,6 +269,12 @@ class SignUp extends Component {
     }
   };
 
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.onSignup();
+    }
+  };
+
   render() {
     const {
       email,
@@ -317,6 +322,8 @@ class SignUp extends Component {
                 aria-describedby="email-error-text"
                 style={{ width: '17rem', height: '2.1rem' }}
                 placeholder="Email"
+                onKeyUp={this.onEnterKey}
+                autoFocus={true}
               />
               <FormHelperText error={emailErrorMessage !== ''}>
                 {emailErrorMessage}
@@ -331,6 +338,7 @@ class SignUp extends Component {
                 value={password}
                 placeholder="Password"
                 onChange={this.handleTextFieldChange}
+                onKeyUp={this.onEnterKey}
               />
               <FormHelperText error={passwordErrorMessage !== ''}>
                 {passwordErrorMessage}
@@ -349,6 +357,7 @@ class SignUp extends Component {
                 value={confirmPassword}
                 placeholder="Confirm Password"
                 onChange={this.handleTextFieldChange}
+                onKeyUp={this.onEnterKey}
               />
               <FormHelperText error={passwordConfirmErrorMessage !== ''}>
                 {passwordConfirmErrorMessage}

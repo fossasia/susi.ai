@@ -91,7 +91,6 @@ class Login extends Component {
   };
 
   handleSubmit = e => {
-    e.preventDefault();
     const { actions, location, history } = this.props;
     const { password, email } = this.state;
 
@@ -216,6 +215,12 @@ class Login extends Component {
     });
   };
 
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
   render() {
     const {
       email,
@@ -246,6 +251,8 @@ class Login extends Component {
                 aria-describedby="email-error-text"
                 style={{ width: '17rem', height: '2.1rem' }}
                 placeholder="Email"
+                onKeyUp={this.onEnterKey}
+                autoFocus={true}
               />
               <FormHelperText error={emailErrorMessage !== ''}>
                 {emailErrorMessage}
@@ -260,6 +267,7 @@ class Login extends Component {
                 value={password}
                 placeholder="Password"
                 onChange={this.handleTextFieldChange}
+                onKeyUp={this.onEnterKey}
               />
               <FormHelperText error={passwordErrorMessage !== ''}>
                 {passwordErrorMessage}
