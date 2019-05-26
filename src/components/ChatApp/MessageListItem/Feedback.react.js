@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import actions from '../../../redux/actions/messages';
@@ -28,6 +27,7 @@ class Feedback extends React.Component {
     skillFeedbackByMessageId: PropTypes.object,
     countryCode: PropTypes.string,
     countryName: PropTypes.string,
+    theme: PropTypes.string,
   };
 
   constructor(props) {
@@ -101,11 +101,10 @@ class Feedback extends React.Component {
   };
 
   render() {
-    const { message, skillFeedbackByMessageId } = this.props;
+    const { message, skillFeedbackByMessageId, theme } = this.props;
     let feedback = skillFeedbackByMessageId[message.id]
       ? skillFeedbackByMessageId[message.id]
       : '';
-    const theme = UserPreferencesStore.getTheme();
     const defaultFeedbackColor = theme === 'light' ? '#90a4ae' : '#7eaaaf';
 
     return (
@@ -129,11 +128,12 @@ class Feedback extends React.Component {
   }
 }
 
-function mapStateToProps({ messages, app }) {
+function mapStateToProps({ messages, app, settings }) {
   return {
     skillFeedbackByMessageId: messages.skillFeedbackByMessageId,
     countryCode: _.get(app, 'location.countryCode', ''),
     countryName: _.get(app, 'location.countryName', ''),
+    theme: settings.theme,
   };
 }
 function mapDispatchToProps(dispatch) {

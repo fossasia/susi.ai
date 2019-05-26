@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MessageStore from '../../../stores/MessageStore';
 import Slider from '@material-ui/lab/Slider';
 import Button from '@material-ui/core/Button';
 import VoicePlayer from '../MessageListItem/VoicePlayer';
@@ -9,6 +8,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../../Translate/Translate.react';
 import isMobileView from '../../../utils/isMobileView';
+import { connect } from 'react-redux';
+import { TabHeading } from './SettingStyles';
+import { bindActionCreators } from 'redux';
+import messageActions from '../../../redux/actions/messages';
 
 class TextToSpeechSettings extends Component {
   constructor(props) {
@@ -19,7 +22,7 @@ class TextToSpeechSettings extends Component {
       play: false,
       playExample: false,
       ttsLanguage: this.props.lang,
-      voiceList: MessageStore.getTTSVoiceList(),
+      voiceList: [],
     };
     this.speechSynthesisExample = 'This is an example of speech synthesis';
     this.speechDemo = 'Hi! I am SUSI';
@@ -97,6 +100,13 @@ class TextToSpeechSettings extends Component {
     });
   };
 
+  componentDidMount() {
+    speechSynthesis.onvoiceschanged = () => {
+      const speechSynthesisVoices = speechSynthesis.getVoices();
+      this.setState({ voiceList: speechSynthesisVoices });
+    };
+  }
+
   // Generate language list drop down menu items
   populateVoiceList = () => {
     let voices = this.state.voiceList;
@@ -142,7 +152,8 @@ class TextToSpeechSettings extends Component {
     return voiceOutput;
   };
 
-  handleTTSVoices = (event, index, value) => {
+  handleTTSVoices = event => {
+    const { value } = event.target;
     this.setState(
       {
         ttsLanguage: value,
@@ -157,17 +168,17 @@ class TextToSpeechSettings extends Component {
     return (
       <div className="settingsForm">
         <div>
-          <div style={this.props.headingStyle} className="speechSettingDiv">
+          <TabHeading>
             <Translate text="Speech Output Language" />
-          </div>
+          </TabHeading>
           <Select value={voiceOutput.voiceLang} onChange={this.handleTTSVoices}>
             {voiceOutput.voiceMenu}
           </Select>
         </div>
         <div>
-          <div style={this.props.headingStyle}>
+          <TabHeading>
             <Translate text="Speech Output Rate" />
-          </div>
+          </TabHeading>
           <Slider
             min={0.5}
             max={2}
@@ -180,9 +191,9 @@ class TextToSpeechSettings extends Component {
           </Button>
         </div>
         <div>
-          <div style={this.props.headingStyle}>
+          <TabHeading>
             <Translate text="Speech Output Pitch" />
-          </div>
+          </TabHeading>
           <Slider
             min={0}
             max={2}
@@ -230,9 +241,22 @@ TextToSpeechSettings.propTypes = {
   pitch: PropTypes.number,
   lang: PropTypes.string,
   newTtsSettings: PropTypes.func,
-  themeVal: PropTypes.string,
-  themeForegroundColor: PropTypes.string,
-  headingStyle: PropTypes.object,
+  TTSVoices: PropTypes.array,
 };
 
-export default TextToSpeechSettings;
+function mapStateToProps(store) {
+  return {
+    TTSVoices: store.messages.TTSVoices,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(messageActions, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TextToSpeechSettings);

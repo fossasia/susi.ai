@@ -5,79 +5,197 @@ import PropTypes from 'prop-types';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
 import { FlexContainer } from '../../shared/Container';
+import Button from '@material-ui/core/Button';
+import { bindActionCreators } from 'redux';
+import settingActions from '../../../redux/actions/settings';
+import uiActions from '../../../redux/actions/ui';
+import { connect } from 'react-redux';
+import { TabHeading } from './SettingStyles';
+import { setUserSettings } from '../../../apis';
 
-const SpeechTab = props => {
-  let TTSBrowserSupport;
-  if ('speechSynthesis' in window) {
-    TTSBrowserSupport = true;
-  } else {
-    TTSBrowserSupport = false;
-    console.warn(
-      'The current browser does not support the SpeechSynthesis API.',
-    );
+class SpeechTab extends React.Component {
+  constructor(props) {
+    super(props);
+    const {
+      speechOutput,
+      speechOutputAlways,
+      ttsLanguage,
+      speechPitch,
+      speechRate,
+    } = this.props;
+    this.state = {
+      speechOutput,
+      speechOutputAlways,
+      ttsLanguage,
+      speechPitch,
+      speechRate,
+    };
+
+    if ('speechSynthesis' in window) {
+      this.TTSBrowserSupport = true;
+    } else {
+      this.TTSBrowserSupport = false;
+      console.warn(
+        'The current browser does not support the SpeechSynthesis API.',
+      );
+    }
   }
-  return (
-    <SettingsTabWrapper heading="Speech Output" theme={props.themeVal}>
-      <FlexContainer>
-        <div>
-          <Translate text="Enable speech output only for speech input" />
-        </div>
-        <div>
-          <Switch
-            color="primary"
-            disabled={!TTSBrowserSupport}
-            onChange={props.handleSpeechOutput}
-            checked={props.speechOutput}
-          />
-        </div>
-      </FlexContainer>
-      <div>
-        <div style={props.headingStyle} className="reduceSettingDiv">
-          <Translate text="Speech Output Always ON" />
-        </div>
+
+  // Handle change to speech output on speech input settings
+  handleSpeechOutput = (event, isInputChecked) => {
+    this.setState({
+      speechOutput: isInputChecked,
+    });
+  };
+
+  // Handle change to speech output always settings
+  handleSpeechOutputAlways = (event, isInputChecked) => {
+    this.setState({
+      speechOutputAlways: isInputChecked,
+    });
+  };
+
+  // Save new TTS settings
+  handleNewTextToSpeech = settings => {
+    this.setState({
+      speechRate: settings.speechRate,
+      speechPitch: settings.speechPitch,
+      ttsLanguage: settings.ttsLanguage,
+    });
+  };
+
+  handleSubmit = () => {
+    const {
+      speechOutput,
+      speechOutputAlways,
+      ttsLanguage,
+      speechPitch,
+      speechRate,
+    } = this.state;
+    const { actions } = this.props;
+    const payload = {
+      speechOutput,
+      speechOutputAlways,
+      ttsLanguage,
+      speechPitch,
+      speechRate,
+    };
+    setUserSettings(payload)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.setUserSettings(payload);
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+        }
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to save Settings',
+        });
+      });
+  };
+
+  render() {
+    const {
+      speechOutput,
+      speechOutputAlways,
+      ttsLanguage,
+      speechPitch,
+      speechRate,
+    } = this.state;
+    return (
+      <SettingsTabWrapper heading="Speech Output">
         <FlexContainer>
           <div>
-            <Translate text="Enable speech output regardless of input type" />
+            <Translate text="Enable speech output only for speech input" />
           </div>
           <div>
             <Switch
               color="primary"
-              disabled={!TTSBrowserSupport}
-              onChange={props.handleSpeechOutputAlways}
-              checked={props.speechOutputAlways}
+              disabled={!this.TTSBrowserSupport}
+              onChange={this.handleSpeechOutput}
+              checked={speechOutput}
             />
           </div>
         </FlexContainer>
-      </div>
-      <div>
-        <TextToSpeechSettings
-          rate={props.speechRate}
-          pitch={props.speechPitch}
-          lang={props.ttsLanguage}
-          newTtsSettings={props.handleNewTextToSpeech.bind(this)}
-          themeForegroundColor={props.themeForegroundColor}
-          themeVal={props.themeVal}
-          headingStyle={props.headingStyle}
-        />
-      </div>
-    </SettingsTabWrapper>
-  );
-};
+        <div>
+          <TabHeading>
+            <Translate text="Speech Output Always ON" />
+          </TabHeading>
+          <FlexContainer>
+            <div>
+              <Translate text="Enable speech output regardless of input type" />
+            </div>
+            <div>
+              <Switch
+                color="primary"
+                disabled={!this.TTSBrowserSupport}
+                onChange={this.handleSpeechOutputAlways}
+                checked={speechOutputAlways}
+              />
+            </div>
+          </FlexContainer>
+        </div>
+        <div>
+          <TextToSpeechSettings
+            rate={speechRate}
+            pitch={speechPitch}
+            lang={ttsLanguage}
+            newTtsSettings={this.handleNewTextToSpeech}
+          />
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={this.handleSubmit}
+          disabled={
+            speechOutput === this.props.speechOutput &&
+            speechOutputAlways === this.props.speechOutputAlways &&
+            ttsLanguage === this.props.ttsLanguage &&
+            speechPitch === this.props.speechPitch &&
+            speechRate === this.props.speechRate
+          }
+          style={{ marginTop: '2rem' }}
+        >
+          <Translate text="Save Changes" />
+        </Button>
+      </SettingsTabWrapper>
+    );
+  }
+}
 
 SpeechTab.propTypes = {
-  containerStyle: PropTypes.object,
-  headingStyle: PropTypes.object,
-  tabHeadingStyle: PropTypes.object,
   handleNewTextToSpeech: PropTypes.func,
-  handleSpeechOutput: PropTypes.func,
-  handleSpeechOutputAlways: PropTypes.func,
   speechOutput: PropTypes.bool,
   speechOutputAlways: PropTypes.bool,
   speechPitch: PropTypes.number,
   speechRate: PropTypes.number,
-  themeForegroundColor: PropTypes.string,
-  themeVal: PropTypes.string,
   ttsLanguage: PropTypes.string,
+  actions: PropTypes.object,
 };
 
-export default SpeechTab;
+function mapStateToProps(store) {
+  return {
+    speechOutput: store.settings.speechOutput,
+    speechOutputAlways: store.settings.speechOutputAlways,
+    ttsLanguage: store.settings.ttsLanguage,
+    speechPitch: store.settings.speechPitch,
+    speechRate: store.settings.speechRate,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...settingActions, ...uiActions }, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SpeechTab);

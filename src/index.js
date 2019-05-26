@@ -1,12 +1,8 @@
 import './index.css';
-import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
-import * as Actions from './actions/';
 import App from './App';
-import MessageStore from './stores/MessageStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import UserPreferencesStore from './stores/UserPreferencesStore';
+import { connect, Provider } from 'react-redux';
 // Internationalization
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
@@ -24,29 +20,21 @@ addLocaleData([...en, ...fr, ...es, ...de, ...ru]);
 // Disable console.* in production mode
 Logger();
 
-ChatWebAPIUtils.getSettings();
-ChatWebAPIUtils.getLocation();
-ChatWebAPIUtils.getHistory();
-ChatWebAPIUtils.getAllMessages();
+function mapStateToProps(store) {
+  return {
+    locale: store.settings.prefLanguage,
+  };
+}
 
-let defaults = UserPreferencesStore.getPreferences();
-let defaultPrefLanguage = defaults.PrefLanguage;
-
-window.speechSynthesis.onvoiceschanged = function() {
-  if (!MessageStore.getTTSInitStatus()) {
-    const speechSynthesisVoices = speechSynthesis.getVoices();
-    Actions.getTTSLangText(speechSynthesisVoices);
-    Actions.initialiseTTSVoices(speechSynthesisVoices);
-  }
-};
+let ConnectedIntlProvider = connect(mapStateToProps)(IntlProvider);
 
 ReactDOM.render(
   <Provider store={store} key="provider">
-    <IntlProvider locale={defaultPrefLanguage}>
+    <ConnectedIntlProvider>
       <Router>
         <App />
       </Router>
-    </IntlProvider>
+    </ConnectedIntlProvider>
   </Provider>,
   document.getElementById('root'),
 );

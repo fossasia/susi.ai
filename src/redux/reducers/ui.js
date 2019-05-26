@@ -9,7 +9,7 @@ const defaultState = {
   snackBarProps: {
     isSnackBarOpen: false,
     snackBarMessage: '',
-    snackBarDuration: 4000,
+    snackBarDuration: 2500,
   },
 };
 

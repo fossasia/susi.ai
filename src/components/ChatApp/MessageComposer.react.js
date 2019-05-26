@@ -17,6 +17,8 @@ import {
   formatSusiMessage,
 } from '../../utils/formatMessage';
 import { urlParam } from '../../utils/helperFunctions';
+import { invertColorTextArea } from '../../utils/invertColor';
+import getCustomThemeColors from '../../utils/colors';
 import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import { getAllUserMessages } from '../../utils/messageFilter';
@@ -57,7 +59,6 @@ class MessageComposer extends Component {
   static propTypes = {
     dream: PropTypes.string,
     textarea: PropTypes.string,
-    textcolor: PropTypes.string,
     speechOutput: PropTypes.bool,
     speechOutputAlways: PropTypes.bool,
     focus: PropTypes.bool,
@@ -68,6 +69,8 @@ class MessageComposer extends Component {
     messages: PropTypes.array,
     openSnackBar: PropTypes.func,
     loadingHistory: PropTypes.bool,
+    theme: PropTypes.string,
+    customThemeValue: PropTypes.object,
   };
 
   constructor(props) {
@@ -308,7 +311,9 @@ class MessageComposer extends Component {
       speechRecognitionTextcolor,
       speechToTextOutput,
     } = this.state;
-    const { textarea, textcolor, focus } = this.props;
+    const { focus, theme, customThemeValue } = this.props;
+    const { textarea } = getCustomThemeColors({ theme, customThemeValue });
+    const textcolor = invertColorTextArea(textarea);
     return (
       <div className="message-composer">
         {isListening && (
@@ -402,6 +407,8 @@ function mapStateToProps(store) {
     speechOutputAlways,
     messages,
     loadingHistory,
+    customThemeValue: store.settings.customThemeValue,
+    theme: store.settings.theme,
   };
 }
 

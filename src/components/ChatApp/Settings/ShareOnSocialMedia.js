@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Translate from '../../Translate/Translate.react';
 import urls from '../../../utils/urls';
 import { withStyles } from '@material-ui/core/styles';
+import { TabHeading } from './SettingStyles';
 
 const styles = {
   buttonStyle: {
@@ -85,12 +86,12 @@ const ShareOnSocialMedia = props => {
   const { raisedButtonStyle } = styles;
   const { classes } = props;
   return (
-    <SettingsTabWrapper heading="" theme={props.themeVal}>
+    <SettingsTabWrapper heading="">
       <div>
         <div>
-          <div style={props.headingStyle}>
+          <TabHeading>
             <Translate text="Share about SUSI on Facebook" />
-          </div>
+          </TabHeading>
           <Button
             color="primary"
             className={classes.facebook}
@@ -104,9 +105,9 @@ const ShareOnSocialMedia = props => {
             />
             <Translate text="Share on Facebook" />
           </Button>
-          <div style={props.headingStyle}>
+          <TabHeading>
             <Translate text="Share about SUSI on Twitter" />
-          </div>
+          </TabHeading>
           <Button
             color="primary"
             className={classes.twitter}
@@ -125,9 +126,9 @@ const ShareOnSocialMedia = props => {
             />
             <Translate text="Share on Twitter" />
           </Button>
-          <div style={props.headingStyle}>
+          <TabHeading>
             <Translate text="Share about SUSI on LinkedIn" />
-          </div>
+          </TabHeading>
           <Button
             color="primary"
             className={classes.linkedin}
@@ -153,10 +154,7 @@ const ShareOnSocialMedia = props => {
 };
 
 ShareOnSocialMedia.propTypes = {
-  containerStyle: PropTypes.object,
-  headingStyle: PropTypes.object,
   classes: PropTypes.object,
-  themeVal: PropTypes.string,
 };
 
 export default withStyles(classes)(ShareOnSocialMedia);
