@@ -37,9 +37,21 @@ const defaultState = {
 
 export default handleActions(
   {
-    [actionTypes.APP_GET_USER_SETTINGS](state, { payload }) {
+    [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { payload }) {
+      let savedSettings = {
+        ...defaultState,
+      };
+      console.log(payload);
+      if (payload.settings) {
+        console.log(JSON.parse(payload.settings.settings));
+        savedSettings = {
+          ...savedSettings,
+          ...JSON.parse(payload.settings.settings),
+        };
+      }
+      console.log(savedSettings);
       return {
-        ...payload,
+        ...savedSettings,
       };
     },
     [actionTypes.APP_SET_USER_SETTINGS](state, { payload }) {
