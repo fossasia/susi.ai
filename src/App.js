@@ -25,6 +25,7 @@ import appActions from './redux/actions/app';
 import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/ProtectedRoute';
 import DialogSection from '../src/components/Dialog/DialogSection.react';
+import settingActions from './redux/actions/settings';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -43,12 +44,16 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    const { actions, accessToken } = this.props;
+    const { accessToken, actions } = this.props;
+
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
 
     actions.getApiKeys();
-    accessToken && actions.getAdmin();
+    if (accessToken) {
+      actions.getAdmin();
+      actions.getUserSettings();
+    }
   };
 
   componentWillUnmount = () => {
@@ -109,7 +114,10 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
+    actions: bindActionCreators(
+      { ...appActions, ...uiActions, ...settingActions },
+      dispatch,
+    ),
   };
 }
 

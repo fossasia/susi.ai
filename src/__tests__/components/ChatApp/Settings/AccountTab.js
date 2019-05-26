@@ -1,16 +1,16 @@
 import React from 'react';
-import TextToSpeechSettings from '../../../../components/ChatApp/Settings/TextToSpeechSettings.react';
+import AccountTab from '../../../../components/ChatApp/Settings/AccountTab.react';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<TextToSpeechSettings />', () => {
-  it('render TextToSpeechSettings without crashing', () => {
+describe('<AccountTab />', () => {
+  it('render AccountTab without crashing', () => {
     shallow(
       <Provider store={store}>
-        <TextToSpeechSettings />
+        <AccountTab />
       </Provider>,
     );
   });

@@ -2,6 +2,8 @@ import React from 'react';
 import propTypes from 'prop-types';
 import Translate from '../../Translate/Translate.react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { Divider } from './SettingStyles';
 
 const Container = styled.div`
   text-align: left;
@@ -13,18 +15,20 @@ const TabHeading = styled.div`
   font-size: 1.5rem;
 `;
 
-const SettingsTabWrapper = ({ theme, heading, children }) => {
+const SettingsTabWrapper = ({
+  theme: storeTheme,
+  heading,
+  children,
+  currTheme,
+}) => {
+  const theme = currTheme ? currTheme : storeTheme;
   return (
     <Container>
       <span>
         <TabHeading>
           <Translate text={heading} />
         </TabHeading>
-        {theme === 'light' ? (
-          <hr className="break-line-light" style={{ height: '2px' }} />
-        ) : (
-          <hr className="break-line-dark" />
-        )}
+        <Divider theme={theme} />
       </span>
       {children}
     </Container>
@@ -33,8 +37,18 @@ const SettingsTabWrapper = ({ theme, heading, children }) => {
 
 SettingsTabWrapper.propTypes = {
   theme: propTypes.string,
+  currTheme: propTypes.string,
   heading: propTypes.string.isRequired,
   children: propTypes.array,
 };
 
-export default SettingsTabWrapper;
+function mapStateToProps(store) {
+  return {
+    theme: store.settings.theme,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(SettingsTabWrapper);

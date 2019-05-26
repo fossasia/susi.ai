@@ -14,6 +14,27 @@ import MessageListItem from '../MessageListItem/MessageListItem.react';
 import { searchMessages } from '../../../utils/searchMessages';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
+import styled from 'styled-components';
+import getCustomThemeColors from '../../../utils/colors';
+
+const MessageList = styled.ul`
+  background: ${props => props.pane};
+  position: fixed;
+  top: 46px;
+  left: 0;
+  bottom: 74px;
+  right: 0;
+  width: 100vw;
+  max-width: 700px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0 auto;
+  height: auto;
+  background-image: ${props => `url(${props.messageBackgroundImage})`};
+  background-repeat: 'no-repeat';
+  background-size: '100% 100%';
+`;
 
 const styles = {
   scrollBottomStyle: {
@@ -34,10 +55,6 @@ const styles = {
     },
     backgroundColor: '#fcfcfc',
   },
-  messageBackgroundStyles: {
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: '100% 100%',
-  },
 };
 
 const urlPropsQueryConfig = {
@@ -52,7 +69,6 @@ class MessageSection extends Component {
     speechOutput: PropTypes.bool,
     speechOutputAlways: PropTypes.bool,
     theme: PropTypes.string,
-    customThemeValue: PropTypes.object,
     messages: PropTypes.array,
     messagesByID: PropTypes.object,
     loadingHistory: PropTypes.bool,
@@ -62,6 +78,7 @@ class MessageSection extends Component {
     backgroundImage: PropTypes.string,
     messageBackgroundImage: PropTypes.string,
     actions: PropTypes.object,
+    customThemeValues: PropTypes.object,
   };
 
   static defaultProps = {
@@ -431,35 +448,26 @@ class MessageSection extends Component {
       speechOutput,
       speechOutputAlways,
       theme,
-      customThemeValue,
       messages,
       messagesByID,
       loadingHistory,
       backgroundImage,
       messageBackgroundImage,
       loadingReply,
+      customThemeValues,
     } = this.props;
-    const { search, searchState, showScrollTop, showScrollBottom } = this.state;
-    const {
-      scrollBottomStyle,
-      scrollTopStyle,
-      messageBackgroundStyles,
-    } = styles;
-
     const {
       header,
       pane,
       body,
       composer,
-      textarea,
       button,
-      textColor,
-    } = customThemeValue;
+      textarea,
+    } = getCustomThemeColors({ theme, customThemeValues });
+    const { search, searchState, showScrollTop, showScrollBottom } = this.state;
+    const { scrollBottomStyle, scrollTopStyle } = styles;
 
-    document.body.style.setProperty(
-      'background-color',
-      theme === 'dark' ? 'rgb(0, 0, 18)' : body,
-    );
+    document.body.style.setProperty('background-color', body);
     document.body.style.setProperty(
       'background-image',
       `url("${backgroundImage}")`,
@@ -514,16 +522,12 @@ class MessageSection extends Component {
                 </div>
               ) : (
                 <div>
-                  <ul
-                    className="message-list"
+                  <MessageList
                     ref={c => {
                       this.messageList = c;
                     }}
-                    style={{
-                      ...messageBackgroundStyles,
-                      backgroundColor: pane,
-                      backgroundImage: `url(${messageBackgroundImage})`,
-                    }}
+                    pane={pane}
+                    messageBackgroundImage={messageBackgroundImage}
                   >
                     <Scrollbars
                       renderThumbHorizontal={this.renderThumb}
@@ -539,7 +543,7 @@ class MessageSection extends Component {
                       {messageListItems}
                       {!search && loadingReply && this.getLoadingGIF()}
                     </Scrollbars>
-                  </ul>
+                  </MessageList>
                   {showScrollTop && (
                     <div>
                       <FloatingActionButton
@@ -576,11 +580,10 @@ class MessageSection extends Component {
                 <MessageComposer
                   focus={!search}
                   dream={dream}
-                  textarea={textarea}
-                  textcolor={textColor}
                   speechOutput={speechOutput}
                   speechOutputAlways={speechOutputAlways}
                   micColor={button}
+                  textarea={textarea}
                 />
               </div>
             </div>

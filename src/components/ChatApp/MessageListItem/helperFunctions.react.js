@@ -17,7 +17,7 @@ import { divIcon } from 'leaflet';
 import Slider from 'react-slick';
 import TickIcon from 'material-ui/svg-icons/action/done';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import store from '../../../store';
 import Parser from 'html-react-parser';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { injectIntl } from 'react-intl';
@@ -54,7 +54,8 @@ export function renderAnchor(text, link) {
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
   let { footerStyle, indicatorStyle } = styles;
-  const isLightTheme = UserPreferencesStore.getTheme() === 'light';
+  const { theme } = store.getState().settings;
+  const isLightTheme = theme === 'light';
 
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
