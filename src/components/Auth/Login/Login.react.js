@@ -17,7 +17,6 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PasswordField from 'material-ui-password-field';
 import CloseButton from '../../shared/CloseButton';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
@@ -53,6 +52,7 @@ class Login extends Component {
     openSnackBar: PropTypes.func,
     location: PropTypes.object,
     history: PropTypes.object,
+    serverUrl: PropTypes.string,
   };
 
   constructor(props) {
@@ -177,9 +177,8 @@ class Login extends Component {
 
   setCookies = payload => {
     const { accessToken, time, email, uuid } = payload;
-    const defaults = UserPreferencesStore.getPreferences();
-    const BASE_URL = defaults.Server;
-    cookies.set('serverUrl', BASE_URL, {
+    const { serverUrl } = this.props;
+    cookies.set('serverUrl', serverUrl, {
       path: '/',
       domain: cookieDomain,
     });
@@ -189,11 +188,6 @@ class Login extends Component {
       domain: cookieDomain,
     });
     cookies.set('emailId', email, {
-      path: '/',
-      maxAge: time,
-      domain: cookieDomain,
-    });
-    cookies.set('username', UserPreferencesStore.getUserName(), {
       path: '/',
       maxAge: time,
       domain: cookieDomain,
@@ -313,7 +307,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(store) {
   return {
-    ...store.skills,
+    serverUrl: store.settings.serverUrl,
   };
 }
 

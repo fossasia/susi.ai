@@ -256,7 +256,7 @@ header{
 .text-container h1{
   font-size: 4vw;
 }
-.message-list-item, .thread-list-item {
+.message-list-item {
   color: #001d38;
   display: flex;
   margin: 5px;
@@ -329,21 +329,6 @@ header{
 .dark .message-container::after{
   border-color: rgb(26, 66, 86) #1a4257 rgb(26, 66, 86) rgb(26, 66, 86);
   background: rgba(25, 147, 147, 0.2);
-}
-
-.thread-list:hover .thread-list-item:hover {
-  background-color: #f8f8ff;
-}
-
-.thread-list:hover .thread-list-item {
-  background-color: #fff;
-}
-
-.thread-list-item.active,
-.thread-list:hover .thread-list-item.active,
-.thread-list:hover .thread-list-item.active:hover {
-  background-color: #e1f5fe;
-  cursor: default;
 }
 
 .message-author-name,

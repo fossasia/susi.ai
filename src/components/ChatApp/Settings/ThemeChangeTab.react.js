@@ -9,70 +9,101 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import settingActions from '../../../redux/actions/settings';
+import { setUserSettings } from '../../../apis';
 
-const ThemeChangeTab = props => {
-  const {
-    actions,
-    handleThemeChanger,
-    theme,
-    themeVal,
-    handleSelectChange,
-  } = props;
-  const handleThemeChange = () => {
-    actions.openModal({ modalType: 'themeChange' });
-    handleThemeChanger();
+class ThemeChangeTab extends React.Component {
+  constructor(props) {
+    super(props);
+    const { theme } = this.props;
+    this.initialTheme = theme;
+  }
+
+  handleCustomTheme = () => {
+    this.props.actions.openModal({ modalType: 'themeChange' });
   };
-  return (
-    <SettingsTabWrapper heading="Select Theme" theme={themeVal}>
-      <RadioGroup
-        style={{ textAlign: 'left', margin: 20 }}
-        onChange={handleSelectChange}
-        name="Theme"
-        value={theme}
-      >
-        <FormControlLabel
-          value="light"
-          control={<Radio color="primary" />}
-          label={<Translate text="Light" />}
-        />
-        <FormControlLabel
-          value="dark"
-          control={<Radio color="primary" />}
-          label={<Translate text="Dark" />}
-        />
-        <FormControlLabel
-          value="custom"
-          control={<Radio color="primary" />}
-          label={<Translate text="Custom" />}
-        />
-      </RadioGroup>
-      <Button
-        disabled={theme !== 'custom'}
-        onClick={handleThemeChange}
-        variant="contained"
-        color="primary"
-      >
-        <Translate text="Edit theme" />
-      </Button>
-    </SettingsTabWrapper>
-  );
-};
+
+  handleSubmit = () => {
+    const { actions, theme } = this.props;
+    setUserSettings({ theme })
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.setUserSettings({ theme });
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+        }
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to save Settings',
+        });
+      });
+  };
+
+  render() {
+    const { theme } = this.props;
+    return (
+      <SettingsTabWrapper currTheme={theme} heading="Select Theme">
+        <RadioGroup
+          style={{ textAlign: 'left', margin: 20 }}
+          onChange={this.props.handleThemeChange}
+          name="Theme"
+          value={theme}
+        >
+          <FormControlLabel
+            value="light"
+            control={<Radio color="primary" />}
+            label={<Translate text="Light" />}
+          />
+          <FormControlLabel
+            value="dark"
+            control={<Radio color="primary" />}
+            label={<Translate text="Dark" />}
+          />
+          <FormControlLabel
+            value="custom"
+            control={<Radio color="primary" />}
+            label={<Translate text="Custom" />}
+          />
+        </RadioGroup>
+        <Button
+          disabled={theme !== 'custom'}
+          onClick={this.handleCustomTheme}
+          variant="contained"
+          color="primary"
+        >
+          <Translate text="Edit theme" />
+        </Button>
+        <div style={{ marginTop: '1rem' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleSubmit}
+            disabled={theme === this.initialTheme}
+          >
+            <Translate text="Save Changes" />
+          </Button>
+        </div>
+      </SettingsTabWrapper>
+    );
+  }
+}
 
 ThemeChangeTab.propTypes = {
-  containerStyle: PropTypes.object,
+  handleThemeChange: PropTypes.func,
   handleSelectChange: PropTypes.func,
-  handleThemeChanger: PropTypes.func,
-  radioIconStyle: PropTypes.object,
   theme: PropTypes.string,
-  themeForegroundColor: PropTypes.string,
-  themeVal: PropTypes.string,
-  tabHeadingStyle: PropTypes.object,
   actions: PropTypes.object,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...settingActions }, dispatch),
   };
 }
 

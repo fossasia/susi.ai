@@ -10,7 +10,6 @@ const defaultState = {
   loadingHistoryError: false,
   loadingReply: false,
   initialisedVoices: false,
-  TTSVoices: [],
   historyBuffer: [],
 };
 
@@ -92,15 +91,6 @@ export default handleActions(
           ...state.skillFeedbackByMessageId,
           [messageId]: feedback,
         },
-      };
-    },
-    [actionTypes.MESSAGES_INIT_TTS_VOICES](state, { payload }) {
-      // ACTION needed
-      const { TTSVoices } = payload;
-      return {
-        ...state,
-        initialisedVoices: true,
-        TTSVoices,
       };
     },
     [actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER](state, { payload }) {

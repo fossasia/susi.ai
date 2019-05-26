@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import { connect } from 'react-redux';
 
 class VoicePlayer extends Component {
   constructor(props) {
@@ -20,12 +20,13 @@ class VoicePlayer extends Component {
   }
 
   createSpeech = () => {
+    const { lang, rate, pitch } = this.props;
     const defaults = {
       text: '',
       volume: 1,
-      rate: UserPreferencesStore.getSpeechRate(),
-      pitch: UserPreferencesStore.getSpeechPitch(),
-      lang: UserPreferencesStore.getTTSLanguage(),
+      rate,
+      pitch,
+      lang,
     };
     let speech = new SpeechSynthesisUtterance();
     Object.assign(speech, defaults, this.props);
@@ -53,11 +54,12 @@ class VoicePlayer extends Component {
   };
 
   componentDidUpdate({ pause }) {
-    if (pause && this.state.playing && this.state.started) {
+    const { playing, started } = this.state;
+    if (pause && playing && started) {
       return this.pause();
     }
 
-    if (!pause && !this.state.playing && this.state.started) {
+    if (!pause && !playing && started) {
       return this.resume();
     }
   }
@@ -104,4 +106,16 @@ VoicePlayer.propTypes = {
   onStart: PropTypes.func,
   onEnd: PropTypes.func,
 };
-export default VoicePlayer;
+
+function mapStateToProps(store) {
+  return {
+    lang: store.settings.ttsLanguage,
+    rate: store.settings.speechRate,
+    pitch: store.settings.speechPitch,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(VoicePlayer);
