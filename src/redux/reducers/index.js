@@ -4,6 +4,7 @@ import app from './app';
 import settings from './settings';
 import messages from './messages';
 import ui from './ui';
+import skills from './skills';
 
 export default combineReducers({
   routing: routerReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   settings,
   messages,
   ui,
+  skills,
 });

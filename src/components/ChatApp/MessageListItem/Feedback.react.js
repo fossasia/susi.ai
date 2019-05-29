@@ -60,7 +60,7 @@ class Feedback extends React.Component {
     this.setState({ feedbackInProgress: false });
   };
 
-  postSkillFeedback = feedback => {
+  postSkillReplyFeedback = feedback => {
     const skillInfo = this.state.skill;
     const { actions, message, countryCode, countryName } = this.props;
     const query = _.get(message, 'response.query', '');
@@ -71,7 +71,7 @@ class Feedback extends React.Component {
     });
 
     actions
-      .postSkillFeedback({
+      .postSkillReplyFeedback({
         ...skillInfo,
         feedback,
         query,
@@ -112,12 +112,12 @@ class Feedback extends React.Component {
         {message && message.authorName === 'SUSI' ? (
           <span className="feedback" style={styles.feedbackContainer}>
             <ThumbUp
-              onClick={() => this.postSkillFeedback('positive')}
+              onClick={() => this.postSkillReplyFeedback('positive')}
               style={styles.feedbackButton}
               color={feedback === 'positive' ? '#00ff7f' : defaultFeedbackColor}
             />
             <ThumbDown
-              onClick={() => this.postSkillFeedback('negative')}
+              onClick={() => this.postSkillReplyFeedback('negative')}
               style={styles.feedbackButton}
               color={feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor}
             />
