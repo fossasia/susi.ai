@@ -1,0 +1,113 @@
+.bold {
+    font-weight: bold;
+}
+
+.staffPickIcon {
+    height: 24px;
+    width: 24px;
+}
+
+div.scrolling-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.clear-button:hover {
+    color: #4285f4;
+}
+
+.index-link-sidebar {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 14px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.index-link-sidebar:hover {
+    color: #4285f4;
+    cursor: pointer;
+}
+
+.susi-skills {
+    color: rgba(0,0,0,.65);
+    width: fit-content;
+}
+
+.susi-skills:hover {
+    color: #4285f4;
+    cursor: pointer;
+}
+
+.category-sidebar-section {
+    margin-top: 15px;
+    margin-left: 12px;
+    width: fit-content;
+}
+
+.create-button button div div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+}
+
+.create-button button div {
+    width: 100%;
+}
+
+.metrics-header {
+    font-size: 20px;
+}
+
+#pagination {
+    position: relative;
+    right: 0;
+    bottom: 27px;
+}
+
+#page-filter {
+    display: flex;
+    margin: 0 0 10px 10px;
+    font-size: 16px;
+    justify-content: space-between;
+    height: 35px;
+}
+
+.pageNavigation {
+    text-align: center;
+    margin: 15px 0;
+    margin-bottom: 5px;
+}
+
+#pagination > div {
+    margin-right: 15px;
+}
+
+@media screen and (max-width: 418px) {
+    .metrics-header {
+        font-size: 16px;
+    }
+    #page-filter {
+        flex-direction: column;
+        height: 100%;
+    }
+    #pagination {
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+    }
+    #pagination > div {
+        margin: 0;
+    }
+    #pageNavigation {
+        justify-content: center;
+    }
+}
+
+.category-mobile-section div:first-child a {
+    border-top-width: 1px !important;
+    border-radius: 5px 5px 0 0;
+}
+
+.category-mobile-section div:last-child a {
+    border-radius: 0 0 5px 5px;
+}

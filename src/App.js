@@ -26,6 +26,9 @@ import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/ProtectedRoute';
 import DialogSection from '../src/components/Dialog/DialogSection.react';
 import settingActions from './redux/actions/settings';
+import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
+import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCategory';
+import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -93,6 +96,17 @@ class App extends Component {
             />
             <Switch>
               <Route exact path="/" component={ChatApp} />
+              <Route exact path="/skills" component={BrowseSkill} />
+              <Route
+                exact
+                path="/skills/category/:category"
+                component={BrowseSkillByCategory}
+              />
+              <Route
+                exact
+                path="/skills/language/:language"
+                component={BrowseSkillByLanguage}
+              />
               <Route exact path="/overview" component={Overview} />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />

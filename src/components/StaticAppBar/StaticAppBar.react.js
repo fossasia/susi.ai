@@ -157,6 +157,7 @@ class StaticAppBar extends Component {
     userName: PropTypes.string,
     app: PropTypes.string,
     actions: PropTypes.object,
+    showPageTabs: PropTypes.bool,
   };
 
   constructor(props) {
@@ -256,7 +257,8 @@ class StaticAppBar extends Component {
   }
 
   render() {
-    const { accessToken, email, userName, isAdmin } = this.props.app;
+    const { showPageTabs, app } = this.props;
+    const { accessToken, email, userName, isAdmin } = app;
     const { anchorEl, drawerOpen } = this.state;
     const open = Boolean(anchorEl);
     // Check the path to show or not to show top bar left menu
@@ -289,7 +291,7 @@ class StaticAppBar extends Component {
             </ListItemText>
           </MenuItem>
         </Link>
-        <a href={`${urls.SKILL_URL}`} style={{ textDecoration: 'none' }}>
+        <Link to="/skills" style={{ textDecoration: 'none' }}>
           <MenuItem onClick={this.handleMenuClose}>
             <ListItemIcon>
               <Dashboard />
@@ -298,7 +300,7 @@ class StaticAppBar extends Component {
               <Translate text="Skills" />
             </ListItemText>
           </MenuItem>
-        </a>
+        </Link>
         {accessToken && (
           <div>
             <a
@@ -398,7 +400,7 @@ class StaticAppBar extends Component {
                   <SusiLogo src={susiWhite} alt="susi-logo" />
                 </Link>
               </div>
-              <TopMenu />
+              {showPageTabs ? <TopMenu /> : null}
             </FlexContainer>
             <div>
               <div onScroll={this.handleScroll}>
