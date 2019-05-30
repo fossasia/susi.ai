@@ -104,7 +104,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint *.js \"src/**/*.js\"",
+    "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
     "prepush": "npm run lint",
