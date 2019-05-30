@@ -29,6 +29,8 @@ import settingActions from './redux/actions/settings';
 import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
 import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCategory';
 import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
+import SkillListing from './components/cms/SkillPage/SkillListing';
+import SkillFeedbackPage from './components/cms/SkillFeedbackPage/SkillFeedbackPage';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -106,6 +108,16 @@ class App extends Component {
                 exact
                 path="/skills/language/:language"
                 component={BrowseSkillByLanguage}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skills/:lang"
+                component={SkillListing}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skills/:lang/feedbacks"
+                component={SkillFeedbackPage}
               />
               <Route exact path="/overview" component={Overview} />
               <Route exact path="/devices" component={Devices} />

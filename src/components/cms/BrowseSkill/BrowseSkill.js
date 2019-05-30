@@ -348,12 +348,12 @@ class BrowseSkill extends React.Component {
           value="Back to SUSI Skills"
           key="Back to SUSI Skills"
           primaryText="Back to SUSI Skills"
-          containerElement={<Link to="/" />}
+          containerElement={<Link to="/skills" />}
           style={{ minHeight: '32px', textAlign: 'center', lineHeight: '32px' }}
         />
       );
       renderMobileMenu = this.props.groups.map(categoryName => {
-        const linkValue = '/category/' + categoryName;
+        const linkValue = '/skills/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
             <MenuItem
@@ -400,7 +400,7 @@ class BrowseSkill extends React.Component {
             ? skills.length
             : listOffset + entriesPerPage}{' '}
           out of {skills.length} result(s) for&nbsp;<b>
-            <Link to="/">
+            <Link to="/skills">
               <div className="susi-skills">SUSI Skills</div>
             </Link>
           </b>
@@ -453,7 +453,7 @@ class BrowseSkill extends React.Component {
         <div>
           No result found for{' '}
           <b>
-            <Link to="/">
+            <Link to="/skills">
               <span className="susi-skills">SUSI Skills: </span>
             </Link>
           </b>
@@ -580,7 +580,7 @@ class BrowseSkill extends React.Component {
 
                 {routeType === 'category' ? (
                   <div className="category-sidebar-section">
-                    <Link to="/">
+                    <Link to="/skills">
                       <div
                         onClick={() =>
                           this.props.actions.setCategoryFilter({

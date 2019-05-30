@@ -128,7 +128,7 @@ class SkillCard extends Component {
               key={el}
               to={{
                 pathname:
-                  '/' +
+                  '/skills/' +
                   skill.group +
                   '/' +
                   skill.skillTag +
@@ -153,7 +153,7 @@ class SkillCard extends Component {
               <Link
                 to={{
                   pathname:
-                    '/' +
+                    '/skills/' +
                     skill.group +
                     '/' +
                     skill.skillTag +
@@ -178,7 +178,7 @@ class SkillCard extends Component {
                 key={el}
                 to={{
                   pathname:
-                    '/' +
+                    '/skills/' +
                     skill.group +
                     '/' +
                     skill.skillTag +
