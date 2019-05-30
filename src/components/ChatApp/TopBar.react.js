@@ -215,7 +215,7 @@ class TopBar extends Component {
                   </ListItemText>
                 </MenuItem>
               </Link>
-              <a href={`${urls.SKILL_URL}`} style={{ textDecoration: 'none' }}>
+              <Link to="/skills" style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Dashboard />
@@ -224,7 +224,7 @@ class TopBar extends Component {
                     <Translate text="Skills" />
                   </ListItemText>
                 </MenuItem>
-              </a>
+              </Link>
               {accessToken && (
                 <a
                   href={`${urls.SKILL_URL}/botbuilder`}
