@@ -37,6 +37,7 @@ import SkillHistory from './components/cms/SkillHistory/SkillHistory';
 import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
 import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
+import Admin from './components/Admin/Admin';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -166,6 +167,7 @@ class App extends Component {
               <Route exact path="/terms" component={Terms} />
               <Route exact path="/privacy" component={Privacy} />
               <Route exact path="/logout" component={Logout} />
+              <Route path="/admin" component={Admin} />
               <ProtectedRoute exact path="/settings" component={Settings} />
               <Route exact path="/*:path(error-404|)" component={NotFound} />
             </Switch>

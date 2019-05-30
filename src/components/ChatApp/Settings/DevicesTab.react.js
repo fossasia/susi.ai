@@ -258,7 +258,7 @@ class DevicesTab extends React.Component {
                   <div>
                     <div style={{ overflowX: 'auto' }}>
                       <div
-                        className="table"
+                        className="device_table"
                         style={{
                           left: '0px',
                           marginTop: '0px',
