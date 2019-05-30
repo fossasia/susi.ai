@@ -26,7 +26,9 @@ function createListCard(
   stars,
 ) {
   const dataId = `index-${el}`;
-  const skillPathname = `/${skill.group}/${skill.skillTag}/${skill.language}`;
+  const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${
+    skill.language
+  }`;
   const skillFeedbackPathname = `${skillPathname}/feedbacks`;
   const mobileView = window.innerWidth < 430;
   if (mobileView) {

@@ -1,0 +1,34 @@
+.country-usage-container {
+    display: flex;
+    flex-direction: row
+}
+
+.country-usage-graph {
+    width: 70%;
+}
+
+.country-usage-list {
+    width: 25%;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+@media only screen and (max-width: 800px) {
+    .country-usage-container {
+        display: block;
+    }
+    .country-usage-list {
+        width: 40%;
+        margin: 0 auto;
+    }
+
+    .country-usage-graph {
+        width: 100%;
+    }
+}
+
+.unavailable-message {
+    display: flex;
+    justify-content: center;
+}
