@@ -1,0 +1,9 @@
+
+.table-wrap >div{
+    min-width: 700px;
+}
+@media (max-width:769px){
+    .table-wrap{
+        overflow-x: scroll;
+    }
+}

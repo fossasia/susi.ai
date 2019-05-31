@@ -1,10 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Translate from '../../../components/Translate/Translate.react';
+import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 describe('<Translate />', () => {
-  it('renders Translate without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Translate />, div);
+  it('render Translate without crashing', () => {
+    shallow(
+      <Provider store={store}>
+        <Translate />
+      </Provider>,
+    );
   });
 });

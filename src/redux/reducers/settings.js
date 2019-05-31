@@ -1,11 +1,9 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
-import { invertColor } from '../../utils/invertColor';
 
 const defaultState = {
   theme: 'light',
   server: 'https://api.susi.ai',
-  standardServer: '',
   enterAsSend: true,
   micInput: true,
   speechOutput: true,
@@ -23,7 +21,6 @@ const defaultState = {
     composer: '#f3f2f4',
     textarea: '#fff',
     button: '#4285f4',
-    textColor: '#000',
   },
   localStorage: true,
   countryCode: 'US',
@@ -33,18 +30,73 @@ const defaultState = {
   serverUrl: 'https://api.susi.ai',
   backgroundImage: '',
   messageBackgroundImage: '',
+  avatarType: 'default',
 };
 
 export default handleActions(
   {
-    [actionTypes.APP_GET_USER_SETTINGS](state, { payload }) {
-      return {
-        ...payload,
-      };
-    },
-    [actionTypes.APP_SET_USER_SETTINGS](state, { payload }) {
+    [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { payload }) {
+      const { settings } = payload;
+      const {
+        theme,
+        server,
+        serverUrl,
+        enterAsSend,
+        micInput,
+        speechOutput,
+        speechOutputAlways,
+        speechRate,
+        speechPitch,
+        ttsLanguage,
+        userName,
+        prefLanguage,
+        timeZone,
+        countryCode,
+        countryDialCode,
+        phoneNo,
+        checked,
+        backgroundImage,
+        messageBackgroundImage,
+        avatarType,
+      } = settings;
+      let { customThemeValue } = settings;
+      const themeArray = customThemeValue.split(',').map(value => `#${value}`);
       return {
         ...state,
+        theme,
+        server,
+        serverUrl,
+        enterAsSend: enterAsSend === 'true',
+        micInput: micInput === 'true',
+        speechOutput: speechOutput === 'true',
+        speechOutputAlways: speechOutputAlways === 'true',
+        speechRate,
+        speechPitch,
+        ttsLanguage,
+        userName,
+        prefLanguage,
+        timeZone,
+        countryCode,
+        countryDialCode,
+        phoneNo,
+        checked: checked === 'true',
+        backgroundImage,
+        messageBackgroundImage,
+        avatarType,
+        customThemeValue: {
+          header: themeArray[0],
+          pane: themeArray[1],
+          body: themeArray[2],
+          composer: themeArray[3],
+          textarea: themeArray[4],
+          button: themeArray[5],
+        },
+      };
+    },
+    [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
+      return {
+        ...state,
+        ...payload,
       };
     },
     [actionTypes.SETTINGS_REMOVE_USER_DEVICE](state, { payload }) {
@@ -55,67 +107,6 @@ export default handleActions(
     [actionTypes.SETTINGS_ADD_USER_DEVICE](state, { payload }) {
       return {
         ...state,
-      };
-    },
-
-    [actionTypes.SETTINGS_SET_ACCOUNT_SETTINGS](state, { payload }) {
-      const { userName, timeZone, prefLanguage } = payload;
-      return {
-        ...state,
-        userName,
-        timeZone,
-        prefLanguage,
-      };
-    },
-    [actionTypes.SETTINGS_SET_MOBILE_SETTINGS](state, { payload }) {
-      const { phoneNo, countryCode, countryDialCode } = payload;
-      return {
-        ...state,
-        phoneNo,
-        countryCode,
-        countryDialCode,
-      };
-    },
-    [actionTypes.SETTINGS_SET_CHAT_PREFERENCES_SETTINGS](state, { payload }) {
-      const { enterAsSend } = payload;
-      return {
-        ...state,
-        enterAsSend,
-      };
-    },
-    [actionTypes.SETTINGS_SET_THEME_SETTINGS](state, { payload }) {
-      const { theme, customThemeValue } = payload;
-      return {
-        ...state,
-        theme,
-        customThemeValue: {
-          ...customThemeValue,
-          textColor: invertColor(customThemeValue.textarea),
-        },
-      };
-    },
-    [actionTypes.SETTINGS_SET_MICROPHONE_SETTINGS](state, { payload }) {
-      const { micInput } = payload;
-      return {
-        ...state,
-        micInput,
-      };
-    },
-    [actionTypes.SETTINGS_SET_SPEECH_SETTINGS](state, { payload }) {
-      const {
-        speechOutput,
-        speechOutputAlways,
-        speechRate,
-        speechPitch,
-        ttsLanguage,
-      } = payload;
-      return {
-        ...state,
-        speechOutput,
-        speechOutputAlways,
-        speechRate,
-        speechPitch,
-        ttsLanguage,
       };
     },
   },

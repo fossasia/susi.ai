@@ -4,7 +4,6 @@ import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import VoicePlayer from './VoicePlayer';
 import YouTube from 'react-youtube';
-import { getDefaultMapData } from '../../../apis';
 import { injectIntl } from 'react-intl';
 import {
   imageParse,
@@ -234,9 +233,11 @@ export const generateMessageBubble = (
   latestMessage,
   width,
   height,
+  userGeoData,
   onTextToSpeechStart,
   onTextToSpeechEnd,
   onYouTubePlayerReady,
+  getUserGeoData,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -371,27 +372,26 @@ export const generateMessageBubble = (
             zoom = parseFloat(zoom);
             let mymap;
             if (isNaN(latitude) || isNaN(longitude)) {
-              getDefaultMapData()
-                .then(response => {
-                  mymap = drawMap(response.latitude, response.longitude, zoom);
-                  listItems.push(
-                    generateMapBubble(
-                      action,
-                      index,
-                      messageContainerClasses,
-                      replacedText,
-                      mapAnchor,
-                      mymap,
-                      message,
-                      latestUserMsgID,
-                      showFeedback,
-                    ),
-                  );
-                })
-                .catch(error => {
-                  console.log(error);
-                  mymap = 'Map not found!';
-                });
+              /* Check if user's geo data is available or else perform the action */
+              if (userGeoData === null) {
+                getUserGeoData();
+              } else {
+                /* Manually providing mapanchor and replacedText
+                 fields as schema stiching in reducer*/
+                mapAnchor = (
+                  <a
+                    target="_blank"
+                    href={`https://www.openstreetmap.org/#map=13/${
+                      userGeoData.lat
+                    }/${userGeoData.lon}`}
+                  >
+                    Here is a map
+                  </a>
+                );
+
+                replacedText = 'Your location';
+                mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
+              }
             } else {
               mymap = drawMap(latitude, longitude, zoom);
             }

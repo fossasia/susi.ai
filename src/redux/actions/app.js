@@ -21,4 +21,8 @@ export default {
   logout: createAction(actionTypes.APP_LOGOUT, returnArgumentsFn),
   getAdmin: createAction(actionTypes.APP_GET_ADMIN, apis.getAdmin),
   setVisited: createAction(actionTypes.APP_SET_VISITED_STATE),
+  getUserSkills: createAction(
+    actionTypes.APP_GET_USER_SKILLS,
+    apis.fetchUserSkill,
+  ),
 };

@@ -25,6 +25,18 @@ import appActions from './redux/actions/app';
 import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/ProtectedRoute';
 import DialogSection from '../src/components/Dialog/DialogSection.react';
+import settingActions from './redux/actions/settings';
+import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
+import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCategory';
+import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
+import SkillListing from './components/cms/SkillPage/SkillListing';
+import SkillFeedbackPage from './components/cms/SkillFeedbackPage/SkillFeedbackPage';
+import Dashboard from './components/cms/Dashboard/Dashboard';
+import SkillVersion from './components/cms/SkillVersion/SkillVersion';
+import SkillHistory from './components/cms/SkillHistory/SkillHistory';
+import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
+import SkillCreator from './components/cms/SkillCreator/SkillCreator';
+import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -43,12 +55,16 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    const { actions, accessToken } = this.props;
+    const { accessToken, actions } = this.props;
+
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
 
     actions.getApiKeys();
-    accessToken && actions.getAdmin();
+    if (accessToken) {
+      actions.getAdmin();
+      actions.getUserSettings();
+    }
   };
 
   componentWillUnmount = () => {
@@ -88,6 +104,59 @@ class App extends Component {
             />
             <Switch>
               <Route exact path="/" component={ChatApp} />
+              <Route exact path="/skills" component={BrowseSkill} />
+              <Route
+                exact
+                path="/skills/category/:category"
+                component={BrowseSkillByCategory}
+              />
+              <Route
+                exact
+                path="/skills/language/:language"
+                component={BrowseSkillByLanguage}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skills/:lang"
+                component={SkillListing}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skills/:lang/feedbacks"
+                component={SkillFeedbackPage}
+              />
+              <Route exact path="/skills/dashboard/" component={Dashboard} />
+              <Route
+                exact
+                path="/skills/:category/:skill/versions/:lang"
+                component={SkillVersion}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/compare/:lang/:oldid/:recentid"
+                component={SkillHistory}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang/:latestid/:revertid"
+                component={SkillRollBack}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang"
+                component={SkillCreator}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang/:commit"
+                component={SkillCreator}
+              />
+              <Route
+                exact
+                path="/skills/skillCreator"
+                component={SkillCreator}
+              />
+              <Route path="/skills/botbuilder" component={BotBuilderWrap} />
               <Route exact path="/overview" component={Overview} />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />
@@ -109,7 +178,10 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
+    actions: bindActionCreators(
+      { ...appActions, ...uiActions, ...settingActions },
+      dispatch,
+    ),
   };
 }
 

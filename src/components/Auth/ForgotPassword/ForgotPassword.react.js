@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../../shared/CloseButton';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
@@ -14,19 +14,6 @@ import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import { isEmail } from '../../../utils';
-
-const styles = {
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
-};
 
 class ForgotPassword extends Component {
   static propTypes = {
@@ -156,7 +143,7 @@ class ForgotPassword extends Component {
             {loading ? <CircularProgress size={24} /> : 'Reset'}
           </Button>
         </div>
-        <Close style={styles.closingStyle} onClick={this.handleDialogClose} />
+        <CloseButton onClick={this.handleDialogClose} />
       </React.Fragment>
     );
   }

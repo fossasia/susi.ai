@@ -10,8 +10,8 @@ const defaultState = {
   loadingHistoryError: false,
   loadingReply: false,
   initialisedVoices: false,
-  TTSVoices: [],
   historyBuffer: [],
+  userGeoData: null,
 };
 
 export default handleActions(
@@ -20,6 +20,12 @@ export default handleActions(
       return {
         ...state,
         unreadMessageIDs: [],
+      };
+    },
+    [actionTypes.MESSAGES_GET_USER_GEO_DATA](state, { payload }) {
+      return {
+        ...state,
+        userGeoData: payload,
       };
     },
     [actionTypes.MESSAGES_CREATE_USER_MESSAGE](state, { payload }) {
@@ -92,15 +98,6 @@ export default handleActions(
           ...state.skillFeedbackByMessageId,
           [messageId]: feedback,
         },
-      };
-    },
-    [actionTypes.MESSAGES_INIT_TTS_VOICES](state, { payload }) {
-      // ACTION needed
-      const { TTSVoices } = payload;
-      return {
-        ...state,
-        initialisedVoices: true,
-        TTSVoices,
       };
     },
     [actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER](state, { payload }) {

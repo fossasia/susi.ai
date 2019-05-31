@@ -16,8 +16,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PasswordField from 'material-ui-password-field';
-import Close from '@material-ui/icons/Close';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
@@ -44,16 +43,6 @@ const styles = {
     height: '35px',
     marginBottom: '10px',
   },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
 };
 
 class Login extends Component {
@@ -63,6 +52,7 @@ class Login extends Component {
     openSnackBar: PropTypes.func,
     location: PropTypes.object,
     history: PropTypes.object,
+    serverUrl: PropTypes.string,
   };
 
   constructor(props) {
@@ -187,9 +177,8 @@ class Login extends Component {
 
   setCookies = payload => {
     const { accessToken, time, email, uuid } = payload;
-    const defaults = UserPreferencesStore.getPreferences();
-    const BASE_URL = defaults.Server;
-    cookies.set('serverUrl', BASE_URL, {
+    const { serverUrl } = this.props;
+    cookies.set('serverUrl', serverUrl, {
       path: '/',
       domain: cookieDomain,
     });
@@ -199,11 +188,6 @@ class Login extends Component {
       domain: cookieDomain,
     });
     cookies.set('emailId', email, {
-      path: '/',
-      maxAge: time,
-      domain: cookieDomain,
-    });
-    cookies.set('username', UserPreferencesStore.getUserName(), {
       path: '/',
       maxAge: time,
       domain: cookieDomain,
@@ -230,7 +214,7 @@ class Login extends Component {
       loading,
     } = this.state;
     const { actions } = this.props;
-    const { fieldStyle, closingStyle } = styles;
+    const { fieldStyle } = styles;
 
     const isValid =
       email && !emailErrorMessage && password && !passwordErrorMessage;
@@ -306,7 +290,7 @@ class Login extends Component {
             </span>
           </div>
         </div>
-        <Close style={closingStyle} onClick={this.handleDialogClose} />
+        <CloseButton onClick={this.handleDialogClose} />
       </React.Fragment>
     );
   }
@@ -323,7 +307,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(store) {
   return {
-    ...store.skills,
+    serverUrl: store.settings.serverUrl,
   };
 }
 

@@ -4,23 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../shared/CloseButton';
 import appActions from '../../redux/actions/app';
 
 const cookies = new Cookies();
-
-const styles = {
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
-};
 
 const Tour = props => {
   const { actions } = props;
@@ -39,7 +26,7 @@ const Tour = props => {
         frameBorder="0"
         scrolling="no"
       />
-      <Close style={styles.closingStyle} onClick={() => handleCloseTour()} />
+      <CloseButton onClick={() => handleCloseTour()} />
     </React.Fragment>
   );
 };

@@ -2,57 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DialogActions from '@material-ui/core/DialogActions';
-import Close from '@material-ui/icons/Close';
+import CloseButton from '../../shared/CloseButton';
 import Button from '@material-ui/core/Button';
 import Translate from '../../Translate/Translate.react';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
 import TextField from '@material-ui/core/TextField';
 import { Col, Row } from 'react-flexbox-grid';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ColorPicker from 'material-ui-color-picker';
 import uiActions from '../../../redux/actions/ui';
-import * as Actions from '../../../actions/';
+import settingActions from '../../../redux/actions/settings';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import PreviewThemeChat from './PreviewThemeChat';
-
-function getStateFromStores() {
-  let themeValue = [];
-  let backgroundValue = [];
-  // get Theme data from server
-  if (UserPreferencesStore.getThemeValues()) {
-    themeValue = UserPreferencesStore.getThemeValues().split(',');
-  }
-  if (UserPreferencesStore.getBackgroundImage()) {
-    backgroundValue = UserPreferencesStore.getBackgroundImage().split(',');
-  }
-  return {
-    currTheme: UserPreferencesStore.getTheme(),
-    header: themeValue.length > 5 ? '#' + themeValue[0] : '#4285f4',
-    pane: themeValue.length > 5 ? '#' + themeValue[1] : '#f5f4f6',
-    body: themeValue.length > 5 ? '#' + themeValue[2] : '#fff',
-    composer: themeValue.length > 5 ? '#' + themeValue[3] : '#f5f4f6',
-    textarea: themeValue.length > 5 ? '#' + themeValue[4] : '#fff',
-    button: themeValue.length > 5 ? '#' + themeValue[5] : '#4285f4',
-    showBodyBackgroundImage: false,
-    showMessageBackgroundImage: false,
-    bodyBackgroundImage: backgroundValue.length > 1 ? backgroundValue[0] : '',
-    messageBackgroundImage:
-      backgroundValue.length > 1 ? backgroundValue[1] : '',
-  };
-}
-
-const closingStyle = {
-  position: 'absolute',
-  zIndex: 1200,
-  fill: '#444',
-  width: '26px',
-  height: '26px',
-  right: '10px',
-  top: '10px',
-  cursor: 'pointer',
-};
+import { setUserSettings } from '../../../apis';
+import _ from 'lodash';
 
 const componentsList = [
   { id: 1, component: 'pane', name: 'Change Background' },
@@ -66,52 +30,49 @@ const componentsList = [
 class ThemeChanger extends Component {
   constructor(props) {
     super(props);
-    this.state = getStateFromStores();
-    this.customTheme = {
-      header: this.state.header.substring(1),
-      pane: this.state.pane.substring(1),
-      body: this.state.body.substring(1),
-      composer: this.state.composer.substring(1),
-      textarea: this.state.textarea.substring(1),
-      button: this.state.button.substring(1),
+    const {
+      header,
+      pane,
+      body,
+      composer,
+      textarea,
+      button,
+      messageBackgroundImage,
+    } = this.props.customThemeValue;
+    const showMessageBackgroundImage = messageBackgroundImage !== '';
+    this.state = {
+      header,
+      pane,
+      body,
+      composer,
+      textarea,
+      button,
+      backgroundImage: '',
+      messageBackgroundImage,
+      showMessageBackgroundImage,
+    };
+
+    this.initialValue = {
+      header,
+      pane,
+      body,
+      composer,
+      textarea,
+      button,
+      backgroundImage: '',
+      messageBackgroundImage,
+      showMessageBackgroundImage,
     };
   }
 
-  handleColorChange = (name, color) => {
-    // Current Changes
-  };
-  handleChangeBodyBackgroundImage = backImage => {
-    this.setState({ bodyBackgroundImage: backImage });
-  };
-
-  handleChangeMessageBackgroundImage = backImage => {
-    this.setState({ messageBackgroundImage: backImage });
-  };
-
-  handleRemoveUrlMessage = () => {
-    if (!this.state.messageBackgroundImage) {
-      this.setState({ SnackbarOpenBackground: true });
-      setTimeout(() => {
-        this.setState({
-          SnackbarOpenBackground: false,
-        });
-      }, 2500);
-    } else {
-      this.setState({
-        messageBackgroundImage: '',
-      });
-    }
+  handleChangeMessageBackgroundImage = name => e => {
+    const { value } = e.target;
+    this.setState({ [name]: value });
   };
 
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
     this.setState({ currTheme: 'custom' });
-    let currSettings = UserPreferencesStore.getPreferences();
-    let settingsChanged = {};
-    if (currSettings.Theme !== 'custom') {
-      settingsChanged.theme = 'custom';
-      Actions.settingsChanged(settingsChanged);
-    }
     // Send these Settings to Server
     let state = this.state;
 
@@ -138,70 +99,108 @@ class ThemeChanger extends Component {
     document.body.style.setProperty('background-color', this.state.body);
   };
 
-  invertColorTextArea = () => {
-    // get the text are code
-    let hex = this.state.textarea;
-    hex = hex.slice(1);
-
-    // convert 3-digit hex to 6-digits.
-    if (hex.length === 3) {
-      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-    }
-    if (hex.length !== 6) {
-      throw new Error('Invalid HEX color.');
-    }
-    const r = parseInt(hex.slice(0, 2), 16),
-      g = parseInt(hex.slice(2, 4), 16),
-      b = parseInt(hex.slice(4, 6), 16);
-
-    return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000000' : '#FFFFFF';
-  };
-
-  handleRestoreDefaultThemeClick = () => {
-    const prevTheme = this.state.prevThemeSettings.currTheme;
-    let currTheme = this.state.currTheme;
-    if (
-      (currTheme === 'custom' && prevTheme === 'dark') ||
-      currTheme === 'dark'
-    ) {
-      this.applyDarkTheme();
-    } else {
-      this.applyLightTheme();
-    }
-  };
-
-  saveThemeSettings = () => {
+  handleReset = () => {
     const { actions } = this.props;
-    let customData = '';
-    Object.keys(this.customTheme).forEach(key => {
-      customData = customData + this.customTheme[key] + ',';
-    });
+    this.setState(prevState => ({ ...prevState, ...this.initialValue }));
+    actions.openSnackBar({ snackBarMessage: 'Custom theme settings reset' });
+  };
 
-    let settingsChanged = {};
-    settingsChanged.theme = 'custom';
-    settingsChanged.customThemeValue = customData;
-    if (this.state.bodyBackgroundImage || this.state.messageBackgroundImage) {
-      settingsChanged.backgroundImage =
-        this.state.bodyBackgroundImage +
-        ',' +
-        this.state.messageBackgroundImage;
-    }
-    Actions.settingsChanged(settingsChanged);
-    this.setState({ currTheme: 'custom' });
-    actions.closeModal();
+  // Send data to server, update settings
+  handleSubmit = () => {
+    const { actions } = this.props;
+    let {
+      header,
+      pane,
+      body,
+      composer,
+      textarea,
+      button,
+      backgroundImage,
+      messageBackgroundImage,
+    } = this.state;
+
+    const payloadToStore = {
+      messageBackgroundImage,
+      backgroundImage,
+      customThemeValue: {
+        header,
+        pane,
+        body,
+        composer,
+        textarea,
+        button,
+      },
+    };
+
+    const customThemeValue = `${header.substring(1)},${pane.substring(
+      1,
+    )},${body.substring(1)},${composer.substring(1)},${textarea.substring(
+      1,
+    )},${button.substring(1)}`;
+
+    const payloadToServer = {
+      ...payloadToStore,
+      customThemeValue,
+    };
+    setUserSettings(payloadToServer)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.closeModal();
+          actions.setUserSettings(payloadToStore);
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+        }
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to save Settings',
+        });
+      });
   };
 
   handleClickColorBox = id => {
     $('#colorPicker' + id).click();
   };
+
   showMessageBackgroundImageToggle = () => {
-    let isInputChecked = !this.state.showMessageBackgroundImage;
-    this.setState({ showMessageBackgroundImage: isInputChecked });
-    this.handleRemoveUrlMessage();
+    this.setState(prevState => ({
+      showMessageBackgroundImage: !prevState.showMessageBackgroundImage,
+    }));
   };
 
   render() {
     const { actions } = this.props;
+    const {
+      header,
+      pane,
+      body,
+      composer,
+      textarea,
+      button,
+      showMessageBackgroundImage,
+      messageBackgroundImage,
+      backgroundImage,
+    } = this.state;
+
+    const disabled = _.isEqual(
+      {
+        header,
+        pane,
+        body,
+        composer,
+        textarea,
+        button,
+        showMessageBackgroundImage,
+        messageBackgroundImage,
+        backgroundImage,
+      },
+      this.initialValue,
+    );
     const components = componentsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
@@ -229,7 +228,7 @@ class ThemeChanger extends Component {
                     <FormControlLabel
                       control={
                         <Switch
-                          checked={this.state.showMessageBackgroundImage}
+                          checked={showMessageBackgroundImage}
                           onChange={this.showMessageBackgroundImageToggle}
                         />
                       }
@@ -265,7 +264,7 @@ class ThemeChanger extends Component {
                   </div>
                 )}
                 {component.id === 1 &&
-                  !this.state.showMessageBackgroundImage && (
+                  !showMessageBackgroundImage && (
                     <div className="color-picker-wrap">
                       <span
                         className="color-box"
@@ -292,14 +291,14 @@ class ThemeChanger extends Component {
                     </div>
                   )}
                 {component.id === 1 &&
-                  this.state.showMessageBackgroundImage && (
+                  showMessageBackgroundImage && (
                     <div className="image-div">
                       <TextField
                         name="messageImg"
-                        onChange={(e, value) =>
-                          this.handleChangeMessageBackgroundImage(value)
-                        }
-                        value={this.state.messageBackgroundImage}
+                        onChange={this.handleChangeMessageBackgroundImage(
+                          'messageBackgroundImage',
+                        )}
+                        value={messageBackgroundImage}
                         label={
                           <span style={{ fontSize: 'unset' }}>
                             Message Image URL
@@ -334,30 +333,31 @@ class ThemeChanger extends Component {
             }}
           >
             <PreviewThemeChat
-              header={this.state.header}
-              pane={this.state.pane}
-              messageBackgroundImage={this.state.messageBackgroundImage}
-              body={this.state.body}
-              bodyBackgroundImage={this.state.bodyBackgroundImage}
-              composer={this.state.composer}
-              textarea={this.state.textarea}
-              button={this.state.button}
+              header={header}
+              pane={pane}
+              messageBackgroundImage={messageBackgroundImage}
+              body={body}
+              bodyBackgroundImage={backgroundImage}
+              composer={composer}
+              textarea={textarea}
+              button={button}
             />
           </div>
         </div>
-        <Close style={closingStyle} onClick={actions.closeModal} />
+        <CloseButton onClick={actions.closeModal} />
         <DialogActions>
           <div>
             <Button
-              onClick={this.saveThemeSettings}
+              onClick={this.handleSubmit}
               style={{ margin: '0 5px' }}
               variant="contained"
               color="primary"
+              disabled={disabled}
             >
               <Translate text="Save" />
             </Button>
             <Button
-              onClick={this.handleRestoreDefaultThemeClick}
+              onClick={this.handleReset}
               style={{ margin: '0 5px' }}
               variant="contained"
               color="primary"
@@ -373,15 +373,26 @@ class ThemeChanger extends Component {
 
 ThemeChanger.propTypes = {
   actions: PropTypes.object,
+  customThemeValue: PropTypes.object,
+  backgroundImage: PropTypes.string,
+  messageBackgroundImage: PropTypes.string,
 };
+
+function mapStateToProps(store) {
+  return {
+    customThemeValue: store.settings.customThemeValue,
+    backgroundImage: store.settings.backgroundImage,
+    messageBackgroundImage: store.settings.messageBackgroundImage,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...settingActions }, dispatch),
   };
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ThemeChanger);

@@ -1,8 +1,3 @@
-.head_section {
-    border-bottom: 1px solid #dfdfdf;
-    background: #f7f7f7;
-}
-
 .container {
     margin: 0 auto;
     max-width: 1120px;
@@ -12,22 +7,6 @@
 }
 .container {
     padding-top: 120px;
-}
-.heading h1 {
-    font-size: 42px;
-    font-weight: 100;
-    margin: 0 auto;
-    max-width: 880px;
-    font-family: 'Roboto', sans-serif;
-}
-.heading p{
-    font-size: 20px;
-    font-weight: 300;
-    line-height: 32px;
-    margin: 15px auto;
-    max-width: 430px;
-    color: #414141;
-    font-family: 'Roboto', sans-serif;
 }
 .device_section{
     -webkit-font-smoothing: antialiased;
@@ -49,7 +28,7 @@
 .device_description{
     width: 50%;
 }
-.device_description .heading {
+.device_description {
     font-size: 43px;
     font-weight: 100;
     margin: 20px 0;
@@ -87,9 +66,7 @@
     width: 152px;
     margin: 0 10px 10px 0;
 }
-.bottom_section {
-  padding: 100px 20px 240px 20px;
-}
+
 .img-container{
     width: 50%;
 }
@@ -113,9 +90,6 @@
         margin:0 auto;
         padding: 100px 0px 100px 120px;
     }
-    .bottom_section{
-        padding-bottom: 200px;
-    }
 }
 
 @media only screen and (max-width: 1000px){
@@ -132,9 +106,6 @@
     .text_description{
         max-width: 100%;
     }
-    .bottom_section{
-        padding-bottom: 200px;
-    }
     .store_icons{
         margin: 0 auto;
         width: 180px;
@@ -149,7 +120,7 @@
     .container{
         padding: 35px 20px 120px;
     }
-    .device_description .heading {
+    .device_description {
         text-align: center;
     }
     .device_section{
@@ -163,14 +134,6 @@
     }
     .img-container{
         width: 60%;
-    }
-    .bottom_section {
-      padding: 100px 20px 120px 20px;
-      width: 90%;
-      margin: 0 auto;
-    }
-    .heading h1 {
-        margin-top: 30px;
     }
     .store_icons{
     }
