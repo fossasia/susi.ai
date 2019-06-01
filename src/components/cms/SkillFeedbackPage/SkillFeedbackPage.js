@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
-import { Paper } from 'material-ui';
+import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 
 import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';

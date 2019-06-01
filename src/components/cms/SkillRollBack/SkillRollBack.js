@@ -262,7 +262,7 @@ class SkillRollBack extends Component {
         {commitData.length === 2 && (
           <div style={{ display: 'block' }}>
             <div style={homeStyle}>
-              <Paper style={paperStyle} zDepth={1}>
+              <Paper style={paperStyle}>
                 {'You are currently editing an older version of the skill: '}
                 <b style={boldStyle}>{this.skillMeta.skillName}</b>
                 <br />
