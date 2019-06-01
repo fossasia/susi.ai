@@ -23,7 +23,7 @@ import {
 import Ratings from 'react-ratings-declarative';
 
 // Material-UI
-import { Paper } from 'material-ui';
+import Paper from '@material-ui/core/Paper';
 
 // CSS
 import './SkillRatingCard.css';

@@ -661,7 +661,6 @@ class BotWizard extends React.Component {
                     })
                   }
                   className="botBuilder-page-card"
-                  zDepth={1}
                 >
                   <span title="collapse preview">
                     <ChevronRight

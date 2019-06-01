@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import CircularProgress from 'material-ui/CircularProgress';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import NavigateDown from 'material-ui/svg-icons/navigation/expand-more';
-import NavigateUp from 'material-ui/svg-icons/navigation/expand-less';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Fab from '@material-ui/core/Fab';
+import NavigateDown from '@material-ui/icons/ExpandMore';
+import NavigateUp from '@material-ui/icons/ExpandLess';
 import TopBar from '../TopBar.react';
 import MessageComposer from '../MessageComposer.react';
 import loadingGIF from '../../../images/loading.gif';
@@ -546,8 +546,8 @@ class MessageSection extends Component {
                   </MessageList>
                   {showScrollTop && (
                     <div>
-                      <FloatingActionButton
-                        mini={true}
+                      <Fab
+                        size="small"
                         style={scrollTopStyle.button}
                         backgroundColor={body}
                         iconStyle={{
@@ -556,13 +556,13 @@ class MessageSection extends Component {
                         onClick={this.scrollToTop}
                       >
                         <NavigateUp />
-                      </FloatingActionButton>
+                      </Fab>
                     </div>
                   )}
                   {showScrollBottom && (
                     <div className="scrollBottom">
-                      <FloatingActionButton
-                        mini={true}
+                      <Fab
+                        size="small"
                         style={scrollBottomStyle.button}
                         backgroundColor={body}
                         iconStyle={{
@@ -571,7 +571,7 @@ class MessageSection extends Component {
                         onClick={this.scrollToBottom}
                       >
                         <NavigateDown />
-                      </FloatingActionButton>
+                      </Fab>
                     </div>
                   )}
                 </div>

@@ -1,6 +1,6 @@
 // Packages
 import React, { Component } from 'react';
-import { Paper } from 'material-ui';
+import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
