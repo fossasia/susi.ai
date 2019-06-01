@@ -511,7 +511,7 @@ class BrowseSkill extends React.Component {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
                 <MenuList disableListWrap={true}>
-                  <Link to="/skillCreator">
+                  <Link to="/skills/skillCreator">
                     <MenuItem onClick={this.handleMenuClose}>
                       <ListItemIcon>
                         <Add />
@@ -519,7 +519,7 @@ class BrowseSkill extends React.Component {
                       <ListItemText inset primary="Create a Skill" />
                     </MenuItem>
                   </Link>
-                  <Link to="/botbuilder">
+                  <Link to="/skills/botbuilder">
                     <MenuItem onClick={this.handleMenuClose}>
                       <ListItemIcon>
                         <Person />
