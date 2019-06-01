@@ -1,0 +1,27 @@
+.diff-result{
+  height: 400px;
+  padding: 5px;
+  margin-top: 10px;
+  background-color: #fff;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.version-code-left{
+  width: 50%;
+  float: left;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.version-code-right{
+  margin-top: 20px;
+  text-align: center;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 768px){
+  .version-code-left{
+    float: none;
+    width: 100%;
+  }
+}

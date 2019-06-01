@@ -1,0 +1,480 @@
+.preview-component{
+  height: 600px;
+  max-width: 95%;
+  width: 330px;
+  margin: auto;
+  padding: 0 20px;
+}
+.tooltiptext
+{ 
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    float: left ;
+    position: relative;
+    left:-125px;
+} 
+
+.susi-launcher:hover   .tooltiptext
+{ 
+    visibility: visible;
+} 
+
+
+.susi-body-noscroll {
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0
+}
+.susi-flex-center{
+  text-align: right;
+}
+
+#susi-frame-container {
+    z-index: 2147483000;
+    overflow: auto;
+    max-height: 610px;
+    min-height: 280px;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 8px;
+    box-shadow: 0 5px 40px rgba(0, 0, 0, .16);
+    overflow-x: hidden;
+}
+
+#susi-launcher{
+  width: 60px;
+  height: 60px;
+  background-size: 60px;
+  border-radius: 50%;
+  text-align: right;
+  float: right;
+  margin-right: 0%;
+  margin-top: 15px;
+}
+
+#susi-frame-wrap {
+    display: block;
+    position: relative;
+    border: none;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    background-position: 150px 200px
+}
+
+.susi-send-button {
+    margin: 0;
+    cursor: pointer;
+    font-family: Open Sans,sans-serif;
+}
+.susi-send-button img{
+  cursor: pointer;
+}
+
+#susi-frame-container.susi-frame-container-active.susi-frame-center {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 500px
+}
+
+#susi-launcher-container.susi-launcher-center {
+    bottom: 50%;
+    right: 0;
+}
+
+#susi-launcher-container.susi-launcher-center .susi-launcher {
+    border-radius: 8px 0 0 8px
+}
+
+#susi-launcher-container.susi-launcher-center.susi-avatar-launcher #susi-launcher {
+    border-radius: 50% 0 0 50%
+}
+
+#susi-frame-container.susi-frame-container-active.susi-frame-left {
+    left: 20px;
+    right: auto
+}
+
+#susi-launcher-container.susi-launcher-left {
+    left: 20px;
+    right: auto;
+    flex-direction: row-reverse
+}
+
+#susi-frame-container.susi-frame-container-active {
+    display: block;
+    height: 460px;
+    margin: auto;
+    width: 100%;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transform: translateZ(0);
+    -webkit-animation: moveFromBottomFade .3s ease both;
+    animation: moveFromBottomFade .3s ease both
+}
+
+@media only screen and (max-device-width:667px),
+screen and (max-width:450px) {
+    #susi-frame-container.susi-frame-container-active {
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        border-radius: 0;
+        max-height: none
+    }
+}
+
+@-webkit-keyframes moveFromBottomFade {
+    0% {
+        opacity: .2;
+        -webkit-transform: translateY(5%)
+    }
+}
+
+@keyframes moveFromBottomFade {
+    0% {
+        opacity: .2;
+        -webkit-transform: translateY(5%);
+        transform: translateY(5%)
+    }
+}
+
+#susi-launcher-container {
+    direction: ltr;
+    z-index: 2147482999
+}
+
+#susi-launcher-container .susi-launcher {
+    font-family: Open Sans, sans-serif;
+    height: 42px;
+    visibility: hidden;
+    -webkit-transform: translateZ(0);
+    border-radius: 5em;
+    cursor: pointer;
+    padding: 0 20px;
+    transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+#susi-launcher-container .susi-launcher:hover {
+    box-shadow: 0 4px 42px 0 rgba(0, 0, 0, .25);
+}
+
+#susi-launcher-container.susi-launcher-enabled #susi-launcher {
+    visibility: visible;
+    transform: translateY(150px);
+    animation: launcher-frame-appear .25s ease forwards
+}
+
+@-webkit-keyframes launcher-frame-appear {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes launcher-frame-appear {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.susi-flex-center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+#susi-launcher-container .susi-launcher-button,
+#susi-offline-container .susi-launcher-button {
+    right: 0;
+    width: 18px;
+    height: 18px;
+    margin: 2px 2px 2px 0;
+    background-position: 50%;
+    background-repeat: no-repeat
+}
+
+#susi-launcher-container #susi-launcher-text {
+    color: #fff;
+    font-weight: 400;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+@media only screen and (max-device-width:667px),
+screen and (max-width:450px) {
+    #susi-launcher-container .susi-launcher {
+        width: 60px;
+        height: 60px;
+        padding: 0
+    }
+    #susi-launcher-container .susi-launcher-button {
+        width: 30px;
+        height: 30px
+    }
+}
+
+#susi-launcher-container.susi-avatar-launcher {
+    bottom: 15px
+}
+
+#susi-launcher-container.susi-avatar-launcher #susi-launcher,
+#susi-launcher-container.susi-launcher-notext #susi-launcher {
+    padding: 0;
+    height: auto
+}
+
+#susi-launcher-container.susi-launcher-notext .susi-launcher-button {
+    width: 55px;
+    height: 55px;
+    background-size: 40px;
+    margin: 4px
+}
+
+#susi-launcher-container.susi-avatar-launcher .susi-launcher-button {
+    width: 60px;
+    height: 60px;
+    background-size: 60px;
+    border-radius: 50%;
+    margin: -1px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, .15)
+}
+
+#susi-launcher-container.susi-avatar-launcher.susi-launcher-center .susi-launcher-button {
+    margin: 2px
+}
+
+#susi-launcher-container.susi-avatar-launcher .susi-launcher-button:after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #2ecc71;
+    bottom: 5px;
+    right: -1px
+}
+
+#susi-launcher-container.susi-launcher-enabled.susi-avatar-launcher #susi-avatar-text {
+    display: block
+}
+
+#susi-launcher-container #susi-avatar-text:before {
+    content: " ";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -15px;
+    top: 34%;
+    bottom: auto;
+    border: 8px solid;
+    border-color: transparent transparent transparent #fff
+}
+
+#susi-launcher-container.susi-launcher-left #susi-avatar-text:before {
+    left: -15px;
+    border-color: transparent #fff transparent transparent
+}
+
+#susi-launcher-close {
+    z-index: 2147483001;
+    cursor: pointer;
+    background-size: 15px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: #666;
+    border-radius: 50%;
+    background-image: url(https://skills.susi.ai/close.png);
+}
+#susi-container .susi-composer-textarea .susi-send-button svg{
+    width: 100%;
+    height: 100%;
+}
+.susi-comment-content{
+    overflow-wrap: break-word;
+}
+.susi-comment-body-container-user:after{
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  right: -11px;
+  top: 30px;
+  -webkit-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  border: 8px solid;
+  background-color: transparent;
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+@media only screen and (max-device-width:667px),
+screen and (max-width:450px) {
+    #susi-launcher-close {
+        bottom: 93%;
+        right: 15px;
+    }
+}
+
+#susi-container .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+#susi-container .susi-comment-option-wrap {
+    max-height: 325px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 5px;
+}
+
+@media only screen and (max-device-width:667px),
+screen and (max-width:450px) {
+    #susi-container .susi-comment-option-wrap {
+        max-height: 250px;
+    }
+}
+
+#susi-container .susi-comment-option {
+    display: inline-block;
+    background: #fff;
+    cursor: pointer;
+    border: 1px solid #0077e5;
+    border-radius: 1.3em;
+    padding: 12px 14px 12px 34px;
+    margin: 5px;
+    min-width: 55px;
+    color: #0077e5;
+    line-height: 1;
+    -webkit-transform-origin: 25% 0;
+    transform-origin: 25% 0
+}
+
+.susi-comment-content.susi-comment-option:before {
+    content: "";
+    background-color: #e1e1e1;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    border-radius: 50%
+}
+
+#susi-container .susi-comment-option.highlight:before,
+#susi-container .susi-comment-option:focus:before,
+#susi-container .susi-comment-option:hover:before {
+    background-color: #1b9bfc
+}
+
+#susi-container .susi-comment-multioption {
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #0077e5;
+    border-radius: 1.3em;
+    padding: 12px 14px 12px 34px;
+    background-color: #fff;
+    margin: 5px;
+    min-width: 55px;
+    color: #0077e5;
+    line-height: 1;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.susi-comment-content.susi-comment-multioption:before {
+    content: "";
+    background-color: #e1e1e1;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    border-radius: 3px
+}
+
+.susi-comment-content.susi-comment-multioption.susi-multioption-checked {
+    display: inline-block
+}
+
+.susi-comment-content.susi-comment-multioption.susi-multioption-checked:before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 12px;
+    left: 16px;
+    top: 12px;
+    border-radius: 0;
+    background-color: #fff;
+    border: solid #0077e5;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+#susi-container .susi-comment-multioption.highlight:before,
+#susi-container .susi-comment-multioption:focus:before,
+#susi-container .susi-comment-multioption:hover:before {
+    background-color: #a7a7a7
+}
+
+#susi-container .susi-comment-multioption.susi-multioption-checked.highlight:before,
+#susi-container .susi-comment-multioption.susi-multioption-checked:focus:before,
+#susi-container .susi-comment-multioption.susi-multioption-checked:hover:before {
+    background-color: transparent
+}
+
+#susi-container .susi-submit-btn {
+    height: 50px;
+    line-height: 45px;
+    background: #0077e5;
+    color: #fff;
+    text-align: center;
+    border-bottom-left-radius: 1.3em;
+    border-bottom-right-radius: 1.3em;
+    margin: 5px -17px -17px;
+    cursor: pointer
+}
