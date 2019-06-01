@@ -313,7 +313,7 @@ class DevicesTab extends React.Component {
           modal={false}
           maxWidth={'sm'}
           fullWidth={true}
-          open={showRemoveConfirmation}
+          open={!showRemoveConfirmation}
           onClose={this.handleClose}
         >
           <RemoveDeviceDialog

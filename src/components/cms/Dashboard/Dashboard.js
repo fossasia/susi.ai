@@ -59,15 +59,15 @@ const Dashboard = props => {
         <br />
         <Heading className="center">My Dashboard</Heading>
         <br />
-        <Paper className="botBuilder-page-card" zDepth={1}>
+        <Paper className="botBuilder-page-card">
           <SubHeading>My Skills</SubHeading>
           <MySkills />
         </Paper>
-        <Paper className="botBuilder-page-card" zDepth={1}>
+        <Paper className="botBuilder-page-card">
           <SubHeading>My Ratings</SubHeading>
           <MyRatings />
         </Paper>
-        <Paper className="botBuilder-page-card" zDepth={1}>
+        <Paper className="botBuilder-page-card">
           <SubHeading>My Analytics</SubHeading>
           <MyAnalytics />
         </Paper>

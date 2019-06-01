@@ -11,7 +11,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import _Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -173,19 +172,17 @@ class SkillVersion extends Component {
     });
 
     const commitHistoryTable = (
-      <MuiThemeProvider>
-        <Table
-          selectable={false}
-          style={{ maxWidth: '1000px', whiteSpace: 'pre-line' }}
-        >
-          <TableHead displaySelectAll={false} adjustForCheckbox={false}>
-            {commitHistoryTableHeader}
-          </TableHead>
-          <TableBody displayRowCheckbox={false}>
-            {commitHistoryTableRows}
-          </TableBody>
-        </Table>
-      </MuiThemeProvider>
+      <Table
+        selectable={false}
+        style={{ maxWidth: '1000px', whiteSpace: 'pre-line' }}
+      >
+        <TableHead displaySelectAll={false} adjustForCheckbox={false}>
+          {commitHistoryTableHeader}
+        </TableHead>
+        <TableBody displayRowCheckbox={false}>
+          {commitHistoryTableRows}
+        </TableBody>
+      </Table>
     );
 
     const checkedCommits = this.getCheckedCommits();
