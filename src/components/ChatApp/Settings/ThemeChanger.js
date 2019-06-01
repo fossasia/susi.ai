@@ -12,7 +12,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ColorPicker from 'material-ui-color-picker';
 import uiActions from '../../../redux/actions/ui';
 import settingActions from '../../../redux/actions/settings';
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import PreviewThemeChat from './PreviewThemeChat';
 import { setUserSettings } from '../../../apis';
@@ -73,6 +72,9 @@ class ThemeChanger extends Component {
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
     this.setState({ currTheme: 'custom' });
+    if (!color.startsWith('#')) {
+      color = '#' + color;
+    }
     // Send these Settings to Server
     let state = this.state;
 
@@ -164,7 +166,7 @@ class ThemeChanger extends Component {
   };
 
   handleClickColorBox = id => {
-    $('#colorPicker' + id).click();
+    document.getElementById(`colorPicker${id}`).click();
   };
 
   showMessageBackgroundImageToggle = () => {
@@ -251,8 +253,6 @@ class ThemeChanger extends Component {
                     />
                     <div className="colorPicker">
                       <ColorPicker
-                        className="color-picker"
-                        style={{ display: 'inline-block', width: '60px' }}
                         name="color"
                         id={'colorPicker' + component.id}
                         defaultValue={this.state[component.component]}
@@ -276,7 +276,6 @@ class ThemeChanger extends Component {
                       <div className="colorPicker">
                         <ColorPicker
                           className="color-picker"
-                          style={{ display: 'inline-block', width: '60px' }}
                           name="color"
                           id={'colorPicker' + component.id}
                           defaultValue={this.state[component.component]}

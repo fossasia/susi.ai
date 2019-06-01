@@ -4,22 +4,21 @@ import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
 import ShareButton from './ShareButton';
 import Emojify from 'react-emojione';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { divIcon } from 'leaflet';
 import Slider from 'react-slick';
-import TickIcon from 'material-ui/svg-icons/action/done';
-import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import TickIcon from '@material-ui/icons/Done';
+import ClockIcon from '@material-ui/icons/Schedule';
 import store from '../../../store';
 import Parser from 'html-react-parser';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import { injectIntl } from 'react-intl';
 
 const styles = {
@@ -220,16 +219,21 @@ export function drawCards(tilesData) {
           window.open(tile.link, '_blank');
         }}
       >
-        {tile.image && (
-          <CardMedia>
-            <img src={tile.image} alt="" className="card-img" />
-          </CardMedia>
-        )}
-        <CardTitle title={tile.title} titleStyle={titleStyle} />
-        <CardText>
+        <CardActionArea>
+          {tile.image && (
+            <CardMedia className="card-img" image={tile.image} alt="" />
+          )}
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            style={titleStyle}
+          >
+            {tile.title}
+          </Typography>
           <div className="card-text line-clamp">{cardText}</div>
           <div className="card-url">{urlDomain(tile.link)}</div>
-        </CardText>
+        </CardActionArea>
       </Card>
     );
   });
@@ -279,7 +283,7 @@ export function drawTable(columns, tableData, count) {
   // Create the Table Header
   let tableheader = parseKeys.map((key, i) => {
     return (
-      <TableHeaderColumn
+      <TableCell
         key={i}
         style={{
           whiteSpace: 'normal',
@@ -287,7 +291,7 @@ export function drawTable(columns, tableData, count) {
         }}
       >
         {columns[key]}
-      </TableHeaderColumn>
+      </TableCell>
     );
   });
   // Calculate #rows in table
@@ -311,7 +315,7 @@ export function drawTable(columns, tableData, count) {
     if (validRow) {
       let rowcols = parseKeys.map((key, i) => {
         return (
-          <TableRowColumn
+          <TableCell
             key={i}
             style={{
               whiteSpace: 'normal',
@@ -321,7 +325,7 @@ export function drawTable(columns, tableData, count) {
             <Linkify properties={{ target: '_blank' }}>
               <abbr title={eachrow[key]}>{processText(eachrow[key])}</abbr>
             </Linkify>
-          </TableRowColumn>
+          </TableCell>
         );
       });
       rows.push(<TableRow key={j}>{rowcols}</TableRow>);
@@ -329,14 +333,10 @@ export function drawTable(columns, tableData, count) {
   }
   // Populate the Table
   const table = (
-    <MuiThemeProvider>
-      <Table selectable={false} style={{ width: 'auto', tableLayout: 'auto' }}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          {showColName && <TableRow>{tableheader}</TableRow>}
-        </TableHeader>
-        <TableBody displayRowCheckbox={false}>{rows}</TableBody>
-      </Table>
-    </MuiThemeProvider>
+    <Table>
+      <TableHead>{showColName && <TableRow>{tableheader}</TableRow>}</TableHead>
+      <TableBody>{rows}</TableBody>
+    </Table>
   );
 
   return table;

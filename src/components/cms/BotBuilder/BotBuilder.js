@@ -344,7 +344,7 @@ class BotBuilder extends React.Component {
       <div>
         <StaticAppBar {...this.props} />
         <div style={home} className="botbuilder-page-wrapper">
-          <Paper style={paperStyle} className="botBuilder-page-card" zDepth={1}>
+          <Paper style={paperStyle} className="botBuilder-page-card">
             <h1 style={heading}>Pick a template</h1>
             <div className="bot-template-wrap">
               {this.props.templates.map(template => {
@@ -371,7 +371,7 @@ class BotBuilder extends React.Component {
               })}
             </div>
           </Paper>
-          <Paper style={paperStyle} className="botBuilder-page-card" zDepth={1}>
+          <Paper style={paperStyle} className="botBuilder-page-card">
             <h1 style={heading}>My bots</h1>
             <br />
             <h2 style={heading}>Saved Bots</h2>

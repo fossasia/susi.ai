@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NotFound from '../NotFound/NotFound.react';
 import './Admin.css';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -133,9 +133,9 @@ class Admin extends Component {
     return (
       <div>
         <StaticAppBar {...this.props} />
-        {loading ? (
+        {!loading ? (
           <div className="center" style={{ marginTop: '100px' }}>
-            <CircularProgress size={62} color="#4285f5" />
+            <CircularProgress size={62} />
             <h4>Loading</h4>
           </div>
         ) : (
