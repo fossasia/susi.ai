@@ -152,6 +152,15 @@ export function getEmailExists(payload) {
   });
 }
 
+export function uploadAvatar(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/uploadAvatar.json`;
+  return ajax.post(url, payload, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    isTokenRequired: false,
+  });
+}
+
+// Skills API
 export function fetchMetricsSkills(payload) {
   const { languageValue } = payload;
   const url = `${urls.API_URL}/cms/getSkillMetricsData.json`;

@@ -15,9 +15,14 @@ import { TabHeading, Divider } from './SettingStyles';
 import settingActions from '../../../redux/actions/settings';
 import uiActions from '../../../redux/actions/ui';
 import { voiceList } from './../../../constants/SettingsVoiceConstants.js';
+import { getGravatarProps, getUserAvatar } from '../../../utils';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 import urls from '../../../utils/urls';
-import { setUserSettings } from '../../../apis';
+import { setUserSettings, setUserAvatar } from '../../../apis';
+import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
+import defaultAvatar from '../../../../public/defaultAvatar.png';
 
 const EmailHeading = styled(TabHeading)`
   margin-top: 0;
@@ -32,15 +37,161 @@ const Timezone = styled.div`
   z-index: 99;
 `;
 
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const styles = {
+  avatarEmptyBoxStyle: {
+    margin: '0 auto',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItem: 'centre',
+  },
+  avatarAddButtonStyle: {
+    margin: '50px auto',
+    height: '50px',
+    width: '50px',
+  },
+  selectAvatarDropDownStyle: {
+    width: '40%',
+    minWidth: '9.5rem',
+  },
+};
+
+const AvatarRender = props => {
+  const {
+    avatarType,
+    handleAvatarSubmit,
+    imagePreviewUrl,
+    removeAvatarImage,
+    handleAvatarImageChange,
+    isAvatarAdded,
+    isAvatarUploaded,
+    uploadingAvatar,
+    email,
+  } = props;
+  switch (avatarType) {
+    case 'server':
+      return (
+        <form
+          style={{ display: 'inline-block' }}
+          onSubmit={e => handleAvatarSubmit(e)}
+        >
+          {imagePreviewUrl !== '' && (
+            <div>
+              <div className="close-avatar">
+                <CloseIcon
+                  onClick={removeAvatarImage}
+                  style={{ fill: '#999999' }}
+                />
+              </div>
+              <img
+                alt="User Avatar"
+                className="setting-avatar"
+                src={imagePreviewUrl}
+                onClick={e => handleAvatarImageChange(e)}
+              />
+            </div>
+          )}
+          {imagePreviewUrl === '' &&
+            !isAvatarAdded && (
+              <label htmlFor="file-opener">
+                <div onSubmit={e => handleAvatarImageChange(e)}>
+                  {!isAvatarAdded && (
+                    <div className="avatar-empty-box">
+                      <div style={styles.avatarEmptyBoxStyle}>
+                        <AddIcon
+                          className="avatar-add-button"
+                          style={styles.avatarAddButtonStyle}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <input
+                  id="file-opener"
+                  type="file"
+                  className="input-avatar"
+                  onChange={e => handleAvatarImageChange(e)}
+                  accept="image/x-png,image/gif,image/jpeg"
+                  style={{ marginTop: '10px' }}
+                  onClick={event => {
+                    event.target.value = null;
+                  }}
+                />
+              </label>
+            )}
+          <Button
+            disabled={!isAvatarAdded || isAvatarUploaded}
+            onClick={e => handleAvatarSubmit(e)}
+            variant="contained"
+            color="primary"
+          >
+            {isAvatarAdded && uploadingAvatar ? (
+              <CircularProgress size={24} color="secondary" />
+            ) : (
+              'Upload Image'
+            )}
+          </Button>
+        </form>
+      );
+    case 'gravatar':
+      return (
+        <img
+          alt="Gravatar avatar"
+          className="setting-avatar"
+          src={getGravatarProps(email).src}
+        />
+      );
+    default:
+      return (
+        <img
+          alt="Default avatar"
+          className="setting-avatar"
+          src={defaultAvatar}
+        />
+      );
+  }
+};
+
+AvatarRender.propTypes = {
+  email: PropTypes.string,
+  avatarType: PropTypes.string,
+  handleAvatarImageChange: PropTypes.func,
+  imagePreviewUrl: PropTypes.string,
+  uploadingAvatar: PropTypes.bool,
+  removeAvatarImage: PropTypes.func,
+  handleAvatarSubmit: PropTypes.func,
+  isAvatarAdded: PropTypes.bool,
+  isAvatarUploaded: PropTypes.bool,
+};
+
 class AccountTab extends React.Component {
   constructor(props) {
     super(props);
-    const { timeZone, prefLanguage, userName } = this.props;
+    const {
+      timeZone,
+      prefLanguage,
+      userName,
+      avatarType,
+      accessToken,
+    } = this.props;
     this.state = {
       timeZone,
       prefLanguage,
       userName,
       userNameError: '',
+      avatarType,
+      avatarSrc: defaultAvatar,
+      file: '',
+      imagePreviewUrl: getUserAvatar(accessToken),
+      isAvatarAdded: false,
+      uploadingAvatar: false,
+      isAvatarUploaded: false,
+      settingSave: false,
     };
     if ('speechSynthesis' in window) {
       this.TTSBrowserSupport = true;
@@ -108,17 +259,70 @@ class AccountTab extends React.Component {
     }
   };
 
+  handleAvatarTypeChange = event => {
+    this.setState({
+      avatarType: event.target.value,
+      settingsChanged: true,
+      isAvatarAdded: false,
+      file: '',
+      avatarSrc: '',
+    });
+  };
+
+  handleAvatarSubmit = () => {
+    const { file } = this.state;
+    const { accessToken } = this.props;
+    // eslint-disable-next-line no-undef
+    let form = new FormData();
+    form.append('access_token', accessToken);
+    form.append('image', file);
+    this.setState({ uploadingAvatar: true });
+    setUserAvatar(form).then(() => {
+      this.setState({
+        uploadingAvatar: false,
+        isAvatarAdded: true,
+        isAvatarUploaded: true,
+      });
+    });
+  };
+
+  handleAvatarImageChange = e => {
+    e.preventDefault();
+    // eslint-disable-next-line no-undef
+    let reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result,
+        isAvatarAdded: true,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  removeAvatarImage = () => {
+    this.setState({
+      file: '',
+      isAvatarAdded: false,
+      imagePreviewUrl: '',
+      avatarSrc: '',
+    });
+  };
+
   handleSubmit = () => {
-    const { timeZone, prefLanguage, userName } = this.state;
+    const { timeZone, prefLanguage, userName, avatarType } = this.state;
     const { actions } = this.props;
-    const payload = { timeZone, prefLanguage, userName };
+    const payload = { timeZone, prefLanguage, userName, avatarType };
     setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
           actions.openSnackBar({
             snackBarMessage: 'Settings updated',
           });
-          actions.setUserSettings(payload);
+          actions.setUserSettings(payload).then(() => {
+            this.setState({ settingSave: true });
+          });
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
@@ -134,74 +338,125 @@ class AccountTab extends React.Component {
 
   render() {
     const voiceOutput = this.populateVoiceList();
-    const { userNameError, userName, timeZone, prefLanguage } = this.state;
-    const { email, theme } = this.props;
+    const {
+      userNameError,
+      userName,
+      timeZone,
+      prefLanguage,
+      avatarType,
+      avatarSrc,
+      file,
+      uploadingAvatar,
+      imagePreviewUrl,
+      isAvatarAdded,
+      isAvatarUploaded,
+      settingSave,
+    } = this.state;
+    const {
+      email,
+      theme,
+      timeZone: _timeZone,
+      prefLanguage: _prefLanguage,
+      userName: _userName,
+      avatarType: _avatarType,
+    } = this.props;
+    const disabled =
+      (timeZone === _timeZone &&
+        prefLanguage === _prefLanguage &&
+        userName === _userName &&
+        (avatarType !== 'server'
+          ? avatarType === _avatarType
+          : !isAvatarUploaded || !isAvatarAdded || settingSave)) ||
+      userNameError;
     return (
       <SettingsTabWrapper heading="Account">
-        <TabHeading>
-          <Translate text="User Name" />
-        </TabHeading>
-        <FormControl error={userNameError !== ''}>
-          <OutlinedInput
-            labelWidth={0}
-            name="username"
-            value={userName}
-            onChange={this.handleUserName}
-            aria-describedby="email-error-text"
-            style={{ width: '16rem', height: '2.1rem' }}
-            placeholder="Enter your User Name"
-          />
-          <FormHelperText error={userNameError !== ''}>
-            {userNameError}
-          </FormHelperText>
-        </FormControl>
-        <EmailHeading>
-          <Translate text="Email" />
-        </EmailHeading>
-        <OutlinedInput
-          labelWidth={0}
-          name="email"
-          value={email}
-          style={{ width: '16rem', height: '2.1rem' }}
-          disabled={true}
-        />
-        <TabHeading>
-          <Translate text="Select default language" />
-        </TabHeading>
-        <Select
-          value={voiceOutput.voiceLang}
-          disabled={!this.TTSBrowserSupport}
-          onChange={this.handlePrefLang}
-          style={{ margin: '1rem 0' }}
-        >
-          {voiceOutput.voiceMenu}
-        </Select>
-        <TabHeading>
-          <Translate text="Select TimeZone" />
-        </TabHeading>
-        <TimezoneContainer>
-          <Timezone>
-            <TimezonePicker
-              value={timeZone}
-              onChange={timezone => this.handleTimeZone(timezone)}
-              inputProps={{
-                placeholder: 'Select Timezone...',
-                name: 'timezone',
-              }}
+        <Container>
+          <div>
+            <TabHeading>
+              <Translate text="User Name" />
+            </TabHeading>
+            <FormControl error={userNameError !== ''}>
+              <OutlinedInput
+                labelWidth={0}
+                name="username"
+                value={userName}
+                onChange={this.handleUserName}
+                aria-describedby="email-error-text"
+                style={{ width: '16rem', height: '2.1rem' }}
+                placeholder="Enter your User Name"
+              />
+              <FormHelperText error={userNameError !== ''}>
+                {userNameError}
+              </FormHelperText>
+            </FormControl>
+            <EmailHeading>
+              <Translate text="Email" />
+            </EmailHeading>
+            <OutlinedInput
+              labelWidth={0}
+              name="email"
+              value={email}
+              style={{ width: '16rem', height: '2.1rem' }}
+              disabled={true}
             />
-          </Timezone>
-        </TimezoneContainer>
-
+            <TabHeading>
+              <Translate text="Select default language" />
+            </TabHeading>
+            <Select
+              value={voiceOutput.voiceLang}
+              disabled={!this.TTSBrowserSupport}
+              onChange={this.handlePrefLang}
+              style={{ margin: '1rem 0' }}
+            >
+              {voiceOutput.voiceMenu}
+            </Select>
+            <TabHeading>
+              <Translate text="Select TimeZone" />
+            </TabHeading>
+            <TimezoneContainer>
+              <Timezone>
+                <TimezonePicker
+                  value={timeZone}
+                  onChange={timezone => this.handleTimeZone(timezone)}
+                  inputProps={{
+                    placeholder: 'Select Timezone...',
+                    name: 'timezone',
+                  }}
+                />
+              </Timezone>
+            </TimezoneContainer>
+          </div>
+          <div className="img-upld">
+            <TabHeading>Select Avatar</TabHeading>
+            <Select
+              onChange={this.handleAvatarTypeChange}
+              value={avatarType}
+              style={styles.selectAvatarDropDownStyle}
+            >
+              <MenuItem value="default">Default</MenuItem>
+              <MenuItem value="server">Upload</MenuItem>
+              <MenuItem value="gravatar">Gravatar</MenuItem>
+            </Select>
+            <AvatarRender
+              avatarType={avatarType}
+              handleAvatarSubmit={this.handleAvatarSubmit}
+              uploadingAvatar={uploadingAvatar}
+              imagePreviewUrl={imagePreviewUrl}
+              isAvatarAdded={isAvatarAdded}
+              isAvatarUploaded={isAvatarUploaded}
+              handleAvatarImageChange={this.handleAvatarImageChange}
+              removeAvatarImage={this.removeAvatarImage}
+              file={file}
+              avatarSrc={avatarSrc}
+              email={email}
+            />
+          </div>
+        </Container>
         <Button
           variant="contained"
           color="primary"
           onClick={this.handleSubmit}
-          disabled={
-            (timeZone === this.props.timeZone &&
-              prefLanguage === this.props.prefLanguage &&
-              userName === this.props.userName) ||
-            userNameError
-          }
+          disabled={disabled}
           style={{ marginTop: '1.5rem' }}
         >
           <Translate text="Save Changes" />
@@ -227,7 +482,9 @@ AccountTab.propTypes = {
   prefLanguage: PropTypes.string,
   email: PropTypes.string,
   theme: PropTypes.string,
+  accessToken: PropTypes.string,
   actions: PropTypes.object,
+  avatarType: PropTypes.string,
 };
 
 function mapStateToProps(store) {
@@ -236,7 +493,9 @@ function mapStateToProps(store) {
     timeZone: store.settings.timeZone,
     prefLanguage: store.settings.prefLanguage,
     email: store.app.email,
+    accessToken: store.app.accessToken,
     theme: store.settings.theme,
+    avatarType: store.settings.avatarType,
   };
 }
 

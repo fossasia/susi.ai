@@ -26,7 +26,7 @@ import CircleImage from '../CircleImage/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
 import urls from '../../utils/urls';
-import { getAvatarProps } from '../../utils/helperFunctions';
+import { getUserAvatar } from '../../utils';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
 import AppBar from '@material-ui/core/AppBar';
@@ -118,9 +118,9 @@ class TopBar extends Component {
       appBarClass = 'app-bar-search';
     }
 
-    let avatarProps = null;
-    if (accessToken && email) {
-      avatarProps = getAvatarProps(email, accessToken);
+    let userAvatar = null;
+    if (accessToken) {
+      userAvatar = getUserAvatar(accessToken);
     }
 
     return (
@@ -157,7 +157,7 @@ class TopBar extends Component {
                     marginTop: '10.5px',
                   }}
                 >
-                  <CircleImage {...avatarProps} size="24" />
+                  <CircleImage src={userAvatar} size="32" />
                   <label
                     className="useremail"
                     style={{

@@ -15,7 +15,7 @@ import Translate from '../Translate/Translate.react';
 import styled from 'styled-components';
 import CircleImage from '../CircleImage/CircleImage';
 import Info from '@material-ui/icons/Info';
-import { getAvatarProps } from '../../utils/helperFunctions';
+import { getUserAvatar } from '../../utils';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -367,9 +367,9 @@ class StaticAppBar extends Component {
       </div>
     );
 
-    let avatarProps = null;
+    let userAvatar = null;
     if (accessToken) {
-      avatarProps = getAvatarProps(email);
+      userAvatar = getUserAvatar(accessToken);
     }
     return (
       <div>
@@ -398,7 +398,7 @@ class StaticAppBar extends Component {
                   <div>
                     {accessToken && (
                       <FlexContainer>
-                        <CircleImage {...avatarProps} size="32" />
+                        <CircleImage src={userAvatar} size="32" />
                         <UserDetail>{!userName ? email : userName}</UserDetail>
                       </FlexContainer>
                     )}

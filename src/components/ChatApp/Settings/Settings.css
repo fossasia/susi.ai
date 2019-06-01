@@ -91,8 +91,51 @@ color: #ff0000;
 transition: all 0.2s ease-in-out;
 }
 
-.settingMenu {
+.setting-avatar{
+  width: 150px;
+  border-radius: 6px;
+  display: block;
+  height: 150px;
+  margin: 1rem 0;
+}
 
+.close-avatar{
+  float: right;
+  border-radius: 50%;
+  border: 1px solid #999999;
+  position: relative;
+  top: -9px;
+  height: 25px;
+  width: 25px;
+  right: 20px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.avatar-empty-box{
+  border: 1px solid #CED4DA;
+  height: 148px;
+  border-radius: 6px;
+  width: 148px;
+  margin: 1rem 0;
+}
+
+.avatar-add-button{
+  width: 40px;
+  display: block;
+}
+
+.avatar-empty-box:hover {
+  background-color: #CED4DA;
+  cursor: pointer;
+}
+
+.img-upld {
+  width: 40%;
+  padding: 0px;
+}
+
+.settingMenu {
   max-width: none;
   padding: 50px 0px 50px 0px;
   position: relative;
@@ -165,5 +208,10 @@ width: 100%;
 }
 .settingsBtns {
   margin-left: 0rem;
+}
+
+.img-upld {
+  padding: 25px;
+  margin-left: 5%;
 }
 }
