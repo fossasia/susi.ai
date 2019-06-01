@@ -266,10 +266,7 @@ class StaticAppBar extends Component {
     const Logged = props => (
       <div>
         {accessToken && (
-          <a
-            href={`${urls.SKILL_URL}/dashboard`}
-            style={{ textDecoration: 'none' }}
-          >
+          <Link to="/skills/dashboard" style={{ textDecoration: 'none' }}>
             <MenuItem>
               <ListItemIcon>
                 <Assessment />
@@ -278,7 +275,7 @@ class StaticAppBar extends Component {
                 <Translate text="Dashboard" />
               </ListItemText>
             </MenuItem>
-          </a>
+          </Link>
         )}
 
         <Link to="/" style={{ textDecoration: 'none' }}>
@@ -303,10 +300,7 @@ class StaticAppBar extends Component {
         </Link>
         {accessToken && (
           <div>
-            <a
-              href={`${urls.SKILL_URL}/botbuilder`}
-              style={{ textDecoration: 'none' }}
-            >
+            <Link to="/skills/botbuilder" style={{ textDecoration: 'none' }}>
               <MenuItem onClick={this.handleMenuClose}>
                 <ListItemIcon>
                   <Extension />
@@ -315,7 +309,7 @@ class StaticAppBar extends Component {
                   <Translate text="Botbuilder" />
                 </ListItemText>
               </MenuItem>
-            </a>
+            </Link>
             <Link to="/settings" style={{ textDecoration: 'none' }}>
               <MenuItem onClick={this.handleMenuClose}>
                 <ListItemIcon>

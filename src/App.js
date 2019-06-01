@@ -31,6 +31,12 @@ import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCat
 import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
 import SkillListing from './components/cms/SkillPage/SkillListing';
 import SkillFeedbackPage from './components/cms/SkillFeedbackPage/SkillFeedbackPage';
+import Dashboard from './components/cms/Dashboard/Dashboard';
+import SkillVersion from './components/cms/SkillVersion/SkillVersion';
+import SkillHistory from './components/cms/SkillHistory/SkillHistory';
+import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
+import SkillCreator from './components/cms/SkillCreator/SkillCreator';
+import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
 
 const muiTheme = getMuiTheme({
   toggle: {
@@ -119,6 +125,38 @@ class App extends Component {
                 path="/skills/:category/:skills/:lang/feedbacks"
                 component={SkillFeedbackPage}
               />
+              <Route exact path="/skills/dashboard/" component={Dashboard} />
+              <Route
+                exact
+                path="/skills/:category/:skill/versions/:lang"
+                component={SkillVersion}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/compare/:lang/:oldid/:recentid"
+                component={SkillHistory}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang/:latestid/:revertid"
+                component={SkillRollBack}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang"
+                component={SkillCreator}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang/:commit"
+                component={SkillCreator}
+              />
+              <Route
+                exact
+                path="/skills/skillCreator"
+                component={SkillCreator}
+              />
+              <Route path="/skills/botbuilder" component={BotBuilderWrap} />
               <Route exact path="/overview" component={Overview} />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />
