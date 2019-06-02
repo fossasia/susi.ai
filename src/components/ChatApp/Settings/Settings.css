@@ -58,12 +58,9 @@ margin-left: 20px;
 }
 
 .colorPicker{
-  margin-left: 50px;
-  margin-top: -35px;
-}
-
-.colorPicker>div>div {
-  width: 90px !important; /* csslint allow: known-properties, important */
+  margin-left: 2.8rem;
+  margin-top: -1.8rem;
+  width: 6rem;
 }
 
 .color-box{
