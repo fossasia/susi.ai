@@ -14,7 +14,7 @@ import Devices from './components/Devices/Devices.react';
 import Logout from './components/Auth/Logout.react';
 import NotFound from './components/NotFound/NotFound.react';
 import Overview from './components/Overview/Overview.react';
-import Settings from './components/ChatApp/Settings/Settings.react';
+import Settings from './components/Settings/Settings.react';
 import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
