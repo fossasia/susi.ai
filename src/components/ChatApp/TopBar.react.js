@@ -25,7 +25,6 @@ import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
-import urls from '../../utils/urls';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
 import AppBar from '@material-ui/core/AppBar';
@@ -192,10 +191,7 @@ class TopBar extends Component {
             >
               <MenuItem key="placeholder" style={{ display: 'none' }} />
               {accessToken && (
-                <a
-                  href={`${urls.SKILL_URL}/dashboard`}
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to="/skills/dashboard" style={{ textDecoration: 'none' }}>
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Assessment />
@@ -204,7 +200,7 @@ class TopBar extends Component {
                       <Translate text="Dashboard" />
                     </ListItemText>
                   </MenuItem>
-                </a>
+                </Link>
               )}
               <Link to="/" style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={this.handleClose}>
@@ -227,8 +223,8 @@ class TopBar extends Component {
                 </MenuItem>
               </Link>
               {accessToken && (
-                <a
-                  href={`${urls.SKILL_URL}/botbuilder`}
+                <Link
+                  to="/skills/botbuilder"
                   style={{ textDecoration: 'none' }}
                 >
                   <MenuItem onClick={this.handleClose}>
@@ -239,7 +235,7 @@ class TopBar extends Component {
                       <Translate text="Botbuilder" />
                     </ListItemText>
                   </MenuItem>
-                </a>
+                </Link>
               )}
               {accessToken && (
                 <Link to="/settings" style={{ textDecoration: 'none' }}>

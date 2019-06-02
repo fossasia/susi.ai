@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Footer from '../Footer/Footer.react';
-import { urls } from '../../utils';
+import { Link } from 'react-router-dom';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import stackoverflow from '../../images/stackoverflow.png';
 import support from '../../images/support.png';
@@ -179,21 +179,20 @@ class Support extends Component {
               </div>
             </div>
             <div className=" support-item support-item-with-icon  support-item-no-image">
-              <a href={urls.SKILL_URL}>
+              <Link to="/skills" style={{ textDecoration: 'none' }}>
                 <div className=" support-item-icon-container">
                   <img alt="code" src={code} className=" support-item-icon" />
                 </div>
-              </a>
+              </Link>
               <div className="support-description">
-                <a href={urls.SKILL_URL}>
+                <Link to="/skills" style={{ textDecoration: 'none' }}>
                   <h3 id="stack-overflow">Create and Edit a SUSI.AI skill</h3>
-                </a>
+                </Link>
                 <div className="support-description-content">
-                  You can easily create a skill on the SUSI.AI skills editor at<a
-                    href={urls.SKILL_URL}
-                  >
-                    &nbsp;skills.susi.ai
-                  </a>
+                  You can easily create a skill on the SUSI.AI skills editor at{' '}
+                  <Link to="/skills" style={{ textDecoration: 'none' }}>
+                    susi.ai/skills
+                  </Link>
                 </div>
               </div>
             </div>
