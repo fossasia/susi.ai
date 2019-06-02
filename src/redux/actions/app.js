@@ -25,4 +25,5 @@ export default {
     actionTypes.APP_GET_USER_SKILLS,
     apis.fetchUserSkill,
   ),
+  updateUserAvatar: createAction(actionTypes.APP_UPDATE_USER_AVATAR),
 };

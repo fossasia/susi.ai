@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
+import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -13,6 +14,7 @@ const defaultState = {
   apiKeys: {},
   visited: true,
   userSkills: [],
+  avatarImg: 'https://api.susi.ai/getAvatar.png',
 };
 
 const { emailId, uuid, loggedIn, username, visited } = cookies.getAll();
@@ -26,6 +28,7 @@ const cookiesAppValues = {
     countryName: '',
   },
   visited,
+  avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
 };
 
 export default handleActions(
@@ -84,6 +87,12 @@ export default handleActions(
       return {
         ...state,
         userSkills,
+      };
+    },
+    [actionTypes.APP_UPDATE_USER_AVATAR](state, { payload }) {
+      return {
+        ...state,
+        avatarImg: getUserAvatarLink(),
       };
     },
   },
