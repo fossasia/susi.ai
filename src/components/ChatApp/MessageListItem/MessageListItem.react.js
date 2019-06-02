@@ -16,6 +16,7 @@ class MessageListItem extends React.Component {
     speechPitch: PropTypes.number,
     ttsLanguage: PropTypes.string,
     actions: PropTypes.object,
+    userGeoData: PropTypes.object,
   };
 
   constructor(props) {
@@ -60,6 +61,10 @@ class MessageListItem extends React.Component {
     this.setState({ play: false });
   };
 
+  getUserGeoData = () => {
+    this.props.actions.getUserGeoData();
+  };
+
   render() {
     const {
       message,
@@ -69,6 +74,7 @@ class MessageListItem extends React.Component {
       speechPitch,
       speechRate,
       latestMessage,
+      userGeoData,
     } = this.props;
     const { width, height } = this.state;
     return generateMessageBubble(
@@ -81,19 +87,23 @@ class MessageListItem extends React.Component {
       latestMessage,
       width,
       height,
+      userGeoData,
       this.onTextToSpeechStart,
       this.onTextToSpeechEnd,
       this.onYouTubePlayerReady,
+      this.getUserGeoData,
     );
   }
 }
 
 function mapStateToProps(store) {
   const { speechRate, speechPitch, ttsLanguage } = store.settings;
+  const { userGeoData } = store.messages;
   return {
     speechRate,
     speechPitch,
     ttsLanguage,
+    userGeoData,
   };
 }
 
