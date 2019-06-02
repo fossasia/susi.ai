@@ -1044,7 +1044,7 @@ class SkillCreator extends Component {
                 />
                 {accessToken &&
                   this.state.editable && (
-                    <Paper zDepth={1}>
+                    <Paper>
                       <InfoIcon
                         data-tip={`Learn more about <a href=${urls.CMS_GITHUB_URL +
                           '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
@@ -1194,7 +1194,6 @@ class SkillCreator extends Component {
                           textAlign: 'center',
                           justifyContent: 'center',
                         }}
-                        zDepth={1}
                       >
                         <TextField
                           label="Commit message"
@@ -1274,7 +1273,6 @@ class SkillCreator extends Component {
                         display: 'flex',
                         justifyContent: 'space-between',
                       }}
-                      zDepth={1}
                     >
                       <div style={{ margineft: '0rem' }}>
                         <strong>
@@ -1310,7 +1308,6 @@ class SkillCreator extends Component {
                       marginTop: '1.25rem',
                       position: 'relative',
                     }}
-                    zDepth={1}
                   >
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <span title="collapse preview">
