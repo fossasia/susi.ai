@@ -961,7 +961,6 @@ class SkillCreator extends Component {
                   )}
                 {!accessToken && (
                   <div>
-                    <StaticAppBar {...this.props} />
                     <HomeDiv>
                       <TitlePara>
                         YOU DO NOT HAVE PERMISSION TO EDIT THIS PAGE, SINCE YOU
