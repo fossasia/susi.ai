@@ -11,6 +11,7 @@ const defaultState = {
   loadingReply: false,
   initialisedVoices: false,
   historyBuffer: [],
+  userGeoData: null,
 };
 
 export default handleActions(
@@ -19,6 +20,12 @@ export default handleActions(
       return {
         ...state,
         unreadMessageIDs: [],
+      };
+    },
+    [actionTypes.MESSAGES_GET_USER_GEO_DATA](state, { payload }) {
+      return {
+        ...state,
+        userGeoData: payload,
       };
     },
     [actionTypes.MESSAGES_CREATE_USER_MESSAGE](state, { payload }) {
