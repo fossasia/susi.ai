@@ -3,11 +3,24 @@ import susi from '../../images/susi-logo.svg';
 import './Footer.css';
 import { Link } from 'react-router-dom';
 import urls from '../../utils/urls';
+import styled from 'styled-components';
+
+const FooterWrapper = styled.div`
+  background: #f6f6f6;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  border: 1px solid #ddd;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  margin-top: 35px;
+`;
 
 const Footer = () => {
   // Footer Component
   return (
-    <div className="footer-wrap">
+    <FooterWrapper>
       <div className="footer-container">
         <Link className="susi-logo-container" to="/">
           <img src={susi} alt="SUSI" className="susi-logo-footer" />
@@ -44,7 +57,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-    </div>
+    </FooterWrapper>
   );
 };
 

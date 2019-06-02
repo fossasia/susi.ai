@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Terms.css';
@@ -45,7 +43,6 @@ class Terms extends Component {
   render() {
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <Header title="Terms of Service" subtitle="Thanks for using SUSI.AI." />
         <div className="section">
           <div className="section-container">
@@ -327,8 +324,6 @@ class Terms extends Component {
             </div>
           </div>
         </div>
-
-        <Footer />
       </div>
     );
   }

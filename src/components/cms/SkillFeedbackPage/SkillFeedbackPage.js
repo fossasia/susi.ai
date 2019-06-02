@@ -6,8 +6,6 @@ import skillActions from '../../../redux/actions/skill';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
-import Footer from '../../Footer/Footer.react';
 import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -493,7 +491,6 @@ class SkillFeedbackPage extends Component {
     if (!loading) {
       renderElement = (
         <div>
-          <StaticAppBar {...this.props} />
           <Div className="skill_listing_container">
             <Paper className="margin-b-md margin-t-md">
               <p style={{ marginLeft: 10 }}>
@@ -650,13 +647,11 @@ class SkillFeedbackPage extends Component {
               </div>
             </Paper>
           </Div>
-          <Footer />
         </div>
       );
     } else {
       renderElement = (
         <div>
-          <StaticAppBar {...this.props} />
           <h1 className="skill_loading_container">
             <div className="center">
               <CircularProgress size={62} color="primary" />

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import Footer from '../Footer/Footer.react';
 import urls from '../../utils/urls';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
@@ -18,7 +16,6 @@ const Devices = props => {
   scrollToTopAnimation();
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <Header
         title="Devices"
         subtitle="SUSI.AI is available on many platform"
@@ -89,8 +86,6 @@ const Devices = props => {
           <img src={susiDesktop} alt="susi-webchat" className="susi-desktop" />
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

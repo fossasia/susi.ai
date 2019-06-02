@@ -1,5 +1,4 @@
 import React from 'react';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -332,17 +331,13 @@ class BotBuilder extends React.Component {
     if (!cookies.get('loggedIn')) {
       return (
         <div>
-          <StaticAppBar {...this.props} />
-          <div>
-            <p style={loggedInError}>Please login to create a skill bot.</p>
-          </div>
+          <p style={loggedInError}>Please login to create a skill bot.</p>
         </div>
       );
     }
 
     return (
       <div>
-        <StaticAppBar {...this.props} />
         <div style={home} className="botbuilder-page-wrapper">
           <Paper style={paperStyle} className="botBuilder-page-card">
             <h1 style={heading}>Pick a template</h1>

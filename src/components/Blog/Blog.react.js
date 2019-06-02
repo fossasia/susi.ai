@@ -10,8 +10,6 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
-import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import { getBlogReponse } from '../../apis';
 import './Blog.css';
@@ -235,7 +233,6 @@ class Blog extends Component {
 
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
         <Loading style={loadingStyle} isLoading={!this.state.postRendered} />
         {!this.state.postRendered && (
@@ -409,7 +406,6 @@ class Blog extends Component {
               </Fab>
             </div>
             <div className="post_bottom" />
-            <Footer />
           </div>
         )}
         <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>

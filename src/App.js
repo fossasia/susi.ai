@@ -35,6 +35,8 @@ import SkillHistory from './components/cms/SkillHistory/SkillHistory';
 import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
 import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
+import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
+import Footer from './components/Footer/Footer.react';
 import Admin from './components/Admin/Admin';
 
 class App extends Component {
@@ -82,7 +84,14 @@ class App extends Component {
     const {
       actions,
       snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
+      location: { pathname },
     } = this.props;
+    const skillListRegex = new RegExp(
+      '/skills/[0-9A-Za-z ]+/[0-9A-Za-z ]+/[0-9A-Za-z ]+',
+    );
+    const renderAppBar = pathname !== '/chat' ? <StaticAppBar /> : null;
+    const renderFooter =
+      pathname !== '/chat' || skillListRegex.test(pathname) ? <Footer /> : null;
     return (
       <MuiThemeProvider theme={theme}>
         <div>
@@ -93,6 +102,7 @@ class App extends Component {
             message={snackBarMessage}
             onClose={actions.closeSnackBar}
           />
+          {renderAppBar}
           <Switch>
             <Route exact path="/" component={Overview} />
             <Route exact path="/chat" component={ChatApp} />
@@ -157,6 +167,7 @@ class App extends Component {
             <ProtectedRoute exact path="/settings" component={Settings} />
             <Route exact path="/*:path(error-404|)" component={NotFound} />
           </Switch>
+          {renderFooter}
         </div>
       </MuiThemeProvider>
     );
@@ -175,7 +186,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(store) {
   return {
     ...store.ui,
-    ...store.app,
+    accessToken: store.app.accessToken,
   };
 }
 

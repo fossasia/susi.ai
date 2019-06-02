@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
@@ -905,7 +904,6 @@ class SkillCreator extends Component {
       if (this.mode === 'create') {
         return (
           <div>
-            <StaticAppBar {...this.props} />
             <div>
               <LoggedInErrorPara>
                 Please login to create a skill.
@@ -918,7 +916,6 @@ class SkillCreator extends Component {
 
     return (
       <div>
-        {this.isBotBuilder ? null : <StaticAppBar {...this.props} />}
         <div
           style={{
             padding: this.isBotBuilder ? '0rem' : '0rem 1.875rem 1.875rem',
