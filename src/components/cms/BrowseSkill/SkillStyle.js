@@ -132,13 +132,13 @@ const styles = {
   topBar: {
     display: 'flex',
     justifyContent: 'flex-start',
-    marginTop: '45px',
+    marginTop: '10px',
     marginRight: '10px',
     marginLeft: '20px',
   },
   sidebar: {
     width: 256,
-    paddingTop: 50,
+    paddingTop: 10,
     display: 'block',
     zIndex: 2,
     borderRight: '1px solid #ddd',
