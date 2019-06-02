@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import Footer from '../Footer/Footer.react';
 import { Link } from 'react-router-dom';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import stackoverflow from '../../images/stackoverflow.png';
@@ -25,7 +23,6 @@ const styles = {
 class Support extends Component {
   static propTypes = {
     history: PropTypes.object,
-    location: PropTypes.object,
     openSignUp: PropTypes.func,
     accessToken: PropTypes.string,
   };
@@ -40,10 +37,9 @@ class Support extends Component {
 
   render() {
     const { buttonStyle } = styles;
-    const { location, openSignUp, accessToken } = this.props;
+    const { openSignUp, accessToken } = this.props;
     return (
       <div>
-        <StaticAppBar {...this.props} location={location} />
         <div className="gray-wrapper">
           <div className="white-grey">
             <div className="conversation__description">
@@ -251,8 +247,6 @@ class Support extends Component {
               </div>
             </div>
           ) : null}
-
-          <Footer />
         </div>
       </div>
     );

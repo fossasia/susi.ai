@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
 import AuthorSkills from '../AuthorSkills/AuthorSkills';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import SkillUsageCard from '../SkillUsageCard/SkillUsageCard';
 import SkillRatingCard from '../SkillRating/SkillRatingCard';
 import SkillFeedbackCard from '../SkillFeedbackCard/SkillFeedbackCard';
@@ -268,7 +267,6 @@ class SkillListing extends Component {
     if (loadingSkill === true) {
       renderElement = (
         <div>
-          <StaticAppBar {...this.props} />
           <h1 className="skill_loading_container">
             <div className="center">
               <CircularProgress size={62} color="primary" />
@@ -280,7 +278,6 @@ class SkillListing extends Component {
     } else {
       renderElement = (
         <div>
-          <StaticAppBar {...this.props} />
           <HomeDiv className="skill_listing_container">
             <div className="avatar">
               {!image ? (

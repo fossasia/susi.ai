@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import SocialLinkButtons from './SocialLinkButtons';
-import Footer from '../Footer/Footer.react';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import TEAM_MEMBERS from './constants';
@@ -90,7 +88,6 @@ export default class Team extends Component {
 
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <Header title="Team" />
         <div className="section-team founders">
           <div className="team-header">
@@ -122,7 +119,6 @@ export default class Team extends Component {
         <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>
           <ToTopButton />
         </div>
-        <Footer />
       </div>
     );
   }

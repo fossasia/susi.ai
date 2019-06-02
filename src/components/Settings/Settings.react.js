@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import React, { Component } from 'react';
 import MenuList from '@material-ui/core/MenuList';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -263,7 +262,6 @@ class Settings extends Component {
   };
 
   render() {
-    const { location } = this.props;
     const { selectedSetting, theme, loading } = this.state;
 
     let menuItems = (
@@ -286,7 +284,6 @@ class Settings extends Component {
 
     return (
       <Container theme={theme}>
-        <StaticAppBar location={location} />
         <SettingContainer>
           <SettingsOptionsContainer theme={theme}>
             {menuItems}
@@ -308,7 +305,6 @@ class Settings extends Component {
 
 Settings.propTypes = {
   history: PropTypes.object,
-  location: PropTypes.object,
   theme: PropTypes.string,
   customThemeValue: PropTypes.object,
   accessToken: PropTypes.string,
