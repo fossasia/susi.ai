@@ -152,6 +152,11 @@ export function getEmailExists(payload) {
   });
 }
 
+export function getDefaultMapData(payload) {
+  /* In case if user's location is needed */
+  const url = 'https://extreme-ip-lookup.com/json/';
+  return ajax.get(url, payload);
+}
 export function fetchMetricsSkills(payload) {
   const { languageValue } = payload;
   const url = `${urls.API_URL}/cms/getSkillMetricsData.json`;
