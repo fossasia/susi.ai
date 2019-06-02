@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import BotBuilder from './BotBuilder';
 import BotWizard from './BotWizard';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import './BotBuilder.css';
 
 const styles = {
@@ -52,10 +51,7 @@ const BotBuilderWrap = props => {
   if (!accessToken) {
     return (
       <div>
-        <StaticAppBar {...props} />
-        <div>
-          <p style={loggedInError}>Please login to create a chatbot.</p>
-        </div>
+        <p style={loggedInError}>Please login to create a chatbot.</p>
       </div>
     );
   }

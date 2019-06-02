@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import urls from '../../utils/urls';
@@ -120,8 +118,6 @@ class Overview extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <StaticAppBar {...this.props} />
-
         <div className="section">
           <div className="section-container">
             <div className="hero">
@@ -416,7 +412,6 @@ class Overview extends Component {
             <img src={shield} alt="Android Mockup" className="shield" />
           </div>
         </div>
-        <Footer />
         {/* Video */}
         <Modal
           isOpen={this.state.isVideoModalOpen}

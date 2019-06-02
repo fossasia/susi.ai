@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
@@ -476,124 +475,76 @@ class BotWizard extends React.Component {
     if (!accessToken) {
       return (
         <div>
-          <StaticAppBar {...this.props} />
-          <div>
-            <p style={loggedInError}>Please login to create the Web Bot.</p>
-          </div>
+          <p style={loggedInError}>Please login to create the Web Bot.</p>
         </div>
       );
     }
     return (
-      <div>
-        <StaticAppBar {...this.props} />
-        <div style={home} className="botbuilder-page-wrapper">
-          <Grid fluid>
-            <Row>
-              <Col
-                className="botbuilder-col"
-                md={colBuild}
+      <div style={home} className="botbuilder-page-wrapper">
+        <Grid fluid>
+          <Row>
+            <Col
+              className="botbuilder-col"
+              md={colBuild}
+              style={{
+                display: colBuild === 0 ? 'none' : 'block',
+              }}
+            >
+              <div style={mainPage}>
+                {!loaded ? (
+                  <div className="center">
+                    <CircularProgress size={62} color="primary" />
+                    <h4>Loading</h4>
+                  </div>
+                ) : (
+                  <div>
+                    <Stepper activeStep={stepIndex} nonLinear>
+                      <Step>
+                        <StepButton onClick={() => this.setStep(0)}>
+                          Build
+                        </StepButton>
+                      </Step>
+                      <Step>
+                        <StepButton onClick={() => this.setStep(1)}>
+                          Design
+                        </StepButton>
+                      </Step>
+                      <Step>
+                        <StepButton onClick={() => this.setStep(2)}>
+                          Configure
+                        </StepButton>
+                      </Step>
+                      <Step>
+                        <StepButton onClick={() => this.check()}>
+                          Deploy
+                        </StepButton>
+                      </Step>
+                    </Stepper>
+                    <div style={contentStyle}>
+                      <div>{this.getStepContent(stepIndex)}</div>
+                      <div style={{ marginTop: '20px' }} />
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div
                 style={{
-                  display: colBuild === 0 ? 'none' : 'block',
+                  display: stepIndex === 3 ? 'none' : 'block',
+                  padding: '0px 30px',
                 }}
               >
-                <div style={mainPage}>
-                  {!loaded ? (
-                    <div className="center">
-                      <CircularProgress size={62} color="primary" />
-                      <h4>Loading</h4>
-                    </div>
-                  ) : (
-                    <div>
-                      <Stepper activeStep={stepIndex} nonLinear>
-                        <Step>
-                          <StepButton onClick={() => this.setStep(0)}>
-                            Build
-                          </StepButton>
-                        </Step>
-                        <Step>
-                          <StepButton onClick={() => this.setStep(1)}>
-                            Design
-                          </StepButton>
-                        </Step>
-                        <Step>
-                          <StepButton onClick={() => this.setStep(2)}>
-                            Configure
-                          </StepButton>
-                        </Step>
-                        <Step>
-                          <StepButton onClick={() => this.check()}>
-                            Deploy
-                          </StepButton>
-                        </Step>
-                      </Stepper>
-                      <div style={contentStyle}>
-                        <div>{this.getStepContent(stepIndex)}</div>
-                        <div style={{ marginTop: '20px' }} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div
-                  style={{
-                    display: stepIndex === 3 ? 'none' : 'block',
-                    padding: '0px 30px',
-                  }}
-                >
-                  {stepIndex === 2 ? (
-                    <TextField
-                      label="Commit message"
-                      placeholder="Enter Commit Message"
-                      margin="normal"
-                      style={{ width: '100%' }}
-                      value={commitMessage}
-                      onChange={this.handleCommitMessageChange}
-                    />
-                  ) : null}
-                  {stepIndex === 2 ? (
-                    <div style={{ float: 'left', paddingTop: '20px' }}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.saveDraft}
-                      >
-                        Save Draft
-                      </Button>
-                    </div>
-                  ) : null}
-                  <div
-                    style={{
-                      float: 'right',
-                      paddingLeft: '20px',
-                      paddingTop: stepIndex === 2 ? '20px' : '0px',
-                    }}
-                  >
-                    {stepIndex < 2 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleNext}
-                      >
-                        Next
-                      </Button>
-                    ) : null}
-                    {stepIndex === 2 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.saveClick}
-                      >
-                        {// eslint-disable-next-line
-                        savingSkill ? (
-                          <CircularProgress color="#ffffff" size={32} />
-                        ) : updateSkillNow ? (
-                          'Update and Deploy'
-                        ) : (
-                          'Save and Deploy'
-                        )}
-                      </Button>
-                    ) : null}
-                  </div>
-                  {stepIndex < 2 ? (
+                {stepIndex === 2 ? (
+                  <TextField
+                    label="Commit message"
+                    placeholder="Enter Commit Message"
+                    margin="normal"
+                    style={{ width: '100%' }}
+                    value={commitMessage}
+                    onChange={this.handleCommitMessageChange}
+                  />
+                ) : null}
+                {stepIndex === 2 ? (
+                  <div style={{ float: 'left', paddingTop: '20px' }}>
                     <Button
                       variant="contained"
                       color="primary"
@@ -601,90 +552,132 @@ class BotWizard extends React.Component {
                     >
                       Save Draft
                     </Button>
-                  ) : null}
-                  <div
-                    style={{
-                      float: 'right',
-                      paddingTop: stepIndex === 2 ? '20px' : '0px',
-                    }}
-                  >
-                    {stepIndex !== 0 && stepIndex !== 3 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handlePrev}
-                      >
-                        Back
-                      </Button>
-                    ) : null}
-                    {stepIndex === 0 ? (
-                      <Link to="/skills/botbuilder">
-                        <Button variant="contained" color="primary">
-                          Cancel
-                        </Button>
-                      </Link>
-                    ) : null}
                   </div>
-                </div>
-              </Col>
-              {prevButton === 1 ? (
-                <div className="preview-button">
-                  <span title="See Preview">
-                    <ChevronLeft
-                      className="botbuilder-chevron"
-                      onClick={this.handlePreviewToggle}
-                      style={chevronButton}
-                    />
-                  </span>
-                </div>
-              ) : null}
-              <Col
-                className="botbuilder-col"
-                xs={12}
-                md={colPreview}
-                style={{
-                  display: colPreview === 0 ? 'none' : 'block',
-                  position: 'fixed',
-                  marginLeft: '65%',
-                  height: '88%',
-                  marginTop: '10px',
-                }}
-              >
-                <Paper
-                  style={
-                    (paperStyle,
-                    {
-                      height: '99.9%',
-                      marginTop: '20px',
-                      position: 'relative',
-                      marginRight: '30px',
-                    })
-                  }
-                  className="botBuilder-page-card"
+                ) : null}
+                <div
+                  style={{
+                    float: 'right',
+                    paddingLeft: '20px',
+                    paddingTop: stepIndex === 2 ? '20px' : '0px',
+                  }}
                 >
-                  <span title="collapse preview">
-                    <ChevronRight
-                      className="botbuilder-chevron"
-                      onClick={this.handlePreviewToggle}
-                      style={chevron}
-                    />
-                  </span>
-                  <br className="display-mobile-only" />
-                  <h2 className="center">Preview</h2>
-                  <div
-                    style={{
-                      position: 'relative',
-                      overflow: 'hidden',
-                      marginTop: '20px',
-                    }}
+                  {stepIndex < 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleNext}
+                    >
+                      Next
+                    </Button>
+                  ) : null}
+                  {stepIndex === 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.saveClick}
+                    >
+                      {// eslint-disable-next-line
+                      savingSkill ? (
+                        <CircularProgress color="#ffffff" size={32} />
+                      ) : updateSkillNow ? (
+                        'Update and Deploy'
+                      ) : (
+                        'Save and Deploy'
+                      )}
+                    </Button>
+                  ) : null}
+                </div>
+                {stepIndex < 2 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.saveDraft}
                   >
-                    <Preview botBuilder={true} />
-                  </div>
-                </Paper>
-              </Col>
-            </Row>
-          </Grid>
-        </div>
+                    Save Draft
+                  </Button>
+                ) : null}
+                <div
+                  style={{
+                    float: 'right',
+                    paddingTop: stepIndex === 2 ? '20px' : '0px',
+                  }}
+                >
+                  {stepIndex !== 0 && stepIndex !== 3 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handlePrev}
+                    >
+                      Back
+                    </Button>
+                  ) : null}
+                  {stepIndex === 0 ? (
+                    <Link to="/skills/botbuilder">
+                      <Button variant="contained" color="primary">
+                        Cancel
+                      </Button>
+                    </Link>
+                  ) : null}
+                </div>
+              </div>
+            </Col>
+            {prevButton === 1 ? (
+              <div className="preview-button">
+                <span title="See Preview">
+                  <ChevronLeft
+                    className="botbuilder-chevron"
+                    onClick={this.handlePreviewToggle}
+                    style={chevronButton}
+                  />
+                </span>
+              </div>
+            ) : null}
+            <Col
+              className="botbuilder-col"
+              xs={12}
+              md={colPreview}
+              style={{
+                display: colPreview === 0 ? 'none' : 'block',
+                position: 'fixed',
+                marginLeft: '65%',
+                height: '88%',
+                marginTop: '10px',
+              }}
+            >
+              <Paper
+                style={
+                  (paperStyle,
+                  {
+                    height: '99.9%',
+                    marginTop: '20px',
+                    position: 'relative',
+                    marginRight: '30px',
+                  })
+                }
+                className="botBuilder-page-card"
+              >
+                <span title="collapse preview">
+                  <ChevronRight
+                    className="botbuilder-chevron"
+                    onClick={this.handlePreviewToggle}
+                    style={chevron}
+                  />
+                </span>
+                <br className="display-mobile-only" />
+                <h2 className="center">Preview</h2>
+                <div
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    marginTop: '20px',
+                  }}
+                >
+                  <Preview botBuilder={true} />
+                </div>
+              </Paper>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }

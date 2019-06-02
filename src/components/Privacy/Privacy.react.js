@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import Footer from '../Footer/Footer.react';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import '../Terms/Terms.css';
@@ -15,7 +13,6 @@ const Privacy = props => {
   document.body.style.setProperty('background-image', 'none');
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <Header title="Privacy" subtitle="Privacy Policy for SUSI" />
       <div className="section">
         <div className="section-container">
@@ -293,7 +290,6 @@ const Privacy = props => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

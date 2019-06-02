@@ -5,7 +5,6 @@ import _Paper from '@material-ui/core/Paper';
 import MySkills from './MySkills';
 import MyRatings from './MyRatings';
 import MyAnalytics from './MyAnalytics';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import styled from 'styled-components';
 import './Dashboard.css';
 
@@ -42,7 +41,6 @@ const Dashboard = props => {
   if (!accessToken) {
     return (
       <div>
-        <StaticAppBar {...props} />
         <div>
           <StyledErrorParagraph>
             Please login to view dashboard.
@@ -53,7 +51,6 @@ const Dashboard = props => {
   }
   return (
     <div>
-      <StaticAppBar {...props} />
       <div className="botbuilder-page-wrapper">
         <br />
         <br />

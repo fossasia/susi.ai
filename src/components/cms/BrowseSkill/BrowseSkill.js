@@ -37,12 +37,10 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchBar from 'material-ui-search-bar';
 import { scrollAnimation } from '../../../utils';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
-import Footer from '../../Footer/Footer.react';
 import isMobileView from '../../../utils/isMobileView';
 import './custom.css';
 
@@ -484,12 +482,6 @@ class BrowseSkill extends React.Component {
 
     return (
       <div style={styles.browseSkillRoot}>
-        <StaticAppBar
-          {...this.props}
-          zDepth={1}
-          showPageTabs={false}
-          toggleDrawer={this.handleDrawerToggle}
-        />
         <div style={styles.main}>
           <div style={sidebarStyle}>
             <div style={styles.newSkillBtn}>
@@ -889,7 +881,6 @@ class BrowseSkill extends React.Component {
             ) : null}
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
