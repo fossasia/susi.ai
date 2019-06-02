@@ -264,10 +264,7 @@ class TopBar extends Component {
               </Link>
               {accessToken &&
                 isAdmin && (
-                  <a
-                    href={`${urls.ACCOUNT_URL}/admin`}
-                    style={{ textDecoration: 'none' }}
-                  >
+                  <Link to="/admin" style={{ textDecoration: 'none' }}>
                     <MenuItem onClick={this.handleClose}>
                       <ListItemIcon>
                         <List />
@@ -276,7 +273,7 @@ class TopBar extends Component {
                         <Translate text="Admin" />
                       </ListItemText>
                     </MenuItem>
-                  </a>
+                  </Link>
                 )}
               <MenuItem onClick={() => this.openModal('share')}>
                 <ListItemIcon>

@@ -156,37 +156,6 @@ export function getDefaultMapData(payload) {
   /* In case if user's location is needed */
   const url = 'https://extreme-ip-lookup.com/json/';
   return ajax.get(url, payload);
-  // return new Promise(function(resolve, reject) {
-  //   resolve({
-  //     latitude: 23.014946,
-  //     longitude: 72.5129378,
-  //     type: 'map',
-  //     zoom: '13',
-  //   });
-  // });
-  // return new Promise(function(resolve, reject) {
-  //   navigator.geolocation.getCurrentPosition(
-  //     function(position) {
-  //       console.log(position.coords.latitude, position.coords.longitude);
-
-  //       resolve({
-  //         lat: position.coords.latitude,
-  //         lon: position.coords.longitude,
-  //         type: 'map',
-  //         zoom: '13',
-  //         text: 'Your location',
-  //         link: `https://www.openstreetmap.org/#map=13/${
-  //           position.coords.latitude
-  //         }/${position.coords.longitude}`,
-  //       });
-  //     },
-  //     function() {
-  //       /* User does not allow access to grant location permission */
-  //       console.log('error in getting mapData');
-  //       reject('No map data available');
-  //     },
-  //   );
-  // });
 }
 export function fetchMetricsSkills(payload) {
   const { languageValue } = payload;

@@ -15,7 +15,6 @@ import Translate from '../Translate/Translate.react';
 import styled from 'styled-components';
 import CircleImage from '../CircleImage/CircleImage';
 import Info from '@material-ui/icons/Info';
-import urls from '../../utils/urls';
 import { getAvatarProps } from '../../utils/helperFunctions';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
@@ -333,10 +332,7 @@ class StaticAppBar extends Component {
           </MenuItem>
         </Link>
         {isAdmin ? (
-          <a
-            href={`${urls.ACCOUNT_URL}/admin`}
-            style={{ textDecoration: 'none' }}
-          >
+          <Link to="/admin" style={{ textDecoration: 'none' }}>
             <MenuItem onClick={this.handleMenuClose}>
               <ListItemIcon>
                 <ListIcon />
@@ -345,7 +341,7 @@ class StaticAppBar extends Component {
                 <Translate text="Admin" />
               </ListItemText>
             </MenuItem>
-          </a>
+          </Link>
         ) : null}
         {accessToken ? (
           <Link to="/logout" style={{ textDecoration: 'none' }}>
