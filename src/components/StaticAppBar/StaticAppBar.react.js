@@ -15,7 +15,6 @@ import Translate from '../Translate/Translate.react';
 import styled from 'styled-components';
 import CircleImage from '../CircleImage/CircleImage';
 import Info from '@material-ui/icons/Info';
-import { getAvatarProps } from '../../utils/helperFunctions';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -157,6 +156,7 @@ class StaticAppBar extends Component {
     app: PropTypes.string,
     actions: PropTypes.object,
     showPageTabs: PropTypes.bool,
+    avatarImg: PropTypes.string,
   };
 
   constructor(props) {
@@ -256,8 +256,10 @@ class StaticAppBar extends Component {
   }
 
   render() {
-    const { showPageTabs, app } = this.props;
-    const { accessToken, email, userName, isAdmin } = app;
+    const {
+      showPageTabs,
+      app: { accessToken, email, userName, isAdmin, avatarImg },
+    } = this.props;
     const { anchorEl, drawerOpen } = this.state;
     const open = Boolean(anchorEl);
     // Check the path to show or not to show top bar left menu
@@ -367,9 +369,9 @@ class StaticAppBar extends Component {
       </div>
     );
 
-    let avatarProps = null;
+    let userAvatar = null;
     if (accessToken) {
-      avatarProps = getAvatarProps(email);
+      userAvatar = avatarImg;
     }
     return (
       <div>
@@ -398,7 +400,7 @@ class StaticAppBar extends Component {
                   <div>
                     {accessToken && (
                       <FlexContainer>
-                        <CircleImage {...avatarProps} size="32" />
+                        <CircleImage src={userAvatar} size="32" />
                         <UserDetail>{!userName ? email : userName}</UserDetail>
                       </FlexContainer>
                     )}
