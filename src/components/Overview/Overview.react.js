@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Footer from '../Footer/Footer.react';
 import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
 import urls from '../../utils/urls';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import PlayCircle from '@material-ui/icons/PlayCircleFilled';
@@ -356,18 +357,17 @@ class Overview extends Component {
             <div className="description__heading">SUSI Skills</div>
             <p className="description__text">
               SUSI is having many skills. You can look at the collection of
-              skills at
-              <a
-                rel="noopener noreferrer"
+              skills at{' '}
+              <Link
+                to="/skills"
                 style={{ textDecoration: 'none' }}
-                href={urls.SKILL_URL}
                 target="_blank"
               >
-                {' '}
-                skills.susi.ai
-              </a>. SUSI skills are divided into groups like knowledge,
-              assistant, problem solving, entertainment, shopping and small
-              talks. SUSI Skill development is easy and fun.{' '}
+                susi.ai/skills
+              </Link>{' '}
+              SUSI skills are divided into groups like knowledge, assistant,
+              problem solving, entertainment, shopping and small talks. SUSI
+              Skill development is easy and fun.{' '}
             </p>
           </div>
           <div className="img-container">
