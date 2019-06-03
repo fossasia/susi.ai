@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { StylesProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
@@ -93,83 +94,89 @@ class App extends Component {
     const renderFooter =
       pathname !== '/chat' || skillListRegex.test(pathname) ? <Footer /> : null;
     return (
-      <MuiThemeProvider theme={theme}>
-        <div>
-          <DialogSection />
-          <Snackbar
-            autoHideDuration={snackBarDuration}
-            open={isSnackBarOpen}
-            message={snackBarMessage}
-            onClose={actions.closeSnackBar}
-          />
-          {renderAppBar}
-          <Switch>
-            <Route exact path="/" component={Overview} />
-            <Route exact path="/chat" component={ChatApp} />
-            <Route exact path="/skills" component={BrowseSkill} />
-            <Route
-              exact
-              path="/skills/category/:category"
-              component={BrowseSkillByCategory}
+      <StylesProvider injectFirst>
+        <MuiThemeProvider theme={theme}>
+          <div>
+            <DialogSection />
+            <Snackbar
+              autoHideDuration={snackBarDuration}
+              open={isSnackBarOpen}
+              message={snackBarMessage}
+              onClose={actions.closeSnackBar}
             />
-            <Route
-              exact
-              path="/skills/language/:language"
-              component={BrowseSkillByLanguage}
-            />
-            <Route
-              exact
-              path="/skills/:category/:skills/:lang"
-              component={SkillListing}
-            />
-            <Route
-              exact
-              path="/skills/:category/:skills/:lang/feedbacks"
-              component={SkillFeedbackPage}
-            />
-            <Route exact path="/skills/dashboard/" component={Dashboard} />
-            <Route
-              exact
-              path="/skills/:category/:skill/versions/:lang"
-              component={SkillVersion}
-            />
-            <Route
-              exact
-              path="/skills/:category/:skill/compare/:lang/:oldid/:recentid"
-              component={SkillHistory}
-            />
-            <Route
-              exact
-              path="/skills/:category/:skill/edit/:lang/:latestid/:revertid"
-              component={SkillRollBack}
-            />
-            <Route
-              exact
-              path="/skills/:category/:skill/edit/:lang"
-              component={SkillCreator}
-            />
-            <Route
-              exact
-              path="/skills/:category/:skill/edit/:lang/:commit"
-              component={SkillCreator}
-            />
-            <Route exact path="/skills/skillCreator" component={SkillCreator} />
-            <Route path="/skills/botbuilder" component={BotBuilderWrap} />
-            <Route exact path="/devices" component={Devices} />
-            <Route exact path="/team" component={Team} />
-            <Route exact path="/blog" component={Blog} />
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/support" component={Support} />
-            <Route exact path="/terms" component={Terms} />
-            <Route exact path="/privacy" component={Privacy} />
-            <Route exact path="/logout" component={Logout} />
-            <Route path="/admin" component={Admin} />
-            <ProtectedRoute exact path="/settings" component={Settings} />
-            <Route exact path="/*:path(error-404|)" component={NotFound} />
-          </Switch>
-          {renderFooter}
-        </div>
-      </MuiThemeProvider>
+            {renderAppBar}
+            <Switch>
+              <Route exact path="/" component={Overview} />
+              <Route exact path="/chat" component={ChatApp} />
+              <Route exact path="/skills" component={BrowseSkill} />
+              <Route
+                exact
+                path="/skills/category/:category"
+                component={BrowseSkillByCategory}
+              />
+              <Route
+                exact
+                path="/skills/language/:language"
+                component={BrowseSkillByLanguage}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skills/:lang"
+                component={SkillListing}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skills/:lang/feedbacks"
+                component={SkillFeedbackPage}
+              />
+              <Route exact path="/skills/dashboard/" component={Dashboard} />
+              <Route
+                exact
+                path="/skills/:category/:skill/versions/:lang"
+                component={SkillVersion}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/compare/:lang/:oldid/:recentid"
+                component={SkillHistory}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang/:latestid/:revertid"
+                component={SkillRollBack}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang"
+                component={SkillCreator}
+              />
+              <Route
+                exact
+                path="/skills/:category/:skill/edit/:lang/:commit"
+                component={SkillCreator}
+              />
+              <Route
+                exact
+                path="/skills/skillCreator"
+                component={SkillCreator}
+              />
+              <Route path="/skills/botbuilder" component={BotBuilderWrap} />
+              <Route exact path="/devices" component={Devices} />
+              <Route exact path="/team" component={Team} />
+              <Route exact path="/blog" component={Blog} />
+              <Route exact path="/contact" component={Contact} />
+              <Route exact path="/support" component={Support} />
+              <Route exact path="/terms" component={Terms} />
+              <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/logout" component={Logout} />
+              <Route path="/admin" component={Admin} />
+              <ProtectedRoute exact path="/settings" component={Settings} />
+              <Route exact path="/*:path(error-404|)" component={NotFound} />
+            </Switch>
+            {renderFooter}
+          </div>
+        </MuiThemeProvider>
+      </StylesProvider>
     );
   }
 }

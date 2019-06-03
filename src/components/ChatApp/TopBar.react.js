@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link as _Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
+import styled from 'styled-components';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -35,6 +36,13 @@ const styles = {
     display: 'block',
   },
 };
+
+const Link = styled(_Link)`
+  color: #000;
+  &:hover {
+    color: #000;
+  }
+`;
 
 class TopBar extends Component {
   static propTypes = {

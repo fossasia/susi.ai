@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as _Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -34,6 +34,13 @@ import InfoIcon from '@material-ui/icons/Info';
 import SupportIcon from '@material-ui/icons/Face';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
+
+const Link = styled(_Link)`
+  color: #000;
+  &:hover {
+    color: #000;
+  }
+`;
 
 const FlexContainer = styled.div`
   display: flex;
@@ -271,7 +278,11 @@ class StaticAppBar extends Component {
     const Logged = props => (
       <div>
         {accessToken && (
-          <Link to="/skills/dashboard" style={{ textDecoration: 'none' }}>
+          <Link
+            color="black"
+            to="/skills/dashboard"
+            style={{ textDecoration: 'none' }}
+          >
             <MenuItem>
               <ListItemIcon>
                 <Assessment />
