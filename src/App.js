@@ -38,6 +38,7 @@ import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
 import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
 import Footer from './components/Footer/Footer.react';
+import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 
 class App extends Component {
@@ -47,6 +48,7 @@ class App extends Component {
     actions: PropTypes.object,
     accessToken: PropTypes.string,
     snackBarProps: PropTypes.object,
+    showCookiePolicy: PropTypes.bool,
   };
 
   componentDidMount = () => {
@@ -86,6 +88,7 @@ class App extends Component {
       actions,
       snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
       location: { pathname },
+      showCookiePolicy,
     } = this.props;
     const skillListRegex = new RegExp(
       '/skills/[0-9A-Za-z ]+/[0-9A-Za-z ]+/[0-9A-Za-z ]+',
@@ -93,6 +96,7 @@ class App extends Component {
     const renderAppBar = pathname !== '/chat' ? <StaticAppBar /> : null;
     const renderFooter =
       pathname !== '/chat' || skillListRegex.test(pathname) ? <Footer /> : null;
+    const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -174,6 +178,7 @@ class App extends Component {
               <Route exact path="/*:path(error-404|)" component={NotFound} />
             </Switch>
             {renderFooter}
+            {renderCookiePolicy}
           </div>
         </MuiThemeProvider>
       </StylesProvider>
@@ -194,6 +199,7 @@ function mapStateToProps(store) {
   return {
     ...store.ui,
     accessToken: store.app.accessToken,
+    showCookiePolicy: store.app.showCookiePolicy,
   };
 }
 
