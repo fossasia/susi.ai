@@ -202,7 +202,7 @@ class TopBar extends Component {
                   </MenuItem>
                 </Link>
               )}
-              <Link to="/" style={{ textDecoration: 'none' }}>
+              <Link to="/chat" style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Chat />
@@ -249,7 +249,7 @@ class TopBar extends Component {
                   </MenuItem>
                 </Link>
               )}
-              <Link to="/overview" style={{ textDecoration: 'none' }}>
+              <Link to="/" style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Info />
