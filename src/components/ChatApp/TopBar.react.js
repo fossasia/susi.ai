@@ -310,7 +310,8 @@ class TopBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, userName, isAdmin, avatarImg } = store.app;
+  const { email, accessToken, isAdmin, avatarImg } = store.app;
+  const { userName } = store.settings;
   return {
     email,
     accessToken,
