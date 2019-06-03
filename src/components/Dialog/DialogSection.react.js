@@ -11,7 +11,7 @@ import Tour from './Tour';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import ThemeChanger from '../ChatApp/Settings/ThemeChanger';
+import ThemeChanger from '../Settings/ThemeChanger';
 import { DialogContainer } from '../shared/Container';
 
 const DialogData = {
