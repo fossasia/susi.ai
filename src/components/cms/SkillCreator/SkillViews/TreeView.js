@@ -10,6 +10,7 @@ import uiActions from '../../../../redux/actions/ui';
 import { fetchConversationResponse } from '../../../../apis/index';
 import createActions from '../../../../redux/actions/create';
 import 'react-orgchart/index.css';
+import './TreeView.css';
 import styled from 'styled-components';
 
 const BotIconImg = styled.img`

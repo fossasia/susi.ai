@@ -14,9 +14,14 @@
     cursor: pointer;
 }
 
+.reactOrgChart table{
+    display: table;
+}
+
 .reactOrgChart .orgNodeChildGroup .nodeGroupLineVerticalMiddle {
     border-right: 2px solid #9E9E9E;
 }
+
 .reactOrgChart .orgNodeChildGroup .nodeLineBorderTop {
     border-top: 2px solid #9E9E9E;
 }
