@@ -6,7 +6,6 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const defaultState = {
-  userName: '',
   email: '',
   accessToken: '',
   uuid: '',
@@ -17,12 +16,11 @@ const defaultState = {
   avatarImg: 'https://api.susi.ai/getAvatar.png',
 };
 
-const { emailId, uuid, loggedIn, username, visited } = cookies.getAll();
+const { emailId, uuid, loggedIn, visited } = cookies.getAll();
 const cookiesAppValues = {
   email: emailId,
   uuid,
   accessToken: loggedIn,
-  userName: username,
   location: {
     countryCode: '',
     countryName: '',

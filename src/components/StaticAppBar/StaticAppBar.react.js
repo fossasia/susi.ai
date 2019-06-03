@@ -258,7 +258,11 @@ class StaticAppBar extends Component {
   render() {
     const {
       showPageTabs,
-      app: { accessToken, email, userName, isAdmin, avatarImg },
+      accessToken,
+      email,
+      userName,
+      isAdmin,
+      avatarImg,
     } = this.props;
     const { anchorEl, drawerOpen } = this.state;
     const open = Boolean(anchorEl);
@@ -439,8 +443,14 @@ class StaticAppBar extends Component {
 }
 
 function mapStateToProps(store) {
+  const { email, accessToken, isAdmin, avatarImg } = store.app;
+  const { userName } = store.settings;
   return {
-    app: store.app,
+    email,
+    accessToken,
+    userName,
+    isAdmin,
+    avatarImg,
   };
 }
 
