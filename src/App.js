@@ -94,7 +94,8 @@ class App extends Component {
             onClose={actions.closeSnackBar}
           />
           <Switch>
-            <Route exact path="/" component={ChatApp} />
+            <Route exact path="/" component={Overview} />
+            <Route exact path="/chat" component={ChatApp} />
             <Route exact path="/skills" component={BrowseSkill} />
             <Route
               exact
@@ -144,7 +145,6 @@ class App extends Component {
             />
             <Route exact path="/skills/skillCreator" component={SkillCreator} />
             <Route path="/skills/botbuilder" component={BotBuilderWrap} />
-            <Route exact path="/overview" component={Overview} />
             <Route exact path="/devices" component={Devices} />
             <Route exact path="/team" component={Team} />
             <Route exact path="/blog" component={Blog} />
