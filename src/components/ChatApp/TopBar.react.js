@@ -26,7 +26,6 @@ import CircleImage from '../CircleImage/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
 import urls from '../../utils/urls';
-import { getAvatarProps } from '../../utils/helperFunctions';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
 import AppBar from '@material-ui/core/AppBar';
@@ -57,6 +56,7 @@ class TopBar extends Component {
     userName: PropTypes.string,
     isAdmin: PropTypes.bool,
     actions: PropTypes.object,
+    avatarImg: PropTypes.string,
   };
 
   static defaultProps = {
@@ -111,6 +111,7 @@ class TopBar extends Component {
       accessToken,
       userName,
       isAdmin,
+      avatarImg,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -118,9 +119,9 @@ class TopBar extends Component {
       appBarClass = 'app-bar-search';
     }
 
-    let avatarProps = null;
-    if (accessToken && email) {
-      avatarProps = getAvatarProps(email, accessToken);
+    let userAvatar = null;
+    if (accessToken) {
+      userAvatar = avatarImg;
     }
 
     return (
@@ -157,7 +158,7 @@ class TopBar extends Component {
                     marginTop: '10.5px',
                   }}
                 >
-                  <CircleImage {...avatarProps} size="24" />
+                  <CircleImage src={userAvatar} size="32" />
                   <label
                     className="useremail"
                     style={{
@@ -313,12 +314,13 @@ class TopBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, userName, isAdmin } = store.app;
+  const { email, accessToken, userName, isAdmin, avatarImg } = store.app;
   return {
     email,
     accessToken,
     userName,
     isAdmin,
+    avatarImg,
   };
 }
 
