@@ -13,6 +13,24 @@ export function fetchApiKeys(payload) {
   return ajax.get(url);
 }
 
+export function createApiKey(payload) {
+  const { keyName, keyValue } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
+  return ajax.get(url, {
+    keyName,
+    keyValue,
+  });
+}
+
+export function deleteApiKey(payload) {
+  const { keyName } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
+  return ajax.get(url, {
+    keyName,
+    deleteKey: true,
+  });
+}
+
 export function getLogin(payload) {
   const { email, password } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;

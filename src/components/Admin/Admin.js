@@ -133,7 +133,7 @@ class Admin extends Component {
     return (
       <div>
         <StaticAppBar {...this.props} />
-        {!loading ? (
+        {loading ? (
           <div className="center" style={{ marginTop: '100px' }}>
             <CircularProgress size={62} />
             <h4>Loading</h4>
