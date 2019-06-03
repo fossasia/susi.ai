@@ -92,7 +92,7 @@ const SusiLogo = styled.img`
 const topLinks = [
   {
     label: 'Overview',
-    url: '/overview',
+    url: '/',
     icon: <InfoIcon />,
   },
   {
@@ -279,7 +279,7 @@ class StaticAppBar extends Component {
           </Link>
         )}
 
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/chat" style={{ textDecoration: 'none' }}>
           <MenuItem>
             <ListItemIcon>
               <Chat />
@@ -323,7 +323,7 @@ class StaticAppBar extends Component {
             </Link>
           </div>
         )}
-        <Link to="/overview" style={{ textDecoration: 'none' }}>
+        <Link to="/" style={{ textDecoration: 'none' }}>
           <MenuItem onClick={this.handleMenuClose}>
             <ListItemIcon>
               <Info />
