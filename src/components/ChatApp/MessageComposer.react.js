@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import ReactFitText from 'react-fittext';
 import Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Send from '@material-ui/icons/Send';
 import Mic from '@material-ui/icons/Mic';
 import IconButton from '@material-ui/core/IconButton';
-import Close from '@material-ui/icons/Close';
-import TextareaAutosize from 'react-textarea-autosize';
+import CloseIcon from '@material-ui/icons/Close';
+import _TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
 import messageActions from '../../redux/actions/messages';
 import uiActions from '../../redux/actions/ui';
@@ -27,33 +28,146 @@ const ENTER_KEY_CODE = 13;
 const UP_KEY_CODE = 38;
 const DOWN_KEY_CODE = 40;
 
-const styles = {
-  buttonStyle: {
-    mini: true,
-    bottom: '14px',
-    right: '5px',
-    position: 'absolute',
-  },
-  iconStyles: {
-    color: '#fff',
-    fill: 'currentcolor',
-    height: '40px',
-    width: '40px',
-    marginTop: '20px',
-    userSelect: 'none',
-    transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 120000,
-    fill: '#444',
-    width: '20px',
-    height: '20px',
-    right: '0px',
-    top: '0px',
-    cursor: 'pointer',
-  },
-};
+const SendButton = styled(IconButton)`
+  align-content: center;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease-in-out;
+  bottom: 0.875rem;
+  right: 0.3125rem;
+  position: absolute;
+`;
+
+const CloseButton = styled(CloseIcon)`
+  position: absolute;
+  z-index: 120000;
+  fill: #444;
+  width: 1.25rem;
+  height: 1.25rem;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+`;
+
+const VoiceResponse = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  max-width: 46.5rem;
+  margin: 0 auto;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    display: block;
+    flex-wrap: row;
+    max-width: 18.75rem;
+  }
+`;
+
+const MicContainer = styled.div`
+  border: 1px solid #eee;
+  border-radius: 100%;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  left: 0;
+  pointer-events: none;
+  transition: background-color 0.218s, border 0.218s, box-shadow 0.218s;
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+  background-color: #fe2222;
+  animation: blinker 1s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+  @media (max-width: 768px) {
+    margin: 1rem auto;
+    text-align: center;
+  }
+`;
+
+const StyledMic = styled(Mic)`
+  && {
+    color: #fff;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-top: 1.25rem;
+    user-select: none;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  }
+`;
+
+const VoiceOutputText = styled.h1`
+  font-family: 'Lato', sans-serif;
+  width: 31rem;
+  font-size: 100%;
+  max-width: 25rem;
+  text-align: left;
+  padding-right: 1.25rem;
+  color: ${props => props.color};
+  @media (max-width: 768px) {
+    width: 100%;
+    text-align: center;
+    padding-right: 0px;
+    margin: 0 auto;
+  }
+`;
+
+const TextAreaContainer = styled.div`
+  max-width: 89%;
+  border-radius: 10px;
+  display: block;
+  position: relative;
+  box-sizing: content-box;
+  line-height: 20px;
+  font-size: 15px;
+  min-height: 20px;
+  border: none;
+  padding: 0.625rem 0.75rem;
+  overflow-y: scroll;
+  background-color: ${props => props.backgroundColor};
+  color: ${props => props.color};
+  max-height: 5rem;
+  @media (max-width: 768px) {
+    width: 81%;
+  }
+`;
+
+const TextareaAutosize = styled(_TextareaAutosize)`
+  line-height: 1rem;
+  background-color: ${props => props.backgroundColor};
+  color: ${props => props.color};
+  border: none;
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+  resize: none;
+  font-family: 'Product Sans', sans-serif;
+  font-weight: 300;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  margin-top: 0.1875rem;
+  background: #fff;
+  color: #001d38;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  min-height: 80%;
+  position: relative;
+  top: 0px;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  margin: 0 8px 0 0;
+  padding: 0.875rem 0.5625rem 0.5rem 0.5625rem;
+  font-size: 0.875rem;
+  border: none;
+  background: 0 0;
+  text-align: left;
+  color: inherit;
+  -webkit-appearance: none;
+  border-radius: 0;
+  display: block;
+  text-align: left;
+  color: inherit;
+  outline: 0;
+`;
 
 class MessageComposer extends Component {
   static propTypes = {
@@ -315,7 +429,7 @@ class MessageComposer extends Component {
     const { textarea } = getCustomThemeColors({ theme, customThemeValue });
     const textcolor = invertColorTextArea(textarea);
     return (
-      <div className="message-composer">
+      <Container>
         {isListening && (
           <VoiceRecognition
             onStart={this.onStart}
@@ -325,7 +439,7 @@ class MessageComposer extends Component {
             lang="en-US"
           />
         )}
-        <div className="textBack" style={{ backgroundColor: textarea }}>
+        <TextAreaContainer backgroundColor={textarea}>
           <TextareaAutosize
             className="scroll"
             id="scroll"
@@ -338,21 +452,14 @@ class MessageComposer extends Component {
             ref={textarea => {
               this.nameInput = textarea;
             }}
-            style={{
-              background: textarea,
-              color: textcolor,
-              lineHeight: '15px',
-            }}
             autoFocus={focus}
+            background={textarea}
+            color={textcolor}
           />
-        </div>
-        <IconButton
-          className="send_button"
-          onClick={this.onClickButton}
-          style={styles.buttonStyle}
-        >
+        </TextAreaContainer>
+        <SendButton onClick={this.onClickButton}>
           {this.speechToTextAvailable && !text ? <Mic /> : <Send />}
-        </IconButton>
+        </SendButton>
 
         <Modal
           isOpen={isSpeechDialogOpen}
@@ -360,27 +467,19 @@ class MessageComposer extends Component {
           contentLabel="Speak Now"
           overlayClassName="Overlay"
         >
-          <div className="voice-response">
+          <VoiceResponse>
             <ReactFitText compressor={0.5} minFontSize={12} maxFontSize={26}>
-              <h1
-                style={{ color: speechRecognitionTextcolor }}
-                className="voice-output"
-              >
+              <VoiceOutputText color={speechRecognitionTextcolor}>
                 {speechToTextOutput ? speechToTextOutput : 'Speak Now...'}
-              </h1>
+              </VoiceOutputText>
             </ReactFitText>
-            <div
-              className={isListening ? 'mic-container active' : 'mic-container'}
-            >
-              <Mic style={styles.iconStyles} />
-            </div>
-            <Close
-              style={styles.closingStyle}
-              onClick={this.speechDialogCloseButton}
-            />
-          </div>
+            <MicContainer>
+              <StyledMic />
+            </MicContainer>
+            <CloseButton onClick={this.speechDialogCloseButton} />
+          </VoiceResponse>
         </Modal>
-      </div>
+      </Container>
     );
   }
 }
