@@ -141,7 +141,7 @@ class TopBar extends Component {
             </Link>
           </div>
           <div style={{ display: 'flex' }}>
-            <div style={{ marginTop: '-7px' }}>
+            <div>
               {searchState ? (
                 <ExpandingSearchField
                   searchText={searchState.searchText}
@@ -163,7 +163,7 @@ class TopBar extends Component {
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
-                    marginTop: '10.5px',
+                    marginTop: '0.5rem',
                   }}
                 >
                   <CircleImage src={userAvatar} size="32" />
