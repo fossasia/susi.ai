@@ -1,8 +1,8 @@
 export const light = {
   header: '#4285f4',
-  pane: '#f3f2f4',
-  body: '#fff',
-  composer: '#f3f2f4',
+  pane: '#fcfcfc',
+  body: '#f5f5f5',
+  composer: '#f9f9f9',
   textarea: '#fff',
   button: '#4285f4',
 };

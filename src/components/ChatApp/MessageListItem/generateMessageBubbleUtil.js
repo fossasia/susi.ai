@@ -14,6 +14,41 @@ import {
   renderAnchor,
   renderTiles,
 } from './helperFunctions.react.js';
+import styled, { css } from 'styled-components';
+import MessageBubble from './MessageBubbleStyle';
+
+const DateContainer = styled.section`
+  background: #999999;
+  color: #fff;
+  position: relative;
+  min-width: 5rem;
+  max-width: 80%;
+  font-size: 1.05rem;
+  line-height: 1.375rem;
+  padding: 0.5rem;
+  padding-bottom: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 0.5rem;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  margin: 0.3125rem;
+  overflow-wrap: break-word;
+  ${props =>
+    props.height &&
+    css`
+      height: ${props => props.height + '56'};
+    `};
+  &a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+`;
 
 const entities = new AllHtmlEntities();
 
@@ -35,60 +70,57 @@ const PostDate = injectIntl(({ date, intl }) => (
 
 const generateDateBubble = message => {
   return (
-    <div className="message-list-item">
-      <section className="container-date">
-        <div className="message-text">
+    <MessageContainer>
+      <DateContainer>
+        <div>
           <PostDate date={message.date} />
         </div>
-      </section>
-    </div>
+      </DateContainer>
+    </MessageContainer>
   );
 };
 
 const generateGifBubble = (
   action,
   index,
-  messageContainerClasses,
   gifSource,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>
           <iframe src={gifSource} frameBorder="0" allowFullScreen />
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateAnswerBubble = (
   action,
   index,
-  messageContainerClasses,
   replacedText,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">{replacedText}</div>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateAnchorBubble = (
   action,
   index,
-  messageContainerClasses,
   text,
   link,
   message,
@@ -96,19 +128,18 @@ const generateAnchorBubble = (
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">{renderAnchor(text, link)}</div>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>{renderAnchor(text, link)}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateMapBubble = (
   action,
   index,
-  messageContainerClasses,
   replacedText,
   mapAnchor,
   mymap,
@@ -117,36 +148,35 @@ const generateMapBubble = (
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses} style={{ width: '80%' }}>
-        <div className="message-text">{replacedText}</div>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName} width={'80%'}>
+        <div>{replacedText}</div>
         <div>{mapAnchor}</div>
         <br />
         <div>{mymap}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateTableBubble = (
   action,
   index,
-  messageContainerClasses,
   table,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
         <div>
-          <div className="message-text">{table}</div>
+          <div>{table}</div>
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
@@ -156,7 +186,6 @@ const generateVideoBubble = (
   height,
   width,
   identifier,
-  messageContainerClasses,
   latestMessage,
   message,
   latestUserMsgID,
@@ -164,14 +193,8 @@ const generateVideoBubble = (
   onYouTubePlayerReady,
 ) => {
   return (
-    <div
-      className="message-list-item"
-      key={action + index}
-      style={{
-        height: height + 56,
-      }}
-    >
-      <section className={messageContainerClasses}>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
         <YouTube
           videoId={identifier}
           opts={{
@@ -184,29 +207,28 @@ const generateVideoBubble = (
           onReady={onYouTubePlayerReady}
         />
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateAudioBubble = (
   action,
   index,
-  messageContainerClasses,
   src,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>
           <iframe src={src} frameBorder="0" allowFullScreen />
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
@@ -287,10 +309,6 @@ export const generateMessageBubble = (
   } else if (stringWithLinks) {
     replacedText = processText(stringWithLinks);
   }
-  let messageContainerClasses = '';
-  if (message) {
-    messageContainerClasses = 'message-container ' + message.authorName;
-  }
   if (message && message.hasOwnProperty('response')) {
     if (Object.keys(message.response).length > 0) {
       const answer = message.response.answers[0];
@@ -327,7 +345,6 @@ export const generateMessageBubble = (
                 generateGifBubble(
                   action,
                   index,
-                  messageContainerClasses,
                   gifSource,
                   message,
                   latestUserMsgID,
@@ -339,7 +356,6 @@ export const generateMessageBubble = (
                 generateAnswerBubble(
                   action,
                   index,
-                  messageContainerClasses,
                   replacedText,
                   message,
                   latestUserMsgID,
@@ -355,7 +371,6 @@ export const generateMessageBubble = (
               generateAnchorBubble(
                 action,
                 index,
-                messageContainerClasses,
                 text,
                 link,
                 message,
@@ -399,7 +414,6 @@ export const generateMessageBubble = (
               generateMapBubble(
                 action,
                 index,
-                messageContainerClasses,
                 replacedText,
                 mapAnchor,
                 mymap,
@@ -417,7 +431,6 @@ export const generateMessageBubble = (
               generateTableBubble(
                 action,
                 index,
-                messageContainerClasses,
                 table,
                 message,
                 latestUserMsgID,
@@ -435,7 +448,6 @@ export const generateMessageBubble = (
                 height,
                 width,
                 identifier,
-                messageContainerClasses,
                 latestMessage,
                 message,
                 latestUserMsgID,
@@ -453,7 +465,6 @@ export const generateMessageBubble = (
               generateAudioBubble(
                 action,
                 index,
-                messageContainerClasses,
                 src,
                 message,
                 latestUserMsgID,
@@ -524,11 +535,11 @@ export const generateMessageBubble = (
   }
 
   return (
-    <div className="message-list-item">
-      <section className={messageContainerClasses}>
-        <div className="message-text">{replacedText}</div>
+    <MessageContainer>
+      <MessageBubble author={message.authorName}>
+        <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, true)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
