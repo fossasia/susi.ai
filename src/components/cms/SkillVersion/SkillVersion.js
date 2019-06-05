@@ -28,9 +28,7 @@ const HomeDiv = styled.div`
 `;
 
 const Button = styled(_Button)`
-  &&& {
-    margin: 0.625rem;
-  }
+  margin: 0.625rem;
 `;
 
 const ActionButtonDiv = styled.div`

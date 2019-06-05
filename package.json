@@ -7,7 +7,7 @@
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.42",
     "@material-ui/codemod": "^1.1.0",
-    "@material-ui/core": "^3.9.3",
+    "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^3.0.2",
     "@material-ui/lab": "^3.0.0-alpha.30",
     "add-px": "1.0.0",
@@ -39,7 +39,7 @@
     "moment": "2.22.2",
     "npm": "6.3.0",
     "prop-types": "15.6.2",
-    "react": "^16.4.0",
+    "react": "^16.8.6",
     "react-ace": "^7.0.1",
     "react-bootstrap": "0.31.5",
     "react-chartkick": "0.2.1",

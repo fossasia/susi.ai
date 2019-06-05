@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import styles from './SkillStyle';
 import ISO6391 from 'iso-639-1';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import skillActions from '../../../redux/actions/skills';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -43,6 +44,14 @@ import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
 import isMobileView from '../../../utils/isMobileView';
 import './custom.css';
+
+const Link = styled(_Link)`
+  color: #000;
+  text-decoration: none;
+  &:hover {
+    color: #000;
+  }
+`;
 
 class BrowseSkill extends React.Component {
   static propTypes = {

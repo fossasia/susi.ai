@@ -21,9 +21,7 @@ const BotIconImg = styled.img`
 `;
 
 const PersonIcon = styled(Person)`
-  && {
-    vertical-align: middle;
-  }
+  vertical-align: middle;
 `;
 
 class TreeView extends Component {

@@ -151,41 +151,35 @@ const CenterDiv = styled.div`
 `;
 
 const InfoIcon = styled(Info)`
-  & {
-    position: relative;
-    float: right;
-    height: 1.25rem;
-    width: 1.25rem;
-    cursor: pointer;
-    color: #9e9e9e;
-    display: ${mobileView ? 'block' : 'inline-bock'};
-  }
+  position: relative;
+  float: right;
+  height: 1.25rem;
+  width: 1.25rem;
+  cursor: pointer;
+  color: #9e9e9e;
+  display: ${mobileView ? 'block' : 'inline-bock'};
 `;
 
 const ChevronLeftIcon = styled(ChevronLeft)`
-  && {
-    position: absolute;
-    left: 0.25rem;
-    top: 0.25rem;
-    width: 2.188rem;
-    height: 2.188rem;
-    color: white;
-    cursor: pointer;
-    display: ${isMobileView(769) ? 'none' : 'inherit'};
-  }
+  position: absolute;
+  left: 0.25rem;
+  top: 0.25rem;
+  width: 2.188rem;
+  height: 2.188rem;
+  color: white;
+  cursor: pointer;
+  display: ${isMobileView(769) ? 'none' : 'inherit'};
 `;
 
 const ChevronRightIcon = styled(ChevronRight)`
-  && {
-    position: relative;
-    left: -1.875rem;
-    top: -1.25rem;
-    width: 2.188rem;
-    height: 2.188rem;
-    color: #9e9e9e;
-    cursor: pointer;
-    display: ${isMobileView(769) ? 'none' : 'inherit'};
-  }
+  position: relative;
+  left: -1.875rem;
+  top: -1.25rem;
+  width: 2.188rem;
+  height: 2.188rem;
+  color: #9e9e9e;
+  cursor: pointer;
+  display: ${isMobileView(769) ? 'none' : 'inherit'};
 `;
 
 class SkillCreator extends Component {
