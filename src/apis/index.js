@@ -184,6 +184,30 @@ export function uploadAvatar(payload) {
   });
 }
 
+// Delete Account
+
+export function checkPassword(payload) {
+  const { login, password } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
+  return ajax.get(
+    url,
+    { type: 'check_password', login, password },
+    {
+      isTokenRequired: false,
+    },
+  );
+}
+
+export function deleteAccount(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
+  return ajax.get(url, { delete: true });
+}
+
+export function checkAccountPermission() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/account-permissions.json`;
+  return ajax.get(url, {});
+}
+
 // Skills API
 export function fetchMetricsSkills(payload) {
   const { languageValue } = payload;
