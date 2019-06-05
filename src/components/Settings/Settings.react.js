@@ -58,18 +58,16 @@ const Container = styled.div`
 `;
 
 const SettingsBodyContainer = styled(Paper)`
-  && {
-    margin-top: 20;
-    text-align: center;
-    display: inline-block;
-    background: ${props => (props.theme === 'dark' ? '#19324C' : '#FFFFFF')};
-    color: ${props => (props.theme === 'dark' ? '#FFFFFF' : '#272727')};
-    width: 64%;
+  margin-top: 20;
+  text-align: center;
+  display: inline-block;
+  background: ${props => (props.theme === 'dark' ? '#19324C' : '#FFFFFF')};
+  color: ${props => (props.theme === 'dark' ? '#FFFFFF' : '#272727')};
+  width: 64%;
 
-    @media only screen and (max-width: 1060px) {
-      height: auto;
-      width: 100%;
-    }
+  @media only screen and (max-width: 1060px) {
+    height: auto;
+    width: 100%;
   }
 `;
 
