@@ -8,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import isMobileView from '../../utils/isMobileView';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabHeading } from './SettingStyles';
@@ -94,7 +93,6 @@ class MobileTab extends React.Component {
       }
       return null;
     });
-    let mobileView = isMobileView();
     return (
       <SettingsTabWrapper heading="Mobile">
         <div
@@ -117,13 +115,13 @@ class MobileTab extends React.Component {
             alignItems: 'center',
           }}
         >
-          <div style={{ marginRight: mobileView ? '1rem' : '2rem' }}>
+          <div style={{ marginRight: '2rem' }}>
             <Translate text="Country/region :" />
           </div>
           <div>
             <Select
               style={{
-                width: mobileView ? '9rem' : '12rem',
+                width: '12rem',
               }}
               value={countryCode ? countryCode : 'US'}
               onChange={this.handleCountryChange}
@@ -140,9 +138,7 @@ class MobileTab extends React.Component {
             alignItems: 'center',
           }}
         >
-          <div style={{ marginRight: mobileView ? '1rem' : '2rem' }}>
-            Phone number :
-          </div>
+          <div style={{ marginRight: '2rem' }}>Phone number :</div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
               style={{
@@ -163,7 +159,7 @@ class MobileTab extends React.Component {
             <div
               style={{
                 marginLeft: '10px',
-                width: mobileView ? '8rem' : '9rem',
+                width: '8rem',
               }}
             >
               <FormControl error={phoneNoError !== ''}>
