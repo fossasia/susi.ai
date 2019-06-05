@@ -37,6 +37,7 @@ import List from '@material-ui/core/List';
 
 const Link = styled(_Link)`
   color: #000;
+  text-decoration: none;
   &:hover {
     color: #000;
   }
@@ -278,11 +279,7 @@ class StaticAppBar extends Component {
     const Logged = props => (
       <div>
         {accessToken && (
-          <Link
-            color="black"
-            to="/skills/dashboard"
-            style={{ textDecoration: 'none' }}
-          >
+          <Link to="/skills/dashboard">
             <MenuItem>
               <ListItemIcon>
                 <Assessment />
@@ -294,7 +291,7 @@ class StaticAppBar extends Component {
           </Link>
         )}
 
-        <Link to="/chat" style={{ textDecoration: 'none' }}>
+        <Link to="/chat">
           <MenuItem>
             <ListItemIcon>
               <Chat />
@@ -304,7 +301,7 @@ class StaticAppBar extends Component {
             </ListItemText>
           </MenuItem>
         </Link>
-        <Link to="/skills" style={{ textDecoration: 'none' }}>
+        <Link to="/skills">
           <MenuItem onClick={this.handleMenuClose}>
             <ListItemIcon>
               <Dashboard />
@@ -316,7 +313,7 @@ class StaticAppBar extends Component {
         </Link>
         {accessToken && (
           <div>
-            <Link to="/skills/botbuilder" style={{ textDecoration: 'none' }}>
+            <Link to="/skills/botbuilder">
               <MenuItem onClick={this.handleMenuClose}>
                 <ListItemIcon>
                   <Extension />
@@ -326,7 +323,7 @@ class StaticAppBar extends Component {
                 </ListItemText>
               </MenuItem>
             </Link>
-            <Link to="/settings" style={{ textDecoration: 'none' }}>
+            <Link to="/settings">
               <MenuItem onClick={this.handleMenuClose}>
                 <ListItemIcon>
                   <Settings />
@@ -338,7 +335,7 @@ class StaticAppBar extends Component {
             </Link>
           </div>
         )}
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/">
           <MenuItem onClick={this.handleMenuClose}>
             <ListItemIcon>
               <Info />
@@ -349,7 +346,7 @@ class StaticAppBar extends Component {
           </MenuItem>
         </Link>
         {isAdmin ? (
-          <Link to="/admin" style={{ textDecoration: 'none' }}>
+          <Link to="/admin">
             <MenuItem onClick={this.handleMenuClose}>
               <ListItemIcon>
                 <ListIcon />
@@ -361,7 +358,7 @@ class StaticAppBar extends Component {
           </Link>
         ) : null}
         {accessToken ? (
-          <Link to="/logout" style={{ textDecoration: 'none' }}>
+          <Link to="/logout">
             <MenuItem onClick={this.handleMenuClose}>
               <ListItemIcon>
                 <Exit />

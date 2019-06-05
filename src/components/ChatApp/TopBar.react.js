@@ -39,6 +39,7 @@ const styles = {
 
 const Link = styled(_Link)`
   color: #000;
+  text-decoration: none;
   &:hover {
     color: #000;
   }
@@ -199,7 +200,7 @@ class TopBar extends Component {
             >
               <MenuItem key="placeholder" style={{ display: 'none' }} />
               {accessToken && (
-                <Link to="/skills/dashboard" style={{ textDecoration: 'none' }}>
+                <Link to="/skills/dashboard">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Assessment />
@@ -210,7 +211,7 @@ class TopBar extends Component {
                   </MenuItem>
                 </Link>
               )}
-              <Link to="/chat" style={{ textDecoration: 'none' }}>
+              <Link to="/chat">
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Chat />
@@ -220,7 +221,7 @@ class TopBar extends Component {
                   </ListItemText>
                 </MenuItem>
               </Link>
-              <Link to="/skills" style={{ textDecoration: 'none' }}>
+              <Link to="/skills">
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Dashboard />
@@ -231,10 +232,7 @@ class TopBar extends Component {
                 </MenuItem>
               </Link>
               {accessToken && (
-                <Link
-                  to="/skills/botbuilder"
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to="/skills/botbuilder">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Extension />
@@ -246,7 +244,7 @@ class TopBar extends Component {
                 </Link>
               )}
               {accessToken && (
-                <Link to="/settings" style={{ textDecoration: 'none' }}>
+                <Link to="/settings">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Settings />
@@ -257,7 +255,7 @@ class TopBar extends Component {
                   </MenuItem>
                 </Link>
               )}
-              <Link to="/" style={{ textDecoration: 'none' }}>
+              <Link to="/">
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Info />
@@ -269,7 +267,7 @@ class TopBar extends Component {
               </Link>
               {accessToken &&
                 isAdmin && (
-                  <Link to="/admin" style={{ textDecoration: 'none' }}>
+                  <Link to="/admin">
                     <MenuItem onClick={this.handleClose}>
                       <ListItemIcon>
                         <List />
@@ -289,7 +287,7 @@ class TopBar extends Component {
                 </ListItemText>
               </MenuItem>
               {accessToken ? (
-                <Link to="/logout" style={{ textDecoration: 'none' }}>
+                <Link to="/logout">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Exit />
