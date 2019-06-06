@@ -12,7 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import Translate from '../Translate/Translate.react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import CircleImage from '../CircleImage/CircleImage';
 import Info from '@material-ui/icons/Info';
 import { bindActionCreators } from 'redux';
@@ -34,6 +34,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import SupportIcon from '@material-ui/icons/Face';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
+import Slide from '@material-ui/core/Slide';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 const Link = styled(_Link)`
   color: #000;
@@ -65,15 +67,24 @@ const NavLinkContainer = styled.div`
 `;
 
 const NavLink = styled.a`
-  padding: 0px 25px ${props => (props.isActive ? '12px' : '7px')};
-  font: ${props => (props.isActive ? '700' : '500')} 14px Roboto, sans-serif;
+  padding: 0px 25px 7px;
+  font: 500;
   margin: 0 2px;
   text-transform: none;
   text-decoration: none;
   word-spacing: 2px;
-  color: ${props => (props.isActive ? '#fff' : '#f2f2f2')};
   vertical-align: bottom;
-  border-bottom: ${props => (props.isActive ? '2px solid #fff' : '0px')};
+  color: #ffffff;
+  :hover {
+    color: #ffffff;
+  }
+  ${props =>
+    props.isActive &&
+    css`
+      border-bottom: 2px solid #ffffff;
+      font-weight: 700;
+      padding: 0px 25px 12px;
+    `};
 `;
 
 const UserDetail = styled.label`
@@ -152,6 +163,19 @@ const TopMenu = () => (
   </div>
 );
 
+const HideOnScroll = ({ children }) => {
+  const trigger = useScrollTrigger();
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+};
+
+HideOnScroll.propTypes = {
+  children: PropTypes.element,
+};
+
 class StaticAppBar extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -205,64 +229,6 @@ class StaticAppBar extends Component {
     }
   };
 
-  componentWillUnmount() {
-    this.mounted = false;
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-    window.addEventListener('scroll', this.handleScroll);
-
-    let didScroll;
-    let lastScrollTop = 0;
-    let delta = 5;
-    let windowHeight =
-      window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight;
-    let headerElement = document.getElementsByTagName('header')[0];
-    const navbarHeight = headerElement.offsetHeight;
-
-    window.addEventListener('scroll', () => {
-      didScroll = true;
-      if (this.mounted) {
-        this.setState({ showOptions: false });
-      }
-    });
-
-    const hasScrolled = () => {
-      let { scrollTop } = document.scrollingElement;
-      // Make sure they scroll more than delta
-      if (Math.abs(lastScrollTop - scrollTop) <= delta) {
-        return;
-      }
-      // If they scrolled down and are past the navbar, add class .nav-up.
-      // This is necessary so you never see what is 'behind' the navbar.
-      if (
-        scrollTop > lastScrollTop &&
-        scrollTop > navbarHeight + 400 &&
-        this.mounted
-      ) {
-        this.setState({ scroll: 'nav-up' });
-      } else if (
-        scrollTop + windowHeight < document.body.scrollHeight &&
-        this.mounted
-      ) {
-        // Scroll Down
-        this.setState({ scroll: 'nav-down' });
-      }
-      lastScrollTop = scrollTop;
-    };
-
-    setInterval(() => {
-      if (didScroll) {
-        hasScrolled();
-        didScroll = false;
-      }
-    }, 500);
-  }
-
   render() {
     const {
       showPageTabs,
@@ -280,7 +246,7 @@ class StaticAppBar extends Component {
       <div>
         {accessToken && (
           <Link to="/skills/dashboard">
-            <MenuItem>
+            <MenuItem onClick={this.handleMenuClose}>
               <ListItemIcon>
                 <Assessment />
               </ListItemIcon>
@@ -387,62 +353,66 @@ class StaticAppBar extends Component {
     }
     return (
       <div>
-        <AppBar position="static">
-          <Toolbar className="app-bar" variant="dense">
-            <FlexContainer>
-              <BurgerMenuContainer>
-                <IconButton
-                  aria-label="Menu"
-                  color="inherit"
-                  onClick={this.handleDrawerToggle}
-                >
-                  <MenuIcon />
-                </IconButton>
-              </BurgerMenuContainer>
-              <div>
-                <Link to="/" style={{ outline: '0' }}>
-                  <SusiLogo src={susiWhite} alt="susi-logo" />
-                </Link>
-              </div>
-              {showPageTabs ? <TopMenu /> : null}
-            </FlexContainer>
-            <div>
-              <div onScroll={this.handleScroll}>
-                <TopRightMenuContainer>
-                  <div>
-                    {accessToken && (
-                      <FlexContainer>
-                        <CircleImage src={userAvatar} size="32" />
-                        <UserDetail>{!userName ? email : userName}</UserDetail>
-                      </FlexContainer>
-                    )}
-                  </div>
+        <HideOnScroll>
+          <AppBar>
+            <Toolbar className="app-bar" variant="dense">
+              <FlexContainer>
+                <BurgerMenuContainer>
                   <IconButton
-                    aria-owns={open ? 'menu-popper' : undefined}
-                    aria-haspopup="true"
+                    aria-label="Menu"
                     color="inherit"
-                    onClick={this.handleMenuClick}
+                    onClick={this.handleDrawerToggle}
                   >
-                    <MoreVertIcon />
+                    <MenuIcon />
                   </IconButton>
-                  <Menu
-                    id="menu-popper"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={this.handleMenuClose}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    getContentAnchorEl={null}
-                    transitionDuration={0}
-                  >
-                    <MenuItem key="placeholder" style={{ display: 'none' }} />
-                    <Logged />
-                  </Menu>
-                </TopRightMenuContainer>
+                </BurgerMenuContainer>
+                <div>
+                  <Link to="/" style={{ outline: '0' }}>
+                    <SusiLogo src={susiWhite} alt="susi-logo" />
+                  </Link>
+                </div>
+                {showPageTabs ? <TopMenu /> : null}
+              </FlexContainer>
+              <div>
+                <div onScroll={this.handleScroll}>
+                  <TopRightMenuContainer>
+                    <div>
+                      {accessToken && (
+                        <FlexContainer>
+                          <CircleImage src={userAvatar} size="32" />
+                          <UserDetail>
+                            {!userName ? email : userName}
+                          </UserDetail>
+                        </FlexContainer>
+                      )}
+                    </div>
+                    <IconButton
+                      aria-owns={open ? 'menu-popper' : undefined}
+                      aria-haspopup="true"
+                      color="inherit"
+                      onClick={this.handleMenuClick}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="menu-popper"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={this.handleMenuClose}
+                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                      getContentAnchorEl={null}
+                      transitionDuration={0}
+                    >
+                      <MenuItem key="placeholder" style={{ display: 'none' }} />
+                      <Logged />
+                    </Menu>
+                  </TopRightMenuContainer>
+                </div>
               </div>
-            </div>
-          </Toolbar>
-        </AppBar>
+            </Toolbar>
+          </AppBar>
+        </HideOnScroll>
         <Drawer open={drawerOpen} onClose={this.handleDrawerToggle}>
           <List>{menuLinks}</List>
         </Drawer>

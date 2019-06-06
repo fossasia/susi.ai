@@ -898,7 +898,7 @@ class SkillCreator extends Component {
     }
 
     return (
-      <div>
+      <div style={{ marginTop: '3rem' }}>
         <div
           style={{
             padding: this.isBotBuilder ? '0rem' : '0rem 1.875rem 1.875rem',

@@ -552,7 +552,14 @@ class SkillListing extends Component {
     }
 
     return (
-      <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
+      <div
+        style={{
+          display: 'flex',
+          height: '100%',
+          flexDirection: 'column',
+          margin: '3rem',
+        }}
+      >
         <div style={{ flex: '1 0 auto' }}>{renderElement}</div>
         <div>
           <AuthorSkills
