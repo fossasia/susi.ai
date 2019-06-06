@@ -4,40 +4,78 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { debounce } from 'lodash';
+import styled, { css } from 'styled-components';
 
 // Components
 import Recaptcha from 'react-recaptcha';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Button from '@material-ui/core/Button';
-import PasswordField from 'material-ui-password-field';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import zxcvbn from 'zxcvbn';
-import './SignUp.css';
 import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import { isEmail } from '../../../utils';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import { getEmailExists } from '../../../apis';
+import {
+  StyledLink,
+  PasswordField,
+  OutlinedInput,
+  Button,
+  LinkContainer,
+} from '../AuthStyles';
 
-const styles = {
-  fieldStyle: {
-    height: '35px',
-    borderRadius: 4,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '0px 10px',
-    width: '250px',
-    marginTop: '10px',
-  },
-  inputStyle: {
-    height: '35px',
-    marginBottom: '10px',
-  },
-};
+const RecaptchaContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  color: rgb(244, 67, 54);
+  margin-top: 0.36rem;
+`;
+
+const PasswordStrengthBar = styled.div`
+  height: 2px;
+  transition: width 300ms ease-out;
+  margin: 0 auto;
+${props =>
+  props.score === -1 &&
+  css`
+    display: none;
+  `}
+  ${props =>
+    props.score === (0 || 1) &&
+    css`
+      background: #d1462f;
+      width: 4rem;
+    `}
+  ${props =>
+    props.score === 2 &&
+    css`
+      background: #57b8ff;
+      width: 8rem;
+    `}
+  ${props =>
+    props.score === 3 &&
+    css`
+      background: #57b8ff;
+      width: 12rem;
+    `}
+  ${props =>
+    props.score === 4 &&
+    css`
+      background: #2fbf71;
+      width: 16rem;
+    `}
+}
+`;
 
 class SignUp extends Component {
   static propTypes = {
@@ -292,73 +330,57 @@ class SignUp extends Component {
       !passwordConfirmErrorMessage &&
       (isCaptchaVerified || !captchaKey);
 
-    const PasswordClass = [`is-strength-${passwordScore}`];
-
     return (
       <React.Fragment>
-        <div className="signUpForm">
-          <h3>
-            <DialogTitle>
-              <Translate text="Sign Up with SUSI" />
-            </DialogTitle>
-          </h3>
+        <DialogTitle>
+          <Translate text="Sign Up with SUSI" />
+          <CloseButton onClick={this.handleDialogClose} />
+        </DialogTitle>
+        <DialogContent>
+          <FormControl error={emailErrorMessage !== ''}>
+            <OutlinedInput
+              labelWidth={0}
+              name="email"
+              value={email}
+              onChange={this.handleTextFieldChange}
+              aria-describedby="email-error-text"
+              placeholder="Email"
+              onKeyUp={this.onEnterKey}
+              autoFocus={true}
+            />
+            <FormHelperText error={emailErrorMessage !== ''}>
+              {emailErrorMessage}
+            </FormHelperText>
+          </FormControl>
+          <FormControl error={passwordErrorMessage !== ''}>
+            <PasswordField
+              name="password"
+              value={password}
+              placeholder="Password"
+              onChange={this.handleTextFieldChange}
+              onKeyUp={this.onEnterKey}
+            />
+            <FormHelperText error={passwordErrorMessage !== ''}>
+              {passwordErrorMessage}
+            </FormHelperText>
+          </FormControl>
           <div>
-            <FormControl error={emailErrorMessage !== ''}>
-              <OutlinedInput
-                labelWidth={0}
-                name="email"
-                value={email}
-                onChange={this.handleTextFieldChange}
-                aria-describedby="email-error-text"
-                style={{ width: '17rem', height: '2.1rem' }}
-                placeholder="Email"
-                onKeyUp={this.onEnterKey}
-                autoFocus={true}
-              />
-              <FormHelperText error={emailErrorMessage !== ''}>
-                {emailErrorMessage}
-              </FormHelperText>
-            </FormControl>
+            <PasswordStrengthBar score={passwordScore} />
+            <span>{passwordStrength}</span>
           </div>
-          <div className={PasswordClass.join(' ')}>
-            <FormControl error={passwordErrorMessage !== ''}>
-              <PasswordField
-                name="password"
-                style={styles.fieldStyle}
-                value={password}
-                placeholder="Password"
-                onChange={this.handleTextFieldChange}
-                onKeyUp={this.onEnterKey}
-              />
-              <FormHelperText error={passwordErrorMessage !== ''}>
-                {passwordErrorMessage}
-              </FormHelperText>
-            </FormControl>
-            <div className="ReactPasswordStrength-strength-bar" />
-            <div>
-              <span>{passwordStrength}</span>
-            </div>
-          </div>
-          <div>
-            <FormControl error={passwordConfirmErrorMessage !== ''}>
-              <PasswordField
-                name="confirmPassword"
-                style={styles.fieldStyle}
-                value={confirmPassword}
-                placeholder="Confirm Password"
-                onChange={this.handleTextFieldChange}
-                onKeyUp={this.onEnterKey}
-              />
-              <FormHelperText error={passwordConfirmErrorMessage !== ''}>
-                {passwordConfirmErrorMessage}
-              </FormHelperText>
-            </FormControl>
-          </div>
-          <div
-            style={{
-              marginTop: '10px',
-            }}
-          >
+          <FormControl error={passwordConfirmErrorMessage !== ''}>
+            <PasswordField
+              name="confirmPassword"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={this.handleTextFieldChange}
+              onKeyUp={this.onEnterKey}
+            />
+            <FormHelperText error={passwordConfirmErrorMessage !== ''}>
+              {passwordConfirmErrorMessage}
+            </FormHelperText>
+          </FormControl>
+          <RecaptchaContainer>
             {captchaKey && (
               <Recaptcha
                 sitekey={captchaKey}
@@ -367,53 +389,41 @@ class SignUp extends Component {
                 verifyCallback={this.onCaptchaSuccess}
                 badge="inline"
                 type="audio"
-                size="normal"
+                size={window.innerWidth > 447 ? 'normal' : 'compact'}
               />
             )}
-            {!isCaptchaVerified &&
-              captchaVerifyErrorMessage && (
-                <p className="error-message">
-                  <Translate text={captchaVerifyErrorMessage} />
-                </p>
-              )}
-          </div>
+          </RecaptchaContainer>
+          {!isCaptchaVerified &&
+            captchaVerifyErrorMessage && (
+              <ErrorMessage>
+                <Translate text={captchaVerifyErrorMessage} />
+              </ErrorMessage>
+            )}
           {signupErrorMessage && (
             <div style={{ color: success ? '#388e3c' : '#f44336' }}>
               {signupErrorMessage}
             </div>
           )}
-          <div>
-            <Button
-              onClick={this.onSignup}
-              variant="contained"
-              color="primary"
-              disabled={!isValid || loading}
-              style={{
-                width: '275px',
-                margin: '10px auto',
-                display: 'block',
-              }}
-            >
-              {loading ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Translate text="Sign Up" />
-              )}
-            </Button>
-          </div>
-
-          <span
-            style={{
-              display: 'inline-block',
-              marginTop: '10px',
-            }}
-            className="login-links"
-            onClick={() => actions.openModal({ modalType: 'login' })}
+          <Button
+            onClick={this.onSignup}
+            variant="contained"
+            color="primary"
+            disabled={!isValid || loading}
           >
-            <Translate text="Already have an account? Login here" />
-          </span>
-        </div>
-        <CloseButton onClick={this.handleDialogClose} />
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Translate text="Sign Up" />
+            )}
+          </Button>
+          <LinkContainer>
+            <StyledLink
+              onClick={() => actions.openModal({ modalType: 'login' })}
+            >
+              <Translate text="Already have an account? Login here" />
+            </StyledLink>
+          </LinkContainer>
+        </DialogContent>
       </React.Fragment>
     );
   }
