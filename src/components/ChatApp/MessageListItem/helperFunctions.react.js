@@ -15,21 +15,58 @@ import TickIcon from '@material-ui/icons/Done';
 import ClockIcon from '@material-ui/icons/Schedule';
 import store from '../../../store';
 import Parser from 'html-react-parser';
-import Card from '@material-ui/core/Card';
+import _Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
+import _CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { injectIntl } from 'react-intl';
+import styled from 'styled-components';
 
-const styles = {
-  footerStyle: {
-    display: 'block',
-    float: 'left',
-  },
-  indicatorStyle: {
-    height: '13px',
-  },
-};
+const FooterList = styled.ul`
+  list-style-type: none;
+  font-size: 0.75rem;
+  color: ${props => (props.author === 'SUSI' ? '#AAA9AA' : '#C6DAFB')};
+  padding: 0;
+  text-align: right;
+  float: ${props => (props.author === 'SUSI' ? 'right' : 'left')};
+`;
+
+const FooterContentContainer = styled.li`
+  float: left;
+  margin-top: 0.25rem;
+`;
+
+const CardTitle = styled(Typography)`
+  white-space: no-wrap;
+  overflow: hidden;
+  text-overflow: 'ellipsis';
+  font-weight: 'bold';
+  color: '#4285f4';
+`;
+
+const CardMedia = styled(_CardMedia)`
+  height: 120px;
+  object-fit: contain;
+  vertical-align: middle;
+`;
+
+const CardUrl = styled.div`
+  color: #a9a9a9;
+  position: absolute;
+  bottom: 10px;
+  right: 5px;
+  width: 80%;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const Card = styled(_Card)`
+  height: 225px;
+  cursor: pointer;
+  position: relative;
+`;
 
 // Keeps the Map Popup open initially
 class ExtendedMarker extends Marker {
@@ -52,48 +89,45 @@ export function renderAnchor(text, link) {
 // Returns the message time and status indicator
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
-  let { footerStyle, indicatorStyle } = styles;
   const { theme } = store.getState().settings;
   const isLightTheme = theme === 'light';
 
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
+        <FooterContentContainer>
           <ClockIcon
-            style={indicatorStyle}
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+            style={{ height: '0.8135rem' }}
           />
-        </li>
+        </FooterContentContainer>
       );
     } else {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
+        <FooterContentContainer>
           <TickIcon
-            style={indicatorStyle}
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+            style={{ height: '0.8135rem' }}
           />
-        </li>
+        </FooterContentContainer>
       );
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <li className="response-time" style={footerStyle}>
+      <FooterContentContainer>
         <ShareButton
           message={message}
           color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
         />
-      </li>
+      </FooterContentContainer>
     );
-    footerStyle = { ...footerStyle, float: 'right' };
   }
-
   return (
-    <ul className="message-time" style={footerStyle}>
+    <FooterList author={message.authorName}>
       <PostDate date={message ? message.date : null} />
       {isLastAction && <Feedback message={message} />}
       {footerContent}
-    </ul>
+    </FooterList>
   );
 }
 // Format Date for internationalization
@@ -188,24 +222,6 @@ function urlDomain(data) {
 
 // Draw Tiles for Websearch RSS data
 export function drawCards(tilesData) {
-  const titleStyle = {
-    marginTop: '-10px',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: 'block',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    color: '#4285f4',
-  };
-
-  let cardClass = 'card-noImg';
-  tilesData.forEach((card, index) => {
-    if (card.image) {
-      cardClass = 'card';
-    }
-  });
-
   let resultTiles = tilesData.map((tile, i) => {
     let cardText = tile.description;
     if (!cardText) {
@@ -213,26 +229,18 @@ export function drawCards(tilesData) {
     }
     return (
       <Card
-        className={cardClass}
         key={i}
         onClick={() => {
           window.open(tile.link, '_blank');
         }}
       >
         <CardActionArea>
-          {tile.image && (
-            <CardMedia className="card-img" image={tile.image} alt="" />
-          )}
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
-            style={titleStyle}
-          >
+          {tile.image && <CardMedia image={tile.image} alt="" />}
+          <CardTitle gutterBottom variant="h5" component="h2">
             {tile.title}
-          </Typography>
-          <div className="card-text line-clamp">{cardText}</div>
-          <div className="card-url">{urlDomain(tile.link)}</div>
+          </CardTitle>
+          <div>{cardText}</div>
+          <CardUrl>{urlDomain(tile.link)}</CardUrl>
         </CardActionArea>
       </Card>
     );

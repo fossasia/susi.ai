@@ -7,11 +7,18 @@ import Icon from '@material-ui/core/Icon';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../Translate/Translate.react';
-import isMobileView from '../../utils/isMobileView';
 import { connect } from 'react-redux';
 import { TabHeading } from './SettingStyles';
 import { bindActionCreators } from 'redux';
 import messageActions from '../../redux/actions/messages';
+import styled from 'styled-components';
+
+const PlayButtonContainer = styled.div`
+  text-align: center;
+  @media (max-width: 520px) {
+    text-align: left;
+  }
+`;
 
 class TextToSpeechSettings extends Component {
   constructor(props) {
@@ -163,10 +170,10 @@ class TextToSpeechSettings extends Component {
   };
 
   render() {
-    let mobileView = isMobileView();
+    const { rate, pitch, playExample, play, ttsLanguage } = this.state;
     let voiceOutput = this.populateVoiceList();
     return (
-      <div className="settingsForm">
+      <div>
         <div>
           <TabHeading>
             <Translate text="Speech Output Language" />
@@ -182,7 +189,7 @@ class TextToSpeechSettings extends Component {
           <Slider
             min={0.5}
             max={2}
-            value={this.state.rate}
+            value={rate}
             onChange={this.handleRate}
             style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
           />
@@ -197,7 +204,7 @@ class TextToSpeechSettings extends Component {
           <Slider
             min={0}
             max={2}
-            value={this.state.pitch}
+            value={pitch}
             onChange={this.handlePitch}
             style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
           />
@@ -206,7 +213,7 @@ class TextToSpeechSettings extends Component {
           </Button>
         </div>
 
-        <div style={{ textAlign: mobileView ? 'left' : 'center' }}>
+        <PlayButtonContainer>
           <Button
             variant="contained"
             className="settingsBtns"
@@ -219,14 +226,15 @@ class TextToSpeechSettings extends Component {
             />
             <Translate text="Play Demonstration" />
           </Button>
-        </div>
-        {this.state.playExample && (
+        </PlayButtonContainer>
+
+        {playExample && (
           <VoicePlayer
-            play={this.state.play}
+            play={play}
             text={this.speechDemo}
-            rate={this.state.rate}
-            pitch={this.state.pitch}
-            lang={this.state.ttsLanguage}
+            rate={rate}
+            pitch={pitch}
+            lang={ttsLanguage}
             onStart={this.onStart}
             onEnd={this.onEnd}
           />

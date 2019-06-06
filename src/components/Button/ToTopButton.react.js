@@ -1,18 +1,18 @@
-import Fab from '@material-ui/core/Fab';
+import _Fab from '@material-ui/core/Fab';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import React from 'react';
+import styled from 'styled-components';
 
-const toTopStyle = {
-  right: 80,
-  bottom: 80,
-  position: 'fixed',
-  zIndex: '11',
-};
+const Fab = styled(_Fab)`
+  right: 5rem;
+  bottom: 5rem;
+  position: fixed;
+  z-index: 11;
+`;
 
 const ToTopButton = () => {
   return (
     <Fab
-      style={toTopStyle}
       onClick={() => {
         scrollToTopAnimation();
       }}

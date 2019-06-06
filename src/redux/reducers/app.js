@@ -6,7 +6,6 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const defaultState = {
-  userName: '',
   email: '',
   accessToken: '',
   uuid: '',
@@ -15,19 +14,20 @@ const defaultState = {
   visited: true,
   userSkills: [],
   avatarImg: 'https://api.susi.ai/getAvatar.png',
+  showCookiePolicy: false,
 };
 
-const { emailId, uuid, loggedIn, username, visited } = cookies.getAll();
+const { emailId, uuid, loggedIn, visited } = cookies.getAll();
 const cookiesAppValues = {
   email: emailId,
   uuid,
   accessToken: loggedIn,
-  userName: username,
   location: {
     countryCode: '',
     countryName: '',
   },
   visited,
+  showCookiePolicy: !visited,
   avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
 };
 
@@ -66,6 +66,12 @@ export default handleActions(
       return {
         ...state,
         visited: true,
+      };
+    },
+    [actionTypes.APP_SET_COOKIE_POLICY](state, { payload }) {
+      return {
+        ...state,
+        showCookiePolicy: false,
       };
     },
     [actionTypes.APP_GET_USER_SKILLS](state, { payload }) {

@@ -110,7 +110,7 @@ class Feedback extends React.Component {
     return (
       <span>
         {message && message.authorName === 'SUSI' ? (
-          <span className="feedback" style={styles.feedbackContainer}>
+          <span style={styles.feedbackContainer}>
             <ThumbUp
               onClick={() => this.postSkillReplyFeedback('positive')}
               style={styles.feedbackButton}

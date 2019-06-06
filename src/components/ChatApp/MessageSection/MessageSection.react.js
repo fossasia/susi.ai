@@ -16,16 +16,17 @@ import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
 import styled from 'styled-components';
 import getCustomThemeColors from '../../../utils/colors';
+import MessageBubble from '../MessageListItem/MessageBubbleStyle';
 
 const MessageList = styled.ul`
   background: ${props => props.pane};
   position: fixed;
-  top: 46px;
+  top: 3rem;
   left: 0;
-  bottom: 74px;
+  bottom: 4.6rem;
   right: 0;
   width: 100vw;
-  max-width: 700px;
+  max-width: 44rem;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
@@ -36,26 +37,78 @@ const MessageList = styled.ul`
   background-size: '100% 100%';
 `;
 
-const styles = {
-  scrollBottomStyle: {
-    button: {
-      float: 'right',
-      marginRight: '5px',
-      marginBottom: '10px',
-      boxShadow: 'none',
-    },
-    backgroundColor: '#fcfcfc',
-  },
-  scrollTopStyle: {
-    button: {
-      float: 'left',
-      marginLeft: '5px',
-      marginTop: '10px',
-      boxShadow: 'none',
-    },
-    backgroundColor: '#fcfcfc',
-  },
-};
+const ScrollBottomFab = styled(Fab)`
+  float: right;
+  margin-right: 0.4rem;
+  margin-bottom: 0.5rem;
+  box-shadow: none;
+  background-color: ${props => props.backgroundColor};
+  border: 0.45px solid darkgray;
+`;
+
+const ScrollTopFab = styled(Fab)`
+  float: left;
+  margin-left: 0.4rem;
+  margin-top: 0.5rem;
+  box-shadow: none;
+  background-color: ${props => props.backgroundColor};
+  border: 0.45px solid darkgray;
+`;
+
+const MessageComposeContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  margin: 0;
+  border: none;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.12);
+  z-index: 2;
+  transform: translate3d(0140px, 0);
+  transition: transform 0.25s cubic-bezier(0, 0, 0.3, 1) 0.3s;
+  pointer-events: auto;
+  opacity: 1;
+  width: 100vw;
+  max-width: 43.75rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background: ${props => props.backgroundColor};
+  color: ${props => (props.theme === 'dark' ? 'white' : 'black')};
+  min-height: 4.625rem;
+`;
+
+const MessageSectionContainer = styled.div`
+  position: fixed;
+  top: 2.875rem;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100vw;
+  max-width: 43.75rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  box-shadow: 0 0.1875rem 0.375rem rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+
+const ScrollBottomContainer = styled.div`
+  position: fixed;
+  margin: 0;
+  border: none;
+  width: 100vw;
+  max-width: 43.75rem;
+  bottom: 4.7rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+`;
+
+const MessageContainer = styled.li`
+  display: flex;
+  margin: 0.3125rem;
+  overflow-wrap: break-word;
+`;
 
 const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string },
@@ -429,15 +482,15 @@ class MessageSection extends Component {
 
   getLoadingGIF = () => {
     const LoadingComponent = (
-      <li className="message-list-item">
-        <section className="message-container SUSI">
+      <MessageContainer>
+        <MessageBubble author={'SUSI'}>
           <img
             src={loadingGIF}
             style={{ height: '10px', width: 'auto' }}
             alt="please wait.."
           />
-        </section>
-      </li>
+        </MessageBubble>
+      </MessageContainer>
     );
     return LoadingComponent;
   };
@@ -465,7 +518,6 @@ class MessageSection extends Component {
       textarea,
     } = getCustomThemeColors({ theme, customThemeValues });
     const { search, searchState, showScrollTop, showScrollBottom } = this.state;
-    const { scrollBottomStyle, scrollTopStyle } = styles;
 
     document.body.style.setProperty('background-color', body);
     document.body.style.setProperty(
@@ -512,83 +564,70 @@ class MessageSection extends Component {
             searchState={searchState}
           />
         </header>
-
-        <div>
-          <div className="message-pane">
-            <div className="message-section">
-              {loadingHistory ? (
-                <div className="loader-container">
-                  <CircularProgress size={64} />
-                </div>
-              ) : (
-                <div>
-                  <MessageList
-                    ref={c => {
-                      this.messageList = c;
-                    }}
-                    pane={pane}
-                    messageBackgroundImage={messageBackgroundImage}
-                  >
-                    <Scrollbars
-                      renderThumbHorizontal={this.renderThumb}
-                      renderThumbVertical={this.renderThumb}
-                      ref={ref => {
-                        this.scrollarea = ref;
-                      }}
-                      autoHide
-                      onScroll={this.onScroll}
-                      autoHideTimeout={1000}
-                      autoHideDuration={200}
-                    >
-                      {messageListItems}
-                      {!search && loadingReply && this.getLoadingGIF()}
-                    </Scrollbars>
-                  </MessageList>
-                  {showScrollTop && (
-                    <div>
-                      <Fab
-                        size="small"
-                        style={scrollTopStyle.button}
-                        backgroundColor={body}
-                        iconStyle={{
-                          fill: theme === 'light' ? '#90a4ae' : '#000000',
-                        }}
-                        onClick={this.scrollToTop}
-                      >
-                        <NavigateUp />
-                      </Fab>
-                    </div>
-                  )}
-                  {showScrollBottom && (
-                    <div className="scrollBottom">
-                      <Fab
-                        size="small"
-                        style={scrollBottomStyle.button}
-                        backgroundColor={body}
-                        iconStyle={{
-                          fill: theme === 'light' ? '#90a4ae' : '#000000',
-                        }}
-                        onClick={this.scrollToBottom}
-                      >
-                        <NavigateDown />
-                      </Fab>
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="compose" style={{ backgroundColor: composer }}>
-                <MessageComposer
-                  focus={!search}
-                  dream={dream}
-                  speechOutput={speechOutput}
-                  speechOutputAlways={speechOutputAlways}
-                  micColor={button}
-                  textarea={textarea}
-                />
-              </div>
+        <MessageSectionContainer>
+          {loadingHistory ? (
+            <div className="loader-container">
+              <CircularProgress size={64} />
             </div>
-          </div>
-        </div>
+          ) : (
+            <div>
+              <MessageList
+                ref={c => {
+                  this.messageList = c;
+                }}
+                pane={pane}
+                messageBackgroundImage={messageBackgroundImage}
+              >
+                <Scrollbars
+                  renderThumbHorizontal={this.renderThumb}
+                  renderThumbVertical={this.renderThumb}
+                  ref={ref => {
+                    this.scrollarea = ref;
+                  }}
+                  autoHide
+                  onScroll={this.onScroll}
+                  autoHideTimeout={1000}
+                  autoHideDuration={200}
+                >
+                  {messageListItems}
+                  {!search && loadingReply && this.getLoadingGIF()}
+                </Scrollbars>
+              </MessageList>
+              {showScrollTop && (
+                <ScrollTopFab
+                  size="small"
+                  backgroundColor={body}
+                  color={theme === 'light' ? '#90a4ae' : '#000000'}
+                  onClick={this.scrollToTop}
+                >
+                  <NavigateUp />
+                </ScrollTopFab>
+              )}
+              {showScrollBottom && (
+                <ScrollBottomContainer>
+                  <ScrollBottomFab
+                    size="small"
+                    backgroundColor={body}
+                    color={theme === 'light' ? '#90a4ae' : '#000000'}
+                    onClick={this.scrollToBottom}
+                  >
+                    <NavigateDown />
+                  </ScrollBottomFab>
+                </ScrollBottomContainer>
+              )}
+            </div>
+          )}
+          <MessageComposeContainer backgroundColor={composer} theme={theme}>
+            <MessageComposer
+              focus={!search}
+              dream={dream}
+              speechOutput={speechOutput}
+              speechOutputAlways={speechOutputAlways}
+              micColor={button}
+              textarea={textarea}
+            />
+          </MessageComposeContainer>
+        </MessageSectionContainer>
       </div>
     );
   }
