@@ -4,6 +4,7 @@ const styles = {
     flexDirection: 'row',
     overflowX: 'hidden',
     flex: '1 0 auto',
+    marginTop: '3rem',
   },
   center: {
     display: 'flex',
