@@ -14,7 +14,6 @@ import ISO6391 from 'iso-639-1';
 import ReactTooltip from 'react-tooltip';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
-import isMobileView from '../../../utils/isMobileView';
 
 import {
   fetchAllGroupOptions,
@@ -57,15 +56,6 @@ import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import { bindActionCreators } from 'redux';
 let languages = [];
-
-const mobileView = isMobileView(1190);
-
-const styles = {
-  mobileViewStyle: {
-    display: 'block',
-    width: mobileView ? '100%' : 'auto',
-  },
-};
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -157,7 +147,7 @@ const InfoIcon = styled(Info)`
   width: 1.25rem;
   cursor: pointer;
   color: #9e9e9e;
-  display: ${mobileView ? 'block' : 'inline-bock'};
+  display: 'inline-bock';
 `;
 
 const ChevronLeftIcon = styled(ChevronLeft)`
@@ -168,7 +158,7 @@ const ChevronLeftIcon = styled(ChevronLeft)`
   height: 2.188rem;
   color: white;
   cursor: pointer;
-  display: ${isMobileView(769) ? 'none' : 'inherit'};
+  display: inherit;
 `;
 
 const ChevronRightIcon = styled(ChevronRight)`
@@ -179,7 +169,7 @@ const ChevronRightIcon = styled(ChevronRight)`
   height: 2.188rem;
   color: #9e9e9e;
   cursor: pointer;
-  display: ${isMobileView(769) ? 'none' : 'inherit'};
+  display: inherit;
 `;
 
 class SkillCreator extends Component {
@@ -888,7 +878,6 @@ class SkillCreator extends Component {
       name,
       image,
     } = this.props;
-    const { mobileViewStyle } = styles;
     const { showImage, loadViews } = this.state;
     let showTopBar = true;
     if (this.props.hasOwnProperty('showTopBar')) {
@@ -1041,7 +1030,7 @@ class SkillCreator extends Component {
                       />
                       <CenterDiv>
                         <DropDownDiv>
-                          <div style={mobileView ? mobileViewStyle : null}>
+                          <div>
                             <span
                               style={{
                                 fontSize: 15,
@@ -1057,13 +1046,13 @@ class SkillCreator extends Component {
                               autoWidth={true}
                               style={{
                                 position: 'relative',
-                                width: mobileView ? '100%' : '15.625rem',
+                                width: '15.625rem',
                               }}
                             >
                               {this.state.groups}
                             </Select>
                           </div>
-                          <div style={mobileView ? mobileViewStyle : null}>
+                          <div>
                             <span
                               style={{
                                 fontSize: 15,
@@ -1080,7 +1069,7 @@ class SkillCreator extends Component {
                               autoWidth={true}
                               style={{
                                 position: 'relative',
-                                width: mobileView ? '100%' : '15.625rem',
+                                width: '15.625rem',
                               }}
                             >
                               {languages}
@@ -1099,13 +1088,13 @@ class SkillCreator extends Component {
                             style={{
                               marginLeft: 10,
                               marginRight: 10,
-                              width: mobileView ? '80%' : 'auto',
+                              width: 'auto',
                             }}
                             onChange={this.handleExpertChange}
                           />
                           <div
                             style={{
-                              width: mobileView ? '80%' : 'auto',
+                              width: 'auto',
                               paddingTop: 20,
                             }}
                           >
@@ -1179,7 +1168,7 @@ class SkillCreator extends Component {
                         style={{
                           width: '100%',
                           padding: 10,
-                          display: mobileView ? 'block' : 'flex',
+                          display: 'flex',
                           alignItems: 'center',
                           textAlign: 'center',
                           justifyContent: 'center',
@@ -1191,17 +1180,12 @@ class SkillCreator extends Component {
                           margin="normal"
                           value={this.state.commitMessage}
                           style={{ width: '100%' }}
-                          fullWidth={!!mobileView}
                           onChange={this.handleCommitMessageChange}
                         />
                         <Button
                           variant="contained"
                           color="primary"
-                          style={
-                            mobileView
-                              ? { marginLeft: 10, float: 'left' }
-                              : { marginLeft: 10 }
-                          }
+                          style={{ marginLeft: 10 }}
                           onClick={this.saveClick}
                         >
                           {this.state.loading ? (
@@ -1228,11 +1212,7 @@ class SkillCreator extends Component {
                           <Button
                             variant="contained"
                             color="primary"
-                            style={
-                              mobileView
-                                ? { marginLeft: 10, float: 'left' }
-                                : { marginLeft: 10 }
-                            }
+                            style={{ marginLeft: 10 }}
                           >
                             Cancel
                           </Button>

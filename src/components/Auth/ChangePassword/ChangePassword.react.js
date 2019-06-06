@@ -3,31 +3,32 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import PasswordField from 'material-ui-password-field';
+import _PasswordField from 'material-ui-password-field';
 import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
-import isMobileView from '../../../utils/isMobileView';
 import { DialogContainer } from '../../shared/Container';
 import './ChangePassword.css';
 
-const mobileView = isMobileView();
+const PasswordField = styled(_PasswordField)`
+  height: 35px;
+  border-radius: 4;
+  border: 1px solid #ced4da;
+  padding: 0px 12px;
+  width: 17rem;
+  @media (max-width: 520) {
+    width: 14rem;
+  }
+`;
 
 const styles = {
-  fieldStyle: {
-    height: '35px',
-    borderRadius: 4,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '0px 12px',
-    width: mobileView ? '14rem' : '17rem',
-  },
   labelStyle: {
     width: '30%',
     minWidth: '150px',
@@ -256,7 +257,7 @@ class ChangePassword extends Component {
 
     const PasswordClass = [`is-strength-${newPasswordScore}`];
 
-    const { fieldStyle, labelStyle, submitBtnStyle } = styles;
+    const { labelStyle, submitBtnStyle } = styles;
 
     return (
       <div className="changePasswordForm">
@@ -267,7 +268,6 @@ class ChangePassword extends Component {
           <FormControl error={passwordErrorMessage !== ''}>
             <PasswordField
               name="password"
-              style={fieldStyle}
               value={password}
               onChange={this.handleTextFieldChange}
             />
@@ -284,7 +284,6 @@ class ChangePassword extends Component {
             <PasswordField
               name="newPassword"
               placeholder="Must be between 6-64 characters"
-              style={fieldStyle}
               value={newPassword}
               onChange={this.handleTextFieldChange}
             />
@@ -303,7 +302,6 @@ class ChangePassword extends Component {
             <PasswordField
               name="confirmNewPassword"
               placeholder="Must match the new password"
-              style={fieldStyle}
               value={confirmNewPassword}
               onChange={this.handleTextFieldChange}
             />
