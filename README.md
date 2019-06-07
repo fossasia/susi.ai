@@ -56,9 +56,7 @@ Still having problems? Watch this video to clear your doubts [How to setup SUSI 
 ### Deploying on Firebase 
 [Click Here to read the set up guide](https://github.com/fossasia/chat.susi.ai/blob/master/docs/FIREBASE_DEPLOY.md)
 
-**Click this picture to see a video for deploying on Firebase**
-
-[<img src="https://github.com/fossasia/chat.susi.ai/blob/master/docs/img/blog_1_img.png" width="449.25" height="360.75">](https://youtu.be/7iVKBwR40N8)
+[Click here to watch a video for deploying on Firebase]((https://youtu.be/7iVKBwR40N8)
   
 ## Speech Recognition and Synthesis
 
