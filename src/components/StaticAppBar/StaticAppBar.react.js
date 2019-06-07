@@ -433,6 +433,7 @@ class StaticAppBar extends Component {
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     getContentAnchorEl={null}
+                    transitionDuration={0}
                   >
                     <MenuItem key="placeholder" style={{ display: 'none' }} />
                     <Logged />
