@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseButton from '../../shared/CloseButton';
+import { withRouter } from 'react-router';
 import _OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { connect } from 'react-redux';
 import uiActions from '../../../redux/actions/ui';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Translate from '../../Translate/Translate.react';
+import appActions from '../../../redux/actions/app';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
@@ -22,16 +26,19 @@ const OutlinedInput = styled(_OutlinedInput)`
 const DeleteButton = styled(Button)`
   box-shadow: none;
   margin-top: 0.625rem;
-  border: 1px solid rgba(27,31,35,0.2);
+  border: 1px solid rgba(27, 31, 35, 0.2);
   border-radius: 0.25em;
-  color: ${props => (props.confirmed ? '#fff' : 'rgba(203,36,49,0.4)')},
+  color: ${props => (props.confirmed ? '#fff' : 'rgba(203,36,49,0.4)')};
   padding: 0.375rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.25rem;
   white-space: nowrap;
   vertical-align: middle;
-  background-color: ${props => (props.confirmed ? '#cb2431' : '#e5e5e5')} ;
+  background-color: ${props => (props.confirmed ? '#cb2431' : '#e5e5e5')};
+  &:hover {
+    background-color: ${props => (props.confirmed ? '#cb2431' : '#e5e5e5')};
+  }
 `;
 
 const ConfirmationHeadingWrapper = styled.div`
@@ -77,10 +84,11 @@ const deleteCookie = (name, options = {}) => {
   document.cookie = cookieString;
 };
 
-class DeleteAccountModal extends React.Component {
+class ConfirmDeleteAccount extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
     email: PropTypes.string,
+    history: PropTypes.object,
   };
   constructor(props) {
     super(props);
@@ -88,6 +96,7 @@ class DeleteAccountModal extends React.Component {
       confirmed: false,
       emailError: '',
       emailInput: '',
+      loading: false,
     };
   }
 
@@ -96,18 +105,25 @@ class DeleteAccountModal extends React.Component {
   };
 
   handleConfirm = event => {
+    this.setState({ loading: true });
     const { confirmed } = this.state;
-    const { actions } = this.props;
+    const { actions, history } = this.props;
     if (confirmed) {
       deleteAccount()
         .then(response => {
+          this.setState({ loading: false });
           deleteCookie('loggedIn', { domain: '.susi.ai', path: '/' });
           deleteCookie('emailId', { domain: '.susi.ai', path: '/' });
-          actions.openSnackBar({
-            snackBarMessage: 'Account deleted successfully',
+          actions.logout().then(() => {
+            actions.closeModal();
+            actions.openSnackBar({
+              snackBarMessage: 'Account deleted successfully',
+            });
+            history.push('/');
           });
         })
         .catch(error => {
+          this.setState({ loading: false });
           console.error('Some error occured');
           actions.openSnackBar({
             snackBarMessage: 'Invalid Password! Try again later',
@@ -131,7 +147,7 @@ class DeleteAccountModal extends React.Component {
 
   render() {
     const { email } = this.props;
-    const { emailInput, confirmed } = this.state;
+    const { emailInput, confirmed, loading } = this.state;
     return (
       <div>
         <ConfirmationHeadingWrapper>
@@ -171,7 +187,11 @@ class DeleteAccountModal extends React.Component {
               confirmed={confirmed}
               disabled={!confirmed}
             >
-              I understand the consequences, Delete My Account.
+              {loading ? (
+                <CircularProgress color="default" size={24} />
+              ) : (
+                <Translate text="I understand the consequences, Delete My Account." />
+              )}
             </DeleteButton>
           </div>
         </ContentWrapper>
@@ -188,11 +208,13 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...appActions }, dispatch),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DeleteAccountModal);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ConfirmDeleteAccount),
+);
