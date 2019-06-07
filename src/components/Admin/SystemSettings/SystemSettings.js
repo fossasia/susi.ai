@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
+import _Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
@@ -12,6 +12,25 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { fetchApiKeys, createApiKey, deleteApiKey } from '../../../apis/index';
+import styled from 'styled-components';
+
+const Table = styled(_Table)`
+  max-width: 40rem;
+`;
+
+const AddConfigButton = styled(Button)`
+  margin-top: 1.25rem;
+`;
+
+const ActionSpan = styled.span`
+  cursor: pointer;
+  color: #49a9ee;
+`;
+
+const ActionSeparator = styled.span`
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
+`;
 
 class SystemSettings extends Component {
   constructor(props) {
@@ -123,7 +142,7 @@ class SystemSettings extends Component {
     return (
       <div className="tabs">
         <h3 className="h3">Config Keys</h3>
-        <Table style={{ maxWidth: '40rem' }}>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>S.No.</TableCell>
@@ -141,39 +160,33 @@ class SystemSettings extends Component {
                 <TableCell align="right">{row.keyName}</TableCell>
                 <TableCell align="right">{row.value}</TableCell>
                 <TableCell align="right">
-                  <span
-                    style={{ cursor: 'pointer', color: '#49A9EE' }}
+                  <ActionSpan
                     onClick={() => {
                       this.handleUpdate(row);
                     }}
                   >
                     Edit
-                  </span>
-                  <span style={{ marginLeft: '5px', marginRight: '5px' }}>
-                    {' '}
-                    |{' '}
-                  </span>
-                  <span
-                    style={{ cursor: 'pointer', color: '#49A9EE' }}
+                  </ActionSpan>
+                  <ActionSeparator> | </ActionSeparator>
+                  <ActionSpan
                     onClick={() => {
                       this.handleDelete(row);
                     }}
                   >
                     Delete
-                  </span>
+                  </ActionSpan>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Button
+        <AddConfigButton
           variant="contained"
           color="primary"
           onClick={this.handleCreate}
-          style={{ marginTop: '20px' }}
         >
           Add Config Key
-        </Button>
+        </AddConfigButton>
         <Dialog
           title={showCreateDialog ? 'Create Key' : 'Update Key'}
           open={showCreateDialog || showUpdateDialog}

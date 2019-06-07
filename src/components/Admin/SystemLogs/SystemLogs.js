@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from '@material-ui/core/Select';
+import _Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import urls from '../../../utils/urls';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '../../shared/Alert';
+import styled from 'styled-components';
+
+const Select = styled(_Select)`
+  width: 11.25rem;
+  float: right;
+  margin: 1.5rem 0;
+`;
+
+const Container = styled.div`
+  margin-top: 4rem;
+`;
 
 const menuObj = [
   { value: 10, text: 'Last 10 logs' },
@@ -83,15 +94,10 @@ class SystemLogs extends React.Component {
         <Select
           onChange={this.handleCountChange}
           value={this.state.currentCount}
-          style={{
-            width: '180px',
-            float: 'right',
-            margin: '1.5rem 0',
-          }}
         >
           {renderMenu}
         </Select>
-        <div style={{ marginTop: '4rem' }}>
+        <Container>
           {loading ? (
             <div className="center">
               <CircularProgress size={62} color="primary" />
@@ -102,7 +108,7 @@ class SystemLogs extends React.Component {
               type={this.state.error === true ? 'error' : 'success'}
             />
           )}
-        </div>
+        </Container>
       </div>
     );
   }
