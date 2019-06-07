@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import isMobileView from '../../../utils/isMobileView';
 
 // Components
 import {
@@ -17,11 +19,27 @@ import {
 import CountryWiseSkillUsageCard from '../CountryWiseSkillUsageCard/CountryWiseSkillUsageCard';
 
 // Material UI
-import Paper from '@material-ui/core/Paper';
+import _Paper from '@material-ui/core/Paper';
 
 // Static assets
 import './SkillUsageCard.css';
 import PieChartContainer from '../../shared/PieChartContainer';
+
+const Paper = styled(_Paper)`
+  @media (max-width: 500px) {
+    width: 60%;
+  }
+  @media (max-width: 370px) {
+    width: 55%;
+  }
+`;
+
+const Container = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+    overflow-x: scroll;
+  }
+`;
 
 class SkillUsageCard extends Component {
   static propTypes = {
@@ -72,6 +90,8 @@ class SkillUsageCard extends Component {
       countryWiseSkillUsage,
     } = this.props;
     const { width } = this.state;
+    const mobileView = isMobileView();
+
     let totalSkillUsage = this.totalUsage(dateWiseSkillUsage);
     return (
       <div>
@@ -84,8 +104,11 @@ class SkillUsageCard extends Component {
             {totalSkillUsage > 0 ? (
               <div>
                 <div className="time-chart">
-                  <div>
-                    <ResponsiveContainer width={width} height={300}>
+                  <Container>
+                    <ResponsiveContainer
+                      width={mobileView ? 600 : width}
+                      height={300}
+                    >
                       <LineChart
                         data={dateWiseSkillUsage}
                         margin={{
@@ -108,7 +131,7 @@ class SkillUsageCard extends Component {
                         />
                       </LineChart>
                     </ResponsiveContainer>
-                  </div>
+                  </Container>
                 </div>
                 <div className="total-hits">
                   <div className="large-text">{totalSkillUsage}</div>
@@ -123,14 +146,14 @@ class SkillUsageCard extends Component {
             <div className="device-usage">
               <div className="sub-title">Device wise Usage</div>
               {deviceWiseSkillUsage && deviceWiseSkillUsage.length ? (
-                <div className="pie-chart">
+                <Container className="pie-chart">
                   <PieChartContainer
                     cellData={deviceWiseSkillUsage.map((entry, index) => (
                       <Cell key={index} fill={entry.color} />
                     ))}
                     data={deviceWiseSkillUsage}
                   />
-                </div>
+                </Container>
               ) : (
                 <div className="default-message">
                   No device wise usage data available.
