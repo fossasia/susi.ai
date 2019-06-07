@@ -63,7 +63,7 @@ class DevicesTab extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        location.reload();
+        window.location.reload();
       });
   };
 

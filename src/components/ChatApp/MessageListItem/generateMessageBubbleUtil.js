@@ -396,9 +396,8 @@ export const generateMessageBubble = (
                 mapAnchor = (
                   <a
                     target="_blank"
-                    href={`https://www.openstreetmap.org/#map=13/${
-                      userGeoData.lat
-                    }/${userGeoData.lon}`}
+                    rel="noopener noreferrer"
+                    href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
                   >
                     Here is a map
                   </a>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import Ratings from 'react-ratings-declarative';
 import { Link } from 'react-router-dom';
@@ -18,9 +19,7 @@ class SkillCardGrid extends Component {
     Object.keys(this.props.skills).forEach(el => {
       let skill = this.props.skills[el];
       const dataId = `index-${el}`;
-      const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${
-        skill.language
-      }`;
+      const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${skill.language}`;
       const skillFeedbackPathname = `${skillPathname}/feedbacks`;
       let skillName,
         examples,
@@ -45,9 +44,7 @@ class SkillCardGrid extends Component {
         skillName = 'Name not available';
       }
       if (skill.image) {
-        image = `${urls.API_URL}/cms/getImage.png?model=${
-          skill.model
-        }&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
+        image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
       } else {
         image = '';
       }

@@ -1,6 +1,5 @@
-import createStore from './redux/create';
-import { browserHistory } from 'react-router';
+import configureStore from './redux/configureStore';
 
-const store = createStore(browserHistory);
+const store = configureStore();
 
 export default store;

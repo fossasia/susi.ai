@@ -124,19 +124,18 @@ class MyRatings extends Component {
             </Table>
           </TableWrap>
         )}
-        {ratingsData.length === 0 &&
-          !loading && (
-            <div>
-              <div className="center">
-                <br />
-                <h2>
-                  You have not rated any skill, go to{' '}
-                  <Link to="/skills">SUSI Skills Explorer</Link> and rate.
-                </h2>
-                <br />
-              </div>
+        {ratingsData.length === 0 && !loading && (
+          <div>
+            <div className="center">
+              <br />
+              <h2>
+                You have not rated any skill, go to{' '}
+                <Link to="/skills">SUSI Skills Explorer</Link> and rate.
+              </h2>
+              <br />
             </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }

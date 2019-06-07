@@ -482,7 +482,7 @@ class UIView extends Component {
               onClick={this.handleReset}
             >
               {this.state.resetting ? (
-                <CircularProgress color={colors.header} size={32} />
+                <CircularProgress color={colors.light.header} size={32} />
               ) : (
                 'Reset Changes'
               )}

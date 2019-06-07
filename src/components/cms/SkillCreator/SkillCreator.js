@@ -963,9 +963,10 @@ class SkillCreator extends Component {
                       </TitlePara>
                       <SubTitlePara>
                         There can be various reasons for non-editable skills.{' '}
-                        <br />For example if the skill is a standard skill, if
-                        there was vandalism happening in the skill or if there
-                        is a dispute about the skill.
+                        <br />
+                        For example if the skill is a standard skill, if there
+                        was vandalism happening in the skill or if there is a
+                        dispute about the skill.
                       </SubTitlePara>
                       <DescriptionPara>
                         The code is shown below in a read only mode.
@@ -1021,123 +1022,120 @@ class SkillCreator extends Component {
                   delayHide={500}
                   html={true}
                 />
-                {accessToken &&
-                  this.state.editable && (
-                    <Paper>
-                      <InfoIcon
-                        data-tip={`Learn more about <a href=${urls.CMS_GITHUB_URL +
-                          '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
-                      />
-                      <CenterDiv>
-                        <DropDownDiv>
-                          <div>
-                            <span
-                              style={{
-                                fontSize: 15,
-                                paddingTop: '2.688rem',
-                                paddingLeft: '.625rem',
-                              }}
-                            >
-                              Category:&nbsp;
-                            </span>
-                            <Select
-                              value={category}
-                              onChange={this.handleGroupChange}
-                              autoWidth={true}
-                              style={{
-                                position: 'relative',
-                                width: '15.625rem',
-                              }}
-                            >
-                              {this.state.groups}
-                            </Select>
-                          </div>
-                          <div>
-                            <span
-                              style={{
-                                fontSize: 15,
-                                paddingTop: '.5rem',
-                                marginLeft: '.625rem',
-                              }}
-                            >
-                              Language:&nbsp;
-                            </span>
-                            <Select
-                              disabled={this.state.languageSelect}
-                              value={language}
-                              onChange={this.handleLanguageChange}
-                              autoWidth={true}
-                              style={{
-                                position: 'relative',
-                                width: '15.625rem',
-                              }}
-                            >
-                              {languages}
-                            </Select>
-                          </div>
-                          <TextField
-                            disabled={this.state.expertSelect}
-                            label={
-                              this.isBotBuilder ? 'Bot Name' : 'Skill Name'
-                            }
-                            placeholder={
-                              this.isBotBuilder ? 'Bot Name' : 'Skill Name'
-                            }
-                            margin="normal"
-                            value={name}
+                {accessToken && this.state.editable && (
+                  <Paper>
+                    <InfoIcon
+                      data-tip={`Learn more about <a href=${urls.CMS_GITHUB_URL +
+                        '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
+                    />
+                    <CenterDiv>
+                      <DropDownDiv>
+                        <div>
+                          <span
                             style={{
-                              marginLeft: 10,
-                              marginRight: 10,
-                              width: 'auto',
-                            }}
-                            onChange={this.handleExpertChange}
-                          />
-                          <div
-                            style={{
-                              width: 'auto',
-                              paddingTop: 20,
+                              fontSize: 15,
+                              paddingTop: '2.688rem',
+                              paddingLeft: '.625rem',
                             }}
                           >
-                            {showImage && (
-                              <img
-                                alt="preview"
-                                id="target"
-                                style={{
-                                  width: 60,
-                                  height: 60,
-                                  borderRadius: '50%',
-                                  marginRight: 20,
-                                  border: 0,
+                            Category:&nbsp;
+                          </span>
+                          <Select
+                            value={category}
+                            onChange={this.handleGroupChange}
+                            autoWidth={true}
+                            style={{
+                              position: 'relative',
+                              width: '15.625rem',
+                            }}
+                          >
+                            {this.state.groups}
+                          </Select>
+                        </div>
+                        <div>
+                          <span
+                            style={{
+                              fontSize: 15,
+                              paddingTop: '.5rem',
+                              marginLeft: '.625rem',
+                            }}
+                          >
+                            Language:&nbsp;
+                          </span>
+                          <Select
+                            disabled={this.state.languageSelect}
+                            value={language}
+                            onChange={this.handleLanguageChange}
+                            autoWidth={true}
+                            style={{
+                              position: 'relative',
+                              width: '15.625rem',
+                            }}
+                          >
+                            {languages}
+                          </Select>
+                        </div>
+                        <TextField
+                          disabled={this.state.expertSelect}
+                          label={this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
+                          placeholder={
+                            this.isBotBuilder ? 'Bot Name' : 'Skill Name'
+                          }
+                          margin="normal"
+                          value={name}
+                          style={{
+                            marginLeft: 10,
+                            marginRight: 10,
+                            width: 'auto',
+                          }}
+                          onChange={this.handleExpertChange}
+                        />
+                        <div
+                          style={{
+                            width: 'auto',
+                            paddingTop: 20,
+                          }}
+                        >
+                          {showImage && (
+                            <img
+                              alt="preview"
+                              id="target"
+                              style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: '50%',
+                                marginRight: 20,
+                                border: 0,
+                              }}
+                              src={image}
+                            />
+                          )}
+                          <form style={{ display: 'inline-block' }}>
+                            <UploadCircularButton title="Upload bot image">
+                              <input
+                                accept="image/*"
+                                type="file"
+                                ref={c => {
+                                  this.file = c;
                                 }}
-                                src={image}
+                                name="user[image]"
+                                multiple="false"
+                                onChange={this._onChange}
                               />
-                            )}
-                            <form style={{ display: 'inline-block' }}>
-                              <UploadCircularButton title="Upload bot image">
-                                <input
-                                  accept="image/*"
-                                  type="file"
-                                  ref={c => {
-                                    this.file = c;
-                                  }}
-                                  name="user[image]"
-                                  multiple="false"
-                                  onChange={this._onChange}
-                                />
-                                <Add
-                                  style={{
-                                    height: '1.875rem',
-                                    marginTop: '.938rem',
-                                    color: '#4285F5',
-                                  }}
-                                />
-                              </UploadCircularButton>
-                            </form>
-                          </div>
-                        </DropDownDiv>
-                      </CenterDiv>
-                    </Paper>
-                  )}
+                              <Add
+                                style={{
+                                  height: '1.875rem',
+                                  marginTop: '.938rem',
+                                  color: '#4285F5',
+                                }}
+                              />
+                            </UploadCircularButton>
+                          </form>
+                        </div>
+                      </DropDownDiv>
+                    </CenterDiv>
+                  </Paper>
+                )}
                 {!loadViews ? (
                   <div className="center" style={{ padding: 10 }}>
                     <CircularProgress size={62} color="#4285f5" />
@@ -1153,114 +1151,109 @@ class SkillCreator extends Component {
                 {view === 'tree' && loadViews ? (
                   <TreeView botbuilder={false} />
                 ) : null}
-                {!this.isBotBuilder &&
-                  accessToken &&
-                  this.state.editable && (
-                    <div
+                {!this.isBotBuilder && accessToken && this.state.editable && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginTop: 10,
+                    }}
+                  >
+                    <Paper
                       style={{
+                        width: '100%',
+                        padding: 10,
                         display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginTop: 10,
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        justifyContent: 'center',
                       }}
                     >
-                      <Paper
-                        style={{
-                          width: '100%',
-                          padding: 10,
-                          display: 'flex',
-                          alignItems: 'center',
-                          textAlign: 'center',
-                          justifyContent: 'center',
-                        }}
+                      <TextField
+                        label="Commit message"
+                        placeholder="Enter Commit Message"
+                        margin="normal"
+                        value={this.state.commitMessage}
+                        style={{ width: '100%' }}
+                        onChange={this.handleCommitMessageChange}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        style={{ marginLeft: 10 }}
+                        onClick={this.saveClick}
                       >
-                        <TextField
-                          label="Commit message"
-                          placeholder="Enter Commit Message"
-                          margin="normal"
-                          value={this.state.commitMessage}
-                          style={{ width: '100%' }}
-                          onChange={this.handleCommitMessageChange}
-                        />
+                        {this.state.loading ? (
+                          <CircularProgress color="#ffffff" size={32} />
+                        ) : (
+                          this.handleLabel()
+                        )}
+                      </Button>
+                      <Link
+                        to={
+                          this.mode === 'create'
+                            ? '/skills'
+                            : {
+                                pathname:
+                                  '/skills/' +
+                                  category +
+                                  '/' +
+                                  name +
+                                  '/' +
+                                  language,
+                              }
+                        }
+                      >
                         <Button
                           variant="contained"
                           color="primary"
                           style={{ marginLeft: 10 }}
-                          onClick={this.saveClick}
                         >
-                          {this.state.loading ? (
-                            <CircularProgress color="#ffffff" size={32} />
-                          ) : (
-                            this.handleLabel()
-                          )}
+                          Cancel
                         </Button>
-                        <Link
-                          to={
-                            this.mode === 'create'
-                              ? '/skills'
-                              : {
-                                  pathname:
-                                    '/skills/' +
-                                    category +
-                                    '/' +
-                                    name +
-                                    '/' +
-                                    language,
-                                }
-                          }
-                        >
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ marginLeft: 10 }}
-                          >
-                            Cancel
-                          </Button>
-                        </Link>
-                      </Paper>
-                      {this.state.prevButton === 1 ? (
-                        <div
-                          className="preview-button"
-                          style={{ top: '4.25rem' }}
-                        >
-                          <span title="See Preview">
-                            <ChevronLeftIcon
-                              onClick={this.handlePreviewToggle}
-                            />
-                          </span>
-                        </div>
-                      ) : null}
-                    </div>
-                  )}
-                {this.mode === 'edit' &&
-                  this.state.showAdmin && (
-                    <Paper
-                      style={{
-                        width: '100%',
-                        border: '.063rem solid red',
-                        marginTop: 20,
-                        padding: '1.25rem',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <div style={{ margineft: '0rem' }}>
-                        <strong>
-                          <p>Delete this Skill</p>
-                        </strong>
-                        {'Once you delete a skill, only admins can' +
-                          'undo this action before 30 days of deletion. Please be certain.'}
-                      </div>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        style={{ marginLeft: 10 }}
-                        onClick={this.openDelete}
-                      >
-                        Delete
-                      </Button>
+                      </Link>
                     </Paper>
-                  )}
+                    {this.state.prevButton === 1 ? (
+                      <div
+                        className="preview-button"
+                        style={{ top: '4.25rem' }}
+                      >
+                        <span title="See Preview">
+                          <ChevronLeftIcon onClick={this.handlePreviewToggle} />
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+                {this.mode === 'edit' && this.state.showAdmin && (
+                  <Paper
+                    style={{
+                      width: '100%',
+                      border: '.063rem solid red',
+                      marginTop: 20,
+                      padding: '1.25rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div style={{ margineft: '0rem' }}>
+                      <strong>
+                        <p>Delete this Skill</p>
+                      </strong>
+                      {'Once you delete a skill, only admins can' +
+                        'undo this action before 30 days of deletion. Please be certain.'}
+                    </div>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{ marginLeft: 10 }}
+                      onClick={this.openDelete}
+                    >
+                      Delete
+                    </Button>
+                  </Paper>
+                )}
               </Col>
               {this.isBotBuilder ? null : (
                 <Col

@@ -306,7 +306,8 @@ class Terms extends Component {
                 <br />
                 <br />
                 If it turns out that a particular term is not enforceable, this
-                will not affect any other terms.<br />
+                will not affect any other terms.
+                <br />
                 <br />
                 You agree that the laws of Can Tho, Viet Nam will apply to any
                 disputes arising out of or relating to these terms or the

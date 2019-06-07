@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
@@ -79,9 +80,7 @@ class AuthorSkills extends Component {
       const pngImage = `${image}.png`;
       const jpgImage = `${image}.jpg`;
 
-      const skillURL = `${window.location.protocol}//${
-        window.location.host
-      }/skills/${category}/${name}/${language}`;
+      const skillURL = `${window.location.protocol}//${window.location.host}/skills/${category}/${name}/${language}`;
       name = name.charAt(0).toUpperCase() + name.slice(1);
       if (name.split('_').length > 1) {
         name = name.split('_').join(' ');

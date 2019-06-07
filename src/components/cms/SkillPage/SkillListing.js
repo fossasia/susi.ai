@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // Packages
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -213,9 +214,7 @@ class SkillListing extends Component {
 
     const imgUrl = !image
       ? '/favicon-512x512.jpg'
-      : `${urls.API_URL}/cms/getImage.png?model=general&language=${
-          this.languageValue
-        }&group=${this.groupValue}&image=${image}`;
+      : `${urls.API_URL}/cms/getImage.png?model=general&language=${this.languageValue}&group=${this.groupValue}&image=${image}`;
 
     const descriptions =
       _descriptions === null || _descriptions === '<description>'
@@ -225,6 +224,8 @@ class SkillListing extends Component {
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
     let { seeMoreSkillExamples } = this.state;
+    const editLink = `/skills/${this.groupValue}/${this.skillTag}/edit/${this.languageValue}`;
+    const versionsLink = `/skills/${this.groupValue}/${this.skillTag}/versions/${this.languageValue}`;
 
     const reportDialogActions = [
       <Button
@@ -344,7 +345,8 @@ class SkillListing extends Component {
                           Are you sure about deleting{' '}
                           <span style={{ fontWeight: 'bold' }}>
                             {skillName}
-                          </span>?
+                          </span>
+                          ?
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>{deleteDialogActions}</DialogActions>
@@ -354,9 +356,7 @@ class SkillListing extends Component {
                 <div>
                   <Link
                     to={{
-                      pathname: `/skills/${this.groupValue}/${
-                        this.skillTag
-                      }/edit/${this.languageValue}`,
+                      pathname: editLink,
                     }}
                   >
                     <Fab data-tip="Edit Skill" color="primary">
@@ -368,9 +368,7 @@ class SkillListing extends Component {
                 <div>
                   <Link
                     to={{
-                      pathname: `/skills/${this.groupValue}/${
-                        this.skillTag
-                      }/versions/${this.languageValue}`,
+                      pathname: versionsLink,
                     }}
                   >
                     <div className="skillVersionBtn">
@@ -421,31 +419,29 @@ class SkillListing extends Component {
                   </div>
                 )}
 
-                {termsOfUse &&
-                  termsOfUse !== '<link>' && (
-                    <div className="card-content">
-                      <a
-                        href={termsOfUse}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Terms & Conditions
-                      </a>
-                    </div>
-                  )}
+                {termsOfUse && termsOfUse !== '<link>' && (
+                  <div className="card-content">
+                    <a
+                      href={termsOfUse}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Terms & Conditions
+                    </a>
+                  </div>
+                )}
 
-                {developerPrivacyPolicy &&
-                  developerPrivacyPolicy !== '<link>' && (
-                    <div className="card-content">
-                      <a
-                        href={developerPrivacyPolicy}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Developer Privacy Policy
-                      </a>
-                    </div>
-                  )}
+                {developerPrivacyPolicy && developerPrivacyPolicy !== '<link>' && (
+                  <div className="card-content">
+                    <a
+                      href={developerPrivacyPolicy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Developer Privacy Policy
+                    </a>
+                  </div>
+                )}
               </div>
             </Paper>
             <Paper className="margin-b-md margin-t-md">
@@ -486,9 +482,7 @@ class SkillListing extends Component {
                               <Link
                                 key={index}
                                 onClick={this.forceUpdate}
-                                to={`/skills/${this.groupValue}/${data.name}/${
-                                  data.language
-                                }`}
+                                to={`/skills/${this.groupValue}/${data.name}/${data.language}`}
                               >
                                 {ISO6391.getNativeName(data.language)}
                                 {delimiter}

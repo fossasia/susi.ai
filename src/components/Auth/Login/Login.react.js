@@ -4,7 +4,6 @@ import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import appActions from '../../../redux/actions/app';
 import messagesActions from '../../../redux/actions/messages';
 import uiActions from '../../../redux/actions/ui';
@@ -280,13 +279,12 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(store) {
   return {
+    ...store.router,
     serverUrl: store.settings.serverUrl,
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Login),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

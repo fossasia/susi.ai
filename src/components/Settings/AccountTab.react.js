@@ -21,7 +21,7 @@ import { voiceList } from '../../constants/SettingsVoiceConstants.js';
 import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
-import defaultAvatar from '../../../public/defaultAvatar.png';
+import defaultAvatar from '../../images/defaultAvatar.png';
 
 const EmailHeading = styled(TabHeading)`
   margin-top: 0;

@@ -27,7 +27,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ## Requirements
 * node --version >= 6
-* npm --version >= 3
+* yarn --version >= 3
 
 ## How to deploy?
 
@@ -35,29 +35,29 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 * **Step 1:** Fork the chat.susi.ai repository and clone it to your machine
 * **Step 2:** Cd into the cloned folder
-* **Step 3:** Install all the dependencies with:```$ npm install```
-* **Step 4:** Run on http://localhost:3000 with:```$ npm run start```
-* **Step 5:** Build locally with: ```$ npm run build ```
-* **Step 6:** To deploy at a URL use: ```$ npm run deploy ```
+* **Step 3:** Install all the dependencies with:```$ yarn install```
+* **Step 4:** Run on http://localhost:3000 with:```$ yarn run start```
+* **Step 5:** Build locally with: ```$ yarn run build ```
+* **Step 6:** To deploy at a URL use: ```$ yarn run deploy ```
 
 ### Running on [Surge](./docs/INSTALLATION_SURGE_ENGLISH.md)
 
-* **Step 1:** Install Surge:```$ npm install -g surge```
+* **Step 1:** Install Surge:```$ yarn install -g surge```
 * **Step 2:** Then cd into the cloned chat.susi.ai folder
-* **Step 3:** Install the node modules:```$ npm install```(if not already)
-* **Step 4:** Build the app:```$ npm run build```
+* **Step 3:** Install the node modules:```$ yarn install```(if not already)
+* **Step 4:** Build the app:```$ yarn run build```
 * **Step 5:** Go to the build directory:```cd build```
 * **Step 6:** Run Surge:```surge```
 * **Step 7:** Follow the prompts and provide an e-mail address and a password.
-* **Step 8:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
+* **Step 8:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes.
 
 Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s) or watch [How to set it up with Surge](https://www.youtube.com/watch?v=Gvc0uz13U1M)
 
-### Deploying on Firebase 
+### Deploying on Firebase
 [Click Here to read the set up guide](https://github.com/fossasia/chat.susi.ai/blob/master/docs/FIREBASE_DEPLOY.md)
 
 [Click here to watch a video for deploying on Firebase](https://youtu.be/7iVKBwR40N8)
-  
+
 ## Speech Recognition and Synthesis
 
 The SUSI.AI WebChat uses [Web Speech API](https://github.com/mdn/web-speech-api/) for speech recognition and synthesis. To test whether your browser supports Text To Speech, open your browser console and run the following:
@@ -96,7 +96,7 @@ The response from the memory servlet is of the form:
 A sample SUSI.AI response is of the form :
 ```
 {
-	"query" : 
+	"query" :
 	"answers" : [ {
 		"data" : [],
 		"actions" : []
@@ -156,7 +156,7 @@ chat.susi.ai/
 * `src/__tests__/` new tests related to all the components can be created in this folder, this project follows a `jest` testing suite.
 * `src/actions/` contains related action types which can be defined in this folder.
 * `src/components/` any new component can be added in this folder, given that the file is reused or should be unique in some way. All static files are present in this component as well.
-* `src/components/Translate/` has all the pot files required to integrate the project with [Weblate](http://weblate.org). 
+* `src/components/Translate/` has all the pot files required to integrate the project with [Weblate](http://weblate.org).
 * `src/constants/` contains all the action types which are being used in the Application.
 * `src/dispatcher/` contains the files to call the Dispatcher Service for the Chat App.
 * `src/images/` contains all the static images being used in the App.

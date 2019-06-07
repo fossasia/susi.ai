@@ -68,15 +68,6 @@ const Card = styled(_Card)`
   position: relative;
 `;
 
-// Keeps the Map Popup open initially
-class ExtendedMarker extends Marker {
-  componentDidMount() {
-    super.componentDidMount();
-
-    this.leafletElement.openPopup();
-  }
-}
-
 // Render anchor for given text
 export function renderAnchor(text, link) {
   return (
@@ -360,13 +351,13 @@ export function drawMap(lat, lng, zoom) {
   const map = (
     <Map center={position} zoom={zoom} scrollWheelZoom={false}>
       <TileLayer attribution="" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-      <ExtendedMarker position={position} icon={icon}>
+      <Marker position={position} icon={icon}>
         <Popup>
           <span>
             <strong>Here!</strong>
           </span>
         </Popup>
-      </ExtendedMarker>
+      </Marker>
     </Map>
   );
   return map;

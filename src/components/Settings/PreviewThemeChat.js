@@ -139,9 +139,7 @@ class PreviewThemeChat extends Component {
             className="chat-window"
             style={{
               backgroundColor: colors.paneColor,
-              backgroundImage: `url(${
-                backgroundImages.messageBackgroundImage
-              })`,
+              backgroundImage: `url(${backgroundImages.messageBackgroundImage})`,
             }}
           >
             <div className="chat-message-container">
