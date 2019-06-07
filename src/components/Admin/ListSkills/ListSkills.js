@@ -26,9 +26,33 @@ import {
   fetchUserSkill,
 } from '../../../apis/index';
 import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
 
 /* CSS */
 import './ListSkills.css';
+
+const commonActionStyle = css`
+  cursor: pointer;
+  color: #49a9ee;
+`;
+
+const ActionSpan = styled.span`
+  ${commonActionStyle};
+`;
+
+const ActionDiv = styled.div`
+  ${commonActionStyle};
+`;
+
+const ActionSeparator = styled.span`
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 class ListSkills extends React.Component {
   constructor(props) {
@@ -425,8 +449,7 @@ class ListSkills extends React.Component {
         render: (text, record) => {
           return (
             <span>
-              <span
-                style={{ cursor: 'pointer', color: '#49A9EE' }}
+              <ActionSpan
                 onClick={() =>
                   this.handleOpen(
                     record.skillName,
@@ -442,10 +465,9 @@ class ListSkills extends React.Component {
                 }
               >
                 Edit
-              </span>
-              <span style={{ marginLeft: '5px', marginRight: '5px' }}> | </span>
-              <span
-                style={{ cursor: 'pointer', color: '#49A9EE' }}
+              </ActionSpan>
+              <ActionSeparator> | </ActionSeparator>
+              <ActionSpan
                 onClick={() =>
                   this.handleDelete(
                     record.skillName,
@@ -456,7 +478,7 @@ class ListSkills extends React.Component {
                 }
               >
                 Delete
-              </span>
+              </ActionSpan>
             </span>
           );
         },
@@ -495,8 +517,7 @@ class ListSkills extends React.Component {
         render: (text, record) => {
           return (
             <span>
-              <div
-                style={{ cursor: 'pointer', color: '#49A9EE' }}
+              <ActionDiv
                 onClick={() =>
                   this.handleRestore(
                     record.skillName,
@@ -507,7 +528,7 @@ class ListSkills extends React.Component {
                 }
               >
                 Restore
-              </div>
+              </ActionDiv>
             </span>
           );
         },
@@ -540,7 +561,7 @@ class ListSkills extends React.Component {
                 >
                   <DialogTitle>Skill Settings for {skillName}</DialogTitle>
                   <DialogContent>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Container>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -584,7 +605,7 @@ class ListSkills extends React.Component {
                         }
                         label="System Skill"
                       />
-                    </div>
+                    </Container>
                   </DialogContent>
                   <DialogActions>
                     <Button key={1} onClick={this.handleChange}>

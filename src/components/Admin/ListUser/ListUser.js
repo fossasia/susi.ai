@@ -17,6 +17,17 @@ import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import 'antd/lib/table/style/index.css';
 import './ListUser.css';
+import styled from 'styled-components';
+
+const ActionSpan = styled.span`
+  cursor: pointer;
+  color: #49a9ee;
+`;
+
+const ActionSeparator = styled.span`
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
+`;
 
 const Search = Input.Search;
 
@@ -94,19 +105,15 @@ class ListUser extends Component {
         render: (text, record) => {
           return (
             <span>
-              <span
-                style={{ cursor: 'pointer', color: '#4285f4' }}
+              <ActionSpan
                 onClick={() => this.editUserRole(record.email, record.userRole)}
               >
                 Edit
-              </span>
-              <span style={{ marginLeft: '5px', marginRight: '5px' }}> | </span>
-              <span
-                style={{ cursor: 'pointer', color: '#4285f4' }}
-                onClick={() => this.handleDelete(record.email)}
-              >
+              </ActionSpan>
+              <ActionSeparator> | </ActionSeparator>
+              <ActionSpan onClick={() => this.handleDelete(record.email)}>
                 Delete
-              </span>
+              </ActionSpan>
             </span>
           );
         },
@@ -140,14 +147,13 @@ class ListUser extends Component {
         render: (text, record) => {
           return (
             <span>
-              <span
-                style={{ cursor: 'pointer', color: '#49A9EE' }}
+              <ActionSpan
                 onClick={() =>
                   this.editDevice(record.devicename, record.room, record.macid)
                 }
               >
                 Edit
-              </span>
+              </ActionSpan>
             </span>
           );
         },
