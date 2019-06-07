@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -181,11 +182,7 @@ class MySkills extends Component {
                           }}
                         >
                           <Img
-                            src={`${
-                              urls.API_URL
-                            }/cms/getImage.png?model=general&language=${
-                              skill.language
-                            }&group=${skill.group}&image=/${skill.image}`}
+                            src={`${urls.API_URL}/cms/getImage.png?model=general&language=${skill.language}&group=${skill.group}&image=/${skill.image}`}
                             unloader={
                               <CircleImage name={skill.skillName} size="40" />
                             }
@@ -230,28 +227,26 @@ class MySkills extends Component {
             </Table>
           </TableWrap>
         )}
-        {userSkills.length === 0 &&
-          !loading && (
-            <div>
-              <div className="center">
-                <br />
-                <h2>
-                  Create your first skill or learn more about{' '}
-                  <a
-                    href={
-                      urls.CMS_GITHUB_URL +
-                      '/blob/master/docs/Skill_Tutorial.md'
-                    }
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    SUSI Skills
-                  </a>
-                </h2>
-                <br />
-              </div>
+        {userSkills.length === 0 && !loading && (
+          <div>
+            <div className="center">
+              <br />
+              <h2>
+                Create your first skill or learn more about{' '}
+                <a
+                  href={
+                    urls.CMS_GITHUB_URL + '/blob/master/docs/Skill_Tutorial.md'
+                  }
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  SUSI Skills
+                </a>
+              </h2>
+              <br />
             </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }

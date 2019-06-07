@@ -168,9 +168,8 @@ class TreeView extends Component {
                 alt="bot icon"
               />
             )}
-            {node.type === 'user' && <PersonIcon />}&nbsp;{this.getNodeText(
-              node.name,
-            )}
+            {node.type === 'user' && <PersonIcon />}&nbsp;
+            {this.getNodeText(node.name)}
           </span>
         </div>
       );

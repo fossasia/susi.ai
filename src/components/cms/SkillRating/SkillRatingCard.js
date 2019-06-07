@@ -114,8 +114,8 @@ class SkillRatingCard extends Component {
         windowWidth * 0.8 > 500
           ? 305
           : windowWidth > 400
-            ? windowWidth * 0.6
-            : windowWidth * 0.55,
+          ? windowWidth * 0.6
+          : windowWidth * 0.55,
       /* eslint-enable no-nested-ternary */
     });
   };

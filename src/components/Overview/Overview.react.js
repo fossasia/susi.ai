@@ -171,7 +171,7 @@ class Overview extends Component {
               that you never thought of before. Susi can do a lot of things that
               you might not expect. Here are some examples of what SUSI can do.
               <br />
-              Don't forget, these are only a few 😊
+              Don&apos;t forget, these are only a few 😊
             </p>
             <div className="rowdiv">
               {buttonAttributes.map((button, index) => (
@@ -261,52 +261,64 @@ class Overview extends Component {
               <p className="description__text">
                 <b>SUSI.AI</b> already runs on many chat services and social
                 networks. We are developing plugins for all major services
-                including &nbsp;<a
+                including &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_tweetbot"
                 >
                   Twitter
-                </a>, &nbsp;<a
+                </a>
+                , &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_fbbot"
                 >
                   Facebook
-                </a>, &nbsp;<a
+                </a>
+                , &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_linebot"
                 >
                   Line
-                </a>, &nbsp;<a
+                </a>
+                , &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_slackbot"
                 >
                   Slack
-                </a>, &nbsp;<a
+                </a>
+                , &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_wechatbot"
                 >
                   We Chat
-                </a>, &nbsp;<a
+                </a>
+                , &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_viberbot"
                 >
                   Viber
-                </a>, &nbsp;<a
+                </a>
+                , &nbsp;
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia/susi_gitterbot"
                 >
                   Gitter
-                </a>. Just set up SUSI on your channel and add &nbsp;<b>
-                  @susi
-                </b>{' '}
-                in your conversations and SUSI is ready to help.
+                </a>
+                . Just set up SUSI on your channel and add &nbsp;<b>@susi</b> in
+                your conversations and SUSI is ready to help.
               </p>
             </div>
           </div>
@@ -384,7 +396,8 @@ class Overview extends Component {
                 >
                   Open Source
                 </a>
-              </b>. The code is always available for security reviews and can be
+              </b>
+              . The code is always available for security reviews and can be
               improved by anyone with the knowledge and understanding online.
             </p>
             <div className="opensource-logos">

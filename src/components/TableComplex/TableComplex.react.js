@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from '@material-ui/core/Table';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
 import TrashIcon from '@material-ui/icons/Delete';
@@ -39,27 +36,21 @@ const TableComplex = props => {
         style={{ width: 'auto', tableLayout: 'auto' }}
       >
         {/* Table header columns for Table View */}
-        <TableHeader
+        <TableHead
           displaySelectAll={false}
           adjustForCheckbox={false}
           enableSelectAll={false}
         >
           <TableRow>
-            <TableHeaderColumn style={tableViewStyle}>
-              Device Name
-            </TableHeaderColumn>
-            <TableHeaderColumn style={tableViewStyle}>
-              Mac Address
-            </TableHeaderColumn>
-            <TableHeaderColumn style={tableViewStyle}>Room</TableHeaderColumn>
-            <TableHeaderColumn style={tableViewStyle}>
-              Geolocation
-            </TableHeaderColumn>
+            <TableCell style={tableViewStyle}>Device Name</TableCell>
+            <TableCell style={tableViewStyle}>Mac Address</TableCell>
+            <TableCell style={tableViewStyle}>Room</TableCell>
+            <TableCell style={tableViewStyle}>Geolocation</TableCell>
             {/* Table header columns for edit and delete icon */}
-            <TableHeaderColumn style={tableModifyStyle} />
-            <TableHeaderColumn style={tableModifyStyle} />
+            <TableCell style={tableModifyStyle} />
+            <TableCell style={tableModifyStyle} />
           </TableRow>
-        </TableHeader>
+        </TableHead>
         <TableBody
           displayRowCheckbox={false}
           deselectOnClickaway={true}
@@ -69,7 +60,7 @@ const TableComplex = props => {
           {props.tableData &&
             props.tableData.map((row, index) => (
               <TableRow key={index}>
-                <TableRowColumn
+                <TableCell
                   style={{
                     whiteSpace: 'normal',
                     wordWrap: 'break-word',
@@ -89,8 +80,8 @@ const TableComplex = props => {
                   ) : (
                     row.devicename
                   )}
-                </TableRowColumn>
-                <TableRowColumn
+                </TableCell>
+                <TableCell
                   style={{
                     whiteSpace: 'normal',
                     wordWrap: 'break-word',
@@ -99,8 +90,8 @@ const TableComplex = props => {
                   }}
                 >
                   {row.macid}
-                </TableRowColumn>
-                <TableRowColumn
+                </TableCell>
+                <TableCell
                   style={{
                     whiteSpace: 'normal',
                     wordWrap: 'break-word',
@@ -119,8 +110,8 @@ const TableComplex = props => {
                   ) : (
                     row.room
                   )}
-                </TableRowColumn>
-                <TableRowColumn
+                </TableCell>
+                <TableCell
                   style={{
                     whiteSpace: 'normal',
                     wordWrap: 'break-word',
@@ -133,8 +124,8 @@ const TableComplex = props => {
                   )
                     ? `${row.latitude}, ${row.longitude}`
                     : 'Location not available'}
-                </TableRowColumn>
-                <TableRowColumn style={tableModifyStyle}>
+                </TableCell>
+                <TableCell style={tableModifyStyle}>
                   {/*
                   Decide between edit icon and check icon for each row,
                   depending on the value of editIdx.
@@ -150,8 +141,8 @@ const TableComplex = props => {
                       style={{ cursor: 'pointer' }}
                     />
                   )}
-                </TableRowColumn>
-                <TableRowColumn style={tableModifyStyle}>
+                </TableCell>
+                <TableCell style={tableModifyStyle}>
                   {/*
                   Handle opening of delete confirmation dialog on clicking delete icon
                 */}
@@ -159,7 +150,7 @@ const TableComplex = props => {
                     onClick={() => props.handleRemoveConfirmation(index)}
                     style={{ cursor: 'pointer' }}
                   />
-                </TableRowColumn>
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

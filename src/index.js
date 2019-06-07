@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './index.css';
 import App from './App';
 import React from 'react';
@@ -11,9 +12,11 @@ import de from 'react-intl/locale-data/de';
 import ru from 'react-intl/locale-data/ru';
 import { IntlProvider } from 'react-intl';
 import { addLocaleData } from 'react-intl';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { Logger } from './utils/helperFunctions';
-import store from './store';
+import configureStore, { history } from './redux/configureStore';
+
+export const store = configureStore();
 
 addLocaleData([...en, ...fr, ...es, ...de, ...ru]);
 
@@ -31,10 +34,17 @@ let ConnectedIntlProvider = connect(mapStateToProps)(IntlProvider);
 ReactDOM.render(
   <Provider store={store} key="provider">
     <ConnectedIntlProvider>
-      <Router>
+      <ConnectedRouter history={history}>
         <App />
-      </Router>
+      </ConnectedRouter>
     </ConnectedIntlProvider>
   </Provider>,
   document.getElementById('root'),
 );
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    const NextApp = require('./App').default;
+    ReactDOM.render(NextApp);
+  });
+}

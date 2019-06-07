@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { StylesProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
@@ -214,15 +213,14 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(store) {
   return {
+    ...store.router,
     ...store.ui,
     accessToken: store.app.accessToken,
     showCookiePolicy: store.app.showCookiePolicy,
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(App),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

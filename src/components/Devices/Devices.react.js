@@ -31,6 +31,7 @@ const Devices = props => {
             <a
               className="play_store"
               target="_blank"
+              rel="noopener noreferrer"
               href="https://play.google.com/store/apps/details?id=ai.susi&hl=en"
             >
               {' '}
@@ -54,6 +55,7 @@ const Devices = props => {
             <a
               className="app_store"
               target="_blank"
+              rel="noopener noreferrer"
               href="https://github.com/fossasia/susi_iOS"
             >
               {' '}
@@ -75,6 +77,7 @@ const Devices = props => {
             <a
               style={{ textDecoration: 'none' }}
               target="_blank"
+              rel="noopener noreferrer"
               href={urls.CHAT_URL}
             >
               {' '}

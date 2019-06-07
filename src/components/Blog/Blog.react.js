@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import { Card, CardMedia } from '@material-ui/core';
 import dateFormat from 'dateformat';
 import Fab from '@material-ui/core/Fab';
-import { ShareButtons, generateShareIcon } from 'react-share';
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  TwitterIcon,
+} from 'react-share';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
@@ -19,9 +24,6 @@ import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../images/susi-logo.svg';
 import ToTopButton from '../Button/ToTopButton.react';
 import { Header } from '../shared/About';
-const { FacebookShareButton, TwitterShareButton } = ShareButtons;
-const FacebookIcon = generateShareIcon('facebook');
-const TwitterIcon = generateShareIcon('twitter');
 
 const loadingStyle = {
   marginTop: '20px',
@@ -332,9 +334,7 @@ class Blog extends Component {
                             by
                             <a
                               style={{ paddingLeft: '0.3rem' }}
-                              href={`http://blog.fossasia.org/author/${
-                                posts.author
-                              }`}
+                              href={`http://blog.fossasia.org/author/${posts.author}`}
                             >
                               {posts.author}
                             </a>

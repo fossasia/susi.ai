@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import Ratings from 'react-ratings-declarative';
 import { connect } from 'react-redux';
@@ -99,11 +100,7 @@ class SkillCard extends Component {
           skillName = 'Name not available';
         }
         if (skill.image) {
-          image = `${urls.API_URL}/cms/getImage.png?model=${
-            skill.model
-          }&language=${skill.language}&group=${skill.group}&image=${
-            skill.image
-          }`;
+          image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
         } else {
           image = '';
         }

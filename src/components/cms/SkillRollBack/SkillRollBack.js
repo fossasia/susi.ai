@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
@@ -210,9 +211,7 @@ class SkillRollBack extends Component {
             icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
           });
           this.props.history.push({
-            pathname: `/${skillMetaData.groupValue}/${
-              skillMetaData.skillName
-            }/${skillMetaData.languageValue}`,
+            pathname: `/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
             state: {
               fromUpload: true,
               expertValue: skillMetaData.skillName,
@@ -356,11 +355,7 @@ class SkillRollBack extends Component {
                 showTopBar={false}
                 revertingCommit={this.revertingCommit}
                 location={{
-                  pathname: `/${this.skillMeta.groupValue}/${
-                    this.skillMeta.skillName
-                  }/edit/${this.skillMeta.languageValue}/${
-                    this.revertingCommit
-                  }`,
+                  pathname: `/${this.skillMeta.groupValue}/${this.skillMeta.skillName}/edit/${this.skillMeta.languageValue}/${this.revertingCommit}`,
                 }}
               />
             </div>

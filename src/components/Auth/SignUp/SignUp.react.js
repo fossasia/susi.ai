@@ -393,12 +393,11 @@ class SignUp extends Component {
               />
             )}
           </RecaptchaContainer>
-          {!isCaptchaVerified &&
-            captchaVerifyErrorMessage && (
-              <ErrorMessage>
-                <Translate text={captchaVerifyErrorMessage} />
-              </ErrorMessage>
-            )}
+          {!isCaptchaVerified && captchaVerifyErrorMessage && (
+            <ErrorMessage>
+              <Translate text={captchaVerifyErrorMessage} />
+            </ErrorMessage>
+          )}
           {signupErrorMessage && (
             <div style={{ color: success ? '#388e3c' : '#f44336' }}>
               {signupErrorMessage}

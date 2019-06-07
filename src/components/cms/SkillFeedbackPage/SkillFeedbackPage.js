@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -308,9 +309,7 @@ class SkillFeedbackPage extends Component {
     const open = Boolean(anchorEl);
     const imgUrl = !image
       ? '/favicon-512x512.jpg'
-      : `${urls.API_URL}/cms/getImage.png?model=general&language=${
-          this.languageValue
-        }&group=${this.groupValue}&image=${image}`;
+      : `${urls.API_URL}/cms/getImage.png?model=general&language=${this.languageValue}&group=${this.groupValue}&image=${image}`;
 
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
@@ -495,9 +494,7 @@ class SkillFeedbackPage extends Component {
             <Paper className="margin-b-md margin-t-md">
               <p style={{ marginLeft: 10 }}>
                 <Link
-                  to={`/skills/${this.groupValue}/${this.skillTag}/${
-                    this.languageValue
-                  }`}
+                  to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                   style={{ color: '#000000' }}
                 >
                   {this.skillName}
@@ -508,9 +505,7 @@ class SkillFeedbackPage extends Component {
               <div className="feedback-skill-detail">
                 <div className="feedback-avatar">
                   <Link
-                    to={`/skills/${this.groupValue}/${this.skillTag}/${
-                      this.languageValue
-                    }`}
+                    to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                   >
                     {image == null ? (
                       <CircleImage
@@ -529,9 +524,7 @@ class SkillFeedbackPage extends Component {
                 <div className="feedback-skill-name-author">
                   <h1 className="feedback-name">
                     <Link
-                      to={`/skills/${this.groupValue}/${this.skillTag}/${
-                        this.languageValue
-                      }`}
+                      to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                     >
                       {skillName}
                     </Link>
@@ -627,9 +620,7 @@ class SkillFeedbackPage extends Component {
                 ))}
               <div className="feedback-footer-skill">
                 <Link
-                  to={`/${this.groupValue}/${this.skillTag}/${
-                    this.languageValue
-                  }`}
+                  to={`/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                   style={{ color: '#417DDE' }}
                 >
                   <b>

@@ -263,49 +263,44 @@ class ThemeChanger extends Component {
                     </div>
                   </div>
                 )}
-                {component.id === 1 &&
-                  !showMessageBackgroundImage && (
-                    <div className="color-picker-wrap">
-                      <span
-                        className="color-box"
-                        onClick={() => this.handleClickColorBox(component.id)}
-                        style={{
-                          backgroundColor: this.state[component.component],
-                        }}
-                      />
-                      <div className="colorPicker">
-                        <ColorPicker
-                          className="color-picker"
-                          name="color"
-                          id={'colorPicker' + component.id}
-                          defaultValue={this.state[component.component]}
-                          onChange={color =>
-                            this.handleChangeComplete(
-                              component.component,
-                              color,
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                  )}
-                {component.id === 1 &&
-                  showMessageBackgroundImage && (
-                    <div className="image-div">
-                      <TextField
-                        name="messageImg"
-                        onChange={this.handleChangeMessageBackgroundImage(
-                          'messageBackgroundImage',
-                        )}
-                        value={messageBackgroundImage}
-                        label={
-                          <span style={{ fontSize: 'unset' }}>
-                            Message Image URL
-                          </span>
+                {component.id === 1 && !showMessageBackgroundImage && (
+                  <div className="color-picker-wrap">
+                    <span
+                      className="color-box"
+                      onClick={() => this.handleClickColorBox(component.id)}
+                      style={{
+                        backgroundColor: this.state[component.component],
+                      }}
+                    />
+                    <div className="colorPicker">
+                      <ColorPicker
+                        className="color-picker"
+                        name="color"
+                        id={'colorPicker' + component.id}
+                        defaultValue={this.state[component.component]}
+                        onChange={color =>
+                          this.handleChangeComplete(component.component, color)
                         }
                       />
                     </div>
-                  )}
+                  </div>
+                )}
+                {component.id === 1 && showMessageBackgroundImage && (
+                  <div className="image-div">
+                    <TextField
+                      name="messageImg"
+                      onChange={this.handleChangeMessageBackgroundImage(
+                        'messageBackgroundImage',
+                      )}
+                      value={messageBackgroundImage}
+                      label={
+                        <span style={{ fontSize: 'unset' }}>
+                          Message Image URL
+                        </span>
+                      }
+                    />
+                  </div>
+                )}
               </div>
             </Col>
           </Row>

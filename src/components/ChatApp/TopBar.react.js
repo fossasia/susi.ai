@@ -265,19 +265,18 @@ class TopBar extends Component {
                   </ListItemText>
                 </MenuItem>
               </Link>
-              {accessToken &&
-                isAdmin && (
-                  <Link to="/admin">
-                    <MenuItem onClick={this.handleClose}>
-                      <ListItemIcon>
-                        <List />
-                      </ListItemIcon>
-                      <ListItemText>
-                        <Translate text="Admin" />
-                      </ListItemText>
-                    </MenuItem>
-                  </Link>
-                )}
+              {accessToken && isAdmin && (
+                <Link to="/admin">
+                  <MenuItem onClick={this.handleClose}>
+                    <ListItemIcon>
+                      <List />
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Translate text="Admin" />
+                    </ListItemText>
+                  </MenuItem>
+                </Link>
+              )}
               <MenuItem onClick={() => this.openModal('share')}>
                 <ListItemIcon>
                   <Share />
