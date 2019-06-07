@@ -90,12 +90,22 @@ class App extends Component {
       location: { pathname },
       showCookiePolicy,
     } = this.props;
-    const skillListRegex = new RegExp(
-      '/skills/[0-9A-Za-z ]+/[0-9A-Za-z ]+/[0-9A-Za-z ]+',
-    );
+    const skillListRegex = new RegExp('^/skills');
+    const pathLength = pathname.split('/').length;
+    const renderFooterPagesList = [
+      '/',
+      '/support',
+      '/team',
+      '/blog',
+      '/devices',
+      '/skills',
+    ];
     const renderAppBar = pathname !== '/chat' ? <StaticAppBar /> : null;
     const renderFooter =
-      pathname !== '/chat' || skillListRegex.test(pathname) ? <Footer /> : null;
+      (skillListRegex.test(pathname) && pathLength >= 3 && pathLength <= 5) ||
+      renderFooterPagesList.includes(pathname) ? (
+        <Footer />
+      ) : null;
     const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
     return (
       <StylesProvider injectFirst>
