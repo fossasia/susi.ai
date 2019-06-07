@@ -13,7 +13,8 @@ import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
 import RemoveDeviceDialog from '../Settings/DevicesTab/RemoveDeviceDialog';
 import ThemeChanger from '../Settings/ThemeChanger';
 import { DialogContainer } from '../shared/Container';
-import DeleteAccountModal from '../Auth/DeleteAccount/DeleteAccountModal.react';
+import DeleteAccount from '../Auth/DeleteAccount/DeleteAccount.react';
+import ConfirmDeleteAccount from '../Auth/DeleteAccount/ConfirmDeleteAccount.react';
 
 const DialogData = {
   share: { Component: Share, size: 'xs' },
@@ -22,7 +23,8 @@ const DialogData = {
   forgotPassword: { Component: ForgotPassword, size: 'sm' },
   themeChange: { Component: ThemeChanger, size: 'md' },
   tour: { Component: Tour, size: 'sm' },
-  deleteAccount: { Component: DeleteAccountModal, size: 'sm' },
+  deleteAccount: { Component: DeleteAccount, size: 'sm' },
+  confirmDeleteAccount: { Component: ConfirmDeleteAccount, size: 'sm' },
   noComponent: { Component: null, size: false },
   deleteDevice: { Component: RemoveDeviceDialog, size: 'sm' },
 };
@@ -44,7 +46,7 @@ const DialogSection = props => {
   };
 
   const { size, Component } = getDialog();
-  const addPadding = modalType !== 'deleteAccount';
+  const addPadding = modalType !== 'confirmDeleteAccount';
   return (
     <div>
       <Dialog
