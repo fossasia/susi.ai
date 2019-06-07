@@ -6,18 +6,14 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import uiActions from '../../redux/actions/ui';
-
-import { ShareButtons, generateShareIcon } from 'react-share';
-
-const {
+import {
   FacebookShareButton,
-  TwitterShareButton,
   LinkedinShareButton,
-} = ShareButtons;
-
-const FacebookIcon = generateShareIcon('facebook');
-const TwitterIcon = generateShareIcon('twitter');
-const LinkedinIcon = generateShareIcon('linkedin');
+  TwitterShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from 'react-share';
 
 const styles = {
   iconWrapperStyle: {

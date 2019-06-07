@@ -662,8 +662,7 @@ class ListSkills extends React.Component {
                   <DialogTitle>Success</DialogTitle>
                   <DialogContent>
                     You successfully restored{' '}
-                    <span className="skillName">{skillName}</span>
-                    !
+                    <span className="skillName">{skillName}</span>!
                   </DialogContent>
                   <OkButton />
                 </Dialog>
@@ -687,8 +686,7 @@ class ListSkills extends React.Component {
                   <DialogTitle>Success</DialogTitle>
                   <DialogContent>
                     You successfully deleted{' '}
-                    <span className="skillName">{skillName}</span>
-                    !
+                    <span className="skillName">{skillName}</span>!
                   </DialogContent>
                   <OkButton />
                 </Dialog>

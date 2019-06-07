@@ -257,7 +257,8 @@ class SkillHistory extends Component {
                   {commitData[1].commit.latest && 'Latest '}
                   Revision as of <b>{commitData[1].commit.commitDate}</b>
                   <b style={{ marginLeft: '5px' }}>
-                    (<Link
+                    (
+                    <Link
                       to={{
                         pathname:
                           '/' +
@@ -273,7 +274,8 @@ class SkillHistory extends Component {
                       }}
                     >
                       Undo
-                    </Link>)
+                    </Link>
+                    )
                   </b>
                 </span>
                 <div style={codeEditorStyle}>

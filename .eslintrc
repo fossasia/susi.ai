@@ -6,7 +6,10 @@
     "jsx",
     "prettier"
   ],
-  "extends": ["plugin:react/recommended", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module",
@@ -14,7 +17,16 @@
       "jsx": true
     }
   },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "16.8.6"
+    }
+  },
   "env": {
+    "node": true,
+    "commonjs": true,
     "browser": true,
     "jasmine": true,
     "es6": true

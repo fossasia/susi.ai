@@ -93,19 +93,18 @@ class MyAnalytics extends Component {
             )}
           </div>
         )}
-        {skillUsageCount === 0 &&
-          !loading && (
-            <div>
-              <div className="center">
-                <br />
-                <h2>
-                  Your skill has not been used, make sure to improve your skill
-                  to attract more users.
-                </h2>
-                <br />
-              </div>
+        {skillUsageCount === 0 && !loading && (
+          <div>
+            <div className="center">
+              <br />
+              <h2>
+                Your skill has not been used, make sure to improve your skill to
+                attract more users.
+              </h2>
+              <br />
             </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }

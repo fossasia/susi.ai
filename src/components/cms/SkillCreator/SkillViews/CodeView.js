@@ -146,7 +146,8 @@ class CodeView extends React.Component {
             {this.state.loading && <LinearProgress color="primary" />}
             <ToolBarDiv>
               <ButtonSpan>
-                <Icon type="cloud-download" />Download as text
+                <Icon type="cloud-download" />
+                Download as text
               </ButtonSpan>
               <ButtonSpan>
                 Size{' '}

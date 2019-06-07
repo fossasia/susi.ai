@@ -59,7 +59,7 @@ class RemoveDeviceDialog extends Component {
             lineHeight: '1.5',
           }}
         >
-          Unexpected bad things will happen if you don't read this!
+          Unexpected bad things will happen if you don&apos;t read this!
         </div>
         <div
           style={{

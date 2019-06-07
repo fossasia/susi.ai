@@ -403,40 +403,44 @@ class BrowseSkill extends React.Component {
             display: 'flex',
           }}
         >
-          {listOffset + 1}-{listOffset + entriesPerPage > skills.length
+          {listOffset + 1}-
+          {listOffset + entriesPerPage > skills.length
             ? skills.length
             : listOffset + entriesPerPage}{' '}
-          out of {skills.length} result(s) for&nbsp;<b>
+          out of {skills.length} result(s) for&nbsp;
+          <b>
             <Link to="/skills">
               <div className="susi-skills">SUSI Skills</div>
             </Link>
           </b>
           {routeValue && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ color: '#4286f4', fontWeight: 'bold' }}>
+              :&nbsp;
+              <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
                 {routeValue}
               </div>
             </div>
           )}
           {searchQuery.length > 0 && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ color: '#4286f4', fontWeight: 'bold' }}>
+              :&nbsp;
+              <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
                 &quot;{searchQuery}&quot;
               </div>
             </div>
           )}
           {ratingRefine > 0 && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ color: '#4286f4', fontWeight: 'bold' }}>
+              :&nbsp;
+              <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
                 {ratingRefine} Stars & Up
               </div>
             </div>
           )}
           {timeFilter > 0 && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ fontWeight: 'bold' }}>
-                Last {timeFilter} days
-              </div>
+              :&nbsp;
+              <div style={{ fontWeight: 'bold' }}>Last {timeFilter} days</div>
             </div>
           )}
         </div>
@@ -474,8 +478,9 @@ class BrowseSkill extends React.Component {
     }
 
     let renderCardScrollList = '';
-    renderCardScrollList = !metricsHidden &&
-      !routeType && <SkillCardScrollList />;
+    renderCardScrollList = !metricsHidden && !routeType && (
+      <SkillCardScrollList />
+    );
 
     let renderOrderBy = '';
 

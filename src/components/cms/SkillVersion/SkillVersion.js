@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // Packages
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -147,9 +148,7 @@ class SkillVersion extends Component {
           <TableCell padding="dense">
             <Link
               to={{
-                pathname: `/skills/${skillMeta.groupValue}/${
-                  skillMeta.skillName
-                }/edit/${skillMeta.languageValue}/${commitId}`,
+                pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/edit/${skillMeta.languageValue}/${commitId}`,
               }}
             >
               <abbr title={commitDate}>{commitDate}</abbr>
@@ -213,11 +212,7 @@ class SkillVersion extends Component {
                 {checks.length === 2 && (
                   <Link
                     to={{
-                      pathname: `/skills/${skillMeta.groupValue}/${
-                        skillMeta.skillName
-                      }/compare/${skillMeta.languageValue}/${
-                        checkedCommits[0].commitId
-                      }/${checkedCommits[1].commitId}`,
+                      pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
                     }}
                   >
                     <Button variant="contained" color="primary">
@@ -227,9 +222,7 @@ class SkillVersion extends Component {
                 )}
                 <Link
                   to={{
-                    pathname: `/skills/${skillMeta.groupValue}/${
-                      skillMeta.skillName
-                    }/${skillMeta.languageValue}`,
+                    pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
                   }}
                 >
                   <Button variant="contained" color="primary">

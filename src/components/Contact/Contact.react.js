@@ -27,12 +27,18 @@ const Contact = props => {
         <div className="contact-content">
           <h5>SUSI</h5>
           <p>
-            6 Eu Tong Sen Street<br />
-            #5-07 The Central,<br />
-            Singapore 059817<br />
-            Phone +65 83435672<br />
-            Email: support@susper.net<br />
-            Board of Directors: Phuc Hong Dang<br />
+            6 Eu Tong Sen Street
+            <br />
+            #5-07 The Central,
+            <br />
+            Singapore 059817
+            <br />
+            Phone +65 83435672
+            <br />
+            Email: support@susper.net
+            <br />
+            Board of Directors: Phuc Hong Dang
+            <br />
           </p>
         </div>
         <div className="contact-content-last">

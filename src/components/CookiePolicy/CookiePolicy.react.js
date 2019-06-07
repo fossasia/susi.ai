@@ -28,9 +28,9 @@ const CookiePolicy = ({ actions }) => {
   return (
     <Container>
       Our website uses cookies to deliver the best possible user experience, to
-      help our site work, to understand how it is used. By clicking "Accept" you
-      agree to us doing so. To know more about our policies click on "More Info"
-      button
+      help our site work, to understand how it is used. By clicking
+      &quot;Accept&quot; you agree to us doing so. To know more about our
+      policies click on &quot;More Info&quot; button
       <ButtonContainer>
         <Button variant="contained" onClick={actions.hideCookiePolicy}>
           <Link style={{ color: 'black' }} to="/privacy">

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Ratings from 'react-ratings-declarative';
@@ -26,9 +27,7 @@ function createListCard(
   stars,
 ) {
   const dataId = `index-${el}`;
-  const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${
-    skill.language
-  }`;
+  const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${skill.language}`;
   const skillFeedbackPathname = `${skillPathname}/feedbacks`;
   const mobileView = window.innerWidth < 430;
   if (mobileView) {
@@ -155,9 +154,7 @@ function createListCard(
                   <Link
                     key={el}
                     to={{
-                      pathname: `/${skill.group}/${skill.skillTag}/${
-                        skill.language
-                      }/feedbacks`,
+                      pathname: `/${skill.group}/${skill.skillTag}/${skill.language}/feedbacks`,
                     }}
                   >
                     <Ratings
@@ -240,9 +237,7 @@ class SkillCardList extends Component {
         skillName = skillName.charAt(0).toUpperCase() + skillName.slice(1);
       }
       if (skill.image) {
-        image = `${urls.API_URL}/cms/getImage.png?model=${
-          skill.model
-        }&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
+        image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
       }
       if (skill.examples) {
         examples = skill.examples;

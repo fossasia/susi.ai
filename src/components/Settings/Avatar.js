@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import { getGravatarProps } from '../../utils/getAvatarProps';
 import Button from '@material-ui/core/Button';
-import defaultAvatar from '../../../public/defaultAvatar.png';
+import defaultAvatar from '../../images/defaultAvatar.png';
 
 const styles = {
   avatarEmptyBoxStyle: {
@@ -57,34 +57,33 @@ const Avatar = props => {
               />
             </div>
           )}
-          {imagePreviewUrl === '' &&
-            !isAvatarAdded && (
-              <label htmlFor="file-opener">
-                <div onSubmit={e => handleAvatarImageChange(e)}>
-                  {!isAvatarAdded && (
-                    <div className="avatar-empty-box">
-                      <div style={styles.avatarEmptyBoxStyle}>
-                        <AddIcon
-                          className="avatar-add-button"
-                          style={styles.avatarAddButtonStyle}
-                        />
-                      </div>
+          {imagePreviewUrl === '' && !isAvatarAdded && (
+            <label htmlFor="file-opener">
+              <div onSubmit={e => handleAvatarImageChange(e)}>
+                {!isAvatarAdded && (
+                  <div className="avatar-empty-box">
+                    <div style={styles.avatarEmptyBoxStyle}>
+                      <AddIcon
+                        className="avatar-add-button"
+                        style={styles.avatarAddButtonStyle}
+                      />
                     </div>
-                  )}
-                </div>
-                <input
-                  id="file-opener"
-                  type="file"
-                  className="input-avatar"
-                  onChange={e => handleAvatarImageChange(e)}
-                  accept="image/x-png,image/gif,image/jpeg"
-                  style={{ marginTop: '10px' }}
-                  onClick={event => {
-                    event.target.value = null;
-                  }}
-                />
-              </label>
-            )}
+                  </div>
+                )}
+              </div>
+              <input
+                id="file-opener"
+                type="file"
+                className="input-avatar"
+                onChange={e => handleAvatarImageChange(e)}
+                accept="image/x-png,image/gif,image/jpeg"
+                style={{ marginTop: '10px' }}
+                onClick={event => {
+                  event.target.value = null;
+                }}
+              />
+            </label>
+          )}
           <Button
             disabled={!isAvatarAdded || isAvatarUploaded}
             onClick={e => handleAvatarSubmit(e)}

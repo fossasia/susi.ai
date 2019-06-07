@@ -168,9 +168,8 @@ class Support extends Component {
                 </a>
                 <div className="support-description-content">
                   You can insert your skill code and test it on the SUSI.AI
-                  Etherpad at<a href="http://dream.susi.ai">
-                    &nbsp;dream.susi.ai
-                  </a>
+                  Etherpad at
+                  <a href="http://dream.susi.ai">&nbsp;dream.susi.ai</a>
                 </div>
               </div>
             </div>
@@ -214,10 +213,8 @@ class Support extends Component {
                   <h3 id="stack-overflow">Get Support</h3>
                 </a>
                 <div className="support-description-content">
-                  Facing a problem? Join us on<a href="https://gitter.im/fossasia/susi_server">
-                    {' '}
-                    gitter{' '}
-                  </a>
+                  Facing a problem? Join us on
+                  <a href="https://gitter.im/fossasia/susi_server"> gitter </a>
                   <br />
                   Found a bug? File it on{' '}
                   <a href="https://github.com/fossasia/susi_server/">

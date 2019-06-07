@@ -92,7 +92,7 @@ class PieChartContainer extends Component {
   static propTypes = {
     cellData: PropTypes.array,
     data: PropTypes.array,
-    showLegend: PropTypes.boolean,
+    showLegend: PropTypes.bool,
   };
 
   state = {
