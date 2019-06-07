@@ -51,6 +51,7 @@ const settingsOptions = [
 const Container = styled.div`
   width: 100%;
   height: 117vh;
+  margin-top: 2rem;
   background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {
     height: 100vh;

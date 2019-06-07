@@ -1,11 +1,12 @@
 // Packages
 import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
+import _Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
+import styled from 'styled-components';
 // Components
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -36,6 +37,15 @@ import EditBtn from '@material-ui/icons/BorderColor';
 import './SkillFeedbackCard.css';
 
 import { parseDate, formatDate } from '../../../utils';
+
+const Paper = styled(_Paper)`
+  @media (max-width: 500px) {
+    width: 60%;
+  }
+  @media (max-width: 370px) {
+    width: 55%;
+  }
+`;
 
 class SkillFeedbackCard extends Component {
   constructor(props) {

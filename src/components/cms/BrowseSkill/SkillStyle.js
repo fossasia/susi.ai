@@ -4,6 +4,7 @@ const styles = {
     flexDirection: 'row',
     overflowX: 'hidden',
     flex: '1 0 auto',
+    marginTop: '3rem',
   },
   center: {
     display: 'flex',
@@ -225,7 +226,7 @@ const styles = {
     padding: 16,
   },
   browseSkillRoot: {
-    height: '100vh',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
   },

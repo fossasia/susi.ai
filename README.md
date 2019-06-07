@@ -1,15 +1,15 @@
-# chat.susi.ai
+# SUSI.AI Web Application
 
 [![Weblate](https://hosted.weblate.org/widgets/susi-ai/-/chat/svg-badge.svg)](https://hosted.weblate.org/engage/susi-ai/?utm_source=widget)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf)](https://www.codacy.com/app/rishiraj824/chat.susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/chat.susi.ai&utm_campaign=badger)
-[![Build Status](https://travis-ci.org/fossasia/chat.susi.ai.svg?branch=master)](https://travis-ci.org/fossasia/chat.susi.ai)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf)](https://www.codacy.com/app/rishiraj824/susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/susi.ai&utm_campaign=badger)
+[![Build Status](https://travis-ci.org/fossasia/susi.ai.svg?branch=master)](https://travis-ci.org/fossasia/susi.ai)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fossasia/susi_webchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
 SUSI.AI is an artificial intelligence system, combining pattern matching, internet data, data flow, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.
 
 
-[![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/?repo=https://github.com/fossasia/chat.susi.ai)
+[![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/?repo=https://github.com/fossasia/susi.ai)
 
 ## Communication
 
@@ -42,9 +42,6 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ### Running on [Surge](./docs/INSTALLATION_SURGE_ENGLISH.md)
 
-**Click this picture to see video about deploy!**
-[![Watch the video](https://i2.wp.com/blog.fossasia.org/wp-content/uploads/2017/08/surge_static_hosting.png)](https://www.youtube.com/watch?v=Gvc0uz13U1M)
-
 * **Step 1:** Install Surge:```$ npm install -g surge```
 * **Step 2:** Then cd into the cloned chat.susi.ai folder
 * **Step 3:** Install the node modules:```$ npm install```(if not already)
@@ -54,14 +51,12 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 * **Step 7:** Follow the prompts and provide an e-mail address and a password.
 * **Step 8:** Go to the URL that appears after the above process is finished, and provide this link in the PR for testing your changes. 
 
-Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s)
+Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s) or watch [How to set it up with Surge](https://www.youtube.com/watch?v=Gvc0uz13U1M)
 
 ### Deploying on Firebase 
 [Click Here to read the set up guide](https://github.com/fossasia/chat.susi.ai/blob/master/docs/FIREBASE_DEPLOY.md)
 
-**Click this picture to see a video for deploying on Firebase**
-
-[<img src="https://github.com/fossasia/chat.susi.ai/blob/master/docs/img/blog_1_img.png" width="449.25" height="360.75">](https://youtu.be/7iVKBwR40N8)
+[Click here to watch a video for deploying on Firebase](https://youtu.be/7iVKBwR40N8)
   
 ## Speech Recognition and Synthesis
 
