@@ -7,11 +7,14 @@ import { Divider } from './SettingStyles';
 
 const Container = styled.div`
   text-align: left;
-  padding: 20px;
-  margin-left: 10px;
+  padding: 24px;
 `;
 
-export const Heading = styled.div`
+const HeadingContainer = styled.div`
+  margin-bottom: 1rem;
+`;
+
+export const TabHeading = styled.div`
   font-size: 1.5rem;
 `;
 
@@ -24,12 +27,12 @@ const SettingsTabWrapper = ({
   const theme = currTheme ? currTheme : storeTheme;
   return (
     <Container>
-      <span>
-        <Heading>
+      <HeadingContainer>
+        <TabHeading>
           <Translate text={heading} />
-        </Heading>
+        </TabHeading>
         <Divider theme={theme} />
-      </span>
+      </HeadingContainer>
       {children}
     </Container>
   );

@@ -4,13 +4,13 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import MenuList from '@material-ui/core/MenuList';
+import _MenuList from '@material-ui/core/MenuList';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 // Icons
 import ChatIcon from '@material-ui/icons/Chat';
@@ -34,7 +34,6 @@ import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
-import { Divider } from './SettingStyles';
 
 const settingsOptions = [
   { name: 'Account', icon: <AccountIcon /> },
@@ -58,28 +57,70 @@ const Container = styled.div`
   }
 `;
 
-const SettingsBodyContainer = styled(Paper)`
-  margin-top: 20;
-  text-align: center;
-  display: inline-block;
-  background: ${props => (props.theme === 'dark' ? '#19324C' : '#FFFFFF')};
-  color: ${props => (props.theme === 'dark' ? '#FFFFFF' : '#272727')};
-  width: 64%;
+const SettingContainer = styled.div`
+  display: flex;
+  padding: 50px 0;
+  max-width: 95%;
+  width: 1060px;
+  margin: 0 auto;
+  @media only screen and (max-width: 1060px) {
+    flex-direction: column;
+  }
+`;
+
+const SettingsOptionsContainer = styled(Paper)`
+  width: 28%;
+  overflow: hidden;
+  margin-right: 12px;
+  height: fit-content;
+  ${props =>
+    props.theme === 'dark'
+      ? css`
+          background: #19324c;
+          color: #ffffff;
+        `
+      : css`
+        background: #FFFFFF
+        color: #272727;
+  `};
 
   @media only screen and (max-width: 1060px) {
-    height: auto;
     width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
   }
 `;
 
 const SettingsListContainer = styled.div`
-  margin-bottom: 145px;
   padding: 0px 0px;
   user-select: none;
   width: 100%;
 
   @media only screen and (max-width: 1060px) {
     display: none;
+  }
+`;
+
+const MenuList = styled(_MenuList)`
+  padding: 0;
+`;
+
+const SettingsBodyContainer = styled(Paper)`
+  width: 70%;
+  ${props =>
+    props.theme === 'dark'
+      ? css`
+          background: #19324c;
+          color: #ffffff;
+        `
+      : css`
+        background: #FFFFFF
+        color: #272727;
+  `};
+
+  @media only screen and (max-width: 1060px) {
+    height: auto;
+    width: 100%;
   }
 `;
 
@@ -102,38 +143,11 @@ const SettingsMenuItem = styled(MenuItem)`
   }
 `;
 
-const SettingContainer = styled.div`
-  max-width: none;
-  padding: 50px 0px 50px 0px;
-  position: relative;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  display: -ms-flexbox;
-  display: -webkit-box;
+const LoadingContainer = styled.div`
+  height: 432px;
   display: flex;
-  -ms-flex-pack: justify;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-flow: row wrap;
-  flex-flow: row wrap;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  margin: 0 auto;
-  max-width: 85%;
-  width: 1080px;
-`;
-
-const SettingsOptionsContainer = styled(Paper)`
-  width: 35%;
-  background-color: #fff;
-  height: 500px;
-  overflow: hidden;
-  background: ${props => (props.theme === 'dark' ? '#19324C' : '#FFFFFF')};
-  color: ${props => (props.theme === 'dark' ? '#FFFFFF' : '#272727')};
-
-  @media only screen and (max-width: 1060px) {
-    width: 100%;
-  }
+  align-items: center;
+  justify-content: center;
 `;
 
 class Settings extends Component {
@@ -155,10 +169,10 @@ class Settings extends Component {
   }
 
   componentDidMount() {
-    const { accessToken, actions } = this.props;
+    const { accessToken, actions, theme } = this.props;
     if (accessToken) {
       actions.getUserSettings().then(({ payload }) => {
-        this.setState({ loading: false, theme: payload.settings.theme });
+        this.setState({ loading: false, theme });
       });
     }
     document.title =
@@ -191,22 +205,20 @@ class Settings extends Component {
   generateMenu = () => {
     const { theme, selectedSetting } = this.state;
     return settingsOptions.map(eachOption => (
-      <div key={eachOption.name}>
-        <MenuItem
-          onClick={this.loadSettings}
-          style={{
-            color: theme === 'dark' ? '#fff' : '#272727',
-          }}
-          selected={selectedSetting === eachOption.name}
-        >
-          <ListItemIcon>{eachOption.icon}</ListItemIcon>
-          <ListItemText>{eachOption.name}</ListItemText>
-          <ListItemIcon>
-            <ChevronRight />
-          </ListItemIcon>
-        </MenuItem>
-        <Divider theme={theme} />
-      </div>
+      <MenuItem
+        key={eachOption.name}
+        onClick={this.loadSettings}
+        style={{
+          color: theme === 'dark' ? '#fff' : '#272727',
+          borderBottom:
+            theme === 'light' ? '1px solid #f2f2f2' : '1px solid #ffffff',
+        }}
+        selected={selectedSetting === eachOption.name}
+      >
+        <ListItemIcon>{eachOption.icon}</ListItemIcon>
+        <ListItemText primary={eachOption.name} />
+        <ChevronRight />
+      </MenuItem>
     ));
   };
 
@@ -289,9 +301,9 @@ class Settings extends Component {
           </SettingsOptionsContainer>
           <SettingsBodyContainer theme={theme}>
             {loading ? (
-              <div className="loader-container">
+              <LoadingContainer>
                 <CircularProgress size={64} />
-              </div>
+              </LoadingContainer>
             ) : (
               this.generateSettings()
             )}

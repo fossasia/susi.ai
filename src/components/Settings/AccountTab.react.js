@@ -3,7 +3,7 @@ import Translate from '../Translate/Translate.react';
 import Avatar from './Avatar';
 import { Link as _Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SettingsTabWrapper, { Heading } from './SettingsTabWrapper';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -23,10 +23,6 @@ import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 
-const EmailHeading = styled(TabHeading)`
-  margin-top: 0;
-`;
-
 const TimezoneContainer = styled.div`
   padding-bottom: 30px;
 `;
@@ -38,26 +34,23 @@ const Timezone = styled.div`
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 const DangerContainer = styled.div`
   border: 1px solid #d73a49;
   border-radius: 2px;
-  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem 1rem;
+  padding: 1rem;
   align-items: center;
 `;
 
 const DangerButton = styled(Button)`
   background-color: #fafbfc;
-  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
   color: #cb2431;
   &:hover {
     background-color: #cb2431;
-    background-image: linear-gradient(-180deg, #de4450, #cb2431 90%);
     border-color: rgba(27, 31, 35, 0.5);
     color: #fff;
   }
@@ -68,6 +61,15 @@ const Link = styled(_Link)`
   font-weight: 600;
   &:hover {
     color: #fff;
+  }
+`;
+
+const AvatarSection = styled.div`
+  margin-left: 8rem;
+
+  @media only screen and (max-width: 1060px) {
+    margin-left: 0rem;
+    padding-top: 0.5rem;
   }
 `;
 
@@ -320,9 +322,9 @@ class AccountTab extends React.Component {
                 {userNameError}
               </FormHelperText>
             </FormControl>
-            <EmailHeading>
+            <TabHeading>
               <Translate text="Email" />
-            </EmailHeading>
+            </TabHeading>
             <OutlinedInput
               labelWidth={0}
               name="email"
@@ -357,17 +359,19 @@ class AccountTab extends React.Component {
               </Timezone>
             </TimezoneContainer>
           </div>
-          <div className="img-upld">
+          <AvatarSection>
             <TabHeading>Select Avatar</TabHeading>
-            <Select
-              onChange={this.handleAvatarTypeChange}
-              value={avatarType}
-              style={styles.selectAvatarDropDownStyle}
-            >
-              <MenuItem value="default">Default</MenuItem>
-              <MenuItem value="server">Upload</MenuItem>
-              <MenuItem value="gravatar">Gravatar</MenuItem>
-            </Select>
+            <div>
+              <Select
+                onChange={this.handleAvatarTypeChange}
+                value={avatarType}
+                style={styles.selectAvatarDropDownStyle}
+              >
+                <MenuItem value="default">Default</MenuItem>
+                <MenuItem value="server">Upload</MenuItem>
+                <MenuItem value="gravatar">Gravatar</MenuItem>
+              </Select>
+            </div>
             <Avatar
               avatarType={avatarType}
               handleAvatarSubmit={this.handleAvatarSubmit}
@@ -385,7 +389,7 @@ class AccountTab extends React.Component {
               avatarSrc={avatarSrc}
               email={email}
             />
-          </div>
+          </AvatarSection>
         </Container>
         <Button
           variant="contained"
@@ -396,9 +400,9 @@ class AccountTab extends React.Component {
         >
           <Translate text="Save Changes" />
         </Button>
-        <Heading>
+        <TabHeading>
           <Translate text="Danger Zone" />
-        </Heading>
+        </TabHeading>
         <DangerContainer>
           <div>
             <TabHeading>
