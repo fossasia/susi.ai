@@ -37,11 +37,11 @@ const defaultState = {
 export default handleActions(
   {
     [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { error, payload }) {
-      if (error) {
+      const { settings, devices = {} } = payload;
+      if (error || !settings) {
         return state;
       }
 
-      const { settings, devices = {} } = payload;
       const {
         theme,
         server,

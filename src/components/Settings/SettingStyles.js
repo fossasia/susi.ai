@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const TabHeading = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
 `;
