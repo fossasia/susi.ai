@@ -13,8 +13,7 @@ import AuthorSkills from '../AuthorSkills/AuthorSkills';
 import SkillUsageCard from '../SkillUsageCard/SkillUsageCard';
 import SkillRatingCard from '../SkillRating/SkillRatingCard';
 import SkillFeedbackCard from '../SkillFeedbackCard/SkillFeedbackCard';
-import Footer from '../../Footer/Footer.react';
-import Paper from '@material-ui/core/Paper';
+import _Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -47,6 +46,15 @@ const HomeDiv = styled.div`
 const AuthorSpan = styled.span`
   cursor: pointer;
   texttransform: capitalize;
+`;
+
+const Paper = styled(_Paper)`
+  @media (max-width: 500px) {
+    width: 60%;
+  }
+  @media (max-width: 370px) {
+    width: 55%;
+  }
 `;
 
 class SkillListing extends Component {
@@ -544,9 +552,7 @@ class SkillListing extends Component {
     }
 
     return (
-      <div
-        style={{ display: 'flex', height: '100vh', flexDirection: 'column' }}
-      >
+      <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
         <div style={{ flex: '1 0 auto' }}>{renderElement}</div>
         <div>
           <AuthorSkills
@@ -556,9 +562,6 @@ class SkillListing extends Component {
             open={showAuthorSkills}
             requestClose={this.closeAuthorSkills}
           />
-        </div>
-        <div style={{ minWidth: '40rem' }}>
-          <Footer />
         </div>
       </div>
     );

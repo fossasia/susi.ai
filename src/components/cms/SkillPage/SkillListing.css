@@ -131,6 +131,8 @@ h1.name {
 .card-content {
   padding-left: 20px;
   padding-bottom: 20px;
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .singleRating {

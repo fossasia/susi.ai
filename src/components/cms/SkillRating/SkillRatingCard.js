@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
+import styled from 'styled-components';
+import isMobileView from '../../../utils/isMobileView';
 
 // Components
 import {
@@ -23,10 +25,26 @@ import {
 import Ratings from 'react-ratings-declarative';
 
 // Material-UI
-import Paper from '@material-ui/core/Paper';
+import _Paper from '@material-ui/core/Paper';
 
 // CSS
 import './SkillRatingCard.css';
+
+const Paper = styled(_Paper)`
+  @media (max-width: 500px) {
+    width: 60%;
+  }
+  @media (max-width: 370px) {
+    width: 55%;
+  }
+`;
+
+const Container = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
+    overflow-x: scroll;
+  }
+`;
 
 class SkillRatingCard extends Component {
   static propTypes = {
@@ -145,6 +163,7 @@ class SkillRatingCard extends Component {
       { name: '2.0 ⭐', value: parseInt(skillRatings.twoStar, 10) || 0 },
       { name: '1.0 ⭐', value: parseInt(skillRatings.oneStar, 10) || 0 },
     ];
+    const mobileView = isMobileView();
     return (
       <div>
         <Paper className="margin-b-md margin-t-md">
@@ -163,7 +182,7 @@ class SkillRatingCard extends Component {
                     rating={userRating}
                     widgetRatedColors="#ffbb28"
                     widgetHoverColors="#ffbb28"
-                    widgetDimensions="50px"
+                    widgetDimensions={mobileView ? '30px' : '50px'}
                     changeRating={this.changeRating}
                   >
                     <Ratings.Widget />
@@ -247,10 +266,10 @@ class SkillRatingCard extends Component {
                   Rating over time
                 </div>
                 {ratingsOverTime.length ? (
-                  <div>
+                  <Container>
                     <ResponsiveContainer
                       height={300}
-                      width={ratingsOverTimeWidth}
+                      width={mobileView ? 600 : ratingsOverTimeWidth}
                       debounce={1}
                     >
                       <LineChart data={this.roundOffRating(ratingsOverTime)}>
@@ -272,7 +291,7 @@ class SkillRatingCard extends Component {
                         />
                       </LineChart>
                     </ResponsiveContainer>
-                  </div>
+                  </Container>
                 ) : (
                   <div>No ratings data over time is present.</div>
                 )}
