@@ -11,7 +11,7 @@ const Container = styled.div`
   margin-left: 10px;
 `;
 
-const TabHeading = styled.div`
+export const Heading = styled.div`
   font-size: 1.5rem;
 `;
 
@@ -25,9 +25,9 @@ const SettingsTabWrapper = ({
   return (
     <Container>
       <span>
-        <TabHeading>
+        <Heading>
           <Translate text={heading} />
-        </TabHeading>
+        </Heading>
         <Divider theme={theme} />
       </span>
       {children}

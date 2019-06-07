@@ -10,6 +10,9 @@ const palette = {
   default: {
     main: '#fff',
   },
+  error: {
+    main: '#ff0000',
+  },
   contrastThreshold: 3,
   tonalOffset: 0.2,
 };
