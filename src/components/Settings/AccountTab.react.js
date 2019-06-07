@@ -1,8 +1,9 @@
 import React from 'react';
 import Translate from '../Translate/Translate.react';
 import Avatar from './Avatar';
+import { Link as _Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SettingsTabWrapper from './SettingsTabWrapper';
+import SettingsTabWrapper, { Heading } from './SettingsTabWrapper';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,14 +13,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TimezonePicker from 'react-timezone';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { TabHeading, Divider } from './SettingStyles';
+import { TabHeading } from './SettingStyles';
 import settingActions from '../../redux/actions/settings';
 import uiActions from '../../redux/actions/ui';
 import appActions from '../../redux/actions/app';
 import { voiceList } from '../../constants/SettingsVoiceConstants.js';
 import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
-import urls from '../../utils/urls';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../../public/defaultAvatar.png';
 
@@ -39,6 +39,36 @@ const Timezone = styled.div`
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const DangerContainer = styled.div`
+  border: 1px solid #d73a49;
+  border-radius: 2px;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem 1rem;
+  align-items: center;
+`;
+
+const DangerButton = styled(Button)`
+  background-color: #fafbfc;
+  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+  color: #cb2431;
+  &:hover {
+    background-color: #cb2431;
+    background-image: linear-gradient(-180deg, #de4450, #cb2431 90%);
+    border-color: rgba(27, 31, 35, 0.5);
+    color: #fff;
+  }
+`;
+
+const Link = styled(_Link)`
+  color: #cb2431;
+  font-weight: 600;
+  &:hover {
+    color: #fff;
+  }
 `;
 
 const styles = {
@@ -239,7 +269,6 @@ class AccountTab extends React.Component {
     } = this.state;
     const {
       email,
-      theme,
       timeZone: _timeZone,
       prefLanguage: _prefLanguage,
       userName: _userName,
@@ -342,20 +371,26 @@ class AccountTab extends React.Component {
           color="primary"
           onClick={this.handleSubmit}
           disabled={disabled}
-          style={{ marginTop: '1.5rem' }}
+          style={{ margin: '1.5rem 0' }}
         >
           <Translate text="Save Changes" />
         </Button>
-        <div style={{ marginRight: '20px' }}>
-          <Divider marginTop="25px" theme={theme} />
-          <p style={{ textAlign: 'center' }}>
-            <span className="Link">
-              <a href={`${urls.ACCOUNT_URL}/delete-account`}>
-                Delete your account
-              </a>
-            </span>
-          </p>
-        </div>
+        <Heading>
+          <Translate text="Danger Zone" />
+        </Heading>
+        <DangerContainer>
+          <div>
+            <TabHeading>
+              <Translate text="Delete account" />
+            </TabHeading>
+            <Translate text="Once you delete account, there is no going back. Please be certain." />
+          </div>
+          <div>
+            <DangerButton variant="contained">
+              <Link to="/delete-account">Delete</Link>
+            </DangerButton>
+          </div>
+        </DangerContainer>
       </SettingsTabWrapper>
     );
   }
@@ -366,7 +401,6 @@ AccountTab.propTypes = {
   userName: PropTypes.string,
   prefLanguage: PropTypes.string,
   email: PropTypes.string,
-  theme: PropTypes.string,
   accessToken: PropTypes.string,
   actions: PropTypes.object,
   avatarType: PropTypes.string,
@@ -379,7 +413,6 @@ function mapStateToProps(store) {
     prefLanguage: store.settings.prefLanguage,
     email: store.app.email,
     accessToken: store.app.accessToken,
-    theme: store.settings.theme,
     avatarType: store.settings.avatarType,
   };
 }
