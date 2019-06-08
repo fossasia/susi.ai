@@ -6,19 +6,22 @@ import MySkills from './MySkills';
 import MyRatings from './MyRatings';
 import MyAnalytics from './MyAnalytics';
 import styled from 'styled-components';
-import './Dashboard.css';
 
 const Paper = styled(_Paper)`
   width: 100%;
   margin-top: 1.25rem;
   min-width: 40rem;
+  padding: 1rem 1rem 3rem;
+  @media (max-width: 740) {
+    padding: 0 0 3rem;
+  }
 `;
 
 const Heading = styled.h1`
   color: black;
-  margin-top: 1.25rem;
   width: 100%;
   min-width: 40rem;
+  padding: 1rem 0;
 `;
 
 const SubHeading = styled.h1`
@@ -32,7 +35,27 @@ const StyledErrorParagraph = styled.p`
   font-weight: bold;
   margin-bottom: 6.25rem;
   font-size: 3.125rem;
-  margin-top: 18.75rem;
+  margin: 18.6rem 0;
+  @media (max-width: 886px) {
+    margin: 15rem 0;
+  }
+  @media (max-width: 745px) {
+    margin: 13.5rem 0;
+  }
+  @media (max-width: 520px) {
+    margin: 11.5rem 0;
+  }
+  @media (max-width: 456px) {
+    font-size: 2.1rem;
+    margin: 13rem 0;
+  }
+`;
+
+const Container = styled.div`
+  padding: 4rem 4rem 2rem;
+  @media (max-width: 855px) {
+    padding: 4rem 0 2rem;
+  }
 `;
 
 const Dashboard = props => {
@@ -41,35 +64,28 @@ const Dashboard = props => {
   if (!accessToken) {
     return (
       <div>
-        <div>
-          <StyledErrorParagraph>
-            Please login to view dashboard.
-          </StyledErrorParagraph>
-        </div>
+        <StyledErrorParagraph>
+          Please login to view dashboard.
+        </StyledErrorParagraph>
       </div>
     );
   }
   return (
-    <div>
-      <div className="botbuilder-page-wrapper">
-        <br />
-        <br />
-        <Heading className="center">My Dashboard</Heading>
-        <br />
-        <Paper className="botBuilder-page-card">
-          <SubHeading>My Skills</SubHeading>
-          <MySkills />
-        </Paper>
-        <Paper className="botBuilder-page-card">
-          <SubHeading>My Ratings</SubHeading>
-          <MyRatings />
-        </Paper>
-        <Paper className="botBuilder-page-card">
-          <SubHeading>My Analytics</SubHeading>
-          <MyAnalytics />
-        </Paper>
-      </div>
-    </div>
+    <Container>
+      <Heading>My Dashboard</Heading>
+      <Paper>
+        <SubHeading>My Skills</SubHeading>
+        <MySkills />
+      </Paper>
+      <Paper>
+        <SubHeading>My Ratings</SubHeading>
+        <MyRatings />
+      </Paper>
+      <Paper>
+        <SubHeading>My Analytics</SubHeading>
+        <MyAnalytics />
+      </Paper>
+    </Container>
   );
 };
 

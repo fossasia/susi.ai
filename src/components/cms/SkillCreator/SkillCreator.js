@@ -1025,7 +1025,7 @@ class SkillCreator extends Component {
                 {accessToken && this.state.editable && (
                   <Paper>
                     <InfoIcon
-                      data-tip={`Learn more about <a href=${urls.CMS_GITHUB_URL +
+                      data-tip={`Learn more about <a href=${urls.GITHUB_URL +
                         '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
                     />
                     <CenterDiv>
