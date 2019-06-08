@@ -218,7 +218,9 @@ class SkillListing extends Component {
         }&group=${this.groupValue}&image=${image}`;
 
     const descriptions =
-      _descriptions === null ? 'No Description Provided' : _descriptions;
+      _descriptions === null || _descriptions === '<description>'
+        ? 'No Description Provided'
+        : _descriptions;
 
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
@@ -419,37 +421,31 @@ class SkillListing extends Component {
                   </div>
                 )}
 
-                {termsOfUse && (
-                  <div className="card-content">
-                    <ul>
-                      <li>
-                        <a
-                          href={termsOfUse}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Terms & Conditions
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                {termsOfUse &&
+                  termsOfUse !== '<link>' && (
+                    <div className="card-content">
+                      <a
+                        href={termsOfUse}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Terms & Conditions
+                      </a>
+                    </div>
+                  )}
 
-                {termsOfUse && (
-                  <div className="card-content">
-                    <ul>
-                      <li>
-                        <a
-                          href={developerPrivacyPolicy}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Developer Privacy Policy
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                {developerPrivacyPolicy &&
+                  developerPrivacyPolicy !== '<link>' && (
+                    <div className="card-content">
+                      <a
+                        href={developerPrivacyPolicy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Developer Privacy Policy
+                      </a>
+                    </div>
+                  )}
               </div>
             </Paper>
             <Paper className="margin-b-md margin-t-md">

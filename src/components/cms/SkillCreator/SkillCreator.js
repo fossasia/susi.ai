@@ -1358,9 +1358,8 @@ SkillCreator.propTypes = {
 };
 
 function mapStateToProps(store) {
-  console.log(store);
   return {
-    userName: store.app.userName,
+    userName: store.settings.userName,
     accessToken: store.app.accessToken,
     isAdmin: store.app.isAdmin,
     email: store.app.email,
