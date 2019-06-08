@@ -23,7 +23,8 @@ class MyAnalytics extends Component {
 
   loadSkillsUsage = () => {
     const { email, actions } = this.props;
-    fetchSkillsByAuthor({ authorEmail: email })
+    // eslint-disable-next-line
+    fetchSkillsByAuthor({ author_email: email })
       .then(payload => {
         this.saveUsageData(payload.authorSkills || []);
         this.setState({
@@ -87,6 +88,8 @@ class MyAnalytics extends Component {
                       />
                     ))}
                     data={skillUsage}
+                    nameKey="skillName"
+                    dataKey="usageCount"
                   />
                 </div>
               </div>

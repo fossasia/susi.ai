@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { Link as _Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
-import styled from 'styled-components';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -26,6 +24,7 @@ import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
+import Link from '../shared/Link';
 import ExpandingSearchField from './SearchField.react';
 import AppBar from '@material-ui/core/AppBar';
 import {
@@ -34,14 +33,6 @@ import {
   SusiLogo,
   FlexContainer,
 } from '../shared/TopBarStyles';
-
-const Link = styled(_Link)`
-  color: #000;
-  text-decoration: none;
-  &:hover {
-    color: #000;
-  }
-`;
 
 class TopBar extends Component {
   static propTypes = {

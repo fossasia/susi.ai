@@ -118,8 +118,6 @@ class PieChartContainer extends Component {
             cx={300}
             cy={175}
             innerRadius={80}
-            nameKey="deviceType"
-            dataKey="count"
             outerRadius={120}
             fill="#8884d8"
             onMouseEnter={this.onPieEnter}

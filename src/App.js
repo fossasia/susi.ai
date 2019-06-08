@@ -49,6 +49,7 @@ class App extends Component {
     accessToken: PropTypes.string,
     snackBarProps: PropTypes.object,
     showCookiePolicy: PropTypes.bool,
+    modalProps: PropTypes.object,
   };
 
   componentDidMount = () => {
@@ -87,6 +88,7 @@ class App extends Component {
     const {
       actions,
       snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
+      modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
     } = this.props;
@@ -108,11 +110,12 @@ class App extends Component {
         <Footer />
       ) : null;
     const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
+    const renderDialog = isModalOpen ? <DialogSection /> : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <div>
-            <DialogSection />
+            {renderDialog}
             <Snackbar
               autoHideDuration={snackBarDuration}
               open={isSnackBarOpen}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link as _Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +17,7 @@ import CircleImage from '../CircleImage/CircleImage';
 import Info from '@material-ui/icons/Info';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
+import Link from '../shared/Link';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SignUpIcon from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
@@ -42,14 +43,6 @@ import {
   SusiLogo,
   FlexContainer,
 } from '../shared/TopBarStyles';
-
-const Link = styled(_Link)`
-  color: #000;
-  text-decoration: none;
-  &:hover {
-    color: #000;
-  }
-`;
 
 const BurgerMenuContainer = styled.div`
   display: none;
