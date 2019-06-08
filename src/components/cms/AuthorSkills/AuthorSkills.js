@@ -117,7 +117,7 @@ class AuthorSkills extends Component {
     const { loading } = this.state;
     let githubAvatarSrc = '';
 
-    if (authorUrl) {
+    if (authorUrl && authorUrl !== '<author_url>') {
       githubAvatarSrc = `${urls.GITHUB_AVATAR_URL}/${
         authorUrl.split('/')[3]
       }?size=50`;
@@ -163,7 +163,11 @@ class AuthorSkills extends Component {
             <div style={headingStyle}>
               <h3>
                 Skills by {author}{' '}
-                <a href={authorUrl}>
+                <a
+                  href={
+                    authorUrl && authorUrl !== '<author_url>' ? authorUrl : '/'
+                  }
+                >
                   <img
                     alt={'GitHub'}
                     style={githubAvatarStyle}
