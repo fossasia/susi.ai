@@ -12,5 +12,8 @@ export const DialogContainer = styled.div`
     css`
       padding: 1rem 1.5rem;
       text-align: center;
+      @media (max-width: 460px) {
+        padding: 0.3rem;
+      }
     `};
 `;
