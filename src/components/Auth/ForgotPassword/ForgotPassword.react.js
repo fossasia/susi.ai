@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
+import { Button, OutlinedInput } from '../AuthStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import CloseButton from '../../shared/CloseButton';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
@@ -23,7 +22,6 @@ class ForgotPassword extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       email: '',
       emailErrorMessage: '',
@@ -110,40 +108,33 @@ class ForgotPassword extends Component {
       <React.Fragment>
         <DialogTitle>
           <Translate text="Forgot Password ?" />
+          <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
-        <div style={{ margin: '1.1rem 0' }}>
+        <DialogContent>
           <FormControl error={emailErrorMessage !== ''}>
-            <InputLabel>Email</InputLabel>
-            <Input
+            <OutlinedInput
+              name="email"
               value={email}
               onChange={this.handleTextFieldChange}
               aria-describedby="email-error-text"
-              style={{ width: '256px' }}
+              placeholder="Email"
               onKeyUp={this.onEnterKey}
-              autofocus={true}
+              autoFocus={true}
             />
             <FormHelperText error={emailErrorMessage !== ''}>
               {emailErrorMessage}
             </FormHelperText>
           </FormControl>
-        </div>
-        <div style={{ margin: '10px 0' }}>
           {/* Reset Button */}
           <Button
             onClick={this.handleSubmit}
             color="primary"
             variant="contained"
-            style={{
-              width: '200px',
-              margin: '10px auto',
-              display: 'block',
-            }}
             disabled={!isValid || loading}
           >
             {loading ? <CircularProgress size={24} /> : 'Reset'}
           </Button>
-        </div>
-        <CloseButton onClick={this.handleDialogClose} />
+        </DialogContent>
       </React.Fragment>
     );
   }

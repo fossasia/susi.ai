@@ -11,39 +11,26 @@ import uiActions from '../../../redux/actions/ui';
 
 // Components
 import FormHelperText from '@material-ui/core/FormHelperText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import PasswordField from 'material-ui-password-field';
 import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import { isProduction } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
 import { createMessagePairArray } from '../../../utils/formatMessage';
-
-// Static assets
-import './Login.css';
+import {
+  PasswordField,
+  OutlinedInput,
+  Button,
+  StyledLink,
+  LinkContainer,
+} from '../AuthStyles';
 
 const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
-
-const styles = {
-  fieldStyle: {
-    height: '35px',
-    borderRadius: 4,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '0px 10px',
-    width: '250px',
-    marginTop: '10px',
-  },
-  inputStyle: {
-    height: '35px',
-    marginBottom: '10px',
-  },
-};
 
 class Login extends Component {
   static propTypes = {
@@ -214,60 +201,49 @@ class Login extends Component {
       loading,
     } = this.state;
     const { actions } = this.props;
-    const { fieldStyle } = styles;
 
     const isValid =
       email && !emailErrorMessage && password && !passwordErrorMessage;
 
     return (
       <React.Fragment>
-        <div className="login-form">
-          <h3>
-            <Translate text="Log into SUSI" />
-          </h3>
-          <div>
-            <FormControl error={emailErrorMessage !== ''}>
-              <OutlinedInput
-                labelWidth={0}
-                name="email"
-                value={email}
-                onChange={this.handleTextFieldChange}
-                aria-describedby="email-error-text"
-                style={{ width: '17rem', height: '2.1rem' }}
-                placeholder="Email"
-                onKeyUp={this.onEnterKey}
-                autoFocus={true}
-              />
-              <FormHelperText error={emailErrorMessage !== ''}>
-                {emailErrorMessage}
-              </FormHelperText>
-            </FormControl>
-          </div>
-          <div>
-            <FormControl error={passwordErrorMessage !== ''}>
-              <PasswordField
-                name="password"
-                style={fieldStyle}
-                value={password}
-                placeholder="Password"
-                onChange={this.handleTextFieldChange}
-                onKeyUp={this.onEnterKey}
-              />
-              <FormHelperText error={passwordErrorMessage !== ''}>
-                {passwordErrorMessage}
-              </FormHelperText>
-            </FormControl>
-          </div>
+        <DialogTitle>
+          <Translate text="Log into SUSI" />
+          <CloseButton onClick={this.handleDialogClose} />
+        </DialogTitle>
+        <DialogContent>
+          <FormControl error={emailErrorMessage !== ''}>
+            <OutlinedInput
+              labelWidth={0}
+              name="email"
+              value={email}
+              onChange={this.handleTextFieldChange}
+              aria-describedby="email-error-text"
+              placeholder="Email"
+              onKeyUp={this.onEnterKey}
+              autoFocus={true}
+            />
+            <FormHelperText error={emailErrorMessage !== ''}>
+              {emailErrorMessage}
+            </FormHelperText>
+          </FormControl>
+          <FormControl error={passwordErrorMessage !== ''}>
+            <PasswordField
+              name="password"
+              value={password}
+              placeholder="Password"
+              onChange={this.handleTextFieldChange}
+              onKeyUp={this.onEnterKey}
+            />
+            <FormHelperText error={passwordErrorMessage !== ''}>
+              {passwordErrorMessage}
+            </FormHelperText>
+          </FormControl>
           <Button
             onClick={this.handleSubmit}
             variant="contained"
             color="primary"
             disabled={!isValid || loading}
-            style={{
-              width: '275px',
-              margin: '10px auto',
-              display: 'block',
-            }}
           >
             {loading ? (
               <CircularProgress size={24} />
@@ -275,22 +251,19 @@ class Login extends Component {
               <Translate text="Log In" />
             )}
           </Button>
-          <div className="login-links-section">
-            <span
-              className="forgot-password"
+          <LinkContainer>
+            <StyledLink
               onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
             >
               <Translate text="Forgot Password?" />
-            </span>
-            <span
-              className="sign-up"
+            </StyledLink>
+            <StyledLink
               onClick={() => actions.openModal({ modalType: 'signUp' })}
             >
               <Translate text="Sign up for SUSI" />
-            </span>
-          </div>
-        </div>
-        <CloseButton onClick={this.handleDialogClose} />
+            </StyledLink>
+          </LinkContainer>
+        </DialogContent>
       </React.Fragment>
     );
   }
