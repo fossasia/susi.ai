@@ -33,7 +33,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ### Running on [localhost](./docs/INSTALLATION_LOCAL_ENGLISH.md)
 
-* **Step 1:** Fork the chat.susi.ai repository and clone it to your machine
+* **Step 1:** Fork the susi.ai repository and clone it to your machine
 * **Step 2:** Cd into the cloned folder
 * **Step 3:** Install all the dependencies with:```$ yarn install```
 * **Step 4:** Run on http://localhost:3000 with:```$ yarn run start```
@@ -43,7 +43,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 ### Running on [Surge](./docs/INSTALLATION_SURGE_ENGLISH.md)
 
 * **Step 1:** Install Surge:```$ yarn install -g surge```
-* **Step 2:** Then cd into the cloned chat.susi.ai folder
+* **Step 2:** Then cd into the cloned susi.ai folder
 * **Step 3:** Install the node modules:```$ yarn install```(if not already)
 * **Step 4:** Build the app:```$ yarn run build```
 * **Step 5:** Go to the build directory:```cd build```
@@ -54,7 +54,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 Still having problems? Watch this video to clear your doubts [How to setup SUSI web-chat with surge](https://www.youtube.com/watch?v=vM9cD1pHMDQ&t=240s) or watch [How to set it up with Surge](https://www.youtube.com/watch?v=Gvc0uz13U1M)
 
 ### Deploying on Firebase
-[Click Here to read the set up guide](https://github.com/fossasia/chat.susi.ai/blob/master/docs/FIREBASE_DEPLOY.md)
+[Click Here to read the set up guide](https://github.com/fossasia/susi.ai/blob/master/docs/FIREBASE_DEPLOY.md)
 
 [Click here to watch a video for deploying on Firebase](https://youtu.be/7iVKBwR40N8)
 
@@ -119,7 +119,7 @@ Thus the synchronization of history across all chat platforms is maintained.
 After creation and a successful build, your project should have the following file structure:
 
 ```
-chat.susi.ai/
+susi.ai/
   README.md
   node_modules/
   docs/
@@ -132,13 +132,11 @@ chat.susi.ai/
     actions/
     components/
     constants/
-    dispatcher/
     images/
     stores/
     utils/
     App.js
     App.test.js
-    ChatDataServer.js
     history.js
     index.css
     index.js
@@ -158,12 +156,10 @@ chat.susi.ai/
 * `src/components/` any new component can be added in this folder, given that the file is reused or should be unique in some way. All static files are present in this component as well.
 * `src/components/Translate/` has all the pot files required to integrate the project with [Weblate](http://weblate.org).
 * `src/constants/` contains all the action types which are being used in the Application.
-* `src/dispatcher/` contains the files to call the Dispatcher Service for the Chat App.
 * `src/images/` contains all the static images being used in the App.
 * `src/stores/` contains all application related stores for the Dispatcher Service which can be defined in this folder.
 * `src/utils/` contains all utilities are files which help us in communicating efficiently between the stores and the actions.
 * `src/App.test.js/` is the entry point for all tests in the `__tests__` folder.
-* `src/ChatDataServer.js/` contains all the helper functions to the calls from the actions to the store.
 * `src/history.js/` registers a history for the `react-router` service in the application.
 * `src/setupTests.js/` is the file containing custom scripts written for failing tests to pass due to the deprecated libraries.
 * `.eslintrc` is the config file for the ESLint testing.
