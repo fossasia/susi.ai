@@ -31,12 +31,17 @@ const defaultState = {
   backgroundImage: '',
   messageBackgroundImage: '',
   avatarType: 'default',
+  devices: {},
 };
 
 export default handleActions(
   {
-    [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { payload }) {
-      const { settings } = payload;
+    [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { error, payload }) {
+      if (error) {
+        return state;
+      }
+
+      const { settings, devices = {} } = payload;
       const {
         theme,
         server,
@@ -63,6 +68,7 @@ export default handleActions(
       const themeArray = customThemeValue.split(',').map(value => `#${value}`);
       return {
         ...state,
+        devices,
         theme,
         server,
         serverUrl,

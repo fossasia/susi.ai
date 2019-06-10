@@ -15,6 +15,7 @@ const obj = {};
       dataType: 'json',
       crossDomain: true,
       isTokenRequired: true,
+      shouldCamelizeKeys: true,
       ...settings,
     };
 
@@ -81,7 +82,12 @@ const obj = {};
             responseData.requestPayload = payload;
           }
 
-          resolve(camelizeKeys(responseData), ...restSuccessArgs);
+          resolve(
+            settings.shouldCamelizeKeys
+              ? camelizeKeys(responseData)
+              : responseData,
+            ...restSuccessArgs,
+          );
         },
         function(data = {}, ...restErrorArgs) {
           // If request is canceled by user

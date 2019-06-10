@@ -29,7 +29,7 @@ import ThemeChangeTab from './ThemeChangeTab.react';
 import SpeechTab from './SpeechTab.react';
 import AccountTab from './AccountTab.react';
 import PasswordTab from './PasswordTab.react';
-import DevicesTab from './DevicesTab.react';
+import DevicesTab from './DevicesTab';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
 import { bindActionCreators } from 'redux';
@@ -120,7 +120,7 @@ const SettingContainer = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   max-width: 85%;
-  width: 935px;
+  width: 1080px;
 `;
 
 const SettingsOptionsContainer = styled(Paper)`

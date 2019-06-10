@@ -1,5 +1,5 @@
 import React from 'react';
-import MapContainer from '../../../components/MapContainer/MapContainer.react';
+import MapContainer from '../../../../components/Settings/DevicesTab/MapContainer';
 import { shallow } from 'enzyme';
 
 describe('<MapContainer />', () => {
