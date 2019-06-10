@@ -80,11 +80,12 @@ export default handleActions(
     },
     [actionTypes.MESSAGES_RESET_MESSAGE_VOICE](state, { payload }) {
       let { messagesByID } = state;
-      messagesByID.forEach(message => {
+      for (let message in messagesByID) {
         if (message.authorName === 'SUSI') {
           message.voice = false;
         }
-      });
+      }
+
       return {
         ...state,
         messagesByID,

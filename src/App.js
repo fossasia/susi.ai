@@ -61,7 +61,9 @@ class App extends Component {
     actions.getApiKeys();
     if (accessToken) {
       actions.getAdmin();
-      actions.getUserSettings();
+      actions.getUserSettings().catch(e => {
+        console.log(e);
+      });
     }
   };
 

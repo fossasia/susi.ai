@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Ratings from 'react-ratings-declarative';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import styles from './SkillCardStyle';
 import StaffPick from '../../../images/staff_pick.png';
-import { urls, testExample } from '../../../utils';
+import { urls } from '../../../utils';
 import ReactTooltip from 'react-tooltip';
 import '../SkillRating/ReviewPopoverStyle.css';
 
@@ -25,6 +26,7 @@ function createListCard(
   averageRating,
   staffPick,
   stars,
+  { history },
 ) {
   const dataId = `index-${el}`;
   const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${skill.language}`;
@@ -140,7 +142,12 @@ function createListCard(
                 <div
                   key={index}
                   style={styles.example}
-                  onClick={event => testExample(event, eg)}
+                  onClick={event =>
+                    history.push({
+                      pathname: '/chat',
+                      search: `?testExample=${eg}`,
+                    })
+                  }
                 >
                   &quot;{eg}&quot;
                 </div>
@@ -207,6 +214,11 @@ function createListCard(
 }
 
 class SkillCardList extends Component {
+  static propTypes = {
+    skills: PropTypes.array,
+    history: PropTypes.object,
+  };
+
   componentDidMount() {
     this.loadSkillCards();
   }
@@ -271,6 +283,7 @@ class SkillCardList extends Component {
           averageRating,
           staffPick,
           stars,
+          this.props,
         ),
       );
     });
@@ -282,17 +295,15 @@ class SkillCardList extends Component {
   }
 }
 
-SkillCardList.propTypes = {
-  skills: PropTypes.array,
-};
-
 function mapStateToProps(store) {
   return {
     skills: store.skills.listSkills,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SkillCardList);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    null,
+  )(SkillCardList),
+);

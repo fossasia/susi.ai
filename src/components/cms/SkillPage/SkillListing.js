@@ -34,7 +34,7 @@ import DeleteBtn from '@material-ui/icons/Delete';
 import NavigateDown from '@material-ui/icons/ExpandMore';
 import NavigateUp from '@material-ui/icons/ExpandLess';
 import ReactTooltip from 'react-tooltip';
-import { urls, parseDate, testExample } from '../../../utils';
+import { urls, parseDate } from '../../../utils';
 import { reportSkill } from '../../../apis';
 import styled from 'styled-components';
 
@@ -390,7 +390,12 @@ class SkillListing extends Component {
                       <div
                         key={index}
                         className="example-comment"
-                        onClick={event => testExample(event, data)}
+                        onClick={event =>
+                          this.props.history.push({
+                            pathname: '/chat',
+                            search: `?testExample=${data}`,
+                          })
+                        }
                       >
                         <q>{data}</q>
                       </div>
