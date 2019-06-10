@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link as _Link } from 'react-router-dom';
+import { Link as _Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,6 +36,12 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Slide from '@material-ui/core/Slide';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import {
+  StyledIconButton,
+  UserDetail,
+  SusiLogo,
+  FlexContainer,
+} from '../shared/TopBarStyles';
 
 const Link = styled(_Link)`
   color: #000;
@@ -43,12 +49,6 @@ const Link = styled(_Link)`
   &:hover {
     color: #000;
   }
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const BurgerMenuContainer = styled.div`
@@ -87,25 +87,12 @@ const NavLink = styled.a`
     `};
 `;
 
-const UserDetail = styled.label`
-  color: white;
-  margin-right: 5px;
-  @media (max-width: 1000px) {
-    display: None;
-  }
-`;
-
 const TopRightMenuContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: -8px;
   margin-top: 1px;
-`;
-
-const SusiLogo = styled.img`
-  height: 1.5rem;
-  display: block;
 `;
 
 const topLinks = [
@@ -221,14 +208,6 @@ class StaticAppBar extends Component {
     actions.openModal({ modalType: 'login' });
   };
 
-  handleScroll = event => {
-    let scrollTop = event.srcElement.body.scrollTop,
-      itemTranslate = scrollTop > 60;
-    if (itemTranslate) {
-      this.handleMenuClose();
-    }
-  };
-
   render() {
     const {
       showPageTabs,
@@ -237,6 +216,7 @@ class StaticAppBar extends Component {
       userName,
       isAdmin,
       avatarImg,
+      history,
     } = this.props;
     const { anchorEl, drawerOpen } = this.state;
     const open = Boolean(anchorEl);
@@ -373,43 +353,37 @@ class StaticAppBar extends Component {
                 </div>
                 {showPageTabs ? <TopMenu /> : null}
               </FlexContainer>
-              <div>
-                <div onScroll={this.handleScroll}>
-                  <TopRightMenuContainer>
-                    <div>
-                      {accessToken && (
-                        <FlexContainer>
-                          <CircleImage src={userAvatar} size="32" />
-                          <UserDetail>
-                            {!userName ? email : userName}
-                          </UserDetail>
-                        </FlexContainer>
-                      )}
-                    </div>
-                    <IconButton
-                      aria-owns={open ? 'menu-popper' : undefined}
-                      aria-haspopup="true"
-                      color="inherit"
-                      onClick={this.handleMenuClick}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                      id="menu-popper"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={this.handleMenuClose}
-                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                      getContentAnchorEl={null}
-                      transitionDuration={0}
-                    >
-                      <MenuItem key="placeholder" style={{ display: 'none' }} />
-                      <Logged />
-                    </Menu>
-                  </TopRightMenuContainer>
-                </div>
-              </div>
+              <TopRightMenuContainer>
+                <StyledIconButton onClick={() => history.push('/settings')}>
+                  {accessToken && (
+                    <FlexContainer>
+                      <CircleImage src={userAvatar} size="32" />
+                      <UserDetail>{!userName ? email : userName}</UserDetail>
+                    </FlexContainer>
+                  )}
+                </StyledIconButton>
+                <IconButton
+                  aria-owns={open ? 'menu-popper' : undefined}
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={this.handleMenuClick}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="menu-popper"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={this.handleMenuClose}
+                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                  getContentAnchorEl={null}
+                  transitionDuration={0}
+                >
+                  <MenuItem key="placeholder" style={{ display: 'none' }} />
+                  <Logged />
+                </Menu>
+              </TopRightMenuContainer>
             </Toolbar>
           </AppBar>
         </HideOnScroll>
@@ -439,7 +413,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StaticAppBar);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StaticAppBar),
+);

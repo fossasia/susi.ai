@@ -58,46 +58,17 @@ div.scrolling-wrapper::-webkit-scrollbar {
     font-size: 20px;
 }
 
-#pagination {
-    position: relative;
-    right: 0;
-    bottom: 27px;
-}
-
-#page-filter {
-    display: flex;
-    margin: 0 0 10px 10px;
-    font-size: 16px;
-    justify-content: space-between;
-    height: 35px;
-}
-
 .pageNavigation {
     text-align: center;
     margin: 15px 0;
     margin-bottom: 5px;
 }
 
-#pagination > div {
-    margin-right: 15px;
-}
-
 @media screen and (max-width: 418px) {
     .metrics-header {
         font-size: 16px;
     }
-    #page-filter {
-        flex-direction: column;
-        height: 100%;
-    }
-    #pagination {
-        bottom: 0;
-        display: flex;
-        justify-content: space-around;
-    }
-    #pagination > div {
-        margin: 0;
-    }
+    
     #pageNavigation {
         justify-content: center;
     }
