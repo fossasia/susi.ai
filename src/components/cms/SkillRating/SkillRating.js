@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Ratings from 'react-ratings-declarative';
-import styles from '../BrowseSkill/SkillStyle';
+import styled from 'styled-components';
+
+const RatingLabel = styled.div`
+  font-size: 14px;
+  margin-left: 4px;
+  font-weight: ${props => (props.bold ? 'bold' : 'normal')};
+`;
+
+const SingleRating = styled.div`
+  display: flex;
+  cursor: pointer;
+`;
 
 const SkillRating = props => {
   return (
-    <div
-      style={styles.singleRating}
-      onClick={() => props.handleRatingRefine(props.rating)}
-    >
+    <SingleRating onClick={() => props.handleRatingRefine(props.rating)}>
       <Ratings
         rating={props.rating}
         widgetRatedColors="#ffbb28"
@@ -21,13 +29,8 @@ const SkillRating = props => {
         <Ratings.Widget />
         <Ratings.Widget />
       </Ratings>
-      <div
-        style={styles.ratingLabel}
-        className={props.ratingRefine === props.rating ? 'bold' : ''}
-      >
-        & Up
-      </div>
-    </div>
+      <RatingLabel bold={props.ratingRefine === props.rating}>& Up</RatingLabel>
+    </SingleRating>
   );
 };
 
