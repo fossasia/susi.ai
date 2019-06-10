@@ -25,6 +25,7 @@ import { storeDraft, updateSkill, readDraft } from '../../../apis/index';
 import './BotBuilder.css';
 import createActions from '../../../redux/actions/create';
 import SkillCreator from '../SkillCreator/SkillCreator';
+import styled from 'styled-components';
 
 const styles = {
   home: {
@@ -59,8 +60,20 @@ const styles = {
     cursor: 'pointer',
     display: window.innerWidth < 769 ? 'none' : 'inherit',
   },
-  contentStyle: { margin: '0 16px' },
 };
+
+const ContentStyle = styled.div`
+  margin: 0 16px;
+  @media (max-width: 1260px) {
+    width: 100%;
+  }
+`;
+
+const BotPreview = styled.div`
+  @media (max-width: 1141px) {
+    width: 100%;
+  }
+`;
 
 class BotWizard extends React.Component {
   componentDidMount() {
@@ -440,14 +453,7 @@ class BotWizard extends React.Component {
   };
 
   render() {
-    const {
-      home,
-      mainPage,
-      paperStyle,
-      chevron,
-      chevronButton,
-      contentStyle,
-    } = styles;
+    const { home, mainPage, paperStyle, chevron, chevronButton } = styles;
     const {
       colBuild,
       loaded,
@@ -497,10 +503,10 @@ class BotWizard extends React.Component {
                         </StepButton>
                       </Step>
                     </Stepper>
-                    <div style={contentStyle}>
+                    <ContentStyle>
                       <div>{this.getStepContent(stepIndex)}</div>
                       <div style={{ marginTop: '20px' }} />
-                    </div>
+                    </ContentStyle>
                   </div>
                 )}
               </div>
@@ -525,6 +531,7 @@ class BotWizard extends React.Component {
                     <Button
                       variant="contained"
                       color="primary"
+                      className="saveButton"
                       onClick={this.saveDraft}
                     >
                       Save Draft
@@ -568,6 +575,7 @@ class BotWizard extends React.Component {
                   <Button
                     variant="contained"
                     color="primary"
+                    className="saveButton"
                     onClick={this.saveDraft}
                   >
                     Save Draft
@@ -590,7 +598,11 @@ class BotWizard extends React.Component {
                   ) : null}
                   {stepIndex === 0 ? (
                     <Link to="/skills/botbuilder">
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        className="cancelButton"
+                        color="primary"
+                      >
                         Cancel
                       </Button>
                     </Link>
@@ -609,16 +621,12 @@ class BotWizard extends React.Component {
                 </span>
               </div>
             ) : null}
-            <Col
+            <BotPreview
               className="botbuilder-col"
               xs={12}
               md={colPreview}
               style={{
                 display: colPreview === 0 ? 'none' : 'block',
-                position: 'fixed',
-                marginLeft: '65%',
-                height: '88%',
-                marginTop: '10px',
               }}
             >
               <Paper
@@ -628,7 +636,6 @@ class BotWizard extends React.Component {
                     height: '99.9%',
                     marginTop: '20px',
                     position: 'relative',
-                    marginRight: '30px',
                   })
                 }
                 className="botBuilder-page-card"
@@ -652,7 +659,7 @@ class BotWizard extends React.Component {
                   <Preview botBuilder={true} />
                 </div>
               </Paper>
-            </Col>
+            </BotPreview>
           </Row>
         </Grid>
       </div>

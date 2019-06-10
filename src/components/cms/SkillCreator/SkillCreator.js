@@ -52,15 +52,36 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 let languages = [];
 
 const Paper = styled(_Paper)`
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
   width: 100%;
   margin-top: 1.25rem;
+  position: relative;
   padding: 1.25rem 1.875rem 1.875rem;
+  @media (max-width: 472px) {
+    display: inline-block;
+  }
+`;
+
+const PaperPreview = styled(_Paper)`
+  height: 99.9%;
+  margin-top: 1.25rem;
+  position: relative;
+  @media (min-width: 373px) and (max-width: 441px) {
+    width: 100%;
+  }
 `;
 
 const DropDownDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  @media (max-width: 464px) {
+    width: inherit;
+  }
 `;
 
 const Heading = styled.div`
@@ -69,6 +90,87 @@ const Heading = styled.div`
   font-weight: 500;
   padding-left: 1.875rem;
   padding-top: 0.625rem;
+`;
+
+const SkillCreatorCol = styled.div`
+  height: 88%;
+  margin-top: 80px;
+  padding-right: 30px;
+  width: 32%;
+  margin-left: 14px;
+  position: fixed;
+  right: 0px;
+  top: -23px;
+  @media only screen and (min-width: 441px) and (max-width: 1141px) {
+    position: inherit;
+    margin-left: 0px;
+    margin-bottom: 40px;
+    width: 100%;
+    padding-right: 0;
+  }
+  @media (max-width: 440px) {
+    position: relative;
+    width: 100%;
+    padding: 0 8px;
+    margin-left: 0;
+  }
+`;
+
+const SkillInput = styled.div`
+  @media (min-width: 1140px) and (max-width: 1246px) {
+    width: 100%;
+  }
+  @media (max-width: 464px) {
+    width: inherit;
+  }
+  @media (max-width: 859px) {
+    width: 100%;
+  }
+`;
+
+const SkillCol = styled(Col)`
+  @media (min-width: 768px) and (max-width: 1140px) {
+    width: 100%;
+  }
+`;
+
+const SkillDetails = styled.span`
+  font-size: 15px;
+  padding-left: 0.625rem;
+  padding-top: 2.688rem;
+  @media (min-width: 1140px) and (max-width: 1246px) {
+    float: left;
+  }
+  @media (max-width: 464px) {
+    width: inherit;
+  }
+  @media (max-width: 859px) {
+    float: left;
+    width: 80px;
+  }
+`;
+
+const SkillDetailInput = styled(Select)`
+  position: relative;
+  width: 15.625rem;
+  text-align: left;
+  @media (min-width: 1140px) and (max-width: 1246px) {
+    float: left;
+    margin-top: 5%;
+  }
+  @media (max-width: 464px) {
+    width: inherit;
+  }
+  @media (min-width: 482px) and (max-width: 859px) {
+    float: left;
+    padding-top: 2rem;
+  }
+`;
+
+const HandleButton = styled(Button)`
+  @media (max-width: 328px) {
+    margin-bottom: 2%;
+  }
 `;
 
 const UploadCircularButton = styled.label`
@@ -84,6 +186,16 @@ const UploadCircularButton = styled.label`
 const HomeDiv = styled.div`
   width: 100%;
   padding: 2.5rem 0.625rem 0;
+`;
+
+const SkillImage = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 20px;
+  border: 0;
+  position: relative;
+  bottom: 1.5rem;
 `;
 
 const TitlePara = styled.p`
@@ -123,16 +235,21 @@ const CenterDiv = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  @media (max-width: 464px) {
+    width: inherit;
+  }
 `;
 
 const InfoIcon = styled(Info)`
-  position: relative;
   float: right;
   height: 1.25rem;
   width: 1.25rem;
   cursor: pointer;
   color: #9e9e9e;
-  display: 'inline-bock';
+  display: inline-block;
+  position: absolute;
+  right: 5px;
+  top: 5px;
 `;
 
 const ChevronLeftIcon = styled(ChevronLeft)`
@@ -148,13 +265,34 @@ const ChevronLeftIcon = styled(ChevronLeft)`
 
 const ChevronRightIcon = styled(ChevronRight)`
   position: relative;
-  left: -1.875rem;
-  top: -1.25rem;
+  left: 0.125rem;
+  top: -0.25rem;
   width: 2.188rem;
   height: 2.188rem;
   color: #9e9e9e;
   cursor: pointer;
   display: inherit;
+`;
+
+const CommitText = styled(TextField)`
+  width: 100%;
+  @media (min-width: 400px) and (max-width: 450px) {
+    display: block;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 400px) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
+
+const NameField = styled(TextField)`
+  margin-top: 0px;
+  margin-bottom: 17px;
 `;
 
 class SkillCreator extends Component {
@@ -842,6 +980,7 @@ class SkillCreator extends Component {
       image,
     } = this.props;
     const { showImage, loadViews } = this.state;
+
     let showTopBar = true;
     if (this.props.hasOwnProperty('showTopBar')) {
       showTopBar = this.props.showTopBar;
@@ -857,7 +996,7 @@ class SkillCreator extends Component {
         >
           <Grid fluid>
             <Row>
-              <Col
+              <SkillCol
                 md={this.state.colSkill}
                 style={{
                   display: this.state.colSkill === 0 ? 'none' : 'block',
@@ -984,52 +1123,28 @@ class SkillCreator extends Component {
                     />
                     <CenterDiv>
                       <DropDownDiv>
-                        <div>
-                          <span
-                            style={{
-                              fontSize: 15,
-                              paddingTop: '2.688rem',
-                              paddingLeft: '.625rem',
-                            }}
-                          >
-                            Category:&nbsp;
-                          </span>
-                          <Select
+                        <SkillInput>
+                          <SkillDetails>Category:&nbsp;</SkillDetails>
+                          <SkillDetailInput
                             value={category}
                             onChange={this.handleGroupChange}
                             autoWidth={true}
-                            style={{
-                              position: 'relative',
-                              width: '15.625rem',
-                            }}
                           >
                             {this.state.groups}
-                          </Select>
-                        </div>
-                        <div>
-                          <span
-                            style={{
-                              fontSize: 15,
-                              paddingTop: '.5rem',
-                              marginLeft: '.625rem',
-                            }}
-                          >
-                            Language:&nbsp;
-                          </span>
-                          <Select
+                          </SkillDetailInput>
+                        </SkillInput>
+                        <SkillInput>
+                          <SkillDetails>Language:&nbsp;</SkillDetails>
+                          <SkillDetailInput
                             disabled={this.state.languageSelect}
                             value={language}
                             onChange={this.handleLanguageChange}
                             autoWidth={true}
-                            style={{
-                              position: 'relative',
-                              width: '15.625rem',
-                            }}
                           >
                             {languages}
-                          </Select>
-                        </div>
-                        <TextField
+                          </SkillDetailInput>
+                        </SkillInput>
+                        <NameField
                           disabled={this.state.expertSelect}
                           label={this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
                           placeholder={
@@ -1051,18 +1166,7 @@ class SkillCreator extends Component {
                           }}
                         >
                           {showImage && (
-                            <img
-                              alt="preview"
-                              id="target"
-                              style={{
-                                width: 60,
-                                height: 60,
-                                borderRadius: '50%',
-                                marginRight: 20,
-                                border: 0,
-                              }}
-                              src={image}
-                            />
+                            <SkillImage alt="preview" id="target" src={image} />
                           )}
                           <form style={{ display: 'inline-block' }}>
                             <UploadCircularButton title="Upload bot image">
@@ -1109,25 +1213,15 @@ class SkillCreator extends Component {
                       marginTop: 10,
                     }}
                   >
-                    <Paper
-                      style={{
-                        width: '100%',
-                        padding: 10,
-                        display: 'flex',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <TextField
+                    <Paper>
+                      <CommitText
                         label="Commit message"
                         placeholder="Enter Commit Message"
                         margin="normal"
                         value={this.state.commitMessage}
-                        style={{ width: '100%' }}
                         onChange={this.handleCommitMessageChange}
                       />
-                      <Button
+                      <HandleButton
                         variant="contained"
                         color="primary"
                         style={{ marginLeft: 10 }}
@@ -1138,7 +1232,7 @@ class SkillCreator extends Component {
                         ) : (
                           this.handleLabel()
                         )}
-                      </Button>
+                      </HandleButton>
                       <Link
                         to={
                           this.mode === 'create'
@@ -1203,9 +1297,9 @@ class SkillCreator extends Component {
                     </Button>
                   </Paper>
                 )}
-              </Col>
+              </SkillCol>
               {this.isBotBuilder ? null : (
-                <Col
+                <SkillCreatorCol
                   className="skillcreator-col"
                   id="skillcreator-col"
                   xs={12}
@@ -1214,13 +1308,7 @@ class SkillCreator extends Component {
                     display: this.state.colPreview === 0 ? 'none' : 'block',
                   }}
                 >
-                  <Paper
-                    style={{
-                      height: '99.9%',
-                      marginTop: '1.25rem',
-                      position: 'relative',
-                    }}
-                  >
+                  <PaperPreview>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <span title="collapse preview">
                         <ChevronRightIcon onClick={this.handlePreviewToggle} />
@@ -1236,8 +1324,8 @@ class SkillCreator extends Component {
                     >
                       <Preview botBuilder={false} />
                     </div>
-                  </Paper>
-                </Col>
+                  </PaperPreview>
+                </SkillCreatorCol>
               )}
             </Row>
           </Grid>

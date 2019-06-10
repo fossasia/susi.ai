@@ -270,11 +270,17 @@ input[type=file]{
 	font-size: 13px;
 	font-weight: normal;
 }
+
 .html-tag{
 	font-style: italic;
 	background-color: #eee;
 	display: inline-block;
 	padding: 0 3px;
+}
+
+.botbuilder-col {
+	height: 88%;
+	margin-top: 10px;
 }
 
 @media (min-width:769px){
@@ -291,15 +297,41 @@ input[type=file]{
 
 @media  (max-width:769px){
 	.botbuilder-col{
-		position: inherit !important ;
-		margin-left: 0px !important ;
+		position: inherit ;
+		margin-left: 0px ;
 		margin-bottom: 40px;
+	}
+}
+@media  (max-width:313px){
+	.saveButton{
+		float: right;
+		margin: 9px 0;
+	}
+}
+
+@media  (min-width:313px) and (max-width:392px){
+	.cancelButton{
+		margin-top: 7px;
+	}
+}
+
+@media screen and (max-width:1261px){
+	.botbuilder-col{
+		position: inherit ;
+		margin-left: 0px ;
+		margin-bottom: 40px;
+		width: 100%;
+		max-width: 100%;
+		flex-basis: 100%;
 	}
 }
 @media (max-width:580px){
 	.bot-template-wrap{
 		display: flex;
 		justify-content: center;
+	}
+	.botBuilder-page-card{
+		margin-right: 0px;
 	}
 }
 .preview-button {

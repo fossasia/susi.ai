@@ -122,6 +122,9 @@ class Preview extends Component {
         backgroundColor: botbuilderIconColor,
         backgroundImage: `url(${botAvatar})`,
       },
+      sendButton: {
+        overflow: 'hidden',
+      },
     };
     let messages = null;
     if (this.state.messages.length) {
@@ -232,7 +235,10 @@ class Preview extends Component {
                                 className="susi-composer-textarea"
                                 id="chat-input"
                               >
-                                <pre className="susi-send-button">
+                                <pre
+                                  className="susi-send-button"
+                                  style={styles.sendButton}
+                                >
                                   <Send
                                     onClick={this.sendMessage}
                                     className="chat-input-send"
