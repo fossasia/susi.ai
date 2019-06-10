@@ -101,6 +101,7 @@ class AccountTab extends React.Component {
       uploadingAvatar: false,
       isAvatarUploaded: false,
       settingSave: false,
+      avatarAnchorEl: null,
     };
     if ('speechSynthesis' in window) {
       this.TTSBrowserSupport = true;
@@ -211,6 +212,7 @@ class AccountTab extends React.Component {
       });
     };
     reader.readAsDataURL(file);
+    this.handleMenuClose();
   };
 
   removeAvatarImage = () => {
@@ -219,6 +221,18 @@ class AccountTab extends React.Component {
       isAvatarAdded: false,
       imagePreviewUrl: '',
       avatarSrc: '',
+    });
+  };
+
+  handleMenuClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleMenuClose = () => {
+    this.setState({
+      anchorEl: null,
     });
   };
 
@@ -282,6 +296,9 @@ class AccountTab extends React.Component {
           ? avatarType === _avatarType
           : !isAvatarUploaded || !isAvatarAdded || settingSave)) ||
       userNameError;
+
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
     return (
       <SettingsTabWrapper heading="Account">
         <Container>
@@ -360,6 +377,10 @@ class AccountTab extends React.Component {
               isAvatarUploaded={isAvatarUploaded}
               handleAvatarImageChange={this.handleAvatarImageChange}
               removeAvatarImage={this.removeAvatarImage}
+              handleMenuClick={this.handleMenuClick}
+              handleMenuClose={this.handleMenuClose}
+              open={open}
+              anchorEl={anchorEl}
               file={file}
               avatarSrc={avatarSrc}
               email={email}
