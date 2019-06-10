@@ -55,7 +55,7 @@ export function getChangePassword(payload) {
 
 export function getUserSettings() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserSettings.json`;
-  return ajax.get(url, {});
+  return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
 export function setUserSettings(payload) {
@@ -64,13 +64,13 @@ export function setUserSettings(payload) {
 }
 
 export function removeUserDevice(payload) {
-  const { macid } = payload;
+  const { macId: macid } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/removeUserDevices.json`;
   return ajax.get(url, { macid });
 }
 
 export function addUserDevice(payload) {
-  const { macid, devicename: name, room, latitude, longitude } = payload;
+  const { macId: macid, deviceName: name, room, latitude, longitude } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/addNewDevice.json`;
   return ajax.get(url, { macid, name, room, latitude, longitude });
 }

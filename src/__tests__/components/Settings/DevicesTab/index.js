@@ -1,5 +1,5 @@
 import React from 'react';
-import DevicesTab from '../../../components/Settings/DevicesTab.react';
+import DevicesTab from '../../../../components/Settings/DevicesTab';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
