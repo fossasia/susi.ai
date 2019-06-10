@@ -27,15 +27,13 @@ import CircleImage from '../CircleImage/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
 import ExpandingSearchField from './SearchField.react';
-import './TopBar.css';
 import AppBar from '@material-ui/core/AppBar';
-
-const styles = {
-  logoStyle: {
-    height: '25px',
-    display: 'block',
-  },
-};
+import {
+  StyledIconButton,
+  UserDetail,
+  SusiLogo,
+  FlexContainer,
+} from '../shared/TopBarStyles';
 
 const Link = styled(_Link)`
   color: #000;
@@ -65,6 +63,7 @@ class TopBar extends Component {
     isAdmin: PropTypes.bool,
     actions: PropTypes.object,
     avatarImg: PropTypes.string,
+    history: PropTypes.object,
   };
 
   static defaultProps = {
@@ -104,7 +103,6 @@ class TopBar extends Component {
   };
 
   render() {
-    const { logoStyle } = styles;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
     const {
@@ -120,6 +118,7 @@ class TopBar extends Component {
       userName,
       isAdmin,
       avatarImg,
+      history,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -135,12 +134,12 @@ class TopBar extends Component {
     return (
       <AppBar position="static">
         <Toolbar className={appBarClass} variant="dense">
-          <div style={{ float: 'left', marginTop: '0px', outline: '0' }}>
+          <div>
             <Link to="/" style={{ outline: '0' }}>
-              <img src={susiWhite} alt="susi-logo" style={logoStyle} />
+              <SusiLogo src={susiWhite} alt="susi-logo" />
             </Link>
           </div>
-          <div style={{ display: 'flex' }}>
+          <FlexContainer>
             <div>
               {searchState ? (
                 <ExpandingSearchField
@@ -156,30 +155,14 @@ class TopBar extends Component {
                 />
               ) : null}
             </div>
-            <div>
+            <StyledIconButton onClick={() => history.push('/settings')}>
               {accessToken && (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: '0.5rem',
-                  }}
-                >
+                <FlexContainer>
                   <CircleImage src={userAvatar} size="32" />
-                  <label
-                    className="useremail"
-                    style={{
-                      color: 'white',
-                      marginRight: '5px',
-                      fontSize: '16px',
-                    }}
-                  >
-                    {userName ? userName : email}
-                  </label>
-                </div>
+                  <UserDetail>{!userName ? email : userName}</UserDetail>
+                </FlexContainer>
               )}
-            </div>
+            </StyledIconButton>
             {/* Pop over menu */}
             <IconButton
               aria-owns={open ? 'menu-popper' : undefined}
@@ -197,6 +180,7 @@ class TopBar extends Component {
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
               getContentAnchorEl={null}
+              transitionDuration={0}
             >
               <MenuItem key="placeholder" style={{ display: 'none' }} />
               {accessToken && (
@@ -307,7 +291,7 @@ class TopBar extends Component {
                 </MenuItem>
               )}
             </Menu>
-          </div>
+          </FlexContainer>
         </Toolbar>
       </AppBar>
     );

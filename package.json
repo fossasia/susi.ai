@@ -117,7 +117,6 @@
     "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
-    "prepush": "npm run lint",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -129,6 +128,11 @@
       "eslint --fix",
       "git add ."
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "license": "LGPL-2.1-only",
   "browserslist": {
