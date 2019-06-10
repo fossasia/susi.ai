@@ -1,3 +1,3 @@
-export default () => {
-  return window.innerWidth <= 520;
+export default (val = 520) => {
+  return window.innerWidth <= val;
 };
