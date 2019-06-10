@@ -129,6 +129,16 @@ right: 10px;
   cursor: not-allowed;
 }
 
+.chevronRight {
+  margin-left: 81%;
+}
+
+@media only screen and (max-width: 1060px){
+  .esaQzi {
+    height: 45px;
+  }
+}
+
 @media only screen and (max-width: 1060px){
 .settings-list-dropdown{
   display: block;

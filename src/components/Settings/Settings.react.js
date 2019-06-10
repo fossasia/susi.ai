@@ -202,7 +202,7 @@ class Settings extends Component {
           <ListItemIcon>{eachOption.icon}</ListItemIcon>
           <ListItemText>{eachOption.name}</ListItemText>
           <ListItemIcon>
-            <ChevronRight />
+            <ChevronRight className="chevronRight" />
           </ListItemIcon>
         </MenuItem>
         <Divider theme={theme} />
