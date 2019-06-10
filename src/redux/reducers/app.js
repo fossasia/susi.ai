@@ -1,11 +1,11 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
+import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
 const defaultState = {
-  userName: '',
   email: '',
   accessToken: '',
   uuid: '',
@@ -13,19 +13,22 @@ const defaultState = {
   apiKeys: {},
   visited: true,
   userSkills: [],
+  avatarImg: 'https://api.susi.ai/getAvatar.png',
+  showCookiePolicy: false,
 };
 
-const { emailId, uuid, loggedIn, username, visited } = cookies.getAll();
+const { emailId, uuid, loggedIn, visited } = cookies.getAll();
 const cookiesAppValues = {
   email: emailId,
   uuid,
   accessToken: loggedIn,
-  userName: username,
   location: {
     countryCode: '',
     countryName: '',
   },
   visited,
+  showCookiePolicy: !visited,
+  avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
 };
 
 export default handleActions(
@@ -65,6 +68,12 @@ export default handleActions(
         visited: true,
       };
     },
+    [actionTypes.APP_SET_COOKIE_POLICY](state, { payload }) {
+      return {
+        ...state,
+        showCookiePolicy: false,
+      };
+    },
     [actionTypes.APP_GET_USER_SKILLS](state, { payload }) {
       let skillsData = [];
       for (let i of payload.filteredData) {
@@ -84,6 +93,12 @@ export default handleActions(
       return {
         ...state,
         userSkills,
+      };
+    },
+    [actionTypes.APP_UPDATE_USER_AVATAR](state, { payload }) {
+      return {
+        ...state,
+        avatarImg: getUserAvatarLink(),
       };
     },
   },

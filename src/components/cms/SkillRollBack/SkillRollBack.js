@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
@@ -8,7 +9,6 @@ import 'antd/dist/antd.css';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import SkillCreator from '../SkillCreator/SkillCreator';
 import { urls } from '../../../utils';
 import {
@@ -250,7 +250,6 @@ class SkillRollBack extends Component {
 
     return (
       <div>
-        <StaticAppBar {...this.props} />
         {commitData.length === 0 && (
           <h1 className="skill_loading_container">
             <div className="center">
@@ -262,7 +261,7 @@ class SkillRollBack extends Component {
         {commitData.length === 2 && (
           <div style={{ display: 'block' }}>
             <div style={homeStyle}>
-              <Paper style={paperStyle} zDepth={1}>
+              <Paper style={paperStyle}>
                 {'You are currently editing an older version of the skill: '}
                 <b style={boldStyle}>{this.skillMeta.skillName}</b>
                 <br />

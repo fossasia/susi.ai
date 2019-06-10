@@ -7,7 +7,6 @@ import Diff from 'react-diff-viewer';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
 
@@ -178,7 +177,6 @@ class SkillHistory extends Component {
     const { homeStyle, codeEditorStyle, paperStyle, compareBtnStyle } = styles;
     return (
       <div>
-        <StaticAppBar {...this.props} />
         {commitData.length === 0 && (
           <h1 className="skill_loading_container">
             <div className="center">
@@ -259,7 +257,8 @@ class SkillHistory extends Component {
                   {commitData[1].commit.latest && 'Latest '}
                   Revision as of <b>{commitData[1].commit.commitDate}</b>
                   <b style={{ marginLeft: '5px' }}>
-                    (<Link
+                    (
+                    <Link
                       to={{
                         pathname:
                           '/' +
@@ -275,7 +274,8 @@ class SkillHistory extends Component {
                       }}
                     >
                       Undo
-                    </Link>)
+                    </Link>
+                    )
                   </b>
                 </span>
                 <div style={codeEditorStyle}>

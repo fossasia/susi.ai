@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import Ratings from 'react-ratings-declarative';
 import { connect } from 'react-redux';

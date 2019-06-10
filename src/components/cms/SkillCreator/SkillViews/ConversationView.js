@@ -140,7 +140,7 @@ class ConversationView extends Component {
     let { conversationsData, loaded } = this.state;
     return (
       <HomeDiv>
-        <Paper id="message-container" zDepth={1}>
+        <Paper id="message-container">
           {!loaded ? (
             <div className="center">
               <CircularProgress size={62} color="#4285f5" />

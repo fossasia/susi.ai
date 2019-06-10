@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // Packages
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -10,12 +11,10 @@ import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
 import AuthorSkills from '../AuthorSkills/AuthorSkills';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import SkillUsageCard from '../SkillUsageCard/SkillUsageCard';
 import SkillRatingCard from '../SkillRating/SkillRatingCard';
 import SkillFeedbackCard from '../SkillFeedbackCard/SkillFeedbackCard';
-import Footer from '../../Footer/Footer.react';
-import Paper from '@material-ui/core/Paper';
+import _Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,6 +47,15 @@ const HomeDiv = styled.div`
 const AuthorSpan = styled.span`
   cursor: pointer;
   texttransform: capitalize;
+`;
+
+const Paper = styled(_Paper)`
+  @media (max-width: 500px) {
+    width: 60%;
+  }
+  @media (max-width: 370px) {
+    width: 55%;
+  }
 `;
 
 class SkillListing extends Component {
@@ -211,11 +219,19 @@ class SkillListing extends Component {
         }&group=${this.groupValue}&image=${image}`;
 
     const descriptions =
-      _descriptions === null ? 'No Description Provided' : _descriptions;
+      _descriptions === null || _descriptions === '<description>'
+        ? 'No Description Provided'
+        : _descriptions;
 
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
     let { seeMoreSkillExamples } = this.state;
+    const editLink = `/skills/${this.groupValue}/${this.skillTag}/edit/${
+      this.languageValue
+    }`;
+    const versionsLink = `/skills/${this.groupValue}/${
+      this.skillTag
+    }/versions/${this.languageValue}`;
 
     const reportDialogActions = [
       <Button
@@ -268,7 +284,6 @@ class SkillListing extends Component {
     if (loadingSkill === true) {
       renderElement = (
         <div>
-          <StaticAppBar {...this.props} />
           <h1 className="skill_loading_container">
             <div className="center">
               <CircularProgress size={62} color="primary" />
@@ -280,7 +295,6 @@ class SkillListing extends Component {
     } else {
       renderElement = (
         <div>
-          <StaticAppBar {...this.props} />
           <HomeDiv className="skill_listing_container">
             <div className="avatar">
               {!image ? (
@@ -337,7 +351,8 @@ class SkillListing extends Component {
                           Are you sure about deleting{' '}
                           <span style={{ fontWeight: 'bold' }}>
                             {skillName}
-                          </span>?
+                          </span>
+                          ?
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>{deleteDialogActions}</DialogActions>
@@ -347,9 +362,7 @@ class SkillListing extends Component {
                 <div>
                   <Link
                     to={{
-                      pathname: `/skills/${this.groupValue}/${
-                        this.skillTag
-                      }/edit/${this.languageValue}`,
+                      pathname: editLink,
                     }}
                   >
                     <Fab data-tip="Edit Skill" color="primary">
@@ -361,9 +374,7 @@ class SkillListing extends Component {
                 <div>
                   <Link
                     to={{
-                      pathname: `/skills/${this.groupValue}/${
-                        this.skillTag
-                      }/versions/${this.languageValue}`,
+                      pathname: versionsLink,
                     }}
                   >
                     <div className="skillVersionBtn">
@@ -414,37 +425,31 @@ class SkillListing extends Component {
                   </div>
                 )}
 
-                {termsOfUse && (
-                  <div className="card-content">
-                    <ul>
-                      <li>
-                        <a
-                          href={termsOfUse}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Terms & Conditions
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                {termsOfUse &&
+                  termsOfUse !== '<link>' && (
+                    <div className="card-content">
+                      <a
+                        href={termsOfUse}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Terms & Conditions
+                      </a>
+                    </div>
+                  )}
 
-                {termsOfUse && (
-                  <div className="card-content">
-                    <ul>
-                      <li>
-                        <a
-                          href={developerPrivacyPolicy}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Developer Privacy Policy
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                {developerPrivacyPolicy &&
+                  developerPrivacyPolicy !== '<link>' && (
+                    <div className="card-content">
+                      <a
+                        href={developerPrivacyPolicy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Developer Privacy Policy
+                      </a>
+                    </div>
+                  )}
               </div>
             </Paper>
             <Paper className="margin-b-md margin-t-md">
@@ -548,7 +553,12 @@ class SkillListing extends Component {
 
     return (
       <div
-        style={{ display: 'flex', height: '100vh', flexDirection: 'column' }}
+        style={{
+          display: 'flex',
+          height: '100%',
+          flexDirection: 'column',
+          margin: '3rem',
+        }}
       >
         <div style={{ flex: '1 0 auto' }}>{renderElement}</div>
         <div>
@@ -559,9 +569,6 @@ class SkillListing extends Component {
             open={showAuthorSkills}
             requestClose={this.closeAuthorSkills}
           />
-        </div>
-        <div style={{ minWidth: '40rem' }}>
-          <Footer />
         </div>
       </div>
     );

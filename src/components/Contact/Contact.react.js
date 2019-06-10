@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import Footer from '../Footer/Footer.react';
 import { HeadSection } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import './Contact.css';
@@ -14,7 +12,6 @@ const Contact = props => {
 
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <HeadSection>
         <div className="white-grey">
           <div className="conversation__description">
@@ -30,12 +27,18 @@ const Contact = props => {
         <div className="contact-content">
           <h5>SUSI</h5>
           <p>
-            6 Eu Tong Sen Street<br />
-            #5-07 The Central,<br />
-            Singapore 059817<br />
-            Phone +65 83435672<br />
-            Email: support@susper.net<br />
-            Board of Directors: Phuc Hong Dang<br />
+            6 Eu Tong Sen Street
+            <br />
+            #5-07 The Central,
+            <br />
+            Singapore 059817
+            <br />
+            Phone +65 83435672
+            <br />
+            Email: support@susper.net
+            <br />
+            Board of Directors: Phuc Hong Dang
+            <br />
           </p>
         </div>
         <div className="contact-content-last">
@@ -47,7 +50,6 @@ const Contact = props => {
           to report the issue
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

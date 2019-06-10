@@ -4,42 +4,69 @@ import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
 import ShareButton from './ShareButton';
 import Emojify from 'react-emojione';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { divIcon } from 'leaflet';
 import Slider from 'react-slick';
-import TickIcon from 'material-ui/svg-icons/action/done';
-import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import TickIcon from '@material-ui/icons/Done';
+import ClockIcon from '@material-ui/icons/Schedule';
 import store from '../../../store';
 import Parser from 'html-react-parser';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import _Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import _CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import { injectIntl } from 'react-intl';
+import styled from 'styled-components';
 
-const styles = {
-  footerStyle: {
-    display: 'block',
-    float: 'left',
-  },
-  indicatorStyle: {
-    height: '13px',
-  },
-};
+const FooterList = styled.ul`
+  list-style-type: none;
+  font-size: 0.75rem;
+  color: ${props => (props.author === 'SUSI' ? '#AAA9AA' : '#C6DAFB')};
+  padding: 0;
+  text-align: right;
+  float: ${props => (props.author === 'SUSI' ? 'right' : 'left')};
+`;
 
-// Keeps the Map Popup open initially
-class ExtendedMarker extends Marker {
-  componentDidMount() {
-    super.componentDidMount();
+const FooterContentContainer = styled.li`
+  float: left;
+  margin-top: 0.25rem;
+`;
 
-    this.leafletElement.openPopup();
-  }
-}
+const CardTitle = styled(Typography)`
+  white-space: no-wrap;
+  overflow: hidden;
+  text-overflow: 'ellipsis';
+  font-weight: 'bold';
+  color: '#4285f4';
+`;
+
+const CardMedia = styled(_CardMedia)`
+  height: 120px;
+  object-fit: contain;
+  vertical-align: middle;
+`;
+
+const CardUrl = styled.div`
+  color: #a9a9a9;
+  position: absolute;
+  bottom: 10px;
+  right: 5px;
+  width: 80%;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const Card = styled(_Card)`
+  height: 225px;
+  cursor: pointer;
+  position: relative;
+`;
 
 // Render anchor for given text
 export function renderAnchor(text, link) {
@@ -53,48 +80,45 @@ export function renderAnchor(text, link) {
 // Returns the message time and status indicator
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
-  let { footerStyle, indicatorStyle } = styles;
   const { theme } = store.getState().settings;
   const isLightTheme = theme === 'light';
 
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
+        <FooterContentContainer>
           <ClockIcon
-            style={indicatorStyle}
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+            style={{ height: '0.8135rem' }}
           />
-        </li>
+        </FooterContentContainer>
       );
     } else {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
+        <FooterContentContainer>
           <TickIcon
-            style={indicatorStyle}
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
+            style={{ height: '0.8135rem' }}
           />
-        </li>
+        </FooterContentContainer>
       );
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <li className="response-time" style={footerStyle}>
+      <FooterContentContainer>
         <ShareButton
           message={message}
           color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
         />
-      </li>
+      </FooterContentContainer>
     );
-    footerStyle = { ...footerStyle, float: 'right' };
   }
-
   return (
-    <ul className="message-time" style={footerStyle}>
+    <FooterList author={message.authorName}>
       <PostDate date={message ? message.date : null} />
       {isLastAction && <Feedback message={message} />}
       {footerContent}
-    </ul>
+    </FooterList>
   );
 }
 // Format Date for internationalization
@@ -189,24 +213,6 @@ function urlDomain(data) {
 
 // Draw Tiles for Websearch RSS data
 export function drawCards(tilesData) {
-  const titleStyle = {
-    marginTop: '-10px',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: 'block',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    color: '#4285f4',
-  };
-
-  let cardClass = 'card-noImg';
-  tilesData.forEach((card, index) => {
-    if (card.image) {
-      cardClass = 'card';
-    }
-  });
-
   let resultTiles = tilesData.map((tile, i) => {
     let cardText = tile.description;
     if (!cardText) {
@@ -214,22 +220,19 @@ export function drawCards(tilesData) {
     }
     return (
       <Card
-        className={cardClass}
         key={i}
         onClick={() => {
           window.open(tile.link, '_blank');
         }}
       >
-        {tile.image && (
-          <CardMedia>
-            <img src={tile.image} alt="" className="card-img" />
-          </CardMedia>
-        )}
-        <CardTitle title={tile.title} titleStyle={titleStyle} />
-        <CardText>
-          <div className="card-text line-clamp">{cardText}</div>
-          <div className="card-url">{urlDomain(tile.link)}</div>
-        </CardText>
+        <CardActionArea>
+          {tile.image && <CardMedia image={tile.image} alt="" />}
+          <CardTitle gutterBottom variant="h5" component="h2">
+            {tile.title}
+          </CardTitle>
+          <div>{cardText}</div>
+          <CardUrl>{urlDomain(tile.link)}</CardUrl>
+        </CardActionArea>
       </Card>
     );
   });
@@ -279,7 +282,7 @@ export function drawTable(columns, tableData, count) {
   // Create the Table Header
   let tableheader = parseKeys.map((key, i) => {
     return (
-      <TableHeaderColumn
+      <TableCell
         key={i}
         style={{
           whiteSpace: 'normal',
@@ -287,7 +290,7 @@ export function drawTable(columns, tableData, count) {
         }}
       >
         {columns[key]}
-      </TableHeaderColumn>
+      </TableCell>
     );
   });
   // Calculate #rows in table
@@ -311,7 +314,7 @@ export function drawTable(columns, tableData, count) {
     if (validRow) {
       let rowcols = parseKeys.map((key, i) => {
         return (
-          <TableRowColumn
+          <TableCell
             key={i}
             style={{
               whiteSpace: 'normal',
@@ -321,7 +324,7 @@ export function drawTable(columns, tableData, count) {
             <Linkify properties={{ target: '_blank' }}>
               <abbr title={eachrow[key]}>{processText(eachrow[key])}</abbr>
             </Linkify>
-          </TableRowColumn>
+          </TableCell>
         );
       });
       rows.push(<TableRow key={j}>{rowcols}</TableRow>);
@@ -329,14 +332,10 @@ export function drawTable(columns, tableData, count) {
   }
   // Populate the Table
   const table = (
-    <MuiThemeProvider>
-      <Table selectable={false} style={{ width: 'auto', tableLayout: 'auto' }}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          {showColName && <TableRow>{tableheader}</TableRow>}
-        </TableHeader>
-        <TableBody displayRowCheckbox={false}>{rows}</TableBody>
-      </Table>
-    </MuiThemeProvider>
+    <Table>
+      <TableHead>{showColName && <TableRow>{tableheader}</TableRow>}</TableHead>
+      <TableBody>{rows}</TableBody>
+    </Table>
   );
 
   return table;
@@ -352,13 +351,13 @@ export function drawMap(lat, lng, zoom) {
   const map = (
     <Map center={position} zoom={zoom} scrollWheelZoom={false}>
       <TileLayer attribution="" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-      <ExtendedMarker position={position} icon={icon}>
+      <Marker position={position} icon={icon}>
         <Popup>
           <span>
             <strong>Here!</strong>
           </span>
         </Popup>
-      </ExtendedMarker>
+      </Marker>
     </Map>
   );
   return map;

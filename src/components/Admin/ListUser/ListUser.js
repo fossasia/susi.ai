@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Table from 'antd/lib/table';
 import { Input } from 'antd';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputField from '@material-ui/core/Input';
 import {
   changeUserRole,
   deleteUserAccount,
@@ -17,6 +17,17 @@ import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import 'antd/lib/table/style/index.css';
 import './ListUser.css';
+import styled from 'styled-components';
+
+const ActionSpan = styled.span`
+  cursor: pointer;
+  color: #49a9ee;
+`;
+
+const ActionSeparator = styled.span`
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
+`;
 
 const Search = Input.Search;
 
@@ -94,19 +105,15 @@ class ListUser extends Component {
         render: (text, record) => {
           return (
             <span>
-              <span
-                style={{ cursor: 'pointer', color: '#4285f4' }}
+              <ActionSpan
                 onClick={() => this.editUserRole(record.email, record.userRole)}
               >
                 Edit
-              </span>
-              <span style={{ marginLeft: '5px', marginRight: '5px' }}> | </span>
-              <span
-                style={{ cursor: 'pointer', color: '#4285f4' }}
-                onClick={() => this.handleDelete(record.email)}
-              >
+              </ActionSpan>
+              <ActionSeparator> | </ActionSeparator>
+              <ActionSpan onClick={() => this.handleDelete(record.email)}>
                 Delete
-              </span>
+              </ActionSpan>
             </span>
           );
         },
@@ -140,14 +147,13 @@ class ListUser extends Component {
         render: (text, record) => {
           return (
             <span>
-              <span
-                style={{ cursor: 'pointer', color: '#49A9EE' }}
+              <ActionSpan
                 onClick={() =>
                   this.editDevice(record.devicename, record.room, record.macid)
                 }
               >
                 Edit
-              </span>
+              </ActionSpan>
             </span>
           );
         },
@@ -420,13 +426,13 @@ class ListUser extends Component {
 
   render() {
     const actions = [
-      <FlatButton
+      <Button
         key={1}
         label="Change"
         labelStyle={{ color: '#4285f4' }}
         onClick={this.handleChange}
       />,
-      <FlatButton
+      <Button
         key={2}
         label="Cancel"
         primary={false}
@@ -434,13 +440,13 @@ class ListUser extends Component {
       />,
     ];
     const deleteActions = [
-      <FlatButton
+      <Button
         key={1}
         label="Delete"
         labelStyle={{ color: '#4285f4' }}
         onClick={this.deleteUser}
       />,
-      <FlatButton
+      <Button
         key={2}
         label="Cancel"
         primary={false}
@@ -449,13 +455,13 @@ class ListUser extends Component {
     ];
 
     const editDeviceActions = [
-      <FlatButton
+      <Button
         key={1}
         label="Save"
         labelStyle={{ color: '#4285f4' }}
         onClick={this.handleDevice}
       />,
-      <FlatButton
+      <Button
         key={2}
         label="Cancel"
         primary={false}
@@ -483,7 +489,7 @@ class ListUser extends Component {
               </span>
             </div>
             <div>
-              <DropDownMenu
+              <Select
                 selectedMenuItemStyle={blueThemeColor}
                 onChange={this.handleUserRoleChange}
                 value={this.state.userRole}
@@ -503,7 +509,7 @@ class ListUser extends Component {
                 <MenuItem primaryText="OPERATOR" value="operator" />
                 <MenuItem primaryText="ADMIN" value="admin" />
                 <MenuItem primaryText="SUPERADMIN" value="superadmin" />
-              </DropDownMenu>
+              </Select>
             </div>
           </Dialog>
 
@@ -524,7 +530,7 @@ class ListUser extends Component {
             </div>
             <div style={{ width: '50%', marginTop: '35px' }}>
               <div className="label">Device Name</div>
-              <TextField
+              <InputField
                 name="deviceName"
                 style={{ marginBottom: '10px' }}
                 value={this.state.deviceName}
@@ -532,7 +538,7 @@ class ListUser extends Component {
                 placeholder="Enter device name"
               />{' '}
               <div className="label">Room</div>
-              <TextField
+              <InputField
                 name="room"
                 value={this.state.room}
                 onChange={this.handleRoom}
@@ -544,7 +550,7 @@ class ListUser extends Component {
           <Dialog
             title="Success"
             actions={
-              <FlatButton
+              <Button
                 key={1}
                 label="Ok"
                 labelStyle={{ color: '#4285f4' }}
@@ -566,7 +572,7 @@ class ListUser extends Component {
           <Dialog
             title="Failed"
             actions={
-              <FlatButton
+              <Button
                 key={1}
                 label="Ok"
                 labelStyle={{ color: '#4285f4' }}
@@ -601,7 +607,7 @@ class ListUser extends Component {
           <Dialog
             title="Success"
             actions={
-              <FlatButton
+              <Button
                 key={1}
                 label="Ok"
                 labelStyle={{ color: '#4285f4' }}
@@ -622,7 +628,7 @@ class ListUser extends Component {
           <Dialog
             title="Failed"
             actions={
-              <FlatButton
+              <Button
                 key={1}
                 label="Ok"
                 labelStyle={{ color: '#4285f4' }}
@@ -643,7 +649,7 @@ class ListUser extends Component {
           <Dialog
             title="Success"
             actions={
-              <FlatButton
+              <Button
                 key={1}
                 label="Ok"
                 labelStyle={{ color: '#4285f4' }}

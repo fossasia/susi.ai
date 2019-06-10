@@ -11,8 +11,9 @@ import Tour from './Tour';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import ThemeChanger from '../ChatApp/Settings/ThemeChanger';
+import ThemeChanger from '../Settings/ThemeChanger';
 import { DialogContainer } from '../shared/Container';
+import DeleteAccountModal from '../Auth/DeleteAccount/DeleteAccountModal.react';
 
 const DialogData = {
   share: { component: <Share />, size: 'xs' },
@@ -21,6 +22,7 @@ const DialogData = {
   forgotPassword: { component: <ForgotPassword />, size: 'sm' },
   themeChange: { component: <ThemeChanger />, size: 'md' },
   tour: { component: <Tour />, size: 'sm' },
+  deleteAccount: { component: <DeleteAccountModal />, size: 'sm' },
   noComponent: { component: null, size: false },
 };
 
@@ -40,6 +42,7 @@ const DialogSection = props => {
     return DialogData.noComponent;
   };
   const { size, component } = getDialog();
+  const addPadding = modalType !== 'deleteAccount';
   return (
     <div>
       <Dialog
@@ -48,7 +51,7 @@ const DialogSection = props => {
         open={isModalOpen || !visited}
         onClose={isModalOpen ? actions.closeModal : actions.setVisited}
       >
-        <DialogContainer>{component}</DialogContainer>
+        <DialogContainer padding={addPadding}>{component}</DialogContainer>
       </Dialog>
     </div>
   );

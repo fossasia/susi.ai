@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import Ratings from 'react-ratings-declarative';
 import { Link } from 'react-router-dom';

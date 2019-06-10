@@ -5,13 +5,16 @@ import { connect } from 'react-redux';
 import { Card, CardMedia } from '@material-ui/core';
 import dateFormat from 'dateformat';
 import Fab from '@material-ui/core/Fab';
-import { ShareButtons, generateShareIcon } from 'react-share';
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  TwitterIcon,
+} from 'react-share';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
 import Loading from 'react-loading-animation';
-import Footer from '../Footer/Footer.react';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import { getBlogReponse } from '../../apis';
 import './Blog.css';
@@ -21,9 +24,6 @@ import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../images/susi-logo.svg';
 import ToTopButton from '../Button/ToTopButton.react';
 import { Header } from '../shared/About';
-const { FacebookShareButton, TwitterShareButton } = ShareButtons;
-const FacebookIcon = generateShareIcon('facebook');
-const TwitterIcon = generateShareIcon('twitter');
 
 const loadingStyle = {
   marginTop: '20px',
@@ -235,7 +235,6 @@ class Blog extends Component {
 
     return (
       <div>
-        <StaticAppBar {...this.props} location={this.props.location} />
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
         <Loading style={loadingStyle} isLoading={!this.state.postRendered} />
         {!this.state.postRendered && (
@@ -409,7 +408,6 @@ class Blog extends Component {
               </Fab>
             </div>
             <div className="post_bottom" />
-            <Footer />
           </div>
         )}
         <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>

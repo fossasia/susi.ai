@@ -1,15 +1,14 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dialog from 'material-ui/Dialog';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import CircularProgress from 'material-ui/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
@@ -19,7 +18,7 @@ import CircleImage from '../../CircleImage/CircleImage';
 import { urls } from '../../../utils';
 import './AuthorSkills.css';
 import githubLogo from '../../../images/github-logo.png';
-import Close from 'material-ui/svg-icons/navigation/close';
+import CloseButton from '../../shared/CloseButton';
 
 const styles = {
   imageStyle: {
@@ -37,16 +36,6 @@ const styles = {
     borderRadius: 100,
     marginLeft: 16,
   },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
   headingStyle: {
     fill: '#000',
     width: '100%',
@@ -54,7 +43,7 @@ const styles = {
   },
 };
 
-const { imageStyle, githubAvatarStyle, closingStyle, headingStyle } = styles;
+const { imageStyle, githubAvatarStyle, headingStyle } = styles;
 
 class AuthorSkills extends Component {
   constructor(props) {
@@ -100,7 +89,7 @@ class AuthorSkills extends Component {
       }
       return (
         <TableRow key={index}>
-          <TableRowColumn>
+          <TableCell>
             <a href={skillURL}>
               <Img
                 style={imageStyle}
@@ -108,16 +97,16 @@ class AuthorSkills extends Component {
                 unloader={<CircleImage name={name} size="40" />}
               />
             </a>
-          </TableRowColumn>
-          <TableRowColumn>
+          </TableCell>
+          <TableCell>
             <div>
               <a href={skillURL} className="effect-underline">
                 {name}
               </a>
             </div>
-          </TableRowColumn>
-          <TableRowColumn>{category}</TableRowColumn>
-          <TableRowColumn>{ISO6391.getNativeName(language)}</TableRowColumn>
+          </TableCell>
+          <TableCell>{category}</TableCell>
+          <TableCell>{ISO6391.getNativeName(language)}</TableCell>
         </TableRow>
       );
     });
@@ -129,7 +118,7 @@ class AuthorSkills extends Component {
     const { loading } = this.state;
     let githubAvatarSrc = '';
 
-    if (authorUrl) {
+    if (authorUrl && authorUrl !== '<author_url>') {
       githubAvatarSrc = `${urls.GITHUB_AVATAR_URL}/${
         authorUrl.split('/')[3]
       }?size=50`;
@@ -146,23 +135,15 @@ class AuthorSkills extends Component {
     } else {
       renderElement = (
         <div>
-          <Table
-            selectable={false}
-            multiSelectable={false}
-            style={{ marginTop: 10 }}
-          >
-            <TableHeader
-              displaySelectAll={false}
-              adjustForCheckbox={false}
-              enableSelectAll={false}
-            >
+          <Table style={{ marginTop: 10 }}>
+            <TableHead>
               <TableRow>
-                <TableHeaderColumn>Image</TableHeaderColumn>
-                <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Category</TableHeaderColumn>
-                <TableHeaderColumn>Language</TableHeaderColumn>
+                <TableCell>Image</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Language</TableCell>
               </TableRow>
-            </TableHeader>
+            </TableHead>
             <TableBody displayRowCheckbox={false}>
               {this.loadSkillCards()}
             </TableBody>
@@ -174,26 +155,31 @@ class AuthorSkills extends Component {
     return (
       <div>
         <Dialog
-          modal={false}
           open={open}
-          autoScrollBodyContent={true}
-          contentStyle={{ width: '50%', minWidth: '300px' }}
+          maxWidth="sm"
+          fullWidth={true}
           onRequestClose={requestClose}
         >
-          <div style={headingStyle}>
-            <h3>
-              Skills by {author}{' '}
-              <a href={authorUrl}>
-                <img
-                  alt={'GitHub'}
-                  style={githubAvatarStyle}
-                  src={githubAvatarSrc}
-                />
-              </a>
-            </h3>
-          </div>
-          {renderElement}
-          <Close style={closingStyle} onClick={requestClose} />
+          <DialogContent>
+            <div style={headingStyle}>
+              <h3>
+                Skills by {author}{' '}
+                <a
+                  href={
+                    authorUrl && authorUrl !== '<author_url>' ? authorUrl : '/'
+                  }
+                >
+                  <img
+                    alt={'GitHub'}
+                    style={githubAvatarStyle}
+                    src={githubAvatarSrc}
+                  />
+                </a>
+              </h3>
+            </div>
+            {renderElement}
+            <CloseButton onClick={requestClose} />
+          </DialogContent>
         </Dialog>
       </div>
     );

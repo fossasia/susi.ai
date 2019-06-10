@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import Footer from '../Footer/Footer.react';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import '../Terms/Terms.css';
@@ -15,7 +13,6 @@ const Privacy = props => {
   document.body.style.setProperty('background-image', 'none');
   return (
     <div>
-      <StaticAppBar {...props} location={props.location} />
       <Header title="Privacy" subtitle="Privacy Policy for SUSI" />
       <div className="section">
         <div className="section-container">
@@ -275,7 +272,8 @@ const Privacy = props => {
               <br />
               <br />
               If it turns out that a particular term is not enforceable, will
-              not affect any other terms.<br />
+              not affect any other terms.
+              <br />
               <br />
               You agree that the laws of Can Tho, Viet Nam will apply to any
               disputes arising out of or relating to these terms or the
@@ -293,7 +291,6 @@ const Privacy = props => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

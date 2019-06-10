@@ -1,10 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, IconButton } from '@material-ui/core';
+import { TextField, IconButton as _IconButton } from '@material-ui/core';
+import styled, { css } from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import DownIcon from '@material-ui/icons/ArrowDownward';
 import ExitIcon from '@material-ui/icons/Close';
+
+const SearchInputField = styled(TextField)`
+  margin-top: 0.7rem;
+  @media (max-width: 560px) {
+    width: 8.75rem;
+  }
+  @media (max-width: 400px) {
+    width: 5.3rem;
+  }
+`;
+
+const ButtonStyle = css`
+  width: 40;
+  height: 40;
+  padding: 5;
+  top: 10;
+`;
+
+const IconButton = styled(_IconButton)`
+  ${ButtonStyle};
+  @media (max-width: 300px) {
+    display: none !important;
+  }
+`;
+
+const CloseButton = styled(_IconButton)`
+  ${ButtonStyle};
+  @media (max-width: 300px) {
+    position: relative;
+    top: 0.375rem !important;
+  }
+`;
 
 const animationStyle = {
   transition: 'width 0.75s cubic-bezier(0.000, 0.795, 0.000, 1.000)',
@@ -121,11 +154,6 @@ class ExpandingSearchField extends Component {
       closed: {
         width: 0,
       },
-
-      smallIcon: {
-        fill: 'white',
-      },
-
       icon: {
         width: 40,
         height: 40,
@@ -158,58 +186,36 @@ class ExpandingSearchField extends Component {
     if (this.props.open) {
       return (
         <div style={divStyle} className="searchComponent">
-          <TextField
+          <SearchInputField
             name="search"
-            className="searchInputField"
             placeholder="Search..."
             value={this.props.searchText}
             onChange={event => this.onChange(event)}
             autoFocus={true}
-            style={{ marginTop: '11px' }}
             InputProps={{
               style: {
                 color: 'white',
               },
             }}
           />
-          <span style={{ marginTop: '11px' }} className="counter">
+          <span>
             {indexCnt}/{searchCount}
           </span>
-          <IconButton
-            className="displayNone"
-            style={baseStyles.icon}
-            onClick={this.onClickPrev}
-            color="inherit"
-          >
+          <IconButton onClick={this.onClickPrev} color="inherit">
             <UpIcon />
           </IconButton>
-          <IconButton
-            className="displayNone"
-            style={baseStyles.icon}
-            onClick={this.onClickRecent}
-            color="inherit"
-          >
+          <IconButton onClick={this.onClickRecent} color="inherit">
             <DownIcon />
           </IconButton>
-          <IconButton
-            className="displayCloseNone"
-            style={baseStyles.icon}
-            onClick={this.onClick}
-            color="inherit"
-          >
+          <CloseButton onClick={this.onClick} color="inherit">
             <ExitIcon />
-          </IconButton>
+          </CloseButton>
         </div>
       );
     }
     return (
       <div style={divStyle}>
-        <IconButton
-          className="displayNone displayCloseNone"
-          style={baseStyles.icon}
-          onClick={this.onClick}
-          color="inherit"
-        >
+        <IconButton onClick={this.onClick} color="inherit">
           <SearchIcon />
         </IconButton>
       </div>

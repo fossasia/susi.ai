@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import NotFound from '../NotFound/NotFound.react';
 import './Admin.css';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
-import Tabs from '@material-ui/core/Tabs';
+import _Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 import AdminTab from './AdminTab/AdminTab';
@@ -13,6 +12,15 @@ import ListSkills from './ListSkills/ListSkills';
 import SystemLogs from './SystemLogs/SystemLogs';
 import SystemSettings from './SystemSettings/SystemSettings';
 import { getAdmin } from '../../apis/index';
+import styled from 'styled-components';
+
+const CircularProgressContainer = styled(CircularProgress)`
+  margin-top: 6.25rem;
+`;
+
+const Tabs = styled(_Tabs)`
+  background-color: #ffffff;
+`;
 
 class Admin extends Component {
   constructor(props) {
@@ -132,12 +140,11 @@ class Admin extends Component {
     const { value, loading, isAdmin } = this.state;
     return (
       <div>
-        <StaticAppBar {...this.props} />
         {loading ? (
-          <div className="center" style={{ marginTop: '100px' }}>
-            <CircularProgress size={62} color="#4285f5" />
+          <CircularProgressContainer className="center">
+            <CircularProgress size={62} />
             <h4>Loading</h4>
-          </div>
+          </CircularProgressContainer>
         ) : (
           <div>
             {isAdmin ? (
@@ -151,7 +158,6 @@ class Admin extends Component {
                       indicatorColor="primary"
                       textColor="primary"
                       centered
-                      style={{ backgroundColor: '#ffffff' }}
                     >
                       <Tab label="Admin" />
                       <Tab label="Users" />

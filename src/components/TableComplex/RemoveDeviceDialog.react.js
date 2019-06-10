@@ -1,29 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@material-ui/core/Button';
 import Translate from '../Translate/Translate.react';
 import './RemoveDeviceDialog.css';
 
 const styles = {
-  paperStyle: {
-    width: '100%',
-    textAlign: 'center',
-    padding: '0px',
-  },
   fieldStyle: {
-    height: '35px',
-    borderRadius: 4,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '0px 10px',
-    width: '250px',
-    marginTop: '0px',
-  },
-  inputStyle: {
-    height: '35px',
-    marginBottom: '10px',
+    height: '2.5rem',
+    width: '17.5rem',
   },
 };
 
@@ -46,100 +31,86 @@ class RemoveDeviceDialog extends Component {
   };
 
   render() {
-    const { paperStyle, fieldStyle, inputStyle } = styles;
+    const { fieldStyle } = styles;
     return (
       <div className="removeDeviceForm">
-        <Paper zDepth={0} style={paperStyle}>
-          <div
-            style={{
-              backgroundColor: '#f6f8fa',
-              color: '#24292e',
-              padding: '16px',
-              border: '1px solid rgba(27,31,35,0.15)',
-              fontSize: '14px',
-              textAlign: 'left',
-              fontWeight: '600',
-              lineHeight: '1.5',
-            }}
-          >
-            Are you absolutely sure?
+        <div
+          style={{
+            backgroundColor: '#f6f8fa',
+            color: '#24292e',
+            padding: '16px',
+            border: '1px solid rgba(27,31,35,0.15)',
+            fontSize: '14px',
+            textAlign: 'left',
+            fontWeight: '600',
+            lineHeight: '1.5',
+          }}
+        >
+          Are you absolutely sure?
+        </div>
+        <div
+          style={{
+            backgroundColor: '#fffbdd',
+            color: '#735c0f',
+            padding: '16px',
+            border: '1px solid rgba(27,31,35,0.15)',
+            fontSize: '14px',
+            textAlign: 'left',
+            lineHeight: '1.5',
+          }}
+        >
+          Unexpected bad things will happen if you don&apos;t read this!
+        </div>
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#24292e',
+            padding: '16px',
+            border: '1px solid rgba(27,31,35,0.15)',
+            fontSize: '14px',
+            textAlign: 'left',
+            fontWeight: '400',
+            lineHeight: '1.5',
+          }}
+        >
+          <p style={{ marginTop: '0px', marginBottom: '10px' }}>
+            This action <strong>cannot</strong> be undone. This will permanently
+            remove the device corresponding to the device name{' '}
+            <strong>{this.props.devicename}</strong>.
+          </p>
+          <p style={{ marginTop: '0px', marginBottom: '10px' }}>
+            Please type in the name of the device to confirm.
+          </p>
+          <div style={{ textAlign: 'center', padding: '0 8px' }}>
+            <OutlinedInput
+              name="devicename"
+              value={this.state.devicename}
+              style={fieldStyle}
+              onChange={this.handleChange}
+            />
           </div>
-          <div
-            style={{
-              backgroundColor: '#fffbdd',
-              color: '#735c0f',
-              padding: '16px',
-              border: '1px solid rgba(27,31,35,0.15)',
-              fontSize: '14px',
-              textAlign: 'left',
-              lineHeight: '1.5',
-            }}
-          >
-            Unexpected bad things will happen if you don't read this!
+          {/* Remove Device Button */}
+          <div style={{ textAlign: 'center' }}>
+            <Button
+              onClick={() => this.props.handleRemove(this.props.deviceIndex)}
+              label={<Translate text="I understand, remove device" />}
+              backgroundColor="#cb2431"
+              color="primary"
+              variant="contained"
+              style={{
+                boxShadow: 'none',
+                marginTop: '10px',
+                color: this.state.correctName ? '#fff' : 'rgba(203,36,49,0.4)',
+                padding: '6px 12px',
+                border: '1px solid rgba(27, 31, 35, 0.2)',
+                fontWeight: '600',
+              }}
+              disabled={!this.state.correctName}
+            >
+              <Translate text="I understand, remove device" />
+            </Button>
           </div>
-          <div
-            style={{
-              backgroundColor: '#ffffff',
-              color: '#24292e',
-              padding: '16px',
-              border: '1px solid rgba(27,31,35,0.15)',
-              fontSize: '14px',
-              textAlign: 'left',
-              fontWeight: '400',
-              lineHeight: '1.5',
-            }}
-          >
-            <p style={{ marginTop: '0px', marginBottom: '10px' }}>
-              This action <strong>cannot</strong> be undone. This will
-              permanently remove the device corresponding to the device name{' '}
-              <strong>{this.props.devicename}</strong>.
-            </p>
-            <p style={{ marginTop: '0px', marginBottom: '10px' }}>
-              Please type in the name of the device to confirm.
-            </p>
-            <div style={{ textAlign: 'center', padding: '0 8px' }}>
-              <TextField
-                id="devicename"
-                name="devicename"
-                value={this.state.devicename}
-                inputStyle={inputStyle}
-                style={fieldStyle}
-                placeholder=""
-                underlineStyle={{ display: 'none' }}
-                onChange={this.handleChange}
-                autoComplete="off"
-                width="100%"
-              />
-            </div>
-            {/* Remove Device Button */}
-            <div style={{ textAlign: 'center' }}>
-              <RaisedButton
-                id="removeDeviceButton"
-                onClick={() => this.props.handleRemove(this.props.deviceIndex)}
-                label={<Translate text="I understand, remove device" />}
-                backgroundColor="#cb2431"
-                style={{
-                  boxShadow: 'none',
-                  marginTop: '10px',
-                  border: '1px solid rgba(27,31,35,0.2)',
-                  borderRadius: '0.25em',
-                }}
-                labelStyle={{
-                  color: this.state.correctName
-                    ? '#fff'
-                    : 'rgba(203,36,49,0.4)',
-                  padding: '6px 12px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  lineHeight: '20px',
-                  whiteSpace: 'nowrap',
-                  verticalAlign: 'middle',
-                }}
-                disabled={!this.state.correctName}
-              />
-            </div>
-          </div>
-        </Paper>
+        </div>
       </div>
     );
   }

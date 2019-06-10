@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
@@ -15,7 +14,6 @@ import ISO6391 from 'iso-639-1';
 import ReactTooltip from 'react-tooltip';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
-import isMobileView from '../../../utils/isMobileView';
 
 import {
   fetchAllGroupOptions,
@@ -58,15 +56,6 @@ import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import { bindActionCreators } from 'redux';
 let languages = [];
-
-const mobileView = isMobileView(1190);
-
-const styles = {
-  mobileViewStyle: {
-    display: 'block',
-    width: mobileView ? '100%' : 'auto',
-  },
-};
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -152,41 +141,35 @@ const CenterDiv = styled.div`
 `;
 
 const InfoIcon = styled(Info)`
-  & {
-    position: relative;
-    float: right;
-    height: 1.25rem;
-    width: 1.25rem;
-    cursor: pointer;
-    color: #9e9e9e;
-    display: ${mobileView ? 'block' : 'inline-bock'};
-  }
+  position: relative;
+  float: right;
+  height: 1.25rem;
+  width: 1.25rem;
+  cursor: pointer;
+  color: #9e9e9e;
+  display: 'inline-bock';
 `;
 
 const ChevronLeftIcon = styled(ChevronLeft)`
-  && {
-    position: absolute;
-    left: 0.25rem;
-    top: 0.25rem;
-    width: 2.188rem;
-    height: 2.188rem;
-    color: white;
-    cursor: pointer;
-    display: ${isMobileView(769) ? 'none' : 'inherit'};
-  }
+  position: absolute;
+  left: 0.25rem;
+  top: 0.25rem;
+  width: 2.188rem;
+  height: 2.188rem;
+  color: white;
+  cursor: pointer;
+  display: inherit;
 `;
 
 const ChevronRightIcon = styled(ChevronRight)`
-  && {
-    position: relative;
-    left: -1.875rem;
-    top: -1.25rem;
-    width: 2.188rem;
-    height: 2.188rem;
-    color: #9e9e9e;
-    cursor: pointer;
-    display: ${isMobileView(769) ? 'none' : 'inherit'};
-  }
+  position: relative;
+  left: -1.875rem;
+  top: -1.25rem;
+  width: 2.188rem;
+  height: 2.188rem;
+  color: #9e9e9e;
+  cursor: pointer;
+  display: inherit;
 `;
 
 class SkillCreator extends Component {
@@ -895,7 +878,6 @@ class SkillCreator extends Component {
       name,
       image,
     } = this.props;
-    const { mobileViewStyle } = styles;
     const { showImage, loadViews } = this.state;
     let showTopBar = true;
     if (this.props.hasOwnProperty('showTopBar')) {
@@ -905,7 +887,6 @@ class SkillCreator extends Component {
       if (this.mode === 'create') {
         return (
           <div>
-            <StaticAppBar {...this.props} />
             <div>
               <LoggedInErrorPara>
                 Please login to create a skill.
@@ -917,8 +898,7 @@ class SkillCreator extends Component {
     }
 
     return (
-      <div>
-        {this.isBotBuilder ? null : <StaticAppBar {...this.props} />}
+      <div style={{ marginTop: '3rem' }}>
         <div
           style={{
             padding: this.isBotBuilder ? '0rem' : '0rem 1.875rem 1.875rem',
@@ -961,7 +941,6 @@ class SkillCreator extends Component {
                   )}
                 {!accessToken && (
                   <div>
-                    <StaticAppBar {...this.props} />
                     <HomeDiv>
                       <TitlePara>
                         YOU DO NOT HAVE PERMISSION TO EDIT THIS PAGE, SINCE YOU
@@ -984,9 +963,10 @@ class SkillCreator extends Component {
                       </TitlePara>
                       <SubTitlePara>
                         There can be various reasons for non-editable skills.{' '}
-                        <br />For example if the skill is a standard skill, if
-                        there was vandalism happening in the skill or if there
-                        is a dispute about the skill.
+                        <br />
+                        For example if the skill is a standard skill, if there
+                        was vandalism happening in the skill or if there is a
+                        dispute about the skill.
                       </SubTitlePara>
                       <DescriptionPara>
                         The code is shown below in a read only mode.
@@ -1044,14 +1024,14 @@ class SkillCreator extends Component {
                 />
                 {accessToken &&
                   this.state.editable && (
-                    <Paper zDepth={1}>
+                    <Paper>
                       <InfoIcon
                         data-tip={`Learn more about <a href=${urls.CMS_GITHUB_URL +
                           '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
                       />
                       <CenterDiv>
                         <DropDownDiv>
-                          <div style={mobileView ? mobileViewStyle : null}>
+                          <div>
                             <span
                               style={{
                                 fontSize: 15,
@@ -1067,13 +1047,13 @@ class SkillCreator extends Component {
                               autoWidth={true}
                               style={{
                                 position: 'relative',
-                                width: mobileView ? '100%' : '15.625rem',
+                                width: '15.625rem',
                               }}
                             >
                               {this.state.groups}
                             </Select>
                           </div>
-                          <div style={mobileView ? mobileViewStyle : null}>
+                          <div>
                             <span
                               style={{
                                 fontSize: 15,
@@ -1090,7 +1070,7 @@ class SkillCreator extends Component {
                               autoWidth={true}
                               style={{
                                 position: 'relative',
-                                width: mobileView ? '100%' : '15.625rem',
+                                width: '15.625rem',
                               }}
                             >
                               {languages}
@@ -1109,13 +1089,13 @@ class SkillCreator extends Component {
                             style={{
                               marginLeft: 10,
                               marginRight: 10,
-                              width: mobileView ? '80%' : 'auto',
+                              width: 'auto',
                             }}
                             onChange={this.handleExpertChange}
                           />
                           <div
                             style={{
-                              width: mobileView ? '80%' : 'auto',
+                              width: 'auto',
                               paddingTop: 20,
                             }}
                           >
@@ -1189,12 +1169,11 @@ class SkillCreator extends Component {
                         style={{
                           width: '100%',
                           padding: 10,
-                          display: mobileView ? 'block' : 'flex',
+                          display: 'flex',
                           alignItems: 'center',
                           textAlign: 'center',
                           justifyContent: 'center',
                         }}
-                        zDepth={1}
                       >
                         <TextField
                           label="Commit message"
@@ -1202,17 +1181,12 @@ class SkillCreator extends Component {
                           margin="normal"
                           value={this.state.commitMessage}
                           style={{ width: '100%' }}
-                          fullWidth={!!mobileView}
                           onChange={this.handleCommitMessageChange}
                         />
                         <Button
                           variant="contained"
                           color="primary"
-                          style={
-                            mobileView
-                              ? { marginLeft: 10, float: 'left' }
-                              : { marginLeft: 10 }
-                          }
+                          style={{ marginLeft: 10 }}
                           onClick={this.saveClick}
                         >
                           {this.state.loading ? (
@@ -1239,11 +1213,7 @@ class SkillCreator extends Component {
                           <Button
                             variant="contained"
                             color="primary"
-                            style={
-                              mobileView
-                                ? { marginLeft: 10, float: 'left' }
-                                : { marginLeft: 10 }
-                            }
+                            style={{ marginLeft: 10 }}
                           >
                             Cancel
                           </Button>
@@ -1274,7 +1244,6 @@ class SkillCreator extends Component {
                         display: 'flex',
                         justifyContent: 'space-between',
                       }}
-                      zDepth={1}
                     >
                       <div style={{ margineft: '0rem' }}>
                         <strong>
@@ -1310,7 +1279,6 @@ class SkillCreator extends Component {
                       marginTop: '1.25rem',
                       position: 'relative',
                     }}
-                    zDepth={1}
                   >
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <span title="collapse preview">
@@ -1391,9 +1359,8 @@ SkillCreator.propTypes = {
 };
 
 function mapStateToProps(store) {
-  console.log(store);
   return {
-    userName: store.app.userName,
+    userName: store.settings.userName,
     accessToken: store.app.accessToken,
     isAdmin: store.app.isAdmin,
     email: store.app.email,

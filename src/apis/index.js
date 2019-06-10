@@ -13,6 +13,24 @@ export function fetchApiKeys(payload) {
   return ajax.get(url);
 }
 
+export function createApiKey(payload) {
+  const { keyName, keyValue } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
+  return ajax.get(url, {
+    keyName,
+    keyValue,
+  });
+}
+
+export function deleteApiKey(payload) {
+  const { keyName } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
+  return ajax.get(url, {
+    keyName,
+    deleteKey: true,
+  });
+}
+
 export function getLogin(payload) {
   const { email, password } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
@@ -157,6 +175,40 @@ export function getDefaultMapData(payload) {
   const url = 'https://extreme-ip-lookup.com/json/';
   return ajax.get(url, payload);
 }
+
+export function uploadAvatar(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/uploadAvatar.json`;
+  return ajax.post(url, payload, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    isTokenRequired: false,
+  });
+}
+
+// Delete Account
+
+export function checkPassword(payload) {
+  const { login, password } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
+  return ajax.get(
+    url,
+    { type: 'check_password', login, password },
+    {
+      isTokenRequired: false,
+    },
+  );
+}
+
+export function deleteAccount(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
+  return ajax.get(url, { delete: true });
+}
+
+export function checkAccountPermission() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/account-permissions.json`;
+  return ajax.get(url, {});
+}
+
+// Skills API
 export function fetchMetricsSkills(payload) {
   const { languageValue } = payload;
   const url = `${urls.API_URL}/cms/getSkillMetricsData.json`;

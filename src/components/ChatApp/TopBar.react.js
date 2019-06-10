@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link as _Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
+import styled from 'styled-components';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -25,8 +26,6 @@ import Translate from '../Translate/Translate.react';
 import CircleImage from '../CircleImage/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
-import urls from '../../utils/urls';
-import { getAvatarProps } from '../../utils/helperFunctions';
 import ExpandingSearchField from './SearchField.react';
 import './TopBar.css';
 import AppBar from '@material-ui/core/AppBar';
@@ -37,6 +36,14 @@ const styles = {
     display: 'block',
   },
 };
+
+const Link = styled(_Link)`
+  color: #000;
+  text-decoration: none;
+  &:hover {
+    color: #000;
+  }
+`;
 
 class TopBar extends Component {
   static propTypes = {
@@ -57,6 +64,7 @@ class TopBar extends Component {
     userName: PropTypes.string,
     isAdmin: PropTypes.bool,
     actions: PropTypes.object,
+    avatarImg: PropTypes.string,
   };
 
   static defaultProps = {
@@ -111,6 +119,7 @@ class TopBar extends Component {
       accessToken,
       userName,
       isAdmin,
+      avatarImg,
     } = this.props;
 
     let appBarClass = 'app-bar';
@@ -118,9 +127,9 @@ class TopBar extends Component {
       appBarClass = 'app-bar-search';
     }
 
-    let avatarProps = null;
-    if (accessToken && email) {
-      avatarProps = getAvatarProps(email, accessToken);
+    let userAvatar = null;
+    if (accessToken) {
+      userAvatar = avatarImg;
     }
 
     return (
@@ -132,7 +141,7 @@ class TopBar extends Component {
             </Link>
           </div>
           <div style={{ display: 'flex' }}>
-            <div style={{ marginTop: '-7px' }}>
+            <div>
               {searchState ? (
                 <ExpandingSearchField
                   searchText={searchState.searchText}
@@ -154,10 +163,10 @@ class TopBar extends Component {
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
-                    marginTop: '10.5px',
+                    marginTop: '0.5rem',
                   }}
                 >
-                  <CircleImage {...avatarProps} size="24" />
+                  <CircleImage src={userAvatar} size="32" />
                   <label
                     className="useremail"
                     style={{
@@ -191,10 +200,7 @@ class TopBar extends Component {
             >
               <MenuItem key="placeholder" style={{ display: 'none' }} />
               {accessToken && (
-                <a
-                  href={`${urls.SKILL_URL}/dashboard`}
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to="/skills/dashboard">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Assessment />
@@ -203,9 +209,9 @@ class TopBar extends Component {
                       <Translate text="Dashboard" />
                     </ListItemText>
                   </MenuItem>
-                </a>
+                </Link>
               )}
-              <Link to="/" style={{ textDecoration: 'none' }}>
+              <Link to="/chat">
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Chat />
@@ -215,7 +221,7 @@ class TopBar extends Component {
                   </ListItemText>
                 </MenuItem>
               </Link>
-              <Link to="/skills" style={{ textDecoration: 'none' }}>
+              <Link to="/skills">
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Dashboard />
@@ -226,10 +232,7 @@ class TopBar extends Component {
                 </MenuItem>
               </Link>
               {accessToken && (
-                <a
-                  href={`${urls.SKILL_URL}/botbuilder`}
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to="/skills/botbuilder">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Extension />
@@ -238,10 +241,10 @@ class TopBar extends Component {
                       <Translate text="Botbuilder" />
                     </ListItemText>
                   </MenuItem>
-                </a>
+                </Link>
               )}
               {accessToken && (
-                <Link to="/settings" style={{ textDecoration: 'none' }}>
+                <Link to="/settings">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Settings />
@@ -252,7 +255,7 @@ class TopBar extends Component {
                   </MenuItem>
                 </Link>
               )}
-              <Link to="/overview" style={{ textDecoration: 'none' }}>
+              <Link to="/">
                 <MenuItem onClick={this.handleClose}>
                   <ListItemIcon>
                     <Info />
@@ -264,7 +267,7 @@ class TopBar extends Component {
               </Link>
               {accessToken &&
                 isAdmin && (
-                  <Link to="/admin" style={{ textDecoration: 'none' }}>
+                  <Link to="/admin">
                     <MenuItem onClick={this.handleClose}>
                       <ListItemIcon>
                         <List />
@@ -284,7 +287,7 @@ class TopBar extends Component {
                 </ListItemText>
               </MenuItem>
               {accessToken ? (
-                <Link to="/logout" style={{ textDecoration: 'none' }}>
+                <Link to="/logout">
                   <MenuItem onClick={this.handleClose}>
                     <ListItemIcon>
                       <Exit />
@@ -313,12 +316,14 @@ class TopBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, userName, isAdmin } = store.app;
+  const { email, accessToken, isAdmin, avatarImg } = store.app;
+  const { userName } = store.settings;
   return {
     email,
     accessToken,
     userName,
     isAdmin,
+    avatarImg,
   };
 }
 

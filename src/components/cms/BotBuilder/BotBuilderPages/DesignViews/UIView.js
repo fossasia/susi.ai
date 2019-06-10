@@ -349,16 +349,16 @@ class UIView extends Component {
                         backgroundColor: this.props.design[component.component],
                       }}
                     />
-                    <ColorPicker
-                      className="color-picker"
-                      style={{ display: 'inline-block', width: '60px' }}
-                      name="color"
-                      id={'colorPicker' + component.id}
-                      defaultValue={this.props.design[component.component]}
-                      onChange={color =>
-                        this.handleChangeColor(component.component, color)
-                      }
-                    />
+                    <div className="colorPicker">
+                      <ColorPicker
+                        name="color"
+                        id={'colorPicker' + component.id}
+                        defaultValue={this.props.design[component.component]}
+                        onChange={color =>
+                          this.handleChangeColor(component.component, color)
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               ) : null}
@@ -482,7 +482,7 @@ class UIView extends Component {
               onClick={this.handleReset}
             >
               {this.state.resetting ? (
-                <CircularProgress color={colors.header} size={32} />
+                <CircularProgress color={colors.light.header} size={32} />
               ) : (
                 'Reset Changes'
               )}

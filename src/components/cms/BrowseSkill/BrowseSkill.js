@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import styles from './SkillStyle';
 import ISO6391 from 'iso-639-1';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import skillActions from '../../../redux/actions/skills';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -37,14 +38,20 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchBar from 'material-ui-search-bar';
 import { scrollAnimation } from '../../../utils';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
-import Footer from '../../Footer/Footer.react';
 import isMobileView from '../../../utils/isMobileView';
 import './custom.css';
+
+const Link = styled(_Link)`
+  color: #000;
+  text-decoration: none;
+  &:hover {
+    color: #000;
+  }
+`;
 
 class BrowseSkill extends React.Component {
   static propTypes = {
@@ -396,40 +403,44 @@ class BrowseSkill extends React.Component {
             display: 'flex',
           }}
         >
-          {listOffset + 1}-{listOffset + entriesPerPage > skills.length
+          {listOffset + 1}-
+          {listOffset + entriesPerPage > skills.length
             ? skills.length
             : listOffset + entriesPerPage}{' '}
-          out of {skills.length} result(s) for&nbsp;<b>
+          out of {skills.length} result(s) for&nbsp;
+          <b>
             <Link to="/skills">
               <div className="susi-skills">SUSI Skills</div>
             </Link>
           </b>
           {routeValue && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ color: '#4286f4', fontWeight: 'bold' }}>
+              :&nbsp;
+              <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
                 {routeValue}
               </div>
             </div>
           )}
           {searchQuery.length > 0 && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ color: '#4286f4', fontWeight: 'bold' }}>
+              :&nbsp;
+              <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
                 &quot;{searchQuery}&quot;
               </div>
             </div>
           )}
           {ratingRefine > 0 && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ color: '#4286f4', fontWeight: 'bold' }}>
+              :&nbsp;
+              <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
                 {ratingRefine} Stars & Up
               </div>
             </div>
           )}
           {timeFilter > 0 && (
             <div style={{ display: 'flex' }}>
-              :&nbsp;<div style={{ fontWeight: 'bold' }}>
-                Last {timeFilter} days
-              </div>
+              :&nbsp;
+              <div style={{ fontWeight: 'bold' }}>Last {timeFilter} days</div>
             </div>
           )}
         </div>
@@ -484,12 +495,6 @@ class BrowseSkill extends React.Component {
 
     return (
       <div style={styles.browseSkillRoot}>
-        <StaticAppBar
-          {...this.props}
-          zDepth={1}
-          showPageTabs={false}
-          toggleDrawer={this.handleDrawerToggle}
-        />
         <div style={styles.main}>
           <div style={sidebarStyle}>
             <div style={styles.newSkillBtn}>
@@ -889,7 +894,6 @@ class BrowseSkill extends React.Component {
             ) : null}
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

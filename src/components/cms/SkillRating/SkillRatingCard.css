@@ -64,3 +64,14 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
+@media screen and (max-width: 500px) {
+  .time-chart{
+    margin: 0rem;
+    padding: 0rem;
+  }
+
+  .ratings-section {
+    margin: 0rem;
+  }
+}

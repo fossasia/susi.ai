@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { StylesProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MuiThemeProviderNext from '@material-ui/core/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { theme } from './MUItheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Snackbar from '@material-ui/core/Snackbar';
 import Blog from './components/Blog/Blog.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
@@ -16,7 +14,7 @@ import Devices from './components/Devices/Devices.react';
 import Logout from './components/Auth/Logout.react';
 import NotFound from './components/NotFound/NotFound.react';
 import Overview from './components/Overview/Overview.react';
-import Settings from './components/ChatApp/Settings/Settings.react';
+import Settings from './components/Settings/Settings.react';
 import Support from './components/Support/Support.react';
 import Team from './components/Team/Team.react';
 import Terms from './components/Terms/Terms.react';
@@ -37,14 +35,11 @@ import SkillHistory from './components/cms/SkillHistory/SkillHistory';
 import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
 import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
+import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
+import Footer from './components/Footer/Footer.react';
+import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
-
-const muiTheme = getMuiTheme({
-  toggle: {
-    thumbOnColor: '#5ab1fc',
-    trackOnColor: '#4285f4',
-  },
-});
+import DeleteAccount from './components/Auth/DeleteAccount/DeleteAccount.react';
 
 class App extends Component {
   static propTypes = {
@@ -53,6 +48,7 @@ class App extends Component {
     actions: PropTypes.object,
     accessToken: PropTypes.string,
     snackBarProps: PropTypes.object,
+    showCookiePolicy: PropTypes.bool,
   };
 
   componentDidMount = () => {
@@ -91,10 +87,30 @@ class App extends Component {
     const {
       actions,
       snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
+      location: { pathname },
+      showCookiePolicy,
     } = this.props;
+    const skillListRegex = new RegExp('^/skills');
+    const pathLength = pathname.split('/').length;
+    const renderFooterPagesList = [
+      '/',
+      '/support',
+      '/team',
+      '/blog',
+      '/devices',
+      '/skills',
+    ];
+    const renderAppBar =
+      pathname !== '/chat' ? <StaticAppBar showPageTabs={true} /> : null;
+    const renderFooter =
+      (skillListRegex.test(pathname) && pathLength >= 3 && pathLength <= 5) ||
+      renderFooterPagesList.includes(pathname) ? (
+        <Footer />
+      ) : null;
+    const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
     return (
-      <MuiThemeProviderNext theme={theme}>
-        <MuiThemeProvider muiTheme={muiTheme}>
+      <StylesProvider injectFirst>
+        <MuiThemeProvider theme={theme}>
           <div>
             <DialogSection />
             <Snackbar
@@ -103,8 +119,10 @@ class App extends Component {
               message={snackBarMessage}
               onClose={actions.closeSnackBar}
             />
+            {renderAppBar}
             <Switch>
-              <Route exact path="/" component={ChatApp} />
+              <Route exact path="/" component={Overview} />
+              <Route exact path="/chat" component={ChatApp} />
               <Route exact path="/skills" component={BrowseSkill} />
               <Route
                 exact
@@ -158,7 +176,6 @@ class App extends Component {
                 component={SkillCreator}
               />
               <Route path="/skills/botbuilder" component={BotBuilderWrap} />
-              <Route exact path="/overview" component={Overview} />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />
               <Route exact path="/blog" component={Blog} />
@@ -169,11 +186,18 @@ class App extends Component {
               <Route exact path="/logout" component={Logout} />
               <Route path="/admin" component={Admin} />
               <ProtectedRoute exact path="/settings" component={Settings} />
+              <ProtectedRoute
+                exact
+                path="/delete-account"
+                component={DeleteAccount}
+              />
               <Route exact path="/*:path(error-404|)" component={NotFound} />
             </Switch>
+            {renderFooter}
+            {renderCookiePolicy}
           </div>
         </MuiThemeProvider>
-      </MuiThemeProviderNext>
+      </StylesProvider>
     );
   }
 }
@@ -189,14 +213,14 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(store) {
   return {
+    ...store.router,
     ...store.ui,
-    ...store.app,
+    accessToken: store.app.accessToken,
+    showCookiePolicy: store.app.showCookiePolicy,
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(App),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

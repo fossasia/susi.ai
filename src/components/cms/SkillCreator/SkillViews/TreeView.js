@@ -10,6 +10,7 @@ import uiActions from '../../../../redux/actions/ui';
 import { fetchConversationResponse } from '../../../../apis/index';
 import createActions from '../../../../redux/actions/create';
 import 'react-orgchart/index.css';
+import './TreeView.css';
 import styled from 'styled-components';
 
 const BotIconImg = styled.img`
@@ -20,9 +21,7 @@ const BotIconImg = styled.img`
 `;
 
 const PersonIcon = styled(Person)`
-  && {
-    vertical-align: middle;
-  }
+  vertical-align: middle;
 `;
 
 class TreeView extends Component {
@@ -169,9 +168,8 @@ class TreeView extends Component {
                 alt="bot icon"
               />
             )}
-            {node.type === 'user' && <PersonIcon />}&nbsp;{this.getNodeText(
-              node.name,
-            )}
+            {node.type === 'user' && <PersonIcon />}&nbsp;
+            {this.getNodeText(node.name)}
           </span>
         </div>
       );

@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import StaticAppBar from '../StaticAppBar/StaticAppBar.react';
-import Footer from '../Footer/Footer.react';
-import { urls } from '../../utils';
+import { Link } from 'react-router-dom';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import stackoverflow from '../../images/stackoverflow.png';
 import support from '../../images/support.png';
@@ -25,7 +23,6 @@ const styles = {
 class Support extends Component {
   static propTypes = {
     history: PropTypes.object,
-    location: PropTypes.object,
     openSignUp: PropTypes.func,
     accessToken: PropTypes.string,
   };
@@ -40,10 +37,9 @@ class Support extends Component {
 
   render() {
     const { buttonStyle } = styles;
-    const { location, openSignUp, accessToken } = this.props;
+    const { openSignUp, accessToken } = this.props;
     return (
       <div>
-        <StaticAppBar {...this.props} location={location} />
         <div className="gray-wrapper">
           <div className="white-grey">
             <div className="conversation__description">
@@ -172,28 +168,26 @@ class Support extends Component {
                 </a>
                 <div className="support-description-content">
                   You can insert your skill code and test it on the SUSI.AI
-                  Etherpad at<a href="http://dream.susi.ai">
-                    &nbsp;dream.susi.ai
-                  </a>
+                  Etherpad at
+                  <a href="http://dream.susi.ai">&nbsp;dream.susi.ai</a>
                 </div>
               </div>
             </div>
             <div className=" support-item support-item-with-icon  support-item-no-image">
-              <a href={urls.SKILL_URL}>
+              <Link to="/skills" style={{ textDecoration: 'none' }}>
                 <div className=" support-item-icon-container">
                   <img alt="code" src={code} className=" support-item-icon" />
                 </div>
-              </a>
+              </Link>
               <div className="support-description">
-                <a href={urls.SKILL_URL}>
+                <Link to="/skills" style={{ textDecoration: 'none' }}>
                   <h3 id="stack-overflow">Create and Edit a SUSI.AI skill</h3>
-                </a>
+                </Link>
                 <div className="support-description-content">
-                  You can easily create a skill on the SUSI.AI skills editor at<a
-                    href={urls.SKILL_URL}
-                  >
-                    &nbsp;skills.susi.ai
-                  </a>
+                  You can easily create a skill on the SUSI.AI skills editor at{' '}
+                  <Link to="/skills" style={{ textDecoration: 'none' }}>
+                    susi.ai/skills
+                  </Link>
                 </div>
               </div>
             </div>
@@ -219,10 +213,8 @@ class Support extends Component {
                   <h3 id="stack-overflow">Get Support</h3>
                 </a>
                 <div className="support-description-content">
-                  Facing a problem? Join us on<a href="https://gitter.im/fossasia/susi_server">
-                    {' '}
-                    gitter{' '}
-                  </a>
+                  Facing a problem? Join us on
+                  <a href="https://gitter.im/fossasia/susi_server"> gitter </a>
                   <br />
                   Found a bug? File it on{' '}
                   <a href="https://github.com/fossasia/susi_server/">
@@ -252,8 +244,6 @@ class Support extends Component {
               </div>
             </div>
           ) : null}
-
-          <Footer />
         </div>
       </div>
     );

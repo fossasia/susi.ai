@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // Packages
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -5,13 +6,11 @@ import { fetchCommitHistory } from '../../../apis';
 import { Link } from 'react-router-dom';
 
 // Material-UI
-import StaticAppBar from '../../StaticAppBar/StaticAppBar.react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import _Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -30,9 +29,7 @@ const HomeDiv = styled.div`
 `;
 
 const Button = styled(_Button)`
-  &&& {
-    margin: 0.625rem;
-  }
+  margin: 0.625rem;
 `;
 
 const ActionButtonDiv = styled.div`
@@ -173,26 +170,23 @@ class SkillVersion extends Component {
     });
 
     const commitHistoryTable = (
-      <MuiThemeProvider>
-        <Table
-          selectable={false}
-          style={{ maxWidth: '1000px', whiteSpace: 'pre-line' }}
-        >
-          <TableHead displaySelectAll={false} adjustForCheckbox={false}>
-            {commitHistoryTableHeader}
-          </TableHead>
-          <TableBody displayRowCheckbox={false}>
-            {commitHistoryTableRows}
-          </TableBody>
-        </Table>
-      </MuiThemeProvider>
+      <Table
+        selectable={false}
+        style={{ maxWidth: '1000px', whiteSpace: 'pre-line' }}
+      >
+        <TableHead displaySelectAll={false} adjustForCheckbox={false}>
+          {commitHistoryTableHeader}
+        </TableHead>
+        <TableBody displayRowCheckbox={false}>
+          {commitHistoryTableRows}
+        </TableBody>
+      </Table>
     );
 
     const checkedCommits = this.getCheckedCommits();
 
     return (
       <div>
-        <StaticAppBar {...this.props} />
         {!dataReceived ? (
           <h1 className="skill_loading_container">
             <div className="center">
