@@ -113,7 +113,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
