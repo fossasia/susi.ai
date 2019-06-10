@@ -14,7 +14,6 @@ const FooterWrapper = styled.div`
   display: flex;
   bottom: 0;
   left: 0;
-  margin-top: 35px;
 `;
 
 const Footer = () => {
