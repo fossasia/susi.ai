@@ -347,14 +347,14 @@ class StaticAppBar extends Component {
                 {showPageTabs ? <TopMenu /> : null}
               </FlexContainer>
               <TopRightMenuContainer>
-                <StyledIconButton onClick={() => history.push('/settings')}>
-                  {accessToken && (
+                {accessToken && (
+                  <StyledIconButton onClick={() => history.push('/settings')}>
                     <FlexContainer>
                       <CircleImage src={userAvatar} size="32" />
                       <UserDetail>{!userName ? email : userName}</UserDetail>
                     </FlexContainer>
-                  )}
-                </StyledIconButton>
+                  </StyledIconButton>
+                )}
                 <IconButton
                   aria-owns={open ? 'menu-popper' : undefined}
                   aria-haspopup="true"

@@ -17,7 +17,7 @@ const defaultState = {
   showCookiePolicy: false,
 };
 
-const { emailId, uuid, loggedIn, visited } = cookies.getAll();
+const { emailId, uuid, loggedIn, visited, showCookiePolicy } = cookies.getAll();
 const cookiesAppValues = {
   email: emailId,
   uuid,
@@ -27,7 +27,8 @@ const cookiesAppValues = {
     countryName: '',
   },
   visited,
-  showCookiePolicy: !visited,
+  showCookiePolicy:
+    typeof showCookiePolicy === 'undefined' ? true : showCookiePolicy,
   avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
 };
 

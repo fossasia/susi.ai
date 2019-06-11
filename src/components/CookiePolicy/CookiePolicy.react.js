@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import appActions from '../../redux/actions/app';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const Container = styled.div`
   width: 100%;
@@ -25,6 +28,10 @@ const ButtonContainer = styled.div`
 `;
 
 const CookiePolicy = ({ actions }) => {
+  const hideCookiePolicy = () => {
+    cookies.set('showCookiePolicy', false, { path: '/' });
+    actions.hideCookiePolicy();
+  };
   return (
     <Container>
       Our website uses cookies to deliver the best possible user experience, to
@@ -32,13 +39,13 @@ const CookiePolicy = ({ actions }) => {
       &quot;Accept&quot; you agree to us doing so. To know more about our
       policies click on &quot;More Info&quot; button
       <ButtonContainer>
-        <Button variant="contained" onClick={actions.hideCookiePolicy}>
+        <Button variant="contained" onClick={hideCookiePolicy}>
           <Link style={{ color: 'black' }} to="/privacy">
             More Info
           </Link>
         </Button>
         <Button
-          onClick={actions.hideCookiePolicy}
+          onClick={hideCookiePolicy}
           style={{ marginLeft: '1rem' }}
           variant="contained"
         >
