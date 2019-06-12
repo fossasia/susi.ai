@@ -43,7 +43,7 @@ export default handleActions(
       }
 
       const {
-        theme,
+        theme = defaultState.theme,
         server,
         serverUrl,
         enterAsSend,
@@ -65,13 +65,15 @@ export default handleActions(
         avatarType,
       } = settings;
       let { customThemeValue } = settings;
-      const themeArray = customThemeValue.split(',').map(value => `#${value}`);
+      const themeArray = customThemeValue
+        ? customThemeValue.split(',').map(value => `#${value}`)
+        : defaultState.customThemeValue;
       return {
         ...state,
         devices,
-        theme,
         server,
         serverUrl,
+        theme,
         enterAsSend: enterAsSend === 'true',
         micInput: micInput === 'true',
         speechOutput: speechOutput === 'true',
