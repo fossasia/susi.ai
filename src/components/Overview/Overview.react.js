@@ -892,6 +892,7 @@ class Overview extends Component {
           <VideoContainer>
             <Iframe
               id="player"
+              title="SUSI features Video"
               type="text/html"
               frameBorder="0"
               allowFullScreen

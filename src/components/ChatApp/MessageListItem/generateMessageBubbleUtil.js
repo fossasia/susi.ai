@@ -92,7 +92,12 @@ const generateGifBubble = (
     <MessageContainer key={action + index}>
       <MessageBubble author={message.authorName}>
         <div>
-          <iframe src={gifSource} frameBorder="0" allowFullScreen />
+          <iframe
+            src={gifSource}
+            title="SUSI features GIF"
+            frameBorder="0"
+            allowFullScreen
+          />
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
@@ -224,7 +229,12 @@ const generateAudioBubble = (
     <MessageContainer key={action + index}>
       <MessageBubble author={message.authorName}>
         <div>
-          <iframe src={src} frameBorder="0" allowFullScreen />
+          <iframe
+            src={src}
+            title="SUSI features audio"
+            frameBorder="0"
+            allowFullScreen
+          />
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>

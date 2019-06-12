@@ -503,14 +503,14 @@ class SkillFeedbackPage extends Component {
                           currentPage === 1 ? '-disabled' : ''
                         } `}
                       >
-                        <a
+                        <div
                           onClick={this.handleMoveLeft}
                           className={`navigation-pagination-text${
                             currentPage === 1 ? '-disabled' : ''
                           }`}
                         >
                           ← Previous
-                        </a>
+                        </div>
                       </div>
                       {pages.map((page, index) => {
                         if (page === LEFT_PAGE) {
@@ -534,12 +534,12 @@ class SkillFeedbackPage extends Component {
                               currentPage === page ? ' active' : ''
                             }`}
                           >
-                            <a
+                            <div
                               className="page-link"
                               onClick={this.handleClick(page)}
                             >
                               {page}
-                            </a>
+                            </div>
                           </li>
                         );
                       })}
@@ -551,7 +551,7 @@ class SkillFeedbackPage extends Component {
                             : ''
                         }`}
                       >
-                        <a
+                        <div
                           onClick={this.handleMoveRight}
                           className={`navigation-pagination-text${
                             currentPage ===
@@ -561,7 +561,7 @@ class SkillFeedbackPage extends Component {
                           }`}
                         >
                           Next →
-                        </a>
+                        </div>
                       </div>
                     </ul>
                   </div>
