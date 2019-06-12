@@ -5,7 +5,7 @@
     min-height: 74vh;
     width: 100%;
     position: relative;
-    top:-18px;
+    top: 70px;
 }
 .not-found-banner h1{
     font-size: 72px;
@@ -20,10 +20,19 @@
     margin: 75px 0 -5px 0;
 }
 
-.button-wrapper{
-    width: 100%;
-  }
-  .button-wrapper .notfound-button{
-  width: 300px;
-  margin: 0.7rem;
+.notfound-button{
+    width: 300px;
+    margin-top: 0.7rem;
+}
+
+.susilogo {
+    width: 11rem;
+    margin: auto;
+}
+
+@media screen and (max-width: 356px) {
+    .notfound-button {
+        width: 100%;
+        margin-top: 0.7rem;
+    }
 }

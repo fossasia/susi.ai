@@ -23,6 +23,7 @@ const Tour = props => {
         width="99%"
         height="315"
         src="https://www.youtube.com/embed/9T3iMoAUKYA"
+        title="SUSI tour guides"
         frameBorder="0"
         scrolling="no"
       />
