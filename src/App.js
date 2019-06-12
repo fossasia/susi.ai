@@ -106,7 +106,7 @@ class App extends Component {
     const renderAppBar =
       pathname !== '/chat' ? <StaticAppBar showPageTabs={true} /> : null;
     const renderFooter =
-      (skillListRegex.test(pathname) && pathLength >= 3 && pathLength <= 5) ||
+      (skillListRegex.test(pathname) && pathLength > 3 && pathLength <= 5) ||
       renderFooterPagesList.includes(pathname) ? (
         <Footer />
       ) : null;
