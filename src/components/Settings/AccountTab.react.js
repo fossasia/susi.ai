@@ -1,9 +1,8 @@
 import React from 'react';
 import Translate from '../Translate/Translate.react';
 import Avatar from './Avatar';
-import { Link as _Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SettingsTabWrapper, { Heading } from './SettingsTabWrapper';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -23,10 +22,6 @@ import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 
-const EmailHeading = styled(TabHeading)`
-  margin-top: 0;
-`;
-
 const TimezoneContainer = styled.div`
   padding-bottom: 30px;
 `;
@@ -38,36 +33,33 @@ const Timezone = styled.div`
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 const DangerContainer = styled.div`
   border: 1px solid #d73a49;
   border-radius: 2px;
-  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem 1rem;
+  padding: 1rem;
   align-items: center;
 `;
 
 const DangerButton = styled(Button)`
   background-color: #fafbfc;
-  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
   color: #cb2431;
   &:hover {
-    background-color: #cb2431;
-    background-image: linear-gradient(-180deg, #de4450, #cb2431 90%);
-    border-color: rgba(27, 31, 35, 0.5);
+    background-color: #ff0000;
     color: #fff;
   }
 `;
 
-const Link = styled(_Link)`
-  color: #cb2431;
-  font-weight: 600;
-  &:hover {
-    color: #fff;
+const AvatarSection = styled.div`
+  margin-left: 8rem;
+
+  @media only screen and (max-width: 1060px) {
+    margin-left: 0rem;
+    padding-top: 0.5rem;
   }
 `;
 
@@ -101,6 +93,7 @@ class AccountTab extends React.Component {
       uploadingAvatar: false,
       isAvatarUploaded: false,
       settingSave: false,
+      avatarAnchorEl: null,
     };
     if ('speechSynthesis' in window) {
       this.TTSBrowserSupport = true;
@@ -211,6 +204,7 @@ class AccountTab extends React.Component {
       });
     };
     reader.readAsDataURL(file);
+    this.handleMenuClose();
   };
 
   removeAvatarImage = () => {
@@ -219,6 +213,18 @@ class AccountTab extends React.Component {
       isAvatarAdded: false,
       imagePreviewUrl: '',
       avatarSrc: '',
+    });
+  };
+
+  handleMenuClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleMenuClose = () => {
+    this.setState({
+      anchorEl: null,
     });
   };
 
@@ -268,6 +274,7 @@ class AccountTab extends React.Component {
       settingSave,
     } = this.state;
     const {
+      actions,
       email,
       timeZone: _timeZone,
       prefLanguage: _prefLanguage,
@@ -282,6 +289,9 @@ class AccountTab extends React.Component {
           ? avatarType === _avatarType
           : !isAvatarUploaded || !isAvatarAdded || settingSave)) ||
       userNameError;
+
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
     return (
       <SettingsTabWrapper heading="Account">
         <Container>
@@ -303,9 +313,9 @@ class AccountTab extends React.Component {
                 {userNameError}
               </FormHelperText>
             </FormControl>
-            <EmailHeading>
+            <TabHeading>
               <Translate text="Email" />
-            </EmailHeading>
+            </TabHeading>
             <OutlinedInput
               labelWidth={0}
               name="email"
@@ -340,17 +350,19 @@ class AccountTab extends React.Component {
               </Timezone>
             </TimezoneContainer>
           </div>
-          <div className="img-upld">
+          <AvatarSection>
             <TabHeading>Select Avatar</TabHeading>
-            <Select
-              onChange={this.handleAvatarTypeChange}
-              value={avatarType}
-              style={styles.selectAvatarDropDownStyle}
-            >
-              <MenuItem value="default">Default</MenuItem>
-              <MenuItem value="server">Upload</MenuItem>
-              <MenuItem value="gravatar">Gravatar</MenuItem>
-            </Select>
+            <div>
+              <Select
+                onChange={this.handleAvatarTypeChange}
+                value={avatarType}
+                style={styles.selectAvatarDropDownStyle}
+              >
+                <MenuItem value="default">Default</MenuItem>
+                <MenuItem value="server">Upload</MenuItem>
+                <MenuItem value="gravatar">Gravatar</MenuItem>
+              </Select>
+            </div>
             <Avatar
               avatarType={avatarType}
               handleAvatarSubmit={this.handleAvatarSubmit}
@@ -360,11 +372,15 @@ class AccountTab extends React.Component {
               isAvatarUploaded={isAvatarUploaded}
               handleAvatarImageChange={this.handleAvatarImageChange}
               removeAvatarImage={this.removeAvatarImage}
+              handleMenuClick={this.handleMenuClick}
+              handleMenuClose={this.handleMenuClose}
+              open={open}
+              anchorEl={anchorEl}
               file={file}
               avatarSrc={avatarSrc}
               email={email}
             />
-          </div>
+          </AvatarSection>
         </Container>
         <Button
           variant="contained"
@@ -375,9 +391,9 @@ class AccountTab extends React.Component {
         >
           <Translate text="Save Changes" />
         </Button>
-        <Heading>
+        <TabHeading>
           <Translate text="Danger Zone" />
-        </Heading>
+        </TabHeading>
         <DangerContainer>
           <div>
             <TabHeading>
@@ -386,8 +402,11 @@ class AccountTab extends React.Component {
             <Translate text="Once you delete account, there is no going back. Please be certain." />
           </div>
           <div>
-            <DangerButton variant="contained">
-              <Link to="/delete-account">Delete</Link>
+            <DangerButton
+              variant="contained"
+              onClick={() => actions.openModal({ modalType: 'deleteAccount' })}
+            >
+              Delete
             </DangerButton>
           </div>
         </DangerContainer>

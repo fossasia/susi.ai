@@ -152,6 +152,8 @@ class SkillUsageCard extends Component {
                       <Cell key={index} fill={entry.color} />
                     ))}
                     data={deviceWiseSkillUsage}
+                    nameKey="deviceType"
+                    dataKey="count"
                   />
                 </Container>
               ) : (

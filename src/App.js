@@ -39,7 +39,6 @@ import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
 import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
-import DeleteAccount from './components/Auth/DeleteAccount/DeleteAccount.react';
 
 class App extends Component {
   static propTypes = {
@@ -49,6 +48,7 @@ class App extends Component {
     accessToken: PropTypes.string,
     snackBarProps: PropTypes.object,
     showCookiePolicy: PropTypes.bool,
+    modalProps: PropTypes.object,
   };
 
   componentDidMount = () => {
@@ -60,7 +60,9 @@ class App extends Component {
     actions.getApiKeys();
     if (accessToken) {
       actions.getAdmin();
-      actions.getUserSettings();
+      actions.getUserSettings().catch(e => {
+        console.log(e);
+      });
     }
   };
 
@@ -87,6 +89,7 @@ class App extends Component {
     const {
       actions,
       snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
+      modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
     } = this.props;
@@ -108,11 +111,12 @@ class App extends Component {
         <Footer />
       ) : null;
     const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
+    const renderDialog = isModalOpen ? <DialogSection /> : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <div>
-            <DialogSection />
+            {renderDialog}
             <Snackbar
               autoHideDuration={snackBarDuration}
               open={isSnackBarOpen}
@@ -186,11 +190,6 @@ class App extends Component {
               <Route exact path="/logout" component={Logout} />
               <Route path="/admin" component={Admin} />
               <ProtectedRoute exact path="/settings" component={Settings} />
-              <ProtectedRoute
-                exact
-                path="/delete-account"
-                component={DeleteAccount}
-              />
               <Route exact path="/*:path(error-404|)" component={NotFound} />
             </Switch>
             {renderFooter}

@@ -20,6 +20,10 @@ const StyledTableCell = styled(TableCell)`
 
 const TableWrap = styled.div`
   padding: 0rem 1.25rem;
+  @media (max-width: 769px) {
+    overflow-x: scroll;
+    padding: 0;
+  }
 `;
 
 class MyRatings extends Component {
@@ -75,13 +79,13 @@ class MyRatings extends Component {
     return (
       <div>
         {loading ? (
-          <div className="center">
+          <div style={{ textAlign: 'center' }}>
             <CircularProgress size={62} color="primary" />
             <h4>Loading</h4>
           </div>
         ) : (
-          <TableWrap className="table-wrap">
-            <Table className="table-root">
+          <TableWrap>
+            <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Skill Name</TableCell>
@@ -91,31 +95,33 @@ class MyRatings extends Component {
               </TableHead>
               <TableBody>
                 {ratingsData.map((skill, index) => {
+                  const {
+                    group,
+                    skillName,
+                    ratingTimestamp,
+                    skillStar,
+                  } = skill;
                   return (
                     <TableRow key={index}>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname:
-                              '/skills/' +
-                              skill.group +
-                              '/' +
-                              skill.skillName.toLowerCase().replace(/ /g, '_') +
-                              '/' +
-                              skill.language,
+                            pathname: `/skills/${group}/${skillName
+                              .toLowerCase()
+                              .replace(/ /g, '_')}/language`,
                           }}
                         >
                           {(
-                            skill.skillName.charAt(0).toUpperCase() +
-                            skill.skillName.slice(1)
+                            skillName.charAt(0).toUpperCase() +
+                            skillName.slice(1)
                           ).replace(/[_-]/g, ' ')}
                         </Link>
                       </StyledTableCell>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {skill.skillStar}
+                        {skillStar}
                       </StyledTableCell>
                       <StyledTableCell>
-                        {parseDate(skill.ratingTimestamp)}
+                        {parseDate(ratingTimestamp)}
                       </StyledTableCell>
                     </TableRow>
                   );
@@ -124,19 +130,14 @@ class MyRatings extends Component {
             </Table>
           </TableWrap>
         )}
-        {ratingsData.length === 0 &&
-          !loading && (
-            <div>
-              <div className="center">
-                <br />
-                <h2>
-                  You have not rated any skill, go to{' '}
-                  <Link to="/skills">SUSI Skills Explorer</Link> and rate.
-                </h2>
-                <br />
-              </div>
-            </div>
-          )}
+        {ratingsData.length === 0 && !loading && (
+          <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+            <h2>
+              You have not rated any skill, go to{' '}
+              <Link to="/skills">SUSI Skills Explorer</Link> and rate.
+            </h2>
+          </div>
+        )}
       </div>
     );
   }

@@ -5,7 +5,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import appActions from '../../../redux/actions/app';
@@ -14,6 +13,7 @@ import PropTypes from 'prop-types';
 import Person from '@material-ui/icons/Person';
 import Menu from '@material-ui/core/Menu';
 import MenuList from '@material-ui/core/MenuList';
+import Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -33,6 +33,10 @@ const StyledTableCell = styled(TableCell)`
 
 const TableWrap = styled.div`
   padding: 0rem 1.25rem;
+  @media (max-width: 769px) {
+    overflow-x: scroll;
+    padding: 0;
+  }
 `;
 
 const Img = styled(_Img)`
@@ -150,13 +154,13 @@ class MySkills extends Component {
         </div>
 
         {loading ? (
-          <div className="center">
+          <div style={{ textAlign: 'center' }}>
             <CircularProgress size={62} color="primary" />
             <h4>Loading</h4>
           </div>
         ) : (
-          <TableWrap className="table-wrap">
-            <Table className="table-root">
+          <TableWrap>
+            <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Image</TableCell>
@@ -167,59 +171,54 @@ class MySkills extends Component {
               </TableHead>
               <TableBody>
                 {userSkills.map((skill, index) => {
+                  const {
+                    group,
+                    skillTag,
+                    language,
+                    image,
+                    skillName,
+                    type,
+                  } = skill;
                   return (
                     <TableRow key={index}>
                       <StyledTableCell>
                         <Link
                           to={{
-                            pathname:
-                              '/skills/' +
-                              skill.group +
-                              '/' +
-                              skill.skillTag.toLowerCase().replace(/ /g, '_') +
-                              '/' +
-                              skill.language,
+                            pathname: `/skills/${group}/${skillTag
+                              .toLowerCase()
+                              .replace(/ /g, '_')}/language`,
                           }}
                         >
                           <Img
-                            src={`${
-                              urls.API_URL
-                            }/cms/getImage.png?model=general&language=${
-                              skill.language
-                            }&group=${skill.group}&image=/${skill.image}`}
+                            // eslint-disable-next-line
+                            src={`${urls.API_URL}/cms/getImage.png?model=general&language=${language}&group=${group}&image=/${image}`}
                             unloader={
-                              <CircleImage name={skill.skillName} size="40" />
+                              <CircleImage name={skillName} size="40" />
                             }
                           />
                         </Link>
                       </StyledTableCell>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {skill.skillName ? (
+                        {skillName ? (
                           <Link
                             to={{
-                              pathname:
-                                '/skills/' +
-                                skill.group +
-                                '/' +
-                                skill.skillTag
-                                  .toLowerCase()
-                                  .replace(/ /g, '_') +
-                                '/' +
-                                skill.language,
+                              pathname: `/skills/${group}/${skillTag
+                                .toLowerCase()
+                                .replace(/ /g, '_')}/${language}`,
                             }}
                           >
-                            {skill.skillName}
+                            {skillName}
                           </Link>
                         ) : (
                           'NA'
                         )}
                       </StyledTableCell>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {skill.type}
+                        {type}
                       </StyledTableCell>
-                      <StyledTableCell style={{ width: '17.5rem' }}>
+                      <StyledTableCell style={{ width: '10rem' }}>
                         <FormControl>
-                          <Select value={1} style={{ width: '17.5rem' }}>
+                          <Select value={1} style={{ width: '10rem' }}>
                             <MenuItem value={1}>Enable</MenuItem>
                           </Select>
                         </FormControl>
@@ -231,28 +230,20 @@ class MySkills extends Component {
             </Table>
           </TableWrap>
         )}
-        {userSkills.length === 0 &&
-          !loading && (
-            <div>
-              <div className="center">
-                <br />
-                <h2>
-                  Create your first skill or learn more about{' '}
-                  <a
-                    href={
-                      urls.CMS_GITHUB_URL +
-                      '/blob/master/docs/Skill_Tutorial.md'
-                    }
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    SUSI Skills
-                  </a>
-                </h2>
-                <br />
-              </div>
-            </div>
-          )}
+        {userSkills.length === 0 && !loading && (
+          <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+            <h2>
+              Create your first skill or learn more about{' '}
+              <a
+                href={`${urls.GITHUB_URL}/blob/master/docs/Skill_Tutorial.md`}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                SUSI Skills
+              </a>
+            </h2>
+          </div>
+        )}
       </div>
     );
   }

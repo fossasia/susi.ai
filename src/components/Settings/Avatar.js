@@ -1,28 +1,57 @@
 import React from 'react';
-import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
+import _AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import { getGravatarProps } from '../../utils/getAvatarProps';
 import Button from '@material-ui/core/Button';
 import defaultAvatar from '../../images/defaultAvatar.png';
+import _Fab from '@material-ui/core/Fab';
+import Menu from '@material-ui/core/Menu';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import styled from 'styled-components';
 
-const styles = {
-  avatarEmptyBoxStyle: {
-    margin: '0 auto',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    alignItem: 'centre',
-  },
-  avatarAddButtonStyle: {
-    margin: '50px auto',
-    height: '50px',
-    width: '50px',
-  },
-};
+const Fab = styled(_Fab)`
+  position: absolute;
+  top: 70%;
+  left: 4%;
+`;
+
+const AddIcon = styled(_AddIcon)`
+  margin: 3.125rem auto;
+  height: 3.125rem;
+  width: 3.125rem;
+`;
+
+const AvatarDiv = styled.div`
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-item: centre;
+`;
+
+const Form = styled.form`
+  display: inline-block;
+`;
+
+const PreviewContainer = styled.div`
+  position: relative;
+`;
+
+const Input = styled.input`
+  margin-top: 0.625rem;
+`;
 
 const Avatar = props => {
+  const handleFileUpload = () => {
+    const fileUpload = document.getElementById('file-opener');
+    fileUpload.click();
+    props.handleMenuClose();
+  };
+
   const {
     avatarType,
     handleAvatarSubmit,
@@ -33,58 +62,84 @@ const Avatar = props => {
     isAvatarUploaded,
     uploadingAvatar,
     email,
+    handleMenuClose,
+    handleMenuClick,
+    open,
+    anchorEl,
   } = props;
+
   switch (avatarType) {
     case 'server':
       return (
-        <form
-          style={{ display: 'inline-block' }}
-          onSubmit={e => handleAvatarSubmit(e)}
-        >
+        <Form onSubmit={e => handleAvatarSubmit(e)}>
           {imagePreviewUrl !== '' && (
-            <div>
-              <div className="close-avatar">
-                <CloseIcon
-                  onClick={removeAvatarImage}
-                  style={{ fill: '#999999' }}
-                />
-              </div>
+            <PreviewContainer>
               <img
                 alt="User Avatar"
                 className="setting-avatar"
                 src={imagePreviewUrl}
                 onClick={e => handleAvatarImageChange(e)}
               />
-            </div>
+              <Fab color="primary" size="small" onClick={handleMenuClick}>
+                <EditIcon />
+              </Fab>
+              <input
+                id="file-opener"
+                type="file"
+                className="input-avatar"
+                onChange={e => handleAvatarImageChange(e)}
+                accept="image/x-png,image/gif,image/jpeg"
+                onClick={event => {
+                  event.target.value = null;
+                }}
+              />
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleMenuClose}
+                getContentAnchorEl={null}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+              >
+                <MenuList disableListWrap={true}>
+                  <MenuItem
+                    onClose={handleMenuClose}
+                    onClick={handleFileUpload}
+                  >
+                    <ListItemText>Upload a Photo</ListItemText>
+                  </MenuItem>
+                  <MenuItem
+                    onClose={handleMenuClose}
+                    onClick={removeAvatarImage}
+                  >
+                    <ListItemText>Remove Photo</ListItemText>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </PreviewContainer>
           )}
-          {imagePreviewUrl === '' &&
-            !isAvatarAdded && (
-              <label htmlFor="file-opener">
-                <div onSubmit={e => handleAvatarImageChange(e)}>
-                  {!isAvatarAdded && (
-                    <div className="avatar-empty-box">
-                      <div style={styles.avatarEmptyBoxStyle}>
-                        <AddIcon
-                          className="avatar-add-button"
-                          style={styles.avatarAddButtonStyle}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <input
-                  id="file-opener"
-                  type="file"
-                  className="input-avatar"
-                  onChange={e => handleAvatarImageChange(e)}
-                  accept="image/x-png,image/gif,image/jpeg"
-                  style={{ marginTop: '10px' }}
-                  onClick={event => {
-                    event.target.value = null;
-                  }}
-                />
-              </label>
-            )}
+          {imagePreviewUrl === '' && !isAvatarAdded && (
+            <label htmlFor="fileOpener">
+              <div onSubmit={e => handleAvatarImageChange(e)}>
+                {!isAvatarAdded && (
+                  <div className="avatar-empty-box">
+                    <AvatarDiv>
+                      <AddIcon className="avatar-add-button" />
+                    </AvatarDiv>
+                  </div>
+                )}
+              </div>
+              <Input
+                id="fileOpener"
+                type="file"
+                className="input-avatar"
+                onChange={e => handleAvatarImageChange(e)}
+                accept="image/x-png,image/gif,image/jpeg"
+                onClick={event => {
+                  event.target.value = null;
+                }}
+              />
+            </label>
+          )}
           <Button
             disabled={!isAvatarAdded || isAvatarUploaded}
             onClick={e => handleAvatarSubmit(e)}
@@ -97,7 +152,7 @@ const Avatar = props => {
               'Upload Image'
             )}
           </Button>
-        </form>
+        </Form>
       );
     case 'gravatar':
       return (
@@ -122,6 +177,10 @@ Avatar.propTypes = {
   email: PropTypes.string,
   avatarType: PropTypes.string,
   handleAvatarImageChange: PropTypes.func,
+  handleMenuClose: PropTypes.func,
+  handleMenuClick: PropTypes.func,
+  open: PropTypes.bool,
+  anchorEl: PropTypes.bool,
   imagePreviewUrl: PropTypes.string,
   uploadingAvatar: PropTypes.bool,
   removeAvatarImage: PropTypes.func,

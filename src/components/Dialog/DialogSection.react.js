@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-
 import Dialog from '@material-ui/core/Dialog';
 import uiActions from '../../redux/actions/ui';
 import appActions from '../../redux/actions/app';
@@ -11,25 +10,29 @@ import Tour from './Tour';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
+import RemoveDeviceDialog from '../Settings/DevicesTab/RemoveDeviceDialog';
 import ThemeChanger from '../Settings/ThemeChanger';
 import { DialogContainer } from '../shared/Container';
-import DeleteAccountModal from '../Auth/DeleteAccount/DeleteAccountModal.react';
+import DeleteAccount from '../Auth/DeleteAccount/DeleteAccount.react';
+import ConfirmDeleteAccount from '../Auth/DeleteAccount/ConfirmDeleteAccount.react';
 
 const DialogData = {
-  share: { component: <Share />, size: 'xs' },
-  login: { component: <Login />, size: 'sm' },
-  signUp: { component: <SignUp />, size: 'sm' },
-  forgotPassword: { component: <ForgotPassword />, size: 'sm' },
-  themeChange: { component: <ThemeChanger />, size: 'md' },
-  tour: { component: <Tour />, size: 'sm' },
-  deleteAccount: { component: <DeleteAccountModal />, size: 'sm' },
-  noComponent: { component: null, size: false },
+  share: { Component: Share, size: 'xs' },
+  login: { Component: Login, size: 'sm' },
+  signUp: { Component: SignUp, size: 'sm' },
+  forgotPassword: { Component: ForgotPassword, size: 'sm' },
+  themeChange: { Component: ThemeChanger, size: 'md' },
+  tour: { Component: Tour, size: 'sm' },
+  deleteAccount: { Component: DeleteAccount, size: 'sm' },
+  confirmDeleteAccount: { Component: ConfirmDeleteAccount, size: 'sm' },
+  noComponent: { Component: null, size: false },
+  deleteDevice: { Component: RemoveDeviceDialog, size: 'sm' },
 };
 
 const DialogSection = props => {
   const {
     actions,
-    modalProps: { isModalOpen, modalType },
+    modalProps: { isModalOpen, modalType, ...otherProps },
     visited,
   } = props;
 
@@ -41,8 +44,9 @@ const DialogSection = props => {
     }
     return DialogData.noComponent;
   };
-  const { size, component } = getDialog();
-  const addPadding = modalType !== 'deleteAccount';
+
+  const { size, Component } = getDialog();
+  const addPadding = modalType !== 'confirmDeleteAccount';
   return (
     <div>
       <Dialog
@@ -51,7 +55,9 @@ const DialogSection = props => {
         open={isModalOpen || !visited}
         onClose={isModalOpen ? actions.closeModal : actions.setVisited}
       >
-        <DialogContainer padding={addPadding}>{component}</DialogContainer>
+        <DialogContainer padding={addPadding}>
+          {Component ? <Component {...otherProps} /> : null}
+        </DialogContainer>
       </Dialog>
     </div>
   );

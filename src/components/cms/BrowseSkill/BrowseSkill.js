@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import skillActions from '../../../redux/actions/skills';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -43,7 +43,24 @@ import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
 import isMobileView from '../../../utils/isMobileView';
+import Grid from '@material-ui/core/Grid';
 import './custom.css';
+
+const commonFormStyles = css`
+  width: 145px;
+  margin-top: 15px;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  float: right;
+
+  @media (max-width: 350px) {
+    float: left;
+    width: 120px;
+  }
+  @media (max-width: 500px) {
+    float: left;
+  }
+`;
 
 const Link = styled(_Link)`
   color: #000;
@@ -51,6 +68,22 @@ const Link = styled(_Link)`
   &:hover {
     color: #000;
   }
+`;
+
+const PageFormControl = styled(FormControl)`
+  ${commonFormStyles};
+  margin-left: 25px;
+  @media (max-width: 500px) {
+    margin-right: 25px;
+  }
+  @media (max-width: 400px) {
+    margin-left: 10px;
+  }
+`;
+
+const SkillsFormControl = styled(FormControl)`
+  ${commonFormStyles};
+  margin-left: 0rem;
 `;
 
 class BrowseSkill extends React.Component {
@@ -719,52 +752,58 @@ class BrowseSkill extends React.Component {
                   value={searchQuery}
                 />
               </div>
-              {metricsHidden && (
-                <div style={styles.sortBy}>
-                  {this.props.filterType !== '' && (
-                    <IconButton
-                      color="primary"
-                      onClick={this.handleOrderByChange}
-                    >
-                      {renderOrderBy}
-                    </IconButton>
-                  )}
-                  <FormControl style={styles.selection} className="select">
-                    <InputLabel>Sort By</InputLabel>
-                    <Select
-                      value={this.props.filterType}
-                      onChange={this.handleFilterChange}
-                    >
-                      <MenuItem value={'lexicographical'}>Name (A-Z)</MenuItem>
-                      <MenuItem value={'rating'}>Top Rated</MenuItem>
-                      <MenuItem value={'creation_date'}>Newly Created</MenuItem>
-                      <MenuItem value={'modified_date'}>
-                        Recently updated
-                      </MenuItem>
-                      <MenuItem value={'feedback'}>Feedback Count</MenuItem>
-                      <MenuItem value={'usage&duration=7'}>
-                        This Week Usage
-                      </MenuItem>
-                      <MenuItem value={'usage&duration=30'}>
-                        This Month Usage
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-              <FormControl
-                style={{ ...styles.selection, marginTop: '10px' }}
-                className="select"
-              >
-                <InputLabel>Languages</InputLabel>
-                <Select
-                  value={[...languageValue]}
-                  onChange={this.handleLanguageChange}
-                  multiple={true}
+              <div style={{ display: 'flex', textAlign: 'center' }}>
+                {metricsHidden && (
+                  <div style={styles.sortBy}>
+                    {this.props.filterType !== '' && (
+                      <IconButton
+                        color="primary"
+                        onClick={this.handleOrderByChange}
+                      >
+                        {renderOrderBy}
+                      </IconButton>
+                    )}
+                    <FormControl style={styles.selection} className="select">
+                      <InputLabel>Sort By</InputLabel>
+                      <Select
+                        value={this.props.filterType}
+                        onChange={this.handleFilterChange}
+                      >
+                        <MenuItem value={'lexicographical'}>
+                          Name (A-Z)
+                        </MenuItem>
+                        <MenuItem value={'rating'}>Top Rated</MenuItem>
+                        <MenuItem value={'creation_date'}>
+                          Newly Created
+                        </MenuItem>
+                        <MenuItem value={'modified_date'}>
+                          Recently updated
+                        </MenuItem>
+                        <MenuItem value={'feedback'}>Feedback Count</MenuItem>
+                        <MenuItem value={'usage&duration=7'}>
+                          This Week Usage
+                        </MenuItem>
+                        <MenuItem value={'usage&duration=30'}>
+                          This Month Usage
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>
+                )}
+                <FormControl
+                  style={{ ...styles.selection, marginTop: '10px' }}
+                  className="select"
                 >
-                  {this.languageMenuItems(languageValue)}
-                </Select>
-              </FormControl>
+                  <InputLabel>Languages</InputLabel>
+                  <Select
+                    value={[...languageValue]}
+                    onChange={this.handleLanguageChange}
+                    multiple={true}
+                  >
+                    {this.languageMenuItems(languageValue)}
+                  </Select>
+                </FormControl>
+              </div>
               {metricsHidden && (
                 <RadioGroup
                   name="gender1"
@@ -776,7 +815,7 @@ class BrowseSkill extends React.Component {
                       ? {
                           right: 12,
                           position: 'absolute',
-                          top: 216,
+                          top: isMobile ? 220 : 216,
                           display: 'flex',
                         }
                       : { display: 'flex', marginTop: 34, flexDirection: 'row' }
@@ -814,41 +853,58 @@ class BrowseSkill extends React.Component {
 
             {!this.props.loadingSkills ? (
               <div style={styles.container}>
-                <div>{renderCardScrollList}</div>
                 {metricsHidden ? (
                   <div>
-                    <div id={'page-filter'}>
-                      {renderSkillCount}
-                      {skills.length > 10 && (
-                        <div id={'pagination'}>
-                          <FormControl
-                            style={{ width: '150px', marginTop: '15px' }}
-                          >
-                            <InputLabel>Skills per page</InputLabel>
-                            <Select
-                              value={this.props.entriesPerPage}
-                              onChange={this.handleEntriesPerPageChange}
-                            >
-                              <MenuItem value={10}>10</MenuItem>
-                              <MenuItem value={20}>20</MenuItem>
-                              <MenuItem value={50}>50</MenuItem>
-                              <MenuItem value={100}>100</MenuItem>
-                            </Select>
-                          </FormControl>
-                          <FormControl
-                            style={{ width: '150px', marginTop: '15px' }}
-                          >
-                            <InputLabel>Page</InputLabel>
-                            <Select
-                              value={this.props.listPage}
-                              onChange={this.handlePageChange}
-                            >
-                              {this.pageMenuItems()}
-                            </Select>
-                          </FormControl>
-                        </div>
-                      )}
-                    </div>
+                    <Grid
+                      container
+                      spacing={3}
+                      direction={isMobile ? 'column-reverse' : 'row'}
+                    >
+                      <Grid
+                        item
+                        alignItems="center"
+                        sm={6}
+                        style={{
+                          textAlign: 'center',
+                          padding: isMobile ? '10px' : '25px',
+                          fontSize: isMobile ? '14px' : '16px',
+                        }}
+                      >
+                        {renderSkillCount}
+                      </Grid>
+                      <Grid
+                        item
+                        sm={6}
+                        alignContent="flex-end"
+                        style={{ alignItems: isMobile ? 'center' : 'left' }}
+                      >
+                        {skills.length > 10 && (
+                          <div>
+                            <PageFormControl>
+                              <InputLabel>Page</InputLabel>
+                              <Select
+                                value={this.props.listPage}
+                                onChange={this.handlePageChange}
+                              >
+                                {this.pageMenuItems()}
+                              </Select>
+                            </PageFormControl>
+                            <SkillsFormControl>
+                              <InputLabel>Skills per page</InputLabel>
+                              <Select
+                                value={this.props.entriesPerPage}
+                                onChange={this.handleEntriesPerPageChange}
+                              >
+                                <MenuItem value={10}>10</MenuItem>
+                                <MenuItem value={20}>20</MenuItem>
+                                <MenuItem value={50}>50</MenuItem>
+                                <MenuItem value={100}>100</MenuItem>
+                              </Select>
+                            </SkillsFormControl>
+                          </div>
+                        )}
+                      </Grid>
+                    </Grid>
                     <div>
                       {viewType === 'list' ? (
                         <SkillCardList />
@@ -886,6 +942,7 @@ class BrowseSkill extends React.Component {
                 ) : (
                   ''
                 )}
+                <div>{renderCardScrollList}</div>
                 {/* Check if mobile view is currently active*/}
                 <div className="category-mobile-section">
                   {routeType === 'category' ? backToHome : renderMobileMenu}
