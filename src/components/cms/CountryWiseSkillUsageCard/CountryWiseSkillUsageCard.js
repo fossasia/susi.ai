@@ -6,8 +6,35 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import styled from 'styled-components';
 import { isoCountries } from '../../../utils';
-import './CountryWiseSkillUsageCard.css';
+import { DefaultMessage } from '../../shared/Typography';
+
+const ListContainer = styled.div`
+  width: 25%;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 16px;
+  @media (max-width: 800px) {
+    width: 100%;
+    margin: 0 auto;
+  }
+`;
+
+const GraphContainer = styled.div`
+  width: 70%;
+  @media (max-width: 800px) {
+    width: 100%;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 800px) {
+    display: block;
+  }
+`;
 
 const getCountryName = countryCode => {
   if (isoCountries.hasOwnProperty(countryCode)) {
@@ -15,9 +42,8 @@ const getCountryName = countryCode => {
   }
 };
 
-const CountryWiseSkillUsageCard = props => {
+const CountryWiseSkillUsageCard = ({ countryWiseSkillUsage }) => {
   const countryUsageList = () => {
-    const { countryWiseSkillUsage } = props;
     return (
       <Table>
         <TableBody>
@@ -31,11 +57,7 @@ const CountryWiseSkillUsageCard = props => {
                   <TableCell style={{ width: '70%', padding: '0' }}>
                     {countryName}:
                   </TableCell>
-                  <TableCell
-                    style={{ width: '30%', padding: '0', textAlign: 'right' }}
-                  >
-                    {usage}
-                  </TableCell>
+                  <TableCell>{usage}</TableCell>
                 </TableRow>
               );
             })}
@@ -44,20 +66,19 @@ const CountryWiseSkillUsageCard = props => {
     );
   };
 
-  const { countryWiseSkillUsage } = props;
   return (
     <div>
       {countryWiseSkillUsage && countryWiseSkillUsage.length ? (
-        <div className="country-usage-container">
-          <div className="country-usage-graph">
+        <Container>
+          <GraphContainer>
             <GeoChart data={countryWiseSkillUsage} />
-          </div>
-          <div className="country-usage-list"> {countryUsageList()}</div>
-        </div>
+          </GraphContainer>
+          <ListContainer>{countryUsageList()}</ListContainer>
+        </Container>
       ) : (
-        <div className="unavailable-message">
+        <DefaultMessage>
           Country wise usage distribution is not available.
-        </div>
+        </DefaultMessage>
       )}
     </div>
   );
