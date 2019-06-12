@@ -8,14 +8,14 @@
 }
 
 .device_table {
-position: relative;
-left: 15%;
-margin-top: 30px;
-width: 434px;
+  position: relative;
+  left: 15%;
+  margin-top: 30px;
+  width: 434px;
 }
 
 .twitterIcon{
-right: 5px;
+  right: 5px;
 }
 
 .siteTitle {
@@ -30,8 +30,8 @@ right: 5px;
 }
 
 .settingsBtns {
-top: 1rem;
-margin-left: 20px;
+  top: 1rem;
+  margin-left: 20px;
 }
 
 .settingsComponents{
@@ -61,13 +61,13 @@ margin-left: 20px;
 }
 
 .Link a {
-color : #f75959;
-text-decoration : none;
+  color : #f75959;
+  text-decoration : none;
 }
 
 .Link a:hover {
-color: #ff0000;
-transition: all 0.2s ease-in-out;
+  color: #ff0000;
+  transition: all 0.2s ease-in-out;
 }
 
 .setting-avatar{
@@ -115,51 +115,55 @@ transition: all 0.2s ease-in-out;
 }
 
 .rightMenu {
-width: 64%;
-background-color: #fff;
+  width: 64%;
+  background-color: #fff;
 }
 
 .right-chevron{
-margin-top: 10px;
-position: absolute;
-right: 10px;
+  margin-top: 10px;
+  position: absolute;
+  right: 10px;
 }
 
 .email-field:hover{
   cursor: not-allowed;
 }
 
+.time-zone-picker > ul {
+  background-color: #fff;
+}
+
 @media only screen and (max-width: 1060px){
-.settings-list-dropdown{
-  display: block;
-}
+  .settings-list-dropdown{
+    display: block;
+  }
 
-.settings-list{
-  display: none;
-}
+  .settings-list{
+    display: none;
+  }
 
-.leftMenu {
-  width: 100%;
-  height: auto;
-}
+  .leftMenu {
+    width: 100%;
+    height: auto;
+  }
 
-.rightMenu {
-  height: auto;
-  width: 100%;
-}
-
+  .rightMenu {
+    height: auto;
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 500px) {
-.reduceSettingDiv {
-  width: 70%;
-}
-.settingsBtns {
-  margin-left: 0rem;
-}
+  .reduceSettingDiv {
+    width: 70%;
+  }
 
-.img-upld {
-  padding: 25px;
-  margin-left: 5%;
-}
+  .settingsBtns {
+    margin-left: 0rem;
+  }
+
+  .img-upld {
+    padding: 25px;
+    margin-left: 5%;
+  }
 }
