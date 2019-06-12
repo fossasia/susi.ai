@@ -50,6 +50,7 @@ class App extends Component {
     snackBarProps: PropTypes.object,
     showCookiePolicy: PropTypes.bool,
     modalProps: PropTypes.object,
+    visited: PropTypes.bool,
   };
 
   componentDidMount = () => {
@@ -93,6 +94,7 @@ class App extends Component {
       modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
+      visited,
     } = this.props;
     const skillListRegex = new RegExp('^/skills');
     const pathLength = pathname.split('/').length;
@@ -111,8 +113,9 @@ class App extends Component {
       renderFooterPagesList.includes(pathname) ? (
         <Footer />
       ) : null;
-    const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
-    const renderDialog = isModalOpen ? <DialogSection /> : null;
+    const renderCookiePolicy =
+      showCookiePolicy === true ? <CookiePolicy /> : null;
+    const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -218,6 +221,7 @@ function mapStateToProps(store) {
     ...store.ui,
     accessToken: store.app.accessToken,
     showCookiePolicy: store.app.showCookiePolicy,
+    visited: store.app.visited,
   };
 }
 
