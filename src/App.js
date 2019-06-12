@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { theme } from './MUItheme';
+import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
 import Snackbar from '@material-ui/core/Snackbar';
 import Blog from './components/Blog/Blog.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
@@ -190,6 +191,7 @@ class App extends Component {
               <Route exact path="/support" component={Support} />
               <Route exact path="/terms" component={Terms} />
               <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/verify-account" component={VerifyAccount} />
               <Route exact path="/logout" component={Logout} />
               <Route path="/admin" component={Admin} />
               <ProtectedRoute exact path="/settings" component={Settings} />
