@@ -24,7 +24,7 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
 
-import './SkillHistory.css';
+import styled, { css } from 'styled-components';
 
 const ErrorNotification = () => {
   return notification.open({
@@ -33,6 +33,21 @@ const ErrorNotification = () => {
     icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
   });
 };
+
+export const VersionContainer = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  ${props =>
+    props.floatLeft &&
+    css`
+      width: 50%;
+      float: left;
+      @media (max-width: 768px) {
+        float: none;
+        width: 100%;
+      }
+    `}
+`;
 
 const styles = {
   homeStyle: {
@@ -217,7 +232,7 @@ class SkillHistory extends Component {
                   </h3>
                 </div>
               </Paper>
-              <div className="version-code-left">
+              <VersionContainer floatLeft>
                 <span>
                   commitID: <b>{commitData[0].commit.commitId}</b>
                 </span>
@@ -247,8 +262,8 @@ class SkillHistory extends Component {
                     }}
                   />
                 </div>
-              </div>
-              <div className="version-code-right">
+              </VersionContainer>
+              <VersionContainer>
                 <span>
                   commitID: <b>{commitData[1].commit.commitId}</b>
                 </span>
@@ -299,7 +314,7 @@ class SkillHistory extends Component {
                     }}
                   />
                 </div>
-              </div>
+              </VersionContainer>
               <div>
                 <h1 className="title" style={{ marginTop: '20px' }}>
                   Changes

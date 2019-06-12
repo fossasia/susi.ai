@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
-import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -33,14 +32,20 @@ import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import Emoji from 'react-emoji-render';
 import styled from 'styled-components';
 
-import '../SkillFeedbackCard/SkillFeedbackCard.css';
 import './SkillFeedbackPage.css';
 import { urls, parseDate, formatDate } from '../../../utils';
+import { Paper } from '../../shared/Container';
+import { SubTitle } from '../../shared/Typography';
 
 const Div = styled.div`
   margin-top: 3.125rem;
   width: 100%;
   font-size: 0.875rem;
+`;
+
+const Timestamp = styled.div`
+  color: #aaa;
+  font-size: 12px;
 `;
 
 const LEFT_PAGE = 'LEFT';
@@ -367,9 +372,9 @@ class SkillFeedbackPage extends Component {
               <CircleImage {...avatarProps} size="40" />
               <div style={{ width: '90%' }}>
                 <div>{userName === '' ? userEmail : userName}</div>
-                <div className="feedback-timestamp">
+                <Timestamp>
                   {formatDate(parseDate(userFeedback.timestamp))}
-                </div>
+                </Timestamp>
                 <div>
                   <Emoji text={userFeedback.feedback} />
                 </div>
@@ -429,9 +434,7 @@ class SkillFeedbackPage extends Component {
                       ? userName
                       : `${userEmail.slice(0, userEmail.indexOf('@') + 1)}...`}
                   </div>
-                  <div className="feedback-timestamp">
-                    {formatDate(parseDate(data.timestamp))}
-                  </div>
+                  <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
                   <div>
                     <Emoji text={data.feedback} />
                   </div>
@@ -447,12 +450,12 @@ class SkillFeedbackPage extends Component {
       <div>
         {accessToken && !userFeedback ? (
           <div>
-            <div className="subTitle">
+            <SubTitle size="1rem">
               {`Write your invaluable feedback with
             ${this.skillName} on SUSI.AI`}
-            </div>
+            </SubTitle>
             <div>
-              <div className="feedback-textbox">
+              <Timestamp>
                 <FormControl fullWidth={true}>
                   <Input
                     id="post-feedback"
@@ -476,7 +479,7 @@ class SkillFeedbackPage extends Component {
                 >
                   Post
                 </Button>
-              </div>
+              </Timestamp>
             </div>
           </div>
         ) : null}
@@ -491,7 +494,7 @@ class SkillFeedbackPage extends Component {
       renderElement = (
         <div>
           <Div className="skill_listing_container">
-            <Paper className="margin-b-md margin-t-md">
+            <Paper>
               <p style={{ marginLeft: 10 }}>
                 <Link
                   to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}

@@ -14,7 +14,8 @@ import AuthorSkills from '../AuthorSkills/AuthorSkills';
 import SkillUsageCard from '../SkillUsageCard/SkillUsageCard';
 import SkillRatingCard from '../SkillRating/SkillRatingCard';
 import SkillFeedbackCard from '../SkillFeedbackCard/SkillFeedbackCard';
-import _Paper from '@material-ui/core/Paper';
+import { Paper as _Paper } from '../../shared/Container';
+import { Title } from '../../shared/Typography';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -55,6 +56,46 @@ const Paper = styled(_Paper)`
   }
   @media (max-width: 370px) {
     width: 55%;
+  }
+`;
+
+const ExampleComment = styled.div`
+  cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid #eaeded;
+  background-color: #f4f6f6;
+  margin: 1.5% 0.85% 1.5% 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 192;
+  position: relative;
+
+  :before {
+    content: ' ';
+    position: absolute;
+    bottom: -14px;
+    right: 10%;
+    border-width: 0 0 13px 26px;
+    border-style: solid;
+    display: block;
+    border-color: transparent #eaeded;
+    width: 0;
+  }
+
+  :after {
+    content: ' ';
+    position: absolute;
+    bottom: -12px;
+    right: 10%;
+    border-width: 0 0 12px 25px;
+    border-style: solid;
+    border-color: #f4f6f6 transparent transparent #f4f6f6;
   }
 `;
 
@@ -387,7 +428,7 @@ class SkillListing extends Component {
                   examples[Object.keys(examples)[0]] &&
                   examples.slice(0, skillExampleCount).map((data, index) => {
                     return (
-                      <div
+                      <ExampleComment
                         key={index}
                         className="example-comment"
                         onClick={event =>
@@ -398,7 +439,7 @@ class SkillListing extends Component {
                         }
                       >
                         <q>{data}</q>
-                      </div>
+                      </ExampleComment>
                     );
                   })}
               </div>
@@ -409,133 +450,129 @@ class SkillListing extends Component {
                 {seeMoreSkillExamples}
               </div>
             </div>
-            <Paper className="margin-b-md margin-t-md">
-              <div className="desc margin-b-md margin-t-md">
-                <h1 className="title">Description</h1>
-                <p className="card-content">{descriptions}</p>
-                {dynamicContent && (
-                  <div className="card-content">
-                    <ul>
-                      <li>
-                        This skill contains dynamic content that is updated in
-                        real time based on inputs from the user.
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                {termsOfUse && termsOfUse !== '<link>' && (
-                  <div className="card-content">
-                    <a
-                      href={termsOfUse}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Terms & Conditions
-                    </a>
-                  </div>
-                )}
-
-                {developerPrivacyPolicy && developerPrivacyPolicy !== '<link>' && (
-                  <div className="card-content">
-                    <a
-                      href={developerPrivacyPolicy}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Developer Privacy Policy
-                    </a>
-                  </div>
-                )}
-              </div>
-            </Paper>
-            <Paper className="margin-b-md margin-t-md">
-              <div className="desc margin-b-md margin-t-md">
-                <h1 className="title">Skill Details</h1>
+            <Paper>
+              <Title>Description</Title>
+              <p className="card-content">{descriptions}</p>
+              {dynamicContent && (
                 <div className="card-content">
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>Category: </td>
-                        <td>
-                          <Link to={`/skills/category/${this.groupValue}`}>
-                            {this.groupValue}
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Language: </td>
-                        <td>
-                          <Link to={`/skills/language/${this.languageValue}`}>
-                            {ISO6391.getNativeName(this.languageValue)}
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Updated on: </td>
-                        <td>{` ${parseDate(lastModifiedTime)}`}</td>
-                      </tr>
-                      <tr>
-                        <td>Languages supported:</td>
-                        <td>
-                          {supportedLanguages.map((data, index) => {
-                            const delimiter =
-                              supportedLanguages.length === index + 1
-                                ? null
-                                : ', ';
-                            return (
-                              <Link
-                                key={index}
-                                onClick={this.forceUpdate}
-                                to={`/skills/${this.groupValue}/${data.name}/${data.language}`}
-                              >
-                                {ISO6391.getNativeName(data.language)}
-                                {delimiter}
-                              </Link>
-                            );
-                          })}
-                        </td>
-                      </tr>
-                      {accessToken && (
-                        <tr>
-                          <td>Report: </td>
-                          <td>
-                            <div
-                              style={{ color: '#108ee9', cursor: 'pointer' }}
-                              onClick={this.handleReportToggle}
-                            >
-                              Flag as inappropriate
-                            </div>
-                          </td>
-                          <Dialog
-                            open={showReportDialog}
-                            onClose={this.handleReportToggle}
-                            maxWidth={'sm'}
-                            fullWidth={true}
-                          >
-                            <DialogTitle>Flag as inappropriate</DialogTitle>
-                            <DialogContent>
-                              <TextField
-                                multiline={true}
-                                fullWidth={true}
-                                onChange={(event, val) =>
-                                  this.saveReportFeedback(event.target.value)
-                                }
-                                label="Feedback message"
-                                placeholder="Leave a feedback message"
-                              />
-                            </DialogContent>
-                            <DialogActions>{reportDialogActions}</DialogActions>
-                          </Dialog>
-                        </tr>
-                      )}
-                      <tr>
-                        <td>Content Rating: </td>
-                        <td>4+ age</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <ul>
+                    <li>
+                      This skill contains dynamic content that is updated in
+                      real time based on inputs from the user.
+                    </li>
+                  </ul>
                 </div>
+              )}
+
+              {termsOfUse && termsOfUse !== '<link>' && (
+                <div className="card-content">
+                  <a
+                    href={termsOfUse}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Terms & Conditions
+                  </a>
+                </div>
+              )}
+
+              {developerPrivacyPolicy && developerPrivacyPolicy !== '<link>' && (
+                <div className="card-content">
+                  <a
+                    href={developerPrivacyPolicy}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Developer Privacy Policy
+                  </a>
+                </div>
+              )}
+            </Paper>
+            <Paper>
+              <Title>Skill Details</Title>
+              <div className="card-content">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>Category: </td>
+                      <td>
+                        <Link to={`/skills/category/${this.groupValue}`}>
+                          {this.groupValue}
+                        </Link>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Language: </td>
+                      <td>
+                        <Link to={`/skills/language/${this.languageValue}`}>
+                          {ISO6391.getNativeName(this.languageValue)}
+                        </Link>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Updated on: </td>
+                      <td>{` ${parseDate(lastModifiedTime)}`}</td>
+                    </tr>
+                    <tr>
+                      <td>Languages supported:</td>
+                      <td>
+                        {supportedLanguages.map((data, index) => {
+                          const delimiter =
+                            supportedLanguages.length === index + 1
+                              ? null
+                              : ', ';
+                          return (
+                            <Link
+                              key={index}
+                              onClick={this.forceUpdate}
+                              to={`/skills/${this.groupValue}/${data.name}/${data.language}`}
+                            >
+                              {ISO6391.getNativeName(data.language)}
+                              {delimiter}
+                            </Link>
+                          );
+                        })}
+                      </td>
+                    </tr>
+                    {accessToken && (
+                      <tr>
+                        <td>Report: </td>
+                        <td>
+                          <div
+                            style={{ color: '#108ee9', cursor: 'pointer' }}
+                            onClick={this.handleReportToggle}
+                          >
+                            Flag as inappropriate
+                          </div>
+                        </td>
+                        <Dialog
+                          open={showReportDialog}
+                          onClose={this.handleReportToggle}
+                          maxWidth={'sm'}
+                          fullWidth={true}
+                        >
+                          <DialogTitle>Flag as inappropriate</DialogTitle>
+                          <DialogContent>
+                            <TextField
+                              multiline={true}
+                              fullWidth={true}
+                              onChange={(event, val) =>
+                                this.saveReportFeedback(event.target.value)
+                              }
+                              label="Feedback message"
+                              placeholder="Leave a feedback message"
+                            />
+                          </DialogContent>
+                          <DialogActions>{reportDialogActions}</DialogActions>
+                        </Dialog>
+                      </tr>
+                    )}
+                    <tr>
+                      <td>Content Rating: </td>
+                      <td>4+ age</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </Paper>
             <SkillRatingCard />

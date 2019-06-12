@@ -23,12 +23,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import Ratings from 'react-ratings-declarative';
-
-// Material-UI
-import _Paper from '@material-ui/core/Paper';
-
-// CSS
-import './SkillRatingCard.css';
+import { Paper as _Paper } from '../../shared/Container';
+import { SubTitle, Title, DefaultMessage } from '../../shared/Typography';
 
 const Paper = styled(_Paper)`
   @media (max-width: 500px) {
@@ -43,6 +39,37 @@ const Container = styled.div`
   @media (max-width: 500px) {
     width: 100%;
     overflow-x: scroll;
+  }
+`;
+
+const RatingTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 3rem;
+`;
+
+const TimeChartContainer = styled.div`
+  margin: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  @media (max-width: 500px) {
+    margin: 0rem;
+    padding: 0rem;
+  }
+`;
+
+const RatingSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 1.5rem;
+  @media (max-width: 500px) {
+    margin: 0rem;
   }
 `;
 
@@ -166,45 +193,54 @@ class SkillRatingCard extends Component {
     const mobileView = isMobileView();
     return (
       <div>
-        <Paper className="margin-b-md margin-t-md">
-          <h1 className="title" id="rating">
-            Ratings
-          </h1>
+        <Paper>
+          <Title>Ratings</Title>
           {accessToken && (
             <div>
-              <div className="subTitle">
+              <SubTitle size="1rem">
                 {' '}
                 Rate your experience with {skillTag} on SUSI.AI{' '}
+              </SubTitle>
+              <div
+                style={{
+                  textAlign: 'center',
+                  margin: '1.5rem',
+                }}
+              >
+                <Ratings
+                  rating={userRating}
+                  widgetRatedColors="#ffbb28"
+                  widgetHoverColors="#ffbb28"
+                  widgetDimensions={mobileView ? '30px' : '50px'}
+                  changeRating={this.changeRating}
+                >
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                </Ratings>
               </div>
-              <div className="ratings-section">
-                <div>
-                  <Ratings
-                    rating={userRating}
-                    widgetRatedColors="#ffbb28"
-                    widgetHoverColors="#ffbb28"
-                    widgetDimensions={mobileView ? '30px' : '50px'}
-                    changeRating={this.changeRating}
-                  >
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                  </Ratings>
-                </div>
+              <div style={{ textAlign: 'center', fontSize: '1rem' }}>
+                {this.getRatingMessage()}
               </div>
-              <div className="rating-message">{this.getRatingMessage()}</div>
             </div>
           )}
           {skillRatings.totalStar ? (
-            <div className="ratings-section">
-              <div className="average">
+            <RatingSection>
+              <RatingTextContainer>
                 <div className="large-text">
                   {parseFloat(skillRatings.avgStar.toFixed(2)) || 0}
                 </div>
                 Average Rating
-              </div>
-              <div className="rating-bar-chart">
+              </RatingTextContainer>
+              <div
+                style={{
+                  flex: 3,
+                  margin: '16px 32px 16px 16px',
+                  padding: '20px',
+                }}
+              >
                 <ResponsiveContainer width={chartWidth} height={200}>
                   <BarChart
                     layout="vertical"
@@ -257,14 +293,12 @@ class SkillRatingCard extends Component {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <div className="total-rating">
+              <RatingTextContainer>
                 <div className="large-text">{skillRatings.totalStar || 0}</div>
                 Total Ratings
-              </div>
-              <div className="time-chart">
-                <div className="sub-title" style={{ alignSelf: 'flex-start' }}>
-                  Rating over time
-                </div>
+              </RatingTextContainer>
+              <TimeChartContainer>
+                <SubTitle>Rating over time</SubTitle>
                 {ratingsOverTime.length ? (
                   <Container>
                     <ResponsiveContainer
@@ -295,12 +329,12 @@ class SkillRatingCard extends Component {
                 ) : (
                   <div>No ratings data over time is present.</div>
                 )}
-              </div>
-            </div>
+              </TimeChartContainer>
+            </RatingSection>
           ) : (
-            <div className="ratings-default-message">
+            <DefaultMessage>
               No ratings data available yet, be the first to rate this skill!
-            </div>
+            </DefaultMessage>
           )}
         </Paper>
       </div>
