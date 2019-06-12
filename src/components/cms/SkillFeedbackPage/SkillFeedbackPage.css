@@ -45,12 +45,12 @@
     justify-content: center;
 }
 
-ul.pagination li.page-item.navigation a.page-link{
+ul.pagination li.page-item.navigation div.page-link{
     border: 0px;
     background: #fff;
 }
 
-ul.pagination li.page-item.active a.page-link {
+ul.pagination li.page-item.active div.page-link {
     font-weight: 700;
     background-color: #fff;
     background-image: none;
@@ -73,7 +73,7 @@ li.page-item {
     margin-left: 4px;
 }
 
-ul.pagination li a, .navigation-pagination a{
+ul.pagination li div, .navigation-pagination div{
     border-radius: 3px;
     box-shadow: 0 1px 0 rgba(255,255,255,.6) inset;
     background: #eff1f3;
@@ -87,10 +87,14 @@ ul.pagination li a, .navigation-pagination a{
     color: #000000;
     padding: 8px 12px 7px 13px;
     margin-left: 4px;
+    cursor: pointer;
 }
 
 .navigation-pagination{
     padding: 8px 12px 7px 13px;
+    position: relative;
+    bottom: 10px;
+    cursor: pointer;
 }
 
 ul.pagination li {
@@ -120,7 +124,7 @@ ul.pagination li a:hover, .navigation-pagination a:hover{
     border: 1px solid transparent;
 }
 
-a.navigation-pagination-text-disabled{
+div.navigation-pagination-text-disabled{
     color: #999;
     cursor: inherit;
 }

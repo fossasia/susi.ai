@@ -13,9 +13,9 @@ const NotFound = ({ accessToken, actions }) => {
     <div>
       <div className="container-fluid not-found-banner">
         <h2>
-          <a className="susilogo">
+          <div className="susilogo">
             <img src={LogoImg} to={'/'} alt="Page Not Found" />
-          </a>
+          </div>
         </h2>
         <h1>404</h1>
         <h2>Page not found</h2>

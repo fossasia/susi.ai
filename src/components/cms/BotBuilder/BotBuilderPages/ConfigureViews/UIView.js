@@ -45,7 +45,9 @@ class UIView extends Component {
         title: 'Operation',
         dataIndex: 'operation',
         render: (text, record) => {
-          return <a onClick={() => this.handleDelete(record.key)}>Delete</a>;
+          return (
+            <div onClick={() => this.handleDelete(record.key)}>Delete</div>
+          );
         },
       },
     ];
