@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Legend, PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
+import styled from 'styled-components';
 
 const renderActiveShape = props => {
   const RADIAN = Math.PI / 180;
@@ -88,6 +89,14 @@ renderActiveShape.propTypes = {
   value: PropTypes.number,
   name: PropTypes.string,
 };
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-bottom: 2rem;
+`;
+
 class PieChartContainer extends Component {
   static propTypes = {
     cellData: PropTypes.array,
@@ -109,27 +118,29 @@ class PieChartContainer extends Component {
     const { activePieIndex } = this.state;
     const { cellData, data, showLegend = true, ...otherProps } = this.props;
     return (
-      <ResponsiveContainer width={600} height={350}>
-        <PieChart>
-          <Pie
-            activeIndex={activePieIndex}
-            activeShape={renderActiveShape}
-            data={data}
-            cx={300}
-            cy={175}
-            innerRadius={80}
-            outerRadius={120}
-            fill="#8884d8"
-            onMouseEnter={this.onPieEnter}
-            {...otherProps}
-          >
-            {cellData}
-          </Pie>
-          {showLegend ? (
-            <Legend wrapperStyle={{ position: 'relative' }} />
-          ) : null}
-        </PieChart>
-      </ResponsiveContainer>
+      <Container>
+        <ResponsiveContainer width={600} height={350}>
+          <PieChart>
+            <Pie
+              activeIndex={activePieIndex}
+              activeShape={renderActiveShape}
+              data={data}
+              cx={300}
+              cy={175}
+              innerRadius={80}
+              outerRadius={120}
+              fill="#8884d8"
+              onMouseEnter={this.onPieEnter}
+              {...otherProps}
+            >
+              {cellData}
+            </Pie>
+            {showLegend ? (
+              <Legend wrapperStyle={{ position: 'relative' }} />
+            ) : null}
+          </PieChart>
+        </ResponsiveContainer>
+      </Container>
     );
   }
 }

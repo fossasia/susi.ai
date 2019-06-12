@@ -17,6 +17,8 @@ import {
   modifySkill,
 } from '../../../apis';
 
+import { VersionContainer } from '../SkillHistory/SkillHistory';
+
 import 'brace/mode/markdown';
 import 'brace/theme/github';
 import 'brace/theme/monokai';
@@ -275,7 +277,7 @@ class SkillRollBack extends Component {
                   Revision as of <b>{commitData[1].date}</b>
                 </span>
               </Paper>
-              <div className="version-code-left">
+              <VersionContainer float={'left'}>
                 <span>
                   commitID: <b>{commitData[0].commitID}</b>
                 </span>
@@ -304,8 +306,8 @@ class SkillRollBack extends Component {
                     }}
                   />
                 </div>
-              </div>
-              <div className="version-code-right">
+              </VersionContainer>
+              <VersionContainer>
                 <span>
                   commitID: <b>{commitData[1].commitID}</b>
                 </span>
@@ -334,7 +336,7 @@ class SkillRollBack extends Component {
                     }}
                   />
                 </div>
-              </div>
+              </VersionContainer>
               <div>
                 <h1 className="title" style={{ marginTop: '20px' }}>
                   Changes

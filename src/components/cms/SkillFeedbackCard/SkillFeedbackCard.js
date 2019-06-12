@@ -1,6 +1,5 @@
 // Packages
 import React, { Component } from 'react';
-import _Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -27,16 +26,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Emoji from 'react-emoji-render';
+import { parseDate, formatDate } from '../../../utils';
+import { Title, DefaultMessage, SubTitle } from '../../shared/Typography';
+import { Paper as _Paper } from '../../shared/Container';
 
 // Icons
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
-
-// CSS
-import './SkillFeedbackCard.css';
-
-import { parseDate, formatDate } from '../../../utils';
 
 const Paper = styled(_Paper)`
   @media (max-width: 500px) {
@@ -45,6 +42,11 @@ const Paper = styled(_Paper)`
   @media (max-width: 370px) {
     width: 55%;
   }
+`;
+
+const Timestamp = styled.div`
+  color: #aaa;
+  font-size: 12px;
 `;
 
 class SkillFeedbackCard extends Component {
@@ -213,9 +215,7 @@ class SkillFeedbackCard extends Component {
                 <CircleImage {...avatarProps} size="40" />
                 <div style={{ width: '90%' }}>
                   <div>{userName === '' ? userEmail : userName}</div>
-                  <div className="feedback-timestamp">
-                    {formatDate(parseDate(data.timestamp))}
-                  </div>
+                  <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
                   <div>
                     <Emoji text={data.feedback} />
                   </div>
@@ -265,9 +265,7 @@ class SkillFeedbackCard extends Component {
                     ? userName
                     : `${userEmail.slice(0, userEmail.indexOf('@') + 1)}...`}
                 </div>
-                <div className="feedback-timestamp">
-                  {formatDate(parseDate(data.timestamp))}
-                </div>
+                <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
                 <div>
                   <Emoji text={data.feedback} />
                 </div>
@@ -287,18 +285,16 @@ class SkillFeedbackCard extends Component {
     }
 
     return (
-      <Paper className="margin-b-md margin-t-md">
-        <div className="top-section">
-          <h1 className="title">Feedback</h1>
-        </div>
+      <Paper>
+        <Title>Feedback</Title>
         {accessToken && !userFeedbackCard ? (
           <div>
-            <div className="subTitle">
+            <SubTitle size="1rem">
               {' '}
               Write your invaluable feedback with {skillTag} on SUSI.AI{' '}
-            </div>
+            </SubTitle>
             <div>
-              <div className="feedback-textbox">
+              <div style={{ padding: '1rem', margin: '1rem' }}>
                 <FormControl fullWidth={true}>
                   <Input
                     id="post-feedback"
@@ -343,9 +339,7 @@ class SkillFeedbackCard extends Component {
               ) : null}
             </List>
           ) : (
-            <div className="feedback-default-message">
-              No feedback present for this skill!
-            </div>
+            <DefaultMessage>No feedback present for this skill!</DefaultMessage>
           ))}
         <Dialog
           open={openEditDialog}
