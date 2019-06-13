@@ -105,6 +105,9 @@ class App extends Component {
       '/blog',
       '/devices',
       '/skills',
+      '/privacy',
+      '/terms',
+      '/contact',
     ];
     const renderAppBar =
       pathname !== '/chat' ? <StaticAppBar showPageTabs={true} /> : null;
