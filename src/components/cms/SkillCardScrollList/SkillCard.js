@@ -3,17 +3,53 @@ import React, { Component } from 'react';
 import Ratings from 'react-ratings-declarative';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
 import PropTypes from 'prop-types';
 import CircleImage from '../../CircleImage/CircleImage';
 import { scrollAnimation } from '../../../utils';
 import Fab from '@material-ui/core/Fab';
 import NavigationChevronLeft from '@material-ui/icons/ChevronLeft';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
-import StaffPick from '../../../images/staff_pick.png';
 import { urls } from '../../../utils';
-import './SkillCardScrollList.min.css';
-import styles from './ScrollStyle';
+import styled from 'styled-components';
+import { ImageContainer, StaffPickImage } from '../SkillsStyle';
+import {
+  Card,
+  Image,
+  TitleContainer,
+  Example,
+  RatingContainer,
+  TotalRating,
+} from '../SkillCardStyle';
+
+const ScrollWrapper = styled.div`
+  margin: 0.625rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const LeftFab = styled(Fab)`
+  position: absolute;
+  left: 16rem;
+  margin-top: 4.6rem;
+  z-index: 1;
+  display: ${props => props.display};
+  @media (max-width: 430px) {
+    left: 8px !important;
+  }
+`;
+
+const RightFab = styled(Fab)`
+  position: absolute;
+  right: 0;
+  margin-top: 4.6rem;
+  margin-right: 0.625rem;
+  z-index: 1;
+  display: ${props => props.display};
+`;
 
 class SkillCard extends Component {
   constructor(props) {
@@ -120,7 +156,7 @@ class SkillCard extends Component {
         }
 
         cards.push(
-          <Card style={styles.skillCard} key={el}>
+          <Card key={el}>
             <Link
               key={el}
               to={{
@@ -133,20 +169,16 @@ class SkillCard extends Component {
                   skill.language,
               }}
             >
-              <div style={styles.imageContainer} key={el}>
+              <ImageContainer key={el}>
                 {image ? (
-                  <div style={styles.image}>
-                    <img alt={skillName} src={image} style={styles.image} />
-                  </div>
+                  <Image alt={skillName} src={image} />
                 ) : (
                   <CircleImage name={el} size="48" />
                 )}
-                {examples ? (
-                  <div style={styles.example}>&quot;{examples}&quot;</div>
-                ) : null}
-              </div>
+                {examples ? <Example>&quot;{examples}&quot;</Example> : null}
+              </ImageContainer>
             </Link>
-            <div style={styles.name}>
+            <TitleContainer>
               <Link
                 to={{
                   pathname:
@@ -160,17 +192,9 @@ class SkillCard extends Component {
               >
                 <span>{skillName}</span>
               </Link>
-              {staffPick && (
-                <div style={styles.staffPick}>
-                  <img
-                    alt="Staff Pick Badge"
-                    src={StaffPick}
-                    className="staffPickIcon"
-                  />
-                </div>
-              )}
-            </div>
-            <div style={styles.rating}>
+              {staffPick && <StaffPickImage />}
+            </TitleContainer>
+            <RatingContainer>
               <Link
                 key={el}
                 to={{
@@ -196,17 +220,15 @@ class SkillCard extends Component {
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <span style={styles.totalRating} title="Total ratings">
-                  {totalRating || 0}
-                </span>
+                <TotalRating>{totalRating || 0}</TotalRating>
               </Link>
-            </div>
+            </RatingContainer>
           </Card>,
         );
       },
     );
     if (cards.length <= this.state.scrollCards) {
-      this.setState({ rightBtnDisplay: 'none' });
+      this.setState({ rightBtnDisplay: 'none', leftBtnDisplay: 'none' });
     }
     this.setState({
       cards,
@@ -214,12 +236,8 @@ class SkillCard extends Component {
   };
 
   render() {
-    let {
-      leftFab: leftFabStyle,
-      rightFab: rightFabStyle,
-      gridList: gridlist,
-    } = styles;
-
+    const { leftBtnDisplay, rightBtnDisplay, cards } = this.state;
+    const { scrollSkills } = this.props;
     return (
       <div
         style={{
@@ -230,36 +248,25 @@ class SkillCard extends Component {
           width: '100%',
         }}
       >
-        <div
-          id={this.props.scrollSkills}
-          className="scrolling-wrapper"
-          style={gridlist}
-        >
-          <Fab
+        <ScrollWrapper id={scrollSkills}>
+          <LeftFab
             size="small"
-            className="leftFab"
             color="primary"
-            style={{
-              ...leftFabStyle,
-              display: this.state.leftBtnDisplay,
-            }}
             onClick={this.scrollLeft}
+            display={leftBtnDisplay}
           >
-            <NavigationChevronLeft />
-          </Fab>
-          {this.state.cards}
-          <Fab
+            <NavigationChevronLeft style={{ margin: '8.4px auto' }} />
+          </LeftFab>
+          {cards}
+          <RightFab
             size="small"
             color="primary"
-            style={{
-              ...rightFabStyle,
-              display: this.state.rightBtnDisplay,
-            }}
+            display={rightBtnDisplay}
             onClick={this.scrollRight}
           >
-            <NavigationChevronRight />
-          </Fab>
-        </div>
+            <NavigationChevronRight style={{ margin: '8.4px auto' }} />
+          </RightFab>
+        </ScrollWrapper>
       </div>
     );
   }

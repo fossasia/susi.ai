@@ -1,6 +1,11 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
 
+let languageArray =
+  localStorage.getItem('languages') !== null
+    ? localStorage.getItem('languages').split(',')
+    : [];
+
 const defaultState = {
   viewType: 'list',
   loadingSkills: false,
@@ -20,7 +25,8 @@ const defaultState = {
   languages: [],
   // Filter
   groupValue: 'All',
-  languageValue: localStorage.getItem('languages') || ['en'],
+  languageValue:
+    languageArray.length > 0 && languageArray[0] != '' ? languageArray : ['en'],
   orderBy: 'ascending',
   filterType: '',
   searchQuery: '',
