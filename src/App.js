@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { theme } from './MUItheme';
+import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
 import Snackbar from '@material-ui/core/Snackbar';
 import Blog from './components/Blog/Blog.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
@@ -49,6 +50,7 @@ class App extends Component {
     snackBarProps: PropTypes.object,
     showCookiePolicy: PropTypes.bool,
     modalProps: PropTypes.object,
+    visited: PropTypes.bool,
   };
 
   componentDidMount = () => {
@@ -92,6 +94,7 @@ class App extends Component {
       modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
+      visited,
     } = this.props;
     const skillListRegex = new RegExp('^/skills');
     const pathLength = pathname.split('/').length;
@@ -106,12 +109,13 @@ class App extends Component {
     const renderAppBar =
       pathname !== '/chat' ? <StaticAppBar showPageTabs={true} /> : null;
     const renderFooter =
-      (skillListRegex.test(pathname) && pathLength >= 3 && pathLength <= 5) ||
+      (skillListRegex.test(pathname) && pathLength > 3 && pathLength <= 5) ||
       renderFooterPagesList.includes(pathname) ? (
         <Footer />
       ) : null;
-    const renderCookiePolicy = showCookiePolicy ? <CookiePolicy /> : null;
-    const renderDialog = isModalOpen ? <DialogSection /> : null;
+    const renderCookiePolicy =
+      showCookiePolicy === true ? <CookiePolicy /> : null;
+    const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -187,6 +191,7 @@ class App extends Component {
               <Route exact path="/support" component={Support} />
               <Route exact path="/terms" component={Terms} />
               <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/verify-account" component={VerifyAccount} />
               <Route exact path="/logout" component={Logout} />
               <Route path="/admin" component={Admin} />
               <ProtectedRoute exact path="/settings" component={Settings} />
@@ -216,6 +221,7 @@ function mapStateToProps(store) {
     ...store.ui,
     accessToken: store.app.accessToken,
     showCookiePolicy: store.app.showCookiePolicy,
+    visited: store.app.visited,
   };
 }
 

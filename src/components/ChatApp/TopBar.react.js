@@ -146,14 +146,14 @@ class TopBar extends Component {
                 />
               ) : null}
             </div>
-            <StyledIconButton onClick={() => history.push('/settings')}>
-              {accessToken && (
+            {accessToken && (
+              <StyledIconButton onClick={() => history.push('/settings')}>
                 <FlexContainer>
                   <CircleImage src={userAvatar} size="32" />
                   <UserDetail>{!userName ? email : userName}</UserDetail>
                 </FlexContainer>
-              )}
-            </StyledIconButton>
+              </StyledIconButton>
+            )}
             {/* Pop over menu */}
             <IconButton
               aria-owns={open ? 'menu-popper' : undefined}

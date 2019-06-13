@@ -21,6 +21,7 @@ import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
+import './Settings.css';
 
 const TimezoneContainer = styled.div`
   padding-bottom: 30px;
@@ -340,6 +341,7 @@ class AccountTab extends React.Component {
             <TimezoneContainer>
               <Timezone>
                 <TimezonePicker
+                  className="time-zone-picker"
                   value={timeZone}
                   onChange={timezone => this.handleTimeZone(timezone)}
                   inputProps={{
