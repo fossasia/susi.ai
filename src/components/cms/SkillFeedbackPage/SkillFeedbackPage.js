@@ -620,7 +620,7 @@ class SkillFeedbackPage extends Component {
                 ))}
               <div className="feedback-footer-skill">
                 <Link
-                  to={`/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                  to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                   style={{ color: '#417DDE' }}
                 >
                   <b>
