@@ -8,11 +8,133 @@ import PropTypes from 'prop-types';
 import CircleImage from '../../CircleImage/CircleImage';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import styles from './SkillCardStyle';
-import StaffPick from '../../../images/staff_pick.png';
 import { urls } from '../../../utils';
 import ReactTooltip from 'react-tooltip';
 import '../SkillRating/ReviewPopoverStyle.css';
+
+import { StaffPickImage } from '../SkillsStyle';
+import { RatingContainer, TotalRating } from '../SkillCardStyle';
+
+import styled from 'styled-components';
+
+const Card = styled.div`
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #eaeded;
+  padding: 7px;
+  line-height: 1.25;
+`;
+
+const ImageContainer = styled.div`
+  display: inline-block;
+  align-items: center;
+  padding: 0.625rem;
+  background: #fff;
+`;
+
+const DetailsContainer = styled.div`
+  width: auto;
+  min-width: 45rem;
+  display: flex;
+`;
+
+const ExampleContainer = styled.div`
+  float: left;
+  display: flex;
+  flex-direction: row;
+  width: 57.448%;
+  margin-right: 3%;
+  max-width: 35.8rem;
+`;
+
+const RightContainer = styled.div`
+  height: 100%;
+  float: right;
+  max-width: 17rem;
+  min-width: 10rem;
+  font-size: 0.75rem;
+  width: 40%;
+  margin-right: 11%;
+`;
+
+const Row = styled.div`
+  width: 100%;
+  positive: relative;
+  float: left;
+  text-align: start;
+`;
+
+const TitleContainer = styled.div`
+  text-align: left;
+  font-size: 1.125rem;
+  color: #4285f4;
+  margin: 6px 0px;
+  border: 1px;
+  height: 1.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Example = styled.div`
+  font-style: italic;
+  font-size: 0.875rem;
+  padding: 0.875rem 1.125rem;
+  border-radius: 4px;
+  border: 1px #ddd solid;
+  background-color: #f3f3f3;
+  margin-right: 3.5%;
+  float: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 16.25rem;
+  cursor: pointer;
+`;
+
+const Header = styled.div`
+  margin-bottom: 0.625rem;
+  width: 100%;
+`;
+
+const GridList = styled.div`
+  margin-top: 1.25rem;
+  margin-bottom: 2.5rem;
+  padding: 0px 0.625rem;
+  width: 100%;
+`;
+
+const Content = styled.div`
+  padding-left: 4.3%;
+  float: left;
+  display: block;
+  width: 100%;
+  color: #949494;
+`;
+
+const ImageContainerMobile = styled.div`
+  padding: 0.625rem;
+  height: 7.5rem;
+  display: flex;
+  align-items: center;
+`;
+
+const ImageMobile = styled.img`
+  width: 7.5rem;
+  border-radius: 50%;
+`;
+
+const Image = styled.img`
+  position: relative;
+  width: 14rem;
+  vertical-align: top;
+  border-radius: 50%;
+  margin-left: 6.4%;
+`;
 
 function createListCard(
   el,
@@ -34,19 +156,17 @@ function createListCard(
   const mobileView = window.innerWidth < 430;
   if (mobileView) {
     return (
-      <div style={styles.skillCard} key={el}>
-        <div style={styles.imageContainerMobile}>
+      <Card key={el}>
+        <ImageContainerMobile>
           {image ? (
-            <div style={styles.imageMobile}>
-              <img alt={skillName} src={image} style={styles.imageMobile} />
-            </div>
+            <ImageMobile alt={skillName} src={image} />
           ) : (
-            <CircleImage name={skillName} size="96" />
+            <CircleImage name={skillName} size="120" />
           )}
-        </div>
-        <div style={styles.content}>
-          <div style={styles.header}>
-            <div style={styles.title}>
+        </ImageContainerMobile>
+        <Content>
+          <Header>
+            <TitleContainer>
               <Link
                 key={el}
                 to={{
@@ -55,14 +175,14 @@ function createListCard(
               >
                 <span>{skillName}</span>
               </Link>
-            </div>
-            <div style={styles.authorName}>
+            </TitleContainer>
+            <div style={{ fontSize: 12 }}>
               <span>{authorName}</span>
             </div>
             <div style={{ lineHeight: 1.35, fontSize: 14 }}>
               <span>Skills for SUSI</span>
             </div>
-            <div style={styles.rating}>
+            <RatingContainer>
               <Link
                 key={el}
                 to={{
@@ -82,37 +202,33 @@ function createListCard(
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <span style={styles.totalRating} title="Total ratings">
-                  {totalRating || 0}
-                </span>
+                <TotalRating>{totalRating || 0}</TotalRating>
               </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+            </RatingContainer>
+          </Header>
+        </Content>
+      </Card>
     );
   }
   return (
-    <div style={styles.skillCard} key={el}>
-      <div style={styles.imageContainer}>
+    <Card key={el}>
+      <ImageContainer>
         {image ? (
-          <div style={styles.image}>
-            <Link
-              key={el}
-              to={{
-                pathname: skillPathname,
-              }}
-            >
-              <img alt={skillName} src={image} style={styles.image} />
-            </Link>
-          </div>
+          <Link
+            key={el}
+            to={{
+              pathname: skillPathname,
+            }}
+          >
+            <Image alt={skillName} src={image} />
+          </Link>
         ) : (
           <CircleImage name={skillName} size="160" />
         )}
-      </div>
-      <div style={styles.content}>
-        <div style={styles.header}>
-          <div style={styles.title}>
+      </ImageContainer>
+      <Content>
+        <Header>
+          <TitleContainer>
             <Link
               key={el}
               to={{
@@ -121,27 +237,18 @@ function createListCard(
             >
               <span>{skillName}</span>
             </Link>
-            {staffPick && (
-              <div style={styles.staffPick}>
-                <img
-                  alt="Staff Pick Badge"
-                  src={StaffPick}
-                  className="staffPickIcon"
-                />
-              </div>
-            )}
-          </div>
-          <div style={styles.authorName}>
+            {staffPick && <StaffPickImage />}
+          </TitleContainer>
+          <div style={{ fontSize: '12' }}>
             <span>{authorName}</span>
           </div>
-        </div>
-        <div style={styles.details}>
-          <div style={styles.exampleSection}>
+        </Header>
+        <DetailsContainer>
+          <ExampleContainer>
             {examples.map((eg, index) => {
               return (
-                <div
+                <Example
                   key={index}
-                  style={styles.example}
                   onClick={event =>
                     history.push({
                       pathname: '/chat',
@@ -150,13 +257,13 @@ function createListCard(
                   }
                 >
                   &quot;{eg}&quot;
-                </div>
+                </Example>
               );
             })}
-          </div>
-          <div style={styles.textData}>
-            <div style={styles.row}>
-              <div style={styles.rating}>
+          </ExampleContainer>
+          <RightContainer>
+            <Row>
+              <div>
                 <div data-tip="custom" data-for={dataId}>
                   <Link
                     key={el}
@@ -195,21 +302,21 @@ function createListCard(
                         cursor: 'pointer',
                       }}
                     />
-                    <span style={styles.totalRating} title="Total ratings">
-                      {totalRating || 0}
-                    </span>
+                    <TotalRating>{totalRating || 0}</TotalRating>
                   </Link>
                 </div>
               </div>
-            </div>
-            <div style={styles.row}>
-              <div style={styles.descriptionTitle}>Description</div>
-              <div style={styles.description}>{description}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Row>
+            <Row>
+              <div style={{ fontWeight: 700, lineHeight: 1.25, fontSize: 13 }}>
+                Description
+              </div>
+              <div style={{ fontSize: 12 }}>{description}</div>
+            </Row>
+          </RightContainer>
+        </DetailsContainer>
+      </Content>
+    </Card>
   );
 }
 
@@ -291,7 +398,7 @@ class SkillCardList extends Component {
   };
 
   render() {
-    return <div style={styles.gridList}>{this.loadSkillCards()}</div>;
+    return <GridList>{this.loadSkillCards()}</GridList>;
   }
 }
 

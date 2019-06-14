@@ -1,77 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SkillCard from './SkillCard';
-import styles from '../BrowseSkill/SkillStyle';
+import styled from 'styled-components';
 
-class SkillCardScrollList extends Component {
-  static propTypes = {
-    metricSkills: PropTypes.object,
-  };
+const HeaderText = styled.h4`
+  padding-left: 1rem;
+  font-size: 1.25rem;
+  @media (max-width: 418px) {
+        font-size: 1rem;
+`;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      innerWidth: window.innerWidth,
-    };
+const Container = styled.div`
+  width: 100%;
+  margin: 0.625rem 0px;
+  @media (max-width: 430px) {
+    margin: 0.625rem;
   }
+`;
 
-  render() {
-    let metricsContainerStyle = {
-      width: '100%',
-      margin: this.state.innerWidth >= 430 ? '10px' : '10px 0px 10px 0px',
-    };
+const skillCardListData = [
+  {
+    skills: 'staffPicksSkills',
+    heading: 'Staff Picks',
+  },
+  {
+    skills: 'topRatedSkills',
+    heading: '"SUSI, what are your highest rated skills?"',
+  },
+  {
+    skills: 'topUsedSkills',
+    heading: '"SUSI, what are your most used skills?"',
+  },
+  {
+    skills: 'newestSkills',
+    heading: '"SUSI, what are the newest skills?"',
+  },
+  {
+    skills: 'latestUpdatedSkills',
+    heading: '"SUSI, what are the recently updated skills?"',
+  },
+  {
+    skills: 'topFeedbackSkills',
+    heading: '"SUSI, what are the skills with most feedback?"',
+  },
+  {
+    skills: 'topGames',
+    heading: '"SUSI, what are your top games?"',
+  },
+];
 
-    const skillCardListData = [
-      {
-        skills: 'staffPicksSkills',
-        heading: 'Staff Picks',
-      },
-      {
-        skills: 'topRatedSkills',
-        heading: '"SUSI, what are your highest rated skills?"',
-      },
-      {
-        skills: 'topUsedSkills',
-        heading: '"SUSI, what are your most used skills?"',
-      },
-      {
-        skills: 'newestSkills',
-        heading: '"SUSI, what are the newest skills?"',
-      },
-      {
-        skills: 'latestUpdatedSkills',
-        heading: '"SUSI, what are the recently updated skills?"',
-      },
-      {
-        skills: 'topFeedbackSkills',
-        heading: '"SUSI, what are the skills with most feedback?"',
-      },
-      {
-        skills: 'topGames',
-        heading: '"SUSI, what are your top games?"',
-      },
-    ];
+const SkillCardScrollList = ({ metricSkills }) => {
+  let renderCardScrollList = '';
 
-    let renderCardScrollList = '';
+  renderCardScrollList = skillCardListData.map((data, index) => {
+    return metricSkills[data.skills].length ? (
+      <Container key={index}>
+        <HeaderText>{data.heading}</HeaderText>
+        <SkillCard scrollSkills={data.skills} />
+      </Container>
+    ) : null;
+  });
+  return <div>{renderCardScrollList}</div>;
+};
 
-    renderCardScrollList = skillCardListData.map((data, index) => {
-      return this.props.metricSkills[data.skills].length ? (
-        <div key={index} style={metricsContainerStyle}>
-          <div style={styles.metricsHeader} className="metrics-header">
-            <h4>{data.heading}</h4>
-          </div>
-          <SkillCard scrollSkills={data.skills} />
-        </div>
-      ) : null;
-    });
-    return <div>{renderCardScrollList}</div>;
-  }
-}
+SkillCardScrollList.propTypes = {
+  metricSkills: PropTypes.object,
+};
 
 function mapStateToProps(store) {
   return {
-    ...store.skills,
+    metricSkills: store.skills.metricSkills,
   };
 }
 
