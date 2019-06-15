@@ -18,14 +18,14 @@ import styled from 'styled-components';
 import getCustomThemeColors from '../../../utils/colors';
 import MessageBubble from '../MessageListItem/MessageBubbleStyle';
 
-const MessageList = styled.ul`
+const MessageList = styled.div`
   background: ${props => props.pane};
   position: fixed;
   top: 3rem;
   left: 0;
   bottom: 4.6rem;
   right: 0;
-  width: 100vw;
+  width: 700px;
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: auto;
