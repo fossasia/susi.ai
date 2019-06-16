@@ -10,13 +10,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { divIcon } from 'leaflet';
-import Slider from 'react-slick';
+import SlickSlider from 'react-slick';
 import TickIcon from '@material-ui/icons/Done';
 import ClockIcon from '@material-ui/icons/Schedule';
 import store from '../../../store';
 import Parser from 'html-react-parser';
 import _Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
+import _CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
 import _CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { injectIntl } from 'react-intl';
@@ -37,11 +38,9 @@ const FooterContentContainer = styled.li`
 `;
 
 const CardTitle = styled(Typography)`
-  white-space: no-wrap;
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: 'ellipsis';
-  font-weight: 'bold';
-  color: '#4285f4';
+  text-overflow: ellipsis;
 `;
 
 const CardMedia = styled(_CardMedia)`
@@ -53,9 +52,8 @@ const CardMedia = styled(_CardMedia)`
 const CardUrl = styled.div`
   color: #a9a9a9;
   position: absolute;
-  bottom: 10px;
-  right: 5px;
-  width: 80%;
+  bottom: 4px;
+  right: 4px;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
@@ -63,9 +61,14 @@ const CardUrl = styled.div`
 `;
 
 const Card = styled(_Card)`
-  height: 225px;
+  height: 250px;
   cursor: pointer;
   position: relative;
+`;
+
+const CardActionArea = styled(_CardActionArea)`
+  vertical-align: middle;
+  height: 100%;
 `;
 
 // Render anchor for given text
@@ -227,10 +230,12 @@ export function drawCards(tilesData) {
       >
         <CardActionArea>
           {tile.image && <CardMedia image={tile.image} alt="" />}
-          <CardTitle gutterBottom variant="h5" component="h2">
-            {tile.title}
-          </CardTitle>
-          <div>{cardText}</div>
+          <CardContent style={{ padding: 8, height: 130 }}>
+            <CardTitle variant="h6">{tile.title}</CardTitle>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {cardText}
+            </Typography>
+          </CardContent>
           <CardUrl>{urlDomain(tile.link)}</CardUrl>
         </CardActionArea>
       </Card>
@@ -242,29 +247,33 @@ export function drawCards(tilesData) {
 // Render Websearch RSS tiles
 export function renderTiles(tiles) {
   if (tiles.length === 0) {
-    let noResultFound = 'NO Results Found';
+    let noResultFound = 'No Results Found';
     return <center>{noResultFound}</center>;
   }
   let resultTiles = drawCards(tiles);
-  let slidesToShow = 3;
-  let showArrows = true;
-  if (window.matchMedia('only screen and (max-width: 768px)').matches) {
-    // do functionality on screens smaller than 768px
-    slidesToShow = 2;
-    showArrows = false;
-  }
   const settings = {
     speed: 500,
-    slidesToShow: slidesToShow,
+    slidesToShow: 2.5,
     slidesToScroll: 1,
     swipeToSlide: true,
     swipe: true,
-    arrows: showArrows,
+    arrows: true,
+    infinite: false,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 760,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
   };
   return (
-    <Slider {...settings} adaptiveHeight={true}>
+    <SlickSlider {...settings} adaptiveHeight>
       {resultTiles}
-    </Slider>
+    </SlickSlider>
   );
 }
 
