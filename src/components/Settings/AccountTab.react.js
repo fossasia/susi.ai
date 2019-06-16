@@ -21,6 +21,7 @@ import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './Settings.css';
 
 const TimezoneContainer = styled.div`
@@ -95,6 +96,7 @@ class AccountTab extends React.Component {
       isAvatarUploaded: false,
       settingSave: false,
       avatarAnchorEl: null,
+      loading: false,
     };
     if ('speechSynthesis' in window) {
       this.TTSBrowserSupport = true;
@@ -233,6 +235,7 @@ class AccountTab extends React.Component {
     const { timeZone, prefLanguage, userName, avatarType } = this.state;
     const { actions } = this.props;
     const payload = { timeZone, prefLanguage, userName, avatarType };
+    this.setState({ loading: true });
     setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
@@ -242,13 +245,14 @@ class AccountTab extends React.Component {
           actions
             .setUserSettings(payload)
             .then(() => {
-              this.setState({ settingSave: true });
+              this.setState({ settingSave: true, loading: false });
             })
             .then(() => actions.updateUserAvatar());
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
           });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -273,6 +277,7 @@ class AccountTab extends React.Component {
       isAvatarAdded,
       isAvatarUploaded,
       settingSave,
+      loading,
     } = this.state;
     const {
       actions,
@@ -289,7 +294,8 @@ class AccountTab extends React.Component {
         (avatarType !== 'server'
           ? avatarType === _avatarType
           : !isAvatarUploaded || !isAvatarAdded || settingSave)) ||
-      userNameError;
+      userNameError ||
+      loading;
 
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
@@ -389,9 +395,13 @@ class AccountTab extends React.Component {
           color="primary"
           onClick={this.handleSubmit}
           disabled={disabled}
-          style={{ margin: '1.5rem 0' }}
+          style={{ margin: '1.5rem 0', width: '10rem' }}
         >
-          <Translate text="Save Changes" />
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <Translate text="Save Changes" />
+          )}
         </Button>
         <TabHeading>
           <Translate text="Danger Zone" />
