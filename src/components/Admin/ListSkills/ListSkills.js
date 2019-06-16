@@ -5,17 +5,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 /* Material UI */
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 /* Utils */
-import DialogContent from '@material-ui/core/DialogContent';
 import uiActions from '../../../redux/actions/ui';
 import {
   changeSkillStatus,
@@ -49,11 +42,6 @@ const ActionSeparator = styled.span`
   margin-right: 0.313rem;
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 class ListSkills extends React.Component {
   constructor(props) {
     super(props);
@@ -62,8 +50,6 @@ class ListSkills extends React.Component {
       groups: [],
       deletedSkills: [],
       loading: true,
-      isAction: false,
-      showDialog: false,
       skillName: '',
       skillTag: '',
       skillModel: '',
@@ -73,14 +59,6 @@ class ListSkills extends React.Component {
       skillEditStatus: true,
       skillStaffPickStatus: false,
       systemSkillStatus: false,
-      changeStatusSuccessDialog: false,
-      changeStatusFailureDialog: false,
-      showDeleteDialog: false,
-      showRestoreDialog: false,
-      deleteSuccessDialog: false,
-      deleteFailureDialog: false,
-      restoreSuccessDialog: false,
-      restoreFailureDialog: false,
       value: 0,
     };
   }
@@ -114,11 +92,33 @@ class ListSkills extends React.Component {
       systemSkill,
     })
       .then(payload => {
-        this.setState({ changeStatusSuccessDialog: true });
+        this.props.actions.openModal({
+          modalType: 'confirmSkill',
+          title: 'Success',
+          handleConfirm: this.props.actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Status of <span className="skillName">{skill}</span> has been
+              changed successfully!
+            </p>
+          ),
+        });
       })
       .catch(error => {
         console.log(error);
-        this.setState({ changeStatusFailureDialog: true });
+        this.props.actions.openModal({
+          modalType: 'confirmSkill',
+          title: 'Failed',
+          handleConfirm: this.props.actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Error! Status of <span className="skillName">{skill}</span> could
+              not be changed!
+            </p>
+          ),
+        });
       });
   };
 
@@ -131,12 +131,36 @@ class ListSkills extends React.Component {
       skillName: skill,
     } = this.state;
     deleteSkill({ model, group, language, skill })
-      .then(payload =>
-        this.setState({ loading: false, deleteSuccessDialog: true }),
-      )
+      .then(payload => {
+        this.setState({ loading: false });
+        this.props.actions.openModal({
+          modalType: 'confirmSkill',
+          title: 'Success',
+          handleConfirm: this.props.actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              You successfully deleted{' '}
+              <span className="skillName">{skill}</span>!
+            </p>
+          ),
+        });
+      })
       .catch(error => {
         console.log(error);
-        this.setState({ loading: false, deleteFailureDialog: true });
+        this.setState({ loading: false });
+        this.props.actions.openModal({
+          modalType: 'confirmSkill',
+          title: 'Failed',
+          handleConfirm: this.props.actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Error! <span className="skillName">${skill}</span> could not be
+              deleted!
+            </p>
+          ),
+        });
       });
   };
 
@@ -150,11 +174,35 @@ class ListSkills extends React.Component {
     } = this.state;
     undoDeleteSkill({ model, group, language, skill })
       .then(payload => {
-        this.setState({ loading: false, restoreSuccessDialog: true });
+        this.setState({ loading: false });
+        this.props.actions.openModal({
+          modalType: 'confirmSkill',
+          title: 'Success',
+          handleConfirm: this.props.actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              You successfully restored{' '}
+              <span className="skillName">{skill}</span>!
+            </p>
+          ),
+        });
       })
       .catch(error => {
         console.log(error);
-        this.setState({ loading: false, restoreFailureDialog: true });
+        this.setState({ loading: false });
+        this.props.actions.openModal({
+          modalType: 'confirmSkill',
+          title: 'Failed',
+          handleConfirm: this.props.actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Error! <span className="skillName">{skill}</span> could not be
+              restored!
+            </p>
+          ),
+        });
       });
   };
 
@@ -254,17 +302,14 @@ class ListSkills extends React.Component {
 
   handleChange = () => {
     this.changeStatus();
-    this.handleClose();
   };
 
   confirmDelete = () => {
     this.deleteSkill();
-    this.handleClose();
   };
 
   confirmRestore = () => {
     this.restoreSkill();
-    this.handleClose();
   };
 
   handleDelete = (name, model, group, language) => {
@@ -273,7 +318,12 @@ class ListSkills extends React.Component {
       skillGroup: group,
       skillLanguage: language,
       skillName: name,
-      showDeleteDialog: true,
+    });
+    this.props.actions.openModal({
+      modalType: 'deleteSkill',
+      handleConfirm: this.confirmDelete,
+      skillName: name,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
@@ -283,7 +333,12 @@ class ListSkills extends React.Component {
       skillGroup: group,
       skillLanguage: language,
       skillName: name,
-      showRestoreDialog: true,
+    });
+    this.props.actions.openModal({
+      modalType: 'restoreSkill',
+      handleConfirm: this.confirmRestore,
+      skillName: name,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
@@ -308,15 +363,15 @@ class ListSkills extends React.Component {
       skillEditStatus: editStatus,
       skillStaffPickStatus: staffPickStatus,
       systemSkillStatus: systemSkillStatus,
-      showDialog: true,
     });
-  };
-
-  handleClose = () => {
-    this.setState({
-      showDialog: false,
-      showDeleteDialog: false,
-      showRestoreDialog: false,
+    this.props.actions.openModal({
+      modalType: 'editSkill',
+      skillReviewStatus: reviewStatus,
+      skillEditStatus: editStatus,
+      skillStaffPickStatus: staffPickStatus,
+      systemSkillStatus: systemSkillStatus,
+      handleChange: this.handleChange,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
@@ -357,14 +412,7 @@ class ListSkills extends React.Component {
   };
 
   render() {
-    const { groups, loading, skillName, value } = this.state;
-    const OkButton = () => (
-      <DialogActions>
-        <Button key={1} onClick={this.handleFinish}>
-          Ok
-        </Button>
-      </DialogActions>
-    );
+    const { groups, loading, value } = this.state;
 
     let columns = [
       {
@@ -553,181 +601,6 @@ class ListSkills extends React.Component {
             )}
             {value === 0 && (
               <React.Fragment>
-                <Dialog
-                  maxWidth={'sm'}
-                  fullWidth={true}
-                  open={this.state.showDialog}
-                  onClose={this.handleClose}
-                >
-                  <DialogTitle>Skill Settings for {skillName}</DialogTitle>
-                  <DialogContent>
-                    <Container>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={this.state.skillReviewStatus}
-                            onChange={this.handleReviewStatusChange}
-                            color="primary"
-                          />
-                        }
-                        label="Reviewed"
-                      />
-
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={this.state.skillEditStatus}
-                            onChange={this.handleEditStatusChange}
-                            color="primary"
-                          />
-                        }
-                        label="Editable"
-                      />
-
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={this.state.skillStaffPickStatus}
-                            onChange={this.handleStaffPickStatusChange}
-                            color="primary"
-                          />
-                        }
-                        label="Staff Pick"
-                      />
-
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={this.state.systemSkillStatus}
-                            onChange={this.handleSystemSkillStatusChange}
-                            color="primary"
-                          />
-                        }
-                        label="System Skill"
-                      />
-                    </Container>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button key={1} onClick={this.handleChange}>
-                      Change
-                    </Button>
-                    <Button key={2} onClick={this.handleClose}>
-                      Cancel
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-
-                <Dialog
-                  title="Delete Skill"
-                  open={this.state.showDeleteDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogContent>
-                    Are you sure you want to delete{' '}
-                    <span className="skillName">{skillName}</span>?
-                  </DialogContent>
-                  <DialogActions>
-                    <Button key={1} onClick={this.confirmDelete}>
-                      Delete
-                    </Button>
-                    <Button key={2} onClick={this.handleClose}>
-                      Cancel
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                <Dialog
-                  open={this.state.showRestoreDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogContent>
-                    Restore Skill Are you sure you want to restore{' '}
-                    <span className="skillName">{skillName}</span>?
-                  </DialogContent>
-                  <DialogActions>
-                    <Button key={1} onClick={this.confirmRestore}>
-                      Restore
-                    </Button>
-                    <Button key={2} onClick={this.handleClose}>
-                      Cancel
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                <Dialog
-                  open={this.state.restoreSuccessDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogTitle>Success</DialogTitle>
-                  <DialogContent>
-                    You successfully restored{' '}
-                    <span className="skillName">{skillName}</span>!
-                  </DialogContent>
-                  <OkButton />
-                </Dialog>
-                <Dialog
-                  open={this.state.restoreFailureDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogTitle>Failed!</DialogTitle>
-                  <DialogContent>
-                    Error! <span className="skillName">{skillName}</span> could
-                    not be restored!
-                  </DialogContent>
-                  <OkButton />
-                </Dialog>
-                <Dialog
-                  open={this.state.deleteSuccessDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogTitle>Success</DialogTitle>
-                  <DialogContent>
-                    You successfully deleted{' '}
-                    <span className="skillName">{skillName}</span>!
-                  </DialogContent>
-                  <OkButton />
-                </Dialog>
-                <Dialog
-                  open={this.state.deleteFailureDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogTitle>Failed</DialogTitle>
-                  <DialogContent>
-                    Error! <span className="skillName">{skillName}</span> could
-                    not be deleted!
-                  </DialogContent>
-                  <OkButton />
-                </Dialog>
-
-                <Dialog
-                  open={this.state.changeStatusSuccessDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogTitle>Success</DialogTitle>
-                  <DialogContent>
-                    Status of <span className="skillName">{skillName}</span> has
-                    been changed successfully!
-                  </DialogContent>
-                  <OkButton />
-                </Dialog>
-                <Dialog
-                  open={this.state.changeStatusFailureDialog}
-                  maxWidth={'xs'}
-                  fullWidth={true}
-                >
-                  <DialogTitle>Failed</DialogTitle>
-                  <DialogContent>
-                    Error! Status of{' '}
-                    <span className="skillName">{skillName}</span> could not be
-                    changed!
-                  </DialogContent>
-                  <OkButton />
-                </Dialog>
                 <Table
                   columns={columns}
                   pagination={{ showQuickJumper: true }}

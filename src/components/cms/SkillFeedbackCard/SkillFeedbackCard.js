@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
+import uiActions from '../../../redux/actions/ui';
 import styled from 'styled-components';
 // Components
 import List from '@material-ui/core/List';
@@ -15,7 +16,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -156,13 +156,9 @@ class SkillFeedbackCard extends Component {
       language,
       email,
       accessToken,
+      actions,
     } = this.props;
-    const {
-      errorText,
-      openEditDialog,
-      openDeleteDialog,
-      anchorEl,
-    } = this.state;
+    const { errorText, openEditDialog, anchorEl } = this.state;
     const open = Boolean(anchorEl);
     const editActions = [
       <Button key={0} color="primary" onClick={this.handleEditClose}>
@@ -170,25 +166,6 @@ class SkillFeedbackCard extends Component {
       </Button>,
       <Button key={1} color="primary" onClick={this.postFeedback}>
         Edit
-      </Button>,
-    ];
-
-    const deleteActions = [
-      <Button
-        key={0}
-        style={{ marginRight: '10px' }}
-        color="primary"
-        onClick={this.handleDeleteClose}
-      >
-        Cancel
-      </Button>,
-      <Button
-        key={1}
-        variant="contained"
-        color="secondary"
-        onClick={this.deleteFeedback}
-      >
-        Delete
       </Button>,
     ];
 
@@ -240,7 +217,9 @@ class SkillFeedbackCard extends Component {
                       </ListItemIcon>
                       <ListItemText> Edit</ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={this.handleDeleteOpen}>
+                    <MenuItem
+                      onClick={() => actions.openDialog({ modalType: '' })}
+                    >
                       <ListItemIcon>
                         <Delete />
                       </ListItemIcon>
@@ -366,7 +345,7 @@ class SkillFeedbackCard extends Component {
           </DialogContent>
           <DialogActions>{editActions}</DialogActions>
         </Dialog>
-        <Dialog
+        {/* <Dialog
           open={openDeleteDialog}
           onClose={this.handleEditClose}
           maxWidth={'sm'}
@@ -378,7 +357,7 @@ class SkillFeedbackCard extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>{deleteActions}</DialogActions>
-        </Dialog>
+        </Dialog> */}
       </Paper>
     );
   }
@@ -409,7 +388,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(skillActions, dispatch),
+    actions: bindActionCreators({ ...skillActions, uiActions }, dispatch),
   };
 }
 

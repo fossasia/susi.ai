@@ -25,6 +25,11 @@ export const PasswordField = styled(_PasswordField)`
 
 export const OutlinedInput = styled(_OutlinedInput)`
   ${responsiveInputStyle};
+  ${props =>
+    props.width &&
+    css`
+      width: ${props => props.width};
+    `}
 `;
 
 export const Button = styled(_Button)`
