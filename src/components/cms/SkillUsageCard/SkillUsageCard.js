@@ -22,15 +22,12 @@ import { Paper as _Paper } from '../../shared/Container';
 import { Title, SubTitle } from '../../shared/Typography';
 
 const Paper = styled(_Paper)`
-  @media (max-width: 500px) {
-    width: 60%;
-  }
-  @media (max-width: 370px) {
-    width: 55%;
-  }
+  width: 100%;
 `;
 
 const Container = styled.div`
+  overflow-x: auto;
+  overflow-y: hidden;
   @media (max-width: 500px) {
     width: 100%;
     overflow-x: scroll;
