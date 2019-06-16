@@ -168,7 +168,7 @@ class StaticAppBar extends Component {
     app: PropTypes.string,
     actions: PropTypes.object,
     showPageTabs: PropTypes.bool,
-    avatarImg: PropTypes.string,
+    avatarImgThumbnail: PropTypes.string,
   };
 
   constructor(props) {
@@ -208,7 +208,7 @@ class StaticAppBar extends Component {
       email,
       userName,
       isAdmin,
-      avatarImg,
+      avatarImgThumbnail,
       history,
     } = this.props;
     const { anchorEl, drawerOpen } = this.state;
@@ -322,7 +322,7 @@ class StaticAppBar extends Component {
 
     let userAvatar = null;
     if (accessToken) {
-      userAvatar = avatarImg;
+      userAvatar = avatarImgThumbnail;
     }
     return (
       <div>
@@ -389,14 +389,14 @@ class StaticAppBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, isAdmin, avatarImg } = store.app;
+  const { email, accessToken, isAdmin, avatarImgThumbnail } = store.app;
   const { userName } = store.settings;
   return {
     email,
     accessToken,
     userName,
     isAdmin,
-    avatarImg,
+    avatarImgThumbnail,
   };
 }
 
