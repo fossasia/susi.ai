@@ -81,6 +81,7 @@
     "redux-actions": "2.6.5",
     "redux-mock-store": "1.5.3",
     "redux-promise": "0.6.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^4.3.1",
     "surge": "0.21.3",
     "universal-cookie": "4.0.0",

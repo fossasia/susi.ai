@@ -26,7 +26,9 @@ const defaultState = {
   // Filter
   groupValue: 'All',
   languageValue:
-    languageArray.length > 0 && languageArray[0] != '' ? languageArray : ['en'],
+    languageArray.length > 0 && languageArray[0] !== ''
+      ? languageArray
+      : ['en'],
   orderBy: 'ascending',
   filterType: '',
   searchQuery: '',
