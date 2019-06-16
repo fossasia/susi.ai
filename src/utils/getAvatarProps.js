@@ -2,11 +2,13 @@ import md5 from 'md5';
 import { urls } from './';
 import store from '../store';
 
-export const getUserAvatarLink = () => {
+export const getUserAvatarLink = payload => {
+  const { getThumbnail = false } = payload || {};
   const { accessToken } = store.getState().app;
   return `${
     urls.API_URL
-  }/getAvatar.png?access_token=${accessToken}&q=${new Date().getTime()}`;
+  }/getAvatar.png?access_token=${accessToken}&q=${new Date().getTime()}
+    &getThumbnail=${getThumbnail}`;
 };
 
 export const getGravatarProps = emailId => {
