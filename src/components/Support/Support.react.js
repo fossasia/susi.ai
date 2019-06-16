@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
@@ -11,6 +12,7 @@ import documentation from '../../images/programmer.png';
 import github from '../../images/github.png';
 import googleGroups from '../../images/google-groups.png';
 import code from '../../images/code.png';
+import uiActions from '../../redux/actions/ui';
 import './Support.css';
 
 const styles = {
@@ -25,6 +27,7 @@ class Support extends Component {
     history: PropTypes.object,
     openSignUp: PropTypes.func,
     accessToken: PropTypes.string,
+    actions: PropTypes.object,
   };
 
   componentDidMount() {
@@ -35,9 +38,14 @@ class Support extends Component {
     scrollToTopAnimation();
   }
 
+  handleSignUp = () => {
+    const { actions } = this.props;
+    actions.openModal({ modalType: 'signUp' });
+  };
+
   render() {
     const { buttonStyle } = styles;
-    const { openSignUp, accessToken } = this.props;
+    const { accessToken } = this.props;
     return (
       <div>
         <div className="gray-wrapper">
@@ -236,7 +244,7 @@ class Support extends Component {
 
                 <Button
                   variant="contained"
-                  onClick={openSignUp}
+                  onClick={this.handleSignUp}
                   style={buttonStyle}
                 >
                   Sign Up
@@ -250,6 +258,12 @@ class Support extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
 function mapStateToProps(store) {
   const { accessToken } = store.app;
   return {
@@ -259,5 +273,5 @@ function mapStateToProps(store) {
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Support);
