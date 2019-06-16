@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 // Components
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
-import AuthorSkills from '../AuthorSkills/AuthorSkills';
 import SkillUsageCard from '../SkillUsageCard/SkillUsageCard';
 import SkillRatingCard from '../SkillRating/SkillRatingCard';
 import SkillFeedbackCard from '../SkillFeedbackCard/SkillFeedbackCard';
@@ -104,7 +103,6 @@ class SkillListing extends Component {
     super(props);
 
     this.state = {
-      showAuthorSkills: false,
       skillFeedback: [],
       showReportDialog: false,
       feedbackMessage: '',
@@ -152,13 +150,7 @@ class SkillListing extends Component {
   };
 
   openAuthorSkills = () => {
-    if (this.author) {
-      this.setState({ showAuthorSkills: true });
-    }
-  };
-
-  closeAuthorSkills = () => {
-    this.setState({ showAuthorSkills: false });
+    this.props.actions.openModal({ modalType: 'authorSkills' });
   };
 
   handleReportToggle = () => {
@@ -234,7 +226,6 @@ class SkillListing extends Component {
       showDeleteDialog,
       skillExampleCount,
       showReportDialog,
-      showAuthorSkills,
     } = this.state;
 
     const {
@@ -593,15 +584,6 @@ class SkillListing extends Component {
         }}
       >
         <div style={{ flex: '1 0 auto' }}>{renderElement}</div>
-        <div>
-          <AuthorSkills
-            ref={c => {
-              this.author = c;
-            }}
-            open={showAuthorSkills}
-            requestClose={this.closeAuthorSkills}
-          />
-        </div>
       </div>
     );
   }
