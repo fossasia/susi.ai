@@ -120,10 +120,6 @@ h1.name {
   padding : 20px 0 0 20px;
 }
 
-.subTitle {
-  padding : 20px 0 0 20px;
-}
-
 .large-text {
   font-size: 48px;
 }
@@ -152,45 +148,6 @@ h1.name {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-}
-.example-comment{
-  cursor: pointer;
-  font-style: italic;
-  font-size: 14px;
-  padding: 14px 18px;
-  border-radius: 8px;
-  border: 1px solid #eaeded;
-  background-color: #f4f6f6;
-  margin: 1.5% 0.85% 1.5% 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 192;
-  position: relative;
-}
-
-.example-comment:before {
-  content: " ";
-  position: absolute;
-  bottom: -14px;
-  right: 10%;
-  border-width: 0 0 13px 26px;
-  border-style: solid;
-  display: block;
-  border-color: transparent #eaeded;
-  width: 0;
-}
-
-.example-comment:after {
-  content: " ";
-  position: absolute;
-  bottom: -12px;
-  right: 10%;
-  border-width: 0 0 12px 25px;
-  border-style: solid;
-  border-color: #f4f6f6 transparent transparent #f4f6f6;
 }
 
 .skill-example-more-icon {

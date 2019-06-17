@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchSkillsByAuthor } from '../../../apis';
 import { Cell } from 'recharts';
 import PieChartContainer from '../../shared/PieChartContainer';
+import { SubTitle } from '../../shared/Typography';
 
 class MyAnalytics extends Component {
   constructor(props) {
@@ -69,30 +70,24 @@ class MyAnalytics extends Component {
         ) : (
           <div>
             {skillUsageCount !== 0 && (
-              <div className="device-usage">
-                <div className="sub-title">Skill Usage Distribution</div>
-                <div className="pie-chart">
-                  <PieChartContainer
-                    cellData={skillUsage.map((entry, index) => (
-                      <Cell
-                        key={index}
-                        fill={
-                          [
-                            '#0088FE',
-                            '#00C49F',
-                            '#FFBB28',
-                            '#FF8042',
-                            '#EA4335',
-                          ][index % 5]
-                        }
-                      />
-                    ))}
-                    data={skillUsage}
-                    nameKey="skillName"
-                    dataKey="usageCount"
-                  />
-                </div>
-              </div>
+              <React.Fragment>
+                <SubTitle>Skill Usage Distribution</SubTitle>
+                <PieChartContainer
+                  cellData={skillUsage.map((entry, index) => (
+                    <Cell
+                      key={index}
+                      fill={
+                        ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#EA4335'][
+                          index % 5
+                        ]
+                      }
+                    />
+                  ))}
+                  data={skillUsage}
+                  nameKey="skillName"
+                  dataKey="usageCount"
+                />
+              </React.Fragment>
             )}
           </div>
         )}

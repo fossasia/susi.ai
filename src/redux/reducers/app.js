@@ -14,6 +14,7 @@ const defaultState = {
   visited: true,
   userSkills: [],
   avatarImg: 'https://api.susi.ai/getAvatar.png',
+  avatarImgThumbnail: 'https://api.susi.ai/getAvatar.png',
   showCookiePolicy: false,
 };
 
@@ -32,6 +33,7 @@ const cookiesAppValues = {
       ? true
       : JSON.parse(showCookiePolicy),
   avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
+  avatarImgThumbnail: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
 };
 
 export default handleActions(
@@ -102,6 +104,7 @@ export default handleActions(
       return {
         ...state,
         avatarImg: getUserAvatarLink(),
+        avatarImgThumbnail: getUserAvatarLink({ getThumbnail: true }),
       };
     },
   },
