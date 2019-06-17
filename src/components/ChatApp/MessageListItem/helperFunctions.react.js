@@ -22,19 +22,18 @@ import _CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { injectIntl } from 'react-intl';
 import styled from 'styled-components';
+import { FlexContainer } from '../../shared/Container';
 
-const FooterList = styled.ul`
-  list-style-type: none;
+const FooterList = styled.div`
   font-size: 0.75rem;
   color: ${props => (props.author === 'SUSI' ? '#AAA9AA' : '#C6DAFB')};
   padding: 0;
   text-align: right;
   float: ${props => (props.author === 'SUSI' ? 'right' : 'left')};
-`;
-
-const FooterContentContainer = styled.li`
-  float: left;
-  margin-top: 0.25rem;
+  list-style-type: none;
+  align-items: center;
+  margin-top: 5px;
+  display: flex;
 `;
 
 const CardTitle = styled(Typography)`
@@ -89,38 +88,38 @@ export function renderMessageFooter(message, latestMsgID, isLastAction) {
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <FooterContentContainer>
+        <FlexContainer>
           <ClockIcon
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
             style={{ height: '0.8135rem' }}
           />
-        </FooterContentContainer>
+        </FlexContainer>
       );
     } else {
       footerContent = (
-        <FooterContentContainer>
+        <FlexContainer>
           <TickIcon
             color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
             style={{ height: '0.8135rem' }}
           />
-        </FooterContentContainer>
+        </FlexContainer>
       );
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <FooterContentContainer>
+      <FlexContainer>
         <ShareButton
           message={message}
           color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
         />
-      </FooterContentContainer>
+      </FlexContainer>
     );
   }
   return (
     <FooterList author={message.authorName}>
+      {footerContent}
       <PostDate date={message ? message.date : null} />
       {isLastAction && <Feedback message={message} />}
-      {footerContent}
     </FooterList>
   );
 }
