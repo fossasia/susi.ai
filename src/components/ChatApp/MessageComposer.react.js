@@ -35,6 +35,7 @@ const SendButton = styled(IconButton)`
   bottom: 0.875rem;
   right: 0.3125rem;
   position: absolute;
+  color: rgb(66, 133, 244);
 `;
 
 const CloseButton = styled(CloseIcon)`
@@ -120,7 +121,6 @@ const TextAreaContainer = styled.div`
   min-height: 20px;
   border: none;
   padding: 0.625rem 0.75rem;
-  overflow-y: scroll;
   background-color: ${props => props.backgroundColor};
   color: ${props => props.color};
   max-height: 5rem;
