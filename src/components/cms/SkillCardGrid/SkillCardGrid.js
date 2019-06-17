@@ -2,17 +2,39 @@
 import React, { Component } from 'react';
 import Ratings from 'react-ratings-declarative';
 import { Link } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import CircleImage from '../../CircleImage/CircleImage';
-import StaffPick from '../../../images/staff_pick.png';
 import '../SkillRating/ReviewPopoverStyle.css';
-import styles from '../BrowseSkill/SkillStyle';
 import { urls } from '../../../utils';
+import styled from 'styled-components';
+
+import { ImageContainer, StaffPickImage } from '../SkillsStyle';
+
+import {
+  TitleContainer,
+  Card,
+  Image,
+  Example,
+  TotalRating,
+} from '../SkillCardStyle';
+
+const Author = styled.div`
+  text-align: left;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  color: #555555;
+`;
+
+const GridList = styled.div`
+  flex-wrap: wrap;
+  flex-direction: row;
+  text-align: center;
+`;
+
 class SkillCardGrid extends Component {
   loadSkillCards = () => {
     let cards = [];
@@ -65,42 +87,30 @@ class SkillCardGrid extends Component {
         authorName = skill.author;
       }
       cards.push(
-        <Card style={styles.skillCard} key={el}>
+        <Card grid={true} key={el}>
           <Link
             key={el}
             to={{
               pathname: skillPathname,
             }}
           >
-            <div style={styles.imageContainer} key={el}>
+            <ImageContainer key={el}>
               {image ? (
-                <div style={styles.image}>
-                  <img alt={skillName} src={image} style={styles.image} />
-                </div>
+                <Image alt={skillName} src={image} />
               ) : (
                 <CircleImage name={el} size="48" />
               )}
-              {examples ? (
-                <div style={styles.example}>&quot;{examples}&quot;</div>
-              ) : null}
-            </div>
-            <div style={styles.name}>
+              {examples ? <Example>&quot;{examples}&quot;</Example> : null}
+            </ImageContainer>
+            <TitleContainer>
               <span>{skillName}</span>
-              {staffPick && (
-                <div style={styles.staffPick}>
-                  <img
-                    alt="Staff Pick Badge"
-                    src={StaffPick}
-                    className="staffPickIcon"
-                  />
-                </div>
-              )}
-            </div>
+              {staffPick && <StaffPickImage />}
+            </TitleContainer>
           </Link>
-          <div style={styles.author}>
+          <Author>
             <p>{authorName}</p>
-          </div>
-          <div style={styles.rating}>
+          </Author>
+          <div style={{ positive: 'relative', float: 'left' }}>
             <div data-tip="custom" data-for={dataId}>
               <Link
                 key={el}
@@ -141,9 +151,7 @@ class SkillCardGrid extends Component {
                     cursor: 'pointer',
                   }}
                 />
-                <span style={styles.totalRating} title="Total ratings">
-                  {totalRating || 0}
-                </span>
+                <TotalRating>{totalRating || 0}</TotalRating>
               </Link>
             </div>
           </div>
@@ -164,9 +172,7 @@ class SkillCardGrid extends Component {
           width: '100%',
         }}
       >
-        <div>
-          <div style={styles.gridList}>{this.loadSkillCards()}</div>
-        </div>
+        <GridList>{this.loadSkillCards()}</GridList>
       </div>
     );
   }

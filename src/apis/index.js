@@ -43,6 +43,22 @@ export function getSignup(payload) {
   return ajax.get(url, { signup: email, password });
 }
 
+export function verifyEmail(payload) {
+  const { accessToken, validateEmail, requestSession } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/signup.json`;
+  return ajax.get(
+    url,
+    {
+      access_token: accessToken,
+      validateEmail,
+      request_session: requestSession,
+    },
+    {
+      isTokenRequired: false,
+    },
+  );
+}
+
 export function getChangePassword(payload) {
   const { email, password, newPassword } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/changepassword.json`;

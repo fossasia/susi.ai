@@ -168,7 +168,7 @@ class StaticAppBar extends Component {
     app: PropTypes.string,
     actions: PropTypes.object,
     showPageTabs: PropTypes.bool,
-    avatarImg: PropTypes.string,
+    avatarImgThumbnail: PropTypes.string,
   };
 
   constructor(props) {
@@ -208,7 +208,7 @@ class StaticAppBar extends Component {
       email,
       userName,
       isAdmin,
-      avatarImg,
+      avatarImgThumbnail,
       history,
     } = this.props;
     const { anchorEl, drawerOpen } = this.state;
@@ -322,7 +322,7 @@ class StaticAppBar extends Component {
 
     let userAvatar = null;
     if (accessToken) {
-      userAvatar = avatarImg;
+      userAvatar = avatarImgThumbnail;
     }
     return (
       <div>
@@ -347,14 +347,14 @@ class StaticAppBar extends Component {
                 {showPageTabs ? <TopMenu /> : null}
               </FlexContainer>
               <TopRightMenuContainer>
-                <StyledIconButton onClick={() => history.push('/settings')}>
-                  {accessToken && (
+                {accessToken && (
+                  <StyledIconButton onClick={() => history.push('/settings')}>
                     <FlexContainer>
                       <CircleImage src={userAvatar} size="32" />
                       <UserDetail>{!userName ? email : userName}</UserDetail>
                     </FlexContainer>
-                  )}
-                </StyledIconButton>
+                  </StyledIconButton>
+                )}
                 <IconButton
                   aria-owns={open ? 'menu-popper' : undefined}
                   aria-haspopup="true"
@@ -389,14 +389,14 @@ class StaticAppBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, isAdmin, avatarImg } = store.app;
+  const { email, accessToken, isAdmin, avatarImgThumbnail } = store.app;
   const { userName } = store.settings;
   return {
     email,
     accessToken,
     userName,
     isAdmin,
-    avatarImg,
+    avatarImgThumbnail,
   };
 }
 

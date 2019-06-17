@@ -53,7 +53,7 @@ class TopBar extends Component {
     userName: PropTypes.string,
     isAdmin: PropTypes.bool,
     actions: PropTypes.object,
-    avatarImg: PropTypes.string,
+    avatarImgThumbnail: PropTypes.string,
     history: PropTypes.object,
   };
 
@@ -108,7 +108,7 @@ class TopBar extends Component {
       accessToken,
       userName,
       isAdmin,
-      avatarImg,
+      avatarImgThumbnail,
       history,
     } = this.props;
 
@@ -119,7 +119,7 @@ class TopBar extends Component {
 
     let userAvatar = null;
     if (accessToken) {
-      userAvatar = avatarImg;
+      userAvatar = avatarImgThumbnail;
     }
 
     return (
@@ -146,14 +146,14 @@ class TopBar extends Component {
                 />
               ) : null}
             </div>
-            <StyledIconButton onClick={() => history.push('/settings')}>
-              {accessToken && (
+            {accessToken && (
+              <StyledIconButton onClick={() => history.push('/settings')}>
                 <FlexContainer>
                   <CircleImage src={userAvatar} size="32" />
                   <UserDetail>{!userName ? email : userName}</UserDetail>
                 </FlexContainer>
-              )}
-            </StyledIconButton>
+              </StyledIconButton>
+            )}
             {/* Pop over menu */}
             <IconButton
               aria-owns={open ? 'menu-popper' : undefined}
@@ -290,14 +290,14 @@ class TopBar extends Component {
 }
 
 function mapStateToProps(store) {
-  const { email, accessToken, isAdmin, avatarImg } = store.app;
+  const { email, accessToken, isAdmin, avatarImgThumbnail } = store.app;
   const { userName } = store.settings;
   return {
     email,
     accessToken,
     userName,
     isAdmin,
-    avatarImg,
+    avatarImgThumbnail,
   };
 }
 
