@@ -75,13 +75,7 @@ const styles = {
 class AccountTab extends React.Component {
   constructor(props) {
     super(props);
-    const {
-      timeZone,
-      prefLanguage,
-      userName,
-      avatarType,
-      accessToken,
-    } = this.props;
+    const { timeZone, prefLanguage, userName, avatarType } = this.props;
     this.state = {
       timeZone,
       prefLanguage,
@@ -90,7 +84,7 @@ class AccountTab extends React.Component {
       avatarType,
       avatarSrc: defaultAvatar,
       file: '',
-      imagePreviewUrl: getUserAvatarLink(accessToken),
+      imagePreviewUrl: getUserAvatarLink(),
       isAvatarAdded: false,
       uploadingAvatar: false,
       isAvatarUploaded: false,
