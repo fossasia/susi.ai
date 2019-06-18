@@ -7,6 +7,7 @@ import SettingsTabWrapper from './SettingsTabWrapper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import settingActions from '../../redux/actions/settings';
@@ -16,6 +17,9 @@ class ThemeChangeTab extends React.Component {
   constructor(props) {
     super(props);
     const { theme } = this.props;
+    this.state = {
+      loading: false,
+    };
     this.initialTheme = theme;
   }
 
@@ -25,6 +29,7 @@ class ThemeChangeTab extends React.Component {
 
   handleSubmit = () => {
     const { actions, theme } = this.props;
+    this.setState({ loading: true });
     setUserSettings({ theme })
       .then(data => {
         if (data.accepted) {
@@ -32,10 +37,12 @@ class ThemeChangeTab extends React.Component {
             snackBarMessage: 'Settings updated',
           });
           actions.setUserSettings({ theme });
+          this.setState({ loading: false });
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
           });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -47,6 +54,8 @@ class ThemeChangeTab extends React.Component {
 
   render() {
     const { theme } = this.props;
+    const { loading } = this.state;
+    const disabled = theme === this.initialTheme || loading;
     return (
       <SettingsTabWrapper currTheme={theme} heading="Select Theme">
         <RadioGroup
@@ -84,9 +93,14 @@ class ThemeChangeTab extends React.Component {
             variant="contained"
             color="primary"
             onClick={this.handleSubmit}
-            disabled={theme === this.initialTheme}
+            disabled={disabled}
+            style={{ width: '10rem' }}
           >
-            <Translate text="Save Changes" />
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Translate text="Save Changes" />
+            )}
           </Button>
         </div>
       </SettingsTabWrapper>

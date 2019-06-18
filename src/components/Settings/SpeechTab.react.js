@@ -6,6 +6,7 @@ import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
 import { FlexContainer } from '../shared/Container';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
 import uiActions from '../../redux/actions/ui';
@@ -29,6 +30,7 @@ class SpeechTab extends React.Component {
       ttsLanguage,
       speechPitch,
       speechRate,
+      loading: false,
     };
 
     if ('speechSynthesis' in window) {
@@ -80,6 +82,7 @@ class SpeechTab extends React.Component {
       speechPitch,
       speechRate,
     };
+    this.setState({ loading: true });
     setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
@@ -87,10 +90,12 @@ class SpeechTab extends React.Component {
             snackBarMessage: 'Settings updated',
           });
           actions.setUserSettings(payload);
+          this.setState({ loading: false });
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
           });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -107,7 +112,15 @@ class SpeechTab extends React.Component {
       ttsLanguage,
       speechPitch,
       speechRate,
+      loading,
     } = this.state;
+    const disabled =
+      (speechOutput === this.props.speechOutput &&
+        speechOutputAlways === this.props.speechOutputAlways &&
+        ttsLanguage === this.props.ttsLanguage &&
+        speechPitch === this.props.speechPitch &&
+        speechRate === this.props.speechRate) ||
+      loading;
     return (
       <SettingsTabWrapper heading="Speech Output">
         <FlexContainer>
@@ -153,16 +166,14 @@ class SpeechTab extends React.Component {
           variant="contained"
           color="primary"
           onClick={this.handleSubmit}
-          disabled={
-            speechOutput === this.props.speechOutput &&
-            speechOutputAlways === this.props.speechOutputAlways &&
-            ttsLanguage === this.props.ttsLanguage &&
-            speechPitch === this.props.speechPitch &&
-            speechRate === this.props.speechRate
-          }
-          style={{ marginTop: '2rem' }}
+          disabled={disabled}
+          style={{ marginTop: '1.5rem', width: '10rem' }}
         >
-          <Translate text="Save Changes" />
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <Translate text="Save Changes" />
+          )}
         </Button>
       </SettingsTabWrapper>
     );

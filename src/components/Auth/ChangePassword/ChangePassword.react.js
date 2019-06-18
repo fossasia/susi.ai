@@ -15,7 +15,7 @@ import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import { DialogContainer } from '../../shared/Container';
-import './ChangePassword.css';
+import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
 
 const PasswordField = styled(_PasswordField)`
   height: 35px;
@@ -28,20 +28,25 @@ const PasswordField = styled(_PasswordField)`
   }
 `;
 
-const styles = {
-  labelStyle: {
-    width: '30%',
-    minWidth: '150px',
-    float: 'left',
-    marginTop: '12px',
-  },
-  submitBtnStyle: {
-    float: 'left',
-    width: '300px',
-    margin: '0 auto',
-    marginBottom: '50px',
-  },
-};
+const ForgotPasswordLink = styled.div`
+  margin: 1rem 0;
+  color: #1da1f5;
+  cursor: pointer;
+
+  a {
+    text-decoration: none;
+  }
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+const LabelContainer = styled.div`
+  width: 30%;
+  minwidth: 9rem;
+  float: left;
+  margin-top: 12px;
+`;
 
 class ChangePassword extends Component {
   static propTypes = {
@@ -241,9 +246,7 @@ class ChangePassword extends Component {
       dialogMessage,
       loading,
     } = this.state;
-
-    const { settings, actions } = this.props;
-
+    const { actions } = this.props;
     const isValid =
       !passwordErrorMessage &&
       !newPasswordErrorMessage &&
@@ -252,18 +255,9 @@ class ChangePassword extends Component {
       newPassword &&
       confirmNewPassword;
 
-    const themeForegroundColor =
-      (settings && settings.theme) === 'dark' ? '#fff' : '#272727';
-
-    const PasswordClass = [`is-strength-${newPasswordScore}`];
-
-    const { labelStyle, submitBtnStyle } = styles;
-
     return (
-      <div className="changePasswordForm">
-        <div style={{ ...labelStyle, color: themeForegroundColor }}>
-          Current Password
-        </div>
+      <React.Fragment>
+        <LabelContainer>Current Password</LabelContainer>
         <div>
           <FormControl error={passwordErrorMessage !== ''}>
             <PasswordField
@@ -276,27 +270,23 @@ class ChangePassword extends Component {
             </FormHelperText>
           </FormControl>
         </div>
-        <div style={{ ...labelStyle, color: themeForegroundColor }}>
-          New Password
+        <LabelContainer>New Password</LabelContainer>
+        <FormControl error={newPasswordErrorMessage !== ''}>
+          <PasswordField
+            name="newPassword"
+            placeholder="Must be between 6-64 characters"
+            value={newPassword}
+            onChange={this.handleTextFieldChange}
+          />
+          <FormHelperText error={newPasswordErrorMessage !== ''}>
+            {newPasswordErrorMessage}
+          </FormHelperText>
+        </FormControl>
+        <div style={{ textAlign: 'center' }}>
+          <PasswordStrengthBar score={newPasswordScore} />
+          <span>{newPasswordStrength}</span>
         </div>
-        <div className={PasswordClass.join(' ')}>
-          <FormControl error={newPasswordErrorMessage !== ''}>
-            <PasswordField
-              name="newPassword"
-              placeholder="Must be between 6-64 characters"
-              value={newPassword}
-              onChange={this.handleTextFieldChange}
-            />
-            <FormHelperText error={newPasswordErrorMessage !== ''}>
-              {newPasswordErrorMessage}
-            </FormHelperText>
-          </FormControl>
-          <div className="ReactPasswordStrength-strength-bar" />
-          <div>{newPasswordStrength}</div>
-        </div>
-        <div style={{ ...labelStyle, color: themeForegroundColor }}>
-          Verify Password
-        </div>
+        <LabelContainer>Verify Password</LabelContainer>
         <div>
           <FormControl error={newPasswordConfirmErrorMessage !== ''}>
             <PasswordField
@@ -310,29 +300,26 @@ class ChangePassword extends Component {
             </FormHelperText>
           </FormControl>
         </div>
-        <div style={submitBtnStyle}>
-          <div className="forgot">
-            <a
-              onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
-            >
-              Forgot your password?
-            </a>
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={!isValid || loading}
-              onClick={this.changePassword}
-            >
-              {loading ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Translate text="Save Changes" />
-              )}
-            </Button>
-          </div>
+        <ForgotPasswordLink>
+          <a onClick={() => actions.openModal({ modalType: 'forgotPassword' })}>
+            Forgot your password?
+          </a>
+        </ForgotPasswordLink>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={!isValid || loading}
+            onClick={this.changePassword}
+            style={{ width: '10rem' }}
+          >
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Translate text="Save Changes" />
+            )}
+          </Button>
         </div>
         <Dialog
           open={dialogMessage}
@@ -345,7 +332,7 @@ class ChangePassword extends Component {
             <CloseButton onClick={this.handleCloseResetPassword} />
           </DialogContainer>
         </Dialog>
-      </div>
+      </React.Fragment>
     );
   }
 }
