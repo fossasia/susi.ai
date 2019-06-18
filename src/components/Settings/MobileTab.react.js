@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { bindActionCreators } from 'redux';
@@ -29,6 +30,7 @@ class MobileTab extends React.Component {
       phoneNoError: '',
       countryCode,
       countryDialCode,
+      loading: false,
     };
   }
 
@@ -58,6 +60,7 @@ class MobileTab extends React.Component {
     const { actions } = this.props;
     const { phoneNo, countryCode, countryDialCode } = this.state;
     const payload = { phoneNo, countryCode, countryDialCode };
+    this.setState({ loading: true });
     setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
@@ -65,10 +68,12 @@ class MobileTab extends React.Component {
             snackBarMessage: 'Settings updated',
           });
           actions.setUserSettings(payload);
+          this.setState({ loading: false });
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
           });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -79,7 +84,10 @@ class MobileTab extends React.Component {
   };
 
   render() {
-    const { phoneNo, phoneNoError, countryCode } = this.state;
+    const { phoneNo, phoneNoError, countryCode, loading } = this.state;
+    const disabled =
+      (countryCode === this.props.countryCode) &
+        (phoneNo === this.props.phoneNo) || loading;
     sortCountryLexographical(countryData);
     let countries = countryData.countries.all.map((country, i) => {
       if (countryData.countries.all[i].countryCallingCodes[0]) {
@@ -180,12 +188,14 @@ class MobileTab extends React.Component {
           variant="contained"
           color="primary"
           onClick={this.handleSubmit}
-          disabled={
-            (countryCode === this.props.countryCode) &
-            (phoneNo === this.props.phoneNo)
-          }
+          disabled={disabled}
+          style={{ width: '10rem' }}
         >
-          <Translate text="Save Changes" />
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <Translate text="Save Changes" />
+          )}
         </Button>
       </SettingsTabWrapper>
     );

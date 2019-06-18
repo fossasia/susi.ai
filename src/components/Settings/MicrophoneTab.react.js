@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Translate from '../Translate/Translate.react';
 import settingActions from '../../redux/actions/settings';
 import SettingsTabWrapper from './SettingsTabWrapper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
 import { FlexContainer } from '../shared/Container';
@@ -24,6 +25,7 @@ class MicrophoneTab extends React.Component {
     const { micInput } = this.props;
     this.state = {
       micInput,
+      loading: false,
     };
     if (SpeechRecognition !== null) {
       this.STTBrowserSupport = true;
@@ -45,6 +47,7 @@ class MicrophoneTab extends React.Component {
   handleSubmit = () => {
     const { actions } = this.props;
     const { micInput } = this.state;
+    this.setState({ loading: true });
     setUserSettings({ micInput })
       .then(data => {
         if (data.accepted) {
@@ -52,10 +55,12 @@ class MicrophoneTab extends React.Component {
             snackBarMessage: 'Settings updated',
           });
           actions.setUserSettings({ micInput });
+          this.setState({ loading: false });
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
           });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -66,7 +71,8 @@ class MicrophoneTab extends React.Component {
   };
 
   render() {
-    const { micInput } = this.state;
+    const { micInput, loading } = this.state;
+    const disabled = micInput === this.props.micInput || loading;
     return (
       <SettingsTabWrapper heading="Mic Input">
         <FlexContainer>
@@ -86,9 +92,14 @@ class MicrophoneTab extends React.Component {
           variant="contained"
           color="primary"
           onClick={this.handleSubmit}
-          disabled={micInput === this.props.micInput}
+          disabled={disabled}
+          style={{ margin: '1.5rem 0', width: '10rem' }}
         >
-          <Translate text="Save Changes" />
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <Translate text="Save Changes" />
+          )}
         </Button>
       </SettingsTabWrapper>
     );

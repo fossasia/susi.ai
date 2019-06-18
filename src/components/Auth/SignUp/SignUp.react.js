@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { debounce } from 'lodash';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 // Components
 import Recaptcha from 'react-recaptcha';
@@ -27,6 +27,7 @@ import {
   Button,
   LinkContainer,
 } from '../AuthStyles';
+import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
 
 const RecaptchaContainer = styled.div`
   display: flex;
@@ -39,42 +40,6 @@ const ErrorMessage = styled.p`
   line-height: 0.75rem;
   color: rgb(244, 67, 54);
   margin-top: 0.36rem;
-`;
-
-const PasswordStrengthBar = styled.div`
-  height: 2px;
-  transition: width 300ms ease-out;
-  margin: 0 auto;
-${props =>
-  props.score === -1 &&
-  css`
-    display: none;
-  `}
-  ${props =>
-    props.score === (0 || 1) &&
-    css`
-      background: #d1462f;
-      width: 4rem;
-    `}
-  ${props =>
-    props.score === 2 &&
-    css`
-      background: #57b8ff;
-      width: 8rem;
-    `}
-  ${props =>
-    props.score === 3 &&
-    css`
-      background: #57b8ff;
-      width: 12rem;
-    `}
-  ${props =>
-    props.score === 4 &&
-    css`
-      background: #2fbf71;
-      width: 16rem;
-    `}
-}
 `;
 
 class SignUp extends Component {
