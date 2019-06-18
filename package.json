@@ -13,7 +13,6 @@
     "add-px": "1.0.0",
     "antd": "^3.19.2",
     "axios": "0.19.0",
-    "babel-eslint": "^10.0.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.4.0",
     "contrast": "1.0.1",
