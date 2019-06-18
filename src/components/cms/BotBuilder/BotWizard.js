@@ -20,7 +20,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import avatars from '../../../utils/avatars';
-import { storeDraft, updateSkill } from '../../../apis/index';
+import { storeDraft, updateSkill, readDraft } from '../../../apis/index';
 import './BotBuilder.css';
 import createActions from '../../../redux/actions/create';
 import SkillCreator from '../SkillCreator/SkillCreator';
@@ -194,11 +194,8 @@ class BotWizard extends React.Component {
 
   getDraftBotDetails = id => {
     const { actions } = this.props;
-    actions
-      .readDraft({ id })
-      .then(payload => {
-        console.log('Read draft');
-      })
+    readDraft({ id })
+      .then(payload => {})
       .catch(error => {
         actions.openSnackBar({
           snackBarMessage: "Couldn't get your drafts. Please reload the page.",
