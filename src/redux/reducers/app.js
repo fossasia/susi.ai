@@ -29,7 +29,9 @@ const cookiesAppValues = {
   },
   visited,
   showCookiePolicy:
-    typeof showCookiePolicy === 'undefined' ? true : showCookiePolicy,
+    typeof showCookiePolicy === 'undefined'
+      ? true
+      : JSON.parse(showCookiePolicy),
   avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
   avatarImgThumbnail: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
 };

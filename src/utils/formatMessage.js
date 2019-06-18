@@ -134,8 +134,8 @@ const susiMessageGenerator = (timestamp, voice, response) => {
                   /<a [^>]+>([^<]+)<\/a>/,
                 )[1];
                 websearchTile.description = tileData.text;
-                websearchTile.link = tileData.firstURL;
-                websearchTile.image = tileData.icon.URL;
+                websearchTile.link = tileData.firstUrl;
+                websearchTile.image = tileData.icon.url;
                 receivedMessage.websearchresults.push(websearchTile);
                 count--;
               } else {

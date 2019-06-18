@@ -139,7 +139,16 @@ export function getHistory() {
 }
 
 export function getWebSearchResults(query) {
-  return ajax.get('https://api.duckduckgo.com', { format: 'json', q: query });
+  return ajax.get(
+    'https://cors-anywhere.herokuapp.com/https://api.duckduckgo.com',
+    { format: 'json', q: query },
+    {
+      headers: {
+        'X-Requested-With': '*',
+      },
+      isTokenRequired: false,
+    },
+  );
 }
 
 export function previewURLForImage() {

@@ -65,18 +65,27 @@ header{
 }
 
 .swipe-rss-websearch{
-  width: 93%;
+  width: 100%;
+  padding: 0 30px;
   margin: 0 auto;
 }
 
 .slick-slide{
-  margin: 0 10px;
+  margin: 0 4px;
 }
 
 .slick-list{
   min-height: 130px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+}
+
+.slick-prev.slick-disabled:before, .slick-next.slick-disabled:before {
+  color: grey;
+  opacity: 0.25;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: grey;
+  opacity: 1;
 }
 
 abbr[title] {
