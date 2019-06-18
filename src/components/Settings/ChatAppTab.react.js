@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../Translate/Translate.react';
 import SettingsTabWrapper from './SettingsTabWrapper';
 import Switch from '@material-ui/core/Switch';
@@ -16,6 +17,7 @@ class ChatAppTab extends React.Component {
     super(props);
     this.state = {
       enterAsSend: this.props.enterAsSend,
+      loading: false,
     };
   }
 
@@ -28,6 +30,7 @@ class ChatAppTab extends React.Component {
   handleSubmit = () => {
     const { actions } = this.props;
     const { enterAsSend } = this.state;
+    this.setState({ loading: true });
     setUserSettings({ enterAsSend })
       .then(data => {
         if (data.accepted) {
@@ -35,10 +38,12 @@ class ChatAppTab extends React.Component {
             snackBarMessage: 'Settings updated',
           });
           actions.setUserSettings({ enterAsSend });
+          this.setState({ loading: false });
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
           });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -49,7 +54,7 @@ class ChatAppTab extends React.Component {
   };
 
   render() {
-    const { enterAsSend } = this.state;
+    const { enterAsSend, loading } = this.state;
     return (
       <SettingsTabWrapper heading="Preferences">
         <FlexContainer>
@@ -69,9 +74,14 @@ class ChatAppTab extends React.Component {
           variant="contained"
           color="primary"
           onClick={this.handleSubmit}
-          disabled={enterAsSend === this.props.enterAsSend}
+          disabled={enterAsSend === this.props.enterAsSend || loading}
+          style={{ margin: '1.5rem 0', width: '10rem' }}
         >
-          <Translate text="Save Changes" />
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <Translate text="Save Changes" />
+          )}
         </Button>
       </SettingsTabWrapper>
     );
