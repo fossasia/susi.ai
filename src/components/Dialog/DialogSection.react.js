@@ -15,6 +15,7 @@ import ThemeChanger from '../Settings/ThemeChanger';
 import { DialogContainer } from '../shared/Container';
 import DeleteAccount from '../Auth/DeleteAccount/DeleteAccount.react';
 import ConfirmDeleteAccount from '../Auth/DeleteAccount/ConfirmDeleteAccount.react';
+import AuthorSkills from '../cms/AuthorSkills/AuthorSkills';
 
 const DialogData = {
   share: { Component: Share, size: 'xs' },
@@ -27,6 +28,7 @@ const DialogData = {
   confirmDeleteAccount: { Component: ConfirmDeleteAccount, size: 'sm' },
   noComponent: { Component: null, size: false },
   deleteDevice: { Component: RemoveDeviceDialog, size: 'sm' },
+  authorSkills: { Component: AuthorSkills, size: 'sm' },
 };
 
 const DialogSection = props => {

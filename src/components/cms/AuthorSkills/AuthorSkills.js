@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,38 +12,58 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
+import uiActions from '../../../redux/actions/ui';
 import Img from 'react-image';
 import ISO6391 from 'iso-639-1';
 import CircleImage from '../../CircleImage/CircleImage';
 import { urls } from '../../../utils';
-import './AuthorSkills.css';
 import githubLogo from '../../../images/github-logo.png';
 import CloseButton from '../../shared/CloseButton';
+import styled from 'styled-components';
 
-const styles = {
-  imageStyle: {
-    marginRight: 10,
-    position: 'relative',
-    height: '40px',
-    width: '40px',
-    verticalAlign: 'middle',
-    border: 0,
-  },
-  githubAvatarStyle: {
-    height: 50,
-    width: 50,
-    verticalAlign: 'middle',
-    borderRadius: 100,
-    marginLeft: 16,
-  },
-  headingStyle: {
-    fill: '#000',
-    width: '100%',
-    textTransform: 'capitalize',
-  },
-};
+const UnderlineLink = styled.a`
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  font-family: 'Dosis', sans-serif;
+  :after {
+    content: '';
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    height: 1em;
+    width: 100%;
+    border-bottom: 1px solid;
+    margin-top: 10px;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+  }
 
-const { imageStyle, githubAvatarStyle, headingStyle } = styles;
+  :hover:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+`;
+
+const GithubAvatarImage = styled.img`
+  height: 3rem;
+  width: 3rem;
+  border-radius: 6rem;
+  margin-left: 1rem;
+`;
+
+const Image = styled(Img)`
+  margin-right: 0.625rem;
+  position: relative;
+  height: 2.5rem;
+  width: 2.5rem;
+  vertical-align: middle;
+  border: 0;
+`;
 
 class AuthorSkills extends Component {
   constructor(props) {
@@ -55,17 +75,10 @@ class AuthorSkills extends Component {
 
   componentDidMount() {
     const { author, actions } = this.props;
-    actions.getAuthorSkills({ author });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { author, actions } = this.props;
-    if (author !== prevProps.author) {
-      actions
-        .getAuthorSkills({ author })
-        .then(() => this.setState({ loading: false }))
-        .catch(error => console.log('Failed to Get Author Skills'));
-    }
+    actions
+      .getAuthorSkills({ author })
+      .then(() => this.setState({ loading: false }))
+      .catch(error => console.log('Failed to Get Author Skills'));
   }
 
   loadSkillCards = () => {
@@ -79,8 +92,9 @@ class AuthorSkills extends Component {
         name}`;
       const pngImage = `${image}.png`;
       const jpgImage = `${image}.jpg`;
-
+      const categoryURL = `${window.location.protocol}//${window.location.host}/skills/category/${category}/`;
       const skillURL = `${window.location.protocol}//${window.location.host}/skills/${category}/${name}/${language}`;
+
       name = name.charAt(0).toUpperCase() + name.slice(1);
       if (name.split('_').length > 1) {
         name = name.split('_').join(' ');
@@ -89,21 +103,18 @@ class AuthorSkills extends Component {
         <TableRow key={index}>
           <TableCell>
             <a href={skillURL}>
-              <Img
-                style={imageStyle}
+              <Image
                 src={[pngImage, jpgImage]}
                 unloader={<CircleImage name={name} size="40" />}
               />
             </a>
           </TableCell>
           <TableCell>
-            <div>
-              <a href={skillURL} className="effect-underline">
-                {name}
-              </a>
-            </div>
+            <UnderlineLink href={skillURL}>{name}</UnderlineLink>
           </TableCell>
-          <TableCell>{category}</TableCell>
+          <TableCell>
+            <UnderlineLink href={categoryURL}>{category}</UnderlineLink>
+          </TableCell>
           <TableCell>{ISO6391.getNativeName(language)}</TableCell>
         </TableRow>
       );
@@ -112,7 +123,7 @@ class AuthorSkills extends Component {
   };
 
   render() {
-    const { author, authorUrl, open, requestClose } = this.props;
+    const { author, authorUrl, actions } = this.props;
     const { loading } = this.state;
     let githubAvatarSrc = '';
 
@@ -151,35 +162,16 @@ class AuthorSkills extends Component {
     }
 
     return (
-      <div>
-        <Dialog
-          open={open}
-          maxWidth="sm"
-          fullWidth={true}
-          onRequestClose={requestClose}
-        >
-          <DialogContent>
-            <div style={headingStyle}>
-              <h3>
-                Skills by {author}{' '}
-                <a
-                  href={
-                    authorUrl && authorUrl !== '<author_url>' ? authorUrl : '/'
-                  }
-                >
-                  <img
-                    alt={'GitHub'}
-                    style={githubAvatarStyle}
-                    src={githubAvatarSrc}
-                  />
-                </a>
-              </h3>
-            </div>
-            {renderElement}
-            <CloseButton onClick={requestClose} />
-          </DialogContent>
-        </Dialog>
-      </div>
+      <React.Fragment>
+        <DialogTitle>
+          <CloseButton onClick={actions.closeModal} />
+          Skills by {author}{' '}
+          <a href={authorUrl && authorUrl !== '<author_url>' ? authorUrl : '/'}>
+            <GithubAvatarImage alt={'GitHub'} src={githubAvatarSrc} />
+          </a>
+        </DialogTitle>
+        <DialogContent>{renderElement}</DialogContent>
+      </React.Fragment>
     );
   }
 }
@@ -204,7 +196,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(skillActions, dispatch),
+    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
   };
 }
 
