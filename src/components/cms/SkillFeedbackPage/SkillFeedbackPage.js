@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
+import uiActions from '../../../redux/actions/ui';
 import PropTypes from 'prop-types';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -24,7 +25,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import AuthorSkills from '../AuthorSkills/AuthorSkills';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
@@ -73,7 +73,6 @@ class SkillFeedbackPage extends Component {
       openDeleteModal: false,
       errorText: '',
       loading: true,
-      showAuthorSkills: false,
       currentPage: 1,
       currentRecords: [],
       anchorEl: null,
@@ -272,14 +271,6 @@ class SkillFeedbackPage extends Component {
     this.toggleDeleteModal();
   };
 
-  toggleAuthorSkills = () => {
-    if (this.author) {
-      this.setState(prevState => ({
-        showAuthorSkills: !prevState.showAuthorSkills,
-      }));
-    }
-  };
-
   handleMenuOpen = event => {
     this.setState({
       anchorEl: event.currentTarget,
@@ -292,10 +283,13 @@ class SkillFeedbackPage extends Component {
     });
   };
 
+  openAuthorSkills = () => {
+    this.props.actions.openModal({ modalType: 'authorSkills' });
+  };
+
   render() {
     const {
       currentPage,
-      showAuthorSkills,
       errorText,
       openEditDialog,
       openDeleteModal,
@@ -536,7 +530,7 @@ class SkillFeedbackPage extends Component {
                     by{' '}
                     <span
                       className="feedback-author"
-                      onClick={this.toggleAuthorSkills}
+                      onClick={this.openAuthorSkills}
                     >
                       {author}
                     </span>
@@ -696,15 +690,6 @@ class SkillFeedbackPage extends Component {
           </DialogContent>
           <DialogActions>{deleteActions}</DialogActions>
         </Dialog>
-        <div>
-          <AuthorSkills
-            ref={c => {
-              this.author = c;
-            }}
-            open={showAuthorSkills}
-            requestClose={this.toggleAuthorSkills}
-          />
-        </div>
       </div>
     );
   }
@@ -742,7 +727,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(skillActions, dispatch),
+    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
   };
 }
 
