@@ -13,6 +13,7 @@ import SystemLogs from './SystemLogs/SystemLogs';
 import SystemSettings from './SystemSettings/SystemSettings';
 import { getAdmin } from '../../apis/index';
 import styled from 'styled-components';
+import isMobileView from '../../utils/isMobileView';
 
 const CircularProgressContainer = styled(CircularProgress)`
   margin-top: 6.25rem;
@@ -138,6 +139,7 @@ class Admin extends Component {
 
   render() {
     const { value, loading, isAdmin } = this.state;
+    const mobileView = isMobileView();
     return (
       <div>
         {loading ? (
@@ -158,6 +160,8 @@ class Admin extends Component {
                       indicatorColor="primary"
                       textColor="primary"
                       centered
+                      scrollButtons="on"
+                      variant={mobileView ? 'scrollable' : 'standard'}
                     >
                       <Tab label="Admin" />
                       <Tab label="Users" />
