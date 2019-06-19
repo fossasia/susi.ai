@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import _Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +13,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import uiActions from '../../../redux/actions/ui';
 import { fetchApiKeys, createApiKey, deleteApiKey } from '../../../apis/index';
 import styled from 'styled-components';
 
@@ -81,11 +84,17 @@ class SystemSettings extends Component {
 
   confirmCreate = () => {
     const { keyName, keyValue } = this.state;
-    createApiKey({ keyName, keyValue })
-      .then(this.fetchApiKeys)
-      .catch(error => {
-        console.log(error);
+    if (keyName.trim() !== '' && keyValue.trim() !== '') {
+      createApiKey({ keyName, keyValue })
+        .then(this.fetchApiKeys)
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Key Name or Key Value cannot be empty',
       });
+    }
     this.handleClose();
   };
 
@@ -125,6 +134,8 @@ class SystemSettings extends Component {
       showUpdateDialog: false,
       showDeleteDialog: false,
       showCreateDialog: false,
+      keyName: '',
+      keyValue: '',
     });
   };
 
@@ -209,6 +220,7 @@ class SystemSettings extends Component {
               fullWidth={true}
               name="keyName"
               onChange={this.handleChange}
+              disabled={!showCreateDialog}
             />
             <TextField
               label="Key Value"
@@ -221,13 +233,7 @@ class SystemSettings extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button
-              key={1}
-              color="primary"
-              onClick={
-                showCreateDialog ? this.confirmCreate : this.confirmUpdate
-              }
-            >
+            <Button key={1} color="primary" onClick={this.confirmCreate}>
               {showCreateDialog ? 'Create' : 'Update'}
             </Button>
             <Button key={2} color="primary" onClick={this.handleClose}>
@@ -263,6 +269,16 @@ class SystemSettings extends Component {
 
 SystemSettings.propTypes = {
   history: PropTypes.object,
+  actions: PropTypes.object,
 };
 
-export default SystemSettings;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SystemSettings);
