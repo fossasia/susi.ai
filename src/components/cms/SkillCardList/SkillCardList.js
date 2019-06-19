@@ -268,7 +268,7 @@ function createListCard(
                   <Link
                     key={el}
                     to={{
-                      pathname: `/${skill.group}/${skill.skillTag}/${skill.language}/feedbacks`,
+                      pathname: `/skills/${skill.group}/${skill.skillTag}/${skill.language}/feedbacks`,
                     }}
                   >
                     <Ratings
