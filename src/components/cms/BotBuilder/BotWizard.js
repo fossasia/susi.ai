@@ -575,7 +575,7 @@ class BotWizard extends React.Component {
                     >
                       {// eslint-disable-next-line
                       savingSkill ? (
-                        <CircularProgress color="#ffffff" size={32} />
+                        <CircularProgress color="inherit" size={32} />
                       ) : updateSkillNow ? (
                         'Update and Deploy'
                       ) : (

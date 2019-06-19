@@ -223,7 +223,7 @@ class SkillFeedbackCard extends Component {
                   </Menu>
                 </div>
               </ListItem>
-              <Divider inset={true} />
+              <Divider />
             </div>
           );
           return null;
@@ -274,7 +274,7 @@ class SkillFeedbackCard extends Component {
                     id="post-feedback"
                     placeholder="Skill Feedback"
                     defaultValue=""
-                    multiLine={true}
+                    multiline={true}
                     fullWidth={true}
                     onChange={this.setFeedback}
                     aria-describedby="post-feedback-helper-text"
@@ -328,7 +328,7 @@ class SkillFeedbackCard extends Component {
                 id="edit-feedback"
                 placeholder="Skill Feedback"
                 defaultValue={userFeedback}
-                multiLine={true}
+                multiline={true}
                 fullWidth={true}
                 onChange={this.editFeedback}
                 aria-describedby="edit-feedback-helper-text"

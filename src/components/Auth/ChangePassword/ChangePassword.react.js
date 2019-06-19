@@ -322,7 +322,7 @@ class ChangePassword extends Component {
           </Button>
         </div>
         <Dialog
-          open={dialogMessage}
+          open={dialogMessage !== ''}
           onClose={this.handleCloseResetPassword}
           maxWidth={'xs'}
           fullWidth={true}

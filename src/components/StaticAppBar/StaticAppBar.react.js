@@ -350,7 +350,11 @@ class StaticAppBar extends Component {
                 {accessToken && (
                   <StyledIconButton onClick={() => history.push('/settings')}>
                     <FlexContainer>
-                      <CircleImage src={userAvatar} size="32" />
+                      <CircleImage
+                        name="User Avatar"
+                        src={userAvatar}
+                        size="32"
+                      />
                       <UserDetail>{!userName ? email : userName}</UserDetail>
                     </FlexContainer>
                   </StyledIconButton>
