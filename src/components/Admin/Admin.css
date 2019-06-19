@@ -79,6 +79,10 @@
     line-height: 2;
 }
 
+body {
+    height: 100%;
+}
+
 @media screen and (max-width: 520px) {
   .flexCard {
     width: 310px;

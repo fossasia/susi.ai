@@ -15,8 +15,21 @@ const Select = styled(_Select)`
   margin: 1.5rem 0;
 `;
 
+const HomeDiv = styled.div`
+  &&& {
+    @media (max-width: 500px) {
+      padding: 0rem;
+    }
+  }
+`;
+
 const Container = styled.div`
   margin-top: 4rem;
+  @media (max-width: 500px) {
+    height: 60vh;
+    width: 100%;
+    overflow: scroll;
+  }
 `;
 
 const menuObj = [
@@ -90,7 +103,7 @@ class SystemLogs extends React.Component {
       </MenuItem>
     ));
     return (
-      <div className="tabs">
+      <HomeDiv className="tabs">
         <Select
           onChange={this.handleCountChange}
           value={this.state.currentCount}
@@ -109,7 +122,7 @@ class SystemLogs extends React.Component {
             />
           )}
         </Container>
-      </div>
+      </HomeDiv>
     );
   }
 }

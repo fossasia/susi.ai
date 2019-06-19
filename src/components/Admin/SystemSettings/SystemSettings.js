@@ -16,6 +16,9 @@ import styled from 'styled-components';
 
 const Table = styled(_Table)`
   max-width: 40rem;
+  @media (max-width: 500px) {
+    display: block;
+  }
 `;
 
 const AddConfigButton = styled(Button)`
