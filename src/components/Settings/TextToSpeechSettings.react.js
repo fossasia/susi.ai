@@ -29,7 +29,7 @@ class TextToSpeechSettings extends Component {
       play: false,
       playExample: false,
       ttsLanguage: this.props.lang,
-      voiceList: [],
+      voiceList: speechSynthesis.getVoices(),
     };
     this.speechSynthesisExample = 'This is an example of speech synthesis';
     this.speechDemo = 'Hi! I am SUSI';
