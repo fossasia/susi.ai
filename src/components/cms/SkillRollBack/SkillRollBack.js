@@ -33,6 +33,10 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
 
+notification.config({
+  top: 60,
+});
+
 const styles = {
   paperStyle: {
     width: '100%',
