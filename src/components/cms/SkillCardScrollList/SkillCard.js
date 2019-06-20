@@ -140,11 +140,16 @@ class SkillCard extends Component {
         } else {
           image = '';
         }
-        if (skill.examples) {
+        if (
+          skill.examples &&
+          skill.examples.length > 0 &&
+          skill.examples[0] !==
+            '<The question that should be shown in public skill displays>'
+        ) {
           examples = skill.examples;
           examples = examples[0];
         } else {
-          examples = null;
+          examples = 'Test this example of skill';
         }
         if (skill.skillRating) {
           averageRating = parseFloat(skill.skillRating.stars.avgStar);

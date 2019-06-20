@@ -50,6 +50,11 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import { bindActionCreators } from 'redux';
+
+notification.config({
+  top: 60,
+});
+
 let languages = [];
 
 const Paper = styled(_Paper)`
