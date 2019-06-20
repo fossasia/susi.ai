@@ -28,7 +28,7 @@ import Ratings from 'react-ratings-declarative';
 
 // Static Assets
 import CircleImage from '../../CircleImage/CircleImage';
-import EditBtn from '@material-ui/icons/BorderColor';
+import EditBtn from '@material-ui/icons/Edit';
 import VersionBtn from '@material-ui/icons/History';
 import DeleteBtn from '@material-ui/icons/Delete';
 import NavigateDown from '@material-ui/icons/ExpandMore';
@@ -50,12 +50,7 @@ const AuthorSpan = styled.span`
 `;
 
 const Paper = styled(_Paper)`
-  @media (max-width: 500px) {
-    width: 60%;
-  }
-  @media (max-width: 370px) {
-    width: 55%;
-  }
+  width: 100%;
 `;
 
 const ExampleComment = styled.div`
@@ -446,12 +441,10 @@ class SkillListing extends Component {
               <p className="card-content">{descriptions}</p>
               {dynamicContent && (
                 <div className="card-content">
-                  <ul>
-                    <li>
-                      This skill contains dynamic content that is updated in
-                      real time based on inputs from the user.
-                    </li>
-                  </ul>
+                  <p>
+                    This skill contains dynamic content that is updated in real
+                    time based on inputs from the user.
+                  </p>
                 </div>
               )}
 
@@ -580,7 +573,6 @@ class SkillListing extends Component {
           display: 'flex',
           height: '100%',
           flexDirection: 'column',
-          margin: '3rem',
         }}
       >
         <div style={{ flex: '1 0 auto' }}>{renderElement}</div>
