@@ -680,7 +680,7 @@ class SkillCreator extends Component {
             if (!this.props.hasOwnProperty('revertingCommit')) {
               this.props.history.push({
                 pathname:
-                  '/' +
+                  '/skills/' +
                   category +
                   '/' +
                   name.trim().replace(/\s/g, '_') +
@@ -746,7 +746,7 @@ class SkillCreator extends Component {
             if (!this.props.hasOwnProperty('revertingCommit')) {
               this.props.history.push({
                 pathname:
-                  '/' +
+                  '/skills/' +
                   category +
                   '/' +
                   name.trim().replace(/\s/g, '_') +

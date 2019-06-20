@@ -213,7 +213,7 @@ class SkillRollBack extends Component {
             icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
           });
           this.props.history.push({
-            pathname: `/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
+            pathname: `/skills/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
             state: {
               fromUpload: true,
               expertValue: skillMetaData.skillName,
