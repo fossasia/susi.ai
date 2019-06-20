@@ -16,6 +16,17 @@ import { DialogContainer } from '../shared/Container';
 import DeleteAccount from '../Auth/DeleteAccount/DeleteAccount.react';
 import ConfirmDeleteAccount from '../Auth/DeleteAccount/ConfirmDeleteAccount.react';
 import AuthorSkills from '../cms/AuthorSkills/AuthorSkills';
+import UpdateSystemSettings from '../Admin/SystemSettings/UpdateSystemSettingsDialog';
+import DeleteSystemSettings from '../Admin/SystemSettings/DeleteSystemSettingsDialog';
+import DeleteSkill from '../Admin/ListSkills/DeleteSkillDialog';
+import EditSkill from '../Admin/ListSkills/EditSkillDialog';
+import ConfirmSkill from '../Admin/ListSkills/ConfirmSkillDialog';
+import RestoreSkill from '../Admin/ListSkills/RestoreSkillDialog';
+import ReportSkillDialog from '../cms/SkillPage/ReportSkillDialog';
+import DeleteFeedbackDialog from '../cms/SkillFeedbackPage/DeleteFeedbackDialog';
+import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
+import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
+import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
 
 const DialogData = {
   share: { Component: Share, size: 'xs' },
@@ -29,6 +40,19 @@ const DialogData = {
   noComponent: { Component: null, size: false },
   deleteDevice: { Component: RemoveDeviceDialog, size: 'sm' },
   authorSkills: { Component: AuthorSkills, size: 'sm' },
+  updateSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
+  createSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
+  deleteSystemSettings: { Component: DeleteSystemSettings, size: 'sm' },
+  deleteSkill: { Component: DeleteSkill, size: 'xs' },
+  confirmSkill: { Component: ConfirmSkill, size: 'xs' },
+  editSkill: { Component: EditSkill, size: 'sm' },
+  restoreSkill: { Component: RestoreSkill, size: 'xs' },
+  reportSkill: { Component: ReportSkillDialog, size: 'sm' },
+  deleteFeedback: { Component: DeleteFeedbackDialog, size: 'sm' },
+  editFeedback: { Component: EditFeedbackDialog, size: 'sm' },
+  // For skillCreator delete skill
+  deleteSkillWithInput: { Component: DeleteSkillWithInput, size: 'sm' },
+  deleteBot: { Component: DeleteBot, size: 'sm' },
 };
 
 const DialogSection = props => {
@@ -48,7 +72,6 @@ const DialogSection = props => {
   };
 
   const { size, Component } = getDialog();
-  const addPadding = modalType !== 'confirmDeleteAccount';
   return (
     <div>
       <Dialog
@@ -57,7 +80,7 @@ const DialogSection = props => {
         open={isModalOpen || !visited}
         onClose={isModalOpen ? actions.closeModal : actions.setVisited}
       >
-        <DialogContainer padding={addPadding}>
+        <DialogContainer>
           {Component ? <Component {...otherProps} /> : null}
         </DialogContainer>
       </Dialog>

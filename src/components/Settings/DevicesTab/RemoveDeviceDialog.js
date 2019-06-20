@@ -48,7 +48,8 @@ class RemoveDeviceDialog extends Component {
       removeDeviceName,
       removeDeviceIndex,
     } = this.props;
-    const shouldDisable = !(this.state.deviceName === removeDeviceName);
+    const { deviceName } = this.state;
+    const shouldDisable = !(deviceName === removeDeviceName);
     return (
       <div>
         <DialogTitle id="form-dialog-title">
@@ -61,13 +62,13 @@ class RemoveDeviceDialog extends Component {
           <DialogContentText>
             This action <strong>cannot</strong> be undone. This will permanently
             remove the device corresponding to the device name{' '}
-            <strong>{this.props.removeDeviceName}</strong>.
+            <strong>{removeDeviceName}</strong>.
             <br />
             <br />
             <strong>Please type in the name of the device to confirm.</strong>
           </DialogContentText>
           <OutlinedInput
-            value={this.state.deviceName}
+            value={deviceName}
             autoFocus
             onChange={this.handleChange}
             margin="dense"

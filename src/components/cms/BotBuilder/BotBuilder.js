@@ -4,9 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
@@ -173,7 +170,7 @@ class BotBuilder extends React.Component {
               <Delete
                 color="rgb(255, 255, 255)"
                 onClick={() =>
-                  this.openDeleteAlert('bot', [
+                  this.handleDeleteModal('bot', [
                     bot.name,
                     bot.language,
                     bot.group,
@@ -198,7 +195,7 @@ class BotBuilder extends React.Component {
             snackBarDuration: 2000,
           })
           .then(() => {
-            this.closeDeleteAlert();
+            this.props.actions.closeModal();
             this.getChatbots();
           });
       })
@@ -273,7 +270,7 @@ class BotBuilder extends React.Component {
             <div className="bot-delete">
               <Delete
                 color="rgb(255, 255, 255)"
-                onClick={() => this.openDeleteAlert('draft', [draft])}
+                onClick={() => this.handleDeleteModal('draft', [draft])}
               />
             </div>
           </Card>,
@@ -293,7 +290,7 @@ class BotBuilder extends React.Component {
             snackBarDuration: 2000,
           })
           .then(() => {
-            this.closeDeleteAlert();
+            this.props.actions.closeModal();
             this.getDrafts();
           });
       })
@@ -308,12 +305,14 @@ class BotBuilder extends React.Component {
       });
   };
 
-  openDeleteAlert = (type, params) => {
+  handleDeleteModal = (type, params) => {
     this.setState({ deleteAlert: { type, params } });
-  };
-
-  closeDeleteAlert = () => {
-    this.setState({ deleteAlert: null });
+    this.props.actions.openModal({
+      modalType: 'deleteBot',
+      type: type,
+      handleConfirm: this.handleDelete,
+      handleClose: this.props.actions.closeModal,
+    });
   };
 
   handleDelete = () => {
@@ -327,7 +326,7 @@ class BotBuilder extends React.Component {
 
   render() {
     const { home, paperStyle, heading, loggedInError, newBotBtn } = styles;
-    const { drafts, deleteAlert } = this.state;
+    const { drafts } = this.state;
     if (!cookies.get('loggedIn')) {
       return (
         <div>
@@ -412,38 +411,6 @@ class BotBuilder extends React.Component {
             </div>
           </Paper>
         </div>
-        <Dialog
-          open={deleteAlert !== null}
-          onClick={this.closeDeleteAlert}
-          maxWidth={'sm'}
-          fullWidth={true}
-        >
-          <DialogContent style={{ fontSize: '1rem' }}>
-            {`Are you sure you want to delete this ${
-              deleteAlert !== null ? deleteAlert.type : ''
-            }?`}
-          </DialogContent>
-          <DialogActions>
-            {[
-              <Button
-                key={1}
-                color="primary"
-                onClick={this.closeDeleteAlert}
-                style={{ marginRight: '10px' }}
-              >
-                Cancel
-              </Button>,
-              <Button
-                key={2}
-                variant="contained"
-                color="secondary"
-                onClick={this.handleDelete}
-              >
-                Delete
-              </Button>,
-            ]}
-          </DialogActions>
-        </Dialog>
       </div>
     );
   }
