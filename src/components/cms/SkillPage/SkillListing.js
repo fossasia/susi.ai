@@ -17,14 +17,8 @@ import { Paper as _Paper } from '../../shared/Container';
 import { Title } from '../../shared/Typography';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Ratings from 'react-ratings-declarative';
+import { reportSkill } from '../../../apis';
 
 // Static Assets
 import CircleImage from '../../CircleImage/CircleImage';
@@ -35,7 +29,6 @@ import NavigateDown from '@material-ui/icons/ExpandMore';
 import NavigateUp from '@material-ui/icons/ExpandLess';
 import ReactTooltip from 'react-tooltip';
 import { urls, parseDate } from '../../../utils';
-import { reportSkill } from '../../../apis';
 import styled from 'styled-components';
 
 import './SkillListing.css';
@@ -99,9 +92,7 @@ class SkillListing extends Component {
 
     this.state = {
       skillFeedback: [],
-      showReportDialog: false,
       feedbackMessage: '',
-      showDeleteDialog: false,
       skillExampleCount: 4,
       seeMoreSkillExamples: true,
     };
@@ -148,43 +139,20 @@ class SkillListing extends Component {
     this.props.actions.openModal({ modalType: 'authorSkills' });
   };
 
-  handleReportToggle = () => {
-    const { showReportDialog } = this.state;
-    this.setState({
-      showReportDialog: !showReportDialog,
+  handleDeleteDialog = () => {
+    this.props.actions.openModal({
+      modalType: 'deleteSkill',
+      handleConfirm: this.deleteSkill,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
-  handleReportSubmit = () => {
-    const { actions } = this.props;
-    const { feedbackMessage } = this.state;
-    reportSkill({ ...this.skillData, feedback: feedbackMessage })
-      .then(payload => {
-        this.handleReportToggle();
-        actions.openSnackBar({
-          snackBarMessage: 'Skill has been reported successfully.',
-          snackBarDuration: 3000,
-        });
-      })
-      .catch(error => {
-        this.handleReportToggle();
-        actions.openSnackBar({
-          snackBarMessage: 'Failed to report the skill.',
-          snackBarDuration: 3000,
-        });
-      });
-  };
-
-  saveReportFeedback = feedbackMessage => {
-    this.setState({
-      feedbackMessage,
+  handleReportSkillDialog = () => {
+    this.props.actions.openModal({
+      modalType: 'reportSkill',
+      handleConfirm: this.handleReportSubmit,
+      handleClose: this.props.actions.closeModal,
     });
-  };
-
-  handleDeleteToggle = () => {
-    this.setState(prevState => ({
-      showDeleteDialog: !prevState.showDeleteDialog,
-    }));
   };
 
   deleteSkill = () => {
@@ -193,17 +161,36 @@ class SkillListing extends Component {
       actions
         .deleteSkill(this.skillData)
         .then(payload => {
-          this.handleDeleteToggle();
+          // this.handleDeleteToggle();
           history.push('/');
         })
         .catch(error => {
           console.log(error);
-          this.handleReportToggle();
           actions.openSnackBar({
             snackMessage: 'Failed to delete the skill.',
           });
         });
     });
+  };
+
+  handleReportSubmit = () => {
+    const { actions } = this.props;
+    const { feedbackMessage } = this.state;
+    reportSkill({ ...this.skillData, feedback: feedbackMessage })
+      .then(payload => {
+        actions.closeModal();
+        actions.openSnackBar({
+          snackBarMessage: 'Skill has been reported successfully.',
+          snackBarDuration: 3000,
+        });
+      })
+      .catch(error => {
+        actions.closeModal();
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to report the skill.',
+          snackBarDuration: 3000,
+        });
+      });
   };
 
   toggleSkillExamples = () => {
@@ -217,11 +204,7 @@ class SkillListing extends Component {
   };
 
   render() {
-    const {
-      showDeleteDialog,
-      skillExampleCount,
-      showReportDialog,
-    } = this.state;
+    const { skillExampleCount } = this.state;
 
     const {
       image,
@@ -253,34 +236,6 @@ class SkillListing extends Component {
     let { seeMoreSkillExamples } = this.state;
     const editLink = `/skills/${this.groupValue}/${this.skillTag}/edit/${this.languageValue}`;
     const versionsLink = `/skills/${this.groupValue}/${this.skillTag}/versions/${this.languageValue}`;
-
-    const reportDialogActions = [
-      <Button
-        key={0}
-        color="secondary"
-        onClick={this.handleReportSubmit}
-        disabled={
-          !(
-            this.state.feedbackMessage !== undefined &&
-            this.state.feedbackMessage.trim()
-          )
-        }
-      >
-        Report
-      </Button>,
-      <Button key={1} color="primary" onClick={this.handleReportToggle}>
-        Cancel
-      </Button>,
-    ];
-
-    const deleteDialogActions = [
-      <Button key={0} color="secondary" onClick={this.deleteSkill}>
-        Delete
-      </Button>,
-      <Button key={1} color="primary" onClick={this.handleDeleteToggle}>
-        Cancel
-      </Button>,
-    ];
 
     let renderElement = null;
     if (examples.length > 4) {
@@ -350,34 +305,16 @@ class SkillListing extends Component {
                 </a>
               </div>
               <div className="linkButtons">
-                {isAdmin === 'true' && (
+                {isAdmin === true && (
                   <div className="skillDeleteBtn">
                     <Fab
-                      onClick={this.handleDeleteToggle}
+                      onClick={this.handleDeleteDialog}
                       data-tip="Delete Skill"
                       style={{ backgroundColor: '#f44336' }}
                     >
                       <DeleteBtn />
                     </Fab>
                     <ReactTooltip effect="solid" place="bottom" />
-                    <Dialog
-                      open={showDeleteDialog}
-                      onClose={this.handleDeleteToggle}
-                      maxWidth={'sm'}
-                      fullWidth={true}
-                    >
-                      <DialogContent>
-                        <DialogTitle>Delete Skill</DialogTitle>
-                        <DialogContentText>
-                          Are you sure about deleting{' '}
-                          <span style={{ fontWeight: 'bold' }}>
-                            {skillName}
-                          </span>
-                          ?
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>{deleteDialogActions}</DialogActions>
-                    </Dialog>
                   </div>
                 )}
                 <div>
@@ -524,31 +461,11 @@ class SkillListing extends Component {
                         <td>
                           <div
                             style={{ color: '#108ee9', cursor: 'pointer' }}
-                            onClick={this.handleReportToggle}
+                            onClick={this.handleReportSkillDialog}
                           >
                             Flag as inappropriate
                           </div>
                         </td>
-                        <Dialog
-                          open={showReportDialog}
-                          onClose={this.handleReportToggle}
-                          maxWidth={'sm'}
-                          fullWidth={true}
-                        >
-                          <DialogTitle>Flag as inappropriate</DialogTitle>
-                          <DialogContent>
-                            <TextField
-                              multiline={true}
-                              fullWidth={true}
-                              onChange={(event, val) =>
-                                this.saveReportFeedback(event.target.value)
-                              }
-                              label="Feedback message"
-                              placeholder="Leave a feedback message"
-                            />
-                          </DialogContent>
-                          <DialogActions>{reportDialogActions}</DialogActions>
-                        </Dialog>
                       </tr>
                     )}
                     <tr>

@@ -8,14 +8,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import uiActions from '../../../redux/actions/ui';
-import { fetchApiKeys, createApiKey, deleteApiKey } from '../../../apis/index';
+import { fetchApiKeys, deleteApiKey } from '../../../apis/index';
 import styled from 'styled-components';
+import uiActions from '../../../redux/actions/ui';
 
 const Table = styled(_Table)`
   max-width: 40rem;
@@ -47,9 +42,6 @@ class SystemSettings extends Component {
       loading: true,
       keyName: '',
       keyValue: '',
-      showUpdateDialog: false,
-      showDeleteDialog: false,
-      showCreateDialog: false,
     };
   }
 
@@ -82,20 +74,9 @@ class SystemSettings extends Component {
       });
   };
 
-  confirmCreate = () => {
-    const { keyName, keyValue } = this.state;
-    if (keyName.trim() !== '' && keyValue.trim() !== '') {
-      createApiKey({ keyName, keyValue })
-        .then(this.fetchApiKeys)
-        .catch(error => {
-          console.log(error);
-        });
-    } else {
-      this.props.actions.openSnackBar({
-        snackBarMessage: 'Key Name or Key Value cannot be empty',
-      });
-    }
-    this.handleClose();
+  confirmUpdate = () => {
+    this.fetchApiKeys();
+    this.props.actions.closeModal();
   };
 
   confirmDelete = () => {
@@ -105,54 +86,42 @@ class SystemSettings extends Component {
       .catch(error => {
         console.log(error);
       });
-    this.handleClose();
+    this.props.actions.closeModal();
   };
 
   handleUpdate = row => {
-    this.setState({
+    this.props.actions.openModal({
+      modalType: 'updateSystemSettings',
+      type: 'Update',
       keyName: row.keyName,
       keyValue: row.value,
-      showUpdateDialog: true,
-    });
-  };
-
-  handleDelete = row => {
-    this.setState({
-      keyName: row.keyName,
-      showDeleteDialog: true,
+      handleConfirm: this.confirmUpdate,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
   handleCreate = () => {
-    this.setState({
-      showCreateDialog: true,
+    this.props.actions.openModal({
+      modalType: 'createSystemSettings',
+      type: 'Create',
+      handleConfirm: this.confirmUpdate,
+      keyName: this.state.keyName,
+      keyValue: this.state.keyValue,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
-  handleClose = () => {
-    this.setState({
-      showUpdateDialog: false,
-      showDeleteDialog: false,
-      showCreateDialog: false,
-      keyName: '',
-      keyValue: '',
-    });
-  };
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
+  handleDelete = row => {
+    this.setState({ keyName: row.keyName });
+    this.props.actions.openModal({
+      modalType: 'deleteSystemSettings',
+      keyName: row.keyName,
+      handleConfirm: this.confirmDelete,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
   render() {
-    const {
-      keyName,
-      keyValue,
-      showCreateDialog,
-      showUpdateDialog,
-      showDeleteDialog,
-    } = this.state;
     return (
       <div className="tabs">
         <h3 className="h3">Config Keys</h3>
@@ -201,67 +170,6 @@ class SystemSettings extends Component {
         >
           Add Config Key
         </AddConfigButton>
-        <Dialog
-          title={showCreateDialog ? 'Create Key' : 'Update Key'}
-          open={showCreateDialog || showUpdateDialog}
-          maxWidth={'sm'}
-          fullWidth={true}
-          onClose={this.handleClose}
-        >
-          <DialogTitle>
-            {showCreateDialog ? 'Create Key' : 'Update Key'}
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              label="Key Name"
-              placeholder="Key Name"
-              margin="normal"
-              value={keyName}
-              fullWidth={true}
-              name="keyName"
-              onChange={this.handleChange}
-              disabled={!showCreateDialog}
-            />
-            <TextField
-              label="Key Value"
-              placeholder="Key Value"
-              margin="normal"
-              name="keyValue"
-              value={keyValue}
-              fullWidth={true}
-              onChange={this.handleChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button key={1} color="primary" onClick={this.confirmCreate}>
-              {showCreateDialog ? 'Create' : 'Update'}
-            </Button>
-            <Button key={2} color="primary" onClick={this.handleClose}>
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          title="Delete Key"
-          open={showDeleteDialog}
-          maxWidth={'sm'}
-          fullWidth={true}
-          onClose={this.handleClose}
-        >
-          <DialogTitle>Delete Key</DialogTitle>
-          <DialogContent>
-            Are you sure you want to delete{' '}
-            <span className="skillName">{keyName}</span>?
-          </DialogContent>
-          <DialogActions>
-            <Button key={1} color="secondary" onClick={this.confirmDelete}>
-              Delete
-            </Button>
-            <Button key={2} color="primary" onClick={this.handleClose}>
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
       </div>
     );
   }

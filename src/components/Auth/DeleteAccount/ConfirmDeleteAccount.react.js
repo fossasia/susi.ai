@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CloseButton from '../../shared/CloseButton';
 import { withRouter } from 'react-router';
-import _OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { connect } from 'react-redux';
@@ -14,63 +13,22 @@ import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { deleteAccount } from '../../../apis';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { OutlinedInput } from '../AuthStyles';
 
-const OutlinedInput = styled(_OutlinedInput)`
-  height: 2.8rem
-  border-radius: 4;
-  padding: 0px 0.625rem;
-  width: 26rem;
-  margin-top: 0px;
+const DangerButton = styled(Button)`
+  color: #cb2431;
+  border-color: #cb2431;
 `;
 
-const DeleteButton = styled(Button)`
-  box-shadow: none;
-  margin-top: 0.625rem;
-  border: 1px solid rgba(27, 31, 35, 0.2);
-  border-radius: 0.25em;
-  color: ${props => (props.confirmed ? '#fff' : 'rgba(203,36,49,0.4)')};
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.25rem;
-  white-space: nowrap;
-  vertical-align: middle;
-  background-color: ${props => (props.confirmed ? '#cb2431' : '#e5e5e5')};
-  &:hover {
-    background-color: ${props => (props.confirmed ? '#cb2431' : '#e5e5e5')};
-  }
-`;
-
-const ConfirmationHeadingWrapper = styled.div`
-  background-color: #f6f8fa;
-  color: #24292e;
-  padding: 1rem;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  font-size: 0.875rem;
-  text-align: left;
-  font-weight: 600;
-  line-height: 1.5;
-`;
-
-const WarningWrapper = styled.div`
+const WarningContainer = styled.div`
   background-color: #fffbdd;
   color: #735c0f;
-  padding: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
   border: 1px solid rgba(27, 31, 35, 0.15);
-  font-size: 0.875rem;
-  text-align: left;
-  line-height: 1.5;
-`;
-
-const ContentWrapper = styled.div`
-  background-color: #ffffff;
-  color: #24292e;
-  padding: 1rem;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  font-size: 0.857rem;
-  text-align: left;
-  font-weight: 400;
-  line-height: 1.5;
 `;
 
 const deleteCookie = (name, options = {}) => {
@@ -149,53 +107,50 @@ class ConfirmDeleteAccount extends React.Component {
     const { email } = this.props;
     const { emailInput, confirmed, loading } = this.state;
     return (
-      <div>
-        <ConfirmationHeadingWrapper>
+      <React.Fragment>
+        <DialogTitle>
           Are you absolutely sure?
           <CloseButton onClick={this.handleClose} />
-        </ConfirmationHeadingWrapper>
-        <WarningWrapper>
-          Unexpected bad things will happen if you don’t read this!
-        </WarningWrapper>
-
-        <ContentWrapper>
-          <p style={{ marginTop: '0px', marginBottom: '10px' }}>
+        </DialogTitle>
+        <DialogContent>
+          <WarningContainer>
+            Unexpected bad things will happen if you don’t read this!
+          </WarningContainer>
+          <DialogContentText>
             This action <strong>cannot</strong> be undone. This will permanently
             remove the account corresponding to the email id{' '}
             <strong>{email}</strong>.
-          </p>
-          <p style={{ marginTop: '0px', marginBottom: '10px' }}>
-            Please type in your email id to confirm.
-          </p>
-          <div style={{ textAlign: 'center' }}>
-            <FormControl error={this.emailErrorMessage !== ''}>
-              <OutlinedInput
-                name="email"
-                value={emailInput}
-                placeholder="Email"
-                onChange={this.handleEmailChange}
-              />
-              <FormHelperText error={this.emailErrorMessage !== ''}>
-                {this.emailErrorMessage}
-              </FormHelperText>
-            </FormControl>
-          </div>
-          {/* Remove Device Button */}
-          <div style={{ textAlign: 'center' }}>
-            <DeleteButton
-              onClick={this.handleConfirm}
-              confirmed={confirmed}
-              disabled={!confirmed}
-            >
-              {loading ? (
-                <CircularProgress color="default" size={24} />
-              ) : (
-                <Translate text="I understand the consequences, Delete My Account." />
-              )}
-            </DeleteButton>
-          </div>
-        </ContentWrapper>
-      </div>
+            <br />
+            <br />
+            <strong>Please type in your email id to confirm.</strong>
+          </DialogContentText>
+          <FormControl error={this.emailErrorMessage !== ''}>
+            <OutlinedInput
+              name="email"
+              value={emailInput}
+              placeholder="Email"
+              onChange={this.handleEmailChange}
+              width="29rem"
+            />
+            <FormHelperText error={this.emailErrorMessage !== ''}>
+              {this.emailErrorMessage}
+            </FormHelperText>
+          </FormControl>
+        </DialogContent>
+        {/* Remove Device Button */}
+        <DangerButton
+          onClick={this.handleConfirm}
+          confirmed={confirmed}
+          disabled={!confirmed}
+          variant="outlined"
+        >
+          {loading ? (
+            <CircularProgress color="default" size={24} />
+          ) : (
+            <Translate text="I understand the consequences, Delete My Account." />
+          )}
+        </DangerButton>
+      </React.Fragment>
     );
   }
 }
