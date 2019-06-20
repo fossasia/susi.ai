@@ -5,6 +5,9 @@ import styled from 'styled-components';
 export const HeadSection = styled.div`
   border-bottom: 1px solid #dfdfdf;
   background: #f7f7f7;
+  @media (max-width: 500px) {
+    margin-top: 1rem;
+  }
 `;
 
 const Container = styled.div`

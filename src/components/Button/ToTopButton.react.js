@@ -8,6 +8,10 @@ const Fab = styled(_Fab)`
   bottom: 5rem;
   position: fixed;
   z-index: 11;
+
+  @media (max-width: 480px) {
+    right: 0.5rem;
+  }
 `;
 
 const ToTopButton = () => {
