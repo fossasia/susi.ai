@@ -245,21 +245,22 @@ function createListCard(
         </Header>
         <DetailsContainer>
           <ExampleContainer>
-            {examples.map((eg, index) => {
-              return (
-                <Example
-                  key={index}
-                  onClick={event =>
-                    history.push({
-                      pathname: '/chat',
-                      search: `?testExample=${eg}`,
-                    })
-                  }
-                >
-                  &quot;{eg}&quot;
-                </Example>
-              );
-            })}
+            {examples.length > 0 &&
+              examples.map((eg, index) => {
+                return (
+                  <Example
+                    key={index}
+                    onClick={event =>
+                      history.push({
+                        pathname: '/chat',
+                        search: `?testExample=${eg}`,
+                      })
+                    }
+                  >
+                    &quot;{eg}&quot;
+                  </Example>
+                );
+              })}
           </ExampleContainer>
           <RightContainer>
             <Row>
@@ -358,14 +359,21 @@ class SkillCardList extends Component {
       if (skill.image) {
         image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
       }
-      if (skill.examples) {
+      if (
+        skill.examples &&
+        skill.examples.length > 0 &&
+        skill.examples[0] !==
+          '<The question that should be shown in public skill displays>'
+      ) {
         examples = skill.examples;
         examples = examples.slice(0, 2); // Select max 2 examples
+      } else {
+        examples.push('Test this example of skill');
       }
-      if (skill.descriptions) {
+      if (skill.descriptions && skill.descriptions !== '<description>') {
         description = skill.descriptions;
       }
-      if (skill.author) {
+      if (skill.author && skill.author !== '<author_name>') {
         authorName = skill.author;
       }
       if (skill.skillRating) {

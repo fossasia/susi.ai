@@ -27,6 +27,10 @@ import SkillCreator from '../SkillCreator/SkillCreator';
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
 
+notification.config({
+  top: 60,
+});
+
 const styles = {
   home: {
     width: '100%',
