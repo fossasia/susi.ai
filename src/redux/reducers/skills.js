@@ -33,7 +33,7 @@ const defaultState = {
   filterType: '',
   searchQuery: '',
   ratingRefine: null,
-  reviewed: false,
+  reviewed: true,
   staffPicks: false,
   // Pagination
   entriesPerPage: 10,

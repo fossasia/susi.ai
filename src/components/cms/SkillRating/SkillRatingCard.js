@@ -27,18 +27,13 @@ import { Paper as _Paper } from '../../shared/Container';
 import { SubTitle, Title, DefaultMessage } from '../../shared/Typography';
 
 const Paper = styled(_Paper)`
-  @media (max-width: 500px) {
-    width: 60%;
-  }
-  @media (max-width: 370px) {
-    width: 55%;
-  }
+  width: 100%;
 `;
 
 const Container = styled.div`
   @media (max-width: 500px) {
     width: 100%;
-    overflow-x: scroll;
+    overflow: auto;
   }
 `;
 
@@ -54,11 +49,15 @@ const TimeChartContainer = styled.div`
   padding: 1.25rem;
   display: flex;
   width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
   flex-direction: column;
   align-items: flex-start;
   @media (max-width: 500px) {
     margin: 0rem;
     padding: 0rem;
+    overflow: auto;
+    width: 100%;
   }
 `;
 

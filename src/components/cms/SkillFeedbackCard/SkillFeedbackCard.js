@@ -36,12 +36,7 @@ import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
 
 const Paper = styled(_Paper)`
-  @media (max-width: 500px) {
-    width: 60%;
-  }
-  @media (max-width: 370px) {
-    width: 55%;
-  }
+  width: 100%;
 `;
 
 const Timestamp = styled.div`
