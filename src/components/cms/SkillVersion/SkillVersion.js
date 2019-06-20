@@ -21,6 +21,10 @@ import 'antd/dist/antd.css';
 import './SkillVersion.css';
 import styled from 'styled-components';
 
+notification.config({
+  top: 60,
+});
+
 const HomeDiv = styled.div`
   font-size: 0.85rem;
   max-width: 1000px;

@@ -26,6 +26,10 @@ import 'brace/ext/searchbox';
 
 import styled, { css } from 'styled-components';
 
+notification.config({
+  top: 60,
+});
+
 const ErrorNotification = () => {
   return notification.open({
     message: 'Error Processing your Request',
