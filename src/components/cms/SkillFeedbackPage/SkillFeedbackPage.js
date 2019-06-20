@@ -16,11 +16,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../CircleImage/CircleImage';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
@@ -69,8 +64,6 @@ class SkillFeedbackPage extends Component {
     super(props);
 
     this.state = {
-      openEditDialog: false,
-      openDeleteModal: false,
       errorText: '',
       loading: true,
       currentPage: 1,
@@ -207,24 +200,22 @@ class SkillFeedbackPage extends Component {
     }
   };
 
-  handleEditOpen = () => {
-    this.setState({
-      openEditDialog: true,
-      anchorEl: null,
+  handleDeleteModal = () => {
+    this.props.actions.openModal({
+      modalType: 'deleteFeedback',
+      handleConfirm: this.deleteFeedback,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
-  toggleDeleteModal = () => {
-    this.setState(prevState => ({
-      openDeleteModal: !prevState.openDeleteModal,
-      anchorEl: null,
-    }));
-  };
-
-  handleEditClose = () => {
-    this.setState({
-      openEditDialog: false,
-      errorText: '',
+  handleEditModal = () => {
+    this.props.actions.openModal({
+      modalType: 'editFeedback',
+      handleConfirm: this.postFeedback,
+      handleClose: this.props.actions.closeModal,
+      errorText: this.state.errorText,
+      feedback: this.state.feedbackValue,
+      handleEditFeedback: this.editFeedback,
     });
   };
 
@@ -256,7 +247,7 @@ class SkillFeedbackPage extends Component {
         .catch(error => {
           console.log(error);
         });
-      this.handleEditClose();
+      // this.handleEditClose();
     } else {
       this.setState({ errorText: 'Feedback cannot be empty' });
     }
@@ -268,7 +259,6 @@ class SkillFeedbackPage extends Component {
       .deleteSkillFeedback(this.skillData)
       .then(payload => actions.getSkillFeedbacks(this.skillData))
       .catch(error => console.log(error));
-    this.toggleDeleteModal();
   };
 
   handleMenuOpen = event => {
@@ -288,14 +278,7 @@ class SkillFeedbackPage extends Component {
   };
 
   render() {
-    const {
-      currentPage,
-      errorText,
-      openEditDialog,
-      openDeleteModal,
-      loading,
-      anchorEl,
-    } = this.state;
+    const { currentPage, errorText, loading, anchorEl } = this.state;
     const {
       image,
       author,
@@ -313,34 +296,6 @@ class SkillFeedbackPage extends Component {
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
     const pages = this.fetchPageNumbers();
-
-    const editActions = [
-      <Button key={0} color="primary" onClick={this.handleEditClose}>
-        Cancel
-      </Button>,
-      <Button key={1} color="primary" onClick={this.postFeedback}>
-        Edit
-      </Button>,
-    ];
-
-    const deleteActions = [
-      <Button
-        key={0}
-        style={{ marginRight: '0.625rem' }}
-        color="primary"
-        onClick={this.toggleDeleteModal}
-      >
-        Cancel
-      </Button>,
-      <Button
-        key={1}
-        variant="contained"
-        color="secondary"
-        onClick={this.deleteFeedback}
-      >
-        Delete
-      </Button>,
-    ];
 
     let feedbackCards = [];
     let userFeedbackCard;
@@ -387,13 +342,13 @@ class SkillFeedbackPage extends Component {
                   open={open}
                   onClose={this.handleMenuClose}
                 >
-                  <MenuItem onClick={this.handleEditOpen}>
+                  <MenuItem onClick={this.handleEditModal}>
                     <ListItemIcon>
                       <EditBtn />
                     </ListItemIcon>
                     <ListItemText> Edit</ListItemText>
                   </MenuItem>
-                  <MenuItem onClick={this.toggleDeleteModal}>
+                  <MenuItem onClick={this.handleDeleteModal}>
                     <ListItemIcon>
                       <Delete />
                     </ListItemIcon>
@@ -649,49 +604,7 @@ class SkillFeedbackPage extends Component {
         </div>
       );
     }
-    return (
-      <div>
-        {renderElement}
-        <Dialog
-          open={openEditDialog}
-          onClose={this.handleEditClose}
-          maxWidth={'sm'}
-          fullWidth={true}
-        >
-          <DialogTitle>Edit Feedback</DialogTitle>
-          <DialogContent>
-            <FormControl fullWidth={true}>
-              <Input
-                id="edit-feedback"
-                placeholder="Skill Feedback"
-                defaultValue={userFeedback ? userFeedback.feedback : ''}
-                multiLine={true}
-                fullWidth={true}
-                onChange={this.editFeedback}
-                aria-describedby="edit-feedback-helper-text"
-              />
-              <FormHelperText id="edit-feedback-helper-text" error>
-                {errorText}
-              </FormHelperText>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>{editActions}</DialogActions>
-        </Dialog>
-        <Dialog
-          open={openDeleteModal}
-          onClose={this.handleEditClose}
-          maxWidth={'sm'}
-          fullWidth={true}
-        >
-          <DialogContent>
-            <DialogContentText>
-              Are you sure, you want to delete your feedback?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>{deleteActions}</DialogActions>
-        </Dialog>
-      </div>
-    );
+    return <div>{renderElement}</div>;
   }
 }
 

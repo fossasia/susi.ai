@@ -8,6 +8,7 @@ import { urls, colors } from '../../../utils';
 import searchURLPath from '../../../utils/searchURLPath';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
+import uiActions from '../../../redux/actions/ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import ISO6391 from 'iso-639-1';
@@ -30,16 +31,10 @@ import './Animation.min.css';
 // Material-UI Components
 import Button from '@material-ui/core/Button';
 import _Paper from '@material-ui/core/Paper';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
 import styled from 'styled-components';
 
 // Material-UI Icons
@@ -222,7 +217,6 @@ class SkillCreator extends Component {
         showImage: true,
         commitMessage,
         codeChanged: false,
-        showDeleteBox: false,
         groupSelect: false,
         languageSelect: false,
         expertSelect: false,
@@ -231,7 +225,6 @@ class SkillCreator extends Component {
         oldImageUrl: '',
         imageNameChanged: false,
         showAdmin: false,
-        deleteDisabled: true,
         slideState: 1, // 1 means in middle, 2 means preview collapsed
         colSkill: this.props.hasOwnProperty('revertingCommit') ? 12 : 8,
         colPreview: this.props.hasOwnProperty('revertingCommit') ? 0 : 4,
@@ -554,19 +547,12 @@ class SkillCreator extends Component {
     actions.setSkillData({ name, code });
   };
 
-  handleDeleteText = event => {
-    const { code } = this.props;
-    const name = code.match(/^::name\s(.*)$/m);
-    // console.log(name[1])
-    if (event.target.value === name[1]) {
-      this.setState({
-        deleteDisabled: false,
-      });
-    } else {
-      this.setState({
-        deleteDisabled: true,
-      });
-    }
+  handleDeleteModal = () => {
+    this.props.actions.openModal({
+      modalType: 'deleteSkillWithInput',
+      handleConfirm: this.deleteSkill,
+      handleClose: this.props.actions.closeModal,
+    });
   };
 
   saveClick = () => {
@@ -811,14 +797,6 @@ class SkillCreator extends Component {
     actions.setSkillData(payload);
   };
 
-  openDelete = () => {
-    this.setState({ showDeleteBox: true });
-  };
-
-  closeDelete = () => {
-    this.setState({ showDeleteBox: false });
-  };
-
   handleCommitMessageChange = event => {
     this.setState({
       commitMessage: event.target.value,
@@ -826,9 +804,6 @@ class SkillCreator extends Component {
   };
 
   deleteSkill = () => {
-    this.setState({
-      deleteDisabled: true,
-    });
     deleteSkill()
       .then(payload => {
         if (payload.accepted === true) {
@@ -1253,7 +1228,7 @@ class SkillCreator extends Component {
                       variant="contained"
                       color="secondary"
                       style={{ marginLeft: 10 }}
-                      onClick={this.openDelete}
+                      onClick={this.handleDeleteModal}
                     >
                       Delete
                     </Button>
@@ -1297,37 +1272,6 @@ class SkillCreator extends Component {
               )}
             </Row>
           </Grid>
-          <div>
-            <Dialog
-              modal={false}
-              open={this.state.showDeleteBox}
-              onClose={this.closeDelete}
-              maxWidth={'sm'}
-              fullWidth={true}
-            >
-              <DialogTitle>Edit Feedback</DialogTitle>
-              <DialogContent>
-                <FormControl fullWidth={true}>
-                  <Input
-                    placeholder="Enter Skill Name"
-                    fullWidth={true}
-                    onChange={this.handleDeleteText}
-                  />
-                </FormControl>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ marginLeft: 10 }}
-                  onClick={this.deleteSkill}
-                  disabled={this.state.deleteDisabled}
-                >
-                  Delete
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
         </div>
       </div>
     );
@@ -1375,7 +1319,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToActions(dispatch) {
   return {
-    actions: bindActionCreators(createActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...createActions }, dispatch),
   };
 }
 

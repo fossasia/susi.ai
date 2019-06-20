@@ -54,7 +54,6 @@ h1.name {
     padding-left: 1%;
     padding-right: 1%;
     width: 80%;
-    min-width: 640px;
 }
 
 .skill_loading_container {
@@ -93,7 +92,7 @@ h1.name {
 
 @media only screen and (max-width: 1240px) {
   .skill_listing_container {
-    padding: 8px 32px;
+    padding: 25px 32px;
     width: 100%
   }
 }
@@ -125,10 +124,7 @@ h1.name {
 }
 
 .card-content {
-  padding-left: 20px;
-  padding-bottom: 20px;
   width: 100%;
-  overflow-x: scroll;
 }
 
 .singleRating {
