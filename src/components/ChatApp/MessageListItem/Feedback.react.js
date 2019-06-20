@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../../redux/actions/messages';
+import messageActions from '../../../redux/actions/messages';
+import uiActions from '../../../redux/actions/ui';
 import _ from 'lodash';
 
 const styles = {
@@ -49,7 +51,7 @@ class Feedback extends React.Component {
           skillObj.model = parsedData[3];
           skillObj.group = parsedData[4];
           skillObj.language = parsedData[5];
-          skillObj.skill = parsedData[6].slice(0, -4);
+          skillObj.skill = parsedData[6].split('.')[0];
         }
       }
     }
@@ -71,7 +73,7 @@ class Feedback extends React.Component {
     });
 
     actions
-      .postSkillReplyFeedback({
+      .postSkillFeedback({
         ...skillInfo,
         feedback,
         query,
@@ -88,6 +90,10 @@ class Feedback extends React.Component {
       })
       .catch(err => {
         this.removeFeedback();
+        actions.openSnackBar({
+          snackBarMessage: 'Could not give feedback to the reply',
+          snackBarDuration: 2000,
+        });
       });
   };
 
@@ -107,19 +113,33 @@ class Feedback extends React.Component {
       : '';
     const defaultFeedbackColor = theme === 'light' ? '#90a4ae' : '#7eaaaf';
 
+    if (this.state.feedbackInProgress) {
+      return (
+        <span style={styles.feedbackContainer}>
+          <CircularProgress size={12} />
+        </span>
+      );
+    }
+
     return (
       <span>
         {message && message.authorName === 'SUSI' ? (
           <span style={styles.feedbackContainer}>
             <ThumbUp
               onClick={() => this.postSkillReplyFeedback('positive')}
-              style={styles.feedbackButton}
-              color={feedback === 'positive' ? '#00ff7f' : defaultFeedbackColor}
+              style={{
+                ...styles.feedbackButton,
+                color:
+                  feedback === 'positive' ? '#00ff7f' : defaultFeedbackColor,
+              }}
             />
             <ThumbDown
               onClick={() => this.postSkillReplyFeedback('negative')}
-              style={styles.feedbackButton}
-              color={feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor}
+              style={{
+                ...styles.feedbackButton,
+                color:
+                  feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor,
+              }}
             />
           </span>
         ) : null}
@@ -138,7 +158,7 @@ function mapStateToProps({ messages, app, settings }) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...messageActions, ...uiActions }, dispatch),
   };
 }
 
