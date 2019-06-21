@@ -186,6 +186,7 @@ class MessageComposer extends Component {
     loadingHistory: PropTypes.bool,
     theme: PropTypes.string,
     customThemeValue: PropTypes.object,
+    exitSearch: PropTypes.func,
   };
 
   constructor(props) {
@@ -378,7 +379,8 @@ class MessageComposer extends Component {
 
   onKeyDown = event => {
     let { text, currentMessageIndex } = this.state;
-    const { enterAsSend, speechOutputAlways } = this.props;
+    const { enterAsSend, speechOutputAlways, exitSearch } = this.props;
+    exitSearch();
     if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
       if (enterAsSend) {
         event.preventDefault();

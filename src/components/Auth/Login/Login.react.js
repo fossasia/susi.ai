@@ -87,7 +87,7 @@ class Login extends Component {
               .getAdmin({ access_token: payload.accessToken })
               .then(({ payload }) => {
                 this.setCookies({ accessToken, time, uuid, email });
-                if (location.pathname !== '/') {
+                if (location.pathname !== '/chat') {
                   history.push('/');
                 } else {
                   actions.getHistoryFromServer().then(({ payload }) => {
