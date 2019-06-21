@@ -324,7 +324,7 @@ class SkillListing extends Component {
                     }}
                   >
                     <Fab data-tip="Edit Skill" color="primary">
-                      <EditBtn color="default" />
+                      <EditBtn />
                     </Fab>
                     <ReactTooltip effect="solid" place="bottom" />
                   </Link>
@@ -337,7 +337,7 @@ class SkillListing extends Component {
                   >
                     <div className="skillVersionBtn">
                       <Fab data-tip="Skill Versions" color="primary">
-                        <VersionBtn color="default" />
+                        <VersionBtn />
                       </Fab>
                       <ReactTooltip effect="solid" place="bottom" />
                     </div>

@@ -979,19 +979,23 @@ class SkillCreator extends Component {
                       className="iconbutton"
                       onClick={() => actions.setView({ view: 'code' })}
                     >
-                      <Code color={view === 'code' ? 'primary' : ''} />
+                      <Code color={view === 'code' ? 'primary' : 'inherit'} />
                     </IconButton>
                     <IconButton
                       className="iconbutton"
                       onClick={() => actions.setView({ view: 'conversation' })}
                     >
-                      <QA color={view === 'conversation' ? 'primary' : ''} />
+                      <QA
+                        color={view === 'conversation' ? 'primary' : 'inherit'}
+                      />
                     </IconButton>
                     <IconButton
                       className="iconbutton"
                       onClick={() => actions.setView({ view: 'tree' })}
                     >
-                      <Timeline color={view === 'tree' ? 'primary' : ''} />
+                      <Timeline
+                        color={view === 'tree' ? 'primary' : 'inherit'}
+                      />
                     </IconButton>
                   </div>
                 </div>
@@ -1099,7 +1103,7 @@ class SkillCreator extends Component {
                                   this.file = c;
                                 }}
                                 name="user[image]"
-                                multiple="false"
+                                multiple={false}
                                 onChange={this._onChange}
                               />
                               <Add
@@ -1118,12 +1122,12 @@ class SkillCreator extends Component {
                 )}
                 {!loadViews ? (
                   <div className="center" style={{ padding: 10 }}>
-                    <CircularProgress size={62} color="#4285f5" />
+                    <CircularProgress size={62} />
                     <h4>Loading</h4>
                   </div>
                 ) : null}
                 {view === 'code' && loadViews ? (
-                  <CodeView editable={this.state.editable && accessToken} />
+                  <CodeView editable={accessToken && this.state.editable} />
                 ) : null}
                 {view === 'conversation' && loadViews ? (
                   <ConversationView />
@@ -1295,7 +1299,7 @@ SkillCreator.propTypes = {
   name: PropTypes.string,
   language: PropTypes.string,
   category: PropTypes.string,
-  image: PropTypes.object,
+  image: PropTypes.string,
   file: PropTypes.object,
 };
 

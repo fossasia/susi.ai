@@ -168,7 +168,6 @@ class BotBuilder extends React.Component {
             </Link>
             <div className="bot-delete">
               <Delete
-                color="rgb(255, 255, 255)"
                 onClick={() =>
                   this.handleDeleteModal('bot', [
                     bot.name,
