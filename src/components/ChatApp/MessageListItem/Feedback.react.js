@@ -8,14 +8,9 @@ import { connect } from 'react-redux';
 import messageActions from '../../../redux/actions/messages';
 import uiActions from '../../../redux/actions/ui';
 import _ from 'lodash';
+import { FlexContainer } from '../../shared/Container';
 
 const styles = {
-  feedbackContainer: {
-    top: 5,
-    display: 'block',
-    position: 'relative',
-    float: 'right',
-  },
   feedbackButton: {
     height: '16px',
     cursor: 'pointer',
@@ -124,7 +119,7 @@ class Feedback extends React.Component {
     return (
       <span>
         {message && message.authorName === 'SUSI' ? (
-          <span style={styles.feedbackContainer}>
+          <FlexContainer>
             <ThumbUp
               onClick={() => this.postSkillReplyFeedback('positive')}
               style={{
@@ -141,7 +136,7 @@ class Feedback extends React.Component {
                   feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor,
               }}
             />
-          </span>
+          </FlexContainer>
         ) : null}
       </span>
     );
