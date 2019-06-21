@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import NotFound from '../NotFound/NotFound.react';
-import './Admin.css';
 import PropTypes from 'prop-types';
 import _Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -14,6 +13,13 @@ import { getAdmin } from '../../apis/index';
 import styled from 'styled-components';
 import isMobileView from '../../utils/isMobileView';
 import CircularLoader from '../shared/CircularLoader';
+import { Title } from './AdminStyles';
+
+const Container = styled.div`
+  margin-top: -10px;
+  padding-left: 25px;
+  padding-right: 30px;
+`;
 
 const Tabs = styled(_Tabs)`
   background-color: #ffffff;
@@ -144,8 +150,8 @@ class Admin extends Component {
           <div>
             {isAdmin ? (
               <div>
-                <h2 className="h2">{this.heading}</h2>
-                <div className="tabs">
+                <Title>{this.heading}</Title>
+                <Container>
                   <AppBar color="default" position="static">
                     <Tabs
                       onChange={this.handleTabChange}
@@ -164,7 +170,7 @@ class Admin extends Component {
                     </Tabs>
                     {this.generateView()}
                   </AppBar>
-                </div>
+                </Container>
               </div>
             ) : (
               <NotFound />

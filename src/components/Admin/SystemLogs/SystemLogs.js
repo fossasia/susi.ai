@@ -8,6 +8,7 @@ import urls from '../../../utils/urls';
 import Alert from '../../shared/Alert';
 import styled from 'styled-components';
 import CircularLoader from '../../shared/CircularLoader';
+import { Container as _Container } from '../AdminStyles';
 
 const Select = styled(_Select)`
   width: 11.25rem;
@@ -17,7 +18,7 @@ const Select = styled(_Select)`
   }
 `;
 
-const HomeDiv = styled.div`
+const Container = styled(_Container)`
   &&& {
     @media (max-width: 500px) {
       padding: 0rem;
@@ -25,7 +26,8 @@ const HomeDiv = styled.div`
   }
 `;
 
-const Container = styled.div`
+const LogContainer = styled.div`
+  margin-top: 4rem;
   @media (max-width: 500px) {
     height: 60vh;
     width: 100%;
@@ -104,24 +106,24 @@ class SystemLogs extends React.Component {
       </MenuItem>
     ));
     return (
-      <HomeDiv className="tabs">
+      <Container>
         <Select
           onChange={this.handleCountChange}
           value={this.state.currentCount}
         >
           {renderMenu}
         </Select>
-        {loading ? (
-          <CircularLoader height={35} />
-        ) : (
-          <Container>
+        <LogContainer>
+          {loading ? (
+            <CircularLoader height={35} />
+          ) : (
             <Alert
               description={this.state.logs}
               type={this.state.error === true ? 'error' : 'success'}
             />
-          </Container>
-        )}
-      </HomeDiv>
+          )}
+        </LogContainer>
+      </Container>
     );
   }
 }
