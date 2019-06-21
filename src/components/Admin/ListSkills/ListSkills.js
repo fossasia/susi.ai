@@ -1,12 +1,12 @@
 /* Packages */
 import React from 'react';
-import Table from 'antd/lib/table';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 /* Material UI */
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import MaterialTable from 'material-table';
 
 /* Utils */
 import uiActions from '../../../redux/actions/ui';
@@ -20,9 +20,7 @@ import {
 } from '../../../apis/index';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-
-/* CSS */
-import './ListSkills.css';
+import { Container } from '../AdminStyles';
 
 const commonActionStyle = css`
   cursor: pointer;
@@ -47,7 +45,7 @@ class ListSkills extends React.Component {
     super(props);
     this.state = {
       skillsData: [],
-      groups: [],
+      groups: {},
       deletedSkills: [],
       loading: true,
       skillName: '',
@@ -99,8 +97,7 @@ class ListSkills extends React.Component {
           skillName: skill,
           content: (
             <p>
-              Status of <span className="skillName">{skill}</span> has been
-              changed successfully!
+              Status of <b>{skill}</b> has been changed successfully!
             </p>
           ),
         });
@@ -114,8 +111,7 @@ class ListSkills extends React.Component {
           skillName: skill,
           content: (
             <p>
-              Error! Status of <span className="skillName">{skill}</span> could
-              not be changed!
+              Error! Status of <b>{skill}</b> could not be changed!
             </p>
           ),
         });
@@ -140,8 +136,7 @@ class ListSkills extends React.Component {
           skillName: skill,
           content: (
             <p>
-              You successfully deleted{' '}
-              <span className="skillName">{skill}</span>!
+              You successfully deleted <b>{skill}</b>!
             </p>
           ),
         });
@@ -156,8 +151,7 @@ class ListSkills extends React.Component {
           skillName: skill,
           content: (
             <p>
-              Error! <span className="skillName">${skill}</span> could not be
-              deleted!
+              Error! <b>{skill}</b> could not be deleted!
             </p>
           ),
         });
@@ -182,8 +176,7 @@ class ListSkills extends React.Component {
           skillName: skill,
           content: (
             <p>
-              You successfully restored{' '}
-              <span className="skillName">{skill}</span>!
+              You successfully restored <b>{skill}</b>!
             </p>
           ),
         });
@@ -198,8 +191,7 @@ class ListSkills extends React.Component {
           skillName: skill,
           content: (
             <p>
-              Error! <span className="skillName">{skill}</span> could not be
-              restored!
+              Error! <b>{skill}</b> could not be restored!
             </p>
           ),
         });
@@ -237,19 +229,14 @@ class ListSkills extends React.Component {
   loadGroups = () => {
     fetchGroupOptions()
       .then(payload => {
-        let groups = [];
+        let groups = {};
         if (payload) {
           for (let i of payload.groups) {
-            let group = {
-              text: i,
-              value: i,
-            };
-            groups.push(group);
+            groups = { ...groups, [i]: i };
           }
         }
         this.setState({
           groups,
-          loading: false,
         });
       })
       .catch(error => {
@@ -417,118 +404,58 @@ class ListSkills extends React.Component {
     let columns = [
       {
         title: 'Name',
-        dataIndex: 'skillName',
-        width: '20%',
+        field: 'skillName',
+        cellStyle: {
+          width: '20%',
+        },
+        filtering: false,
       },
       {
         title: 'Group',
-        dataIndex: 'group',
-        filters: groups,
-        onFilter: (value, record) => record.group.indexOf(value) === 0,
-        sorter: (a, b) => a.group.length - b.group.length,
-        width: '10%',
+        field: 'group',
+        lookup: groups,
+        cellStyle: {
+          width: '10%',
+        },
       },
       {
         title: 'Language',
-        dataIndex: 'language',
-        width: '10%',
+        field: 'language',
+        cellStyle: {
+          width: '10%',
+        },
+        filtering: false,
       },
       {
         title: 'Type',
-        dataIndex: 'type',
-        filters: [
-          {
-            text: 'Public',
-            value: 'public',
-          },
-          {
-            text: 'Private',
-            value: 'private',
-          },
-        ],
-        onFilter: (value, record) => record.type.indexOf(value) === 0,
-        sorter: (a, b) => a.type.length - b.type.length,
-        width: '10%',
+        field: 'type',
+        lookup: { private: 'Private', public: 'Public' },
+        cellStyle: {
+          width: '10%',
+        },
       },
       {
         title: 'Author',
-        dataIndex: 'author',
-        width: '10%',
+        field: 'author',
+        cellStyle: {
+          width: '10%',
+        },
+        filtering: false,
       },
       {
         title: 'Review Status',
-        dataIndex: 'reviewed',
-        filters: [
-          {
-            text: 'Reviewed',
-            value: 'Approved',
-          },
-          {
-            text: 'Not Reviewed',
-            value: 'Not Reviewed',
-          },
-        ],
-        onFilter: (value, record) => record.reviewed.indexOf(value) === 0,
-        sorter: (a, b) => a.reviewed.length - b.reviewed.length,
-        width: '15%',
+        field: 'reviewed',
+        lookup: { Approved: 'Reviewed', 'Not Reviewed': 'Not Reviewed' },
+        cellStyle: {
+          width: '15%',
+        },
       },
       {
         title: 'Edit Status',
-        dataIndex: 'editable',
-        filters: [
-          {
-            text: 'Editable',
-            value: 'Editable',
-          },
-          {
-            text: 'Not Editable',
-            value: 'Not Editable',
-          },
-        ],
-        onFilter: (value, record) => record.editable.indexOf(value) === 0,
-        sorter: (a, b) => a.editable.length - b.editable.length,
-        width: '15%',
-      },
-      {
-        title: 'Action',
-        dataIndex: 'action',
-        width: '10%',
-        // eslint-disable-next-line
-        render: (text, record) => {
-          return (
-            <span>
-              <ActionSpan
-                onClick={() =>
-                  this.handleOpen(
-                    record.skillName,
-                    record.model,
-                    record.group,
-                    record.language,
-                    record.reviewStatus,
-                    record.editStatus,
-                    record.staffPickStatus,
-                    record.systemSkillStatus,
-                    record.skillTag,
-                  )
-                }
-              >
-                Edit
-              </ActionSpan>
-              <ActionSeparator> | </ActionSeparator>
-              <ActionSpan
-                onClick={() =>
-                  this.handleDelete(
-                    record.skillName,
-                    record.model,
-                    record.group,
-                    record.language,
-                  )
-                }
-              >
-                Delete
-              </ActionSpan>
-            </span>
-          );
+        field: 'editable',
+        lookup: { Editable: 'Editable', 'Not Editable': 'Not Editable' },
+        cellStyle: {
+          width: '15%',
         },
       },
     ];
@@ -536,83 +463,137 @@ class ListSkills extends React.Component {
     let delColumns = [
       {
         title: 'Name',
-        dataIndex: 'skillName',
-        width: '20%',
+        field: 'skillName',
+        cellStyle: {
+          width: '30%',
+        },
+        filtering: false,
       },
       {
         title: 'Model',
-        dataIndex: 'model',
-        width: '10%',
+        field: 'model',
+        cellStyle: {
+          width: '15%',
+        },
+        filtering: false,
       },
       {
         title: 'Group',
-        dataIndex: 'group',
-        filters: groups,
-        onFilter: (value, record) => record.group.indexOf(value) === 0,
-        sorter: (a, b) => a.group.length - b.group.length,
-        width: '15%',
+        field: 'group',
+        cellStyle: {
+          width: '25%',
+        },
+        lookup: groups,
       },
       {
         title: 'Language',
-        dataIndex: 'language',
-        width: '10%',
-      },
-      {
-        title: 'Action',
-        dataIndex: 'action',
-        width: '10%',
-        // eslint-disable-next-line
-        render: (text, record) => {
-          return (
-            <span>
-              <ActionDiv
-                onClick={() =>
-                  this.handleRestore(
-                    record.skillName,
-                    record.model,
-                    record.group,
-                    record.language,
-                  )
-                }
-              >
-                Restore
-              </ActionDiv>
-            </span>
-          );
-        },
+        field: 'language',
+        filtering: false,
       },
     ];
 
     return (
-      <div className="tabs">
-        <div>
-          <div className="table">
-            <Tabs onChange={this.handleTabChange} value={value}>
-              <Tab label="Active" />
-              <Tab label="Deleted" />
-            </Tabs>
-            {value === 1 && (
-              <Table
-                columns={delColumns}
-                pagination={{ showQuickJumper: true }}
-                rowKey={record => record.registered}
-                dataSource={this.state.deletedSkills}
-              />
-            )}
-            {value === 0 && (
-              <React.Fragment>
-                <Table
-                  columns={columns}
-                  pagination={{ showQuickJumper: true }}
-                  rowKey={record => record.registered}
-                  dataSource={this.state.skillsData}
-                  loading={loading}
-                />
-              </React.Fragment>
-            )}
-          </div>
-        </div>
-      </div>
+      <Container>
+        <Tabs onChange={this.handleTabChange} value={value}>
+          <Tab label="Active" />
+          <Tab label="Deleted" />
+        </Tabs>
+        {value === 1 && (
+          <MaterialTable
+            isLoading={loading}
+            options={{
+              filtering: true,
+              actionsColumnIndex: -1,
+              pageSize: 10,
+            }}
+            columns={delColumns}
+            data={this.state.deletedSkills}
+            title="Deleted Skills"
+            style={{
+              padding: '1rem',
+            }}
+            actions={[
+              {
+                onClick: (event, rowData) => {
+                  this.handleRestore(
+                    rowData.skillName,
+                    rowData.model,
+                    rowData.group,
+                    rowData.language,
+                  );
+                },
+              },
+            ]}
+            components={{
+              Action: props => (
+                <ActionDiv
+                  onClick={event => props.action.onClick(event, props.data)}
+                >
+                  Restore
+                </ActionDiv>
+              ),
+            }}
+          />
+        )}
+        {value === 0 && (
+          <MaterialTable
+            isLoading={loading}
+            options={{
+              filtering: true,
+              actionsColumnIndex: -1,
+              pageSize: 10,
+            }}
+            columns={columns}
+            data={this.state.skillsData}
+            title="Active Skills"
+            style={{
+              padding: '1rem',
+            }}
+            actions={[
+              {
+                onEdit: (event, rowData) => {
+                  this.handleOpen(
+                    rowData.skillName,
+                    rowData.model,
+                    rowData.group,
+                    rowData.language,
+                    rowData.reviewStatus,
+                    rowData.editStatus,
+                    rowData.staffPickStatus,
+                    rowData.systemSkillStatus,
+                    rowData.skillTag,
+                  );
+                },
+                onDelete: (event, rowData) => {
+                  this.handleDelete(
+                    rowData.skillName,
+                    rowData.model,
+                    rowData.group,
+                    rowData.language,
+                  );
+                },
+              },
+            ]}
+            components={{
+              Action: props => (
+                <React.Fragment>
+                  <ActionSpan
+                    onClick={event => props.action.onEdit(event, props.data)}
+                  >
+                    Edit
+                  </ActionSpan>
+                  <ActionSeparator> | </ActionSeparator>
+                  <ActionSpan
+                    onClick={event => props.action.onDelete(event, props.data)}
+                  >
+                    Delete
+                  </ActionSpan>
+                </React.Fragment>
+              ),
+            }}
+          />
+        )}
+      </Container>
     );
   }
 }
