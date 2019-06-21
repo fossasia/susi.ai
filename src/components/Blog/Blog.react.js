@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
 import { connect } from 'react-redux';
-import { Card, CardMedia } from '@material-ui/core';
+import _Card from '@material-ui/core/Card';
+import _CardMedia from '@material-ui/core/CardMedia';
 import dateFormat from 'dateformat';
 import Fab from '@material-ui/core/Fab';
 import {
@@ -11,10 +12,10 @@ import {
   FacebookIcon,
   TwitterIcon,
 } from 'react-share';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
-import Loading from 'react-loading-animation';
+import _Loading from 'react-loading-animation';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import { getBlogReponse } from '../../apis';
 import './Blog.css';
@@ -25,10 +26,6 @@ import susi from '../../images/susi-logo.svg';
 import ToTopButton from '../Button/ToTopButton.react';
 import { Header } from '../shared/About';
 
-const loadingStyle = {
-  marginTop: '20px',
-  position: 'relative',
-};
 const allCategories = [
   'FOSSASIA',
   'GSoC',
@@ -68,27 +65,16 @@ const arrDiff = (a1, a2) => {
   return diff;
 };
 
-const styles = {
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  card: {
-    position: 'relative',
-  },
-  overlay: {
-    position: 'relative',
-    left: '0px',
-    background: 'rgba(0, 0, 0, 0.54)',
-    width: '100%',
-    padding: '1rem',
-    marginTop: '-3.5rem',
-  },
-  link: {
-    fontSize: '0.875rem',
-    textDecoration: 'none',
-  },
-};
+const Loading = styled(_Loading)`
+  margin-top: 20px;
+  position: relative;
+`;
+
+const LinkStyle = css`
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.54);
+`;
 
 const FlexBox = styled.div`
   display: flex;
@@ -107,6 +93,95 @@ const BlogFooter = styled.div`
   background: #f7f7f7;
   display: flex;
   flex-wrap: wrap;
+`;
+
+const CardMedia = styled(_CardMedia)`
+  height: 0;
+  padding-top: 56.25%;
+  height: 500px;
+  object-fit: contain;
+  vertical-align: middle;
+
+  @media (max-width: 1000px) {
+    height: 300px;
+  }
+`;
+
+const Card = styled(_Card)`
+  position: relative;
+`;
+
+const Overlay = styled.div`
+  position: relative;
+  left: 0px;
+  background: rgba(0, 0, 0, 0.54);
+  width: 100%;
+  padding: 1rem;
+  margin-top: -3.5rem;
+`;
+
+const CustomTypography = styled(Typography)`
+  margin-bottom: 2rem;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.875rem;
+`;
+
+const BlogNavigation = styled.div`
+  display: none;
+  justify-content: center;
+  padding-top: 15px;
+
+  @media (min-width: 1400px) {
+    position: absolute;
+    right: 15%;
+    bottom: 220px;
+  }
+
+  @media (max-width: 1000px) {
+    bottom: 200px;
+  }
+`;
+
+const SocialButtons = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 10px 0 20px 10px;
+`;
+
+const Icon = styled.i`
+  padding-right: 10px;
+`;
+
+const Container = styled.div`
+  width: 100%;
+`;
+
+const BlogFooterLink = styled.a`
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+  height: 30px;
+
+  &:hover {
+    text-decoration: underline;
+    color: rgba(51, 51, 51, 0.7);
+  }
+`;
+
+const OverlayLink = styled.a`
+  &&& {
+    ${LinkStyle};
+  }
+`;
+
+const BottomPost = styled.div`
+  padding: 100px 20px 40px 20px;
+
+  @media (max-width: 1000px) {
+    width: 90%;
+    margin: 10px 0 auto;
+  }
 `;
 
 class Blog extends Component {
@@ -236,7 +311,7 @@ class Blog extends Component {
     return (
       <div>
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
-        <Loading style={loadingStyle} isLoading={!this.state.postRendered} />
+        <Loading isLoading={!this.state.postRendered} />
         {!this.state.postRendered && (
           <div>
             <center>Fetching Blogs..</center>
@@ -244,7 +319,7 @@ class Blog extends Component {
         )}
         {this.state.postRendered && (
           <div>
-            <div style={{ width: '100%' }}>
+            <Container>
               {this.state.posts
                 .slice(this.state.startPage, this.state.startPage + 10)
                 .map((posts, i) => {
@@ -265,7 +340,7 @@ class Blog extends Component {
                   const tags = arrDiff(category, posts.categories);
                   const fCategory = category
                     .map(cat => (
-                      <a
+                      <BlogFooterLink
                         key={cat}
                         href={
                           'http://blog.fossasia.org/category/' +
@@ -274,12 +349,12 @@ class Blog extends Component {
                         rel="noopener noreferrer"
                       >
                         {cat}
-                      </a>
+                      </BlogFooterLink>
                     ))
                     .reduce((prev, curr) => [prev, ', ', curr]);
                   const ftags = tags
                     .map(tag => (
-                      <a
+                      <BlogFooterLink
                         key={tag}
                         href={
                           'http://blog.fossasia.org/tag/' +
@@ -288,7 +363,7 @@ class Blog extends Component {
                         rel="noopener noreferrer"
                       >
                         {tag}
-                      </a>
+                      </BlogFooterLink>
                     ))
                     .reduce((prev, curr) => [prev, ', ', curr]);
                   let htmlContent = content.replace(/<img.*?>/, '');
@@ -302,35 +377,20 @@ class Blog extends Component {
                   const date = posts.pubDate.split(' ');
                   const d = new Date(date[0]);
                   return (
-                    <div key={i} className="section_blog">
-                      <Card style={styles.card}>
-                        <CardMedia
-                          image={image}
-                          className="featured_image"
-                          style={styles.media}
-                        />
-                        <div style={styles.overlay}>
-                          <a
-                            style={{
-                              ...styles.link,
-                              color: 'rgba(255, 255, 255, 0.54)',
-                            }}
-                            href={posts.link}
-                          >{`Published on ${dateFormat(
-                            d,
-                            'dddd, mmmm dS, yyyy',
-                          )}`}</a>
-                        </div>
+                    <div key={posts} className="section_blog">
+                      <Card>
+                        <CardMedia image={image} />
+                        <Overlay>
+                          <OverlayLink href={posts.link}>
+                            {`Published on ${dateFormat(
+                              d,
+                              'dddd, mmmm dS, yyyy',
+                            )}`}
+                          </OverlayLink>
+                        </Overlay>
                         <BlogPostContainer>
                           <Typography variant="h4">{posts.title}</Typography>
-                          <Typography
-                            variant="subtitle1"
-                            style={{
-                              ...styles.link,
-                              color: 'rgba(0, 0, 0, 0.54)',
-                              marginBottom: '2rem',
-                            }}
-                          >
+                          <CustomTypography variant="subtitle1">
                             by
                             <a
                               style={{ paddingLeft: '0.3rem' }}
@@ -338,12 +398,12 @@ class Blog extends Component {
                             >
                               {posts.author}
                             </a>
-                          </Typography>
+                          </CustomTypography>
                           <Typography variant="body1" gutterBottom>
                             {htmlContent}
                           </Typography>
                         </BlogPostContainer>
-                        <div className="social-btns">
+                        <SocialButtons>
                           <TwitterShareButton
                             url={posts.guid}
                             title={posts.title}
@@ -355,21 +415,17 @@ class Blog extends Component {
                           <FacebookShareButton url={posts.link}>
                             <FacebookIcon size={32} round={true} />
                           </FacebookShareButton>
-                        </div>
+                        </SocialButtons>
                         <BlogFooter>
                           <FlexBox>
-                            <i className="fa fa-calendar tagIcon" />
-                            <a
-                              style={{ whiteSpace: 'nowrap' }}
-                              href={posts.link}
-                            >
+                            <Icon className="fa fa-calendar" />
+                            <BlogFooterLink href={posts.link}>
                               {dateFormat(d, 'mmmm dd, yyyy')}
-                            </a>
+                            </BlogFooterLink>
                           </FlexBox>
                           <FlexBox>
-                            <i className="fa fa-user tagIcon" />
-                            <a
-                              style={{ whiteSpace: 'nowrap' }}
+                            <Icon className="fa fa-user" />
+                            <BlogFooterLink
                               rel="noopener noreferrer"
                               href={
                                 'http://blog.fossasia.org/author/' +
@@ -377,14 +433,14 @@ class Blog extends Component {
                               }
                             >
                               {posts.author}
-                            </a>
+                            </BlogFooterLink>
                           </FlexBox>
                           <FlexBox>
-                            <i className="fa fa-folder-open-o tagIcon" />
+                            <Icon className="fa fa-folder-open-o" />
                             {fCategory}
                           </FlexBox>
                           <FlexBox>
-                            <i className="fa fa-tags tagIcon" />
+                            <Icon className="fa fa-tags" />
                             <div>{ftags}</div>
                           </FlexBox>
                         </BlogFooter>
@@ -392,8 +448,8 @@ class Blog extends Component {
                     </div>
                   );
                 })}
-            </div>
-            <div className="blog_navigation">
+            </Container>
+            <BlogNavigation>
               <Fab
                 style={prevStyle}
                 onClick={this.previousPage}
@@ -404,8 +460,8 @@ class Blog extends Component {
               <Fab style={nextStyle} onClick={this.nextPage} color="primary">
                 <Next />
               </Fab>
-            </div>
-            <div className="post_bottom" />
+            </BlogNavigation>
+            <BottomPost />
           </div>
         )}
         <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>

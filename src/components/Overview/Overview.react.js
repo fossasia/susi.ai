@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import urls from '../../utils/urls';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
-import PlayCircle from '@material-ui/icons/PlayCircleFilled';
+import _PlayCircle from '@material-ui/icons/PlayCircleFilled';
 import Close from '@material-ui/icons/Close';
 import susiGif from '../../images/susi.gif';
 import GIFDemo from '../../images/gif.gif';
@@ -30,21 +30,503 @@ import Action from '@material-ui/icons/ChatBubble';
 import Button from '@material-ui/core/Button';
 import PlusOne from '@material-ui/icons/PlusOne';
 import Search from '@material-ui/icons/Search';
+import googlePlay from '../../images/google-play.svg';
+import appStore from '../../images/app-store.svg';
 import './Overview.css';
+import styled, { css } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 120000,
-    fill: '#fff',
-    width: '40px',
-    height: '40px',
-    right: '1.5%',
-    top: '20px',
-    cursor: 'pointer',
-  },
-};
+const commonDesc = css`
+  text-align: left;
+  color: #414141;
+  font-family: sans-serif;
+  margin-bottom: 10px;
+  font-size: 43px;
+  font-weight: 100;
+  margin: 20px 0;
+
+  @media (max-width: 1139px) {
+    font-size: 36px;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 36px;
+    margin-top: 0;
+    text-align: center;
+    line-height: 40px;
+  }
+`;
+
+const commonDeviceStore = css`
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  float: left;
+  height: 45px;
+  width: 152px;
+
+  @media (max-width: 1000px) {
+    display: block;
+    float: none;
+    margin: 0 auto 10px auto;
+    max-width: 100%;
+    width: 50%;
+    background-size: contain;
+  }
+`;
+
+const commonImg = css`
+  max-width: 100%;
+  height: auto;
+`;
+
+const commonSection = css`
+  margin: 0 auto;
+  padding: 100px 60px;
+  position: relative;
+  max-width: 85%;
+  align-items: center;
+  box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #dfdfdf;
+  width: 1050px;
+
+  @media (max-width: 1080px) {
+    max-width: 940px;
+    padding-left: 20px;
+  }
+
+  @media (max-width: 1000px) {
+    width: 90%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 0 0 0;
+    width: 90%;
+    margin: 0 auto;
+  }
+`;
+
+const VideoModal = styled(Modal)`
+  position: absolute;
+  top: 46px;
+  left: 40px;
+  right: 40px;
+  background-color: #000;
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
+
+  @media (max-width: 1000px) {
+    left: 20px;
+    right: 20px;
+    width: 90%;
+  }
+`;
+
+const VideoContainer = styled.div`
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+`;
+
+const Iframe = styled.iframe`
+  position: absolute;
+  top: 0;
+  left: 5%;
+  border: 0;
+  width: 90%;
+  height: 100%;
+`;
+
+const Container = styled.div`
+  border-bottom: 1px solid #dfdfdf;
+  margin: 0 auto;
+  padding: 0px 20px;
+  position: relative;
+  text-align: center;
+  max-width: 85%;
+  width: 1050px;
+
+  @media (max-width: 1000px) {
+    margin: 0 auto;
+    padding: 20px;
+    width: 90%;
+  }
+`;
+
+const SectionContainer = styled.div`
+  margin: 0 auto;
+  padding: 100px 20px 80px 20px;
+  position: relative;
+  text-align: center;
+  max-width: 85%;
+  width: 935px;
+  padding-top: 80px;
+
+  @media (max-width: 1000px) {
+    padding: 60px 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 35px 0px;
+  }
+`;
+
+const PlayCircleLink = styled.a`
+  color: #3367d6;
+  cursor: pointer;
+  position: relative;
+  line-height: 24px;
+  display: block;
+`;
+
+const WatchSpan = styled.span`
+  position: absolute;
+  margin-top: 1px;
+  left: 31px;
+  right: 0px;
+  font-weight: 600;
+`;
+
+const PlayCircle = styled(_PlayCircle)`
+  fill: #3367d6;
+  margin-right: 50px;
+`;
+
+const Section = styled.div`
+  ${commonSection};
+`;
+
+const ConversationDescription = styled.div`
+  ${commonDesc};
+  width: 50%;
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
+`;
+
+const CustomDescription = styled.div`
+  ${commonDesc};
+  width: 100%;
+`;
+
+const DescriptionHeading = styled.div`
+  ${commonDesc};
+
+  @media (max-width: 1000px) {
+    max-width: 100%;
+  }
+`;
+
+const CustomDescriptionHeading = styled.div`
+  ${commonDesc};
+  font: 300 24px/32px sans-serif;
+`;
+
+const DescriptionText = styled.p`
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 40px;
+  max-width: 440px;
+  color: #414141;
+  font-family: sans-serif;
+  margin-left: 1%;
+  max-width: 100%;
+
+  @media (max-width: 1000px) {
+    font-size: 16px;
+    text-align: center;
+    line-height: 24px;
+  }
+`;
+
+const ImgContainer = styled.div`
+  width: 50%;
+  text-align: center;
+
+  @media (max-width: 1000px) {
+    max-width: 100%;
+    margin: 0 auto 20px auto;
+    padding: 0px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 0 auto 50px auto;
+    width: 60%;
+  }
+`;
+
+const CustomImgContainer = styled.div`
+  width: 100%;
+  text-align: center;
+
+  @media (max-width: 1000px) {
+    max-width: 100%;
+    margin: 0 auto 20px auto;
+    padding: 0px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 0 auto 30px auto;
+    width: 90%;
+  }
+`;
+
+const RowDiv = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-content: space-around;
+  height: 9rem;
+  width: 27rem;
+  margin: 0 auto;
+
+  @media (max-width: 480px) {
+    width: auto;
+  }
+`;
+
+const ColumnSection = styled.div`
+  width: 30%;
+  margin: 0 1% 0 0;
+  min-height: 750px;
+
+  @media (max-width: 480px) {
+    min-height: 500px;
+    width: 100%;
+  }
+`;
+
+const SusiTestImg = styled.img`
+  text-align: left;
+  width: 60%;
+  margin-left: 30%;
+  max-width: 313px;
+
+  @media (max-width: 1000px) {
+    max-width: 100%;
+    text-align: center;
+    width: 400px;
+    margin: 0rem;
+  }
+`;
+
+const AndroidMockupImg = styled.img`
+  max-width: 60%;
+  margin-left: 30%;
+
+  @media (max-width: 1000px) {
+    max-width: 400px;
+    margin-left: 0%;
+    width: 100%;
+  }
+`;
+
+const BotsMockupImg = styled.img`
+  ${commonImg};
+  padding: 10px;
+`;
+
+const PlayStore = styled.a`
+  ${commonDeviceStore};
+  margin: 0 10px 10px 0;
+  background: url(${googlePlay}) center center no-repeat;
+  background-size: contain;
+`;
+
+const AppStore = styled.a`
+  ${commonDeviceStore};
+  background: url(${appStore}) center center no-repeat;
+  background-size: cover;
+  margin-bottom: 20px;
+`;
+
+const ShieldImg = styled.img`
+  width: 250px;
+  padding: 10px;
+  margin: 0 auto;
+  display: block;
+
+  @media (max-width: 1000px) {
+    margin: 0 auto 60px auto;
+    padding: 30px 0px 10px 0;
+  }
+
+  @media (max-width: 480px) {
+    margin: 0 auto 50px auto;
+    width: 100%;
+  }
+`;
+
+const OpenSourceLogos = styled.div`
+  width: 100%;
+  height: 100%;
+
+  @media (max-width: 1000px) {
+    width: 480px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    width: 170px;
+  }
+`;
+
+const OpenSource = styled.span`
+  height: 85px;
+  display: inline-block;
+  vertical-align: middle;
+
+  @media (max-width: 480px) {
+    height: 60px;
+  }
+`;
+
+const GithubLogo = styled.span`
+  height: 60px;
+  vertical-align: middle;
+  display: inline-block;
+
+  @media (max-width: 480px) {
+    height: 40px;
+    margin-left: 0;
+  }
+`;
+
+const SectionCenter = styled.div`
+  margin: 0 auto;
+  padding: 100px 60px;
+  position: relative;
+  max-width: 1050px;
+  align-items: center;
+  box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #dfdfdf;
+  width: 100%;
+
+  @media (max-width: 1080px) {
+    max-width: 940px;
+    padding-left: 20px;
+  }
+
+  @media (max-width: 1000px) {
+    padding: 60px 0px;
+    width: 90%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 0 0 0;
+    width: 90%;
+    margin: 0 auto;
+  }
+`;
+
+const CenterDescription = styled.div`
+  width: 100%;
+
+  @media (max-width: 1000px) {
+    text-align: center;
+    margin-top: 0;
+    max-width: 100%;
+  }
+`;
+
+const SkillWikiImg = styled.img`
+  ${commonImg};
+  @media (max-width: 480px) {
+    max-width: 400px;
+    width: 100%;
+  }
+`;
+
+const GithubImg = styled.img`
+  margin-left: 20px;
+  height: 60px;
+  vertical-align: middle;
+  display: inline-block;
+
+  @media (max-width: 480px) {
+    height: 40px;
+    margin-left: 0;
+  }
+`;
+
+const OpenSourceImg = styled.img`
+  height: 85px;
+  display: inline-block;
+  vertical-align: middle;
+
+  @media (max-width: 480px) {
+    height: 60px;
+  }
+`;
+
+const CloseIcon = styled(Close)`
+  position: absolute;
+  z-index: 120000;
+  fill: #fff;
+  width: 40px;
+  height: 40px;
+  right: 1.5%;
+  top: 20px;
+  cursor: pointer;
+`;
+
+const MeetSusiImg = styled.img`
+  ${commonImg};
+  margin: 20px 0px;
+`;
+
+const Heading = styled.h1`
+  font-size: 42px;
+  font-weight: 100;
+  margin: 0 auto;
+  max-width: 880px;
+  font-family: sans-serif;
+
+  @media (max-width: 1000px) {
+    font-size: 36px;
+    line-height: 42px;
+  }
+`;
+
+const Para = styled.p`
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 32px;
+  margin: 15px auto;
+  max-width: 430px;
+  color: #414141;
+  font-family: sans-serif;
+
+  @media (max-width: 1000px) {
+    font-size: 16px;
+    line-height: 24px;
+  }
+`;
+
+const SafeAndSecureSection = styled.div`
+  ${commonSection};
+  border-bottom: none;
+
+  @media (max-width: 1000px) {
+    padding: 100px 0 100px 0px;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 0 0 0;
+  }
+`;
 
 const classes = {
   button: {
@@ -114,66 +596,51 @@ class Overview extends Component {
 
   render() {
     const { gifIndex } = this.state;
-    const { closingStyle } = styles;
     const { classes } = this.props;
     return (
       <div>
-        <div className="section">
-          <div className="section-container">
-            <div className="hero">
-              <img src={susiGif} style={{ margin: '20px 0' }} alt="Meet SUSI" />
-              <h1>
+        <Container>
+          <SectionContainer>
+            <div>
+              <MeetSusiImg src={susiGif} alt="Meet SUSI" />
+              <Heading>
                 Meet SUSI.AI, Your Artificial Intelligence for Personal
                 Assistants, Robots, Help Desks and Chatbots.
-              </h1>
-              <p>
+              </Heading>
+              <Para>
                 Ask it questions. Tell it to do things. Always ready to help.
-              </p>
-              <a
-                onClick={this.toggleVideoModal}
-                style={{
-                  color: '#3367d6',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  lineHeight: '24px',
-                  display: 'block',
-                }}
-              >
-                <PlayCircle
-                  style={{
-                    fill: '#3367d6',
-                    marginRight: '50px',
-                  }}
-                />
-                <span className="watchStyle">Watch</span>
-              </a>
+              </Para>
+              <PlayCircleLink onClick={this.toggleVideoModal}>
+                <PlayCircle />
+                <WatchSpan>Watch</WatchSpan>
+              </PlayCircleLink>
             </div>
-          </div>
-        </div>
-        <div className="section_copy">
-          <div className="conversation__description">
-            <div className="description__heading">Ask it anything.</div>
-            <p className="description__text">
+          </SectionContainer>
+        </Container>
+        <Section>
+          <ConversationDescription>
+            <DescriptionHeading>Ask it anything.</DescriptionHeading>
+            <DescriptionText>
               Search for the capital of Vietnam or find translations in
               different languages. Ask SUSI for your location, and what the
               weather’s like when you get there.
-            </p>
-          </div>
-          <div className="img-container">
-            <img src={susiTestGif} alt="susi-test" className="susi-test" />
-          </div>
-        </div>
-        <div className="section_copy">
-          <div className="conversation__description">
-            <div className="description__heading">Explore What it can do.</div>
-            <p className="description__text">
+            </DescriptionText>
+          </ConversationDescription>
+          <ImgContainer>
+            <SusiTestImg src={susiTestGif} alt="susi-test" />
+          </ImgContainer>
+        </Section>
+        <Section>
+          <ConversationDescription>
+            <DescriptionHeading>Explore What it can do.</DescriptionHeading>
+            <DescriptionText>
               From finding GIF of your favorite cartoon to exploring new things
               that you never thought of before. Susi can do a lot of things that
               you might not expect. Here are some examples of what SUSI can do.
               <br />
               Don&apos;t forget, these are only a few 😊
-            </p>
-            <div className="rowdiv">
+            </DescriptionText>
+            <RowDiv>
               {buttonAttributes.map((button, index) => (
                 <Button
                   key={index}
@@ -185,80 +652,75 @@ class Overview extends Component {
                   {button.label}
                 </Button>
               ))}
-            </div>
-          </div>
-          <div className="img-container">
+            </RowDiv>
+          </ConversationDescription>
+          <ImgContainer>
             {buttonAttributes.map((img, index) => (
-              <img
+              <SusiTestImg
                 key={index}
                 src={buttonAttributes[gifIndex].gif}
                 style={gifIndex === index ? {} : { display: 'none' }}
                 alt="susi-web"
-                className="susi-test"
               />
             ))}
-          </div>
-        </div>
-        <div className="section_copy">
-          <div className="conversation__description">
-            <div className="description__heading">Tell it to do things.</div>
-            <p className="description__text">
+          </ImgContainer>
+        </Section>
+        <Section>
+          <ConversationDescription>
+            <DescriptionHeading>Tell it to do things.</DescriptionHeading>
+            <DescriptionText>
               SUSI can listen to you through the Mic and answer back on your
               Speaker. You can activate the assistant saying
               <b> &quot;Hi SUSI&quot;</b> already on many clients and devices.
               The more you talk with SUSI the better it gets. You can even tell
               SUSI to remember things.
-            </p>
-          </div>
-          <div className="img-container">
-            <img src={mapAndroid} alt="Map" className="android-mockup" />
-          </div>
-        </div>
-        <div className="section_copy">
-          <div className="conversation__description">
-            <div className="description__heading">For your Smartphone</div>
-            <p className="description__text">
+            </DescriptionText>
+          </ConversationDescription>
+          <ImgContainer>
+            <AndroidMockupImg src={mapAndroid} alt="Map" />
+          </ImgContainer>
+        </Section>
+        <Section>
+          <ConversationDescription>
+            <DescriptionHeading>For your Smartphone</DescriptionHeading>
+            <DescriptionText>
               SUSI is available for <b>Android</b>
               &nbsp;and <b>iOS devices</b>. Download the App to have access to
               SUSI on the go.
-            </p>
-            <div className="description__text store_icons">
-              <a
-                className="playstore"
+            </DescriptionText>
+            <DescriptionText>
+              <PlayStore
                 rel="noopener noreferrer"
                 target="_blank"
                 href="https://play.google.com/store/apps/details?id=ai.susi"
               >
                 {' '}
                 Get it on Google Play
-              </a>
-              <a
-                className="appstore"
+              </PlayStore>
+              <AppStore
                 rel="noopener noreferrer"
                 target="_blank"
                 href="https://github.com/fossasia/susi_iOS"
               >
                 {' '}
                 Download on the App Store
-              </a>
-            </div>
-          </div>
-          <div className="img-container">
-            <img
-              src={androidMockup}
-              alt="Android Mockup"
-              className="android-mockup"
-            />
-          </div>
-        </div>
-        <div style={{ alignItems: 'unset' }} className="section_copy">
-          <div className="column_section">
-            <div className="conversation__description custom_description">
-              <div className="img-container">
-                <img src={bots} alt="Android Mockup" className="bots-mockup" />
-              </div>
-              <div className="description__heading">On many Platforms</div>
-              <p className="description__text">
+              </AppStore>
+            </DescriptionText>
+          </ConversationDescription>
+          <ImgContainer>
+            <AndroidMockupImg src={androidMockup} alt="Android Mockup" />
+          </ImgContainer>
+        </Section>
+        <Section style={{ alignItems: 'unset' }}>
+          <ColumnSection>
+            <CustomDescription>
+              <CustomImgContainer>
+                <BotsMockupImg src={bots} alt="Android Mockup" />
+              </CustomImgContainer>
+              <CustomDescriptionHeading>
+                On many Platforms
+              </CustomDescriptionHeading>
+              <DescriptionText>
                 <b>SUSI.AI</b> already runs on many chat services and social
                 networks. We are developing plugins for all major services
                 including &nbsp;
@@ -319,51 +781,46 @@ class Overview extends Component {
                 </a>
                 . Just set up SUSI on your channel and add &nbsp;<b>@susi</b> in
                 your conversations and SUSI is ready to help.
-              </p>
-            </div>
-          </div>
-          <div className="column_section">
-            <div className="img-container">
-              <img
-                src={allDevices}
-                alt="Android Mockup"
-                className="bots-mockup"
-              />
-            </div>
-            <div className="conversation__description custom_description">
-              <div className="description__heading">For all Devices</div>
-              <p className="description__text">
+              </DescriptionText>
+            </CustomDescription>
+          </ColumnSection>
+          <ColumnSection>
+            <CustomDescription>
+              <CustomImgContainer>
+                <BotsMockupImg src={allDevices} alt="Android Mockup" />
+              </CustomImgContainer>
+              <CustomDescriptionHeading>
+                For all Devices
+              </CustomDescriptionHeading>
+              <DescriptionText>
                 <b>SUSI.AI</b> is available for any android, iOS device and also
                 you can access the web chat application from this URL{' '}
                 <a href={urls.CHAT_URL}>{urls.CHAT_URL}</a>
-              </p>
-            </div>
-          </div>
-          <div className="column_section">
-            <div className="conversation__description custom_description">
-              <div className="img-container">
-                <img
-                  src={manyLanguages}
-                  alt="Android Mockup"
-                  className="bots-mockup"
-                />
-              </div>
-              <div className="description__heading">
+              </DescriptionText>
+            </CustomDescription>
+          </ColumnSection>
+          <ColumnSection>
+            <CustomDescription>
+              <CustomImgContainer>
+                <BotsMockupImg src={manyLanguages} alt="Android Mockup" />
+              </CustomImgContainer>
+              <CustomDescriptionHeading>
                 Use it in many Languages
-              </div>
-              <p className="description__text">
+              </CustomDescriptionHeading>
+              <DescriptionText>
                 You can use <b>SUSI.AI</b> in different languages. You can ask
                 questions in many languages. SUSI is intelligent to identify and
                 answer your question in your language.
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* section_copy ends */}
-        <div className="section_center">
-          <div className="center__description">
-            <div className="description__heading">SUSI Skills</div>
-            <p className="description__text">
+              </DescriptionText>
+            </CustomDescription>
+          </ColumnSection>
+        </Section>
+        <SectionCenter>
+          <CenterDescription>
+            <DescriptionHeading style={{ textAlign: 'center' }}>
+              SUSI Skills
+            </DescriptionHeading>
+            <DescriptionText>
               SUSI is having many skills. You can look at the collection of
               skills at{' '}
               <Link
@@ -376,16 +833,16 @@ class Overview extends Component {
               SUSI skills are divided into groups like knowledge, assistant,
               problem solving, entertainment, shopping and small talks. SUSI
               Skill development is easy and fun.{' '}
-            </p>
-          </div>
-          <div className="img-container">
-            <img src={susiSkill} alt="Skills" className="skillWiki" />
-          </div>
-        </div>
-        <div className="section_copy safe_and_secure">
-          <div className="conversation__description">
-            <div className="description__heading">Safe and secure.</div>
-            <p className="description__text">
+            </DescriptionText>
+          </CenterDescription>
+          <CustomImgContainer>
+            <SkillWikiImg src={susiSkill} alt="Skills" />
+          </CustomImgContainer>
+        </SectionCenter>
+        <SafeAndSecureSection>
+          <ConversationDescription>
+            <DescriptionHeading>Safe and secure.</DescriptionHeading>
+            <DescriptionText>
               <b>SUSI.AI</b> is{' '}
               <b>
                 <a
@@ -399,51 +856,50 @@ class Overview extends Component {
               </b>
               . The code is always available for security reviews and can be
               improved by anyone with the knowledge and understanding online.
-            </p>
-            <div className="opensource-logos">
-              <span className="opensource">
+            </DescriptionText>
+            <OpenSourceLogos>
+              <OpenSource>
                 <a
                   rel="noopener noreferrer"
                   href="https://opensource.org/"
                   target="_blank"
                 >
-                  <img src={openSource} alt="osi" />
+                  <OpenSourceImg src={openSource} alt="osi" />
                 </a>
-              </span>
-              <span className="github_logo">
+              </OpenSource>
+              <GithubLogo>
                 <a
                   rel="noopener noreferrer"
                   href="https://github.com/fossasia?utf8=✓&q=susi"
                   target="_blank"
                 >
-                  <img src={githubText} alt="ghlogo" />
+                  <GithubImg src={githubText} alt="ghlogo" />
                 </a>
-              </span>
-            </div>
-          </div>
-          <div className="img-container">
-            <img src={shield} alt="Android Mockup" className="shield" />
-          </div>
-        </div>
+              </GithubLogo>
+            </OpenSourceLogos>
+          </ConversationDescription>
+          <ImgContainer>
+            <ShieldImg src={shield} alt="Android Mockup" />
+          </ImgContainer>
+        </SafeAndSecureSection>
         {/* Video */}
-        <Modal
+        <VideoModal
           isOpen={this.state.isVideoModalOpen}
-          className="Video-Modal"
           onRequestClose={this.toggleVideoModal}
           contentLabel="Assistant Video"
           overlayClassName="Video-Overlay"
         >
-          <div className="video-container">
-            <iframe
+          <VideoContainer>
+            <Iframe
               id="player"
               type="text/html"
               frameBorder="0"
               allowFullScreen
               src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
             />
-            <Close style={closingStyle} onClick={this.toggleVideoModal} />
-          </div>
-        </Modal>
+            <CloseIcon onClick={this.toggleVideoModal} />
+          </VideoContainer>
+        </VideoModal>
       </div>
     );
   }

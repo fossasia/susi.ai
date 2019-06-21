@@ -1,33 +1,4 @@
-.post_bottom {
-    padding: 100px 20px 40px 20px;
-}
-.social-btns{
-    width: 100%;
-    display: flex;
-    padding: 10px 0 20px 10px;
-    
-}
-.SocialMediaShareButton {
-    display: block;
-    float: left;
-    margin: 3px;
-    outline: none;
-    cursor: pointer;
-}
-.featured_image {
-    height: 500px;
-    object-fit: contain;
-    vertical-align: middle;
-}
-.blog_navigation {
-    display: flex;
-    justify-content: center;
-    padding-top: 15px;
-    
-}
-
 .section_blog{
-    -webkit-font-smoothing: antialiased;
     font-size: 16px;
     line-height: 22px;
     text-align: justify;
@@ -38,9 +9,7 @@
     width: 935px;
     align-items: center;
     box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-pack: justify;
     flex-flow: row wrap;
     justify-content: space-between;
 }
@@ -51,6 +20,7 @@
     color: inherit;
     height: 30px;
 }
+
 .section_blog a:hover{
     text-decoration: underline;
     color: rgba(51,51,51,0.7);
@@ -61,6 +31,7 @@
     display: block;
     margin: 0 auto;
 }
+
 .authorName{
     padding-left: 10px;
     font-size: 18px;
@@ -69,12 +40,11 @@
 .tagIcon{
     padding-right: 10px;
 }
-.footer-wrapper{
-    width: 100%;
-}
+
 .section_blog pre{
     overflow: auto;
 }
+
 pre{
     background: #002240;
     color: #fff;
@@ -86,21 +56,15 @@ pre{
     font-size: 16px;
 	display :block;
 }
+
 pre a:hover{
     background-color: yellow;
 }
+
 table{
 	display : block;
 	overflow-x: auto;
 	white-space: nowrap;
-	
-}
-@media only screen and (min-width: 1400px){
-    .blog_navigation {
-        position: absolute;
-        right: 15%;
-        bottom: 220px;
-    }
 }
 
 @media only screen and (max-width: 1000px){
@@ -110,14 +74,10 @@ table{
         padding: 0% 5% 5% 5%;
         align-self: center;
     }
-    .featured_image {
-        height: 300px;
+}
+
+@media only screen and (max-width: 480px){
+    .section_blog{
+        padding: 5% 0%;
     }
-   .post_bottom {
-        width: 90%;
-        margin: 10px 0 auto;
-    }
-    .blog_navigation {
-        bottom: 200px;
-    } 
 }
