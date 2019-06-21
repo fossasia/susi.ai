@@ -86,8 +86,9 @@ class MobileTab extends React.Component {
   render() {
     const { phoneNo, phoneNoError, countryCode, loading } = this.state;
     const disabled =
-      (countryCode === this.props.countryCode) &
-        (phoneNo === this.props.phoneNo) || loading;
+      (countryCode === this.props.countryCode &&
+        phoneNo === this.props.phoneNo) ||
+      loading;
     sortCountryLexographical(countryData);
     let countries = countryData.countries.all.map((country, i) => {
       if (countryData.countries.all[i].countryCallingCodes[0]) {

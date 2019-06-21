@@ -24,7 +24,7 @@ class Design extends React.Component {
                 actions.setView({ view: 'code' });
               }}
             >
-              <Code color={view === 'code' ? 'primary' : 'default'} />
+              <Code color={view === 'code' ? 'primary' : 'inherit'} />
             </IconButton>
             <IconButton
               className="iconbutton"
@@ -32,7 +32,7 @@ class Design extends React.Component {
                 actions.setView({ view: 'ui' });
               }}
             >
-              <Table color={view === 'ui' ? 'primary' : 'default'} />
+              <Table color={view === 'ui' ? 'primary' : 'inherit'} />
             </IconButton>
           </div>
         </div>

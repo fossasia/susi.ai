@@ -21,13 +21,13 @@ class Configure extends Component {
               className="iconbutton"
               onClick={() => actions.setView({ view: 'code' })}
             >
-              <Code color={view === 'code' ? 'primary' : 'default'} />
+              <Code color={view === 'code' ? 'primary' : 'inherit'} />
             </IconButton>
             <IconButton
               className="iconbutton"
               onClick={() => actions.setView({ view: 'ui' })}
             >
-              <Table color={view === 'ui' ? 'primary' : 'default'} />
+              <Table color={view === 'ui' ? 'primary' : 'inherit'} />
             </IconButton>
           </div>
         </div>

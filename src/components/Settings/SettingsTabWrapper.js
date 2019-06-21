@@ -42,7 +42,8 @@ SettingsTabWrapper.propTypes = {
   theme: propTypes.string,
   currTheme: propTypes.string,
   heading: propTypes.string.isRequired,
-  children: propTypes.array,
+  children: propTypes.oneOfType([propTypes.array, propTypes.element]),
+  // children: propTypes.array,
 };
 
 function mapStateToProps(store) {

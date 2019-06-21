@@ -16,7 +16,7 @@ const defaultState = {
   skill: {
     name: '',
     file: null,
-    category: null,
+    category: '',
     language: '',
     image: avatarsIcon,
     imageUrl: '<image_name>',

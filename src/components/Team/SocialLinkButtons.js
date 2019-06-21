@@ -29,45 +29,25 @@ const SocialLinkButtons = props => {
         <CardActions>
           <IconButton
             style={github === '#' ? emptyStyle : contentStyle}
-            onClick={() =>
-              window.open(
-                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
-                '_blank',
-              )
-            }
+            onClick={() => window.open(github, '_blank')}
           >
             <i className="fa fa-github" />
           </IconButton>
           <IconButton
             style={twitter === '#' ? emptyStyle : contentStyle}
-            onClick={() =>
-              window.open(
-                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
-                '_blank',
-              )
-            }
+            onClick={() => window.open(twitter, '_blank')}
           >
             <i className="fa fa-twitter" />
           </IconButton>
           <IconButton
             style={linkedin === '#' ? emptyStyle : contentStyle}
-            onClick={() =>
-              window.open(
-                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
-                '_blank',
-              )
-            }
+            onClick={() => window.open(linkedin, '_blank')}
           >
             <i className="fa fa-linkedin-square" />
           </IconButton>
           <IconButton
             style={blog === '#' ? emptyStyle : contentStyle}
-            onClick={() =>
-              window.open(
-                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
-                '_blank',
-              )
-            }
+            onClick={() => window.open(blog, '_blank')}
           >
             <i className="fa fa-globe" />
           </IconButton>

@@ -775,7 +775,7 @@ class BrowseSkill extends React.Component {
                     marginBottom: '12px',
                     width: '100%',
                     display: 'flex',
-                    justifyContent: 'center',
+                    justify: 'center',
                     flexDirection: 'column',
                   }}
                 >
@@ -794,7 +794,6 @@ class BrowseSkill extends React.Component {
                       />
                     }
                     label="Staff Picks"
-                    labelPosition="end"
                   />
                   <FormControlLabel
                     control={
@@ -811,7 +810,6 @@ class BrowseSkill extends React.Component {
                       />
                     }
                     label="Reviewed Skills"
-                    labelPosition="end"
                   />
                 </div>
               )}
@@ -856,7 +854,7 @@ class BrowseSkill extends React.Component {
             direction="row"
             alignItems="center"
             spacing={3}
-            justifyContent="space-between"
+            justify="space-between"
           >
             <Grid item xs={11} sm={11} md={5} lg={metricsHidden ? 7 : 8}>
               <SearchBar
@@ -971,7 +969,7 @@ class BrowseSkill extends React.Component {
                     <Grid
                       item
                       sm={6}
-                      alignContent="flex-end"
+                      alignItems="flex-end"
                       style={{ alignItems: isMobile ? 'center' : 'left' }}
                     >
                       {skills.length > 10 && (
@@ -1018,7 +1016,6 @@ class BrowseSkill extends React.Component {
                         disabled={listPage === 1}
                         color="primary"
                         style={{ marginRight: '15px' }}
-                        backgroundColor={'#4285f4'}
                         onClick={this.handleNavigationBackward}
                       >
                         <NavigationArrowBack />

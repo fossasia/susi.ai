@@ -196,6 +196,7 @@ export default handleActions(
       return {
         ...state,
         searchQuery,
+        loadingSkills: true,
       };
     },
     [actionTypes.SKILLS_SET_REVIEW_FILTER](state, { payload }) {

@@ -27,7 +27,7 @@ const cookiesAppValues = {
     countryCode: '',
     countryName: '',
   },
-  visited,
+  visited: typeof visited === 'undefined' ? false : JSON.parse(visited),
   showCookiePolicy:
     typeof showCookiePolicy === 'undefined'
       ? true
