@@ -25,11 +25,13 @@ notification.config({
   top: 60,
 });
 
-const HomeDiv = styled.div`
+const Container = styled.div`
   font-size: 0.85rem;
-  max-width: 1000px;
+  max-width: 1100px;
   white-space: pre-line;
-  margin: 0rem auto;
+  display: flex;
+  flex-direction: column;
+  margin: 3rem auto;
 `;
 
 const Button = styled(_Button)`
@@ -197,45 +199,43 @@ class SkillVersion extends Component {
             </div>
           </h1>
         ) : (
-          <HomeDiv>
-            <div className="margin-b-md margin-t-md skill">
-              <h1 style={{ display: 'flex' }}>
-                <div style={{ textTransform: 'capitalize' }}>
-                  {skillMeta.skillName.split('_').join(' ')}
-                </div>
-                :&nbsp;Revision History
-              </h1>
-              <p>
-                <span>
-                  For any version listed below, click on its date to view it.
-                  You can compare only two versions at a time.
-                </span>
-              </p>
-              <div style={{ margin: '0.625rem' }}>{commitHistoryTable}</div>
-              <ActionButtonDiv>
-                {checks.length === 2 && (
-                  <Link
-                    to={{
-                      pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
-                    }}
-                  >
-                    <Button variant="contained" color="primary">
-                      Compare Selected Versions
-                    </Button>
-                  </Link>
-                )}
+          <Container>
+            <h1 style={{ display: 'flex' }}>
+              <div style={{ textTransform: 'capitalize' }}>
+                {skillMeta.skillName.split('_').join(' ')}
+              </div>
+              :&nbsp;Revision History
+            </h1>
+            <p>
+              <span>
+                For any version listed below, click on its date to view it. You
+                can compare only two versions at a time.
+              </span>
+            </p>
+            <div style={{ margin: '0.625rem' }}>{commitHistoryTable}</div>
+            <ActionButtonDiv>
+              {checks.length === 2 && (
                 <Link
                   to={{
-                    pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
+                    pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
                   }}
                 >
                   <Button variant="contained" color="primary">
-                    Back
+                    Compare Selected Versions
                   </Button>
                 </Link>
-              </ActionButtonDiv>
-            </div>
-          </HomeDiv>
+              )}
+              <Link
+                to={{
+                  pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
+                }}
+              >
+                <Button variant="contained" color="primary">
+                  Back
+                </Button>
+              </Link>
+            </ActionButtonDiv>
+          </Container>
         )}
       </div>
     );

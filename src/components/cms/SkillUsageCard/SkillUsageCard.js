@@ -19,7 +19,7 @@ import {
 import CountryWiseSkillUsageCard from '../CountryWiseSkillUsageCard/CountryWiseSkillUsageCard';
 import PieChartContainer from '../../shared/PieChartContainer';
 import { Paper as _Paper } from '../../shared/Container';
-import { Title, SubTitle } from '../../shared/Typography';
+import { Title, SubTitle, LargeText } from '../../shared/Typography';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -134,7 +134,7 @@ class SkillUsageCard extends Component {
                 </ResponsiveContainer>
               </Container>
               <div style={{ textAlign: 'center', padding: '1.5rem 3rem' }}>
-                <div className="large-text">{totalSkillUsage}</div>
+                <LargeText>{totalSkillUsage}</LargeText>
                 Hits this week
               </div>
             </React.Fragment>
