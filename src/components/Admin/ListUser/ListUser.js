@@ -16,8 +16,8 @@ import {
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import 'antd/lib/table/style/index.css';
-import './ListUser.css';
 import styled from 'styled-components';
+import { Container } from '../AdminStyles';
 
 const ActionSpan = styled.span`
   cursor: pointer;
@@ -474,7 +474,7 @@ class ListUser extends Component {
     const themeBackgroundColor = '#fff';
 
     return (
-      <div className="table">
+      <Container>
         <div>
           <Dialog
             title="Change User Role"
@@ -737,7 +737,7 @@ class ListUser extends Component {
             />
           )}
         </LocaleProvider>
-      </div>
+      </Container>
     );
   }
 }

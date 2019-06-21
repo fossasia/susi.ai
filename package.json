@@ -17,6 +17,7 @@
     "connected-react-router": "^6.4.0",
     "contrast": "1.0.1",
     "country-data": "0.0.31",
+    "date-fns": "2.0.0-alpha.27",
     "dateformat": "3.0.3",
     "font-awesome": "4.7.0",
     "google-maps-react": "2.0.2",
@@ -101,7 +102,8 @@
     "prettier": "1.18.1",
     "react-scripts": "3.0.1",
     "react-test-renderer": "16.8.6",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "material-table": "^1.39.2"
   },
   "peerDependencies": {
     "react": "16.8.6",

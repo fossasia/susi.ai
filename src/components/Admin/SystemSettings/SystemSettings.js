@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import { fetchApiKeys, deleteApiKey } from '../../../apis/index';
 import styled from 'styled-components';
 import uiActions from '../../../redux/actions/ui';
+import { SubTitle, Container } from '../AdminStyles';
 
 const Table = styled(_Table)`
   max-width: 40rem;
@@ -123,8 +124,8 @@ class SystemSettings extends Component {
 
   render() {
     return (
-      <div className="tabs">
-        <h3 className="h3">Config Keys</h3>
+      <Container>
+        <SubTitle>Config Keys</SubTitle>
         <Table>
           <TableHead>
             <TableRow>
@@ -170,7 +171,7 @@ class SystemSettings extends Component {
         >
           Add Config Key
         </AddConfigButton>
-      </div>
+      </Container>
     );
   }
 }
