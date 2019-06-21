@@ -23,6 +23,7 @@ import getCustomThemeColors from '../../utils/colors';
 import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import { getAllUserMessages } from '../../utils/messageFilter';
+import { createMessagePairArray } from '../../utils/formatMessage';
 
 const ENTER_KEY_CODE = 13;
 const UP_KEY_CODE = 38;
@@ -215,33 +216,40 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    const { speechOutputAlways, enterAsSend } = this.props;
-    let testSkill = urlParam('testExample');
-    if (testSkill) {
-      let text = testSkill.trim();
-      if (text) {
-        if (!enterAsSend) {
-          text = text.split('\n').join(' ');
-        }
-        setTimeout(() => {
-          this.createUserMessage(text, speechOutputAlways);
-        }, 1);
-      }
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { messagesByID, messages } = this.props;
-    if (
-      messages.length !== 0 &&
-      prevProps.loadingHistory !== this.props.loadingHistory
-    ) {
-      this.userMessageHistory = getAllUserMessages(
-        messages,
-        messagesByID,
-        'REVERSE',
-      );
-    }
+    const { actions } = this.props;
+    actions
+      .getHistoryFromServer()
+      .then(({ payload }) => {
+        createMessagePairArray(payload).then(messagePairArray => {
+          actions.initializeMessageStore(messagePairArray).then(() => {
+            const testSkill = urlParam('testExample');
+            const {
+              messagesByID,
+              messages,
+              speechOutputAlways,
+              enterAsSend,
+            } = this.props;
+            this.userMessageHistory = getAllUserMessages(
+              messages,
+              messagesByID,
+              'REVERSE',
+            );
+            if (testSkill) {
+              let text = testSkill.trim();
+              if (text) {
+                if (!enterAsSend) {
+                  text = text.split('\n').join(' ');
+                }
+                this.createUserMessage(text, speechOutputAlways);
+              }
+            }
+          });
+        });
+      })
+      .catch(error => {
+        actions.initializeMessageStoreFailed();
+        console.log(error);
+      });
   }
 
   onStart = () => {
@@ -334,9 +342,7 @@ class MessageComposer extends Component {
         if (!enterAsSend) {
           text = text.split('\n').join(' ');
         }
-        setTimeout(() => {
-          this.createUserMessage(text, this.props.speechOutputAlways);
-        }, 1);
+        this.createUserMessage(text, this.props.speechOutputAlways);
       }
       this.setState({ text: '', currentMessageIndex: -1 });
     }
