@@ -49,7 +49,7 @@ class SkillCardGrid extends Component {
         staffPick = false;
       let averageRating = 0,
         totalRating = 0,
-        authorName = '';
+        authorName = 'Author';
       let stars = {
         oneStar: 0,
         twoStar: 0,
@@ -70,10 +70,15 @@ class SkillCardGrid extends Component {
       } else {
         image = '';
       }
-      if (skill.examples) {
+      if (
+        skill.examples &&
+        skill.examples.length > 0 &&
+        skill.examples[0] !==
+          '<The question that should be shown in public skill displays>'
+      ) {
         examples = skill.examples[0];
       } else {
-        examples = null;
+        examples = 'Test this example of skill';
       }
       if (skill.skillRating) {
         averageRating = parseFloat(skill.skillRating.stars.avgStar);
@@ -83,7 +88,7 @@ class SkillCardGrid extends Component {
       if (skill.staffPick) {
         staffPick = true;
       }
-      if (skill.author) {
+      if (skill.author && skill.author !== '<author_name>') {
         authorName = skill.author;
       }
       cards.push(
