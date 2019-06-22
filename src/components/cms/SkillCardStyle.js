@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import _Card from '@material-ui/core/Card';
+import _ReactTooltip from 'react-tooltip';
 
 export const Card = styled(_Card)`
   width: 16.25rem;
@@ -62,4 +63,17 @@ export const TotalRating = styled.span`
   font-size: 0.8125rem;
   padding-left: 5px;
   color: #108ee9;
+`;
+
+export const ReactTooltip = styled(_ReactTooltip)`
+  border: 1px solid #cdcdcd;
+  width: 236px;
+  height: 204px;
+  padding: 12px 0px;
+  border-radius: 4px;
+  pointer-events: auto;
+  &:hover {
+    visibility: visible;
+    opacity: 1;
+  }
 `;

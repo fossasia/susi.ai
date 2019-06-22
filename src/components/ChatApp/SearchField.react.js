@@ -1,55 +1,52 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField, IconButton as _IconButton } from '@material-ui/core';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import DownIcon from '@material-ui/icons/ArrowDownward';
 import ExitIcon from '@material-ui/icons/Close';
 
+const ESCAPE_KEY = 27;
+const F_KEY = 70;
+
 const SearchInputField = styled(TextField)`
   margin-top: 0.7rem;
   @media (max-width: 560px) {
-    width: 8.75rem;
+    width: 9rem;
   }
-  @media (max-width: 400px) {
-    width: 5.3rem;
+  @media (max-width: 380px) {
+    width: 7.8rem;
   }
-`;
-
-const ButtonStyle = css`
-  width: 40;
-  height: 40;
-  padding: 5;
-  top: 10;
 `;
 
 const IconButton = styled(_IconButton)`
-  ${ButtonStyle};
+  @media (max-width: 560px) {
+    padding: 4px;
+  }
   @media (max-width: 300px) {
-    display: none !important;
+    display: none;
   }
 `;
 
 const CloseButton = styled(_IconButton)`
-  ${ButtonStyle};
+  @media (max-width: 560px) {
+    padding: 4px;
+  }
   @media (max-width: 300px) {
     position: relative;
-    top: 0.375rem !important;
+    top: 0.375rem;
   }
 `;
 
-const animationStyle = {
-  transition: 'width 0.75s cubic-bezier(0.000, 0.795, 0.000, 1.000)',
-};
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-const additionalStyles = {
-  text: animationStyle,
-  frame: animationStyle,
-};
-
-const ESCAPE_KEY = 27;
-const F_KEY = 70;
+const Container = styled(FlexContainer)`
+  transition: width 0.75s cubic-bezier(0, 0.795, 0, 1);
+`;
 
 class ExpandingSearchField extends Component {
   constructor(props) {
@@ -146,50 +143,15 @@ class ExpandingSearchField extends Component {
   }
 
   render() {
-    const baseStyles = {
-      open: {
-        width: 180,
-      },
-
-      closed: {
-        width: 0,
-      },
-      icon: {
-        width: 40,
-        height: 40,
-        padding: 5,
-        top: 10,
-      },
-
-      frame: {},
-    };
-
-    const { searchCount } = this.props;
-
+    const { searchCount, open, searchText } = this.props;
     const { indexCnt } = this.state;
-
-    let textStyle = this.props.open ? baseStyles.open : baseStyles.closed;
-    textStyle = Object.assign(
-      textStyle,
-      additionalStyles ? additionalStyles.text : {},
-    );
-
-    const divStyle = Object.assign(
-      {},
-      textStyle,
-      baseStyles.frame,
-      additionalStyles ? additionalStyles.frame : {},
-    );
-    divStyle.width += baseStyles.icon.width + 5;
-    divStyle.display = 'inline';
-
-    if (this.props.open) {
+    if (open) {
       return (
-        <div style={divStyle} className="searchComponent">
+        <Container>
           <SearchInputField
             name="search"
-            placeholder="Search..."
-            value={this.props.searchText}
+            placeholder="Search Message"
+            value={searchText}
             onChange={event => this.onChange(event)}
             autoFocus={true}
             InputProps={{
@@ -198,9 +160,9 @@ class ExpandingSearchField extends Component {
               },
             }}
           />
-          <span>
+          <FlexContainer>
             {indexCnt}/{searchCount}
-          </span>
+          </FlexContainer>
           <IconButton onClick={this.onClickPrev} color="inherit">
             <UpIcon />
           </IconButton>
@@ -210,15 +172,15 @@ class ExpandingSearchField extends Component {
           <CloseButton onClick={this.onClick} color="inherit">
             <ExitIcon />
           </CloseButton>
-        </div>
+        </Container>
       );
     }
     return (
-      <div style={divStyle}>
+      <Container>
         <IconButton onClick={this.onClick} color="inherit">
           <SearchIcon />
         </IconButton>
-      </div>
+      </Container>
     );
   }
 }
