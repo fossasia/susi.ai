@@ -5,6 +5,8 @@ export const isProduction = () => {
   return domain.indexOf('.susi.ai') > 0;
 };
 
+export const cookieDomain = isProduction() ? '.susi.ai' : '';
+
 export const getAvatarProps = (emailId, accessToken) => {
   const imageUrl = `${urls.API_URL}/getAvatar.png?access_token=${accessToken}`;
   const avatarProps = {

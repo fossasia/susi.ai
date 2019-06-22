@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
-import { isProduction } from '../../utils/helperFunctions';
+import { cookieDomain } from '../../utils/helperFunctions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 // Clear cookie by setting expiry date
 const deleteCookie = function(name, options = {}) {
