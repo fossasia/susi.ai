@@ -25,6 +25,7 @@ import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
 
 import styled, { css } from 'styled-components';
+import { Title } from '../../shared/Typography';
 
 notification.config({
   top: 60,
@@ -320,9 +321,7 @@ class SkillHistory extends Component {
                 </div>
               </VersionContainer>
               <div>
-                <h1 className="title" style={{ marginTop: '20px' }}>
-                  Changes
-                </h1>
+                <Title marginTop>Changes</Title>
                 {/* latest code should be inputB */}
                 <Diff
                   inputA={commitData[0].code}

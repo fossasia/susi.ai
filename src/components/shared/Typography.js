@@ -17,3 +17,7 @@ export const DefaultMessage = styled.div`
   justify-content: center;
   padding-bottom: 10px;
 `;
+
+export const LargeText = styled.div`
+  font-size: 3rem;
+`;

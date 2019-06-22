@@ -25,23 +25,11 @@ import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import Emoji from 'react-emoji-render';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import './SkillFeedbackPage.css';
 import { urls, parseDate, formatDate } from '../../../utils';
-import { Paper } from '../../shared/Container';
-import { SubTitle } from '../../shared/Typography';
-
-const Div = styled.div`
-  margin-top: 3.125rem;
-  width: 100%;
-  font-size: 0.875rem;
-`;
-
-const Timestamp = styled.div`
-  color: #aaa;
-  font-size: 12px;
-`;
+import { Paper, CenterReaderContainer } from '../../shared/Container';
+import { SubTitle, Title } from '../../shared/Typography';
 
 const LEFT_PAGE = 'LEFT';
 const RIGHT_PAGE = 'RIGHT';
@@ -58,6 +46,130 @@ const range = (from, to, step = 1) => {
 
   return rangeArr;
 };
+
+const Container = styled(CenterReaderContainer)`
+  margin-top: 3.125rem;
+  width: 100%;
+  font-size: 0.875rem;
+`;
+
+const Timestamp = styled.div`
+  color: #aaa;
+  font-size: 0.75rem;
+`;
+
+const AvatarImage = styled.img.attrs({
+  alt: 'Thumbnail',
+})`
+  height: 3.75rem;
+  width: auto;
+`;
+
+const SkillName = styled.h1`
+  font-weight: 400;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+const SkillDetailContainer = styled.div`
+  display: flex;
+  padding-top: 2%;
+`;
+
+const Footer = styled.div`
+  padding: 2%;
+`;
+
+const PaginationContainer = styled.div`
+  padding: 0.875rem;
+`;
+
+const Pagination = styled.ul`
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EnabledButtonStyles = css`
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  background: linear-gradient(to bottom, #f7f8fa, #e7e9ec);
+  border: 1px solid #6c6e73;
+  border-color: #adb1b8 #a2a6ac #8d9096;
+  color: #000000;
+  padding: 0.5rem 0.75rem;
+  margin-left: 0.25rem;
+  cursor: pointer;
+`;
+
+const NavigateButtonWrapper = styled.div`
+  padding: 0.5rem 0.75rem;
+  bottom: 0.625rem;
+  cursor: pointer;
+  ${props =>
+    props.status === 'active'
+      ? css`
+          ${EnabledButtonStyles}
+        `
+      : css`
+          color: #999;
+          cursor: inherit;
+        `}
+`;
+
+const NavigateButton = styled.div`
+  ${props =>
+    props.status === 'disabled' &&
+    css`
+      color: #999;
+      cursor: inherit;
+    `}
+`;
+
+const PageLinkStyles = css`
+  display: block;
+  margin-left: -1px;
+  line-height: 1.25;
+`;
+
+const DotLink = styled.span`
+  ${PageLinkStyles}
+`;
+
+const PageLink = styled.div`
+  ${PageLinkStyles}
+  ${EnabledButtonStyles}
+
+  ${props =>
+    props.status === 'active' &&
+    css`
+      font-weight: 700;
+      background-color: #fff;
+      background-image: none;
+      color: #417dde;
+      border-color: #417dde;
+      text-decoration: none;
+    `}
+`;
+
+const DottedNavigation = styled.li`
+  margin-left: 4px;
+  padding: 1%;
+  cursor: default;
+  color: #999;
+`;
+
+const PageLinkContainer = styled.li`
+  background-color: #fff;
+  display: block;
+  float: left;
+  line-height: 16px;
+  list-style: none;
+  position: relative;
+`;
 
 class SkillFeedbackPage extends Component {
   constructor(props) {
@@ -441,156 +553,141 @@ class SkillFeedbackPage extends Component {
     let renderElement = null;
     if (!loading) {
       renderElement = (
-        <div>
-          <Div className="skill_listing_container">
-            <Paper>
-              <p style={{ marginLeft: 10 }}>
+        <Container>
+          <Paper margin={4}>
+            <p style={{ marginLeft: 10 }}>
+              <Link
+                to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                style={{ color: '#000000' }}
+              >
+                {this.skillName}
+              </Link>
+              <NavigationChevronRight style={{ paddingTop: 10 }} />
+              Feedback
+            </p>
+            <SkillDetailContainer>
+              <div style={{ paddingLeft: '2%' }}>
                 <Link
                   to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
-                  style={{ color: '#000000' }}
                 >
-                  {this.skillName}
+                  {image == null ? (
+                    <CircleImage
+                      name={this.skillName.toUpperCase()}
+                      size="60"
+                    />
+                  ) : (
+                    <AvatarImage src={imgUrl} />
+                  )}
                 </Link>
-                <NavigationChevronRight style={{ paddingTop: 10 }} />
-                Feedback
-              </p>
-              <div className="feedback-skill-detail">
-                <div className="feedback-avatar">
+              </div>
+              <div style={{ paddingLeft: '2%' }}>
+                <SkillName>
                   <Link
                     to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                   >
-                    {image == null ? (
-                      <CircleImage
-                        name={this.skillName.toUpperCase()}
-                        size="60"
-                      />
-                    ) : (
-                      <img
-                        className="feedback-avatar-img"
-                        alt="Thumbnail"
-                        src={imgUrl}
-                      />
-                    )}
+                    {skillName}
                   </Link>
-                </div>
-                <div className="feedback-skill-name-author">
-                  <h1 className="feedback-name">
-                    <Link
-                      to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
-                    >
-                      {skillName}
-                    </Link>
-                  </h1>
-                  <div>
-                    by{' '}
-                    <span
-                      className="feedback-author"
-                      onClick={this.openAuthorSkills}
-                    >
-                      {author}
-                    </span>
-                  </div>
+                </SkillName>
+                <div>
+                  by{' '}
+                  <span
+                    className="feedback-author"
+                    onClick={this.openAuthorSkills}
+                  >
+                    {author}
+                  </span>
                 </div>
               </div>
-              <h1 className="title">Feedback</h1>
-              {feedbackCardsElement}
-              {skillFeedbacks &&
-                (skillFeedbacks.length > 0 ? (
-                  <div className="pagination-container">
-                    <ul className="pagination">
-                      <div
-                        className={`navigation-pagination${
-                          currentPage === 1 ? '-disabled' : ''
-                        } `}
+            </SkillDetailContainer>
+            <Title marginTop>Feedback</Title>
+            {feedbackCardsElement}
+            {skillFeedbacks &&
+              (skillFeedbacks.length > 0 ? (
+                <PaginationContainer>
+                  <Pagination>
+                    <NavigateButtonWrapper
+                      onClick={this.handleMoveLeft}
+                      status={currentPage === 1 ? 'disable' : 'active'}
+                    >
+                      <NavigateButton
+                        status={currentPage === 1 ? 'disable' : 'active'}
                       >
-                        <div
-                          onClick={this.handleMoveLeft}
-                          className={`navigation-pagination-text${
-                            currentPage === 1 ? '-disabled' : ''
-                          }`}
-                        >
-                          ← Previous
-                        </div>
-                      </div>
-                      {pages.map((page, index) => {
-                        if (page === LEFT_PAGE) {
-                          return (
-                            <li key={index} className="page-item navigation">
-                              <span className="page-link">...</span>
-                            </li>
-                          );
-                        }
-                        if (page === RIGHT_PAGE) {
-                          return (
-                            <li key={index} className="page-item navigation">
-                              <span className="page-link">...</span>
-                            </li>
-                          );
-                        }
+                        ← Previous
+                      </NavigateButton>
+                    </NavigateButtonWrapper>
+                    {pages.map((page, index) => {
+                      if (page === LEFT_PAGE) {
                         return (
-                          <li
-                            key={index}
-                            className={`page-item${
-                              currentPage === page ? ' active' : ''
-                            }`}
-                          >
-                            <div
-                              className="page-link"
-                              onClick={this.handleClick(page)}
-                            >
-                              {page}
-                            </div>
-                          </li>
+                          <DottedNavigation key={index}>
+                            <DotLink>...</DotLink>
+                          </DottedNavigation>
                         );
-                      })}
-                      <div
-                        className={`navigation-pagination${
+                      }
+                      if (page === RIGHT_PAGE) {
+                        return (
+                          <DottedNavigation key={index}>
+                            <DotLink>...</DotLink>
+                          </DottedNavigation>
+                        );
+                      }
+                      return (
+                        <PageLinkContainer key={index}>
+                          <PageLink
+                            status={currentPage === page ? 'active' : ''}
+                            onClick={this.handleClick(page)}
+                          >
+                            {page}
+                          </PageLink>
+                        </PageLinkContainer>
+                      );
+                    })}
+                    <NavigateButtonWrapper
+                      onClick={this.handleMoveRight}
+                      status={
+                        currentPage ===
+                        Math.ceil(skillFeedbacks.length / pageLimit)
+                          ? 'disable'
+                          : 'active'
+                      }
+                    >
+                      <NavigateButton
+                        status={
                           currentPage ===
                           Math.ceil(skillFeedbacks.length / pageLimit)
-                            ? '-disabled'
-                            : ''
-                        }`}
+                            ? 'disable'
+                            : 'active'
+                        }
                       >
-                        <div
-                          onClick={this.handleMoveRight}
-                          className={`navigation-pagination-text${
-                            currentPage ===
-                            Math.ceil(skillFeedbacks.length / pageLimit)
-                              ? '-disabled'
-                              : ''
-                          }`}
-                        >
-                          Next →
-                        </div>
-                      </div>
-                    </ul>
-                  </div>
-                ) : (
-                  <div className="feedback-default-message">
-                    No feedback present for this skill!
-                  </div>
-                ))}
-              <div className="feedback-footer-skill">
-                <Link
-                  to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
-                  style={{ color: '#417DDE' }}
-                >
-                  <b>
-                    {`‹ See all details for ${this.skillTag &&
-                      this.skillTag
-                        .split(' ')
-                        .map(data => {
-                          let s =
-                            data.charAt(0).toUpperCase() + data.substring(1);
-                          return s;
-                        })
-                        .join(' ')}`}
-                  </b>
-                </Link>
-              </div>
-            </Paper>
-          </Div>
-        </div>
+                        Next →
+                      </NavigateButton>
+                    </NavigateButtonWrapper>
+                  </Pagination>
+                </PaginationContainer>
+              ) : (
+                <div className="feedback-default-message">
+                  No feedback present for this skill!
+                </div>
+              ))}
+            <Footer>
+              <Link
+                to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                style={{ color: '#417DDE' }}
+              >
+                <b>
+                  {`‹ See all details for ${this.skillTag &&
+                    this.skillTag
+                      .split(' ')
+                      .map(data => {
+                        let s =
+                          data.charAt(0).toUpperCase() + data.substring(1);
+                        return s;
+                      })
+                      .join(' ')}`}
+                </b>
+              </Link>
+            </Footer>
+          </Paper>
+        </Container>
       );
     } else {
       renderElement = (

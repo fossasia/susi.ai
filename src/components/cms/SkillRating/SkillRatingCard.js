@@ -24,7 +24,12 @@ import {
 } from 'recharts';
 import Ratings from 'react-ratings-declarative';
 import { Paper as _Paper } from '../../shared/Container';
-import { SubTitle, Title, DefaultMessage } from '../../shared/Typography';
+import {
+  SubTitle,
+  Title,
+  DefaultMessage,
+  LargeText,
+} from '../../shared/Typography';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -228,9 +233,9 @@ class SkillRatingCard extends Component {
           {skillRatings.totalStar ? (
             <RatingSection>
               <RatingTextContainer>
-                <div className="large-text">
+                <LargeText>
                   {parseFloat(skillRatings.avgStar.toFixed(2)) || 0}
-                </div>
+                </LargeText>
                 Average Rating
               </RatingTextContainer>
               <div
@@ -293,7 +298,7 @@ class SkillRatingCard extends Component {
                 </ResponsiveContainer>
               </div>
               <RatingTextContainer>
-                <div className="large-text">{skillRatings.totalStar || 0}</div>
+                <LargeText>{skillRatings.totalStar || 0}</LargeText>
                 Total Ratings
               </RatingTextContainer>
               <TimeChartContainer>
