@@ -23,8 +23,15 @@ const PasswordField = styled(_PasswordField)`
   border: 1px solid #ced4da;
   padding: 0px 12px;
   width: 17rem;
-  @media (max-width: 520) {
-    width: 14rem;
+  @media (max-width: 520px) {
+    width: 100%;
+    max-width: 17rem;
+  }
+`;
+
+const Form = styled(FormControl)`
+  @media (max-width: 520px) {
+    width: 100%;
   }
 `;
 
@@ -43,7 +50,7 @@ const ForgotPasswordLink = styled.div`
 
 const LabelContainer = styled.div`
   width: 30%;
-  minwidth: 9rem;
+  min-width: 9rem;
   float: left;
   margin-top: 12px;
 `;
@@ -259,7 +266,7 @@ class ChangePassword extends Component {
       <React.Fragment>
         <LabelContainer>Current Password</LabelContainer>
         <div>
-          <FormControl error={passwordErrorMessage !== ''}>
+          <Form error={passwordErrorMessage !== ''}>
             <PasswordField
               name="password"
               value={password}
@@ -268,10 +275,10 @@ class ChangePassword extends Component {
             <FormHelperText error={passwordErrorMessage !== ''}>
               {passwordErrorMessage}
             </FormHelperText>
-          </FormControl>
+          </Form>
         </div>
         <LabelContainer>New Password</LabelContainer>
-        <FormControl error={newPasswordErrorMessage !== ''}>
+        <Form error={newPasswordErrorMessage !== ''}>
           <PasswordField
             name="newPassword"
             placeholder="Must be between 6-64 characters"
@@ -281,14 +288,14 @@ class ChangePassword extends Component {
           <FormHelperText error={newPasswordErrorMessage !== ''}>
             {newPasswordErrorMessage}
           </FormHelperText>
-        </FormControl>
+        </Form>
         <div style={{ textAlign: 'center' }}>
           <PasswordStrengthBar score={newPasswordScore} />
           <span>{newPasswordStrength}</span>
         </div>
         <LabelContainer>Verify Password</LabelContainer>
         <div>
-          <FormControl error={newPasswordConfirmErrorMessage !== ''}>
+          <Form error={newPasswordConfirmErrorMessage !== ''}>
             <PasswordField
               name="confirmNewPassword"
               placeholder="Must match the new password"
@@ -298,7 +305,7 @@ class ChangePassword extends Component {
             <FormHelperText error={newPasswordConfirmErrorMessage !== ''}>
               {newPasswordConfirmErrorMessage}
             </FormHelperText>
-          </FormControl>
+          </Form>
         </div>
         <ForgotPasswordLink>
           <div
