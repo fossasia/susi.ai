@@ -5,14 +5,14 @@ import CardActions from '@material-ui/core/CardActions';
 
 const styles = {
   contentStyle: {
-    fontSize: '25px',
+    fontSize: '1.563rem',
     color: '#fff',
-    marginRight: '5px',
-    marginLeft: '5px',
+    marginRight: '0.313rem',
+    marginLeft: '0.313rem',
   },
   emptyStyle: {
     minWidth: '10%',
-    fontSize: '25px',
+    fontSize: '1.563rem',
     color: '#fff',
     padding: '0%',
     display: 'none',
