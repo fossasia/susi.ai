@@ -17,6 +17,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { OutlinedInput } from '../AuthStyles';
+import { cookieDomain } from '../../../utils/helperFunctions';
 
 const DangerButton = styled(Button)`
   color: #cb2431;
@@ -70,8 +71,8 @@ class ConfirmDeleteAccount extends React.Component {
       deleteAccount()
         .then(response => {
           this.setState({ loading: false });
-          deleteCookie('loggedIn', { domain: '.susi.ai', path: '/' });
-          deleteCookie('emailId', { domain: '.susi.ai', path: '/' });
+          deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
+          deleteCookie('emailId', { domain: cookieDomain, path: '/' });
           actions.logout().then(() => {
             actions.closeModal();
             actions.openSnackBar({

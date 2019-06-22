@@ -132,6 +132,7 @@ class MessageSection extends Component {
     messageBackgroundImage: PropTypes.string,
     actions: PropTypes.object,
     customThemeValues: PropTypes.object,
+    accessToken: PropTypes.string,
   };
 
   static defaultProps = {
@@ -162,7 +163,7 @@ class MessageSection extends Component {
 
   componentDidUpdate(prevProps) {
     const { search, searchState } = this.state;
-    const { messages } = this.props;
+    const { messages, accessToken } = this.props;
     if (search) {
       if (searchState.scrollIndex === -1 || searchState.scrollIndex === null) {
         this.scrollToBottom();
@@ -172,12 +173,16 @@ class MessageSection extends Component {
         const limit = searchState.scrollLimit;
         const ul = this.messageList;
         if (markedIDs && ul && limit > 0) {
-          const currentID = markedIndices[searchState.scrollIndex];
+          const currentID = markedIndices[searchState.searchIndex - 1];
           this.scrollarea.view.childNodes[currentID].scrollIntoView();
         }
       }
     } else if (prevProps.messages.length !== messages.length) {
       this.scrollToBottom();
+    }
+
+    if (accessToken !== prevProps.accessToken) {
+      this.exitSearch();
     }
   }
 
@@ -296,13 +301,16 @@ class MessageSection extends Component {
     let newIndex = searchState.scrollIndex + 1;
     let newSearchCount = searchState.searchIndex + 1;
     let indexLimit = searchState.scrollLimit;
+    if (newIndex > indexLimit) {
+      newIndex = 1;
+    }
     let markedIDs = searchState.markedIDs;
     let ul = this.messageList;
     if (newSearchCount <= 0) {
       newSearchCount = indexLimit;
     }
 
-    if (markedIDs && ul && newIndex < indexLimit) {
+    if (markedIDs && ul && newIndex <= indexLimit) {
       let currState = searchState;
       currState.scrollIndex = newIndex;
       currState.searchIndex = newSearchCount;
@@ -310,35 +318,6 @@ class MessageSection extends Component {
       this.setState({
         searchState: currState,
       });
-    }
-    if (markedIDs && ul && newIndex === 0) {
-      let currState = searchState;
-      newIndex = indexLimit;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = 1;
-    }
-    if (markedIDs && ul && newIndex < 0) {
-      let currState = searchState;
-      newIndex = indexLimit;
-      currState.scrollIndex = newIndex;
-      currState.searchIndex = 1;
-      newIndex = searchState.scrollIndex + 1;
-      newSearchCount = searchState.searchIndex + 1;
-      markedIDs = searchState.markedIDs;
-      indexLimit = searchState.scrollLimit;
-      ul = this.messageList;
-      if (newSearchCount <= 0) {
-        newSearchCount = indexLimit;
-      }
-      if (markedIDs && ul && newIndex >= 0) {
-        currState = searchState;
-        currState.scrollIndex = newIndex;
-        currState.searchIndex = newSearchCount;
-        currState.scrollID = markedIDs[newIndex];
-        this.setState({
-          searchState: currState,
-        });
-      }
     }
   };
 
@@ -625,6 +604,7 @@ class MessageSection extends Component {
               speechOutputAlways={speechOutputAlways}
               micColor={button}
               textarea={textarea}
+              exitSearch={this.exitSearch}
             />
           </MessageComposeContainer>
         </MessageSectionContainer>
@@ -637,6 +617,7 @@ function mapStateToProps(store) {
   return {
     ...store.messages,
     ...store.settings,
+    ...store.app,
   };
 }
 
