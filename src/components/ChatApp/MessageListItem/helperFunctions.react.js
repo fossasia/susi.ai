@@ -13,7 +13,6 @@ import { divIcon } from 'leaflet';
 import SlickSlider from 'react-slick';
 import TickIcon from '@material-ui/icons/Done';
 import ClockIcon from '@material-ui/icons/Schedule';
-import store from '../../../store';
 import Parser from 'html-react-parser';
 import _Card from '@material-ui/core/Card';
 import _CardActionArea from '@material-ui/core/CardActionArea';
@@ -82,36 +81,24 @@ export function renderAnchor(text, link) {
 // Returns the message time and status indicator
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
-  const { theme } = store.getState().settings;
-  const isLightTheme = theme === 'light';
-
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
         <FlexContainer>
-          <ClockIcon
-            color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
-            style={{ height: '0.8135rem' }}
-          />
+          <ClockIcon style={{ height: '0.8135rem' }} />
         </FlexContainer>
       );
     } else {
       footerContent = (
         <FlexContainer>
-          <TickIcon
-            color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
-            style={{ height: '0.8135rem' }}
-          />
+          <TickIcon style={{ height: '0.8135rem' }} />
         </FlexContainer>
       );
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
       <FlexContainer>
-        <ShareButton
-          message={message}
-          color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
-        />
+        <ShareButton message={message} />
       </FlexContainer>
     );
   }

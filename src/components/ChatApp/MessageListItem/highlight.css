@@ -1,0 +1,8 @@
+.markTag{
+    background-color: #ff9631
+}
+
+.TextHighlight mark{
+    background-color: yellow;
+    padding: 0rem;
+}
