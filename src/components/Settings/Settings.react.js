@@ -87,6 +87,7 @@ const SettingsOptionsContainer = styled(Paper)`
     width: 100%;
     margin-right: 0;
     margin-bottom: 1rem;
+    height: 100%;
   }
 `;
 
