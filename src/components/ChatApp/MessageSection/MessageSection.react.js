@@ -25,7 +25,7 @@ const MessageList = styled.div`
   left: 0;
   bottom: 4.6rem;
   right: 0;
-  width: 700px;
+  width: 100vw;
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -70,7 +70,7 @@ const MessageComposeContainer = styled.div`
   pointer-events: auto;
   opacity: 1;
   width: 100vw;
-  max-width: 43.75rem;
+  max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
   background: ${props => props.backgroundColor};
@@ -86,7 +86,7 @@ const MessageSectionContainer = styled.div`
   right: 0;
   margin: 0 auto;
   width: 100vw;
-  max-width: 43.75rem;
+  max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
   box-shadow: 0 0.1875rem 0.375rem rgba(0, 0, 0, 0.16),
@@ -531,9 +531,6 @@ class MessageSection extends Component {
           <TopBar
             header={header}
             {...this.props}
-            ref={instance => {
-              this.child = instance;
-            }}
             searchTextChanged={this.searchTextChanged}
             openSearch={this.openSearch}
             exitSearch={this.exitSearch}
@@ -573,8 +570,8 @@ class MessageSection extends Component {
               {showScrollTop && (
                 <ScrollTopFab
                   size="small"
-                  backgroundColor={body}
-                  color={theme === 'light' ? '#90a4ae' : '#000000'}
+                  backgroundcolor={body}
+                  color={theme === 'light' ? 'inherit' : 'secondary'}
                   onClick={this.scrollToTop}
                 >
                   <NavigateUp />
@@ -584,8 +581,8 @@ class MessageSection extends Component {
                 <ScrollBottomContainer>
                   <ScrollBottomFab
                     size="small"
-                    backgroundColor={body}
-                    color={theme === 'light' ? '#90a4ae' : '#000000'}
+                    backgroundcolor={body}
+                    color={theme === 'light' ? 'inherit' : 'secondary'}
                     onClick={this.scrollToBottom}
                   >
                     <NavigateDown />

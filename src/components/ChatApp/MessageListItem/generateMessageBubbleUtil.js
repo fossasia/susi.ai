@@ -16,6 +16,7 @@ import {
 } from './helperFunctions.react.js';
 import styled, { css } from 'styled-components';
 import MessageBubble from './MessageBubbleStyle';
+import './highlight.css';
 
 const DateContainer = styled.section`
   background: #999999;
@@ -296,7 +297,7 @@ export const generateMessageBubble = (
                 key={key}
                 highlight={matchString}
                 text={part}
-                markTag="em"
+                markTag="span class=markTag"
                 caseSensitive={isCaseSensitive}
               />,
             );

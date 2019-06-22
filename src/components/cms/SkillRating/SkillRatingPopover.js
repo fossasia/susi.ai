@@ -33,7 +33,7 @@ const SkillRatingPopover = props => {
       <div style={{ textAlign: 'center', marginBottom: '10px' }}>
         {avgStar} out of 5 stars
       </div>
-      <ResponsiveContainer width={220} height={125}>
+      <ResponsiveContainer width={220} height={140}>
         <BarChart layout="vertical" data={skillRatings}>
           <XAxis type="number" hide={true} />
           <YAxis

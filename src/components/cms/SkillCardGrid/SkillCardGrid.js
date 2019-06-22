@@ -4,11 +4,9 @@ import Ratings from 'react-ratings-declarative';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReactTooltip from 'react-tooltip';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import CircleImage from '../../CircleImage/CircleImage';
-import '../SkillRating/ReviewPopoverStyle.css';
 import { urls } from '../../../utils';
 import styled from 'styled-components';
 
@@ -20,6 +18,7 @@ import {
   Image,
   Example,
   TotalRating,
+  ReactTooltip,
 } from '../SkillCardStyle';
 
 const Author = styled.div`
@@ -134,7 +133,6 @@ class SkillCardGrid extends Component {
                   <Ratings.Widget />
                   <Ratings.Widget />
                   <ReactTooltip
-                    className="customeTheme"
                     id={dataId}
                     type={'light'}
                     place="bottom"

@@ -9,12 +9,8 @@ import CircleImage from '../../CircleImage/CircleImage';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import { urls } from '../../../utils';
-import ReactTooltip from 'react-tooltip';
-import '../SkillRating/ReviewPopoverStyle.css';
-
 import { StaffPickImage } from '../SkillsStyle';
-import { RatingContainer, TotalRating } from '../SkillCardStyle';
-
+import { RatingContainer, TotalRating, ReactTooltip } from '../SkillCardStyle';
 import styled from 'styled-components';
 
 const Card = styled.div`
