@@ -66,7 +66,7 @@ const arrDiff = (a1, a2) => {
 };
 
 const Loading = styled(_Loading)`
-  margin-top: 20px;
+  margin-top: 1.25rem;
   position: relative;
 `;
 
@@ -80,7 +80,7 @@ const FlexBox = styled.div`
   display: flex;
   align-items: baseline;
   color: rgba(51, 51, 51, 0.7);
-  line-height: 25px;
+  line-height: 1.563rem;
   margin-right: 2rem;
 `;
 
@@ -98,12 +98,12 @@ const BlogFooter = styled.div`
 const CardMedia = styled(_CardMedia)`
   height: 0;
   padding-top: 56.25%;
-  height: 500px;
+  height: 31.25rem;
   object-fit: contain;
   vertical-align: middle;
 
   @media (max-width: 1000px) {
-    height: 300px;
+    height: 18.75rem;
   }
 `;
 
@@ -113,7 +113,7 @@ const Card = styled(_Card)`
 
 const Overlay = styled.div`
   position: relative;
-  left: 0px;
+  left: 0rem;
   background: rgba(0, 0, 0, 0.54);
   width: 100%;
   padding: 1rem;
@@ -129,27 +129,27 @@ const CustomTypography = styled(Typography)`
 const BlogNavigation = styled.div`
   display: none;
   justify-content: center;
-  padding-top: 15px;
+  padding-top: 0.938rem;
 
   @media (min-width: 1400px) {
     position: absolute;
     right: 15%;
-    bottom: 220px;
+    bottom: 13.75rem;
   }
 
   @media (max-width: 1000px) {
-    bottom: 200px;
+    bottom: 12.5rem;
   }
 `;
 
 const SocialButtons = styled.div`
   width: 100%;
   display: flex;
-  padding: 10px 0 20px 10px;
+  padding: 0.625rem 0 1.25rem 0.625rem;
 `;
 
 const Icon = styled.i`
-  padding-right: 10px;
+  padding-right: 0.625rem;
 `;
 
 const Container = styled.div`
@@ -161,7 +161,7 @@ const BlogFooterLink = styled.a`
   cursor: pointer;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
-  height: 30px;
+  height: 1.875rem;
 
   &:hover {
     text-decoration: underline;
@@ -176,11 +176,11 @@ const OverlayLink = styled.a`
 `;
 
 const BottomPost = styled.div`
-  padding: 100px 20px 40px 20px;
+  padding: 6.25rem 1.25rem 2.5rem 1.25rem;
 
   @media (max-width: 1000px) {
     width: 90%;
-    margin: 10px 0 auto;
+    margin: 0.625rem 0 auto;
   }
 `;
 
@@ -299,7 +299,7 @@ class Blog extends Component {
   render() {
     const nextStyle = {
       visibility: this.state.nextDisplay,
-      marginLeft: '10px',
+      marginLeft: '0.625rem',
     };
 
     const prevStyle = {
