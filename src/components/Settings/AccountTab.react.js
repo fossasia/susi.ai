@@ -59,9 +59,18 @@ const DangerButton = styled(Button)`
 const AvatarSection = styled.div`
   margin-left: 8rem;
 
-  @media only screen and (max-width: 1060px) {
-    margin-left: 0rem;
+  @media (min-width: 766px) and (max-width: 1060px) {
+    margin-left: 40%;
     padding-top: 0.5rem;
+  }
+  @media (min-width: 623px) and (max-width: 765px) {
+    padding-top: 0.5rem;
+    margin-left: 25%;
+  }
+  @media (max-width: 622px) {
+    padding-top: 0.5rem;
+    margin-left: 0px;
+    width: 100%;
   }
 `;
 
