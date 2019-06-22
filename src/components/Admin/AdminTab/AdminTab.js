@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Lozenge from '../../shared/Lozenge';
 import { fetchAdminUserStats, fetchAdminUserSkill } from '../../../apis/index';
-import { CircularProgress } from '@material-ui/core';
+import CircularLoader from '../../shared/CircularLoader';
 
 const CardHeading = styled.h3`
   padding-left: 1rem;
@@ -13,13 +13,6 @@ const CardHeading = styled.h3`
 
 const CardContentContainer = styled.div`
   padding: 1rem;
-`;
-
-const Center = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 const CardContainer = styled.span`
@@ -105,9 +98,7 @@ class AdminTab extends React.Component {
     return (
       <React.Fragment>
         {loading ? (
-          <Center>
-            <CircularProgress size={62} />
-          </Center>
+          <CircularLoader />
         ) : (
           <div style={{ margin: '1rem' }}>
             <CardContainer>

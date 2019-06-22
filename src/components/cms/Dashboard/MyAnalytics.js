@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import { fetchSkillsByAuthor } from '../../../apis';
 import { Cell } from 'recharts';
 import PieChartContainer from '../../shared/PieChartContainer';
@@ -63,10 +63,7 @@ class MyAnalytics extends Component {
     return (
       <div>
         {loading ? (
-          <div className="center">
-            <CircularProgress size={62} color="primary" />
-            <h4>Loading</h4>
-          </div>
+          <CircularLoader height={5} />
         ) : (
           <div>
             {skillUsageCount !== 0 && (

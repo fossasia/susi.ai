@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import AceEditor from 'react-ace';
 import Diff from 'react-diff-viewer';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
@@ -26,6 +25,7 @@ import 'brace/ext/searchbox';
 
 import styled, { css } from 'styled-components';
 import { Title } from '../../shared/Typography';
+import CircularLoader from '../../shared/CircularLoader';
 
 notification.config({
   top: 60,
@@ -197,14 +197,7 @@ class SkillHistory extends Component {
     const { homeStyle, codeEditorStyle, paperStyle, compareBtnStyle } = styles;
     return (
       <div>
-        {commitData.length === 0 && (
-          <h1 className="skill_loading_container">
-            <div className="center">
-              <CircularProgress size={62} color="primary" />
-              <h4>Loading</h4>
-            </div>
-          </h1>
-        )}
+        {commitData.length === 0 && <CircularLoader />}
         <div style={homeStyle}>
           {commitData.length === 2 && (
             <div style={{ display: 'block' }}>

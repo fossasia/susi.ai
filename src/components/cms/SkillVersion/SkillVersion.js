@@ -12,13 +12,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import _Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import Checkbox from '@material-ui/core/Checkbox';
 
 // Other Utils
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import './SkillVersion.css';
 import styled from 'styled-components';
 
 notification.config({
@@ -192,12 +191,7 @@ class SkillVersion extends Component {
     return (
       <div>
         {!dataReceived ? (
-          <h1 className="skill_loading_container">
-            <div className="center">
-              <CircularProgress size={62} color="primary" />
-              <h4>Loading</h4>
-            </div>
-          </h1>
+          <CircularLoader />
         ) : (
           <Container>
             <h1 style={{ display: 'flex' }}>

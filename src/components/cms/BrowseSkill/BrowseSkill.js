@@ -36,7 +36,7 @@ import NavigationArrowDownward from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
 import _SearchBar from 'material-ui-search-bar';
 import { scrollAnimation } from '../../../utils';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
@@ -45,16 +45,6 @@ import isMobileView from '../../../utils/isMobileView';
 import Grid from '@material-ui/core/Grid';
 
 import { SelectedText } from '../SkillsStyle';
-
-const LoaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin: 12.5rem auto;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -937,14 +927,7 @@ class BrowseSkill extends React.Component {
               </FlexContainer>
             </Grid>
           </Grid>
-          {loadingSkills && (
-            <LoaderContainer>
-              <div className="center">
-                <CircularProgress size={62} color="primary" />
-                <h4>Loading</h4>
-              </div>
-            </LoaderContainer>
-          )}
+          {loadingSkills && <CircularLoader height={34} />}
           {!loadingSkills ? (
             <ContentContainer>
               {metricsHidden ? (

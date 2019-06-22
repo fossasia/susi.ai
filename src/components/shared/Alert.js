@@ -21,6 +21,9 @@ const Container = styled.div`
   line-height: 2;
   overflow-wrap: break-word;
   border-radius: 0.3rem;
+  @media (min-width: 500px) {
+    margin-top: 4rem;
+  }
 `;
 
 const CancelIcon = styled(_CancelIcon)`

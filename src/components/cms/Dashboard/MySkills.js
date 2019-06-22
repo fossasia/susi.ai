@@ -18,7 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import CircleImage from '../CircleImage/CircleImage';
@@ -154,10 +154,7 @@ class MySkills extends Component {
         </div>
 
         {loading ? (
-          <div style={{ textAlign: 'center' }}>
-            <CircularProgress size={62} color="primary" />
-            <h4>Loading</h4>
-          </div>
+          <CircularLoader height={5} />
         ) : (
           <TableWrap>
             <Table>

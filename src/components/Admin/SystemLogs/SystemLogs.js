@@ -5,14 +5,16 @@ import _Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import urls from '../../../utils/urls';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '../../shared/Alert';
 import styled from 'styled-components';
+import CircularLoader from '../../shared/CircularLoader';
 
 const Select = styled(_Select)`
   width: 11.25rem;
-  float: right;
   margin: 1.5rem 0;
+  @media (min-width: 500px) {
+    float: right;
+  }
 `;
 
 const HomeDiv = styled.div`
@@ -24,7 +26,6 @@ const HomeDiv = styled.div`
 `;
 
 const Container = styled.div`
-  margin-top: 4rem;
   @media (max-width: 500px) {
     height: 60vh;
     width: 100%;
@@ -110,18 +111,16 @@ class SystemLogs extends React.Component {
         >
           {renderMenu}
         </Select>
-        <Container>
-          {loading ? (
-            <div className="center">
-              <CircularProgress size={62} color="primary" />
-            </div>
-          ) : (
+        {loading ? (
+          <CircularLoader height={35} />
+        ) : (
+          <Container>
             <Alert
               description={this.state.logs}
               type={this.state.error === true ? 'error' : 'success'}
             />
-          )}
-        </Container>
+          </Container>
+        )}
       </HomeDiv>
     );
   }

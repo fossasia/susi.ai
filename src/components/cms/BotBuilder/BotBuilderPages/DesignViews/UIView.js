@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../../../shared/CircularLoader';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -469,10 +470,7 @@ class UIView extends Component {
     return (
       <div>
         {!this.state.loadedSettings ? (
-          <div className="center">
-            <CircularProgress size={62} color="#4285f5" />
-            <h4>Loading</h4>
-          </div>
+          <CircularLoader />
         ) : (
           <div className="design-box">
             {this.state.loadedSettings && <Grid>{customizeComponents}</Grid>}

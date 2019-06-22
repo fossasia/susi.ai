@@ -6,7 +6,6 @@ import Paper from '@material-ui/core/Paper';
 import Diff from 'react-diff-viewer';
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 
 import SkillCreator from '../SkillCreator/SkillCreator';
@@ -17,6 +16,8 @@ import {
   modifySkill,
 } from '../../../apis';
 
+import CircularLoader from '../../shared/CircularLoader';
+import { Title } from '../../shared/Typography';
 import { VersionContainer } from '../SkillHistory/SkillHistory';
 
 import 'brace/mode/markdown';
@@ -32,8 +33,6 @@ import 'brace/theme/solarized_dark';
 import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
-
-import { Title } from '../../shared/Typography';
 
 notification.config({
   top: 60,
@@ -256,14 +255,7 @@ class SkillRollBack extends Component {
 
     return (
       <div>
-        {commitData.length === 0 && (
-          <h1 className="skill_loading_container">
-            <div className="center">
-              <CircularProgress size={62} color="primary" />
-              <h4>Loading</h4>
-            </div>
-          </h1>
-        )}
+        {commitData.length === 0 && <CircularLoader />}
         {commitData.length === 2 && (
           <div style={{ display: 'block' }}>
             <div style={homeStyle}>
