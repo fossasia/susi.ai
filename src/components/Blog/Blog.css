@@ -1,14 +1,14 @@
 .section_blog{
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 1rem;
+    line-height: 1.375rem;
     text-align: justify;
     margin: 0 auto;
     padding: 2.5rem 0;
     position: relative;
     max-width: 100%;
-    width: 935px;
+    width: 58.438rem;
     align-items: center;
-    box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+    box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff, inset 0 -12.5rem 12.5rem -12.5rem #fff;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -18,7 +18,7 @@
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-    height: 30px;
+    height: 1.875rem;
 }
 
 .section_blog a:hover{
@@ -33,12 +33,12 @@
 }
 
 .authorName{
-    padding-left: 10px;
-    font-size: 18px;
+    padding-left: 0.625rem;
+    font-size: 1.125rem;
 }
 
 .tagIcon{
-    padding-right: 10px;
+    padding-right: 0.625rem;
 }
 
 .section_blog pre{
@@ -48,12 +48,12 @@
 pre{
     background: #002240;
     color: #fff;
-    padding: 10px 10px;
+    padding: 0.625rem 0.625rem;
     overflow: auto;
     line-height: 1.2632em;
     word-wrap: break-word;
     white-space: pre;
-    font-size: 16px;
+    font-size: 1rem;
 	display :block;
 }
 
