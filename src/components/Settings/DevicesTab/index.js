@@ -162,7 +162,7 @@ class DevicesTab extends React.Component {
     } = this.state;
     const { google, mapKey } = this.props;
     return (
-      <React.Fragment>
+      <div>
         <SettingsTabWrapper heading="Devices">
           {devicesData.length ? (
             <div>
@@ -199,7 +199,7 @@ class DevicesTab extends React.Component {
             </EmptyDevicesText>
           )}
         </SettingsTabWrapper>
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -218,7 +218,25 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+const LoadingContainer = props => (
+  <div
+    style={{
+      top: '25%',
+      left: '50%',
+      transform: 'translate3d(170%,-50%, 0)',
+      position: 'absolute',
+    }}
+  >
+    Loading...
+  </div>
+);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GoogleApiWrapper(props => ({ apiKey: props.mapKey }))(DevicesTab));
+)(
+  GoogleApiWrapper(props => ({
+    LoadingContainer: LoadingContainer,
+    apiKey: props.mapKey,
+  }))(DevicesTab),
+);
