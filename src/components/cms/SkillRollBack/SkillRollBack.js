@@ -33,6 +33,8 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
 
+import { Title } from '../../shared/Typography';
+
 notification.config({
   top: 60,
 });
@@ -342,9 +344,7 @@ class SkillRollBack extends Component {
                 </div>
               </VersionContainer>
               <div>
-                <h1 className="title" style={{ marginTop: '20px' }}>
-                  Changes
-                </h1>
+                <Title marginTop>Changes</Title>
                 {/* latest code should be inputB */}
                 <Diff
                   inputA={commitData[0].code}
@@ -352,9 +352,7 @@ class SkillRollBack extends Component {
                   type="chars"
                 />
               </div>
-              <h1 className="title" style={{ marginTop: '20px' }}>
-                Edit
-              </h1>
+              <Title marginTop>Edit</Title>
             </div>
             <div style={{ marginTop: '-100px', width: '100%' }}>
               <SkillCreator
