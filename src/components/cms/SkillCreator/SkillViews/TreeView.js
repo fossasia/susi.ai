@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import OrgChart from 'react-orgchart';
 import PropTypes from 'prop-types';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Person from '@material-ui/icons/Person';
 import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
@@ -12,6 +11,7 @@ import createActions from '../../../../redux/actions/create';
 import 'react-orgchart/index.css';
 import './TreeView.css';
 import styled from 'styled-components';
+import CircularLoader from '../../../shared/CircularLoader';
 
 const BotIconImg = styled.img`
   height: 1.313rem;
@@ -177,10 +177,7 @@ class TreeView extends Component {
     return (
       <div>
         {!loaded ? (
-          <div className="center" style={{ padding: '1.25rem' }}>
-            <CircularProgress size={62} color="#4285f5" />
-            <h4>Loading</h4>
-          </div>
+          <CircularLoader height={10} />
         ) : (
           <div>
             <ReactTooltip effect="solid" place="bottom" />

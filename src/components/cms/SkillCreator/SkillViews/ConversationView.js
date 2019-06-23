@@ -6,7 +6,7 @@ import uiActions from '../../../../redux/actions/ui';
 import PropTypes from 'prop-types';
 import { fetchConversationResponse } from '../../../../apis/index';
 import Person from '@material-ui/icons/Person';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../../shared/CircularLoader';
 import './ConversationView.css';
 import styled from 'styled-components';
 
@@ -142,10 +142,7 @@ class ConversationView extends Component {
       <HomeDiv>
         <Paper id="message-container">
           {!loaded ? (
-            <div className="center">
-              <CircularProgress size={62} color="#4285f5" />
-              <h4>Loading</h4>
-            </div>
+            <CircularLoader height={10} />
           ) : (
             conversationsData.map(item => {
               let text = item.name;

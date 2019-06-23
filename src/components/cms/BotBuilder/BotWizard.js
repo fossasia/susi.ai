@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import Design from './BotBuilderPages/Design';
 import Preview from './Preview/Preview';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -493,10 +494,7 @@ class BotWizard extends React.Component {
             >
               <div style={mainPage}>
                 {!loaded ? (
-                  <div className="center">
-                    <CircularProgress size={62} color="primary" />
-                    <h4>Loading</h4>
-                  </div>
+                  <CircularLoader />
                 ) : (
                   <div>
                     <Stepper activeStep={stepIndex} nonLinear>

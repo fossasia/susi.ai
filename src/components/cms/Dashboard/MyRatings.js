@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
 import styled from 'styled-components';
@@ -79,10 +79,7 @@ class MyRatings extends Component {
     return (
       <div>
         {loading ? (
-          <div style={{ textAlign: 'center' }}>
-            <CircularProgress size={62} color="primary" />
-            <h4>Loading</h4>
-          </div>
+          <CircularLoader height={5} />
         ) : (
           <TableWrap>
             <Table>

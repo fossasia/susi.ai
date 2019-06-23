@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NotFound from '../NotFound/NotFound.react';
 import './Admin.css';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import _Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -14,10 +13,7 @@ import SystemSettings from './SystemSettings/SystemSettings';
 import { getAdmin } from '../../apis/index';
 import styled from 'styled-components';
 import isMobileView from '../../utils/isMobileView';
-
-const CircularProgressContainer = styled(CircularProgress)`
-  margin-top: 6.25rem;
-`;
+import CircularLoader from '../shared/CircularLoader';
 
 const Tabs = styled(_Tabs)`
   background-color: #ffffff;
@@ -143,10 +139,7 @@ class Admin extends Component {
     return (
       <div>
         {loading ? (
-          <CircularProgressContainer className="center">
-            <CircularProgress size={62} />
-            <h4>Loading</h4>
-          </CircularProgressContainer>
+          <CircularLoader />
         ) : (
           <div>
             {isAdmin ? (

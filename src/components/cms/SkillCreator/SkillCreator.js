@@ -15,6 +15,7 @@ import ISO6391 from 'iso-639-1';
 import ReactTooltip from 'react-tooltip';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 
 import {
   fetchAllGroupOptions,
@@ -24,6 +25,8 @@ import {
   modifySkill,
   createSkill,
 } from '../../../apis/index.js';
+
+import CircularLoader from '../../shared/CircularLoader';
 
 import './SkillCreator.css';
 import './Animation.min.css';
@@ -49,7 +52,6 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 // Ant Design Components
 import { notification, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import { bindActionCreators } from 'redux';
 
 notification.config({
   top: 60,
@@ -1120,12 +1122,7 @@ class SkillCreator extends Component {
                     </CenterDiv>
                   </Paper>
                 )}
-                {!loadViews ? (
-                  <div className="center" style={{ padding: 10 }}>
-                    <CircularProgress size={62} />
-                    <h4>Loading</h4>
-                  </div>
-                ) : null}
+                {!loadViews ? <CircularLoader height={10} /> : null}
                 {view === 'code' && loadViews ? (
                   <CodeView editable={accessToken && this.state.editable} />
                 ) : null}

@@ -9,9 +9,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import styled, { css } from 'styled-components';
-
+import CircularLoader from '../shared/CircularLoader';
 // Icons
 import ChatIcon from '@material-ui/icons/Chat';
 import ThemeIcon from '@material-ui/icons/InvertColors';
@@ -141,13 +140,6 @@ const SettingsMenuItem = styled(MenuItem)`
   @media only screen and (max-width: 1060px) {
     width: 100%;
   }
-`;
-
-const LoadingContainer = styled.div`
-  height: 432px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 class Settings extends Component {
@@ -300,13 +292,7 @@ class Settings extends Component {
             {menuItems}
           </SettingsOptionsContainer>
           <SettingsBodyContainer theme={theme}>
-            {loading ? (
-              <LoadingContainer>
-                <CircularProgress size={64} />
-              </LoadingContainer>
-            ) : (
-              this.generateSettings()
-            )}
+            {loading ? <CircularLoader height={27} /> : this.generateSettings()}
           </SettingsBodyContainer>
         </SettingContainer>
       </Container>

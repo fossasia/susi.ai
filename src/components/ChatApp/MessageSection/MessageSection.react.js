@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import Fab from '@material-ui/core/Fab';
 import NavigateDown from '@material-ui/icons/ExpandMore';
 import NavigateUp from '@material-ui/icons/ExpandLess';
@@ -545,9 +545,7 @@ class MessageSection extends Component {
         </header>
         <MessageSectionContainer>
           {loadingHistory ? (
-            <div className="loader-container">
-              <CircularProgress size={64} />
-            </div>
+            <CircularLoader height={38} />
           ) : (
             <div>
               <MessageList

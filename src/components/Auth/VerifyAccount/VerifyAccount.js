@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularLoader from '../../shared/CircularLoader';
 import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import { verifyEmail } from '../../../apis/index';
 
@@ -80,14 +80,11 @@ class VerifyAccount extends Component {
   }
 
   render() {
+    const { loading, message } = this.state;
     return (
       <div>
-        {this.state.loading && (
-          <Container>
-            <CircularProgress size={64} />
-          </Container>
-        )}
-        {this.state.message && <Container>{this.state.message}</Container>}
+        {loading && <CircularLoader />}
+        {message && <Container>{message}</Container>}
       </div>
     );
   }
