@@ -13,29 +13,30 @@ import styled from 'styled-components';
 const DeviceSection = styled.div`
   margin: 0 auto;
   max-width: none;
-  padding: 100px 60px;
+  padding: 6.25rem 3.75rem;
   position: relative;
   max-width: 85%;
-  width: 935px;
+  width: 58.438rem;
   text-align: center;
-  box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+  box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff,
+    inset 0 -12.5rem 12.5rem -12.5rem #fff;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 0.063rem solid #dfdfdf;
 
   @media (min-width: 1400px) {
-    max-width: 1050px;
-    width: 1050px;
+    max-width: 65.625rem;
+    width: 65.625rem;
     margin: 0 auto;
   }
 
   @media (max-width: 1000px) {
-    padding: 100px 40px;
+    padding: 6.25rem 2.5rem;
   }
 
   @media (max-width: 769px) {
-    padding: 20px 0px;
+    padding: 1.25rem 0rem;
     width: 90%;
     margin: 0 auto;
   }
@@ -43,9 +44,9 @@ const DeviceSection = styled.div`
 
 const DeviceDescription = styled.div`
   width: 50%;
-  font-size: 43px;
+  font-size: 2.688rem;
   font-weight: 100;
-  margin: 20px 0;
+  margin: 1.25rem 0;
   text-align: left;
   color: #414141;
   font-family: sans-serif;
@@ -61,31 +62,31 @@ const DeviceDescription = styled.div`
 `;
 
 const Heading = styled.div`
-  height: 150px;
+  height: 9.375rem;
   @media (max-width: 769px) {
     height: auto;
   }
 `;
 
 const TextDescription = styled.p`
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 300;
-  line-height: 40px;
-  max-width: 440px;
+  line-height: 2.5rem;
+  max-width: 27.5rem;
   color: #414141;
   font-family: sans-serif;
 
   @media (max-width: 1000px) {
     max-width: 100%;
-    line-height: 24px;
+    line-height: 1.5rem;
   }
 `;
 
 const StoreIcons = styled.div`
   @media (max-width: 1000px) {
     margin: 0 auto;
-    width: 180px;
-    padding-bottom: 20px;
+    width: 11.25rem;
+    padding-bottom: 1.25rem;
   }
 `;
 
@@ -96,9 +97,9 @@ const PlayStore = styled.a`
   background: url(${googlePlay}) center center no-repeat;
   background-size: contain;
   float: left;
-  height: 45px;
-  margin: 0 10px 10px 0;
-  width: 152px;
+  height: 2.813rem;
+  margin: 0 0.625rem 0.625rem 0;
+  width: 9.5rem;
 
   @media (max-width: 769px) {
     width: 100%;
@@ -112,9 +113,9 @@ const AppStore = styled.a`
   background: url(${appStore}) center center no-repeat;
   background-size: cover;
   float: left;
-  height: 45px;
-  width: 152px;
-  margin: 0 10px 10px 0;
+  height: 2.813rem;
+  width: 9.5rem;
+  margin: 0 0.625rem 0.625rem 0;
 
   @media (max-width: 769px) {
     width: 100%;
@@ -143,10 +144,10 @@ const SusiDeviceImg = styled.img`
   text-align: left;
   width: 60%;
   margin-left: 10%;
-  max-width: 313px;
+  max-width: 19.563rem;
 
   @media (max-width: 769px) {
-    margin-left: 0px;
+    margin-left: 0rem;
   }
 `;
 

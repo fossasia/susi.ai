@@ -15,22 +15,23 @@ const Section = styled.div`
   max-width: none;
   position: relative;
   align-items: center;
-  box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+  box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff,
+    inset 0 -12.5rem 12.5rem -12.5rem #fff;
   display: flex;
   max-width: 100%;
-  width: 1050px;
-  padding: 50px 20px 140px 20px;
+  width: 65.625rem;
+  padding: 3.125rem 1.25rem 8.75rem 1.25rem;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 0.063rem solid #dfdfdf;
 
   @media (max-width: 1000px) {
-    padding: 50px 20px 140px 20px;
+    padding: 3.125rem 1.25rem 8.75rem 1.25rem;
     width: 95%;
   }
 
   @media (max-width: 800px) {
-    padding: 50px 0px 140px 0px;
+    padding: 3.125rem 0rem 8.75rem 0rem;
   }
 
   @media (max-width: 480px) {
@@ -39,17 +40,17 @@ const Section = styled.div`
 `;
 
 const Card = styled(_Card)`
-  margin: 10px 10px 0 0;
-  max-width: 235px;
+  margin: 0.625rem 0.625rem 0 0;
+  max-width: 14.688rem;
 
   @media (max-width: 1000px) {
-    max-width: 240px;
+    max-width: 15rem;
   }
 
   @media (max-width: 800px) {
     max-width: 100%;
     width: 30%;
-    margin: 10px auto;
+    margin: 0.625rem auto;
   }
 
   @media (max-width: 480px) {
@@ -58,10 +59,10 @@ const Card = styled(_Card)`
 `;
 
 const Img = styled.img`
-  max-width: 235px;
+  max-width: 14.688rem;
 
   @media (max-width: 1000px) {
-    max-width: 240px;
+    max-width: 15rem;
   }
 
   @media (max-width: 800px) {
@@ -77,13 +78,13 @@ const TeamContainer = styled.div`
 
 const Heading = styled.div`
   color: #414141;
-  font: 300 34px/40px sans-serif;
+  font: 300 2.125rem/2.5rem sans-serif;
   letter-spacing: -0.01em;
-  margin: 40px 0 20px;
+  margin: 2.5rem 0 1.25rem;
   text-align: left;
 
   @media (max-width: 1000px) {
-    font-size: 36px;
+    font-size: 2.25rem;
     margin-top: 0;
   }
 
@@ -119,14 +120,14 @@ const Text = styled.div`
   opacity: 1;
   white-space: nowrap;
   color: white;
-  font-size: 20px;
+  font-size: 1.25rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
   @media (max-width: 480px) {
-    margin: 0px -10px 2px 0px;
+    margin: 0rem -0.625rem 0.125rem 0rem;
   }
 `;
 
