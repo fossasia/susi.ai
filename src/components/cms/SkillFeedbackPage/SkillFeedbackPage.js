@@ -19,7 +19,6 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
@@ -30,6 +29,7 @@ import styled, { css } from 'styled-components';
 import { urls, parseDate, formatDate } from '../../../utils';
 import { Paper, CenterReaderContainer } from '../../shared/Container';
 import { SubTitle, Title } from '../../shared/Typography';
+import CircularLoader from '../../shared/CircularLoader';
 
 const LEFT_PAGE = 'LEFT';
 const RIGHT_PAGE = 'RIGHT';
@@ -690,16 +690,7 @@ class SkillFeedbackPage extends Component {
         </Container>
       );
     } else {
-      renderElement = (
-        <div>
-          <h1 className="skill_loading_container">
-            <div className="center">
-              <CircularProgress size={62} color="primary" />
-              <h4>Loading</h4>
-            </div>
-          </h1>
-        </div>
-      );
+      renderElement = <CircularLoader />;
     }
     return <div>{renderElement}</div>;
   }

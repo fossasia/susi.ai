@@ -8,7 +8,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
@@ -20,6 +19,7 @@ import { urls } from '../../../utils';
 import githubLogo from '../../../images/github-logo.png';
 import CloseButton from '../../shared/CloseButton';
 import styled from 'styled-components';
+import CircularLoader from '../../shared/CircularLoader';
 
 const UnderlineLink = styled.a`
   text-decoration: none;
@@ -136,11 +136,7 @@ class AuthorSkills extends Component {
     }
     let renderElement = null;
     if (loading === true) {
-      renderElement = (
-        <div style={{ textAlign: 'center' }}>
-          <CircularProgress size={44} />
-        </div>
-      );
+      renderElement = <CircularLoader size={44} height={5} />;
     } else {
       renderElement = (
         <div>

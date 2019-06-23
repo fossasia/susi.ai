@@ -16,7 +16,6 @@ import SkillFeedbackCard from '../SkillFeedbackCard/SkillFeedbackCard';
 import { Paper as _Paper } from '../../shared/Container';
 import { Title } from '../../shared/Typography';
 import Fab from '@material-ui/core/Fab';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Ratings from 'react-ratings-declarative';
 import { reportSkill } from '../../../apis';
 import { CenterReaderContainer } from '../../shared/Container';
@@ -31,8 +30,7 @@ import _NavigateUp from '@material-ui/icons/ExpandLess';
 import ReactTooltip from 'react-tooltip';
 import { urls, parseDate } from '../../../utils';
 import styled, { css } from 'styled-components';
-
-import './SkillListing.css';
+import CircularLoader from '../../shared/CircularLoader';
 
 const SingleRating = styled.div`
   display: flex;
@@ -340,16 +338,7 @@ class SkillListing extends Component {
       );
     }
     if (loadingSkill === true) {
-      renderElement = (
-        <div>
-          <h1 className="skill_loading_container">
-            <div className="center">
-              <CircularProgress size={62} color="primary" />
-              <h4>Loading</h4>
-            </div>
-          </h1>
-        </div>
-      );
+      renderElement = <CircularLoader />;
     } else {
       renderElement = (
         <Container>
