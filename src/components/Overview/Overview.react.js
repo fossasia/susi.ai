@@ -40,20 +40,20 @@ const commonDesc = css`
   text-align: left;
   color: #414141;
   font-family: sans-serif;
-  margin-bottom: 10px;
-  font-size: 43px;
+  margin-bottom: 0.625rem;
+  font-size: 2.688rem;
   font-weight: 100;
-  margin: 20px 0;
+  margin: 1.25rem 0;
 
   @media (max-width: 1139px) {
-    font-size: 36px;
+    font-size: 2.25rem;
   }
 
   @media (max-width: 1000px) {
-    font-size: 36px;
+    font-size: 2.25rem;
     margin-top: 0;
     text-align: center;
-    line-height: 40px;
+    line-height: 2.5rem;
   }
 `;
 
@@ -62,13 +62,13 @@ const commonDeviceStore = css`
   text-indent: 100%;
   white-space: nowrap;
   float: left;
-  height: 45px;
-  width: 152px;
+  height: 2.813rem;
+  width: 9.5rem;
 
   @media (max-width: 1000px) {
     display: block;
     float: none;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 0.625rem auto;
     max-width: 100%;
     width: 50%;
     background-size: contain;
@@ -82,20 +82,21 @@ const commonImg = css`
 
 const commonSection = css`
   margin: 0 auto;
-  padding: 100px 60px;
+  padding: 6.25rem 3.75rem;
   position: relative;
   max-width: 85%;
   align-items: center;
-  box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+  box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff,
+    inset 0 -12.5rem 12.5rem -12.5rem #fff;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: 1px solid #dfdfdf;
-  width: 1050px;
+  border-bottom: 0.063rem solid #dfdfdf;
+  width: 65.625rem;
 
   @media (max-width: 1080px) {
-    max-width: 940px;
-    padding-left: 20px;
+    max-width: 58.75rem;
+    padding-left: 1.25rem;
   }
 
   @media (max-width: 1000px) {
@@ -103,7 +104,7 @@ const commonSection = css`
   }
 
   @media (max-width: 480px) {
-    padding: 20px 0 0 0;
+    padding: 1.25rem 0 0 0;
     width: 90%;
     margin: 0 auto;
   }
@@ -111,17 +112,17 @@ const commonSection = css`
 
 const VideoModal = styled(Modal)`
   position: absolute;
-  top: 46px;
-  left: 40px;
-  right: 40px;
+  top: 2.875rem;
+  left: 2.5rem;
+  right: 2.5rem;
   background-color: #000;
   width: 75%;
   margin: 0 auto;
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 3.75rem rgba(0, 0, 0, 0.07);
 
   @media (max-width: 1000px) {
-    left: 20px;
-    right: 20px;
+    left: 1.25rem;
+    right: 1.25rem;
     width: 90%;
   }
 `;
@@ -129,7 +130,7 @@ const VideoModal = styled(Modal)`
 const VideoContainer = styled.div`
   position: relative;
   padding-bottom: 56.25%;
-  padding-top: 30px;
+  padding-top: 1.875rem;
   height: 0;
   overflow: hidden;
 `;
@@ -144,36 +145,36 @@ const Iframe = styled.iframe`
 `;
 
 const Container = styled.div`
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 0.063rem solid #dfdfdf;
   margin: 0 auto;
-  padding: 0px 20px;
+  padding: 0rem 1.25rem;
   position: relative;
   text-align: center;
   max-width: 85%;
-  width: 1050px;
+  width: 65.625rem;
 
   @media (max-width: 1000px) {
     margin: 0 auto;
-    padding: 20px;
+    padding: 1.25rem;
     width: 90%;
   }
 `;
 
 const SectionContainer = styled.div`
   margin: 0 auto;
-  padding: 100px 20px 80px 20px;
+  padding: 6.25rem 1.25rem 5rem 1.25rem;
   position: relative;
   text-align: center;
   max-width: 85%;
-  width: 935px;
-  padding-top: 80px;
+  width: 58.438rem;
+  padding-top: 5rem;
 
   @media (max-width: 1000px) {
-    padding: 60px 20px;
+    padding: 3.75rem 1.25rem;
   }
 
   @media (max-width: 480px) {
-    padding: 35px 0px;
+    padding: 2.188rem 0rem;
   }
 `;
 
@@ -181,21 +182,21 @@ const PlayCircleLink = styled.a`
   color: #3367d6;
   cursor: pointer;
   position: relative;
-  line-height: 24px;
+  line-height: 1.5rem;
   display: block;
 `;
 
 const WatchSpan = styled.span`
   position: absolute;
-  margin-top: 1px;
-  left: 31px;
-  right: 0px;
+  margin-top: 0.063rem;
+  left: 1.938rem;
+  right: 0rem;
   font-weight: 600;
 `;
 
 const PlayCircle = styled(_PlayCircle)`
   fill: #3367d6;
-  margin-right: 50px;
+  margin-right: 3.125rem;
 `;
 
 const Section = styled.div`
@@ -225,23 +226,23 @@ const DescriptionHeading = styled.div`
 
 const CustomDescriptionHeading = styled.div`
   ${commonDesc};
-  font: 300 24px/32px sans-serif;
+  font: 300 1.5rem/2rem sans-serif;
 `;
 
 const DescriptionText = styled.p`
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 300;
-  line-height: 40px;
-  max-width: 440px;
+  line-height: 2.5rem;
+  max-width: 27.5rem;
   color: #414141;
   font-family: sans-serif;
   margin-left: 1%;
   max-width: 100%;
 
   @media (max-width: 1000px) {
-    font-size: 16px;
+    font-size: 1rem;
     text-align: center;
-    line-height: 24px;
+    line-height: 1.5rem;
   }
 `;
 
@@ -251,12 +252,12 @@ const ImgContainer = styled.div`
 
   @media (max-width: 1000px) {
     max-width: 100%;
-    margin: 0 auto 20px auto;
-    padding: 0px;
+    margin: 0 auto 1.25rem auto;
+    padding: 0rem;
   }
 
   @media (max-width: 480px) {
-    margin: 0 auto 50px auto;
+    margin: 0 auto 3.125rem auto;
     width: 60%;
   }
 `;
@@ -267,12 +268,12 @@ const CustomImgContainer = styled.div`
 
   @media (max-width: 1000px) {
     max-width: 100%;
-    margin: 0 auto 20px auto;
-    padding: 0px;
+    margin: 0 auto 1.25rem auto;
+    padding: 0rem;
   }
 
   @media (max-width: 480px) {
-    margin: 0 auto 30px auto;
+    margin: 0 auto 1.875rem auto;
     width: 90%;
   }
 `;
@@ -294,10 +295,10 @@ const RowDiv = styled.div`
 const ColumnSection = styled.div`
   width: 30%;
   margin: 0 1% 0 0;
-  min-height: 750px;
+  min-height: 46.875rem;
 
   @media (max-width: 480px) {
-    min-height: 500px;
+    min-height: 31.25rem;
     width: 100%;
   }
 `;
@@ -306,12 +307,12 @@ const SusiTestImg = styled.img`
   text-align: left;
   width: 60%;
   margin-left: 30%;
-  max-width: 313px;
+  max-width: 19.563rem;
 
   @media (max-width: 1000px) {
     max-width: 100%;
     text-align: center;
-    width: 400px;
+    width: 25rem;
     margin: 0rem;
   }
 `;
@@ -321,7 +322,7 @@ const AndroidMockupImg = styled.img`
   margin-left: 30%;
 
   @media (max-width: 1000px) {
-    max-width: 400px;
+    max-width: 25rem;
     margin-left: 0%;
     width: 100%;
   }
@@ -329,12 +330,12 @@ const AndroidMockupImg = styled.img`
 
 const BotsMockupImg = styled.img`
   ${commonImg};
-  padding: 10px;
+  padding: 0.625rem;
 `;
 
 const PlayStore = styled.a`
   ${commonDeviceStore};
-  margin: 0 10px 10px 0;
+  margin: 0 0.625rem 0.625rem 0;
   background: url(${googlePlay}) center center no-repeat;
   background-size: contain;
 `;
@@ -343,22 +344,22 @@ const AppStore = styled.a`
   ${commonDeviceStore};
   background: url(${appStore}) center center no-repeat;
   background-size: cover;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const ShieldImg = styled.img`
-  width: 250px;
-  padding: 10px;
+  width: 15.625rem;
+  padding: 0.625rem;
   margin: 0 auto;
   display: block;
 
   @media (max-width: 1000px) {
-    margin: 0 auto 60px auto;
-    padding: 30px 0px 10px 0;
+    margin: 0 auto 3.75rem auto;
+    padding: 1.875rem 0rem 0.625rem 0;
   }
 
   @media (max-width: 480px) {
-    margin: 0 auto 50px auto;
+    margin: 0 auto 3.125rem auto;
     width: 100%;
   }
 `;
@@ -368,62 +369,63 @@ const OpenSourceLogos = styled.div`
   height: 100%;
 
   @media (max-width: 1000px) {
-    width: 480px;
+    width: 30rem;
     margin: 0 auto;
     text-align: center;
   }
 
   @media (max-width: 480px) {
-    width: 170px;
+    width: 10.625rem;
   }
 `;
 
 const OpenSource = styled.span`
-  height: 85px;
+  height: 5.313rem;
   display: inline-block;
   vertical-align: middle;
 
   @media (max-width: 480px) {
-    height: 60px;
+    height: 3.75rem;
   }
 `;
 
 const GithubLogo = styled.span`
-  height: 60px;
+  height: 3.75rem;
   vertical-align: middle;
   display: inline-block;
 
   @media (max-width: 480px) {
-    height: 40px;
+    height: 2.5rem;
     margin-left: 0;
   }
 `;
 
 const SectionCenter = styled.div`
   margin: 0 auto;
-  padding: 100px 60px;
+  padding: 6.25rem 3.75rem;
   position: relative;
-  max-width: 1050px;
+  max-width: 65.625rem;
   align-items: center;
-  box-shadow: inset 0 200px 200px -200px #fff, inset 0 -200px 200px -200px #fff;
+  box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff,
+    inset 0 -12.5rem 12.5rem -12.5rem #fff;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 0.063rem solid #dfdfdf;
   width: 100%;
 
   @media (max-width: 1080px) {
-    max-width: 940px;
-    padding-left: 20px;
+    max-width: 58.75rem;
+    padding-left: 1.25rem;
   }
 
   @media (max-width: 1000px) {
-    padding: 60px 0px;
+    padding: 3.75rem 0rem;
     width: 90%;
   }
 
   @media (max-width: 480px) {
-    padding: 20px 0 0 0;
+    padding: 1.25rem 0 0 0;
     width: 90%;
     margin: 0 auto;
   }
@@ -442,30 +444,30 @@ const CenterDescription = styled.div`
 const SkillWikiImg = styled.img`
   ${commonImg};
   @media (max-width: 480px) {
-    max-width: 400px;
+    max-width: 25rem;
     width: 100%;
   }
 `;
 
 const GithubImg = styled.img`
-  margin-left: 20px;
-  height: 60px;
+  margin-left: 1.25rem;
+  height: 3.75rem;
   vertical-align: middle;
   display: inline-block;
 
   @media (max-width: 480px) {
-    height: 40px;
+    height: 2.5rem;
     margin-left: 0;
   }
 `;
 
 const OpenSourceImg = styled.img`
-  height: 85px;
+  height: 5.313rem;
   display: inline-block;
   vertical-align: middle;
 
   @media (max-width: 480px) {
-    height: 60px;
+    height: 3.75rem;
   }
 `;
 
@@ -473,43 +475,43 @@ const CloseIcon = styled(Close)`
   position: absolute;
   z-index: 120000;
   fill: #fff;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   right: 1.5%;
-  top: 20px;
+  top: 1.25rem;
   cursor: pointer;
 `;
 
 const MeetSusiImg = styled.img`
   ${commonImg};
-  margin: 20px 0px;
+  margin: 1.25rem 0rem;
 `;
 
 const Heading = styled.h1`
-  font-size: 42px;
+  font-size: 2.625rem;
   font-weight: 100;
   margin: 0 auto;
-  max-width: 880px;
+  max-width: 55rem;
   font-family: sans-serif;
 
   @media (max-width: 1000px) {
-    font-size: 36px;
-    line-height: 42px;
+    font-size: 2.25rem;
+    line-height: 2.625rem;
   }
 `;
 
 const Para = styled.p`
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 300;
-  line-height: 32px;
-  margin: 15px auto;
-  max-width: 430px;
+  line-height: 2rem;
+  margin: 0.938rem auto;
+  max-width: 26.875rem;
   color: #414141;
   font-family: sans-serif;
 
   @media (max-width: 1000px) {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 `;
 
@@ -518,13 +520,13 @@ const SafeAndSecureSection = styled.div`
   border-bottom: none;
 
   @media (max-width: 1000px) {
-    padding: 100px 0 100px 0px;
+    padding: 6.25rem 0 6.25rem 0rem;
     width: 90%;
     margin: 0 auto;
   }
 
   @media (max-width: 480px) {
-    padding: 20px 0 0 0;
+    padding: 1.25rem 0 0 0;
   }
 `;
 

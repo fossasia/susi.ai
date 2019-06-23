@@ -27,10 +27,10 @@ const GrayWrapper = styled.div`
 
 const WhiteGrayWrapper = styled.div`
   max-width: 85%;
-  width: 935px;
+  width: 58.438rem;
   margin: 0 auto;
   max-width: none;
-  padding: 50px 20px 50px 20px;
+  padding: 3.125rem 1.25rem 3.125rem 1.25rem;
   position: relative;
   align-items: center;
   display: -ms-flexbox;
@@ -40,7 +40,7 @@ const WhiteGrayWrapper = styled.div`
   justify-content: space-between;
 
   @media (max-width: 480px) {
-    padding: 70px 20px;
+    padding: 4.375rem 1.25rem;
   }
 `;
 
@@ -48,7 +48,7 @@ const ConversationDescription = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
-    margin-top: 20px;
+    margin-top: 1.25rem;
   }
 `;
 
@@ -63,13 +63,13 @@ const FooterDescription = styled.div`
 
 const SupportHeading = styled.div`
   color: #414141;
-  font: 300 34px/40px sans-serif;
+  font: 300 2.125rem/2.5rem sans-serif;
   letter-spacing: -0.01em;
-  margin: 40px 0 20px;
+  margin: 2.5rem 0 1.25rem;
   text-align: left;
 
   @media (max-width: 1000px) {
-    font-size: 36px;
+    font-size: 2.25rem;
     margin-top: 0;
   }
 
@@ -83,15 +83,15 @@ const SupportDescription = styled.div`
   flex: 1 1 auto;
   flex-direction: column;
   font-family: sans-serif;
-  margin-left: 30px;
+  margin-left: 1.875rem;
   font-weight: 300;
   text-decoration: none;
 `;
 
 const SupportDescriptionContent = styled.div`
   text-align: left;
-  font-size: 16px;
-  line-height: 22px;
+  font-size: 1rem;
+  line-height: 1.375rem;
 `;
 
 const Section = styled.div`
@@ -100,7 +100,7 @@ const Section = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 0.063rem solid #dfdfdf;
   margin: 0 auto;
   max-width: 85%;
   width: 60%;
@@ -110,29 +110,29 @@ const Section = styled.div`
   }
 
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: 1.25rem;
   }
 `;
 
 const SupportItemIconContainer = styled.div`
   height: auto;
-  width: 40px;
+  width: 2.5rem;
 `;
 
 const SupportItemIcon = styled.img`
-  font-size: 40px;
+  font-size: 2.5rem;
   height: auto;
-  margin-left: 4px;
-  width: 40px;
+  margin-left: 0.25rem;
+  width: 2.5rem;
   border: 0;
   max-width: 100%;
 `;
 
 const SupportText = styled.p`
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 300;
-  line-height: 32px;
-  max-width: 740px;
+  line-height: 2rem;
+  max-width: 46.25rem;
   color: #414141;
   font-family: sans-serif;
 
@@ -141,8 +141,8 @@ const SupportText = styled.p`
   }
 
   @media (max-width: 800px) {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 `;
 
@@ -156,7 +156,7 @@ const ImgContainer = styled.div`
 
 const RowGroup = styled.div`
   display: flex;
-  margin: 30px 0;
+  margin: 1.875rem 0;
 
   @media (max-width: 1000px) {
     display: block;
@@ -169,7 +169,7 @@ const RowGroup = styled.div`
 
 const RowDescription = styled.div`
   display: flex;
-  margin: 10px 0px;
+  margin: 0.625rem 0rem;
 `;
 
 const SignUpWrapper = styled.div`
@@ -181,24 +181,24 @@ const SignUpFooter = styled.div`
   text-align: center;
   box-shadow: none;
   display: block;
-  padding: 50px 20px 50px 20px;
+  padding: 3.125rem 1.25rem 3.125rem 1.25rem;
 
   @media (min-width: 1400px) {
     position: relative;
-    top: 100px;
-    padding: 0 0 150px 0;
+    top: 6.25rem;
+    padding: 0 0 9.375rem 0;
   }
 
   @media (max-width: 1000px) {
-    padding: 50px 20px 50px 20px;
+    padding: 3.125rem 1.25rem 3.125rem 1.25rem;
   }
 `;
 
 const FooterHeading = styled.div`
   text-align: center;
-  margin: 0px auto;
+  margin: 0rem auto;
   color: #f2f2f2;
-  font: 300 34px/40px sans-serif;
+  font: 300 2.125rem/2.5rem sans-serif;
   letter-spacing: -0.01em;
 `;
 
@@ -210,7 +210,7 @@ const SupportImg = styled.img`
   @media (max-width: 800px) {
     display: inline-block;
     width: 40%;
-    padding: 50px;
+    padding: 3.125rem;
   }
 `;
 
@@ -223,13 +223,13 @@ const Heading = styled.div`
 `;
 
 const Button = styled(_Button)`
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 1.563rem;
+  margin-bottom: 1.563rem;
 `;
 
 const H3 = styled.h3`
-  font: 400 20px/32px Roboto, sans-serif;
-  margin: 0 0 12px;
+  font: 400 1.25rem/2rem Roboto, sans-serif;
+  margin: 0 0 0.75rem;
   padding: 0;
   text-align: left;
   color: #039be5;
