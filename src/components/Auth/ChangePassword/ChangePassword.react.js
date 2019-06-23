@@ -301,9 +301,11 @@ class ChangePassword extends Component {
           </FormControl>
         </div>
         <ForgotPasswordLink>
-          <a onClick={() => actions.openModal({ modalType: 'forgotPassword' })}>
+          <div
+            onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
+          >
             Forgot your password?
-          </a>
+          </div>
         </ForgotPasswordLink>
         <div>
           <Button

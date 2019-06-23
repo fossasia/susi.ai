@@ -19,22 +19,30 @@ import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Ratings from 'react-ratings-declarative';
 import { reportSkill } from '../../../apis';
+import { CenterReaderContainer } from '../../shared/Container';
 
 // Static Assets
 import CircleImage from '../../CircleImage/CircleImage';
 import EditBtn from '@material-ui/icons/Edit';
 import VersionBtn from '@material-ui/icons/History';
 import DeleteBtn from '@material-ui/icons/Delete';
-import NavigateDown from '@material-ui/icons/ExpandMore';
-import NavigateUp from '@material-ui/icons/ExpandLess';
+import _NavigateDown from '@material-ui/icons/ExpandMore';
+import _NavigateUp from '@material-ui/icons/ExpandLess';
 import ReactTooltip from 'react-tooltip';
 import { urls, parseDate } from '../../../utils';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import './SkillListing.css';
 
-const HomeDiv = styled.div`
+const SingleRating = styled.div`
+  display: flex;
+  cursor: pointer;
+  width: fit-content;
+`;
+
+const Container = styled(CenterReaderContainer)`
   font-size: 0.875rem;
+  margin-top: 5rem;
 `;
 
 const AuthorSpan = styled.span`
@@ -44,6 +52,38 @@ const AuthorSpan = styled.span`
 
 const Paper = styled(_Paper)`
   width: 100%;
+`;
+
+const ArrowExampleIconStyle = css`
+  width: 9px;
+  position: relative;
+  bottom: 3px;
+  fill: #555656;
+  width: 0.75rem;
+`;
+
+const NavigateUp = styled(_NavigateUp)`
+  ${ArrowExampleIconStyle};
+`;
+
+const NavigateDown = styled(_NavigateDown)`
+  ${ArrowExampleIconStyle};
+`;
+
+const ExampleWrapper = styled.div`
+  width: 55%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+`;
+
+const ExampleContainer = styled.div`
+  min-height: 150px;
+  margin-bottom: 1rem;
+  @media (max-width: 768px) {
+    display: flex;
+    min-height: 0px;
+  }
 `;
 
 const ExampleComment = styled.div`
@@ -83,6 +123,54 @@ const ExampleComment = styled.div`
     border-width: 0 0 12px 25px;
     border-style: solid;
     border-color: #f4f6f6 transparent transparent #f4f6f6;
+  }
+`;
+
+const MoreExamplesContainer = styled.div`
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+`;
+
+const SkillImage = styled.img.attrs({
+  alt: 'Thumbnail',
+})`
+  height: 200px;
+  width: auto;
+  @media (max-width: 768px) {
+    display: inline;
+  }
+`;
+
+const SkillHeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const RatingLabel = styled.div`
+  font-size: 14px;
+  margin-left: 4px;
+  font-weight: bold;
+`;
+
+const AvatarContainer = styled.div`
+  padding-right: 40px;
+  font-size: 48px;
+  float: left;
+  @media (max-width: 768px) {
+    float: none;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  > div {
+    margin: 5px;
   }
 `;
 
@@ -240,21 +328,15 @@ class SkillListing extends Component {
     let renderElement = null;
     if (examples.length > 4) {
       seeMoreSkillExamples = seeMoreSkillExamples ? (
-        <div className="skill-read-more-container">
+        <MoreExamplesContainer>
           <p style={{ fontSize: '0.75rem' }}>See more examples</p>
-          <NavigateDown
-            style={{ fill: '#555656', width: '0.75rem' }}
-            className="skill-example-more-icon"
-          />
-        </div>
+          <NavigateDown />
+        </MoreExamplesContainer>
       ) : (
-        <div className="skill-read-more-container">
+        <MoreExamplesContainer>
           <p style={{ fontSize: '0.75rem' }}>Less</p>
-          <NavigateUp
-            style={{ fill: '#555656', width: '0.75rem' }}
-            className="skill-example-more-icon"
-          />
-        </div>
+          <NavigateUp />
+        </MoreExamplesContainer>
       );
     }
     if (loadingSkill === true) {
@@ -270,231 +352,205 @@ class SkillListing extends Component {
       );
     } else {
       renderElement = (
-        <div>
-          <HomeDiv className="skill_listing_container">
-            <div className="avatar">
-              {!image ? (
-                <CircleImage name={skillName.toUpperCase()} size="250" />
-              ) : (
-                <img className="avatar-img" alt="Thumbnail" src={imgUrl} />
-              )}
+        <Container>
+          <AvatarContainer>
+            {!image ? (
+              <CircleImage name={skillName.toUpperCase()} size="250" />
+            ) : (
+              <SkillImage alt="Thumbnail" src={imgUrl} />
+            )}
+          </AvatarContainer>
+          <SkillHeaderContainer>
+            <div>
+              <h1 className="name">{this.skillName}</h1>
+              <h4>
+                by{' '}
+                <AuthorSpan onClick={this.openAuthorSkills}>
+                  {author}
+                </AuthorSpan>
+              </h4>
+              <SingleRating>
+                <Ratings
+                  rating={skillRatings.avgStar}
+                  widgetRatedColors="#ffbb28"
+                  widgetDimensions="1.25rem"
+                  widgetSpacings="0rem"
+                >
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                  <Ratings.Widget />
+                </Ratings>
+                <RatingLabel>{skillRatings.totalStar}</RatingLabel>
+              </SingleRating>
             </div>
-            <div className="skillHeaderContainer">
-              <div>
-                <h1 className="name">{this.skillName}</h1>
-                <h4>
-                  by{' '}
-                  <AuthorSpan onClick={this.openAuthorSkills}>
-                    {author}
-                  </AuthorSpan>
-                </h4>
-                <a className="singleRating" href="#rating">
-                  <Ratings
-                    rating={skillRatings.avgStar}
-                    widgetRatedColors="#ffbb28"
-                    widgetDimensions="1.25rem"
-                    widgetSpacings="0rem"
+            <ButtonContainer>
+              {isAdmin === true && (
+                <div>
+                  <Fab
+                    onClick={this.handleDeleteDialog}
+                    data-tip="Delete Skill"
+                    style={{ backgroundColor: '#f44336' }}
                   >
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                    <Ratings.Widget />
-                  </Ratings>
-                  <div className="ratingLabel">{skillRatings.totalStar}</div>
-                </a>
+                    <DeleteBtn />
+                  </Fab>
+                  <ReactTooltip effect="solid" place="bottom" />
+                </div>
+              )}
+              <div>
+                <Link
+                  to={{
+                    pathname: editLink,
+                  }}
+                >
+                  <Fab data-tip="Edit Skill" color="primary">
+                    <EditBtn />
+                  </Fab>
+                  <ReactTooltip effect="solid" place="bottom" />
+                </Link>
               </div>
-              <div className="linkButtons">
-                {isAdmin === true && (
-                  <div className="skillDeleteBtn">
-                    <Fab
-                      onClick={this.handleDeleteDialog}
-                      data-tip="Delete Skill"
-                      style={{ backgroundColor: '#f44336' }}
-                    >
-                      <DeleteBtn />
+              <div>
+                <Link
+                  to={{
+                    pathname: versionsLink,
+                  }}
+                >
+                  <div>
+                    <Fab data-tip="Skill Versions" color="primary">
+                      <VersionBtn />
                     </Fab>
                     <ReactTooltip effect="solid" place="bottom" />
                   </div>
-                )}
-                <div>
-                  <Link
-                    to={{
-                      pathname: editLink,
-                    }}
-                  >
-                    <Fab data-tip="Edit Skill" color="primary">
-                      <EditBtn />
-                    </Fab>
-                    <ReactTooltip effect="solid" place="bottom" />
-                  </Link>
-                </div>
-                <div>
-                  <Link
-                    to={{
-                      pathname: versionsLink,
-                    }}
-                  >
-                    <div className="skillVersionBtn">
-                      <Fab data-tip="Skill Versions" color="primary">
-                        <VersionBtn />
-                      </Fab>
-                      <ReactTooltip effect="solid" place="bottom" />
-                    </div>
-                  </Link>
-                </div>
+                </Link>
               </div>
+            </ButtonContainer>
+          </SkillHeaderContainer>
+          <ExampleContainer>
+            <ExampleWrapper>
+              {examples &&
+                examples[Object.keys(examples)[0]] &&
+                examples.slice(0, skillExampleCount).map((data, index) => {
+                  return (
+                    <ExampleComment
+                      key={index}
+                      className="example-comment"
+                      onClick={event =>
+                        this.props.history.push({
+                          pathname: '/chat',
+                          search: `?testExample=${data}`,
+                        })
+                      }
+                    >
+                      <q>{data}</q>
+                    </ExampleComment>
+                  );
+                })}
+            </ExampleWrapper>
+            <div
+              className="skill-example-see-more"
+              onClick={this.toggleSkillExamples}
+            >
+              {seeMoreSkillExamples}
             </div>
-            <div className="avatar-meta margin-b-md">
-              <div className="example-container">
-                {examples &&
-                  examples[Object.keys(examples)[0]] &&
-                  examples.slice(0, skillExampleCount).map((data, index) => {
-                    return (
-                      <ExampleComment
-                        key={index}
-                        className="example-comment"
-                        onClick={event =>
-                          this.props.history.push({
-                            pathname: '/chat',
-                            search: `?testExample=${data}`,
-                          })
-                        }
-                      >
-                        <q>{data}</q>
-                      </ExampleComment>
-                    );
-                  })}
-              </div>
-              <div
-                className="skill-example-see-more"
-                onClick={this.toggleSkillExamples}
+          </ExampleContainer>
+          <Paper>
+            <Title>Description</Title>
+            <p>{descriptions}</p>
+            {dynamicContent && (
+              <p>
+                This skill contains dynamic content that is updated in real time
+                based on inputs from the user.
+              </p>
+            )}
+
+            {termsOfUse && termsOfUse !== '<link>' && (
+              <a href={termsOfUse} target="_blank" rel="noopener noreferrer">
+                Terms & Conditions
+              </a>
+            )}
+
+            {developerPrivacyPolicy && developerPrivacyPolicy !== '<link>' && (
+              <a
+                href={developerPrivacyPolicy}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {seeMoreSkillExamples}
-              </div>
-            </div>
-            <Paper>
-              <Title>Description</Title>
-              <p className="card-content">{descriptions}</p>
-              {dynamicContent && (
-                <div className="card-content">
-                  <p>
-                    This skill contains dynamic content that is updated in real
-                    time based on inputs from the user.
-                  </p>
-                </div>
-              )}
-
-              {termsOfUse && termsOfUse !== '<link>' && (
-                <div className="card-content">
-                  <a
-                    href={termsOfUse}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Terms & Conditions
-                  </a>
-                </div>
-              )}
-
-              {developerPrivacyPolicy && developerPrivacyPolicy !== '<link>' && (
-                <div className="card-content">
-                  <a
-                    href={developerPrivacyPolicy}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Developer Privacy Policy
-                  </a>
-                </div>
-              )}
-            </Paper>
-            <Paper>
-              <Title>Skill Details</Title>
-              <div className="card-content">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>Category: </td>
-                      <td>
-                        <Link to={`/skills/category/${this.groupValue}`}>
-                          {this.groupValue}
+                Developer Privacy Policy
+              </a>
+            )}
+          </Paper>
+          <Paper>
+            <Title>Skill Details</Title>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Category: </td>
+                  <td>
+                    <Link to={`/skills/category/${this.groupValue}`}>
+                      {this.groupValue}
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Language: </td>
+                  <td>
+                    <Link to={`/skills/language/${this.languageValue}`}>
+                      {ISO6391.getNativeName(this.languageValue)}
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Updated on: </td>
+                  <td>{` ${parseDate(lastModifiedTime)}`}</td>
+                </tr>
+                <tr>
+                  <td>Languages supported:</td>
+                  <td>
+                    {supportedLanguages.map((data, index) => {
+                      const delimiter =
+                        supportedLanguages.length === index + 1 ? null : ', ';
+                      return (
+                        <Link
+                          key={index}
+                          onClick={this.forceUpdate}
+                          to={`/skills/${this.groupValue}/${data.name}/${data.language}`}
+                        >
+                          {ISO6391.getNativeName(data.language)}
+                          {delimiter}
                         </Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Language: </td>
-                      <td>
-                        <Link to={`/skills/language/${this.languageValue}`}>
-                          {ISO6391.getNativeName(this.languageValue)}
-                        </Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Updated on: </td>
-                      <td>{` ${parseDate(lastModifiedTime)}`}</td>
-                    </tr>
-                    <tr>
-                      <td>Languages supported:</td>
-                      <td>
-                        {supportedLanguages.map((data, index) => {
-                          const delimiter =
-                            supportedLanguages.length === index + 1
-                              ? null
-                              : ', ';
-                          return (
-                            <Link
-                              key={index}
-                              onClick={this.forceUpdate}
-                              to={`/skills/${this.groupValue}/${data.name}/${data.language}`}
-                            >
-                              {ISO6391.getNativeName(data.language)}
-                              {delimiter}
-                            </Link>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                    {accessToken && (
-                      <tr>
-                        <td>Report: </td>
-                        <td>
-                          <div
-                            style={{ color: '#108ee9', cursor: 'pointer' }}
-                            onClick={this.handleReportSkillDialog}
-                          >
-                            Flag as inappropriate
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                    <tr>
-                      <td>Content Rating: </td>
-                      <td>4+ age</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </Paper>
-            <SkillRatingCard />
-            <SkillFeedbackCard />
-            <SkillUsageCard />
-          </HomeDiv>
-        </div>
+                      );
+                    })}
+                  </td>
+                </tr>
+                {accessToken && (
+                  <tr>
+                    <td>Report: </td>
+                    <td>
+                      <div
+                        style={{ color: '#108ee9', cursor: 'pointer' }}
+                        onClick={this.handleReportSkillDialog}
+                      >
+                        Flag as inappropriate
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr>
+                  <td>Content Rating: </td>
+                  <td>4+ age</td>
+                </tr>
+              </tbody>
+            </table>
+          </Paper>
+          <SkillRatingCard />
+          <SkillFeedbackCard />
+          <SkillUsageCard />
+        </Container>
       );
     }
 
-    return (
-      <div
-        style={{
-          display: 'flex',
-          height: '100%',
-          flexDirection: 'column',
-        }}
-      >
-        <div style={{ flex: '1 0 auto' }}>{renderElement}</div>
-      </div>
-    );
+    return <div>{renderElement}</div>;
   }
 }
 

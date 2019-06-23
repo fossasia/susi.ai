@@ -16,7 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
-import { isProduction } from '../../../utils/helperFunctions';
+import { cookieDomain } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
 import { createMessagePairArray } from '../../../utils/formatMessage';
 import {
@@ -26,8 +26,6 @@ import {
   StyledLink,
   LinkContainer,
 } from '../AuthStyles';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 const cookies = new Cookies();
 
@@ -87,7 +85,7 @@ class Login extends Component {
               .getAdmin({ access_token: payload.accessToken })
               .then(({ payload }) => {
                 this.setCookies({ accessToken, time, uuid, email });
-                if (location.pathname !== '/') {
+                if (location.pathname !== '/chat') {
                   history.push('/');
                 } else {
                   actions.getHistoryFromServer().then(({ payload }) => {
