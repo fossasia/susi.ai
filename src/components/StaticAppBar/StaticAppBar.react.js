@@ -10,33 +10,28 @@ import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
-import Menu from '@material-ui/core/Menu';
 import Translate from '../Translate/Translate.react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import CircleImage from '../CircleImage/CircleImage';
-import Info from '@material-ui/icons/Info';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
 import Link from '../shared/Link';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SignUpIcon from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
-import Chat from '@material-ui/icons/Chat';
-import Dashboard from '@material-ui/icons/Dashboard';
 import Exit from '@material-ui/icons/ExitToApp';
 import susiWhite from '../../images/susi-logo-white.png';
-import Extension from '@material-ui/icons/Extension';
-import Assessment from '@material-ui/icons/Assessment';
-import ListIcon from '@material-ui/icons/List';
-import PeopleIcon from '@material-ui/icons/People';
-import BlogIcon from '@material-ui/icons/ChromeReaderMode';
-import DevicesIcon from '@material-ui/icons/Devices';
-import InfoIcon from '@material-ui/icons/Info';
-import SupportIcon from '@material-ui/icons/Face';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
 import Slide from '@material-ui/core/Slide';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import TopMenu from './TopMenu';
+import LeftMenu from './LeftMenu';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Popper from '@material-ui/core/Popper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Fade from '@material-ui/core/Fade';
+import Paper from '@material-ui/core/Paper';
+import throttle from 'lodash.throttle';
+
 import {
   StyledIconButton,
   UserDetail,
@@ -52,34 +47,6 @@ const BurgerMenuContainer = styled.div`
   }
 `;
 
-const NavLinkContainer = styled.div`
-  display: block;
-  @media (max-width: 800px) {
-    display: none;
-  }
-`;
-
-const NavLink = styled.a`
-  padding: 0px 25px 7px;
-  font: 500;
-  margin: 0 2px;
-  text-transform: none;
-  text-decoration: none;
-  word-spacing: 2px;
-  vertical-align: bottom;
-  color: #ffffff;
-  :hover {
-    color: #ffffff;
-  }
-  ${props =>
-    props.isActive &&
-    css`
-      border-bottom: 2px solid #ffffff;
-      font-weight: 700;
-      padding: 0px 25px 12px;
-    `};
-`;
-
 const TopRightMenuContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -88,51 +55,11 @@ const TopRightMenuContainer = styled.div`
   margin-top: 1px;
 `;
 
-const topLinks = [
-  {
-    label: 'Overview',
-    url: '/',
-    icon: <InfoIcon />,
-  },
-  {
-    label: 'Devices',
-    url: '/devices',
-    icon: <DevicesIcon />,
-  },
-  {
-    label: 'Blog',
-    url: '/blog',
-    icon: <BlogIcon />,
-  },
-  {
-    label: 'Team',
-    url: '/team',
-    icon: <PeopleIcon />,
-  },
-  {
-    label: 'Support',
-    url: '/support',
-    icon: <SupportIcon />,
-  },
-];
-
-const navLinks = topLinks.map((link, index) => {
-  return (
-    <NavLink
-      isActive={window.location.pathname === link.url}
-      key={link.label}
-      href={link.url}
-    >
-      {link.label}
-    </NavLink>
-  );
-});
-
-const TopMenu = () => (
-  <div style={{ marginLeft: '2rem' }}>
-    <NavLinkContainer>{navLinks}</NavLinkContainer>
-  </div>
-);
+const StyledDrawer = styled(({ className, ...props }) => (
+  <Drawer {...props} classes={{ paper: className }} />
+))`
+  width: 10rem;
+`;
 
 const HideOnScroll = ({ children }) => {
   const trigger = useScrollTrigger();
@@ -168,6 +95,7 @@ class StaticAppBar extends Component {
       anchorEl: null,
       drawerOpen: false,
     };
+    this.throttledMenuClose = throttle(this.handleMenuClose, 400);
   }
 
   handleDrawerToggle = () => {
@@ -192,115 +120,40 @@ class StaticAppBar extends Component {
     actions.openModal({ modalType: 'login' });
   };
 
+  componentDidMount() {
+    window.addEventListener('scroll', this.throttledMenuClose);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.throttledMenuClose);
+  }
+
   render() {
     const {
       showPageTabs,
       accessToken,
       email,
       userName,
-      isAdmin,
       avatarImgThumbnail,
       history,
     } = this.props;
     const { anchorEl, drawerOpen } = this.state;
     const open = Boolean(anchorEl);
-    const menuLinks = topLinks.map(link => {
-      return (
-        <ListItem
-          button
-          key={link.label}
-          component={Link}
-          to={link.url}
-          onClick={this.handleDrawerToggle}
-        >
-          <ListItemIcon>{link.icon}</ListItemIcon>
-          <ListItemText primary={link.label} />
-        </ListItem>
-      );
-    });
-    // Check the path to show or not to show top bar left menu
 
     const Logged = props => (
       <div>
         {accessToken && (
-          <Link to="/skills/dashboard">
+          <Link to="/settings">
             <MenuItem onClick={this.handleMenuClose}>
               <ListItemIcon>
-                <Assessment />
+                <Settings />
               </ListItemIcon>
               <ListItemText>
-                <Translate text="Dashboard" />
+                <Translate text="Settings" />
               </ListItemText>
             </MenuItem>
           </Link>
         )}
-
-        <Link to="/chat">
-          <MenuItem>
-            <ListItemIcon>
-              <Chat />
-            </ListItemIcon>
-            <ListItemText>
-              <Translate text="Chat" />
-            </ListItemText>
-          </MenuItem>
-        </Link>
-        <Link to="/skills">
-          <MenuItem onClick={this.handleMenuClose}>
-            <ListItemIcon>
-              <Dashboard />
-            </ListItemIcon>
-            <ListItemText>
-              <Translate text="Skills" />
-            </ListItemText>
-          </MenuItem>
-        </Link>
-        {accessToken && (
-          <div>
-            <Link to="/skills/botbuilder">
-              <MenuItem onClick={this.handleMenuClose}>
-                <ListItemIcon>
-                  <Extension />
-                </ListItemIcon>
-                <ListItemText>
-                  <Translate text="Botbuilder" />
-                </ListItemText>
-              </MenuItem>
-            </Link>
-            <Link to="/settings">
-              <MenuItem onClick={this.handleMenuClose}>
-                <ListItemIcon>
-                  <Settings />
-                </ListItemIcon>
-                <ListItemText>
-                  <Translate text="Settings" />
-                </ListItemText>
-              </MenuItem>
-            </Link>
-          </div>
-        )}
-        <Link to="/">
-          <MenuItem onClick={this.handleMenuClose}>
-            <ListItemIcon>
-              <Info />
-            </ListItemIcon>
-            <ListItemText>
-              <Translate text="About" />
-            </ListItemText>
-          </MenuItem>
-        </Link>
-        {isAdmin ? (
-          <Link to="/admin">
-            <MenuItem onClick={this.handleMenuClose}>
-              <ListItemIcon>
-                <ListIcon />
-              </ListItemIcon>
-              <ListItemText>
-                <Translate text="Admin" />
-              </ListItemText>
-            </MenuItem>
-          </Link>
-        ) : null}
         {accessToken ? (
           <Link to="/logout">
             <MenuItem onClick={this.handleMenuClose}>
@@ -331,6 +184,7 @@ class StaticAppBar extends Component {
     }
     return (
       <div>
+        <CssBaseline />
         <HideOnScroll>
           <AppBar>
             <Toolbar className="app-bar" variant="dense">
@@ -372,26 +226,24 @@ class StaticAppBar extends Component {
                 >
                   <MoreVertIcon />
                 </IconButton>
-                <Menu
-                  id="menu-popper"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={this.handleMenuClose}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  getContentAnchorEl={null}
-                  transitionDuration={0}
-                >
-                  <MenuItem key="placeholder" style={{ display: 'none' }} />
-                  <Logged />
-                </Menu>
+                <Popper open={open} anchorEl={anchorEl} transition>
+                  {({ TransitionProps }) => (
+                    <ClickAwayListener onClickAway={this.handleMenuClose}>
+                      <Fade {...TransitionProps}>
+                        <Paper>
+                          <Logged />
+                        </Paper>
+                      </Fade>
+                    </ClickAwayListener>
+                  )}
+                </Popper>
               </TopRightMenuContainer>
             </Toolbar>
           </AppBar>
         </HideOnScroll>
-        <Drawer open={drawerOpen} onClose={this.handleDrawerToggle}>
-          <List>{menuLinks}</List>
-        </Drawer>
+        <StyledDrawer open={drawerOpen} onClose={this.handleDrawerToggle}>
+          <LeftMenu handleDrawerClose={this.handleDrawerToggle} />
+        </StyledDrawer>
       </div>
     );
   }
