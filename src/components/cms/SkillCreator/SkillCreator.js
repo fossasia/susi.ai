@@ -71,15 +71,6 @@ const DropDownDiv = styled.div`
   flex-wrap: wrap;
 `;
 
-const LoggedInErrorPara = styled.p`
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 6.25rem;
-  font-size: 3.125rem;
-  margin-top: 18.75rem;
-`;
-
 const Heading = styled.div`
   color: rgba(0, 0, 0, 0.65);
   font-size: 1.688rem;
@@ -557,6 +548,7 @@ class SkillCreator extends Component {
     });
   };
 
+  // eslint-disable-next-line complexity
   saveClick = () => {
     const {
       email,
@@ -850,6 +842,7 @@ class SkillCreator extends Component {
     return 'Save';
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const {
       accessToken,
@@ -864,19 +857,6 @@ class SkillCreator extends Component {
     let showTopBar = true;
     if (this.props.hasOwnProperty('showTopBar')) {
       showTopBar = this.props.showTopBar;
-    }
-    if (this.mode === 'create' && !accessToken) {
-      if (this.mode === 'create') {
-        return (
-          <div>
-            <div>
-              <LoggedInErrorPara>
-                Please login to create a skill.
-              </LoggedInErrorPara>
-            </div>
-          </div>
-        );
-      }
     }
 
     return (

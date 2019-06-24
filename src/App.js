@@ -155,7 +155,11 @@ class App extends Component {
                 path="/skills/:category/:skills/:lang/feedbacks"
                 component={SkillFeedbackPage}
               />
-              <Route exact path="/skills/dashboard/" component={Dashboard} />
+              <ProtectedRoute
+                exact
+                path="/skills/dashboard/"
+                component={Dashboard}
+              />
               <Route
                 exact
                 path="/skills/:category/:skill/versions/:lang"
@@ -181,12 +185,15 @@ class App extends Component {
                 path="/skills/:category/:skill/edit/:lang/:commit"
                 component={SkillCreator}
               />
-              <Route
+              <ProtectedRoute
                 exact
                 path="/skills/skillCreator"
                 component={SkillCreator}
               />
-              <Route path="/skills/botbuilder" component={BotBuilderWrap} />
+              <ProtectedRoute
+                path="/skills/botbuilder"
+                component={BotBuilderWrap}
+              />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />
               <Route exact path="/blog" component={Blog} />
