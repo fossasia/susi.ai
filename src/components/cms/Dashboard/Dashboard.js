@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import _Paper from '@material-ui/core/Paper';
 import MySkills from './MySkills';
 import MyRatings from './MyRatings';
@@ -29,28 +27,6 @@ const SubHeading = styled.h1`
   padding-left: 1.25rem;
 `;
 
-const StyledErrorParagraph = styled.p`
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 6.25rem;
-  font-size: 3.125rem;
-  margin: 18.6rem 0;
-  @media (max-width: 886px) {
-    margin: 15rem 0;
-  }
-  @media (max-width: 745px) {
-    margin: 13.5rem 0;
-  }
-  @media (max-width: 520px) {
-    margin: 11.5rem 0;
-  }
-  @media (max-width: 456px) {
-    font-size: 2.1rem;
-    margin: 13rem 0;
-  }
-`;
-
 const Container = styled.div`
   padding: 4rem 4rem 2rem;
   @media (max-width: 855px) {
@@ -59,17 +35,7 @@ const Container = styled.div`
 `;
 
 const Dashboard = props => {
-  const { accessToken } = props;
   document.title = 'SUSI.AI - Dashboard';
-  if (!accessToken) {
-    return (
-      <div>
-        <StyledErrorParagraph>
-          Please login to view dashboard.
-        </StyledErrorParagraph>
-      </div>
-    );
-  }
   return (
     <Container>
       <Heading>My Dashboard</Heading>
@@ -89,17 +55,4 @@ const Dashboard = props => {
   );
 };
 
-Dashboard.propTypes = {
-  accessToken: PropTypes.string,
-};
-
-function mapStateToProps(store) {
-  return {
-    accessToken: store.app.accessToken,
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  null,
-)(Dashboard);
+export default Dashboard;

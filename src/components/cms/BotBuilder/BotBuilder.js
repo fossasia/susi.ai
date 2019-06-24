@@ -34,14 +34,6 @@ const styles = {
     marginTop: '20px',
     overflow: 'overlay',
   },
-  loggedInError: {
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
-    marginBottom: '100px',
-    fontSize: '50px',
-    marginTop: '300px',
-  },
   newBotBtn: {
     color: 'white',
     fontFamily: 'Helvetica',
@@ -324,15 +316,8 @@ class BotBuilder extends React.Component {
   };
 
   render() {
-    const { home, paperStyle, heading, loggedInError, newBotBtn } = styles;
+    const { home, paperStyle, heading, newBotBtn } = styles;
     const { drafts } = this.state;
-    if (!cookies.get('loggedIn')) {
-      return (
-        <div>
-          <p style={loggedInError}>Please login to create a skill bot.</p>
-        </div>
-      );
-    }
 
     return (
       <div>

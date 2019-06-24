@@ -45,14 +45,6 @@ const styles = {
     marginTop: '20px',
     position: 'relative',
   },
-  loggedInError: {
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
-    marginBottom: '100px',
-    fontSize: '50px',
-    marginTop: '300px',
-  },
   chevron: {
     position: 'absolute',
     left: '0',
@@ -454,12 +446,10 @@ class BotWizard extends React.Component {
   };
 
   render() {
-    const { accessToken } = this.props;
     const {
       home,
       mainPage,
       paperStyle,
-      loggedInError,
       chevron,
       chevronButton,
       contentStyle,
@@ -474,13 +464,7 @@ class BotWizard extends React.Component {
       prevButton,
       colPreview,
     } = this.state;
-    if (!accessToken) {
-      return (
-        <div>
-          <p style={loggedInError}>Please login to create the Web Bot.</p>
-        </div>
-      );
-    }
+
     return (
       <div style={home} className="botbuilder-page-wrapper">
         <Grid fluid>

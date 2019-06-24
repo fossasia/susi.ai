@@ -1,21 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import BotBuilder from './BotBuilder';
 import BotWizard from './BotWizard';
 import './BotBuilder.css';
-
-const styles = {
-  loggedInError: {
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
-    marginBottom: '100px',
-    fontSize: '50px',
-    marginTop: '300px',
-  },
-};
 
 const templates = [
   {
@@ -45,16 +32,7 @@ const templates = [
 ];
 
 const BotBuilderWrap = props => {
-  const { accessToken } = props;
-  const { loggedInError } = styles;
   document.title = 'SUSI.AI - Botbuilder';
-  if (!accessToken) {
-    return (
-      <div>
-        <p style={loggedInError}>Please login to create a chatbot.</p>
-      </div>
-    );
-  }
   return (
     <div>
       <Route
@@ -71,17 +49,4 @@ const BotBuilderWrap = props => {
   );
 };
 
-BotBuilderWrap.propTypes = {
-  accessToken: PropTypes.string,
-};
-
-function mapStateToProps(store) {
-  return {
-    accessToken: store.app.accessToken,
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  null,
-)(BotBuilderWrap);
+export default BotBuilderWrap;

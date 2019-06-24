@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import skillActions from '../../../redux/actions/skills';
+import uiActions from '../../../redux/actions/ui';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -268,6 +269,8 @@ class BrowseSkill extends React.Component {
     viewType: PropTypes.string,
     metricSkills: PropTypes.object,
     loadingSkills: PropTypes.bool,
+    history: PropTypes.object,
+    accessToken: PropTypes.string,
   };
 
   constructor(props) {
@@ -509,6 +512,27 @@ class BrowseSkill extends React.Component {
     });
   };
 
+  handleCreateSkillClick = () => {
+    const { history, actions, accessToken } = this.props;
+    this.handleMenuClose();
+    if (accessToken) {
+      history.push('/skills/skillCreator');
+    } else {
+      actions.openModal({ modalType: 'login' });
+    }
+  };
+
+  handleCreateBotClick = () => {
+    const { history, actions, accessToken } = this.props;
+    this.handleMenuClose();
+    if (accessToken) {
+      history.push('/skills/botbuilder');
+    } else {
+      actions.openModal({ modalType: 'login' });
+    }
+  };
+
+  // eslint-disable-next-line complexity
   render() {
     const {
       languageValue,
@@ -683,22 +707,18 @@ class BrowseSkill extends React.Component {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
               <MenuList disableListWrap={true}>
-                <Link to="/skills/skillCreator">
-                  <MenuItem onClick={this.handleMenuClose}>
-                    <ListItemIcon>
-                      <Add />
-                    </ListItemIcon>
-                    <ListItemText>Create a Skill</ListItemText>
-                  </MenuItem>
-                </Link>
-                <Link to="/skills/botbuilder">
-                  <MenuItem onClick={this.handleMenuClose}>
-                    <ListItemIcon>
-                      <Person />
-                    </ListItemIcon>
-                    <ListItemText>Create Skill bot</ListItemText>
-                  </MenuItem>
-                </Link>
+                <MenuItem onClick={this.handleCreateSkillClick}>
+                  <ListItemIcon>
+                    <Add />
+                  </ListItemIcon>
+                  <ListItemText>Create a Skill</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={this.handleCreateBotClick}>
+                  <ListItemIcon>
+                    <Person />
+                  </ListItemIcon>
+                  <ListItemText>Create Skill bot</ListItemText>
+                </MenuItem>
               </MenuList>
             </Menu>
           </div>
@@ -1035,13 +1055,15 @@ class BrowseSkill extends React.Component {
 
 function mapStateToProps(store) {
   return {
+    ...store.router,
     ...store.skills,
+    accessToken: store.app.accessToken,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(skillActions, dispatch),
+    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
   };
 }
 
