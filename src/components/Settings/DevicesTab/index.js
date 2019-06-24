@@ -162,7 +162,7 @@ class DevicesTab extends React.Component {
     } = this.state;
     const { google, mapKey } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <SettingsTabWrapper heading="Devices">
           {devicesData.length ? (
             <div>
@@ -199,7 +199,7 @@ class DevicesTab extends React.Component {
             </EmptyDevicesText>
           )}
         </SettingsTabWrapper>
-      </div>
+      </React.Fragment>
     );
   }
 }
