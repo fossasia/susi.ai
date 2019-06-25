@@ -1,91 +1,110 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Map, InfoWindow, Marker } from 'google-maps-react';
 import PropTypes from 'prop-types';
 
-const style = {
-  mapContainer: {
-    width: '100%',
-    height: '300px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-};
+const Container = styled.div`
+  width: 100%;
+  height: 300px;
+`;
 
 class MapContainer extends Component {
   static propTypes = {
     devicesData: PropTypes.array,
-    mapCenter: PropTypes.object,
     google: PropTypes.object,
+    invalidLocationDevices: PropTypes.number,
   };
 
-  constructor(props) {
-    super(props);
-    this.mapNode = React.createRef();
-  }
+  state = {
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
+  };
 
-  componentDidUpdate() {
-    this.initialiseMap();
-  }
+  onMarkerClick = (props, marker, e) => {
+    this.setState({
+      activeMarker: marker,
+      selectedPlace: props,
+      showingInfoWindow: true,
+    });
+  };
 
-  initialiseMap = () => {
-    if (this.props && this.props.google) {
-      // Set the prop value to google, and maps to google maps props
-      const { google, mapCenter, devicesData } = this.props;
-      const maps = google.maps;
-      const mapConfig = Object.assign(
-        {},
-        {
-          // Set the center and the default zoom level of the map using the props passed
-          center: {
-            lat: mapCenter.latitude,
-            lng: mapCenter.longitude,
-          },
-          zoom: 2,
-          mapTypeId: 'roadmap',
-        },
-      );
+  onInfoWindowClose = () => {
+    this.setState({
+      activeMarker: null,
+      showingInfoWindow: false,
+    });
+  };
 
-      // Create a new Google map on the specified node with specified config
-      this.map = new maps.Map(this.mapNode, mapConfig);
-
-      // Create a new InfoWindow to be added as event listener on the map markers
-      let infoWindow = new google.maps.InfoWindow();
-
-      // Add markers to map
-      devicesData.forEach(eachDevice => {
-        // eslint-disable-next-line
-        const marker = new google.maps.Marker({
-          position: { lat: eachDevice.latitude, lng: eachDevice.longitude },
-          map: this.map,
-          title: 'Click to see device information.',
-          deviceName: eachDevice.deviceName,
-          room: eachDevice.room,
-          macId: eachDevice.macId,
-        });
-
-        // Add event listener to the map markers to open InfoWindow on click
-        google.maps.event.addListener(marker, 'click', () => {
-          infoWindow.setContent(
-            'Mac Address: ' +
-              marker.macId +
-              '<br/>' +
-              'Room: ' +
-              marker.room +
-              '<br/>' +
-              'Device name: ' +
-              marker.deviceName,
-          );
-          infoWindow.open(this.map, marker);
-        });
+  onMapClicked = () => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        activeMarker: null,
+        showingInfoWindow: false,
       });
     }
   };
 
+  getMapCenter = (devicesData, invalidLocationDevices) => {
+    const latitudeSum = devicesData.reduce(
+      (a, b) => ({ latitude: a.latitude + b.latitude }),
+      {
+        latitude: 0.0,
+      },
+    ).latitude;
+    const longitudeSum = devicesData.reduce(
+      (a, b) => ({ longitude: a.longitude + b.longitude }),
+      { longitude: 0.0 },
+    ).longitude;
+
+    return {
+      lat: latitudeSum / (devicesData.length - invalidLocationDevices),
+      lng: longitudeSum / (devicesData.length - invalidLocationDevices),
+    };
+  };
+
   render() {
+    const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
+    const { google, devicesData = [], invalidLocationDevices } = this.props;
+    const mapCenter = this.getMapCenter(devicesData, invalidLocationDevices);
+
     return (
-      <div ref={this.mapNode} style={style.mapContainer}>
-        Loading Map...
-      </div>
+      <Container>
+        <Map
+          google={google}
+          zoom={5}
+          center={mapCenter}
+          initialCenter={mapCenter}
+          onClick={this.onMapClicked}
+          style={{ height: '300px', position: 'relative', width: '692px' }}
+        >
+          {devicesData.map(eachDevice => (
+            <Marker
+              key={eachDevice.deviceName}
+              title={eachDevice.deviceName}
+              macId={eachDevice.macId}
+              room={eachDevice.room}
+              onClick={this.onMarkerClick}
+              position={{ lat: eachDevice.latitude, lng: eachDevice.longitude }}
+            />
+          ))}
+          <InfoWindow
+            marker={activeMarker}
+            onClose={this.onInfoWindowClose}
+            visible={showingInfoWindow}
+          >
+            <div>
+              <p>
+                {`Mac Address: ${selectedPlace.macId}`}
+                <br />
+                {`Room: ${selectedPlace.room}`}
+                <br />
+                {`Device Name: ${selectedPlace.title}`}
+              </p>
+            </div>
+          </InfoWindow>
+        </Map>
+      </Container>
     );
   }
 }

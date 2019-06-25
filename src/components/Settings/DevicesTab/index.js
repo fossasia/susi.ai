@@ -30,7 +30,6 @@ class DevicesTab extends React.Component {
   };
 
   state = {
-    mapCenter: { latitude: null, longitude: null },
     devicesData: [],
     invalidLocationDevices: 0,
     editIdx: null,
@@ -92,22 +91,6 @@ class DevicesTab extends React.Component {
       });
   };
 
-  getMapCenter = (devicesData, invalidLocationDevices) => {
-    const latitudeSum = devicesData.reduce(
-      (a, b) => a.latitude + b.latitude,
-      0,
-    );
-    const longitudeSum = devicesData.reduce(
-      (a, b) => a.longitude + b.longitude,
-      0,
-    );
-
-    return {
-      latitude: latitudeSum / (devicesData.length - invalidLocationDevices),
-      longitude: longitudeSum / (devicesData.length - invalidLocationDevices),
-    };
-  };
-
   initialiseDevices = () => {
     const { devices } = this.props;
 
@@ -145,9 +128,7 @@ class DevicesTab extends React.Component {
         devicesData.push(deviceObj);
       });
 
-      const mapCenter = this.getMapCenter(devicesData, invalidLocationDevices);
       this.setState({
-        mapCenter,
         devicesData,
         invalidLocationDevices,
       });
@@ -155,12 +136,7 @@ class DevicesTab extends React.Component {
   };
 
   render() {
-    const {
-      mapCenter,
-      devicesData,
-      invalidLocationDevices,
-      editIdx,
-    } = this.state;
+    const { devicesData, invalidLocationDevices, editIdx } = this.state;
     const { google, mapKey } = this.props;
     return (
       <React.Fragment>
@@ -181,7 +157,7 @@ class DevicesTab extends React.Component {
                     <MapContainer
                       google={google}
                       devicesData={devicesData}
-                      mapCenter={mapCenter}
+                      invalidLocationDevices={invalidLocationDevices}
                     />
                   )}
                 </div>
