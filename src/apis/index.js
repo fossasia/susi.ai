@@ -674,3 +674,9 @@ export function fetchRevertingCommitInformation(payload) {
   const { url } = payload;
   return ajax.get(url, {});
 }
+
+// ReportedSkills
+export function fetchReportedSkills() {
+  const url = `${urls.API_URL}/${CMS_API_PREFIX}/getReportSkill.json`;
+  return ajax.get(url, {});
+}
