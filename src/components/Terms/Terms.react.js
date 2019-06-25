@@ -2,7 +2,76 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
-import './Terms.css';
+import styled from 'styled-components';
+
+const Section = styled.div`
+  margin: -1.25rem 0 0 0;
+  max-width: 85%;
+  padding: 0 1.25rem 7.5rem 1.25rem;
+  width: 58.438rem;
+  margin: 0 auto;
+
+  @media (min-width: 1400px) {
+    max-width: 65.625rem;
+    padding: 0rem;
+  }
+
+  @media (max-width: 1000px) {
+    max-width: 100%;
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    margin: 0 auto;
+    width: 90%;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    padding: 0 1.25rem 1.25rem 1.25rem !important;
+    margin: 0 auto;
+    width: 85%;
+  }
+`;
+
+const SectionContainer = styled.div`
+  margin: 0 auto;
+  max-width: 70rem;
+  padding: 5rem 1.25rem 5rem 0rem;
+  position: relative;
+  text-align: center;
+  color: #414141;
+
+  @media (max-width: 1000px) {
+    padding: 5rem 0rem 7.5rem 0rem;
+  }
+`;
+
+const TermsList = styled.div`
+  float: left;
+  width: 100%;
+  text-align: justify;
+  font-size: 1rem;
+  font-family: 'Product Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.375rem;
+  margin: -2.188rem 0 0 0;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    margin: -2.188rem 0 5rem 0;
+  }
+`;
+
+const Heading = styled.h2`
+  font-size: 1.875rem;
+  font-weight: 300;
+
+  @media (max-width: 1000px) {
+    line-height: 2.188rem;
+  }
+
+  @media (max-width: 480px) {
+    text-align: left;
+  }
+`;
 
 class Terms extends Component {
   constructor(props) {
@@ -44,19 +113,19 @@ class Terms extends Component {
     return (
       <div>
         <Header title="Terms of Service" subtitle="Thanks for using SUSI.AI." />
-        <div className="section">
-          <div className="section-container">
-            <div className="terms-list">
+        <Section>
+          <SectionContainer>
+            <TermsList>
               <br />
               <br />
-              <h2>Welcome to SUSI!</h2>
+              <Heading>Welcome to SUSI!</Heading>
               <p>
                 Thanks for using our products and services (“Services”). The
                 Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau
                 Than, Can Tho City, Viet Nam. By using our Services, you are
                 agreeing to these terms. Please read them carefully.
               </p>
-              <h2>Using our Services</h2>
+              <Heading>Using our Services</Heading>
               <p>
                 You must follow any policies made available to you within the
                 Services.
@@ -101,7 +170,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Your SUSI Account</h2>
+              <Heading>Your SUSI Account</Heading>
               <p>
                 You may need a SUSI Account in order to use some of our
                 Services. You may create your own SUSI Account, or your SUSI
@@ -121,7 +190,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Privacy and Copyright Protection</h2>
+              <Heading>Privacy and Copyright Protection</Heading>
               <p>
                 SUSI’s privacy policies ensure that your personal data is safe
                 and protected. By using our Services, you agree that SUSI can
@@ -136,7 +205,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Your Content in our Services</h2>
+              <Heading>Your Content in our Services</Heading>
               <p>
                 Some of our Services allow you to upload, submit, store, send or
                 receive content. You retain ownership of any intellectual
@@ -172,7 +241,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>About Software in our Services</h2>
+              <Heading>About Software in our Services</Heading>
               <p>
                 When a Service requires or includes downloadable software, this
                 software may update automatically on your device once a new
@@ -196,7 +265,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Modifying and Terminating our Services</h2>
+              <Heading>Modifying and Terminating our Services</Heading>
               <p>
                 We are constantly changing and improving our Services. We may
                 add or remove functionalities or features, and we may suspend or
@@ -215,7 +284,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Our Warranties and Disclaimers</h2>
+              <Heading>Our Warranties and Disclaimers</Heading>
               <p>
                 We provide our Services using a reasonable level of skill and
                 care and we hope that you will enjoy using them. But there are
@@ -238,7 +307,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Liability for our Services</h2>
+              <Heading>Liability for our Services</Heading>
               <p>
                 When permitted by law, SUSI, and SUSI’s suppliers and
                 distributors will not be responsible for lost profits, revenues,
@@ -266,7 +335,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>Business uses of our Services</h2>
+              <Heading>Business uses of our Services</Heading>
               <p>
                 If you are using our Services on behalf of a business, that
                 business accepts these terms. It will hold harmless and
@@ -278,7 +347,7 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-              <h2>About these Terms</h2>
+              <Heading>About these Terms</Heading>
               <p>
                 We may modify these terms or any additional terms that apply to
                 a Service to, for example, reflect changes to the law or changes
@@ -322,9 +391,9 @@ class Terms extends Component {
                 <br />
                 <br />
               </p>
-            </div>
-          </div>
-        </div>
+            </TermsList>
+          </SectionContainer>
+        </Section>
       </div>
     );
   }
