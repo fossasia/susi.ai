@@ -183,7 +183,7 @@ class MySkills extends Component {
                           to={{
                             pathname: `/skills/${group}/${skillTag
                               .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
+                              .replace(/ /g, '_')}/${language}`,
                           }}
                         >
                           <Img
