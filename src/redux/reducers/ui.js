@@ -10,6 +10,8 @@ const defaultState = {
     isSnackBarOpen: false,
     snackBarMessage: '',
     snackBarDuration: 2500,
+    snackBarPosition: { vertical: 'bottom', horizontal: 'center' },
+    variant: '',
   },
 };
 

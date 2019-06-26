@@ -25,12 +25,6 @@ import { storeDraft, updateSkill, readDraft } from '../../../apis/index';
 import './BotBuilder.css';
 import createActions from '../../../redux/actions/create';
 import SkillCreator from '../SkillCreator/SkillCreator';
-import { notification, Icon } from 'antd';
-import 'antd/dist/antd.css';
-
-notification.config({
-  top: 60,
-});
 
 const styles = {
   home: {
@@ -320,10 +314,10 @@ class BotWizard extends React.Component {
     buildCode = '::author_email ' + email + '\n' + buildCode;
     buildCode = '::protected Yes\n' + buildCode;
     if (!accessToken) {
-      notification.open({
-        message: 'Not logged In',
-        description: 'Please login and then try to create/edit a skill',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please login and then try to create/edit a skill',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
@@ -335,18 +329,18 @@ class BotWizard extends React.Component {
       imageUrl !== 'images/<image_name_job>' &&
       imageUrl !== 'images/<image_name_contact>'
     ) {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'image must be in format of images/imageName.jpg',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'image must be in format of images/imageName.jpg',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
     if (skillName === '') {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Bot name is not given',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Bot name is not given',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
@@ -403,19 +397,19 @@ class BotWizard extends React.Component {
             },
             () => this.handleNext(),
           );
-          notification.open({
-            message: 'Accepted',
-            description: 'Your Bot has been saved',
-            icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: 'Your Bot has been saved',
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'success',
           });
         } else {
           this.setState({
             savingSkill: false,
           });
-          notification.open({
-            message: 'Error Processing your Request',
-            description: String(data.message),
-            icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: String(data.message),
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'error',
           });
         }
       })
@@ -423,10 +417,10 @@ class BotWizard extends React.Component {
         this.setState({
           savingSkill: false,
         });
-        notification.open({
-          message: 'Error Processing your Request',
-          description: String(error),
-          icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+        this.props.actions.openSnackBar({
+          snackBarMessage: String(error),
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
         });
       });
   };

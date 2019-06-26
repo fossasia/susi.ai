@@ -35,7 +35,7 @@ class UpdateSystemSettings extends React.Component {
   render() {
     const { type, handleClose } = this.props;
     const { keyName, keyValue } = this.state;
-    const disabled = keyName.trim() === '' && keyValue.trim() === '';
+    const disabled = keyName.trim() === '' || keyValue.trim() === '';
     return (
       <React.Fragment>
         <DialogTitle>{`${type} key`}</DialogTitle>

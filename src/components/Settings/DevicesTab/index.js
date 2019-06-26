@@ -9,6 +9,7 @@ import uiActions from '../../../redux/actions/ui';
 import { addUserDevice, removeUserDevice } from '../../../apis/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import CircularLoader from '../../shared/CircularLoader';
 
 const EmptyDevicesText = styled.div`
   font-size: 24px;
@@ -194,7 +195,14 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+const LoadingContainer = props => <CircularLoader height={27} />;
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GoogleApiWrapper(props => ({ apiKey: props.mapKey }))(DevicesTab));
+)(
+  GoogleApiWrapper(props => ({
+    LoadingContainer: LoadingContainer,
+    apiKey: props.mapKey,
+  }))(DevicesTab),
+);
