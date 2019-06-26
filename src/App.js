@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { theme } from './MUItheme';
 import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
-import Snackbar from '@material-ui/core/Snackbar';
 import Blog from './components/Blog/Blog.react';
 import ChatApp from './components/ChatApp/ChatApp.react';
 import Contact from './components/Contact/Contact.react';
@@ -40,6 +39,7 @@ import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
 import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
+import CustomSnackbar from './components/shared/CustomSnackbar';
 
 class App extends Component {
   static propTypes = {
@@ -90,7 +90,13 @@ class App extends Component {
   render() {
     const {
       actions,
-      snackBarProps: { snackBarMessage, isSnackBarOpen, snackBarDuration },
+      snackBarProps: {
+        snackBarMessage,
+        isSnackBarOpen,
+        snackBarDuration,
+        snackBarPosition,
+        variant,
+      },
       modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
@@ -124,12 +130,16 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <div>
             {renderDialog}
-            <Snackbar
-              autoHideDuration={snackBarDuration}
-              open={isSnackBarOpen}
-              message={snackBarMessage}
-              onClose={actions.closeSnackBar}
-            />
+            {isSnackBarOpen && (
+              <CustomSnackbar
+                autoHideDuration={snackBarDuration}
+                open={isSnackBarOpen}
+                message={snackBarMessage}
+                onClose={actions.closeSnackBar}
+                anchorOrigin={snackBarPosition}
+                variant={variant}
+              />
+            )}
             {renderAppBar}
             <Switch>
               <Route exact path="/" component={Overview} />
