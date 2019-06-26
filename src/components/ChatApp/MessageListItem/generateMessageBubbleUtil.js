@@ -229,13 +229,16 @@ const generateAudioBubble = (
   return (
     <MessageContainer key={action + index}>
       <MessageBubble author={message.authorName}>
-        <div>
+        <div style={{ margin: '0.6rem 0', height: '7rem' }}>
           <iframe
-            src={src}
-            title="SUSI features audio"
-            frameBorder="0"
-            allowFullScreen
-          />
+            id="sc-widget"
+            title="SUSI Soundcloud"
+            src={`https://w.soundcloud.com/player/?url=${src}&auto_play=true&buying=false&download=false&show_playcount=false&show_comments=false&visual=false&show_artwork=false`}
+            width="100%"
+            height="120"
+            scrolling="no"
+            allow="autoplay"
+          ></iframe>
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
@@ -468,9 +471,7 @@ export const generateMessageBubble = (
             break;
           }
           case 'audio_play': {
-            let identifierType = answer.actions[index].identifier_type;
-            const { identifier } = answer.actions[index];
-            const src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
+            const { identifier: src } = answer.actions[index];
             listItems.push(
               generateAudioBubble(
                 action,
