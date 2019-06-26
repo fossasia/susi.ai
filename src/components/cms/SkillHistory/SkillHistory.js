@@ -6,8 +6,9 @@ import AceEditor from 'react-ace';
 import Diff from 'react-diff-viewer';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { notification, Icon } from 'antd';
-import 'antd/dist/antd.css';
+import uiActions from '../../../redux/actions/ui';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import 'brace/mode/markdown';
 import 'brace/theme/github';
@@ -27,15 +28,11 @@ import styled, { css } from 'styled-components';
 import { Title } from '../../shared/Typography';
 import CircularLoader from '../../shared/CircularLoader';
 
-notification.config({
-  top: 60,
-});
-
 const ErrorNotification = () => {
-  return notification.open({
-    message: 'Error Processing your Request',
-    description: 'Failed to fetch data. Please Try Again',
-    icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+  return this.props.actions.openSnackBar({
+    snackBarMessage: 'Failed to fetch data. Please Try Again',
+    snackBarPosition: { vertical: 'top', horizontal: 'right' },
+    variant: 'error',
   });
 };
 
@@ -332,6 +329,16 @@ class SkillHistory extends Component {
 
 SkillHistory.propTypes = {
   location: PropTypes.object,
+  actions: PropTypes.object,
 };
 
-export default SkillHistory;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SkillHistory);
