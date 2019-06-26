@@ -6,15 +6,15 @@ import urls from '../../utils/urls';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import _PlayCircle from '@material-ui/icons/PlayCircleFilled';
 import Close from '@material-ui/icons/Close';
-import susiGif from '../../images/susi.gif';
-import GIFDemo from '../../images/gif.gif';
-import WebDemo from '../../images/web.gif';
-import LocationDemo from '../../images/location.gif';
-import JokesDemo from '../../images/joke.gif';
-import FactsDemo from '../../images/fact.gif';
-import MathDemo from '../../images/math.gif';
+import SUSIVideo from '../../images/susi.mp4';
+import GIFDemo from '../../images/gif.mp4';
+import WebDemo from '../../images/web.mp4';
+import LocationDemo from '../../images/location.mp4';
+import JokesDemo from '../../images/joke.mp4';
+import FactsDemo from '../../images/fact.mp4';
+import MathDemo from '../../images/math.mp4';
 import susiSkill from '../../images/susi_skill.png';
-import susiTestGif from '../../images/susi-test.gif';
+import susiTestVideo from '../../images/susi-test.mp4';
 import bots from '../../images/bots.jpg';
 import githubText from '../../images/github-text-logo.png';
 import manyLanguages from '../../images/many_languages.png';
@@ -303,7 +303,7 @@ const ColumnSection = styled.div`
   }
 `;
 
-const SusiTestImg = styled.img`
+const SusiTestVideo = styled.video`
   text-align: left;
   width: 60%;
   margin-left: 30%;
@@ -482,7 +482,7 @@ const CloseIcon = styled(Close)`
   cursor: pointer;
 `;
 
-const MeetSusiImg = styled.img`
+const MeetSusiVideo = styled.video`
   ${commonImg};
   margin: 1.25rem 0rem;
 `;
@@ -541,12 +541,12 @@ const classes = {
 };
 
 const buttonAttributes = [
-  { label: 'Search', icon: <Search />, gif: WebDemo },
-  { label: 'Location', icon: <LocationOn />, gif: LocationDemo },
-  { label: 'GIFs', icon: <GIF />, gif: GIFDemo },
-  { label: 'Jokes', icon: <Action />, gif: JokesDemo },
-  { label: 'Facts', icon: <Web />, gif: FactsDemo },
-  { label: 'Math', icon: <PlusOne />, gif: MathDemo },
+  { label: 'Search', icon: <Search />, video: WebDemo },
+  { label: 'Location', icon: <LocationOn />, video: LocationDemo },
+  { label: 'GIFs', icon: <GIF />, video: GIFDemo },
+  { label: 'Jokes', icon: <Action />, video: JokesDemo },
+  { label: 'Facts', icon: <Web />, video: FactsDemo },
+  { label: 'Math', icon: <PlusOne />, video: MathDemo },
 ];
 
 class Overview extends Component {
@@ -604,7 +604,9 @@ class Overview extends Component {
         <Container>
           <SectionContainer>
             <div>
-              <MeetSusiImg src={susiGif} alt="Meet SUSI" />
+              <MeetSusiVideo autoPlay loop muted playsinline>
+                <source src={SUSIVideo} type="video/mp4" />
+              </MeetSusiVideo>
               <Heading>
                 Meet SUSI.AI, Your Artificial Intelligence for Personal
                 Assistants, Robots, Help Desks and Chatbots.
@@ -629,7 +631,13 @@ class Overview extends Component {
             </DescriptionText>
           </ConversationDescription>
           <ImgContainer>
-            <SusiTestImg src={susiTestGif} alt="susi-test" />
+            <SusiTestVideo
+              src={susiTestVideo}
+              autoPlay
+              loop
+              muted
+              playsinline
+            />
           </ImgContainer>
         </Section>
         <Section>
@@ -658,11 +666,14 @@ class Overview extends Component {
           </ConversationDescription>
           <ImgContainer>
             {buttonAttributes.map((img, index) => (
-              <SusiTestImg
+              <SusiTestVideo
                 key={index}
-                src={buttonAttributes[gifIndex].gif}
+                src={buttonAttributes[gifIndex].video}
                 style={gifIndex === index ? {} : { display: 'none' }}
-                alt="susi-web"
+                autoPlay
+                loop
+                muted
+                playsinline
               />
             ))}
           </ImgContainer>

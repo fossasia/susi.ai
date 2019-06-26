@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import urls from '../../utils/urls';
 import { Header } from '../shared/About';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
-import susiAndroid from '../../images/susi-test.gif';
-import susiiOSGif from '../../images/ios_demo.gif';
-import susiDesktop from '../../images/susi.gif';
+import susiAndroid from '../../images/susi-test.mp4';
+import susiiOS from '../../images/ios_demo.mp4';
+import susiDesktop from '../../images/susi.mp4';
 import googlePlay from '../../images/google-play.svg';
 import appStore from '../../images/app-store.svg';
 import styled from 'styled-components';
@@ -129,7 +129,7 @@ const ImgContainer = styled.div`
   }
 `;
 
-const SusiDesktop = styled.img`
+const SusiDesktop = styled.video`
   text-align: left;
   width: 90%;
   margin-left: 10%;
@@ -140,7 +140,7 @@ const SusiDesktop = styled.img`
   }
 `;
 
-const SusiDeviceImg = styled.img`
+const SusiDeviceVideo = styled.video`
   text-align: left;
   width: 60%;
   margin-left: 10%;
@@ -182,7 +182,7 @@ const Devices = props => {
           </StoreIcons>
         </DeviceDescription>
         <ImgContainer>
-          <SusiDeviceImg src={susiAndroid} alt="susi-android" />
+          <SusiDeviceVideo src={susiAndroid} autoPlay loop muted playsinline />
         </ImgContainer>
       </DeviceSection>
 
@@ -205,7 +205,7 @@ const Devices = props => {
           </StoreIcons>
         </DeviceDescription>
         <ImgContainer>
-          <SusiDeviceImg src={susiiOSGif} alt="susi-iOS" />
+          <SusiDeviceVideo src={susiiOS} autoPlay loop muted playsinline />
         </ImgContainer>
       </DeviceSection>
 
@@ -227,7 +227,7 @@ const Devices = props => {
           </TextDescription>
         </DeviceDescription>
         <ImgContainer>
-          <SusiDesktop src={susiDesktop} alt="susi-webchat" />
+          <SusiDesktop src={susiDesktop} autoPlay loop muted playsinline />
         </ImgContainer>
       </DeviceSection>
     </div>
