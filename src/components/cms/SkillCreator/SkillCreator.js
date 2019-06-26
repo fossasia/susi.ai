@@ -552,11 +552,13 @@ class SkillCreator extends Component {
       imageUrl,
     } = this.props;
     let { code } = this.props;
-    code = '::author_email ' + email + '\n' + code;
-    if (this.isBotBuilder) {
-      code = '::protected Yes\n' + code;
-    } else {
-      code = '::protected No\n' + code;
+    if (this.mode !== 'edit') {
+      code = '::author_email ' + email + '\n' + code;
+      if (this.isBotBuilder) {
+        code = '::protected Yes\n' + code;
+      } else {
+        code = '::protected No\n' + code;
+      }
     }
 
     if (this.state.commitMessage === null) {
@@ -688,7 +690,6 @@ class SkillCreator extends Component {
           });
         });
     } else {
-      let file;
       form.append('OldModel', 'general');
       form.append('OldGroup', this.groupValue);
       form.append('OldLanguage', this.languageValue);
@@ -778,6 +779,11 @@ class SkillCreator extends Component {
       });
     }
     let imageUrl = file.name;
+    if (this.props.imageUrl !== `images/${imageUrl}`) {
+      this.setState({
+        imageNameChanged: true,
+      });
+    }
     const pattern = /^::image\s(.*)$/m;
     code = code.replace(pattern, `::image images/${imageUrl}`);
     payload = { ...payload, file, imageUrl, code, image };
