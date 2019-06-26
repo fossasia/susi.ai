@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import Paper from '@material-ui/core/Paper';
 import Diff from 'react-diff-viewer';
-import { notification, Icon } from 'antd';
-import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
+import uiActions from '../../../redux/actions/ui';
+import { bindActionCreators } from 'redux';
 
 import SkillCreator from '../SkillCreator/SkillCreator';
 import { urls } from '../../../utils';
@@ -34,10 +34,6 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
 
-notification.config({
-  top: 60,
-});
-
 const styles = {
   paperStyle: {
     width: '100%',
@@ -61,6 +57,7 @@ class SkillRollBack extends Component {
     history: PropTypes.object,
     location: PropTypes.object,
     accessToken: PropTypes.string,
+    actions: PropTypes.object,
   };
 
   constructor(props) {
@@ -124,10 +121,10 @@ class SkillRollBack extends Component {
         });
       })
       .catch(error => {
-        notification.open({
-          message: 'Error Processing your Request',
-          description: 'Failed to fetch data. Please Try Again',
-          icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+        this.props.actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch data. Please Try Again',
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
         });
       });
   }
@@ -152,10 +149,10 @@ class SkillRollBack extends Component {
     const { commitData } = this.state;
     const { accessToken } = this.props;
     if (!accessToken) {
-      notification.open({
-        message: 'Not logged In',
-        description: 'Please login and then try to create/edit a skill',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please login and then try to create/edit a skill',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
@@ -166,11 +163,11 @@ class SkillRollBack extends Component {
       Object.keys(skillMetaData).length === 0 &&
       skillMetaData.constructor === Object
     ) {
-      notification.open({
-        message: 'Error Processing your Request',
-        description:
+      this.props.actions.openSnackBar({
+        snackBarMessage:
           'Please select a model, group, language and a skill and Try Again',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
@@ -179,10 +176,10 @@ class SkillRollBack extends Component {
     let oldImageName = latestRevisionCode.match(/^::image\s(.*)$/m);
     let newImageName = this.code.match(/^::image\s(.*)$/m);
     if (!oldImageName || !newImageName) {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Please check the image path and Try Again',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please check the image path and Try Again',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
@@ -212,11 +209,12 @@ class SkillRollBack extends Component {
       .then(response => {
         const data = JSON.parse(response);
         if (data.accepted === true) {
-          notification.open({
-            message: 'Accepted',
-            description: 'Your Skill has been uploaded to the server',
-            icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: 'Your Skill has been uploaded to the server',
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'success',
           });
+
           this.props.history.push({
             pathname: `/skills/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
             state: {
@@ -227,19 +225,19 @@ class SkillRollBack extends Component {
             },
           });
         } else {
-          notification.open({
-            message: 'Error Processing your Request',
-            description: data.message,
-            icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: data.message,
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'error',
           });
         }
       })
       .catch(error => {
-        notification.open({
-          message: 'Error Processing your Request',
-          description:
+        this.props.actions.openSnackBar({
+          snackBarMessage:
             'Error in processing the request. Please try with some other skill',
-          icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
         });
       });
   };
@@ -369,7 +367,13 @@ function mapStateToProps(store) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(SkillRollBack);

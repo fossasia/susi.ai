@@ -4,7 +4,7 @@ import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
-import { urls, colors } from '../../../utils';
+import { urls } from '../../../utils';
 import searchURLPath from '../../../utils/searchURLPath';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
@@ -48,14 +48,6 @@ import Timeline from '@material-ui/icons/Timeline';
 import Add from '@material-ui/icons/Add';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-
-// Ant Design Components
-import { notification, Icon } from 'antd';
-import 'antd/dist/antd.css';
-
-notification.config({
-  top: 60,
-});
 
 let languages = [];
 
@@ -568,52 +560,52 @@ class SkillCreator extends Component {
     }
 
     if (this.state.commitMessage === null) {
-      notification.open({
-        message: 'Please add a commit message',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please add a commit message',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
-
       return 0;
     }
 
     if (!accessToken) {
-      notification.open({
-        message: 'Not logged In',
-        description: 'Please login and then try to create/edit a skill',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please login and then try to create/edit a skill',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
     if (category === null || language === '' || name === '') {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Please select a group, language and a skill',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please select a group, language and a skill',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
     if (!new RegExp(/.+\.\w+/g).test(imageUrl)) {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Image must be in format of images/imageName.jpg',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Image must be in format of images/imageName.jpg',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
     if (this.mode === 'create' && file === null) {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Image Not Given',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Image Not Given',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
 
     if (this.mode === 'edit' && name === '') {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Skill name cannot be empty',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Skill name cannot be empty',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       return 0;
     }
@@ -630,9 +622,10 @@ class SkillCreator extends Component {
       !this.state.codeChanged &&
       !this.state.imageNameChanged
     ) {
-      notification.open({
-        message: 'Please make some changes to save the Skill',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please make some changes to save the Skill',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
       this.setState({
         loading: false,
@@ -656,10 +649,10 @@ class SkillCreator extends Component {
         .then(payload => {
           if (payload.accepted === true) {
             if (this.mode === 'create') {
-              notification.open({
-                message: 'Accepted',
-                description: 'Your Skill has been uploaded to the server',
-                icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
+              this.props.actions.openSnackBar({
+                snackBarMessage: 'Your Skill has been uploaded to the server',
+                snackBarPosition: { vertical: 'top', horizontal: 'right' },
+                variant: 'success',
               });
             }
             if (!this.props.hasOwnProperty('revertingCommit')) {
@@ -677,10 +670,10 @@ class SkillCreator extends Component {
             this.setState({
               loading: false,
             });
-            notification.open({
-              message: 'Error Processing your Request',
-              description: String(payload.message),
-              icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+            this.props.actions.openSnackBar({
+              snackBarMessage: String(payload.message),
+              snackBarPosition: { vertical: 'top', horizontal: 'right' },
+              variant: 'error',
             });
           }
         })
@@ -688,10 +681,10 @@ class SkillCreator extends Component {
           this.setState({
             loading: false,
           });
-          notification.open({
-            message: 'Error Processing your Request',
-            description: String(error),
-            icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: String(error),
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'error',
           });
         });
     } else {
@@ -723,10 +716,10 @@ class SkillCreator extends Component {
       modifySkill(form)
         .then(payload => {
           if (payload.accepted === true) {
-            notification.open({
-              message: 'Accepted',
-              description: 'Skill has been updated at the server.',
-              icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
+            this.props.actions.openSnackBar({
+              snackBarMessage: 'Skill has been updated at the server',
+              snackBarPosition: { vertical: 'top', horizontal: 'right' },
+              variant: 'success',
             });
             if (!this.props.hasOwnProperty('revertingCommit')) {
               this.props.history.push({
@@ -743,10 +736,10 @@ class SkillCreator extends Component {
             this.setState({
               loading: false,
             });
-            notification.open({
-              message: 'Error Processing your Request',
-              description: String(payload.message),
-              icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+            this.props.actions.openSnackBar({
+              snackBarMessage: String(payload.message),
+              snackBarPosition: { vertical: 'top', horizontal: 'right' },
+              variant: 'error',
             });
           }
         })
@@ -754,10 +747,10 @@ class SkillCreator extends Component {
           this.setState({
             loading: false,
           });
-          notification.open({
-            message: 'Error Processing your Request',
-            description: String(error),
-            icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: String(error),
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'error',
           });
         });
     }
@@ -801,10 +794,10 @@ class SkillCreator extends Component {
     deleteSkill()
       .then(payload => {
         if (payload.accepted === true) {
-          notification.open({
-            message: 'Deleted',
-            description: 'This Skill has been deleted',
-            icon: <Icon type="check-circle" style={{ color: '#00C853' }} />,
+          this.props.actions.openSnackBar({
+            snackBarMessage: 'This Skill has been deleted',
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'success',
           });
           this.setState({
             loading: false,
@@ -814,15 +807,10 @@ class SkillCreator extends Component {
             state: {},
           });
         } else {
-          notification.open({
-            message: 'Failed',
-            description: payload.message,
-            icon: (
-              <Icon
-                type="check-circle"
-                style={{ color: colors.warningColor }}
-              />
-            ),
+          this.props.actions.openSnackBar({
+            snackBarMessage: payload.message,
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'warning',
           });
           this.props.history.push({
             pathname: '/',
