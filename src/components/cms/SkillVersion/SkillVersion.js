@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { fetchCommitHistory } from '../../../apis';
 import { Link } from 'react-router-dom';
+import uiActions from '../../../redux/actions/ui';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 // Material-UI
 import Table from '@material-ui/core/Table';
@@ -16,13 +19,8 @@ import CircularLoader from '../../shared/CircularLoader';
 import Checkbox from '@material-ui/core/Checkbox';
 
 // Other Utils
-import { notification, Icon } from 'antd';
-import 'antd/dist/antd.css';
+import './SkillVersion.css';
 import styled from 'styled-components';
-
-notification.config({
-  top: 60,
-});
 
 const Container = styled.div`
   font-size: 0.85rem;
@@ -45,6 +43,7 @@ const ActionButtonDiv = styled.div`
 class SkillVersion extends Component {
   static propTypes = {
     location: PropTypes.object,
+    actions: PropTypes.object,
   };
 
   constructor(props) {
@@ -74,16 +73,15 @@ class SkillVersion extends Component {
       languageValue: language,
       skillName: skill,
     } = this.state.skillMeta;
-    console.log(this.state.skillMeta);
     fetchCommitHistory({ model, group, language, skill })
       .then(commitsData => {
         this.setCommitHistory(commitsData);
       })
       .catch(error => {
-        notification.open({
-          message: 'Error Processing your Request',
-          description: 'Failed to fetch data. Please Try Again',
-          icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+        this.props.actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch data. Please Try Again',
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
         });
         return 0;
       });
@@ -110,10 +108,10 @@ class SkillVersion extends Component {
     const { id, checked } = e.currentTarget;
     let currentChecks = [...checks];
     if (checked && currentChecks.length === 2) {
-      notification.open({
-        message: 'Error Processing your Request',
-        description: 'Cannot compare more than 2 version at a time',
-        icon: <Icon type="close-circle" style={{ color: '#f44336' }} />,
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Cannot compare more than 2 version at a time',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
       });
     } else {
       let checks = checked
@@ -236,4 +234,13 @@ class SkillVersion extends Component {
   }
 }
 
-export default SkillVersion;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SkillVersion);
