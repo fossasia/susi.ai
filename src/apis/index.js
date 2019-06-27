@@ -8,9 +8,9 @@ const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
 const SUSI_API_PREFIX = 'susi';
 
-export function fetchApiKeys(payload) {
+export function fetchApiKeys() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/getApiKeys.json`;
-  return ajax.get(url);
+  return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
 export function createApiKey(payload) {
