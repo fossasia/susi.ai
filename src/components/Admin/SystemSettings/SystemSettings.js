@@ -12,6 +12,7 @@ import { fetchApiKeys, deleteApiKey } from '../../../apis/index';
 import styled from 'styled-components';
 import uiActions from '../../../redux/actions/ui';
 import { SubTitle, Container } from '../AdminStyles';
+import CircularLoader from '../../shared/CircularLoader';
 
 const Table = styled(_Table)`
   max-width: 40rem;
@@ -123,54 +124,61 @@ class SystemSettings extends Component {
   };
 
   render() {
+    const { apiKeys, loading } = this.state;
     return (
       <Container>
         <SubTitle>Config Keys</SubTitle>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>S.No.</TableCell>
-              <TableCell align="right">Key Name</TableCell>
-              <TableCell align="right">Value</TableCell>
-              <TableCell align="right">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.apiKeys.map(row => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.serialNum}
-                </TableCell>
-                <TableCell align="right">{row.keyName}</TableCell>
-                <TableCell align="right">{row.value}</TableCell>
-                <TableCell align="right">
-                  <ActionSpan
-                    onClick={() => {
-                      this.handleUpdate(row);
-                    }}
-                  >
-                    Edit
-                  </ActionSpan>
-                  <ActionSeparator> | </ActionSeparator>
-                  <ActionSpan
-                    onClick={() => {
-                      this.handleDelete(row);
-                    }}
-                  >
-                    Delete
-                  </ActionSpan>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <AddConfigButton
-          variant="contained"
-          color="primary"
-          onClick={this.handleCreate}
-        >
-          Add Config Key
-        </AddConfigButton>
+        {loading ? (
+          <CircularLoader height={26} />
+        ) : (
+          <React.Fragment>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>S.No.</TableCell>
+                  <TableCell align="right">Key Name</TableCell>
+                  <TableCell align="right">Value</TableCell>
+                  <TableCell align="right">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {apiKeys.map(row => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.serialNum}
+                    </TableCell>
+                    <TableCell align="right">{row.keyName}</TableCell>
+                    <TableCell align="right">{row.value}</TableCell>
+                    <TableCell align="right">
+                      <ActionSpan
+                        onClick={() => {
+                          this.handleUpdate(row);
+                        }}
+                      >
+                        Edit
+                      </ActionSpan>
+                      <ActionSeparator> | </ActionSeparator>
+                      <ActionSpan
+                        onClick={() => {
+                          this.handleDelete(row);
+                        }}
+                      >
+                        Delete
+                      </ActionSpan>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <AddConfigButton
+              variant="contained"
+              color="primary"
+              onClick={this.handleCreate}
+            >
+              Add Config Key
+            </AddConfigButton>
+          </React.Fragment>
+        )}
       </Container>
     );
   }
