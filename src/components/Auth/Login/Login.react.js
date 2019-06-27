@@ -12,7 +12,6 @@ import uiActions from '../../../redux/actions/ui';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import FormControl from '@material-ui/core/FormControl';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
@@ -22,6 +21,7 @@ import { createMessagePairArray } from '../../../utils/formatMessage';
 import {
   PasswordField,
   OutlinedInput,
+  FormControl,
   Button,
   StyledLink,
   LinkContainer,
