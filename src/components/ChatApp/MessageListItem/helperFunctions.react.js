@@ -317,7 +317,7 @@ export function drawTable(columns, tableData, count) {
             }}
           >
             <Linkify properties={{ target: '_blank' }}>
-              <abbr title={eachrow[key]}>{processText(eachrow[key])}</abbr>
+              {processText(eachrow[key])}
             </Linkify>
           </TableCell>
         );

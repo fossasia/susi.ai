@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Toolbar from '@material-ui/core/Toolbar';
+import _Toolbar from '@material-ui/core/Toolbar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
@@ -65,6 +65,14 @@ const HideOnScroll = ({ children }) => {
     </Slide>
   );
 };
+
+const Toolbar = styled(_Toolbar)`
+  height: 46px;
+  background-color: rgb(66, 133, 244);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 HideOnScroll.propTypes = {
   children: PropTypes.element,
@@ -161,7 +169,7 @@ class NavigationBar extends Component {
         <CssBaseline />
         <HideOnScroll>
           <AppBar>
-            <Toolbar className="app-bar" variant="dense">
+            <Toolbar variant="dense">
               <FlexContainer>
                 <BurgerMenuContainer>
                   <IconButton
