@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MaterialTable from 'material-table';
+import { fetchReportedSkills } from '../../../apis/index';
 
 /* Utils */
 import uiActions from '../../../redux/actions/ui';
@@ -18,9 +19,12 @@ import {
   deleteSkill,
   fetchUserSkill,
 } from '../../../apis/index';
+import { getActiveColumn, getDeletedColumn, REPORT } from './constants';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Container } from '../AdminStyles';
+
+import ReportPanel from './ReportPanel';
 
 const commonActionStyle = css`
   cursor: pointer;
@@ -58,6 +62,7 @@ class ListSkills extends React.Component {
       skillStaffPickStatus: false,
       systemSkillStatus: false,
       value: 0,
+      reportedSkills: [],
     };
   }
 
@@ -65,6 +70,7 @@ class ListSkills extends React.Component {
     this.loadSkills();
     this.loadGroups();
     this.loadDeletedSkills();
+    this.loadReportedSkill();
   }
 
   changeStatus = () => {
@@ -195,6 +201,16 @@ class ListSkills extends React.Component {
             </p>
           ),
         });
+      });
+  };
+
+  loadReportedSkill = () => {
+    fetchReportedSkills()
+      .then(({ list }) => {
+        this.setState({ loading: false, reportedSkills: list });
+      })
+      .catch(error => {
+        console.log(error, 'Error');
       });
   };
 
@@ -398,106 +414,57 @@ class ListSkills extends React.Component {
     this.setState({ value });
   };
 
+  handleDeleteReportSkill = (skillName, email, feedback) => {};
+
   render() {
-    const { groups, loading, value } = this.state;
-
-    let columns = [
-      {
-        title: 'Name',
-        field: 'skillName',
-        cellStyle: {
-          width: '20%',
-        },
-        filtering: false,
-      },
-      {
-        title: 'Group',
-        field: 'group',
-        lookup: groups,
-        cellStyle: {
-          width: '10%',
-        },
-      },
-      {
-        title: 'Language',
-        field: 'language',
-        cellStyle: {
-          width: '10%',
-        },
-        filtering: false,
-      },
-      {
-        title: 'Type',
-        field: 'type',
-        lookup: { private: 'Private', public: 'Public' },
-        cellStyle: {
-          width: '10%',
-        },
-      },
-      {
-        title: 'Author',
-        field: 'author',
-        cellStyle: {
-          width: '10%',
-        },
-        filtering: false,
-      },
-      {
-        title: 'Review Status',
-        field: 'reviewed',
-        lookup: { Approved: 'Reviewed', 'Not Reviewed': 'Not Reviewed' },
-        cellStyle: {
-          width: '15%',
-        },
-      },
-      {
-        title: 'Edit Status',
-        field: 'editable',
-        lookup: { Editable: 'Editable', 'Not Editable': 'Not Editable' },
-        cellStyle: {
-          width: '15%',
-        },
-      },
-    ];
-
-    let delColumns = [
-      {
-        title: 'Name',
-        field: 'skillName',
-        cellStyle: {
-          width: '30%',
-        },
-        filtering: false,
-      },
-      {
-        title: 'Model',
-        field: 'model',
-        cellStyle: {
-          width: '15%',
-        },
-        filtering: false,
-      },
-      {
-        title: 'Group',
-        field: 'group',
-        cellStyle: {
-          width: '25%',
-        },
-        lookup: groups,
-      },
-      {
-        title: 'Language',
-        field: 'language',
-        filtering: false,
-      },
-    ];
-
+    const { groups, loading, value, reportedSkills } = this.state;
     return (
       <Container>
         <Tabs onChange={this.handleTabChange} value={value}>
           <Tab label="Active" />
           <Tab label="Deleted" />
+          <Tab label="Reported" />
         </Tabs>
+        {value === 2 && (
+          <MaterialTable
+            isLoading={loading}
+            options={{
+              actionsColumnIndex: -1,
+              pageSize: 10,
+            }}
+            columns={REPORT}
+            data={reportedSkills}
+            title="Reported Skills"
+            style={{
+              padding: '1rem',
+            }}
+            actions={[
+              {
+                onDelete: (event, rowData) => {
+                  this.handleDelete(
+                    rowData.skillName,
+                    rowData.model,
+                    rowData.group,
+                    rowData.language,
+                  );
+                },
+              },
+            ]}
+            components={{
+              Action: props => (
+                <ActionDiv
+                  onClick={event => props.action.onDelete(event, props.data)}
+                >
+                  Delete
+                </ActionDiv>
+              ),
+            }}
+            detailPanel={rowData => {
+              return <ReportPanel reports={rowData.reports} />;
+            }}
+            onRowClick={(event, rowData, togglePanel) => togglePanel()}
+          />
+        )}
         {value === 1 && (
           <MaterialTable
             isLoading={loading}
@@ -506,7 +473,7 @@ class ListSkills extends React.Component {
               actionsColumnIndex: -1,
               pageSize: 10,
             }}
-            columns={delColumns}
+            columns={getDeletedColumn(groups)}
             data={this.state.deletedSkills}
             title="Deleted Skills"
             style={{
@@ -543,7 +510,7 @@ class ListSkills extends React.Component {
               actionsColumnIndex: -1,
               pageSize: 10,
             }}
-            columns={columns}
+            columns={getActiveColumn(groups)}
             data={this.state.skillsData}
             title="Active Skills"
             style={{
