@@ -1,8 +1,7 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import styled, { css } from 'styled-components';
+import _ExpandMore from '@material-ui/icons/ExpandMore';
+import styled, { css, keyframes } from 'styled-components';
 import Link from '../shared/Link';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -10,11 +9,8 @@ import LINKS from './constants';
 import { connect } from 'react-redux';
 import { StyledIconButton } from '../shared/TopBarStyles';
 import { withRouter } from 'react-router-dom';
-import Popper from '@material-ui/core/Popper';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Fade from '@material-ui/core/Fade';
+import Popper from './Popper';
 import Paper from '@material-ui/core/Paper';
-import throttle from 'lodash.throttle';
 
 const NavLinkContainer = styled.div`
   margin-left: 2rem;
@@ -46,31 +42,40 @@ const NavButton = styled(StyledIconButton)`
     `}
 `;
 
+const SpinKeyframe = keyframes`
+0% {
+  transform: rotate(0deg);
+}
+
+100% {
+  transform: rotate(180deg);
+}
+`;
+
+const ExpandMore = styled(_ExpandMore)`
+  transition: 300ms transform;
+  transform: rotate(360deg);
+  animation: ${SpinKeyframe} 300ms;
+  :hover,
+  ${NavButton}:hover & {
+    animation: ${SpinKeyframe} 300ms;
+    transform: rotate(180deg);
+  }
+`;
+
 class NavMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null,
       activeTab: null,
     };
-    this.throttledMenuClose = throttle(this.handleClose, 400);
   }
-
-  handleClick = event => {
-    if (this.state.anchorEl !== event.currentTarget) {
-      this.setState({ anchorEl: event.currentTarget });
-    }
-  };
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.onRouteChanged();
     }
   }
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   onRouteChanged = () => {
     const { pathname } = this.props.location;
@@ -88,35 +93,23 @@ class NavMenu extends React.Component {
 
   componentDidMount() {
     this.onRouteChanged();
-    window.addEventListener('scroll', this.throttledMenuClose);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.throttledMenuClose);
   }
 
   render() {
-    const { anchorEl, activeTab } = this.state;
-
-    const open = Boolean(anchorEl);
+    const { activeTab } = this.state;
     const { url, label, sublinks = [] } = this.props.link;
 
     const listItems = sublinks.map(({ label, url }) => (
       <Link key={label} to={url}>
-        <MenuItem onClick={this.handleClose}>{label}</MenuItem>
+        <MenuItem>{label}</MenuItem>
       </Link>
     ));
-    const renderIcon = open ? <ExpandLess /> : <ExpandMore />;
     return (
-      <React.Fragment key={label}>
+      <div data-tip="custom" data-for={label}>
         {!_.isEmpty(sublinks) ? (
-          <NavButton
-            isActive={activeTab === label}
-            key={label}
-            onClick={this.handleClick}
-          >
+          <NavButton isActive={activeTab === label} key={label}>
             {label}
-            {renderIcon}
+            <ExpandMore />
           </NavButton>
         ) : (
           <NavButton key={label}>
@@ -124,17 +117,17 @@ class NavMenu extends React.Component {
           </NavButton>
         )}
         {!_.isEmpty(sublinks) && (
-          <Popper open={open} anchorEl={anchorEl} transition>
-            {({ TransitionProps }) => (
-              <ClickAwayListener onClickAway={this.handleClose}>
-                <Fade {...TransitionProps}>
-                  <Paper>{listItems}</Paper>
-                </Fade>
-              </ClickAwayListener>
-            )}
+          <Popper
+            id={label}
+            type={'light'}
+            place="bottom"
+            effect="solid"
+            delayHide={200}
+          >
+            <Paper>{listItems}</Paper>
           </Popper>
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }

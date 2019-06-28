@@ -39,7 +39,7 @@ const DialogData = {
   confirmDeleteAccount: { Component: ConfirmDeleteAccount, size: 'sm' },
   noComponent: { Component: null, size: false },
   deleteDevice: { Component: RemoveDeviceDialog, size: 'sm' },
-  authorSkills: { Component: AuthorSkills, size: 'sm' },
+  authorSkills: { Component: AuthorSkills, size: 'md' },
   updateSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
   createSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
   deleteSystemSettings: { Component: DeleteSystemSettings, size: 'sm' },
