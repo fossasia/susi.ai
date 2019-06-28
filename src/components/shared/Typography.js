@@ -8,6 +8,8 @@ export const Title = styled.h1`
 export const SubTitle = styled.p`
   font-weight: normal;
   font-size: ${props => (props.size ? props.size : '1.5rem')}
+  margin-left: ${props =>
+    props.marginLeft ? props.marginLeft + 'rem' : '0rem'}
   padding-bottom: 0.5rem;
 `;
 
