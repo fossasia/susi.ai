@@ -63,6 +63,12 @@ class Admin extends Component {
       });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.initilizeData();
+    }
+  }
+
   initilizeData = () => {
     let endPath = this.props.location.pathname.split('/')[2];
     let heading = 'Admin';

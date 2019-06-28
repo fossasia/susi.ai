@@ -31,7 +31,7 @@ const Footer = () => {
                 <Link to="/">Overview</Link>
               </li>
               <li>
-                <Link to="/blog">Blog</Link>
+                <Link to="/about/blog">Blog</Link>
               </li>
               <li>
                 <a href={urls.API_URL}>API</a>
@@ -51,7 +51,7 @@ const Footer = () => {
               <Link to="/terms">Terms</Link>
             </li>
             <li>
-              <Link to="/contact">Contact</Link>
+              <Link to="/about/contact">Contact</Link>
             </li>
           </ul>
         </div>
