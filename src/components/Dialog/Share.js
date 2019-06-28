@@ -14,6 +14,7 @@ import {
   TwitterIcon,
   LinkedinIcon,
 } from 'react-share';
+import _IconButton from '@material-ui/core/IconButton';
 
 const styles = {
   iconWrapperStyle: {
@@ -41,13 +42,19 @@ const TextContainer = styled.div`
   padding-left: 0.5rem;
 `;
 
+const IconButton = styled(_IconButton)`
+  border-radius: 2px;
+  padding: 0.5rem;
+  font-size: 1rem;
+`;
+
 const Share = ({ actions }) => {
   const { iconWrapperStyle } = styles;
   return (
     <React.Fragment>
       <DialogTitle>Share about SUSI</DialogTitle>
       <ShareIconContainer>
-        <div className="HoverIcon">
+        <IconButton>
           <FacebookShareButton
             url={shareUrl}
             quote={title}
@@ -58,8 +65,8 @@ const Share = ({ actions }) => {
             </div>
             <TextContainer>Facebook</TextContainer>
           </FacebookShareButton>
-        </div>
-        <div className="HoverIcon">
+        </IconButton>
+        <IconButton>
           <TwitterShareButton
             style={iconWrapperStyle}
             url={shareUrl}
@@ -70,8 +77,8 @@ const Share = ({ actions }) => {
             </div>
             <TextContainer>Twitter</TextContainer>
           </TwitterShareButton>
-        </div>
-        <div className="HoverIcon">
+        </IconButton>
+        <IconButton>
           <LinkedinShareButton
             style={iconWrapperStyle}
             url={shareUrl}
@@ -82,7 +89,7 @@ const Share = ({ actions }) => {
             </div>
             <TextContainer>LinkedIn</TextContainer>
           </LinkedinShareButton>
-        </div>
+        </IconButton>
       </ShareIconContainer>
       <CloseButton onClick={actions.closeModal} />
     </React.Fragment>
