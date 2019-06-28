@@ -56,7 +56,6 @@ class TopBar extends Component {
     avatarImgThumbnail: PropTypes.string,
     history: PropTypes.object,
   };
-
   static defaultProps = {
     email: '',
     userName: '',
