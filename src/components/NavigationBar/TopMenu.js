@@ -7,7 +7,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import LINKS from './constants';
 import { connect } from 'react-redux';
-import { StyledIconButton } from '../shared/TopBarStyles';
+import { StyledIconButton } from './Styles';
 import { withRouter } from 'react-router-dom';
 import Popper from './Popper';
 import Paper from '@material-ui/core/Paper';

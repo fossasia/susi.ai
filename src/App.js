@@ -116,8 +116,7 @@ class App extends Component {
       '/terms',
       '/contact',
     ];
-    const renderAppBar =
-      pathname !== '/chat' ? <NavigationBar showPageTabs={true} /> : null;
+    const renderAppBar = pathname !== '/chat' ? <NavigationBar /> : null;
     const renderFooter =
       (skillListRegex.test(pathname) && pathLength > 3 && pathLength <= 5) ||
       renderFooterPagesList.includes(pathname) ? (

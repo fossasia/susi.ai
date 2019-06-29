@@ -7,7 +7,7 @@ import CircularLoader from '../../shared/CircularLoader';
 import Fab from '@material-ui/core/Fab';
 import NavigateDown from '@material-ui/icons/ExpandMore';
 import NavigateUp from '@material-ui/icons/ExpandLess';
-import TopBar from '../TopBar.react';
+import NavigationBar from '../../NavigationBar';
 import MessageComposer from '../MessageComposer.react';
 import loadingGIF from '../../../images/loading.gif';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
@@ -530,7 +530,7 @@ class MessageSection extends Component {
     }
     return (
       <div>
-        <TopBar
+        <NavigationBar
           header={header}
           {...this.props}
           searchTextChanged={this.searchTextChanged}
