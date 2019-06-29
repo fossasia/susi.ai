@@ -48,6 +48,16 @@ const Img = styled(_Img)`
   border-radius: 50%;
 `;
 
+const Container = styled.div`
+  text-align: right;
+  margin-right: 1.25rem;
+  @media (max-width: 600px) {
+    text-align: left;
+    margin-left: 1rem;
+    margin-right: 0;
+  }
+`;
+
 class MySkills extends Component {
   constructor(props) {
     super(props);
@@ -117,7 +127,7 @@ class MySkills extends Component {
     const open = Boolean(anchorEl);
     return (
       <div>
-        <div style={{ textAlign: 'right', marginRight: '1.25rem' }}>
+        <Container>
           <Menu
             anchorEl={anchorEl}
             open={open}
@@ -151,7 +161,7 @@ class MySkills extends Component {
           >
             <Add /> Create Skill
           </Button>
-        </div>
+        </Container>
 
         {loading ? (
           <CircularLoader height={5} />
@@ -183,7 +193,7 @@ class MySkills extends Component {
                           to={{
                             pathname: `/skills/${group}/${skillTag
                               .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
+                              .replace(/ /g, '_')}/${language}`,
                           }}
                         >
                           <Img

@@ -8,9 +8,9 @@ const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
 const SUSI_API_PREFIX = 'susi';
 
-export function fetchApiKeys(payload) {
+export function fetchApiKeys() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/getApiKeys.json`;
-  return ajax.get(url);
+  return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
 export function createApiKey(payload) {
@@ -672,5 +672,11 @@ export function fetchLatestCommitInformation(payload) {
 
 export function fetchRevertingCommitInformation(payload) {
   const { url } = payload;
+  return ajax.get(url, {});
+}
+
+// ReportedSkills
+export function fetchReportedSkills() {
+  const url = `${urls.API_URL}/${CMS_API_PREFIX}/getReportSkill.json`;
   return ajax.get(url, {});
 }

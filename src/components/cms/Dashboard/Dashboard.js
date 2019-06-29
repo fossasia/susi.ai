@@ -8,7 +8,6 @@ import styled from 'styled-components';
 const Paper = styled(_Paper)`
   width: 100%;
   margin-top: 1.25rem;
-  min-width: 40rem;
   padding: 1rem 1rem 3rem;
   @media (max-width: 740) {
     padding: 0 0 3rem;
@@ -20,6 +19,10 @@ const Heading = styled.h1`
   width: 100%;
   min-width: 40rem;
   padding: 1rem 0;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 `;
 
 const SubHeading = styled.h1`
@@ -29,8 +32,8 @@ const SubHeading = styled.h1`
 
 const Container = styled.div`
   padding: 4rem 4rem 2rem;
-  @media (max-width: 855px) {
-    padding: 4rem 0 2rem;
+  @media (max-width: 480px) {
+    padding: 4rem 1rem 2rem;
   }
 `;
 

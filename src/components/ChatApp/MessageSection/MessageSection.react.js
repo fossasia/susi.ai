@@ -524,7 +524,6 @@ class MessageSection extends Component {
         null,
       );
     }
-
     return (
       <div className={theme} style={{ background: body }}>
         <header>

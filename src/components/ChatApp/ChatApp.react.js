@@ -2,11 +2,13 @@ import MessageSection from './MessageSection/MessageSection.react';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ChatApp.css';
+import { withRouter } from 'react-router-dom';
 
 class ChatApp extends Component {
   static propTypes = {
     actions: PropTypes.object,
     app: PropTypes.object,
+    history: PropTypes.object,
   };
 
   componentDidMount() {
@@ -16,10 +18,10 @@ class ChatApp extends Component {
   render() {
     return (
       <div className="chatapp">
-        <MessageSection />
+        <MessageSection history={this.props.history} />
       </div>
     );
   }
 }
 
-export default ChatApp;
+export default withRouter(ChatApp);

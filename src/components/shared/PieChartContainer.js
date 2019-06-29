@@ -95,6 +95,10 @@ const Container = styled.div`
   justify-content: center;
   align-content: center;
   padding-bottom: 2rem;
+
+  @media (max-width: 480px) {
+    display: block;
+  }
 `;
 
 class PieChartContainer extends Component {

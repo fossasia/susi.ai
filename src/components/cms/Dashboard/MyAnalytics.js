@@ -8,6 +8,13 @@ import { fetchSkillsByAuthor } from '../../../apis';
 import { Cell } from 'recharts';
 import PieChartContainer from '../../shared/PieChartContainer';
 import { SubTitle } from '../../shared/Typography';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  @media (max-width: 720px) {
+    overflow-x: scroll;
+  }
+`;
 
 class MyAnalytics extends Component {
   constructor(props) {
@@ -65,10 +72,10 @@ class MyAnalytics extends Component {
         {loading ? (
           <CircularLoader height={5} />
         ) : (
-          <div>
+          <Container>
             {skillUsageCount !== 0 && (
               <React.Fragment>
-                <SubTitle>Skill Usage Distribution</SubTitle>
+                <SubTitle marginLeft={1.4}>Skill Usage Distribution</SubTitle>
                 <PieChartContainer
                   cellData={skillUsage.map((entry, index) => (
                     <Cell
@@ -86,10 +93,10 @@ class MyAnalytics extends Component {
                 />
               </React.Fragment>
             )}
-          </div>
+          </Container>
         )}
         {skillUsageCount === 0 && !loading && (
-          <div>
+          <Container>
             <div className="center">
               <br />
               <h2>
@@ -98,7 +105,7 @@ class MyAnalytics extends Component {
               </h2>
               <br />
             </div>
-          </div>
+          </Container>
         )}
       </div>
     );
