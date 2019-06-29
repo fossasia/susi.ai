@@ -16,7 +16,7 @@ import CircularLoader from '../../shared/CircularLoader';
 
 const Table = styled(_Table)`
   max-width: 40rem;
-  @media (max-width: 500px) {
+  @media (max-width: 780px) {
     display: block;
   }
 `;

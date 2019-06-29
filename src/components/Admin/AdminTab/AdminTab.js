@@ -1,7 +1,7 @@
 import React from 'react';
 import _Card from '@material-ui/core/Card';
 import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
+import _Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Lozenge from '../../shared/Lozenge';
 import { fetchAdminUserStats, fetchAdminUserSkill } from '../../../apis/index';
@@ -18,16 +18,56 @@ const CardContentContainer = styled.div`
 const CardContainer = styled.span`
   font-size: 18px;
   float: left;
-  margin-right: 20px;
+  margin: 0 10px;
+  @media (max-width: 894px) {
+    margin: 0px;
+  }
+  @media (max-width: 514px) {
+    width: 100%;
+  }
+`;
+
+const Typography = styled(_Typography)`
+  @media (max-width: 441px) {
+    font-size: 1rem;
+  }
+`;
+
+const Container = styled.div`
+  width: 840px;
+  margin: auto;
+  @media (min-width: 1319px) {
+    ${CardContainer}:last-child {
+      display: table;
+      float: none;
+      margin: auto;
+    }
+    width: 1260px;
+  }
+  @media (max-width: 894px) {
+    width: 400px;
+  }
+  @media (max-width: 514px) {
+    width: 80%;
+  }
 `;
 
 const Card = styled(_Card)`
-  width: ${props => (props.width ? props.width + 'px' : '300px')};
+  width: ${props => (props.width ? props.width + 'px' : '400px')};
   height: 310px;
   margin-bottom: 20px;
   font-size: 18px;
   font-weight: bold;
   line-height: 2;
+  @media (max-width: 514px) {
+    width: 100%;
+  }
+`;
+
+const SkillCard = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
 `;
 
 class AdminTab extends React.Component {
@@ -100,120 +140,110 @@ class AdminTab extends React.Component {
         {loading ? (
           <CircularLoader />
         ) : (
-          <div style={{ margin: '1rem' }}>
-            <CardContainer>
-              <Card>
-                <CardHeading>User Roles</CardHeading>
-                <Divider />
-                <CardContentContainer>
-                  <Typography variant="body1" gutterBottom>
-                    Anonymous: {anonymous}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Users: {users}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Reviewers: {reviewers}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Operators: {operators}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Admins: {admins}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Super Admins: {superAdmins}
-                  </Typography>
-                </CardContentContainer>
-              </Card>
-            </CardContainer>
+          <div style={{ margin: '1rem 0' }}>
+            <Container>
+              <CardContainer>
+                <Card>
+                  <CardHeading>User Roles</CardHeading>
+                  <Divider />
+                  <CardContentContainer>
+                    <Typography variant="body1" gutterBottom>
+                      Anonymous: {anonymous}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Users: {users}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Reviewers: {reviewers}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Operators: {operators}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Admins: {admins}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Super Admins: {superAdmins}
+                    </Typography>
+                  </CardContentContainer>
+                </Card>
+              </CardContainer>
 
-            <CardContainer>
-              <Card width={400}>
-                <CardHeading>Users</CardHeading>
-                <Divider />
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    marginTop: '50px',
-                  }}
-                >
-                  <div>
-                    <Typography variant="h6" gutterBottom>
-                      Total
-                    </Typography>
-                    <Lozenge color="orange" text={totalUsers} />
-                  </div>
-                  <div>
-                    <Typography variant="h6" gutterBottom>
-                      Active
-                    </Typography>
-                    <Lozenge color="green" text={activeUsers} />
-                  </div>
-                  <div>
-                    <Typography variant="h6" gutterBottom>
-                      Inactive
-                    </Typography>
-                    <Lozenge color="red" text={inactiveUsers} />
-                  </div>
-                </div>
-              </Card>
-            </CardContainer>
+              <CardContainer>
+                <Card width={400}>
+                  <CardHeading>Users</CardHeading>
+                  <Divider />
+                  <SkillCard>
+                    <div>
+                      <Typography variant="h6" gutterBottom>
+                        Total
+                      </Typography>
+                      <Lozenge color="orange" text={totalUsers} />
+                    </div>
+                    <div>
+                      <Typography variant="h6" gutterBottom>
+                        Active
+                      </Typography>
+                      <Lozenge color="green" text={activeUsers} />
+                    </div>
+                    <div>
+                      <Typography variant="h6" gutterBottom>
+                        Inactive
+                      </Typography>
+                      <Lozenge color="red" text={inactiveUsers} />
+                    </div>
+                  </SkillCard>
+                </Card>
+              </CardContainer>
 
-            <CardContainer>
-              <Card width={400}>
-                <CardHeading>Skills</CardHeading>
-                <Divider />
-                <span
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    marginTop: '50px',
-                  }}
-                >
-                  <div>
-                    <Typography variant="h6" gutterBottom>
-                      Total
-                    </Typography>
-                    <Lozenge color="orange" text={totalSkills} />
-                  </div>
-                  <div>
-                    <Typography variant="h6" gutterBottom>
-                      Reviewed
-                    </Typography>
-                    <Lozenge color="green" text={reviewedSkills} />
-                  </div>
-                  <div>
-                    <Typography variant="h6" gutterBottom>
-                      Not Reviewed
-                    </Typography>
-                    <Lozenge color="red" text={nonReviewedSkills} />
-                  </div>
-                </span>
-              </Card>
-            </CardContainer>
+              <CardContainer>
+                <Card width={400}>
+                  <CardHeading>Skills</CardHeading>
+                  <Divider />
+                  <SkillCard>
+                    <div>
+                      <Typography variant="h6" gutterBottom>
+                        Total
+                      </Typography>
+                      <Lozenge color="orange" text={totalSkills} />
+                    </div>
+                    <div>
+                      <Typography variant="h6" gutterBottom>
+                        Reviewed
+                      </Typography>
+                      <Lozenge color="green" text={reviewedSkills} />
+                    </div>
+                    <div>
+                      <Typography variant="h6" gutterBottom>
+                        Not Reviewed
+                      </Typography>
+                      <Lozenge color="red" text={nonReviewedSkills} />
+                    </div>
+                  </SkillCard>
+                </Card>
+              </CardContainer>
 
-            <CardContainer>
-              <Card>
-                <CardHeading>Skill Types</CardHeading>
-                <Divider />
-                <CardContentContainer>
-                  <Typography variant="body1" gutterBottom>
-                    System Skills: {systemSkills}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Staff Picks: {staffPicks}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Editable: {editableSkills}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Non Editable: {nonEditableSkills}
-                  </Typography>
-                </CardContentContainer>
-              </Card>
-            </CardContainer>
+              <CardContainer>
+                <Card>
+                  <CardHeading>Skill Types</CardHeading>
+                  <Divider />
+                  <CardContentContainer>
+                    <Typography variant="body1" gutterBottom>
+                      System Skills: {systemSkills}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Staff Picks: {staffPicks}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Editable: {editableSkills}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Non Editable: {nonEditableSkills}
+                    </Typography>
+                  </CardContentContainer>
+                </Card>
+              </CardContainer>
+            </Container>
           </div>
         )}
       </React.Fragment>
