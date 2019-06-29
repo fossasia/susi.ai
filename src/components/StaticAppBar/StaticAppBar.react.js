@@ -26,11 +26,8 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import TopMenu from './TopMenu';
 import LeftMenu from './LeftMenu';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Popper from '@material-ui/core/Popper';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
-import throttle from 'lodash.throttle';
+import Popper from './Popper';
 
 import {
   StyledIconButton,
@@ -51,7 +48,6 @@ const TopRightMenuContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: -8px;
   margin-top: 1px;
 `;
 
@@ -92,41 +88,18 @@ class StaticAppBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null,
       drawerOpen: false,
     };
-    this.throttledMenuClose = throttle(this.handleMenuClose, 400);
   }
 
   handleDrawerToggle = () => {
     this.setState(prevState => ({ drawerOpen: !prevState.drawerOpen }));
   };
 
-  handleMenuClick = event => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    });
-  };
-
-  handleMenuClose = () => {
-    this.setState({
-      anchorEl: null,
-    });
-  };
-
   handleLogin = () => {
     const { actions } = this.props;
-    this.handleMenuClose();
     actions.openModal({ modalType: 'login' });
   };
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.throttledMenuClose);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.throttledMenuClose);
-  }
 
   render() {
     const {
@@ -137,14 +110,13 @@ class StaticAppBar extends Component {
       avatarImgThumbnail,
       history,
     } = this.props;
-    const { anchorEl, drawerOpen } = this.state;
-    const open = Boolean(anchorEl);
+    const { drawerOpen } = this.state;
 
     const Logged = props => (
-      <div>
+      <React.Fragment>
         {accessToken && (
           <Link to="/settings">
-            <MenuItem onClick={this.handleMenuClose}>
+            <MenuItem>
               <ListItemIcon>
                 <Settings />
               </ListItemIcon>
@@ -156,7 +128,7 @@ class StaticAppBar extends Component {
         )}
         {accessToken ? (
           <Link to="/logout">
-            <MenuItem onClick={this.handleMenuClose}>
+            <MenuItem>
               <ListItemIcon>
                 <Exit />
               </ListItemIcon>
@@ -166,6 +138,7 @@ class StaticAppBar extends Component {
             </MenuItem>
           </Link>
         ) : (
+          // <div style={{width: '6.5rem'}}>
           <MenuItem onClick={this.handleLogin}>
             <ListItemIcon>
               <SignUpIcon />
@@ -174,8 +147,9 @@ class StaticAppBar extends Component {
               <Translate text="Login" />
             </ListItemText>
           </MenuItem>
+          // </div>
         )}
-      </div>
+      </React.Fragment>
     );
 
     let userAvatar = null;
@@ -218,25 +192,22 @@ class StaticAppBar extends Component {
                     </FlexContainer>
                   </StyledIconButton>
                 )}
-                <IconButton
-                  aria-owns={open ? 'menu-popper' : undefined}
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={this.handleMenuClick}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Popper open={open} anchorEl={anchorEl} transition>
-                  {({ TransitionProps }) => (
-                    <ClickAwayListener onClickAway={this.handleMenuClose}>
-                      <Fade {...TransitionProps}>
-                        <Paper>
-                          <Logged />
-                        </Paper>
-                      </Fade>
-                    </ClickAwayListener>
-                  )}
-                </Popper>
+                <div data-tip="custom" data-for={'right-menu'}>
+                  <Popper
+                    id={'right-menu'}
+                    place="bottom"
+                    effect="solid"
+                    delayHide={200}
+                    type={'light'}
+                  >
+                    <Paper style={{ position: 'absolute', right: '-2rem' }}>
+                      <Logged />
+                    </Paper>
+                  </Popper>
+                  <IconButton aria-haspopup="true" color="inherit">
+                    <MoreVertIcon />
+                  </IconButton>
+                </div>
               </TopRightMenuContainer>
             </Toolbar>
           </AppBar>
