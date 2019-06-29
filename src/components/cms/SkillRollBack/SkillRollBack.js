@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import uiActions from '../../../redux/actions/ui';
 import { bindActionCreators } from 'redux';
 
-import SkillCreator from '../SkillCreator/SkillCreator';
+import SkillWizard from '../SkillCreator/SkillWizard';
 import { urls } from '../../../utils';
 import {
   fetchLatestCommitInformation,
@@ -345,7 +345,7 @@ class SkillRollBack extends Component {
               <Title marginTop>Edit</Title>
             </div>
             <div style={{ marginTop: '-100px', width: '100%' }}>
-              <SkillCreator
+              <SkillWizard
                 showTopBar={false}
                 revertingCommit={this.revertingCommit}
                 location={{
