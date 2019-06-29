@@ -198,7 +198,12 @@ class MySkills extends Component {
                         >
                           <Img
                             // eslint-disable-next-line
-                            src={`${urls.API_URL}/cms/getImage.png?model=general&language=${language}&group=${group}&image=/${image}`}
+                            src={`${
+                              urls.API_URL
+                            }/cms/getImage.png?model=general&language=${language}&group=${group.replace(
+                              / /g,
+                              '%20',
+                            )}&image=/${image}`}
                             unloader={
                               <CircleImage name={skillName} size="40" />
                             }
