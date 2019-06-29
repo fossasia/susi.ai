@@ -1,5 +1,5 @@
 import React from 'react';
-import CircleImage from '../../../components/cms/CircleImage/CircleImage';
+import CircleImage from '../../../components/shared/CircleImage';
 import { shallow } from 'enzyme';
 
 describe('<CircleImage />', () => {

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import CircleImage from '../../CircleImage/CircleImage';
+import CircleImage from '../../shared/CircleImage';
 import { urls } from '../../../utils';
 import styled from 'styled-components';
 
