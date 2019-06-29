@@ -21,7 +21,7 @@ import { reportSkill } from '../../../apis';
 import { CenterReaderContainer } from '../../shared/Container';
 
 // Static Assets
-import CircleImage from '../../CircleImage/CircleImage';
+import CircleImage from '../../shared/CircleImage';
 import EditBtn from '@material-ui/icons/Edit';
 import VersionBtn from '@material-ui/icons/History';
 import DeleteBtn from '@material-ui/icons/Delete';

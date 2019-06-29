@@ -1,16 +1,16 @@
 import React from 'react';
-import Logout from '../../../components/Auth/Logout';
+import Blog from '../../../components/About/Blog';
 import { shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<Logout />', () => {
-  it('render Logout without crashing', () => {
+describe('<Login />', () => {
+  it('render Login without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Logout />
+        <Blog location={{ pathname: '/blog' }} />
       </Provider>,
     );
   });

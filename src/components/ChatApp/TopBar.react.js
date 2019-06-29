@@ -21,7 +21,7 @@ import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import susiWhite from '../../images/susi-logo-white.png';
 import Translate from '../Translate/Translate.react';
-import CircleImage from '../CircleImage/CircleImage';
+import CircleImage from '../shared/CircleImage';
 import appActions from '../../redux/actions/app';
 import uiActions from '../../redux/actions/ui';
 import Link from '../shared/Link';

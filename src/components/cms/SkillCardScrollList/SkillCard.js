@@ -4,7 +4,7 @@ import Ratings from 'react-ratings-declarative';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import CircleImage from '../../CircleImage/CircleImage';
+import CircleImage from '../../shared/CircleImage';
 import { scrollAnimation } from '../../../utils';
 import Fab from '@material-ui/core/Fab';
 import NavigationChevronLeft from '@material-ui/icons/ChevronLeft';
