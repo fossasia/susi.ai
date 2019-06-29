@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import uiActions from '../../../redux/actions/ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 // Material-UI
 import Table from '@material-ui/core/Table';
@@ -18,9 +19,12 @@ import _Button from '@material-ui/core/Button';
 import CircularLoader from '../../shared/CircularLoader';
 import Checkbox from '@material-ui/core/Checkbox';
 
-// Other Utils
-import './SkillVersion.css';
-import styled from 'styled-components';
+const Button = styled(_Button)`
+  right: ${props => props.position + 'rem'};
+  bottom: 2rem;
+  position: fixed;
+  z-index: 1;
+`;
 
 const Container = styled.div`
   font-size: 0.85rem;
@@ -29,10 +33,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 3rem auto;
-`;
-
-const Button = styled(_Button)`
-  margin: 0.625rem;
 `;
 
 const ActionButtonDiv = styled.div`
@@ -154,18 +154,12 @@ class SkillVersion extends Component {
                 pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/edit/${skillMeta.languageValue}/${commitId}`,
               }}
             >
-              <abbr title={commitDate}>{commitDate}</abbr>
+              {commitDate}
             </Link>
           </TableCell>
-          <TableCell padding="dense">
-            <abbr title={commitId}>{commitId}</abbr>
-          </TableCell>
-          <TableCell padding="dense">
-            <abbr title={author}>{author}</abbr>
-          </TableCell>
-          <TableCell padding="dense">
-            <abbr title={commitMessage}>{commitMessage}</abbr>
-          </TableCell>
+          <TableCell padding="dense">{commitId}</TableCell>
+          <TableCell padding="dense">{author}</TableCell>
+          <TableCell padding="dense">{commitMessage}</TableCell>
         </TableRow>
       );
     });
@@ -212,8 +206,8 @@ class SkillVersion extends Component {
                     pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
                   }}
                 >
-                  <Button variant="contained" color="primary">
-                    Compare Selected Versions
+                  <Button position={8} variant="contained" color="primary">
+                    Compare
                   </Button>
                 </Link>
               )}
@@ -222,7 +216,7 @@ class SkillVersion extends Component {
                   pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
                 }}
               >
-                <Button variant="contained" color="primary">
+                <Button position={2} variant="contained" color="primary">
                   Back
                 </Button>
               </Link>
