@@ -33,13 +33,14 @@ import Dashboard from './components/cms/Dashboard/Dashboard';
 import SkillVersion from './components/cms/SkillVersion/SkillVersion';
 import SkillHistory from './components/cms/SkillHistory/SkillHistory';
 import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
-import SkillCreator from './components/cms/SkillCreator/SkillCreator';
+import SkillWizard from './components/cms/SkillCreator/SkillWizard';
 import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
 import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
 import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
+import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 
 class App extends Component {
   static propTypes = {
@@ -188,17 +189,22 @@ class App extends Component {
               <Route
                 exact
                 path="/skills/:category/:skill/edit/:lang"
-                component={SkillCreator}
+                component={SkillWizard}
               />
               <Route
                 exact
                 path="/skills/:category/:skill/edit/:lang/:commit"
-                component={SkillCreator}
+                component={SkillWizard}
               />
               <ProtectedRoute
                 exact
                 path="/skills/skillCreator"
                 component={SkillCreator}
+              />
+              <ProtectedRoute
+                exact
+                path="/skills/skillWizard"
+                component={SkillWizard}
               />
               <ProtectedRoute
                 path="/skills/botbuilder"
