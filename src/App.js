@@ -7,21 +7,21 @@ import { connect } from 'react-redux';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { theme } from './MUItheme';
 import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
-import Blog from './components/Blog/Blog.react';
+import Blog from './components/About/Blog';
 import ChatApp from './components/ChatApp/ChatApp.react';
 import Contact from './components/Contact/Contact.react';
-import Devices from './components/Devices/Devices.react';
-import Logout from './components/Auth/Logout.react';
+import Devices from './components/About/Devices';
+import Logout from './components/Auth/Logout';
 import NotFound from './components/NotFound/NotFound.react';
-import Overview from './components/Overview/Overview.react';
+import Overview from './components/About/Overview';
 import Settings from './components/Settings/Settings.react';
-import Support from './components/Support/Support.react';
-import Team from './components/Team/Team.react';
+import Support from './components/About/Support';
+import Team from './components/About/Team';
 import Terms from './components/Terms/Terms.react';
 import Privacy from './components/Privacy/Privacy.react';
 import appActions from './redux/actions/app';
 import uiActions from './redux/actions/ui';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/shared/ProtectedRoute';
 import DialogSection from '../src/components/Dialog/DialogSection.react';
 import settingActions from './redux/actions/settings';
 import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
@@ -35,7 +35,7 @@ import SkillHistory from './components/cms/SkillHistory/SkillHistory';
 import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
 import SkillWizard from './components/cms/SkillCreator/SkillWizard';
 import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
-import StaticAppBar from './components/StaticAppBar/StaticAppBar.react';
+import NavigationBar from './components/NavigationBar';
 import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
@@ -117,7 +117,7 @@ class App extends Component {
       '/contact',
     ];
     const renderAppBar =
-      pathname !== '/chat' ? <StaticAppBar showPageTabs={true} /> : null;
+      pathname !== '/chat' ? <NavigationBar showPageTabs={true} /> : null;
     const renderFooter =
       (skillListRegex.test(pathname) && pathLength > 3 && pathLength <= 5) ||
       renderFooterPagesList.includes(pathname) ? (
