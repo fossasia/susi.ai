@@ -24,7 +24,7 @@ import avatars from '../../../utils/avatars';
 import { storeDraft, updateSkill, readDraft } from '../../../apis/index';
 import './BotBuilder.css';
 import createActions from '../../../redux/actions/create';
-import SkillCreator from '../SkillCreator/SkillCreator';
+import SkillWizard from '../SkillCreator/SkillWizard';
 
 const styles = {
   home: {
@@ -243,7 +243,7 @@ class BotWizard extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <SkillCreator />;
+        return <SkillWizard />;
       case 1:
         return <Design />;
       case 2:
