@@ -48,9 +48,14 @@ const range = (from, to, step = 1) => {
 };
 
 const Container = styled(CenterReaderContainer)`
-  margin-top: 3.125rem;
   width: 100%;
   font-size: 0.875rem;
+  @media only screen and (min-width: 1240px) {
+    margin-top: 4rem;
+  }
+  @media only screen and (max-width: 426px) {
+    padding: 1.6rem 1rem;
+  }
 `;
 
 const Timestamp = styled.div`
@@ -102,6 +107,10 @@ const EnabledButtonStyles = css`
   color: #000000;
   padding: 0.5rem 0.75rem;
   margin-left: 0.25rem;
+  cursor: pointer;
+`;
+
+const AuthorName = styled.span`
   cursor: pointer;
 `;
 
@@ -393,10 +402,10 @@ class SkillFeedbackPage extends Component {
     const { currentPage, errorText, loading, anchorEl } = this.state;
     const {
       image,
-      author,
       skillName: _skillName,
       skillFeedbacks,
       email,
+      author,
       accessToken,
     } = this.props;
 
@@ -554,7 +563,7 @@ class SkillFeedbackPage extends Component {
     if (!loading) {
       renderElement = (
         <Container>
-          <Paper margin={4}>
+          <Paper margin={2}>
             <p style={{ marginLeft: 10 }}>
               <Link
                 to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
@@ -590,12 +599,9 @@ class SkillFeedbackPage extends Component {
                 </SkillName>
                 <div>
                   by{' '}
-                  <span
-                    className="feedback-author"
-                    onClick={this.openAuthorSkills}
-                  >
+                  <AuthorName onClick={this.openAuthorSkills}>
                     {author}
-                  </span>
+                  </AuthorName>
                 </div>
               </div>
             </SkillDetailContainer>
