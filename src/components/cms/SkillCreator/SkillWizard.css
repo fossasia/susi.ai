@@ -3,14 +3,32 @@
 	margin-left: 65%;
 	height: 88%;
 	margin-top: 10px;
-	padding-right: 30px;
 	width: 100%;
 }
 
-@media only screen and (max-width:769px){
+@media only screen and (min-width:768px){
 	.skillcreator-col{
-		position: inherit  ;
 		margin-left: 0px ;
 		margin-bottom: 40px;
+		margin-left: 63%;
+	}
+}
+
+@media only screen and (max-width: 1164px) {
+	.skillcreator-col{
+		position: relative;
+		flex-basis: 100%;
+		max-width: 100%;
+		padding-right: 0;
+		width: 100%;
+		margin-left: 0px;
+		padding: 0 8px;
+	}
+}
+
+@media only screen and (max-width: 1164px){
+	.col-md-8 {
+		flex-basis: 100%;
+		max-width: 100%;
 	}
 }
