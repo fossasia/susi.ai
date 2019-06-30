@@ -58,7 +58,7 @@ class ChatAppTab extends React.Component {
     return (
       <SettingsTabWrapper heading="Preferences">
         <FlexContainer>
-          <div className="reduceSettingDiv">
+          <div>
             <Translate text="Send message by pressing ENTER" />
           </div>
           <div>
