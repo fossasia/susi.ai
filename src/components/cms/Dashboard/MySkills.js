@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import CircularLoader from '../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import CircleImage from '../CircleImage/CircleImage';
+import CircleImage from '../../shared/CircleImage';
 import _Img from 'react-image';
 import Add from '@material-ui/icons/Add';
 import { urls } from '../../../utils';

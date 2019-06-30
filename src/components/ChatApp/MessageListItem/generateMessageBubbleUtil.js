@@ -51,6 +51,14 @@ const MessageContainer = styled.div`
   }
 `;
 
+const WebSearchRSSContainer = styled.div`
+  @media (min-width: 768px) {
+    width: 100%;
+    padding: 0 30px;
+    margin: 0 auto;
+  }
+`;
+
 const entities = new AllHtmlEntities();
 
 const PostDate = injectIntl(({ date, intl }) => (
@@ -247,15 +255,10 @@ const generateAudioBubble = (
 };
 
 const generateWebSearchRssBubble = (action, index, data) => {
-  let sliderClass = 'swipe-rss-websearch';
-  if (window.matchMedia('only screen and (max-width: 768px)').matches) {
-    // for functionality on screens smaller than 768px
-    sliderClass = '';
-  }
   return (
-    <div className={sliderClass} key={action + index}>
+    <WebSearchRSSContainer key={action + index}>
       {renderTiles(data)}
-    </div>
+    </WebSearchRSSContainer>
   );
 };
 

@@ -474,6 +474,10 @@ class MessageSection extends Component {
     return LoadingComponent;
   };
 
+  componentWillUnmount() {
+    document.body.style.setProperty('background-color', 'white');
+  }
+
   render() {
     const {
       dream,
@@ -525,20 +529,18 @@ class MessageSection extends Component {
       );
     }
     return (
-      <div className={theme} style={{ background: body }}>
-        <header>
-          <TopBar
-            header={header}
-            {...this.props}
-            searchTextChanged={this.searchTextChanged}
-            openSearch={this.openSearch}
-            exitSearch={this.exitSearch}
-            nextSearchItem={this.nextSearchItem}
-            previousSearchItem={this.previousSearchItem}
-            search={search}
-            searchState={searchState}
-          />
-        </header>
+      <div>
+        <TopBar
+          header={header}
+          {...this.props}
+          searchTextChanged={this.searchTextChanged}
+          openSearch={this.openSearch}
+          exitSearch={this.exitSearch}
+          nextSearchItem={this.nextSearchItem}
+          previousSearchItem={this.previousSearchItem}
+          search={search}
+          searchState={searchState}
+        />
         <MessageSectionContainer>
           {loadingHistory ? (
             <CircularLoader height={38} />

@@ -1,16 +1,15 @@
 import React from 'react';
-import Logout from '../../../components/Auth/Logout';
+import LeftMenu from '../../../components/NavigationBar/LeftMenu';
 import { shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
-
-describe('<Logout />', () => {
-  it('render Logout without crashing', () => {
+describe('<LeftMenu />', () => {
+  it('renders LeftMenu without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Logout />
+        <LeftMenu />
       </Provider>,
     );
   });

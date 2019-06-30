@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Ratings from 'react-ratings-declarative';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import CircleImage from '../../CircleImage/CircleImage';
+import CircleImage from '../../shared/CircleImage';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import { urls } from '../../../utils';
