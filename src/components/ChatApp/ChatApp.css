@@ -6,14 +6,6 @@
   margin-right: 0;
 }
 
-.app-bar, .app-bar-search {
-  height: 46px;
-  background-color: rgb(66, 133, 244);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .scroll::-webkit-scrollbar {
   display: none;
  }
@@ -46,10 +38,4 @@
 .slick-prev:before, .slick-next:before {
   color: grey;
   opacity: 1;
-}
-
-@media only screen and (max-width: 560px){
-  .app-bar-search img {
-    width: 0px;
-  }
 }

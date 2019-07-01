@@ -263,7 +263,7 @@ const generateWebSearchRssBubble = (action, index, data) => {
 };
 
 export const generateMessageBubble = (
-  message,
+  message = [],
   latestUserMsgID,
   markID,
   ttsLanguage,

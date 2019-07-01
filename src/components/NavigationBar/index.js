@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import Translate from '../Translate/Translate.react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import CircleImage from '../shared/CircleImage';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
@@ -28,13 +28,25 @@ import LeftMenu from './LeftMenu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Popper from './Popper';
+import ExpandingSearchField from '../ChatApp/SearchField.react';
 
-import {
-  StyledIconButton,
-  UserDetail,
-  SusiLogo,
-  FlexContainer,
-} from '../shared/TopBarStyles';
+import { StyledIconButton } from './Styles';
+import { FlexContainer } from '../shared/Container';
+
+const UserDetail = styled.label`
+  color: white;
+  margin-right: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  @media (max-width: 1000px) {
+    display: None;
+  }
+`;
+
+const SusiLogo = styled.img`
+  height: 1.5rem;
+  display: block;
+`;
 
 const BurgerMenuContainer = styled.div`
   display: none;
@@ -57,14 +69,15 @@ const StyledDrawer = styled(({ className, ...props }) => (
   width: 10rem;
 `;
 
-const HideOnScroll = ({ children }) => {
-  const trigger = useScrollTrigger();
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-};
+const SusiLogoContainer = styled.div`
+  @media (max-width: 680px) {
+    ${props =>
+      props.isSearchOpen &&
+      css`
+        display: none;
+      `}
+  }
+`;
 
 const Toolbar = styled(_Toolbar)`
   height: 46px;
@@ -73,6 +86,15 @@ const Toolbar = styled(_Toolbar)`
   justify-content: space-between;
   align-items: center;
 `;
+
+const HideOnScroll = ({ children }) => {
+  const trigger = useScrollTrigger();
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+};
 
 HideOnScroll.propTypes = {
   children: PropTypes.element,
@@ -89,8 +111,14 @@ class NavigationBar extends Component {
     userName: PropTypes.string,
     app: PropTypes.string,
     actions: PropTypes.object,
-    showPageTabs: PropTypes.bool,
     avatarImgThumbnail: PropTypes.string,
+    searchTextChanged: PropTypes.func,
+    openSearch: PropTypes.func,
+    exitSearch: PropTypes.func,
+    nextSearchItem: PropTypes.func,
+    previousSearchItem: PropTypes.func,
+    search: PropTypes.bool,
+    searchState: PropTypes.object,
   };
 
   constructor(props) {
@@ -111,12 +139,18 @@ class NavigationBar extends Component {
 
   render() {
     const {
-      showPageTabs,
       accessToken,
       email,
       userName,
       avatarImgThumbnail,
       history,
+      searchState,
+      search,
+      searchTextChanged,
+      exitSearch,
+      openSearch,
+      nextSearchItem,
+      previousSearchItem,
     } = this.props;
     const { drawerOpen } = this.state;
 
@@ -146,7 +180,6 @@ class NavigationBar extends Component {
             </MenuItem>
           </Link>
         ) : (
-          // <div style={{width: '6.5rem'}}>
           <MenuItem onClick={this.handleLogin}>
             <ListItemIcon>
               <SignUpIcon />
@@ -155,7 +188,6 @@ class NavigationBar extends Component {
               <Translate text="Login" />
             </ListItemText>
           </MenuItem>
-          // </div>
         )}
       </React.Fragment>
     );
@@ -180,14 +212,27 @@ class NavigationBar extends Component {
                     <MenuIcon />
                   </IconButton>
                 </BurgerMenuContainer>
-                <div>
+                <SusiLogoContainer isSearchOpen={search}>
                   <Link to="/" style={{ outline: '0' }}>
                     <SusiLogo src={susiWhite} alt="susi-logo" />
                   </Link>
-                </div>
-                {showPageTabs ? <TopMenu /> : null}
+                </SusiLogoContainer>
+                <TopMenu />
               </FlexContainer>
               <TopRightMenuContainer>
+                {searchState ? (
+                  <ExpandingSearchField
+                    searchText={searchState.searchText}
+                    searchIndex={searchState.searchIndex}
+                    open={search}
+                    searchCount={searchState.scrollLimit}
+                    onTextChange={searchTextChanged}
+                    activateSearch={openSearch}
+                    exitSearch={exitSearch}
+                    scrollRecent={nextSearchItem}
+                    scrollPrev={previousSearchItem}
+                  />
+                ) : null}
                 {accessToken && (
                   <StyledIconButton onClick={() => history.push('/settings')}>
                     <FlexContainer>
