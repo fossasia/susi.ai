@@ -22,11 +22,11 @@ const UserKeyframe = keyframes`
   }
 `;
 
-const MessageWrapper = styled.section`
+const MessageBubble = styled.section`
   position: relative;
   min-width: 5rem;
   max-width: 80%;
-  ${props => props.width} ${props =>
+  ${props =>
     props.width &&
     css`
       width: ${props => props.width};
@@ -95,4 +95,4 @@ const MessageWrapper = styled.section`
   }
 `;
 
-export default MessageWrapper;
+export default MessageBubble;
