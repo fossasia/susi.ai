@@ -9,13 +9,33 @@ import TextField from '@material-ui/core/TextField';
 import { Col, Row } from 'react-flexbox-grid';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ColorPicker from 'material-ui-color-picker';
 import uiActions from '../../redux/actions/ui';
 import settingActions from '../../redux/actions/settings';
 import PropTypes from 'prop-types';
 import PreviewThemeChat from './PreviewThemeChat';
 import { setUserSettings } from '../../apis';
 import _ from 'lodash';
+import styled from 'styled-components';
+import ColorPicker from '../shared/ColorPicker';
+
+const Container = styled.div`
+  display: flex;
+  padding: 0.625rem;
+  height: 35rem;
+  justify-content: space-evenly;
+`;
+
+const PreviewChatContainer = styled.div`
+  width: 60%;
+  overflow: hidden;
+  right: 0px;
+  padding: 0.625rem;
+`;
+
+const ThemeChangerContainer = styled.div`
+  width: 75%;
+  margin-top: 5rem;
+`;
 
 const componentsList = [
   { id: 1, component: 'pane', name: 'Change Background' },
@@ -71,34 +91,36 @@ class ThemeChanger extends Component {
 
   // get the selected custom colour
   handleChangeComplete = (name, color) => {
-    this.setState({ currTheme: 'custom' });
-    if (!color.startsWith('#')) {
-      color = '#' + color;
-    }
-    // Send these Settings to Server
-    let state = this.state;
+    if (color) {
+      this.setState({ currTheme: 'custom' });
+      if (!color.startsWith('#')) {
+        color = '#' + color;
+      }
+      // Send these Settings to Server
+      let state = this.state;
 
-    if (name === 'header') {
-      state.header = color;
-      this.customTheme.header = state.header.substring(1);
-    } else if (name === 'body') {
-      state.body = color;
-      this.customTheme.body = state.body.substring(1);
-    } else if (name === 'pane') {
-      state.pane = color;
-      this.customTheme.pane = state.pane.substring(1);
-    } else if (name === 'composer') {
-      state.composer = color;
-      this.customTheme.composer = state.composer.substring(1);
-    } else if (name === 'textarea') {
-      state.textarea = color;
-      this.customTheme.textarea = state.textarea.substring(1);
-    } else if (name === 'button') {
-      state.button = color;
-      this.customTheme.button = state.button.substring(1);
+      if (name === 'header') {
+        state.header = color;
+        this.customTheme.header = state.header.substring(1);
+      } else if (name === 'body') {
+        state.body = color;
+        this.customTheme.body = state.body.substring(1);
+      } else if (name === 'pane') {
+        state.pane = color;
+        this.customTheme.pane = state.pane.substring(1);
+      } else if (name === 'composer') {
+        state.composer = color;
+        this.customTheme.composer = state.composer.substring(1);
+      } else if (name === 'textarea') {
+        state.textarea = color;
+        this.customTheme.textarea = state.textarea.substring(1);
+      } else if (name === 'button') {
+        state.button = color;
+        this.customTheme.button = state.button.substring(1);
+      }
+      this.setState(state);
+      document.body.style.setProperty('background-color', this.state.body);
     }
-    this.setState(state);
-    document.body.style.setProperty('background-color', this.state.body);
   };
 
   handleReset = () => {
@@ -242,51 +264,18 @@ class ThemeChanger extends Component {
             </Col>
             <Col xs={12} md={6} lg={6} style={{ marginTop: '10px' }}>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
-                {component.id !== 1 && (
-                  <div className="color-picker-wrap">
-                    <span
-                      className="color-box"
-                      onClick={() => this.handleClickColorBox(component.id)}
-                      style={{
-                        backgroundColor: this.state[component.component],
-                      }}
-                    />
-                    <div className="colorPicker">
-                      <ColorPicker
-                        name="color"
-                        id={'colorPicker' + component.id}
-                        defaultValue={this.state[component.component]}
-                        onChange={color =>
-                          this.handleChangeComplete(component.component, color)
-                        }
-                      />
-                    </div>
-                  </div>
-                )}
-                {component.id === 1 && !showMessageBackgroundImage && (
-                  <div className="color-picker-wrap">
-                    <span
-                      className="color-box"
-                      onClick={() => this.handleClickColorBox(component.id)}
-                      style={{
-                        backgroundColor: this.state[component.component],
-                      }}
-                    />
-                    <div className="colorPicker">
-                      <ColorPicker
-                        className="color-picker"
-                        name="color"
-                        id={'colorPicker' + component.id}
-                        defaultValue={this.state[component.component]}
-                        onChange={color =>
-                          this.handleChangeComplete(component.component, color)
-                        }
-                      />
-                    </div>
-                  </div>
+                {(component.id !== 1 ||
+                  (component.id === 1 && !showMessageBackgroundImage)) && (
+                  <ColorPicker
+                    component={component.component}
+                    id={component.id}
+                    handleChangeColor={this.handleChangeComplete}
+                    backgroundColor={this.state[component.component]}
+                    handleClickColorBox={this.handleClickColorBox}
+                  />
                 )}
                 {component.id === 1 && showMessageBackgroundImage && (
-                  <div className="image-div">
+                  <div>
                     <TextField
                       name="messageImg"
                       onChange={this.handleChangeMessageBackgroundImage(
@@ -309,23 +298,9 @@ class ThemeChanger extends Component {
     });
     return (
       <React.Fragment>
-        <div
-          style={{
-            display: 'flex',
-            padding: '10px',
-            height: '550px',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          <div className="settingsComponents">{components}</div>
-          <div
-            style={{
-              width: '60%',
-              overflow: 'hidden',
-              right: '0',
-              padding: '10px',
-            }}
-          >
+        <Container>
+          <ThemeChangerContainer>{components}</ThemeChangerContainer>
+          <PreviewChatContainer>
             <PreviewThemeChat
               header={header}
               pane={pane}
@@ -336,8 +311,8 @@ class ThemeChanger extends Component {
               textarea={textarea}
               button={button}
             />
-          </div>
-        </div>
+          </PreviewChatContainer>
+        </Container>
         <CloseButton onClick={actions.closeModal} />
         <DialogActions>
           <div>

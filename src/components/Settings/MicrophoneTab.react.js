@@ -76,7 +76,7 @@ class MicrophoneTab extends React.Component {
     return (
       <SettingsTabWrapper heading="Mic Input">
         <FlexContainer>
-          <div className="reduceSettingDiv">
+          <div>
             <Translate text="Enable mic to give voice input " />
           </div>
           <div>

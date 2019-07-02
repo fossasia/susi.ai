@@ -15,6 +15,7 @@ import styled from 'styled-components';
 
 const PlayButtonContainer = styled.div`
   text-align: center;
+  margin-top: 1rem;
   @media (max-width: 520px) {
     text-align: left;
   }
@@ -214,12 +215,7 @@ class TextToSpeechSettings extends Component {
         </div>
 
         <PlayButtonContainer>
-          <Button
-            variant="contained"
-            className="settingsBtns"
-            onClick={this.playDemo}
-            color="secondary"
-          >
+          <Button variant="contained" onClick={this.playDemo} color="secondary">
             <Icon
               style={{ marginRight: '0.7rem' }}
               className="fa fa-volume-up"

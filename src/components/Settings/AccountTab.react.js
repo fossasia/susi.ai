@@ -9,7 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import TimezonePicker from 'react-timezone';
+import _TimezonePicker from 'react-timezone';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { TabHeading } from './SettingStyles';
@@ -22,7 +22,12 @@ import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import './Settings.css';
+
+const TimezonePicker = styled(_TimezonePicker)`
+  & > ul {
+    background-color: #fff;
+  }
+`;
 
 const TimezoneContainer = styled.div`
   padding-bottom: 30px;
