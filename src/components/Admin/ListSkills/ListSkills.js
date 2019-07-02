@@ -52,6 +52,7 @@ class ListSkills extends React.Component {
       groups: {},
       deletedSkills: [],
       loading: true,
+      loadingReportedSkills: true,
       skillName: '',
       skillTag: '',
       skillModel: '',
@@ -207,7 +208,7 @@ class ListSkills extends React.Component {
   loadReportedSkill = () => {
     fetchReportedSkills()
       .then(({ list }) => {
-        this.setState({ loading: false, reportedSkills: list });
+        this.setState({ loadingReportedSkills: false, reportedSkills: list });
       })
       .catch(error => {
         console.log(error, 'Error');
@@ -378,34 +379,6 @@ class ListSkills extends React.Component {
     });
   };
 
-  handleReviewStatusChange = () => {
-    let value = !this.state.skillReviewStatus;
-    this.setState({
-      skillReviewStatus: value,
-    });
-  };
-
-  handleEditStatusChange = () => {
-    let value = !this.state.skillEditStatus;
-    this.setState({
-      skillEditStatus: value,
-    });
-  };
-
-  handleStaffPickStatusChange = () => {
-    let value = !this.state.skillStaffPickStatus;
-    this.setState({
-      skillStaffPickStatus: value,
-    });
-  };
-
-  handleSystemSkillStatusChange = () => {
-    let value = !this.state.systemSkillStatus;
-    this.setState({
-      systemSkillStatus: value,
-    });
-  };
-
   handleFinish = () => {
     window.location.reload();
   };
@@ -417,7 +390,15 @@ class ListSkills extends React.Component {
   handleDeleteReportSkill = (skillName, email, feedback) => {};
 
   render() {
-    const { groups, loading, value, reportedSkills } = this.state;
+    const {
+      groups,
+      loading,
+      value,
+      reportedSkills,
+      loadingReportedSkills,
+      skillsData,
+      deletedSkills,
+    } = this.state;
     return (
       <Container>
         <Tabs onChange={this.handleTabChange} value={value}>
@@ -427,7 +408,7 @@ class ListSkills extends React.Component {
         </Tabs>
         {value === 2 && (
           <MaterialTable
-            isLoading={loading}
+            isLoading={loadingReportedSkills}
             options={{
               actionsColumnIndex: -1,
               pageSize: 10,
@@ -474,7 +455,7 @@ class ListSkills extends React.Component {
               pageSize: 10,
             }}
             columns={getDeletedColumn(groups)}
-            data={this.state.deletedSkills}
+            data={deletedSkills}
             title="Deleted Skills"
             style={{
               padding: '1rem',
@@ -511,7 +492,7 @@ class ListSkills extends React.Component {
               pageSize: 10,
             }}
             columns={getActiveColumn(groups)}
-            data={this.state.skillsData}
+            data={skillsData}
             title="Active Skills"
             style={{
               padding: '1rem',
