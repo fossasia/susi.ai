@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ColorPicker from 'material-ui-color-picker';
 import PropTypes from 'prop-types';
+import './ColorPicker.css';
 
 const ColorBox = styled.span`
   display: inline-block;

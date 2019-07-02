@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { urls, colors } from '../../../../../utils';
 import avatars from '../../../../../utils/avatars';
 import { TiTick } from 'react-icons/ti';
-import ColorPicker from '../../../../shared/ColorPicker';
+import ColorPickerComponent from '../../../../shared/ColorPickerComponent';
 let BASE_URL = urls.API_URL;
 let IMAGE_GET_URL = `${BASE_URL}/cms/getImage.png?image=`;
 
@@ -344,7 +344,7 @@ class UIView extends Component {
                 this.state.showBackgroundImageChange === true
               ) ? (
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <ColorPicker
+                  <ColorPickerComponent
                     component={component.component}
                     id={component.id}
                     handleChangeColor={this.handleChangeColor}
