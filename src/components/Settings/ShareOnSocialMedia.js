@@ -120,10 +120,7 @@ const ShareOnSocialMedia = props => {
             variant="contained"
             style={raisedButtonStyle}
           >
-            <Icon
-              style={{ marginRight: '0.6rem' }}
-              className="fa fa-twitter twitterIcon"
-            />
+            <Icon style={{ marginRight: '0.6rem' }} className="fa fa-twitter" />
             <Translate text="Share on Twitter" />
           </Button>
           <TabHeading>
