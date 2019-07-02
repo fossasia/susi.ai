@@ -12,10 +12,10 @@ import Close from '@material-ui/icons/Close';
 import Add from '@material-ui/icons/Add';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ColorPicker from 'material-ui-color-picker';
 import { urls, colors } from '../../../../../utils';
 import avatars from '../../../../../utils/avatars';
 import { TiTick } from 'react-icons/ti';
+import ColorPicker from '../../../../shared/ColorPicker';
 let BASE_URL = urls.API_URL;
 let IMAGE_GET_URL = `${BASE_URL}/cms/getImage.png?image=`;
 
@@ -78,11 +78,13 @@ class UIView extends Component {
   }
 
   handleChangeColor = (component, color) => {
-    const { actions } = this.props;
-    if (!color.startsWith('#')) {
-      color = '#' + color;
+    if (color) {
+      const { actions } = this.props;
+      if (!color.startsWith('#')) {
+        color = '#' + color;
+      }
+      actions.setDesignComponentColor({ component, color });
     }
-    actions.setDesignComponentColor({ component, color });
   };
 
   handleChangeBodyBackgroundImage = botbuilderBodyBackgroundImg => {
@@ -342,25 +344,13 @@ class UIView extends Component {
                 this.state.showBackgroundImageChange === true
               ) ? (
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div className="color-picker-wrap">
-                    <span
-                      className="color-box"
-                      onClick={() => this.handleClickColorBox(component.id)}
-                      style={{
-                        backgroundColor: this.props.design[component.component],
-                      }}
-                    />
-                    <div className="colorPicker">
-                      <ColorPicker
-                        name="color"
-                        id={'colorPicker' + component.id}
-                        defaultValue={this.props.design[component.component]}
-                        onChange={color =>
-                          this.handleChangeColor(component.component, color)
-                        }
-                      />
-                    </div>
-                  </div>
+                  <ColorPicker
+                    component={component.component}
+                    id={component.id}
+                    handleChangeColor={this.handleChangeColor}
+                    backgroundColor={this.props.design[component.component]}
+                    handleClickColorBox={this.handleClickColorBox}
+                  />
                 </div>
               ) : null}
               {component.component === 'botbuilderBackgroundBody' &&
