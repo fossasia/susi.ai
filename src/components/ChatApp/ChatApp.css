@@ -39,3 +39,13 @@
   color: grey;
   opacity: 1;
 }
+
+.leaflet-container {
+  height: 10rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.leaflet-popup-content {
+  color: black;
+}
