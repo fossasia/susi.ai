@@ -103,8 +103,6 @@ class App extends Component {
       showCookiePolicy,
       visited,
     } = this.props;
-    const skillListRegex = new RegExp('^/skills');
-    const pathLength = pathname.split('/').length;
     const renderFooterPagesList = [
       '/',
       '/support',
@@ -117,11 +115,9 @@ class App extends Component {
       '/contact',
     ];
     const renderAppBar = pathname !== '/chat' ? <NavigationBar /> : null;
-    const renderFooter =
-      (skillListRegex.test(pathname) && pathLength > 3 && pathLength <= 5) ||
-      renderFooterPagesList.includes(pathname) ? (
-        <Footer />
-      ) : null;
+    const renderFooter = renderFooterPagesList.includes(pathname) ? (
+      <Footer />
+    ) : null;
     const renderCookiePolicy =
       showCookiePolicy === true ? <CookiePolicy /> : null;
     const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
