@@ -1,22 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ShareIcon from '@material-ui/icons/Share';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import uiActions from '../../../redux/actions/ui';
+import _ShareIcon from '@material-ui/icons/Share';
+import styled from 'styled-components';
 
-const buttonStyle = {
-  height: 13,
-  cursor: 'pointer',
-};
+const ShareIcon = styled(_ShareIcon)`
+  height: 0.813rem;
+  cursor: pointer;
+`;
 
-const ShareButton = ({ message, color }) => {
+const ShareButton = ({ message, color, actions }) => {
   const shareMessageSUSI = !message.text ? '' : message.text.trim();
-  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    shareMessageSUSI,
-  )} ${encodeURIComponent(' #SUSI.AI')}`;
   return (
     <ShareIcon
-      style={buttonStyle}
       color={color}
-      onClick={() => window.open(twitterShareUrl, '_blank')}
+      onClick={() =>
+        actions.openModal({
+          modalType: 'share',
+          message: `${shareMessageSUSI} #SUSI.AI`,
+        })
+      }
     />
   );
 };
@@ -24,6 +29,16 @@ const ShareButton = ({ message, color }) => {
 ShareButton.propTypes = {
   message: PropTypes.object,
   color: PropTypes.string,
+  actions: PropTypes.object,
 };
 
-export default ShareButton;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ShareButton);
