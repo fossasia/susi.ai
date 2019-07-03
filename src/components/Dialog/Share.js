@@ -3,31 +3,27 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseButton from '../shared/CloseButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import uiActions from '../../redux/actions/ui';
 import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
+  FacebookShareButton as _FacebookShareButton,
+  LinkedinShareButton as _LinkedinShareButton,
+  TwitterShareButton as _TwitterShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
 } from 'react-share';
 import _IconButton from '@material-ui/core/IconButton';
 
-const styles = {
-  iconWrapperStyle: {
-    marginTop: '16px',
-    display: 'flex',
-    alignItems: 'flex-start',
-    width: '100%',
-  },
-};
+const shareUrl = 'https://susi.ai';
 
-const shareUrl = 'http://chat.susi.ai';
-const title =
-  'Susi is an artificial intelligence system, combining pattern matching, internet data, data flow-, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web chat is a front-end developed for web access of SUSI.';
+const commonIconStyle = css`
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+`;
 
 const ShareIconContainer = styled.div`
   display: flex;
@@ -36,30 +32,38 @@ const ShareIconContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
-  height: 48px;
-  line-height: 48px;
+  height: 3rem;
+  line-height: 3rem;
   verticalalign: center;
   padding-left: 0.5rem;
 `;
 
 const IconButton = styled(_IconButton)`
-  border-radius: 2px;
+  border-radius: 0.125rem;
   padding: 0.5rem;
   font-size: 1rem;
 `;
 
-const Share = ({ actions }) => {
-  const { iconWrapperStyle } = styles;
+const FacebookShareButton = styled(_FacebookShareButton)`
+  ${commonIconStyle};
+`;
+
+const LinkedinShareButton = styled(_LinkedinShareButton)`
+  ${commonIconStyle};
+`;
+
+const TwitterShareButton = styled(_TwitterShareButton)`
+  ${commonIconStyle};
+`;
+
+const Share = ({ actions, message }) => {
+  const title = message;
   return (
     <React.Fragment>
       <DialogTitle>Share about SUSI</DialogTitle>
       <ShareIconContainer>
         <IconButton>
-          <FacebookShareButton
-            url={shareUrl}
-            quote={title}
-            style={iconWrapperStyle}
-          >
+          <FacebookShareButton url={shareUrl} quote={title}>
             <div>
               <FacebookIcon size={42} />
             </div>
@@ -67,11 +71,7 @@ const Share = ({ actions }) => {
           </FacebookShareButton>
         </IconButton>
         <IconButton>
-          <TwitterShareButton
-            style={iconWrapperStyle}
-            url={shareUrl}
-            title={title}
-          >
+          <TwitterShareButton url={shareUrl} title={title}>
             <div>
               <TwitterIcon size={42} />
             </div>
@@ -79,11 +79,7 @@ const Share = ({ actions }) => {
           </TwitterShareButton>
         </IconButton>
         <IconButton>
-          <LinkedinShareButton
-            style={iconWrapperStyle}
-            url={shareUrl}
-            title={title}
-          >
+          <LinkedinShareButton url={shareUrl} title={title}>
             <div>
               <LinkedinIcon size={42} />
             </div>
@@ -98,6 +94,7 @@ const Share = ({ actions }) => {
 
 Share.propTypes = {
   actions: PropTypes.object,
+  message: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
