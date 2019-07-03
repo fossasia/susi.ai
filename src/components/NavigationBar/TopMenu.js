@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
-import _ExpandMore from '@material-ui/icons/ExpandMore';
-import styled, { css, keyframes } from 'styled-components';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import styled, { css } from 'styled-components';
 import Link from '../shared/Link';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -42,27 +42,6 @@ const NavButton = styled(StyledIconButton)`
     `}
 `;
 
-const SpinKeyframe = keyframes`
-0% {
-  transform: rotate(0deg);
-}
-
-100% {
-  transform: rotate(180deg);
-}
-`;
-
-const ExpandMore = styled(_ExpandMore)`
-  transition: 300ms transform;
-  transform: rotate(360deg);
-  animation: ${SpinKeyframe} 300ms;
-  :hover,
-  ${NavButton}:hover & {
-    animation: ${SpinKeyframe} 300ms;
-    transform: rotate(180deg);
-  }
-`;
-
 class NavMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -97,7 +76,10 @@ class NavMenu extends React.Component {
 
   render() {
     const { activeTab } = this.state;
-    const { url, label, sublinks = [] } = this.props.link;
+    const {
+      link: { url, label, sublinks = [] },
+      history,
+    } = this.props;
 
     const listItems = sublinks.map(({ label, url }) => (
       <Link key={label} to={url}>
@@ -107,7 +89,11 @@ class NavMenu extends React.Component {
     return (
       <div data-tip="custom" data-for={label}>
         {!_.isEmpty(sublinks) ? (
-          <NavButton isActive={activeTab === label} key={label}>
+          <NavButton
+            onClick={() => history.push(url)}
+            isActive={activeTab === label}
+            key={label}
+          >
             {label}
             <ExpandMore />
           </NavButton>
