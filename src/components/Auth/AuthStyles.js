@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import _PasswordField from 'material-ui-password-field';
 import _OutlinedInput from '@material-ui/core/OutlinedInput';
 import _Button from '@material-ui/core/Button';
+import _FormControl from '@material-ui/core/FormControl';
 
 export const breakPointStyle = css`
   @media (max-width: 442px) {
@@ -10,9 +11,14 @@ export const breakPointStyle = css`
 `;
 
 export const responsiveInputStyle = css`
+  margin: auto;
   width: 17rem;
   height: 2.1rem;
   ${breakPointStyle};
+`;
+
+export const FormControl = styled(_FormControl)`
+  width: 100%;
 `;
 
 export const PasswordField = styled(_PasswordField)`
