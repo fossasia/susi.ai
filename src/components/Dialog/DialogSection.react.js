@@ -27,6 +27,9 @@ import DeleteFeedbackDialog from '../cms/SkillFeedbackPage/DeleteFeedbackDialog'
 import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
 import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
 import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
+import ChangeUserRoleDialog from '../Admin/ListUser/ChangeUserRoleDialog';
+import DeleteUserAccountDialog from '../Admin/ListUser/DeleteUserAccountDialog';
+import EditDeviceConfigDialog from '../Admin/ListUser/EditDeviceConfigDialog';
 
 const DialogData = {
   share: { Component: Share, size: 'xs' },
@@ -53,6 +56,9 @@ const DialogData = {
   // For skillCreator delete skill
   deleteSkillWithInput: { Component: DeleteSkillWithInput, size: 'sm' },
   deleteBot: { Component: DeleteBot, size: 'sm' },
+  changeUserRole: { Component: ChangeUserRoleDialog, size: 'sm' },
+  deleteUser: { Component: DeleteUserAccountDialog, size: 'sm' },
+  editDevice: { Component: EditDeviceConfigDialog, size: 'sm' },
 };
 
 const DialogSection = props => {

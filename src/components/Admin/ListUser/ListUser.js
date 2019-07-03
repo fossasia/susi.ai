@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Table from 'antd/lib/table';
 import { Input } from 'antd';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputField from '@material-ui/core/Input';
-import {
-  changeUserRole,
-  deleteUserAccount,
-  modifyUserDevices,
-  fetchAdminUserStats,
-} from '../../../apis/index';
+import { fetchAdminUserStats } from '../../../apis/index';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
+import uiActions from '../../../redux/actions/ui';
 import 'antd/lib/table/style/index.css';
 import styled from 'styled-components';
 import { Container } from '../AdminStyles';
@@ -42,10 +37,6 @@ class ListUser extends Component {
       pagination: {},
       loading: true,
       search: false,
-      showEditDialog: false,
-      showDeleteDialog: false,
-      changeRoleDialog: false,
-      showEditDeviceDialog: false,
       deleteSuccessDialog: false,
       editDeviceSuccessDialog: false,
       editDeviceFailedDialog: false,
@@ -161,47 +152,15 @@ class ListUser extends Component {
     ];
   }
 
-  apiCall = () => {
-    const { userEmail: user, userRole: role } = this.state;
-    changeUserRole({ user, role })
-      .then(payload => {
-        this.setState({ changeRoleDialog: true });
-      })
-      .catch(error => {
-        const { statusCode } = error;
-        if (statusCode === 401) {
-          if (window.console) {
-            console.log(error.responseText);
-            console.log('Error 401: Permission Denied!');
-          }
-        } else if (statusCode === 503) {
-          if (window.console) {
-            console.log(error.responseText);
-          }
-          console.log('Error 503: Server not responding!');
-          document.location.reload();
-        } else {
-          console.log(error);
-        }
-      });
-  };
-
-  deleteUser = () => {
-    const { userEmail: email } = this.state;
-    deleteUserAccount({ email })
-      .then(payload => {
-        this.setState({ deleteSuccessDialog: true });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ deleteFailedDialog: true });
-      });
-  };
-
   handleDelete = email => {
     this.setState({
       userEmail: email,
-      showDeleteDialog: true,
+    });
+    this.props.actions.openModal({
+      modalType: 'deleteUser',
+      handleDelete: this.deleteUser,
+      handleClose: this.props.actions.closeModal,
+      userEmail: this.state.userEmail,
     });
   };
 
@@ -227,26 +186,28 @@ class ListUser extends Component {
     });
   };
 
-  editDevice = (deviceName, room, macid) => {
-    this.setState({
-      deviceName: deviceName,
-      room: room,
-      macid: macid,
-      showEditDeviceDialog: true,
-    });
+  handleEdit = (deviceName, room, macid) => {
+    console.log('hel', deviceName, room, macid);
+    console.log(this.state.data.users);
+    // let data = this.state.data.users.user.devices.find((device, index) => {
+    //   if (device.macid === macid) {
+    //     this.state.data.users.devices[index] = { ...deviceName, room };
+    //     return true;
+    //   }
+    // });
+    // this.setState(data);
   };
 
-  handleDevice = () => {
-    const { userEmail: email, macid, room } = this.state;
-    this.setState({ showEditDeviceDialog: false });
-    modifyUserDevices({ email, macid, room })
-      .then(payload => {
-        this.setState({ editDeviceSuccessDialog: true });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ editDeviceFailedDialog: true });
-      });
+  editDevice = (deviceName, room, macid) => {
+    this.props.actions.openModal({
+      modalType: 'editDevice',
+      handleClose: this.props.actions.closeModal,
+      handleEdit: this.handleEdit,
+      email: this.state.userEmail,
+      room,
+      macid,
+      deviceName,
+    });
   };
 
   handleSearch = value => {
@@ -316,18 +277,19 @@ class ListUser extends Component {
       .catch(error => console.log(error));
   }
 
+  componentDidUpdate() {
+    this.fetch();
+  }
+
   editUserRole = (email, userRole) => {
     this.setState({
       userEmail: email,
-      userRole: userRole,
-      showEditDialog: true,
     });
-  };
-
-  handleChange = () => {
-    this.apiCall();
-    this.setState({
-      showEditDialog: false,
+    this.props.actions.openModal({
+      modalType: 'changeUserRole',
+      handleClose: this.props.actions.closeModal,
+      userEmail: this.state.userEmail,
+      userRole,
     });
   };
 
@@ -345,24 +307,6 @@ class ListUser extends Component {
       deleteFailedDialog: false,
       showEditDeviceDialog: false,
       editDeviceFailedDialog: false,
-    });
-  };
-
-  handleDeviceName = (event, value) => {
-    this.setState({
-      deviceName: value,
-    });
-  };
-
-  handleRoom = (event, value) => {
-    this.setState({
-      room: value,
-    });
-  };
-
-  handleUserRoleChange = (event, index, value) => {
-    this.setState({
-      userRole: value,
     });
   };
 
@@ -425,185 +369,9 @@ class ListUser extends Component {
   };
 
   render() {
-    const actions = [
-      <Button
-        key={1}
-        label="Change"
-        labelStyle={{ color: '#4285f4' }}
-        onClick={this.handleChange}
-      />,
-      <Button
-        key={2}
-        label="Cancel"
-        primary={false}
-        onClick={this.handleClose}
-      />,
-    ];
-    const deleteActions = [
-      <Button
-        key={1}
-        label="Delete"
-        labelStyle={{ color: '#4285f4' }}
-        onClick={this.deleteUser}
-      />,
-      <Button
-        key={2}
-        label="Cancel"
-        primary={false}
-        onClick={this.handleClose}
-      />,
-    ];
-
-    const editDeviceActions = [
-      <Button
-        key={1}
-        label="Save"
-        labelStyle={{ color: '#4285f4' }}
-        onClick={this.handleDevice}
-      />,
-      <Button
-        key={2}
-        label="Cancel"
-        primary={false}
-        onClick={this.handleClose}
-      />,
-    ];
-
-    const blueThemeColor = { color: 'rgb(66, 133, 244)' };
-    const themeForegroundColor = '#272727';
-    const themeBackgroundColor = '#fff';
-
     return (
       <Container>
         <div>
-          <Dialog
-            title="Change User Role"
-            actions={actions}
-            modal={true}
-            open={this.state.showEditDialog}
-          >
-            <div>
-              Select new User Role for
-              <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
-                {this.state.userEmail}
-              </span>
-            </div>
-            <div>
-              <Select
-                selectedMenuItemStyle={blueThemeColor}
-                onChange={this.handleUserRoleChange}
-                value={this.state.userRole}
-                labelStyle={{ color: themeForegroundColor }}
-                menuStyle={{
-                  backgroundColor: themeBackgroundColor,
-                }}
-                menuItemStyle={{ color: themeForegroundColor }}
-                style={{
-                  width: '250px',
-                  marginLeft: '-20px',
-                }}
-                autoWidth={false}
-              >
-                <MenuItem primaryText="USER" value="user" />
-                <MenuItem primaryText="REVIEWER" value="reviewer" />
-                <MenuItem primaryText="OPERATOR" value="operator" />
-                <MenuItem primaryText="ADMIN" value="admin" />
-                <MenuItem primaryText="SUPERADMIN" value="superadmin" />
-              </Select>
-            </div>
-          </Dialog>
-
-          <Dialog
-            title="Edit device config"
-            actions={editDeviceActions}
-            modal={true}
-            open={this.state.showEditDeviceDialog}
-          >
-            <div>
-              <span style={{ fontWeight: 'bold', color: 'black' }}>
-                {' '}
-                Mac Id:
-              </span>
-              <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
-                {this.state.macid}
-              </span>
-            </div>
-            <div style={{ width: '50%', marginTop: '35px' }}>
-              <div className="label">Device Name</div>
-              <InputField
-                name="deviceName"
-                style={{ marginBottom: '10px' }}
-                value={this.state.deviceName}
-                onChange={this.handleDeviceName}
-                placeholder="Enter device name"
-              />{' '}
-              <div className="label">Room</div>
-              <InputField
-                name="room"
-                value={this.state.room}
-                onChange={this.handleRoom}
-                placeholder="Enter room name"
-              />
-            </div>
-          </Dialog>
-
-          <Dialog
-            title="Success"
-            actions={
-              <Button
-                key={1}
-                label="Ok"
-                labelStyle={{ color: '#4285f4' }}
-                onClick={this.handleSuccess}
-              />
-            }
-            modal={true}
-            open={this.state.editDeviceSuccessDialog}
-          >
-            <div>
-              Successfully changed the configuration of device with macid
-              <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
-                {this.state.macid}
-              </span>
-              !
-            </div>
-          </Dialog>
-
-          <Dialog
-            title="Failed"
-            actions={
-              <Button
-                key={1}
-                label="Ok"
-                labelStyle={{ color: '#4285f4' }}
-                onClick={this.handleClose}
-              />
-            }
-            modal={true}
-            open={this.state.editDeviceFailedDialog}
-          >
-            <div>
-              Unable to change the configuration of device with macid
-              <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
-                {this.state.macid}
-              </span>
-              !
-            </div>
-          </Dialog>
-          <Dialog
-            title="Delete User Account"
-            actions={deleteActions}
-            modal={true}
-            open={this.state.showDeleteDialog}
-          >
-            <div>
-              Are you sure you want to delete the account associated with
-              <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
-                {this.state.userEmail}
-              </span>
-              ?
-            </div>
-          </Dialog>
           <Dialog
             title="Success"
             actions={
@@ -744,6 +512,16 @@ class ListUser extends Component {
 
 ListUser.propTypes = {
   history: PropTypes.object,
+  actions: PropTypes.object,
 };
 
-export default ListUser;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ListUser);
