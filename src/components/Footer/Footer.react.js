@@ -97,7 +97,10 @@ const Footer = () => {
           <LeftContainer>
             <ul>
               <li>
-                <Link to="/">Overview</Link>
+                <Link to="/">About</Link>
+              </li>
+              <li>
+                <Link to="/about/devices">Devices</Link>
               </li>
               <li>
                 <Link to="/about/blog">Blog</Link>
@@ -109,6 +112,12 @@ const Footer = () => {
                 <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">
                   Code
                 </a>
+              </li>
+              <li>
+                <Link to="/about/team">Team</Link>
+              </li>
+              <li>
+                <Link to="/about/support">Support</Link>
               </li>
             </ul>
           </LeftContainer>

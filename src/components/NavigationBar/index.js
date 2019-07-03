@@ -29,9 +29,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Popper from './Popper';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
-
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import { StyledIconButton } from './Styles';
 import { FlexContainer } from '../shared/Container';
+import Info from '@material-ui/icons/Info';
+import ListIcon from '@material-ui/icons/List';
 
 const UserDetail = styled.label`
   color: white;
@@ -140,6 +142,7 @@ class NavigationBar extends Component {
   render() {
     const {
       accessToken,
+      isAdmin,
       email,
       userName,
       avatarImgThumbnail,
@@ -168,6 +171,28 @@ class NavigationBar extends Component {
             </MenuItem>
           </Link>
         )}
+        <Link to="/">
+          <MenuItem>
+            <ListItemIcon>
+              <Info />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="About" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        {isAdmin ? (
+          <Link to="/admin">
+            <MenuItem>
+              <ListItemIcon>
+                <ListIcon />
+              </ListItemIcon>
+              <ListItemText>
+                <Translate text="Admin" />
+              </ListItemText>
+            </MenuItem>
+          </Link>
+        ) : null}
         {accessToken ? (
           <Link to="/logout">
             <MenuItem>
@@ -253,7 +278,7 @@ class NavigationBar extends Component {
                     delayHide={200}
                     type={'light'}
                   >
-                    <Paper style={{ position: 'absolute', right: '-2rem' }}>
+                    <Paper>
                       <Logged />
                     </Paper>
                   </Popper>
@@ -261,6 +286,12 @@ class NavigationBar extends Component {
                     <MoreVertIcon />
                   </IconButton>
                 </div>
+                <IconButton
+                  color="inherit"
+                  onClick={() => history.push('/about/support')}
+                >
+                  <ContactSupportIcon />
+                </IconButton>
               </TopRightMenuContainer>
             </Toolbar>
           </AppBar>
