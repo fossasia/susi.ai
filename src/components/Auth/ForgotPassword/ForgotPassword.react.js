@@ -107,7 +107,9 @@ class ForgotPassword extends Component {
     return (
       <React.Fragment>
         <DialogTitle>
-          <Translate text="Forgot Password ?" />
+          <div>
+            <Translate text="Forgot Password ?" />
+          </div>
           <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
         <DialogContent>
