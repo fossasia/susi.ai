@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Map, InfoWindow, Marker } from 'google-maps-react';
+import { Map as _Map, InfoWindow, Marker } from 'google-maps-react';
 import PropTypes from 'prop-types';
 
 const Container = styled.div`
   width: 100%;
   height: 300px;
+`;
+
+const Map = styled(_Map)`
+  height: 300px !important;
+  position: relative;
+  width: 85% !important;
+  max-width: 692px;
+
+  @media (max-width: 1060px) {
+    max-width: 1000px;
+  }
 `;
 
 class MapContainer extends Component {
@@ -76,7 +87,6 @@ class MapContainer extends Component {
           center={mapCenter}
           initialCenter={mapCenter}
           onClick={this.onMapClicked}
-          style={{ height: '300px', position: 'relative', width: '692px' }}
         >
           {devicesData.map(eachDevice => (
             <Marker
