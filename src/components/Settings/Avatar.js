@@ -23,6 +23,16 @@ const AddIcon = styled(_AddIcon)`
   margin: 3.125rem auto;
   height: 3.125rem;
   width: 3.125rem;
+  width: 2.5rem;
+  display: block;
+`;
+
+const AvatarImage = styled.img`
+  width: 10rem;
+  border-radius: 6px;
+  display: block;
+  height: 10rem;
+  margin: 1rem 0;
 `;
 
 const AvatarDiv = styled.div`
@@ -43,6 +53,18 @@ const PreviewContainer = styled.div`
 
 const Input = styled.input`
   margin-top: 0.625rem;
+`;
+
+const EmptyAvatarContainer = styled.div`
+  border: 1px solid #ced4da;
+  height: 10rem;
+  border-radius: 6px;
+  width: 10rem;
+  margin: 1rem 0;
+  :hover {
+    background-color: #ced4da;
+    cursor: pointer;
+  }
 `;
 
 const Avatar = props => {
@@ -74,9 +96,8 @@ const Avatar = props => {
         <Form onSubmit={e => handleAvatarSubmit(e)}>
           {imagePreviewUrl !== '' && (
             <PreviewContainer>
-              <img
+              <AvatarImage
                 alt="User Avatar"
-                className="setting-avatar"
                 src={imagePreviewUrl}
                 onClick={e => handleAvatarImageChange(e)}
               />
@@ -121,11 +142,11 @@ const Avatar = props => {
             <label htmlFor="fileOpener">
               <div onSubmit={e => handleAvatarImageChange(e)}>
                 {!isAvatarAdded && (
-                  <div className="avatar-empty-box">
+                  <EmptyAvatarContainer>
                     <AvatarDiv>
-                      <AddIcon className="avatar-add-button" />
+                      <AddIcon />
                     </AvatarDiv>
-                  </div>
+                  </EmptyAvatarContainer>
                 )}
               </div>
               <Input
@@ -156,20 +177,10 @@ const Avatar = props => {
       );
     case 'gravatar':
       return (
-        <img
-          alt="Gravatar avatar"
-          className="setting-avatar"
-          src={getGravatarProps(email).src}
-        />
+        <AvatarImage alt="Gravatar avatar" src={getGravatarProps(email).src} />
       );
     default:
-      return (
-        <img
-          alt="Default avatar"
-          className="setting-avatar"
-          src={defaultAvatar}
-        />
-      );
+      return <AvatarImage alt="Default avatar" src={defaultAvatar} />;
   }
 };
 
