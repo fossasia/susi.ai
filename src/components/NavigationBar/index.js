@@ -288,7 +288,7 @@ class NavigationBar extends Component {
                 </div>
                 <IconButton
                   color="inherit"
-                  onClick={() => history.push('/about/support')}
+                  onClick={() => history.push('/support')}
                 >
                   <ContactSupportIcon />
                 </IconButton>
