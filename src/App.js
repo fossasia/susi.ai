@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { StylesProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -41,6 +42,12 @@ import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
 import SkillCreator from './components/cms/SkillCreator/SkillCreator';
+
+const RootContainer = styled.div`
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 120px;
+`;
 
 class App extends Component {
   static propTypes = {
@@ -107,11 +114,12 @@ class App extends Component {
     const pathLength = pathname.split('/').length;
     const renderFooterPagesList = [
       '/',
-      '/support',
-      '/team',
-      '/blog',
-      '/devices',
+      '/about/overview',
+      '/about/team',
+      '/about/blog',
+      '/about/devices',
       '/skills',
+      '/support',
       '/privacy',
       '/terms',
       '/contact',
@@ -128,7 +136,7 @@ class App extends Component {
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
-          <div>
+          <RootContainer>
             {renderDialog}
             {isSnackBarOpen && (
               <CustomSnackbar
@@ -209,11 +217,12 @@ class App extends Component {
                 path="/skills/botbuilder"
                 component={BotBuilderWrap}
               />
+              <Route exact path="/about/overview" component={Overview} />
               <Route exact path="/about/devices" component={Devices} />
               <Route exact path="/about/team" component={Team} />
               <Route exact path="/about/blog" component={Blog} />
-              <Route exact path="/about/contact" component={Contact} />
-              <Route exact path="/about/support" component={Support} />
+              <Route exact path="/contact" component={Contact} />
+              <Route exact path="/support" component={Support} />
               <Route exact path="/terms" component={Terms} />
               <Route exact path="/privacy" component={Privacy} />
               <Route exact path="/verify-account" component={VerifyAccount} />
@@ -224,7 +233,7 @@ class App extends Component {
             </Switch>
             {renderFooter}
             {renderCookiePolicy}
-          </div>
+          </RootContainer>
         </MuiThemeProvider>
       </StylesProvider>
     );
