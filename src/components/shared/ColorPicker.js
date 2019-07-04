@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import $ColorPicker from 'material-ui-color-picker';
+import ColorPicker from 'material-ui-color-picker';
 import PropTypes from 'prop-types';
 
 const ColorBox = styled.span`
@@ -21,7 +21,7 @@ const ColorPickerContainer = styled.div`
   width: 6rem;
 `;
 
-const ColorPicker = props => {
+const ColorPickerComponent = props => {
   const {
     backgroundColor,
     handleClickColorBox,
@@ -36,7 +36,7 @@ const ColorPicker = props => {
         onClick={() => handleClickColorBox(id)}
       />
       <ColorPickerContainer>
-        <$ColorPicker
+        <ColorPicker
           name="color"
           id={'colorPicker' + id}
           defaultValue={backgroundColor}
@@ -47,7 +47,7 @@ const ColorPicker = props => {
   );
 };
 
-ColorPicker.propTypes = {
+ColorPickerComponent.propTypes = {
   backgroundColor: PropTypes.string,
   handleClickColorBox: PropTypes.func,
   id: PropTypes.number,
@@ -55,4 +55,4 @@ ColorPicker.propTypes = {
   handleChangeColor: PropTypes.func,
 };
 
-export default ColorPicker;
+export default ColorPickerComponent;

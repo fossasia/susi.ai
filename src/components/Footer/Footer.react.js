@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const FooterContainer = styled.div`
   background: #f6f6f6;
   width: 100%;
-  position: relative;
+  position: absolute;
   z-index: 10;
   border: 1px solid #ddd;
   display: flex;
@@ -97,7 +97,7 @@ const Footer = () => {
           <LeftContainer>
             <ul>
               <li>
-                <Link to="/">About</Link>
+                <Link to="/about/overview">About</Link>
               </li>
               <li>
                 <Link to="/about/devices">Devices</Link>
@@ -117,7 +117,7 @@ const Footer = () => {
                 <Link to="/about/team">Team</Link>
               </li>
               <li>
-                <Link to="/about/support">Support</Link>
+                <Link to="/support">Support</Link>
               </li>
             </ul>
           </LeftContainer>
@@ -129,7 +129,7 @@ const Footer = () => {
               <Link to="/terms">Terms</Link>
             </li>
             <li>
-              <Link to="/about/contact">Contact</Link>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </ContentContainer>
