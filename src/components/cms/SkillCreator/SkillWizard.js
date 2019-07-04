@@ -37,7 +37,7 @@ import _Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
+import _IconButton from '@material-ui/core/IconButton';
 import styled from 'styled-components';
 
 // Material-UI Icons
@@ -55,12 +55,55 @@ const Paper = styled(_Paper)`
   width: 100%;
   margin-top: 1.25rem;
   padding: 1.25rem 1.875rem 1.875rem;
+  @media (max-width: 514px) {
+    padding: 0px;
+    margin-bottom: 2rem;
+  }
+`;
+
+const IconButton = styled(_IconButton)`
+  @media (max-width: 451px) {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+`;
+
+const SelectDropDown = styled(Select)`
+  position: relative;
+  width: 15.625rem;
+  @media (max-width: 414px) {
+    width: 100%;
+    padding-top: 0.5rem;
+  }
+`;
+
+const Container = styled.div`
+  padding: 0rem 1.875rem 1.875rem;
+  width: 100%;
+  @media (max-width: 514px) {
+    padding: 0px;
+  }
 `;
 
 const DropDownDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  @media (max-width: 813px) {
+    width: 100%;
+    padding: 0.7rem;
+  }
+`;
+
+const SkillDetail = styled.div`
+  @media (max-width: 813px) {
+    width: 100%;
+    margin-top: 1rem;
+  }
+`;
+
+const NameField = styled(TextField)`
+  margin-bottom: 2rem;
 `;
 
 const Heading = styled.div`
@@ -69,6 +112,17 @@ const Heading = styled.div`
   font-weight: 500;
   padding-left: 1.875rem;
   padding-top: 0.625rem;
+  @media (max-width: 473px) {
+    padding-left: 0px;
+  }
+`;
+
+const DetailText = styled.span`
+  font-size: 15;
+  padding-left: 0.625rem;
+  @media (max-width: 414px) {
+    padding-left: 0px;
+  }
 `;
 
 const UploadCircularButton = styled.label`
@@ -114,6 +168,18 @@ const EditPaper = styled(_Paper)`
   margin: 1.875rem 0 0;
 `;
 
+const SavePaper = styled(_Paper)`
+  width: 100%;
+  padding: 10px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  @media (max-width: 448px) {
+    display: block;
+  }
+`;
+
 const B = styled.b`
   font-size: 0.875rem;
 `;
@@ -132,7 +198,10 @@ const InfoIcon = styled(Info)`
   width: 1.25rem;
   cursor: pointer;
   color: #9e9e9e;
-  display: 'inline-bock';
+  display: inline-bock;
+  position: absolute;
+  right: 5px;
+  top: 5px;
 `;
 
 const ChevronLeftIcon = styled(ChevronLeft)`
@@ -155,6 +224,10 @@ const ChevronRightIcon = styled(ChevronRight)`
   color: #9e9e9e;
   cursor: pointer;
   display: inherit;
+  @media (max-width: 514px) {
+    top: 0px;
+    left: 0px;
+  }
 `;
 
 class SkillWizard extends Component {
@@ -855,12 +928,7 @@ class SkillWizard extends Component {
 
     return (
       <div style={{ marginTop: '3rem' }}>
-        <div
-          style={{
-            padding: this.isBotBuilder ? '0rem' : '0rem 1.875rem 1.875rem',
-            width: '100%',
-          }}
-        >
+        <Container>
           <Grid fluid>
             <Row>
               <Col
@@ -983,59 +1051,39 @@ class SkillWizard extends Component {
                   html={true}
                 />
                 {accessToken && this.state.editable && (
-                  <Paper>
+                  <Paper style={{ position: 'relative' }}>
                     <InfoIcon
                       data-tip={`Learn more about <a href=${urls.GITHUB_URL +
                         '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
                     />
                     <CenterDiv>
                       <DropDownDiv>
-                        <div>
-                          <span
-                            style={{
-                              fontSize: 15,
-                              paddingTop: '2.688rem',
-                              paddingLeft: '.625rem',
-                            }}
-                          >
+                        <SkillDetail>
+                          <DetailText style={{ paddingTop: '2.688rem' }}>
                             Category:&nbsp;
-                          </span>
-                          <Select
+                          </DetailText>
+                          <SelectDropDown
                             value={category}
                             onChange={this.handleGroupChange}
                             autoWidth={true}
-                            style={{
-                              position: 'relative',
-                              width: '15.625rem',
-                            }}
                           >
                             {this.state.groups}
-                          </Select>
-                        </div>
-                        <div>
-                          <span
-                            style={{
-                              fontSize: 15,
-                              paddingTop: '.5rem',
-                              marginLeft: '.625rem',
-                            }}
-                          >
+                          </SelectDropDown>
+                        </SkillDetail>
+                        <SkillDetail>
+                          <DetailText style={{ paddingTop: '.5rem' }}>
                             Language:&nbsp;
-                          </span>
-                          <Select
+                          </DetailText>
+                          <SelectDropDown
                             disabled={this.state.languageSelect}
                             value={language}
                             onChange={this.handleLanguageChange}
                             autoWidth={true}
-                            style={{
-                              position: 'relative',
-                              width: '15.625rem',
-                            }}
                           >
                             {languages}
-                          </Select>
-                        </div>
-                        <TextField
+                          </SelectDropDown>
+                        </SkillDetail>
+                        <NameField
                           disabled={this.state.expertSelect}
                           label={this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
                           placeholder={
@@ -1066,6 +1114,8 @@ class SkillWizard extends Component {
                                 borderRadius: '50%',
                                 marginRight: 20,
                                 border: 0,
+                                bottom: '1.5rem',
+                                position: 'relative',
                               }}
                               src={image}
                             />
@@ -1115,16 +1165,7 @@ class SkillWizard extends Component {
                       marginTop: 10,
                     }}
                   >
-                    <Paper
-                      style={{
-                        width: '100%',
-                        padding: 10,
-                        display: 'flex',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
+                    <SavePaper>
                       <TextField
                         label="Commit message"
                         placeholder="Enter Commit Message"
@@ -1168,7 +1209,7 @@ class SkillWizard extends Component {
                           Cancel
                         </Button>
                       </Link>
-                    </Paper>
+                    </SavePaper>
                     {this.state.prevButton === 1 ? (
                       <div
                         className="preview-button"
@@ -1247,7 +1288,7 @@ class SkillWizard extends Component {
               )}
             </Row>
           </Grid>
-        </div>
+        </Container>
       </div>
     );
   }
