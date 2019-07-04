@@ -193,7 +193,7 @@ class Preview extends Component {
     }
     return (
       <div className="preview-component" style={{ marginTop: '20px' }}>
-        <div style={{ minHeight: '460px' }}>
+        <div style={{ minHeight: '460px' }} className="preview-frame">
           {this.state.previewChat && (
             <div
               id="susi-frame-container"
