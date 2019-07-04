@@ -21,13 +21,6 @@ const NavLinkContainer = styled.div`
   }
 `;
 
-const NavLink = styled(Link)`
-  color: white;
-  :hover {
-    color: white;
-  }
-`;
-
 const NavButton = styled(StyledIconButton)`
   margin: 0 1rem;
   text-transform: none;
@@ -59,11 +52,7 @@ class NavMenu extends React.Component {
   onRouteChanged = () => {
     const { pathname } = this.props.location;
     const arr = pathname.split('/');
-    const label = arr.length <= 1 ? arr.pop() : arr[1];
-    if (label === '') {
-      this.setState({ activeTab: 'About' });
-      return;
-    }
+    const label = arr[1];
     this.setState({
       activeTab: label.charAt(0).toUpperCase() + label.slice(1),
     });
@@ -88,20 +77,14 @@ class NavMenu extends React.Component {
     ));
     return (
       <div data-tip="custom" data-for={label}>
-        {!_.isEmpty(sublinks) ? (
-          <NavButton
-            onClick={() => history.push(url)}
-            isActive={activeTab === label}
-            key={label}
-          >
-            {label}
-            <ExpandMore />
-          </NavButton>
-        ) : (
-          <NavButton key={label}>
-            <NavLink to={url}>{label}</NavLink>
-          </NavButton>
-        )}
+        <NavButton
+          onClick={() => history.push(url)}
+          isActive={activeTab === label}
+          key={label}
+        >
+          {label}
+          {!_.isEmpty(sublinks) && <ExpandMore />}
+        </NavButton>
         {!_.isEmpty(sublinks) && (
           <Popper
             id={label}
