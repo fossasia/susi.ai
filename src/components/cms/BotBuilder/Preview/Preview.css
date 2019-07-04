@@ -5,6 +5,7 @@
   margin: auto;
   padding: 0 20px;
 }
+
 .tooltiptext
 { 
     visibility: hidden;
@@ -60,6 +61,10 @@
   margin-top: 15px;
 }
 
+#susiTextMessage {
+    overflow: hidden;
+}
+
 #susi-frame-wrap {
     display: block;
     position: relative;
@@ -75,6 +80,7 @@
     margin: 0;
     cursor: pointer;
     font-family: Open Sans,sans-serif;
+    overflow: hidden;
 }
 .susi-send-button img{
   cursor: pointer;
@@ -112,7 +118,7 @@
     flex-direction: row-reverse
 }
 
-#susi-frame-container.susi-frame-container-active {
+.susi-frame-container-active {
     display: block;
     height: 460px;
     margin: auto;
@@ -133,6 +139,24 @@ screen and (max-width:450px) {
         top: 0;
         border-radius: 0;
         max-height: none
+    }
+}
+
+@media only screen and (max-width: 514px) {
+    .preview-component{
+        max-width: 100%;
+        width: 100%;
+        padding: 0 10px;
+    }
+    .susi-frame-container {
+        width: 100%;
+    }
+    .susi-frame-container-active  {
+        height: 580px;
+        max-height: 580px;
+    }
+    .preview-frame {
+        width: 100%;
     }
 }
 
