@@ -97,13 +97,13 @@ const Footer = () => {
           <LeftContainer>
             <ul>
               <li>
-                <Link to="/about/overview">About</Link>
+                <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/about/devices">Devices</Link>
+                <Link to="/devices">Devices</Link>
               </li>
               <li>
-                <Link to="/about/blog">Blog</Link>
+                <Link to="/blog">Blog</Link>
               </li>
               <li>
                 <a href={urls.API_URL}>API</a>
@@ -114,7 +114,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <Link to="/about/team">Team</Link>
+                <Link to="/team">Team</Link>
               </li>
               <li>
                 <Link to="/support">Support</Link>

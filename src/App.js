@@ -114,10 +114,10 @@ class App extends Component {
     const pathLength = pathname.split('/').length;
     const renderFooterPagesList = [
       '/',
-      '/about/overview',
-      '/about/team',
-      '/about/blog',
-      '/about/devices',
+      '/about',
+      '/team',
+      '/blog',
+      '/devices',
       '/skills',
       '/support',
       '/privacy',
@@ -154,9 +154,8 @@ class App extends Component {
             )}
             {renderAppBar}
             <Switch>
-              <Route exact path="/" component={Overview} />
+              <Route exact path="/" component={BrowseSkill} />
               <Route exact path="/chat" component={ChatApp} />
-              <Route exact path="/skills" component={BrowseSkill} />
               <Route
                 exact
                 path="/skills/category/:category"
@@ -221,10 +220,10 @@ class App extends Component {
                 path="/skills/botbuilder"
                 component={BotBuilderWrap}
               />
-              <Route exact path="/about/overview" component={Overview} />
-              <Route exact path="/about/devices" component={Devices} />
-              <Route exact path="/about/team" component={Team} />
-              <Route exact path="/about/blog" component={Blog} />
+              <Route exact path="/about" component={Overview} />
+              <Route exact path="/devices" component={Devices} />
+              <Route exact path="/team" component={Team} />
+              <Route exact path="/blog" component={Blog} />
               <Route exact path="/contact" component={Contact} />
               <Route exact path="/support" component={Support} />
               <Route exact path="/terms" component={Terms} />

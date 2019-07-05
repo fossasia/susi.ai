@@ -171,7 +171,7 @@ class NavigationBar extends Component {
             </MenuItem>
           </Link>
         )}
-        <Link to="/">
+        <Link to="/about">
           <MenuItem>
             <ListItemIcon>
               <Info />
