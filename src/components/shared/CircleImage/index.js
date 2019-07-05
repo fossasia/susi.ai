@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
+import _Avatar from '@material-ui/core/Avatar';
 
 /* Utils */
 import initials from 'initials';
-import addPx from 'add-px';
-import contrast from 'contrast';
-import './CircleImage.css';
 
 const defaultColors = [
   '#2ecc71', // emerald
@@ -16,6 +15,21 @@ const defaultColors = [
   '#1abc9c', // turquoise
   '#2c3e50', // midnight blue
 ];
+
+const Avatar = styled(_Avatar)`
+  margin-right: 10px;
+  background-color: ${props => props.backgroundColor};
+  width: ${props => props.size + 'px'};
+  height: ${props => props.size + 'px'};
+  ${props =>
+    props.src ||
+    (props.srcSet &&
+      css`
+        src: ${props => props.src};
+        srcset: ${props => props.srcSet};
+        color: '#fff';
+      `)}
+`;
 
 function sumChars(str) {
   let sum = 0;
@@ -32,50 +46,13 @@ const CircleImage = props => {
     name,
     color,
     colors,
-    style,
     borderRadius = '100%',
-    className,
+    size,
   } = props;
 
-  const size = addPx(props.size);
-
-  const styles = {
-    imageStyle: {
-      display: 'block',
-      borderRadius,
-    },
-    innerStyle: {
-      lineHeight: size,
-      textAlign: 'center',
-      overflow: 'initial',
-      marginRight: 10,
-      borderRadius,
-    },
-  };
-
-  let { imageStyle, innerStyle } = styles;
-  const nameInitials = initials(name);
-  let innerElement,
-    classes = [className, 'CircleImage'];
-
-  if (size) {
-    imageStyle.width = innerStyle.width = innerStyle.maxWidth = size;
-    imageStyle.height = innerStyle.height = innerStyle.maxHeight = size;
-  }
-
-  if (src || srcset) {
-    innerElement = (
-      <img
-        className="CircleImage--img"
-        style={imageStyle}
-        src={src}
-        srcSet={srcset}
-        alt={name}
-      />
-    );
-  } else {
-    let backgroundColor = '';
-
+  let backgroundColor = '';
+  let innerElement = null;
+  if (!src && !srcset) {
     if (color) {
       backgroundColor = color;
     } else {
@@ -83,18 +60,19 @@ const CircleImage = props => {
       const i = sumChars(name) % colors.length;
       backgroundColor = colors[i];
     }
-
-    innerStyle.backgroundColor = backgroundColor;
-    classes.push(`CircleImage--${contrast(innerStyle.backgroundColor)}`);
-    innerElement = nameInitials;
+    innerElement = initials(name);
   }
 
   return (
-    <div aria-label={name} className={classes.join(' ')} style={style}>
-      <div className="CircleImage--inner" style={innerStyle}>
-        {innerElement}
-      </div>
-    </div>
+    <Avatar
+      backgroundColor={backgroundColor}
+      size={size}
+      borderRadius={borderRadius}
+      src={src}
+      srcSet={srcset}
+    >
+      {innerElement}
+    </Avatar>
   );
 };
 
