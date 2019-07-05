@@ -46,7 +46,6 @@ import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 const RootContainer = styled.div`
   position: relative;
   min-height: 100vh;
-  padding-bottom: 120px;
 `;
 
 class App extends Component {
