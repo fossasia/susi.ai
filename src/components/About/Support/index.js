@@ -383,19 +383,19 @@ class Support extends Component {
               </SupportDescription>
             </RowDescription>
             <RowDescription>
-              <Link to="/skills" style={{ textDecoration: 'none' }}>
+              <Link to="/" style={{ textDecoration: 'none' }}>
                 <SupportItemIconContainer>
                   <SupportItemIcon alt="code" src={code} />
                 </SupportItemIconContainer>
               </Link>
               <SupportDescription>
-                <Link to="/skills" style={{ textDecoration: 'none' }}>
+                <Link to="/" style={{ textDecoration: 'none' }}>
                   <H3>Create and Edit a SUSI.AI skill</H3>
                 </Link>
                 <SupportDescriptionContent>
                   You can easily create a skill on the SUSI.AI skills editor at{' '}
-                  <Link to="/skills" style={{ textDecoration: 'none' }}>
-                    susi.ai/skills
+                  <Link to="/" style={{ textDecoration: 'none' }}>
+                    susi.ai
                   </Link>
                 </SupportDescriptionContent>
               </SupportDescription>
