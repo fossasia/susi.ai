@@ -6,11 +6,8 @@ import _ from 'lodash';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-const { API_URL } = urls;
 let avatarsIcon = avatars.slice()[1].url;
 let botIcon = avatars.slice()[0].url;
-const CMS_API_PREFIX = 'cms';
-const IMAGE_GET_URL = `${API_URL}/${CMS_API_PREFIX}/getImage.png?image=`;
 
 const defaultState = {
   skill: {
@@ -27,14 +24,17 @@ const defaultState = {
   design: {
     botbuilderBackgroundBody: '#ffffff',
     botbuilderBodyBackgroundImg: '',
+    botbuilderBodyBackgroundImgName: '',
     botbuilderUserMessageBackground: '#0077e5',
     botbuilderUserMessageTextColor: '#ffffff',
     botbuilderBotMessageBackground: '#f8f8f8',
     botbuilderBotMessageTextColor: '#455a64',
     botbuilderIconColor: '#000000',
     botbuilderIconImg: botIcon,
+    botbuilderIconSelected: 0,
     code:
       '::bodyBackground #ffffff\n::bodyBackgroundImage \n::userMessageBoxBackground #0077e5\n::userMessageTextColor #ffffff\n::botMessageBoxBackground #f8f8f8\n::botMessageTextColor #455a64\n::botIconColor #000000\n::botIconImage ',
+    avatars: avatars.slice(),
   },
   configCode:
     "::allow_bot_only_on_own_sites no\n!Write all the domains below separated by commas on which you want to enable your chatbot\n::allowed_sites \n!Choose if you want to enable the default susi skills or not\n::enable_default_skills yes\n!Choose if you want to enable chatbot in your devices or not\n::enable_bot_in_my_devices no\n!Choose if you want to enable chatbot in other user's devices or not\n::enable_bot_for_other_users no",
@@ -414,12 +414,10 @@ export default handleActions(
     },
 
     [actionTypes.CREATE_SET_BOT_BACKGROUND_IMAGE](state, { payload }) {
-      const response = payload;
-      const imagePath = { response };
-      const botbuilderBodyBackgroundImg = IMAGE_GET_URL + imagePath;
-      const botbuilderBodyBackgroundImgName = response.imagePath.substring(
-        imagePath.indexOf('_') + 1,
-      );
+      const {
+        botbuilderBodyBackgroundImg,
+        botbuilderBodyBackgroundImgName,
+      } = payload;
       let code = String(state.skill.code);
       code = code.replace(
         /^::bodyBackgroundImage\s(.*)$/m,
@@ -436,20 +434,33 @@ export default handleActions(
       };
     },
     [actionTypes.CREATE_SET_BOT_AVATAR](state, { payload }) {
-      const response = payload;
-      const imagePath = { response };
-      const botbuilderIconImg = IMAGE_GET_URL + imagePath;
+      const {
+        botbuilderIconImg,
+        botbuilderIconSelected = state.design.avatars.length,
+        addNewIcon = true,
+      } = payload;
       let code = String(state.skill.code);
       code = code.replace(
         /^::botIconImage\s(.*)$/m,
         `::botIconImage ${botbuilderIconImg}`,
       );
+      let { avatars } = state.design;
+      if (addNewIcon) {
+        const avatarObj = {
+          id: botbuilderIconSelected,
+          url: botbuilderIconImg,
+        };
+        avatars = [...state.design.avatars, avatarObj];
+      }
+
       return {
         ...state,
         design: {
           ...state.design,
           code,
           botbuilderIconImg,
+          botbuilderIconSelected,
+          avatars,
         },
       };
     },
