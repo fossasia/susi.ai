@@ -1,0 +1,21 @@
+.slick-slide {
+    margin: 0 auto;
+}
+
+.slick-prev {
+  left: 1.25rem !important;
+}
+.slick-next {
+  right: 1.25rem !important;
+}
+
+.slick-next, .slick-prev {
+    z-index: 100;
+    color: #757575;
+    width: 3rem;
+    height: 3rem;
+}
+
+.slick-next:hover, .slick-prev:hover {
+    color: black;
+}
