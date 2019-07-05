@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Add from '@material-ui/icons/Add';
+import _Card from '@material-ui/core/Card';
+import _CardContent from '@material-ui/core/CardContent';
+import _Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Paper from '@material-ui/core/Paper';
-import './BotBuilder.css';
+import _Fab from '@material-ui/core/Fab';
+import _Paper from '@material-ui/core/Paper';
 import { urls } from '../../../utils';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -21,30 +20,115 @@ import {
   readDraft,
   deleteDraft,
 } from '../../../apis/index.js';
+import styled, { css } from 'styled-components';
 
 const cookies = new Cookies();
 let BASE_URL = urls.API_URL;
 
-const styles = {
-  home: {
-    margin: '0px 10px',
-  },
-  paperStyle: {
-    width: '100%',
-    marginTop: '20px',
-    overflow: 'overlay',
-  },
-  newBotBtn: {
-    color: 'white',
-    fontFamily: 'Helvetica',
-    fontSize: '16px',
-    paddingTop: '20px',
-  },
-  heading: {
-    color: 'rgba(0,0,0,.65)',
-    padding: '20px 0px 0px 20px',
-  },
-};
+const commonHeadingStyle = css`
+  color: rgba(0, 0, 0, 0.65);
+  padding: 20px 0px 0px 20px;
+`;
+
+const Home = styled.div`
+  margin: 0px 10px;
+
+  @media (min-width: 769px) {
+    padding: 40px 30px 30px;
+  }
+`;
+
+const Paper = styled(_Paper)`
+  width: 100%;
+  margin-top: 20px;
+  overflow: overlay;
+  padding: 15px 0px;
+
+  @media (min-width: 769px) {
+    padding: 15px;
+  }
+`;
+
+const CardContent = styled(_CardContent)`
+  color: #ffffff;
+  font-size: 16px;
+  padding-top: 20px;
+`;
+
+const H1 = styled.h1`
+  ${commonHeadingStyle}
+`;
+
+const H2 = styled.h2`
+  ${commonHeadingStyle}
+`;
+
+const BotContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px;
+
+  @media (max-width: 580px) {
+    justify-content: center;
+  }
+`;
+
+const DeleteBotContainer = styled.div`
+  display: none;
+`;
+
+const Card = styled(_Card)`
+  width: 260px;
+  height: 170px;
+  margin: 10px;
+  overflow: hidden;
+  justify-content: center;
+  text-align: center;
+  display: inline-block;
+  background-size: cover;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #eaeded;
+  padding: 66px 10px 10px;
+  position: relative;
+  color: #ffffff;
+  background-size: cover;
+  opacity: 0.9;
+
+  &:after {
+    opacity: 0.5;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &:hover ${DeleteBotContainer} {
+    display: block;
+    padding-left: 200px;
+    padding-top: 30px;
+    width: 100%;
+  }
+`;
+
+const Fab = styled(_Fab)`
+  boxshadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+`;
+
+const Add = styled(_Add)`
+  height: 40px;
+`;
+
+const Text = styled.p`
+  font-size: 18px;
+  padding-left: 10px;
+`;
 
 class BotBuilder extends React.Component {
   constructor(props) {
@@ -136,11 +220,8 @@ class BotBuilder extends React.Component {
         chatbots.push(
           <Card
             key={bot.name}
-            className="bot-template-card"
             style={{
               backgroundImage: 'url(' + imageUrl + ')',
-              backgroundSize: 'cover',
-              backgroundColor: '#000',
               opacity: '0.5',
             }}
           >
@@ -158,7 +239,7 @@ class BotBuilder extends React.Component {
                 {bot.name}
               </Button>
             </Link>
-            <div className="bot-delete">
+            <DeleteBotContainer>
               <Delete
                 onClick={() =>
                   this.handleDeleteModal('bot', [
@@ -168,7 +249,7 @@ class BotBuilder extends React.Component {
                   ])
                 }
               />
-            </div>
+            </DeleteBotContainer>
           </Card>,
         );
       });
@@ -245,12 +326,8 @@ class BotBuilder extends React.Component {
         draftsOfBots.push(
           <Card
             key={draft}
-            className="bot-template-card"
             style={{
               backgroundImage: 'url(' + imageUrl + ')',
-              backgroundSize: 'cover',
-              backgroundColor: '#000',
-              opacity: '0.9',
             }}
           >
             <Link to={'/skills/botbuilder/botwizard?draftID=' + draft}>
@@ -258,12 +335,12 @@ class BotBuilder extends React.Component {
                 {drafts[draft].name === '' ? draft : drafts[draft].name}
               </Button>
             </Link>
-            <div className="bot-delete">
+            <DeleteBotContainer>
               <Delete
                 color="rgb(255, 255, 255)"
                 onClick={() => this.handleDeleteModal('draft', [draft])}
               />
-            </div>
+            </DeleteBotContainer>
           </Card>,
         );
       }
@@ -316,15 +393,14 @@ class BotBuilder extends React.Component {
   };
 
   render() {
-    const { home, paperStyle, heading, newBotBtn } = styles;
     const { drafts } = this.state;
 
     return (
       <div>
-        <div style={home} className="botbuilder-page-wrapper">
-          <Paper style={paperStyle} className="botBuilder-page-card">
-            <h1 style={heading}>Pick a template</h1>
-            <div className="bot-template-wrap">
+        <Home>
+          <Paper>
+            <H1>Pick a template</H1>
+            <BotContainer>
               {this.props.templates.map(template => {
                 return (
                   <Link
@@ -332,12 +408,8 @@ class BotBuilder extends React.Component {
                     to={'/skills/botbuilder/botwizard?template=' + template.id}
                   >
                     <Card
-                      className="bot-template-card"
                       style={{
                         backgroundImage: 'url(' + template.image + ')',
-                        backgroundSize: 'cover',
-                        backgroundColor: '#000',
-                        opacity: '0.9',
                       }}
                     >
                       <Button variant="contained" color="primary">
@@ -347,54 +419,33 @@ class BotBuilder extends React.Component {
                   </Link>
                 );
               })}
-            </div>
+            </BotContainer>
           </Paper>
-          <Paper style={paperStyle} className="botBuilder-page-card">
-            <h1 style={heading}>My bots</h1>
+          <Paper>
+            <H1>My bots</H1>
             <br />
-            <h2 style={heading}>Saved Bots</h2>
-            <div className="bot-template-wrap">
+            <H2>Saved Bots</H2>
+            <BotContainer>
               <Link to="/skills/botbuilder/botwizard">
                 <Card
-                  className="bot-template-card"
                   style={{
                     backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
-                    backgroundSize: 'cover',
-                    backgroundColor: '#000',
-                    opacity: '0.9',
                   }}
                 >
-                  <Fab
-                    color="primary"
-                    size="small"
-                    style={{
-                      boxShadow:
-                        'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-                    }}
-                  >
-                    <Add
-                      style={{
-                        height: '40px',
-                      }}
-                    />
+                  <Fab color="primary" size="small">
+                    <Add />
                   </Fab>
-                  <CardContent style={newBotBtn}>Create a new bot</CardContent>
+                  <CardContent>Create a new bot</CardContent>
                 </Card>
               </Link>
               {this.showChatbots()}
-            </div>
-            <h2 style={heading}>Drafts</h2>
-            <div className="bot-template-wrap">
-              {drafts.length > 0 ? (
-                drafts
-              ) : (
-                <p style={{ fontSize: '18px', paddingLeft: '10px' }}>
-                  No drafts to display.
-                </p>
-              )}
-            </div>
+            </BotContainer>
+            <H2>Drafts</H2>
+            <BotContainer>
+              {drafts.length > 0 ? drafts : <Text>No drafts to display.</Text>}
+            </BotContainer>
           </Paper>
-        </div>
+        </Home>
       </div>
     );
   }

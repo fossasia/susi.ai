@@ -62,6 +62,15 @@ const AceEditor = styled(_AceEditor)`
   resize: vertical;
   min-height: 12.5rem;
   max-height: 35rem;
+  border: 1px solid #d1d5da;
+  background-color: #fafbfc !important;
+
+  &:focus {
+    background-color: #ffffff;
+    border-color: #2188ff;
+    box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075),
+      0 0 0 0.2em rgba(3, 102, 214, 0.3);
+  }
 `;
 
 class CodeView extends React.Component {

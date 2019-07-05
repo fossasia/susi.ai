@@ -27,7 +27,7 @@ const Container = styled.div`
         `}
 `;
 
-const CircularLoader = ({ height, color = 'primary', size = 64 }) => {
+const CircularLoader = ({ height = 'auto', color = 'primary', size = 64 }) => {
   return (
     <Container height={height}>
       <CircularProgress color={color} size={size} />

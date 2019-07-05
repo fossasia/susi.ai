@@ -1,23 +1,147 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Col, Row } from 'react-flexbox-grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Grid, Col, Row as _Row } from 'react-flexbox-grid';
 import CircularLoader from '../../../../shared/CircularLoader';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../../../redux/actions/ui';
 import createActions from '../../../../../redux/actions/create';
-import Close from '@material-ui/icons/Close';
+import _Close from '@material-ui/icons/Close';
 import Add from '@material-ui/icons/Add';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { urls, colors } from '../../../../../utils';
 import avatars from '../../../../../utils/avatars';
-import { TiTick } from 'react-icons/ti';
 import ColorPickerComponent from '../../../../shared/ColorPickerComponent';
+import _Check from '@material-ui/icons/Check';
+import styled from 'styled-components';
 let BASE_URL = urls.API_URL;
 let IMAGE_GET_URL = `${BASE_URL}/cms/getImage.png?image=`;
+
+const BotAvatarImg = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+`;
+
+const AvatarUploadButton = styled.label`
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  background-color: #eee;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  top: 10px;
+`;
+
+const DesignContainer = styled.div`
+  max-width: 100%;
+  text-align: left;
+
+  @media (max-width: 480px) {
+    margin-left: 20px;
+  }
+`;
+
+const FileUploadButton = styled.label`
+  display: inline-block;
+  font-family: sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0px 10px;
+  position: relative;
+  z-index: 1;
+  line-height: 36px;
+  border-radius: 2px;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  background-color: rgb(66, 133, 244);
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  max-width: 200px;
+  min-width: 88px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+
+  &:hover {
+    background-color: rgb(90, 147, 241);
+  }
+`;
+
+const Close = styled(_Close)`
+  vertical-align: middle;
+  margin-left: 20px;
+  cursor: pointer;
+`;
+
+const ToggleLabel = styled.label`
+  margin-right: 10px;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.87);
+`;
+
+const ColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const RowContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Form = styled.form`
+  display: inline-block;
+`;
+
+const Row = styled(_Row)`
+  margin-bottom: 15px;
+`;
+
+const ComponentName = styled.div`
+  font-size: 18px;
+  font-weight: 400;
+`;
+
+const BotBuilderContainer = styled.div`
+  padding: 10px 0 25px 0;
+`;
+
+const AddIcon = styled(Add)`
+  height: 30px;
+  margin-top: 15px;
+  color: rgb(66, 133, 245);
+`;
+
+const Input = styled.input`
+  display: none;
+`;
+
+const Check = styled(_Check)`
+  display: none;
+  position: absolute;
+  top: -9px;
+  right: 0px;
+  font-size: 23px;
+  color: #4285f5;
+`;
+
+const IconWrap = styled.span`
+  display: inline-block;
+  position: relative;
+  ${BotAvatarImg} {
+    border: ${props => (props.icon ? 'solid 2px #4285f5' : 'none')};
+  }
+
+  ${Check} {
+    display: ${props => (props.icon ? 'block' : 'none')};
+  }
+`;
 
 // Custom Theme feature Component
 const customiseOptionsList = [
@@ -288,10 +412,10 @@ class UIView extends Component {
     const customizeComponents = customiseOptionsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
-          <Row style={{ marginBottom: '15px' }}>
+          <Row>
             <Col xs={12} md={6} lg={6}>
               {component.id === 7 ? (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <ColumnContainer>
                   <div
                     style={{
                       fontSize: '18px',
@@ -300,26 +424,17 @@ class UIView extends Component {
                   >
                     {component.name}
                   </div>
-                </div>
+                </ColumnContainer>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div
-                    style={{
-                      fontSize: '18px',
-                      paddingTop: '12px',
-                      fontWeight: '400',
-                    }}
-                  >
-                    {component.name}
-                  </div>
+                <ColumnContainer>
+                  <ComponentName>{component.name}</ComponentName>
                   {component.id === 1 && (
                     <div>
-                      <span
-                        className="toggle-label-right"
+                      <ToggleLabel
                         onClick={this.handleShowBackgroundImageChangeToggle}
                       >
                         Color
-                      </span>
+                      </ToggleLabel>
                       <FormControlLabel
                         control={
                           <Switch
@@ -334,7 +449,7 @@ class UIView extends Component {
                       />
                     </div>
                   )}
-                </div>
+                </ColumnContainer>
               )}
             </Col>
             <Col xs={12} md={6} lg={6}>
@@ -343,7 +458,7 @@ class UIView extends Component {
                 component.id === 1 &&
                 this.state.showBackgroundImageChange === true
               ) ? (
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <RowContainer>
                   <ColorPickerComponent
                     component={component.component}
                     id={component.id}
@@ -351,81 +466,60 @@ class UIView extends Component {
                     backgroundColor={this.props.design[component.component]}
                     handleClickColorBox={this.handleClickColorBox}
                   />
-                </div>
+                </RowContainer>
               ) : null}
               {component.component === 'botbuilderBackgroundBody' &&
                 this.state.showBackgroundImageChange === true && (
                   <div>
                     <br />
-                    <form style={{ display: 'inline-block' }}>
-                      <label
-                        className="file-upload-btn"
-                        title="Upload Background Image"
-                      >
-                        <input
+                    <Form>
+                      <FileUploadButton title="Upload Background Image">
+                        <Input
                           disabled={this.state.uploadingBodyBackgroundImg}
                           type="file"
                           onChange={this.handleChangeBodyBackgroundImage}
                           accept="image/*"
                         />
                         {this.state.uploadingBodyBackgroundImg ? (
-                          <CircularProgress color="#ffffff" size={32} />
+                          <CircularLoader color="#ffffff" size={32} />
                         ) : (
                           'Upload Image'
                         )}
-                      </label>
-                    </form>
+                      </FileUploadButton>
+                    </Form>
                     {this.state.botbuilderBodyBackgroundImg && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          marginTop: '10px',
-                        }}
-                      >
+                      <RowContainer>
                         <h3>{this.state.botbuilderBodyBackgroundImgName}</h3>
                         <span title="Remove image">
-                          <Close
-                            className="remove-icon"
-                            onClick={this.handleRemoveUrlBody}
-                          />
+                          <Close onClick={this.handleRemoveUrlBody} />
                         </span>
-                      </div>
+                      </RowContainer>
                     )}
                   </div>
                 )}
             </Col>
           </Row>
           {component.component === 'botbuilderAvatar' && (
-            <div style={{ padding: '10px  0 25px 0' }}>
+            <BotBuilderContainer>
               {this.state.avatars.map(icon => {
                 return (
-                  <span
+                  <IconWrap
                     id={icon.id}
                     key={icon.id}
-                    className={
-                      'icon-wrap ' +
-                      (this.state.iconSelected === icon.id
-                        ? 'icon-selected'
-                        : '')
-                    }
+                    icon={this.state.iconSelected === icon.id}
                   >
-                    <img
+                    <BotAvatarImg
                       alt="icon"
                       src={icon.url}
                       onClick={() => this.handleIconSelect(icon)}
-                      className="bot-avatar"
                     />
-                    <TiTick className="tick" />
-                  </span>
+                    <Check />
+                  </IconWrap>
                 );
               })}
-              <form style={{ display: 'inline-block' }}>
-                <label
-                  className="avatar-upload-btn icon-wrap"
-                  title="Upload your own bot icon"
-                >
-                  <input
+              <Form>
+                <AvatarUploadButton title="Upload your own bot icon">
+                  <Input
                     disabled={this.state.uploadingBotbuilderIconImg}
                     type="file"
                     onChange={
@@ -436,23 +530,13 @@ class UIView extends Component {
                     accept="image/x-png,image/gif,image/jpeg"
                   />
                   {this.state.uploadingBotbuilderIconImg ? (
-                    <CircularProgress
-                      color="rgb(66, 133, 245)"
-                      style={{ marginTop: '15px' }}
-                      size={30}
-                    />
+                    <CircularLoader size={30} />
                   ) : (
-                    <Add
-                      style={{
-                        height: '30px',
-                        marginTop: '15px',
-                        color: 'rgb(66, 133, 245)',
-                      }}
-                    />
+                    <AddIcon />
                   )}
-                </label>
-              </form>
-            </div>
+                </AvatarUploadButton>
+              </Form>
+            </BotBuilderContainer>
           )}
         </div>
       );
@@ -462,7 +546,7 @@ class UIView extends Component {
         {!this.state.loadedSettings ? (
           <CircularLoader />
         ) : (
-          <div className="design-box">
+          <DesignContainer>
             {this.state.loadedSettings && <Grid>{customizeComponents}</Grid>}
             <Button
               variant="contained"
@@ -470,12 +554,12 @@ class UIView extends Component {
               onClick={this.handleReset}
             >
               {this.state.resetting ? (
-                <CircularProgress color={colors.light.header} size={32} />
+                <CircularLoader color={colors.light.header} size={32} />
               ) : (
                 'Reset Changes'
               )}
             </Button>
-          </div>
+          </DesignContainer>
         )}
       </div>
     );
