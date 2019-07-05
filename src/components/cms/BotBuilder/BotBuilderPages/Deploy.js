@@ -4,6 +4,114 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../../redux/actions/ui';
+import styled from 'styled-components';
+
+const Home = styled.div`
+  margin-top: 10px;
+`;
+
+const H1 = styled.h1`
+  line-height: 50px;
+
+  @media (max-width: 480px) {
+    line-height: 2.5rem;
+  }
+`;
+
+const Container = styled.div`
+  margin-left: auto;
+  margin-right: 0px;
+`;
+
+const OrderedList = styled.ol`
+  list-style-type: none;
+
+  @media (max-width: 480px) {
+    padding: 0px;
+  }
+`;
+
+const ListItem = styled.li`
+  font-size: 16px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  counter-increment: step-counter;
+  position: relative;
+
+  &:before {
+    content: counter(step-counter);
+    background-color: #ebebeb;
+    color: #888;
+    padding-top: 1px;
+    font-size: 13px;
+    border-radius: 50%;
+    position: absolute;
+    font-weight: bold;
+    left: -28px;
+    top: 2px;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    vertical-align: middle;
+  }
+`;
+
+const Span = styled.span`
+  font-style: italic;
+  background-color: #eee;
+  display: inline-block;
+  padding: 0 3px;
+`;
+
+const CopyButton = styled.span`
+  position: absolute;
+  opacity: 0;
+  transition: ease-in 0.1s;
+  top: 5px;
+  right: 7px;
+  background-color: #4285f5;
+  font-size: 15px;
+  color: #fff;
+  padding: 4px 9px;
+  cursor: pointer;
+  border-radius: 0.4em;
+  box-shadow: -1px 3px 9px 0px #2222226e;
+
+  &:hover {
+    background-color: #729ce2;
+  }
+`;
+
+const CodeWrap = styled.div`
+  transition: all 0.3s ease-in;
+  display: block;
+`;
+
+const CodeBox = styled.div`
+  font-size: 13px;
+  font-weight: normal;
+  position: relative;
+  background: #d3d3d3;
+  border-radius: 0.4em;
+  display: inline-block;
+  padding: 10px 20px;
+  box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
+
+  &:hover ${CopyButton} {
+    opacity: 1;
+  }
+
+  @media (max-width: 425px) {
+    padding: 10px;
+    font-size: 9px;
+  }
+`;
+
+const Section = styled.div`
+  padding: 30px 10px 0 10px;
+`;
+
 const api = window.location.protocol + '//' + window.location.host;
 class Deploy extends Component {
   render() {
@@ -27,22 +135,19 @@ class Deploy extends Component {
       '&gt;&lt;/script&gt;';
 
     return (
-      <div className="menu-page">
-        <h1 style={{ lineHeight: '50px' }}>
-          4. Deploy your bot to your own website
-        </h1>
-        <div style={{ marginLeft: 'auto', marginRight: '0px' }}>
-          <div style={{ padding: '30px 10px 0 10px' }}>
-            <ol className="deploy-steps">
-              <li>
+      <Home>
+        <H1>4. Deploy your bot to your own website</H1>
+        <Container>
+          <Section>
+            <OrderedList>
+              <ListItem>
                 Add the code below to every page you want the Messenger to
                 appear. Copy and paste it before the{' '}
-                <span className="html-tag">&lt;&#47;body&gt;</span> tag on each
-                page.
+                <Span>&lt;&#47;body&gt;</Span> tag on each page.
                 <br />
                 <br />
-                <div className="code-wrap show">
-                  <div className="code-box">
+                <CodeWrap>
+                  <CodeBox>
                     <code dangerouslySetInnerHTML={{ __html: code }} />
                     <CopyToClipboard
                       text={
@@ -65,20 +170,20 @@ class Deploy extends Component {
                         })
                       }
                     >
-                      <span className="copy-button">copy</span>
+                      <CopyButton>copy</CopyButton>
                     </CopyToClipboard>
-                  </div>
-                </div>
-              </li>
-              <li>
+                  </CodeBox>
+                </CodeWrap>
+              </ListItem>
+              <ListItem>
                 Open your web app or website and look for the Messenger in the
                 bottom right corner.
-              </li>
-              <li>Start chatting with your SUSI bot.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
+              </ListItem>
+              <ListItem>Start chatting with your SUSI bot.</ListItem>
+            </OrderedList>
+          </Section>
+        </Container>
+      </Home>
     );
   }
 }

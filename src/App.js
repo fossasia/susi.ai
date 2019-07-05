@@ -130,9 +130,13 @@ class App extends Component {
       renderFooterPagesList.includes(pathname) ? (
         <Footer />
       ) : null;
+
     const renderCookiePolicy =
       showCookiePolicy === true ? <CookiePolicy /> : null;
     const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
+
+    const applyFooterStyle = ['/skills/botbuilder/botwizard'];
+
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -230,7 +234,15 @@ class App extends Component {
               <ProtectedRoute exact path="/settings" component={Settings} />
               <Route exact path="/*:path(error-404|)" component={NotFound} />
             </Switch>
-            {renderFooter}
+            <div
+              style={
+                applyFooterStyle.includes(pathname)
+                  ? { marginTop: '230px' }
+                  : null
+              }
+            >
+              {renderFooter}
+            </div>
             {renderCookiePolicy}
           </RootContainer>
         </MuiThemeProvider>
