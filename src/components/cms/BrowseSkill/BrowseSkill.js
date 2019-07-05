@@ -44,6 +44,7 @@ import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
 import isMobileView from '../../../utils/isMobileView';
 import Grid from '@material-ui/core/Grid';
+import SkillSlideshow from '../SkillSlideshow';
 
 import { SelectedText } from '../SkillsStyle';
 
@@ -1038,7 +1039,10 @@ class BrowseSkill extends React.Component {
               ) : (
                 ''
               )}
-              <div>{renderCardScrollList}</div>
+              <div>
+                <SkillSlideshow />
+                {renderCardScrollList}
+              </div>
               {/* Check if mobile view is currently active*/}
               {routeType === 'category' ? (
                 backToHome
