@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import _Button from '@material-ui/core/Button';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
@@ -15,52 +15,177 @@ import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
 import Configure from './BotBuilderPages/Configure';
 import Deploy from './BotBuilderPages/Deploy';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
+import _Paper from '@material-ui/core/Paper';
+import _TextField from '@material-ui/core/TextField';
+import _ChevronLeft from '@material-ui/icons/ChevronLeft';
+import _ChevronRight from '@material-ui/icons/ChevronRight';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import avatars from '../../../utils/avatars';
 import { storeDraft, updateSkill, readDraft } from '../../../apis/index';
-import './BotBuilder.css';
 import createActions from '../../../redux/actions/create';
 import SkillWizard from '../SkillCreator/SkillWizard';
+import mobileView from '../../../utils/isMobileView';
+import styled from 'styled-components';
 
-const styles = {
-  home: {
-    width: '100%',
-  },
-  mainPage: {
-    paddingTop: '25px',
-    paddingRight: '15px',
-  },
-  paperStyle: {
-    width: '100%',
-    marginTop: '20px',
-    position: 'relative',
-  },
-  chevron: {
-    position: 'absolute',
-    left: '0',
-    top: '0',
-    width: '35px',
-    height: '35px',
-    color: 'rgb(158, 158, 158)',
-    cursor: 'pointer',
-    display: window.innerWidth < 769 ? 'none' : 'inherit',
-  },
-  chevronButton: {
-    position: 'absolute',
-    left: '4px',
-    top: '4px',
-    width: '35px',
-    height: '35px',
-    color: 'white',
-    cursor: 'pointer',
-    display: window.innerWidth < 769 ? 'none' : 'inherit',
-  },
-  contentStyle: { margin: '0 16px' },
-};
+const isMobile = mobileView();
+
+const Home = styled.div`
+  width: 100%;
+  min-height: 100vh;
+
+  @media (min-width: 769px) {
+    padding: 40px 30px 30px;
+  }
+`;
+
+const Container = styled.div`
+  padding-top: 25px;
+  padding-right: 15px;
+
+  @media (max-width: 1200px) {
+    padding-right: 0px;
+  }
+`;
+
+const Button = styled(_Button)`
+  margin-left: 10px;
+`;
+
+const Paper = styled(_Paper)`
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+  height: 99.9%;
+  margin-right: 30px;
+  padding: 15px 0px;
+
+  @media (min-width: 769px) {
+    padding: 15px;
+  }
+`;
+
+const ChevronRight = styled(_ChevronRight)`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  color: rgb(158, 158, 158);
+  cursor: pointer;
+  display: inherit;
+`;
+
+const ChevronLeft = styled(_ChevronLeft)`
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 35px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  display: inherit;
+`;
+
+const Content = styled.div`
+  margin: 0 16px;
+
+  @media (max-width: 1200px) {
+    margin: 0px;
+  }
+`;
+
+const StepperCol = styled(Col)`
+  @media (max-width: 1200px) {
+    position: inherit;
+    margin-left: 0px;
+    margin-bottom: 40px;
+    margin-top: 30px;
+  }
+`;
+
+const ContainerCol = styled(Col)`
+  position: fixed;
+  margin-left: 65%;
+  height: 88%;
+  margin-top: 10px;
+
+  @media (max-width: 1200px) {
+    position: inherit;
+    margin-left: 0px;
+    margin-bottom: 40px;
+  }
+`;
+
+const TextField = styled(_TextField)`
+  width: 100%;
+`;
+
+const PreviewContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+`;
+
+const CenterHeading = styled.h2`
+  text-align: center;
+`;
+
+const PreviewButton = styled.div`
+  height: 45px;
+  width: 42px;
+  position: fixed;
+  z-index: 1;
+  top: 75px;
+  right: 0;
+  background-color: rgb(158, 158, 158);
+  overflow-x: hidden;
+  padding-top: 20px;
+`;
+
+const ContentContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
+const ActionContainer = styled.div`
+  padding: 0px 15px;
+
+  @media (max-width: 500px) {
+    padding: 0px;
+  }
+`;
+
+const DraftButtonContainer = styled.div`
+  float: left;
+  padding-top: 20px;
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding-top: 0px;
+    margin-bottom: 10px;
+  }
+`;
+
+const ActionButtonContainer = styled.div`
+  float: right;
+  padding-left: 20px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+
+  @media (max-width: 480px) {
+    float: left;
+    margin-right: 10px;
+    padding-left: 0px;
+    padding-top: 0px;
+    margin-bottom: 10px;
+  }
+`;
+
+const BR = styled.br`
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
 
 class BotWizard extends React.Component {
   componentDidMount() {
@@ -441,14 +566,6 @@ class BotWizard extends React.Component {
 
   render() {
     const {
-      home,
-      mainPage,
-      paperStyle,
-      chevron,
-      chevronButton,
-      contentStyle,
-    } = styles;
-    const {
       colBuild,
       loaded,
       commitMessage,
@@ -460,22 +577,26 @@ class BotWizard extends React.Component {
     } = this.state;
 
     return (
-      <div style={home} className="botbuilder-page-wrapper">
+      <Home>
         <Grid fluid>
           <Row>
-            <Col
-              className="botbuilder-col"
-              md={colBuild}
+            <StepperCol
+              md={12}
+              xl={colBuild}
               style={{
                 display: colBuild === 0 ? 'none' : 'block',
               }}
             >
-              <div style={mainPage}>
+              <Container>
                 {!loaded ? (
                   <CircularLoader />
                 ) : (
                   <div>
-                    <Stepper activeStep={stepIndex} nonLinear>
+                    <Stepper
+                      activeStep={stepIndex}
+                      nonLinear
+                      alternativeLabel={!!isMobile}
+                    >
                       <Step>
                         <StepButton onClick={() => this.setStep(0)}>
                           Build
@@ -497,17 +618,17 @@ class BotWizard extends React.Component {
                         </StepButton>
                       </Step>
                     </Stepper>
-                    <div style={contentStyle}>
-                      <div>{this.getStepContent(stepIndex)}</div>
-                      <div style={{ marginTop: '20px' }} />
-                    </div>
+                    <Content>
+                      <ContentContainer>
+                        {this.getStepContent(stepIndex)}
+                      </ContentContainer>
+                    </Content>
                   </div>
                 )}
-              </div>
-              <div
+              </Container>
+              <ActionContainer
                 style={{
                   display: stepIndex === 3 ? 'none' : 'block',
-                  padding: '0px 30px',
                 }}
               >
                 {stepIndex === 2 ? (
@@ -515,13 +636,13 @@ class BotWizard extends React.Component {
                     label="Commit message"
                     placeholder="Enter Commit Message"
                     margin="normal"
-                    style={{ width: '100%' }}
                     value={commitMessage}
                     onChange={this.handleCommitMessageChange}
                   />
                 ) : null}
-                {stepIndex === 2 ? (
-                  <div style={{ float: 'left', paddingTop: '20px' }}>
+
+                {stepIndex <= 2 ? (
+                  <DraftButtonContainer>
                     <Button
                       variant="contained"
                       color="primary"
@@ -529,24 +650,9 @@ class BotWizard extends React.Component {
                     >
                       Save Draft
                     </Button>
-                  </div>
+                  </DraftButtonContainer>
                 ) : null}
-                <div
-                  style={{
-                    float: 'right',
-                    paddingLeft: '20px',
-                    paddingTop: stepIndex === 2 ? '20px' : '0px',
-                  }}
-                >
-                  {stepIndex < 2 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                    >
-                      Next
-                    </Button>
-                  ) : null}
+                <ActionButtonContainer>
                   {stepIndex === 2 ? (
                     <Button
                       variant="contained"
@@ -563,22 +669,15 @@ class BotWizard extends React.Component {
                       )}
                     </Button>
                   ) : null}
-                </div>
-                {stepIndex < 2 ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.saveDraft}
-                  >
-                    Save Draft
-                  </Button>
-                ) : null}
-                <div
-                  style={{
-                    float: 'right',
-                    paddingTop: stepIndex === 2 ? '20px' : '0px',
-                  }}
-                >
+                  {stepIndex < 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleNext}
+                    >
+                      Next
+                    </Button>
+                  ) : null}
                   {stepIndex !== 0 && stepIndex !== 3 ? (
                     <Button
                       variant="contained"
@@ -595,67 +694,37 @@ class BotWizard extends React.Component {
                       </Button>
                     </Link>
                   ) : null}
-                </div>
-              </div>
-            </Col>
+                </ActionButtonContainer>
+              </ActionContainer>
+            </StepperCol>
             {prevButton === 1 ? (
-              <div className="preview-button">
+              <PreviewButton>
                 <span title="See Preview">
-                  <ChevronLeft
-                    className="botbuilder-chevron"
-                    onClick={this.handlePreviewToggle}
-                    style={chevronButton}
-                  />
+                  <ChevronLeft onClick={this.handlePreviewToggle} />
                 </span>
-              </div>
+              </PreviewButton>
             ) : null}
-            <Col
-              className="botbuilder-col"
-              xs={12}
-              md={colPreview}
+            <ContainerCol
+              md={12}
+              xl={colPreview}
               style={{
                 display: colPreview === 0 ? 'none' : 'block',
-                position: 'fixed',
-                marginLeft: '65%',
-                height: '88%',
-                marginTop: '10px',
               }}
             >
-              <Paper
-                style={
-                  (paperStyle,
-                  {
-                    height: '99.9%',
-                    marginTop: '20px',
-                    position: 'relative',
-                    marginRight: '30px',
-                  })
-                }
-                className="botBuilder-page-card"
-              >
+              <Paper>
                 <span title="collapse preview">
-                  <ChevronRight
-                    className="botbuilder-chevron"
-                    onClick={this.handlePreviewToggle}
-                    style={chevron}
-                  />
+                  <ChevronRight onClick={this.handlePreviewToggle} />
                 </span>
-                <br className="display-mobile-only" />
-                <h2 className="center">Preview</h2>
-                <div
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    marginTop: '20px',
-                  }}
-                >
+                <BR />
+                <CenterHeading>Preview</CenterHeading>
+                <PreviewContainer>
                   <Preview botBuilder={true} />
-                </div>
+                </PreviewContainer>
               </Paper>
-            </Col>
+            </ContainerCol>
           </Row>
         </Grid>
-      </div>
+      </Home>
     );
   }
 }

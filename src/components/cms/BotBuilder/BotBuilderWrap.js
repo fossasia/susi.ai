@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import BotBuilder from './BotBuilder';
 import BotWizard from './BotWizard';
-import './BotBuilder.css';
 
 const templates = [
   {
