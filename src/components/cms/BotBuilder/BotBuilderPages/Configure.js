@@ -9,14 +9,42 @@ import CodeView from './ConfigureViews/CodeView';
 import UIView from './ConfigureViews/UIView';
 import createActions from '../../../../redux/actions/create';
 import './Animation.min.css';
+import styled from 'styled-components';
+
+const Home = styled.div`
+  margin-top: 10px;
+`;
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const H1 = styled.h1`
+  line-height: 50px;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    line-height: 2.5rem;
+  }
+`;
+
+const IconButtonContainer = styled.div`
+  margin-left: auto;
+  margin-right: 0px;
+`;
+
+const ViewContainer = styled.div`
+  padding: 0px;
+`;
+
 class Configure extends Component {
   render() {
     const { actions, view } = this.props;
     return (
-      <div className="menu-page">
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <h1 style={{ lineHeight: '50px' }}>3. Configure your bot</h1>
-          <div style={{ marginLeft: 'auto', marginRight: '0px' }}>
+      <Home>
+        <Container>
+          <H1>3. Configure your bot</H1>
+          <IconButtonContainer>
             <IconButton
               className="iconbutton"
               onClick={() => actions.setView({ view: 'code' })}
@@ -29,13 +57,13 @@ class Configure extends Component {
             >
               <Table color={view === 'ui' ? 'primary' : 'inherit'} />
             </IconButton>
-          </div>
-        </div>
-        <div style={{ padding: '30px 10px 0 10px' }}>
+          </IconButtonContainer>
+        </Container>
+        <ViewContainer>
           {view === 'code' ? <CodeView /> : null}
           {view === 'ui' ? <UIView /> : null}
-        </div>
-      </div>
+        </ViewContainer>
+      </Home>
     );
   }
 }

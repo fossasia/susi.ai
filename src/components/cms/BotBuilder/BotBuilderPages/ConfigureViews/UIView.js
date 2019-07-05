@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Button, Form } from 'antd';
-import TextField from '@material-ui/core/TextField';
+import { Table, Button as _Button, Form } from 'antd';
+import _TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../../../redux/actions/ui';
@@ -8,6 +8,31 @@ import createActions from '../../../../../redux/actions/create';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const TextField = styled(_TextField)`
+  width: 272px;
+  margin-bottom: 16px;
+`;
+
+const Button = styled(_Button)`
+  margin-top: 10px;
+  margin-left: 15px;
+  height: 36px;
+
+  @media (max-width: 480px) {
+    margin: 10px 0px;
+  }
+`;
+
+const Text = styled.div`
+  font-size: 14px;
+  padding: 0px 0px 2px 40px;
+`;
+
+const Container = styled.div`
+  padding: 20px 0px;
+`;
 
 const EditableContext = React.createElement();
 // eslint-disable-next-line
@@ -19,13 +44,6 @@ const EditableRow = ({ form, index, ...props }) => (
 
 const EditableFormRow = Form.create()(EditableRow);
 
-const styles = {
-  nameField: {
-    width: '272px',
-    marginBottom: '16px',
-  },
-};
-
 class UIView extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +51,8 @@ class UIView extends Component {
       {
         title: 'Website',
         dataIndex: 'name',
-        width: '30%',
         editable: true,
+        width: '40%',
       },
       {
         title: 'Date Added',
@@ -289,7 +307,6 @@ class UIView extends Component {
   };
 
   render() {
-    const { nameField } = styles;
     const {
       dataSource,
       limitSites,
@@ -320,7 +337,7 @@ class UIView extends Component {
     });
     return (
       <div>
-        <div className="table-wrap">
+        <div>
           <FormControlLabel
             control={
               <Checkbox
@@ -331,28 +348,17 @@ class UIView extends Component {
             }
             label="Allow bot only on own site"
           />
-          <div style={{ fontSize: '14px', padding: '0px 0px 2px 40px' }}>
-            Allow the chatbot to run only on specified websites.
-          </div>
+          <Text>Allow the chatbot to run only on specified websites.</Text>
           {limitSites ? (
-            <div style={{ padding: '20px 0px' }}>
+            <Container>
               <TextField
                 name="Website Name"
                 value={websiteName}
                 onChange={this.handleChangeWebsiteName}
-                style={nameField}
                 placeholder="Domain Name"
                 variant="outlined"
               />
-              <Button
-                onClick={this.handleAdd}
-                type="primary"
-                style={{
-                  marginTop: '10px',
-                  marginLeft: '15px',
-                  height: '36px',
-                }}
-              >
+              <Button onClick={this.handleAdd} type="primary">
                 Add a website
               </Button>
               <Table
@@ -364,10 +370,10 @@ class UIView extends Component {
                 columns={columns}
                 pagination={false}
               />
-            </div>
+            </Container>
           ) : null}
         </div>
-        <div style={{ padding: '0px 0px 20px 0px' }}>
+        <div>
           <FormControlLabel
             control={
               <Checkbox
@@ -378,11 +384,11 @@ class UIView extends Component {
             }
             label="Include SUSI default skills"
           />
-          <div style={{ fontSize: '14px', padding: '0px 0px 2px 40px' }}>
+          <Text>
             Allow the users to use all skills of SUSI.AI on your chatbot.
             Don&apos;t worry, your bot skill will always have a higher priority
             than SUSI skills.
-          </div>
+          </Text>
           <FormControlLabel
             control={
               <Checkbox
@@ -393,9 +399,7 @@ class UIView extends Component {
             }
             label="(Coming Soon) Enable bot in my devices"
           />
-          <div style={{ fontSize: '14px', padding: '0px 0px 2px 40px' }}>
-            Allow the chatbot to run on your devices.
-          </div>
+          <Text>Allow the chatbot to run on your devices.</Text>
           <FormControlLabel
             control={
               <Checkbox
@@ -406,10 +410,10 @@ class UIView extends Component {
             }
             label="(Coming Soon) Enable bot for other users"
           />
-          <div style={{ fontSize: '14px', padding: '0px 0px 2px 40px' }}>
+          <Text>
             List the chatbot publicly. Users won&apos;t be able to see/edit the
             code of your chatbot.
-          </div>
+          </Text>
         </div>
       </div>
     );

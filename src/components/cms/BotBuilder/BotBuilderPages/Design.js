@@ -9,15 +9,46 @@ import CodeView from './DesignViews/CodeView';
 import UIView from './DesignViews/UIView';
 import './Animation.min.css';
 import createActions from '../../../../redux/actions/create';
+import styled from 'styled-components';
+
+const Home = styled.div`
+  text-align: center;
+  margin-top: 10px;
+`;
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const H1 = styled.h1`
+  line-height: 50px;
+
+  @media (max-width: 480px) {
+    line-height: 2.5rem;
+  }
+`;
+
+const IconButtonContainer = styled.div`
+  margin-left: auto;
+  margin-right: 0px;
+`;
+
+const ViewContainer = styled.div`
+  padding: ${props => (props.view ? '30px 10px 0 10px' : '0px')};
+
+  @media (max-width: 480px) {
+    margin-bottom: 30px;
+  }
+`;
 
 class Design extends React.Component {
   render() {
     const { actions, view } = this.props;
     return (
-      <div className="center menu-page">
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <h1 style={{ lineHeight: '50px' }}>2. Choose Color and Background</h1>
-          <div style={{ marginLeft: 'auto', marginRight: '0px' }}>
+      <Home>
+        <Container>
+          <H1>2. Choose Color and Background</H1>
+          <IconButtonContainer>
             <IconButton
               className="iconbutton"
               onClick={() => {
@@ -34,17 +65,13 @@ class Design extends React.Component {
             >
               <Table color={view === 'ui' ? 'primary' : 'inherit'} />
             </IconButton>
-          </div>
-        </div>
-        <div
-          style={{
-            padding: view === 'code' ? '30px 10px 0 10px' : '0px 10px 0 10px',
-          }}
-        >
+          </IconButtonContainer>
+        </Container>
+        <ViewContainer>
           {view === 'code' && <CodeView />}
           {view === 'ui' && <UIView />}
-        </div>
-      </div>
+        </ViewContainer>
+      </Home>
     );
   }
 }
