@@ -104,11 +104,11 @@ const StepperCol = styled(Col)`
 `;
 
 const ContainerCol = styled(Col)`
-  position: fixed;
-  margin-left: 65%;
   height: 88%;
   margin-top: 10px;
-
+  position: sticky;
+  margin-left: 0;
+  top: 0px;
   @media (max-width: 1200px) {
     position: inherit;
     margin-left: 0px;
