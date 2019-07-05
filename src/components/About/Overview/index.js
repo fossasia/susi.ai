@@ -836,12 +836,8 @@ class Overview extends Component {
             <DescriptionText>
               SUSI is having many skills. You can look at the collection of
               skills at{' '}
-              <Link
-                to="/skills"
-                style={{ textDecoration: 'none' }}
-                target="_blank"
-              >
-                susi.ai/skills
+              <Link to="/" style={{ textDecoration: 'none' }} target="_blank">
+                susi.ai
               </Link>{' '}
               SUSI skills are divided into groups like knowledge, assistant,
               problem solving, entertainment, shopping and small talks. SUSI
