@@ -9,21 +9,37 @@ import { Link } from 'react-router-dom';
 import SLIDES from './constants';
 import './index.css';
 
+const Container = styled.div`
+  margin: 0 auto 0 0.5rem;
+  width: 95%;
+  @media (max-width: 1200px) {
+    width: 90%;
+  }
+  @media (max-width: 768px) {
+    margin: 0 auto;
+  }
+`;
+
 const SliderImage = styled.img`
   cursor: pointer;
   border: 5px solid #fff;
   display: block;
   margin: 0 auto;
   width: 100%;
-  max-width: 80rem;
   @media (max-width: 520px) {
     height: 8rem;
-    width: 18rem;
+    width: 21rem;
   }
 `;
 
 function NextArrow({ onClick }) {
-  return <ChevronRight onClick={onClick} className="slick-next" />;
+  return (
+    <ChevronRight
+      style={{ fill: 'white' }}
+      onClick={onClick}
+      className="slick-next"
+    />
+  );
 }
 
 NextArrow.propTypes = {
@@ -31,7 +47,13 @@ NextArrow.propTypes = {
 };
 
 function PrevArrow({ onClick }) {
-  return <ChevronLeft onClick={onClick} className="slick-prev" />;
+  return (
+    <ChevronLeft
+      style={{ fill: 'white' }}
+      onClick={onClick}
+      className="slick-prev"
+    />
+  );
 }
 
 PrevArrow.propTypes = {
@@ -67,9 +89,9 @@ const Carousel = () => {
     );
   });
   return (
-    <div style={{ margin: '0  1rem' }}>
+    <Container>
       <Slider {...settings}>{renderSlides}</Slider>
-    </div>
+    </Container>
   );
 };
 
