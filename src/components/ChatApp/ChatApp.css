@@ -2,8 +2,6 @@
   margin: 0 auto;
   position: relative;
   text-align: left;
-  margin-left: 20px;
-  margin-right: 0;
 }
 
 .scroll::-webkit-scrollbar {
