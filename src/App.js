@@ -150,9 +150,8 @@ class App extends Component {
             )}
             {renderAppBar}
             <Switch>
-              <Route exact path="/" component={Overview} />
+              <Route exact path="/" component={BrowseSkill} />
               <Route exact path="/chat" component={ChatApp} />
-              <Route exact path="/skills" component={BrowseSkill} />
               <Route
                 exact
                 path="/skills/category/:category"
