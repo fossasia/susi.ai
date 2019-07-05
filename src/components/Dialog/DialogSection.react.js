@@ -27,13 +27,18 @@ import DeleteFeedbackDialog from '../cms/SkillFeedbackPage/DeleteFeedbackDialog'
 import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
 import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
 import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
+import isMobileView from '../../utils/isMobileView';
 
 const DialogData = {
   share: { Component: Share, size: 'xs' },
   login: { Component: Login, size: 'sm' },
   signUp: { Component: SignUp, size: 'sm' },
   forgotPassword: { Component: ForgotPassword, size: 'sm' },
-  themeChange: { Component: ThemeChanger, size: 'md' },
+  themeChange: {
+    Component: ThemeChanger,
+    size: 'md',
+    fullScreen: isMobileView(),
+  },
   tour: { Component: Tour, size: 'sm' },
   deleteAccount: { Component: DeleteAccount, size: 'sm' },
   confirmDeleteAccount: { Component: ConfirmDeleteAccount, size: 'sm' },
@@ -71,7 +76,7 @@ const DialogSection = props => {
     return DialogData.noComponent;
   };
 
-  const { size, Component } = getDialog();
+  const { size, Component, fullScreen = false } = getDialog();
   return (
     <div>
       <Dialog
@@ -79,6 +84,7 @@ const DialogSection = props => {
         fullWidth={true}
         open={isModalOpen || !visited}
         onClose={isModalOpen ? actions.closeModal : actions.setVisited}
+        fullScreen={fullScreen}
       >
         <DialogContainer>
           {Component ? <Component {...otherProps} /> : null}
