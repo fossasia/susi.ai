@@ -16,25 +16,40 @@ import PreviewThemeChat from './PreviewThemeChat';
 import { setUserSettings } from '../../apis';
 import _ from 'lodash';
 import styled from 'styled-components';
-import ColorPicker from '../shared/ColorPicker';
+import ColorPickerComponent from '../shared/ColorPickerComponent';
 
 const Container = styled.div`
   display: flex;
   padding: 0.625rem;
   height: 35rem;
   justify-content: space-evenly;
+  align-items: center;
+  @media (max-width: 520px) {
+    display: block;
+  }
 `;
 
 const PreviewChatContainer = styled.div`
-  width: 60%;
   overflow: hidden;
   right: 0px;
   padding: 0.625rem;
+  @media (max-width: 520px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 `;
 
 const ThemeChangerContainer = styled.div`
-  width: 75%;
-  margin-top: 5rem;
+  width: 62%;
+  @media (max-width: 520px) {
+    width: 100%;
+  }
+`;
+
+const ThemePropertyContainer = styled.div`
+  margin: 0 auto;
+  position: relative;
+  text-align: left;
 `;
 
 const componentsList = [
@@ -227,9 +242,9 @@ class ThemeChanger extends Component {
     );
     const components = componentsList.map(component => {
       return (
-        <div key={component.id} className="circleChoose">
+        <ThemePropertyContainer key={component.id}>
           <Row style={{ marginBottom: '15px' }}>
-            <Col xs={12} md={6} lg={6}>
+            <Col xs={6} md={6} lg={6}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <div
                   style={{
@@ -262,80 +277,72 @@ class ThemeChanger extends Component {
                 )}
               </div>
             </Col>
-            <Col xs={12} md={6} lg={6} style={{ marginTop: '10px' }}>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                {(component.id !== 1 ||
-                  (component.id === 1 && !showMessageBackgroundImage)) && (
-                  <ColorPicker
-                    component={component.component}
-                    id={component.id}
-                    handleChangeColor={this.handleChangeComplete}
-                    backgroundColor={this.state[component.component]}
-                    handleClickColorBox={this.handleClickColorBox}
-                  />
-                )}
-                {component.id === 1 && showMessageBackgroundImage && (
-                  <div>
-                    <TextField
-                      name="messageImg"
-                      onChange={this.handleChangeMessageBackgroundImage(
-                        'messageBackgroundImage',
-                      )}
-                      value={messageBackgroundImage}
-                      label={
-                        <span style={{ fontSize: 'unset' }}>
-                          Message Image URL
-                        </span>
-                      }
-                    />
-                  </div>
-                )}
-              </div>
+            <Col xs={6} md={6} lg={6} style={{ marginTop: '10px' }}>
+              {(component.id !== 1 ||
+                (component.id === 1 && !showMessageBackgroundImage)) && (
+                <ColorPickerComponent
+                  component={component.component}
+                  id={component.id}
+                  handleChangeColor={this.handleChangeComplete}
+                  backgroundColor={this.state[component.component]}
+                  handleClickColorBox={this.handleClickColorBox}
+                />
+              )}
+              {component.id === 1 && showMessageBackgroundImage && (
+                <TextField
+                  name="messageImg"
+                  onChange={this.handleChangeMessageBackgroundImage(
+                    'messageBackgroundImage',
+                  )}
+                  value={messageBackgroundImage}
+                  label={'Message Image URL'}
+                />
+              )}
             </Col>
           </Row>
-        </div>
+        </ThemePropertyContainer>
       );
     });
     return (
-      <React.Fragment>
-        <Container>
-          <ThemeChangerContainer>{components}</ThemeChangerContainer>
-          <PreviewChatContainer>
-            <PreviewThemeChat
-              header={header}
-              pane={pane}
-              messageBackgroundImage={messageBackgroundImage}
-              body={body}
-              bodyBackgroundImage={backgroundImage}
-              composer={composer}
-              textarea={textarea}
-              button={button}
-            />
-          </PreviewChatContainer>
-        </Container>
-        <CloseButton onClick={actions.closeModal} />
+      <div>
+        <div style={{ overflowY: 'auto' }}>
+          <Container>
+            <ThemeChangerContainer>{components}</ThemeChangerContainer>
+            <PreviewChatContainer>
+              <PreviewThemeChat
+                header={header}
+                pane={pane}
+                messageBackgroundImage={messageBackgroundImage}
+                body={body}
+                bodyBackgroundImage={backgroundImage}
+                composer={composer}
+                textarea={textarea}
+                button={button}
+              />
+            </PreviewChatContainer>
+          </Container>
+          <CloseButton onClick={actions.closeModal} />
+        </div>
         <DialogActions>
-          <div>
-            <Button
-              onClick={this.handleSubmit}
-              style={{ margin: '0 5px' }}
-              variant="contained"
-              color="primary"
-              disabled={disabled}
-            >
-              <Translate text="Save" />
-            </Button>
-            <Button
-              onClick={this.handleReset}
-              style={{ margin: '0 5px' }}
-              variant="contained"
-              color="primary"
-            >
-              <Translate text="Reset" />
-            </Button>
-          </div>
+          <Button
+            onClick={this.handleSubmit}
+            style={{ margin: '0 5px' }}
+            variant="contained"
+            color="primary"
+            disabled={disabled}
+          >
+            <Translate text="Save" />
+          </Button>
+          <Button
+            onClick={this.handleReset}
+            style={{ margin: '0 5px' }}
+            variant="contained"
+            color="primary"
+          >
+            <Translate text="Reset" />
+          </Button>
         </DialogActions>
-      </React.Fragment>
+      </div>
     );
   }
 }
