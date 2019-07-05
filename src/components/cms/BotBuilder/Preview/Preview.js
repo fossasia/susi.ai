@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getSusiPreviewReply } from '../../../../apis';
+import { fetchConversationResponse } from '../../../../apis';
 import Send from '@material-ui/icons/Send';
 import loadingGIF from '../../../../images/loading.gif';
 import './Chatbot.css';
@@ -27,10 +27,12 @@ class Preview extends Component {
 
   sendMessage = event => {
     const { message } = this.state;
+    const { code } = this.props;
     if (message.trim().length > 0) {
       this.addMessage(message, 'You');
       const encodedMessage = encodeURIComponent(message);
-      getSusiPreviewReply(encodedMessage)
+      const encodedCode = encodeURIComponent(code);
+      fetchConversationResponse({ q: encodedMessage, instant: encodedCode })
         .then(payload => {
           const { messages } = this.state;
           let index;
@@ -310,6 +312,7 @@ class Preview extends Component {
 
 Preview.propTypes = {
   design: PropTypes.object,
+  code: PropTypes.string,
   botBuilder: PropTypes.bool,
   botbuilderBackgroundBody: PropTypes.string,
   botbuilderBodyBackgroundImg: PropTypes.string,
@@ -323,6 +326,7 @@ Preview.propTypes = {
 function mapStateToProps(store) {
   return {
     design: store.create.design,
+    code: store.create.skill.code,
   };
 }
 
