@@ -19,6 +19,8 @@ export const responsiveInputStyle = css`
 
 export const FormControl = styled(_FormControl)`
   width: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 export const PasswordField = styled(_PasswordField)`
