@@ -35,7 +35,7 @@ import NavigationArrowForward from '@material-ui/icons/ArrowForward';
 import NavigationArrowUpward from '@material-ui/icons/ArrowUpward';
 import NavigationArrowDownward from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
-import _SearchBar from 'material-ui-search-bar';
+import SearchBar from './SearchBar';
 import { scrollAnimation } from '../../../utils';
 import CircularLoader from '../../shared/CircularLoader';
 import SkillCardList from '../SkillCardList/SkillCardList';
@@ -118,28 +118,6 @@ const FilterFormControl = styled(FormControl)`
   margin: 0.4rem;
   width: 9rem;
   font-size: 0.875rem;
-`;
-
-const SearchBar = styled(_SearchBar)`
-  margin: 0.5rem;
-  @media (max-width: 960px) {
-    width: 70%;
-  }
-  @media (max-width: 840px) {
-    width: 65%;
-  }
-  @media (max-width: 700px) {
-    width: 60%;
-  }
-  @media (max-width: 600px) {
-    width: 55%;
-  }
-  @media (max-width: 600px) {
-    width: 55%;
-  }
-  @media (max-width: 520px) {
-    width: 100%;
-  }
 `;
 
 const ListSubheader = styled(_ListSubheader)`
@@ -247,6 +225,14 @@ const MobileBackButton = styled(Button)`
   }
 `;
 
+const selectMenuWidth = {
+  // eslint-disable-next-line camelcase
+  skill_name: '5',
+  descriptions: '8',
+  examples: '7.5',
+  author: '6',
+};
+
 class BrowseSkill extends React.Component {
   static propTypes = {
     routeType: PropTypes.string,
@@ -260,6 +246,7 @@ class BrowseSkill extends React.Component {
     staffPicks: PropTypes.bool,
     groupValue: PropTypes.string,
     searchQuery: PropTypes.string,
+    searchType: PropTypes.string,
     languages: PropTypes.array,
     orderBy: PropTypes.string,
     skills: PropTypes.array,
@@ -279,6 +266,8 @@ class BrowseSkill extends React.Component {
     this.state = {
       innerWidth: window.innerWidth,
       anchorEl: null,
+      searchType: this.props.searchType,
+      searchSelectWidth: selectMenuWidth[this.props.searchType],
     };
     this.groups = [];
   }
@@ -417,6 +406,7 @@ class BrowseSkill extends React.Component {
       groupValue,
       searchQuery,
       orderBy,
+      searchType,
     } = this.props;
     let payload = {
       groupValue: groupValue,
@@ -426,7 +416,7 @@ class BrowseSkill extends React.Component {
       filterType: filterType,
       showReviewedSkills: reviewed,
       showStaffPicks: staffPicks,
-      searchQuery: searchQuery,
+      searchQuery,
     };
     if (routeType === 'category') {
       this.props.actions.setCategoryFilter({ groupValue: routeValue });
@@ -441,7 +431,8 @@ class BrowseSkill extends React.Component {
     if (searchQuery.length > 0) {
       payload = {
         ...payload,
-        searchQuery: searchQuery,
+        searchQuery,
+        searchType,
       };
     }
     this.props.actions.getSkills(payload);
@@ -533,8 +524,23 @@ class BrowseSkill extends React.Component {
     }
   };
 
+  handleSearchTypeChange = e => {
+    const { actions, searchQuery } = this.props;
+    const { value: searchType } = e.target;
+    const searchSelectWidth = selectMenuWidth[searchType];
+    actions.setSearchFilter({ searchType }).then(() => {
+      this.setState({
+        searchSelectWidth,
+      });
+      if (searchQuery !== '') {
+        this.loadCards();
+      }
+    });
+  };
+
   // eslint-disable-next-line complexity
   render() {
+    const { searchSelectWidth } = this.state;
     const {
       languageValue,
       searchQuery,
@@ -552,6 +558,7 @@ class BrowseSkill extends React.Component {
       actions,
       filterType,
       loadingSkills,
+      searchType,
     } = this.props;
     const { routeType, routeValue } = this.props;
 
@@ -872,9 +879,12 @@ class BrowseSkill extends React.Component {
           >
             <Grid item xs={11} sm={11} md={5} lg={metricsHidden ? 7 : 8}>
               <SearchBar
-                onChange={_.debounce(this.handleSearch, 500)}
+                handleSearchTypeChange={this.handleSearchTypeChange}
+                onChange={_.debounce(this.handleSearch, 100)}
                 onRequestSearch={this.loadCards}
                 value={searchQuery}
+                searchType={searchType}
+                searchSelectWidth={searchSelectWidth}
               />
             </Grid>
             {metricsHidden && (
