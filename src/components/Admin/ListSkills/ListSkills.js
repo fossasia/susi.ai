@@ -33,6 +33,9 @@ const commonActionStyle = css`
 
 const ActionSpan = styled.span`
   ${commonActionStyle};
+  @media (max-width: 1340px) {
+    margin-right: 0.2rem;
+  }
 `;
 
 const ActionDiv = styled.div`
@@ -42,6 +45,9 @@ const ActionDiv = styled.div`
 const ActionSeparator = styled.span`
   margin-left: 0.313rem;
   margin-right: 0.313rem;
+  @media (max-width: 1340px) {
+    display: none;
+  }
 `;
 
 class ListSkills extends React.Component {
