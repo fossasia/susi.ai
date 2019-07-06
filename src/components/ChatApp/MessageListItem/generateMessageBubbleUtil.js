@@ -231,6 +231,7 @@ const generateAudioBubble = (
   index,
   src,
   message,
+  latestMessage,
   latestUserMsgID,
   showFeedback,
 ) => {
@@ -241,7 +242,7 @@ const generateAudioBubble = (
           <iframe
             id="sc-widget"
             title="SUSI Soundcloud"
-            src={`https://w.soundcloud.com/player/?url=${src}&auto_play=true&buying=false&download=false&show_playcount=false&show_comments=false&visual=false&show_artwork=false`}
+            src={`https://w.soundcloud.com/player/?url=${src}&auto_play=${latestMessage}&buying=false&download=false&show_playcount=false&show_comments=false&visual=false&show_artwork=false`}
             width="100%"
             height="120"
             scrolling="no"
@@ -481,6 +482,7 @@ export const generateMessageBubble = (
                 index,
                 src,
                 message,
+                latestMessage,
                 latestUserMsgID,
                 showFeedback,
               ),
