@@ -3,7 +3,7 @@ import susiandroid from '../../../images/susi-android.png';
 import susilocalmachine from '../../../images/susi-local-machine.png';
 
 const SLIDES = [
-  { image: raspberrypi, path: '/about/devices' },
+  { image: raspberrypi, path: '/devices' },
   {
     image: susiandroid,
     url: 'https://play.google.com/store/apps/details?id=ai.susi',
