@@ -224,6 +224,7 @@ class Login extends Component {
               {emailErrorMessage}
             </FormHelperText>
           </FormControl>
+
           <FormControl error={passwordErrorMessage !== ''}>
             <PasswordField
               name="password"
