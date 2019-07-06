@@ -674,6 +674,9 @@ class BrowseSkill extends React.Component {
       <SkillCardScrollList />
     );
 
+    let renderSkillSlideshow = null;
+    renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
+
     let renderOrderBy = '';
 
     renderOrderBy =
@@ -860,6 +863,7 @@ class BrowseSkill extends React.Component {
           </Paper>
         </Sidebar>
         <RightContainer>
+          {renderSkillSlideshow}
           <Grid
             container
             direction="row"
@@ -1039,10 +1043,7 @@ class BrowseSkill extends React.Component {
               ) : (
                 ''
               )}
-              <div>
-                <SkillSlideshow />
-                {renderCardScrollList}
-              </div>
+              <div>{renderCardScrollList}</div>
               {/* Check if mobile view is currently active*/}
               {routeType === 'category' ? (
                 backToHome
