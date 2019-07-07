@@ -16,8 +16,8 @@ const LINKS = accessToken => {
         ? [
             { label: 'Dashboard', url: '/skills/dashboard' },
             { label: 'Browse Skills', url: '/' },
-            { label: 'Create Skill', url: '/skills/skillWizard' },
-            { label: 'Create Skill Bot', url: '/skills/botbuilder/botwizard' },
+            { label: 'Create Skill', url: '/skills/skillCreator' },
+            { label: 'Create Skill Bot', url: '/skills/botbuilder' },
           ]
         : [{ label: 'Browse', url: '/' }],
     },
