@@ -92,8 +92,8 @@ class AuthorSkills extends Component {
         name}`;
       const pngImage = `${image}.png`;
       const jpgImage = `${image}.jpg`;
-      const categoryURL = `${window.location.protocol}//${window.location.host}/skills/category/${category}/`;
-      const skillURL = `${window.location.protocol}//${window.location.host}/skills/${category}/${name}/${language}`;
+      const categoryURL = `${window.location.protocol}//${window.location.host}/category/${category}/`;
+      const skillURL = `${window.location.protocol}//${window.location.host}/${category}/${name}/${language}`;
 
       name = name.charAt(0).toUpperCase() + name.slice(1);
       if (name.split('_').length > 1) {

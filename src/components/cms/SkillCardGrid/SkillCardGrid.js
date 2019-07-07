@@ -40,7 +40,7 @@ class SkillCardGrid extends Component {
     Object.keys(this.props.skills).forEach(el => {
       let skill = this.props.skills[el];
       const dataId = `index-${el}`;
-      const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${skill.language}`;
+      const skillPathname = `/${skill.group}/${skill.skillTag}/${skill.language}`;
       const skillFeedbackPathname = `${skillPathname}/feedbacks`;
       let skillName,
         examples,

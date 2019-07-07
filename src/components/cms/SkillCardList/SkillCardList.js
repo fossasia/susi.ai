@@ -147,7 +147,7 @@ function createListCard(
   { history },
 ) {
   const dataId = `index-${el}`;
-  const skillPathname = `/skills/${skill.group}/${skill.skillTag}/${skill.language}`;
+  const skillPathname = `/${skill.group}/${skill.skillTag}/${skill.language}`;
   const skillFeedbackPathname = `${skillPathname}/feedbacks`;
   const mobileView = window.innerWidth < 430;
   if (mobileView) {
@@ -265,7 +265,7 @@ function createListCard(
                   <Link
                     key={el}
                     to={{
-                      pathname: `/skills/${skill.group}/${skill.skillTag}/${skill.language}/feedbacks`,
+                      pathname: `/${skill.group}/${skill.skillTag}/${skill.language}/feedbacks`,
                     }}
                   >
                     <Ratings

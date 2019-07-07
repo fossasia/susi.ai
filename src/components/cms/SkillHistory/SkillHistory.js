@@ -82,9 +82,9 @@ class SkillHistory extends Component {
     super(props);
     let commits = [];
     const parsePath = this.props.location.pathname.split('/');
-    commits.push(parsePath[5]);
-    if (parsePath.length === 7) {
-      commits.push(parsePath[6]);
+    commits.push(parsePath[4]);
+    if (parsePath.length === 6) {
+      commits.push(parsePath[5]);
     }
     this.state = {
       code:

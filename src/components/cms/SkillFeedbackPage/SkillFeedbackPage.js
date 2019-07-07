@@ -566,7 +566,7 @@ class SkillFeedbackPage extends Component {
           <Paper margin={2}>
             <p style={{ marginLeft: 10 }}>
               <Link
-                to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                to={`/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                 style={{ color: '#000000' }}
               >
                 {this.skillName}
@@ -577,7 +577,7 @@ class SkillFeedbackPage extends Component {
             <SkillDetailContainer>
               <div style={{ paddingLeft: '2%' }}>
                 <Link
-                  to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                  to={`/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                 >
                   {image == null ? (
                     <CircleImage
@@ -592,7 +592,7 @@ class SkillFeedbackPage extends Component {
               <div style={{ paddingLeft: '2%' }}>
                 <SkillName>
                   <Link
-                    to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                    to={`/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                   >
                     {skillName}
                   </Link>
@@ -676,7 +676,7 @@ class SkillFeedbackPage extends Component {
               ))}
             <Footer>
               <Link
-                to={`/skills/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
+                to={`/${this.groupValue}/${this.skillTag}/${this.languageValue}`}
                 style={{ color: '#417DDE' }}
               >
                 <b>
