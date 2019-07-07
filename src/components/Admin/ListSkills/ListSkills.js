@@ -415,7 +415,7 @@ class ListSkills extends React.Component {
             }}
             columns={REPORT}
             data={reportedSkills}
-            title="Reported Skills"
+            title=""
             style={{
               padding: '1rem',
             }}
@@ -456,7 +456,7 @@ class ListSkills extends React.Component {
             }}
             columns={getDeletedColumn(groups)}
             data={deletedSkills}
-            title="Deleted Skills"
+            title=""
             style={{
               padding: '1rem',
             }}
@@ -493,7 +493,7 @@ class ListSkills extends React.Component {
             }}
             columns={getActiveColumn(groups)}
             data={skillsData}
-            title="Active Skills"
+            title=""
             style={{
               padding: '1rem',
             }}
