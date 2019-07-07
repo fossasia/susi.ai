@@ -53,9 +53,9 @@ class SkillVersion extends Component {
       dataReceived: false,
       skillMeta: {
         modelValue: 'general',
-        groupValue: this.props.location.pathname.split('/')[2],
-        languageValue: this.props.location.pathname.split('/')[5],
-        skillName: this.props.location.pathname.split('/')[3],
+        groupValue: this.props.location.pathname.split('/')[1],
+        languageValue: this.props.location.pathname.split('/')[4],
+        skillName: this.props.location.pathname.split('/')[2],
       },
       checks: [],
     };
@@ -151,7 +151,7 @@ class SkillVersion extends Component {
           <TableCell padding="dense">
             <Link
               to={{
-                pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/edit/${skillMeta.languageValue}/${commitId}`,
+                pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/edit/${skillMeta.languageValue}/${commitId}`,
               }}
             >
               {commitDate}
@@ -203,7 +203,7 @@ class SkillVersion extends Component {
               {checks.length === 2 && (
                 <Link
                   to={{
-                    pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
+                    pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
                   }}
                 >
                   <Button position={8} variant="contained" color="primary">
@@ -213,7 +213,7 @@ class SkillVersion extends Component {
               )}
               <Link
                 to={{
-                  pathname: `/skills/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
+                  pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
                 }}
               >
                 <Button position={2} variant="contained" color="primary">

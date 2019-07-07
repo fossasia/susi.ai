@@ -14,12 +14,12 @@ const LINKS = accessToken => {
       Icon: Dashboard,
       sublinks: accessToken
         ? [
-            { label: 'Dashboard', url: '/skills/dashboard' },
+            { label: 'Dashboard', url: '/dashboard' },
             { label: 'Browse Skills', url: '/' },
-            { label: 'Create Skill', url: '/skills/skillCreator' },
-            { label: 'Create Skill Bot', url: '/skills/botbuilder' },
+            { label: 'Create Skill', url: '/myskills' },
+            { label: 'Create Skill Bot', url: '/botbuilder' },
           ]
-        : [{ label: 'Browse', url: '/' }],
+        : [{ label: 'Browse Skills', url: '/' }],
     },
   ];
 };

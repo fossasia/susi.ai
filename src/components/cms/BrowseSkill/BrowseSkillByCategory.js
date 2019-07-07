@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 export default class BrowseSkillByCategory extends Component {
   componentDidMount() {
     document.title = `SUSI.AI - ${
-      this.props.location.pathname.split('/')[3]
+      this.props.location.pathname.split('/')[2]
     } Skills`;
   }
   render() {
     let category = '';
     if (this.props.location) {
-      category = this.props.location.pathname.split('/')[3];
+      category = this.props.location.pathname.split('/')[2];
     }
 
     return <BrowseSkill routeType="category" routeValue={category} />;

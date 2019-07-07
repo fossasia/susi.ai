@@ -109,7 +109,7 @@ class App extends Component {
       showCookiePolicy,
       visited,
     } = this.props;
-    const skillListRegex = new RegExp('^/skills');
+    const skillListRegex = new RegExp('^/');
     const pathLength = pathname.split('/').length;
     const renderFooterPagesList = [
       '/',
@@ -117,7 +117,6 @@ class App extends Component {
       '/team',
       '/blog',
       '/devices',
-      '/skills',
       '/support',
       '/privacy',
       '/terms',
@@ -125,7 +124,7 @@ class App extends Component {
     ];
     const renderAppBar = pathname !== '/chat' ? <NavigationBar /> : null;
     const renderFooter =
-      (skillListRegex.test(pathname) && pathLength > 3 && pathLength <= 5) ||
+      (skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
       renderFooterPagesList.includes(pathname) ? (
         <Footer />
       ) : null;
@@ -134,7 +133,7 @@ class App extends Component {
       showCookiePolicy === true ? <CookiePolicy /> : null;
     const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
 
-    const applyFooterStyle = ['/skills/botbuilder/botwizard'];
+    const applyFooterStyle = ['/botbuilder/botwizard'];
 
     return (
       <StylesProvider injectFirst>
@@ -157,69 +156,61 @@ class App extends Component {
               <Route exact path="/chat" component={ChatApp} />
               <Route
                 exact
-                path="/skills/category/:category"
+                path="/category/:category"
                 component={BrowseSkillByCategory}
               />
               <Route
                 exact
-                path="/skills/language/:language"
+                path="/language/:language"
                 component={BrowseSkillByLanguage}
               />
               <Route
                 exact
-                path="/skills/:category/:skills/:lang"
+                path="/:category/:skills/:lang"
                 component={SkillListing}
               />
               <Route
                 exact
-                path="/skills/:category/:skills/:lang/feedbacks"
+                path="/:category/:skills/:lang/feedbacks"
                 component={SkillFeedbackPage}
               />
-              <ProtectedRoute
-                exact
-                path="/skills/dashboard/"
-                component={Dashboard}
-              />
+              <ProtectedRoute exact path="/dashboard/" component={Dashboard} />
               <Route
                 exact
-                path="/skills/:category/:skill/versions/:lang"
+                path="/:category/:skill/versions/:lang"
                 component={SkillVersion}
               />
               <Route
                 exact
-                path="/skills/:category/:skill/compare/:lang/:oldid/:recentid"
+                path="/:category/:skill/compare/:lang/:oldid/:recentid"
                 component={SkillHistory}
               />
               <Route
                 exact
-                path="/skills/:category/:skill/edit/:lang/:latestid/:revertid"
+                path="/:category/:skill/edit/:lang/:latestid/:revertid"
                 component={SkillRollBack}
               />
               <Route
                 exact
-                path="/skills/:category/:skill/edit/:lang"
+                path="/:category/:skill/edit/:lang"
                 component={SkillWizard}
               />
               <Route
                 exact
-                path="/skills/:category/:skill/edit/:lang/:commit"
+                path="/:category/:skill/edit/:lang/:commit"
+                component={SkillWizard}
+              />
+              <ProtectedRoute exact path="/myskills" component={Dashboard} />
+              <ProtectedRoute
+                exact
+                path="/skillWizard"
                 component={SkillWizard}
               />
               <ProtectedRoute
-                exact
-                path="/skills/myskills"
-                component={Dashboard}
-              />
-              <ProtectedRoute
-                exact
-                path="/skills/skillWizard"
-                component={SkillWizard}
-              />
-              <ProtectedRoute
-                path="/skills/botbuilder/botwizard"
+                path="/botbuilder/botwizard"
                 component={BotBuilderWrap}
               />
-              <ProtectedRoute path="/skills/botbuilder" component={Dashboard} />
+              <ProtectedRoute path="/botbuilder" component={Dashboard} />
               <Route exact path="/about" component={Overview} />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />

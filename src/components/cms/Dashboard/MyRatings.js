@@ -103,7 +103,7 @@ class MyRatings extends Component {
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname: `/skills/${group}/${skillName
+                            pathname: `/${group}/${skillName
                               .toLowerCase()
                               .replace(/ /g, '_')}/language`,
                           }}
@@ -131,7 +131,7 @@ class MyRatings extends Component {
           <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
             <h2>
               You have not rated any skill, go to{' '}
-              <Link to="/skills">SUSI Skills Explorer</Link> and rate.
+              <Link to="/">SUSI Skills Explorer</Link> and rate.
             </h2>
           </div>
         )}

@@ -10,9 +10,7 @@ describe('<SkillWizard />', () => {
   it('render SkillWizard without crashing', () => {
     shallow(
       <Provider store={store}>
-        <SkillWizard
-          location={{ pathname: '/skills/:category/:skill/edit/:lang' }}
-        />
+        <SkillWizard location={{ pathname: '/:category/:skill/edit/:lang' }} />
       </Provider>,
     );
   });

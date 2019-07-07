@@ -52,9 +52,15 @@ class NavMenu extends React.Component {
   onRouteChanged = () => {
     const { pathname } = this.props.location;
     const arr = pathname.split('/');
-    const label = arr[1];
+    let label = null;
+    if (arr[1] === 'chat') {
+      label = 'Chat';
+    } else {
+      const skillLabel = ['dashboard', '', 'skillWizard', 'myskills'];
+      label = skillLabel.indexOf(arr[1]) > -1 ? 'Skills' : null;
+    }
     this.setState({
-      activeTab: label.charAt(0).toUpperCase() + label.slice(1),
+      activeTab: label,
     });
     return;
   };

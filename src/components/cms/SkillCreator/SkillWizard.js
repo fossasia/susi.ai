@@ -382,7 +382,7 @@ class SkillWizard extends Component {
   constructor(props) {
     super(props);
 
-    this.isBotBuilder = window.location.pathname.split('/')[2] === 'botbuilder';
+    this.isBotBuilder = window.location.pathname.split('/')[1] === 'botbuilder';
 
     let commonState = {
       groups: [],
@@ -402,14 +402,14 @@ class SkillWizard extends Component {
 
     if (
       this.props.location &&
-      this.props.location.pathname.split('/')[4] === 'edit'
+      this.props.location.pathname.split('/')[3] === 'edit'
     ) {
       const { pathname } = this.props.location;
       this.mode = 'edit';
-      this.groupValue = pathname.split('/')[2];
-      this.languageValue = pathname.split('/')[5];
+      this.groupValue = pathname.split('/')[1];
+      this.languageValue = pathname.split('/')[4];
       this.expertValue = pathname.split('/')[3];
-      this.commitId = pathname.split('/')[6];
+      this.commitId = pathname.split('/')[5];
 
       let commitMessage = `Updated Skill ${this.expertValue}`;
       if (this.props.hasOwnProperty('revertingCommit')) {
@@ -882,7 +882,7 @@ class SkillWizard extends Component {
             if (!this.props.hasOwnProperty('revertingCommit')) {
               this.props.history.push({
                 pathname:
-                  '/skills/' +
+                  '/' +
                   category +
                   '/' +
                   name.trim().replace(/\s/g, '_') +
@@ -947,7 +947,7 @@ class SkillWizard extends Component {
             if (!this.props.hasOwnProperty('revertingCommit')) {
               this.props.history.push({
                 pathname:
-                  '/skills/' +
+                  '/' +
                   category +
                   '/' +
                   name.trim().replace(/\s/g, '_') +
@@ -1291,15 +1291,10 @@ class SkillWizard extends Component {
                       <Link
                         to={
                           this.mode === 'create'
-                            ? '/skills'
+                            ? '/'
                             : {
                                 pathname:
-                                  '/skills/' +
-                                  category +
-                                  '/' +
-                                  name +
-                                  '/' +
-                                  language,
+                                  '/' + category + '/' + name + '/' + language,
                               }
                         }
                       >
