@@ -12,7 +12,7 @@ describe('<SkillRollBack />', () => {
       <Provider store={store}>
         <SkillRollBack
           location={{
-            pathname: '/skills/:category/:skill/edit/:lang/:latestid/:revertid',
+            pathname: '/:category/:skill/edit/:lang/:latestid/:revertid',
           }}
         />
       </Provider>,

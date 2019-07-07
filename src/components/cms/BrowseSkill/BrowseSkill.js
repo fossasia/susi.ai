@@ -517,7 +517,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/skills/skillWizard');
+      history.push('/skillWizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
@@ -527,7 +527,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/skills/botbuilder/botwizard');
+      history.push('/botbuilder/botwizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
@@ -566,7 +566,7 @@ class BrowseSkill extends React.Component {
         </MobileBackButton>
       );
       renderMobileMenu = groups.map(categoryName => {
-        const linkValue = '/skills/category/' + categoryName;
+        const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
             <MobileMenuItem key={categoryName} value={categoryName}>
@@ -579,7 +579,7 @@ class BrowseSkill extends React.Component {
     }
     if (!isMobile) {
       renderMenu = groups.map(categoryName => {
-        const linkValue = '/skills/category/' + categoryName;
+        const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
             <SidebarItem key={categoryName} value={categoryName}>

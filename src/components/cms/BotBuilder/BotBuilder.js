@@ -227,7 +227,7 @@ class BotBuilder extends React.Component {
           >
             <Link
               to={
-                '/skills/botbuilder/botwizard?name=' +
+                '/botbuilder/botwizard?name=' +
                 bot.name +
                 '&language=' +
                 bot.language +
@@ -330,7 +330,7 @@ class BotBuilder extends React.Component {
               backgroundImage: 'url(' + imageUrl + ')',
             }}
           >
-            <Link to={'/skills/botbuilder/botwizard?draftID=' + draft}>
+            <Link to={'/botbuilder/botwizard?draftID=' + draft}>
               <Button variant="contained" color="primary">
                 {drafts[draft].name === '' ? draft : drafts[draft].name}
               </Button>
@@ -405,7 +405,7 @@ class BotBuilder extends React.Component {
                 return (
                   <Link
                     key={template.id}
-                    to={'/skills/botbuilder/botwizard?template=' + template.id}
+                    to={'/botbuilder/botwizard?template=' + template.id}
                   >
                     <Card
                       style={{
@@ -426,7 +426,7 @@ class BotBuilder extends React.Component {
             <br />
             <H2>Saved Bots</H2>
             <BotContainer>
-              <Link to="/skills/botbuilder/botwizard">
+              <Link to="/botbuilder/botwizard">
                 <Card
                   style={{
                     backgroundImage: 'url(/botTemplates/chat-bot.jpg)',

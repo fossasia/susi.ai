@@ -12,7 +12,7 @@ describe('<SkillHistory />', () => {
       <Provider store={store}>
         <SkillHistory
           location={{
-            pathname: '/skills/:category/:skill/compare/:lang/:oldid/:recentid',
+            pathname: '/:category/:skill/compare/:lang/:oldid/:recentid',
           }}
         />
       </Provider>,

@@ -11,7 +11,7 @@ describe('<SkillVersion />', () => {
     shallow(
       <Provider store={store}>
         <SkillVersion
-          location={{ pathname: '/skills/:category/:skill/versions/:lang' }}
+          location={{ pathname: '/:category/:skill/versions/:lang' }}
         />
       </Provider>,
     );

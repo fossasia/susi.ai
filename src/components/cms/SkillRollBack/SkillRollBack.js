@@ -216,7 +216,7 @@ class SkillRollBack extends Component {
           });
 
           this.props.history.push({
-            pathname: `/skills/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
+            pathname: `/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
             state: {
               fromUpload: true,
               expertValue: skillMetaData.skillName,

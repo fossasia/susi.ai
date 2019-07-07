@@ -154,7 +154,7 @@ class SkillCreator extends Component {
           >
             <Link
               to={{
-                pathname: `/skills/${group}/${skillTag
+                pathname: `/${group}/${skillTag
                   .toLowerCase()
                   .replace(/ /g, '_')}/${language}`,
               }}
@@ -166,7 +166,7 @@ class SkillCreator extends Component {
             <SkillActions>
               <Link
                 to={{
-                  pathname: `/skills/${group}/${skillTag
+                  pathname: `/${group}/${skillTag
                     .toLowerCase()
                     .replace(/ /g, '_')}/edit/${language}`,
                 }}
@@ -194,7 +194,7 @@ class SkillCreator extends Component {
             <CircularLoader height={5} />
           ) : (
             <SkillCardWrap>
-              <Link to="/skills/skillWizard">
+              <Link to="/skillWizard">
                 <SkillCard
                   style={{
                     backgroundImage: 'url(/botTemplates/chat-bot.jpg)',

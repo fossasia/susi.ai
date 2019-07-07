@@ -183,9 +183,9 @@ class SkillListing extends Component {
       seeMoreSkillExamples: true,
     };
 
-    this.groupValue = this.props.location.pathname.split('/')[2];
-    this.skillTag = this.props.location.pathname.split('/')[3];
-    this.languageValue = this.props.location.pathname.split('/')[4];
+    this.groupValue = this.props.location.pathname.split('/')[1];
+    this.skillTag = this.props.location.pathname.split('/')[2];
+    this.languageValue = this.props.location.pathname.split('/')[3];
     this.skillData = {
       model: 'general',
       group: this.groupValue,
@@ -320,8 +320,8 @@ class SkillListing extends Component {
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
     let { seeMoreSkillExamples } = this.state;
-    const editLink = `/skills/${this.groupValue}/${this.skillTag}/edit/${this.languageValue}`;
-    const versionsLink = `/skills/${this.groupValue}/${this.skillTag}/versions/${this.languageValue}`;
+    const editLink = `/${this.groupValue}/${this.skillTag}/edit/${this.languageValue}`;
+    const versionsLink = `/${this.groupValue}/${this.skillTag}/versions/${this.languageValue}`;
 
     let renderElement = null;
     if (examples.length > 4) {
@@ -476,7 +476,7 @@ class SkillListing extends Component {
                 <tr>
                   <td>Category: </td>
                   <td>
-                    <Link to={`/skills/category/${this.groupValue}`}>
+                    <Link to={`/category/${this.groupValue}`}>
                       {this.groupValue}
                     </Link>
                   </td>
@@ -484,7 +484,7 @@ class SkillListing extends Component {
                 <tr>
                   <td>Language: </td>
                   <td>
-                    <Link to={`/skills/language/${this.languageValue}`}>
+                    <Link to={`/language/${this.languageValue}`}>
                       {ISO6391.getNativeName(this.languageValue)}
                     </Link>
                   </td>
@@ -503,7 +503,7 @@ class SkillListing extends Component {
                         <Link
                           key={index}
                           onClick={this.forceUpdate}
-                          to={`/skills/${this.groupValue}/${data.name}/${data.language}`}
+                          to={`/${this.groupValue}/${data.name}/${data.language}`}
                         >
                           {ISO6391.getNativeName(data.language)}
                           {delimiter}

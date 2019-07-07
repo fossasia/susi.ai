@@ -36,11 +36,11 @@ class Dashboard extends Component {
 
   getCurrentTab = () => {
     switch (this.props.location.pathname) {
-      case '/skills/dashboard':
+      case '/dashboard':
         return 0;
-      case '/skills/myskills':
+      case '/myskills':
         return 1;
-      case '/skills/botbuilder':
+      case '/botbuilder':
         return 2;
       default:
         return 0;
@@ -52,13 +52,13 @@ class Dashboard extends Component {
     const { history } = this.props;
     switch (value) {
       case 0:
-        history.replace('/skills/dashboard');
+        history.replace('/dashboard');
         break;
       case 1:
-        history.replace('/skills/myskills');
+        history.replace('/myskills');
         break;
       case 2:
-        history.replace('/skills/botbuilder');
+        history.replace('/botbuilder');
         break;
       default:
         history.replace('/dashboard');
