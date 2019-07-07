@@ -183,10 +183,11 @@ class SkillCreator extends Component {
 
   render() {
     const { loading, drafts } = this.state;
+    const { showTitle = true } = this.props;
     return (
       <Container>
         <Paper>
-          <h1>My Skills</h1>
+          {showTitle && <h1>My Skills</h1>}
           <br />
           <h2>Created Skills</h2>
           {loading ? (
@@ -238,6 +239,7 @@ class SkillCreator extends Component {
 SkillCreator.propTypes = {
   userSkills: PropTypes.array,
   actions: PropTypes.object,
+  showTitle: PropTypes.bool,
 };
 
 function mapDispatchToProps(dispatch) {

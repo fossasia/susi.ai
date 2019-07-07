@@ -517,7 +517,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/skills/skillCreator');
+      history.push('/skills/skillWizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
@@ -527,7 +527,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/skills/botbuilder');
+      history.push('/skills/botbuilder/botwizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
@@ -562,7 +562,7 @@ class BrowseSkill extends React.Component {
     if (isMobile) {
       backToHome = (
         <MobileBackButton variant="contained" color="default">
-          <Link to="/skills">Back to SUSI Skills</Link>
+          <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
       renderMobileMenu = groups.map(categoryName => {
@@ -607,7 +607,7 @@ class BrowseSkill extends React.Component {
             : listOffset + entriesPerPage}{' '}
           out of {skills.length} result(s) for&nbsp;
           <b>
-            <SidebarLink to="/skills">SUSI Skills</SidebarLink>
+            <SidebarLink to="/">SUSI Skills</SidebarLink>
           </b>
           {routeValue && (
             <div style={{ display: 'flex' }}>
@@ -658,8 +658,7 @@ class BrowseSkill extends React.Component {
     } else {
       renderSkillCount = (
         <div>
-          No result found for{' '}
-          <SidebarLink to="/skills">SUSI Skills:</SidebarLink>
+          No result found for <SidebarLink to="/">SUSI Skills:</SidebarLink>
           {routeValue && (
             <span style={{ color: '#4286f4', fontWeight: 'bold' }}>
               {routeValue}
@@ -770,7 +769,7 @@ class BrowseSkill extends React.Component {
               {routeType === 'category' ? (
                 <div>
                   <ListSubheader>
-                    <SidebarLink to="/skills">{'< SUSI Skills'}</SidebarLink>
+                    <SidebarLink to="/">{'< SUSI Skills'}</SidebarLink>
                   </ListSubheader>
                   <SelectedText>{routeValue}</SelectedText>
                 </div>
