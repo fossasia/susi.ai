@@ -136,7 +136,7 @@ class MySkills extends Component {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           >
             <MenuList disableListWrap={true}>
-              <Link to="/skills/skillCreator">
+              <Link to="/skills/skillWizard">
                 <MenuItem onClose={this.handleMenuClose}>
                   <ListItemIcon>
                     <Add />
@@ -144,7 +144,7 @@ class MySkills extends Component {
                   <ListItemText>Create a Skill</ListItemText>
                 </MenuItem>
               </Link>
-              <Link to="/skills/botbuilder">
+              <Link to="/skills/botbuilder/botwizard">
                 <MenuItem onClose={this.handleMenuClose}>
                   <ListItemIcon>
                     <Person />

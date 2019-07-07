@@ -1,9 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import BotBuilder from './BotBuilder';
 import BotWizard from './BotWizard';
 
-const templates = [
+export const templates = [
   {
     name: 'Event Registration',
     id: 'event',
@@ -32,20 +30,7 @@ const templates = [
 
 const BotBuilderWrap = props => {
   document.title = 'SUSI.AI - Botbuilder';
-  return (
-    <div>
-      <Route
-        exact
-        path="/skills/botbuilder/botwizard"
-        render={() => <BotWizard templates={templates} />}
-      />
-      <Route
-        exact
-        path="/skills/botbuilder"
-        render={() => <BotBuilder templates={templates} />}
-      />
-    </div>
-  );
+  return <BotWizard templates={templates} />;
 };
 
 export default BotBuilderWrap;
