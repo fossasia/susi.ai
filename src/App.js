@@ -30,7 +30,7 @@ import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCat
 import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
 import SkillListing from './components/cms/SkillPage/SkillListing';
 import SkillFeedbackPage from './components/cms/SkillFeedbackPage/SkillFeedbackPage';
-import Dashboard from './components/cms/Dashboard/Dashboard';
+import Dashboard from './components/cms/Dashboard';
 import SkillVersion from './components/cms/SkillVersion/SkillVersion';
 import SkillHistory from './components/cms/SkillHistory/SkillHistory';
 import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
@@ -41,7 +41,6 @@ import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
-import SkillCreator from './components/cms/SkillCreator/SkillCreator';
 
 const RootContainer = styled.div`
   position: relative;
@@ -208,8 +207,8 @@ class App extends Component {
               />
               <ProtectedRoute
                 exact
-                path="/skills/skillCreator"
-                component={SkillCreator}
+                path="/skills/myskills"
+                component={Dashboard}
               />
               <ProtectedRoute
                 exact
@@ -217,9 +216,10 @@ class App extends Component {
                 component={SkillWizard}
               />
               <ProtectedRoute
-                path="/skills/botbuilder"
+                path="/skills/botbuilder/botwizard"
                 component={BotBuilderWrap}
               />
+              <ProtectedRoute path="/skills/botbuilder" component={Dashboard} />
               <Route exact path="/about" component={Overview} />
               <Route exact path="/devices" component={Devices} />
               <Route exact path="/team" component={Team} />

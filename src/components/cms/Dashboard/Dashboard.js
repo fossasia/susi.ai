@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _Paper from '@material-ui/core/Paper';
 import MySkills from './MySkills';
 import MyRatings from './MyRatings';
@@ -39,9 +40,10 @@ const Container = styled.div`
 
 const Dashboard = props => {
   document.title = 'SUSI.AI - Dashboard';
+  const { showTitle = true } = props;
   return (
     <Container>
-      <Heading>My Dashboard</Heading>
+      {showTitle && <Heading>My Dashboard</Heading>}
       <Paper>
         <SubHeading>My Skills</SubHeading>
         <MySkills />
@@ -56,6 +58,10 @@ const Dashboard = props => {
       </Paper>
     </Container>
   );
+};
+
+Dashboard.propTypes = {
+  showTitle: PropTypes.bool,
 };
 
 export default Dashboard;

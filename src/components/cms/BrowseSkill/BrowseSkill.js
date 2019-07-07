@@ -517,7 +517,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/skills/skillCreator');
+      history.push('/skills/skillWizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
@@ -527,7 +527,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/skills/botbuilder');
+      history.push('/skills/botbuilder/botwizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
