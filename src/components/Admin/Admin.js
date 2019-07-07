@@ -13,10 +13,9 @@ import { getAdmin } from '../../apis/index';
 import styled from 'styled-components';
 import isMobileView from '../../utils/isMobileView';
 import CircularLoader from '../shared/CircularLoader';
-import { Title } from './AdminStyles';
 
 const Container = styled.div`
-  margin-top: -10px;
+  margin-top: 70px;
   padding-left: 25px;
   padding-right: 30px;
 `;
@@ -71,29 +70,23 @@ class Admin extends Component {
 
   initilizeData = () => {
     let endPath = this.props.location.pathname.split('/')[2];
-    let heading = 'Admin';
     let value = 0;
     switch (endPath) {
       case 'users':
-        heading = 'Users Panel';
         value = 1;
         break;
       case 'skills':
-        heading = 'Skills Panel';
         value = 2;
         break;
       case 'settings':
-        heading = 'System Settings';
         value = 3;
         break;
       case 'logs':
-        heading = 'System Logs';
         value = 4;
         break;
       default:
         return;
     }
-    this.heading = heading;
     this.setState({ value });
   };
 
@@ -103,27 +96,21 @@ class Admin extends Component {
     switch (value) {
       case 0:
         history.replace('/admin');
-        this.heading = 'Admin';
         break;
       case 1:
         history.replace('/admin/users');
-        this.heading = 'Users Panel';
         break;
       case 2:
         history.replace('/admin/skills');
-        this.heading = 'Skills Panel';
         break;
       case 3:
         history.replace('/admin/settings');
-        this.heading = 'System Settings';
         break;
       case 4:
         history.replace('/admin/logs');
-        this.heading = 'System Logs';
         break;
       default:
         history.replace('/admin');
-        this.heading = 'Admin';
     }
   };
 
@@ -155,29 +142,25 @@ class Admin extends Component {
         ) : (
           <div>
             {isAdmin ? (
-              <div>
-                <Title>{this.heading}</Title>
-                <Container>
-                  <AppBar color="default" position="static">
-                    <Tabs
-                      onChange={this.handleTabChange}
-                      value={value}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      centered
-                      scrollButtons="on"
-                      variant={mobileView ? 'scrollable' : 'standard'}
-                    >
-                      <Tab label="Admin" />
-                      <Tab label="Users" />
-                      <Tab label="Skills" />
-                      <Tab label="System Settings" />
-                      <Tab label="System Logs" />
-                    </Tabs>
-                    {this.generateView()}
-                  </AppBar>
-                </Container>
-              </div>
+              <Container>
+                <AppBar color="default" position="static">
+                  <Tabs
+                    onChange={this.handleTabChange}
+                    value={value}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    scrollButtons="on"
+                    variant={mobileView ? 'scrollable' : 'standard'}
+                  >
+                    <Tab label="Admin" />
+                    <Tab label="Users" />
+                    <Tab label="Skills" />
+                    <Tab label="System Settings" />
+                    <Tab label="System Logs" />
+                  </Tabs>
+                  {this.generateView()}
+                </AppBar>
+              </Container>
             ) : (
               <NotFound />
             )}
