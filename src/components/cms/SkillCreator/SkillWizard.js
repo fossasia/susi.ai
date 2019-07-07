@@ -48,8 +48,6 @@ import Add from '@material-ui/icons/Add';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 
-let languages = [];
-
 const Home = styled.div`
   margin-top: 3rem;
 `;
@@ -386,6 +384,7 @@ class SkillWizard extends Component {
 
     let commonState = {
       groups: [],
+      languages: [],
       loadViews: false,
       editable: true,
     };
@@ -423,9 +422,6 @@ class SkillWizard extends Component {
         showImage: true,
         commitMessage,
         codeChanged: false,
-        groupSelect: false,
-        languageSelect: false,
-        expertSelect: false,
         date: '',
         author: '',
         oldImageUrl: '',
@@ -443,8 +439,6 @@ class SkillWizard extends Component {
         showImage: false,
         loading: false,
         commitMessage: '',
-        groupSelect: true,
-        expertSelect: true,
         slideState: 1, // 1 means in middle, 2 means preview collapsed
         colSkill: 8,
         colPreview: 4,
@@ -453,13 +447,12 @@ class SkillWizard extends Component {
     }
   }
 
-  loadlanguages() {
-    if (languages.length === 0) {
+  loadLanguages() {
+    if (this.state.languages.length === 0) {
       fetchAllLanguageOptions()
         .then(payload => {
           const data = payload.languagesArray;
-          this.setState({ languages: data });
-          languages = data.map(language => {
+          let languages = data.map(language => {
             if (ISO6391.getNativeName(language)) {
               return (
                 <MenuItem value={language} key={language}>
@@ -473,6 +466,16 @@ class SkillWizard extends Component {
               </MenuItem>
             );
           });
+          languages.sort(function(a, b) {
+            if (a.props.primaryText < b.props.primaryText) {
+              return -1;
+            }
+            if (a.props.primaryText > b.props.primaryText) {
+              return 1;
+            }
+            return 0;
+          });
+          this.setState({ languages });
         })
         .catch(error => {
           console.log('Error while fetching languages', error);
@@ -506,7 +509,7 @@ class SkillWizard extends Component {
     }
 
     this.loadgroups();
-
+    this.loadLanguages();
     if (
       this.mode === 'edit' ||
       (searchURLPath('name') &&
@@ -519,7 +522,6 @@ class SkillWizard extends Component {
         language: this.languageValue,
         model: 'general',
       };
-      this.loadlanguages();
 
       fetchSkillMetaData(payload)
         .then(payload => {
@@ -610,7 +612,6 @@ class SkillWizard extends Component {
 
   handlePreviewToggle = () => {
     let { slideState } = this.state;
-    console.log('jhel', slideState);
     if (slideState === 2) {
       this.setState({
         slideState: 1,
@@ -684,49 +685,7 @@ class SkillWizard extends Component {
       /^::category\s(.*)$/m,
       `::category ${event.target.value}`,
     );
-    this.setState({
-      groupSelect: false,
-      languageSelect: false,
-    });
     actions.setSkillData({ category: event.target.value, code });
-    if (languages.length === 0) {
-      fetchAllLanguageOptions()
-        .then(payload => {
-          const data = payload.languagesArray;
-          this.setState({ languages: data });
-          for (let i = 0; i < data.length; i++) {
-            if (ISO6391.getNativeName(data[i])) {
-              languages.push(
-                <MenuItem value={data[i]} key={data[i]}>
-                  {ISO6391.getNativeName(data[i])}
-                </MenuItem>,
-              );
-            } else {
-              languages.push(
-                <MenuItem value={data[i]} key={data[i]}>
-                  Universal
-                </MenuItem>,
-              );
-            }
-            if (data[i] === 'en') {
-              this.handleLanguageChange(null, 0, 'en');
-              this.setState({ languageSelect: false, expertSelect: false });
-            }
-          }
-          languages.sort(function(a, b) {
-            if (a.props.primaryText < b.props.primaryText) {
-              return -1;
-            }
-            if (a.props.primaryText > b.props.primaryText) {
-              return 1;
-            }
-            return 0;
-          });
-        })
-        .catch(error => {
-          console.log('Error while fetching languages', error);
-        });
-    }
   };
 
   handleLanguageChange = (event, index, value) => {
@@ -736,9 +695,6 @@ class SkillWizard extends Component {
       /^::language\s(.*)$/m,
       `::language ${event.target.value}`,
     );
-    this.setState({
-      expertSelect: false,
-    });
     actions.setSkillData({ language: event.target.value, code });
   };
 
@@ -1074,7 +1030,6 @@ class SkillWizard extends Component {
     if (this.props.hasOwnProperty('showTopBar')) {
       showTopBar = this.props.showTopBar;
     }
-    console.log('hello', this.state.prevButton);
 
     return (
       <Home>
@@ -1214,17 +1169,15 @@ class SkillWizard extends Component {
                           <SkillDetail>
                             <DetailText>Language:&nbsp;</DetailText>
                             <SelectDropDown
-                              disabled={this.state.languageSelect}
                               value={language}
                               onChange={this.handleLanguageChange}
                               autoWidth={true}
                             >
-                              {languages}
+                              {this.state.languages}
                             </SelectDropDown>
                           </SkillDetail>
                         </DropDownWrap>
                         <NameField
-                          disabled={this.state.expertSelect}
                           label={this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
                           placeholder={
                             this.isBotBuilder ? 'Bot Name' : 'Skill Name'
@@ -1312,7 +1265,6 @@ class SkillWizard extends Component {
                 )}
                 {this.state.prevButton === 1 ? (
                   <PreviewButton>
-                    {console.log('abcd')}
                     <span title="See Preview">
                       <ChevronLeftIcon onClick={this.handlePreviewToggle} />
                     </span>

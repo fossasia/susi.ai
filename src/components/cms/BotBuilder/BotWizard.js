@@ -469,6 +469,22 @@ class BotWizard extends React.Component {
       });
       return 0;
     }
+    if (category === '') {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Category name is not given',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
+      });
+      return 0;
+    }
+    if (language === '') {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Language name is not given',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
+      });
+      return 0;
+    }
 
     this.setState({
       savingSkill: true,
