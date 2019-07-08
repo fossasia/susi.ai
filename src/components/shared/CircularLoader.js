@@ -8,7 +8,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   ${props =>
-    props.height
+    props.height !== 'auto'
       ? css`
           height: ${props => props.height + 'rem'};
           @media (max-width: 512px) {
@@ -19,11 +19,7 @@ const Container = styled.div`
           }
         `
       : css`
-          margin: 19rem 0;
-          height: 100%;
-          @media (max-width: 512px) {
-            margin: 14rem 0;
-          }
+          height: 100vh;
         `}
 `;
 
