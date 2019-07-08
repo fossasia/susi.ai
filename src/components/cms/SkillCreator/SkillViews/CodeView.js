@@ -5,23 +5,10 @@ import _Icon from 'antd/lib/icon';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import Select from '@material-ui/core/Select';
-import _AceEditor from 'react-ace';
-import 'brace/mode/markdown';
-import 'brace/theme/github';
-import 'brace/theme/monokai';
-import 'brace/theme/tomorrow';
-import 'brace/theme/kuroir';
-import 'brace/theme/twilight';
-import 'brace/theme/xcode';
-import 'brace/mode/java';
-import 'brace/theme/textmate';
-import 'brace/theme/solarized_dark';
-import 'brace/theme/solarized_light';
-import 'brace/theme/terminal';
-import 'brace/ext/searchbox';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import createActions from '../../../../redux/actions/create';
 import styled from 'styled-components';
+import AceEditorComponent from '../../../shared/AceEditor';
 
 const fontsizes = [];
 const codeEditorThemes = [];
@@ -56,21 +43,6 @@ const ButtonSpan = styled.span`
 const HomeDiv = styled.div`
   width: 100%;
   padding: 0rem;
-`;
-
-const AceEditor = styled(_AceEditor)`
-  resize: vertical;
-  min-height: 12.5rem;
-  max-height: 35rem;
-  border: 1px solid #d1d5da;
-  background-color: #fafbfc !important;
-
-  &:focus {
-    background-color: #ffffff;
-    border-color: #2188ff;
-    box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075),
-      0 0 0 0.2em rgba(3, 102, 214, 0.3);
-  }
 `;
 
 class CodeView extends React.Component {
@@ -147,12 +119,13 @@ class CodeView extends React.Component {
   };
 
   render() {
-    const { code } = this.props;
+    const { code, editable } = this.props;
+    const { editorTheme, fontSizeCode, loading } = this.state;
     return (
       <div>
         <HomeDiv>
           <CodeEditorDiv>
-            {this.state.loading && <LinearProgress color="primary" />}
+            {loading && <LinearProgress color="primary" />}
             <ToolBarDiv>
               <ButtonSpan>
                 <Icon type="cloud-download" />
@@ -178,20 +151,12 @@ class CodeView extends React.Component {
                 </Select>
               </ButtonSpan>
             </ToolBarDiv>
-            <AceEditor
-              mode="java"
-              theme={this.state.editorTheme}
-              width="100%"
-              fontSize={this.state.fontSizeCode}
-              height="25rem"
+            <AceEditorComponent
+              theme={editorTheme}
+              fontSize={fontSizeCode}
               value={code}
-              showPrintMargin={false}
-              name="skill_code_editor"
               onChange={this.onChange}
-              scrollPastEnd={false}
-              wrapEnabled={true}
-              readOnly={!this.props.editable}
-              editorProps={{ $blockScrolling: true }}
+              readOnly={!editable}
             />
           </CodeEditorDiv>
         </HomeDiv>

@@ -3,23 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import createActions from '../../../../../redux/actions/create';
 import PropTypes from 'prop-types';
-import _AceEditor from 'react-ace';
-import styled from 'styled-components';
-
-const AceEditor = styled(_AceEditor)`
-  resize: vertical;
-  overflow-y: auto;
-  min-height: 200px;
-  border: 1px solid #d1d5da;
-  background-color: #fafbfc !important;
-
-  &:focus {
-    background-color: #ffffff;
-    border-color: #2188ff;
-    box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075),
-      0 0 0 0.2em rgba(3, 102, 214, 0.3);
-  }
-`;
+import AceEditorComponent from '../../../../shared/AceEditor.js';
 
 class CodeView extends Component {
   handleChangeCode = event => {
@@ -31,19 +15,10 @@ class CodeView extends Component {
     const { configCode } = this.props;
     return (
       <div>
-        <AceEditor
-          mode="java"
-          theme="github"
-          width="100%"
-          fontSize={14}
-          height="300px"
+        <AceEditorComponent
           value={configCode}
           onChange={this.handleChangeCode}
-          showPrintMargin={false}
-          name="skill_code_editor"
-          scrollPastEnd={false}
-          wrapEnabled={true}
-          editorProps={{ $blockScrolling: true }}
+          height="18.75rem"
         />
       </div>
     );
