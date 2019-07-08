@@ -238,7 +238,6 @@ const H3 = styled.h3`
 class Support extends Component {
   static propTypes = {
     history: PropTypes.object,
-    openSignUp: PropTypes.func,
     accessToken: PropTypes.string,
     actions: PropTypes.object,
   };
@@ -257,7 +256,7 @@ class Support extends Component {
   };
 
   render() {
-    const { openSignUp, accessToken } = this.props;
+    const { accessToken } = this.props;
 
     return (
       <div>
@@ -437,7 +436,7 @@ class Support extends Component {
               <FooterDescription>
                 <FooterHeading>Get Started Today</FooterHeading>
 
-                <Button variant="contained" onClick={openSignUp}>
+                <Button variant="contained" onClick={this.handleSignUp}>
                   Sign Up
                 </Button>
               </FooterDescription>
