@@ -1,5 +1,5 @@
 import React from 'react';
-import UpdateSystemSettings from '../../../components/Admin/SystemSettings/UpdateSystemSettingsDialog';
+import UpdateSystemSettings from '../../../../components/Admin/SystemSettings/ConfigKeys/UpdateSystemSettingsDialog';
 import { shallow } from 'enzyme';
 
 describe('<UpdateSystemSettings />', () => {

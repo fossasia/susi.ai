@@ -1,12 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import PropTypes from 'prop-types';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import { Link } from 'react-router-dom';
-import SLIDES from './constants';
+import { fetchSkillSlideshow } from '../../../apis/index';
+import urls from '../../../utils/urls';
 import './index.css';
 
 const Container = styled.div`
@@ -73,30 +72,56 @@ const settings = {
   adaptiveHeight: true,
 };
 
-const Carousel = () => {
-  const renderSlides = SLIDES.map(obj => {
-    if (obj.path) {
+class Carousel extends React.Component {
+  state = {
+    slideshowData: [],
+    loading: true,
+  };
+
+  getSkillSlideshow = () => {
+    fetchSkillSlideshow()
+      .then(payload => {
+        const { slideshow } = payload;
+        let slideshowData = [];
+        for (const redirectLink in slideshow) {
+          let slideshowObj = { redirectLink };
+          let obj = slideshow[redirectLink];
+          slideshowObj = { ...slideshowObj, ...obj };
+          slideshowData.push(slideshowObj);
+        }
+        this.setState({ slideshowData, loading: false });
+      })
+      .catch(error => {
+        console.log('Error', error);
+        this.setState({ loading: false });
+      });
+  };
+
+  componentDidMount() {
+    this.getSkillSlideshow();
+  }
+
+  render() {
+    const { slideshowData } = this.state;
+    const renderSlides = slideshowData.map(obj => {
       return (
-        <Link to={obj.path} key={obj.path}>
-          <SliderImage src={obj.image} />
-        </Link>
+        <a href={obj.redirectLink} key={obj.redirectLink}>
+          <SliderImage
+            src={`${urls.API_URL}/cms/getImage.png?image=${obj.image_name}`}
+          />
+        </a>
       );
-    }
+    });
     return (
-      <a href={obj.url} key={obj.url}>
-        <SliderImage src={obj.image} />
-      </a>
+      <Container>
+        <Slider {...settings}>{renderSlides}</Slider>
+      </Container>
     );
-  });
-  return (
-    <Container>
-      <Slider {...settings}>{renderSlides}</Slider>
-    </Container>
-  );
-};
+  }
+}
 
 Carousel.propTypes = {
   history: PropTypes.object,
 };
 
-export default withRouter(Carousel);
+export default Carousel;
