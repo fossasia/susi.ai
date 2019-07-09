@@ -34,6 +34,10 @@ const Container = styled.div`
   padding: 20px 0px;
 `;
 
+const CustomButton = styled(_Button)`
+  margin-left: 35px;
+`;
+
 const EditableContext = React.createElement();
 // eslint-disable-next-line
 const EditableRow = ({ form, index, ...props }) => (
@@ -77,6 +81,8 @@ class UIView extends Component {
       publicDevices: false, // allow chatbot to be used in other people's devices
       includeSusiSkills: true,
       limitSites: false,
+      synchronizePublicSkills: true,
+      synchronizePrivateSkills: false,
     };
     this.dataSource = [];
   }
@@ -314,7 +320,10 @@ class UIView extends Component {
       includeSusiSkills,
       myDevices,
       publicDevices,
+      synchronizePublicSkills,
+      synchronizePrivateSkills,
     } = this.state;
+    const { email, userName, devices } = this.props;
     const components = {
       body: {
         row: EditableFormRow,
@@ -414,6 +423,47 @@ class UIView extends Component {
             List the chatbot publicly. Users won&apos;t be able to see/edit the
             code of your chatbot.
           </Text>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={synchronizePublicSkills}
+                onChange={this.handleChangeIncludeInPublicDevices}
+                color="primary"
+              />
+            }
+            label="(Coming Soon) Synchronize local skills with SUSI.AI skills database regularly"
+          />
+          <div>
+            <CustomButton type="primary">Synchronize Now</CustomButton>
+          </div>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={synchronizePrivateSkills}
+                onChange={this.handleChangeIncludeInPublicDevices}
+                color="primary"
+              />
+            }
+            label="(Coming Soon) Synchronize (upload) private skills I create locally with my online account when online"
+          />
+          <div>
+            <CustomButton type="primary">Upload Now</CustomButton>
+          </div>
+        </div>
+        <div>
+          {!devices ? (
+            <CustomButton type="primary">
+              Link SUSI.AI account with device
+            </CustomButton>
+          ) : (
+            <div>
+              <b>
+                Device linked to SUSI.AI account{' '}
+                {userName !== '' ? userName : email}
+              </b>
+              <Button type="primary">Unlink</Button>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -423,11 +473,17 @@ class UIView extends Component {
 UIView.propTypes = {
   actions: PropTypes.object,
   configCode: PropTypes.string,
+  email: PropTypes.string,
+  userName: PropTypes.string,
+  devices: PropTypes.object,
 };
 
 function mapStateToProps(store) {
   return {
     configCode: store.create.configCode,
+    app: store.app.email,
+    userName: store.settings.userName,
+    devices: store.settings.devices,
   };
 }
 
