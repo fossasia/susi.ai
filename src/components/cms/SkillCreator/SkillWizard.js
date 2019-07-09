@@ -47,6 +47,7 @@ import Timeline from '@material-ui/icons/Timeline';
 import Add from '@material-ui/icons/Add';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
+import avatars from '../../../utils/avatars';
 
 const Home = styled.div`
   margin-top: 3rem;
@@ -329,7 +330,6 @@ const H2 = styled.h2`
 `;
 
 const PreviewPaper = styled(Paper)`
-  height: 99.9%;
   margin-top: 1.25rem;
   position: relative;
   width: 90%;
@@ -419,7 +419,6 @@ class SkillWizard extends Component {
       this.state = {
         ...commonState,
         loading: false,
-        showImage: true,
         commitMessage,
         codeChanged: false,
         date: '',
@@ -436,7 +435,7 @@ class SkillWizard extends Component {
       this.mode = 'create';
       this.state = {
         ...commonState,
-        showImage: false,
+        showImage: avatars.slice()[1].url !== this.props.image,
         loading: false,
         commitMessage: '',
         slideState: 1, // 1 means in middle, 2 means preview collapsed

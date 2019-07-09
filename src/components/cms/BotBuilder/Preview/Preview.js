@@ -66,8 +66,10 @@ const SUSIFrameWrapper = styled.div`
 `;
 
 const SUSIMessageContainer = styled.div`
-  background-color: ${props => props.backgroundColor};
-  background-image: ${props => `url(${props.backgroundImage})`};
+  && {
+    background-color: ${props => props.backgroundColor};
+    background-image: ${props => `url(${props.backgroundImage})`};
+  }
 `;
 
 const UserMessageContainer = styled.div`
