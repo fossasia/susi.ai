@@ -547,13 +547,6 @@ export function storeDraft(payload) {
   return ajax.get(url, { object });
 }
 
-export function uploadBotImage(payload) {
-  const url = `${API_URL}/${CMS_API_PREFIX}/uploadImage.json`;
-  return ajax.post(url, payload, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-    isTokenRequired: false,
-  });
-}
 export function fetchUserRatings(payload) {
   const url = `${API_URL}/${CMS_API_PREFIX}/getProfileDetails.json`;
   return ajax.get(url, {});

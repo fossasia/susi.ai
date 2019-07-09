@@ -59,11 +59,11 @@ const createActions = {
   ),
   setBotAvatar: createAction(
     actionTypes.CREATE_SET_BOT_AVATAR,
-    apis.uploadBotImage,
+    returnArgumentsFn,
   ),
   setBotBackgroundImage: createAction(
     actionTypes.CREATE_SET_BOT_BACKGROUND_IMAGE,
-    apis.uploadBotImage,
+    returnArgumentsFn,
   ),
   resetCreateStore: createAction(actionTypes.CREATE_RESET_STORE),
 };

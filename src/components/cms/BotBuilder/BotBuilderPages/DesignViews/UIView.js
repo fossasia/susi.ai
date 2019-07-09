@@ -11,13 +11,10 @@ import _Close from '@material-ui/icons/Close';
 import Add from '@material-ui/icons/Add';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { urls, colors } from '../../../../../utils';
-import avatars from '../../../../../utils/avatars';
+import { colors } from '../../../../../utils';
 import ColorPickerComponent from '../../../../shared/ColorPickerComponent';
 import _Check from '@material-ui/icons/Check';
 import styled from 'styled-components';
-let BASE_URL = urls.API_URL;
-let IMAGE_GET_URL = `${BASE_URL}/cms/getImage.png?image=`;
 
 const BotAvatarImg = styled.img`
   width: 60px;
@@ -185,15 +182,14 @@ const customiseOptionsList = [
 class UIView extends Component {
   constructor(props) {
     super(props);
-    let avatarsIcons = avatars.slice();
     this.state = {
       loadedSettings: false,
       uploadingBodyBackgroundImg: false,
       botbuilderBodyBackgroundImgName: '',
       uploadingBotbuilderIconImg: false,
-      avatars: avatarsIcons,
-      originalAvatarsCount: avatarsIcons.length,
-      showBackgroundImageChange: false,
+      showBackgroundImageChange:
+        this.props.design.botbuilderBodyBackgroundImgName !== '',
+      botbuilderIconSelected: this.props.design.botbuilderIconSelected,
     };
   }
 
@@ -211,24 +207,26 @@ class UIView extends Component {
     }
   };
 
-  handleChangeBodyBackgroundImage = botbuilderBodyBackgroundImg => {
-    let files = botbuilderBodyBackgroundImg.target.files;
-    if (files.length === 0) {
+  handleChangeBodyBackgroundImage = event => {
+    const file = this.backgroundImage.files[0];
+    const imageName = file.name;
+    const image = window.URL.createObjectURL(file);
+
+    if (!event.target.files || !event.target.files[0]) {
       this.handleRemoveUrlBody();
     } else {
-      this.uploadImageBodyBackground(files[0]);
+      this.setImageBodyBackground(image, imageName);
     }
   };
 
-  uploadImageBodyBackground = file => {
-    const { actions, accessToken } = this.props;
-    let form = new FormData();
-    form.append('image', file);
-    form.append('access_token', accessToken);
-    form.append('image_name', file.name);
+  setImageBodyBackground = (image, imageName) => {
+    const { actions } = this.props;
     this.setState({ uploadingBodyBackgroundImg: true });
     actions
-      .setBotBackgroundImage(form)
+      .setBotBackgroundImage({
+        botbuilderBodyBackgroundImg: image,
+        botbuilderBodyBackgroundImgName: imageName,
+      })
       .then(payload => {
         this.setState({
           uploadingBodyBackgroundImg: false,
@@ -245,25 +243,12 @@ class UIView extends Component {
       });
   };
 
-  uploadImageIcon = file => {
-    const { actions, accessToken } = this.props;
-    let form = new FormData();
-    form.append('access_token', accessToken);
-    form.append('image_name', file.name);
-    form.append('image', file);
+  setImageAvatar = image => {
+    const { actions } = this.props;
     actions
-      .setBotAvatar(form)
-      .then(payload => {
-        let imgUrl = IMAGE_GET_URL + payload.imagePath;
-        let avatarsObj = this.state.avatars;
-        let imgObj = {
-          id: avatarsObj.length,
-          url: imgUrl,
-        };
-        this.handleIconSelect(imgObj);
-        avatarsObj.push(imgObj);
+      .setBotAvatar({ botbuilderIconImg: image })
+      .then(() => {
         this.setState({
-          avatars: avatarsObj,
           uploadingBotbuilderIconImg: false,
         });
       })
@@ -272,7 +257,7 @@ class UIView extends Component {
           uploadingBotbuilderIconImg: false,
         });
         actions.openSnackBar({
-          snackBarMessage: "Error! Couldn't upload image",
+          snackBarMessage: "Error! Couldn't set image",
           snackBarDuration: 2000,
         });
       });
@@ -294,13 +279,13 @@ class UIView extends Component {
     });
   };
 
-  handleChangeIconImage = botbuilderIconImg => {
-    botbuilderIconImg.persist();
-    let files = botbuilderIconImg.target.files;
-    if (files.length === 0) {
+  handleChangeIconImage = event => {
+    const file = this.botBuilderIcon.files[0];
+    const image = window.URL.createObjectURL(file);
+    if (!event.target.files || !event.target.files[0]) {
       this.handleRemoveUrlIcon();
     } else {
-      this.uploadImageIcon(files[0]);
+      this.setImageAvatar(image);
     }
   };
 
@@ -349,40 +334,20 @@ class UIView extends Component {
     // reset to default values
     const { actions } = this.props;
     this.setState({ loadedSettings: false });
-    let avatarsIcons = this.state.avatars.slice(
-      0,
-      this.state.originalAvatarsCount,
-    );
     actions.resetDesignData().then(() => {
       this.setState({
         loadedSettings: true,
-        iconSelected: 0,
-        avatars: avatarsIcons,
       });
     });
   };
 
   handleIconSelect = icon => {
-    let {
-      actions,
-      design: { code },
-    } = this.props;
-    if (icon.id === this.state.iconSelected) {
-      code = code.replace(/^::botIconImage\s(.*)$/m, '::botIconImage ');
-      actions.updateDesignData({ code, botbuilderIconImg: '' });
-      this.setState({
-        iconSelected: null,
-      });
-    } else {
-      code = code.replace(
-        /^::botIconImage\s(.*)$/m,
-        `::botIconImage ${icon.url}`,
-      );
-      actions.updateDesignData({ code, botbuilderIconImg: icon.url });
-      this.setState({
-        iconSelected: icon.id,
-      });
-    }
+    let { actions } = this.props;
+    actions.setBotAvatar({
+      botbuilderIconImg: icon.url,
+      botbuilderIconSelected: icon.id,
+      addNewIcon: false,
+    });
   };
 
   handleClickColorBox = id => {
@@ -403,12 +368,29 @@ class UIView extends Component {
       actions.updateDesignData({
         code,
         botbuilderBodyBackgroundImg: '',
+        botbuilderBodyBackgroundImgName: '',
       });
     }
     this.setState({ showBackgroundImageChange: isInputChecked });
   };
 
   render() {
+    const {
+      showBackgroundImageChange,
+      uploadingBodyBackgroundImg,
+      uploadingBotbuilderIconImg,
+      loadedSettings,
+      resetting,
+    } = this.state;
+    const {
+      design: {
+        botbuilderBodyBackgroundImg,
+        botbuilderBodyBackgroundImgName,
+        avatars,
+        botbuilderIconSelected,
+      },
+      design,
+    } = this.props;
     const customizeComponents = customiseOptionsList.map(component => {
       return (
         <div key={component.id} className="circleChoose">
@@ -438,7 +420,7 @@ class UIView extends Component {
                       <FormControlLabel
                         control={
                           <Switch
-                            checked={this.state.showBackgroundImageChange}
+                            checked={showBackgroundImageChange}
                             onChange={
                               this.handleShowBackgroundImageChangeToggle
                             }
@@ -454,42 +436,43 @@ class UIView extends Component {
             </Col>
             <Col xs={12} md={6} lg={6}>
               {component.id !== 7 &&
-              !(
-                component.id === 1 &&
-                this.state.showBackgroundImageChange === true
-              ) ? (
+              !(component.id === 1 && showBackgroundImageChange === true) ? (
                 <RowContainer>
                   <ColorPickerComponent
                     component={component.component}
                     id={component.id}
                     handleChangeColor={this.handleChangeColor}
-                    backgroundColor={this.props.design[component.component]}
+                    backgroundColor={design[component.component]}
                     handleClickColorBox={this.handleClickColorBox}
                   />
                 </RowContainer>
               ) : null}
               {component.component === 'botbuilderBackgroundBody' &&
-                this.state.showBackgroundImageChange === true && (
+                showBackgroundImageChange === true && (
                   <div>
                     <br />
                     <Form>
                       <FileUploadButton title="Upload Background Image">
                         <Input
-                          disabled={this.state.uploadingBodyBackgroundImg}
+                          disabled={uploadingBodyBackgroundImg}
                           type="file"
+                          ref={c => {
+                            this.backgroundImage = c;
+                          }}
                           onChange={this.handleChangeBodyBackgroundImage}
                           accept="image/*"
                         />
-                        {this.state.uploadingBodyBackgroundImg ? (
+                        {uploadingBodyBackgroundImg && (
                           <CircularLoader color="#ffffff" size={32} />
-                        ) : (
-                          'Upload Image'
                         )}
+                        {botbuilderBodyBackgroundImgName !== ''
+                          ? 'Upload Again'
+                          : 'Upload Image'}
                       </FileUploadButton>
                     </Form>
-                    {this.state.botbuilderBodyBackgroundImg && (
+                    {botbuilderBodyBackgroundImg && (
                       <RowContainer>
-                        <h3>{this.state.botbuilderBodyBackgroundImgName}</h3>
+                        <h3>{botbuilderBodyBackgroundImgName}</h3>
                         <span title="Remove image">
                           <Close onClick={this.handleRemoveUrlBody} />
                         </span>
@@ -501,12 +484,12 @@ class UIView extends Component {
           </Row>
           {component.component === 'botbuilderAvatar' && (
             <BotBuilderContainer>
-              {this.state.avatars.map(icon => {
+              {avatars.map(icon => {
                 return (
                   <IconWrap
                     id={icon.id}
                     key={icon.id}
-                    icon={this.state.iconSelected === icon.id}
+                    icon={botbuilderIconSelected === icon.id}
                   >
                     <BotAvatarImg
                       alt="icon"
@@ -520,16 +503,19 @@ class UIView extends Component {
               <Form>
                 <AvatarUploadButton title="Upload your own bot icon">
                   <Input
-                    disabled={this.state.uploadingBotbuilderIconImg}
+                    disabled={uploadingBotbuilderIconImg}
                     type="file"
+                    ref={c => {
+                      this.botBuilderIcon = c;
+                    }}
                     onChange={
-                      this.state.uploadingBotbuilderIconImg
+                      uploadingBotbuilderIconImg
                         ? null
                         : this.handleChangeIconImage
                     }
                     accept="image/x-png,image/gif,image/jpeg"
                   />
-                  {this.state.uploadingBotbuilderIconImg ? (
+                  {uploadingBotbuilderIconImg ? (
                     <CircularLoader size={30} />
                   ) : (
                     <AddIcon />
@@ -543,17 +529,17 @@ class UIView extends Component {
     });
     return (
       <div>
-        {!this.state.loadedSettings ? (
+        {!loadedSettings ? (
           <CircularLoader />
         ) : (
           <DesignContainer>
-            {this.state.loadedSettings && <Grid>{customizeComponents}</Grid>}
+            {loadedSettings && <Grid>{customizeComponents}</Grid>}
             <Button
               variant="contained"
               color="primary"
               onClick={this.handleReset}
             >
-              {this.state.resetting ? (
+              {resetting ? (
                 <CircularLoader color={colors.light.header} size={32} />
               ) : (
                 'Reset Changes'
