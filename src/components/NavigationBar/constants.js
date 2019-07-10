@@ -14,7 +14,6 @@ const LINKS = accessToken => {
       Icon: Dashboard,
       sublinks: accessToken
         ? [
-            { label: 'Dashboard', url: '/dashboard' },
             { label: 'Browse Skills', url: '/' },
             { label: 'Create Skill', url: '/myskills' },
             { label: 'Create Skill Bot', url: '/botbuilder' },

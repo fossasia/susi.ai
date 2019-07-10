@@ -16,10 +16,9 @@ import CircleImage from '../shared/CircleImage';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
 import Link from '../shared/Link';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SignUpIcon from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
+import Dashboard from '@material-ui/icons/Dashboard';
 import susiWhite from '../../images/susi-logo-white.png';
 import Slide from '@material-ui/core/Slide';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -28,11 +27,11 @@ import LeftMenu from './LeftMenu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Popper from './Popper';
+import _ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import { StyledIconButton } from './Styles';
 import { FlexContainer } from '../shared/Container';
-import Info from '@material-ui/icons/Info';
 import ListIcon from '@material-ui/icons/List';
 
 const UserDetail = styled.label`
@@ -40,9 +39,19 @@ const UserDetail = styled.label`
   margin-right: 5px;
   font-size: 1rem;
   cursor: pointer;
+  position: relative;
+  bottom: 8px;
   @media (max-width: 1000px) {
     display: None;
   }
+`;
+
+const CircleImg = styled(CircleImage)`
+  display: inline-block;
+`;
+
+const ExpandMore = styled(_ExpandMore)`
+  color: white;
 `;
 
 const SusiLogo = styled.img`
@@ -146,7 +155,6 @@ class NavigationBar extends Component {
       email,
       userName,
       avatarImgThumbnail,
-      history,
       searchState,
       search,
       searchTextChanged,
@@ -159,25 +167,23 @@ class NavigationBar extends Component {
 
     const Logged = props => (
       <React.Fragment>
-        {accessToken && (
-          <Link to="/settings">
-            <MenuItem>
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText>
-                <Translate text="Settings" />
-              </ListItemText>
-            </MenuItem>
-          </Link>
-        )}
-        <Link to="/about">
+        <Link to="/dashboard">
           <MenuItem>
             <ListItemIcon>
-              <Info />
+              <Dashboard />
             </ListItemIcon>
             <ListItemText>
-              <Translate text="About" />
+              <Translate text="Dashboard" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <Link to="/settings">
+          <MenuItem>
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="Settings" />
             </ListItemText>
           </MenuItem>
         </Link>
@@ -193,27 +199,16 @@ class NavigationBar extends Component {
             </MenuItem>
           </Link>
         ) : null}
-        {accessToken ? (
-          <Link to="/logout">
-            <MenuItem>
-              <ListItemIcon>
-                <Exit />
-              </ListItemIcon>
-              <ListItemText>
-                <Translate text="Logout" />
-              </ListItemText>
-            </MenuItem>
-          </Link>
-        ) : (
-          <MenuItem onClick={this.handleLogin}>
+        <Link to="/logout">
+          <MenuItem>
             <ListItemIcon>
-              <SignUpIcon />
+              <Exit />
             </ListItemIcon>
             <ListItemText>
-              <Translate text="Login" />
+              <Translate text="Logout" />
             </ListItemText>
           </MenuItem>
-        )}
+        </Link>
       </React.Fragment>
     );
 
@@ -259,39 +254,68 @@ class NavigationBar extends Component {
                   />
                 ) : null}
                 {accessToken && (
-                  <StyledIconButton onClick={() => history.push('/settings')}>
+                  <StyledIconButton>
                     <FlexContainer>
-                      <CircleImage
-                        name="User Avatar"
-                        src={userAvatar}
-                        size="32"
-                      />
-                      <UserDetail>{!userName ? email : userName}</UserDetail>
+                      <div data-tip="custom" data-for={'right-menu'}>
+                        <Popper
+                          id={'right-menu'}
+                          place="bottom"
+                          effect="solid"
+                          delayHide={200}
+                          type={'light'}
+                          offset={{ top: -3 }}
+                        >
+                          <Paper>
+                            <Logged />
+                          </Paper>
+                        </Popper>
+                        <CircleImg
+                          name="User Avatar"
+                          src={userAvatar}
+                          size="32"
+                        />
+                        <UserDetail>{!userName ? email : userName}</UserDetail>
+                        <ExpandMore />
+                      </div>
                     </FlexContainer>
                   </StyledIconButton>
                 )}
-                <div data-tip="custom" data-for={'right-menu'}>
+                {accessToken ? null : (
+                  <MenuItem onClick={this.handleLogin}>
+                    <ListItemText>
+                      <Translate text="Login" />
+                    </ListItemText>
+                  </MenuItem>
+                )}
+                <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
-                    id={'right-menu'}
+                    id={'right-menu-about'}
                     place="bottom"
                     effect="solid"
                     delayHide={200}
                     type={'light'}
                   >
                     <Paper>
-                      <Logged />
+                      <Link to="/about">
+                        <MenuItem>
+                          <ListItemText>
+                            <Translate text="About" />
+                          </ListItemText>
+                        </MenuItem>
+                      </Link>
+                      <Link to="/support">
+                        <MenuItem>
+                          <ListItemText>
+                            <Translate text="Support" />
+                          </ListItemText>
+                        </MenuItem>
+                      </Link>
                     </Paper>
                   </Popper>
                   <IconButton aria-haspopup="true" color="inherit">
-                    <MoreVertIcon />
+                    <ContactSupportIcon />
                   </IconButton>
                 </div>
-                <IconButton
-                  color="inherit"
-                  onClick={() => history.push('/support')}
-                >
-                  <ContactSupportIcon />
-                </IconButton>
               </TopRightMenuContainer>
             </Toolbar>
           </AppBar>

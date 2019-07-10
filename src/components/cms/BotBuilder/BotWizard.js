@@ -55,7 +55,6 @@ const Paper = styled(_Paper)`
   width: 100%;
   margin-top: 20px;
   position: relative;
-  height: 99.9%;
   margin-right: 30px;
   padding: 15px 0px;
 
