@@ -18,6 +18,7 @@ const defaultColors = [
 
 const Avatar = styled(_Avatar)`
   margin-right: 10px;
+  display: inline-block;
   background-color: ${props => props.backgroundColor};
   width: ${props => props.size + 'px'};
   height: ${props => props.size + 'px'};
