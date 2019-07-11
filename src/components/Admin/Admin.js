@@ -8,7 +8,7 @@ import AdminTab from './AdminTab/AdminTab';
 import ListUser from './ListUser';
 import ListSkills from './ListSkills/ListSkills';
 import SystemLogs from './SystemLogs/SystemLogs';
-import SystemSettings from './SystemSettings/SystemSettings';
+import Settings from './Settings';
 import { getAdmin } from '../../apis/index';
 import styled from 'styled-components';
 import isMobileView from '../../utils/isMobileView';
@@ -124,7 +124,7 @@ class Admin extends Component {
       case 2:
         return <ListSkills />;
       case 3:
-        return <SystemSettings />;
+        return <Settings />;
       case 4:
         return <SystemLogs />;
       default:
@@ -155,7 +155,7 @@ class Admin extends Component {
                     <Tab label="Admin" />
                     <Tab label="Users" />
                     <Tab label="Skills" />
-                    <Tab label="System Settings" />
+                    <Tab label="Settings" />
                     <Tab label="System Logs" />
                   </Tabs>
                   {this.generateView()}
