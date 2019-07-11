@@ -16,6 +16,10 @@ body {
   cursor: pointer;
  }
 
+ input {
+  font-weight: 400 !important;
+ }
+
 /* Remove input autofill yellow background */
 @-webkit-keyframes autofill {
   to {

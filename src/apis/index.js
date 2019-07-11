@@ -719,3 +719,72 @@ export function uploadImage(payload) {
     isTokenRequired: false,
   });
 }
+
+// Mail Settings
+
+export function fetchMailSettings(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/getEmailSettings.json`;
+  return ajax.get(url, {});
+}
+
+export function changeMailSettings(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/emailSettings.json`;
+  const {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  } = payload;
+  return ajax.get(url, {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  });
+}
+
+export function sendEmail(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/emailSettings.json`;
+  const {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    receiverEmail,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  } = payload;
+  return ajax.get(url, {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    receiverEmail,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  });
+}
