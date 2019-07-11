@@ -43,9 +43,7 @@ import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
 
 const RootContainer = styled.div`
-  position: relative;
-  min-height: 100vh;
-  padding-bottom: 120px;
+  min-height: calc(100vh - 120px);
 `;
 
 class App extends Component {
@@ -133,12 +131,10 @@ class App extends Component {
       showCookiePolicy === true ? <CookiePolicy /> : null;
     const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
 
-    const applyFooterStyle = ['/botbuilder/botwizard'];
-
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
-          <RootContainer>
+          <div>
             {renderDialog}
             {isSnackBarOpen && (
               <CustomSnackbar
@@ -151,91 +147,89 @@ class App extends Component {
               />
             )}
             {renderAppBar}
-            <Switch>
-              <Route exact path="/" component={BrowseSkill} />
-              <Route exact path="/chat" component={ChatApp} />
-              <Route
-                exact
-                path="/category/:category"
-                component={BrowseSkillByCategory}
-              />
-              <Route
-                exact
-                path="/language/:language"
-                component={BrowseSkillByLanguage}
-              />
-              <Route
-                exact
-                path="/:category/:skills/:lang"
-                component={SkillListing}
-              />
-              <Route
-                exact
-                path="/:category/:skills/:lang/feedbacks"
-                component={SkillFeedbackPage}
-              />
-              <ProtectedRoute exact path="/dashboard/" component={Dashboard} />
-              <Route
-                exact
-                path="/:category/:skill/versions/:lang"
-                component={SkillVersion}
-              />
-              <Route
-                exact
-                path="/:category/:skill/compare/:lang/:oldid/:recentid"
-                component={SkillHistory}
-              />
-              <Route
-                exact
-                path="/:category/:skill/edit/:lang/:latestid/:revertid"
-                component={SkillRollBack}
-              />
-              <Route
-                exact
-                path="/:category/:skill/edit/:lang"
-                component={SkillWizard}
-              />
-              <Route
-                exact
-                path="/:category/:skill/edit/:lang/:commit"
-                component={SkillWizard}
-              />
-              <ProtectedRoute exact path="/myskills" component={Dashboard} />
-              <ProtectedRoute
-                exact
-                path="/skillWizard"
-                component={SkillWizard}
-              />
-              <ProtectedRoute
-                path="/botbuilder/botwizard"
-                component={BotBuilderWrap}
-              />
-              <ProtectedRoute path="/botbuilder" component={Dashboard} />
-              <Route exact path="/about" component={Overview} />
-              <Route exact path="/devices" component={Devices} />
-              <Route exact path="/team" component={Team} />
-              <Route exact path="/blog" component={Blog} />
-              <Route exact path="/contact" component={Contact} />
-              <Route exact path="/support" component={Support} />
-              <Route exact path="/terms" component={Terms} />
-              <Route exact path="/privacy" component={Privacy} />
-              <Route exact path="/verify-account" component={VerifyAccount} />
-              <Route exact path="/logout" component={Logout} />
-              <Route path="/admin" component={Admin} />
-              <ProtectedRoute exact path="/settings" component={Settings} />
-              <Route exact path="/*:path(error-404|)" component={NotFound} />
-            </Switch>
-            <div
-              style={
-                applyFooterStyle.includes(pathname)
-                  ? { marginTop: '230px' }
-                  : null
-              }
-            >
-              {renderFooter}
-            </div>
+            <RootContainer>
+              <Switch>
+                <Route exact path="/" component={BrowseSkill} />
+                <Route exact path="/chat" component={ChatApp} />
+                <Route
+                  exact
+                  path="/category/:category"
+                  component={BrowseSkillByCategory}
+                />
+                <Route
+                  exact
+                  path="/language/:language"
+                  component={BrowseSkillByLanguage}
+                />
+                <Route
+                  exact
+                  path="/:category/:skills/:lang"
+                  component={SkillListing}
+                />
+                <Route
+                  exact
+                  path="/:category/:skills/:lang/feedbacks"
+                  component={SkillFeedbackPage}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/dashboard/"
+                  component={Dashboard}
+                />
+                <Route
+                  exact
+                  path="/:category/:skill/versions/:lang"
+                  component={SkillVersion}
+                />
+                <Route
+                  exact
+                  path="/:category/:skill/compare/:lang/:oldid/:recentid"
+                  component={SkillHistory}
+                />
+                <Route
+                  exact
+                  path="/:category/:skill/edit/:lang/:latestid/:revertid"
+                  component={SkillRollBack}
+                />
+                <Route
+                  exact
+                  path="/:category/:skill/edit/:lang"
+                  component={SkillWizard}
+                />
+                <Route
+                  exact
+                  path="/:category/:skill/edit/:lang/:commit"
+                  component={SkillWizard}
+                />
+                <ProtectedRoute exact path="/myskills" component={Dashboard} />
+                <ProtectedRoute
+                  exact
+                  path="/skillWizard"
+                  component={SkillWizard}
+                />
+                <ProtectedRoute
+                  path="/botbuilder/botwizard"
+                  component={BotBuilderWrap}
+                />
+                <ProtectedRoute path="/botbuilder" component={Dashboard} />
+                <Route exact path="/about" component={Overview} />
+                <Route exact path="/devices" component={Devices} />
+                <Route exact path="/team" component={Team} />
+                <Route exact path="/blog" component={Blog} />
+                <Route exact path="/contact" component={Contact} />
+                <Route exact path="/support" component={Support} />
+                <Route exact path="/terms" component={Terms} />
+                <Route exact path="/privacy" component={Privacy} />
+                <Route exact path="/verify-account" component={VerifyAccount} />
+                <Route exact path="/logout" component={Logout} />
+                <Route path="/admin" component={Admin} />
+                <ProtectedRoute exact path="/settings" component={Settings} />
+                <Route exact path="/*:path(error-404|)" component={NotFound} />
+              </Switch>
+            </RootContainer>
+            <div>{renderFooter}</div>
             {renderCookiePolicy}
-          </RootContainer>
+          </div>
         </MuiThemeProvider>
       </StylesProvider>
     );
