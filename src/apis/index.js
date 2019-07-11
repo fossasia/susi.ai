@@ -673,3 +673,47 @@ export function fetchReportedSkills() {
   const url = `${urls.API_URL}/${CMS_API_PREFIX}/getReportSkill.json`;
   return ajax.get(url, {});
 }
+
+// Slideshows
+export function fetchSkillSlideshow() {
+  const url = `${urls.API_URL}/${CMS_API_PREFIX}/getSkillSlideshow.json`;
+  return ajax.get(url, {}, { shouldCamelizeKeys: false });
+}
+
+export function modifySkillSlideshow(payload) {
+  const url = `${urls.API_URL}/${CMS_API_PREFIX}/skillSlideshow.json`;
+  const { redirectLink, info, imageName } = payload;
+  return ajax.get(
+    url,
+    {
+      redirect_link: redirectLink,
+      info,
+      image_name: imageName,
+    },
+    { shouldCamelizeKeys: false },
+  );
+}
+
+export function deleteSkillSlideshow(payload) {
+  const url = `${urls.API_URL}/${CMS_API_PREFIX}/skillSlideshow.json`;
+  const { redirectLink, imageName } = payload;
+  return ajax.get(
+    url,
+    {
+      redirect_link: redirectLink,
+      deleteSlide: true,
+      image_name: imageName,
+    },
+    { shouldCamelizeKeys: false },
+  );
+}
+
+// Upload Image
+
+export function uploadImage(payload) {
+  const url = `${API_URL}/${CMS_API_PREFIX}/uploadImage.json`;
+  return ajax.post(url, payload, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    isTokenRequired: false,
+  });
+}
