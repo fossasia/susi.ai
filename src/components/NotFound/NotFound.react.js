@@ -16,14 +16,33 @@ const SusiLogo = styled.img.attrs({
   width: 11rem;
 `;
 
-const NotFound = ({ accessToken, actions }) => {
+const LoginText = styled.p`
+  font-size: 60px;
+`;
+
+const RenderText = ({ renderLogin }) => {
+  if (!renderLogin) {
+    return (
+      <React.Fragment>
+        <h1>404</h1>
+        <h2>Page not found</h2>
+      </React.Fragment>
+    );
+  }
+  return <LoginText>Please login to access this page</LoginText>;
+};
+
+RenderText.propTypes = {
+  renderLogin: PropTypes.bool,
+};
+
+const NotFound = ({ accessToken, actions, renderLogin = false }) => {
   return (
     <div className="not-found-banner">
       <Link to={'/'}>
         <SusiLogo />
       </Link>
-      <h1>404</h1>
-      <h2>Page not found</h2>
+      <RenderText renderLogin={renderLogin} />
       <div className="button-wrapper">
         <Link
           style={{ textDecoration: 'none' }}
@@ -69,6 +88,7 @@ NotFound.propTypes = {
   accessToken: PropTypes.string,
   history: PropTypes.object,
   actions: PropTypes.object,
+  renderLogin: PropTypes.bool,
 };
 
 function mapStateToProps(store) {

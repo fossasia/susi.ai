@@ -5,12 +5,16 @@ import { Route } from 'react-router-dom';
 import NotFound from '../NotFound/NotFound.react';
 
 const ProtectedRoute = props => {
-  const { accessToken, component: Component, ...restProps } = props;
+  const { accessToken, isAdmin, component: Component, ...restProps } = props;
   return (
     <Route
       {...restProps}
       render={routeProps =>
-        accessToken ? <Component {...routeProps} /> : <NotFound />
+        accessToken ? (
+          <Component {...routeProps} />
+        ) : (
+          <NotFound renderLogin={!isAdmin} />
+        )
       }
     />
   );
@@ -25,12 +29,14 @@ ProtectedRoute.propTypes = {
   ]),
   location: PropTypes.object,
   accessToken: PropTypes.string,
+  isAdmin: PropTypes.bool,
 };
 
 function mapStateToProps(store) {
-  const { accessToken } = store.app;
+  const { accessToken, isAdmin } = store.app;
   return {
     accessToken,
+    isAdmin,
   };
 }
 
