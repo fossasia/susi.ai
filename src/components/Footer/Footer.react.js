@@ -7,12 +7,9 @@ import styled from 'styled-components';
 const FooterContainer = styled.div`
   background: #f6f6f6;
   width: 100%;
-  position: absolute;
   z-index: 10;
   border: 1px solid #ddd;
   display: flex;
-  bottom: 0;
-  left: 0;
 `;
 
 const FooterWrapper = styled.div`

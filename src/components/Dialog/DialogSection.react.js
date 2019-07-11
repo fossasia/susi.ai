@@ -16,8 +16,8 @@ import { DialogContainer } from '../shared/Container';
 import DeleteAccount from '../Auth/DeleteAccount/DeleteAccount.react';
 import ConfirmDeleteAccount from '../Auth/DeleteAccount/ConfirmDeleteAccount.react';
 import AuthorSkills from '../cms/AuthorSkills/AuthorSkills';
-import UpdateSystemSettings from '../Admin/SystemSettings/UpdateSystemSettingsDialog';
-import DeleteSystemSettings from '../Admin/SystemSettings/DeleteSystemSettingsDialog';
+import UpdateSystemSettings from '../Admin/SystemSettings/ConfigKeys/UpdateSystemSettingsDialog';
+import DeleteSystemSettings from '../Admin/SystemSettings/ConfigKeys/DeleteSystemSettingsDialog';
 import DeleteSkill from '../Admin/ListSkills/DeleteSkillDialog';
 import EditSkill from '../Admin/ListSkills/EditSkillDialog';
 import ConfirmSkill from '../Admin/ListSkills/ConfirmSkillDialog';
@@ -27,6 +27,7 @@ import DeleteFeedbackDialog from '../cms/SkillFeedbackPage/DeleteFeedbackDialog'
 import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
 import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
 import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
+import SkillSlideshowDialog from '../Admin/SystemSettings/Slideshow/Dialog';
 import isMobileView from '../../utils/isMobileView';
 
 const DialogData = {
@@ -58,6 +59,7 @@ const DialogData = {
   // For skillCreator delete skill
   deleteSkillWithInput: { Component: DeleteSkillWithInput, size: 'sm' },
   deleteBot: { Component: DeleteBot, size: 'sm' },
+  skillSlideshow: { Component: SkillSlideshowDialog, size: 'md' },
 };
 
 const DialogSection = props => {

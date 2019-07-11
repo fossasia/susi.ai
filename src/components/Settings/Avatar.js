@@ -19,6 +19,10 @@ const Fab = styled(_Fab)`
   left: 4%;
 `;
 
+const AvatarInput = styled.input`
+  display: none;
+`;
+
 const AddIcon = styled(_AddIcon)`
   margin: 3.125rem auto;
   height: 3.125rem;
@@ -49,10 +53,6 @@ const Form = styled.form`
 
 const PreviewContainer = styled.div`
   position: relative;
-`;
-
-const Input = styled.input`
-  margin-top: 0.625rem;
 `;
 
 const EmptyAvatarContainer = styled.div`
@@ -104,7 +104,7 @@ const Avatar = props => {
               <Fab color="primary" size="small" onClick={handleMenuClick}>
                 <EditIcon />
               </Fab>
-              <input
+              <AvatarInput
                 id="file-opener"
                 type="file"
                 className="input-avatar"
@@ -149,7 +149,7 @@ const Avatar = props => {
                   </EmptyAvatarContainer>
                 )}
               </div>
-              <Input
+              <AvatarInput
                 id="fileOpener"
                 type="file"
                 className="input-avatar"
