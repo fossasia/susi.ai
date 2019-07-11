@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import uiActions from '../../redux/actions/ui';
 import appActions from '../../redux/actions/app';
 import Share from './Share';
-import Tour from './Tour';
+// import Tour from './Tour';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
@@ -39,7 +39,7 @@ const DialogData = {
     size: 'md',
     fullScreen: isMobileView(),
   },
-  tour: { Component: Tour, size: 'sm' },
+  // tour: { Component: Tour, size: 'sm' },
   deleteAccount: { Component: DeleteAccount, size: 'sm' },
   confirmDeleteAccount: { Component: ConfirmDeleteAccount, size: 'sm' },
   noComponent: { Component: null, size: false },
@@ -70,9 +70,10 @@ const DialogSection = props => {
   const getDialog = () => {
     if (isModalOpen) {
       return DialogData[modalType];
-    } else if (!visited) {
-      return DialogData.tour;
     }
+    // else if (!visited) {
+    //   return DialogData.tour;
+    // }
     return DialogData.noComponent;
   };
 
