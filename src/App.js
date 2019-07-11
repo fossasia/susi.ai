@@ -105,7 +105,7 @@ class App extends Component {
       modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
-      visited,
+      // visited,
     } = this.props;
     const skillListRegex = new RegExp('^/');
     const pathLength = pathname.split('/').length;
@@ -129,7 +129,8 @@ class App extends Component {
 
     const renderCookiePolicy =
       showCookiePolicy === true ? <CookiePolicy /> : null;
-    const renderDialog = isModalOpen || !visited ? <DialogSection /> : null;
+    // const renderDialog = isModalOpen || !visited  ?  <DialogSection /> : null;
+    const renderDialog = isModalOpen ? <DialogSection /> : null;
 
     return (
       <StylesProvider injectFirst>
