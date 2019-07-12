@@ -274,7 +274,7 @@ export function fetchSkills(payload) {
     reviewed: showReviewedSkills,
     staff_picks: showStaffPicks,
     q: searchQuery,
-    search_type: searchType,
+    search_type: searchType ? searchType.join(', ') : '',
   });
 }
 
