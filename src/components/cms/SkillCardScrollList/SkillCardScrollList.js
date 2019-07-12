@@ -21,6 +21,10 @@ const Container = styled.div`
 
 const skillCardListData = [
   {
+    skills: 'systemSkills',
+    heading: 'System Skills',
+  },
+  {
     skills: 'staffPicksSkills',
     heading: 'Staff Picks',
   },
