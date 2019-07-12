@@ -150,6 +150,7 @@ class NavigationBar extends Component {
       email,
       userName,
       avatarImgThumbnail,
+      history,
       searchState,
       search,
       searchTextChanged,
@@ -249,31 +250,41 @@ class NavigationBar extends Component {
                   />
                 ) : null}
                 {accessToken && (
-                  <StyledIconButton padding={'0.55rem'}>
-                    <div data-tip="custom" data-for={'right-menu'}>
-                      <FlexContainer>
-                        <Popper
-                          id={'right-menu'}
-                          place="bottom"
-                          effect="solid"
-                          delayHide={200}
-                          type={'light'}
-                          offset={{ top: -3 }}
-                        >
-                          <Paper>
-                            <Logged />
-                          </Paper>
-                        </Popper>
-                        <CircleImage
-                          name="User Avatar"
-                          src={userAvatar}
-                          size="32"
-                        />
-                        <UserDetail>{!userName ? email : userName}</UserDetail>
-                        <ExpandMore />
-                      </FlexContainer>
-                    </div>
-                  </StyledIconButton>
+                  <React.Fragment>
+                    <StyledIconButton padding={'0.55rem'}>
+                      <div data-tip="custom" data-for={'right-menu'}>
+                        <FlexContainer>
+                          <Popper
+                            id={'right-menu'}
+                            place="bottom"
+                            effect="solid"
+                            delayHide={200}
+                            type={'light'}
+                            offset={{ top: -3 }}
+                          >
+                            <Paper>
+                              <Logged />
+                            </Paper>
+                          </Popper>
+                          <CircleImage
+                            name="User Avatar"
+                            src={userAvatar}
+                            size="32"
+                          />
+                          <UserDetail>
+                            {!userName ? email : userName}
+                          </UserDetail>
+                          <ExpandMore />
+                        </FlexContainer>
+                      </div>
+                    </StyledIconButton>
+                    <IconButton
+                      color="inherit"
+                      onClick={() => history.push('/dashboard')}
+                    >
+                      <Dashboard />
+                    </IconButton>
+                  </React.Fragment>
                 )}
                 {accessToken ? null : (
                   <MenuItem onClick={this.handleLogin}>
