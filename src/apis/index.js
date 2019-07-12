@@ -262,6 +262,7 @@ export function fetchSkills(payload) {
     showReviewedSkills,
     showStaffPicks,
     searchQuery,
+    searchType,
   } = payload;
   const url = `${API_URL}/${CMS_API_PREFIX}/getSkillList.json`;
   return ajax.get(url, {
@@ -273,6 +274,7 @@ export function fetchSkills(payload) {
     reviewed: showReviewedSkills,
     staff_picks: showStaffPicks,
     q: searchQuery,
+    search_type: searchType,
   });
 }
 
