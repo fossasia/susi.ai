@@ -13,6 +13,7 @@ const defaultState = {
     snackBarPosition: { vertical: 'bottom', horizontal: 'center' },
     variant: '',
   },
+  chatBubble: 'bubble',
 };
 
 export default handleActions(
@@ -46,6 +47,12 @@ export default handleActions(
       return {
         ...state,
         snackBarProps: defaultState.snackBarProps,
+      };
+    },
+    [actionTypes.HANDLE_CHAT_BUBBLE](state, { payload }) {
+      return {
+        ...state,
+        chatBubble: payload.chatBubble,
       };
     },
   },

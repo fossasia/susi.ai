@@ -17,14 +17,15 @@ class MessageListItem extends React.Component {
     ttsLanguage: PropTypes.string,
     actions: PropTypes.object,
     userGeoData: PropTypes.object,
+    showChatBubble: PropTypes.bool,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       play: false,
-      width: 384,
-      height: 234,
+      width: this.props.showChatBubble ? 234 : 384,
+      height: this.props.showChatBubble ? 168 : 240,
     };
   }
 
@@ -38,9 +39,12 @@ class MessageListItem extends React.Component {
   };
 
   updateWindowDimensions = () => {
+    const { showChatBubble } = this.props;
     this.setState({
-      width: window.innerWidth > 488 ? 384 : 234,
-      height: window.innerWidth > 488 ? 240 : 168,
+      width:
+        window.innerWidth > 488 && showChatBubble === undefined ? 384 : 234,
+      height:
+        window.innerWidth > 488 && showChatBubble === undefined ? 240 : 168,
     });
   };
 

@@ -125,6 +125,7 @@ const TextAreaContainer = styled.div`
   background-color: ${props => props.backgroundColor};
   color: ${props => props.color};
   max-height: 5rem;
+  width: ${props => (props.showChatBubble ? '81%' : 'auto')};
   @media (max-width: 768px) {
     width: 81%;
   }
@@ -200,6 +201,7 @@ class MessageComposer extends Component {
     theme: PropTypes.string,
     customThemeValue: PropTypes.object,
     exitSearch: PropTypes.func,
+    showChatBubble: PropTypes.bool,
   };
 
   constructor(props) {
@@ -213,6 +215,7 @@ class MessageComposer extends Component {
       micAccess: false,
       currentMessageIndex: -1,
       speechRecognitionTextcolor: '#000',
+      key: 0,
     };
     this.userMessageHistory = [];
     const { micInput } = this.props;
@@ -438,6 +441,10 @@ class MessageComposer extends Component {
     }
   };
 
+  handleClick = () => {
+    this.setState({ key: Math.random() });
+  };
+
   render() {
     const {
       isListening,
@@ -445,8 +452,9 @@ class MessageComposer extends Component {
       isSpeechDialogOpen,
       speechRecognitionTextcolor,
       speechToTextOutput,
+      key,
     } = this.state;
-    const { focus, theme, customThemeValue } = this.props;
+    const { focus, theme, customThemeValue, showChatBubble } = this.props;
     const { textarea } = getCustomThemeColors({ theme, customThemeValue });
     const textcolor = invertColorTextArea(textarea);
     return (
@@ -460,7 +468,10 @@ class MessageComposer extends Component {
             lang="en-US"
           />
         )}
-        <TextAreaContainer backgroundColor={textarea}>
+        <TextAreaContainer
+          backgroundColor={textarea}
+          showChatBubble={showChatBubble}
+        >
           <TextareaAutosize
             className="scroll"
             id="scroll"
@@ -476,6 +487,8 @@ class MessageComposer extends Component {
             autoFocus={focus}
             background={textarea}
             color={textcolor}
+            onClick={this.handleClick}
+            key={key}
           />
         </TextAreaContainer>
         <SendButton onClick={this.onClickButton}>
