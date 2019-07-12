@@ -34,20 +34,15 @@ import { StyledIconButton } from './Styles';
 import { FlexContainer } from '../shared/Container';
 import ListIcon from '@material-ui/icons/List';
 
-const UserDetail = styled.label`
+const UserDetail = styled.div`
   color: white;
   margin-right: 5px;
   font-size: 1rem;
   cursor: pointer;
-  position: relative;
   bottom: 8px;
   @media (max-width: 1000px) {
     display: None;
   }
-`;
-
-const CircleImg = styled(CircleImage)`
-  display: inline-block;
 `;
 
 const ExpandMore = styled(_ExpandMore)`
@@ -254,9 +249,9 @@ class NavigationBar extends Component {
                   />
                 ) : null}
                 {accessToken && (
-                  <StyledIconButton>
-                    <FlexContainer>
-                      <div data-tip="custom" data-for={'right-menu'}>
+                  <StyledIconButton padding={'0.55rem'}>
+                    <div data-tip="custom" data-for={'right-menu'}>
+                      <FlexContainer>
                         <Popper
                           id={'right-menu'}
                           place="bottom"
@@ -269,15 +264,15 @@ class NavigationBar extends Component {
                             <Logged />
                           </Paper>
                         </Popper>
-                        <CircleImg
+                        <CircleImage
                           name="User Avatar"
                           src={userAvatar}
                           size="32"
                         />
                         <UserDetail>{!userName ? email : userName}</UserDetail>
                         <ExpandMore />
-                      </div>
-                    </FlexContainer>
+                      </FlexContainer>
+                    </div>
                   </StyledIconButton>
                 )}
                 {accessToken ? null : (
