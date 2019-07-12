@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Dropzone from './Dropzone';
 import uiActions from '../../../../redux/actions/ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import urls from '../../../../utils/urls';
+import getImageSrc from '../../../../utils/getImageSrc';
 import {
   modifySkillSlideshow,
   uploadImage,
@@ -186,7 +186,7 @@ class SkillSlideshowDialog extends React.Component {
           <Dropzone
             src={
               isSliderImageUploaded && !isSliderImageAdded
-                ? `${urls.API_URL}/cms/getImage.png?image=${imagePath}`
+                ? getImageSrc({ relativePath: `image=${imagePath}` })
                 : previewUrl
             }
             handleFilePreview={this.handleFilePreview}

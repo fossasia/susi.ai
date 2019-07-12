@@ -15,7 +15,7 @@ import _Paper from '@material-ui/core/Paper';
 import _EditBtn from '@material-ui/icons/Edit';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { urls } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
@@ -135,13 +135,12 @@ class SkillCreator extends Component {
     if (skills.length > 0) {
       skills.forEach(skill => {
         const { group, skillTag, language, image, skillName } = skill;
-        let imageUrl = `${urls.API_URL}`;
-        imageUrl =
-          imageUrl +
-          `/cms/getImage.png?model=general&language=${language}&group=${group.replace(
+        const imageUrl = getImageSrc({
+          relativePath: `model=general&language=${language}&group=${group.replace(
             / /g,
             '%20',
-          )}&image=/${image}`;
+          )}&image=/${image}`,
+        });
         skillsArray.push(
           <SkillCard
             key={skillName}

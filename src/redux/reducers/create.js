@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
-import { urls } from '../../utils';
 import avatars from '../../utils/avatars';
+import getImageSrc from '../../utils/getImageSrc';
 import _ from 'lodash';
 import Cookies from 'universal-cookie';
 
@@ -106,14 +106,14 @@ export default handleActions(
     [actionTypes.CREATE_GET_SKILL_CODE](state, { payload }) {
       const { text: code } = payload;
       const match = code.match(/^::image\s(.*)$/m);
-
-      let image = `${urls.API_URL}/cms/getImage.png?model=general&language=${
-        state.skill.language
-      }&group=${state.skill.category}&image=${code
-        .split('::image')[1]
-        .split('::')[0]
-        .trim()}`;
-
+      let image = getImageSrc({
+        relativePath: `model=general&language=${state.skill.language}&group=${
+          state.skill.category
+        }&image=${code
+          .split('::image')[1]
+          .split('::')[0]
+          .trim()}`,
+      });
       return {
         ...state,
         skill: {
@@ -157,16 +157,17 @@ export default handleActions(
         'images/<image_name_contact>',
       ];
       if (!localImages.includes(imageNameMatch[1])) {
-        imagePreviewUrl =
-          urls.API_URL +
-          '/cms/getImage.png?access_token=' +
-          cookies.get('loggedIn') +
-          '&language=' +
-          language +
-          '&group=' +
-          category +
-          '&image=' +
-          imageNameMatch[1];
+        imagePreviewUrl = getImageSrc({
+          relativePath:
+            'access_token=' +
+            cookies.get('loggedIn') +
+            '&language=' +
+            language +
+            '&group=' +
+            category +
+            '&image=' +
+            imageNameMatch[1],
+        });
       } else if (imageNameMatch[1] === 'images/<image_name_event>') {
         imagePreviewUrl = '/botTemplates/event-registration.jpg';
       } else if (imageNameMatch[1] === 'images/<image_name_job>') {
@@ -382,11 +383,11 @@ export default handleActions(
         'images/<image_name_contact>',
       ];
       if (!localImages.includes(imageNameMatch[1])) {
-        imagePreviewUrl = `${
-          urls.API_URL
-        }/cms/getImage.png?access_token=${cookies.get('loggedIn')}&language=${
-          state.skill.language
-        }&group=${state.skill.category}&image=${imageNameMatch[1]}`;
+        imagePreviewUrl = getImageSrc({
+          relativePath: `access_token=${cookies.get('loggedIn')}&language=${
+            state.skill.language
+          }&group=${state.skill.category}&image=${imageNameMatch[1]}`,
+        });
       } else if (imageNameMatch[1] === 'images/<image_name_event>') {
         imagePreviewUrl = '/botTemplates/event-registration.jpg';
       } else if (imageNameMatch[1] === 'images/<image_name_job>') {

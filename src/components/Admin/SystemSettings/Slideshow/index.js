@@ -8,7 +8,7 @@ import styled, { css } from 'styled-components';
 import SLIDESHOW from './constants';
 import Button from '@material-ui/core/Button';
 import { fetchSkillSlideshow } from '../../../../apis/index';
-import urls from '../../../../utils/urls';
+import getImageSrc from '../../../../utils/getImageSrc';
 
 const SliderImage = styled.img`
   width: 900px;
@@ -146,7 +146,7 @@ class Slideshow extends React.Component {
           }}
           detailPanel={rowData => (
             <SliderImage
-              src={`${urls.API_URL}/cms/getImage.png?image=${rowData.image_name}`}
+              src={getImageSrc({ relativePath: `image=${rowData.image_name}` })}
             />
           )}
           onRowClick={(event, rowData, togglePanel) => togglePanel()}
