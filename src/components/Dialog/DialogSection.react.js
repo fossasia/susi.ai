@@ -28,6 +28,7 @@ import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
 import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
 import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
 import SkillSlideshowDialog from '../Admin/SystemSettings/Slideshow/Dialog';
+import ChatApp from '../ChatApp/ChatApp.react.js';
 import isMobileView from '../../utils/isMobileView';
 
 const DialogData = {
@@ -60,6 +61,12 @@ const DialogData = {
   deleteSkillWithInput: { Component: DeleteSkillWithInput, size: 'sm' },
   deleteBot: { Component: DeleteBot, size: 'sm' },
   skillSlideshow: { Component: SkillSlideshowDialog, size: 'md' },
+  chatBubble: {
+    Component: ChatApp,
+    size: 'sm',
+    fullScreen: true,
+    style: { padding: '0px', textAlign: 'left' },
+  },
 };
 
 const DialogSection = props => {
@@ -79,7 +86,15 @@ const DialogSection = props => {
     return DialogData.noComponent;
   };
 
-  const { size, Component, fullScreen = false } = getDialog();
+  const {
+    size,
+    Component,
+    fullScreen = false,
+    style = {
+      padding: isMobileView() ? '0.3rem' : '1rem 1.5rem',
+      textAlign: 'center',
+    },
+  } = getDialog();
   return (
     <div>
       <Dialog
@@ -89,7 +104,7 @@ const DialogSection = props => {
         onClose={isModalOpen ? actions.closeModal : actions.setVisited}
         fullScreen={fullScreen}
       >
-        <DialogContainer>
+        <DialogContainer style={style}>
           {Component ? <Component {...otherProps} /> : null}
         </DialogContainer>
       </Dialog>

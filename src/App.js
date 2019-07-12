@@ -44,6 +44,7 @@ import CustomSnackbar from './components/shared/CustomSnackbar';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
+  margin-top: 50px;
 `;
 
 class App extends Component {
@@ -148,6 +149,7 @@ class App extends Component {
               />
             )}
             {renderAppBar}
+            {pathname !== '/chat' ? <ChatApp showChatBubble={true} /> : null}
             <RootContainer>
               <Switch>
                 <Route exact path="/" component={BrowseSkill} />
