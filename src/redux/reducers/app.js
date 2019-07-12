@@ -53,6 +53,7 @@ export default handleActions(
         uuid,
         accessToken,
         email: accessToken ? email : '',
+        avatarImgThumbnail: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
       };
     },
     [actionTypes.APP_LOGOUT](state, { payload }) {
