@@ -8,10 +8,12 @@ export const FlexContainer = styled.div`
 `;
 
 export const DialogContainer = styled.div`
-  padding: 1rem 1.5rem;
-  text-align: center;
+  padding: ${props =>
+    props.style.padding ? props.style.padding : '1rem 1.5rem'};
+  text-align: ${props =>
+    props.style.textAlign ? props.style.textAlign : 'center'};
   @media (max-width: 460px) {
-    padding: 0.3rem;
+    padding: ${props => (props.style.padding ? props.style.padding : '0.3rem')};
   }
 `;
 
