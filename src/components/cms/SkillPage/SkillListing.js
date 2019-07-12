@@ -382,7 +382,7 @@ class SkillListing extends Component {
                   <Fab
                     onClick={this.handleDeleteDialog}
                     data-tip="Delete Skill"
-                    style={{ backgroundColor: '#f44336' }}
+                    style={{ backgroundColor: '#f44336', color: 'white' }}
                   >
                     <DeleteBtn />
                   </Fab>
