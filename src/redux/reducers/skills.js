@@ -18,6 +18,7 @@ const defaultState = {
     newestSkills: [],
     topFeedbackSkills: [],
     topGames: [],
+    systemSkills: [],
   },
   // Skills
   skills: [],
@@ -69,6 +70,7 @@ export default handleActions(
         newestSkills: metrics.newest,
         topFeedbackSkills: metrics.feedback,
         topGames: metrics.gamesTriviaAndAccessories,
+        systemSkills: metrics.systemSkills,
       };
       return {
         ...state,
