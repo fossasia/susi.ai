@@ -32,6 +32,7 @@ const defaultState = {
   orderBy: 'ascending',
   filterType: '',
   searchQuery: '',
+  searchType: 'skill_name',
   ratingRefine: null,
   reviewed: true,
   staffPicks: false,
@@ -192,11 +193,16 @@ export default handleActions(
       };
     },
     [actionTypes.SKILLS_SET_SEARCH_FILTER](state, { payload }) {
-      const { searchQuery } = payload;
+      const {
+        searchQuery = state.searchQuery,
+        searchType = state.searchType,
+      } = payload;
+      const loadingSkills = searchQuery !== '';
       return {
         ...state,
         searchQuery,
-        loadingSkills: true,
+        searchType,
+        loadingSkills,
       };
     },
     [actionTypes.SKILLS_SET_REVIEW_FILTER](state, { payload }) {
