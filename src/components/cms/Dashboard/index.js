@@ -11,7 +11,7 @@ import isMobileView from '../../../utils/isMobileView';
 import { templates } from '../BotBuilder/BotBuilderWrap';
 
 const Container = styled.div`
-  margin-top: 70px;
+  padding-top: 20px;
   padding-left: 25px;
   padding-right: 30px;
 `;

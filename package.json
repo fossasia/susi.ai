@@ -71,7 +71,7 @@
     "react-slick": "0.24.0",
     "react-swipeable-views": "0.13.3",
     "react-text-highlight": "0.2.0",
-    "react-textarea-autosize": "7.1.0",
+    "react-textarea-autosize": "^7.1.0",
     "react-timezone": "2.4.0",
     "react-tooltip": "^3.10.0",
     "react-url-query": "1.4.0",

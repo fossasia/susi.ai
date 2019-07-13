@@ -15,7 +15,7 @@ import isMobileView from '../../utils/isMobileView';
 import CircularLoader from '../shared/CircularLoader';
 
 const Container = styled.div`
-  margin-top: 70px;
+  padding-top: 20px;
   padding-left: 25px;
   padding-right: 30px;
 `;

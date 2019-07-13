@@ -47,3 +47,7 @@
 .leaflet-popup-content {
   color: black;
 }
+
+.chatbubble {
+  z-index:1000;
+}
