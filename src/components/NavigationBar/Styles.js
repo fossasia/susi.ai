@@ -9,9 +9,11 @@ export const StyledIconButton = styled(IconButton)`
 export const OutlinedSelectStyles = css`
   background-color: #f3f3f3;
   height: 35px;
-  border-radius: 4px;
   :hover {
     background-color: #dadada;
     border-color: rgba(117, 117, 117, 0.23);
+  }
+  &.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #dadada;
   }
 `;
