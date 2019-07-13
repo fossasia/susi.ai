@@ -26,6 +26,7 @@ import _Img from 'react-image';
 import Add from '@material-ui/icons/Add';
 import { urls } from '../../../utils';
 import styled from 'styled-components';
+import getImageSrc from '../../../utils/getImageSrc';
 
 const StyledTableCell = styled(TableCell)`
   padding: 0.625rem 1.5rem;
@@ -198,12 +199,12 @@ class MySkills extends Component {
                         >
                           <Img
                             // eslint-disable-next-line
-                            src={`${
-                              urls.API_URL
-                            }/cms/getImage.png?model=general&language=${language}&group=${group.replace(
-                              / /g,
-                              '%20',
-                            )}&image=/${image}`}
+                            src={getImageSrc({
+                              relativePath: `model=general&language=${language}&group=${group.replace(
+                                / /g,
+                                '%20',
+                              )}&image=/${image}`,
+                            })}
                             unloader={
                               <CircleImage name={skillName} size="40" />
                             }

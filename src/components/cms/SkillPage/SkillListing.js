@@ -28,7 +28,8 @@ import DeleteBtn from '@material-ui/icons/Delete';
 import _NavigateDown from '@material-ui/icons/ExpandMore';
 import _NavigateUp from '@material-ui/icons/ExpandLess';
 import ReactTooltip from 'react-tooltip';
-import { urls, parseDate } from '../../../utils';
+import { parseDate } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 import styled, { css } from 'styled-components';
 import CircularLoader from '../../shared/CircularLoader';
 
@@ -310,8 +311,9 @@ class SkillListing extends Component {
 
     const imgUrl = !image
       ? '/favicon-512x512.jpg'
-      : `${urls.API_URL}/cms/getImage.png?model=general&language=${this.languageValue}&group=${this.groupValue}&image=${image}`;
-
+      : getImageSrc({
+          relativePath: `model=general&language=${this.languageValue}&group=${this.groupValue}&image=${image}`,
+        });
     const descriptions =
       _descriptions === null || _descriptions === '<description>'
         ? 'No Description Provided'

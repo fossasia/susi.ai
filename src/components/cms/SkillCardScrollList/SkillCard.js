@@ -9,7 +9,7 @@ import { scrollAnimation } from '../../../utils';
 import Fab from '@material-ui/core/Fab';
 import NavigationChevronLeft from '@material-ui/icons/ChevronLeft';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
-import { urls } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 import styled from 'styled-components';
 import { ImageContainer, StaffPickImage } from '../SkillsStyle';
 import {
@@ -136,7 +136,9 @@ class SkillCard extends Component {
           skillName = 'Name not available';
         }
         if (skill.image) {
-          image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
+          image = getImageSrc({
+            relativePath: `model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`,
+          });
         } else {
           image = '';
         }
