@@ -5,6 +5,13 @@ import { connect } from 'react-redux';
 import _Toolbar from '@material-ui/core/Toolbar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Select from '@material-ui/core/Select';
+import ISO6391 from 'iso-639-1';
+
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,6 +22,7 @@ import styled, { css } from 'styled-components';
 import CircleImage from '../shared/CircleImage';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
+import skillActions from '../../redux/actions/skills';
 import Link from '../shared/Link';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
@@ -30,9 +38,16 @@ import Popper from './Popper';
 import _ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import { StyledIconButton } from './Styles';
+import { StyledIconButton, OutlinedSelectStyles } from './Styles';
 import { FlexContainer } from '../shared/Container';
 import ListIcon from '@material-ui/icons/List';
+import SearchBar from './SearchBar';
+import _ from 'lodash';
+
+const LanguageSelect = styled(Select)`
+  ${OutlinedSelectStyles}
+  max-width: 14rem;
+`;
 
 const UserDetail = styled.div`
   color: white;
@@ -106,6 +121,14 @@ HideOnScroll.propTypes = {
   children: PropTypes.element,
 };
 
+const selectMenuWidth = {
+  // eslint-disable-next-line camelcase
+  skill_name: 5,
+  descriptions: 8,
+  examples: 7,
+  author: 5,
+};
+
 class NavigationBar extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -125,12 +148,25 @@ class NavigationBar extends Component {
     previousSearchItem: PropTypes.func,
     search: PropTypes.bool,
     searchState: PropTypes.object,
+    searchQuery: PropTypes.string,
+    searchType: PropTypes.array,
+    routeType: PropTypes.string,
+    routeValue: PropTypes.string,
+    filterType: PropTypes.string,
+    languageValue: PropTypes.array,
+    reviewed: PropTypes.bool,
+    staffPicks: PropTypes.bool,
+    groupValue: PropTypes.string,
+    orderBy: PropTypes.string,
+    languages: PropTypes.array,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       drawerOpen: false,
+      searchType: this.props.searchType,
+      searchSelectWidth: this.getSelectMenuWidth(this.props.searchType),
     };
   }
 
@@ -141,6 +177,119 @@ class NavigationBar extends Component {
   handleLogin = () => {
     const { actions } = this.props;
     actions.openModal({ modalType: 'login' });
+  };
+
+  handleSearchTypeChange = e => {
+    const { actions, searchQuery } = this.props;
+    const { value: searchType } = e.target;
+    actions.setSearchFilter({ searchType }).then(() => {
+      this.setState({
+        searchSelectWidth: this.getSelectMenuWidth(searchType),
+      });
+      if (searchQuery !== '') {
+        this.loadCards();
+      }
+    });
+  };
+
+  handleSearch = value => {
+    this.props.actions
+      .setSearchFilter({ searchQuery: value })
+      .then(() => this.loadCards());
+  };
+
+  loadCards = () => {
+    const { routeType, routeValue } = this.props;
+    const {
+      languageValue,
+      filterType,
+      reviewed,
+      staffPicks,
+      groupValue,
+      searchQuery,
+      orderBy,
+      searchType,
+    } = this.props;
+    let payload = {
+      groupValue: groupValue,
+      language: languageValue,
+      applyFilter: true,
+      filterName: orderBy,
+      filterType: filterType,
+      showReviewedSkills: reviewed,
+      showStaffPicks: staffPicks,
+      searchQuery,
+    };
+    if (routeType === 'category') {
+      this.props.actions.setCategoryFilter({ groupValue: routeValue });
+      this.loadLanguages(routeValue);
+      payload = { ...payload, groupValue: routeValue };
+    } else if (routeType === 'language') {
+      this.setState({
+        languageValue: routeValue,
+      });
+      payload = { ...payload, languageValue: routeValue };
+    }
+    if (searchQuery.length > 0) {
+      payload = {
+        ...payload,
+        searchQuery,
+        searchType,
+      };
+    }
+    this.props.actions.getSkills(payload);
+  };
+
+  getSelectMenuWidth = searchTypes => {
+    if (searchTypes.length === 4) {
+      return '5';
+    }
+    if (searchTypes.length === 0) {
+      return '4';
+    }
+    let addedWidth = 0;
+    let count = 0;
+    for (let i = 0; i < searchTypes.length; i++) {
+      addedWidth += selectMenuWidth[searchTypes[i]];
+      count++;
+    }
+    return count > 1 ? (addedWidth - count).toString() : addedWidth.toString();
+  };
+
+  languageMenuItems = values => {
+    return this.props.languages.map(name => (
+      <MenuItem
+        key={name}
+        checked={values && values.indexOf(name) > -1}
+        value={name}
+      >
+        {ISO6391.getNativeName(name)
+          ? ISO6391.getNativeName(name)
+          : 'Universal'}
+      </MenuItem>
+    ));
+  };
+
+  handleLanguageChange = (event, index, values) => {
+    localStorage.setItem('languages', event.target.value);
+    this.props.actions
+      .setLanguageFilter({ languageValue: event.target.value })
+      .then(() => {
+        if (
+          this.props.routeType ||
+          ['category', 'language'].includes(window.location.href.split('/')[4])
+        ) {
+          this.loadCards();
+        } else {
+          this.loadMetricsSkills();
+        }
+      });
+  };
+
+  loadMetricsSkills = () => {
+    this.props.actions.getMetricsSkills({
+      languageValue: this.props.languageValue,
+    });
   };
 
   render() {
@@ -158,9 +307,11 @@ class NavigationBar extends Component {
       openSearch,
       nextSearchItem,
       previousSearchItem,
+      searchQuery,
+      searchType,
+      languageValue,
     } = this.props;
-    const { drawerOpen } = this.state;
-
+    const { drawerOpen, searchSelectWidth } = this.state;
     const Logged = props => (
       <React.Fragment>
         <Link to="/dashboard">
@@ -234,6 +385,25 @@ class NavigationBar extends Component {
                   </Link>
                 </SusiLogoContainer>
                 <TopMenu />
+                <SearchBar
+                  handleSearchTypeChange={this.handleSearchTypeChange}
+                  onChange={_.debounce(this.handleSearch, 100)}
+                  onRequestSearch={this.loadCards}
+                  value={searchQuery}
+                  searchType={searchType}
+                  searchSelectWidth={searchSelectWidth}
+                />
+                <FormControl>
+                  <InputLabel>Languages</InputLabel>
+                  <LanguageSelect
+                    value={languageValue}
+                    onChange={this.handleLanguageChange}
+                    multiple
+                    input={<OutlinedInput />}
+                  >
+                    {this.languageMenuItems(languageValue)}
+                  </LanguageSelect>
+                </FormControl>
               </FlexContainer>
               <TopRightMenuContainer>
                 {searchState ? (
@@ -343,12 +513,13 @@ function mapStateToProps(store) {
     userName,
     isAdmin,
     avatarImgThumbnail,
+    ...store.skills,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(uiActions, dispatch),
+    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
   };
 };
 

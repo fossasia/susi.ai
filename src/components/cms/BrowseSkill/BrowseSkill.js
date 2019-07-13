@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ISO6391 from 'iso-639-1';
-import _ from 'lodash';
 import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -35,7 +33,6 @@ import NavigationArrowForward from '@material-ui/icons/ArrowForward';
 import NavigationArrowUpward from '@material-ui/icons/ArrowUpward';
 import NavigationArrowDownward from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
-import SearchBar from './SearchBar';
 import { scrollAnimation } from '../../../utils';
 import CircularLoader from '../../shared/CircularLoader';
 import SkillCardList from '../SkillCardList/SkillCardList';
@@ -45,7 +42,6 @@ import SkillRating from '../SkillRating/SkillRating.js';
 import isMobileView from '../../../utils/isMobileView';
 import Grid from '@material-ui/core/Grid';
 import SkillSlideshow from '../SkillSlideshow';
-
 import { SelectedText } from '../SkillsStyle';
 
 const Container = styled.div`
@@ -197,9 +193,8 @@ const ContentContainer = styled.div`
 `;
 
 const FlexContainer = styled.div`
-  display: ${props => (props.display ? 'flex' : 'block')}
+  display: flex;
   align-items: center;
-  justify-content: space-evenly;
 `;
 
 const RightContainer = styled.div`
@@ -225,14 +220,6 @@ const MobileBackButton = styled(Button)`
   }
 `;
 
-const selectMenuWidth = {
-  // eslint-disable-next-line camelcase
-  skill_name: '5',
-  descriptions: '8',
-  examples: '7.5',
-  author: '6',
-};
-
 class BrowseSkill extends React.Component {
   static propTypes = {
     routeType: PropTypes.string,
@@ -246,8 +233,7 @@ class BrowseSkill extends React.Component {
     staffPicks: PropTypes.bool,
     groupValue: PropTypes.string,
     searchQuery: PropTypes.string,
-    searchType: PropTypes.string,
-    languages: PropTypes.array,
+    searchType: PropTypes.array,
     orderBy: PropTypes.string,
     skills: PropTypes.array,
     entriesPerPage: PropTypes.number,
@@ -266,8 +252,6 @@ class BrowseSkill extends React.Component {
     this.state = {
       innerWidth: window.innerWidth,
       anchorEl: null,
-      searchType: this.props.searchType,
-      searchSelectWidth: selectMenuWidth[this.props.searchType],
     };
     this.groups = [];
   }
@@ -314,22 +298,6 @@ class BrowseSkill extends React.Component {
       .then(() => this.loadCards());
   };
 
-  handleLanguageChange = (event, index, values) => {
-    localStorage.setItem('languages', event.target.value);
-    this.props.actions
-      .setLanguageFilter({ languageValue: event.target.value })
-      .then(() => {
-        if (
-          this.props.routeType ||
-          ['category', 'language'].includes(window.location.href.split('/')[4])
-        ) {
-          this.loadCards();
-        } else {
-          this.loadMetricsSkills();
-        }
-      });
-  };
-
   handleEntriesPerPageChange = (event, index, values) => {
     this.props.actions.setSkillsPerPage({ entriesPerPage: event.target.value });
   };
@@ -371,12 +339,6 @@ class BrowseSkill extends React.Component {
         .setTimeFilter({ filterType: 'rating', timeFilter: null })
         .then(() => this.loadCards());
     }
-  };
-
-  handleSearch = value => {
-    this.props.actions
-      .setSearchFilter({ searchQuery: value })
-      .then(() => this.loadCards());
   };
 
   loadGroups = () => {
@@ -457,20 +419,6 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  languageMenuItems = values => {
-    return this.props.languages.map(name => (
-      <MenuItem
-        key={name}
-        checked={values && values.indexOf(name) > -1}
-        value={name}
-      >
-        {ISO6391.getNativeName(name)
-          ? ISO6391.getNativeName(name)
-          : 'Universal'}
-      </MenuItem>
-    ));
-  };
-
   pageMenuItems = values => {
     const { skills, entriesPerPage } = this.props;
     let menuItems = [];
@@ -524,25 +472,9 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  handleSearchTypeChange = e => {
-    const { actions, searchQuery } = this.props;
-    const { value: searchType } = e.target;
-    const searchSelectWidth = selectMenuWidth[searchType];
-    actions.setSearchFilter({ searchType }).then(() => {
-      this.setState({
-        searchSelectWidth,
-      });
-      if (searchQuery !== '') {
-        this.loadCards();
-      }
-    });
-  };
-
   // eslint-disable-next-line complexity
   render() {
-    const { searchSelectWidth } = this.state;
     const {
-      languageValue,
       searchQuery,
       ratingRefine,
       timeFilter,
@@ -558,7 +490,6 @@ class BrowseSkill extends React.Component {
       actions,
       filterType,
       loadingSkills,
-      searchType,
     } = this.props;
     const { routeType, routeValue } = this.props;
 
@@ -870,97 +801,6 @@ class BrowseSkill extends React.Component {
         </Sidebar>
         <RightContainer>
           {renderSkillSlideshow}
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            spacing={3}
-            justify="space-between"
-          >
-            <Grid item xs={11} sm={11} md={5} lg={metricsHidden ? 7 : 8}>
-              <SearchBar
-                handleSearchTypeChange={this.handleSearchTypeChange}
-                onChange={_.debounce(this.handleSearch, 100)}
-                onRequestSearch={this.loadCards}
-                value={searchQuery}
-                searchType={searchType}
-                searchSelectWidth={searchSelectWidth}
-              />
-            </Grid>
-            {metricsHidden && (
-              <Grid item xs={6} sm={4} md={3} lg={2}>
-                <FlexContainer display={metricsHidden}>
-                  {filterType !== '' && (
-                    <IconButton
-                      color="primary"
-                      onClick={this.handleOrderByChange}
-                    >
-                      {renderOrderBy}
-                    </IconButton>
-                  )}
-                  <FilterFormControl>
-                    <InputLabel>Sort By</InputLabel>
-                    <Select
-                      value={filterType}
-                      onChange={this.handleFilterChange}
-                    >
-                      <MenuItem value={'lexicographical'}>Name (A-Z)</MenuItem>
-                      <MenuItem value={'rating'}>Top Rated</MenuItem>
-                      <MenuItem value={'creation_date'}>Newly Created</MenuItem>
-                      <MenuItem value={'modified_date'}>
-                        Recently updated
-                      </MenuItem>
-                      <MenuItem value={'feedback'}>Feedback Count</MenuItem>
-                      <MenuItem value={'usage&duration=7'}>
-                        This Week Usage
-                      </MenuItem>
-                      <MenuItem value={'usage&duration=30'}>
-                        This Month Usage
-                      </MenuItem>
-                    </Select>
-                  </FilterFormControl>
-                </FlexContainer>
-              </Grid>
-            )}
-            <Grid item xs={6} sm={6} md={3} lg={3}>
-              <FlexContainer display={metricsHidden}>
-                <FilterFormControl>
-                  <InputLabel>Languages</InputLabel>
-                  <Select
-                    value={languageValue}
-                    onChange={this.handleLanguageChange}
-                    multiple
-                  >
-                    {this.languageMenuItems(languageValue)}
-                  </Select>
-                </FilterFormControl>
-                {metricsHidden && (
-                  <RadioGroup
-                    defaultValue="list"
-                    value={viewType}
-                    onChange={this.handleViewChange}
-                  >
-                    <Radio
-                      value="list"
-                      style={{ width: 'fit-content', padding: '0px' }}
-                      checkedIcon={
-                        <ActionViewStream style={{ fill: '#4285f4' }} />
-                      }
-                      icon={<ActionViewStream style={{ fill: '#e0e0e0' }} />}
-                    />
-                    <Radio
-                      value="grid"
-                      style={{ width: 'fit-content', padding: '0px' }}
-                      checkedIcon={
-                        <ActionViewModule style={{ fill: '#4285f4' }} />
-                      }
-                      icon={<ActionViewModule style={{ fill: '#e0e0e0' }} />}
-                    />
-                  </RadioGroup>
-                )}
-              </FlexContainer>
-            </Grid>
-          </Grid>
           {loadingSkills && <CircularLoader height={34} />}
           {!loadingSkills ? (
             <ContentContainer>
@@ -983,37 +823,96 @@ class BrowseSkill extends React.Component {
                     >
                       {renderSkillCount}
                     </Grid>
-                    <Grid
-                      item
-                      sm={6}
-                      alignItems="flex-end"
-                      style={{ alignItems: isMobile ? 'center' : 'left' }}
-                    >
-                      {skills.length > 10 && (
-                        <div>
-                          <PageFormControl>
-                            <InputLabel>Page</InputLabel>
-                            <Select
-                              value={listPage}
-                              onChange={this.handlePageChange}
-                            >
-                              {this.pageMenuItems()}
-                            </Select>
-                          </PageFormControl>
-                          <SkillsFormControl>
-                            <InputLabel>Skills per page</InputLabel>
-                            <Select
-                              value={entriesPerPage}
-                              onChange={this.handleEntriesPerPageChange}
-                            >
-                              <MenuItem value={10}>10</MenuItem>
-                              <MenuItem value={20}>20</MenuItem>
-                              <MenuItem value={50}>50</MenuItem>
-                              <MenuItem value={100}>100</MenuItem>
-                            </Select>
-                          </SkillsFormControl>
-                        </div>
-                      )}
+                    <Grid item sm={6} alignItems="center">
+                      <FlexContainer>
+                        {filterType !== '' && (
+                          <IconButton
+                            color="primary"
+                            onClick={this.handleOrderByChange}
+                          >
+                            {renderOrderBy}
+                          </IconButton>
+                        )}
+                        <FilterFormControl>
+                          <InputLabel>Sort By</InputLabel>
+                          <Select
+                            value={filterType}
+                            onChange={this.handleFilterChange}
+                          >
+                            <MenuItem value={'lexicographical'}>
+                              Name (A-Z)
+                            </MenuItem>
+                            <MenuItem value={'rating'}>Top Rated</MenuItem>
+                            <MenuItem value={'creation_date'}>
+                              Newly Created
+                            </MenuItem>
+                            <MenuItem value={'modified_date'}>
+                              Recently updated
+                            </MenuItem>
+                            <MenuItem value={'feedback'}>
+                              Feedback Count
+                            </MenuItem>
+                            <MenuItem value={'usage&duration=7'}>
+                              This Week Usage
+                            </MenuItem>
+                            <MenuItem value={'usage&duration=30'}>
+                              This Month Usage
+                            </MenuItem>
+                          </Select>
+                        </FilterFormControl>
+                        <RadioGroup
+                          defaultValue="list"
+                          value={viewType}
+                          onChange={this.handleViewChange}
+                          style={{ marginRight: '2rem' }}
+                        >
+                          <Radio
+                            value="list"
+                            style={{ width: 'fit-content', padding: '0px' }}
+                            checkedIcon={
+                              <ActionViewStream style={{ fill: '#4285f4' }} />
+                            }
+                            icon={
+                              <ActionViewStream style={{ fill: '#e0e0e0' }} />
+                            }
+                          />
+                          <Radio
+                            value="grid"
+                            style={{ width: 'fit-content', padding: '0px' }}
+                            checkedIcon={
+                              <ActionViewModule style={{ fill: '#4285f4' }} />
+                            }
+                            icon={
+                              <ActionViewModule style={{ fill: '#e0e0e0' }} />
+                            }
+                          />
+                        </RadioGroup>
+                        {skills.length > 10 && (
+                          <div>
+                            <PageFormControl>
+                              <InputLabel>Page</InputLabel>
+                              <Select
+                                value={listPage}
+                                onChange={this.handlePageChange}
+                              >
+                                {this.pageMenuItems()}
+                              </Select>
+                            </PageFormControl>
+                            <SkillsFormControl>
+                              <InputLabel>Skills per page</InputLabel>
+                              <Select
+                                value={entriesPerPage}
+                                onChange={this.handleEntriesPerPageChange}
+                              >
+                                <MenuItem value={10}>10</MenuItem>
+                                <MenuItem value={20}>20</MenuItem>
+                                <MenuItem value={50}>50</MenuItem>
+                                <MenuItem value={100}>100</MenuItem>
+                              </Select>
+                            </SkillsFormControl>
+                          </div>
+                        )}
+                      </FlexContainer>
                     </Grid>
                   </Grid>
                   <div>
