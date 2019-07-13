@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import CircleImage from '../../shared/CircleImage';
-import { urls } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 import styled from 'styled-components';
 
 import { ImageContainer, StaffPickImage } from '../SkillsStyle';
@@ -65,7 +65,9 @@ class SkillCardGrid extends Component {
         skillName = 'Name not available';
       }
       if (skill.image) {
-        image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
+        image = getImageSrc({
+          relativePath: `model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`,
+        });
       } else {
         image = '';
       }

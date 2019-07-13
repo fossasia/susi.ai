@@ -5,7 +5,7 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import PropTypes from 'prop-types';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import { fetchSkillSlideshow } from '../../../apis/index';
-import urls from '../../../utils/urls';
+import getImageSrc from '../../../utils/getImageSrc';
 import './index.css';
 
 const Container = styled.div`
@@ -107,7 +107,7 @@ class Carousel extends React.Component {
       return (
         <a href={obj.redirectLink} key={obj.redirectLink}>
           <SliderImage
-            src={`${urls.API_URL}/cms/getImage.png?image=${obj.image_name}`}
+            src={getImageSrc({ relativePath: `image=${obj.image_name}` })}
           />
         </a>
       );
