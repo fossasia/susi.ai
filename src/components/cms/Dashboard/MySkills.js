@@ -144,7 +144,7 @@ class MySkills extends Component {
                   <ListItemText>Create a Skill</ListItemText>
                 </MenuItem>
               </Link>
-              <Link to="/botbuilder/botwizard">
+              <Link to="/botWizard">
                 <MenuItem onClose={this.handleMenuClose}>
                   <ListItemIcon>
                     <Person />

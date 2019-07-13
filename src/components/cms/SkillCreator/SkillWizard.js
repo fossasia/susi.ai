@@ -380,7 +380,7 @@ class SkillWizard extends Component {
   constructor(props) {
     super(props);
 
-    this.isBotBuilder = window.location.pathname.split('/')[1] === 'botbuilder';
+    this.isBotBuilder = window.location.pathname.split('/')[1] === 'botWizard';
 
     let commonState = {
       groups: [],

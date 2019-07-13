@@ -703,7 +703,7 @@ class BotWizard extends React.Component {
                     </Button>
                   ) : null}
                   {stepIndex === 0 ? (
-                    <Link to="/botbuilder">
+                    <Link to="/mybots">
                       <Button variant="contained" color="primary">
                         Cancel
                       </Button>

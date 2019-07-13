@@ -227,7 +227,7 @@ class BotBuilder extends React.Component {
           >
             <Link
               to={
-                '/botbuilder/botwizard?name=' +
+                '/botWizard?name=' +
                 bot.name +
                 '&language=' +
                 bot.language +
@@ -330,7 +330,7 @@ class BotBuilder extends React.Component {
               backgroundImage: 'url(' + imageUrl + ')',
             }}
           >
-            <Link to={'/botbuilder/botwizard?draftID=' + draft}>
+            <Link to={'/botWizard?draftID=' + draft}>
               <Button variant="contained" color="primary">
                 {drafts[draft].name === '' ? draft : drafts[draft].name}
               </Button>
@@ -399,34 +399,11 @@ class BotBuilder extends React.Component {
       <div>
         <Home>
           <Paper>
-            <H1>Pick a template</H1>
-            <BotContainer>
-              {this.props.templates.map(template => {
-                return (
-                  <Link
-                    key={template.id}
-                    to={'/botbuilder/botwizard?template=' + template.id}
-                  >
-                    <Card
-                      style={{
-                        backgroundImage: 'url(' + template.image + ')',
-                      }}
-                    >
-                      <Button variant="contained" color="primary">
-                        {template.name}
-                      </Button>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </BotContainer>
-          </Paper>
-          <Paper>
             <H1>My bots</H1>
             <br />
             <H2>Saved Bots</H2>
             <BotContainer>
-              <Link to="/botbuilder/botwizard">
+              <Link to="/botWizard">
                 <Card
                   style={{
                     backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
@@ -443,6 +420,29 @@ class BotBuilder extends React.Component {
             <H2>Drafts</H2>
             <BotContainer>
               {drafts.length > 0 ? drafts : <Text>No drafts to display.</Text>}
+            </BotContainer>
+          </Paper>
+          <Paper>
+            <H1>Pick a template</H1>
+            <BotContainer>
+              {this.props.templates.map(template => {
+                return (
+                  <Link
+                    key={template.id}
+                    to={'/botWizard?template=' + template.id}
+                  >
+                    <Card
+                      style={{
+                        backgroundImage: 'url(' + template.image + ')',
+                      }}
+                    >
+                      <Button variant="contained" color="primary">
+                        {template.name}
+                      </Button>
+                    </Card>
+                  </Link>
+                );
+              })}
             </BotContainer>
           </Paper>
         </Home>
