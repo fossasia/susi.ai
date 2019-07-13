@@ -33,7 +33,7 @@ const defaultState = {
   orderBy: 'ascending',
   filterType: '',
   searchQuery: '',
-  searchType: 'skill_name',
+  searchType: ['skill_name', 'descriptions', 'examples', 'author'],
   ratingRefine: null,
   reviewed: true,
   staffPicks: false,
