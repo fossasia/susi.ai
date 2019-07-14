@@ -27,7 +27,7 @@ const SliderImage = styled.img`
   width: 100%;
   @media (max-width: 520px) {
     height: 8rem;
-    width: 21rem;
+    width: 17rem;
   }
 `;
 

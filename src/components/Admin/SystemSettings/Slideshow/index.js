@@ -35,6 +35,10 @@ const ActionSeparator = styled.span`
   }
 `;
 
+const Container = styled.div`
+  width: 100%;
+`;
+
 class Slideshow extends React.Component {
   state = {
     loading: true,
@@ -100,12 +104,12 @@ class Slideshow extends React.Component {
   render() {
     const { loading, slideshowData } = this.state;
     return (
-      <React.Fragment>
+      <Container>
         <MaterialTable
           isLoading={loading}
           options={{
             actionsColumnIndex: -1,
-            pageSize: 5,
+            paging: false,
           }}
           columns={SLIDESHOW}
           data={slideshowData}
@@ -157,9 +161,9 @@ class Slideshow extends React.Component {
           color="primary"
           onClick={this.handleCreate}
         >
-          Add Config Key
+          Add Slider
         </Button>
-      </React.Fragment>
+      </Container>
     );
   }
 }

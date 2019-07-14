@@ -463,7 +463,7 @@ class NavigationBar extends Component {
                             effect="solid"
                             delayHide={200}
                             type={'light'}
-                            offset={{ top: -3 }}
+                            marginTop={8}
                           >
                             <Paper>
                               <Logged />
