@@ -104,7 +104,7 @@ class ListSkills extends React.Component {
     })
       .then(payload => {
         this.props.actions.openModal({
-          modalType: 'confirmSkill',
+          modalType: 'confirm',
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
           skillName: skill,
@@ -118,7 +118,7 @@ class ListSkills extends React.Component {
       .catch(error => {
         console.log(error);
         this.props.actions.openModal({
-          modalType: 'confirmSkill',
+          modalType: 'confirm',
           title: 'Failed',
           handleConfirm: this.props.actions.closeModal,
           skillName: skill,
@@ -143,7 +143,7 @@ class ListSkills extends React.Component {
       .then(payload => {
         this.setState({ loading: false });
         this.props.actions.openModal({
-          modalType: 'confirmSkill',
+          modalType: 'confirm',
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
           skillName: skill,
@@ -158,7 +158,7 @@ class ListSkills extends React.Component {
         console.log(error);
         this.setState({ loading: false });
         this.props.actions.openModal({
-          modalType: 'confirmSkill',
+          modalType: 'confirm',
           title: 'Failed',
           handleConfirm: this.props.actions.closeModal,
           skillName: skill,
@@ -183,7 +183,7 @@ class ListSkills extends React.Component {
       .then(payload => {
         this.setState({ loading: false });
         this.props.actions.openModal({
-          modalType: 'confirmSkill',
+          modalType: 'confirm',
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
           skillName: skill,
@@ -198,7 +198,7 @@ class ListSkills extends React.Component {
         console.log(error);
         this.setState({ loading: false });
         this.props.actions.openModal({
-          modalType: 'confirmSkill',
+          modalType: 'confirm',
           title: 'Failed',
           handleConfirm: this.props.actions.closeModal,
           skillName: skill,
