@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-const ConfirmSkill = props => {
+const ConfirmDialog = props => {
   const { title, content, handleConfirm } = props;
   return (
     <React.Fragment>
@@ -22,10 +22,10 @@ const ConfirmSkill = props => {
   );
 };
 
-ConfirmSkill.propTypes = {
+ConfirmDialog.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
   handleConfirm: PropTypes.func,
 };
 
-export default ConfirmSkill;
+export default ConfirmDialog;
