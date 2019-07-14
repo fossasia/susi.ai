@@ -32,9 +32,11 @@ const SubHeading = styled.h1`
 `;
 
 const Container = styled.div`
-  padding: 4rem 4rem 2rem;
+  margin: 0rem 0.625rem;
+  padding: 2.5rem 1.875rem 1.875rem;
   @media (max-width: 480px) {
-    padding: 4rem 1rem 2rem;
+    padding: 2rem 0;
+    margin: 0rem;
   }
 `;
 

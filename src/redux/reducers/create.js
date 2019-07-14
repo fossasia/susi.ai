@@ -18,7 +18,7 @@ const defaultState = {
     image: avatarsIcon,
     imageUrl: '<image_name>',
     code:
-      '::name <Bot_name>\n::category <Category>\n::language <Language>\n::author <author_name>\n::author_url <author_url>\n::description <description> \n::dynamic_content <Yes/No>\n::developer_privacy_policy <link>\n::image images/<image_name>\n::terms_of_use <link>\n\n\n# replace the following lines:\nquery1|query2|query3...\n!example:<The question that should be shown in public skill displays>\n!expect:<The answer expected for the above example>\nAnswer for the user query\n',
+      '::name <Bot_name>\n::category <Category>\n::language <Language>\n::author <author_name>\n::author_url <author_url>\n::description <description> \n::dynamic_content <Yes/No>\n::developer_privacy_policy <link>\n::image images/<image_name>\n::terms_of_use <link>\n\n\n//replace the following lines:\nquery1|query2|query3...\n!example:<The question that should be shown in public skill displays>\n!expect:<The answer expected for the above example>\nAnswer for the user query\n',
     author: '',
   },
   design: {
@@ -63,6 +63,9 @@ const generateDesignData = code => {
   }
   if (bodyBackgroundImageMatch) {
     designData.botbuilderBodyBackgroundImg = bodyBackgroundImageMatch[1];
+    designData.botbuilderBodyBackgroundImgName = bodyBackgroundImageMatch[1].split(
+      '_',
+    )[1];
   }
   if (userMessageBoxBackgroundMatch) {
     designData.botbuilderUserMessageBackground =
@@ -83,6 +86,7 @@ const generateDesignData = code => {
   if (botIconImageMatch) {
     designData.botbuilderIconImg = botIconImageMatch[1];
   }
+  designData.avatars = avatars.slice();
   return designData;
 };
 
@@ -177,7 +181,6 @@ export default handleActions(
       } else {
         imagePreviewUrl = image;
       }
-
       return {
         ...state,
         skill: {
@@ -351,6 +354,7 @@ export default handleActions(
               code,
             },
             design: {
+              ...state.design,
               ...generateDesignData(designCode),
               code: designCode,
             },
@@ -419,7 +423,7 @@ export default handleActions(
         botbuilderBodyBackgroundImg,
         botbuilderBodyBackgroundImgName,
       } = payload;
-      let code = String(state.skill.code);
+      let code = String(state.design.code);
       code = code.replace(
         /^::bodyBackgroundImage\s(.*)$/m,
         `::bodyBackgroundImage ${botbuilderBodyBackgroundImg}`,
@@ -440,7 +444,7 @@ export default handleActions(
         botbuilderIconSelected = state.design.avatars.length,
         addNewIcon = true,
       } = payload;
-      let code = String(state.skill.code);
+      let code = String(state.design.code);
       code = code.replace(
         /^::botIconImage\s(.*)$/m,
         `::botIconImage ${botbuilderIconImg}`,

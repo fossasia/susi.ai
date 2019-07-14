@@ -387,6 +387,7 @@ class SkillWizard extends Component {
       languages: [],
       loadViews: false,
       editable: true,
+      showImage: avatars.slice()[1].url !== this.props.image,
     };
 
     if (
@@ -407,7 +408,7 @@ class SkillWizard extends Component {
       this.mode = 'edit';
       this.groupValue = pathname.split('/')[1];
       this.languageValue = pathname.split('/')[4];
-      this.expertValue = pathname.split('/')[3];
+      this.expertValue = pathname.split('/')[2];
       this.commitId = pathname.split('/')[5];
 
       let commitMessage = `Updated Skill ${this.expertValue}`;
@@ -435,7 +436,6 @@ class SkillWizard extends Component {
       this.mode = 'create';
       this.state = {
         ...commonState,
-        showImage: avatars.slice()[1].url !== this.props.image,
         loading: false,
         commitMessage: '',
         slideState: 1, // 1 means in middle, 2 means preview collapsed
@@ -571,6 +571,7 @@ class SkillWizard extends Component {
               this.setState({
                 codeChanged: true,
                 loadViews: true,
+                showImage: avatars.slice()[1].url !== this.props.image,
               });
             }
           })
@@ -1235,7 +1236,7 @@ class SkillWizard extends Component {
                         onClick={this.saveClick}
                       >
                         {this.state.loading ? (
-                          <CircularProgress color="#ffffff" size={32} />
+                          <CircularProgress color="#ffffff" size={24} />
                         ) : (
                           this.handleLabel()
                         )}
@@ -1270,7 +1271,7 @@ class SkillWizard extends Component {
                       <strong>
                         <p>Delete this Skill</p>
                       </strong>
-                      {'Once you delete a skill, only admins can' +
+                      {'Once you delete a skill, only admins can ' +
                         'undo this action before 30 days of deletion. Please be certain.'}
                     </div>
                     <Button
