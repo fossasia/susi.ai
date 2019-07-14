@@ -1,6 +1,6 @@
 const SLIDESHOW = [
   {
-    title: 'Redirect URL',
+    title: 'Link to',
     field: 'redirectLink',
     cellStyle: {
       width: '25%',
