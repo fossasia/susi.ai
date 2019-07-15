@@ -15,10 +15,10 @@ const Container = styled.div`
   position: fixed;
   bottom: 0px;
   left: 0px;
-  background: rgba(1, 16, 38, 0.88);
+  background: rgba(1, 16, 38);
   color: white;
   padding: 2rem;
-  z-index: 10;
+  z-index: 101;
 `;
 
 const ButtonContainer = styled.div`
