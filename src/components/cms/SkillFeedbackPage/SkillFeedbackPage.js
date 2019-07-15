@@ -26,7 +26,8 @@ import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import Emoji from 'react-emoji-render';
 import styled, { css } from 'styled-components';
 
-import { urls, parseDate, formatDate } from '../../../utils';
+import { parseDate, formatDate } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 import { Paper, CenterReaderContainer } from '../../shared/Container';
 import { SubTitle, Title } from '../../shared/Typography';
 import CircularLoader from '../../shared/CircularLoader';
@@ -412,8 +413,9 @@ class SkillFeedbackPage extends Component {
     const open = Boolean(anchorEl);
     const imgUrl = !image
       ? '/favicon-512x512.jpg'
-      : `${urls.API_URL}/cms/getImage.png?model=general&language=${this.languageValue}&group=${this.groupValue}&image=${image}`;
-
+      : getImageSrc({
+          relativePath: `model=general&language=${this.languageValue}&group=${this.groupValue}&image=${image}`,
+        });
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
     const pages = this.fetchPageNumbers();

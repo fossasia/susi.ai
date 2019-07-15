@@ -20,7 +20,7 @@ import UpdateSystemSettings from '../Admin/SystemSettings/ConfigKeys/UpdateSyste
 import DeleteSystemSettings from '../Admin/SystemSettings/ConfigKeys/DeleteSystemSettingsDialog';
 import DeleteSkill from '../Admin/ListSkills/DeleteSkillDialog';
 import EditSkill from '../Admin/ListSkills/EditSkillDialog';
-import ConfirmSkill from '../Admin/ListSkills/ConfirmSkillDialog';
+import ConfirmDialog from '../shared/ConfirmDialog';
 import RestoreSkill from '../Admin/ListSkills/RestoreSkillDialog';
 import ReportSkillDialog from '../cms/SkillPage/ReportSkillDialog';
 import DeleteFeedbackDialog from '../cms/SkillFeedbackPage/DeleteFeedbackDialog';
@@ -28,7 +28,9 @@ import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
 import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
 import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
 import SkillSlideshowDialog from '../Admin/SystemSettings/Slideshow/Dialog';
-import ChatApp from '../ChatApp/ChatApp.react.js';
+import EditUserRole from '../Admin/ListUser/EditUserRoleDialog';
+import DeleteUserAccountDialog from '../Admin/ListUser/DeleteDialog';
+import EditUserDevice from '../Admin/ListUser/DevicePanel/EditDeviceDialog';
 import isMobileView from '../../utils/isMobileView';
 
 const DialogData = {
@@ -51,7 +53,7 @@ const DialogData = {
   createSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
   deleteSystemSettings: { Component: DeleteSystemSettings, size: 'sm' },
   deleteSkill: { Component: DeleteSkill, size: 'xs' },
-  confirmSkill: { Component: ConfirmSkill, size: 'xs' },
+  confirm: { Component: ConfirmDialog, size: 'xs' },
   editSkill: { Component: EditSkill, size: 'sm' },
   restoreSkill: { Component: RestoreSkill, size: 'xs' },
   reportSkill: { Component: ReportSkillDialog, size: 'sm' },
@@ -61,12 +63,9 @@ const DialogData = {
   deleteSkillWithInput: { Component: DeleteSkillWithInput, size: 'sm' },
   deleteBot: { Component: DeleteBot, size: 'sm' },
   skillSlideshow: { Component: SkillSlideshowDialog, size: 'md' },
-  chatBubble: {
-    Component: ChatApp,
-    size: 'sm',
-    fullScreen: true,
-    style: { padding: '0px', textAlign: 'left' },
-  },
+  editUserRole: { Component: EditUserRole, size: 'sm' },
+  deleteUserAccount: { Component: DeleteUserAccountDialog, size: 'sm' },
+  editUserDevice: { Component: EditUserDevice, size: 'sm' },
 };
 
 const DialogSection = props => {

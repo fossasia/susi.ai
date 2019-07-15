@@ -8,7 +8,7 @@ import styled, { css } from 'styled-components';
 import SLIDESHOW from './constants';
 import Button from '@material-ui/core/Button';
 import { fetchSkillSlideshow } from '../../../../apis/index';
-import urls from '../../../../utils/urls';
+import getImageSrc from '../../../../utils/getImageSrc';
 
 const SliderImage = styled.img`
   width: 900px;
@@ -33,6 +33,10 @@ const ActionSeparator = styled.span`
   @media (max-width: 1340px) {
     display: none;
   }
+`;
+
+const Container = styled.div`
+  width: 100%;
 `;
 
 class Slideshow extends React.Component {
@@ -100,12 +104,12 @@ class Slideshow extends React.Component {
   render() {
     const { loading, slideshowData } = this.state;
     return (
-      <React.Fragment>
+      <Container>
         <MaterialTable
           isLoading={loading}
           options={{
             actionsColumnIndex: -1,
-            pageSize: 5,
+            paging: false,
           }}
           columns={SLIDESHOW}
           data={slideshowData}
@@ -146,7 +150,7 @@ class Slideshow extends React.Component {
           }}
           detailPanel={rowData => (
             <SliderImage
-              src={`${urls.API_URL}/cms/getImage.png?image=${rowData.image_name}`}
+              src={getImageSrc({ relativePath: `image=${rowData.image_name}` })}
             />
           )}
           onRowClick={(event, rowData, togglePanel) => togglePanel()}
@@ -157,9 +161,9 @@ class Slideshow extends React.Component {
           color="primary"
           onClick={this.handleCreate}
         >
-          Add Config Key
+          Add Slider
         </Button>
-      </React.Fragment>
+      </Container>
     );
   }
 }

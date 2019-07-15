@@ -5,7 +5,7 @@ import _Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 import AdminTab from './AdminTab/AdminTab';
-import ListUser from './ListUser/ListUser';
+import ListUser from './ListUser';
 import ListSkills from './ListSkills/ListSkills';
 import SystemLogs from './SystemLogs/SystemLogs';
 import SystemSettings from './SystemSettings/SystemSettings';

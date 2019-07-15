@@ -5,18 +5,12 @@ import { connect } from 'react-redux';
 import _Toolbar from '@material-ui/core/Toolbar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Select from '@material-ui/core/Select';
 import ISO6391 from 'iso-639-1';
-
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/Menu';
 import Translate from '../Translate/Translate.react';
 import styled, { css } from 'styled-components';
 import CircleImage from '../shared/CircleImage';
@@ -30,8 +24,6 @@ import Dashboard from '@material-ui/icons/Dashboard';
 import susiWhite from '../../images/susi-logo-white.png';
 import Slide from '@material-ui/core/Slide';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import TopMenu from './TopMenu';
-import LeftMenu from './LeftMenu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Popper from './Popper';
@@ -43,10 +35,24 @@ import { FlexContainer } from '../shared/Container';
 import ListIcon from '@material-ui/icons/List';
 import SearchBar from './SearchBar';
 import _ from 'lodash';
+import LanguageIcon from '@material-ui/icons/Language';
+import susiFevicon from '../../images/favicon.png';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
   max-width: 14rem;
+  border-radius: 4px;
+  @media (max-width: 550px) {
+    width: 6rem;
+  }
+  .MuiOutlinedInput-input {
+    padding: 4px;
+  }
+  .MuiInputBase-inputSelect {
+    padding-right: 1.75rem;
+  }
 `;
 
 const UserDetail = styled.div`
@@ -67,14 +73,11 @@ const ExpandMore = styled(_ExpandMore)`
 const SusiLogo = styled.img`
   height: 1.5rem;
   display: block;
-`;
-
-const BurgerMenuContainer = styled.div`
-  display: none;
-  margin-right: 0.5rem;
-  @media (max-width: 800px) {
-    display: block;
-  }
+  ${props =>
+    props.marginRight &&
+    css`
+      margin-right: ${props => props.marginRight + 'px'};
+    `}
 `;
 
 const TopRightMenuContainer = styled.div`
@@ -82,12 +85,6 @@ const TopRightMenuContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1px;
-`;
-
-const StyledDrawer = styled(({ className, ...props }) => (
-  <Drawer {...props} classes={{ paper: className }} />
-))`
-  width: 10rem;
 `;
 
 const SusiLogoContainer = styled.div`
@@ -123,10 +120,10 @@ HideOnScroll.propTypes = {
 
 const selectMenuWidth = {
   // eslint-disable-next-line camelcase
-  skill_name: 5,
+  skill_name: 4.8,
   descriptions: 8,
-  examples: 7,
-  author: 5,
+  examples: 7.4,
+  author: 5.9,
 };
 
 class NavigationBar extends Component {
@@ -164,15 +161,11 @@ class NavigationBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpen: false,
       searchType: this.props.searchType,
       searchSelectWidth: this.getSelectMenuWidth(this.props.searchType),
+      showSearchBar: window.innerWidth > 900,
     };
   }
-
-  handleDrawerToggle = () => {
-    this.setState(prevState => ({ drawerOpen: !prevState.drawerOpen }));
-  };
 
   handleLogin = () => {
     const { actions } = this.props;
@@ -193,9 +186,12 @@ class NavigationBar extends Component {
   };
 
   handleSearch = value => {
-    this.props.actions
-      .setSearchFilter({ searchQuery: value })
-      .then(() => this.loadCards());
+    this.props.actions.setSearchFilter({ searchQuery: value }).then(() => {
+      this.loadCards();
+      if (value !== '') {
+        this.props.history.push('/');
+      }
+    });
   };
 
   loadCards = () => {
@@ -242,7 +238,7 @@ class NavigationBar extends Component {
 
   getSelectMenuWidth = searchTypes => {
     if (searchTypes.length === 4) {
-      return '5';
+      return '4.1';
     }
     if (searchTypes.length === 0) {
       return '4';
@@ -253,7 +249,9 @@ class NavigationBar extends Component {
       addedWidth += selectMenuWidth[searchTypes[i]];
       count++;
     }
-    return count > 1 ? (addedWidth - count).toString() : addedWidth.toString();
+    return count > 1
+      ? (addedWidth - count * 1.1).toString()
+      : addedWidth.toString();
   };
 
   languageMenuItems = values => {
@@ -264,7 +262,7 @@ class NavigationBar extends Component {
         value={name}
       >
         {ISO6391.getNativeName(name)
-          ? ISO6391.getNativeName(name)
+          ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
           : 'Universal'}
       </MenuItem>
     ));
@@ -292,6 +290,10 @@ class NavigationBar extends Component {
     });
   };
 
+  toggleSearchBar = () => {
+    this.setState(prevState => ({ showSearchBar: !prevState.showSearchBar }));
+  };
+
   render() {
     const {
       accessToken,
@@ -311,7 +313,7 @@ class NavigationBar extends Component {
       searchType,
       languageValue,
     } = this.props;
-    const { drawerOpen, searchSelectWidth } = this.state;
+    const { searchSelectWidth, showSearchBar } = this.state;
     const Logged = props => (
       <React.Fragment>
         <Link to="/dashboard">
@@ -363,6 +365,65 @@ class NavigationBar extends Component {
     if (accessToken) {
       userAvatar = avatarImgThumbnail;
     }
+    let renderSusiIcon = null;
+    let renderSearchBar = null;
+    if (window.innerWidth > 900) {
+      renderSusiIcon = (
+        <SusiLogo marginRight={24} src={susiWhite} alt="susi-logo" />
+      );
+    }
+    if (window.innerWidth < 900 && !showSearchBar) {
+      renderSusiIcon = <SusiLogo src={susiFevicon} alt="susi-logo" />;
+    }
+    if (showSearchBar) {
+      renderSearchBar = (
+        <React.Fragment>
+          <SearchBar
+            handleSearchTypeChange={this.handleSearchTypeChange}
+            onChange={_.debounce(this.handleSearch, 100)}
+            onRequestSearch={this.loadCards}
+            value={searchQuery}
+            searchType={searchType}
+            searchSelectWidth={searchSelectWidth}
+          />
+          <LanguageSelect
+            value={languageValue}
+            onChange={this.handleLanguageChange}
+            multiple
+            input={<OutlinedInput />}
+            renderValue={selected => {
+              let transformedArray = [];
+              if (selected.length === 0) {
+                return <LanguageIcon />;
+              }
+              for (let i = 0; i < selected.length; i++) {
+                transformedArray.push(selected[i].toUpperCase());
+              }
+              return (
+                <FlexContainer style={{ color: '#565656' }}>
+                  <LanguageIcon style={{ marginRight: '4px' }} />{' '}
+                  <div>{transformedArray.join(', ')}</div>
+                </FlexContainer>
+              );
+            }}
+          >
+            {this.languageMenuItems(languageValue)}
+          </LanguageSelect>
+          {window.innerWidth < 900 && (
+            <IconButton color="inherit" onClick={this.toggleSearchBar}>
+              <CloseIcon />
+            </IconButton>
+          )}
+        </React.Fragment>
+      );
+    } else {
+      renderSearchBar = (
+        <IconButton color="inherit" onClick={this.toggleSearchBar}>
+          <SearchIcon />
+        </IconButton>
+      );
+    }
+
     return (
       <div>
         <CssBaseline />
@@ -370,40 +431,12 @@ class NavigationBar extends Component {
           <AppBar>
             <Toolbar variant="dense">
               <FlexContainer>
-                <BurgerMenuContainer>
-                  <IconButton
-                    aria-label="Menu"
-                    color="inherit"
-                    onClick={this.handleDrawerToggle}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </BurgerMenuContainer>
                 <SusiLogoContainer isSearchOpen={search}>
                   <Link to="/" style={{ outline: '0' }}>
-                    <SusiLogo src={susiWhite} alt="susi-logo" />
+                    {renderSusiIcon}
                   </Link>
                 </SusiLogoContainer>
-                <TopMenu />
-                <SearchBar
-                  handleSearchTypeChange={this.handleSearchTypeChange}
-                  onChange={_.debounce(this.handleSearch, 100)}
-                  onRequestSearch={this.loadCards}
-                  value={searchQuery}
-                  searchType={searchType}
-                  searchSelectWidth={searchSelectWidth}
-                />
-                <FormControl>
-                  <InputLabel>Languages</InputLabel>
-                  <LanguageSelect
-                    value={languageValue}
-                    onChange={this.handleLanguageChange}
-                    multiple
-                    input={<OutlinedInput />}
-                  >
-                    {this.languageMenuItems(languageValue)}
-                  </LanguageSelect>
-                </FormControl>
+                {renderSearchBar}
               </FlexContainer>
               <TopRightMenuContainer>
                 {searchState ? (
@@ -430,7 +463,7 @@ class NavigationBar extends Component {
                             effect="solid"
                             delayHide={200}
                             type={'light'}
-                            offset={{ top: -3 }}
+                            marginTop={8}
                           >
                             <Paper>
                               <Logged />
@@ -496,9 +529,6 @@ class NavigationBar extends Component {
             </Toolbar>
           </AppBar>
         </HideOnScroll>
-        <StyledDrawer open={drawerOpen} onClose={this.handleDrawerToggle}>
-          <LeftMenu handleDrawerClose={this.handleDrawerToggle} />
-        </StyledDrawer>
       </div>
     );
   }

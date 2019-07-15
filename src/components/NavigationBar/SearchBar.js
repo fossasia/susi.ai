@@ -30,6 +30,15 @@ const StyledSearchBar = styled(_SearchBar)`
   @media (max-width: 960px) {
     width: 100%;
   }
+  @media (max-width: 800px) {
+    min-width: 318px;
+  }
+  @media (max-width: 550px) {
+    min-width: 250px;
+  }
+  @media (max-width: 400px) {
+    min-width: 220px;
+  }
 `;
 
 const Select = styled(_Select)`
@@ -37,6 +46,21 @@ const Select = styled(_Select)`
   width: ${props => `${props.width}rem`};
   position: absolute;
   margin-left: 0.5rem;
+  border-radius: 4px 0px 0px 4px;
+  .MuiOutlinedInput-notchedOutline {
+    border-left: 1px solid #f3f3f3;
+    border-top: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f3f3f3;
+    border-right: none;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  @media (max-width: 400px) {
+    margin-left: -0.9rem;
+  }
 `;
 
 const SearchBar = props => {
@@ -73,7 +97,7 @@ const SearchBar = props => {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <Container>
       <Select
         multiple
         renderValue={selected => renderSelectText(selected)}
@@ -90,7 +114,7 @@ const SearchBar = props => {
         onChange={onChange}
         placeholder={'Search skills'}
       />
-    </div>
+    </Container>
   );
 };
 

@@ -16,6 +16,7 @@ import Img from 'react-image';
 import ISO6391 from 'iso-639-1';
 import CircleImage from '../../shared/CircleImage';
 import { urls } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 import githubLogo from '../../../images/github-logo.png';
 import CloseButton from '../../shared/CloseButton';
 import styled from 'styled-components';
@@ -86,10 +87,9 @@ class AuthorSkills extends Component {
     const skills = authorSkills.map((skill, index) => {
       const { category, language } = skill;
       let { name } = skill;
-      const image = `${
-        urls.API_URL
-      }/cms/getImage.png?model=general&language=${language}&group=${category}&image=${'/images/' +
-        name}`;
+      const image = getImageSrc({
+        relativePath: `model=general&language=${language}&group=${category}&image=images/${name}`,
+      });
       const pngImage = `${image}.png`;
       const jpgImage = `${image}.jpg`;
       const categoryURL = `${window.location.protocol}//${window.location.host}/category/${category}/`;

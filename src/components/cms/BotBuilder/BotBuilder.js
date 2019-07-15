@@ -7,11 +7,11 @@ import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import _Fab from '@material-ui/core/Fab';
 import _Paper from '@material-ui/core/Paper';
-import { urls } from '../../../utils';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
+import getImageSrc from '../../../utils/getImageSrc';
 import Cookies from 'universal-cookie';
 import {
   fetchChatBots,
@@ -23,7 +23,6 @@ import {
 import styled, { css } from 'styled-components';
 
 const cookies = new Cookies();
-let BASE_URL = urls.API_URL;
 
 const commonHeadingStyle = css`
   color: rgba(0, 0, 0, 0.65);
@@ -209,12 +208,14 @@ class BotBuilder extends React.Component {
           imageUrl = `${protocol}//${host}/botTemplates/contact-us.png`;
         } else {
           imageUrl = bot.image
-            ? `${BASE_URL}/cms/getImage.png?access_token=${cookies.get(
-                'loggedIn',
-              )}&language=${bot.language}&group=${bot.group.replace(
-                / /g,
-                '%20',
-              )}&image=${bot.image.replace(/ /g, '%20')}`
+            ? getImageSrc({
+                relativePath: `access_token=${cookies.get(
+                  'loggedIn',
+                )}&language=${bot.language}&group=${bot.group.replace(
+                  / /g,
+                  '%20',
+                )}&image=${bot.image.replace(/ /g, '%20')}`,
+              })
             : null;
         }
         chatbots.push(
@@ -313,14 +314,15 @@ class BotBuilder extends React.Component {
           imageUrl = `${protocol}//${host}/botTemplates/contact-us.png`;
         } else {
           imageUrl = drafts[draft].image
-            ? `${BASE_URL}/cms/getImage.png?access_token=${cookies.get(
-                'loggedIn',
-              )}&language=${drafts[draft].language}&group=${drafts[
-                draft
-              ].group.replace(/ /g, '%20')}&image=${drafts[draft].image.replace(
-                / /g,
-                '%20',
-              )}`
+            ? getImageSrc({
+                relativePath: `access_token=${cookies.get(
+                  'loggedIn',
+                )}&language=${drafts[draft].language}&group=${drafts[
+                  draft
+                ].group.replace(/ /g, '%20')}&image=${drafts[
+                  draft
+                ].image.replace(/ /g, '%20')}`,
+              })
             : null;
         }
         draftsOfBots.push(

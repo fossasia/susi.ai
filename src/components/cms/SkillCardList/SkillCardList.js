@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import CircleImage from '../../shared/CircleImage';
 import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import { urls } from '../../../utils';
+import getImageSrc from '../../../utils/getImageSrc';
 import { StaffPickImage } from '../SkillsStyle';
 import { RatingContainer, TotalRating, ReactTooltip } from '../SkillCardStyle';
 import styled from 'styled-components';
@@ -353,7 +353,9 @@ class SkillCardList extends Component {
         skillName = skillName.charAt(0).toUpperCase() + skillName.slice(1);
       }
       if (skill.image) {
-        image = `${urls.API_URL}/cms/getImage.png?model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`;
+        image = getImageSrc({
+          relativePath: `model=${skill.model}&language=${skill.language}&group=${skill.group}&image=${skill.image}`,
+        });
       }
       if (
         skill.examples &&

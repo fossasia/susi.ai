@@ -9,7 +9,7 @@ const Container = styled.div`
   width: 100%;
   height: 300px;
   font-size: 1.3rem;
-  margin: 1rem auto;
+  margin: 1rem auto 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-around;

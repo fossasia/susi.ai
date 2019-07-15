@@ -11,12 +11,13 @@ import TextField from '@material-ui/core/TextField';
 import Dropzone from './Dropzone';
 import uiActions from '../../../../redux/actions/ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import urls from '../../../../utils/urls';
+import getImageSrc from '../../../../utils/getImageSrc';
 import {
   modifySkillSlideshow,
   uploadImage,
   deleteSkillSlideshow,
 } from '../../../../apis/index';
+import { FlexContainer } from '../../../shared/Container';
 
 const Button = styled(_Button)`
   float: left;
@@ -138,61 +139,71 @@ class SkillSlideshowDialog extends React.Component {
       <React.Fragment>
         <DialogTitle>{operation} Slideshow</DialogTitle>
         <DialogContent>
-          <TextField
-            label="Redirect Url"
-            placeholder="Redirect Url"
-            margin="normal"
-            value={redirectLink || ''}
-            fullWidth={true}
-            name="redirectLink"
-            onChange={this.handleChange}
-            disabled={disabled || operation === 'Edit'}
-            required
-          />
-          <div style={{ display: 'flex', justifyContent: 'spaceBetween' }}>
+          <FlexContainer>
+            <TextField
+              label="Link to"
+              placeholder="Link to"
+              value={redirectLink || ''}
+              fullWidth={true}
+              name="redirectLink"
+              onChange={this.handleChange}
+              disabled={disabled || operation === 'Edit'}
+              required
+              variant="outlined"
+              margin="dense"
+            />
+            <TextField
+              label="Information"
+              placeholder="Information"
+              value={info || ''}
+              fullWidth={true}
+              name="info"
+              onChange={this.handleChange}
+              disabled={disabled}
+              style={{ marginLeft: '2rem' }}
+              variant="outlined"
+              margin="dense"
+            />
+          </FlexContainer>
+          <FlexContainer>
             <TextField
               label="Image Suffix"
               placeholder="Image Suffix"
-              margin="normal"
               value={imageSuffix || ''}
               fullWidth={true}
               name="imageSuffix"
               onChange={this.handleChange}
               disabled={disabled}
               required
+              variant="outlined"
+              margin="dense"
             />
             <TextField
               label="Image Path"
               placeholder="Image Path"
-              margin="normal"
               value={imagePath || ''}
               fullWidth={true}
               name="imagePath"
               onChange={this.handleChange}
               disabled={true}
               style={{ marginLeft: '2rem' }}
+              variant="outlined"
+              margin="dense"
             />
-          </div>
-          <TextField
-            label="Information"
-            placeholder="Information"
-            margin="normal"
-            value={info || ''}
-            fullWidth={true}
-            name="info"
-            onChange={this.handleChange}
-            disabled={disabled}
-          />
+          </FlexContainer>
           <Dropzone
             src={
               isSliderImageUploaded && !isSliderImageAdded
-                ? `${urls.API_URL}/cms/getImage.png?image=${imagePath}`
+                ? getImageSrc({ relativePath: `image=${imagePath}` })
                 : previewUrl
             }
             handleFilePreview={this.handleFilePreview}
             isSliderImageAdded={isSliderImageAdded || isSliderImageUploaded}
             disabled={operation === 'Delete'}
           />
+          <span style={{ float: 'right' }}>
+            * Required image ratio is Height 394px x Width 1120px
+          </span>
           <input
             id="file-opener"
             type="file"
@@ -215,6 +226,13 @@ class SkillSlideshowDialog extends React.Component {
         <DialogActions>
           <Button
             key={1}
+            onClick={handleClose}
+            style={{ marginRight: '0.7rem' }}
+          >
+            Cancel
+          </Button>
+          <Button
+            key={2}
             variant="contained"
             color="primary"
             onClick={this.handleConfirm}
@@ -226,10 +244,7 @@ class SkillSlideshowDialog extends React.Component {
                 !isSliderImageUploaded)
             }
           >
-            {operation}
-          </Button>
-          <Button key={2} onClick={handleClose}>
-            Cancel
+            {operation === 'Delete' ? 'Delete' : 'Save'}
           </Button>
         </DialogActions>
       </React.Fragment>
