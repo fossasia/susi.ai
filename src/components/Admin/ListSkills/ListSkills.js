@@ -21,34 +21,13 @@ import {
 } from '../../../apis/index';
 import { getActiveColumn, getDeletedColumn, REPORT } from './constants';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
 import { Container } from '../AdminStyles';
-
+import {
+  ActionSpan,
+  ActionDiv,
+  ActionSeparator,
+} from '../../shared/TableActionStyles';
 import ReportPanel from './ReportPanel';
-
-const commonActionStyle = css`
-  cursor: pointer;
-  color: #49a9ee;
-`;
-
-const ActionSpan = styled.span`
-  ${commonActionStyle};
-  @media (max-width: 1340px) {
-    margin-right: 0.2rem;
-  }
-`;
-
-const ActionDiv = styled.div`
-  ${commonActionStyle};
-`;
-
-const ActionSeparator = styled.span`
-  margin-left: 0.313rem;
-  margin-right: 0.313rem;
-  @media (max-width: 1340px) {
-    display: none;
-  }
-`;
 
 class ListSkills extends React.Component {
   constructor(props) {
