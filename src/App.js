@@ -210,11 +210,8 @@ class App extends Component {
                   path="/skillWizard"
                   component={SkillWizard}
                 />
-                <ProtectedRoute
-                  path="/botbuilder/botwizard"
-                  component={BotBuilderWrap}
-                />
-                <ProtectedRoute path="/botbuilder" component={Dashboard} />
+                <ProtectedRoute path="/botWizard" component={BotBuilderWrap} />
+                <ProtectedRoute path="/mybots" component={Dashboard} />
                 <Route exact path="/about" component={Overview} />
                 <Route exact path="/devices" component={Devices} />
                 <Route exact path="/team" component={Team} />
