@@ -7,7 +7,7 @@
 .scroll::-webkit-scrollbar {
   display: none;
  }
- 
+
 .scroll {
   overflow: -moz-scrollbars-none;
 }
@@ -49,5 +49,5 @@
 }
 
 .chatbubble {
-  z-index:1000;
+  z-index:100;
 }
