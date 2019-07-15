@@ -40,7 +40,7 @@ class Dashboard extends Component {
         return 0;
       case '/myskills':
         return 1;
-      case '/botbuilder':
+      case '/mybots':
         return 2;
       default:
         return 0;
@@ -58,7 +58,7 @@ class Dashboard extends Component {
         history.replace('/myskills');
         break;
       case 2:
-        history.replace('/botbuilder');
+        history.replace('/mybots');
         break;
       default:
         history.replace('/dashboard');
@@ -97,7 +97,7 @@ class Dashboard extends Component {
               >
                 <Tab label="Dashboard" />
                 <Tab label="My Skills" />
-                <Tab label="Botbuilder" />
+                <Tab label="My Bots" />
               </Tabs>
               {this.generateView()}
             </AppBar>
