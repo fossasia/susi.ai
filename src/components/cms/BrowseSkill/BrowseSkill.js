@@ -466,7 +466,7 @@ class BrowseSkill extends React.Component {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose();
     if (accessToken) {
-      history.push('/botbuilder/botwizard');
+      history.push('/botWizard');
     } else {
       actions.openModal({ modalType: 'login' });
     }
