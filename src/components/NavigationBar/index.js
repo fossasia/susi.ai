@@ -194,6 +194,18 @@ class NavigationBar extends Component {
     });
   };
 
+  componentDidMount() {
+    this.loadLanguages('All');
+  }
+
+  loadLanguages = value => {
+    this.props.actions
+      .getLanguageOptions({ groupValue: value })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   loadCards = () => {
     const { routeType, routeValue } = this.props;
     const {

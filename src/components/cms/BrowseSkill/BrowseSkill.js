@@ -262,7 +262,6 @@ class BrowseSkill extends React.Component {
     actions
       .initializeSkillData()
       .then(() => {
-        this.loadLanguages('All');
         this.loadGroups();
       })
       .catch(error => {
