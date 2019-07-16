@@ -250,7 +250,7 @@ class SkillCard extends Component {
 
   render() {
     const { leftBtnDisplay, rightBtnDisplay, cards } = this.state;
-    const { scrollSkills } = this.props;
+    const { scrollSkills, isMobile = false } = this.props;
     return (
       <div
         style={{
@@ -262,23 +262,27 @@ class SkillCard extends Component {
         }}
       >
         <ScrollWrapper id={scrollSkills}>
-          <LeftFab
-            size="small"
-            color="primary"
-            onClick={this.scrollLeft}
-            display={leftBtnDisplay}
-          >
-            <NavigationChevronLeft style={{ margin: '8.4px auto' }} />
-          </LeftFab>
+          {!isMobile && (
+            <LeftFab
+              size="small"
+              color="primary"
+              onClick={this.scrollLeft}
+              display={leftBtnDisplay}
+            >
+              <NavigationChevronLeft style={{ margin: '8.4px auto' }} />
+            </LeftFab>
+          )}
           {cards}
-          <RightFab
-            size="small"
-            color="primary"
-            display={rightBtnDisplay}
-            onClick={this.scrollRight}
-          >
-            <NavigationChevronRight style={{ margin: '8.4px auto' }} />
-          </RightFab>
+          {!isMobile && (
+            <RightFab
+              size="small"
+              color="primary"
+              display={rightBtnDisplay}
+              onClick={this.scrollRight}
+            >
+              <NavigationChevronRight style={{ margin: '8.4px auto' }} />
+            </RightFab>
+          )}
         </ScrollWrapper>
       </div>
     );
@@ -289,6 +293,7 @@ SkillCard.propTypes = {
   metricSkills: PropTypes.object,
   scrollSkills: PropTypes.string.isRequired,
   history: PropTypes.object,
+  isMobile: PropTypes.bool,
 };
 
 function mapStateToProps(store) {

@@ -606,7 +606,7 @@ class BrowseSkill extends React.Component {
 
     let renderCardScrollList = '';
     renderCardScrollList = !metricsHidden && !routeType && (
-      <SkillCardScrollList history={history} />
+      <SkillCardScrollList isMobile={isMobile} history={history} />
     );
     let renderSkillSlideshow = null;
     renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
@@ -798,8 +798,9 @@ class BrowseSkill extends React.Component {
         </Sidebar>
         <RightContainer>
           {renderSkillSlideshow}
-          {loadingSkills && <CircularLoader height={34} />}
-          {!loadingSkills ? (
+          {loadingSkills ? (
+            <CircularLoader height={34} />
+          ) : (
             <ContentContainer>
               {metricsHidden ? (
                 <div>
@@ -956,7 +957,7 @@ class BrowseSkill extends React.Component {
                 <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
               )}
             </ContentContainer>
-          ) : null}
+          )}
         </RightContainer>
       </Container>
     );
