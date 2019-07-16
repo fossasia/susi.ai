@@ -18,7 +18,6 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import SpeechIcon from '@material-ui/icons/RecordVoiceOver';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import LockIcon from '@material-ui/icons/Lock';
-import MyDevices from '@material-ui/icons/Devices';
 import MobileIcon from '@material-ui/icons/PhoneAndroid';
 import ShareIcon from '@material-ui/icons/Share';
 
@@ -27,7 +26,6 @@ import ThemeChangeTab from './ThemeChangeTab.react';
 import SpeechTab from './SpeechTab.react';
 import AccountTab from './AccountTab.react';
 import PasswordTab from './PasswordTab.react';
-import DevicesTab from './DevicesTab';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
 import { bindActionCreators } from 'redux';
@@ -41,7 +39,6 @@ const settingsOptions = [
   { name: 'Theme', icon: <ThemeIcon /> },
   { name: 'Microphone', icon: <VoiceIcon /> },
   { name: 'Speech', icon: <SpeechIcon /> },
-  { name: 'Devices', icon: <MyDevices /> },
   { name: 'Share on social media', icon: <ShareIcon /> },
 ];
 
@@ -249,9 +246,6 @@ class Settings extends Component {
       }
       case 'Password': {
         return <PasswordTab />;
-      }
-      case 'Devices': {
-        return <DevicesTab />;
       }
       case 'Mobile': {
         return <MobileTab />;
