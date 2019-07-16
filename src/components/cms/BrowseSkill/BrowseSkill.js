@@ -41,6 +41,7 @@ import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
 import isMobileView from '../../../utils/isMobileView';
 import Grid from '@material-ui/core/Grid';
+import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 
@@ -541,9 +542,9 @@ class BrowseSkill extends React.Component {
           {listOffset + entriesPerPage > skills.length
             ? skills.length
             : listOffset + entriesPerPage}{' '}
-          out of {skills.length} result(s) for&nbsp;
+          out of {skills.length} {pluralize('result', skills.length)} for&nbsp;
           <b>
-            <SidebarLink to="/">SUSI Skills</SidebarLink>
+            <SidebarLink to="/">SUSI Skill</SidebarLink>
           </b>
           {routeValue && (
             <div style={{ display: 'flex' }}>
@@ -594,7 +595,8 @@ class BrowseSkill extends React.Component {
     } else {
       renderSkillCount = (
         <div>
-          No result found for <SidebarLink to="/">SUSI Skills:</SidebarLink>
+          No result found for <SidebarLink to="/">SUSI Skill</SidebarLink>
+          :&nbsp;
           {routeValue && (
             <span style={{ color: '#4286f4', fontWeight: 'bold' }}>
               {routeValue}
