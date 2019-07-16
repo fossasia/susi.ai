@@ -11,12 +11,12 @@ import NavigationChevronLeft from '@material-ui/icons/ChevronLeft';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import getImageSrc from '../../../utils/getImageSrc';
 import styled from 'styled-components';
+import SkillExampleBubble from '../../shared/SkillExampleBubble';
 import { ImageContainer, StaffPickImage } from '../SkillsStyle';
 import {
   Card,
   Image,
   TitleContainer,
-  Example,
   RatingContainer,
   TotalRating,
 } from '../SkillCardStyle';
@@ -164,27 +164,33 @@ class SkillCard extends Component {
 
         cards.push(
           <Card key={el}>
-            <Link
-              key={el}
-              to={{
-                pathname:
-                  '/' +
-                  skill.group +
-                  '/' +
-                  skill.skillTag +
-                  '/' +
-                  skill.language,
-              }}
-            >
-              <ImageContainer key={el}>
+            <ImageContainer key={el}>
+              <Link
+                key={el}
+                to={{
+                  pathname:
+                    '/' +
+                    skill.group +
+                    '/' +
+                    skill.skillTag +
+                    '/' +
+                    skill.language,
+                }}
+              >
                 {image ? (
                   <Image alt={skillName} src={image} />
                 ) : (
                   <CircleImage name={el} size="48" />
                 )}
-                {examples ? <Example>&quot;{examples}&quot;</Example> : null}
-              </ImageContainer>
-            </Link>
+              </Link>
+              {examples ? (
+                <SkillExampleBubble
+                  data={examples}
+                  history={this.props.history}
+                  margin="1.5% 0.85% 1.5% 4%"
+                />
+              ) : null}
+            </ImageContainer>
             <TitleContainer>
               <Link
                 to={{
@@ -282,6 +288,7 @@ class SkillCard extends Component {
 SkillCard.propTypes = {
   metricSkills: PropTypes.object,
   scrollSkills: PropTypes.string.isRequired,
+  history: PropTypes.object,
 };
 
 function mapStateToProps(store) {

@@ -4,7 +4,7 @@ import _ReactTooltip from 'react-tooltip';
 
 export const Card = styled(_Card)`
   width: 16.25rem;
-  height: ${props => (props.grid ? '12rem' : '10.5rem')};
+  height: ${props => (props.grid ? '12.5rem' : '10.5rem')};
   min-height: 9.375rem;
   margin: 0.625rem;
   overflow: hidden;
@@ -37,21 +37,6 @@ export const TitleContainer = styled.div`
   align-items: center;
   margin-bottom: 6px;
   font-size: 1rem;
-`;
-
-export const Example = styled.div`
-  white-space: normal;
-  text-align: center;
-  font-style: italic;
-  font-size: 0.875rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 8.625rem;
-  padding: 0.625rem;
-  vertical-align: middle;
-  display: block;
-  color: black;
-  max-height: 5rem;
 `;
 
 export const RatingContainer = styled.div`

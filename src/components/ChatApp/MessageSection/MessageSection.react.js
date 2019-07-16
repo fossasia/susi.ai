@@ -14,6 +14,7 @@ import MessageListItem from '../MessageListItem/MessageListItem.react';
 import { searchMessages } from '../../../utils/searchMessages';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
+import skillActions from '../../../redux/actions/skill';
 import styled, { keyframes } from 'styled-components';
 import getCustomThemeColors from '../../../utils/colors';
 import MessageBubble from '../MessageListItem/MessageBubbleStyle';
@@ -245,6 +246,7 @@ class MessageSection extends Component {
     showChatBubble: PropTypes.bool, // From ChatApp Component present in App.js
     chatBubble: PropTypes.string, // From UI Reducer
     fullScreenChat: PropTypes.bool,
+    testSkillExampleKey: PropTypes.number,
   };
 
   static defaultProps = {
@@ -617,6 +619,7 @@ class MessageSection extends Component {
     actions.handleChatBubble({
       chatBubble: 'minimised',
     });
+    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
     actions.openModal({
       modalType: 'chatBubble',
       fullScreenChat: true,
@@ -625,6 +628,7 @@ class MessageSection extends Component {
 
   closeFullScreen = () => {
     const { actions } = this.props;
+    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
     actions.handleChatBubble({
       chatBubble: 'full',
     });
@@ -636,6 +640,7 @@ class MessageSection extends Component {
     actions.handleChatBubble({
       chatBubble: chatBubble === 'bubble' ? 'full' : 'bubble',
     });
+    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
   };
 
   handleClose = () => {
@@ -659,7 +664,9 @@ class MessageSection extends Component {
       showChatBubble,
       chatBubble,
       fullScreenChat,
+      testSkillExampleKey,
     } = this.props;
+
     const {
       header,
       pane,
@@ -710,7 +717,11 @@ class MessageSection extends Component {
     );
 
     const messageSection = (
-      <MessageSectionContainer showChatBubble={showChatBubble} height={height}>
+      <MessageSectionContainer
+        showChatBubble={showChatBubble}
+        height={height}
+        key={testSkillExampleKey}
+      >
         {loadingHistory ? (
           <CircularLoader height={38} />
         ) : (
@@ -776,6 +787,7 @@ class MessageSection extends Component {
             textarea={textarea}
             exitSearch={this.exitSearch}
             showChatBubble={showChatBubble}
+            testSkillExampleQuery={testSkillExampleKey !== -1}
           />
         </MessageComposeContainer>
       </MessageSectionContainer>
@@ -832,12 +844,13 @@ function mapStateToProps(store) {
     ...store.settings,
     ...store.app,
     ...store.ui,
+    testSkillExampleKey: store.skill.testSkillExampleKey,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...skillActions }, dispatch),
   };
 }
 
