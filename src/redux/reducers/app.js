@@ -13,6 +13,7 @@ const defaultState = {
   apiKeys: {},
   visited: true,
   userSkills: [],
+  isLocalEnv: process.env.REACT_APP_LOCAL_ENV === 'true',
   avatarImg: 'https://api.susi.ai/getAvatar.png',
   avatarImgThumbnail: 'https://api.susi.ai/getAvatar.png',
   showCookiePolicy: false,

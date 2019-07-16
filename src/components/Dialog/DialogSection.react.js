@@ -31,6 +31,7 @@ import SkillSlideshowDialog from '../Admin/SystemSettings/Slideshow/Dialog';
 import EditUserRole from '../Admin/ListUser/EditUserRoleDialog';
 import DeleteUserAccountDialog from '../Admin/ListUser/DeleteDialog';
 import EditUserDevice from '../Admin/ListUser/DevicePanel/EditDeviceDialog';
+import ChatApp from '../ChatApp/ChatApp.react';
 import isMobileView from '../../utils/isMobileView';
 
 const DialogData = {
@@ -66,6 +67,12 @@ const DialogData = {
   editUserRole: { Component: EditUserRole, size: 'sm' },
   deleteUserAccount: { Component: DeleteUserAccountDialog, size: 'sm' },
   editUserDevice: { Component: EditUserDevice, size: 'sm' },
+  chatBubble: {
+    Component: ChatApp,
+    size: 'sm',
+    fullScreen: true,
+    style: { padding: '0px', textAlign: 'left' },
+  },
 };
 
 const DialogSection = props => {

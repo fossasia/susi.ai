@@ -490,8 +490,7 @@ class BrowseSkill extends React.Component {
       filterType,
       loadingSkills,
     } = this.props;
-    const { routeType, routeValue } = this.props;
-
+    const { routeType, routeValue, history } = this.props;
     let isMobile = isMobileView();
     let backToHome = null;
     let renderMenu = null;
@@ -607,9 +606,8 @@ class BrowseSkill extends React.Component {
 
     let renderCardScrollList = '';
     renderCardScrollList = !metricsHidden && !routeType && (
-      <SkillCardScrollList />
+      <SkillCardScrollList history={history} />
     );
-
     let renderSkillSlideshow = null;
     renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
 
@@ -918,7 +916,7 @@ class BrowseSkill extends React.Component {
                     {viewType === 'list' ? (
                       <SkillCardList />
                     ) : (
-                      <SkillCardGrid />
+                      <SkillCardGrid history={history} />
                     )}
                   </div>
                   {skills.length > 10 && (

@@ -124,6 +124,7 @@ DevicesTable.propTypes = {
   handleRemoveConfirmation: PropTypes.func,
   editIdx: PropTypes.number,
   deviceWizard: PropTypes.bool,
+  isLocalEnv: PropTypes.bool,
 };
 
 export default DevicesTable;

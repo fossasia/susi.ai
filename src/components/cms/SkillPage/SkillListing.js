@@ -32,6 +32,7 @@ import { parseDate } from '../../../utils';
 import getImageSrc from '../../../utils/getImageSrc';
 import styled, { css } from 'styled-components';
 import CircularLoader from '../../shared/CircularLoader';
+import SkillExampleBubble from '../../shared/SkillExampleBubble';
 
 const SingleRating = styled.div`
   display: flex;
@@ -82,46 +83,6 @@ const ExampleContainer = styled.div`
   @media (max-width: 768px) {
     display: flex;
     min-height: 0px;
-  }
-`;
-
-const ExampleComment = styled.div`
-  cursor: pointer;
-  font-style: italic;
-  font-size: 14px;
-  padding: 14px 18px;
-  border-radius: 8px;
-  border: 1px solid #eaeded;
-  background-color: #f4f6f6;
-  margin: 1.5% 0.85% 1.5% 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 192;
-  position: relative;
-
-  :before {
-    content: ' ';
-    position: absolute;
-    bottom: -14px;
-    right: 10%;
-    border-width: 0 0 13px 26px;
-    border-style: solid;
-    display: block;
-    border-color: transparent #eaeded;
-    width: 0;
-  }
-
-  :after {
-    content: ' ';
-    position: absolute;
-    bottom: -12px;
-    right: 10%;
-    border-width: 0 0 12px 25px;
-    border-style: solid;
-    border-color: #f4f6f6 transparent transparent #f4f6f6;
   }
 `;
 
@@ -307,7 +268,7 @@ class SkillListing extends Component {
       skillRatings,
     } = this.props.metaData;
 
-    const { loadingSkill, isAdmin, accessToken } = this.props;
+    const { loadingSkill, isAdmin, accessToken, history } = this.props;
 
     const imgUrl = !image
       ? '/favicon-512x512.jpg'
@@ -423,18 +384,11 @@ class SkillListing extends Component {
                 examples[Object.keys(examples)[0]] &&
                 examples.slice(0, skillExampleCount).map((data, index) => {
                   return (
-                    <ExampleComment
+                    <SkillExampleBubble
                       key={index}
-                      className="example-comment"
-                      onClick={event =>
-                        this.props.history.push({
-                          pathname: '/chat',
-                          search: `?testExample=${data}`,
-                        })
-                      }
-                    >
-                      <q>{data}</q>
-                    </ExampleComment>
+                      data={data}
+                      history={history}
+                    />
                   );
                 })}
             </ExampleWrapper>
