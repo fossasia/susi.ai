@@ -6,6 +6,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
+import DashIcon from '@material-ui/icons/Remove';
 import PropTypes from 'prop-types';
 import { OutlinedSelectStyles } from './Styles';
 
@@ -71,7 +72,7 @@ const SearchBar = props => {
     value,
     onChange,
   } = props;
-  let renderSelectMenu = null;
+  let renderSelectMenu;
 
   renderSelectMenu = Object.keys(SEARCHTYPES).map(key => {
     let value = SEARCHTYPES[key];
@@ -86,6 +87,9 @@ const SearchBar = props => {
   });
 
   const renderSelectText = (selected = []) => {
+    if (selected.length === 0) {
+      return <DashIcon style={{ marginTop: '4px', color: '#565656' }} />;
+    }
     if (selected.length === Object.keys(SEARCHTYPES).length) {
       return 'All';
     }
@@ -100,11 +104,23 @@ const SearchBar = props => {
     <Container>
       <Select
         multiple
+        displayEmpty={true}
         renderValue={selected => renderSelectText(selected)}
         value={searchType}
         onChange={e => handleSearchTypeChange(e)}
         input={<OutlinedInput />}
         width={searchSelectWidth}
+        MenuProps={{
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+          },
+          transformOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          },
+          getContentAnchorEl: null,
+        }}
       >
         {renderSelectMenu}
       </Select>

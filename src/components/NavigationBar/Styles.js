@@ -16,4 +16,10 @@ export const OutlinedSelectStyles = css`
   &.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #dadada;
   }
+  .MuiOutlinedInput-input {
+    padding: 8.95px 14px;
+  }
+  &.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
 `;
