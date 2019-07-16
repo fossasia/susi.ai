@@ -11,14 +11,20 @@ import EditIcon from '@material-ui/icons/Edit';
 import TrashIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
 import IconButton from '@material-ui/core/IconButton';
+import ViewListIcon from '@material-ui/icons/ViewList';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: scroll;
+  overflow: auto;
   margin-top: 1.5rem;
+`;
+
+const CustomTableCell = styled(TableCell)`
+  padding-left: 0px;
 `;
 
 const COLUMNS = [
@@ -36,6 +42,7 @@ const DevicesTable = props => {
     onDeviceSave,
     startEditing,
     handleRemoveConfirmation,
+    deviceWizard = false,
   } = props;
   return (
     <Container>
@@ -45,8 +52,7 @@ const DevicesTable = props => {
             {COLUMNS.map(eachColumn => (
               <TableCell key={eachColumn.field}>{eachColumn.title}</TableCell>
             ))}
-            <TableCell />
-            <TableCell />
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,7 +75,14 @@ const DevicesTable = props => {
                     </TableCell>
                   );
                 })}
-                <TableCell align="right">
+                <CustomTableCell align="left">
+                  {deviceWizard ? null : (
+                    <Link to={`/mydevices/${eachRow.macId}`}>
+                      <IconButton aria-label="View">
+                        <ViewListIcon />{' '}
+                      </IconButton>
+                    </Link>
+                  )}
                   {editIdx === rowIndex ? (
                     <IconButton
                       onClick={() => onDeviceSave(rowIndex)}
@@ -85,13 +98,15 @@ const DevicesTable = props => {
                       <EditIcon />{' '}
                     </IconButton>
                   )}
-                  <IconButton
-                    onClick={() => handleRemoveConfirmation(rowIndex)}
-                    aria-label="Delete"
-                  >
-                    <TrashIcon />{' '}
-                  </IconButton>
-                </TableCell>
+                  {deviceWizard ? null : (
+                    <IconButton
+                      onClick={() => handleRemoveConfirmation(rowIndex)}
+                      aria-label="Delete"
+                    >
+                      <TrashIcon />{' '}
+                    </IconButton>
+                  )}
+                </CustomTableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -108,6 +123,7 @@ DevicesTable.propTypes = {
   handleRemove: PropTypes.func,
   handleRemoveConfirmation: PropTypes.func,
   editIdx: PropTypes.number,
+  deviceWizard: PropTypes.bool,
 };
 
 export default DevicesTable;

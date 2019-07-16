@@ -6,16 +6,21 @@ import PropTypes from 'prop-types';
 const Container = styled.div`
   width: 100%;
   height: 300px;
+  display: flex;
+  justify-content: center;
 `;
 
 const Map = styled(_Map)`
   height: 300px !important;
   position: relative;
   width: 85% !important;
-  max-width: 692px;
 
   @media (max-width: 1060px) {
-    max-width: 1000px;
+    width: 80% !important;
+  }
+
+  @media (max-width: 700px) {
+    width: 65% !important;
   }
 `;
 
@@ -78,7 +83,6 @@ class MapContainer extends Component {
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
     const { google, devicesData = [], invalidLocationDevices } = this.props;
     const mapCenter = this.getMapCenter(devicesData, invalidLocationDevices);
-
     return (
       <Container>
         <Map

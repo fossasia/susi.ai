@@ -10,7 +10,7 @@ import Share from './Share';
 import SignUp from '../Auth/SignUp/SignUp.react';
 import Login from '../Auth/Login/Login.react';
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.react';
-import RemoveDeviceDialog from '../Settings/DevicesTab/RemoveDeviceDialog';
+import RemoveDeviceDialog from '../cms/MyDevices/RemoveDeviceDialog';
 import ThemeChanger from '../Settings/ThemeChanger';
 import { DialogContainer } from '../shared/Container';
 import DeleteAccount from '../Auth/DeleteAccount/DeleteAccount.react';

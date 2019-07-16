@@ -28,6 +28,7 @@ class RemoveDeviceDialog extends Component {
     removeDeviceIndex: PropTypes.number,
     onDeviceRemove: PropTypes.func,
     onCancel: PropTypes.func,
+    deviceWizard: PropTypes.bool,
   };
 
   state = {
@@ -47,6 +48,7 @@ class RemoveDeviceDialog extends Component {
       onCancel,
       removeDeviceName,
       removeDeviceIndex,
+      deviceWizard = false,
     } = this.props;
     const { deviceName } = this.state;
     const shouldDisable = !(deviceName === removeDeviceName);
@@ -83,7 +85,11 @@ class RemoveDeviceDialog extends Component {
           <DangerButton
             variant="outlined"
             disabled={shouldDisable}
-            onClick={() => onDeviceRemove(removeDeviceIndex)}
+            onClick={() =>
+              deviceWizard
+                ? onDeviceRemove()
+                : onDeviceRemove(removeDeviceIndex)
+            }
           >
             <Translate text="I understand, remove device" />
           </DangerButton>

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GoogleApiWrapper } from 'google-maps-react';
-import SettingsTabWrapper from '../SettingsTabWrapper';
 import DevicesTable from './DevicesTable';
 import MapContainer from './MapContainer';
 import PropTypes from 'prop-types';
@@ -9,6 +8,7 @@ import uiActions from '../../../redux/actions/ui';
 import { addUserDevice, removeUserDevice } from '../../../apis/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _Paper from '@material-ui/core/Paper';
 import CircularLoader from '../../shared/CircularLoader';
 
 const EmptyDevicesText = styled.div`
@@ -18,6 +18,29 @@ const EmptyDevicesText = styled.div`
   max-width: 880px;
   text-align: center;
   font-family: 'Roboto', sans-serif;
+`;
+
+const Container = styled.div`
+  margin: 0rem 0.625rem;
+  padding: 2.5rem 1.875rem 1.875rem;
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 1rem 1.875rem;
+  }
+`;
+
+const Paper = styled(_Paper)`
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 1rem 1rem 3rem;
+  @media (max-width: 740) {
+    padding: 0 0 3rem;
+  }
+`;
+
+const SubHeading = styled.h1`
+  color: rgba(0, 0, 0, 0.65);
+  padding-left: 1.25rem;
 `;
 
 class DevicesTab extends React.Component {
@@ -140,18 +163,22 @@ class DevicesTab extends React.Component {
     const { google, mapKey } = this.props;
     return (
       <React.Fragment>
-        <SettingsTabWrapper heading="Devices">
+        <Container>
           {devicesData.length ? (
             <div>
-              <DevicesTable
-                handleRemoveConfirmation={this.handleRemoveConfirmation}
-                startEditing={this.startEditing}
-                editIdx={editIdx}
-                onDeviceSave={this.handleDeviceSave}
-                handleChange={this.handleChange}
-                tableData={devicesData}
-              />
-              <div>
+              <Paper>
+                <SubHeading>Devices</SubHeading>
+                <DevicesTable
+                  handleRemoveConfirmation={this.handleRemoveConfirmation}
+                  startEditing={this.startEditing}
+                  editIdx={editIdx}
+                  onDeviceSave={this.handleDeviceSave}
+                  handleChange={this.handleChange}
+                  tableData={devicesData}
+                />
+              </Paper>
+              <Paper>
+                <SubHeading>Map</SubHeading>
                 <div style={{ maxHeight: '300px', marginTop: '10px' }}>
                   {mapKey && (
                     <MapContainer
@@ -168,14 +195,14 @@ class DevicesTab extends React.Component {
                     be retrieved.
                   </div>
                 ) : null}
-              </div>
+              </Paper>
             </div>
           ) : (
             <EmptyDevicesText>
               You do not have any devices connected yet!
             </EmptyDevicesText>
           )}
-        </SettingsTabWrapper>
+        </Container>
       </React.Fragment>
     );
   }
