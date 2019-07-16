@@ -59,16 +59,17 @@ class ListSkills extends React.Component {
     this.loadReportedSkill();
   }
 
-  changeStatus = () => {
+  changeStatus = (
+    skillReviewStatus,
+    skillEditStatus,
+    skillStaffPickStatus,
+    systemSkillStatus,
+  ) => {
     const {
       skillModel: model,
       skillGroup: group,
       skillLanguage: language,
       skillTag: skill,
-      skillReviewStatus: reviewed,
-      skillEditStatus: editable,
-      skillStaffPickStatus: staffPick,
-      systemSkillStatus: systemSkill,
     } = this.state;
 
     changeSkillStatus({
@@ -76,10 +77,10 @@ class ListSkills extends React.Component {
       group,
       language,
       skill,
-      reviewed,
-      editable,
-      staffPick,
-      systemSkill,
+      reviewed: skillReviewStatus,
+      editable: skillEditStatus,
+      staffPick: skillStaffPickStatus,
+      systemSkill: systemSkillStatus,
     })
       .then(payload => {
         this.props.actions.openModal({
@@ -289,8 +290,18 @@ class ListSkills extends React.Component {
       });
   };
 
-  handleChange = () => {
-    this.changeStatus();
+  handleChange = (
+    skillReviewStatus,
+    skillEditStatus,
+    skillStaffPickStatus,
+    systemSkillStatus,
+  ) => {
+    this.changeStatus(
+      skillReviewStatus,
+      skillEditStatus,
+      skillStaffPickStatus,
+      systemSkillStatus,
+    );
   };
 
   confirmDelete = () => {
@@ -359,7 +370,7 @@ class ListSkills extends React.Component {
       skillEditStatus: editStatus,
       skillStaffPickStatus: staffPickStatus,
       systemSkillStatus: systemSkillStatus,
-      handleChange: this.handleChange,
+      handleConfirm: this.handleChange,
       handleClose: this.props.actions.closeModal,
     });
   };
