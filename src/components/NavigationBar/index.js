@@ -36,6 +36,7 @@ import ListIcon from '@material-ui/icons/List';
 import SearchBar from './SearchBar';
 import _ from 'lodash';
 import LanguageIcon from '@material-ui/icons/Language';
+import DashIcon from '@material-ui/icons/Remove';
 import susiFevicon from '../../images/favicon.png';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
@@ -402,19 +403,32 @@ class NavigationBar extends Component {
             value={languageValue}
             onChange={this.handleLanguageChange}
             multiple
+            MenuProps={{
+              anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+              },
+              transformOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+              },
+              getContentAnchorEl: null,
+            }}
             input={<OutlinedInput />}
+            displayEmpty={true}
             renderValue={selected => {
               let transformedArray = [];
-              if (selected.length === 0) {
-                return <LanguageIcon />;
-              }
               for (let i = 0; i < selected.length; i++) {
                 transformedArray.push(selected[i].toUpperCase());
               }
               return (
                 <FlexContainer style={{ color: '#565656' }}>
                   <LanguageIcon style={{ marginRight: '4px' }} />{' '}
-                  <div>{transformedArray.join(', ')}</div>
+                  {transformedArray.length > 0 ? (
+                    <div>{transformedArray.join(', ')}</div>
+                  ) : (
+                    <DashIcon style={{ color: '#565656' }} />
+                  )}
                 </FlexContainer>
               );
             }}
