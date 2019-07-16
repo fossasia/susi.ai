@@ -8,6 +8,13 @@ body {
   font-family: 'Lato', sans-serif;
   background-color: #fff;
 }
+ a {
+  color: #1890ff;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+ }
 
 /* Remove input autofill yellow background */
 @-webkit-keyframes autofill {
