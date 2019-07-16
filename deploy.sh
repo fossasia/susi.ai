@@ -89,6 +89,7 @@ git checkout $SOURCE_BRANCH
 # Actual building and setup of current push or PR.
 npm install
 export REACT_APP_API_URL=http://localhost:4000
+export REACT_APP_LOCAL_ENV=true
 npm run build
 mv build ../build/
 
