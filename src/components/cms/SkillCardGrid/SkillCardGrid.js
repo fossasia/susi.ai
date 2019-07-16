@@ -9,6 +9,7 @@ import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import CircleImage from '../../shared/CircleImage';
 import getImageSrc from '../../../utils/getImageSrc';
 import styled from 'styled-components';
+import SkillExampleBubble from '../../shared/SkillExampleBubble';
 
 import { ImageContainer, StaffPickImage } from '../SkillsStyle';
 
@@ -16,7 +17,6 @@ import {
   TitleContainer,
   Card,
   Image,
-  Example,
   TotalRating,
   ReactTooltip,
 } from '../SkillCardStyle';
@@ -94,25 +94,31 @@ class SkillCardGrid extends Component {
       }
       cards.push(
         <Card grid={true} key={el}>
-          <Link
-            key={el}
-            to={{
-              pathname: skillPathname,
-            }}
-          >
-            <ImageContainer key={el}>
+          <ImageContainer key={el}>
+            <Link
+              key={el}
+              to={{
+                pathname: skillPathname,
+              }}
+            >
               {image ? (
                 <Image alt={skillName} src={image} />
               ) : (
                 <CircleImage name={el} size="48" />
               )}
-              {examples ? <Example>&quot;{examples}&quot;</Example> : null}
-            </ImageContainer>
-            <TitleContainer>
-              <span>{skillName}</span>
-              {staffPick && <StaffPickImage />}
-            </TitleContainer>
-          </Link>
+            </Link>
+            {examples ? (
+              <SkillExampleBubble
+                data={examples}
+                history={this.props.history}
+                margin="1.5% 0.85% 1.5% 4%"
+              />
+            ) : null}
+          </ImageContainer>
+          <TitleContainer>
+            <span>{skillName}</span>
+            {staffPick && <StaffPickImage />}
+          </TitleContainer>
           <Author>
             <p>{authorName}</p>
           </Author>
@@ -185,6 +191,7 @@ class SkillCardGrid extends Component {
 
 SkillCardGrid.propTypes = {
   skills: PropTypes.array,
+  history: PropTypes.object,
 };
 
 function mapStateToProps(store) {
