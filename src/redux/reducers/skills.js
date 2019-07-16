@@ -30,8 +30,8 @@ const defaultState = {
     languageArray.length > 0 && languageArray[0] !== ''
       ? languageArray
       : ['en'],
-  orderBy: 'ascending',
-  filterType: '',
+  orderBy: 'descending',
+  filterType: 'rating',
   searchQuery: '',
   searchType: ['skill_name', 'descriptions', 'examples', 'author'],
   ratingRefine: null,
