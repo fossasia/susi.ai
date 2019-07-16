@@ -41,6 +41,7 @@ import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
+import DeviceWizard from './components/cms/MyDevices/DeviceWizard';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
@@ -176,6 +177,11 @@ class App extends Component {
                 />
                 <ProtectedRoute
                   exact
+                  path="/mydevices/:macID"
+                  component={DeviceWizard}
+                />
+                <ProtectedRoute
+                  exact
                   path="/dashboard/"
                   component={Dashboard}
                 />
@@ -205,16 +211,14 @@ class App extends Component {
                   component={SkillWizard}
                 />
                 <ProtectedRoute exact path="/myskills" component={Dashboard} />
+                <ProtectedRoute exact path="/mydevices" component={Dashboard} />
                 <ProtectedRoute
                   exact
                   path="/skillWizard"
                   component={SkillWizard}
                 />
-                <ProtectedRoute
-                  path="/botbuilder/botwizard"
-                  component={BotBuilderWrap}
-                />
-                <ProtectedRoute path="/botbuilder" component={Dashboard} />
+                <ProtectedRoute path="/botWizard" component={BotBuilderWrap} />
+                <ProtectedRoute path="/mybots" component={Dashboard} />
                 <Route exact path="/about" component={Overview} />
                 <Route exact path="/devices" component={Devices} />
                 <Route exact path="/team" component={Team} />

@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import DashboardContent from './Dashboard';
 import MySkills from '../SkillCreator/SkillCreator';
 import Botbuilder from '../BotBuilder/BotBuilder';
+import MyDevices from '../MyDevices/index';
 import isMobileView from '../../../utils/isMobileView';
 import { templates } from '../BotBuilder/BotBuilderWrap';
 
@@ -40,8 +41,10 @@ class Dashboard extends Component {
         return 0;
       case '/myskills':
         return 1;
-      case '/botbuilder':
+      case '/mybots':
         return 2;
+      case '/mydevices':
+        return 3;
       default:
         return 0;
     }
@@ -58,7 +61,10 @@ class Dashboard extends Component {
         history.replace('/myskills');
         break;
       case 2:
-        history.replace('/botbuilder');
+        history.replace('/mybots');
+        break;
+      case 3:
+        history.replace('/mydevices');
         break;
       default:
         history.replace('/dashboard');
@@ -74,6 +80,8 @@ class Dashboard extends Component {
         return <MySkills showTitle={false} />;
       case 2:
         return <Botbuilder templates={templates} />;
+      case 3:
+        return <MyDevices />;
       default:
         return;
     }
@@ -97,7 +105,8 @@ class Dashboard extends Component {
               >
                 <Tab label="Dashboard" />
                 <Tab label="My Skills" />
-                <Tab label="Botbuilder" />
+                <Tab label="My Bots" />
+                <Tab label="My Devices" />
               </Tabs>
               {this.generateView()}
             </AppBar>

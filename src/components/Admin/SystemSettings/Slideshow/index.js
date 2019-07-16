@@ -4,35 +4,20 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uiActions from '../../../../redux/actions/ui';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import SLIDESHOW from './constants';
 import Button from '@material-ui/core/Button';
 import { fetchSkillSlideshow } from '../../../../apis/index';
 import getImageSrc from '../../../../utils/getImageSrc';
+import { ActionSpan, ActionSeparator } from '../../../shared/TableActionStyles';
 
 const SliderImage = styled.img`
   width: 900px;
   height: 300px;
 `;
 
-const commonActionStyle = css`
-  cursor: pointer;
-  color: #49a9ee;
-`;
-
-const ActionSpan = styled.span`
-  ${commonActionStyle};
-  @media (max-width: 1340px) {
-    margin-right: 0.2rem;
-  }
-`;
-
-const ActionSeparator = styled.span`
-  margin-left: 0.313rem;
-  margin-right: 0.313rem;
-  @media (max-width: 1340px) {
-    display: none;
-  }
+const Container = styled.div`
+  width: 100%;
 `;
 
 class Slideshow extends React.Component {
@@ -100,12 +85,12 @@ class Slideshow extends React.Component {
   render() {
     const { loading, slideshowData } = this.state;
     return (
-      <React.Fragment>
+      <Container>
         <MaterialTable
           isLoading={loading}
           options={{
             actionsColumnIndex: -1,
-            pageSize: 5,
+            paging: false,
           }}
           columns={SLIDESHOW}
           data={slideshowData}
@@ -157,9 +142,9 @@ class Slideshow extends React.Component {
           color="primary"
           onClick={this.handleCreate}
         >
-          Add Config Key
+          Add Slider
         </Button>
-      </React.Fragment>
+      </Container>
     );
   }
 }
