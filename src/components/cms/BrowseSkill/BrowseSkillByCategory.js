@@ -14,7 +14,13 @@ export default class BrowseSkillByCategory extends Component {
       category = this.props.location.pathname.split('/')[2];
     }
 
-    return <BrowseSkill routeType="category" routeValue={category} />;
+    return (
+      <BrowseSkill
+        routeType="category"
+        routeValue={category}
+        history={this.props.history}
+      />
+    );
   }
 }
 
@@ -22,4 +28,5 @@ BrowseSkillByCategory.propTypes = {
   location: PropTypes.object,
   selector: PropTypes.string,
   text: PropTypes.string,
+  history: PropTypes.object,
 };

@@ -11,6 +11,7 @@ import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import getImageSrc from '../../../utils/getImageSrc';
 import { StaffPickImage } from '../SkillsStyle';
 import { RatingContainer, TotalRating, ReactTooltip } from '../SkillCardStyle';
+import SkillExampleBubble from '../../shared/SkillExampleBubble';
 import styled from 'styled-components';
 
 const Card = styled.div`
@@ -72,24 +73,6 @@ const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const Example = styled.div`
-  font-style: italic;
-  font-size: 0.875rem;
-  padding: 0.875rem 1.125rem;
-  border-radius: 4px;
-  border: 1px #ddd solid;
-  background-color: #f3f3f3;
-  margin-right: 3.5%;
-  float: left;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  max-width: 16.25rem;
-  cursor: pointer;
 `;
 
 const Header = styled.div`
@@ -244,17 +227,7 @@ function createListCard(
             {examples.length > 0 &&
               examples.map((eg, index) => {
                 return (
-                  <Example
-                    key={index}
-                    onClick={event =>
-                      history.push({
-                        pathname: '/chat',
-                        search: `?testExample=${eg}`,
-                      })
-                    }
-                  >
-                    &quot;{eg}&quot;
-                  </Example>
+                  <SkillExampleBubble key={index} data={eg} history={history} />
                 );
               })}
           </ExampleContainer>

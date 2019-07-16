@@ -202,6 +202,7 @@ class MessageComposer extends Component {
     customThemeValue: PropTypes.object,
     exitSearch: PropTypes.func,
     showChatBubble: PropTypes.bool,
+    testSkillExampleQuery: PropTypes.bool,
   };
 
   constructor(props) {
@@ -233,7 +234,7 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    const { actions } = this.props;
+    const { actions, testSkillExampleQuery } = this.props;
     actions
       .getHistoryFromServer()
       .then(({ payload }) => {
@@ -251,7 +252,7 @@ class MessageComposer extends Component {
               messagesByID,
               'REVERSE',
             );
-            if (testSkill) {
+            if (testSkill && testSkillExampleQuery) {
               let text = testSkill.trim();
               if (text) {
                 if (!enterAsSend) {
