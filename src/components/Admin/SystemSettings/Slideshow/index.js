@@ -4,35 +4,16 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uiActions from '../../../../redux/actions/ui';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import SLIDESHOW from './constants';
 import Button from '@material-ui/core/Button';
 import { fetchSkillSlideshow } from '../../../../apis/index';
 import getImageSrc from '../../../../utils/getImageSrc';
+import { ActionSpan, ActionSeparator } from '../../../shared/TableActionStyles';
 
 const SliderImage = styled.img`
   width: 900px;
   height: 300px;
-`;
-
-const commonActionStyle = css`
-  cursor: pointer;
-  color: #49a9ee;
-`;
-
-const ActionSpan = styled.span`
-  ${commonActionStyle};
-  @media (max-width: 1340px) {
-    margin-right: 0.2rem;
-  }
-`;
-
-const ActionSeparator = styled.span`
-  margin-left: 0.313rem;
-  margin-right: 0.313rem;
-  @media (max-width: 1340px) {
-    display: none;
-  }
 `;
 
 const Container = styled.div`

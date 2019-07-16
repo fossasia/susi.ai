@@ -12,6 +12,7 @@ import _Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import uiActions from '../../../../redux/actions/ui';
 import { fetchApiKeys, deleteApiKey } from '../../../../apis/index';
+import { ActionSpan, ActionSeparator } from '../../../shared/TableActionStyles';
 
 const Table = styled(_Table)`
   max-width: 40rem;
@@ -24,16 +25,6 @@ const Table = styled(_Table)`
 
 const AddConfigButton = styled(Button)`
   margin-top: 1rem;
-`;
-
-const ActionSpan = styled.span`
-  cursor: pointer;
-  color: #49a9ee;
-`;
-
-const ActionSeparator = styled.span`
-  margin-left: 0.313rem;
-  margin-right: 0.313rem;
 `;
 
 class ConfigKeys extends React.Component {

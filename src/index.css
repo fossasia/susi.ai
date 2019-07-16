@@ -21,3 +21,8 @@ input:-webkit-autofill {
   -webkit-animation-name: autofill;
   -webkit-animation-fill-mode: both;
 }
+
+a{
+  color: rgb(66, 133, 244);
+  text-decoration: none;
+}
