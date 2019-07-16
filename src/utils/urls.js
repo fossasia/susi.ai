@@ -6,6 +6,9 @@ const urls = {
   GITHUB_AVATAR_URL: 'https://avatars.githubusercontent.com',
   GRAVATAR_URL: 'https://www.gravatar.com/avatar',
   GITHUB_API: 'https://api.github.com',
+  ANDROID_APP_URL:
+    'https://play.google.com/store/apps/details?id=ai.susi&hl=en',
+  IOS_APP_URL: 'https://github.com/fossasia/susi_iOS',
 };
 
 export default urls;
