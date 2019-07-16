@@ -93,7 +93,17 @@ class EditSkill extends React.Component {
           </Container>
         </DialogContent>
         <DialogActions>
-          <Button key={1} onClick={handleConfirm}>
+          <Button
+            key={1}
+            onClick={() =>
+              handleConfirm(
+                skillReviewStatus,
+                skillEditStatus,
+                skillStaffPickStatus,
+                systemSkillStatus,
+              )
+            }
+          >
             Change
           </Button>
           <Button key={2} onClick={handleClose}>
