@@ -11,16 +11,7 @@ import uiActions from '../../../redux/actions/ui';
 import _SearchBar from 'material-ui-search-bar';
 import COLUMNS from './constants';
 import TablePagination from '@material-ui/core/TablePagination';
-
-const ActionSpan = styled.span`
-  cursor: pointer;
-  color: #49a9ee;
-`;
-
-const ActionSeparator = styled.span`
-  margin-left: 0.313rem;
-  margin-right: 0.313rem;
-`;
+import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 
 const SearchBar = styled(_SearchBar)`
   width: 50%;

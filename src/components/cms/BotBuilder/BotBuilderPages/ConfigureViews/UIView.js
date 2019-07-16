@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button as _Button, Form } from 'antd';
+import _Button from '@material-ui/core/Button';
 import _TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,6 +9,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { ActionDiv } from '../../../../shared/TableActionStyles';
 
 const TextField = styled(_TextField)`
   width: 272px;
@@ -33,16 +39,6 @@ const Text = styled.div`
 const Container = styled.div`
   padding: 20px 0px;
 `;
-
-const EditableContext = React.createElement();
-// eslint-disable-next-line
-const EditableRow = ({ form, index, ...props }) => (
-  <EditableContext.Provider value={form}>
-    <tr {...props} />
-  </EditableContext.Provider>
-);
-
-const EditableFormRow = Form.create()(EditableRow);
 
 class UIView extends Component {
   constructor(props) {
@@ -242,14 +238,6 @@ class UIView extends Component {
     });
   };
 
-  handleOpenLastActiveInfo = () => {
-    this.setState({ lastActiveInfo: true });
-  };
-
-  handleCloseLastActiveInfo = () => {
-    this.setState({ lastActiveInfo: false });
-  };
-
   handleChangeIncludeSusiSkills = () => {
     let value = !this.state.includeSusiSkills;
     let { configCode, actions } = this.props;
@@ -315,26 +303,6 @@ class UIView extends Component {
       myDevices,
       publicDevices,
     } = this.state;
-    const components = {
-      body: {
-        row: EditableFormRow,
-      },
-    };
-    const columns = this.columns.map(col => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: record => ({
-          record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          handleSave: this.handleSave,
-        }),
-      };
-    });
     return (
       <div>
         <div>
@@ -352,24 +320,44 @@ class UIView extends Component {
           {limitSites ? (
             <Container>
               <TextField
-                name="Website Name"
                 value={websiteName}
                 onChange={this.handleChangeWebsiteName}
                 placeholder="Domain Name"
                 variant="outlined"
+                margin="dense"
+                label="Domain Name"
               />
-              <Button onClick={this.handleAdd} type="primary">
+              <Button
+                onClick={this.handleAdd}
+                variant="contained"
+                color="primary"
+              >
                 Add a website
               </Button>
-              <Table
-                components={components}
-                rowClassName={() => 'editable-row'}
-                locale={{ emptyText: 'No websites added!' }}
-                bordered
-                dataSource={dataSource}
-                columns={columns}
-                pagination={false}
-              />
+              {dataSource.length !== 0 && (
+                <Table style={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
+                  <TableHead style={{ backgroundColor: '#FAFAFA' }}>
+                    <TableRow>
+                      <TableCell>Website</TableCell>
+                      <TableCell>Date Added</TableCell>
+                      <TableCell>Operation</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {dataSource.map(row => (
+                      <TableRow key={row.id}>
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.date}</TableCell>
+                        <TableCell>
+                          <ActionDiv onClick={() => this.handleDelete(row.key)}>
+                            Delete
+                          </ActionDiv>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </Container>
           ) : null}
         </div>
