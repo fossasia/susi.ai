@@ -1,12 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
-import ChevronRight from '@material-ui/icons/ChevronRight';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import mobileView from '../../../utils/isMobileView';
+import skillActions from '../../../redux/actions/skill';
+import uiActions from '../../../redux/actions/ui';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import ChevronRight from '@material-ui/icons/ChevronRight';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import { fetchSkillSlideshow } from '../../../apis/index';
 import getImageSrc from '../../../utils/getImageSrc';
 import './index.css';
+
+const isMobileView = mobileView();
 
 const Container = styled.div`
   margin: 0 auto 0 0.5rem;
@@ -103,8 +111,32 @@ class Carousel extends React.Component {
 
   render() {
     const { slideshowData } = this.state;
+    const { actions, history } = this.props;
     const renderSlides = slideshowData.map(obj => {
-      return (
+      return obj.redirectLink.includes('testExample') ? (
+        <span
+          onClick={event => {
+            history.push({
+              search: obj.redirectLink.split('/')[3].substring(4),
+            });
+            actions.handleTestSkillExample();
+            isMobileView &&
+              actions.openModal({
+                modalType: 'chatBubble',
+                fullScreenChat: true,
+              });
+            actions.handleChatBubble({
+              chatBubble: isMobileView ? 'minimised' : 'full',
+            });
+          }}
+          href={obj.redirectLink}
+          key={obj.redirectLink}
+        >
+          <SliderImage
+            src={getImageSrc({ relativePath: `image=${obj.image_name}` })}
+          />
+        </span>
+      ) : (
         <a href={obj.redirectLink} key={obj.redirectLink}>
           <SliderImage
             src={getImageSrc({ relativePath: `image=${obj.image_name}` })}
@@ -122,6 +154,18 @@ class Carousel extends React.Component {
 
 Carousel.propTypes = {
   history: PropTypes.object,
+  actions: PropTypes.object,
 };
 
-export default Carousel;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
+  };
+}
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(Carousel),
+);
