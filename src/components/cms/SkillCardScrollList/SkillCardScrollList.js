@@ -54,14 +54,18 @@ const skillCardListData = [
   },
 ];
 
-const SkillCardScrollList = ({ metricSkills, history }) => {
+const SkillCardScrollList = ({ metricSkills, history, isMobile }) => {
   let renderCardScrollList = '';
 
   renderCardScrollList = skillCardListData.map((data, index) => {
     return metricSkills[data.skills].length ? (
       <Container key={index}>
         <HeaderText>{data.heading}</HeaderText>
-        <SkillCard scrollSkills={data.skills} history={history} />
+        <SkillCard
+          isMobile={isMobile}
+          scrollSkills={data.skills}
+          history={history}
+        />
       </Container>
     ) : null;
   });
@@ -71,6 +75,7 @@ const SkillCardScrollList = ({ metricSkills, history }) => {
 SkillCardScrollList.propTypes = {
   metricSkills: PropTypes.object,
   history: PropTypes.object,
+  isMobile: PropTypes.bool,
 };
 
 function mapStateToProps(store) {
