@@ -70,6 +70,34 @@ const ErrorText = styled.div`
   }
 `;
 
+const ConfigureContainer = styled(Paper)`
+  position: relative;
+`;
+
+const ConfigureOverlay = styled.div`
+  background: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  padding: 0;
+  transition: opacity 0.5s;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 100;
+  font-size: 1.5rem;
+
+  :hover {
+    opacity: 0.9;
+    transition: opacity 0.5s;
+  }
+`;
+
 const serviceMenu = ['Google', 'IBM Watson'];
 
 class DeviceWizard extends React.Component {
@@ -81,6 +109,7 @@ class DeviceWizard extends React.Component {
     devices: PropTypes.object,
     userName: PropTypes.string,
     email: PropTypes.string,
+    isLocalEnv: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -216,7 +245,7 @@ class DeviceWizard extends React.Component {
       textToSpeech,
     } = this.state;
     let macId = this.macId;
-    const { userName, email, mapKey, google } = this.props;
+    const { userName, email, mapKey, google, isLocalEnv } = this.props;
     return (
       <React.Fragment>
         {devicesData.length ? (
@@ -233,7 +262,13 @@ class DeviceWizard extends React.Component {
                 deviceWizard={true}
               />
             </Paper>
-            <Paper>
+            <ConfigureContainer>
+              {!isLocalEnv && (
+                <ConfigureOverlay>
+                  You need to access this page on your device to configure your
+                  device.
+                </ConfigureOverlay>
+              )}
               <SubHeading>Configure</SubHeading>
               <div>
                 <FormControlLabel
@@ -243,11 +278,17 @@ class DeviceWizard extends React.Component {
                       checked={synchronizePublicSkills}
                       onChange={this.handleCheck}
                       color="primary"
+                      disabled={!isLocalEnv}
                     />
                   }
                   label="(Coming Soon) Synchronize local skills with SUSI.AI skills database regularly"
                 />
-                <CustomButton variant="contained" color="primary" size="small">
+                <CustomButton
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  disabled={!isLocalEnv}
+                >
                   Synchronize Now
                 </CustomButton>
                 <FormControlLabel
@@ -257,11 +298,17 @@ class DeviceWizard extends React.Component {
                       checked={synchronizePrivateSkills}
                       onChange={this.handleCheck}
                       color="primary"
+                      disabled={!isLocalEnv}
                     />
                   }
                   label="(Coming Soon) Synchronize (upload) private skills I create locally with my online account when online"
                 />
-                <CustomButton variant="contained" color="primary" size="small">
+                <CustomButton
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  disabled={!isLocalEnv}
+                >
                   Upload Now
                 </CustomButton>
               </div>
@@ -273,6 +320,7 @@ class DeviceWizard extends React.Component {
                     name="speechToText"
                     value={speechToText}
                     onChange={this.handleChangeSpeech}
+                    disabled={!isLocalEnv}
                   >
                     {serviceMenu.map((service, index) => {
                       return (
@@ -289,6 +337,7 @@ class DeviceWizard extends React.Component {
                     name="textToSpeech"
                     value={textToSpeech}
                     onChange={this.handleChangeSpeech}
+                    disabled={!isLocalEnv}
                   >
                     {serviceMenu.map((service, index) => {
                       return (
@@ -299,7 +348,12 @@ class DeviceWizard extends React.Component {
                     })}
                   </Select>
                 </SpeechToTextDiv>
-                <SaveButton variant="contained" color="primary" size="small">
+                <SaveButton
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  disabled={!isLocalEnv}
+                >
                   Save Changes
                 </SaveButton>
                 <Bold>
@@ -311,11 +365,12 @@ class DeviceWizard extends React.Component {
                   color="primary"
                   size="small"
                   onClick={this.handleRemoveConfirmation}
+                  disabled={!isLocalEnv}
                 >
                   Unlink
                 </Button>
               </div>
-            </Paper>
+            </ConfigureContainer>
             <Paper>
               <SubHeading>Map</SubHeading>
               <div>
@@ -360,6 +415,7 @@ function mapStateToProps(store) {
     devices: store.settings.devices,
     email: store.app.email,
     userName: store.settings.userName,
+    isLocalEnv: store.app.isLocalEnv,
   };
 }
 

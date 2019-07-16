@@ -42,6 +42,7 @@ import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
 import DeviceWizard from './components/cms/MyDevices/DeviceWizard';
+import AppBanner from './components/shared/AppBanner';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
@@ -58,6 +59,7 @@ class App extends Component {
     showCookiePolicy: PropTypes.bool,
     modalProps: PropTypes.object,
     visited: PropTypes.bool,
+    isLocalEnv: PropTypes.bool,
   };
 
   componentDidMount = () => {
@@ -107,6 +109,7 @@ class App extends Component {
       modalProps: { isModalOpen },
       location: { pathname },
       showCookiePolicy,
+      isLocalEnv,
       // visited,
     } = this.props;
     const skillListRegex = new RegExp('^/');
@@ -122,6 +125,7 @@ class App extends Component {
       '/terms',
       '/contact',
     ];
+    const renderAppBanner = isLocalEnv ? <AppBanner /> : null;
     const renderAppBar = pathname !== '/chat' ? <NavigationBar /> : null;
     const renderFooter =
       (skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
@@ -150,6 +154,7 @@ class App extends Component {
               />
             )}
             {renderAppBar}
+            {renderAppBanner}
             {pathname !== '/chat' ? <ChatApp showChatBubble={true} /> : null}
             <RootContainer>
               <Switch>
@@ -259,6 +264,7 @@ function mapStateToProps(store) {
     accessToken: store.app.accessToken,
     showCookiePolicy: store.app.showCookiePolicy,
     visited: store.app.visited,
+    isLocalEnv: store.app.isLocalEnv,
   };
 }
 
