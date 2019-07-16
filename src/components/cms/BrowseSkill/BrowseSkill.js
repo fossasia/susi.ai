@@ -20,12 +20,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import _RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import Add from '@material-ui/icons/Add';
 import Person from '@material-ui/icons/Person';
-import ActionViewModule from '@material-ui/icons/ViewModule';
-import ActionViewStream from '@material-ui/icons/ViewStream';
+import _ActionViewModule from '@material-ui/icons/ViewModule';
+import _ActionViewStream from '@material-ui/icons/ViewStream';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Fab from '@material-ui/core/Fab';
 import NavigationArrowBack from '@material-ui/icons/ArrowBack';
@@ -54,7 +54,7 @@ const Container = styled.div`
 `;
 
 const commonFormStyles = css`
-  width: 9rem;
+  width: 6.8rem;
   margin: 1rem 0.625rem 1rem 0;
   float: right;
   @media (max-width: 350px) {
@@ -71,17 +71,6 @@ const Link = styled(_Link)`
   text-decoration: none;
   &:hover {
     color: #000;
-  }
-`;
-
-const PageFormControl = styled(FormControl)`
-  ${commonFormStyles};
-  margin-left: 1.5rem;
-  @media (max-width: 500px) {
-    margin-right: 1.5rem;
-  }
-  @media (max-width: 400px) {
-    margin-left: 0.625rem;
   }
 `;
 
@@ -112,8 +101,8 @@ const FormControlLabel = styled(_FormControlLabel)`
 `;
 
 const FilterFormControl = styled(FormControl)`
-  margin: 0.4rem;
-  width: 9rem;
+  margin: 0.4rem 2.5rem 0.4rem 0.4rem;
+  min-width: 9rem;
   font-size: 0.875rem;
 `;
 
@@ -218,6 +207,29 @@ const MobileBackButton = styled(Button)`
    {
     width: 70%;
     margin: 0 auto;
+  }
+`;
+
+const commonListIconStyles = css`
+  font-size: 50px;
+  fill: ${props => (props.isActive === true ? '#4285f4' : '#e0e0e0')};
+  @media (max-width: 1260px) {
+    font-size: 30px;
+  }
+`;
+
+const ActionViewModule = styled(_ActionViewModule)`
+  ${commonListIconStyles}
+`;
+
+const ActionViewStream = styled(_ActionViewStream)`
+  ${commonListIconStyles}
+`;
+
+const RadioGroup = styled(_RadioGroup)`
+  margin-top: 1.1rem;
+  @media (max-width: 550px) {
+    margin: 0rem;
   }
 `;
 
@@ -817,7 +829,7 @@ class BrowseSkill extends React.Component {
                       sm={6}
                       style={{
                         textAlign: 'center',
-                        padding: isMobile ? '10px' : '30px 25px 0',
+                        padding: isMobile ? '10px 30px' : '30px 25px 0',
                         fontSize: isMobile ? '14px' : '16px',
                       }}
                     >
@@ -842,7 +854,8 @@ class BrowseSkill extends React.Component {
                             <MenuItem value={'lexicographical'}>
                               Name (A-Z)
                             </MenuItem>
-                            <MenuItem value={'rating'}>Top Rated</MenuItem>
+                            <MenuItem value={'top_rated'}>Top Rated</MenuItem>
+                            <MenuItem value={'rating'}>Most Rated</MenuItem>
                             <MenuItem value={'creation_date'}>
                               Newly Created
                             </MenuItem>
@@ -860,58 +873,40 @@ class BrowseSkill extends React.Component {
                             </MenuItem>
                           </Select>
                         </FilterFormControl>
+                        {skills.length > 10 && (
+                          <SkillsFormControl>
+                            <InputLabel>Skills per page</InputLabel>
+                            <Select
+                              value={entriesPerPage}
+                              onChange={this.handleEntriesPerPageChange}
+                              style={{ width: '5.1rem' }}
+                            >
+                              <MenuItem value={10}>10</MenuItem>
+                              <MenuItem value={20}>20</MenuItem>
+                              <MenuItem value={50}>50</MenuItem>
+                              <MenuItem value={100}>100</MenuItem>
+                            </Select>
+                          </SkillsFormControl>
+                        )}
                         <RadioGroup
                           defaultValue="list"
                           value={viewType}
                           onChange={this.handleViewChange}
-                          style={{ marginRight: '2rem' }}
+                          style={{ marginRight: '2rem', flexDirection: 'row' }}
                         >
                           <Radio
                             value="list"
                             style={{ width: 'fit-content', padding: '0px' }}
-                            checkedIcon={
-                              <ActionViewStream style={{ fill: '#4285f4' }} />
-                            }
-                            icon={
-                              <ActionViewStream style={{ fill: '#e0e0e0' }} />
-                            }
+                            checkedIcon={<ActionViewStream isActive={true} />}
+                            icon={<ActionViewStream isActive={false} />}
                           />
                           <Radio
                             value="grid"
                             style={{ width: 'fit-content', padding: '0px' }}
-                            checkedIcon={
-                              <ActionViewModule style={{ fill: '#4285f4' }} />
-                            }
-                            icon={
-                              <ActionViewModule style={{ fill: '#e0e0e0' }} />
-                            }
+                            checkedIcon={<ActionViewModule isActive={true} />}
+                            icon={<ActionViewModule isActive={false} />}
                           />
                         </RadioGroup>
-                        {skills.length > 10 && (
-                          <div>
-                            <PageFormControl>
-                              <InputLabel>Page</InputLabel>
-                              <Select
-                                value={listPage}
-                                onChange={this.handlePageChange}
-                              >
-                                {this.pageMenuItems()}
-                              </Select>
-                            </PageFormControl>
-                            <SkillsFormControl>
-                              <InputLabel>Skills per page</InputLabel>
-                              <Select
-                                value={entriesPerPage}
-                                onChange={this.handleEntriesPerPageChange}
-                              >
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={20}>20</MenuItem>
-                                <MenuItem value={50}>50</MenuItem>
-                                <MenuItem value={100}>100</MenuItem>
-                              </Select>
-                            </SkillsFormControl>
-                          </div>
-                        )}
                       </FlexContainer>
                     </Grid>
                   </Grid>
