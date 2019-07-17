@@ -70,6 +70,16 @@ const IconButton = styled(_IconButton)`
   }
 `;
 
+const DeleteButton = styled(_Button)`
+  background: #f44336;
+  color: white;
+  height: 3rem;
+
+  :hover {
+    background: #f44336ee;
+  }
+`;
+
 const SelectDropDown = styled(Select)`
   position: relative;
   width: 15.625rem;
@@ -282,13 +292,14 @@ const Form = styled.form`
   display: inline-block;
 `;
 
-const DeleteSkillPaper = styled(Paper)`
+const DeleteSkillSection = styled(Paper)`
   width: 100%;
   border: 0.063rem solid red;
   margin-top: 20px;
   padding: 1.25rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Button = styled(_Button)`
@@ -306,7 +317,6 @@ const Img = styled.img`
   height: 60px;
   border-radius: 50%;
   margin-right: 20px;
-  bottom: 1.5rem;
   position: relative;
 `;
 
@@ -426,7 +436,6 @@ class SkillWizard extends Component {
         author: '',
         oldImageUrl: '',
         imageNameChanged: false,
-        showAdmin: false,
         slideState: 1, // 1 means in middle, 2 means preview collapsed
         colSkill: this.props.hasOwnProperty('revertingCommit') ? 12 : 8,
         colPreview: this.props.hasOwnProperty('revertingCommit') ? 0 : 4,
@@ -498,13 +507,7 @@ class SkillWizard extends Component {
 
   componentDidMount = () => {
     // Check if admin is logged in or not
-    const { isAdmin, actions } = this.props;
-    if (isAdmin) {
-      this.setState({
-        showAdmin: true,
-      });
-    }
-
+    const { actions } = this.props;
     if (this.isBotBuilder) {
       this.setState({
         slideState: 0,
@@ -719,9 +722,10 @@ class SkillWizard extends Component {
 
   handleDeleteModal = () => {
     this.props.actions.openModal({
-      modalType: 'deleteSkillWithInput',
+      modalType: 'deleteSkill',
       handleConfirm: this.deleteSkill,
       handleClose: this.props.actions.closeModal,
+      skillName: this.skillData.skill,
     });
   };
 
@@ -1043,6 +1047,7 @@ class SkillWizard extends Component {
       language,
       name,
       image,
+      isAdmin,
     } = this.props;
     const { showImage, loadViews } = this.state;
     let showTopBar = true;
@@ -1108,7 +1113,7 @@ class SkillWizard extends Component {
                 {accessToken &&
                   this.mode === 'edit' &&
                   !this.state.editable &&
-                  !this.state.showAdmin && (
+                  !isAdmin && (
                     <HomeDiv>
                       <TitlePara>
                         THIS SKILL IS NOT EDITABLE. IT IS CURRENTLY LOCKED BY
@@ -1284,23 +1289,19 @@ class SkillWizard extends Component {
                     </span>
                   </PreviewButton>
                 ) : null}
-                {this.mode === 'edit' && this.state.showAdmin && (
-                  <DeleteSkillPaper>
+                {this.mode === 'edit' && isAdmin && (
+                  <DeleteSkillSection>
                     <div>
-                      <strong>
-                        <p>Delete this Skill</p>
-                      </strong>
+                      <div>
+                        <b>Delete this Skill</b>
+                      </div>
                       {'Once you delete a skill, only admins can ' +
                         'undo this action before 30 days of deletion. Please be certain.'}
                     </div>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={this.handleDeleteModal}
-                    >
+                    <DeleteButton onClick={this.handleDeleteModal}>
                       Delete
-                    </Button>
-                  </DeleteSkillPaper>
+                    </DeleteButton>
+                  </DeleteSkillSection>
                 )}
               </Col>
               {this.isBotBuilder ? null : (
