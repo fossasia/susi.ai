@@ -395,7 +395,7 @@ class SkillWizard extends Component {
       searchURLPath('group') &&
       searchURLPath('language')
     ) {
-      this.expertValue = getQueryStringValue('name');
+      this.skillTag = getQueryStringValue('name');
       this.groupValue = getQueryStringValue('group');
       this.languageValue = getQueryStringValue('language');
     }
@@ -408,10 +408,10 @@ class SkillWizard extends Component {
       this.mode = 'edit';
       this.groupValue = pathname.split('/')[1];
       this.languageValue = pathname.split('/')[4];
-      this.expertValue = pathname.split('/')[2];
+      this.skillTag = pathname.split('/')[2];
       this.commitId = pathname.split('/')[5];
 
-      let commitMessage = `Updated Skill ${this.expertValue}`;
+      let commitMessage = `Updated Skill ${this.skillTag}`;
       if (this.props.hasOwnProperty('revertingCommit')) {
         commitMessage = 'Reverting to commit - ' + this.props.revertingCommit;
       } else if (this.commitId) {
@@ -444,6 +444,13 @@ class SkillWizard extends Component {
         prevButton: 0, // 0 means disappear, 1 means appear
       };
     }
+
+    this.skillData = {
+      model: 'general',
+      group: this.groupValue,
+      language: this.languageValue,
+      skill: this.skillTag,
+    };
   }
 
   loadLanguages() {
@@ -516,7 +523,7 @@ class SkillWizard extends Component {
         searchURLPath('language'))
     ) {
       let payload = {
-        skill: this.expertValue,
+        skill: this.skillTag,
         group: this.groupValue,
         language: this.languageValue,
         model: 'general',
@@ -534,7 +541,7 @@ class SkillWizard extends Component {
         });
 
       actions.setSkillData({
-        name: this.expertValue,
+        name: this.skillTag,
         category: this.groupValue,
         language: this.languageValue,
       });
@@ -797,7 +804,7 @@ class SkillWizard extends Component {
     if (
       this.mode === 'edit' &&
       this.groupValue === category &&
-      this.expertValue === name &&
+      this.skillTag === name &&
       this.languageValue === language &&
       !this.state.codeChanged &&
       !this.state.imageNameChanged
@@ -871,7 +878,7 @@ class SkillWizard extends Component {
       form.append('OldModel', 'general');
       form.append('OldGroup', this.groupValue);
       form.append('OldLanguage', this.languageValue);
-      form.append('OldSkill', this.expertValue);
+      form.append('OldSkill', this.skillTag);
       form.append('NewModel', 'general');
       form.append('NewGroup', category);
       form.append('NewLanguage', language);
@@ -975,35 +982,47 @@ class SkillWizard extends Component {
   };
 
   deleteSkill = () => {
-    deleteSkill()
+    this.setState({
+      loading: true,
+    });
+    const { actions, history } = this.props;
+    const { model, group, language, skill } = this.skillData;
+    deleteSkill({ model, group, language, skill })
       .then(payload => {
-        if (payload.accepted === true) {
-          this.props.actions.openSnackBar({
-            snackBarMessage: 'This Skill has been deleted',
-            snackBarPosition: { vertical: 'top', horizontal: 'right' },
-            variant: 'success',
-          });
-          this.setState({
-            loading: false,
-          });
-          this.props.history.push({
-            pathname: '/',
-            state: {},
-          });
-        } else {
-          this.props.actions.openSnackBar({
-            snackBarMessage: payload.message,
-            snackBarPosition: { vertical: 'top', horizontal: 'right' },
-            variant: 'warning',
-          });
-          this.props.history.push({
-            pathname: '/',
-            state: {},
-          });
-        }
+        this.setState({
+          loading: false,
+        });
+        actions.openModal({
+          modalType: 'confirm',
+          title: 'Success',
+          handleConfirm: () => {
+            actions.closeModal();
+            history.push('/');
+          },
+          skillName: skill,
+          content: (
+            <p>
+              You successfully deleted <b>{skill}</b>!
+            </p>
+          ),
+        });
       })
       .catch(error => {
-        console.log('Error while deleting skill', error);
+        console.log(error);
+        this.setState({
+          loading: false,
+        });
+        actions.openModal({
+          modalType: 'confirm',
+          title: 'Failed',
+          handleConfirm: actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Error! <b>{skill}</b> could not be deleted!
+            </p>
+          ),
+        });
       });
   };
 
@@ -1057,7 +1076,7 @@ class SkillWizard extends Component {
                         {
                           'You are currently editing an older version of the Skill: '
                         }
-                        <B>{this.expertValue}</B>
+                        <B>{this.skillTag}</B>
                         <br />
                         <span>
                           Author: <B>{this.state.author}</B>

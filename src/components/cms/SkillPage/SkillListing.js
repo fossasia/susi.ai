@@ -187,6 +187,43 @@ class SkillListing extends Component {
     this.props.actions.openModal({ modalType: 'authorSkills' });
   };
 
+  deleteSkill = () => {
+    const { actions, history } = this.props;
+    const { model, group, language, skill } = this.skillData;
+    actions
+      .deleteSkill({ model, group, language, skill })
+      .then(payload => {
+        actions.openModal({
+          modalType: 'confirm',
+          title: 'Success',
+          handleConfirm: () => {
+            actions.closeModal();
+            history.push('/');
+          },
+          skillName: skill,
+          content: (
+            <p>
+              You successfully deleted <b>{skill}</b>!
+            </p>
+          ),
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        actions.openModal({
+          modalType: 'confirm',
+          title: 'Failed',
+          handleConfirm: actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Error! <b>{skill}</b> could not be deleted!
+            </p>
+          ),
+        });
+      });
+  };
+
   handleDeleteDialog = () => {
     this.props.actions.openModal({
       modalType: 'deleteSkill',
@@ -200,24 +237,6 @@ class SkillListing extends Component {
       modalType: 'reportSkill',
       handleConfirm: this.handleReportSubmit,
       handleClose: this.props.actions.closeModal,
-    });
-  };
-
-  deleteSkill = () => {
-    const { actions, history } = this.props;
-    actions.setSkillLoading().then(response => {
-      actions
-        .deleteSkill(this.skillData)
-        .then(payload => {
-          // this.handleDeleteToggle();
-          history.push('/');
-        })
-        .catch(error => {
-          console.log(error);
-          actions.openSnackBar({
-            snackMessage: 'Failed to delete the skill.',
-          });
-        });
     });
   };
 
