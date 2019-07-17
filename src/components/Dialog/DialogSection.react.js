@@ -25,7 +25,6 @@ import RestoreSkill from '../Admin/ListSkills/RestoreSkillDialog';
 import ReportSkillDialog from '../cms/SkillPage/ReportSkillDialog';
 import DeleteFeedbackDialog from '../cms/SkillFeedbackPage/DeleteFeedbackDialog';
 import EditFeedbackDialog from '../cms/SkillFeedbackPage/EditFeedbackDialog';
-import DeleteSkillWithInput from '../cms/SkillCreator/DeleteSkillDialog';
 import DeleteBot from '../cms/BotBuilder/DeleteBotDialog';
 import SkillSlideshowDialog from '../Admin/SystemSettings/Slideshow/Dialog';
 import EditUserRole from '../Admin/ListUser/EditUserRoleDialog';
@@ -53,7 +52,7 @@ const DialogData = {
   updateSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
   createSystemSettings: { Component: UpdateSystemSettings, size: 'sm' },
   deleteSystemSettings: { Component: DeleteSystemSettings, size: 'sm' },
-  deleteSkill: { Component: DeleteSkill, size: 'xs' },
+  deleteSkill: { Component: DeleteSkill, size: 'sm' },
   confirm: { Component: ConfirmDialog, size: 'xs' },
   editSkill: { Component: EditSkill, size: 'sm' },
   restoreSkill: { Component: RestoreSkill, size: 'xs' },
@@ -61,7 +60,6 @@ const DialogData = {
   deleteFeedback: { Component: DeleteFeedbackDialog, size: 'sm' },
   editFeedback: { Component: EditFeedbackDialog, size: 'sm' },
   // For skillCreator delete skill
-  deleteSkillWithInput: { Component: DeleteSkillWithInput, size: 'sm' },
   deleteBot: { Component: DeleteBot, size: 'sm' },
   skillSlideshow: { Component: SkillSlideshowDialog, size: 'md' },
   editUserRole: { Component: EditUserRole, size: 'sm' },

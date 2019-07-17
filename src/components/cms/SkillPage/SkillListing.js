@@ -229,6 +229,7 @@ class SkillListing extends Component {
       modalType: 'deleteSkill',
       handleConfirm: this.deleteSkill,
       handleClose: this.props.actions.closeModal,
+      skillName: this.skillData.skill,
     });
   };
 
