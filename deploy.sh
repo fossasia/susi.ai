@@ -95,6 +95,7 @@ mv build ../build/
 
 git checkout $LOCAL_TARGET_BRANCH
 rm -rf node_modules/
+mv ../build/* .
 mv build/* .
 rm -Rf build
 cp index.html 404.html
