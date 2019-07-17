@@ -53,19 +53,6 @@ const Container = styled.div`
   margin-top: 3rem;
 `;
 
-const commonFormStyles = css`
-  width: 6.8rem;
-  margin: 1rem 0.625rem 1rem 0;
-  float: right;
-  @media (max-width: 350px) {
-    float: left;
-    width: 7.5rem;
-  }
-  @media (max-width: 500px) {
-    float: left;
-  }
-`;
-
 const Link = styled(_Link)`
   color: #000;
   text-decoration: none;
@@ -75,8 +62,18 @@ const Link = styled(_Link)`
 `;
 
 const SkillsFormControl = styled(FormControl)`
-  ${commonFormStyles};
-  margin-left: 0rem;
+  width: 6.8rem;
+  margin: 1rem 0.625rem 1rem 0;
+  float: right;
+  @media (max-width: 350px) {
+    float: left;
+    width: 7.5rem;
+  }
+  @media (max-width: 550px) {
+    float: left;
+    width: 8rem;
+    margin-right: 0rem;
+  }
 `;
 
 const SkillRatingContainer = styled.div`
@@ -104,6 +101,9 @@ const FilterFormControl = styled(FormControl)`
   margin: 0.4rem 2.5rem 0.4rem 0.4rem;
   min-width: 9rem;
   font-size: 0.875rem;
+  @media (max-width: 550px) {
+    margin: 0.4rem 1.5rem 0.4rem 0.4rem;
+  }
 `;
 
 const ListSubheader = styled(_ListSubheader)`

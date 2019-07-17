@@ -47,6 +47,9 @@ const ExampleComment = styled.div`
     border-style: solid;
     border-color: #f4f6f6 transparent transparent #f4f6f6;
   }
+  @media (max-width: 550px) {
+    padding: 4px;
+  }
 `;
 
 const SkillExampleBubble = ({

@@ -22,6 +22,9 @@ const Card = styled.div`
   border-top: 1px solid #eaeded;
   padding: 7px;
   line-height: 1.25;
+  @media (max-width: 550px) {
+    height: fit-content;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -44,6 +47,10 @@ const ExampleContainer = styled.div`
   width: 57.448%;
   margin-right: 3%;
   max-width: 35.8rem;
+  @media(max-width: 550px){
+    width: 200%
+    height: min-content;
+  }
 `;
 
 const RightContainer = styled.div`
@@ -93,17 +100,17 @@ const Content = styled.div`
   display: block;
   width: 100%;
   color: #949494;
+  @media (max-with: 550px) {
+    padding-left: 2.5%;
+  }
 `;
 
 const ImageContainerMobile = styled.div`
   padding: 0.625rem;
-  height: 7.5rem;
-  display: flex;
-  align-items: center;
 `;
 
 const ImageMobile = styled.img`
-  width: 7.5rem;
+  width: 6rem;
   border-radius: 50%;
 `;
 
@@ -158,9 +165,6 @@ function createListCard(
             <div style={{ fontSize: 12 }}>
               <span>{authorName}</span>
             </div>
-            <div style={{ lineHeight: 1.35, fontSize: 14 }}>
-              <span>Skills for SUSI</span>
-            </div>
             <RatingContainer>
               <Link
                 key={el}
@@ -184,6 +188,15 @@ function createListCard(
                 <TotalRating>{totalRating || 0}</TotalRating>
               </Link>
             </RatingContainer>
+            <ExampleContainer>
+              {examples.length > 0 && (
+                <SkillExampleBubble
+                  key={0}
+                  data={examples[0]}
+                  history={history}
+                />
+              )}
+            </ExampleContainer>
           </Header>
         </Content>
       </Card>
