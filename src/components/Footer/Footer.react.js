@@ -15,7 +15,7 @@ const FooterContainer = styled.div`
 const FooterWrapper = styled.div`
   display: flex;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 2rem 4.6rem;
   width: 100%;
   @media (max-width: 745px) {
     display: block;
