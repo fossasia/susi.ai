@@ -198,9 +198,9 @@ class SkillFeedbackPage extends Component {
         ? Math.max(0, Math.min(this.pageNeighbours, 2))
         : 0;
     const { pathname } = this.props.location;
-    this.groupValue = pathname.split('/')[2];
-    this.skillTag = pathname.split('/')[3];
-    this.languageValue = pathname.split('/')[4];
+    this.groupValue = pathname.split('/')[1];
+    this.skillTag = pathname.split('/')[2];
+    this.languageValue = pathname.split('/')[3];
     this.skillName = this.skillTag
       ? this.skillTag
           .split('_')
@@ -379,7 +379,10 @@ class SkillFeedbackPage extends Component {
     const { actions } = this.props;
     actions
       .deleteSkillFeedback(this.skillData)
-      .then(payload => actions.getSkillFeedbacks(this.skillData))
+      .then(payload => {
+        actions.closeModal();
+        actions.getSkillFeedbacks(this.skillData);
+      })
       .catch(error => console.log(error));
   };
 

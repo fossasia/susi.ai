@@ -1,11 +1,11 @@
 import React from 'react';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseButton from '../shared/CloseButton';
+import CloseButton from '../../CloseButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import uiActions from '../../redux/actions/ui';
+import uiActions from '../../../../redux/actions/ui';
 import {
   FacebookShareButton as _FacebookShareButton,
   LinkedinShareButton as _LinkedinShareButton,

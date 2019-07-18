@@ -70,6 +70,16 @@ const IconButton = styled(_IconButton)`
   }
 `;
 
+const DeleteButton = styled(_Button)`
+  background: #f44336;
+  color: white;
+  height: 3rem;
+
+  :hover {
+    background: #f44336ee;
+  }
+`;
+
 const SelectDropDown = styled(Select)`
   position: relative;
   width: 15.625rem;
@@ -282,13 +292,14 @@ const Form = styled.form`
   display: inline-block;
 `;
 
-const DeleteSkillPaper = styled(Paper)`
+const DeleteSkillSection = styled(Paper)`
   width: 100%;
   border: 0.063rem solid red;
   margin-top: 20px;
   padding: 1.25rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Button = styled(_Button)`
@@ -306,7 +317,6 @@ const Img = styled.img`
   height: 60px;
   border-radius: 50%;
   margin-right: 20px;
-  bottom: 1.5rem;
   position: relative;
 `;
 
@@ -395,7 +405,7 @@ class SkillWizard extends Component {
       searchURLPath('group') &&
       searchURLPath('language')
     ) {
-      this.expertValue = getQueryStringValue('name');
+      this.skillTag = getQueryStringValue('name');
       this.groupValue = getQueryStringValue('group');
       this.languageValue = getQueryStringValue('language');
     }
@@ -408,10 +418,10 @@ class SkillWizard extends Component {
       this.mode = 'edit';
       this.groupValue = pathname.split('/')[1];
       this.languageValue = pathname.split('/')[4];
-      this.expertValue = pathname.split('/')[2];
+      this.skillTag = pathname.split('/')[2];
       this.commitId = pathname.split('/')[5];
 
-      let commitMessage = `Updated Skill ${this.expertValue}`;
+      let commitMessage = `Updated Skill ${this.skillTag}`;
       if (this.props.hasOwnProperty('revertingCommit')) {
         commitMessage = 'Reverting to commit - ' + this.props.revertingCommit;
       } else if (this.commitId) {
@@ -426,7 +436,6 @@ class SkillWizard extends Component {
         author: '',
         oldImageUrl: '',
         imageNameChanged: false,
-        showAdmin: false,
         slideState: 1, // 1 means in middle, 2 means preview collapsed
         colSkill: this.props.hasOwnProperty('revertingCommit') ? 12 : 8,
         colPreview: this.props.hasOwnProperty('revertingCommit') ? 0 : 4,
@@ -444,6 +453,13 @@ class SkillWizard extends Component {
         prevButton: 0, // 0 means disappear, 1 means appear
       };
     }
+
+    this.skillData = {
+      model: 'general',
+      group: this.groupValue,
+      language: this.languageValue,
+      skill: this.skillTag,
+    };
   }
 
   loadLanguages() {
@@ -491,13 +507,7 @@ class SkillWizard extends Component {
 
   componentDidMount = () => {
     // Check if admin is logged in or not
-    const { isAdmin, actions } = this.props;
-    if (isAdmin) {
-      this.setState({
-        showAdmin: true,
-      });
-    }
-
+    const { actions } = this.props;
     if (this.isBotBuilder) {
       this.setState({
         slideState: 0,
@@ -516,7 +526,7 @@ class SkillWizard extends Component {
         searchURLPath('language'))
     ) {
       let payload = {
-        skill: this.expertValue,
+        skill: this.skillTag,
         group: this.groupValue,
         language: this.languageValue,
         model: 'general',
@@ -534,7 +544,7 @@ class SkillWizard extends Component {
         });
 
       actions.setSkillData({
-        name: this.expertValue,
+        name: this.skillTag,
         category: this.groupValue,
         language: this.languageValue,
       });
@@ -712,9 +722,10 @@ class SkillWizard extends Component {
 
   handleDeleteModal = () => {
     this.props.actions.openModal({
-      modalType: 'deleteSkillWithInput',
+      modalType: 'deleteSkill',
       handleConfirm: this.deleteSkill,
       handleClose: this.props.actions.closeModal,
+      name: this.skillData.skill,
     });
   };
 
@@ -797,7 +808,7 @@ class SkillWizard extends Component {
     if (
       this.mode === 'edit' &&
       this.groupValue === category &&
-      this.expertValue === name &&
+      this.skillTag === name &&
       this.languageValue === language &&
       !this.state.codeChanged &&
       !this.state.imageNameChanged
@@ -871,7 +882,7 @@ class SkillWizard extends Component {
       form.append('OldModel', 'general');
       form.append('OldGroup', this.groupValue);
       form.append('OldLanguage', this.languageValue);
-      form.append('OldSkill', this.expertValue);
+      form.append('OldSkill', this.skillTag);
       form.append('NewModel', 'general');
       form.append('NewGroup', category);
       form.append('NewLanguage', language);
@@ -975,35 +986,47 @@ class SkillWizard extends Component {
   };
 
   deleteSkill = () => {
-    deleteSkill()
+    this.setState({
+      loading: true,
+    });
+    const { actions, history } = this.props;
+    const { model, group, language, skill } = this.skillData;
+    deleteSkill({ model, group, language, skill })
       .then(payload => {
-        if (payload.accepted === true) {
-          this.props.actions.openSnackBar({
-            snackBarMessage: 'This Skill has been deleted',
-            snackBarPosition: { vertical: 'top', horizontal: 'right' },
-            variant: 'success',
-          });
-          this.setState({
-            loading: false,
-          });
-          this.props.history.push({
-            pathname: '/',
-            state: {},
-          });
-        } else {
-          this.props.actions.openSnackBar({
-            snackBarMessage: payload.message,
-            snackBarPosition: { vertical: 'top', horizontal: 'right' },
-            variant: 'warning',
-          });
-          this.props.history.push({
-            pathname: '/',
-            state: {},
-          });
-        }
+        this.setState({
+          loading: false,
+        });
+        actions.openModal({
+          modalType: 'confirm',
+          title: 'Success',
+          handleConfirm: () => {
+            actions.closeModal();
+            history.push('/');
+          },
+          skillName: skill,
+          content: (
+            <p>
+              You successfully deleted <b>{skill}</b>!
+            </p>
+          ),
+        });
       })
       .catch(error => {
-        console.log('Error while deleting skill', error);
+        console.log(error);
+        this.setState({
+          loading: false,
+        });
+        actions.openModal({
+          modalType: 'confirm',
+          title: 'Failed',
+          handleConfirm: actions.closeModal,
+          skillName: skill,
+          content: (
+            <p>
+              Error! <b>{skill}</b> could not be deleted!
+            </p>
+          ),
+        });
       });
   };
 
@@ -1024,6 +1047,7 @@ class SkillWizard extends Component {
       language,
       name,
       image,
+      isAdmin,
     } = this.props;
     const { showImage, loadViews } = this.state;
     let showTopBar = true;
@@ -1057,7 +1081,7 @@ class SkillWizard extends Component {
                         {
                           'You are currently editing an older version of the Skill: '
                         }
-                        <B>{this.expertValue}</B>
+                        <B>{this.skillTag}</B>
                         <br />
                         <span>
                           Author: <B>{this.state.author}</B>
@@ -1089,7 +1113,7 @@ class SkillWizard extends Component {
                 {accessToken &&
                   this.mode === 'edit' &&
                   !this.state.editable &&
-                  !this.state.showAdmin && (
+                  !isAdmin && (
                     <HomeDiv>
                       <TitlePara>
                         THIS SKILL IS NOT EDITABLE. IT IS CURRENTLY LOCKED BY
@@ -1265,23 +1289,19 @@ class SkillWizard extends Component {
                     </span>
                   </PreviewButton>
                 ) : null}
-                {this.mode === 'edit' && this.state.showAdmin && (
-                  <DeleteSkillPaper>
+                {this.mode === 'edit' && isAdmin && (
+                  <DeleteSkillSection>
                     <div>
-                      <strong>
-                        <p>Delete this Skill</p>
-                      </strong>
+                      <div>
+                        <b>Delete this Skill</b>
+                      </div>
                       {'Once you delete a skill, only admins can ' +
                         'undo this action before 30 days of deletion. Please be certain.'}
                     </div>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={this.handleDeleteModal}
-                    >
+                    <DeleteButton onClick={this.handleDeleteModal}>
                       Delete
-                    </Button>
-                  </DeleteSkillPaper>
+                    </DeleteButton>
+                  </DeleteSkillSection>
                 )}
               </Col>
               {this.isBotBuilder ? null : (
