@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
-import CloseButton from '../shared/CloseButton';
-import appActions from '../../redux/actions/app';
+import CloseButton from '../../shared/CloseButton';
+import appActions from '../../../../redux/actions/app';
 
 const cookies = new Cookies();
 

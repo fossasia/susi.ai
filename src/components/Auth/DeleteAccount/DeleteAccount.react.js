@@ -115,7 +115,6 @@ class DeleteAccount extends Component {
       textAlign: 'center',
     };
     const { loading, password, validForm } = this.state;
-    console.log(loading, 'Loading');
     return (
       <React.Fragment>
         <DialogTitle>

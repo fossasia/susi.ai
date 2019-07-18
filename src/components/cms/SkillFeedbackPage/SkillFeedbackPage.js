@@ -379,7 +379,10 @@ class SkillFeedbackPage extends Component {
     const { actions } = this.props;
     actions
       .deleteSkillFeedback(this.skillData)
-      .then(payload => actions.getSkillFeedbacks(this.skillData))
+      .then(payload => {
+        actions.closeModal();
+        actions.getSkillFeedbacks(this.skillData);
+      })
       .catch(error => console.log(error));
   };
 

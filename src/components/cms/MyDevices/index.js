@@ -94,10 +94,9 @@ class DevicesTab extends React.Component {
   handleRemoveConfirmation = rowIndex => {
     this.props.actions.openModal({
       modalType: 'deleteDevice',
-      removeDeviceIndex: rowIndex,
-      removeDeviceName: this.state.devicesData[rowIndex].deviceName,
-      onDeviceRemove: this.handleRemoveDevice,
-      onCancel: this.props.actions.closeModal,
+      name: this.state.devicesData[rowIndex].deviceName,
+      handleConfirm: () => this.handleRemoveDevice(rowIndex),
+      handleClose: this.props.actions.closeModal,
     });
   };
 
