@@ -1,11 +1,14 @@
 import React from 'react';
 import _Card from '@material-ui/core/Card';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import _Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Lozenge from '../../shared/Lozenge';
 import { fetchAdminUserStats, fetchAdminUserSkill } from '../../../apis/index';
 import CircularLoader from '../../shared/CircularLoader';
+import LineChart from '../../shared/charts/LineChart';
+import moment from 'moment';
+import sortByDate from '../../../utils/sortByDate';
 
 const CardHeading = styled.h3`
   padding-left: 1rem;
@@ -53,12 +56,18 @@ const Container = styled.div`
 `;
 
 const Card = styled(_Card)`
-  width: ${props => (props.width ? props.width + 'px' : '400px')};
-  height: 310px;
+  width: ${props => (props.width ? props.width : '400px')};
+  height: ${props => (props.height ? props.height + 'px' : '310px')};
   margin-bottom: 20px;
   font-size: 18px;
   font-weight: bold;
   line-height: 2;
+  ${props =>
+    props.margin &&
+    css`
+      margin: ${props => props.margin};
+      padding-right: 1rem;
+    `}
   @media (max-width: 514px) {
     width: 100%;
   }
@@ -77,6 +86,11 @@ class AdminTab extends React.Component {
       userStats: {},
       skillStats: {},
       loading: false,
+      creationOverTime: [],
+      lastAccessOverTime: [],
+      lastModifiedOverTime: [],
+      lastLoginOverTime: [],
+      signupOverTime: [],
     };
   }
 
@@ -84,9 +98,15 @@ class AdminTab extends React.Component {
     Promise.all([
       fetchAdminUserStats({ getUserStats: 'true' })
         .then(payload => {
-          const { userStats } = payload;
+          const {
+            userStats,
+            lastLoginOverTime = [],
+            signupOverTime = [],
+          } = payload;
           this.setState({
             userStats,
+            lastLoginOverTime,
+            signupOverTime,
           });
         })
         .catch(error => {
@@ -94,9 +114,17 @@ class AdminTab extends React.Component {
         }),
       fetchAdminUserSkill()
         .then(payload => {
-          const { skillStats } = payload;
+          const {
+            skillStats,
+            creationOverTime,
+            lastAccessOverTime,
+            lastModifiedOverTime,
+          } = payload;
           this.setState({
             skillStats,
+            creationOverTime,
+            lastAccessOverTime,
+            lastModifiedOverTime,
           });
         })
         .catch(error => {
@@ -110,6 +138,77 @@ class AdminTab extends React.Component {
         console.log(error);
       });
   }
+
+  renderChart = ({ data, heading, legend }) => {
+    const dateSortedData = sortByDate(data);
+    const chartData = dateSortedData.map(data => {
+      const chatObj = {};
+      chatObj.timeStamp = moment(data.timeStamp).format('MM/YY');
+      chatObj.count = data.count;
+      return chatObj;
+    });
+    const yAxisProps = {
+      domain: [0, 150],
+      ticks: [0, 30, 60, 90, 120, 150],
+    };
+    return (
+      data.length > 0 && (
+        <Card height={'400'} width={'90%'} margin={'0 10px'}>
+          <CardHeading>{heading}</CardHeading>
+          <LineChart
+            XAxisdataKey="timeStamp"
+            data={chartData}
+            legend={legend}
+            yAxisProps={yAxisProps}
+          />
+        </Card>
+      )
+    );
+  };
+
+  renderCharts = () => {
+    const {
+      creationOverTime,
+      lastAccessOverTime,
+      lastModifiedOverTime,
+      lastLoginOverTime,
+      signupOverTime,
+    } = this.state;
+
+    const CONFIG = [
+      {
+        data: lastModifiedOverTime,
+        heading: 'Skill Edits over Time',
+        legend: 'Skill edits',
+      },
+      {
+        data: lastAccessOverTime,
+        heading: 'Skill Uses over Time',
+        legend: 'Skill uses',
+      },
+      {
+        data: creationOverTime,
+        heading: 'Skill Creations over Time',
+        legend: 'Skill creations',
+      },
+      {
+        data: signupOverTime,
+        heading: 'User Registrations over Time',
+        legend: 'User registrations',
+      },
+      {
+        data: lastLoginOverTime,
+        heading: 'User Logins over Time',
+        legend: 'User logins',
+      },
+    ];
+
+    return CONFIG.map(chart => {
+      if (chart.data.length > 0) {
+        return this.renderChart(chart);
+      }
+    });
+  };
 
   render() {
     const {
@@ -135,6 +234,7 @@ class AdminTab extends React.Component {
         nonEditableSkills = 0,
       },
     } = this.state;
+
     return (
       <React.Fragment>
         {loading ? (
@@ -168,9 +268,8 @@ class AdminTab extends React.Component {
                   </CardContentContainer>
                 </Card>
               </CardContainer>
-
               <CardContainer>
-                <Card width={400}>
+                <Card width={'400px'}>
                   <CardHeading>Users</CardHeading>
                   <Divider />
                   <SkillCard>
@@ -197,7 +296,7 @@ class AdminTab extends React.Component {
               </CardContainer>
 
               <CardContainer>
-                <Card width={400}>
+                <Card width={'400px'}>
                   <CardHeading>Skills</CardHeading>
                   <Divider />
                   <SkillCard>
@@ -222,7 +321,6 @@ class AdminTab extends React.Component {
                   </SkillCard>
                 </Card>
               </CardContainer>
-
               <CardContainer>
                 <Card>
                   <CardHeading>Skill Types</CardHeading>
@@ -243,6 +341,7 @@ class AdminTab extends React.Component {
                   </CardContentContainer>
                 </Card>
               </CardContainer>
+              {this.renderCharts()}
             </Container>
           </div>
         )}

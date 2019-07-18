@@ -33,6 +33,7 @@ import getImageSrc from '../../../utils/getImageSrc';
 import styled, { css } from 'styled-components';
 import CircularLoader from '../../shared/CircularLoader';
 import SkillExampleBubble from '../../shared/SkillExampleBubble';
+import Button from '@material-ui/core/Button';
 
 const SingleRating = styled.div`
   display: flex;
@@ -55,11 +56,11 @@ const Paper = styled(_Paper)`
 `;
 
 const ArrowExampleIconStyle = css`
-  width: 9px;
   position: relative;
   bottom: 3px;
-  fill: #555656;
+  fill: #4285f4;
   width: 0.75rem;
+  margin-top: 4px;
 `;
 
 const NavigateUp = styled(_NavigateUp)`
@@ -86,12 +87,11 @@ const ExampleContainer = styled.div`
   }
 `;
 
-const MoreExamplesContainer = styled.div`
-  text-align: center;
-  margin-top: 10px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
+const MoreExamplesButton = styled(Button)`
+  margin-top: 1.5rem;
+  margin-left: 0.5rem;
+  padding: 0px 0.5rem;
+  height: 2.75rem;
 `;
 
 const SkillImage = styled.img.attrs({
@@ -132,6 +132,11 @@ const ButtonContainer = styled.div`
   > div {
     margin: 5px;
   }
+`;
+
+const CenterContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
 `;
 
 class SkillListing extends Component {
@@ -307,15 +312,15 @@ class SkillListing extends Component {
     let renderElement = null;
     if (examples.length > 4) {
       seeMoreSkillExamples = seeMoreSkillExamples ? (
-        <MoreExamplesContainer>
+        <MoreExamplesButton variant="contained" color="primary">
           <p style={{ fontSize: '0.75rem' }}>See more examples</p>
-          <NavigateDown />
-        </MoreExamplesContainer>
+          <NavigateDown style={{ fill: '#fff' }} />
+        </MoreExamplesButton>
       ) : (
-        <MoreExamplesContainer>
+        <MoreExamplesButton variant="contained" color="primary">
           <p style={{ fontSize: '0.75rem' }}>Less</p>
-          <NavigateUp />
-        </MoreExamplesContainer>
+          <NavigateUp style={{ fill: '#fff' }} />
+        </MoreExamplesButton>
       );
     }
     if (loadingSkill === true) {
@@ -409,13 +414,10 @@ class SkillListing extends Component {
                     />
                   );
                 })}
+              <CenterContainer onClick={this.toggleSkillExamples}>
+                {seeMoreSkillExamples}
+              </CenterContainer>
             </ExampleWrapper>
-            <div
-              className="skill-example-see-more"
-              onClick={this.toggleSkillExamples}
-            >
-              {seeMoreSkillExamples}
-            </div>
           </ExampleContainer>
           <Paper>
             <Title>Description</Title>
