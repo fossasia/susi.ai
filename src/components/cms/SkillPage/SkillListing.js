@@ -200,7 +200,6 @@ class SkillListing extends Component {
             actions.closeModal();
             history.push('/');
           },
-          skillName: skill,
           content: (
             <p>
               You successfully deleted <b>{skill}</b>!
@@ -211,7 +210,6 @@ class SkillListing extends Component {
       .catch(error => {
         console.log(error);
         actions.openModal({
-          modalType: 'confirm',
           title: 'Failed',
           handleConfirm: actions.closeModal,
           skillName: skill,
