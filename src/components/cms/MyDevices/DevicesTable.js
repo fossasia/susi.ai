@@ -98,14 +98,12 @@ const DevicesTable = props => {
                       <EditIcon />{' '}
                     </IconButton>
                   )}
-                  {deviceWizard ? null : (
-                    <IconButton
-                      onClick={() => handleRemoveConfirmation(rowIndex)}
-                      aria-label="Delete"
-                    >
-                      <TrashIcon />{' '}
-                    </IconButton>
-                  )}
+                  <IconButton
+                    onClick={() => handleRemoveConfirmation(rowIndex)}
+                    aria-label="Delete"
+                  >
+                    <TrashIcon />{' '}
+                  </IconButton>
                 </CustomTableCell>
               </TableRow>
             ))}

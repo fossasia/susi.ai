@@ -76,7 +76,7 @@ class ConfigKeys extends React.Component {
     this.setState({ keyName: row.keyName });
     this.props.actions.openModal({
       modalType: 'deleteSystemSettings',
-      keyName: row.keyName,
+      name: row.keyName,
       handleConfirm: this.confirmDelete,
       handleClose: this.props.actions.closeModal,
     });
