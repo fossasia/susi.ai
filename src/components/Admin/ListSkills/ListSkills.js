@@ -322,7 +322,7 @@ class ListSkills extends React.Component {
     this.props.actions.openModal({
       modalType: 'deleteSkill',
       handleConfirm: this.confirmDelete,
-      skillName: name,
+      name,
       handleClose: this.props.actions.closeModal,
     });
   };
@@ -337,7 +337,7 @@ class ListSkills extends React.Component {
     this.props.actions.openModal({
       modalType: 'restoreSkill',
       handleConfirm: this.confirmRestore,
-      skillName: name,
+      name,
       handleClose: this.props.actions.closeModal,
     });
   };

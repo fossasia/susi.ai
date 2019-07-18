@@ -23,7 +23,7 @@ import Privacy from './components/Privacy/Privacy.react';
 import appActions from './redux/actions/app';
 import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/shared/ProtectedRoute';
-import DialogSection from '../src/components/Dialog/DialogSection.react';
+import DialogSection from '../src/components/shared/Dialog';
 import settingActions from './redux/actions/settings';
 import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
 import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCategory';

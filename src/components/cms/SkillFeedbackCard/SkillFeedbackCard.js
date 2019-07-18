@@ -50,7 +50,6 @@ class SkillFeedbackCard extends Component {
 
     this.state = {
       openEditDialog: false,
-      openDeleteDialog: false,
       errorText: '',
       anchorEl: null,
     };
@@ -75,23 +74,10 @@ class SkillFeedbackCard extends Component {
     });
   };
 
-  handleDeleteOpen = () => {
-    this.setState({
-      openDeleteDialog: true,
-      anchorEl: null,
-    });
-  };
-
   handleEditClose = () => {
     this.setState({
       openEditDialog: false,
       errorText: '',
-    });
-  };
-
-  handleDeleteClose = () => {
-    this.setState({
-      openDeleteDialog: false,
     });
   };
 
@@ -129,6 +115,14 @@ class SkillFeedbackCard extends Component {
     }
   };
 
+  handleFeedbackDelete = () => {
+    this.props.actions.openModal({
+      modalType: 'deleteFeedback',
+      handleConfirm: this.deleteFeedback,
+      handleClose: this.props.actions.closeModal,
+    });
+  };
+
   deleteFeedback = () => {
     const { group, language, skillTag: skill, actions } = this.props;
     const skillData = {
@@ -139,9 +133,11 @@ class SkillFeedbackCard extends Component {
     };
     actions
       .deleteSkillFeedback(skillData)
-      .then(payload => actions.getSkillFeedbacks(skillData))
+      .then(payload => {
+        actions.closeModal();
+        actions.getSkillFeedbacks(skillData);
+      })
       .catch(error => console.log(error));
-    this.handleDeleteClose();
   };
 
   render() {
@@ -151,7 +147,6 @@ class SkillFeedbackCard extends Component {
       language,
       email,
       accessToken,
-      actions,
     } = this.props;
     const { errorText, openEditDialog, anchorEl } = this.state;
     const open = Boolean(anchorEl);
@@ -212,9 +207,7 @@ class SkillFeedbackCard extends Component {
                       </ListItemIcon>
                       <ListItemText> Edit</ListItemText>
                     </MenuItem>
-                    <MenuItem
-                      onClick={() => actions.openDialog({ modalType: '' })}
-                    >
+                    <MenuItem onClick={this.handleFeedbackDelete}>
                       <ListItemIcon>
                         <Delete />
                       </ListItemIcon>
@@ -340,19 +333,6 @@ class SkillFeedbackCard extends Component {
           </DialogContent>
           <DialogActions>{editActions}</DialogActions>
         </Dialog>
-        {/* <Dialog
-          open={openDeleteDialog}
-          onClose={this.handleEditClose}
-          maxWidth={'sm'}
-          fullWidth={true}
-        >
-          <DialogContent>
-            <DialogContentText>
-              Are you sure, you want to delete your feedback?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>{deleteActions}</DialogActions>
-        </Dialog> */}
       </Paper>
     );
   }
@@ -383,7 +363,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...skillActions, uiActions }, dispatch),
+    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
   };
 }
 

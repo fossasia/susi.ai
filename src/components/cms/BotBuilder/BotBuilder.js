@@ -379,7 +379,7 @@ class BotBuilder extends React.Component {
     this.setState({ deleteAlert: { type, params } });
     this.props.actions.openModal({
       modalType: 'deleteBot',
-      type: type,
+      entityType: type,
       handleConfirm: this.handleDelete,
       handleClose: this.props.actions.closeModal,
     });
