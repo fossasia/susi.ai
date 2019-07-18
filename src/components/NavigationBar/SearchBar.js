@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashIcon from '@material-ui/icons/Remove';
+import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import { OutlinedSelectStyles } from './Styles';
 
@@ -71,6 +72,7 @@ const SearchBar = props => {
     handleSearchTypeChange,
     value,
     onChange,
+    onClose,
   } = props;
   let renderSelectMenu;
 
@@ -129,6 +131,7 @@ const SearchBar = props => {
         value={value}
         onChange={onChange}
         placeholder={'Search skills'}
+        closeIcon={<CloseIcon onClick={onClose} />}
       />
     </Container>
   );
@@ -140,6 +143,7 @@ SearchBar.propTypes = {
   handleSearchTypeChange: PropTypes.func,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default SearchBar;
