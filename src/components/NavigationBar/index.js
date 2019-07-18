@@ -16,7 +16,8 @@ import styled, { css } from 'styled-components';
 import CircleImage from '../shared/CircleImage';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
-import skillActions from '../../redux/actions/skills';
+import skillsAction from '../../redux/actions/skills';
+import skillAction from '../../redux/actions/skill';
 import Link from '../shared/Link';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
@@ -30,6 +31,7 @@ import Popper from './Popper';
 import _ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import Chat from '@material-ui/icons/Chat';
 import { StyledIconButton, OutlinedSelectStyles } from './Styles';
 import { FlexContainer } from '../shared/Container';
 import ListIcon from '@material-ui/icons/List';
@@ -65,6 +67,13 @@ const UserDetail = styled.div`
   @media (max-width: 1000px) {
     display: None;
   }
+`;
+const CreateDetail = styled.div`
+  color: white;
+  margin-right: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  bottom: 8px;
 `;
 
 const ExpandMore = styled(_ExpandMore)`
@@ -157,6 +166,7 @@ class NavigationBar extends Component {
     groupValue: PropTypes.string,
     orderBy: PropTypes.string,
     languages: PropTypes.array,
+    chatBubble: PropTypes.string,
   };
 
   constructor(props) {
@@ -167,6 +177,26 @@ class NavigationBar extends Component {
       showSearchBar: window.innerWidth > 900,
     };
   }
+
+  openFullScreen = () => {
+    const { actions } = this.props;
+    actions.handleChatBubble({
+      chatBubble: 'minimised',
+    });
+    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
+    actions.openModal({
+      modalType: 'chatBubble',
+      fullScreenChat: true,
+    });
+  };
+
+  toggleChat = () => {
+    const { actions, chatBubble } = this.props;
+    actions.handleChatBubble({
+      chatBubble: chatBubble === 'full' ? 'bubble' : 'full',
+    });
+    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
+  };
 
   handleLogin = () => {
     const { actions } = this.props;
@@ -512,6 +542,36 @@ class NavigationBar extends Component {
                         </FlexContainer>
                       </div>
                     </StyledIconButton>
+                    <StyledIconButton padding={'0.95rem'}>
+                      <div data-tip="custom" data-for={'right-menu-create'}>
+                        <Popper
+                          id={'right-menu-create'}
+                          place="bottom"
+                          effect="solid"
+                          delayHide={200}
+                          type={'light'}
+                          offset={{ top: -15 }}
+                        >
+                          <Paper>
+                            <Link to="/skillWizard">
+                              <MenuItem>
+                                <ListItemText>
+                                  <Translate text="Create Skill" />
+                                </ListItemText>
+                              </MenuItem>
+                            </Link>
+                            <Link to="/botWizard">
+                              <MenuItem>
+                                <ListItemText>
+                                  <Translate text="Create Bot" />
+                                </ListItemText>
+                              </MenuItem>
+                            </Link>
+                          </Paper>
+                        </Popper>
+                        <CreateDetail>Create</CreateDetail>
+                      </div>
+                    </StyledIconButton>
                     <IconButton
                       color="inherit"
                       onClick={() => history.push('/dashboard')}
@@ -527,6 +587,16 @@ class NavigationBar extends Component {
                     </ListItemText>
                   </MenuItem>
                 )}
+                <IconButton
+                  color="inherit"
+                  onClick={
+                    window.innerWidth < 500
+                      ? this.openFullScreen
+                      : this.toggleChat
+                  }
+                >
+                  <Chat />
+                </IconButton>
                 <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
                     id={'right-menu-about'}
@@ -575,12 +645,17 @@ function mapStateToProps(store) {
     isAdmin,
     avatarImgThumbnail,
     ...store.skills,
+    ...store.ui,
+    testSkillExampleKey: store.skill.testSkillExampleKey,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
+    actions: bindActionCreators(
+      { ...skillsAction, ...uiActions, ...skillAction },
+      dispatch,
+    ),
   };
 };
 
