@@ -187,6 +187,10 @@ class NavigationBar extends Component {
   };
 
   handleSearch = value => {
+    if (typeof value !== 'string') {
+      value = '';
+    }
+    value = value.trim();
     this.props.actions.setSearchFilter({ searchQuery: value }).then(() => {
       this.loadCards();
       if (value !== '') {
@@ -397,6 +401,7 @@ class NavigationBar extends Component {
             onRequestSearch={this.loadCards}
             value={searchQuery}
             searchType={searchType}
+            onClose={_.debounce(this.handleSearch, 100)}
             searchSelectWidth={searchSelectWidth}
           />
           <LanguageSelect
