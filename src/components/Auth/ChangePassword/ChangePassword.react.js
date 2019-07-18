@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import _PasswordField from 'material-ui-password-field';
-import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
-import { DialogContainer } from '../../shared/Container';
 import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
 
 const PasswordField = styled(_PasswordField)`
@@ -75,7 +73,6 @@ class ChangePassword extends Component {
       newPasswordScore: -1,
       confirmNewPassword: '',
       newPasswordConfirmErrorMessage: '',
-      dialogMessage: '',
       success: false,
       loading: false,
     };
@@ -83,6 +80,7 @@ class ChangePassword extends Component {
 
   handleCloseResetPassword = () => {
     const { success } = this.state;
+    this.props.actions.closeModal();
     if (success) {
       this.props.history.push('/logout');
     } else {
@@ -95,7 +93,6 @@ class ChangePassword extends Component {
         newPasswordScore: -1,
         confirmNewPassword: '',
         newPasswordConfirmErrorMessage: '',
-        dialogMessage: '',
         success: false,
         loading: false,
       });
@@ -225,15 +222,27 @@ class ChangePassword extends Component {
             dialogMessage = `${payload.message}\n Please Try Again.`;
             success = false;
           }
+
+          this.props.actions.openModal({
+            modalType: 'confirm',
+            title: success ? 'Success' : 'Failure',
+            handleConfirm: this.handleCloseResetPassword,
+            content: <p>{dialogMessage}</p>,
+          });
+
           this.setState({
-            dialogMessage,
             success,
             loading: false,
           });
         })
         .catch(error => {
+          this.props.actions.openModal({
+            modalType: 'confirm',
+            title: 'Failure',
+            handleConfirm: this.handleCloseResetPassword,
+            content: <p>Failed. Try Again</p>,
+          });
           this.setState({
-            dialogMessage: 'Failed. Try Again',
             loading: false,
           });
         });
@@ -250,7 +259,6 @@ class ChangePassword extends Component {
       newPasswordConfirmErrorMessage,
       newPasswordScore,
       newPasswordStrength,
-      dialogMessage,
       loading,
     } = this.state;
     const { actions } = this.props;
@@ -330,17 +338,6 @@ class ChangePassword extends Component {
             )}
           </Button>
         </div>
-        <Dialog
-          open={dialogMessage !== ''}
-          onClose={this.handleCloseResetPassword}
-          maxWidth={'xs'}
-          fullWidth={true}
-        >
-          <DialogContainer>
-            <Translate text={dialogMessage} />
-            <CloseButton onClick={this.handleCloseResetPassword} />
-          </DialogContainer>
-        </Dialog>
       </React.Fragment>
     );
   }
@@ -359,7 +356,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ChangePassword);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ChangePassword),
+);
