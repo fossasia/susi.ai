@@ -288,7 +288,6 @@ class Preview extends Component {
       botbuilderBotMessageBackground,
       botbuilderIconImg,
     } = this.props.design;
-    const { botBuilder } = this.props;
     let renderMessages = null;
     if (messages.length) {
       renderMessages = messages.map((message, index) => {
@@ -408,19 +407,17 @@ class Preview extends Component {
             </SUSIFrameContainer>
           )}
         </PreviewChatContainer>
-        {botBuilder ? (
-          <div style={{ textAlign: 'right' }}>
-            <SUSILauncherContainer>
-              <SUSILauncherWrapper onClick={this.togglePreview}>
-                <SUSILauncherButton
-                  data-tip="Toggle Launcher"
-                  backgroundColor={botbuilderIconColor}
-                  backgroundImage={botbuilderIconImg}
-                />
-              </SUSILauncherWrapper>
-            </SUSILauncherContainer>
-          </div>
-        ) : null}
+        <div style={{ textAlign: 'right' }}>
+          <SUSILauncherContainer>
+            <SUSILauncherWrapper onClick={this.togglePreview}>
+              <SUSILauncherButton
+                data-tip="Toggle Launcher"
+                backgroundColor={botbuilderIconColor}
+                backgroundImage={botbuilderIconImg}
+              />
+            </SUSILauncherWrapper>
+          </SUSILauncherContainer>
+        </div>
       </Container>
     );
   }
@@ -429,7 +426,6 @@ class Preview extends Component {
 Preview.propTypes = {
   design: PropTypes.object,
   code: PropTypes.string,
-  botBuilder: PropTypes.bool,
   botbuilderBackgroundBody: PropTypes.string,
   botbuilderBodyBackgroundImg: PropTypes.string,
   botbuilderIconColor: PropTypes.string,

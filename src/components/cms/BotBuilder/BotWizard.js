@@ -734,7 +734,7 @@ class BotWizard extends React.Component {
                 <BR />
                 <CenterHeading>Preview</CenterHeading>
                 <PreviewContainer>
-                  <Preview botBuilder={true} />
+                  <Preview />
                 </PreviewContainer>
               </Paper>
             </ContainerCol>
