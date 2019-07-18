@@ -15,6 +15,8 @@ import { addLocaleData } from 'react-intl';
 import { ConnectedRouter } from 'connected-react-router';
 import { Logger } from './utils/helperFunctions';
 import configureStore, { history } from './redux/configureStore';
+import ReactPiwik from 'react-piwik';
+import { fetchApiKeys } from './apis';
 
 export const store = configureStore();
 
@@ -31,10 +33,32 @@ function mapStateToProps(store) {
 
 let ConnectedIntlProvider = connect(mapStateToProps)(IntlProvider);
 
+let piwik = null,
+  matomoSiteId,
+  matomoUrl;
+
+let usepiwik = false;
+fetchApiKeys().then(payload => {
+  matomoSiteId = payload.keys.matomoSiteId || '';
+  matomoUrl = payload.keys.matomoUrl || '';
+  piwik = new ReactPiwik({
+    url: matomoUrl || '',
+    siteId: matomoSiteId || '',
+    trackErrors: true,
+  });
+  usepiwik = true;
+});
+
 ReactDOM.render(
   <Provider store={store} key="provider">
     <ConnectedIntlProvider>
-      <ConnectedRouter history={history}>
+      <ConnectedRouter
+        history={
+          matomoSiteId !== '' && matomoUrl !== '' && !piwik && usepiwik
+            ? piwik.connectToHistory(history)
+            : history
+        }
+      >
         <App />
       </ConnectedRouter>
     </ConnectedIntlProvider>
