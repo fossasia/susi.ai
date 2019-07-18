@@ -18,6 +18,7 @@ class MessageListItem extends React.Component {
     actions: PropTypes.object,
     userGeoData: PropTypes.object,
     showChatBubble: PropTypes.bool,
+    pauseAllVideos: PropTypes.func,
   };
 
   constructor(props) {
@@ -96,6 +97,7 @@ class MessageListItem extends React.Component {
       this.onTextToSpeechEnd,
       this.onYouTubePlayerReady,
       this.getUserGeoData,
+      this.props.pauseAllVideos,
     );
   }
 }
