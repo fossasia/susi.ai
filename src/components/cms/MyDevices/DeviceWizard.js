@@ -158,10 +158,9 @@ class DeviceWizard extends React.Component {
   handleRemoveConfirmation = () => {
     this.props.actions.openModal({
       modalType: 'deleteDevice',
-      removeDeviceName: this.state.devicesData[0].deviceName,
-      onDeviceRemove: this.handleRemoveDevice,
-      onCancel: this.props.actions.closeModal,
-      deviceWizard: true,
+      name: this.state.devicesData[0].deviceName,
+      handleConfirm: this.handleRemoveDevice,
+      handleClose: this.props.actions.closeModal,
     });
   };
 
