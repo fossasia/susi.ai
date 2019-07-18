@@ -1,5 +1,5 @@
 import React from 'react';
-import ConfirmDialog from '../../../components/shared/ConfirmDialog';
+import ConfirmDialog from '../../../components/shared/Dialog/dialogTypes/ConfirmDialog';
 import { shallow } from 'enzyme';
 
 describe('<ConfirmDialog />', () => {

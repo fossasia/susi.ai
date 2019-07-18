@@ -17,7 +17,7 @@ import ConfirmDeleteAccount from '../../Auth/DeleteAccount/ConfirmDeleteAccount.
 import AuthorSkills from '../../cms/AuthorSkills/AuthorSkills';
 import UpdateSystemSettings from '../../Admin/SystemSettings/ConfigKeys/UpdateSystemSettingsDialog';
 import EditSkill from '../../Admin/ListSkills/EditSkillDialog';
-import ConfirmDialog from '../ConfirmDialog';
+import ConfirmDialog from './dialogTypes/ConfirmDialog';
 import ReportSkillDialog from '../../cms/SkillPage/ReportSkillDialog';
 import EditFeedbackDialog from '../../cms/SkillFeedbackPage/EditFeedbackDialog';
 import SkillSlideshowDialog from '../../Admin/SystemSettings/Slideshow/Dialog';
