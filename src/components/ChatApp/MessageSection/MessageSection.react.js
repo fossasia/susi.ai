@@ -11,6 +11,7 @@ import NavigationBar from '../../NavigationBar';
 import MessageComposer from '../MessageComposer.react';
 import loadingGIF from '../../../images/loading.gif';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
+import ExpandingSearchField from '../SearchField.react';
 import { searchMessages } from '../../../utils/searchMessages';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
@@ -21,6 +22,7 @@ import MessageBubble from '../MessageListItem/MessageBubbleStyle';
 import _Close from '@material-ui/icons/Close';
 import _FullScreen from '@material-ui/icons/Fullscreen';
 import _FullScreenExit from '@material-ui/icons/FullscreenExit';
+import { IconButton as _IconButton } from '@material-ui/core';
 
 const MessageList = styled.div`
   background: ${props => props.pane};
@@ -192,36 +194,43 @@ const SUSILauncherContainer = styled.div`
 `;
 
 const Close = styled(_Close)`
-  fill: white;
-  cursor: pointer;
-  margin: 0px 4px;
+  fill: #fff;
 `;
 
 const FullScreen = styled(_FullScreen)`
-  fill: white;
-  cursor: pointer;
-  display: ${props => (props.width < 500 ? 'none' : 'inline')};
+  fill: #fff;
 `;
 
 const FullScreenExit = styled(_FullScreenExit)`
-  fill: white;
-  cursor: pointer;
-  display: ${props => (props.width < 500 ? 'none' : 'inline')};
+  fill: #fff;
 `;
 
 const ActionBar = styled.div`
   width: auto;
   height: ${props => (props.fullScreenChat ? '48px' : '40px')};
-  background-color: #696969;
-  padding: ${props => (props.fullScreenChat ? '12px 0px' : '10px 0px')};
+  background-color: #808080;
+  padding: ${props => (props.fullScreenChat ? '8px 0px' : '5px 0px')};
   text-align: right;
   top: 0px;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const ChatBubbleContainer = styled.div`
   position: fixed;
   top: ${props => props.height - 95 + 'px'};
   right: ${props => (props.width < 1100 ? '80px' : '100px')};
+`;
+
+const IconButton = styled(_IconButton)`
+  padding: 3.5px;
+  color: #fff;
+`;
+
+const CustomIconButton = styled(_IconButton)`
+  padding: 3.5px;
+  color: #fff;
+  display: ${props => (props.width < 500 ? 'none' : 'inline')};
 `;
 
 class MessageSection extends Component {
@@ -637,6 +646,7 @@ class MessageSection extends Component {
 
   toggleChat = () => {
     const { actions, chatBubble } = this.props;
+    this.exitSearch();
     actions.handleChatBubble({
       chatBubble: chatBubble === 'bubble' ? 'full' : 'bubble',
     });
@@ -645,6 +655,7 @@ class MessageSection extends Component {
 
   handleClose = () => {
     const { actions } = this.props;
+    this.exitSearch();
     actions.handleChatBubble({ chatBubble: 'bubble' });
     actions.closeModal();
   };
@@ -707,12 +718,31 @@ class MessageSection extends Component {
 
     const actionBar = (
       <ActionBar fullScreenChat={fullScreenChat}>
-        {fullScreenChat !== undefined ? (
-          <FullScreenExit onClick={this.closeFullScreen} width={width} />
-        ) : (
-          <FullScreen onClick={this.openFullScreen} width={width} />
-        )}
-        <Close onClick={fullScreenChat ? this.handleClose : this.toggleChat} />
+        {searchState ? (
+          <ExpandingSearchField
+            searchText={searchState.searchText}
+            searchIndex={searchState.searchIndex}
+            open={search}
+            searchCount={searchState.scrollLimit}
+            onTextChange={this.searchTextChanged}
+            activateSearch={this.openSearch}
+            exitSearch={this.exitSearch}
+            scrollRecent={this.nextSearchItem}
+            scrollPrev={this.previousSearchItem}
+          />
+        ) : null}
+        <CustomIconButton width={width}>
+          {fullScreenChat !== undefined ? (
+            <FullScreenExit onClick={this.closeFullScreen} />
+          ) : (
+            <FullScreen onClick={this.openFullScreen} />
+          )}
+        </CustomIconButton>
+        <IconButton
+          onClick={fullScreenChat ? this.handleClose : this.toggleChat}
+        >
+          <Close />
+        </IconButton>
       </ActionBar>
     );
 

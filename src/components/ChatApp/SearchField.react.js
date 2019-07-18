@@ -5,47 +5,61 @@ import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import DownIcon from '@material-ui/icons/ArrowDownward';
-import ExitIcon from '@material-ui/icons/Close';
 
 const ESCAPE_KEY = 27;
 const F_KEY = 70;
 
 const SearchInputField = styled(TextField)`
-  margin-top: 0.7rem;
-  @media (max-width: 560px) {
-    width: 9rem;
+  background-color: #fff;
+  border: 0.5px solid #fff;
+  border-radius: 5px;
+  top: 3px;
+  height: 24px;
+  .MuiOutlinedInput-root:hover {
+    border: none;
   }
-  @media (max-width: 380px) {
-    width: 7.8rem;
+  fieldset.MuiOutlinedInput-notchedOutline {
+    border-color: #fff;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #fff;
   }
 `;
 
 const IconButton = styled(_IconButton)`
-  @media (max-width: 560px) {
-    padding: 4px;
-  }
-  @media (max-width: 300px) {
-    display: none;
-  }
+  padding: 3.5px;
+  color: #fff;
 `;
 
 const CloseButton = styled(_IconButton)`
-  @media (max-width: 560px) {
-    padding: 4px;
-  }
-  @media (max-width: 300px) {
-    position: relative;
-    top: 0.375rem;
-  }
+  padding: 3.5px;
+  color: #fff;
 `;
 
 const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
+  display: inline-block;
+  position: relative;
+  background-color: #d3d3d3;
+  border: 0.5px solid #d3d3d3;
+  border-radius: 5px;
+  margin-left: 5px;
+  height: 24px;
+  top: 3px;
+  color: white;
+  padding: 2px;
+  font-size: 1rem;
 `;
 
-const Container = styled(FlexContainer)`
+const Container = styled.div`
+  display: inline-flex;
+  justify-content: flex-end;
+  width: auto;
+  max-width: 300px;
   transition: width 0.75s cubic-bezier(0, 0.795, 0, 1);
+
+  @media (max-width: 500px) {
+    max-width: 90%;
+  }
 `;
 
 class ExpandingSearchField extends Component {
@@ -150,34 +164,35 @@ class ExpandingSearchField extends Component {
         <Container>
           <SearchInputField
             name="search"
-            placeholder="Search Message"
+            placeholder="Search Messages"
             value={searchText}
             onChange={event => this.onChange(event)}
-            autoFocus={true}
+            variant="outlined"
+            autoFocus={false}
             InputProps={{
               style: {
-                color: 'white',
+                height: '24px',
               },
             }}
           />
           <FlexContainer>
             {indexCnt}/{searchCount}
           </FlexContainer>
-          <IconButton onClick={this.onClickPrev} color="inherit">
+          <IconButton onClick={this.onClickPrev}>
             <UpIcon />
           </IconButton>
-          <IconButton onClick={this.onClickRecent} color="inherit">
+          <IconButton onClick={this.onClickRecent}>
             <DownIcon />
           </IconButton>
-          <CloseButton onClick={this.onClick} color="inherit">
-            <ExitIcon />
+          <CloseButton onClick={this.onClick}>
+            <SearchIcon />
           </CloseButton>
         </Container>
       );
     }
     return (
       <Container>
-        <IconButton onClick={this.onClick} color="inherit">
+        <IconButton onClick={this.onClick}>
           <SearchIcon />
         </IconButton>
       </Container>
