@@ -87,7 +87,6 @@ class ListSkills extends React.Component {
           modalType: 'confirm',
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
-          skillName: skill,
           content: (
             <p>
               Status of <b>{skill}</b> has been changed successfully!
@@ -101,7 +100,6 @@ class ListSkills extends React.Component {
           modalType: 'confirm',
           title: 'Failed',
           handleConfirm: this.props.actions.closeModal,
-          skillName: skill,
           content: (
             <p>
               Error! Status of <b>{skill}</b> could not be changed!
@@ -126,7 +124,6 @@ class ListSkills extends React.Component {
           modalType: 'confirm',
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
-          skillName: skill,
           content: (
             <p>
               You successfully deleted <b>{skill}</b>!
@@ -141,7 +138,6 @@ class ListSkills extends React.Component {
           modalType: 'confirm',
           title: 'Failed',
           handleConfirm: this.props.actions.closeModal,
-          skillName: skill,
           content: (
             <p>
               Error! <b>{skill}</b> could not be deleted!
@@ -166,7 +162,6 @@ class ListSkills extends React.Component {
           modalType: 'confirm',
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
-          skillName: skill,
           content: (
             <p>
               You successfully restored <b>{skill}</b>!
@@ -181,7 +176,6 @@ class ListSkills extends React.Component {
           modalType: 'confirm',
           title: 'Failed',
           handleConfirm: this.props.actions.closeModal,
-          skillName: skill,
           content: (
             <p>
               Error! <b>{skill}</b> could not be restored!

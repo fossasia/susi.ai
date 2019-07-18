@@ -12,10 +12,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -45,15 +41,11 @@ const Timestamp = styled.div`
 `;
 
 class SkillFeedbackCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      openEditDialog: false,
-      errorText: '',
-      anchorEl: null,
-    };
-  }
+  state = {
+    errorText: '',
+    anchorEl: null,
+    newFeedbackValue: '',
+  };
 
   handleMenuOpen = event => {
     this.setState({
@@ -67,59 +59,59 @@ class SkillFeedbackCard extends Component {
     });
   };
 
-  handleEditOpen = () => {
-    this.setState({
-      openEditDialog: true,
-      anchorEl: null,
-    });
+  handleFeedbackChange = event => {
+    this.setState({ newFeedbackValue: event.target.value });
   };
 
-  handleEditClose = () => {
-    this.setState({
-      openEditDialog: false,
-      errorText: '',
+  handleEditOpen = () => {
+    this.handleMenuClose();
+    this.props.actions.openModal({
+      modalType: 'editFeedback',
+      handleConfirm: this.postFeedback,
+      handleClose: this.props.actions.closeModal,
+      errorText: this.state.errorText,
+      feedback: this.state.newFeedbackValue,
+      handleEditFeedback: this.editFeedback,
     });
   };
 
   editFeedback = () => {
     let feedbackText = document.getElementById('edit-feedback').value;
-    this.setState({ feedbackValue: feedbackText });
-  };
-
-  setFeedback = event => {
-    this.setState({ feedbackValue: event.target.value });
+    this.setState({ newFeedbackValue: feedbackText });
   };
 
   postFeedback = () => {
     const { group, language, skillTag: skill, actions } = this.props;
-    const { feedbackValue } = this.state;
+    const { newFeedbackValue } = this.state;
     const skillData = {
       model: 'general',
       group,
       language,
       skill,
-      feedback: feedbackValue,
+      feedback: newFeedbackValue,
     };
-    if (feedbackValue !== undefined && feedbackValue.trim()) {
+    if (newFeedbackValue !== undefined && newFeedbackValue.trim()) {
       actions
         .setSkillFeedback(skillData)
         .then(payload => {
+          actions.closeModal();
           actions.getSkillFeedbacks(skillData);
         })
         .catch(error => {
           console.log(error);
         });
-      this.handleEditClose();
     } else {
       this.setState({ errorText: 'Feedback cannot be empty' });
     }
   };
 
   handleFeedbackDelete = () => {
-    this.props.actions.openModal({
+    const { actions } = this.props;
+    this.handleMenuClose();
+    actions.openModal({
       modalType: 'deleteFeedback',
       handleConfirm: this.deleteFeedback,
-      handleClose: this.props.actions.closeModal,
+      handleClose: actions.closeModal,
     });
   };
 
@@ -148,32 +140,23 @@ class SkillFeedbackCard extends Component {
       email,
       accessToken,
     } = this.props;
-    const { errorText, openEditDialog, anchorEl } = this.state;
+    const { errorText, anchorEl, newFeedbackValue } = this.state;
     const open = Boolean(anchorEl);
-    const editActions = [
-      <Button key={0} color="primary" onClick={this.handleEditClose}>
-        Cancel
-      </Button>,
-      <Button key={1} color="primary" onClick={this.postFeedback}>
-        Edit
-      </Button>,
-    ];
 
-    let userFeedback = null;
     let userName = '';
     let userAvatarLink = '';
     let userEmail = '';
     let userFeedbackCard = null;
-    let feedbackCards;
+    let feedbackCards = null;
     if (skillFeedbacks) {
       feedbackCards = skillFeedbacks.map((data, index) => {
         userEmail = data.email;
-        userFeedback = data.feedback;
         userAvatarLink = data.avatar;
         userName = data.userName;
+        const name = userName === '' ? userEmail : userName;
         const avatarProps = {
           src: userAvatarLink,
-          name: userName === '' ? userEmail : userName,
+          name,
         };
         if (accessToken && email && userEmail === email) {
           userFeedbackCard = (
@@ -181,7 +164,7 @@ class SkillFeedbackCard extends Component {
               <ListItem key={index} button>
                 <CircleImage {...avatarProps} size="40" />
                 <div style={{ width: '90%' }}>
-                  <div>{userName === '' ? userEmail : userName}</div>
+                  <div>{name}</div>
                   <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
                   <div>
                     <Emoji text={data.feedback} />
@@ -243,18 +226,16 @@ class SkillFeedbackCard extends Component {
       });
     }
 
-    if (feedbackCards) {
-      if (userFeedbackCard) {
-        feedbackCards.splice(4);
-      } else {
-        feedbackCards.splice(5);
-      }
+    if (feedbackCards && userFeedbackCard) {
+      feedbackCards.splice(4);
+    } else if (feedbackCards) {
+      feedbackCards.splice(5);
     }
 
     return (
       <Paper>
         <Title>Feedback</Title>
-        {accessToken && !userFeedbackCard ? (
+        {accessToken && !userFeedbackCard && (
           <div>
             <SubTitle size="1rem">
               {' '}
@@ -264,12 +245,12 @@ class SkillFeedbackCard extends Component {
               <div style={{ padding: '1rem', margin: '1rem' }}>
                 <FormControl fullWidth={true}>
                   <Input
-                    id="post-feedback"
+                    value={newFeedbackValue}
                     placeholder="Skill Feedback"
                     defaultValue=""
                     multiline={true}
                     fullWidth={true}
-                    onChange={this.setFeedback}
+                    onChange={this.handleFeedbackChange}
                     aria-describedby="post-feedback-helper-text"
                   />
                   <FormHelperText id="post-feedback-helper-text" error>
@@ -288,51 +269,24 @@ class SkillFeedbackCard extends Component {
               </div>
             </div>
           </div>
-        ) : null}
-        {feedbackCards &&
-          (feedbackCards.length > 0 ? (
-            <List style={{ padding: '8px 0px 0px 0px' }}>
-              {userFeedbackCard}
-              {feedbackCards}
-              {(userFeedbackCard && skillFeedbacks.length >= 4) ||
-              skillFeedbacks.length >= 5 ? (
-                <Link to={`${language}/feedbacks`} style={{ display: 'block' }}>
-                  <ListItem button>
-                    <ListItemText style={{ textAlign: 'center' }}>
-                      Show all reviews
-                    </ListItemText>
-                  </ListItem>
-                </Link>
-              ) : null}
-            </List>
-          ) : (
+        )}
+        <List style={{ padding: '8px 0px 0px 0px' }}>
+          {userFeedbackCard}
+          {feedbackCards}
+          {!userFeedbackCard && !feedbackCards && (
             <DefaultMessage>No feedback present for this skill!</DefaultMessage>
-          ))}
-        <Dialog
-          open={openEditDialog}
-          onClose={this.handleEditClose}
-          maxWidth={'sm'}
-          fullWidth={true}
-        >
-          <DialogTitle>Edit Feedback</DialogTitle>
-          <DialogContent>
-            <FormControl fullWidth={true}>
-              <Input
-                id="edit-feedback"
-                placeholder="Skill Feedback"
-                defaultValue={userFeedback}
-                multiline={true}
-                fullWidth={true}
-                onChange={this.editFeedback}
-                aria-describedby="edit-feedback-helper-text"
-              />
-              <FormHelperText id="edit-feedback-helper-text" error>
-                {errorText}
-              </FormHelperText>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>{editActions}</DialogActions>
-        </Dialog>
+          )}
+          {(userFeedbackCard && skillFeedbacks.length >= 4) ||
+          skillFeedbacks.length >= 5 ? (
+            <Link to={`${language}/feedbacks`} style={{ display: 'block' }}>
+              <ListItem button>
+                <ListItemText style={{ textAlign: 'center' }}>
+                  Show all reviews
+                </ListItemText>
+              </ListItem>
+            </Link>
+          ) : null}
+        </List>
       </Paper>
     );
   }

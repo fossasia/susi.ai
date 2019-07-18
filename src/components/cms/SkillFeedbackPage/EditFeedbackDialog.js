@@ -36,11 +36,16 @@ const EditFeedback = props => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button key={1} color="secondary" onClick={handleConfirm}>
-          Edit
-        </Button>
-        <Button key={0} color="primary" onClick={handleClose}>
+        <Button key={0} style={{ marginRight: 10 }} onClick={handleClose}>
           Cancel
+        </Button>
+        <Button
+          key={1}
+          variant="contained"
+          color="primary"
+          onClick={handleConfirm}
+        >
+          Edit
         </Button>
       </DialogActions>
     </React.Fragment>

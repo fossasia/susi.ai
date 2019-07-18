@@ -73,11 +73,13 @@ class ForgotPassword extends Component {
             success,
             loading: false,
           });
+          actions.closeModal();
           actions.openSnackBar({
             snackBarMessage,
           });
         })
         .catch(error => {
+          actions.closeModal();
           this.setState({
             loading: false,
             success: false,
