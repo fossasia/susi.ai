@@ -541,6 +541,7 @@ class MessageSection extends Component {
     messagesByID,
     showLoading,
     addYouTube,
+    pauseAllVideos,
     markID,
   ) => {
     // markID indicates search mode on
@@ -553,6 +554,7 @@ class MessageSection extends Component {
             message={messagesByID[id]}
             markID={markID}
             addYouTube={addYouTube}
+            pauseAllVideos={pauseAllVideos}
             showChatBubble={showChatBubble}
           />
         );
@@ -577,6 +579,7 @@ class MessageSection extends Component {
             latestUserMsgID={latestUserMsgID}
             latestMessage={false}
             addYouTube={addYouTube}
+            pauseAllVideos={pauseAllVideos}
             showChatBubble={showChatBubble}
           />
         );
@@ -588,6 +591,7 @@ class MessageSection extends Component {
           latestUserMsgID={latestUserMsgID}
           latestMessage={true}
           addYouTube={addYouTube}
+          pauseAllVideos={pauseAllVideos}
           showChatBubble={showChatBubble}
         />
       );
@@ -704,6 +708,7 @@ class MessageSection extends Component {
         markedMessagesByID,
         false,
         this.addYouTube,
+        this.pauseAllVideos,
         markID,
       );
     } else {
@@ -712,6 +717,7 @@ class MessageSection extends Component {
         messagesByID,
         loadingReply,
         this.addYouTube,
+        this.pauseAllVideos,
         null,
       );
     }

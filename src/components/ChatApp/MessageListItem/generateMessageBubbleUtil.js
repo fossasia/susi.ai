@@ -278,6 +278,7 @@ export const generateMessageBubble = (
   onTextToSpeechEnd,
   onYouTubePlayerReady,
   getUserGeoData,
+  pauseAllVideos,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -507,6 +508,11 @@ export const generateMessageBubble = (
             listItems.push(
               generateWebSearchRssBubble(action, index, websearchresults),
             );
+            break;
+          }
+          case 'stop': {
+            pauseAllVideos();
+            window.speechSynthesis.cancel();
             break;
           }
           default:
