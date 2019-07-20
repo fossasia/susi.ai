@@ -1,39 +1,15 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import styled, { css } from 'styled-components';
 import Link from '../shared/Link';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import LINKS from './constants';
 import { connect } from 'react-redux';
-import { StyledIconButton } from './Styles';
 import { withRouter } from 'react-router-dom';
 import Popper from './Popper';
 import Paper from '@material-ui/core/Paper';
-
-const NavLinkContainer = styled.div`
-  margin-left: 2rem;
-  display: flex;
-  align-items: center;
-  @media (max-width: 800px) {
-    display: none;
-  }
-`;
-
-const NavButton = styled(StyledIconButton)`
-  margin: 0 1rem;
-  text-transform: none;
-  color: white;
-  word-spacing: 2px;
-  font-size: 1rem;
-  padding: 0.75rem;
-  ${props =>
-    props.isActive === true &&
-    css`
-      border-bottom: 2px solid #ffffff;
-    `}
-`;
+import { NavLinkContainer, NavButton } from './Styles';
 
 class NavMenu extends React.Component {
   constructor(props) {

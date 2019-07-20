@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _Toolbar from '@material-ui/core/Toolbar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
 import ISO6391 from 'iso-639-1';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../Translate/Translate.react';
-import styled, { css } from 'styled-components';
 import CircleImage from '../shared/CircleImage';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
@@ -28,11 +25,9 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Popper from './Popper';
-import _ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import Chat from '@material-ui/icons/Chat';
-import { StyledIconButton, OutlinedSelectStyles } from './Styles';
 import { FlexContainer } from '../shared/Container';
 import ListIcon from '@material-ui/icons/List';
 import SearchBar from './SearchBar';
@@ -42,78 +37,17 @@ import DashIcon from '@material-ui/icons/Remove';
 import susiFevicon from '../../images/favicon.png';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
-
-const LanguageSelect = styled(Select)`
-  ${OutlinedSelectStyles}
-  max-width: 14rem;
-  border-radius: 4px;
-  @media (max-width: 550px) {
-    width: 6rem;
-  }
-  .MuiOutlinedInput-input {
-    padding: 4px;
-  }
-  .MuiInputBase-inputSelect {
-    padding-right: 1.75rem;
-  }
-`;
-
-const UserDetail = styled.div`
-  color: white;
-  margin-right: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  bottom: 8px;
-  @media (max-width: 1000px) {
-    display: None;
-  }
-`;
-const CreateDetail = styled.div`
-  color: white;
-  margin-right: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  bottom: 8px;
-`;
-
-const ExpandMore = styled(_ExpandMore)`
-  color: white;
-`;
-
-const SusiLogo = styled.img`
-  height: 1.5rem;
-  display: block;
-  ${props =>
-    props.marginRight &&
-    css`
-      margin-right: ${props => props.marginRight + 'px'};
-    `}
-`;
-
-const TopRightMenuContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1px;
-`;
-
-const SusiLogoContainer = styled.div`
-  @media (max-width: 680px) {
-    ${props =>
-      props.isSearchOpen &&
-      css`
-        display: none;
-      `}
-  }
-`;
-
-const Toolbar = styled(_Toolbar)`
-  height: 46px;
-  background-color: rgb(66, 133, 244);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+import {
+  LanguageSelect,
+  UserDetail,
+  CreateDetail,
+  StyledIconButton,
+  ExpandMore,
+  SusiLogo,
+  TopRightMenuContainer,
+  SusiLogoContainer,
+  Toolbar,
+} from './Styles';
 
 const HideOnScroll = ({ children }) => {
   const trigger = useScrollTrigger();
