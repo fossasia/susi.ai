@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { debounce } from 'lodash';
-import styled from 'styled-components';
 
 // Components
-import Recaptcha from 'react-recaptcha';
+// import Recaptcha from 'react-recaptcha';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -28,19 +27,7 @@ import {
   FormControl,
 } from '../AuthStyles';
 import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
-
-const RecaptchaContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
-`;
-
-const ErrorMessage = styled.p`
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  color: rgb(244, 67, 54);
-  margin-top: 0.36rem;
-`;
+import Recaptcha from '../../shared/Recaptcha';
 
 class SignUp extends Component {
   static propTypes = {
@@ -61,8 +48,7 @@ class SignUp extends Component {
       passwordStrength: '',
       confirmPassword: '',
       passwordConfirmErrorMessage: '',
-      isCaptchaVerified: false,
-      captchaVerifyErrorMessage: '',
+      showCaptchaErrorMessage: '',
       signupErrorMessage: '',
       success: false,
       loading: false,
@@ -87,8 +73,7 @@ class SignUp extends Component {
       passwordStrength: '',
       confirmPassword: '',
       passwordConfirmErrorMessage: '',
-      isCaptchaVerified: false,
-      captchaVerifyErrorMessage: '',
+      showCaptchaErrorMessage: false,
       signupErrorMessage: '',
       success: false,
       loading: false,
@@ -99,16 +84,14 @@ class SignUp extends Component {
 
   onCaptchaLoad = () => {
     this.setState({
-      isCaptchaVerified: false,
-      captchaVerifyErrorMessage: '',
+      showCaptchaErrorMessage: true,
     });
   };
 
   onCaptchaSuccess = response => {
     if (response) {
       this.setState({
-        isCaptchaVerified: true,
-        captchaVerifyErrorMessage: '',
+        showCaptchaErrorMessage: false,
         signupErrorMessage: '',
       });
     }
@@ -204,12 +187,6 @@ class SignUp extends Component {
 
     const { getSignup, openSnackBar } = this.props.actions;
 
-    if (!isCaptchaVerified) {
-      this.setState({
-        captchaVerifyErrorMessage: 'Please verify that you are a human.',
-      });
-    }
-
     if (
       !emailErrorMessage &&
       !passwordConfirmErrorMessage &&
@@ -279,7 +256,7 @@ class SignUp extends Component {
       confirmPassword,
       passwordConfirmErrorMessage,
       isCaptchaVerified,
-      captchaVerifyErrorMessage,
+      showCaptchaErrorMessage,
       signupErrorMessage,
       loading,
       success,
@@ -345,23 +322,13 @@ class SignUp extends Component {
               {passwordConfirmErrorMessage}
             </FormHelperText>
           </FormControl>
-          <RecaptchaContainer>
-            {captchaKey && (
-              <Recaptcha
-                sitekey={captchaKey}
-                render="explicit"
-                onloadCallback={this.onCaptchaLoad}
-                verifyCallback={this.onCaptchaSuccess}
-                badge="inline"
-                type="audio"
-                size={window.innerWidth > 447 ? 'normal' : 'compact'}
-              />
-            )}
-          </RecaptchaContainer>
-          {!isCaptchaVerified && captchaVerifyErrorMessage && (
-            <ErrorMessage>
-              <Translate text={captchaVerifyErrorMessage} />
-            </ErrorMessage>
+          {captchaKey && (
+            <Recaptcha
+              captchaKey={captchaKey}
+              onCaptchaLoad={this.onCaptchaLoad}
+              onCaptchaSuccess={this.onCaptchaSuccess}
+              error={showCaptchaErrorMessage}
+            />
           )}
           {signupErrorMessage && (
             <div style={{ color: success ? '#388e3c' : '#f44336' }}>

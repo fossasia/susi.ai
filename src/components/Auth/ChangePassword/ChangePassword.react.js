@@ -14,13 +14,15 @@ import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
+import { passwordRegEx } from '../../../utils/regex';
+import Recaptcha from '../../shared/Recaptcha';
 
 const PasswordField = styled(_PasswordField)`
   height: 35px;
   border-radius: 4;
   border: 1px solid #ced4da;
   padding: 0px 12px;
-  width: 17rem;
+  width: 22.5rem;
   @media (max-width: 520px) {
     width: 100%;
     max-width: 17rem;
@@ -37,7 +39,7 @@ const ForgotPasswordLink = styled.div`
   margin: 1rem 0;
   color: #1da1f5;
   cursor: pointer;
-
+  width: fit-content;
   a {
     text-decoration: none;
   }
@@ -59,6 +61,7 @@ class ChangePassword extends Component {
     settings: PropTypes.object,
     actions: PropTypes.object,
     email: PropTypes.string,
+    captchaKey: PropTypes.string,
   };
 
   constructor(props) {
@@ -75,8 +78,25 @@ class ChangePassword extends Component {
       newPasswordConfirmErrorMessage: '',
       success: false,
       loading: false,
+      showCaptchaErrorMessage: false,
+      captchaResponse: '',
     };
   }
+
+  onCaptchaLoad = () => {
+    this.setState({
+      showCaptchaErrorMessage: true,
+    });
+  };
+
+  onCaptchaSuccess = captchaResponse => {
+    if (captchaResponse) {
+      this.setState({
+        showCaptchaErrorMessage: false,
+        captchaResponse,
+      });
+    }
+  };
 
   handleCloseResetPassword = () => {
     const { success } = this.state;
@@ -104,18 +124,15 @@ class ChangePassword extends Component {
     switch (event.target.name) {
       case 'password': {
         const password = event.target.value.trim();
-        const passwordError = !(
-          password &&
-          password.length >= 6 &&
-          password.length <= 64
-        );
+        // const passwordError = !passwordRegEx.test(password)
         this.setState({
           password,
-          passwordErrorMessage: passwordError ? (
-            <Translate text="Must be between 6 to 64 characters" />
-          ) : (
-            ''
-          ),
+          // passwordErrorMessage: passwordError ? (
+          // eslint-disable-next-line max-len
+          //   <Translate text="Atleast 8 characters, 1 special character, number, text character" />
+          // ) : (
+          //     ''
+          //   ),
         });
         break;
       }
@@ -125,11 +142,7 @@ class ChangePassword extends Component {
           newPasswordConfirmErrorMessage,
         } = this.state;
         const newPassword = event.target.value.trim();
-        const newPasswordError = !(
-          newPassword &&
-          newPassword.length >= 6 &&
-          newPassword.length <= 64
-        );
+        const newPasswordError = !passwordRegEx.test(newPassword);
         const newPasswordScore = !newPasswordError
           ? zxcvbn(newPassword).score
           : -1;
@@ -150,7 +163,7 @@ class ChangePassword extends Component {
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
-            <Translate text="Must be between 6 to 64 characters" />
+            <Translate text="Atleast 8 characters, 1 special character, number, text character" />
           ) : (
             ''
           ),
@@ -193,6 +206,8 @@ class ChangePassword extends Component {
       passwordErrorMessage,
       newPasswordErrorMessage,
       newPasswordConfirmErrorMessage,
+      captchaResponse,
+      showCaptchaErrorMessage,
     } = this.state;
     const { actions, email } = this.props;
 
@@ -200,7 +215,8 @@ class ChangePassword extends Component {
       !(
         passwordErrorMessage ||
         newPasswordErrorMessage ||
-        newPasswordConfirmErrorMessage
+        newPasswordConfirmErrorMessage ||
+        showCaptchaErrorMessage
       )
     ) {
       this.setState({
@@ -211,6 +227,7 @@ class ChangePassword extends Component {
           email,
           password: encodeURIComponent(password),
           newPassword: encodeURIComponent(newPassword),
+          captchaResponse,
         })
         .then(({ payload }) => {
           let dialogMessage;
@@ -260,8 +277,9 @@ class ChangePassword extends Component {
       newPasswordScore,
       newPasswordStrength,
       loading,
+      showCaptchaErrorMessage,
     } = this.state;
-    const { actions } = this.props;
+    const { actions, captchaKey } = this.props;
     const isValid =
       !passwordErrorMessage &&
       !newPasswordErrorMessage &&
@@ -272,55 +290,63 @@ class ChangePassword extends Component {
 
     return (
       <React.Fragment>
-        <LabelContainer>Current Password</LabelContainer>
-        <div>
-          <Form error={passwordErrorMessage !== ''}>
-            <PasswordField
-              name="password"
-              value={password}
-              onChange={this.handleTextFieldChange}
-            />
-            <FormHelperText error={passwordErrorMessage !== ''}>
-              {passwordErrorMessage}
-            </FormHelperText>
-          </Form>
-        </div>
-        <LabelContainer>New Password</LabelContainer>
-        <Form error={newPasswordErrorMessage !== ''}>
-          <PasswordField
-            name="newPassword"
-            placeholder="Must be between 6-64 characters"
-            value={newPassword}
-            onChange={this.handleTextFieldChange}
-          />
-          <FormHelperText error={newPasswordErrorMessage !== ''}>
-            {newPasswordErrorMessage}
-          </FormHelperText>
-        </Form>
-        <div style={{ textAlign: 'center' }}>
-          <PasswordStrengthBar score={newPasswordScore} />
-          <span>{newPasswordStrength}</span>
-        </div>
-        <LabelContainer>Verify Password</LabelContainer>
-        <div>
-          <Form error={newPasswordConfirmErrorMessage !== ''}>
-            <PasswordField
-              name="confirmNewPassword"
-              placeholder="Must match the new password"
-              value={confirmNewPassword}
-              onChange={this.handleTextFieldChange}
-            />
-            <FormHelperText error={newPasswordConfirmErrorMessage !== ''}>
-              {newPasswordConfirmErrorMessage}
-            </FormHelperText>
-          </Form>
-        </div>
-        <ForgotPasswordLink>
-          <div
-            onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
-          >
-            Forgot your password?
+        <form autoComplete="false">
+          <LabelContainer>Current Password</LabelContainer>
+          <div>
+            <Form error={passwordErrorMessage !== ''}>
+              <PasswordField
+                name="password"
+                value={password}
+                onChange={this.handleTextFieldChange}
+              />
+              <FormHelperText error={passwordErrorMessage !== ''}>
+                {passwordErrorMessage}
+              </FormHelperText>
+            </Form>
           </div>
+          <LabelContainer>New Password</LabelContainer>
+          <Form error={newPasswordErrorMessage !== ''}>
+            <PasswordField
+              name="newPassword"
+              placeholder="Must be between 8-64 characters"
+              value={newPassword}
+              onChange={this.handleTextFieldChange}
+            />
+            <FormHelperText error={newPasswordErrorMessage !== ''}>
+              {newPasswordErrorMessage}
+            </FormHelperText>
+          </Form>
+          <div style={{ textAlign: 'center' }}>
+            <PasswordStrengthBar score={newPasswordScore} />
+            <span>{newPasswordStrength}</span>
+          </div>
+          <LabelContainer>Verify Password</LabelContainer>
+          <div>
+            <Form error={newPasswordConfirmErrorMessage !== ''}>
+              <PasswordField
+                name="confirmNewPassword"
+                placeholder="Must match the new password"
+                value={confirmNewPassword}
+                onChange={this.handleTextFieldChange}
+              />
+              <FormHelperText error={newPasswordConfirmErrorMessage !== ''}>
+                {newPasswordConfirmErrorMessage}
+              </FormHelperText>
+            </Form>
+          </div>
+          {captchaKey && (
+            <Recaptcha
+              captchaKey={captchaKey}
+              onCaptchaLoad={this.onCaptchaLoad}
+              onCaptchaSuccess={this.onCaptchaSuccess}
+              error={showCaptchaErrorMessage}
+            />
+          )}
+        </form>
+        <ForgotPasswordLink
+          onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
+        >
+          Forgot your password?
         </ForgotPasswordLink>
         <div>
           <Button
@@ -345,8 +371,10 @@ class ChangePassword extends Component {
 
 function mapStateToProps(store) {
   const { email } = store.app;
+  const { captchaKey } = store.app.apiKeys;
   return {
     email,
+    captchaKey,
   };
 }
 
