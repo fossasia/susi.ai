@@ -74,6 +74,11 @@ export function getUserSettings() {
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
+export function getUserDevices() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/listUserDevices.json`;
+  return ajax.get(url, {}, { shouldCamelizeKeys: false });
+}
+
 export function setUserSettings(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/changeUserSettings.json`;
   return ajax.get(url, payload);
