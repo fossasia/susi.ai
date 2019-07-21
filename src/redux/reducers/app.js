@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
 import { getUserAvatarLink } from '../../utils/getAvatarProps';
+import urls from '../../utils/urls';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -14,8 +15,8 @@ const defaultState = {
   visited: true,
   userSkills: [],
   isLocalEnv: process.env.REACT_APP_LOCAL_ENV === 'true',
-  avatarImg: 'https://api.susi.ai/getAvatar.png',
-  avatarImgThumbnail: 'https://api.susi.ai/getAvatar.png',
+  avatarImg: `${urls.API_URL}/getAvatar.png`,
+  avatarImgThumbnail: `${urls.API_URL}/getAvatar.png`,
   showCookiePolicy: false,
 };
 
@@ -33,8 +34,12 @@ const cookiesAppValues = {
     typeof showCookiePolicy === 'undefined'
       ? true
       : JSON.parse(showCookiePolicy),
-  avatarImg: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
-  avatarImgThumbnail: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
+  avatarImg: `${
+    urls.API_URL
+  }/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}`,
+  avatarImgThumbnail: `${
+    urls.API_URL
+  }/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
 };
 
 export default handleActions(
@@ -54,7 +59,9 @@ export default handleActions(
         uuid,
         accessToken,
         email: accessToken ? email : '',
-        avatarImgThumbnail: `https://api.susi.ai/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
+        avatarImgThumbnail: `${
+          urls.API_URL
+        }/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
       };
     },
     [actionTypes.APP_LOGOUT](state, { payload }) {

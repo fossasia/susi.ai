@@ -1,9 +1,10 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
+import urls from '../../utils/urls';
 
 const defaultState = {
   theme: 'light',
-  server: 'https://api.susi.ai',
+  server: urls.API_URL,
   enterAsSend: true,
   micInput: true,
   speechOutput: true,
@@ -27,7 +28,7 @@ const defaultState = {
   countryDialCode: '+1',
   phoneNo: '',
   checked: false,
-  serverUrl: 'https://api.susi.ai',
+  serverUrl: urls.API_URL,
   backgroundImage: '',
   messageBackgroundImage: '',
   avatarType: 'default',
