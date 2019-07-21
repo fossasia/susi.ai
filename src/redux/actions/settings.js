@@ -15,6 +15,10 @@ export default {
     actionTypes.SETTINGS_SET_USER_SETTINGS,
     returnArgumentsFn,
   ),
+  getUserDevices: createAction(
+    actionTypes.SETTINGS_GET_USER_DEVICES,
+    apis.getUserDevices,
+  ),
   removeUserDevice: createAction(
     actionTypes.SETTINGS_REMOVE_USER_DEVICE,
     apis.removeUserDevice,

@@ -38,7 +38,7 @@ const defaultState = {
 export default handleActions(
   {
     [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { error, payload }) {
-      const { settings, devices = {} } = payload;
+      const { settings } = payload;
       if (error || !settings) {
         return state;
       }
@@ -71,7 +71,6 @@ export default handleActions(
         : defaultState.customThemeValue;
       return {
         ...state,
-        devices,
         server,
         serverUrl,
         theme,
@@ -106,6 +105,17 @@ export default handleActions(
       return {
         ...state,
         ...payload,
+      };
+    },
+    [actionTypes.SETTINGS_GET_USER_DEVICES](state, { error, payload }) {
+      const { devices = {} } = payload;
+      if (error) {
+        return state;
+      }
+
+      return {
+        ...state,
+        devices,
       };
     },
     [actionTypes.SETTINGS_REMOVE_USER_DEVICE](state, { payload }) {
