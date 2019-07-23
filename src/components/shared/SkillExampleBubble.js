@@ -56,7 +56,7 @@ const SkillExampleBubble = ({
   data,
   history,
   actions,
-  margin = '1.5% 0.85% 1.5% 0',
+  margin = '1.5% 4.85% 1.5% 0',
 }) => {
   return (
     <ExampleComment
