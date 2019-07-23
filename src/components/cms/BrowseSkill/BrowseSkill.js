@@ -123,7 +123,7 @@ const Sidebar = styled.div`
   z-index: 2;
   border-right: 1px solid #ddd;
   border-spacing: 1px;
-  @media (max-width: 520px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -198,7 +198,7 @@ const RightContainer = styled.div`
   @media (max-width: 1600px) {
     width: 83.5%;
   }
-  @media (max-width: 520px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -879,7 +879,7 @@ class BrowseSkill extends React.Component {
                             <Select
                               value={entriesPerPage}
                               onChange={this.handleEntriesPerPageChange}
-                              style={{ width: '5.1rem' }}
+                              style={{ width: '5.1rem', marginTop: '1.5rem' }}
                             >
                               <MenuItem value={10}>10</MenuItem>
                               <MenuItem value={20}>20</MenuItem>
@@ -892,7 +892,7 @@ class BrowseSkill extends React.Component {
                           defaultValue="list"
                           value={viewType}
                           onChange={this.handleViewChange}
-                          style={{ marginRight: '2rem', flexDirection: 'row' }}
+                          style={{ flexDirection: 'row' }}
                         >
                           <Radio
                             value="list"
