@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import { setUserSettings, uploadAvatar } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import isUserName from '../../utils/isUserName';
 
 const TimezonePicker = styled(_TimezonePicker)`
   & > ul {
@@ -63,7 +64,6 @@ const DangerButton = styled(Button)`
 
 const AvatarSection = styled.div`
   margin-left: 8rem;
-
   @media (min-width: 766px) and (max-width: 1060px) {
     margin-left: 40%;
     padding-top: 0.5rem;
@@ -163,10 +163,11 @@ class AccountTab extends React.Component {
 
   handleUserName = event => {
     const { value: userName } = event.target;
-    const re = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
     this.setState({ userName });
-    if (userName !== '' && !re.test(userName)) {
-      this.setState({ userNameError: 'Invalid User Name' });
+    if (!isUserName(userName)) {
+      this.setState({
+        userNameError: 'Enter atleast 5 character, upto 51 character',
+      });
     } else {
       this.setState({ userNameError: '' });
     }

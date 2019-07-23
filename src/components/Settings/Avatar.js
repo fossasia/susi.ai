@@ -99,7 +99,8 @@ const Avatar = props => {
               <AvatarImage
                 alt="User Avatar"
                 src={imagePreviewUrl}
-                onClick={e => handleAvatarImageChange(e)}
+                onClick={handleMenuClick}
+                style={{ cursor: 'pointer' }}
               />
               <Fab color="primary" size="small" onClick={handleMenuClick}>
                 <EditIcon />
