@@ -51,6 +51,31 @@ const RootContainer = styled.div`
   margin-top: 50px;
 `;
 
+const EnhancedBrowseSkill = withTracker(BrowseSkill);
+const EnhancedChatApp = withTracker(ChatApp);
+const EnhancedBrowseSkillByCategory = withTracker(BrowseSkillByCategory);
+const EnhancedBrowseSkillByLanguage = withTracker(BrowseSkillByLanguage);
+const EnhancedSkillListing = withTracker(SkillListing);
+const EnhancedSkillFeedbackPage = withTracker(SkillFeedbackPage);
+const EnhancedDeviceWizard = withTracker(DeviceWizard);
+const EnhancedDashboard = withTracker(Dashboard);
+const EnhancedSkillVersion = withTracker(SkillVersion);
+const EnhancedSkillHistory = withTracker(SkillHistory);
+const EnhancedSkillRollBack = withTracker(SkillRollBack);
+const EnhancedSkillWizard = withTracker(SkillWizard);
+const EnhancedBotBuilderWrap = withTracker(BotBuilderWrap);
+const EnhancedOverview = withTracker(Overview);
+const EnhancedDevices = withTracker(Devices);
+const EnhancedTeam = withTracker(Team);
+const EnhancedBlog = withTracker(Blog);
+const EnhancedContact = withTracker(Contact);
+const EnhancedSupport = withTracker(Support);
+const EnhancedTerms = withTracker(Terms);
+const EnhancedPrivacy = withTracker(Privacy);
+const EnhancedVerifyAccount = withTracker(VerifyAccount);
+const EnhancedSettings = withTracker(Settings);
+const EnhancedNotFound = withTracker(NotFound);
+
 class App extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -165,110 +190,107 @@ class App extends Component {
             {pathname !== '/chat' ? <ChatApp showChatBubble={true} /> : null}
             <RootContainer>
               <Switch>
-                <Route exact path="/" component={withTracker(BrowseSkill)} />
-                <Route exact path="/chat" component={withTracker(ChatApp)} />
+                <Route exact path="/" component={EnhancedBrowseSkill} />
+                <Route exact path="/chat" component={EnhancedChatApp} />
                 <Route
                   exact
                   path="/category/:category"
-                  component={withTracker(BrowseSkillByCategory)}
+                  component={EnhancedBrowseSkillByCategory}
                 />
                 <Route
                   exact
                   path="/language/:language"
-                  component={withTracker(BrowseSkillByLanguage)}
+                  component={EnhancedBrowseSkillByLanguage}
                 />
                 <Route
                   exact
                   path="/:category/:skills/:lang"
-                  component={withTracker(SkillListing)}
+                  component={EnhancedSkillListing}
                 />
                 <Route
                   exact
                   path="/:category/:skills/:lang/feedbacks"
-                  component={withTracker(SkillFeedbackPage)}
+                  component={EnhancedSkillFeedbackPage}
                 />
                 <ProtectedRoute
                   exact
                   path="/mydevices/:macID"
-                  component={withTracker(DeviceWizard)}
+                  component={EnhancedDeviceWizard}
                 />
                 <ProtectedRoute
                   exact
                   path="/dashboard/"
-                  component={withTracker(Dashboard)}
+                  component={EnhancedDashboard}
                 />
                 <Route
                   exact
                   path="/:category/:skill/versions/:lang"
-                  component={withTracker(SkillVersion)}
+                  component={EnhancedSkillVersion}
                 />
                 <Route
                   exact
                   path="/:category/:skill/compare/:lang/:oldid/:recentid"
-                  component={withTracker(SkillHistory)}
+                  component={EnhancedSkillHistory}
                 />
                 <Route
                   exact
                   path="/:category/:skill/edit/:lang/:latestid/:revertid"
-                  component={withTracker(SkillRollBack)}
+                  component={EnhancedSkillRollBack}
                 />
                 <Route
                   exact
                   path="/:category/:skill/edit/:lang"
-                  component={withTracker(SkillWizard)}
+                  component={EnhancedSkillWizard}
                 />
                 <Route
                   exact
                   path="/:category/:skill/edit/:lang/:commit"
-                  component={withTracker(SkillWizard)}
+                  component={EnhancedSkillWizard}
                 />
                 <ProtectedRoute
                   exact
                   path="/myskills"
-                  component={withTracker(Dashboard)}
+                  component={EnhancedDashboard}
                 />
                 <ProtectedRoute
                   exact
                   path="/mydevices"
-                  component={withTracker(Dashboard)}
+                  component={EnhancedDashboard}
                 />
                 <ProtectedRoute
                   exact
                   path="/skillWizard"
-                  component={withTracker(SkillWizard)}
+                  component={EnhancedSkillWizard}
                 />
                 <ProtectedRoute
                   path="/botWizard"
-                  component={withTracker(BotBuilderWrap)}
+                  component={EnhancedBotBuilderWrap}
                 />
-                <ProtectedRoute
-                  path="/mybots"
-                  component={withTracker(Dashboard)}
-                />
-                <Route exact path="/about" component={withTracker(Overview)} />
-                <Route exact path="/devices" component={withTracker(Devices)} />
-                <Route exact path="/team" component={withTracker(Team)} />
-                <Route exact path="/blog" component={withTracker(Blog)} />
-                <Route exact path="/contact" component={withTracker(Contact)} />
-                <Route exact path="/support" component={withTracker(Support)} />
-                <Route exact path="/terms" component={withTracker(Terms)} />
-                <Route exact path="/privacy" component={withTracker(Privacy)} />
+                <ProtectedRoute path="/mybots" component={EnhancedDashboard} />
+                <Route exact path="/about" component={EnhancedOverview} />
+                <Route exact path="/devices" component={EnhancedDevices} />
+                <Route exact path="/team" component={EnhancedTeam} />
+                <Route exact path="/blog" component={EnhancedBlog} />
+                <Route exact path="/contact" component={EnhancedContact} />
+                <Route exact path="/support" component={EnhancedSupport} />
+                <Route exact path="/terms" component={EnhancedTerms} />
+                <Route exact path="/privacy" component={EnhancedPrivacy} />
                 <Route
                   exact
                   path="/verify-account"
-                  component={withTracker(VerifyAccount)}
+                  component={EnhancedVerifyAccount}
                 />
                 <Route exact path="/logout" component={Logout} />
                 <Route path="/admin" component={Admin} />
                 <ProtectedRoute
                   exact
                   path="/settings"
-                  component={withTracker(Settings)}
+                  component={EnhancedSettings}
                 />
                 <Route
                   exact
                   path="/*:path(error-404|)"
-                  component={withTracker(NotFound)}
+                  component={EnhancedNotFound}
                 />
               </Switch>
             </RootContainer>
