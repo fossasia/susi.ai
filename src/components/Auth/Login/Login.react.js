@@ -51,9 +51,13 @@ class Login extends Component {
       success: false,
       loading: false,
       showCaptchaErrorMessage: false,
-      attempts: 0,
+      attempts: sessionStorage.getItem('loginAttempts') || 0,
       captchaResponse: '',
     };
+  }
+
+  componentWillUnmount() {
+    sessionStorage.setItem('loginAttempts', this.state.attempts);
   }
 
   handleDialogClose = () => {

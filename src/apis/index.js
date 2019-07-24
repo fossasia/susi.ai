@@ -43,9 +43,13 @@ export function getLogin(payload) {
 }
 
 export function getSignup(payload) {
-  const { email, password } = payload;
+  const { email, password, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/signup.json`;
-  return ajax.get(url, { signup: email, password });
+  return ajax.get(url, {
+    signup: email,
+    password,
+    'g-recaptcha-response': captchaResponse,
+  });
 }
 
 export function verifyEmail(payload) {
