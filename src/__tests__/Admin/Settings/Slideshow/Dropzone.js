@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropzone from '../../../../components/Admin/SystemSettings/Slideshow/Dropzone';
+import Dropzone from '../../../../components/Admin/Settings/Slideshow/Dropzone';
 import { shallow } from 'enzyme';
 
 describe('<Dropzone />', () => {

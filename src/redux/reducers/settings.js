@@ -1,9 +1,10 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
+import urls from '../../utils/urls';
 
 const defaultState = {
   theme: 'light',
-  server: 'https://api.susi.ai',
+  server: urls.API_URL,
   enterAsSend: true,
   micInput: true,
   speechOutput: true,
@@ -27,7 +28,7 @@ const defaultState = {
   countryDialCode: '+1',
   phoneNo: '',
   checked: false,
-  serverUrl: 'https://api.susi.ai',
+  serverUrl: urls.API_URL,
   backgroundImage: '',
   messageBackgroundImage: '',
   avatarType: 'default',
@@ -37,7 +38,7 @@ const defaultState = {
 export default handleActions(
   {
     [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { error, payload }) {
-      const { settings, devices = {} } = payload;
+      const { settings } = payload;
       if (error || !settings) {
         return state;
       }
@@ -70,7 +71,6 @@ export default handleActions(
         : defaultState.customThemeValue;
       return {
         ...state,
-        devices,
         server,
         serverUrl,
         theme,
@@ -105,6 +105,17 @@ export default handleActions(
       return {
         ...state,
         ...payload,
+      };
+    },
+    [actionTypes.SETTINGS_GET_USER_DEVICES](state, { error, payload }) {
+      const { devices = {} } = payload;
+      if (error) {
+        return state;
+      }
+
+      return {
+        ...state,
+        devices,
       };
     },
     [actionTypes.SETTINGS_REMOVE_USER_DEVICE](state, { payload }) {

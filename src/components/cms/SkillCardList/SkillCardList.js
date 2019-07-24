@@ -214,7 +214,7 @@ function createListCard(
             <Image alt={skillName} src={image} />
           </Link>
         ) : (
-          <CircleImage name={skillName} size="160" />
+          <CircleImage name={skillName} size="224" />
         )}
       </ImageContainer>
       <Content>

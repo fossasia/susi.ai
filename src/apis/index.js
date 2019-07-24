@@ -32,9 +32,14 @@ export function deleteApiKey(payload) {
 }
 
 export function getLogin(payload) {
-  const { email, password } = payload;
+  const { email, password, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
-  return ajax.get(url, { login: email, password, type: 'access-token' });
+  return ajax.get(url, {
+    login: email,
+    password,
+    type: 'access-token',
+    'g-recaptcha-response': captchaResponse,
+  });
 }
 
 export function getSignup(payload) {
@@ -60,17 +65,23 @@ export function verifyEmail(payload) {
 }
 
 export function getChangePassword(payload) {
-  const { email, password, newPassword } = payload;
+  const { email, password, newPassword, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/changepassword.json`;
   return ajax.get(url, {
     changepassword: email,
     password,
     newpassword: newPassword,
+    'g-recaptcha-response': captchaResponse,
   });
 }
 
 export function getUserSettings() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserSettings.json`;
+  return ajax.get(url, {}, { shouldCamelizeKeys: false });
+}
+
+export function getUserDevices() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/listUserDevices.json`;
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
@@ -717,5 +728,74 @@ export function uploadImage(payload) {
   return ajax.post(url, payload, {
     headers: { 'Content-Type': 'multipart/form-data' },
     isTokenRequired: false,
+  });
+}
+
+// Mail Settings
+
+export function fetchMailSettings(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/getEmailSettings.json`;
+  return ajax.get(url, {});
+}
+
+export function changeMailSettings(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/emailSettings.json`;
+  const {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  } = payload;
+  return ajax.get(url, {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  });
+}
+
+export function sendEmail(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/emailSettings.json`;
+  const {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    receiverEmail,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
+  } = payload;
+  return ajax.get(url, {
+    frontendUrl,
+    type,
+    name,
+    email,
+    sendgridToken,
+    receiverEmail,
+    trustselfsignedcerts,
+    encryption,
+    port,
+    username,
+    password,
+    smtpHost,
   });
 }

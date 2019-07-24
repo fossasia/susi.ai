@@ -1,16 +1,16 @@
 import React from 'react';
-import SystemSettings from '../../../components/Admin/SystemSettings/SystemSettings';
+import Settings from '../../../components/Admin/Settings';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<SystemSettings />', () => {
-  it('render SystemSettings without crashing', () => {
+describe('<Settings />', () => {
+  it('render Settings without crashing', () => {
     shallow(
       <Provider store={store}>
-        <SystemSettings />
+        <Settings />
       </Provider>,
     );
   });

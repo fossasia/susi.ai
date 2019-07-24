@@ -131,7 +131,7 @@ const ShareOnSocialMedia = props => {
             className={classes.linkedin}
             onClick={() =>
               window.open(
-                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fchat.susi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=chat.susi.ai',
+                'http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsusi.ai&title=Let%27s%20chat%20with%20SUSI,%20the%20Open%20Source%20personal%20assistant!%0Ahttps%3A%2F%2Fsusi.ai.%20It%27s%20awesome%20%23susiai!%0A@susiai&source=susi.ai',
                 '_blank',
               )
             }

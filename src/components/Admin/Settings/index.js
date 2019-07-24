@@ -4,6 +4,7 @@ import Tab from '@material-ui/core/Tab';
 import { Container } from '../AdminStyles';
 import ConfigKeys from './ConfigKeys';
 import Slideshow from './Slideshow';
+import Mail from './Mail';
 
 class SystemSettings extends Component {
   state = {
@@ -21,9 +22,11 @@ class SystemSettings extends Component {
         <Tabs onChange={this.handleTabChange} value={value}>
           <Tab label="Config Keys" />
           <Tab label="Slideshow" />
+          <Tab label="Mail" />
         </Tabs>
         {value === 0 && <ConfigKeys />}
         {value === 1 && <Slideshow />}
+        {value === 2 && <Mail />}
       </Container>
     );
   }
