@@ -6,20 +6,12 @@ import styled from 'styled-components';
 import isMobileView from '../../../utils/isMobileView';
 
 // Components
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Cell,
-  ResponsiveContainer,
-} from 'recharts';
+import { Cell } from 'recharts';
 import CountryWiseSkillUsageCard from '../CountryWiseSkillUsageCard/CountryWiseSkillUsageCard';
 import PieChartContainer from '../../shared/PieChartContainer';
 import { Paper as _Paper } from '../../shared/Container';
 import { Title, SubTitle, LargeText } from '../../shared/Typography';
+import LineChart from '../../shared/charts/LineChart';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -106,32 +98,18 @@ class SkillUsageCard extends Component {
           {totalSkillUsage > 0 ? (
             <React.Fragment>
               <Container>
-                <ResponsiveContainer
+                <LineChart
                   width={mobileView ? 600 : width}
-                  height={300}
-                >
-                  <LineChart
-                    data={dateWiseSkillUsage}
-                    margin={{
-                      top: 5,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                  >
-                    <XAxis dataKey="date" padding={{ right: 20 }} />
-                    <YAxis allowDecimals={false} />
-                    <Tooltip wrapperStyle={{ height: '60px' }} />
-                    <Legend />
-                    <Line
-                      name="Skill usage count"
-                      type="monotone"
-                      dataKey="count"
-                      stroke="#82ca9d"
-                      activeDot={{ r: 8 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                  XAxisdataKey="date"
+                  data={dateWiseSkillUsage}
+                  legend={'Skill usage count'}
+                />
               </Container>
               <div style={{ textAlign: 'center', padding: '1.5rem 3rem' }}>
                 <LargeText>{totalSkillUsage}</LargeText>
