@@ -77,6 +77,7 @@ class SignUp extends Component {
       signupErrorMessage: '',
       success: false,
       loading: false,
+      captchaResponse: '',
     });
 
     actions.closeModal();
@@ -88,11 +89,12 @@ class SignUp extends Component {
     });
   };
 
-  onCaptchaSuccess = response => {
-    if (response) {
+  onCaptchaSuccess = captchaResponse => {
+    if (captchaResponse) {
       this.setState({
         showCaptchaErrorMessage: false,
         signupErrorMessage: '',
+        captchaResponse,
       });
     }
   };
@@ -183,6 +185,7 @@ class SignUp extends Component {
       emailErrorMessage,
       passwordConfirmErrorMessage,
       isCaptchaVerified,
+      captchaResponse,
     } = this.state;
 
     const { getSignup, openSnackBar } = this.props.actions;
@@ -196,6 +199,7 @@ class SignUp extends Component {
       getSignup({
         email,
         password: encodeURIComponent(password),
+        captchaResponse,
       })
         .then(({ payload }) => {
           if (payload.accepted) {
