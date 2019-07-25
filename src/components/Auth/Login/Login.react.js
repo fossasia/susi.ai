@@ -18,6 +18,7 @@ import Translate from '../../Translate/Translate.react';
 import { cookieDomain } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
 import { createMessagePairArray } from '../../../utils/formatMessage';
+import Recaptcha from '../../shared/Recaptcha';
 import {
   PasswordField,
   OutlinedInput,
@@ -37,6 +38,7 @@ class Login extends Component {
     location: PropTypes.object,
     history: PropTypes.object,
     serverUrl: PropTypes.string,
+    captchaKey: PropTypes.string,
   };
 
   constructor(props) {
@@ -48,7 +50,14 @@ class Login extends Component {
       passwordErrorMessage: '',
       success: false,
       loading: false,
+      showCaptchaErrorMessage: false,
+      attempts: sessionStorage.getItem('loginAttempts') || 0,
+      captchaResponse: '',
     };
+  }
+
+  componentWillUnmount() {
+    sessionStorage.setItem('loginAttempts', this.state.attempts);
   }
 
   handleDialogClose = () => {
@@ -66,7 +75,7 @@ class Login extends Component {
 
   handleSubmit = e => {
     const { actions, location, history } = this.props;
-    const { password, email } = this.state;
+    const { password, email, captchaResponse } = this.state;
 
     if (!email || !password) {
       return;
@@ -74,7 +83,11 @@ class Login extends Component {
     if (isEmail(email)) {
       this.setState({ loading: true });
       actions
-        .getLogin({ email, password: encodeURIComponent(password) })
+        .getLogin({
+          email,
+          password: encodeURIComponent(password),
+          captchaResponse,
+        })
         .then(({ payload }) => {
           let snackBarMessage;
           const { accessToken, time, uuid } = payload;
@@ -107,21 +120,23 @@ class Login extends Component {
             this.handleDialogClose();
           } else {
             snackBarMessage = 'Login Failed. Try Again';
-            this.setState({
+            this.setState(prevState => ({
               password: '',
               success: false,
               loading: false,
-            });
+              attempts: prevState.attempts + 1,
+            }));
           }
           actions.openSnackBar({ snackBarMessage });
         })
         .catch(error => {
           console.log(error);
-          this.setState({
+          this.setState(prevState => ({
             password: '',
             success: false,
             loading: false,
-          });
+            attempts: prevState.attempts + 1,
+          }));
           actions.openSnackBar({
             snackBarMessage: 'Login Failed. Try Again',
           });
@@ -189,6 +204,21 @@ class Login extends Component {
     }
   };
 
+  onCaptchaLoad = () => {
+    this.setState({
+      showCaptchaErrorMessage: true,
+    });
+  };
+
+  onCaptchaSuccess = captchaResponse => {
+    if (captchaResponse) {
+      this.setState({
+        showCaptchaErrorMessage: false,
+        captchaResponse,
+      });
+    }
+  };
+
   render() {
     const {
       email,
@@ -196,12 +226,16 @@ class Login extends Component {
       emailErrorMessage,
       passwordErrorMessage,
       loading,
+      showCaptchaErrorMessage,
+      attempts,
     } = this.state;
-    const { actions } = this.props;
-
+    const { actions, captchaKey } = this.props;
     const isValid =
-      email && !emailErrorMessage && password && !passwordErrorMessage;
-
+      email &&
+      !emailErrorMessage &&
+      password &&
+      !passwordErrorMessage &&
+      (attempts > 0 ? !showCaptchaErrorMessage : true);
     return (
       <React.Fragment>
         <DialogTitle>
@@ -237,6 +271,14 @@ class Login extends Component {
               {passwordErrorMessage}
             </FormHelperText>
           </FormControl>
+          {captchaKey && attempts > 0 && (
+            <Recaptcha
+              captchaKey={captchaKey}
+              onCaptchaLoad={this.onCaptchaLoad}
+              onCaptchaSuccess={this.onCaptchaSuccess}
+              error={showCaptchaErrorMessage}
+            />
+          )}
           <Button
             onClick={this.handleSubmit}
             variant="contained"
@@ -280,6 +322,7 @@ function mapStateToProps(store) {
   return {
     ...store.router,
     serverUrl: store.settings.serverUrl,
+    captchaKey: store.app.apiKeys.captchaKey,
   };
 }
 

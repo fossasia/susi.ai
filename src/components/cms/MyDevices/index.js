@@ -5,6 +5,7 @@ import DevicesTable from './DevicesTable';
 import MapContainer from './MapContainer';
 import PropTypes from 'prop-types';
 import uiActions from '../../../redux/actions/ui';
+import settingActions from '../../../redux/actions/settings';
 import { addUserDevice, removeUserDevice } from '../../../apis/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -53,13 +54,35 @@ class DevicesTab extends React.Component {
   };
 
   state = {
+    loading: true,
     devicesData: [],
     invalidLocationDevices: 0,
     editIdx: null,
+    emptyText: 'You do not have any devices connected yet!',
   };
 
   componentDidMount() {
-    this.initialiseDevices();
+    const { accessToken, actions } = this.props;
+    if (accessToken) {
+      actions
+        .getUserDevices()
+        .then(({ payload }) => {
+          this.initialiseDevices();
+          this.setState({
+            loading: false,
+            emptyText: 'You do not have any devices connected yet!',
+          });
+        })
+        .catch(error => {
+          this.setState({
+            loading: false,
+            emptyText: 'Some error occurred while fetching the devices!',
+          });
+          console.log(error);
+        });
+    }
+    document.title =
+      'My Devices - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   }
 
   handleRemoveDevice = rowIndex => {
@@ -158,51 +181,57 @@ class DevicesTab extends React.Component {
   };
 
   render() {
-    const { devicesData, invalidLocationDevices, editIdx } = this.state;
+    const {
+      devicesData,
+      invalidLocationDevices,
+      editIdx,
+      loading,
+      emptyText,
+    } = this.state;
     const { google, mapKey } = this.props;
-    return (
-      <React.Fragment>
-        <Container>
-          {devicesData.length ? (
-            <div>
-              <Paper>
-                <SubHeading>Devices</SubHeading>
-                <DevicesTable
-                  handleRemoveConfirmation={this.handleRemoveConfirmation}
-                  startEditing={this.startEditing}
-                  editIdx={editIdx}
-                  onDeviceSave={this.handleDeviceSave}
-                  handleChange={this.handleChange}
-                  tableData={devicesData}
-                />
-              </Paper>
-              <Paper>
-                <SubHeading>Map</SubHeading>
-                <div style={{ maxHeight: '300px', marginTop: '10px' }}>
-                  {mapKey && (
-                    <MapContainer
-                      google={google}
-                      devicesData={devicesData}
-                      invalidLocationDevices={invalidLocationDevices}
-                    />
-                  )}
-                </div>
 
-                {invalidLocationDevices ? (
-                  <div style={{ marginTop: '10px' }}>
-                    <b>NOTE: </b>Location info of one or more devices could not
-                    be retrieved.
-                  </div>
-                ) : null}
-              </Paper>
-            </div>
-          ) : (
-            <EmptyDevicesText>
-              You do not have any devices connected yet!
-            </EmptyDevicesText>
-          )}
-        </Container>
-      </React.Fragment>
+    if (loading) {
+      return <LoadingContainer />;
+    }
+    return (
+      <Container>
+        {devicesData.length ? (
+          <div>
+            <Paper>
+              <SubHeading>Devices</SubHeading>
+              <DevicesTable
+                handleRemoveConfirmation={this.handleRemoveConfirmation}
+                startEditing={this.startEditing}
+                editIdx={editIdx}
+                onDeviceSave={this.handleDeviceSave}
+                handleChange={this.handleChange}
+                tableData={devicesData}
+              />
+            </Paper>
+            <Paper>
+              <SubHeading>Map</SubHeading>
+              <div style={{ maxHeight: '300px', marginTop: '10px' }}>
+                {mapKey && (
+                  <MapContainer
+                    google={google}
+                    devicesData={devicesData}
+                    invalidLocationDevices={invalidLocationDevices}
+                  />
+                )}
+              </div>
+
+              {invalidLocationDevices ? (
+                <div style={{ marginTop: '10px' }}>
+                  <b>NOTE: </b>Location info of one or more devices could not be
+                  retrieved.
+                </div>
+              ) : null}
+            </Paper>
+          </div>
+        ) : (
+          <EmptyDevicesText>{emptyText}</EmptyDevicesText>
+        )}
+      </Container>
     );
   }
 }
@@ -217,7 +246,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...uiActions }, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...settingActions }, dispatch),
   };
 }
 

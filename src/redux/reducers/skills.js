@@ -49,6 +49,7 @@ export default handleActions(
     [actionTypes.SKILLS_INITIALIZE_SKILL_DATA](state, { payload }) {
       return {
         ...state,
+        ...payload,
         loadingSkillsError: false,
         loadingSkills: true,
       };

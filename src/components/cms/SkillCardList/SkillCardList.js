@@ -36,7 +36,6 @@ const ImageContainer = styled.div`
 
 const DetailsContainer = styled.div`
   width: auto;
-  min-width: 45rem;
   display: flex;
 `;
 
@@ -45,7 +44,7 @@ const ExampleContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 57.448%;
-  margin-right: 3%;
+  margin-right: 6%;
   max-width: 35.8rem;
   @media(max-width: 550px){
     width: 200%
@@ -215,7 +214,7 @@ function createListCard(
             <Image alt={skillName} src={image} />
           </Link>
         ) : (
-          <CircleImage name={skillName} size="160" />
+          <CircleImage name={skillName} size="224" />
         )}
       </ImageContainer>
       <Content>
