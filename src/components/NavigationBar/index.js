@@ -64,7 +64,8 @@ const UserDetail = styled.div`
   font-size: 1rem;
   cursor: pointer;
   bottom: 8px;
-  width: 165px;
+  width: auto;
+  max-width: 165px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
