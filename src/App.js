@@ -52,7 +52,6 @@ const RootContainer = styled.div`
 `;
 
 const EnhancedBrowseSkill = withTracker(BrowseSkill);
-const EnhancedChatApp = withTracker(ChatApp);
 const EnhancedBrowseSkillByCategory = withTracker(BrowseSkillByCategory);
 const EnhancedBrowseSkillByLanguage = withTracker(BrowseSkillByLanguage);
 const EnhancedSkillListing = withTracker(SkillListing);
@@ -87,6 +86,7 @@ class App extends Component {
     modalProps: PropTypes.object,
     visited: PropTypes.bool,
     isLocalEnv: PropTypes.bool,
+    mode: PropTypes.string,
   };
 
   componentDidMount = () => {
@@ -142,6 +142,7 @@ class App extends Component {
       location: { pathname },
       showCookiePolicy,
       isLocalEnv,
+      mode,
       // visited,
     } = this.props;
     const skillListRegex = new RegExp('^/');
@@ -168,8 +169,8 @@ class App extends Component {
     const renderCookiePolicy =
       showCookiePolicy === true ? <CookiePolicy /> : null;
     // const renderDialog = isModalOpen || !visited  ?  <DialogSection /> : null;
-    const renderDialog = isModalOpen ? <DialogSection /> : null;
-
+    const renderDialog =
+      isModalOpen || mode === 'fullScreen' ? <DialogSection /> : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -187,11 +188,10 @@ class App extends Component {
             )}
             {renderAppBar}
             {renderAppBanner}
-            {pathname !== '/chat' ? <ChatApp showChatBubble={true} /> : null}
+            <ChatApp />
             <RootContainer>
               <Switch>
                 <Route exact path="/" component={EnhancedBrowseSkill} />
-                <Route exact path="/chat" component={EnhancedChatApp} />
                 <Route
                   exact
                   path="/category/:category"
@@ -321,6 +321,7 @@ function mapStateToProps(store) {
     visited: store.app.visited,
     isLocalEnv: store.app.isLocalEnv,
     googleAnalyticsKey: store.app.apiKeys.googleAnalyticsKey,
+    mode: store.ui.mode,
   };
 }
 

@@ -23,10 +23,6 @@ const skillActions = {
     actionTypes.SKILL_SET_USER_RATING,
     returnArgumentsFn,
   ),
-  handleTestSkillExample: createAction(
-    actionTypes.HANDLE_TEST_SKILL_EXAMPLE,
-    returnArgumentsFn,
-  ),
   getDateWiseSkillUsage: createAction(
     actionTypes.SKILL_GET_DATEWISE_SKILL_USAGE,
     apis.fetchDateWiseSkillUsage,

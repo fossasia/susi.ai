@@ -8,8 +8,6 @@ class ChatApp extends Component {
     actions: PropTypes.object,
     app: PropTypes.object,
     history: PropTypes.object,
-    showChatBubble: PropTypes.bool,
-    fullScreenChat: PropTypes.bool,
   };
 
   componentDidMount() {
@@ -17,14 +15,8 @@ class ChatApp extends Component {
   }
 
   render() {
-    const { showChatBubble, history, fullScreenChat } = this.props;
-    return (
-      <MessageSection
-        history={history}
-        showChatBubble={showChatBubble}
-        fullScreenChat={fullScreenChat}
-      />
-    );
+    const { history } = this.props;
+    return <MessageSection history={history} />;
   }
 }
 
