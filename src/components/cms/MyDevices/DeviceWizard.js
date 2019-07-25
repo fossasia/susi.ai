@@ -134,7 +134,7 @@ class DeviceWizard extends React.Component {
     removeUserDevice({ macId })
       .then(payload => {
         this.props.actions.closeModal();
-        window.location.replace('/settings');
+        window.location.replace('/mydevices');
       })
       .catch(error => {
         console.log(error);
