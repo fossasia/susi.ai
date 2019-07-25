@@ -91,7 +91,8 @@ const SusiLogo = styled.img`
 `;
 
 const TopRightMenuContainer = styled.div`
-  display: flex;
+color:white;
+display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1px;
