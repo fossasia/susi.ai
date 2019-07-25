@@ -41,7 +41,6 @@ const defaultState = {
   skillFeedbacks: [],
   authorSkills: [],
   loadingSkill: true,
-  testSkillExampleKey: 0,
 };
 
 export default handleActions(
@@ -260,16 +259,6 @@ export default handleActions(
       return {
         ...state,
         loadingSkill: true,
-      };
-    },
-    [actionTypes.HANDLE_TEST_SKILL_EXAMPLE](state, { payload }) {
-      let testSkillExampleKey = state.testSkillExampleKey + 1;
-      return {
-        ...state,
-        testSkillExampleKey:
-          payload && payload.testSkillExampleKey
-            ? payload.testSkillExampleKey
-            : testSkillExampleKey,
       };
     },
   },
