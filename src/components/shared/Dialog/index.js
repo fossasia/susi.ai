@@ -85,9 +85,8 @@ const DialogData = {
   editUserRole: { Component: EditUserRole, size: 'sm' },
   deleteUserAccount: { Component: DeleteUserAccountDialog, size: 'sm' },
   editUserDevice: { Component: EditUserDevice, size: 'sm' },
-  chatBubble: {
+  chat: {
     Component: ChatApp,
-    size: 'sm',
     fullScreen: true,
     style: { padding: '0px', textAlign: 'left' },
   },
@@ -98,6 +97,7 @@ const DialogSection = props => {
     actions,
     modalProps: { isModalOpen, modalType, ...otherProps },
     visited,
+    mode,
   } = props;
 
   const getDialog = () => {
@@ -107,6 +107,9 @@ const DialogSection = props => {
     // else if (!visited) {
     //   return DialogData.tour;
     // }
+    else if (mode === 'fullScreen') {
+      return DialogData.chat;
+    }
     return DialogData.noComponent;
   };
 
@@ -141,12 +144,14 @@ DialogSection.propTypes = {
   actions: PropTypes.object,
   modalProps: PropTypes.object,
   visited: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 function mapStateToProps(store) {
   return {
     modalProps: store.ui.modalProps,
     visited: store.app.visited,
+    mode: store.ui.mode,
   };
 }
 

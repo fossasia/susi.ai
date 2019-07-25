@@ -13,7 +13,8 @@ const defaultState = {
     snackBarPosition: { vertical: 'bottom', horizontal: 'center' },
     variant: '',
   },
-  chatBubble: 'bubble',
+  // For chat
+  mode: 'minimize',
 };
 
 export default handleActions(
@@ -49,10 +50,11 @@ export default handleActions(
         snackBarProps: defaultState.snackBarProps,
       };
     },
-    [actionTypes.HANDLE_CHAT_BUBBLE](state, { payload }) {
+    [actionTypes.SET_CHAT_MODE](state, { payload }) {
+      const { mode } = payload;
       return {
         ...state,
-        chatBubble: payload.chatBubble,
+        mode,
       };
     },
   },
