@@ -33,7 +33,6 @@ import NavigationArrowForward from '@material-ui/icons/ArrowForward';
 import NavigationArrowUpward from '@material-ui/icons/ArrowUpward';
 import NavigationArrowDownward from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
-import { scrollAnimation } from '../../../utils';
 import CircularLoader from '../../shared/CircularLoader';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
@@ -44,6 +43,7 @@ import Grid from '@material-ui/core/Grid';
 import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
+import appendQueryString from '../../../utils/appendQueryString';
 
 const Container = styled.div`
   display: flex;
@@ -79,7 +79,6 @@ const SkillsFormControl = styled(FormControl)`
 const SkillRatingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 1.5rem;
   font-size: 0.75rem;
 `;
 
@@ -123,7 +122,7 @@ const Sidebar = styled.div`
   z-index: 2;
   border-right: 1px solid #ddd;
   border-spacing: 1px;
-  @media (max-width: 520px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -198,7 +197,7 @@ const RightContainer = styled.div`
   @media (max-width: 1600px) {
     width: 83.5%;
   }
-  @media (max-width: 520px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -233,6 +232,8 @@ const RadioGroup = styled(_RadioGroup)`
   }
 `;
 
+const params = new URLSearchParams(window.location.search);
+
 class BrowseSkill extends React.Component {
   static propTypes = {
     routeType: PropTypes.string,
@@ -258,6 +259,7 @@ class BrowseSkill extends React.Component {
     loadingSkills: PropTypes.bool,
     history: PropTypes.object,
     accessToken: PropTypes.string,
+    location: PropTypes.object,
   };
 
   constructor(props) {
@@ -269,26 +271,61 @@ class BrowseSkill extends React.Component {
     this.groups = [];
   }
 
+  initStore = () => {
+    const { actions } = this.props;
+    let obj = {};
+    if (params.has('duration')) {
+      const value = params.get('duration');
+      obj = {
+        ...obj,
+        filterType: `&creation_date&duration=${value}`,
+        timeFilter: value,
+      };
+    }
+    if (params.has('rating_refine')) {
+      actions.setStarRatingFilter({
+        ratingRefine: params.get('rating_refine'),
+      });
+    }
+    if (params.has('sort_by')) {
+      obj = { ...obj, filterType: params.get('sort_by') };
+    }
+    if (params.has('order_by')) {
+      obj = { ...obj, orderBy: params.get('order_by') };
+    }
+    if (params.has('staff_picks')) {
+      obj = { ...obj, staffPicks: params.get('staff_picks') === 'true' };
+    }
+    if (params.has('reviewed')) {
+      obj = { ...obj, reviewed: params.get('reviewed') === 'true' };
+    }
+    if (params.has('view_type')) {
+      obj = { ...obj, viewType: params.get('view_type') };
+    }
+    return obj;
+  };
+
   componentDidMount() {
-    document.title = 'SUSI.AI - Browse Skills';
+    // Initialize store based on query params
+    const obj = this.initStore();
     const { actions, routeType } = this.props;
+    document.title = 'SUSI.AI - Browse Skills';
     actions
-      .initializeSkillData()
+      .initializeSkillData(obj)
       .then(() => {
         this.loadGroups();
+        if (
+          routeType ||
+          ['category', 'language'].includes(window.location.href.split('/')[4])
+        ) {
+          this.loadCards();
+        } else {
+          this.loadMetricsSkills();
+        }
       })
       .catch(error => {
-        actions.initializeSkillData();
+        actions.initializeSkillData(obj);
       });
-
-    if (
-      routeType ||
-      ['category', 'language'].includes(window.location.href.split('/')[4])
-    ) {
-      this.loadCards();
-    } else {
-      this.loadMetricsSkills();
-    }
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }
@@ -304,14 +341,17 @@ class BrowseSkill extends React.Component {
   };
 
   // FilterChange
-  handleFilterChange = (event, index, value) => {
-    this.props.actions
-      .setFilterType({ filterType: event.target.value })
-      .then(() => this.loadCards());
+  handleFilterChange = event => {
+    const { value } = event.target;
+    const { location, history, actions } = this.props;
+    appendQueryString(location, history, 'sort_by', value);
+    actions.setFilterType({ filterType: value }).then(() => this.loadCards());
   };
 
-  handleEntriesPerPageChange = (event, index, values) => {
-    this.props.actions.setSkillsPerPage({ entriesPerPage: event.target.value });
+  handleEntriesPerPageChange = event => {
+    const { actions } = this.props;
+    const { value } = event.target;
+    actions.setSkillsPerPage({ entriesPerPage: value });
   };
 
   handlePageChange = (event, index, value) => {
@@ -321,33 +361,35 @@ class BrowseSkill extends React.Component {
   };
 
   handleNavigationForward = () => {
-    scrollAnimation(document.documentElement, 0, 200, 'vertical');
-    const { listPage } = this.props;
+    const { listPage, actions } = this.props;
     const newListPage = listPage + 1;
-    this.props.actions.setSkillsPageNumber({ listPage: newListPage });
+    actions.setSkillsPageNumber({ listPage: newListPage });
   };
 
   handleNavigationBackward = () => {
-    scrollAnimation(document.documentElement, 0, 200, 'vertical');
-    const { listPage } = this.props;
+    const { listPage, actions } = this.props;
     const newListPage = listPage - 1;
-    this.props.actions.setSkillsPageNumber({ listPage: newListPage });
+    actions.setSkillsPageNumber({ listPage: newListPage });
   };
 
   handleViewChange = (event, value) => {
-    this.props.actions.setSkillsViewType({ viewType: value });
+    const { actions, history, location } = this.props;
+    appendQueryString(location, history, 'view_type', value);
+    actions.setSkillsViewType({ viewType: value });
   };
 
   handleArrivalTimeChange = value => {
+    const { actions, history, location } = this.props;
     if (value) {
-      this.props.actions
+      appendQueryString(location, history, 'creation_date&duration', value);
+      actions
         .setTimeFilter({
           filterType: `creation_date&duration=${value}`,
           timeFilter: value,
         })
         .then(() => this.loadCards());
     } else {
-      this.props.actions
+      actions
         .setTimeFilter({ filterType: 'rating', timeFilter: null })
         .then(() => this.loadCards());
     }
@@ -416,18 +458,19 @@ class BrowseSkill extends React.Component {
     this.props.actions.getMetricsSkills({
       languageValue: this.props.languageValue,
     });
+    window.scrollTo(0, 0);
   };
 
   handleRatingRefine = ratingRefine => {
-    if (this.props.skills.length === 0) {
-      this.props.actions.setSkillsLoading().then(() => this.loadCards());
+    const { skills, actions, history, location } = this.props;
+    if (skills.length === 0) {
+      actions.setSkillsLoading().then(() => this.loadCards());
     }
     if (ratingRefine) {
-      this.props.actions.setStarRatingFilter({ ratingRefine });
+      actions.setStarRatingFilter({ ratingRefine });
+      appendQueryString(location, history, 'rating_refine', ratingRefine);
     } else {
-      this.props.actions
-        .setStarRatingFilter({ ratingRefine })
-        .then(this.loadCards());
+      actions.setStarRatingFilter({ ratingRefine }).then(this.loadCards());
     }
   };
 
@@ -445,10 +488,31 @@ class BrowseSkill extends React.Component {
   };
 
   handleOrderByChange = () => {
-    const value =
-      this.props.orderBy === 'ascending' ? 'descending' : 'ascending';
-    this.props.actions
-      .setOrderByFilter({ orderBy: value })
+    const { orderBy, actions, history, location } = this.props;
+    const value = orderBy === 'ascending' ? 'descending' : 'ascending';
+    appendQueryString(location, history, 'order_by', value);
+    actions.setOrderByFilter({ orderBy: value }).then(() => this.loadCards());
+  };
+
+  handleReviewFilterChange = e => {
+    const { actions, history, location } = this.props;
+    const { checked } = e.target;
+    appendQueryString(location, history, 'reviewed', checked);
+    actions
+      .setReviewedFilter({
+        reviewed: checked,
+      })
+      .then(() => this.loadCards());
+  };
+
+  handleStaffFilterChange = e => {
+    const { actions, history, location } = this.props;
+    const { checked } = e.target;
+    appendQueryString(location, history, 'staff_picks', checked);
+    actions
+      .setStaffpickFilter({
+        staffPicks: e.target.checked,
+      })
       .then(() => this.loadCards());
   };
 
@@ -499,7 +563,6 @@ class BrowseSkill extends React.Component {
       viewType,
       groups,
       orderBy,
-      actions,
       filterType,
       loadingSkills,
     } = this.props;
@@ -675,7 +738,7 @@ class BrowseSkill extends React.Component {
             </Menu>
           </div>
           <Paper style={{ boxShadow: 'none' }}>
-            <MenuList>
+            <MenuList style={{ outline: 'none' }}>
               {timeFilter ? (
                 <div>
                   <ListSubheader>
@@ -746,13 +809,7 @@ class BrowseSkill extends React.Component {
                       <Checkbox
                         className="select"
                         checked={staffPicks}
-                        onChange={event => {
-                          actions
-                            .setStaffpickFilter({
-                              staffPicks: event.target.checked,
-                            })
-                            .then(() => this.loadCards());
-                        }}
+                        onChange={this.handleStaffFilterChange}
                       />
                     }
                     label="Staff Picks"
@@ -762,13 +819,7 @@ class BrowseSkill extends React.Component {
                       <Checkbox
                         className="select"
                         checked={reviewed}
-                        onChange={event => {
-                          actions
-                            .setReviewedFilter({
-                              reviewed: event.target.checked,
-                            })
-                            .then(() => this.loadCards());
-                        }}
+                        onChange={this.handleReviewFilterChange}
                       />
                     }
                     label="Reviewed Skills"
@@ -786,26 +837,34 @@ class BrowseSkill extends React.Component {
                 ''
               )}
               <SkillRatingContainer>
-                <SkillRating
-                  handleRatingRefine={this.handleRatingRefine}
-                  rating={4}
-                  ratingRefine={ratingRefine}
-                />
-                <SkillRating
-                  handleRatingRefine={this.handleRatingRefine}
-                  rating={3}
-                  ratingRefine={ratingRefine}
-                />
-                <SkillRating
-                  handleRatingRefine={this.handleRatingRefine}
-                  rating={2}
-                  ratingRefine={ratingRefine}
-                />
-                <SkillRating
-                  handleRatingRefine={this.handleRatingRefine}
-                  rating={1}
-                  ratingRefine={ratingRefine}
-                />
+                <SidebarItem>
+                  <SkillRating
+                    handleRatingRefine={this.handleRatingRefine}
+                    rating={4}
+                    ratingRefine={ratingRefine}
+                  />
+                </SidebarItem>
+                <SidebarItem>
+                  <SkillRating
+                    handleRatingRefine={this.handleRatingRefine}
+                    rating={3}
+                    ratingRefine={ratingRefine}
+                  />
+                </SidebarItem>
+                <SidebarItem>
+                  <SkillRating
+                    handleRatingRefine={this.handleRatingRefine}
+                    rating={2}
+                    ratingRefine={ratingRefine}
+                  />
+                </SidebarItem>
+                <SidebarItem>
+                  <SkillRating
+                    handleRatingRefine={this.handleRatingRefine}
+                    rating={1}
+                    ratingRefine={ratingRefine}
+                  />
+                </SidebarItem>
               </SkillRatingContainer>
             </MenuList>
           </Paper>
@@ -879,7 +938,7 @@ class BrowseSkill extends React.Component {
                             <Select
                               value={entriesPerPage}
                               onChange={this.handleEntriesPerPageChange}
-                              style={{ width: '5.1rem' }}
+                              style={{ width: '5.1rem', marginTop: '1.5rem' }}
                             >
                               <MenuItem value={10}>10</MenuItem>
                               <MenuItem value={20}>20</MenuItem>
@@ -892,7 +951,7 @@ class BrowseSkill extends React.Component {
                           defaultValue="list"
                           value={viewType}
                           onChange={this.handleViewChange}
-                          style={{ marginRight: '2rem', flexDirection: 'row' }}
+                          style={{ flexDirection: 'row' }}
                         >
                           <Radio
                             value="list"

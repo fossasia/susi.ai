@@ -43,11 +43,38 @@ import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
 import DeviceWizard from './components/cms/MyDevices/DeviceWizard';
 import AppBanner from './components/shared/AppBanner';
+import withTracker from './withTracker';
+import GoogleAnalytics from 'react-ga';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
   margin-top: 50px;
 `;
+
+const EnhancedBrowseSkill = withTracker(BrowseSkill);
+const EnhancedChatApp = withTracker(ChatApp);
+const EnhancedBrowseSkillByCategory = withTracker(BrowseSkillByCategory);
+const EnhancedBrowseSkillByLanguage = withTracker(BrowseSkillByLanguage);
+const EnhancedSkillListing = withTracker(SkillListing);
+const EnhancedSkillFeedbackPage = withTracker(SkillFeedbackPage);
+const EnhancedDeviceWizard = withTracker(DeviceWizard);
+const EnhancedDashboard = withTracker(Dashboard);
+const EnhancedSkillVersion = withTracker(SkillVersion);
+const EnhancedSkillHistory = withTracker(SkillHistory);
+const EnhancedSkillRollBack = withTracker(SkillRollBack);
+const EnhancedSkillWizard = withTracker(SkillWizard);
+const EnhancedBotBuilderWrap = withTracker(BotBuilderWrap);
+const EnhancedOverview = withTracker(Overview);
+const EnhancedDevices = withTracker(Devices);
+const EnhancedTeam = withTracker(Team);
+const EnhancedBlog = withTracker(Blog);
+const EnhancedContact = withTracker(Contact);
+const EnhancedSupport = withTracker(Support);
+const EnhancedTerms = withTracker(Terms);
+const EnhancedPrivacy = withTracker(Privacy);
+const EnhancedVerifyAccount = withTracker(VerifyAccount);
+const EnhancedSettings = withTracker(Settings);
+const EnhancedNotFound = withTracker(NotFound);
 
 class App extends Component {
   static propTypes = {
@@ -68,7 +95,12 @@ class App extends Component {
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
 
-    actions.getApiKeys();
+    actions.getApiKeys().then(({ payload }) => {
+      const {
+        keys: { googleAnalyticsKey = null },
+      } = payload;
+      googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
+    });
     if (accessToken) {
       actions.getAdmin();
       actions.getUserSettings().catch(e => {
@@ -158,85 +190,108 @@ class App extends Component {
             {pathname !== '/chat' ? <ChatApp showChatBubble={true} /> : null}
             <RootContainer>
               <Switch>
-                <Route exact path="/" component={BrowseSkill} />
-                <Route exact path="/chat" component={ChatApp} />
+                <Route exact path="/" component={EnhancedBrowseSkill} />
+                <Route exact path="/chat" component={EnhancedChatApp} />
                 <Route
                   exact
                   path="/category/:category"
-                  component={BrowseSkillByCategory}
+                  component={EnhancedBrowseSkillByCategory}
                 />
                 <Route
                   exact
                   path="/language/:language"
-                  component={BrowseSkillByLanguage}
+                  component={EnhancedBrowseSkillByLanguage}
                 />
                 <Route
                   exact
                   path="/:category/:skills/:lang"
-                  component={SkillListing}
+                  component={EnhancedSkillListing}
                 />
                 <Route
                   exact
                   path="/:category/:skills/:lang/feedbacks"
-                  component={SkillFeedbackPage}
+                  component={EnhancedSkillFeedbackPage}
                 />
                 <ProtectedRoute
                   exact
                   path="/mydevices/:macID"
-                  component={DeviceWizard}
+                  component={EnhancedDeviceWizard}
                 />
                 <ProtectedRoute
                   exact
                   path="/dashboard/"
-                  component={Dashboard}
+                  component={EnhancedDashboard}
                 />
                 <Route
                   exact
                   path="/:category/:skill/versions/:lang"
-                  component={SkillVersion}
+                  component={EnhancedSkillVersion}
                 />
                 <Route
                   exact
                   path="/:category/:skill/compare/:lang/:oldid/:recentid"
-                  component={SkillHistory}
+                  component={EnhancedSkillHistory}
                 />
                 <Route
                   exact
                   path="/:category/:skill/edit/:lang/:latestid/:revertid"
-                  component={SkillRollBack}
+                  component={EnhancedSkillRollBack}
                 />
                 <Route
                   exact
                   path="/:category/:skill/edit/:lang"
-                  component={SkillWizard}
+                  component={EnhancedSkillWizard}
                 />
                 <Route
                   exact
                   path="/:category/:skill/edit/:lang/:commit"
-                  component={SkillWizard}
+                  component={EnhancedSkillWizard}
                 />
-                <ProtectedRoute exact path="/myskills" component={Dashboard} />
-                <ProtectedRoute exact path="/mydevices" component={Dashboard} />
+                <ProtectedRoute
+                  exact
+                  path="/myskills"
+                  component={EnhancedDashboard}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/mydevices"
+                  component={EnhancedDashboard}
+                />
                 <ProtectedRoute
                   exact
                   path="/skillWizard"
-                  component={SkillWizard}
+                  component={EnhancedSkillWizard}
                 />
-                <ProtectedRoute path="/botWizard" component={BotBuilderWrap} />
-                <ProtectedRoute path="/mybots" component={Dashboard} />
-                <Route exact path="/about" component={Overview} />
-                <Route exact path="/devices" component={Devices} />
-                <Route exact path="/team" component={Team} />
-                <Route exact path="/blog" component={Blog} />
-                <Route exact path="/contact" component={Contact} />
-                <Route exact path="/support" component={Support} />
-                <Route exact path="/terms" component={Terms} />
-                <Route exact path="/privacy" component={Privacy} />
-                <Route exact path="/verify-account" component={VerifyAccount} />
+                <ProtectedRoute
+                  path="/botWizard"
+                  component={EnhancedBotBuilderWrap}
+                />
+                <ProtectedRoute path="/mybots" component={EnhancedDashboard} />
+                <Route exact path="/about" component={EnhancedOverview} />
+                <Route exact path="/devices" component={EnhancedDevices} />
+                <Route exact path="/team" component={EnhancedTeam} />
+                <Route exact path="/blog" component={EnhancedBlog} />
+                <Route exact path="/contact" component={EnhancedContact} />
+                <Route exact path="/support" component={EnhancedSupport} />
+                <Route exact path="/terms" component={EnhancedTerms} />
+                <Route exact path="/privacy" component={EnhancedPrivacy} />
+                <Route
+                  exact
+                  path="/verify-account"
+                  component={EnhancedVerifyAccount}
+                />
                 <Route exact path="/logout" component={Logout} />
                 <Route path="/admin" component={Admin} />
-                <ProtectedRoute exact path="/settings" component={Settings} />
-                <Route exact path="/*:path(error-404|)" component={NotFound} />
+                <ProtectedRoute
+                  exact
+                  path="/settings"
+                  component={EnhancedSettings}
+                />
+                <Route
+                  exact
+                  path="/*:path(error-404|)"
+                  component={EnhancedNotFound}
+                />
               </Switch>
             </RootContainer>
             <div>{renderFooter}</div>
@@ -265,6 +320,7 @@ function mapStateToProps(store) {
     showCookiePolicy: store.app.showCookiePolicy,
     visited: store.app.visited,
     isLocalEnv: store.app.isLocalEnv,
+    googleAnalyticsKey: store.app.apiKeys.googleAnalyticsKey,
   };
 }
 

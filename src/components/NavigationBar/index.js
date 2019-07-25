@@ -64,6 +64,11 @@ const UserDetail = styled.div`
   font-size: 1rem;
   cursor: pointer;
   bottom: 8px;
+  width: auto;
+  max-width: 165px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   @media (max-width: 1000px) {
     display: None;
   }
