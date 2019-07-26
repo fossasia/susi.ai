@@ -96,12 +96,11 @@ const SusiLogo = styled.img`
 `;
 
 const TopRightMenuContainer = styled.div`
-color:white;
-display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1px;
-  margin-left:-30px;
+  margin-left: -30px;
 `;
 
 const SusiLogoContainer = styled.div`
