@@ -773,6 +773,7 @@ class MessageSection extends Component {
               height={height}
             >
               <Scrollbars
+                style={{ width: '100%', height: '100%' }}
                 renderThumbHorizontal={this.renderThumb}
                 renderThumbVertical={this.renderThumb}
                 ref={ref => {
