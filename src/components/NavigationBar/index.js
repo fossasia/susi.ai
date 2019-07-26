@@ -100,7 +100,6 @@ const TopRightMenuContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1px;
-  margin-left: -30px;
 `;
 
 const SusiLogoContainer = styled.div`
@@ -117,6 +116,7 @@ const Toolbar = styled(_Toolbar)`
   height: 46px;
   background-color: rgb(66, 133, 244);
   display: flex;
+  margin-left: -30px;
   justify-content: space-between;
   align-items: center;
 `;
