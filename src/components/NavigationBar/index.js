@@ -96,7 +96,6 @@ const SusiLogo = styled.img`
 `;
 
 const TopRightMenuContainer = styled.div`
-  color:white;
   display: flex;
   justify-content: center;
   align-items: center;
