@@ -21,6 +21,7 @@ const Container = styled.div`
   justify-content: center;
   overflow: auto;
   margin-top: 1.5rem;
+  padding: 0rem 1.25rem;
 `;
 
 const CustomTableCell = styled(TableCell)`

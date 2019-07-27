@@ -10,13 +10,8 @@ import { bindActionCreators } from 'redux';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import PropTypes from 'prop-types';
-import Person from '@material-ui/icons/Person';
-import Menu from '@material-ui/core/Menu';
-import MenuList from '@material-ui/core/MenuList';
 import Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import CircularLoader from '../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
@@ -65,9 +60,6 @@ class MySkills extends Component {
     this.state = {
       skillsData: [],
       loading: true,
-      openMenu: false,
-      openMenuBottom: false,
-      anchorEl: null,
     };
   }
   componentDidMount() {
@@ -98,70 +90,21 @@ class MySkills extends Component {
       });
   };
 
-  handleOnRequestChangeBottom = value => {
-    this.setState({
-      openMenuBottom: value,
-    });
-  };
-
-  handleOnRequestChange = value => {
-    this.setState({
-      openMenu: value,
-    });
-  };
-
-  handleMenuClose = () => {
-    this.setState({
-      anchorEl: null,
-    });
-  };
-
-  handleMenuClick = event => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    });
-  };
-
   render() {
     const { userSkills } = this.props;
-    const { anchorEl, loading } = this.state;
-    const open = Boolean(anchorEl);
+    const { loading } = this.state;
     return (
       <div>
         <Container>
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={this.handleMenuClose}
-            getContentAnchorEl={null}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          >
-            <MenuList disableListWrap={true}>
-              <Link to="/skillWizard">
-                <MenuItem onClose={this.handleMenuClose}>
-                  <ListItemIcon>
-                    <Add />
-                  </ListItemIcon>
-                  <ListItemText>Create a Skill</ListItemText>
-                </MenuItem>
-              </Link>
-              <Link to="/botWizard">
-                <MenuItem onClose={this.handleMenuClose}>
-                  <ListItemIcon>
-                    <Person />
-                  </ListItemIcon>
-                  <ListItemText>Create Skill bot</ListItemText>
-                </MenuItem>
-              </Link>
-            </MenuList>
-          </Menu>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleMenuClick}
-          >
-            <Add /> Create Skill
-          </Button>
+          <Link to="/skillWizard">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleMenuClick}
+            >
+              <Add /> Create Skill
+            </Button>
+          </Link>
         </Container>
 
         {loading ? (
