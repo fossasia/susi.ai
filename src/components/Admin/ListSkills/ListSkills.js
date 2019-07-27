@@ -19,15 +19,12 @@ import {
   deleteSkill,
   fetchUserSkill,
 } from '../../../apis/index';
-import { getActiveColumn, getDeletedColumn, REPORT } from './constants';
+import { getDeletedColumn, REPORT } from './constants';
 import PropTypes from 'prop-types';
 import { Container } from '../AdminStyles';
-import {
-  ActionSpan,
-  ActionDiv,
-  ActionSeparator,
-} from '../../shared/TableActionStyles';
+import { ActionDiv } from '../../shared/TableActionStyles';
 import ReportPanel from './ReportPanel';
+import SkillTable from './SkillTable';
 
 class ListSkills extends React.Component {
   constructor(props) {
@@ -49,6 +46,7 @@ class ListSkills extends React.Component {
       systemSkillStatus: false,
       value: 0,
       reportedSkills: [],
+      systemSkills: [],
     };
   }
 
@@ -246,6 +244,7 @@ class ListSkills extends React.Component {
     fetchUserSkill({ filterName: 'ascending', filterType: 'lexicographical' })
       .then(payload => {
         let skills = [];
+        let systemSkills = [];
         if (payload) {
           const { filteredData } = payload;
           for (let skillMetadata of filteredData) {
@@ -265,12 +264,15 @@ class ListSkills extends React.Component {
               editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
             };
             skills.push(skill);
+            if (skillMetadata.systemSkill) {
+              systemSkills.push(skill);
+            }
           }
         }
-
         this.setState({
           skillsData: skills,
           loading: false,
+          systemSkills,
         });
       })
       .catch(error => {
@@ -388,15 +390,18 @@ class ListSkills extends React.Component {
       loadingReportedSkills,
       skillsData,
       deletedSkills,
+      systemSkills,
     } = this.state;
+
     return (
       <Container>
         <Tabs onChange={this.handleTabChange} value={value}>
           <Tab label="Active" />
+          <Tab label="System" />
           <Tab label="Deleted" />
           <Tab label="Reported" />
         </Tabs>
-        {value === 2 && (
+        {value === 3 && (
           <MaterialTable
             isLoading={loadingReportedSkills}
             options={{
@@ -436,7 +441,7 @@ class ListSkills extends React.Component {
             onRowClick={(event, rowData, togglePanel) => togglePanel()}
           />
         )}
-        {value === 1 && (
+        {value === 2 && (
           <MaterialTable
             isLoading={loading}
             options={{
@@ -473,62 +478,22 @@ class ListSkills extends React.Component {
             }}
           />
         )}
+        {value === 1 && (
+          <SkillTable
+            loading={loading}
+            groups={groups}
+            data={systemSkills}
+            handleOpen={this.handleOpen}
+            handleDelete={this.handleDelete}
+          />
+        )}
         {value === 0 && (
-          <MaterialTable
-            isLoading={loading}
-            options={{
-              filtering: true,
-              actionsColumnIndex: -1,
-              pageSize: 10,
-            }}
-            columns={getActiveColumn(groups)}
+          <SkillTable
+            loading={loading}
+            groups={groups}
             data={skillsData}
-            title=""
-            style={{
-              padding: '1rem',
-            }}
-            actions={[
-              {
-                onEdit: (event, rowData) => {
-                  this.handleOpen(
-                    rowData.skillName,
-                    rowData.model,
-                    rowData.group,
-                    rowData.language,
-                    rowData.reviewStatus,
-                    rowData.editStatus,
-                    rowData.staffPickStatus,
-                    rowData.systemSkillStatus,
-                    rowData.skillTag,
-                  );
-                },
-                onDelete: (event, rowData) => {
-                  this.handleDelete(
-                    rowData.skillName,
-                    rowData.model,
-                    rowData.group,
-                    rowData.language,
-                  );
-                },
-              },
-            ]}
-            components={{
-              Action: props => (
-                <React.Fragment>
-                  <ActionSpan
-                    onClick={event => props.action.onEdit(event, props.data)}
-                  >
-                    Edit
-                  </ActionSpan>
-                  <ActionSeparator> | </ActionSeparator>
-                  <ActionSpan
-                    onClick={event => props.action.onDelete(event, props.data)}
-                  >
-                    Delete
-                  </ActionSpan>
-                </React.Fragment>
-              ),
-            }}
+            handleOpen={this.handleOpen}
+            handleDelete={this.handleDelete}
           />
         )}
       </Container>
