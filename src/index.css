@@ -7,6 +7,8 @@ body {
   position: relative;
   font-family: 'Lato', sans-serif;
   background-color: #fff;
+  overflow: auto !important;
+  padding-right: 0px !important;
 }
  a {
   color: #1890ff;
