@@ -116,6 +116,7 @@ const Toolbar = styled(_Toolbar)`
   height: 46px;
   background-color: rgb(66, 133, 244);
   display: flex;
+  margin-left: -30px;
   justify-content: space-between;
   align-items: center;
 `;
