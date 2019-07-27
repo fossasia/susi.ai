@@ -86,7 +86,7 @@ const ShareOnSocialMedia = props => {
   const { raisedButtonStyle } = styles;
   const { classes } = props;
   return (
-    <SettingsTabWrapper heading="">
+    <SettingsTabWrapper heading="Share about SUSI.AI">
       <div>
         <div>
           <TabHeading>

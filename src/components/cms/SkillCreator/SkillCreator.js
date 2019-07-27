@@ -19,10 +19,10 @@ import getImageSrc from '../../../utils/getImageSrc';
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
-  padding: 2.5rem 1.875rem 1.875rem;
+  padding: 1.25rem 1.875rem 1.875rem;
 
   @media (max-width: 480px) {
-    padding: 2.5rem 1rem 1.875rem;
+    padding: 1.25rem 1rem 1.875rem;
   }
 `;
 
@@ -93,6 +93,16 @@ const SkillNameButton = styled(Button)`
 
 const EditBtn = styled(_EditBtn)`
   cursor: pointer;
+`;
+
+const H1 = styled.h1`
+  color: rgba(0, 0, 0, 0.65);
+  padding-left: 1.25rem;
+`;
+
+const SkillDraftWrap = styled.div`
+  margin: 0.625rem;
+  padding-left: 0.625rem;
 `;
 
 class SkillCreator extends Component {
@@ -186,13 +196,18 @@ class SkillCreator extends Component {
     return (
       <Container>
         <Paper>
-          {showTitle && <h1>My Skills</h1>}
-          <br />
-          <h2>Created Skills</h2>
+          {showTitle && (
+            <H1>
+              My Skills
+              <br />
+            </H1>
+          )}
+          <H1>Created Skills</H1>
           {loading ? (
             <CircularLoader height={5} />
           ) : (
             <SkillCardWrap>
+              {this.showSkills()}
               <Link to="/skillWizard">
                 <SkillCard
                   style={{
@@ -219,16 +234,17 @@ class SkillCreator extends Component {
                   <CardContent>Create a new skill</CardContent>
                 </SkillCard>
               </Link>
-              {this.showSkills()}
             </SkillCardWrap>
           )}
           <br />
-          <h2>Drafts</h2>
-          {drafts.length > 0 ? (
-            drafts
-          ) : (
-            <Typography>No drafts to display.</Typography>
-          )}
+          <H1>Drafts</H1>
+          <SkillDraftWrap>
+            {drafts.length > 0 ? (
+              drafts
+            ) : (
+              <Typography>No drafts to display.</Typography>
+            )}
+          </SkillDraftWrap>
         </Paper>
       </Container>
     );
