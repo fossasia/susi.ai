@@ -5,6 +5,7 @@ import _CardContent from '@material-ui/core/CardContent';
 import _Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
+import CircularLoader from '../../shared/CircularLoader';
 import _Fab from '@material-ui/core/Fab';
 import _Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
@@ -26,14 +27,15 @@ const cookies = new Cookies();
 
 const commonHeadingStyle = css`
   color: rgba(0, 0, 0, 0.65);
-  padding: 20px 0px 0px 20px;
+  padding-left: 1.25rem;
 `;
 
 const Home = styled.div`
-  margin: 0px 10px;
+  margin: 0rem 0.625rem;
+  padding: 1.25rem 1.875rem 1.875rem;
 
-  @media (min-width: 769px) {
-    padding: 40px 30px 30px;
+  @media (max-width: 480px) {
+    padding: 1.25rem 1rem 1.875rem;
   }
 `;
 
@@ -55,10 +57,6 @@ const CardContent = styled(_CardContent)`
 `;
 
 const H1 = styled.h1`
-  ${commonHeadingStyle}
-`;
-
-const H2 = styled.h2`
   ${commonHeadingStyle}
 `;
 
@@ -136,6 +134,8 @@ class BotBuilder extends React.Component {
       chatbots: [],
       drafts: [],
       deleteAlert: null,
+      loadingBots: true,
+      loadingDrafts: true,
     };
     this.getChatbots();
     this.getDrafts();
@@ -146,10 +146,13 @@ class BotBuilder extends React.Component {
     if (accessToken) {
       fetchChatBots()
         .then(payload => {
-          this.setState({ chatbots: payload.chatbots });
+          this.setState({ chatbots: payload.chatbots, loadingBots: false });
           this.getBotImages();
         })
         .catch(error => {
+          this.setState({
+            loadingBots: false,
+          });
           if (error.status !== 404) {
             actions.openSnackBar({
               snackBarMessage:
@@ -295,6 +298,9 @@ class BotBuilder extends React.Component {
           snackBarMessage: "Couldn't get your drafts. Please reload the page.",
           snackBarDuration: 2000,
         });
+        this.setState({
+          loadingDrafts: false,
+        });
       });
   };
 
@@ -346,7 +352,7 @@ class BotBuilder extends React.Component {
           </Card>,
         );
       }
-      this.setState({ drafts: draftsOfBots });
+      this.setState({ drafts: draftsOfBots, loadingDrafts: false });
     }
   };
 
@@ -395,34 +401,44 @@ class BotBuilder extends React.Component {
   };
 
   render() {
-    const { drafts } = this.state;
+    const { drafts, loadingBots, loadingDrafts } = this.state;
 
     return (
       <div>
         <Home>
           <Paper>
-            <H1>My bots</H1>
-            <br />
-            <H2>Saved Bots</H2>
-            <BotContainer>
-              <Link to="/botWizard">
-                <Card
-                  style={{
-                    backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
-                  }}
-                >
-                  <Fab color="primary" size="small">
-                    <Add />
-                  </Fab>
-                  <CardContent>Create a new bot</CardContent>
-                </Card>
-              </Link>
-              {this.showChatbots()}
-            </BotContainer>
-            <H2>Drafts</H2>
-            <BotContainer>
-              {drafts.length > 0 ? drafts : <Text>No drafts to display.</Text>}
-            </BotContainer>
+            <H1>Saved Bots</H1>
+            {loadingBots ? (
+              <CircularLoader height={5} />
+            ) : (
+              <BotContainer>
+                {this.showChatbots()}
+                <Link to="/botWizard">
+                  <Card
+                    style={{
+                      backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
+                    }}
+                  >
+                    <Fab color="primary" size="small">
+                      <Add />
+                    </Fab>
+                    <CardContent>Create a new bot</CardContent>
+                  </Card>
+                </Link>
+              </BotContainer>
+            )}
+            <H1>Drafts</H1>
+            {loadingDrafts ? (
+              <CircularLoader height={5} />
+            ) : (
+              <BotContainer>
+                {drafts.length > 0 ? (
+                  drafts
+                ) : (
+                  <Text>No drafts to display.</Text>
+                )}
+              </BotContainer>
+            )}
           </Paper>
           <Paper>
             <H1>Pick a template</H1>

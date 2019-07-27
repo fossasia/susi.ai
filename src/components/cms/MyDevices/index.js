@@ -23,10 +23,10 @@ const EmptyDevicesText = styled.div`
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
-  padding: 2.5rem 1.875rem 1.875rem;
+  padding: 1.25rem 1.875rem 1.875rem;
 
   @media (max-width: 480px) {
-    padding: 2.5rem 1rem 1.875rem;
+    padding: 1.25rem 1rem 1.875rem;
   }
 `;
 
