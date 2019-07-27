@@ -76,6 +76,7 @@ export default handleActions(
       return {
         ...state,
         metricSkills,
+        groupValue: defaultState.groupValue,
         loadingSkills: false,
       };
     },
@@ -191,7 +192,7 @@ export default handleActions(
       const { groupValue } = payload;
       return {
         ...state,
-        groupValue,
+        groupValue: groupValue || 'All',
         loadingSkills: true,
       };
     },

@@ -25,9 +25,7 @@ import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/shared/ProtectedRoute';
 import DialogSection from '../src/components/shared/Dialog';
 import settingActions from './redux/actions/settings';
-import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
-import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCategory';
-import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
+import BrowseSkill from './components/cms/BrowseSkill';
 import SkillListing from './components/cms/SkillPage/SkillListing';
 import SkillFeedbackPage from './components/cms/SkillFeedbackPage/SkillFeedbackPage';
 import Dashboard from './components/cms/Dashboard';
@@ -52,8 +50,6 @@ const RootContainer = styled.div`
 `;
 
 const EnhancedBrowseSkill = withTracker(BrowseSkill);
-const EnhancedBrowseSkillByCategory = withTracker(BrowseSkillByCategory);
-const EnhancedBrowseSkillByLanguage = withTracker(BrowseSkillByLanguage);
 const EnhancedSkillListing = withTracker(SkillListing);
 const EnhancedSkillFeedbackPage = withTracker(SkillFeedbackPage);
 const EnhancedDeviceWizard = withTracker(DeviceWizard);
@@ -195,12 +191,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/category/:category"
-                  component={EnhancedBrowseSkillByCategory}
-                />
-                <Route
-                  exact
-                  path="/language/:language"
-                  component={EnhancedBrowseSkillByLanguage}
+                  component={EnhancedBrowseSkill}
                 />
                 <Route
                   exact

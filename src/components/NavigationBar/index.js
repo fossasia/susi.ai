@@ -162,8 +162,6 @@ class NavigationBar extends Component {
     searchState: PropTypes.object,
     searchQuery: PropTypes.string,
     searchType: PropTypes.array,
-    routeType: PropTypes.string,
-    routeValue: PropTypes.string,
     filterType: PropTypes.string,
     languageValue: PropTypes.array,
     reviewed: PropTypes.bool,
@@ -241,16 +239,16 @@ class NavigationBar extends Component {
   };
 
   loadCards = () => {
-    const { routeType, routeValue } = this.props;
     const {
+      groupValue,
       languageValue,
       filterType,
       reviewed,
       staffPicks,
-      groupValue,
       searchQuery,
       orderBy,
       searchType,
+      actions,
     } = this.props;
     let payload = {
       groupValue: groupValue,
@@ -262,15 +260,9 @@ class NavigationBar extends Component {
       showStaffPicks: staffPicks,
       searchQuery,
     };
-    if (routeType === 'category') {
-      this.props.actions.setCategoryFilter({ groupValue: routeValue });
-      this.loadLanguages(routeValue);
-      payload = { ...payload, groupValue: routeValue };
-    } else if (routeType === 'language') {
-      this.setState({
-        languageValue: routeValue,
-      });
-      payload = { ...payload, languageValue: routeValue };
+    if (groupValue) {
+      this.loadLanguages(groupValue);
+      payload = { ...payload, groupValue: groupValue };
     }
     if (searchQuery.length > 0) {
       payload = {
@@ -279,7 +271,7 @@ class NavigationBar extends Component {
         searchType,
       };
     }
-    this.props.actions.getSkills(payload);
+    actions.getSkills(payload);
   };
 
   getSelectMenuWidth = searchTypes => {
@@ -315,14 +307,12 @@ class NavigationBar extends Component {
   };
 
   handleLanguageChange = (event, index, values) => {
+    const { groupValue } = this.props;
     localStorage.setItem('languages', event.target.value);
     this.props.actions
       .setLanguageFilter({ languageValue: event.target.value })
       .then(() => {
-        if (
-          this.props.routeType ||
-          ['category', 'language'].includes(window.location.href.split('/')[4])
-        ) {
+        if (groupValue) {
           this.loadCards();
         } else {
           this.loadMetricsSkills();

@@ -236,8 +236,6 @@ const params = new URLSearchParams(window.location.search);
 
 class BrowseSkill extends React.Component {
   static propTypes = {
-    routeType: PropTypes.string,
-    routeValue: PropTypes.string,
     actions: PropTypes.object,
     listPage: PropTypes.number,
     groups: PropTypes.array,
@@ -260,6 +258,7 @@ class BrowseSkill extends React.Component {
     history: PropTypes.object,
     accessToken: PropTypes.string,
     location: PropTypes.object,
+    match: PropTypes.object,
   };
 
   constructor(props) {
@@ -267,8 +266,8 @@ class BrowseSkill extends React.Component {
     this.state = {
       innerWidth: window.innerWidth,
       anchorEl: null,
+      groupValue: this.props.match.params.category,
     };
-    this.groups = [];
   }
 
   initStore = () => {
@@ -308,16 +307,14 @@ class BrowseSkill extends React.Component {
   componentDidMount() {
     // Initialize store based on query params
     const obj = this.initStore();
-    const { actions, routeType } = this.props;
+    const { actions } = this.props;
+    const { groupValue } = this.state;
     document.title = 'SUSI.AI - Browse Skills';
     actions
       .initializeSkillData(obj)
       .then(() => {
         this.loadGroups();
-        if (
-          routeType ||
-          ['category', 'language'].includes(window.location.href.split('/')[4])
-        ) {
+        if (groupValue) {
           this.loadCards();
         } else {
           this.loadMetricsSkills();
@@ -328,6 +325,18 @@ class BrowseSkill extends React.Component {
       });
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.category !== prevProps.match.params.category) {
+      this.setState({ groupValue: this.props.match.params.category }, () => {
+        if (!this.props.match.params.category) {
+          this.loadMetricsSkills();
+        } else {
+          this.loadCards();
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -413,16 +422,16 @@ class BrowseSkill extends React.Component {
   };
 
   loadCards = () => {
-    const { routeType, routeValue } = this.props;
+    const { groupValue } = this.state;
     const {
       languageValue,
       filterType,
       reviewed,
       staffPicks,
-      groupValue,
       searchQuery,
       orderBy,
       searchType,
+      actions,
     } = this.props;
     let payload = {
       groupValue: groupValue,
@@ -434,15 +443,10 @@ class BrowseSkill extends React.Component {
       showStaffPicks: staffPicks,
       searchQuery,
     };
-    if (routeType === 'category') {
-      this.props.actions.setCategoryFilter({ groupValue: routeValue });
-      this.loadLanguages(routeValue);
-      payload = { ...payload, groupValue: routeValue };
-    } else if (routeType === 'language') {
-      this.setState({
-        languageValue: routeValue,
-      });
-      payload = { ...payload, languageValue: routeValue };
+    if (groupValue) {
+      actions.setCategoryFilter({ groupValue });
+      this.loadLanguages(groupValue);
+      payload = { ...payload, groupValue: groupValue };
     }
     if (searchQuery.length > 0) {
       payload = {
@@ -451,13 +455,14 @@ class BrowseSkill extends React.Component {
         searchType,
       };
     }
-    this.props.actions.getSkills(payload);
+    actions.getSkills(payload);
   };
 
   loadMetricsSkills = () => {
     this.props.actions.getMetricsSkills({
       languageValue: this.props.languageValue,
     });
+    this.loadLanguages('All');
     window.scrollTo(0, 0);
   };
 
@@ -550,6 +555,7 @@ class BrowseSkill extends React.Component {
 
   // eslint-disable-next-line complexity
   render() {
+    const { groupValue } = this.state;
     const {
       searchQuery,
       ratingRefine,
@@ -566,7 +572,7 @@ class BrowseSkill extends React.Component {
       filterType,
       loadingSkills,
     } = this.props;
-    const { routeType, routeValue, history } = this.props;
+    const { history } = this.props;
     let isMobile = isMobileView();
     let backToHome = null;
     let renderMenu = null;
@@ -603,7 +609,7 @@ class BrowseSkill extends React.Component {
     }
 
     let metricsHidden =
-      routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
+      groupValue || searchQuery.length > 0 || ratingRefine || timeFilter;
 
     let renderSkillCount = '';
     if (skills.length > 0) {
@@ -621,11 +627,11 @@ class BrowseSkill extends React.Component {
           <b>
             <SidebarLink to="/">SUSI Skill</SidebarLink>
           </b>
-          {routeValue && (
+          {groupValue && (
             <div style={{ display: 'flex' }}>
               :&nbsp;
               <div style={{ color: '#4286f4', fontWeight: 'bold' }}>
-                {routeValue}
+                {groupValue}
               </div>
             </div>
           )}
@@ -672,9 +678,9 @@ class BrowseSkill extends React.Component {
         <div>
           No result found for <SidebarLink to="/">SUSI Skill</SidebarLink>
           :&nbsp;
-          {routeValue && (
+          {groupValue && (
             <span style={{ color: '#4286f4', fontWeight: 'bold' }}>
-              {routeValue}
+              {groupValue}
             </span>
           )}
         </div>
@@ -682,11 +688,11 @@ class BrowseSkill extends React.Component {
     }
 
     let renderCardScrollList = '';
-    renderCardScrollList = !metricsHidden && !routeType && (
+    renderCardScrollList = !metricsHidden && !groupValue && (
       <SkillCardScrollList isMobile={isMobile} history={history} />
     );
     let renderSkillSlideshow = null;
-    renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
+    renderSkillSlideshow = !metricsHidden && !groupValue && <SkillSlideshow />;
 
     let renderOrderBy = '';
 
@@ -778,12 +784,12 @@ class BrowseSkill extends React.Component {
                 </SidebarItem>
               )}
               <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
-              {routeType === 'category' ? (
+              {groupValue ? (
                 <div>
                   <ListSubheader>
                     <SidebarLink to="/">{'< SUSI Skills'}</SidebarLink>
                   </ListSubheader>
-                  <SelectedText>{routeValue}</SelectedText>
+                  <SelectedText>{groupValue}</SelectedText>
                 </div>
               ) : (
                 <div>
@@ -1007,7 +1013,7 @@ class BrowseSkill extends React.Component {
               )}
               <div>{renderCardScrollList}</div>
               {/* Check if mobile view is currently active*/}
-              {routeType === 'category' ? (
+              {groupValue ? (
                 backToHome
               ) : (
                 <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
