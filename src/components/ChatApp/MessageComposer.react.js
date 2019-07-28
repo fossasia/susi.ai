@@ -142,6 +142,7 @@ const TextareaAutosize = styled(_TextareaAutosize)`
   resize: none;
   font-family: 'Product Sans', sans-serif;
   font-weight: 300;
+  font-size: 1rem;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   margin-top: 0.1875rem;
