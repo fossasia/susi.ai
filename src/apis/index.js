@@ -84,6 +84,11 @@ export function getUserSettings() {
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
+export function fetchDevices(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/getDeviceList.json`;
+  return ajax.get(url, payload, { shouldCamelizeKeys: false });
+}
+
 export function getUserDevices() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserDevices.json`;
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
@@ -97,7 +102,7 @@ export function setUserSettings(payload) {
 export function removeUserDevice(payload) {
   const { macId: macid } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/removeUserDevices.json`;
-  return ajax.get(url, { macid });
+  return ajax.get(url, { ...payload, macid });
 }
 
 export function addUserDevice(payload) {
