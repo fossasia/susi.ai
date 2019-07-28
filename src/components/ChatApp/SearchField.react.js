@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField, IconButton as _IconButton } from '@material-ui/core';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
-import UpIcon from '@material-ui/icons/ArrowUpward';
-import DownIcon from '@material-ui/icons/ArrowDownward';
+import _CloseIcon from '@material-ui/icons/Close';
+import _UpIcon from '@material-ui/icons/ExpandLess';
+import _DownIcon from '@material-ui/icons/ExpandMore';
 
 const ESCAPE_KEY = 27;
 const F_KEY = 70;
 
+const NavigationIconStyle = css`
+  width: 0.8rem;
+  height: 0.8rem;
+  color: #fff;
+`;
+
+const CloseIcon = styled(_CloseIcon)`
+  ${NavigationIconStyle}
+  margin-top: -6px;
+`;
+const UpIcon = styled(_UpIcon)`
+  ${NavigationIconStyle}
+  margin-top: -6px;
+`;
+const DownIcon = styled(_DownIcon)`
+  ${NavigationIconStyle}
+  margin-top: -6px;
+`;
+
+const NavigateIconButton = styled(_IconButton)`
+  padding: 8px;
+  ${NavigationIconStyle}
+  margin-left: 0.8rem;
+`;
+
 const SearchInputField = styled(TextField)`
-  background-color: #fff;
-  border-radius: 5px;
-  top: 3px;
-  height: 24px;
+  font-size: 10px;
+  color: #fefefe;
+  border-right: 1px solid #878787;
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border: none;
   }
@@ -23,6 +48,11 @@ const SearchInputField = styled(TextField)`
   .MuiOutlinedInput-notchedOutline {
     border: none;
   }
+  .MuiOutlinedInput-input {
+    padding: 18.5px 28px 18.5px 2px;
+    width: 11rem;
+    font-size: 0.7rem;
+  }
 `;
 
 const IconButton = styled(_IconButton)`
@@ -30,23 +60,15 @@ const IconButton = styled(_IconButton)`
   color: #fff;
 `;
 
-const CloseButton = styled(_IconButton)`
-  padding: 3.5px;
-  color: #fff;
-`;
-
 const FlexContainer = styled.div`
-  display: inline-block;
-  position: relative;
-  background-color: #d3d3d3;
-  border: 0.5px solid #d3d3d3;
   border-radius: 5px;
-  margin-left: 5px;
   height: 24px;
-  top: 3px;
-  color: white;
+  top: 4px;
+  color: #f2f2f2;
   padding: 2px;
-  font-size: 1rem;
+  font-size: 0.8rem;
+  position: absolute;
+  left: 120px;
 `;
 
 const Container = styled.div`
@@ -55,10 +77,21 @@ const Container = styled.div`
   width: auto;
   max-width: 300px;
   transition: width 0.75s cubic-bezier(0, 0.795, 0, 1);
-
   @media (max-width: 500px) {
     max-width: 90%;
   }
+`;
+
+const SearchContainer = styled.div`
+  position: absolute;
+  top: 47px;
+  background: #555555;
+  z-index: 1;
+  right: 10px;
+  width: 15rem;
+  display: flex;
+  padding: 4px 8px;
+  align-items: center;
 `;
 
 class ExpandingSearchField extends Component {
@@ -158,43 +191,48 @@ class ExpandingSearchField extends Component {
   render() {
     const { searchCount, open, searchText } = this.props;
     const { indexCnt } = this.state;
-    if (open) {
-      return (
-        <Container>
-          <SearchInputField
-            name="search"
-            placeholder="Search Messages"
-            value={searchText}
-            onChange={event => this.onChange(event)}
-            variant="outlined"
-            autoFocus={false}
-            InputProps={{
-              style: {
-                height: '24px',
-              },
-            }}
-          />
-          <FlexContainer>
-            {indexCnt}/{searchCount}
-          </FlexContainer>
-          <IconButton onClick={this.onClickPrev}>
-            <UpIcon />
-          </IconButton>
-          <IconButton onClick={this.onClickRecent}>
-            <DownIcon />
-          </IconButton>
-          <CloseButton onClick={this.onClick}>
-            <SearchIcon />
-          </CloseButton>
-        </Container>
-      );
-    }
     return (
-      <Container>
-        <IconButton onClick={this.onClick}>
-          <SearchIcon />
-        </IconButton>
-      </Container>
+      <React.Fragment>
+        <Container>
+          <IconButton onClick={this.onClick}>
+            <SearchIcon />
+          </IconButton>
+        </Container>
+        {open && (
+          <SearchContainer>
+            <SearchInputField
+              name="search"
+              placeholder="Search Messages"
+              value={searchText}
+              onChange={event => this.onChange(event)}
+              variant="outlined"
+              autoFocus={false}
+              style={{ height: '24px', width: '70%' }}
+              InputProps={{
+                style: {
+                  height: '24px',
+                  width: '200',
+                  color: '#f2f2f2',
+                },
+              }}
+            />
+            {searchText && (
+              <FlexContainer>
+                {indexCnt}/{searchCount}
+              </FlexContainer>
+            )}
+            <NavigateIconButton onClick={this.onClickPrev}>
+              <UpIcon />
+            </NavigateIconButton>
+            <NavigateIconButton onClick={this.onClickRecent}>
+              <DownIcon />
+            </NavigateIconButton>
+            <NavigateIconButton onClick={this.onClick}>
+              <CloseIcon />
+            </NavigateIconButton>
+          </SearchContainer>
+        )}
+      </React.Fragment>
     );
   }
 }
