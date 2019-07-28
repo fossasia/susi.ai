@@ -19,7 +19,6 @@
     "date-fns": "2.0.0-alpha.27",
     "dateformat": "3.0.3",
     "font-awesome": "4.7.0",
-    "global": "^4.4.0",
     "google-maps-react": "2.0.2",
     "history": "^4.9.0",
     "html-entities": "^1.2.1",
@@ -85,7 +84,7 @@
     "redux-promise": "0.6.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^4.3.1",
-    "surge": "^0.21.3",
+    "surge": "0.21.3",
     "universal-cookie": "4.0.0",
     "zxcvbn": "4.4.2"
   },
@@ -101,11 +100,11 @@
     "gh-pages": "2.0.1",
     "husky": "2.4.0",
     "lint-staged": "8.2.0",
-    "material-table": "^1.39.2",
     "prettier": "1.18.1",
     "react-scripts": "3.0.1",
     "react-test-renderer": "16.8.6",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "material-table": "^1.39.2"
   },
   "peerDependencies": {
     "react": "16.8.6",
