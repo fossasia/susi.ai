@@ -105,6 +105,7 @@ const MessageSectionContainer = styled.div`
     props.showChatPreview
       ? 'rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,rgba(0, 0, 0, 0.23) 0px 3px 6px'
       : '0px'};
+  border-radius: ${props => (props.showChatPreview ? '10px' : '0px')};
 `;
 
 const ScrollBottomContainer = styled.div`
@@ -206,13 +207,16 @@ const FullScreenExit = styled(_FullScreenExit)`
 
 const ActionBar = styled.div`
   width: auto;
-  height: ${props => (props.showFullScreenChat ? '48px' : '40px')};
-  background-color: #808080;
-  padding: ${props => (props.showFullScreenChat ? '8px 0px' : '5px 0px')};
-  text-align: right;
+  height: 48px;
+  background-color: #4285f4;
+  padding: ${props =>
+    props.showFullScreenChat ? '0.5rem 1rem' : '0.3rem 0.5rem'};
   top: 0px;
   display: flex;
-  justify-content: flex-end;
+  color: #fff;
+  align-items: center;
+  font-size: 20px;
+  justify-content: space-between;
 `;
 
 const ChatBubbleContainer = styled.div`
@@ -719,31 +723,34 @@ class MessageSection extends Component {
 
     const actionBar = (
       <ActionBar showFullScreenChat={mode === 'fullScreen'}>
-        {searchState ? (
-          <ExpandingSearchField
-            searchText={searchState.searchText}
-            searchIndex={searchState.searchIndex}
-            open={search}
-            searchCount={searchState.scrollLimit}
-            onTextChange={this.searchTextChanged}
-            activateSearch={this.openSearch}
-            exitSearch={this.exitSearch}
-            scrollRecent={this.nextSearchItem}
-            scrollPrev={this.previousSearchItem}
-          />
-        ) : null}
-        <CustomIconButton width={width}>
-          {mode === 'fullScreen' ? (
-            <FullScreenExit onClick={this.openPreview} />
-          ) : (
-            <FullScreen onClick={this.openFullScreen} />
+        <div>Chat with SUSI.AI</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {searchState && (
+            <ExpandingSearchField
+              searchText={searchState.searchText}
+              searchIndex={searchState.searchIndex}
+              open={search}
+              searchCount={searchState.scrollLimit}
+              onTextChange={this.searchTextChanged}
+              activateSearch={this.openSearch}
+              exitSearch={this.exitSearch}
+              scrollRecent={this.nextSearchItem}
+              scrollPrev={this.previousSearchItem}
+            />
           )}
-        </CustomIconButton>
-        <IconButton
-          onClick={mode === 'fullScreen' ? this.handleClose : this.toggleChat}
-        >
-          <Close />
-        </IconButton>
+          <CustomIconButton width={width}>
+            {mode === 'fullScreen' ? (
+              <FullScreenExit onClick={this.openPreview} />
+            ) : (
+              <FullScreen onClick={this.openFullScreen} />
+            )}
+          </CustomIconButton>
+          <IconButton
+            onClick={mode === 'fullScreen' ? this.handleClose : this.toggleChat}
+          >
+            <Close />
+          </IconButton>
+        </div>
       </ActionBar>
     );
 
