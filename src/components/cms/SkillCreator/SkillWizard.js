@@ -775,17 +775,18 @@ class SkillWizard extends Component {
       });
       return 0;
     }
-    if (!new RegExp(/.+\.\w+/g).test(imageUrl)) {
+    if (
+      !new RegExp(/.+\.\w+/g).test(imageUrl) &&
+      !(
+        imageUrl === '<image_name>' ||
+        imageUrl === 'images/<image_name>' ||
+        imageUrl === 'images/<image_name_event>' ||
+        imageUrl === 'images/<image_name_job>' ||
+        imageUrl === 'images/<image_name_contact>'
+      )
+    ) {
       this.props.actions.openSnackBar({
         snackBarMessage: 'Image must be in format of images/imageName.jpg',
-        snackBarPosition: { vertical: 'top', horizontal: 'right' },
-        variant: 'warning',
-      });
-      return 0;
-    }
-    if (this.mode === 'create' && file === null) {
-      this.props.actions.openSnackBar({
-        snackBarMessage: 'Image Not Given',
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
@@ -829,9 +830,14 @@ class SkillWizard extends Component {
       form.append('group', category);
       form.append('language', language);
       form.append('skill', name.trim().replace(/\s/g, '_'));
-      form.append('image', file);
+      if (file) {
+        form.append('image', file);
+        form.append('image_name', imageUrl.replace('images/', ''));
+      } else {
+        form.append('image', 'images/default.png');
+        form.append('image_name', 'default.png');
+      }
       form.append('content', code);
-      form.append('image_name', imageUrl.replace('images/', ''));
       form.append('access_token', accessToken);
       if (this.isBotBuilder) {
         form.append('private', '1');

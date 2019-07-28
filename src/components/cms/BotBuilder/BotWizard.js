@@ -443,22 +443,25 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     let skillName = name.trim().replace(/\s/g, '_');
     if (
       !new RegExp(/.+\.\w+/g).test(imageUrl) &&
-      imageUrl !== 'images/<image_name>' &&
-      imageUrl !== 'images/<image_name_event>' &&
-      imageUrl !== 'images/<image_name_job>' &&
-      imageUrl !== 'images/<image_name_contact>'
+      !(
+        imageUrl === '<image_name>' ||
+        imageUrl === 'images/<image_name>' ||
+        imageUrl === 'images/<image_name_event>' ||
+        imageUrl === 'images/<image_name_job>' ||
+        imageUrl === 'images/<image_name_contact>'
+      )
     ) {
       this.props.actions.openSnackBar({
-        snackBarMessage: 'image must be in format of images/imageName.jpg',
+        snackBarMessage: 'Image must be in format of images/imageName.jpg',
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     if (skillName === '') {
       this.props.actions.openSnackBar({
@@ -466,7 +469,7 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     if (category === '') {
       this.props.actions.openSnackBar({
@@ -474,7 +477,7 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     if (language === '') {
       this.props.actions.openSnackBar({
@@ -482,7 +485,7 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
 
     this.setState({
@@ -512,8 +515,10 @@ class BotWizard extends React.Component {
     }
     if (file) {
       form.append('image', file);
+      form.append('image_name', imageUrl.replace('images/', ''));
     } else {
-      form.append('image', '');
+      form.append('image', 'images/default.png');
+      form.append('image_name', 'default.png');
     }
     form.append('content', buildCode);
     form.append('access_token', accessToken);
