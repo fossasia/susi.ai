@@ -171,7 +171,7 @@ class NavigationBar extends Component {
     groupValue: PropTypes.string,
     orderBy: PropTypes.string,
     languages: PropTypes.array,
-    chatBubble: PropTypes.string,
+    mode: PropTypes.string,
   };
 
   constructor(props) {
@@ -185,22 +185,16 @@ class NavigationBar extends Component {
 
   openFullScreen = () => {
     const { actions } = this.props;
-    actions.handleChatBubble({
-      chatBubble: 'minimised',
-    });
-    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
-    actions.openModal({
-      modalType: 'chatBubble',
-      fullScreenChat: true,
+    actions.setChatMode({
+      mode: 'fullScreen',
     });
   };
 
-  toggleChat = () => {
-    const { actions, chatBubble } = this.props;
-    actions.handleChatBubble({
-      chatBubble: chatBubble === 'full' ? 'bubble' : 'full',
+  openPreview = () => {
+    const { actions } = this.props;
+    actions.setChatMode({
+      mode: 'preview',
     });
-    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
   };
 
   handleLogin = () => {
@@ -597,7 +591,7 @@ class NavigationBar extends Component {
                   onClick={
                     window.innerWidth < 500
                       ? this.openFullScreen
-                      : this.toggleChat
+                      : this.openPreview
                   }
                 >
                   <Chat />

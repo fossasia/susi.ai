@@ -11,18 +11,17 @@ const F_KEY = 70;
 
 const SearchInputField = styled(TextField)`
   background-color: #fff;
-  border: 0.5px solid #fff;
   border-radius: 5px;
   top: 3px;
   height: 24px;
-  .MuiOutlinedInput-root:hover {
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border: none;
   }
-  fieldset.MuiOutlinedInput-notchedOutline {
-    border-color: #fff;
-  }
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: #fff;
+    border: none;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
   }
 `;
 

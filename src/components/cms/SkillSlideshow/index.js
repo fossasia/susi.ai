@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import mobileView from '../../../utils/isMobileView';
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
+import messagesActions from '../../../redux/actions/messages';
+import generateMessage from '../../../utils/generateMessage';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import ChevronRight from '@material-ui/icons/ChevronRight';
@@ -13,8 +14,6 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import { fetchSkillSlideshow } from '../../../apis/index';
 import getImageSrc from '../../../utils/getImageSrc';
 import './index.css';
-
-const isMobileView = mobileView();
 
 const Container = styled.div`
   margin: 0 auto 0 0.5rem;
@@ -111,22 +110,19 @@ class Carousel extends React.Component {
 
   render() {
     const { slideshowData } = this.state;
-    const { actions, history } = this.props;
+    const { actions, speechOutputAlways, mode } = this.props;
     const renderSlides = slideshowData.map(obj => {
       return obj.redirectLink.includes('testExample') ? (
         <span
           onClick={event => {
-            history.push({
-              search: obj.redirectLink.split('/')[3].substring(4),
-            });
-            actions.handleTestSkillExample();
-            isMobileView &&
-              actions.openModal({
-                modalType: 'chatBubble',
-                fullScreenChat: true,
-              });
-            actions.handleChatBubble({
-              chatBubble: isMobileView ? 'minimised' : 'full',
+            generateMessage({
+              text: obj.redirectLink.split('=')[1],
+              voice: speechOutputAlways,
+              createMessage: actions.createMessage,
+              createSusiMessage: actions.createSusiMessage,
+              mode,
+              setPendingUserMessage: actions.setPendingUserMessage,
+              setChatMode: actions.setChatMode,
             });
           }}
           href={obj.redirectLink}
@@ -155,17 +151,29 @@ class Carousel extends React.Component {
 Carousel.propTypes = {
   history: PropTypes.object,
   actions: PropTypes.object,
+  speechOutputAlways: PropTypes.bool,
+  mode: PropTypes.string,
 };
+
+function mapStateToProps(store) {
+  return {
+    speechOutputAlways: store.settings.speechOutputAlways,
+    mode: store.ui.mode,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
+    actions: bindActionCreators(
+      { ...skillActions, ...uiActions, ...messagesActions },
+      dispatch,
+    ),
   };
 }
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(Carousel),
 );

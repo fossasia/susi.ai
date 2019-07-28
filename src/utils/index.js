@@ -6,6 +6,5 @@ export { default as isoCountries } from './isoCountries';
 export { default as urls } from './urls';
 export { default as colors } from './colors';
 export { default as scrollAnimation } from './scrollAnimation.js';
-export { default as testExample } from './testExample';
 export { default as parseDate } from './parseDate';
 export { default as formatDate } from './formatDate';
