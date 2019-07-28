@@ -19,12 +19,15 @@ import _Loading from 'react-loading-animation';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import { getBlogReponse } from '../../../apis';
 import './Blog.css';
-import 'font-awesome/css/font-awesome.min.css';
 import Next from '@material-ui/icons/KeyboardArrowRight';
 import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../../images/susi-logo.svg';
 import ToTopButton from '../../shared/ToTopButton';
 import { Header } from '../../shared/About';
+import _CalendarIcon from '@material-ui/icons/CalendarToday';
+import _PersonIcon from '@material-ui/icons/Person';
+import _FolderIcon from '@material-ui/icons/FolderOpen';
+import _TagIcon from '@material-ui/icons/LocalOffer';
 
 const allCategories = [
   'FOSSASIA',
@@ -148,8 +151,26 @@ const SocialButtons = styled.div`
   padding: 0.625rem 0 1.25rem 0.625rem;
 `;
 
-const Icon = styled.i`
-  padding-right: 0.625rem;
+const IconStyle = css`
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+`;
+
+const CalendarIcon = styled(_CalendarIcon)`
+  ${IconStyle}
+`;
+
+const PersonIcon = styled(_PersonIcon)`
+  ${IconStyle}
+`;
+
+const FolderIcon = styled(_FolderIcon)`
+  ${IconStyle}
+`;
+
+const TagIcon = styled(_TagIcon)`
+  ${IconStyle}
 `;
 
 const Container = styled.div`
@@ -418,13 +439,13 @@ class Blog extends Component {
                         </SocialButtons>
                         <BlogFooter>
                           <FlexBox>
-                            <Icon className="fa fa-calendar" />
+                            <CalendarIcon fontSize={'small'} />
                             <BlogFooterLink href={posts.link}>
                               {dateFormat(d, 'mmmm dd, yyyy')}
                             </BlogFooterLink>
                           </FlexBox>
                           <FlexBox>
-                            <Icon className="fa fa-user" />
+                            <PersonIcon />
                             <BlogFooterLink
                               rel="noopener noreferrer"
                               href={
@@ -436,11 +457,11 @@ class Blog extends Component {
                             </BlogFooterLink>
                           </FlexBox>
                           <FlexBox>
-                            <Icon className="fa fa-folder-open-o" />
+                            <FolderIcon />
                             {fCategory}
                           </FlexBox>
                           <FlexBox>
-                            <Icon className="fa fa-tags" />
+                            <TagIcon />
                             <div>{ftags}</div>
                           </FlexBox>
                         </BlogFooter>

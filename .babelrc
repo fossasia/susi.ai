@@ -1,0 +1,18 @@
+{
+    "presets": [
+      "@babel/preset-react",
+      [
+        "@babel/preset-env"
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties", "react-hot-loader/babel", "syntax-dynamic-import"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "transform-es2015-modules-commonjs"
+        ]
+      }
+    }
+}

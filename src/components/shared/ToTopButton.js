@@ -2,6 +2,7 @@ import _Fab from '@material-ui/core/Fab';
 import { scrollToTopAnimation } from '../../utils/animateScroll';
 import React from 'react';
 import styled from 'styled-components';
+import ExpandLess from '@material-ui/icons/ExpandLess';
 
 const Fab = styled(_Fab)`
   right: 5rem;
@@ -22,7 +23,7 @@ const ToTopButton = () => {
       }}
       color="primary"
     >
-      <span className="fa fa-chevron-up" />
+      <ExpandLess />
     </Fab>
   );
 };

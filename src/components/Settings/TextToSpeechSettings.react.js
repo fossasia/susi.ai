@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Slider from '@material-ui/lab/Slider';
 import Button from '@material-ui/core/Button';
 import VoicePlayer from '../ChatApp/MessageListItem/VoicePlayer';
-import Icon from '@material-ui/core/Icon';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../Translate/Translate.react';
@@ -12,6 +11,7 @@ import { TabHeading } from './SettingStyles';
 import { bindActionCreators } from 'redux';
 import messageActions from '../../redux/actions/messages';
 import styled from 'styled-components';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 const PlayButtonContainer = styled.div`
   text-align: center;
@@ -216,10 +216,7 @@ class TextToSpeechSettings extends Component {
 
         <PlayButtonContainer>
           <Button variant="contained" onClick={this.playDemo} color="secondary">
-            <Icon
-              style={{ marginRight: '0.7rem' }}
-              className="fa fa-volume-up"
-            />
+            <VolumeUpIcon style={{ marginRight: '0.7rem' }} />
             <Translate text="Play Demonstration" />
           </Button>
         </PlayButtonContainer>

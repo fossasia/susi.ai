@@ -5,7 +5,6 @@ import SocialLinkButtons from './SocialLinkButtons';
 import { Header } from '../../shared/About';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import TEAM_MEMBERS from '../../../constants/team';
-import 'font-awesome/css/font-awesome.min.css';
 import Typography from '@material-ui/core/Typography';
 import ToTopButton from '../../shared/ToTopButton';
 import styled from 'styled-components';

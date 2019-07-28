@@ -66,7 +66,7 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-if (module.hot) {
+if (module.hot && process.env.NODE_ENV === 'development') {
   module.hot.accept('./App', () => {
     const NextApp = require('./App').default;
     ReactDOM.render(NextApp);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import CardActions from '@material-ui/core/CardActions';
+import 'font-awesome/css/font-awesome.min.css';
 
 const styles = {
   contentStyle: {
