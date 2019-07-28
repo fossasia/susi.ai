@@ -88,6 +88,7 @@ const ExpandMore = styled(_ExpandMore)`
 const SusiLogo = styled.img`
   height: 1.5rem;
   display: block;
+  margin-left: 50px;
   ${props =>
     props.marginRight &&
     css`
@@ -116,6 +117,7 @@ const Toolbar = styled(_Toolbar)`
   height: 46px;
   background-color: rgb(66, 133, 244);
   display: flex;
+  margin-left: -40px;
   justify-content: space-between;
   align-items: center;
 `;
