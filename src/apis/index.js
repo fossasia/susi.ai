@@ -2,7 +2,7 @@
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
 
-const { API_URL, GITHUB_API } = urls;
+const { API_URL, SOUND_SERVER_API_URL, GITHUB_API } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
@@ -807,4 +807,63 @@ export function sendEmail(payload) {
     password,
     smtpHost,
   });
+}
+
+// Control page for device
+export function resumeAction() {
+  const url = `${SOUND_SERVER_API_URL}/resume`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function pauseAction() {
+  const url = `${SOUND_SERVER_API_URL}/pause`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function restartAction() {
+  const url = `${SOUND_SERVER_API_URL}/restart`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function stopAction() {
+  const url = `${SOUND_SERVER_API_URL}/stop`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function previousAction() {
+  const url = `${SOUND_SERVER_API_URL}/previous`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function shuffleAction() {
+  const url = `${SOUND_SERVER_API_URL}/shuffle`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function nextAction() {
+  const url = `${SOUND_SERVER_API_URL}/next`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function setVolumeAction({ volume }) {
+  const url = `${SOUND_SERVER_API_URL}/volume/${volume}`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function playInYoutubeAction({ youtubeLink }) {
+  const url = `${SOUND_SERVER_API_URL}/playyoutube`;
+  return ajax.post(
+    url,
+    {
+      link: youtubeLink,
+    },
+    {
+      isTokenRequired: false,
+    },
+  );
+}
+
+export function refreshDeviceList() {
+  const url = `${SOUND_SERVER_API_URL}/getdevice`;
+  return ajax.post(url, {}, { isTokenRequired: false });
 }
