@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import AdminTab from './AdminTab/AdminTab';
 import ListUser from './ListUser';
 import ListSkills from './ListSkills/ListSkills';
+import ListDevices from './ListDevices/index';
 import SystemLogs from './SystemLogs/SystemLogs';
 import Settings from './Settings';
 import { getAdmin } from '../../apis/index';
@@ -78,11 +79,14 @@ class Admin extends Component {
       case 'skills':
         value = 2;
         break;
-      case 'settings':
+      case 'devices':
         value = 3;
         break;
-      case 'logs':
+      case 'settings':
         value = 4;
+        break;
+      case 'logs':
+        value = 5;
         break;
       default:
         return;
@@ -104,9 +108,12 @@ class Admin extends Component {
         history.replace('/admin/skills');
         break;
       case 3:
-        history.replace('/admin/settings');
+        history.replace('/admin/devices');
         break;
       case 4:
+        history.replace('/admin/settings');
+        break;
+      case 5:
         history.replace('/admin/logs');
         break;
       default:
@@ -124,8 +131,10 @@ class Admin extends Component {
       case 2:
         return <ListSkills />;
       case 3:
-        return <Settings />;
+        return <ListDevices />;
       case 4:
+        return <Settings />;
+      case 5:
         return <SystemLogs />;
       default:
         return;
@@ -155,6 +164,7 @@ class Admin extends Component {
                     <Tab label="Admin" />
                     <Tab label="Users" />
                     <Tab label="Skills" />
+                    <Tab label="Devices" />
                     <Tab label="Settings" />
                     <Tab label="System Logs" />
                   </Tabs>
