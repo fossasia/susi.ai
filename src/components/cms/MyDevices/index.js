@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _Paper from '@material-ui/core/Paper';
 import CircularLoader from '../../shared/CircularLoader';
+import Button from '@material-ui/core/Button';
+import _Devices from '@material-ui/icons/Devices';
 
 const EmptyDevicesText = styled.div`
   font-size: 24px;
@@ -42,6 +44,20 @@ const Paper = styled(_Paper)`
 const SubHeading = styled.h1`
   color: rgba(0, 0, 0, 0.65);
   padding-left: 1.25rem;
+`;
+
+const AddDeviceButtonContainer = styled.div`
+  text-align: right;
+  margin-right: 1.25rem;
+  @media (max-width: 600px) {
+    text-align: left;
+    margin-left: 1rem;
+    margin-right: 0;
+  }
+`;
+
+const Devices = styled(_Devices)`
+  margin-right: 5px;
 `;
 
 class DevicesTab extends React.Component {
@@ -180,6 +196,13 @@ class DevicesTab extends React.Component {
     }
   };
 
+  handleAddDevice = () => {
+    this.props.actions.openModal({
+      modalType: 'addDevice',
+      handleClose: this.props.actions.closeModal,
+    });
+  };
+
   render() {
     const {
       devicesData,
@@ -199,6 +222,15 @@ class DevicesTab extends React.Component {
           <div>
             <Paper>
               <SubHeading>Devices</SubHeading>
+              <AddDeviceButtonContainer>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleAddDevice}
+                >
+                  <Devices /> Add Device
+                </Button>
+              </AddDeviceButtonContainer>
               <DevicesTable
                 handleRemoveConfirmation={this.handleRemoveConfirmation}
                 startEditing={this.startEditing}
