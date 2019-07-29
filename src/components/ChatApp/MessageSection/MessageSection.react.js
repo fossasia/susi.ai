@@ -105,7 +105,7 @@ const MessageSectionContainer = styled.div`
     props.showChatPreview
       ? 'rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,rgba(0, 0, 0, 0.23) 0px 3px 6px'
       : '0px'};
-  border-radius: ${props => (props.showChatPreview ? '10px' : '0px')};
+  border-radius: ${props => (props.showChatPreview ? '4px' : '0px')};
 `;
 
 const ScrollBottomContainer = styled.div`
@@ -215,7 +215,7 @@ const ActionBar = styled.div`
   display: flex;
   color: #fff;
   align-items: center;
-  font-size: 20px;
+  font-size: 1rem;
   justify-content: space-between;
 `;
 
@@ -322,7 +322,7 @@ class MessageSection extends Component {
         }
       }
     } else if (prevProps.messages.length !== messages.length) {
-      this.scrollToBottom('auto');
+      this.scrollToBottom();
     }
 
     if (accessToken !== prevProps.accessToken) {
@@ -582,28 +582,16 @@ class MessageSection extends Component {
 
     // return the list of messages
     return messages.map(id => {
-      if (id !== latestMessageID) {
-        return (
-          <MessageListItem
-            key={id}
-            message={messagesByID[id]}
-            latestUserMsgID={latestUserMsgID}
-            latestMessage={false}
-            addYouTube={addYouTube}
-            pauseAllVideos={pauseAllVideos}
-            showChatPreview={mode === 'preview'}
-          />
-        );
-      }
       return (
         <MessageListItem
           key={id}
           message={messagesByID[id]}
           latestUserMsgID={latestUserMsgID}
-          latestMessage={true}
+          latestMessage={id === latestMessageID}
           addYouTube={addYouTube}
           pauseAllVideos={pauseAllVideos}
           showChatPreview={mode === 'preview'}
+          scrollBottom={this.scrollToBottom}
         />
       );
     });
