@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactFitText from 'react-fittext';
 import _Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
+import generateMessage from '../../utils/generateMessage';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Send from '@material-ui/icons/Send';
@@ -13,14 +14,8 @@ import _TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
 import messageActions from '../../redux/actions/messages';
 import uiActions from '../../redux/actions/ui';
-import {
-  formatUserMessage,
-  formatSusiMessage,
-} from '../../utils/formatMessage';
-import { urlParam } from '../../utils/helperFunctions';
 import { invertColorTextArea } from '../../utils/invertColor';
 import getCustomThemeColors from '../../utils/colors';
-import * as apis from '../../apis';
 import VoiceRecognition from './VoiceRecognition';
 import { getAllUserMessages } from '../../utils/messageFilter';
 import { createMessagePairArray } from '../../utils/formatMessage';
@@ -125,7 +120,7 @@ const TextAreaContainer = styled.div`
   background-color: ${props => props.backgroundColor};
   color: ${props => props.color};
   max-height: 5rem;
-  width: ${props => (props.showChatBubble ? '81%' : 'auto')};
+  width: ${props => (props.showChatPreview ? '81%' : 'auto')};
   @media (max-width: 768px) {
     width: 81%;
   }
@@ -142,6 +137,7 @@ const TextareaAutosize = styled(_TextareaAutosize)`
   resize: none;
   font-family: 'Product Sans', sans-serif;
   font-weight: 300;
+  font-size: 1rem;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   margin-top: 0.1875rem;
@@ -201,8 +197,8 @@ class MessageComposer extends Component {
     theme: PropTypes.string,
     customThemeValue: PropTypes.object,
     exitSearch: PropTypes.func,
-    showChatBubble: PropTypes.bool,
-    testSkillExampleQuery: PropTypes.bool,
+    showChatPreview: PropTypes.bool,
+    pendingUserMessage: PropTypes.string,
   };
 
   constructor(props) {
@@ -216,7 +212,6 @@ class MessageComposer extends Component {
       micAccess: false,
       currentMessageIndex: -1,
       speechRecognitionTextcolor: '#000',
-      key: 0,
     };
     this.userMessageHistory = [];
     const { micInput } = this.props;
@@ -234,33 +229,20 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    const { actions, testSkillExampleQuery } = this.props;
+    const { actions, pendingUserMessage, speechOutputAlways } = this.props;
     actions
       .getHistoryFromServer()
       .then(({ payload }) => {
         createMessagePairArray(payload).then(messagePairArray => {
           actions.initializeMessageStore(messagePairArray).then(() => {
-            const testSkill = urlParam('testExample');
-            const {
-              messagesByID,
-              messages,
-              speechOutputAlways,
-              enterAsSend,
-            } = this.props;
+            const { messagesByID, messages } = this.props;
             this.userMessageHistory = getAllUserMessages(
               messages,
               messagesByID,
               'REVERSE',
             );
-            if (testSkill && testSkillExampleQuery) {
-              let text = testSkill.trim();
-              if (text) {
-                if (!enterAsSend) {
-                  text = text.split('\n').join(' ');
-                }
-                this.createUserMessage(text, speechOutputAlways);
-              }
-            }
+            !!pendingUserMessage &&
+              this.createUserMessage(pendingUserMessage, speechOutputAlways);
           });
         });
       })
@@ -368,25 +350,14 @@ class MessageComposer extends Component {
 
   createUserMessage(text, voice) {
     this.userMessageHistory = [text, ...this.userMessageHistory];
-    formatUserMessage({
+    generateMessage({
       text,
       voice,
-    }).then(userMessage => {
-      this.props.actions
-        .createMessage(userMessage)
-        .then(
-          apis.getSusiReply(userMessage).then(response => {
-            formatSusiMessage({
-              response,
-              voice,
-            }).then(susiMessage => {
-              this.props.actions.createSusiMessage(susiMessage);
-            });
-          }),
-        )
-        .catch(error => {
-          console.log(error);
-        });
+      createMessage: this.props.actions.createMessage,
+      createSusiMessage: this.props.actions.createSusiMessage,
+      mode: '',
+      setPendingUserMessage: this.props.actions.setPendingUserMessage,
+      pendingUserMessage: this.props.pendingUserMessage,
     });
   }
 
@@ -442,10 +413,6 @@ class MessageComposer extends Component {
     }
   };
 
-  handleClick = () => {
-    this.setState({ key: Math.random() });
-  };
-
   render() {
     const {
       isListening,
@@ -453,9 +420,8 @@ class MessageComposer extends Component {
       isSpeechDialogOpen,
       speechRecognitionTextcolor,
       speechToTextOutput,
-      key,
     } = this.state;
-    const { focus, theme, customThemeValue, showChatBubble } = this.props;
+    const { focus, theme, customThemeValue, showChatPreview } = this.props;
     const { textarea } = getCustomThemeColors({ theme, customThemeValue });
     const textcolor = invertColorTextArea(textarea);
     return (
@@ -471,7 +437,7 @@ class MessageComposer extends Component {
         )}
         <TextAreaContainer
           backgroundColor={textarea}
-          showChatBubble={showChatBubble}
+          showChatPreview={showChatPreview}
         >
           <TextareaAutosize
             className="scroll"
@@ -488,8 +454,6 @@ class MessageComposer extends Component {
             autoFocus={focus}
             background={textarea}
             color={textcolor}
-            onClick={this.handleClick}
-            key={key}
           />
         </TextAreaContainer>
         <SendButton onClick={this.onClickButton}>
@@ -526,7 +490,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(store) {
-  const { messagesByID, messages, loadingHistory } = store.messages;
+  const {
+    messagesByID,
+    messages,
+    loadingHistory,
+    pendingUserMessage,
+  } = store.messages;
   const {
     enterAsSend,
     micInput,
@@ -541,6 +510,7 @@ function mapStateToProps(store) {
     speechOutputAlways,
     messages,
     loadingHistory,
+    pendingUserMessage,
     customThemeValue: store.settings.customThemeValue,
     theme: store.settings.theme,
   };

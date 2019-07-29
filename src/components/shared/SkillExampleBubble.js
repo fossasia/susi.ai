@@ -5,9 +5,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../redux/actions/skill';
 import uiActions from '../../redux/actions/ui';
-import mobileView from '../../utils/isMobileView';
-
-const isMobileView = mobileView();
+import messagesActions from '../../redux/actions/messages';
+import generateMessage from '../../utils/generateMessage';
 
 const ExampleComment = styled.div`
   cursor: pointer;
@@ -54,25 +53,23 @@ const ExampleComment = styled.div`
 
 const SkillExampleBubble = ({
   data,
-  history,
   actions,
   margin = '1.5% 4.85% 1.5% 0',
+  speechOutputAlways,
+  mode,
 }) => {
   return (
     <ExampleComment
       margin={margin}
       onClick={event => {
-        history.push({
-          search: `?testExample=${data}`,
-        });
-        actions.handleTestSkillExample();
-        isMobileView &&
-          actions.openModal({
-            modalType: 'chatBubble',
-            fullScreenChat: true,
-          });
-        actions.handleChatBubble({
-          chatBubble: isMobileView ? 'minimised' : 'full',
+        generateMessage({
+          text: data,
+          voice: speechOutputAlways,
+          createMessage: actions.createMessage,
+          createSusiMessage: actions.createSusiMessage,
+          mode,
+          setPendingUserMessage: actions.setPendingUserMessage,
+          setChatMode: actions.setChatMode,
         });
       }}
     >
@@ -86,15 +83,27 @@ SkillExampleBubble.propTypes = {
   history: PropTypes.object,
   actions: PropTypes.object,
   margin: PropTypes.string,
+  speechOutputAlways: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...skillActions, ...uiActions }, dispatch),
+    actions: bindActionCreators(
+      { ...skillActions, ...uiActions, ...messagesActions },
+      dispatch,
+    ),
+  };
+}
+
+function mapStateToProps(store) {
+  return {
+    speechOutputAlways: store.settings.speechOutputAlways,
+    mode: store.ui.mode,
   };
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SkillExampleBubble);

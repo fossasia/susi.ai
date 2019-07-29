@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -7,7 +7,6 @@ import CircularLoader from '../../shared/CircularLoader';
 import Fab from '@material-ui/core/Fab';
 import NavigateDown from '@material-ui/icons/ExpandMore';
 import NavigateUp from '@material-ui/icons/ExpandLess';
-import NavigationBar from '../../NavigationBar';
 import MessageComposer from '../MessageComposer.react';
 import loadingGIF from '../../../images/loading.gif';
 import MessageListItem from '../MessageListItem/MessageListItem.react';
@@ -26,23 +25,23 @@ import { IconButton as _IconButton } from '@material-ui/core';
 
 const MessageList = styled.div`
   background: ${props => props.pane};
-  position: ${props => (props.showChatBubble ? 'inherit' : 'fixed')};
+  position: ${props => (props.showChatPreview ? 'inherit' : 'fixed')};
   top: 3rem;
   left: 0;
   bottom: 4.6rem;
   right: 0;
-  width: ${props => (props.showChatBubble ? '376px' : '100vw')};
+  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
-  margin: ${props => (props.showChatBubble ? '0px' : '0 auto')};
+  margin: ${props => (props.showChatPreview ? '0px' : '0 auto')};
   height: ${props =>
-    props.showChatBubble ? props.height - 270 + 'px' : 'auto'};
+    props.showChatPreview ? props.height - 270 + 'px' : 'auto'};
   background-image: ${props => `url(${props.messageBackgroundImage})`};
   background-repeat: 'no-repeat';
   background-size: '100% 100%';
-  max-height: ${props => (props.showChatBubble ? '593px' : 'auto')};
+  max-height: ${props => (props.showChatPreview ? '593px' : 'auto')};
   box-shadow: rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
 `;
@@ -66,7 +65,7 @@ const ScrollTopFab = styled(Fab)`
 `;
 
 const MessageComposeContainer = styled.div`
-  position: ${props => (props.showChatBubble ? 'absolute' : 'fixed')};
+  position: ${props => (props.showChatPreview ? 'absolute' : 'fixed')};
   bottom: 0;
   margin: 0;
   border: none;
@@ -78,7 +77,7 @@ const MessageComposeContainer = styled.div`
   transition: transform 0.25s cubic-bezier(0, 0, 0.3, 1) 0.3s;
   pointer-events: auto;
   opacity: 1;
-  width: ${props => (props.showChatBubble ? '376px' : '100vw')};
+  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -90,29 +89,30 @@ const MessageComposeContainer = styled.div`
 `;
 
 const MessageSectionContainer = styled.div`
-  position: ${props => (props.showChatBubble ? 'absolute' : 'relative')};
-  left: ${props => (props.showChatBubble ? '-75px' : '0px')};
+  position: ${props => (props.showChatPreview ? 'absolute' : 'relative')};
+  left: ${props => (props.showChatPreview ? '-75px' : '0px')};
   bottom: 0;
   right: 0;
   height: ${props =>
-    props.showChatBubble ? props.height - 160 + 'px' : 'auto'};
-  margin: ${props => (props.showChatBubble ? '0px' : '0 auto')};
-  width: ${props => (props.showChatBubble ? '376px' : '100vw')};
+    props.showChatPreview ? props.height - 160 + 'px' : 'auto'};
+  margin: ${props => (props.showChatPreview ? '0px' : '0 auto')};
+  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
-  max-height: ${props => (props.showChatBubble ? '704px' : 'auto')};
+  max-height: ${props => (props.showChatPreview ? '704px' : 'auto')};
   box-shadow: ${props =>
-    props.showChatBubble
+    props.showChatPreview
       ? 'rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,rgba(0, 0, 0, 0.23) 0px 3px 6px'
       : '0px'};
+  border-radius: ${props => (props.showChatPreview ? '10px' : '0px')};
 `;
 
 const ScrollBottomContainer = styled.div`
   position: fixed;
   margin: 0;
   border: none;
-  width: ${props => (props.showChatBubble ? '376px' : '100vw')};
+  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 43.75rem;
   bottom: 4.7rem;
   overflow-x: hidden;
@@ -207,13 +207,16 @@ const FullScreenExit = styled(_FullScreenExit)`
 
 const ActionBar = styled.div`
   width: auto;
-  height: ${props => (props.fullScreenChat ? '48px' : '40px')};
-  background-color: #808080;
-  padding: ${props => (props.fullScreenChat ? '8px 0px' : '5px 0px')};
-  text-align: right;
+  height: 48px;
+  background-color: #4285f4;
+  padding: ${props =>
+    props.showFullScreenChat ? '0.5rem 1rem' : '0.3rem 0.5rem'};
   top: 0px;
   display: flex;
-  justify-content: flex-end;
+  color: #fff;
+  align-items: center;
+  font-size: 20px;
+  justify-content: space-between;
 `;
 
 const ChatBubbleContainer = styled.div`
@@ -252,9 +255,7 @@ class MessageSection extends Component {
     actions: PropTypes.object,
     customThemeValues: PropTypes.object,
     accessToken: PropTypes.string,
-    showChatBubble: PropTypes.bool, // From ChatApp Component present in App.js
-    chatBubble: PropTypes.string, // From UI Reducer
-    fullScreenChat: PropTypes.bool,
+    mode: PropTypes.string, // From UI Reducer for chat
     testSkillExampleKey: PropTypes.number,
   };
 
@@ -272,6 +273,7 @@ class MessageSection extends Component {
       showScrollTop: false,
       width: window.innerWidth,
       height: window.innerHeight,
+      hasScrolled: false,
       searchState: {
         markedMessagesByID: {},
         markedIDs: [],
@@ -289,6 +291,7 @@ class MessageSection extends Component {
   componentDidMount = () => {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+    this.scrollToBottom('auto');
   };
 
   componentWillUnmount = () => {
@@ -303,9 +306,9 @@ class MessageSection extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const { search, searchState } = this.state;
+    const { search, searchState, hasScrolled } = this.state;
     const { messages, accessToken } = this.props;
-    if (search) {
+    if (search && !hasScrolled) {
       if (searchState.scrollIndex === -1 || searchState.scrollIndex === null) {
         this.scrollToBottom();
       } else {
@@ -313,13 +316,13 @@ class MessageSection extends Component {
         const markedIndices = searchState.markedIndices;
         const limit = searchState.scrollLimit;
         const ul = this.messageList;
-        if (markedIDs && ul && limit > 0) {
+        if (markedIDs && ul && limit > 0 && !hasScrolled) {
           const currentID = markedIndices[searchState.searchIndex - 1];
           this.scrollarea.view.childNodes[currentID].scrollIntoView();
         }
       }
     } else if (prevProps.messages.length !== messages.length) {
-      this.scrollToBottom();
+      this.scrollToBottom('auto');
     }
 
     if (accessToken !== prevProps.accessToken) {
@@ -346,7 +349,7 @@ class MessageSection extends Component {
   };
 
   onScroll = () => {
-    const { showScrollBottom, showScrollTop } = this.state;
+    const { showScrollBottom, showScrollTop, search } = this.state;
     if (this.scrollarea) {
       let scrollValues = this.scrollarea.getValues();
       if (scrollValues.top >= 1) {
@@ -365,15 +368,20 @@ class MessageSection extends Component {
           showScrollTop: true,
         });
       }
+      if (search) {
+        this.setState({
+          hasScrolled: true,
+        });
+      }
     }
   };
 
-  scrollToBottom = () => {
+  scrollToBottom = (type = 'smooth') => {
     const scrollBar = this.scrollarea;
     if (scrollBar) {
       scrollBar.view.scroll({
         top: scrollBar.getScrollHeight(),
-        behavior: 'smooth',
+        behavior: 'auto',
       });
     }
   };
@@ -458,6 +466,7 @@ class MessageSection extends Component {
       currState.scrollID = markedIDs[newIndex];
       this.setState({
         searchState: currState,
+        hasScrolled: false,
       });
     }
   };
@@ -479,6 +488,7 @@ class MessageSection extends Component {
       currState.scrollID = markedIDs[newIndex];
       this.setState({
         searchState: currState,
+        hasScrolled: false,
       });
     }
     if (markedIDs && ul && newIndex === 0) {
@@ -507,6 +517,7 @@ class MessageSection extends Component {
         currState.scrollID = markedIDs[newIndex];
         this.setState({
           searchState: currState,
+          hasScrolled: false,
         });
       }
     }
@@ -545,7 +556,7 @@ class MessageSection extends Component {
     markID,
   ) => {
     // markID indicates search mode on
-    const { showChatBubble } = this.props;
+    const { mode } = this.props;
     if (markID) {
       return messages.map(id => {
         return (
@@ -555,7 +566,7 @@ class MessageSection extends Component {
             markID={markID}
             addYouTube={addYouTube}
             pauseAllVideos={pauseAllVideos}
-            showChatBubble={showChatBubble}
+            showChatPreview={mode === 'preview'}
           />
         );
       });
@@ -580,7 +591,7 @@ class MessageSection extends Component {
             latestMessage={false}
             addYouTube={addYouTube}
             pauseAllVideos={pauseAllVideos}
-            showChatBubble={showChatBubble}
+            showChatPreview={mode === 'preview'}
           />
         );
       }
@@ -592,7 +603,7 @@ class MessageSection extends Component {
           latestMessage={true}
           addYouTube={addYouTube}
           pauseAllVideos={pauseAllVideos}
-          showChatBubble={showChatBubble}
+          showChatPreview={mode === 'preview'}
         />
       );
     });
@@ -629,38 +640,32 @@ class MessageSection extends Component {
 
   openFullScreen = () => {
     const { actions } = this.props;
-    actions.handleChatBubble({
-      chatBubble: 'minimised',
-    });
-    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
-    actions.openModal({
-      modalType: 'chatBubble',
-      fullScreenChat: true,
+    actions.setChatMode({
+      mode: 'fullScreen',
     });
   };
 
-  closeFullScreen = () => {
+  openPreview = () => {
     const { actions } = this.props;
-    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
-    actions.handleChatBubble({
-      chatBubble: 'full',
+    actions.setChatMode({
+      mode: 'preview',
     });
     actions.closeModal();
   };
 
   toggleChat = () => {
-    const { actions, chatBubble } = this.props;
+    const { mode, actions } = this.props;
     this.exitSearch();
-    actions.handleChatBubble({
-      chatBubble: chatBubble === 'bubble' ? 'full' : 'bubble',
+    actions.setChatMode({
+      mode: mode === 'minimize' ? 'preview' : 'minimize',
     });
-    actions.handleTestSkillExample({ testSkillExampleKey: -1 });
   };
 
   handleClose = () => {
     const { actions } = this.props;
-    this.exitSearch();
-    actions.handleChatBubble({ chatBubble: 'bubble' });
+    actions.setChatMode({
+      mode: 'minimize',
+    });
     actions.closeModal();
   };
 
@@ -676,20 +681,14 @@ class MessageSection extends Component {
       messageBackgroundImage,
       loadingReply,
       customThemeValues,
-      showChatBubble,
-      chatBubble,
-      fullScreenChat,
+      mode,
       testSkillExampleKey,
     } = this.props;
 
-    const {
-      header,
-      pane,
-      body,
-      composer,
-      button,
-      textarea,
-    } = getCustomThemeColors({ theme, customThemeValues });
+    const { pane, body, composer, button, textarea } = getCustomThemeColors({
+      theme,
+      customThemeValues,
+    });
     const {
       search,
       searchState,
@@ -723,38 +722,41 @@ class MessageSection extends Component {
     }
 
     const actionBar = (
-      <ActionBar fullScreenChat={fullScreenChat}>
-        {searchState ? (
-          <ExpandingSearchField
-            searchText={searchState.searchText}
-            searchIndex={searchState.searchIndex}
-            open={search}
-            searchCount={searchState.scrollLimit}
-            onTextChange={this.searchTextChanged}
-            activateSearch={this.openSearch}
-            exitSearch={this.exitSearch}
-            scrollRecent={this.nextSearchItem}
-            scrollPrev={this.previousSearchItem}
-          />
-        ) : null}
-        <CustomIconButton width={width}>
-          {fullScreenChat !== undefined ? (
-            <FullScreenExit onClick={this.closeFullScreen} />
-          ) : (
-            <FullScreen onClick={this.openFullScreen} />
+      <ActionBar showFullScreenChat={mode === 'fullScreen'}>
+        <div>Chat with SUSI.AI</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {searchState && (
+            <ExpandingSearchField
+              searchText={searchState.searchText}
+              searchIndex={searchState.searchIndex}
+              open={search}
+              searchCount={searchState.scrollLimit}
+              onTextChange={this.searchTextChanged}
+              activateSearch={this.openSearch}
+              exitSearch={this.exitSearch}
+              scrollRecent={this.nextSearchItem}
+              scrollPrev={this.previousSearchItem}
+            />
           )}
-        </CustomIconButton>
-        <IconButton
-          onClick={fullScreenChat ? this.handleClose : this.toggleChat}
-        >
-          <Close />
-        </IconButton>
+          <CustomIconButton width={width}>
+            {mode === 'fullScreen' ? (
+              <FullScreenExit onClick={this.openPreview} />
+            ) : (
+              <FullScreen onClick={this.openFullScreen} />
+            )}
+          </CustomIconButton>
+          <IconButton
+            onClick={mode === 'fullScreen' ? this.handleClose : this.toggleChat}
+          >
+            <Close />
+          </IconButton>
+        </div>
       </ActionBar>
     );
 
     const messageSection = (
       <MessageSectionContainer
-        showChatBubble={showChatBubble}
+        showChatPreview={mode === 'preview'}
         height={height}
         key={testSkillExampleKey}
       >
@@ -762,14 +764,14 @@ class MessageSection extends Component {
           <CircularLoader height={38} />
         ) : (
           <div>
-            {fullScreenChat ? null : actionBar}
+            {mode === 'preview' && actionBar}
             <MessageList
               ref={c => {
                 this.messageList = c;
               }}
               pane={pane}
               messageBackgroundImage={messageBackgroundImage}
-              showChatBubble={showChatBubble}
+              showChatPreview={mode === 'preview'}
               height={height}
             >
               <Scrollbars
@@ -812,7 +814,7 @@ class MessageSection extends Component {
         <MessageComposeContainer
           backgroundColor={composer}
           theme={theme}
-          showChatBubble={showChatBubble}
+          showChatPreview={mode === 'preview'}
         >
           <MessageComposer
             focus={!search}
@@ -822,17 +824,17 @@ class MessageSection extends Component {
             micColor={button}
             textarea={textarea}
             exitSearch={this.exitSearch}
-            showChatBubble={showChatBubble}
+            showChatPreview={mode === 'preview'}
             testSkillExampleQuery={testSkillExampleKey !== -1}
           />
         </MessageComposeContainer>
       </MessageSectionContainer>
     );
 
-    const Chat = (
+    const ChatBubble = (
       <ChatBubbleContainer className="chatbubble" height={height} width={width}>
-        {chatBubble === 'full' ? messageSection : null}
-        {chatBubble !== 'minimised' ? (
+        {mode === 'preview' ? messageSection : null}
+        {mode !== 'fullScreen' ? (
           <SUSILauncherContainer>
             <SUSILauncherWrapper
               onClick={width < 500 ? this.openFullScreen : this.toggleChat}
@@ -844,32 +846,17 @@ class MessageSection extends Component {
       </ChatBubbleContainer>
     );
 
-    const navigationBar = (
-      <NavigationBar
-        header={header}
-        {...this.props}
-        searchTextChanged={this.searchTextChanged}
-        openSearch={this.openSearch}
-        exitSearch={this.exitSearch}
-        nextSearchItem={this.nextSearchItem}
-        previousSearchItem={this.previousSearchItem}
-        search={search}
-        searchState={searchState}
-      />
-    );
-
     return (
-      <div>
-        {showChatBubble === undefined && fullScreenChat === undefined ? (
-          <div>
-            {navigationBar}
+      <Fragment>
+        {mode === 'fullScreen' ? (
+          <Fragment>
+            {actionBar}
             {messageSection}
-          </div>
-        ) : null}
-        {showChatBubble ? Chat : null}
-        {fullScreenChat ? actionBar : null}
-        {fullScreenChat ? messageSection : null}
-      </div>
+          </Fragment>
+        ) : (
+          ChatBubble
+        )}
+      </Fragment>
     );
   }
 }

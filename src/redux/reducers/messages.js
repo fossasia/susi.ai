@@ -12,6 +12,7 @@ const defaultState = {
   initialisedVoices: false,
   historyBuffer: [],
   userGeoData: null,
+  pendingUserMessage: null,
 };
 
 export default handleActions(
@@ -103,7 +104,7 @@ export default handleActions(
     },
     [actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER](state, { payload }) {
       return {
-        ...defaultState,
+        ...state,
         loadingHistory: true,
         loadingHistoryError: false,
       };
@@ -123,7 +124,7 @@ export default handleActions(
         });
       }
       return {
-        ...defaultState,
+        ...state,
         messages,
         messagesByID,
         loadingHistory: false,
@@ -139,6 +140,13 @@ export default handleActions(
     [actionTypes.APP_LOGOUT](state, { payload }) {
       return {
         ...defaultState,
+      };
+    },
+    [actionTypes.MESSAGES_SET_PENDING_USER_MESSAGE](state, { payload }) {
+      const { pendingUserMessage } = payload;
+      return {
+        ...state,
+        pendingUserMessage,
       };
     },
   },

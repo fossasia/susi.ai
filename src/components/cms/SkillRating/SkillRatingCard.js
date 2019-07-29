@@ -17,9 +17,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  LineChart,
-  Line,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import Ratings from 'react-ratings-declarative';
@@ -30,6 +27,7 @@ import {
   DefaultMessage,
   LargeText,
 } from '../../shared/Typography';
+import LineChart from '../../shared/charts/LineChart';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -305,30 +303,18 @@ class SkillRatingCard extends Component {
                 <SubTitle>Rating over time</SubTitle>
                 {ratingsOverTime.length ? (
                   <Container>
-                    <ResponsiveContainer
-                      height={300}
+                    <LineChart
                       width={mobileView ? 600 : ratingsOverTimeWidth}
-                      debounce={1}
-                    >
-                      <LineChart data={this.roundOffRating(ratingsOverTime)}>
-                        <XAxis dataKey="timestamp" padding={{ right: 20 }} />
-                        <YAxis
-                          dataKey="rating"
-                          type="number"
-                          domain={[0, 5]}
-                          ticks={[0, 1, 2, 3, 4, 5]}
-                        />
-                        <Tooltip wrapperStyle={{ height: '60px' }} />
-                        <Legend />
-                        <Line
-                          name="Average rating"
-                          type="monotone"
-                          dataKey="rating"
-                          stroke="#82ca9d"
-                          activeDot={{ r: 8 }}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
+                      data={this.roundOffRating(ratingsOverTime)}
+                      legend={'Average rating'}
+                      yAxisProps={{
+                        domain: [0, 5],
+                        ticks: [0, 1, 2, 3, 4, 5],
+                        type: 'number',
+                        dataKey: 'rating',
+                      }}
+                      lineKey={'rating'}
+                    />
                   </Container>
                 ) : (
                   <div>No ratings data over time is present.</div>
