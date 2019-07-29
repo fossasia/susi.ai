@@ -7,7 +7,7 @@
   "dependencies": {
     "@babel/runtime": "^7.4.5",
     "@material-ui/codemod": "^4.0.2",
-    "@material-ui/core": "^4.0.2",
+    "@material-ui/core": "^4.3.0",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/lab": "^3.0.0-alpha.30",
     "add-px": "1.0.0",

@@ -566,6 +566,13 @@ class NavigationBar extends Component {
                                 </ListItemText>
                               </MenuItem>
                             </Link>
+                            <Link to="/mydevices">
+                              <MenuItem>
+                                <ListItemText>
+                                  <Translate text="Add Device" />
+                                </ListItemText>
+                              </MenuItem>
+                            </Link>
                           </Paper>
                         </Popper>
                         <CreateDetail>Create</CreateDetail>
