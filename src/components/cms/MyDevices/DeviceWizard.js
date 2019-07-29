@@ -10,7 +10,7 @@ import { GoogleApiWrapper } from 'google-maps-react';
 import CircularLoader from '../../shared/CircularLoader';
 import ControlSection from './ControlSection';
 import ConfigureSection from './ConfigureSection';
-import { Paper, Container, ErrorText } from './styles';
+import { Paper, ErrorText } from './styles';
 
 class DeviceWizard extends React.Component {
   static propTypes = {
@@ -22,10 +22,11 @@ class DeviceWizard extends React.Component {
     userName: PropTypes.string,
     email: PropTypes.string,
     isLocalEnv: PropTypes.bool,
+    macId: PropTypes.string,
   };
   constructor(props) {
     super(props);
-    this.macId = this.props.location.pathname.split('/')[2];
+    this.macId = this.props.macId;
     this.state = {
       devicesData: [],
       editIdx: null,
@@ -39,6 +40,14 @@ class DeviceWizard extends React.Component {
 
   componentDidMount() {
     this.initialiseDevice();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { macId } = this.props;
+    if (prevProps.macId !== macId) {
+      this.macId = macId;
+      this.initialiseDevice();
+    }
   }
 
   handleRemoveDevice = () => {
@@ -160,7 +169,7 @@ class DeviceWizard extends React.Component {
     return (
       <React.Fragment>
         {devicesData.length ? (
-          <Container>
+          <div>
             <Paper>
               <h1>Device</h1>
               <DevicesTable
@@ -209,7 +218,7 @@ class DeviceWizard extends React.Component {
               handleRemoveConfirmation={this.handleRemoveConfirmation}
             />
             <ControlSection />
-          </Container>
+          </div>
         ) : (
           <ErrorText>
             Device with Mac Id : <b>{macId}</b> is not connected.
