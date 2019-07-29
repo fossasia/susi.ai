@@ -27,6 +27,7 @@ import EditUserDevice from '../../Admin/ListUser/DevicePanel/EditDeviceDialog';
 import ConfirmDeleteWithInput from './dialogTypes/confirmDeleteWithInput';
 import StandardActionDialog from './dialogTypes/StandardActionDialog';
 import ChatApp from '../../ChatApp/ChatApp.react';
+import AddDeviceDialog from '../../cms/MyDevices/AddDeviceDialog';
 import isMobileView from '../../../utils/isMobileView';
 
 const DialogData = {
@@ -89,6 +90,10 @@ const DialogData = {
     Component: ChatApp,
     fullScreen: true,
     style: { padding: '0px', textAlign: 'left' },
+  },
+  addDevice: {
+    Component: AddDeviceDialog,
+    size: 'sm',
   },
 };
 
