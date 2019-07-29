@@ -24,14 +24,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CircularLoader from '../../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import OutlinedTextField from '../../../shared/OutlinedTextField';
+import _Select from '../../../shared/Select';
 
 const Paper = styled(_Paper)`
-  margin: 0 1rem;
   padding: 2rem;
   max-width: 70rem;
 `;
@@ -42,7 +41,7 @@ const ExpansionPanelDetails = styled(_ExpansionPanelDetails)`
   align-items: center;
 `;
 
-const OutlinedSelect = styled(Select)`
+const OutlinedSelect = styled(_Select)`
   width: 14rem;
   font-weight: 400;
 `;
@@ -305,9 +304,9 @@ class Mail extends React.Component {
                 </OutlinedSelect>
               </FormControl>
             </FlexContainer>
-            <FormLabel component="legend">Mail type</FormLabel>
+            <FormLabel component="legend">Mail Gateway</FormLabel>
             <RadioGroup
-              aria-label="Mail Type"
+              aria-label="Mail Gateway"
               name="type"
               value={type}
               onChange={this.handleMailTypeChange}
