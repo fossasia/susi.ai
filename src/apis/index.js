@@ -605,7 +605,7 @@ export function deleteBot(payload) {
 // Admin.js
 export function fetchAdminUserStats(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/getUsers.json`;
-  return ajax.get(url, payload);
+  return ajax.get(url, payload, { shouldCamelizeKeys: false });
 }
 
 export function fetchAdminUserSkill() {
