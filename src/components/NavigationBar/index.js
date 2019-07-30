@@ -191,9 +191,9 @@ class NavigationBar extends Component {
   };
 
   openPreview = () => {
-    const { actions } = this.props;
+    const { mode, actions } = this.props;
     actions.setChatMode({
-      mode: 'preview',
+      mode: mode === 'minimize' ? 'preview' : 'minimize',
     });
   };
 
