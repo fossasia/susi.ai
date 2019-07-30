@@ -133,7 +133,7 @@ const DialogSection = props => {
       <Dialog
         maxWidth={size}
         fullWidth={true}
-        open={isModalOpen || !visited}
+        open={isModalOpen || !visited || mode === 'fullScreen'}
         onClose={isModalOpen ? actions.closeModal : actions.setVisited}
         fullScreen={fullScreen}
       >
