@@ -4,14 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import createActions from '../../../../redux/actions/create';
-import styled from 'styled-components';
 import AceEditorComponent from '../../../shared/AceEditor';
-
-const CodeEditorDiv = styled.div`
-  width: 100%;
-  margin-top: 1.25rem;
-  padding: 0rem;
-`;
+import { EditorContainer } from '../../BotBuilder/styles';
 
 class CodeView extends React.Component {
   state = {
@@ -39,14 +33,14 @@ class CodeView extends React.Component {
     const { code, editable } = this.props;
     const { loading } = this.state;
     return (
-      <CodeEditorDiv>
+      <EditorContainer>
         {loading && <LinearProgress color="primary" />}
         <AceEditorComponent
           value={code}
           onChange={this.onChange}
           readOnly={!editable}
         />
-      </CodeEditorDiv>
+      </EditorContainer>
     );
   }
 }
