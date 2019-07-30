@@ -78,7 +78,7 @@ const DialogData = {
   editFeedback: { Component: EditFeedbackDialog, size: 'sm' },
   // For skillCreator delete skill
   deleteBot: {
-    Component: StandardActionDialog,
+    Component: ConfirmDeleteWithInput,
     size: 'sm',
     componentProps: { entityType: 'bot', actionType: 'Delete' },
   },

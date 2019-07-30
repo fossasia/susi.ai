@@ -298,6 +298,11 @@ export function fetchSkills(payload) {
   });
 }
 
+export function fetchBots(payload) {
+  const url = `${API_URL}/${CMS_API_PREFIX}/getPrivateSkillList.json`;
+  return ajax.get(url, payload);
+}
+
 export function fetchSkillMetaData(payload) {
   const { model, group, language, skill } = payload;
   const url = `${API_URL}/${CMS_API_PREFIX}/getSkillMetadata.json`;
@@ -542,14 +547,8 @@ export function fetchBotDetails(payload) {
 }
 
 export function deleteChatBot(payload) {
-  const { group, language, skill } = payload;
   const url = `${API_URL}/${CMS_API_PREFIX}/deleteSkill.json`;
-  return ajax.get(url, {
-    private: 1,
-    group,
-    language,
-    skill,
-  });
+  return ajax.get(url, { private: 1, ...payload });
 }
 
 export function readDraft(payload) {
