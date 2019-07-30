@@ -1,5 +1,6 @@
 const urls = {
   API_URL: process.env.REACT_APP_API_URL || 'https://api.susi.ai',
+  SOUND_SERVER_API_URL: 'http://0.0.0.0:7070',
   CHAT_URL: 'https://susi.ai/chat',
   SKILL_URL: 'https://susi.ai/skills',
   GITHUB_URL: 'https://github.com/fossasia/susi.ai',

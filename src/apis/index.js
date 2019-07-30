@@ -2,7 +2,7 @@
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
 
-const { API_URL, GITHUB_API } = urls;
+const { API_URL, SOUND_SERVER_API_URL, GITHUB_API } = urls;
 const AUTH_API_PREFIX = 'aaa';
 const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
@@ -84,6 +84,11 @@ export function getUserSettings() {
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
 }
 
+export function fetchDevices(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/getDeviceList.json`;
+  return ajax.get(url, payload, { shouldCamelizeKeys: false });
+}
+
 export function getUserDevices() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserDevices.json`;
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
@@ -97,7 +102,7 @@ export function setUserSettings(payload) {
 export function removeUserDevice(payload) {
   const { macId: macid } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/removeUserDevices.json`;
-  return ajax.get(url, { macid });
+  return ajax.get(url, { ...payload, macid });
 }
 
 export function addUserDevice(payload) {
@@ -291,6 +296,11 @@ export function fetchSkills(payload) {
     q: searchQuery,
     search_type: searchType ? searchType.join(', ') : '',
   });
+}
+
+export function fetchBots(payload) {
+  const url = `${API_URL}/${CMS_API_PREFIX}/getPrivateSkillList.json`;
+  return ajax.get(url, payload);
 }
 
 export function fetchSkillMetaData(payload) {
@@ -537,14 +547,8 @@ export function fetchBotDetails(payload) {
 }
 
 export function deleteChatBot(payload) {
-  const { group, language, skill } = payload;
   const url = `${API_URL}/${CMS_API_PREFIX}/deleteSkill.json`;
-  return ajax.get(url, {
-    private: 1,
-    group,
-    language,
-    skill,
-  });
+  return ajax.get(url, { private: 1, ...payload });
 }
 
 export function readDraft(payload) {
@@ -600,7 +604,7 @@ export function deleteBot(payload) {
 // Admin.js
 export function fetchAdminUserStats(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/getUsers.json`;
-  return ajax.get(url, payload);
+  return ajax.get(url, payload, { shouldCamelizeKeys: false });
 }
 
 export function fetchAdminUserSkill() {
@@ -802,4 +806,63 @@ export function sendEmail(payload) {
     password,
     smtpHost,
   });
+}
+
+// Control page for device
+export function resumeAction() {
+  const url = `${SOUND_SERVER_API_URL}/resume`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function pauseAction() {
+  const url = `${SOUND_SERVER_API_URL}/pause`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function restartAction() {
+  const url = `${SOUND_SERVER_API_URL}/restart`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function stopAction() {
+  const url = `${SOUND_SERVER_API_URL}/stop`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function previousAction() {
+  const url = `${SOUND_SERVER_API_URL}/previous`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function shuffleAction() {
+  const url = `${SOUND_SERVER_API_URL}/shuffle`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function nextAction() {
+  const url = `${SOUND_SERVER_API_URL}/next`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function setVolumeAction({ volume }) {
+  const url = `${SOUND_SERVER_API_URL}/volume/${volume}`;
+  return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function playInYoutubeAction({ youtubeLink }) {
+  const url = `${SOUND_SERVER_API_URL}/playyoutube`;
+  return ajax.post(
+    url,
+    {
+      link: youtubeLink,
+    },
+    {
+      isTokenRequired: false,
+    },
+  );
+}
+
+export function refreshDeviceList() {
+  const url = `${SOUND_SERVER_API_URL}/getdevice`;
+  return ajax.post(url, {}, { isTokenRequired: false });
 }

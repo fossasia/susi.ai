@@ -193,9 +193,9 @@ class NavigationBar extends Component {
   };
 
   openPreview = () => {
-    const { actions } = this.props;
+    const { mode, actions } = this.props;
     actions.setChatMode({
-      mode: 'preview',
+      mode: mode === 'minimize' ? 'preview' : 'minimize',
     });
   };
 
@@ -565,6 +565,13 @@ class NavigationBar extends Component {
                               <MenuItem>
                                 <ListItemText>
                                   <Translate text="Create Bot" />
+                                </ListItemText>
+                              </MenuItem>
+                            </Link>
+                            <Link to="/mydevices">
+                              <MenuItem>
+                                <ListItemText>
+                                  <Translate text="Add Device" />
                                 </ListItemText>
                               </MenuItem>
                             </Link>

@@ -12,7 +12,6 @@ import TrashIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
 import IconButton from '@material-ui/core/IconButton';
 import ViewListIcon from '@material-ui/icons/ViewList';
-import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +43,7 @@ const DevicesTable = props => {
     startEditing,
     handleRemoveConfirmation,
     deviceWizard = false,
+    onView,
   } = props;
   return (
     <Container>
@@ -78,11 +78,12 @@ const DevicesTable = props => {
                 })}
                 <CustomTableCell align="left">
                   {deviceWizard ? null : (
-                    <Link to={`/mydevices/${eachRow.macId}`}>
-                      <IconButton aria-label="View">
-                        <ViewListIcon />{' '}
-                      </IconButton>
-                    </Link>
+                    <IconButton
+                      aria-label="View"
+                      onClick={() => onView(rowIndex)}
+                    >
+                      <ViewListIcon />{' '}
+                    </IconButton>
                   )}
                   {editIdx === rowIndex ? (
                     <IconButton
@@ -118,6 +119,7 @@ DevicesTable.propTypes = {
   tableData: PropTypes.array,
   startEditing: PropTypes.func,
   onDeviceSave: PropTypes.func,
+  onView: PropTypes.func,
   handleChange: PropTypes.func,
   handleRemove: PropTypes.func,
   handleRemoveConfirmation: PropTypes.func,
