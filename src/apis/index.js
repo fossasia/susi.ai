@@ -662,7 +662,7 @@ export function changeUserRole(payload) {
 
 export function deleteUserAccount(payload) {
   const { email } = payload;
-  const url = `${API_URL}/${AUTH_API_PREFIX}/deleteUserAccount`;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/deleteUserAccount.json`;
   return ajax.get(url, { email });
 }
 

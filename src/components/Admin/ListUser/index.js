@@ -51,6 +51,8 @@ class ListUser extends Component {
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
         });
+        this.setState({ search: '' });
+        this.loadUsers();
       })
       .catch(error => {
         console.log(error);
