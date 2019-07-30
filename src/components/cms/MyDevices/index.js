@@ -9,8 +9,13 @@ import settingActions from '../../../redux/actions/settings';
 import { addUserDevice, removeUserDevice } from '../../../apis/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import _Paper from '@material-ui/core/Paper';
 import CircularLoader from '../../shared/CircularLoader';
+import Button from '@material-ui/core/Button';
+import _Devices from '@material-ui/icons/Devices';
+import DeviceWizard from './DeviceWizard';
 
 const EmptyDevicesText = styled.div`
   font-size: 24px;
@@ -32,7 +37,7 @@ const Container = styled.div`
 
 const Paper = styled(_Paper)`
   width: 100%;
-  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
   padding: 1rem 1rem 3rem;
   @media (max-width: 740) {
     padding: 0 0 3rem;
@@ -42,6 +47,20 @@ const Paper = styled(_Paper)`
 const SubHeading = styled.h1`
   color: rgba(0, 0, 0, 0.65);
   padding-left: 1.25rem;
+`;
+
+const AddDeviceButtonContainer = styled.div`
+  text-align: right;
+  margin-right: 1.25rem;
+  @media (max-width: 600px) {
+    text-align: left;
+    margin-left: 1rem;
+    margin-right: 0;
+  }
+`;
+
+const Devices = styled(_Devices)`
+  margin-right: 5px;
 `;
 
 class DevicesTab extends React.Component {
@@ -59,6 +78,8 @@ class DevicesTab extends React.Component {
     invalidLocationDevices: 0,
     editIdx: null,
     emptyText: 'You do not have any devices connected yet!',
+    value: 0,
+    macId: '',
   };
 
   componentDidMount() {
@@ -136,6 +157,11 @@ class DevicesTab extends React.Component {
       });
   };
 
+  handleView = rowIndex => {
+    const macId = this.state.devicesData[rowIndex].macId;
+    this.setState({ macId, value: macId });
+  };
+
   initialiseDevices = () => {
     const { devices } = this.props;
 
@@ -180,6 +206,36 @@ class DevicesTab extends React.Component {
     }
   };
 
+  handleAddDevice = () => {
+    this.props.actions.openModal({
+      modalType: 'addDevice',
+      handleClose: this.props.actions.closeModal,
+    });
+  };
+
+  handleTabChange = (event, value) => {
+    this.setState({ value, macId: event.currentTarget.name });
+  };
+
+  generateTabs = () => {
+    const { devicesData } = this.state;
+    let Tabs = [];
+    devicesData.forEach(device => {
+      Tabs.push(
+        <Tab
+          label={
+            device.deviceName.length > 30
+              ? device.deviceName.substr(0, 30) + '..'
+              : device.deviceName
+          }
+          name={device.macId}
+          value={device.macId}
+        />,
+      );
+    });
+    return Tabs;
+  };
+
   render() {
     const {
       devicesData,
@@ -187,9 +243,10 @@ class DevicesTab extends React.Component {
       editIdx,
       loading,
       emptyText,
+      value,
+      macId,
     } = this.state;
     const { google, mapKey } = this.props;
-
     if (loading) {
       return <LoadingContainer />;
     }
@@ -197,36 +254,55 @@ class DevicesTab extends React.Component {
       <Container>
         {devicesData.length ? (
           <div>
-            <Paper>
-              <SubHeading>Devices</SubHeading>
-              <DevicesTable
-                handleRemoveConfirmation={this.handleRemoveConfirmation}
-                startEditing={this.startEditing}
-                editIdx={editIdx}
-                onDeviceSave={this.handleDeviceSave}
-                handleChange={this.handleChange}
-                tableData={devicesData}
-              />
-            </Paper>
-            <Paper>
-              <SubHeading>Map</SubHeading>
-              <div style={{ maxHeight: '300px', marginTop: '10px' }}>
-                {mapKey && (
-                  <MapContainer
-                    google={google}
-                    devicesData={devicesData}
-                    invalidLocationDevices={invalidLocationDevices}
+            <Tabs onChange={this.handleTabChange} value={value}>
+              <Tab label="All" />
+              {this.generateTabs()}
+            </Tabs>
+            {value === 0 && (
+              <div>
+                <Paper>
+                  <SubHeading>Devices</SubHeading>
+                  <AddDeviceButtonContainer>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleAddDevice}
+                    >
+                      <Devices /> Add Device
+                    </Button>
+                  </AddDeviceButtonContainer>
+                  <DevicesTable
+                    handleRemoveConfirmation={this.handleRemoveConfirmation}
+                    startEditing={this.startEditing}
+                    editIdx={editIdx}
+                    onDeviceSave={this.handleDeviceSave}
+                    onView={this.handleView}
+                    handleChange={this.handleChange}
+                    tableData={devicesData}
                   />
-                )}
-              </div>
+                </Paper>
+                <Paper>
+                  <SubHeading>Map</SubHeading>
+                  <div style={{ maxHeight: '300px', marginTop: '10px' }}>
+                    {mapKey && (
+                      <MapContainer
+                        google={google}
+                        devicesData={devicesData}
+                        invalidLocationDevices={invalidLocationDevices}
+                      />
+                    )}
+                  </div>
 
-              {invalidLocationDevices ? (
-                <div style={{ marginTop: '10px' }}>
-                  <b>NOTE: </b>Location info of one or more devices could not be
-                  retrieved.
-                </div>
-              ) : null}
-            </Paper>
+                  {invalidLocationDevices ? (
+                    <div style={{ marginTop: '10px' }}>
+                      <b>NOTE: </b>Location info of one or more devices could
+                      not be retrieved.
+                    </div>
+                  ) : null}
+                </Paper>
+              </div>
+            )}
+            {value !== 0 && <DeviceWizard macId={macId} />}
           </div>
         ) : (
           <EmptyDevicesText>{emptyText}</EmptyDevicesText>

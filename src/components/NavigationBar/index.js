@@ -191,9 +191,9 @@ class NavigationBar extends Component {
   };
 
   openPreview = () => {
-    const { actions } = this.props;
+    const { mode, actions } = this.props;
     actions.setChatMode({
-      mode: 'preview',
+      mode: mode === 'minimize' ? 'preview' : 'minimize',
     });
   };
 
@@ -566,6 +566,13 @@ class NavigationBar extends Component {
                                 </ListItemText>
                               </MenuItem>
                             </Link>
+                            <Link to="/mydevices">
+                              <MenuItem>
+                                <ListItemText>
+                                  <Translate text="Add Device" />
+                                </ListItemText>
+                              </MenuItem>
+                            </Link>
                           </Paper>
                         </Popper>
                         <CreateDetail>Create</CreateDetail>
@@ -621,9 +628,11 @@ class NavigationBar extends Component {
                       </Link>
                     </Paper>
                   </Popper>
-                  <IconButton aria-haspopup="true" color="inherit">
-                    <ContactSupportIcon />
-                  </IconButton>
+                  <Link to="/about">
+                    <IconButton aria-haspopup="true" style={{ color: 'white' }}>
+                      <ContactSupportIcon />
+                    </IconButton>
+                  </Link>
                 </div>
               </TopRightMenuContainer>
             </Toolbar>
