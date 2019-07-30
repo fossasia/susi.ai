@@ -41,7 +41,6 @@ import Footer from './components/Footer/Footer.react';
 import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
-import DeviceWizard from './components/cms/MyDevices/DeviceWizard';
 import AppBanner from './components/shared/AppBanner';
 import withTracker from './withTracker';
 import GoogleAnalytics from 'react-ga';
@@ -56,7 +55,6 @@ const EnhancedBrowseSkillByCategory = withTracker(BrowseSkillByCategory);
 const EnhancedBrowseSkillByLanguage = withTracker(BrowseSkillByLanguage);
 const EnhancedSkillListing = withTracker(SkillListing);
 const EnhancedSkillFeedbackPage = withTracker(SkillFeedbackPage);
-const EnhancedDeviceWizard = withTracker(DeviceWizard);
 const EnhancedDashboard = withTracker(Dashboard);
 const EnhancedSkillVersion = withTracker(SkillVersion);
 const EnhancedSkillHistory = withTracker(SkillHistory);
@@ -211,11 +209,6 @@ class App extends Component {
                   exact
                   path="/:category/:skills/:lang/feedbacks"
                   component={EnhancedSkillFeedbackPage}
-                />
-                <ProtectedRoute
-                  exact
-                  path="/mydevices/:macID"
-                  component={EnhancedDeviceWizard}
                 />
                 <ProtectedRoute
                   exact

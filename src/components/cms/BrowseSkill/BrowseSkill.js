@@ -23,6 +23,7 @@ import Radio from '@material-ui/core/Radio';
 import _RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import Add from '@material-ui/icons/Add';
+import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
 import _ActionViewModule from '@material-ui/icons/ViewModule';
 import _ActionViewStream from '@material-ui/icons/ViewStream';
@@ -549,6 +550,16 @@ class BrowseSkill extends React.Component {
     }
   };
 
+  handleAddDeviceClick = () => {
+    const { history, actions, accessToken } = this.props;
+    this.handleMenuClose();
+    if (accessToken) {
+      history.push('/mydevices');
+    } else {
+      actions.openModal({ modalType: 'login' });
+    }
+  };
+
   // eslint-disable-next-line complexity
   render() {
     const {
@@ -727,13 +738,19 @@ class BrowseSkill extends React.Component {
                   <ListItemIcon>
                     <Add />
                   </ListItemIcon>
-                  <ListItemText>Create a Skill</ListItemText>
+                  <ListItemText>Create Skill</ListItemText>
                 </MenuItem>
                 <MenuItem onClick={this.handleCreateBotClick}>
                   <ListItemIcon>
                     <Person />
                   </ListItemIcon>
-                  <ListItemText>Create Skill bot</ListItemText>
+                  <ListItemText>Create Bot</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={this.handleAddDeviceClick}>
+                  <ListItemIcon>
+                    <Devices />
+                  </ListItemIcon>
+                  <ListItemText>Add Device</ListItemText>
                 </MenuItem>
               </MenuList>
             </Menu>

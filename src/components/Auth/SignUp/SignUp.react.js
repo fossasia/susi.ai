@@ -50,6 +50,7 @@ class SignUp extends Component {
       passwordConfirmErrorMessage: '',
       showCaptchaErrorMessage: '',
       signupErrorMessage: '',
+      isCaptchaVerified: false,
       success: false,
       loading: false,
     };
@@ -95,6 +96,7 @@ class SignUp extends Component {
         showCaptchaErrorMessage: false,
         signupErrorMessage: '',
         captchaResponse,
+        isCaptchaVerified: true,
       });
     }
   };
@@ -274,8 +276,7 @@ class SignUp extends Component {
       !passwordErrorMessage &&
       confirmPassword &&
       !passwordConfirmErrorMessage &&
-      (isCaptchaVerified || !captchaKey);
-
+      isCaptchaVerified;
     return (
       <React.Fragment>
         <DialogTitle>

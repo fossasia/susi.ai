@@ -12,6 +12,11 @@ const Container = styled.div`
   background-color: #f7f7f7;
 `;
 
+const Text = styled.div`
+  padding: 0.625rem;
+  font-size: 1rem;
+`;
+
 class DevicePanel extends React.Component {
   state = {
     deviceName: '',
@@ -33,36 +38,40 @@ class DevicePanel extends React.Component {
     const { data = [] } = this.props;
     return (
       <Container>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Device Name</TableCell>
-              <TableCell>Mac Id</TableCell>
-              <TableCell>Room</TableCell>
-              <TableCell>Latitude</TableCell>
-              <TableCell>Longitude</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map(({ devicename, macid, room, latitude, longitude }) => (
-              <TableRow key={macid}>
-                <TableCell>{devicename}</TableCell>
-                <TableCell>{macid}</TableCell>
-                <TableCell>{room}</TableCell>
-                <TableCell>{latitude}</TableCell>
-                <TableCell>{longitude}</TableCell>
-                <TableCell>
-                  <span
-                    onClick={() => this.editDevice(devicename, room, macid)}
-                  >
-                    Edit
-                  </span>
-                </TableCell>
+        {data.length > 0 ? (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Device Name</TableCell>
+                <TableCell>Mac Id</TableCell>
+                <TableCell>Room</TableCell>
+                <TableCell>Latitude</TableCell>
+                <TableCell>Longitude</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {data.map(({ devicename, macid, room, latitude, longitude }) => (
+                <TableRow key={macid}>
+                  <TableCell>{devicename}</TableCell>
+                  <TableCell>{macid}</TableCell>
+                  <TableCell>{room}</TableCell>
+                  <TableCell>{latitude}</TableCell>
+                  <TableCell>{longitude}</TableCell>
+                  <TableCell>
+                    <span
+                      onClick={() => this.editDevice(devicename, room, macid)}
+                    >
+                      Edit
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <Text>No device connected</Text>
+        )}
       </Container>
     );
   }

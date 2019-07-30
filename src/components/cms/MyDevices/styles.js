@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 export const Paper = styled(_Paper)`
   width: 100%;
-  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
   padding: 1rem 2.25rem 3rem;
   @media (max-width: 740) {
     padding: 0 0 3rem;
