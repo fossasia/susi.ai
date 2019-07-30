@@ -12,6 +12,7 @@ import 'react-orgchart/index.css';
 import './TreeView.css';
 import styled from 'styled-components';
 import CircularLoader from '../../../shared/CircularLoader';
+import { Container } from '../../BotBuilder/styles';
 
 const BotIconImg = styled.img`
   height: 1.313rem;
@@ -175,7 +176,7 @@ class TreeView extends Component {
       );
     };
     return (
-      <div>
+      <Container>
         {!loaded ? (
           <CircularLoader height={10} />
         ) : (
@@ -191,7 +192,7 @@ class TreeView extends Component {
             </div>
           </div>
         )}
-      </div>
+      </Container>
     );
   }
 }
