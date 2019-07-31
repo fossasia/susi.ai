@@ -90,8 +90,6 @@
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
-    "babel-plugin-syntax-class-properties": "^6.13.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
     "eslint": "5.16.0",
@@ -118,7 +116,7 @@
     "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "npm run lint && react-scripts test --env=jsdom",
+    "test": "npm run lint && react-scripts test --env=jsdom --transformIgnorePatterns 'node_modules/(?!(<package-need-to-transform>|<other-package-need-to-transform>)/)'",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "surge"
