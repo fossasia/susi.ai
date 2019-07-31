@@ -20,6 +20,41 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { sortCountryLexographical } from '../../utils/helperFunctions';
 import { isPhoneNumber } from '../../utils';
 import { setUserSettings } from '../../apis';
+import styled from 'styled-components';
+
+const Details = styled.div`
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+`;
+
+const CountryCode = styled.div`
+  margin-top: 2rem;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+`;
+
+const PhoneNumber = styled.div`
+  margin-top: 1rem;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+`;
+
+const PhoneDetails = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const PhoneCode = styled.div`
+  top: -2px;
+  position: relative;
+`;
+
+const Number = styled.div`
+  margin-left: 10px;
+  width: 8rem;
+`;
 
 class MobileTab extends React.Component {
   constructor(props) {
@@ -104,57 +139,34 @@ class MobileTab extends React.Component {
     });
     return (
       <SettingsTabWrapper heading="Mobile">
-        <div
-          style={{ marginTop: '0px', marginBottom: '0px', fontSize: '14px' }}
-        >
+        <div style={{ fontSize: '14px' }}>
           <Translate text="Expand your experience, get closer, and stay current" />
         </div>
         <hr color="#f8f8f8" />
         <TabHeading>
           <Translate text="Add your phone number" />
         </TabHeading>
-        <div style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+        <Details>
           <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
-        </div>
-        <div
-          style={{
-            marginTop: '2rem',
-            fontSize: '14px',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        </Details>
+        <CountryCode>
           <div style={{ marginRight: '2rem' }}>
             <Translate text="Country/region :" />
           </div>
           <div>
             <Select
-              style={{
-                width: '12rem',
-              }}
+              style={{ width: '12rem' }}
               value={countryCode ? countryCode : 'US'}
               onChange={this.handleCountryChange}
             >
               {countries}
             </Select>
           </div>
-        </div>
-        <div
-          style={{
-            marginTop: '1rem',
-            fontSize: '14px',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        </CountryCode>
+        <PhoneNumber>
           <div style={{ marginRight: '2rem' }}>Phone number :</div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div
-              style={{
-                top: '-2px',
-                position: 'relative',
-              }}
-            >
+          <PhoneDetails>
+            <PhoneCode>
               <TextField
                 style={{ width: '45px' }}
                 name="selectedCountry"
@@ -164,13 +176,8 @@ class MobileTab extends React.Component {
                     .countryCallingCodes[0]
                 }
               />
-            </div>
-            <div
-              style={{
-                marginLeft: '10px',
-                width: '8rem',
-              }}
-            >
+            </PhoneCode>
+            <Number>
               <FormControl error={phoneNoError !== ''}>
                 <InputLabel>Phone Number</InputLabel>
                 <Input
@@ -182,9 +189,9 @@ class MobileTab extends React.Component {
                   {phoneNoError}
                 </FormHelperText>
               </FormControl>
-            </div>
-          </div>
-        </div>
+            </Number>
+          </PhoneDetails>
+        </PhoneNumber>
         <Button
           variant="contained"
           color="primary"

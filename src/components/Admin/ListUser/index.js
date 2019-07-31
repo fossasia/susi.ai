@@ -11,6 +11,7 @@ import uiActions from '../../../redux/actions/ui';
 import _SearchBar from 'material-ui-search-bar';
 import COLUMNS from './constants';
 import TablePagination from '@material-ui/core/TablePagination';
+import CloseIcon from '@material-ui/icons/Close';
 import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 
 const SearchBar = styled(_SearchBar)`
@@ -50,6 +51,8 @@ class ListUser extends Component {
           title: 'Success',
           handleConfirm: this.props.actions.closeModal,
         });
+        this.setState({ search: '' });
+        this.loadUsers();
       })
       .catch(error => {
         console.log(error);
@@ -71,9 +74,12 @@ class ListUser extends Component {
   };
 
   handleSearch = value => {
-    this.setState({
-      search: true,
-    });
+    const { search } = this.state;
+    value = value.trim();
+    if (value === '' && search !== value) {
+      this.loadUsers();
+    }
+    this.setState({ search: value });
     fetchAdminUserStats({ search: value })
       .then(payload => {
         let userList = payload.users;
@@ -94,13 +100,14 @@ class ListUser extends Component {
           let user = {
             serialNum: ++dataIndex,
             email: data.name,
-            signup: data.signupTime,
-            lastLogin: data.lastLoginTime,
-            ipLastLogin: data.lastLoginIP,
+            signup: data.signupTime === '' ? '-' : data.signupTime,
+            lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
+            ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
+            userName:
+              data.userName === '' ? '-' : data.userName.substring(0, 30),
             userRole: data.userRole,
             devices: devices,
           };
-
           if (data.confirmed) {
             user.confirmed = 'Activated';
           } else {
@@ -122,6 +129,10 @@ class ListUser extends Component {
 
   componentDidMount() {
     document.title = 'SUSI.AI - User Detail List';
+    this.loadUsers();
+  }
+
+  loadUsers = () => {
     Promise.all([
       this.fetch({ page: 0 }),
       fetchAdminUserStats({ getUserStats: 'true' })
@@ -137,7 +148,7 @@ class ListUser extends Component {
           console.log(error);
         }),
     ]);
-  }
+  };
 
   handleSuccess = () => {
     this.setState({
@@ -169,14 +180,14 @@ class ListUser extends Component {
             serialNum: ++dataIndex + page * 50,
             email: data.name,
             confirmed: data.confirmed,
-            signup: data.signupTime,
-            lastLogin: data.lastLoginTime,
-            ipLastLogin: data.lastLoginIP,
+            signup: data.signupTime === '' ? '-' : data.signupTime,
+            lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
+            ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
             userRole: data.userRole,
-            userName: data.userName,
+            userName:
+              data.userName === '' ? '-' : data.userName.substring(0, 30),
             devices: devices,
           };
-
           if (user.confirmed) {
             user.confirmed = 'Activated';
           } else {
@@ -221,14 +232,19 @@ class ListUser extends Component {
     this.fetch({ page });
   };
 
+  onClose = () => {
+    this.loadUsers();
+  };
+
   render() {
-    const { loading, search, totalUsers, page } = this.state;
+    const { loading, search, totalUsers, page, data } = this.state;
     return (
       <Container style={{ padding: '1rem 0' }}>
         <SearchBar
           placeholder="Search by email"
           value={search}
           onChange={value => this.handleSearch(value)}
+          closeIcon={<CloseIcon onClick={this.onClose} />}
         />
         <MaterialTable
           isLoading={loading}
@@ -239,7 +255,7 @@ class ListUser extends Component {
             pageSizeOptions: [50],
           }}
           columns={COLUMNS}
-          data={this.state.data}
+          data={data}
           title=""
           actions={[
             {
