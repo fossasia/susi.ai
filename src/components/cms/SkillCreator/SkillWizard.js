@@ -4,7 +4,6 @@ import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
-import { urls } from '../../../utils';
 import searchURLPath from '../../../utils/searchURLPath';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
@@ -82,10 +81,14 @@ const DeleteButton = styled(_Button)`
 
 const SelectDropDown = styled(Select)`
   position: relative;
-  width: 15.625rem;
+  width: 12.625rem;
+  height: 1.5rem;
   @media (max-width: 500px) {
     width: 100%;
     padding-top: 0.5rem;
+  }
+  @media (min-width: 900px) {
+    width: 100%;
   }
 `;
 
@@ -104,22 +107,34 @@ const DropDownDiv = styled.div`
     width: 100%;
     padding: 0.7rem;
   }
+  @media (min-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const SkillDetail = styled.div`
+  padding-right: 2rem;
   @media (max-width: 813px) {
     display: flex;
     width: 100%;
     margin-top: 1rem;
   }
+  @media (min-width: 900px) {
+    width: 26%;
+  }
 `;
 
 const NameField = styled(TextField)`
-  margin: 16px 10px;
-  width: auto;
+  margin: 0px;
+  width: 12.625rem;
+  div {
+    height: 1.5rem;
+  }
 
+  @media (min-width: 900px) {
+    width: 100%;
+  }
   @media (max-width: 500px) {
-    margin: 10px;
     width: 100%;
   }
 `;
@@ -142,11 +157,14 @@ const Heading = styled.h1`
 
 const DetailText = styled.span`
   font-size: 15;
-  padding-left: 0.625rem;
   padding-top: 0.5rem;
-
+  display: block;
+  @media (max-width: 900px) {
+    width: 75px;
+  }
   @media (max-width: 414px) {
     padding-left: 0px;
+    width: 115px;
   }
 `;
 
@@ -219,10 +237,10 @@ const CenterDiv = styled.div`
 const InfoIcon = styled(Info)`
   position: relative;
   float: right;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 2rem;
+  width: 2rem;
   cursor: pointer;
-  color: #9e9e9e;
+  color: #4285f4;
   display: inline-bock;
   position: absolute;
   right: 5px;
@@ -322,9 +340,12 @@ const Img = styled.img`
 
 const ImageDiv = styled.div`
   width: auto;
-  padding-top: 20px;
 
+  @media (max-width: 900px) {
+    padding-top: 20px;
+  }
   @media (max-width: 500px) {
+    padding-top: 20px;
     margin-left: 10px;
   }
 `;
@@ -384,6 +405,9 @@ const DropDownWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  @media (min-width: 900px) {
+    width: 100%;
+  }
 `;
 
 class SkillWizard extends Component {
@@ -1171,15 +1195,20 @@ class SkillWizard extends Component {
                 />
                 {accessToken && this.state.editable && (
                   <SkillEditPaper>
-                    <InfoIcon
-                      data-tip={`Learn more about <a href=${urls.GITHUB_URL +
-                        '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
-                    />
+                    <a
+                      href="https://github.com/fossasia/susi.ai/blob/master/docs/Skill_Tutorial.md"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <InfoIcon
+                        data-tip={'Learn more about SUSI Skill Language'}
+                      />
+                    </a>
                     <CenterDiv>
                       <DropDownDiv>
                         <DropDownWrap>
                           <SkillDetail>
-                            <DetailText>Category:&nbsp;</DetailText>
+                            <DetailText>Category&nbsp;</DetailText>
                             <SelectDropDown
                               value={category}
                               onChange={this.handleGroupChange}
@@ -1189,7 +1218,7 @@ class SkillWizard extends Component {
                             </SelectDropDown>
                           </SkillDetail>
                           <SkillDetail>
-                            <DetailText>Language:&nbsp;</DetailText>
+                            <DetailText>Language&nbsp;</DetailText>
                             <SelectDropDown
                               value={language}
                               onChange={this.handleLanguageChange}
@@ -1198,36 +1227,38 @@ class SkillWizard extends Component {
                               {this.state.languages}
                             </SelectDropDown>
                           </SkillDetail>
+                          <SkillDetail>
+                            <DetailText>
+                              {this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
+                            </DetailText>
+                            <NameField
+                              margin="normal"
+                              value={name}
+                              onChange={this.handleExpertChange}
+                            />
+                          </SkillDetail>
+
+                          <ImageDiv>
+                            {showImage && (
+                              <Img alt="preview" id="target" src={image} />
+                            )}
+                            <Form>
+                              <UploadCircularButton title="Upload bot image">
+                                <Input
+                                  accept="image/*"
+                                  type="file"
+                                  ref={c => {
+                                    this.file = c;
+                                  }}
+                                  name="user[image]"
+                                  multiple={false}
+                                  onChange={this._onChange}
+                                />
+                                <AddIcon />
+                              </UploadCircularButton>
+                            </Form>
+                          </ImageDiv>
                         </DropDownWrap>
-                        <NameField
-                          label={this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
-                          placeholder={
-                            this.isBotBuilder ? 'Bot Name' : 'Skill Name'
-                          }
-                          margin="normal"
-                          value={name}
-                          onChange={this.handleExpertChange}
-                        />
-                        <ImageDiv>
-                          {showImage && (
-                            <Img alt="preview" id="target" src={image} />
-                          )}
-                          <Form>
-                            <UploadCircularButton title="Upload bot image">
-                              <Input
-                                accept="image/*"
-                                type="file"
-                                ref={c => {
-                                  this.file = c;
-                                }}
-                                name="user[image]"
-                                multiple={false}
-                                onChange={this._onChange}
-                              />
-                              <AddIcon />
-                            </UploadCircularButton>
-                          </Form>
-                        </ImageDiv>
                       </DropDownDiv>
                     </CenterDiv>
                   </SkillEditPaper>

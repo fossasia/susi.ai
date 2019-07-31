@@ -1,1 +1,5 @@
 .iconbutton,.iconbutton>div,.iconbutton>div>div,.iconbutton>svg{transition:none!important}
+.__react_component_tooltip.type-dark {
+    color: black;
+    background-color: white;
+}
