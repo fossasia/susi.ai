@@ -19,7 +19,7 @@ import {
   deleteSkill,
   fetchUserSkill,
 } from '../../../apis/index';
-import { getDeletedColumn, REPORT } from './constants';
+import { getColumnConfig } from './constants';
 import PropTypes from 'prop-types';
 import { Container } from '../AdminStyles';
 import { ActionDiv } from '../../shared/TableActionStyles';
@@ -184,9 +184,23 @@ class ListSkills extends React.Component {
   };
 
   loadReportedSkill = () => {
+    let skills = [];
     fetchReportedSkills()
       .then(({ list }) => {
-        this.setState({ loadingReportedSkills: false, reportedSkills: list });
+        for (let skillMetadata of list) {
+          let skill = {
+            skillName: skillMetadata.skillName,
+            model: skillMetadata.model,
+            group: skillMetadata.group,
+            language: skillMetadata.language,
+            type: 'public',
+            author: skillMetadata.author,
+            reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
+            editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
+          };
+          skills.push(skill);
+        }
+        this.setState({ loadingReportedSkills: false, reportedSkills: skills });
       })
       .catch(error => {
         console.log(error, 'Error');
@@ -196,28 +210,24 @@ class ListSkills extends React.Component {
   loadDeletedSkills = () => {
     let deletedSkills = [];
     skillsToBeDeleted()
-      .then(payload => {
-        const { skills } = payload;
-        for (let deletedSkillPath of skills) {
-          const current = deletedSkillPath.slice(
-            deletedSkillPath.indexOf('/models/') + 8,
-            deletedSkillPath.length - 4,
-          );
-          const splitString = current.split('/');
-          let deletedSkill = {
-            model: splitString[0],
-            group: splitString[1],
-            language: splitString[2],
-            skillName: splitString[3],
+      .then(({ skills }) => {
+        for (let skillMetadata of skills) {
+          let skill = {
+            skillName: skillMetadata.skillName,
+            model: skillMetadata.model,
+            group: skillMetadata.group,
+            language: skillMetadata.language,
+            type: 'public',
+            author: skillMetadata.author,
+            reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
+            editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
           };
-          deletedSkills.push(deletedSkill);
+          deletedSkills.push(skill);
         }
-        this.setState({
-          deletedSkills,
-        });
+        this.setState({ deletedSkills: skills });
       })
       .catch(error => {
-        console.log(error);
+        console.log(error, 'Error');
       });
   };
 
@@ -405,10 +415,11 @@ class ListSkills extends React.Component {
           <MaterialTable
             isLoading={loadingReportedSkills}
             options={{
+              filtering: true,
               actionsColumnIndex: -1,
               pageSize: 10,
             }}
-            columns={REPORT}
+            columns={getColumnConfig(groups)}
             data={reportedSkills}
             title=""
             style={{
@@ -449,7 +460,7 @@ class ListSkills extends React.Component {
               actionsColumnIndex: -1,
               pageSize: 10,
             }}
-            columns={getDeletedColumn(groups)}
+            columns={getColumnConfig(groups)}
             data={deletedSkills}
             title=""
             style={{

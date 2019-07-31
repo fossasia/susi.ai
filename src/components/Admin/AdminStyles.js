@@ -6,5 +6,5 @@ export const SubTitle = styled.h3`
 `;
 
 export const Container = styled.h2`
-  padding: 1rem 2rem;
+  padding: 0rem 2rem;
 `;
