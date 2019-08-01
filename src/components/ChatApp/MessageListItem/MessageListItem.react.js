@@ -19,6 +19,7 @@ class MessageListItem extends React.Component {
     userGeoData: PropTypes.object,
     showChatPreview: PropTypes.bool,
     pauseAllVideos: PropTypes.func,
+    scrollBottom: PropTypes.func,
   };
 
   constructor(props) {
@@ -98,6 +99,7 @@ class MessageListItem extends React.Component {
       this.onYouTubePlayerReady,
       this.getUserGeoData,
       this.props.pauseAllVideos,
+      this.props.scrollBottom,
     );
   }
 }
