@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +13,18 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-class EditSkill extends React.Component {
+export default class EditSkillDialog extends Component {
+  static propTypes = {
+    keyName: PropTypes.string,
+    handleConfirm: PropTypes.func,
+    handleClose: PropTypes.func,
+    skillName: PropTypes.string,
+    skillEditStatus: PropTypes.bool,
+    skillReviewStatus: PropTypes.bool,
+    skillStaffPickStatus: PropTypes.bool,
+    systemSkillStatus: PropTypes.bool,
+  };
+
   constructor(props) {
     super(props);
     const {
@@ -114,16 +125,3 @@ class EditSkill extends React.Component {
     );
   }
 }
-
-EditSkill.propTypes = {
-  keyName: PropTypes.string,
-  handleConfirm: PropTypes.func,
-  handleClose: PropTypes.func,
-  skillName: PropTypes.string,
-  skillEditStatus: PropTypes.bool,
-  skillReviewStatus: PropTypes.bool,
-  skillStaffPickStatus: PropTypes.bool,
-  systemSkillStatus: PropTypes.bool,
-};
-
-export default EditSkill;

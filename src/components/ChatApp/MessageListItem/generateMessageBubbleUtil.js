@@ -205,7 +205,9 @@ const generateVideoBubble = (
   latestUserMsgID,
   showFeedback,
   onYouTubePlayerReady,
+  scrollBottom,
 ) => {
+  latestMessage && scrollBottom();
   return (
     <MessageContainer key={action + index}>
       <MessageBubble author={message.authorName}>
@@ -279,6 +281,7 @@ export const generateMessageBubble = (
   onYouTubePlayerReady,
   getUserGeoData,
   pauseAllVideos,
+  scrollBottom,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -471,6 +474,7 @@ export const generateMessageBubble = (
                 latestUserMsgID,
                 showFeedback,
                 onYouTubePlayerReady,
+                scrollBottom,
               ),
             );
             break;

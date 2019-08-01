@@ -105,7 +105,7 @@ const MessageSectionContainer = styled.div`
     props.showChatPreview
       ? 'rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,rgba(0, 0, 0, 0.23) 0px 3px 6px'
       : '0px'};
-  border-radius: ${props => (props.showChatPreview ? '10px' : '0px')};
+  border-radius: ${props => (props.showChatPreview ? '4px' : '0px')};
 `;
 
 const ScrollBottomContainer = styled.div`
@@ -215,7 +215,7 @@ const ActionBar = styled.div`
   display: flex;
   color: #fff;
   align-items: center;
-  font-size: 20px;
+  font-size: 1rem;
   justify-content: space-between;
 `;
 
@@ -256,7 +256,6 @@ class MessageSection extends Component {
     customThemeValues: PropTypes.object,
     accessToken: PropTypes.string,
     mode: PropTypes.string, // From UI Reducer for chat
-    testSkillExampleKey: PropTypes.number,
   };
 
   static defaultProps = {
@@ -291,7 +290,7 @@ class MessageSection extends Component {
   componentDidMount = () => {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    this.scrollToBottom('auto');
+    this.scrollarea && this.scrollarea.scrollToBottom();
   };
 
   componentWillUnmount = () => {
@@ -307,10 +306,10 @@ class MessageSection extends Component {
 
   componentDidUpdate(prevProps) {
     const { search, searchState, hasScrolled } = this.state;
-    const { messages, accessToken } = this.props;
+    const { messages, accessToken, mode } = this.props;
     if (search && !hasScrolled) {
       if (searchState.scrollIndex === -1 || searchState.scrollIndex === null) {
-        this.scrollToBottom();
+        this.scrollarea && this.scrollarea.scrollToBottom();
       } else {
         const markedIDs = searchState.markedIDs;
         const markedIndices = searchState.markedIndices;
@@ -321,10 +320,12 @@ class MessageSection extends Component {
           this.scrollarea.view.childNodes[currentID].scrollIntoView();
         }
       }
-    } else if (prevProps.messages.length !== messages.length) {
-      this.scrollToBottom('auto');
+    } else if (
+      prevProps.messages.length !== messages.length ||
+      prevProps.mode !== mode
+    ) {
+      this.scrollarea && this.scrollarea.scrollToBottom();
     }
-
     if (accessToken !== prevProps.accessToken) {
       this.exitSearch();
     }
@@ -582,28 +583,16 @@ class MessageSection extends Component {
 
     // return the list of messages
     return messages.map(id => {
-      if (id !== latestMessageID) {
-        return (
-          <MessageListItem
-            key={id}
-            message={messagesByID[id]}
-            latestUserMsgID={latestUserMsgID}
-            latestMessage={false}
-            addYouTube={addYouTube}
-            pauseAllVideos={pauseAllVideos}
-            showChatPreview={mode === 'preview'}
-          />
-        );
-      }
       return (
         <MessageListItem
           key={id}
           message={messagesByID[id]}
           latestUserMsgID={latestUserMsgID}
-          latestMessage={true}
+          latestMessage={id === latestMessageID}
           addYouTube={addYouTube}
           pauseAllVideos={pauseAllVideos}
           showChatPreview={mode === 'preview'}
+          scrollBottom={this.scrollToBottom}
         />
       );
     });
@@ -682,7 +671,6 @@ class MessageSection extends Component {
       loadingReply,
       customThemeValues,
       mode,
-      testSkillExampleKey,
     } = this.props;
 
     const { pane, body, composer, button, textarea } = getCustomThemeColors({
@@ -758,7 +746,6 @@ class MessageSection extends Component {
       <MessageSectionContainer
         showChatPreview={mode === 'preview'}
         height={height}
-        key={testSkillExampleKey}
       >
         {loadingHistory ? (
           <CircularLoader height={38} />
@@ -825,7 +812,6 @@ class MessageSection extends Component {
             textarea={textarea}
             exitSearch={this.exitSearch}
             showChatPreview={mode === 'preview'}
-            testSkillExampleQuery={testSkillExampleKey !== -1}
           />
         </MessageComposeContainer>
       </MessageSectionContainer>
@@ -867,7 +853,6 @@ function mapStateToProps(store) {
     ...store.settings,
     ...store.app,
     ...store.ui,
-    testSkillExampleKey: store.skill.testSkillExampleKey,
   };
 }
 

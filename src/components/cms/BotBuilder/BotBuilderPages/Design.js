@@ -9,45 +9,22 @@ import CodeView from './DesignViews/CodeView';
 import UIView from './DesignViews/UIView';
 import './Animation.min.css';
 import createActions from '../../../../redux/actions/create';
-import styled from 'styled-components';
-
-const Home = styled.div`
-  text-align: center;
-  margin-top: 10px;
-`;
-
-const Container = styled.div`
-  display: flex;
-`;
-
-const H1 = styled.h1`
-  line-height: 50px;
-
-  @media (max-width: 480px) {
-    line-height: 2.5rem;
-  }
-`;
-
-const IconButtonContainer = styled.div`
-  margin-left: auto;
-  margin-right: 0px;
-`;
-
-const ViewContainer = styled.div`
-  padding: ${props => (props.view ? '30px 10px 0 10px' : '0px')};
-
-  @media (max-width: 480px) {
-    margin-bottom: 30px;
-  }
-`;
+import {
+  StyledPaper,
+  Heading,
+  Container,
+  EditorContainer,
+  HeadingContainer,
+  IconButtonContainer,
+} from '../styles';
 
 class Design extends React.Component {
   render() {
     const { actions, view } = this.props;
     return (
-      <Home>
-        <Container>
-          <H1>2. Choose Color and Background</H1>
+      <StyledPaper>
+        <HeadingContainer>
+          <Heading>2. Choose Color and Background</Heading>
           <IconButtonContainer>
             <IconButton
               className="iconbutton"
@@ -66,12 +43,18 @@ class Design extends React.Component {
               <Table color={view === 'ui' ? 'primary' : 'inherit'} />
             </IconButton>
           </IconButtonContainer>
-        </Container>
-        <ViewContainer>
-          {view === 'code' && <CodeView />}
-          {view === 'ui' && <UIView />}
-        </ViewContainer>
-      </Home>
+        </HeadingContainer>
+        {view === 'code' && (
+          <EditorContainer>
+            <CodeView />
+          </EditorContainer>
+        )}
+        {view === 'ui' && (
+          <Container>
+            <UIView />
+          </Container>
+        )}
+      </StyledPaper>
     );
   }
 }

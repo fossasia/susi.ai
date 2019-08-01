@@ -321,6 +321,7 @@ class BrowseSkill extends React.Component {
         ) {
           this.loadCards();
         } else {
+          this.loadLanguages('All');
           this.loadMetricsSkills();
         }
       })

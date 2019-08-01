@@ -49,5 +49,9 @@ const avatars = [
     url: host + '/customAvatars/9.png',
     // source: https://openclipart.org/detail/297167/face-man
   },
+  {
+    id: 10,
+    url: host + '/defaultAvatar.png',
+  },
 ];
 export default avatars;
