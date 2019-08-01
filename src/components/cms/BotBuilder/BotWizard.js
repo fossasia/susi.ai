@@ -1,6 +1,6 @@
 import React from 'react';
 import _Button from '@material-ui/core/Button';
-import Stepper from '@material-ui/core/Stepper';
+import _Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import { Grid, Col, Row } from 'react-flexbox-grid';
@@ -15,10 +15,8 @@ import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
 import Configure from './BotBuilderPages/Configure';
 import Deploy from './BotBuilderPages/Deploy';
-import _Paper from '@material-ui/core/Paper';
 import _TextField from '@material-ui/core/TextField';
 import _ChevronLeft from '@material-ui/icons/ChevronLeft';
-import _ChevronRight from '@material-ui/icons/ChevronRight';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import avatars from '../../../utils/avatars';
 import { storeDraft, updateSkill, readDraft } from '../../../apis/index';
@@ -32,16 +30,16 @@ const isMobile = mobileView();
 const Home = styled.div`
   width: 100%;
   min-height: 100vh;
-
   @media (min-width: 769px) {
-    padding: 40px 30px 30px;
+    padding: 20px 9px 0px;
   }
 `;
 
-const Container = styled.div`
-  padding-top: 25px;
-  padding-right: 15px;
+const Stepper = styled(_Stepper)`
+  padding-top: 0px;
+`;
 
+const Container = styled.div`
   @media (max-width: 1200px) {
     padding-right: 0px;
   }
@@ -49,29 +47,6 @@ const Container = styled.div`
 
 const Button = styled(_Button)`
   margin-left: 10px;
-`;
-
-const Paper = styled(_Paper)`
-  width: 100%;
-  margin-top: 20px;
-  position: relative;
-  margin-right: 30px;
-  padding: 15px 0px;
-
-  @media (min-width: 769px) {
-    padding: 15px;
-  }
-`;
-
-const ChevronRight = styled(_ChevronRight)`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 35px;
-  height: 35px;
-  color: rgb(158, 158, 158);
-  cursor: pointer;
-  display: inherit;
 `;
 
 const ChevronLeft = styled(_ChevronLeft)`
@@ -85,14 +60,6 @@ const ChevronLeft = styled(_ChevronLeft)`
   display: inherit;
 `;
 
-const Content = styled.div`
-  margin: 0 16px;
-
-  @media (max-width: 1200px) {
-    margin: 0px;
-  }
-`;
-
 const StepperCol = styled(Col)`
   @media (max-width: 1200px) {
     position: inherit;
@@ -104,7 +71,6 @@ const StepperCol = styled(Col)`
 
 const ContainerCol = styled(Col)`
   height: 88%;
-  margin-top: 10px;
   position: sticky;
   margin-left: 0;
   top: 0px;
@@ -119,24 +85,14 @@ const TextField = styled(_TextField)`
   width: 100%;
 `;
 
-const PreviewContainer = styled.div`
-  position: relative;
-  overflow: hidden;
-  margin-top: 20px;
-`;
-
-const CenterHeading = styled.h2`
-  text-align: center;
-`;
-
 const PreviewButton = styled.div`
   height: 45px;
   width: 42px;
   position: fixed;
   z-index: 1;
-  top: 75px;
+  top: 70px;
   right: 0;
-  background-color: rgb(158, 158, 158);
+  background-color: #9e9e9e;
   overflow-x: hidden;
   padding-top: 20px;
 `;
@@ -147,7 +103,6 @@ const ContentContainer = styled.div`
 
 const ActionContainer = styled.div`
   padding: 0px 15px;
-
   @media (max-width: 500px) {
     padding: 0px;
   }
@@ -156,7 +111,6 @@ const ActionContainer = styled.div`
 const DraftButtonContainer = styled.div`
   float: left;
   padding-top: 20px;
-
   @media (max-width: 480px) {
     width: 100%;
     padding-top: 0px;
@@ -177,12 +131,6 @@ const ActionButtonContainer = styled.div`
     padding-left: 0px;
     padding-top: 0px;
     margin-bottom: 10px;
-  }
-`;
-
-const BR = styled.br`
-  @media (min-width: 769px) {
-    display: none;
   }
 `;
 
@@ -443,22 +391,25 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     let skillName = name.trim().replace(/\s/g, '_');
     if (
       !new RegExp(/.+\.\w+/g).test(imageUrl) &&
-      imageUrl !== 'images/<image_name>' &&
-      imageUrl !== 'images/<image_name_event>' &&
-      imageUrl !== 'images/<image_name_job>' &&
-      imageUrl !== 'images/<image_name_contact>'
+      !(
+        imageUrl === '<image_name>' ||
+        imageUrl === 'images/<image_name>' ||
+        imageUrl === 'images/<image_name_event>' ||
+        imageUrl === 'images/<image_name_job>' ||
+        imageUrl === 'images/<image_name_contact>'
+      )
     ) {
       this.props.actions.openSnackBar({
-        snackBarMessage: 'image must be in format of images/imageName.jpg',
+        snackBarMessage: 'Image must be in format of images/imageName.jpg',
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     if (skillName === '') {
       this.props.actions.openSnackBar({
@@ -466,7 +417,7 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     if (category === '') {
       this.props.actions.openSnackBar({
@@ -474,7 +425,7 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
     if (language === '') {
       this.props.actions.openSnackBar({
@@ -482,7 +433,7 @@ class BotWizard extends React.Component {
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
-      return 0;
+      return;
     }
 
     this.setState({
@@ -508,12 +459,13 @@ class BotWizard extends React.Component {
       form.append('group', category);
       form.append('language', language);
       form.append('skill', name.trim().replace(/\s/g, '_'));
-      form.append('image_name', imageUrl.replace('images/', ''));
     }
     if (file) {
       form.append('image', file);
+      form.append('image_name', imageUrl.replace('images/', ''));
     } else {
-      form.append('image', '');
+      form.append('image', 'images/default.png');
+      form.append('image_name', 'default.png');
     }
     form.append('content', buildCode);
     form.append('access_token', accessToken);
@@ -633,11 +585,9 @@ class BotWizard extends React.Component {
                         </StepButton>
                       </Step>
                     </Stepper>
-                    <Content>
-                      <ContentContainer>
-                        {this.getStepContent(stepIndex)}
-                      </ContentContainer>
-                    </Content>
+                    <ContentContainer>
+                      {this.getStepContent(stepIndex)}
+                    </ContentContainer>
                   </div>
                 )}
               </Container>
@@ -727,16 +677,10 @@ class BotWizard extends React.Component {
                 display: colPreview === 0 ? 'none' : 'block',
               }}
             >
-              <Paper>
-                <span title="collapse preview">
-                  <ChevronRight onClick={this.handlePreviewToggle} />
-                </span>
-                <BR />
-                <CenterHeading>Preview</CenterHeading>
-                <PreviewContainer>
-                  <Preview />
-                </PreviewContainer>
-              </Paper>
+              <Preview
+                handlePreviewToggle={this.handlePreviewToggle}
+                paperWidth={'100%'}
+              />
             </ContainerCol>
           </Row>
         </Grid>
