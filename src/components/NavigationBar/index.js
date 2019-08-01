@@ -22,6 +22,9 @@ import Link from '../shared/Link';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
 import Dashboard from '@material-ui/icons/Dashboard';
+import Polymer from '@material-ui/icons/Polymer';
+import BotIcon from '@material-ui/icons/PersonPin';
+import DeviceIcon from '@material-ui/icons/Devices';
 import susiWhite from '../../images/susi-logo-white.png';
 import Slide from '@material-ui/core/Slide';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -42,6 +45,7 @@ import DashIcon from '@material-ui/icons/Remove';
 import susiFevicon from '../../images/favicon.png';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
+import Divider from '@material-ui/core/Divider';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -372,6 +376,37 @@ class NavigationBar extends Component {
             </ListItemText>
           </MenuItem>
         </Link>
+        <Link to="/myskills">
+          <MenuItem>
+            <ListItemIcon>
+              <Polymer />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="My Skills" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <Link to="/mybots">
+          <MenuItem>
+            <ListItemIcon>
+              <BotIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="My Bots" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <Link to="/mydevices">
+          <MenuItem>
+            <ListItemIcon>
+              <DeviceIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Translate text="My Devices" />
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <Divider />
         <Link to="/settings">
           <MenuItem>
             <ListItemIcon>
