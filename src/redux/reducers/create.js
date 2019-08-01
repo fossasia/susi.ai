@@ -6,19 +6,19 @@ import _ from 'lodash';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-let avatarsIcon = avatars.slice()[1].url;
+let avatarsIcon = avatars.slice()[10].url;
 let botIcon = avatars.slice()[0].url;
 
 const defaultState = {
   skill: {
     name: '',
     file: null,
-    category: '',
-    language: '',
+    category: 'Knowledge',
+    language: 'en',
     image: avatarsIcon,
     imageUrl: '<image_name>',
     code:
-      '::name <Bot_name>\n::category <Category>\n::language <Language>\n::author <author_name>\n::author_url <author_url>\n::description <description> \n::dynamic_content <Yes/No>\n::developer_privacy_policy <link>\n::image images/<image_name>\n::terms_of_use <link>\n\n\n//replace the following lines:\nquery1|query2|query3...\n!example:<The question that should be shown in public skill displays>\n!expect:<The answer expected for the above example>\nAnswer for the user query\n',
+      '::name <Bot_name>\n::category Knowledge\n::language en\n::author <author_name>\n::author_url <author_url>\n::description <description> \n::dynamic_content <Yes/No>\n::developer_privacy_policy <link>\n::image images/<image_name>\n::terms_of_use <link>\n\n\n//replace the following lines:\nquery1|query2|query3...\n!example:<The question that should be shown in public skill displays>\n!expect:<The answer expected for the above example>\nAnswer for the user query\n',
     author: '',
   },
   design: {

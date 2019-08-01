@@ -90,6 +90,8 @@
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
     "eslint": "5.16.0",
@@ -116,7 +118,7 @@
     "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "npm run lint && react-scripts test --env=jsdom --transformIgnorePatterns 'node_modules/(?!(<package-need-to-transform>|<other-package-need-to-transform>)/)'",
+    "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "surge"
@@ -133,8 +135,16 @@
       "pre-commit": "lint-staged"
     }
   },
-  "license": "LGPL-2.1-only",
-  "browserslist": [
-    "defaults"
-  ]
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
