@@ -10,7 +10,6 @@ import UIView from './ConfigureViews/UIView';
 import createActions from '../../../../redux/actions/create';
 import './Animation.min.css';
 import {
-  StyledPaper,
   Heading,
   Container,
   EditorContainer,
@@ -22,7 +21,7 @@ class Configure extends Component {
   render() {
     const { actions, view } = this.props;
     return (
-      <StyledPaper>
+      <div>
         <HeadingContainer>
           <Heading>3. Configure your bot</Heading>
           <IconButtonContainer>
@@ -50,7 +49,7 @@ class Configure extends Component {
             <UIView />
           </Container>
         ) : null}
-      </StyledPaper>
+      </div>
     );
   }
 }

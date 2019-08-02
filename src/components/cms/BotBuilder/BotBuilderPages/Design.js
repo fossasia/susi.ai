@@ -10,7 +10,6 @@ import UIView from './DesignViews/UIView';
 import './Animation.min.css';
 import createActions from '../../../../redux/actions/create';
 import {
-  StyledPaper,
   Heading,
   Container,
   EditorContainer,
@@ -22,7 +21,7 @@ class Design extends React.Component {
   render() {
     const { actions, view } = this.props;
     return (
-      <StyledPaper>
+      <div>
         <HeadingContainer>
           <Heading>2. Choose Color and Background</Heading>
           <IconButtonContainer>
@@ -54,7 +53,7 @@ class Design extends React.Component {
             <UIView />
           </Container>
         )}
-      </StyledPaper>
+      </div>
     );
   }
 }
