@@ -5,10 +5,12 @@ import SkillCard from './SkillCard';
 import styled from 'styled-components';
 
 const HeaderText = styled.h4`
-  padding-left: 1rem;
+  padding-left: 1.5rem;
   font-size: 1.25rem;
+  margin-bottom: 0rem;
   @media (max-width: 418px) {
-        font-size: 1rem;
+    font-size: 1rem;
+  }
 `;
 
 const Container = styled.div`
