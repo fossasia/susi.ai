@@ -4,7 +4,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../../../shared/OutlinedTextField';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uiActions from '../../../../redux/actions/ui';
@@ -78,24 +78,22 @@ class EditDeviceSettings extends React.Component {
         <DialogTitle>Edit device config</DialogTitle>
         <DialogContent>
           <h3 style={{ float: 'left' }}>Mac Id: {macid}</h3>
-          <TextField
+          <OutlinedTextField
             name="deviceName"
             style={{ marginBottom: '10px' }}
             value={deviceName}
             onChange={this.handleChange}
             placeholder="Enter device name"
             label="Device name"
-            variant="outlined"
             fullWidth={true}
             margin="dense"
           />
-          <TextField
+          <OutlinedTextField
             name="room"
             value={room}
             onChange={this.handleChange}
             placeholder="Enter room name"
             label="Room name"
-            variant="outlined"
             fullWidth={true}
             margin="dense"
           />

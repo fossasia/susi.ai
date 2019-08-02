@@ -15,7 +15,7 @@ import CircleImage from '../../shared/CircleImage';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
+import OutlinedTextField from '../../shared/OutlinedTextField';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -242,10 +242,12 @@ class SkillFeedbackCard extends Component {
               Write your invaluable feedback with {skillTag} on SUSI.AI{' '}
             </SubTitle>
             <div>
-              <div style={{ padding: '1rem', margin: '1rem' }}>
+              <div style={{ margin: '1rem' }}>
                 <FormControl fullWidth={true}>
-                  <Input
+                  <OutlinedTextField
+                    margin="dense"
                     value={newFeedbackValue}
+                    label="Skill Feedback"
                     placeholder="Skill Feedback"
                     defaultValue=""
                     multiline={true}
@@ -261,7 +263,7 @@ class SkillFeedbackCard extends Component {
                   label="Post"
                   color="primary"
                   variant="contained"
-                  style={{ margin: 10 }}
+                  style={{ marginTop: 10 }}
                   onClick={this.postFeedback}
                 >
                   Post

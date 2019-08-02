@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import _Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../../../shared/OutlinedTextField';
 import Dropzone from './Dropzone';
 import uiActions from '../../../../redux/actions/ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -115,6 +115,7 @@ class SkillSlideshowDialog extends React.Component {
     this.saveSlide();
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const {
       imageSuffix,
@@ -140,7 +141,7 @@ class SkillSlideshowDialog extends React.Component {
         <DialogTitle>{operation} Slideshow</DialogTitle>
         <DialogContent>
           <FlexContainer>
-            <TextField
+            <OutlinedTextField
               label="Link to"
               placeholder="Link to"
               value={redirectLink || ''}
@@ -149,10 +150,9 @@ class SkillSlideshowDialog extends React.Component {
               onChange={this.handleChange}
               disabled={disabled || operation === 'Edit'}
               required
-              variant="outlined"
               margin="dense"
             />
-            <TextField
+            <OutlinedTextField
               label="Information"
               placeholder="Information"
               value={info || ''}
@@ -161,12 +161,11 @@ class SkillSlideshowDialog extends React.Component {
               onChange={this.handleChange}
               disabled={disabled}
               style={{ marginLeft: '2rem' }}
-              variant="outlined"
               margin="dense"
             />
           </FlexContainer>
           <FlexContainer>
-            <TextField
+            <OutlinedTextField
               label="Image Suffix"
               placeholder="Image Suffix"
               value={imageSuffix || ''}
@@ -175,10 +174,9 @@ class SkillSlideshowDialog extends React.Component {
               onChange={this.handleChange}
               disabled={disabled}
               required
-              variant="outlined"
               margin="dense"
             />
-            <TextField
+            <OutlinedTextField
               label="Image Path"
               placeholder="Image Path"
               value={imagePath || ''}
@@ -187,7 +185,6 @@ class SkillSlideshowDialog extends React.Component {
               onChange={this.handleChange}
               disabled={true}
               style={{ marginLeft: '2rem' }}
-              variant="outlined"
               margin="dense"
             />
           </FlexContainer>
