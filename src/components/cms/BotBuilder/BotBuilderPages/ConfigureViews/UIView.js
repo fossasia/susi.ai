@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _Button from '@material-ui/core/Button';
-import _TextField from '@material-ui/core/TextField';
+import _OutlinedTextField from '../../../../shared/OutlinedTextField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../../../redux/actions/ui';
@@ -16,7 +16,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { ActionDiv } from '../../../../shared/TableActionStyles';
 
-const TextField = styled(_TextField)`
+const OutlinedTextField = styled(_OutlinedTextField)`
   width: 272px;
   margin-bottom: 16px;
 `;
@@ -319,11 +319,10 @@ class UIView extends Component {
           <Text>Allow the chatbot to run only on specified websites.</Text>
           {limitSites ? (
             <Container>
-              <TextField
+              <OutlinedTextField
                 value={websiteName}
                 onChange={this.handleChangeWebsiteName}
                 placeholder="Domain Name"
-                variant="outlined"
                 margin="dense"
                 label="Domain Name"
               />
