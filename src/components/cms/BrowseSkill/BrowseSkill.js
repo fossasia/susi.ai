@@ -722,32 +722,41 @@ class BrowseSkill extends React.Component {
               onClick={this.handleMenuClick}
               variant="contained"
               color="primary"
-              style={{ margin: '1rem 1rem 0', padding: '10px 20px' }}
+              style={{ margin: '1rem 0rem 0rem 1rem', padding: '10px 14px' }}
             >
-              <Add /> Create
+              <ListItemIcon style={{ minWidth: '1.5rem' }}>
+                <Add style={{ color: 'white' }} />
+              </ListItemIcon>
+              Create
             </Button>
             <Menu
               anchorEl={anchorEl}
               open={open}
               onClose={this.handleMenuClose}
               getContentAnchorEl={null}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
             >
-              <MenuList disableListWrap={true}>
+              <MenuList
+                disableListWrap={true}
+                style={{ margin: '0px', padding: '0px' }}
+              >
                 <MenuItem onClick={this.handleCreateSkillClick}>
-                  <ListItemIcon>
+                  <ListItemIcon style={{ minWidth: '2.5rem' }}>
                     <Add />
                   </ListItemIcon>
                   <ListItemText>Create Skill</ListItemText>
                 </MenuItem>
                 <MenuItem onClick={this.handleCreateBotClick}>
-                  <ListItemIcon>
+                  <ListItemIcon style={{ minWidth: '2.5rem' }}>
                     <Person />
                   </ListItemIcon>
                   <ListItemText>Create Bot</ListItemText>
                 </MenuItem>
                 <MenuItem onClick={this.handleAddDeviceClick}>
-                  <ListItemIcon>
+                  <ListItemIcon style={{ minWidth: '2.5rem' }}>
                     <Devices />
                   </ListItemIcon>
                   <ListItemText>Add Device</ListItemText>

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { connect } from 'react-redux';
@@ -101,8 +102,12 @@ class MySkills extends Component {
               variant="contained"
               color="primary"
               onClick={this.handleMenuClick}
+              style={{ margin: '.5rem 0rem 0rem 1rem', padding: '10px 10px' }}
             >
-              <Add /> Create Skill
+              <ListItemIcon style={{ minWidth: '1.5rem' }}>
+                <Add style={{ color: 'white' }} />
+              </ListItemIcon>
+              Create Skill
             </Button>
           </Link>
         </Container>

@@ -6,6 +6,9 @@ import _Toolbar from '@material-ui/core/Toolbar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Add from '@material-ui/icons/Add';
+import Devices from '@material-ui/icons/Devices';
+import Person from '@material-ui/icons/Person';
 import Select from '@material-ui/core/Select';
 import ISO6391 from 'iso-639-1';
 import AppBar from '@material-ui/core/AppBar';
@@ -77,13 +80,13 @@ const UserDetail = styled.div`
     display: None;
   }
 `;
-const CreateDetail = styled.div`
-  color: white;
-  margin-right: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  bottom: 8px;
-`;
+// const CreateDetail = styled.div`
+//   color: white;
+//   margin-right: 5px;
+//   font-size: 1rem;
+//   cursor: pointer;
+//   bottom: 8px;
+// `;
 
 const ExpandMore = styled(_ExpandMore)`
   color: white;
@@ -368,7 +371,7 @@ class NavigationBar extends Component {
       <React.Fragment>
         <Link to="/dashboard">
           <MenuItem>
-            <ListItemIcon>
+            <ListItemIcon style={{ minWidth: '2.5rem' }}>
               <Dashboard />
             </ListItemIcon>
             <ListItemText>
@@ -378,7 +381,7 @@ class NavigationBar extends Component {
         </Link>
         <Link to="/myskills">
           <MenuItem>
-            <ListItemIcon>
+            <ListItemIcon style={{ minWidth: '2.5rem' }}>
               <Polymer />
             </ListItemIcon>
             <ListItemText>
@@ -388,7 +391,7 @@ class NavigationBar extends Component {
         </Link>
         <Link to="/mybots">
           <MenuItem>
-            <ListItemIcon>
+            <ListItemIcon style={{ minWidth: '2.5rem' }}>
               <BotIcon />
             </ListItemIcon>
             <ListItemText>
@@ -398,7 +401,7 @@ class NavigationBar extends Component {
         </Link>
         <Link to="/mydevices">
           <MenuItem>
-            <ListItemIcon>
+            <ListItemIcon style={{ minWidth: '2.5rem' }}>
               <DeviceIcon />
             </ListItemIcon>
             <ListItemText>
@@ -409,7 +412,7 @@ class NavigationBar extends Component {
         <Divider />
         <Link to="/settings">
           <MenuItem>
-            <ListItemIcon>
+            <ListItemIcon style={{ minWidth: '2.5rem' }}>
               <Settings />
             </ListItemIcon>
             <ListItemText>
@@ -420,7 +423,7 @@ class NavigationBar extends Component {
         {isAdmin ? (
           <Link to="/admin">
             <MenuItem>
-              <ListItemIcon>
+              <ListItemIcon style={{ minWidth: '2.5rem' }}>
                 <ListIcon />
               </ListItemIcon>
               <ListItemText>
@@ -431,7 +434,7 @@ class NavigationBar extends Component {
         ) : null}
         <Link to="/logout">
           <MenuItem>
-            <ListItemIcon>
+            <ListItemIcon style={{ minWidth: '2.5rem' }}>
               <Exit />
             </ListItemIcon>
             <ListItemText>
@@ -589,28 +592,31 @@ class NavigationBar extends Component {
                           <Paper>
                             <Link to="/skillWizard">
                               <MenuItem>
-                                <ListItemText>
-                                  <Translate text="Create Skill" />
-                                </ListItemText>
+                                <ListItemIcon style={{ minWidth: '2.5rem' }}>
+                                  <Add />
+                                </ListItemIcon>
+                                <ListItemText>Create Skill</ListItemText>
                               </MenuItem>
                             </Link>
                             <Link to="/botWizard">
                               <MenuItem>
-                                <ListItemText>
-                                  <Translate text="Create Bot" />
-                                </ListItemText>
+                                <ListItemIcon style={{ minWidth: '2.5rem' }}>
+                                  <Person />
+                                </ListItemIcon>
+                                <ListItemText>Create Bot</ListItemText>
                               </MenuItem>
                             </Link>
                             <Link to="/mydevices">
                               <MenuItem>
-                                <ListItemText>
-                                  <Translate text="Add Device" />
-                                </ListItemText>
+                                <ListItemIcon style={{ minWidth: '2.5rem' }}>
+                                  <Devices />
+                                </ListItemIcon>
+                                <ListItemText>Add Device</ListItemText>
                               </MenuItem>
                             </Link>
                           </Paper>
                         </Popper>
-                        <CreateDetail>Create</CreateDetail>
+                        <Add style={{ color: 'white' }} />
                       </div>
                     </StyledIconButton>
                     <IconButton
