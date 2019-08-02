@@ -51,14 +51,6 @@ import Timeline from '@material-ui/icons/Timeline';
 import Add from '@material-ui/icons/Add';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 
-const Paper = styled(_Paper)`
-  width: 100%;
-  @media (max-width: 514px) {
-    padding: 0px;
-    margin-bottom: 2rem;
-  }
-`;
-
 const IconButton = styled(_IconButton)`
   @media (max-width: 451px) {
     padding-left: 3px;
@@ -251,11 +243,8 @@ const Form = styled.form`
   display: inline-block;
 `;
 
-const DeleteSkillSection = styled(Paper)`
-  width: 100%;
+const DeleteSkillSection = styled(PaperContainer)`
   border: 0.063rem solid red;
-  margin-top: 20px;
-  padding: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
