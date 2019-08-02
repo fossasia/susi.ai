@@ -127,7 +127,7 @@ class AccountTab extends React.Component {
         </MenuItem>
       );
     });
-    let currLang = this.state.prefLanguage;
+    let currLang = this.state.prefLanguage || '';
     let voiceOutput = {
       voiceMenu: voiceMenu,
       voiceLang: currLang,
