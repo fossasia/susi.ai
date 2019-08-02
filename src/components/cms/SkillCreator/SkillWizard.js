@@ -38,9 +38,10 @@ import CircularLoader from '../../shared/CircularLoader';
 import './Animation.min.css';
 
 // Material-UI Components
-import _Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import _Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../../shared/OutlinedTextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _IconButton from '@material-ui/core/IconButton';
@@ -69,7 +70,7 @@ const IconButton = styled(_IconButton)`
   }
 `;
 
-const DeleteButton = styled(_Button)`
+const DeleteButton = styled(Button)`
   background: #f44336;
   color: white;
   height: 3rem;
@@ -126,8 +127,9 @@ const NameField = styled(TextField)`
   }
 `;
 
-const CommitField = styled(TextField)`
+const CommitField = styled(OutlinedTextField)`
   width: 100%;
+  margin-right: 1rem;
 
   @media (max-width: 480px) {
     margin-bottom: 1rem;
@@ -188,7 +190,7 @@ const EditPaper = styled(_Paper)`
 
 const SavePaper = styled(_Paper)`
   width: 100%;
-  padding: 10px;
+  padding: 1rem;
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -237,17 +239,15 @@ const Input = styled.input`
   display: none;
 `;
 
-const SkillCreatorCol = styled(Col)`
-  position: fixed;
-  margin-left: 65.35%;
+const PreviewCol = styled(Col)`
   height: 88%;
-  padding-right: 30px;
-  width: 100%;
+  position: sticky;
+  margin-left: 0;
+  top: 0px;
   @media (max-width: 1200px) {
     position: inherit;
     margin-left: 0px;
     margin-bottom: 40px;
-    padding-right: 10px;
   }
 `;
 
@@ -268,10 +268,6 @@ const DeleteSkillSection = styled(Paper)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Button = styled(_Button)`
-  margin-left: 10px;
 `;
 
 const AddIcon = styled(Add)`
@@ -302,6 +298,10 @@ const SkillCommitDiv = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   margin: 0 2rem;
+
+  @media (max-width: 480px) {
+    margin: 0 1rem;
+  }
 `;
 
 const ReactToolTip = styled(ReactTooltip)`
@@ -1009,15 +1009,179 @@ class SkillWizard extends Component {
       showTopBar = this.props.showTopBar;
     }
 
+    const skillWizard = (
+      <div>
+        <HeadingContainer>
+          {this.isBotBuilder ? (
+            <Heading>1. Add a new skill to your bot</Heading>
+          ) : (
+            this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
+          )}
+          <ViewsDiv>
+            <IconButton onClick={() => actions.setView({ view: 'code' })}>
+              <Code color={view === 'code' ? 'primary' : 'inherit'} />
+            </IconButton>
+            <IconButton
+              onClick={() => actions.setView({ view: 'conversation' })}
+            >
+              <QA color={view === 'conversation' ? 'primary' : 'inherit'} />
+            </IconButton>
+            <IconButton onClick={() => actions.setView({ view: 'tree' })}>
+              <Timeline color={view === 'tree' ? 'primary' : 'inherit'} />
+            </IconButton>
+          </ViewsDiv>
+        </HeadingContainer>
+        <ReactToolTip
+          effect="solid"
+          place="bottom"
+          delayHide={500}
+          html={true}
+        />
+        {accessToken && this.state.editable && (
+          <PaperContainer>
+            <InfoIcon
+              data-tip={`Learn more about <a href=${urls.GITHUB_URL +
+                '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
+            />
+            <CenterDiv>
+              <DropDownDiv>
+                <DropDownWrap>
+                  <SkillDetail>
+                    <DetailText>Category:&nbsp;</DetailText>
+                    <SelectDropDown
+                      value={category}
+                      onChange={this.handleGroupChange}
+                      autoWidth={true}
+                    >
+                      {this.state.groups}
+                    </SelectDropDown>
+                  </SkillDetail>
+                  <SkillDetail>
+                    <DetailText>Language:&nbsp;</DetailText>
+                    <SelectDropDown
+                      value={language}
+                      onChange={this.handleLanguageChange}
+                      autoWidth={true}
+                    >
+                      {this.state.languages}
+                    </SelectDropDown>
+                  </SkillDetail>
+                  <SkillDetail>
+                    <DetailText>
+                      {this.isBotBuilder ? 'Bot Name: ' : 'Skill Name: '}
+                    </DetailText>
+                    <NameField
+                      margin="normal"
+                      value={name}
+                      onChange={this.handleExpertChange}
+                    />
+                  </SkillDetail>
+                  <ImageDiv>
+                    <IconWrap>
+                      <Img alt="preview" id="target" src={image} />
+                      <Check />
+                    </IconWrap>
+                    <Form>
+                      <UploadCircularButton title="Upload bot image">
+                        <Input
+                          accept="image/*"
+                          type="file"
+                          ref={c => {
+                            this.file = c;
+                          }}
+                          name="user[image]"
+                          multiple={false}
+                          onChange={this._onChange}
+                        />
+                        <AddIcon />
+                      </UploadCircularButton>
+                    </Form>
+                  </ImageDiv>
+                </DropDownWrap>
+              </DropDownDiv>
+            </CenterDiv>
+          </PaperContainer>
+        )}
+        {!loadViews ? <CircularLoader height={10} /> : null}
+        {view === 'code' && loadViews ? (
+          <CodeView editable={accessToken && this.state.editable} />
+        ) : null}
+        {view === 'conversation' && loadViews ? <ConversationView /> : null}
+        {view === 'tree' && loadViews ? <TreeView botbuilder={false} /> : null}
+        {!this.isBotBuilder && accessToken && this.state.editable && (
+          <SkillCommitDiv>
+            <SavePaper>
+              <CommitField
+                label="Commit message"
+                placeholder="Enter Commit Message"
+                margin="dense"
+                value={this.state.commitMessage}
+                onChange={this.handleCommitMessageChange}
+              />
+              <div style={{ display: 'flex', marginTop: '3px' }}>
+                <Link
+                  to={
+                    this.mode === 'create'
+                      ? '/'
+                      : {
+                          pathname:
+                            '/' + category + '/' + name + '/' + language,
+                        }
+                  }
+                >
+                  <Button variant="contained" color="primary">
+                    Cancel
+                  </Button>
+                </Link>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.saveClick}
+                  style={{ marginLeft: '10px' }}
+                >
+                  {this.state.loading ? (
+                    <CircularProgress color="#ffffff" size={24} />
+                  ) : (
+                    this.handleLabel()
+                  )}
+                </Button>
+              </div>
+            </SavePaper>
+          </SkillCommitDiv>
+        )}
+        {this.state.prevButton === 1 ? (
+          <PreviewButton>
+            <span title="See Preview">
+              <ChevronLeftIcon onClick={this.handlePreviewToggle} />
+            </span>
+          </PreviewButton>
+        ) : null}
+        {this.mode === 'edit' && isAdmin && (
+          <DeleteSkillSection>
+            <div>
+              <div>
+                <b>Delete this Skill</b>
+              </div>
+              {'Once you delete a skill, only admins can ' +
+                'undo this action before 30 days of deletion. Please be certain.'}
+            </div>
+            <DeleteButton onClick={this.handleDeleteModal}>Delete</DeleteButton>
+          </DeleteSkillSection>
+        )}
+      </div>
+    );
+
     return (
-      <Container style={this.isBotBuilder ? null : { padding: '20px 8px 0px' }}>
+      <Container style={this.isBotBuilder ? null : { padding: '20px 9px 0px' }}>
         <Grid fluid style={this.isBotBuilder ? { padding: '0px' } : null}>
           <Row>
             <Col
-              md={11}
+              md={12}
               xl={this.state.colSkill}
               style={{
                 display: this.state.colSkill === 0 ? 'none' : 'block',
+                maxWidth: this.isBotBuilder ? '100%' : '98%',
+                marginBottom: this.isBotBuilder ? '0px' : '40px',
               }}
             >
               {this.mode === 'edit' &&
@@ -1081,183 +1245,14 @@ class SkillWizard extends Component {
                   </HomeDiv>
                 )}
 
-              <StyledPaper>
-                <HeadingContainer>
-                  {this.isBotBuilder ? (
-                    <Heading>1. Add a new skill to your bot</Heading>
-                  ) : (
-                    this.mode === 'create' && (
-                      <Heading>Create a SUSI Skill</Heading>
-                    )
-                  )}
-                  <ViewsDiv>
-                    <IconButton
-                      onClick={() => actions.setView({ view: 'code' })}
-                    >
-                      <Code color={view === 'code' ? 'primary' : 'inherit'} />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => actions.setView({ view: 'conversation' })}
-                    >
-                      <QA
-                        color={view === 'conversation' ? 'primary' : 'inherit'}
-                      />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => actions.setView({ view: 'tree' })}
-                    >
-                      <Timeline
-                        color={view === 'tree' ? 'primary' : 'inherit'}
-                      />
-                    </IconButton>
-                  </ViewsDiv>
-                </HeadingContainer>
-                <ReactToolTip
-                  effect="solid"
-                  place="bottom"
-                  delayHide={500}
-                  html={true}
-                />
-                {accessToken && this.state.editable && (
-                  <PaperContainer>
-                    <InfoIcon
-                      data-tip={`Learn more about <a href=${urls.GITHUB_URL +
-                        '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
-                    />
-                    <CenterDiv>
-                      <DropDownDiv>
-                        <DropDownWrap>
-                          <SkillDetail>
-                            <DetailText>Category:&nbsp;</DetailText>
-                            <SelectDropDown
-                              value={category}
-                              onChange={this.handleGroupChange}
-                              autoWidth={true}
-                            >
-                              {this.state.groups}
-                            </SelectDropDown>
-                          </SkillDetail>
-                          <SkillDetail>
-                            <DetailText>Language:&nbsp;</DetailText>
-                            <SelectDropDown
-                              value={language}
-                              onChange={this.handleLanguageChange}
-                              autoWidth={true}
-                            >
-                              {this.state.languages}
-                            </SelectDropDown>
-                          </SkillDetail>
-                          <SkillDetail>
-                            <DetailText>
-                              {this.isBotBuilder
-                                ? 'Bot Name: '
-                                : 'Skill Name: '}
-                            </DetailText>
-                            <NameField
-                              margin="normal"
-                              value={name}
-                              onChange={this.handleExpertChange}
-                            />
-                          </SkillDetail>
-                          <ImageDiv>
-                            <IconWrap>
-                              <Img alt="preview" id="target" src={image} />
-                              <Check />
-                            </IconWrap>
-                            <Form>
-                              <UploadCircularButton title="Upload bot image">
-                                <Input
-                                  accept="image/*"
-                                  type="file"
-                                  ref={c => {
-                                    this.file = c;
-                                  }}
-                                  name="user[image]"
-                                  multiple={false}
-                                  onChange={this._onChange}
-                                />
-                                <AddIcon />
-                              </UploadCircularButton>
-                            </Form>
-                          </ImageDiv>
-                        </DropDownWrap>
-                      </DropDownDiv>
-                    </CenterDiv>
-                  </PaperContainer>
-                )}
-                {!loadViews ? <CircularLoader height={10} /> : null}
-                {view === 'code' && loadViews ? (
-                  <CodeView editable={accessToken && this.state.editable} />
-                ) : null}
-                {view === 'conversation' && loadViews ? (
-                  <ConversationView />
-                ) : null}
-                {view === 'tree' && loadViews ? (
-                  <TreeView botbuilder={false} />
-                ) : null}
-                {!this.isBotBuilder && accessToken && this.state.editable && (
-                  <SkillCommitDiv>
-                    <SavePaper>
-                      <CommitField
-                        label="Commit message"
-                        placeholder="Enter Commit Message"
-                        margin="normal"
-                        value={this.state.commitMessage}
-                        onChange={this.handleCommitMessageChange}
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.saveClick}
-                      >
-                        {this.state.loading ? (
-                          <CircularProgress color="#ffffff" size={24} />
-                        ) : (
-                          this.handleLabel()
-                        )}
-                      </Button>
-                      <Link
-                        to={
-                          this.mode === 'create'
-                            ? '/'
-                            : {
-                                pathname:
-                                  '/' + category + '/' + name + '/' + language,
-                              }
-                        }
-                      >
-                        <Button variant="contained" color="primary">
-                          Cancel
-                        </Button>
-                      </Link>
-                    </SavePaper>
-                  </SkillCommitDiv>
-                )}
-                {this.state.prevButton === 1 ? (
-                  <PreviewButton>
-                    <span title="See Preview">
-                      <ChevronLeftIcon onClick={this.handlePreviewToggle} />
-                    </span>
-                  </PreviewButton>
-                ) : null}
-                {this.mode === 'edit' && isAdmin && (
-                  <DeleteSkillSection>
-                    <div>
-                      <div>
-                        <b>Delete this Skill</b>
-                      </div>
-                      {'Once you delete a skill, only admins can ' +
-                        'undo this action before 30 days of deletion. Please be certain.'}
-                    </div>
-                    <DeleteButton onClick={this.handleDeleteModal}>
-                      Delete
-                    </DeleteButton>
-                  </DeleteSkillSection>
-                )}
-              </StyledPaper>
+              {this.isBotBuilder ? (
+                <div>{skillWizard}</div>
+              ) : (
+                <StyledPaper>{skillWizard}</StyledPaper>
+              )}
             </Col>
             {this.isBotBuilder ? null : (
-              <SkillCreatorCol
+              <PreviewCol
                 md={12}
                 xl={this.state.colPreview}
                 style={{
@@ -1266,9 +1261,9 @@ class SkillWizard extends Component {
               >
                 <Preview
                   handlePreviewToggle={this.handlePreviewToggle}
-                  paperWidth={'98%'}
+                  paperWidth={'100%'}
                 />
-              </SkillCreatorCol>
+              </PreviewCol>
             )}
           </Row>
         </Grid>
