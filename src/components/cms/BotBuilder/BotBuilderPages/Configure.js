@@ -9,41 +9,21 @@ import CodeView from './ConfigureViews/CodeView';
 import UIView from './ConfigureViews/UIView';
 import createActions from '../../../../redux/actions/create';
 import './Animation.min.css';
-import styled from 'styled-components';
-
-const Home = styled.div`
-  margin-top: 10px;
-`;
-
-const Container = styled.div`
-  display: flex;
-`;
-
-const H1 = styled.h1`
-  line-height: 50px;
-  text-align: center;
-
-  @media (max-width: 480px) {
-    line-height: 2.5rem;
-  }
-`;
-
-const IconButtonContainer = styled.div`
-  margin-left: auto;
-  margin-right: 0px;
-`;
-
-const ViewContainer = styled.div`
-  padding: 0px;
-`;
+import {
+  Heading,
+  Container,
+  EditorContainer,
+  HeadingContainer,
+  IconButtonContainer,
+} from '../styles';
 
 class Configure extends Component {
   render() {
     const { actions, view } = this.props;
     return (
-      <Home>
-        <Container>
-          <H1>3. Configure your bot</H1>
+      <div>
+        <HeadingContainer>
+          <Heading>3. Configure your bot</Heading>
           <IconButtonContainer>
             <IconButton
               className="iconbutton"
@@ -58,12 +38,18 @@ class Configure extends Component {
               <Table color={view === 'ui' ? 'primary' : 'inherit'} />
             </IconButton>
           </IconButtonContainer>
-        </Container>
-        <ViewContainer>
-          {view === 'code' ? <CodeView /> : null}
-          {view === 'ui' ? <UIView /> : null}
-        </ViewContainer>
-      </Home>
+        </HeadingContainer>
+        {view === 'code' ? (
+          <EditorContainer>
+            <CodeView />
+          </EditorContainer>
+        ) : null}
+        {view === 'ui' ? (
+          <Container>
+            <UIView />
+          </Container>
+        ) : null}
+      </div>
     );
   }
 }

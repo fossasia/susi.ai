@@ -73,6 +73,20 @@ const EnhancedVerifyAccount = withTracker(VerifyAccount);
 const EnhancedSettings = withTracker(Settings);
 const EnhancedNotFound = withTracker(NotFound);
 
+const renderFooterPagesList = [
+  '/',
+  '/about',
+  '/team',
+  '/blog',
+  '/devices',
+  '/support',
+  '/privacy',
+  '/terms',
+  '/contact',
+];
+
+const hideBubble = ['skillWizard', 'botWizard', 'admin'];
+
 class App extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -141,21 +155,11 @@ class App extends Component {
       showCookiePolicy,
       isLocalEnv,
       mode,
+      location,
       // visited,
     } = this.props;
     const skillListRegex = new RegExp('^/');
     const pathLength = pathname.split('/').length;
-    const renderFooterPagesList = [
-      '/',
-      '/about',
-      '/team',
-      '/blog',
-      '/devices',
-      '/support',
-      '/privacy',
-      '/terms',
-      '/contact',
-    ];
     const renderAppBanner = isLocalEnv ? <AppBanner /> : null;
     const renderAppBar = pathname !== '/chat' ? <NavigationBar /> : null;
     const renderFooter =
@@ -169,6 +173,11 @@ class App extends Component {
     // const renderDialog = isModalOpen || !visited  ?  <DialogSection /> : null;
     const renderDialog =
       isModalOpen || mode === 'fullScreen' ? <DialogSection /> : null;
+    const renderChatBubble = !hideBubble.includes(
+      location.pathname.split('/')[1],
+    ) ? (
+      <ChatApp />
+    ) : null;
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -186,7 +195,7 @@ class App extends Component {
             )}
             {renderAppBar}
             {renderAppBanner}
-            <ChatApp />
+            {renderChatBubble}
             <RootContainer>
               <Switch>
                 <Route exact path="/" component={EnhancedBrowseSkill} />

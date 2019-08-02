@@ -5,15 +5,47 @@ import { fetchConversationResponse } from '../../../../apis';
 import styled, { keyframes } from 'styled-components';
 import _Send from '@material-ui/icons/Send';
 import Close from '@material-ui/icons/Close';
+import _Paper from '@material-ui/core/Paper';
+import _ChevronRight from '@material-ui/icons/ChevronRight';
 import loadingGIF from '../../../../images/loading.gif';
 import './Chatbot.css';
 
-const Container = styled.div`
+const Paper = styled(_Paper)`
+  width: ${props => props.width};
+  position: relative;
+  background-color: #f5f5f5;
+  padding: 15px 0px;
+  @media (min-width: 769px) {
+    padding: 15px;
+  }
+`;
+
+const ChevronRight = styled(_ChevronRight)`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  color: #9e9e9e;
+  cursor: pointer;
+  display: inherit;
+  margin: 5px;
+`;
+
+const BR = styled.br`
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
+
+const PreviewContainer = styled.div`
   height: 600px;
   max-width: 95%;
   width: 330px;
-  margin: 10px auto auto auto;
-  padding: 0 20px;
+  margin: 20px auto auto auto;
+  padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
   @media (max-width: 520px) {
     width: 100%;
     padding: 0 10px;
@@ -180,6 +212,22 @@ const SUSICommentContent = styled.div`
   overflow-wrap: break-word;
 `;
 
+const H1 = styled.h1`
+  padding: 1rem 0rem;
+  margin: 0px;
+  text-align: center;
+
+  @media (max-width: 769px) {
+    padding-top: 0rem;
+  }
+`;
+
+const Container = styled.div`
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  position: relative;
+`;
+
 class Preview extends Component {
   constructor() {
     super();
@@ -279,15 +327,19 @@ class Preview extends Component {
   render() {
     const { messages, previewChat, message } = this.state;
     const {
-      botbuilderBackgroundBody,
-      botbuilderBodyBackgroundImg,
-      botbuilderIconColor,
-      botbuilderUserMessageBackground,
-      botbuilderUserMessageTextColor,
-      botbuilderBotMessageTextColor,
-      botbuilderBotMessageBackground,
-      botbuilderIconImg,
-    } = this.props.design;
+      design: {
+        botbuilderBackgroundBody,
+        botbuilderBodyBackgroundImg,
+        botbuilderIconColor,
+        botbuilderUserMessageBackground,
+        botbuilderUserMessageTextColor,
+        botbuilderBotMessageTextColor,
+        botbuilderBotMessageBackground,
+        botbuilderIconImg,
+      },
+      handlePreviewToggle,
+      paperWidth,
+    } = this.props;
     let renderMessages = null;
     if (messages.length) {
       renderMessages = messages.map((message, index) => {
@@ -349,75 +401,87 @@ class Preview extends Component {
     }
     return (
       <Container>
-        <PreviewChatContainer>
-          {previewChat && (
-            <SUSIFrameContainer>
-              <SUSIFrameWrapper>
-                <div id="susi-container" className="susi-container susi-reset">
-                  <div id="susi-chatbox" className="susi-chatbox">
-                    <div className="susi-sheet-content">
-                      <SUSIMessageContainer
-                        className="susi-sheet-content-container"
-                        backgroundColor={botbuilderBackgroundBody}
-                        backgroundImage={botbuilderBodyBackgroundImg}
-                      >
-                        <div className="susi-conversation-parts-container">
-                          <div
-                            id="susi-message"
-                            className="susi-conversation-parts"
+        <div>
+          <ChevronRight onClick={handlePreviewToggle} />
+          <BR />
+          <H1>Preview</H1>
+        </div>
+        <Paper width={paperWidth}>
+          <PreviewContainer>
+            <PreviewChatContainer>
+              {previewChat && (
+                <SUSIFrameContainer>
+                  <SUSIFrameWrapper>
+                    <div
+                      id="susi-container"
+                      className="susi-container susi-reset"
+                    >
+                      <div id="susi-chatbox" className="susi-chatbox">
+                        <div className="susi-sheet-content">
+                          <SUSIMessageContainer
+                            className="susi-sheet-content-container"
+                            backgroundColor={botbuilderBackgroundBody}
+                            backgroundImage={botbuilderBodyBackgroundImg}
                           >
-                            {renderMessages}
-                          </div>
+                            <div className="susi-conversation-parts-container">
+                              <div
+                                id="susi-message"
+                                className="susi-conversation-parts"
+                              >
+                                {renderMessages}
+                              </div>
+                            </div>
+                          </SUSIMessageContainer>
                         </div>
-                      </SUSIMessageContainer>
-                    </div>
-                    <div className="susi-composer-container">
-                      <div id="susi-composer" className="susi-composer ">
-                        <div className="susi-composer-textarea-container">
-                          <div className="susi-composer-textarea">
-                            <SendButtonWrapper>
-                              <Send onClick={this.sendMessage} />
-                            </SendButtonWrapper>
-                            <textarea
-                              placeholder="Enter your response"
-                              rows="1"
-                              value={message}
-                              onKeyPress={event => {
-                                if (event.which === 13 /* Enter */) {
-                                  event.preventDefault();
-                                }
-                              }}
-                              onChange={ev =>
-                                this.setState({ message: ev.target.value })
-                              }
-                              onKeyDown={event => {
-                                if (event.keyCode === 13) {
-                                  this.sendMessage();
-                                }
-                              }}
-                            />
+                        <div className="susi-composer-container">
+                          <div id="susi-composer" className="susi-composer ">
+                            <div className="susi-composer-textarea-container">
+                              <div className="susi-composer-textarea">
+                                <SendButtonWrapper>
+                                  <Send onClick={this.sendMessage} />
+                                </SendButtonWrapper>
+                                <textarea
+                                  placeholder="Enter your response"
+                                  rows="1"
+                                  value={message}
+                                  onKeyPress={event => {
+                                    if (event.which === 13 /* Enter */) {
+                                      event.preventDefault();
+                                    }
+                                  }}
+                                  onChange={ev =>
+                                    this.setState({ message: ev.target.value })
+                                  }
+                                  onKeyDown={event => {
+                                    if (event.keyCode === 13) {
+                                      this.sendMessage();
+                                    }
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <CloseButton onClick={this.togglePreview} />
-              </SUSIFrameWrapper>
-            </SUSIFrameContainer>
-          )}
-        </PreviewChatContainer>
-        <div style={{ textAlign: 'right' }}>
-          <SUSILauncherContainer>
-            <SUSILauncherWrapper onClick={this.togglePreview}>
-              <SUSILauncherButton
-                data-tip="Toggle Launcher"
-                backgroundColor={botbuilderIconColor}
-                backgroundImage={botbuilderIconImg}
-              />
-            </SUSILauncherWrapper>
-          </SUSILauncherContainer>
-        </div>
+                    <CloseButton onClick={this.togglePreview} />
+                  </SUSIFrameWrapper>
+                </SUSIFrameContainer>
+              )}
+            </PreviewChatContainer>
+            <div style={{ textAlign: 'right' }}>
+              <SUSILauncherContainer>
+                <SUSILauncherWrapper onClick={this.togglePreview}>
+                  <SUSILauncherButton
+                    data-tip="Toggle Launcher"
+                    backgroundColor={botbuilderIconColor}
+                    backgroundImage={botbuilderIconImg}
+                  />
+                </SUSILauncherWrapper>
+              </SUSILauncherContainer>
+            </div>
+          </PreviewContainer>
+        </Paper>
       </Container>
     );
   }
@@ -433,6 +497,8 @@ Preview.propTypes = {
   botbuilderUserMessageTextColor: PropTypes.string,
   botbuilderBotMessageTextColor: PropTypes.string,
   botbuilderBotMessageBackground: PropTypes.string,
+  handlePreviewToggle: PropTypes.func,
+  paperWidth: PropTypes.string,
 };
 
 function mapStateToProps(store) {

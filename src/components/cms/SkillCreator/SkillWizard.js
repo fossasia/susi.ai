@@ -16,6 +16,13 @@ import ReactTooltip from 'react-tooltip';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import _Check from '@material-ui/icons/Check';
+import {
+  StyledPaper,
+  Heading,
+  HeadingContainer,
+  Container as PaperContainer,
+} from '../BotBuilder/styles';
 
 import {
   fetchAllGroupOptions,
@@ -31,9 +38,10 @@ import CircularLoader from '../../shared/CircularLoader';
 import './Animation.min.css';
 
 // Material-UI Components
-import _Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import _Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../../shared/OutlinedTextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _IconButton from '@material-ui/core/IconButton';
@@ -46,17 +54,9 @@ import QA from '@material-ui/icons/QuestionAnswer';
 import Timeline from '@material-ui/icons/Timeline';
 import Add from '@material-ui/icons/Add';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import avatars from '../../../utils/avatars';
-
-const Home = styled.div`
-  margin-top: 3rem;
-`;
 
 const Paper = styled(_Paper)`
   width: 100%;
-  margin-top: 1.25rem;
-  padding: 1.25rem 1.875rem 1.875rem;
   @media (max-width: 514px) {
     padding: 0px;
     margin-bottom: 2rem;
@@ -70,7 +70,7 @@ const IconButton = styled(_IconButton)`
   }
 `;
 
-const DeleteButton = styled(_Button)`
+const DeleteButton = styled(Button)`
   background: #f44336;
   color: white;
   height: 3rem;
@@ -107,44 +107,39 @@ const DropDownDiv = styled.div`
 `;
 
 const SkillDetail = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
   @media (max-width: 813px) {
-    display: flex;
     width: 100%;
     margin-top: 1rem;
+  }
+  @media (min-width: 2000px) {
+    margin-right: 3rem;
   }
 `;
 
 const NameField = styled(TextField)`
-  margin: 16px 10px;
-  width: auto;
-
+  width: 15.625rem;
   @media (max-width: 500px) {
     margin: 10px;
     width: 100%;
   }
 `;
 
-const CommitField = styled(TextField)`
+const CommitField = styled(OutlinedTextField)`
   width: 100%;
+  margin-right: 1rem;
 
   @media (max-width: 480px) {
     margin-bottom: 1rem;
   }
 `;
 
-const Heading = styled.h1`
-  line-height: 3.125rem;
-
-  @media (max-width: 480px) {
-    line-height: 2.5rem;
-  }
-`;
-
 const DetailText = styled.span`
-  font-size: 15;
+  font-size: 15px;
   padding-left: 0.625rem;
-  padding-top: 0.5rem;
-
+  margin-right: 0.5rem;
   @media (max-width: 414px) {
     padding-left: 0px;
   }
@@ -195,7 +190,7 @@ const EditPaper = styled(_Paper)`
 
 const SavePaper = styled(_Paper)`
   width: 100%;
-  padding: 10px;
+  padding: 1rem;
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -224,9 +219,9 @@ const InfoIcon = styled(Info)`
   cursor: pointer;
   color: #9e9e9e;
   display: inline-bock;
-  position: absolute;
-  right: 5px;
-  top: 5px;
+  position: relative;
+  right: 0px;
+  top: 0px;
 `;
 
 const ChevronLeftIcon = styled(ChevronLeft)`
@@ -240,52 +235,25 @@ const ChevronLeftIcon = styled(ChevronLeft)`
   display: inherit;
 `;
 
-const ChevronRightIcon = styled(ChevronRight)`
-  position: relative;
-  left: -1.875rem;
-  top: -1.25rem;
-  width: 2.188rem;
-  height: 2.188rem;
-  color: #9e9e9e;
-  cursor: pointer;
-  display: inherit;
-  @media (max-width: 514px) {
-    top: 0px;
-    left: 0px;
-  }
-`;
-
 const Input = styled.input`
   display: none;
 `;
 
-const SkillCreatorCol = styled(Col)`
-  position: fixed;
-  margin-left: 65%;
+const PreviewCol = styled(Col)`
   height: 88%;
-  margin-top: 10px;
-  padding-right: 30px;
-  width: 100%;
-
+  position: sticky;
+  margin-left: 0;
+  top: 0px;
   @media (max-width: 1200px) {
     position: inherit;
     margin-left: 0px;
     margin-bottom: 40px;
-    padding-right: 10px;
   }
 `;
 
 const ViewsDiv = styled.div`
   margin-left: auto;
-`;
-
-const SkillInfoDiv = styled.div`
   display: flex;
-  text-align: center;
-`;
-
-const SkillEditPaper = styled(Paper)`
-  position: relative;
 `;
 
 const Form = styled.form`
@@ -300,10 +268,6 @@ const DeleteSkillSection = styled(Paper)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Button = styled(_Button)`
-  margin-left: 10px;
 `;
 
 const AddIcon = styled(Add)`
@@ -333,30 +297,11 @@ const SkillCommitDiv = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-`;
+  margin: 0 2rem;
 
-const H2 = styled.h2`
-  margin: 0px auto;
-`;
-
-const PreviewPaper = styled(Paper)`
-  margin-top: 1.25rem;
-  position: relative;
-  width: 90%;
-
-  @media (max-width: 1200px) {
-    width: 100%;
+  @media (max-width: 480px) {
+    margin: 0 1rem;
   }
-`;
-
-const PreviewContainer = styled.div`
-  position: relative;
-  overflow: hidden;
-  margin-top: 1.25rem;
-`;
-
-const PreviewHeadingDiv = styled.div`
-  display: flex;
 `;
 
 const ReactToolTip = styled(ReactTooltip)`
@@ -373,9 +318,9 @@ const PreviewButton = styled.div`
   width: 42px;
   position: fixed;
   z-index: 1;
-  top: 75px;
+  top: 70px;
   right: 0;
-  background-color: rgb(158, 158, 158);
+  background-color: #9e9e9e;
   overflow-x: hidden;
   padding-top: 20px;
 `;
@@ -383,7 +328,21 @@ const PreviewButton = styled.div`
 const DropDownWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  align-items: baseline;
+`;
+
+const Check = styled(_Check)`
+  display: block;
+  position: absolute;
+  top: -9px;
+  right: 0px;
+  font-size: 23px;
+  color: #4285f5;
+`;
+
+const IconWrap = styled.span`
+  display: inline-block;
+  position: relative;
 `;
 
 class SkillWizard extends Component {
@@ -397,7 +356,6 @@ class SkillWizard extends Component {
       languages: [],
       loadViews: false,
       editable: true,
-      showImage: avatars.slice()[1].url !== this.props.image,
     };
 
     if (
@@ -581,7 +539,6 @@ class SkillWizard extends Component {
               this.setState({
                 codeChanged: true,
                 loadViews: true,
-                showImage: avatars.slice()[1].url !== this.props.image,
               });
             }
           })
@@ -593,7 +550,6 @@ class SkillWizard extends Component {
         searchURLPath('group') &&
         searchURLPath('language')
       ) {
-        this.setState({ showImage: true });
         payload = { ...payload, private: 1 };
         actions
           .getBotBuilderCode(payload)
@@ -775,7 +731,16 @@ class SkillWizard extends Component {
       });
       return 0;
     }
-    if (!new RegExp(/.+\.\w+/g).test(imageUrl)) {
+    if (
+      !new RegExp(/.+\.\w+/g).test(imageUrl) &&
+      !(
+        imageUrl === '<image_name>' ||
+        imageUrl === 'images/<image_name>' ||
+        imageUrl === 'images/<image_name_event>' ||
+        imageUrl === 'images/<image_name_job>' ||
+        imageUrl === 'images/<image_name_contact>'
+      )
+    ) {
       this.props.actions.openSnackBar({
         snackBarMessage: 'Image must be in format of images/imageName.jpg',
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
@@ -783,15 +748,6 @@ class SkillWizard extends Component {
       });
       return 0;
     }
-    if (this.mode === 'create' && file === null) {
-      this.props.actions.openSnackBar({
-        snackBarMessage: 'Image Not Given',
-        snackBarPosition: { vertical: 'top', horizontal: 'right' },
-        variant: 'warning',
-      });
-      return 0;
-    }
-
     if (this.mode === 'edit' && name === '') {
       this.props.actions.openSnackBar({
         snackBarMessage: 'Skill name cannot be empty',
@@ -829,9 +785,14 @@ class SkillWizard extends Component {
       form.append('group', category);
       form.append('language', language);
       form.append('skill', name.trim().replace(/\s/g, '_'));
-      form.append('image', file);
+      if (file) {
+        form.append('image', file);
+        form.append('image_name', imageUrl.replace('images/', ''));
+      } else {
+        form.append('image', 'images/default.png');
+        form.append('image_name', 'default.png');
+      }
       form.append('content', code);
-      form.append('image_name', imageUrl.replace('images/', ''));
       form.append('access_token', accessToken);
       if (this.isBotBuilder) {
         form.append('private', '1');
@@ -962,11 +923,6 @@ class SkillWizard extends Component {
     let file = this.file.files[0];
     const image = window.URL.createObjectURL(file);
     // console.log(file) // Would see a path?
-    if (event.target.files && event.target.files[0]) {
-      this.setState({
-        showImage: true,
-      });
-    }
     let imageUrl = file.name;
     if (this.props.imageUrl !== `images/${imageUrl}`) {
       this.setState({
@@ -1032,7 +988,7 @@ class SkillWizard extends Component {
     if (this.mode === 'edit') {
       return 'Update';
     }
-    return 'Save';
+    return 'Create';
   };
 
   // eslint-disable-next-line complexity
@@ -1047,286 +1003,271 @@ class SkillWizard extends Component {
       image,
       isAdmin,
     } = this.props;
-    const { showImage, loadViews } = this.state;
+    const { loadViews } = this.state;
     let showTopBar = true;
     if (this.props.hasOwnProperty('showTopBar')) {
       showTopBar = this.props.showTopBar;
     }
 
+    const skillWizard = (
+      <div>
+        <HeadingContainer>
+          {this.isBotBuilder ? (
+            <Heading>1. Add a new skill to your bot</Heading>
+          ) : (
+            this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
+          )}
+          <ViewsDiv>
+            <IconButton onClick={() => actions.setView({ view: 'code' })}>
+              <Code color={view === 'code' ? 'primary' : 'inherit'} />
+            </IconButton>
+            <IconButton
+              onClick={() => actions.setView({ view: 'conversation' })}
+            >
+              <QA color={view === 'conversation' ? 'primary' : 'inherit'} />
+            </IconButton>
+            <IconButton onClick={() => actions.setView({ view: 'tree' })}>
+              <Timeline color={view === 'tree' ? 'primary' : 'inherit'} />
+            </IconButton>
+          </ViewsDiv>
+        </HeadingContainer>
+        <ReactToolTip
+          effect="solid"
+          place="bottom"
+          delayHide={500}
+          html={true}
+        />
+        {accessToken && this.state.editable && (
+          <PaperContainer>
+            <InfoIcon
+              data-tip={`Learn more about <a href=${urls.GITHUB_URL +
+                '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
+            />
+            <CenterDiv>
+              <DropDownDiv>
+                <DropDownWrap>
+                  <SkillDetail>
+                    <DetailText>Category:&nbsp;</DetailText>
+                    <SelectDropDown
+                      value={category}
+                      onChange={this.handleGroupChange}
+                      autoWidth={true}
+                    >
+                      {this.state.groups}
+                    </SelectDropDown>
+                  </SkillDetail>
+                  <SkillDetail>
+                    <DetailText>Language:&nbsp;</DetailText>
+                    <SelectDropDown
+                      value={language}
+                      onChange={this.handleLanguageChange}
+                      autoWidth={true}
+                    >
+                      {this.state.languages}
+                    </SelectDropDown>
+                  </SkillDetail>
+                  <SkillDetail>
+                    <DetailText>
+                      {this.isBotBuilder ? 'Bot Name: ' : 'Skill Name: '}
+                    </DetailText>
+                    <NameField
+                      margin="normal"
+                      value={name}
+                      onChange={this.handleExpertChange}
+                    />
+                  </SkillDetail>
+                  <ImageDiv>
+                    <IconWrap>
+                      <Img alt="preview" id="target" src={image} />
+                      <Check />
+                    </IconWrap>
+                    <Form>
+                      <UploadCircularButton title="Upload bot image">
+                        <Input
+                          accept="image/*"
+                          type="file"
+                          ref={c => {
+                            this.file = c;
+                          }}
+                          name="user[image]"
+                          multiple={false}
+                          onChange={this._onChange}
+                        />
+                        <AddIcon />
+                      </UploadCircularButton>
+                    </Form>
+                  </ImageDiv>
+                </DropDownWrap>
+              </DropDownDiv>
+            </CenterDiv>
+          </PaperContainer>
+        )}
+        {!loadViews ? <CircularLoader height={10} /> : null}
+        {view === 'code' && loadViews ? (
+          <CodeView editable={accessToken && this.state.editable} />
+        ) : null}
+        {view === 'conversation' && loadViews ? <ConversationView /> : null}
+        {view === 'tree' && loadViews ? <TreeView botbuilder={false} /> : null}
+        {!this.isBotBuilder && accessToken && this.state.editable && (
+          <SkillCommitDiv>
+            <SavePaper>
+              <CommitField
+                label="Commit message"
+                placeholder="Enter Commit Message"
+                margin="dense"
+                value={this.state.commitMessage}
+                onChange={this.handleCommitMessageChange}
+              />
+              <div style={{ display: 'flex', marginTop: '3px' }}>
+                <Link
+                  to={
+                    this.mode === 'create'
+                      ? '/'
+                      : {
+                          pathname:
+                            '/' + category + '/' + name + '/' + language,
+                        }
+                  }
+                >
+                  <Button variant="contained" color="primary">
+                    Cancel
+                  </Button>
+                </Link>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.saveClick}
+                  style={{ marginLeft: '10px' }}
+                >
+                  {this.state.loading ? (
+                    <CircularProgress color="#ffffff" size={24} />
+                  ) : (
+                    this.handleLabel()
+                  )}
+                </Button>
+              </div>
+            </SavePaper>
+          </SkillCommitDiv>
+        )}
+        {this.state.prevButton === 1 ? (
+          <PreviewButton>
+            <span title="See Preview">
+              <ChevronLeftIcon onClick={this.handlePreviewToggle} />
+            </span>
+          </PreviewButton>
+        ) : null}
+        {this.mode === 'edit' && isAdmin && (
+          <DeleteSkillSection>
+            <div>
+              <div>
+                <b>Delete this Skill</b>
+              </div>
+              {'Once you delete a skill, only admins can ' +
+                'undo this action before 30 days of deletion. Please be certain.'}
+            </div>
+            <DeleteButton onClick={this.handleDeleteModal}>Delete</DeleteButton>
+          </DeleteSkillSection>
+        )}
+      </div>
+    );
+
     return (
-      <Home>
-        <Container
-          style={
-            this.isBotBuilder ? null : { padding: '0rem 1.875rem 1.875rem' }
-          }
-        >
-          <Grid fluid style={this.isBotBuilder ? { padding: '0px' } : null}>
-            <Row>
-              <Col
+      <Container style={this.isBotBuilder ? null : { padding: '20px 9px 0px' }}>
+        <Grid fluid style={this.isBotBuilder ? { padding: '0px' } : null}>
+          <Row>
+            <Col
+              md={12}
+              xl={this.state.colSkill}
+              style={{
+                display: this.state.colSkill === 0 ? 'none' : 'block',
+                maxWidth: this.isBotBuilder ? '100%' : '98%',
+                marginBottom: this.isBotBuilder ? '0px' : '40px',
+              }}
+            >
+              {this.mode === 'edit' &&
+                accessToken &&
+                !this.props.revertingCommit &&
+                this.commitId &&
+                showTopBar && (
+                  <EditPaper zDepth={1}>
+                    <div>
+                      {
+                        'You are currently editing an older version of the Skill: '
+                      }
+                      <B>{this.skillTag}</B>
+                      <br />
+                      <span>
+                        Author: <B>{this.state.author}</B>
+                      </span>
+                      <br />
+                      <span>
+                        commitID: <b>{this.commitId}</b>
+                      </span>
+                      <br />
+                      <span>
+                        Revision as of <b>{this.state.date}</b>
+                      </span>
+                    </div>
+                  </EditPaper>
+                )}
+              {!accessToken && (
+                <div>
+                  <HomeDiv>
+                    <TitlePara>
+                      YOU DO NOT HAVE PERMISSION TO EDIT THIS PAGE, SINCE YOU
+                      ARE NOT LOGGED IN.
+                    </TitlePara>
+                    <DescriptionPara>
+                      The code is shown below in a read only mode.
+                    </DescriptionPara>
+                  </HomeDiv>
+                </div>
+              )}
+              {accessToken &&
+                this.mode === 'edit' &&
+                !this.state.editable &&
+                !isAdmin && (
+                  <HomeDiv>
+                    <TitlePara>
+                      THIS SKILL IS NOT EDITABLE. IT IS CURRENTLY LOCKED BY
+                      ADMINS. YOU CAN STILL SEE THE CODE OF THE SKILL.
+                    </TitlePara>
+                    <SubTitlePara>
+                      There can be various reasons for non-editable skills.{' '}
+                      <br />
+                      For example if the skill is a standard skill, if there was
+                      vandalism happening in the skill or if there is a dispute
+                      about the skill.
+                    </SubTitlePara>
+                    <DescriptionPara>
+                      The code is shown below in a read only mode.
+                    </DescriptionPara>
+                  </HomeDiv>
+                )}
+
+              {this.isBotBuilder ? (
+                <div>{skillWizard}</div>
+              ) : (
+                <StyledPaper>{skillWizard}</StyledPaper>
+              )}
+            </Col>
+            {this.isBotBuilder ? null : (
+              <PreviewCol
                 md={12}
-                xl={this.state.colSkill}
+                xl={this.state.colPreview}
                 style={{
-                  display: this.state.colSkill === 0 ? 'none' : 'block',
+                  display: this.state.colPreview === 0 ? 'none' : 'block',
                 }}
               >
-                {this.mode === 'edit' &&
-                  accessToken &&
-                  !this.props.revertingCommit &&
-                  this.commitId &&
-                  showTopBar && (
-                    <EditPaper zDepth={1}>
-                      <div>
-                        {
-                          'You are currently editing an older version of the Skill: '
-                        }
-                        <B>{this.skillTag}</B>
-                        <br />
-                        <span>
-                          Author: <B>{this.state.author}</B>
-                        </span>
-                        <br />
-                        <span>
-                          commitID: <b>{this.commitId}</b>
-                        </span>
-                        <br />
-                        <span>
-                          Revision as of <b>{this.state.date}</b>
-                        </span>
-                      </div>
-                    </EditPaper>
-                  )}
-                {!accessToken && (
-                  <div>
-                    <HomeDiv>
-                      <TitlePara>
-                        YOU DO NOT HAVE PERMISSION TO EDIT THIS PAGE, SINCE YOU
-                        ARE NOT LOGGED IN.
-                      </TitlePara>
-                      <DescriptionPara>
-                        The code is shown below in a read only mode.
-                      </DescriptionPara>
-                    </HomeDiv>
-                  </div>
-                )}
-                {accessToken &&
-                  this.mode === 'edit' &&
-                  !this.state.editable &&
-                  !isAdmin && (
-                    <HomeDiv>
-                      <TitlePara>
-                        THIS SKILL IS NOT EDITABLE. IT IS CURRENTLY LOCKED BY
-                        ADMINS. YOU CAN STILL SEE THE CODE OF THE SKILL.
-                      </TitlePara>
-                      <SubTitlePara>
-                        There can be various reasons for non-editable skills.{' '}
-                        <br />
-                        For example if the skill is a standard skill, if there
-                        was vandalism happening in the skill or if there is a
-                        dispute about the skill.
-                      </SubTitlePara>
-                      <DescriptionPara>
-                        The code is shown below in a read only mode.
-                      </DescriptionPara>
-                    </HomeDiv>
-                  )}
-                <SkillInfoDiv
-                  style={{
-                    paddingTop: this.isBotBuilder ? '0rem' : '1.75rem',
-                  }}
-                >
-                  {this.isBotBuilder ? (
-                    <Heading>1. Add a new skill to your bot</Heading>
-                  ) : (
-                    this.mode === 'create' && (
-                      <Heading>Create a SUSI Skill</Heading>
-                    )
-                  )}
-                  <ViewsDiv>
-                    <IconButton
-                      onClick={() => actions.setView({ view: 'code' })}
-                    >
-                      <Code color={view === 'code' ? 'primary' : 'inherit'} />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => actions.setView({ view: 'conversation' })}
-                    >
-                      <QA
-                        color={view === 'conversation' ? 'primary' : 'inherit'}
-                      />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => actions.setView({ view: 'tree' })}
-                    >
-                      <Timeline
-                        color={view === 'tree' ? 'primary' : 'inherit'}
-                      />
-                    </IconButton>
-                  </ViewsDiv>
-                </SkillInfoDiv>
-                <ReactToolTip
-                  effect="solid"
-                  place="bottom"
-                  delayHide={500}
-                  html={true}
+                <Preview
+                  handlePreviewToggle={this.handlePreviewToggle}
+                  paperWidth={'100%'}
                 />
-                {accessToken && this.state.editable && (
-                  <SkillEditPaper>
-                    <InfoIcon
-                      data-tip={`Learn more about <a href=${urls.GITHUB_URL +
-                        '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
-                    />
-                    <CenterDiv>
-                      <DropDownDiv>
-                        <DropDownWrap>
-                          <SkillDetail>
-                            <DetailText>Category:&nbsp;</DetailText>
-                            <SelectDropDown
-                              value={category}
-                              onChange={this.handleGroupChange}
-                              autoWidth={true}
-                            >
-                              {this.state.groups}
-                            </SelectDropDown>
-                          </SkillDetail>
-                          <SkillDetail>
-                            <DetailText>Language:&nbsp;</DetailText>
-                            <SelectDropDown
-                              value={language}
-                              onChange={this.handleLanguageChange}
-                              autoWidth={true}
-                            >
-                              {this.state.languages}
-                            </SelectDropDown>
-                          </SkillDetail>
-                        </DropDownWrap>
-                        <NameField
-                          label={this.isBotBuilder ? 'Bot Name' : 'Skill Name'}
-                          placeholder={
-                            this.isBotBuilder ? 'Bot Name' : 'Skill Name'
-                          }
-                          margin="normal"
-                          value={name}
-                          onChange={this.handleExpertChange}
-                        />
-                        <ImageDiv>
-                          {showImage && (
-                            <Img alt="preview" id="target" src={image} />
-                          )}
-                          <Form>
-                            <UploadCircularButton title="Upload bot image">
-                              <Input
-                                accept="image/*"
-                                type="file"
-                                ref={c => {
-                                  this.file = c;
-                                }}
-                                name="user[image]"
-                                multiple={false}
-                                onChange={this._onChange}
-                              />
-                              <AddIcon />
-                            </UploadCircularButton>
-                          </Form>
-                        </ImageDiv>
-                      </DropDownDiv>
-                    </CenterDiv>
-                  </SkillEditPaper>
-                )}
-                {!loadViews ? <CircularLoader height={10} /> : null}
-                {view === 'code' && loadViews ? (
-                  <CodeView editable={accessToken && this.state.editable} />
-                ) : null}
-                {view === 'conversation' && loadViews ? (
-                  <ConversationView />
-                ) : null}
-                {view === 'tree' && loadViews ? (
-                  <TreeView botbuilder={false} />
-                ) : null}
-                {!this.isBotBuilder && accessToken && this.state.editable && (
-                  <SkillCommitDiv>
-                    <SavePaper>
-                      <CommitField
-                        label="Commit message"
-                        placeholder="Enter Commit Message"
-                        margin="normal"
-                        value={this.state.commitMessage}
-                        onChange={this.handleCommitMessageChange}
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.saveClick}
-                      >
-                        {this.state.loading ? (
-                          <CircularProgress color="#ffffff" size={24} />
-                        ) : (
-                          this.handleLabel()
-                        )}
-                      </Button>
-                      <Link
-                        to={
-                          this.mode === 'create'
-                            ? '/'
-                            : {
-                                pathname:
-                                  '/' + category + '/' + name + '/' + language,
-                              }
-                        }
-                      >
-                        <Button variant="contained" color="primary">
-                          Cancel
-                        </Button>
-                      </Link>
-                    </SavePaper>
-                  </SkillCommitDiv>
-                )}
-                {this.state.prevButton === 1 ? (
-                  <PreviewButton>
-                    <span title="See Preview">
-                      <ChevronLeftIcon onClick={this.handlePreviewToggle} />
-                    </span>
-                  </PreviewButton>
-                ) : null}
-                {this.mode === 'edit' && isAdmin && (
-                  <DeleteSkillSection>
-                    <div>
-                      <div>
-                        <b>Delete this Skill</b>
-                      </div>
-                      {'Once you delete a skill, only admins can ' +
-                        'undo this action before 30 days of deletion. Please be certain.'}
-                    </div>
-                    <DeleteButton onClick={this.handleDeleteModal}>
-                      Delete
-                    </DeleteButton>
-                  </DeleteSkillSection>
-                )}
-              </Col>
-              {this.isBotBuilder ? null : (
-                <SkillCreatorCol
-                  md={12}
-                  xl={this.state.colPreview}
-                  style={{
-                    display: this.state.colPreview === 0 ? 'none' : 'block',
-                  }}
-                >
-                  <PreviewPaper>
-                    <PreviewHeadingDiv>
-                      <span title="collapse preview">
-                        <ChevronRightIcon onClick={this.handlePreviewToggle} />
-                      </span>
-                      <H2>Preview</H2>
-                    </PreviewHeadingDiv>
-                    <PreviewContainer>
-                      <Preview botBuilder={false} />
-                    </PreviewContainer>
-                  </PreviewPaper>
-                </SkillCreatorCol>
-              )}
-            </Row>
-          </Grid>
-        </Container>
-      </Home>
+              </PreviewCol>
+            )}
+          </Row>
+        </Grid>
+      </Container>
     );
   }
 }
