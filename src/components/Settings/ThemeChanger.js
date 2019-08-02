@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import CloseButton from '../shared/CloseButton';
 import Button from '@material-ui/core/Button';
 import Translate from '../Translate/Translate.react';
-import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../shared/OutlinedTextField';
 import { Col, Row } from 'react-flexbox-grid';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -289,7 +289,8 @@ class ThemeChanger extends Component {
                 />
               )}
               {component.id === 1 && showMessageBackgroundImage && (
-                <TextField
+                <OutlinedTextField
+                  margin="dense"
                   name="messageImg"
                   onChange={this.handleChangeMessageBackgroundImage(
                     'messageBackgroundImage',
