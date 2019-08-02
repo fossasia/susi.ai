@@ -866,3 +866,18 @@ export function refreshDeviceList() {
   const url = `${SOUND_SERVER_API_URL}/getdevice`;
   return ajax.post(url, {}, { isTokenRequired: false });
 }
+
+export function setControlOptions(payload) {
+  const url = `${SOUND_SERVER_API_URL}/config`;
+  const { stt, tts, hotword, wake } = payload;
+  return ajax.get(
+    url,
+    {
+      stt,
+      tts,
+      hotword,
+      wake,
+    },
+    { isTokenRequired: false },
+  );
+}
