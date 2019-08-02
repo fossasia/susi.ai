@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../../redux/actions/ui';
 import styled from 'styled-components';
-import { StyledPaper, Heading, Container, HeadingContainer } from '../styles';
+import { Heading, Container, HeadingContainer } from '../styles';
 
 const OrderedList = styled.ol`
   list-style-type: none;
@@ -114,7 +114,7 @@ class Deploy extends Component {
       '&gt;&lt;/script&gt;';
 
     return (
-      <StyledPaper>
+      <div>
         <HeadingContainer>
           <Heading>4. Deploy your bot to your own website</Heading>
         </HeadingContainer>
@@ -162,7 +162,7 @@ class Deploy extends Component {
             <ListItem>Start chatting with your SUSI bot.</ListItem>
           </OrderedList>
         </Container>
-      </StyledPaper>
+      </div>
     );
   }
 }
