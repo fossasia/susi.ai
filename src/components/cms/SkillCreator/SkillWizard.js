@@ -4,7 +4,6 @@ import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
-import { urls } from '../../../utils';
 import searchURLPath from '../../../utils/searchURLPath';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
@@ -40,9 +39,7 @@ import './Animation.min.css';
 // Material-UI Components
 import Button from '@material-ui/core/Button';
 import _Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import OutlinedTextField from '../../shared/OutlinedTextField';
-import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _IconButton from '@material-ui/core/IconButton';
 import styled from 'styled-components';
@@ -80,9 +77,11 @@ const DeleteButton = styled(Button)`
   }
 `;
 
-const SelectDropDown = styled(Select)`
+const OutlinedSelectField = styled(OutlinedTextField)`
   position: relative;
-  width: 15.625rem;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 0px;
   @media (max-width: 500px) {
     width: 100%;
     padding-top: 0.5rem;
@@ -100,6 +99,7 @@ const DropDownDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  width: 100%;
   @media (max-width: 813px) {
     width: 100%;
     padding: 0.7rem;
@@ -107,11 +107,12 @@ const DropDownDiv = styled.div`
 `;
 
 const SkillDetail = styled.div`
-  display: flex;
+  display: block;
   align-items: center;
   margin-right: 1rem;
+  width: 26%;
   @media (max-width: 813px) {
-    width: 100%;
+    width: 15.625rem;
     margin-top: 1rem;
   }
   @media (min-width: 2000px) {
@@ -119,10 +120,11 @@ const SkillDetail = styled.div`
   }
 `;
 
-const NameField = styled(TextField)`
-  width: 15.625rem;
+const OutlinedInput = styled(OutlinedTextField)`
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 0px;
   @media (max-width: 500px) {
-    margin: 10px;
     width: 100%;
   }
 `;
@@ -133,15 +135,6 @@ const CommitField = styled(OutlinedTextField)`
 
   @media (max-width: 480px) {
     margin-bottom: 1rem;
-  }
-`;
-
-const DetailText = styled.span`
-  font-size: 15px;
-  padding-left: 0.625rem;
-  margin-right: 0.5rem;
-  @media (max-width: 414px) {
-    padding-left: 0px;
   }
 `;
 
@@ -214,12 +207,11 @@ const CenterDiv = styled.div`
 const InfoIcon = styled(Info)`
   position: relative;
   float: right;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 2rem;
+  width: 2rem;
   cursor: pointer;
-  color: #9e9e9e;
+  color: rgb(66, 133, 244);
   display: inline-bock;
-  position: relative;
   right: 0px;
   top: 0px;
 `;
@@ -286,10 +278,12 @@ const Img = styled.img`
 
 const ImageDiv = styled.div`
   width: auto;
-  padding-top: 20px;
 
-  @media (max-width: 500px) {
-    margin-left: 10px;
+  @media (min-width: 1200px) and (max-width: 1496px) {
+    padding-top: 1rem;
+  }
+  @media (max-width: 1029px) {
+    padding-top: 2rem;
   }
 `;
 
@@ -328,7 +322,7 @@ const PreviewButton = styled.div`
 const DropDownWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  width: 100%;
 `;
 
 const Check = styled(_Check)`
@@ -1039,41 +1033,48 @@ class SkillWizard extends Component {
         />
         {accessToken && this.state.editable && (
           <PaperContainer>
-            <InfoIcon
-              data-tip={`Learn more about <a href=${urls.GITHUB_URL +
-                '/blob/master/docs/Skill_Tutorial.md'} rel="noopener noreferrer" target="_blank" >SUSI Skill Language</a>`}
-            />
+            <a
+              href="https://github.com/fossasia/susi.ai/blob/master/docs/Skill_Tutorial.md"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <InfoIcon data-tip="Learn more about SUSI Skill Language" />
+            </a>
             <CenterDiv>
               <DropDownDiv>
                 <DropDownWrap>
                   <SkillDetail>
-                    <DetailText>Category:&nbsp;</DetailText>
-                    <SelectDropDown
+                    <OutlinedSelectField
+                      select
+                      label="Category"
                       value={category}
                       onChange={this.handleGroupChange}
                       autoWidth={true}
                     >
                       {this.state.groups}
-                    </SelectDropDown>
+                    </OutlinedSelectField>
                   </SkillDetail>
                   <SkillDetail>
-                    <DetailText>Language:&nbsp;</DetailText>
-                    <SelectDropDown
+                    <OutlinedSelectField
+                      select
+                      label="Language"
                       value={language}
                       onChange={this.handleLanguageChange}
                       autoWidth={true}
                     >
                       {this.state.languages}
-                    </SelectDropDown>
+                    </OutlinedSelectField>
                   </SkillDetail>
                   <SkillDetail>
-                    <DetailText>
-                      {this.isBotBuilder ? 'Bot Name: ' : 'Skill Name: '}
-                    </DetailText>
-                    <NameField
+                    <OutlinedInput
+                      id="outlined-name"
+                      label={this.isBotBuilder ? 'Bot Name ' : 'Skill Name '}
                       margin="normal"
                       value={name}
                       onChange={this.handleExpertChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </SkillDetail>
                   <ImageDiv>
