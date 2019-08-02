@@ -138,15 +138,6 @@ const CommitField = styled(OutlinedTextField)`
   }
 `;
 
-const DetailText = styled.span`
-  font-size: 15px;
-  display: block;
-  margin-right: 0.5rem;
-  @media (max-width: 414px) {
-    padding-left: 0px;
-  }
-`;
-
 const UploadCircularButton = styled.label`
   border-radius: 50%;
   height: 3.75rem;
@@ -287,9 +278,11 @@ const Img = styled.img`
 
 const ImageDiv = styled.div`
   width: auto;
-  padding-top: 1rem;
 
-  @media (max-width: 770px) {
+  @media (min-width: 1200px) and (max-width: 1496px) {
+    padding-top: 1rem;
+  }
+  @media (max-width: 1029px) {
     padding-top: 2rem;
   }
 `;
@@ -1051,9 +1044,9 @@ class SkillWizard extends Component {
               <DropDownDiv>
                 <DropDownWrap>
                   <SkillDetail>
-                    <DetailText>Category:&nbsp;</DetailText>
                     <OutlinedSelectField
                       select
+                      label="Category"
                       value={category}
                       onChange={this.handleGroupChange}
                       autoWidth={true}
@@ -1062,9 +1055,9 @@ class SkillWizard extends Component {
                     </OutlinedSelectField>
                   </SkillDetail>
                   <SkillDetail>
-                    <DetailText>Language:&nbsp;</DetailText>
                     <OutlinedSelectField
                       select
+                      label="Language"
                       value={language}
                       onChange={this.handleLanguageChange}
                       autoWidth={true}
@@ -1073,13 +1066,15 @@ class SkillWizard extends Component {
                     </OutlinedSelectField>
                   </SkillDetail>
                   <SkillDetail>
-                    <DetailText>
-                      {this.isBotBuilder ? 'Bot Name: ' : 'Skill Name: '}
-                    </DetailText>
                     <OutlinedInput
+                      id="outlined-name"
+                      label={this.isBotBuilder ? 'Bot Name ' : 'Skill Name '}
                       margin="normal"
                       value={name}
                       onChange={this.handleExpertChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </SkillDetail>
                   <ImageDiv>
