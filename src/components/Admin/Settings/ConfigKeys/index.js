@@ -16,7 +16,7 @@ import { ActionSpan, ActionSeparator } from '../../../shared/TableActionStyles';
 
 const Table = styled(_Table)`
   max-width: 40rem;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   background-color: #fff;
   @media (max-width: 780px) {
     display: block;

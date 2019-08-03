@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
+import Select from '../../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import {
   Overlay,

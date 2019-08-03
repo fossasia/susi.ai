@@ -5,15 +5,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import _Select from '@material-ui/core/Select';
+import Select from '../../shared/Select';
 import { changeUserRole } from '../../../apis';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uiActions from '../../../redux/actions/ui';
-import styled from 'styled-components';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-
-const Select = styled(_Select)``;
 
 class EditUserRole extends React.Component {
   state = {
