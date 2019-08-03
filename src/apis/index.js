@@ -749,11 +749,11 @@ export function fetchMailSettings(payload) {
 export function changeMailSettings(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/emailSettings.json`;
   const {
-    frontendUrl,
+    frontendUrl: frontend_url,
     type,
     name,
     email,
-    sendgridToken,
+    sendgridToken: sendgrid_token,
     trustselfsignedcerts,
     encryption,
     port,
@@ -762,29 +762,29 @@ export function changeMailSettings(payload) {
     smtpHost,
   } = payload;
   return ajax.get(url, {
-    frontendUrl,
+    frontend_url,
     type,
     name,
     email,
-    sendgridToken,
+    sendgrid_token,
     trustselfsignedcerts,
     encryption,
     port,
     username,
     password,
-    smtpHost,
+    smtp_host: smtpHost,
   });
 }
 
 export function sendEmail(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/emailSettings.json`;
   const {
-    frontendUrl,
+    frontendUrl: frontend_url,
     type,
     name,
     email,
-    sendgridToken,
-    receiverEmail,
+    sendgridToken: sendgrid_token,
+    receiverEmail: receiver_email,
     trustselfsignedcerts,
     encryption,
     port,
@@ -793,18 +793,18 @@ export function sendEmail(payload) {
     smtpHost,
   } = payload;
   return ajax.get(url, {
-    frontendUrl,
+    frontend_url,
     type,
     name,
     email,
-    sendgridToken,
-    receiverEmail,
+    sendgrid_token,
+    receiver_email,
     trustselfsignedcerts,
     encryption,
     port,
     username,
     password,
-    smtpHost,
+    smtp_host: smtpHost,
   });
 }
 
@@ -865,4 +865,19 @@ export function playInYoutubeAction({ youtubeLink }) {
 export function refreshDeviceList() {
   const url = `${SOUND_SERVER_API_URL}/getdevice`;
   return ajax.post(url, {}, { isTokenRequired: false });
+}
+
+export function setControlOptions(payload) {
+  const url = `${SOUND_SERVER_API_URL}/config`;
+  const { stt, tts, hotword, wake } = payload;
+  return ajax.get(
+    url,
+    {
+      stt,
+      tts,
+      hotword,
+      wake,
+    },
+    { isTokenRequired: false },
+  );
 }

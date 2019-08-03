@@ -18,7 +18,6 @@ import CircleImage from '../../shared/CircleImage';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
@@ -31,6 +30,7 @@ import getImageSrc from '../../../utils/getImageSrc';
 import { Paper, CenterReaderContainer } from '../../shared/Container';
 import { SubTitle, Title } from '../../shared/Typography';
 import CircularLoader from '../../shared/CircularLoader';
+import OutlinedTextField from '../../shared/OutlinedTextField';
 
 const LEFT_PAGE = 'LEFT';
 const RIGHT_PAGE = 'RIGHT';
@@ -402,6 +402,7 @@ class SkillFeedbackPage extends Component {
     this.props.actions.openModal({ modalType: 'authorSkills' });
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const { currentPage, errorText, loading, anchorEl } = this.state;
     const {
@@ -532,10 +533,12 @@ class SkillFeedbackPage extends Component {
             <div>
               <Timestamp>
                 <FormControl fullWidth={true}>
-                  <Input
+                  <OutlinedTextField
                     id="post-feedback"
+                    label="Skill Feedback"
                     placeholder="Skill Feedback"
                     defaultValue=""
+                    margin="dense"
                     multiLine={true}
                     fullWidth={true}
                     onChange={this.setFeedback}

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import uiActions from '../../../redux/actions/ui';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
 import VolumeDown from '@material-ui/icons/VolumeDown';
@@ -16,8 +18,12 @@ import Refresh from '@material-ui/icons/Refresh';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import Select from '../../shared/Select';
 import OutlinedTextField from '../../shared/OutlinedTextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import {
   resumeAction,
   pauseAction,
@@ -29,6 +35,7 @@ import {
   setVolumeAction,
   playInYoutubeAction,
   refreshDeviceList,
+  setControlOptions,
 } from '../../../apis';
 import {
   Section,
@@ -41,6 +48,7 @@ import {
 class ControlSection extends React.Component {
   static propTypes = {
     isLocalEnv: PropTypes.bool,
+    actions: PropTypes.object,
   };
 
   state = {
@@ -48,6 +56,10 @@ class ControlSection extends React.Component {
     youtubeLink: '',
     devicesList: [],
     selectedDevice: '',
+    stt: 'google',
+    tts: 'google',
+    hotword: 'Snowboy',
+    wake: 'y',
   };
 
   componentDidMount() {
@@ -82,8 +94,41 @@ class ControlSection extends React.Component {
     });
   };
 
+  handleRadioChange = e => {
+    const { actions } = this.props;
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      const { stt, tts, hotword, wake } = this.state;
+      setControlOptions({
+        stt,
+        tts,
+        hotword,
+        wake,
+      })
+        .then(() => {
+          actions.openSnackBar({
+            snackBarMessage: 'Successfully updated Speaker configuration',
+          });
+        })
+        .catch(error => {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to update Speaker configuration',
+          });
+        });
+    });
+  };
+
   render() {
-    const { volume, youtubeLink, devicesList, selectedDevice } = this.state;
+    const {
+      volume,
+      youtubeLink,
+      devicesList,
+      selectedDevice,
+      stt,
+      tts,
+      hotword,
+      wake,
+    } = this.state;
     const { isLocalEnv } = this.props;
     return (
       <OverlayContainer>
@@ -220,6 +265,118 @@ class ControlSection extends React.Component {
             </Fab>
           </FlexContainer>
         </Section>
+
+        <Section>
+          <ControlHeading>Speech To Text(STT)</ControlHeading>
+          <FlexContainer>
+            <FormControl>
+              <RadioGroup
+                aria-label="stt"
+                name="stt"
+                value={stt}
+                onChange={this.handleRadioChange}
+              >
+                <FormControlLabel
+                  value="google"
+                  control={<Radio />}
+                  label="Google"
+                />
+                <FormControlLabel
+                  value="watson"
+                  control={<Radio />}
+                  label="Watson"
+                />
+                <FormControlLabel
+                  value="bing"
+                  control={<Radio />}
+                  label="Bing"
+                />
+                <FormControlLabel
+                  value="pocketsphinx"
+                  control={<Radio />}
+                  label="Pocket Sphinx"
+                />
+              </RadioGroup>
+            </FormControl>
+          </FlexContainer>
+        </Section>
+        <Section>
+          <ControlHeading>Text To Speech(TTS)</ControlHeading>
+          <FlexContainer>
+            <FormControl>
+              <RadioGroup
+                aria-label="tts"
+                name="tts"
+                value={tts}
+                onChange={this.handleRadioChange}
+              >
+                <FormControlLabel
+                  value="google"
+                  control={<Radio />}
+                  label="Google"
+                />
+                <FormControlLabel
+                  value="watson"
+                  control={<Radio />}
+                  label="Watson"
+                />
+                <FormControlLabel
+                  value="flite"
+                  control={<Radio />}
+                  label="Flite"
+                />
+              </RadioGroup>
+            </FormControl>
+          </FlexContainer>
+        </Section>
+        <Section>
+          <ControlHeading>Set Hotword Engine</ControlHeading>
+          <FlexContainer>
+            <FormControl>
+              <RadioGroup
+                aria-label="Hotword"
+                name="hotword"
+                value={hotword}
+                onChange={this.handleRadioChange}
+              >
+                <FormControlLabel
+                  value="Snowboy"
+                  control={<Radio />}
+                  label="Snowboy"
+                />
+                <FormControlLabel
+                  value="PocketSphinx"
+                  control={<Radio />}
+                  label="Pocket Sphinx"
+                />
+              </RadioGroup>
+            </FormControl>
+          </FlexContainer>
+        </Section>
+        <Section>
+          <ControlHeading>Wake Button</ControlHeading>
+          <FlexContainer>
+            <FormControl>
+              <RadioGroup
+                aria-label="wake-button"
+                name="wake"
+                value={wake}
+                onChange={this.handleRadioChange}
+              >
+                <FormControlLabel
+                  value="y"
+                  control={<Radio />}
+                  label="Enable"
+                />
+                <FormControlLabel
+                  value="n"
+                  control={<Radio />}
+                  label="Disable"
+                />
+              </RadioGroup>
+            </FormControl>
+          </FlexContainer>
+        </Section>
       </OverlayContainer>
     );
   }
@@ -231,7 +388,13 @@ function mapStateToProps(store) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(ControlSection);

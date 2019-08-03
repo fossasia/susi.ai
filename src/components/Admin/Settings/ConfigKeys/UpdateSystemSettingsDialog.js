@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../../../shared/OutlinedTextField';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -40,20 +40,18 @@ class UpdateSystemSettings extends React.Component {
       <React.Fragment>
         <DialogTitle>{`${type} key`}</DialogTitle>
         <DialogContent>
-          <TextField
+          <OutlinedTextField
             label="Key Name"
             placeholder="Key Name"
-            margin="normal"
             value={keyName || ''}
             fullWidth={true}
             name="keyName"
             onChange={this.handleChange}
             disabled={type === 'Update'}
           />
-          <TextField
+          <OutlinedTextField
             label="Key Value"
             placeholder="Key Value"
-            margin="normal"
             name="keyValue"
             value={keyValue || ''}
             fullWidth={true}

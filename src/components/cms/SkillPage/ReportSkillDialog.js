@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uiActions from '../../../redux/actions/ui';
-import TextField from '@material-ui/core/TextField';
+import OutlinedTextField from '../../shared/OutlinedTextField';
 
 class ReportSkill extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class ReportSkill extends React.Component {
       <React.Fragment>
         <DialogTitle>Flag as inappropriate</DialogTitle>
         <DialogContent>
-          <TextField
+          <OutlinedTextField
             multiline={true}
             fullWidth={true}
             onChange={(event, val) =>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Input from '@material-ui/core/Input';
+import OutlinedTextField from '../../shared/OutlinedTextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
@@ -21,8 +21,9 @@ const EditFeedback = props => {
       <DialogTitle>Edit Feedback</DialogTitle>
       <DialogContent>
         <FormControl fullWidth={true}>
-          <Input
+          <OutlinedTextField
             id="edit-feedback"
+            label="Skill Feedback"
             placeholder="Skill Feedback"
             defaultValue={feedback || ''}
             multiLine={true}
