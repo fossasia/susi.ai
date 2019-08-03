@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _Select from '@material-ui/core/Select';
+import _Select from '../../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import urls from '../../../utils/urls';

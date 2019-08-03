@@ -33,7 +33,6 @@ import {
 } from '../../../apis';
 
 import CircularLoader from '../../shared/CircularLoader';
-
 import './Animation.min.css';
 
 // Material-UI Components
