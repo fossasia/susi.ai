@@ -15,6 +15,9 @@ import { searchMessages } from '../../../utils/searchMessages';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
 import skillActions from '../../../redux/actions/skill';
+import messageActions from '../../../redux/actions/messages';
+import { getAllUserMessages } from '../../../utils/messageFilter';
+import { createMessagePairArray } from '../../../utils/formatMessage';
 import styled, { keyframes } from 'styled-components';
 import getCustomThemeColors from '../../../utils/colors';
 import MessageBubble from '../MessageListItem/MessageBubbleStyle';
@@ -288,9 +291,30 @@ class MessageSection extends Component {
   }
 
   componentDidMount = () => {
+    const { actions } = this.props;
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    this.scrollarea && this.scrollarea.scrollToBottom();
+    actions
+      .getHistoryFromServer()
+      .then(({ payload }) => {
+        createMessagePairArray(payload).then(messagePairArray => {
+          actions.initializeMessageStore(messagePairArray).then(() => {
+            const { messagesByID, messages } = this.props;
+            this.userMessageHistory = getAllUserMessages(
+              messages,
+              messagesByID,
+              'REVERSE',
+            );
+          });
+        });
+      })
+      .then(() => {
+        this.scrollarea && this.scrollarea.scrollToBottom();
+      })
+      .catch(error => {
+        actions.initializeMessageStoreFailed();
+        console.log(error);
+      });
   };
 
   componentWillUnmount = () => {
@@ -858,7 +882,10 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...uiActions, ...skillActions }, dispatch),
+    actions: bindActionCreators(
+      { ...uiActions, ...skillActions, ...messageActions },
+      dispatch,
+    ),
   };
 }
 
