@@ -23,6 +23,7 @@ import Privacy from './components/Privacy/Privacy.react';
 import appActions from './redux/actions/app';
 import uiActions from './redux/actions/ui';
 import ProtectedRoute from './components/shared/ProtectedRoute';
+import DeviceProtectedRoute from './components/shared/DeviceProtectedRoute';
 import DialogSection from '../src/components/shared/Dialog';
 import settingActions from './redux/actions/settings';
 import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
@@ -239,12 +240,12 @@ class App extends Component {
                   path="/:category/:skill/edit/:lang/:latestid/:revertid"
                   component={EnhancedSkillRollBack}
                 />
-                <Route
+                <DeviceProtectedRoute
                   exact
                   path="/:category/:skill/edit/:lang"
                   component={EnhancedSkillWizard}
                 />
-                <Route
+                <DeviceProtectedRoute
                   exact
                   path="/:category/:skill/edit/:lang/:commit"
                   component={EnhancedSkillWizard}

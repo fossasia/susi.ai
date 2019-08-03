@@ -3,6 +3,7 @@ const urls = {
   SOUND_SERVER_API_URL: 'http://0.0.0.0:7070',
   CHAT_URL: 'https://susi.ai/chat',
   SKILL_URL: 'https://susi.ai/skills',
+  HOME_URL: 'https://susi.ai',
   GITHUB_URL: 'https://github.com/fossasia/susi.ai',
   GITHUB_AVATAR_URL: 'https://avatars.githubusercontent.com',
   GRAVATAR_URL: 'https://www.gravatar.com/avatar',
