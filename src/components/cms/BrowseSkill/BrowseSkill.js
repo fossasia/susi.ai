@@ -8,7 +8,7 @@ import skillActions from '../../../redux/actions/skills';
 import uiActions from '../../../redux/actions/ui';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import Select from '../../shared/Select';
 import _FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';

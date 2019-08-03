@@ -18,7 +18,7 @@ import Refresh from '@material-ui/icons/Refresh';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import Select from '../../shared/Select';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
