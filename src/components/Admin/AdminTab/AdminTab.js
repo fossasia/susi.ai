@@ -59,7 +59,6 @@ const Container = styled.div`
 const Card = styled(_Card)`
   width: ${props => (props.width ? props.width : '400px')};
   height: ${props => (props.height ? props.height + 'px' : '310px')};
-  margin-bottom: 20px;
   font-size: 18px;
   line-height: 2;
   ${props =>
@@ -68,6 +67,9 @@ const Card = styled(_Card)`
       margin: ${props => props.margin};
       padding-right: 1rem;
     `}
+  & {
+    margin-bottom: 20px;
+  }
   @media (max-width: 514px) {
     width: 100%;
   }
@@ -85,18 +87,20 @@ class AdminTab extends React.Component {
     this.state = {
       userStats: {},
       skillStats: {},
+      deviceStats: {},
       loading: false,
       creationOverTime: [],
       lastAccessOverTime: [],
       lastModifiedOverTime: [],
       lastLoginOverTime: [],
       signupOverTime: [],
+      deviceAddedOverTime: [],
     };
   }
 
   componentDidMount() {
     Promise.all([
-      fetchAdminUserStats({ getUserStats: 'true' })
+      fetchAdminUserStats({ getUserStats: true })
         .then(payload => {
           const {
             userStats,
@@ -108,6 +112,15 @@ class AdminTab extends React.Component {
             lastLoginOverTime,
             signupOverTime,
           });
+        })
+        .catch(error => {
+          console.log(error);
+        }),
+      fetchAdminUserStats({ getDeviceStats: true })
+        .then(payload => {
+          const { deviceStats } = payload;
+          const { deviceAddedOverTime } = deviceStats;
+          this.setState({ deviceStats, deviceAddedOverTime });
         })
         .catch(error => {
           console.log(error);
@@ -146,6 +159,7 @@ class AdminTab extends React.Component {
       lastModifiedOverTime,
       lastLoginOverTime,
       signupOverTime,
+      deviceAddedOverTime,
     } = this.state;
 
     const CONFIG = [
@@ -174,6 +188,13 @@ class AdminTab extends React.Component {
         heading: 'User Logins over Time',
         legend: 'User logins',
       },
+      {
+        data: deviceAddedOverTime,
+        heading: 'Devices Added over Time',
+        legend: 'Devices Added',
+        sort: false,
+        decreaseYAxisRange: true,
+      },
     ];
 
     return CONFIG.map(chart => {
@@ -184,20 +205,35 @@ class AdminTab extends React.Component {
     });
   };
 
-  renderChart = ({ data, heading, legend }) => {
-    const dateSortedData = sortByDate(data);
-    // The dateSortedData array has multiple entries for same date, add the count of same dates
-    const mergedateSortedData = mergeByDate(dateSortedData);
-    const chartData = mergedateSortedData.map(data => {
+  renderChart = ({
+    data,
+    heading,
+    legend,
+    sort = true,
+    decreaseYAxisRange = false,
+  }) => {
+    let dataOverTime = data;
+    if (sort) {
+      const dateSortedData = sortByDate(data);
+      // The dateSortedData array has multiple entries for same date, add the count of same dates
+      dataOverTime = mergeByDate(dateSortedData);
+    }
+    const chartData = dataOverTime.map(data => {
       const chatObj = {};
       chatObj.timestamp = moment(data.timeStamp).format('MM/YY');
       chatObj.count = data.count;
       return chatObj;
     });
-    const yAxisProps = {
+    let yAxisProps = {
       domain: [0, 150],
       ticks: [0, 30, 60, 90, 120, 150],
     };
+    if (decreaseYAxisRange) {
+      yAxisProps = {
+        domain: [0, 50],
+        ticks: [0, 10, 20, 30, 40, 50],
+      };
+    }
 
     return (
       data.length > 0 && (
@@ -237,6 +273,7 @@ class AdminTab extends React.Component {
         editableSkills = 0,
         nonEditableSkills = 0,
       },
+      deviceStats: { connectedDevices = 0, deviceUsers = 0 },
     } = this.state;
 
     return (
@@ -341,6 +378,20 @@ class AdminTab extends React.Component {
                     </Typography>
                     <Typography variant="body1" gutterBottom>
                       Non Editable: {nonEditableSkills}
+                    </Typography>
+                  </CardContentContainer>
+                </Card>
+              </CardContainer>
+              <CardContainer>
+                <Card>
+                  <CardHeading>Devices</CardHeading>
+                  <Divider />
+                  <CardContentContainer>
+                    <Typography variant="body1" gutterBottom>
+                      Connected devices: {connectedDevices}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      User with devices: {deviceUsers}
                     </Typography>
                   </CardContentContainer>
                 </Card>
