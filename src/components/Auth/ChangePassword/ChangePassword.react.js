@@ -154,7 +154,7 @@ class ChangePassword extends Component {
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
-            <Translate text="Atleast 8 characters, 1 special character, number, text character" />
+            <Translate text="Atleast 8 characters, 1 special character, number, 1 capital letter" />
           ) : (
             ''
           ),

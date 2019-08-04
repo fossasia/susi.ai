@@ -145,7 +145,7 @@ class SignUp extends Component {
         this.setState({
           password,
           passwordErrorMessage: passwordError
-            ? 'Atleast 8 characters, 1 special character, number, text character'
+            ? 'Atleast 8 characters, 1 special character, number, 1 capital letter'
             : '',
           passwordScore: passwordError ? -1 : passwordScore,
           passwordStrength: passwordError ? '' : strength[passwordScore],
