@@ -17,8 +17,6 @@ import uiActions from '../../redux/actions/ui';
 import { invertColorTextArea } from '../../utils/invertColor';
 import getCustomThemeColors from '../../utils/colors';
 import VoiceRecognition from './VoiceRecognition';
-import { getAllUserMessages } from '../../utils/messageFilter';
-import { createMessagePairArray } from '../../utils/formatMessage';
 
 const ENTER_KEY_CODE = 13;
 const UP_KEY_CODE = 38;
@@ -229,27 +227,9 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    const { actions, pendingUserMessage, speechOutputAlways } = this.props;
-    actions
-      .getHistoryFromServer()
-      .then(({ payload }) => {
-        createMessagePairArray(payload).then(messagePairArray => {
-          actions.initializeMessageStore(messagePairArray).then(() => {
-            const { messagesByID, messages } = this.props;
-            this.userMessageHistory = getAllUserMessages(
-              messages,
-              messagesByID,
-              'REVERSE',
-            );
-            !!pendingUserMessage &&
-              this.createUserMessage(pendingUserMessage, speechOutputAlways);
-          });
-        });
-      })
-      .catch(error => {
-        actions.initializeMessageStoreFailed();
-        console.log(error);
-      });
+    const { pendingUserMessage, speechOutputAlways } = this.props;
+    !!pendingUserMessage &&
+      this.createUserMessage(pendingUserMessage, speechOutputAlways);
   }
 
   onStart = () => {
