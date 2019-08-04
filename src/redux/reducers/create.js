@@ -22,18 +22,18 @@ const defaultState = {
     author: '',
   },
   design: {
-    botbuilderBackgroundBody: '#ffffff',
+    botbuilderBackgroundBody: '#fcfcfc',
     botbuilderBodyBackgroundImg: '',
     botbuilderBodyBackgroundImgName: '',
-    botbuilderUserMessageBackground: '#0077e5',
+    botbuilderUserMessageBackground: '#4285f4',
     botbuilderUserMessageTextColor: '#ffffff',
-    botbuilderBotMessageBackground: '#f8f8f8',
-    botbuilderBotMessageTextColor: '#455a64',
+    botbuilderBotMessageBackground: '#f3f2f4',
+    botbuilderBotMessageTextColor: '#000000',
     botbuilderIconColor: '#000000',
     botbuilderIconImg: botIcon,
     botbuilderIconSelected: 0,
     code:
-      '::bodyBackground #ffffff\n::bodyBackgroundImage \n::userMessageBoxBackground #0077e5\n::userMessageTextColor #ffffff\n::botMessageBoxBackground #f8f8f8\n::botMessageTextColor #455a64\n::botIconColor #000000\n::botIconImage ',
+      '::bodyBackground #fcfcfc\n::bodyBackgroundImage \n::userMessageBoxBackground #4285f4\n::userMessageTextColor #ffffff\n::botMessageBoxBackground #f3f2f4\n::botMessageTextColor #000000\n::botIconColor #000000\n::botIconImage ',
     avatars: avatars.slice(),
   },
   configCode:
