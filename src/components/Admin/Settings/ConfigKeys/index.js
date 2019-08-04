@@ -3,25 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import CircularLoader from '../../../shared/CircularLoader';
-import _Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import uiActions from '../../../../redux/actions/ui';
 import { fetchApiKeys, deleteApiKey } from '../../../../apis/index';
 import { ActionSpan, ActionSeparator } from '../../../shared/TableActionStyles';
-
-const Table = styled(_Table)`
-  max-width: 40rem;
-  margin-bottom: 1rem;
-  background-color: #fff;
-  @media (max-width: 780px) {
-    display: block;
-  }
-`;
+import MaterialTable from 'material-table';
+import TABLE_CONFIG from './table-config';
 
 const AddConfigButton = styled(Button)`
   margin-top: 1rem;
@@ -50,12 +37,12 @@ class ConfigKeys extends React.Component {
     this.props.actions.closeModal();
   };
 
-  handleUpdate = row => {
+  handleUpdate = (keyName, value) => {
     this.props.actions.openModal({
       modalType: 'updateSystemSettings',
       type: 'Update',
-      keyName: row.keyName,
-      keyValue: row.value,
+      keyName: keyName,
+      keyValue: value,
       handleConfirm: this.confirmUpdate,
       handleClose: this.props.actions.closeModal,
     });
@@ -66,17 +53,17 @@ class ConfigKeys extends React.Component {
       modalType: 'createSystemSettings',
       type: 'Create',
       handleConfirm: this.confirmUpdate,
-      keyName: this.state.keyName,
-      keyValue: this.state.keyValue,
+      keyName: '',
+      keyValue: '',
       handleClose: this.props.actions.closeModal,
     });
   };
 
-  handleDelete = row => {
-    this.setState({ keyName: row.keyName });
+  handleDelete = keyName => {
+    this.setState({ keyName: keyName });
     this.props.actions.openModal({
       modalType: 'deleteSystemSettings',
-      name: row.keyName,
+      name: keyName,
       handleConfirm: this.confirmDelete,
       handleClose: this.props.actions.closeModal,
     });
@@ -115,57 +102,54 @@ class ConfigKeys extends React.Component {
     const { apiKeys, loading } = this.state;
     return (
       <React.Fragment>
-        {loading ? (
-          <CircularLoader height={26} />
-        ) : (
-          <React.Fragment>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>S.No.</TableCell>
-                  <TableCell align="right">Key Name</TableCell>
-                  <TableCell align="right">Value</TableCell>
-                  <TableCell align="right">Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {apiKeys.map(row => (
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
-                      {row.serialNum}
-                    </TableCell>
-                    <TableCell align="right">{row.keyName}</TableCell>
-                    <TableCell align="right">{row.value}</TableCell>
-                    <TableCell align="right">
-                      <ActionSpan
-                        onClick={() => {
-                          this.handleUpdate(row);
-                        }}
-                      >
-                        Edit
-                      </ActionSpan>
-                      <ActionSeparator> | </ActionSeparator>
-                      <ActionSpan
-                        onClick={() => {
-                          this.handleDelete(row);
-                        }}
-                      >
-                        Delete
-                      </ActionSpan>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <AddConfigButton
-              variant="contained"
-              color="primary"
-              onClick={this.handleCreate}
-            >
-              Add Config Key
-            </AddConfigButton>
-          </React.Fragment>
-        )}
+        <MaterialTable
+          isLoading={loading}
+          options={{
+            actionsColumnIndex: -1,
+            paging: false,
+          }}
+          columns={TABLE_CONFIG}
+          data={apiKeys}
+          title=""
+          style={{
+            padding: '1rem',
+            margin: '2rem',
+          }}
+          actions={[
+            {
+              onEdit: (event, rowData) => {
+                this.handleUpdate(rowData.keyName, rowData.value);
+              },
+              onDelete: (event, rowData) => {
+                this.handleDelete(rowData.keyName);
+              },
+            },
+          ]}
+          components={{
+            Action: props => (
+              <React.Fragment>
+                <ActionSpan
+                  onClick={event => props.action.onEdit(event, props.data)}
+                >
+                  Edit
+                </ActionSpan>
+                <ActionSeparator> | </ActionSeparator>
+                <ActionSpan
+                  onClick={event => props.action.onDelete(event, props.data)}
+                >
+                  Delete
+                </ActionSpan>
+              </React.Fragment>
+            ),
+          }}
+        ></MaterialTable>
+        <AddConfigButton
+          variant="contained"
+          color="primary"
+          onClick={this.handleCreate}
+        >
+          Add Config Key
+        </AddConfigButton>
       </React.Fragment>
     );
   }
