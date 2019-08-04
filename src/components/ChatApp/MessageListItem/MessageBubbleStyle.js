@@ -48,12 +48,15 @@ const MessageBubble = styled.section`
           animation: ${SUSIKeyframe} 700ms ease-out;
           margin-left: 0.75rem;
           margin-right: 0.42rem;
-          background: #f3f2f4;
+          background: ${props =>
+            props.backgroundColor ? props.backgroundColor : '#f3f2f4'};
+          color: ${props => (props.color ? props.color : '#000000')};
         `
       : css`
           animation: ${UserKeyframe} 700ms ease;
-          color: white;
-          background: #4285f4;
+          background: ${props =>
+            props.backgroundColor ? props.backgroundColor : '#4285f4'};
+          color: ${props => (props.color ? props.color : '#ffffff')};
         `};
   &::after {
     content: '';
@@ -83,13 +86,21 @@ const MessageBubble = styled.section`
         ? css`
             left: -0.5625rem;
             border-left: 1rem solid transparent;
-            border-right: 0.3rem solid #f3f2f4;
-            border-top: 1.5rem solid #f3f2f4;
+            border-right: 0.3rem solid
+              ${props =>
+                props.backgroundColor ? props.backgroundColor : '#f3f2f4'};
+            border-top: 1.5rem solid
+              ${props =>
+                props.backgroundColor ? props.backgroundColor : '#f3f2f4'};
           `
         : css`
-            border-left: 0.3rem solid #4285f4;
+            border-left: 0.3rem solid
+              ${props =>
+                props.backgroundColor ? props.backgroundColor : '#4285f4'};
             border-right: 1rem solid transparent;
-            border-top: 1.5rem solid #4285f4;
+            border-top: 1.5rem solid
+              ${props =>
+                props.backgroundColor ? props.backgroundColor : '#4285f4'};
             right: -0.5625rem;
           `};
   }
