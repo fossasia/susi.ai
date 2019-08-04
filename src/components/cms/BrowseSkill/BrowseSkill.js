@@ -13,7 +13,6 @@ import _FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
 import Paper from '@material-ui/core/Paper';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -34,6 +33,9 @@ import NavigationArrowForward from '@material-ui/icons/ArrowForward';
 import NavigationArrowUpward from '@material-ui/icons/ArrowUpward';
 import NavigationArrowDownward from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Popper from '@material-ui/core/Popper';
 import CircularLoader from '../../shared/CircularLoader';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
@@ -267,7 +269,7 @@ class BrowseSkill extends React.Component {
     super(props);
     this.state = {
       innerWidth: window.innerWidth,
-      anchorEl: null,
+      open: false,
     };
     this.groups = [];
   }
@@ -519,20 +521,20 @@ class BrowseSkill extends React.Component {
   };
 
   handleMenuClick = event => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    });
+    this.setState(prevState => ({ open: !prevState.open }));
   };
 
-  handleMenuClose = () => {
-    this.setState({
-      anchorEl: null,
-    });
+  handleMenuClose = event => {
+    if (this.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ open: false });
   };
 
-  handleCreateSkillClick = () => {
+  handleCreateSkillClick = e => {
     const { history, actions, accessToken } = this.props;
-    this.handleMenuClose();
+    this.handleMenuClose(e);
     if (accessToken) {
       history.push('/skillWizard');
     } else {
@@ -540,9 +542,9 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  handleCreateBotClick = () => {
+  handleCreateBotClick = e => {
     const { history, actions, accessToken } = this.props;
-    this.handleMenuClose();
+    this.handleMenuClose(e);
     if (accessToken) {
       history.push('/botWizard');
     } else {
@@ -550,9 +552,9 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  handleAddDeviceClick = () => {
+  handleAddDeviceClick = e => {
     const { history, actions, accessToken } = this.props;
-    this.handleMenuClose();
+    this.handleMenuClose(e);
     if (accessToken) {
       history.push('/mydevices');
     } else {
@@ -709,51 +711,59 @@ class BrowseSkill extends React.Component {
         <NavigationArrowDownward />
       );
 
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-
+    const { open } = this.state;
     return (
       <Container>
         <Sidebar>
           <div>
             <Button
-              aria-owns={open ? 'render-props-menu' : undefined}
+              aria-owns={open ? 'create-list-grow' : null}
               aria-haspopup="true"
               onClick={this.handleMenuClick}
               variant="contained"
               color="primary"
               style={{ margin: '1rem 1rem 0', padding: '10px 20px' }}
+              buttonRef={node => {
+                this.anchorEl = node;
+              }}
             >
               <Add /> Create
             </Button>
-            <Menu
-              anchorEl={anchorEl}
+            <Popper
               open={open}
-              onClose={this.handleMenuClose}
-              getContentAnchorEl={null}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              transition
+              disablePortal
+              style={{ zIndex: '2', position: 'absolute', left: '1rem' }}
             >
-              <MenuList disableListWrap={true}>
-                <MenuItem onClick={this.handleCreateSkillClick}>
-                  <ListItemIcon>
-                    <Add />
-                  </ListItemIcon>
-                  <ListItemText>Create Skill</ListItemText>
-                </MenuItem>
-                <MenuItem onClick={this.handleCreateBotClick}>
-                  <ListItemIcon>
-                    <Person />
-                  </ListItemIcon>
-                  <ListItemText>Create Bot</ListItemText>
-                </MenuItem>
-                <MenuItem onClick={this.handleAddDeviceClick}>
-                  <ListItemIcon>
-                    <Devices />
-                  </ListItemIcon>
-                  <ListItemText>Add Device</ListItemText>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+              {({ TransitionProps }) => (
+                <Grow {...TransitionProps} id="create-list-grow">
+                  <Paper>
+                    <ClickAwayListener onClickAway={this.handleMenuClose}>
+                      <MenuList>
+                        <MenuItem onClick={this.handleCreateSkillClick}>
+                          <ListItemIcon>
+                            <Add />
+                          </ListItemIcon>
+                          <ListItemText>Create Skill</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={this.handleCreateBotClick}>
+                          <ListItemIcon>
+                            <Person />
+                          </ListItemIcon>
+                          <ListItemText>Create Bot</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={this.handleAddDeviceClick}>
+                          <ListItemIcon>
+                            <Devices />
+                          </ListItemIcon>
+                          <ListItemText>Add Device</ListItemText>
+                        </MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
           </div>
           <Paper style={{ boxShadow: 'none' }}>
             <MenuList style={{ outline: 'none' }}>
