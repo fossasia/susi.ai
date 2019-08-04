@@ -86,7 +86,7 @@ const renderFooterPagesList = [
   '/contact',
 ];
 
-const hideBubble = ['skillWizard', 'botWizard', 'admin'];
+const hideBubble = ['skillWizard', 'botWizard', 'admin', 'edit'];
 
 class App extends Component {
   static propTypes = {
@@ -174,11 +174,11 @@ class App extends Component {
     // const renderDialog = isModalOpen || !visited  ?  <DialogSection /> : null;
     const renderDialog =
       isModalOpen || mode === 'fullScreen' ? <DialogSection /> : null;
-    const renderChatBubble = !hideBubble.includes(
-      location.pathname.split('/')[1],
-    ) ? (
-      <ChatApp />
-    ) : null;
+    const renderChatBubble =
+      hideBubble.includes(location.pathname.split('/')[1]) ||
+      hideBubble.includes(location.pathname.split('/')[3]) ? null : (
+        <ChatApp />
+      );
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
