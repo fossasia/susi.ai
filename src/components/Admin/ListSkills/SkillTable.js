@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MaterialTable from 'material-table';
-import { getActiveColumn } from './constants';
+import { getColumnConfig } from './constants';
 import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 
 class SkillTable extends Component {
@@ -15,7 +15,7 @@ class SkillTable extends Component {
           actionsColumnIndex: -1,
           pageSize: 10,
         }}
-        columns={getActiveColumn(groups)}
+        columns={getColumnConfig(groups)}
         data={data}
         title=""
         style={{
