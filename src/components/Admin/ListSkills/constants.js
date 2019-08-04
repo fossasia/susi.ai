@@ -1,4 +1,4 @@
-export const getActiveColumn = groups => {
+export const getColumnConfig = groups => {
   return [
     {
       title: 'Name',
@@ -58,68 +58,3 @@ export const getActiveColumn = groups => {
     },
   ];
 };
-
-export const getDeletedColumn = groups => {
-  return [
-    {
-      title: 'Name',
-      field: 'skillName',
-      cellStyle: {
-        width: '30%',
-      },
-      filtering: false,
-    },
-    {
-      title: 'Model',
-      field: 'model',
-      cellStyle: {
-        width: '15%',
-      },
-      filtering: false,
-    },
-    {
-      title: 'Group',
-      field: 'group',
-      cellStyle: {
-        width: '25%',
-      },
-      lookup: groups,
-    },
-    {
-      title: 'Language',
-      field: 'language',
-      filtering: false,
-    },
-  ];
-};
-
-export const REPORT = [
-  {
-    title: 'Name',
-    field: 'skillName',
-    cellStyle: {
-      width: '25%',
-    },
-  },
-  {
-    title: 'Language',
-    field: 'language',
-    cellStyle: {
-      width: '25%',
-    },
-  },
-  {
-    title: 'Model',
-    field: 'model',
-    cellStyle: {
-      width: '20%',
-    },
-  },
-  {
-    title: 'Group',
-    field: 'group',
-    cellStyle: {
-      width: '25%',
-    },
-  },
-];
