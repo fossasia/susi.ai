@@ -9,6 +9,8 @@ import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
 import uiActions from '../../../redux/actions/ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Switch from '@material-ui/core/Switch';
+import Popover from '@material-ui/core/Popover';
 import { Link } from 'react-router-dom';
 import ISO6391 from 'iso-639-1';
 import ReactTooltip from 'react-tooltip';
@@ -311,6 +313,7 @@ const DropDownWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  margin-top: 1.25rem;
 `;
 
 const Check = styled(_Check)`
@@ -327,6 +330,21 @@ const IconWrap = styled.span`
   position: relative;
 `;
 
+const Text = styled.div`
+  padding: 1rem;
+  width: 300px;
+  background-color: #f4f4f4;
+`;
+
+const DetailText = styled.span`
+  font-size: 15px;
+  padding-left: 0.625rem;
+  margin-right: 0.5rem;
+  @media (max-width: 414px) {
+    padding-left: 0px;
+  }
+`;
+
 class SkillWizard extends Component {
   constructor(props) {
     super(props);
@@ -338,6 +356,8 @@ class SkillWizard extends Component {
       languages: [],
       loadViews: false,
       editable: true,
+      anchorEl: null,
+      publicSkill: true,
     };
 
     if (
@@ -973,6 +993,22 @@ class SkillWizard extends Component {
     return 'Create';
   };
 
+  handleClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleChangePublicSkill = event => {
+    this.setState({
+      publicSkill: event.target.checked,
+    });
+  };
+
   // eslint-disable-next-line complexity
   render() {
     const {
@@ -985,7 +1021,8 @@ class SkillWizard extends Component {
       image,
       isAdmin,
     } = this.props;
-    const { loadViews } = this.state;
+    const { loadViews, anchorEl, publicSkill } = this.state;
+    const open = !!anchorEl;
     let showTopBar = true;
     if (this.props.hasOwnProperty('showTopBar')) {
       showTopBar = this.props.showTopBar;
@@ -1030,6 +1067,43 @@ class SkillWizard extends Component {
             </a>
             <CenterDiv>
               <DropDownDiv>
+                <Popover
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={this.handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <Text>
+                    Open Source Skills will show in the public directory and are
+                    editable by everyone just like a Wikipedia article. Private
+                    skills are only editable by the creator/owner of the skill.
+                    They are not listed in the public directory and can
+                    currently only be used by the creator/owner.
+                  </Text>
+                </Popover>
+                <DetailText>
+                  Open Source and Public Skill(Coming Soon) (
+                  <span
+                    onClick={this.handleClick}
+                    style={{ color: '#4285F4', cursor: 'pointer' }}
+                  >
+                    ?
+                  </span>
+                  ):
+                </DetailText>{' '}
+                <Switch
+                  color="primary"
+                  checked={publicSkill}
+                  disabled={true}
+                  onChange={this.handleChangePublicSkill}
+                />
                 <DropDownWrap>
                   <SkillDetail>
                     <OutlinedSelectField
