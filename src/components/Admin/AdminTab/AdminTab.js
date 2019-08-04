@@ -281,7 +281,7 @@ class AdminTab extends React.Component {
         {loading ? (
           <CircularLoader />
         ) : (
-          <div style={{ margin: '1rem 0' }}>
+          <div style={{ margin: '2rem 0' }}>
             <Container>
               <CardContainer>
                 <Card>

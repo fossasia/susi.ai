@@ -103,6 +103,7 @@ class ListDevices extends React.Component {
         title=""
         style={{
           padding: '1rem',
+          margin: '2rem',
         }}
         actions={[
           {
