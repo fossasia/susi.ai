@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { fetchConversationResponse } from '../../../../apis';
 import styled, { keyframes } from 'styled-components';
 import _Send from '@material-ui/icons/Send';
-import Close from '@material-ui/icons/Close';
+import _Close from '@material-ui/icons/Close';
+import { IconButton as _IconButton } from '@material-ui/core';
 import _Paper from '@material-ui/core/Paper';
 import _ChevronRight from '@material-ui/icons/ChevronRight';
 import loadingGIF from '../../../../images/loading.gif';
+import MessageBubble from '../../../ChatApp/MessageListItem/MessageBubbleStyle';
 import './Chatbot.css';
 
 const Paper = styled(_Paper)`
@@ -39,11 +41,11 @@ const BR = styled.br`
 `;
 
 const PreviewContainer = styled.div`
-  height: 600px;
+  height: 660px;
   max-width: 95%;
   width: 330px;
-  margin: 20px auto auto auto;
-  padding: 10px 20px;
+  margin: 14px auto auto auto;
+  padding: 10px;
   position: relative;
   overflow: hidden;
   @media (max-width: 520px) {
@@ -53,7 +55,7 @@ const PreviewContainer = styled.div`
 `;
 
 const PreviewChatContainer = styled.div`
-  min-height: 460px;
+  min-height: 550px;
   @media (max-width: 520px) {
     width: 100%;
   }
@@ -72,10 +74,10 @@ const SUSIFrameContainer = styled.div`
   min-height: 280px;
   max-width: 100%;
   margin: 0;
-  border-radius: 8px;
-  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.16);
   overflow-x: hidden;
-  height: 460px;
+  height: 550px;
   width: 100%;
   animation: ${moveFromBottomFadeKeyframe} 0.3s ease both;
 
@@ -83,7 +85,7 @@ const SUSIFrameContainer = styled.div`
     left: 0;
     right: 0;
     top: 0;
-    border-radius: 0;
+    border-radius: 4px;
     max-height: none;
   }
 `;
@@ -104,38 +106,8 @@ const SUSIMessageContainer = styled.div`
   }
 `;
 
-const UserMessageContainer = styled.div`
-  :after {
-    content: '';
-    position: absolute;
-    box-sizing: border-box;
-    right: -10px;
-    top: 36px;
-    transform: rotate(-135deg);
-    border: 8px solid;
-    background-color: transparent;
-    transform-origin: 0 0;
-    border-color: ${props =>
-      `transparent transparent ${props.backgroundColor} ${props.backgroundColor}`};
-  }
-`;
-
-const CloseButton = styled(Close)`
-  cursor: pointer;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  width: 30px;
-  height: 30px;
-  background-color: #666;
-  border-radius: 50%;
+const Close = styled(_Close)`
   fill: #fff;
-`;
-
-const SendButtonWrapper = styled.pre`
-  margin: 0;
-  cursor: pointer;
-  overflow: hidden;
 `;
 
 const launcherFrameAppearKeyframe = keyframes`
@@ -206,10 +178,14 @@ const Send = styled(_Send)`
   fill: #0180c1;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 `;
 
 const SUSICommentContent = styled.div`
-  overflow-wrap: break-word;
+  &&& {
+    overflow-wrap: break-word;
+    padding: 10px 0px;
+  }
 `;
 
 const H1 = styled.h1`
@@ -226,6 +202,36 @@ const Container = styled.div`
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   position: relative;
+`;
+
+const ActionBar = styled.div`
+  width: auto;
+  height: 48px;
+  background-color: #4285f4;
+  padding: 0.3rem 0.5rem;
+  top: 0px;
+  display: flex;
+  color: #fff;
+  align-items: center;
+  font-size: 1rem;
+  justify-content: space-between;
+`;
+
+const IconButton = styled(_IconButton)`
+  padding: 3.5px;
+  color: #fff;
+`;
+
+const Textarea = styled.textarea`
+  &&& {
+    background: #fff;
+    border: 1px solid white;
+    padding: 10px !important;
+    margin-right: 5px;
+    width: 255px !important;
+    border-radius: 10px !important;
+    height: 50px;
+  }
 `;
 
 class Preview extends Component {
@@ -345,55 +351,26 @@ class Preview extends Component {
       renderMessages = messages.map((message, index) => {
         if (message.author === 'You') {
           return (
-            <div
-              key={index}
-              className="susi-conversation-part susi-conversation-part-grouped-first"
+            <MessageBubble
+              author={message.author}
+              width={'fit-content'}
+              backgroundColor={botbuilderUserMessageBackground}
+              color={botbuilderUserMessageTextColor}
             >
-              <UserMessageContainer
-                backgroundColor={botbuilderUserMessageBackground}
-                className="susi-comment susi-comment-by-user"
-              >
-                <div
-                  className="susi-comment-body-container susi-comment-body-container-user"
-                  style={{
-                    backgroundColor: botbuilderUserMessageBackground,
-                    color: botbuilderUserMessageTextColor,
-                  }}
-                >
-                  <div className="susi-comment-body">
-                    <SUSICommentContent>{message.message}</SUSICommentContent>
-                  </div>
-                </div>
-              </UserMessageContainer>
-            </div>
+              <SUSICommentContent>{message.message}</SUSICommentContent>
+            </MessageBubble>
           );
         }
         return (
-          <div
+          <MessageBubble
             key={index}
-            id="susiMsg"
-            className="susi-conversation-part susi-conversation-part-grouped-first"
+            author={message.author}
+            width={'fit-content'}
+            backgroundColor={botbuilderBotMessageBackground}
+            color={botbuilderBotMessageTextColor}
           >
-            <div
-              className="susi-comment-avatar susi-theme-bg"
-              style={{
-                backgroundImage: `url(${botbuilderIconImg})`,
-              }}
-            />
-            <div className="susi-comment susi-comment-by-susi">
-              <div
-                className="susi-comment-body-container susi-comment-body-container-susi"
-                style={{
-                  backgroundColor: botbuilderBotMessageBackground,
-                  color: botbuilderBotMessageTextColor,
-                }}
-              >
-                <div className="susi-comment-body ">
-                  <SUSICommentContent>{message.message}</SUSICommentContent>
-                </div>
-              </div>
-            </div>
-          </div>
+            <SUSICommentContent>{message.message}</SUSICommentContent>
+          </MessageBubble>
         );
       });
     } else {
@@ -412,18 +389,30 @@ class Preview extends Component {
               {previewChat && (
                 <SUSIFrameContainer>
                   <SUSIFrameWrapper>
+                    <ActionBar>
+                      <div>Chat with SUSI.AI</div>
+                      <IconButton onClick={this.togglePreview}>
+                        <Close />
+                      </IconButton>
+                    </ActionBar>
                     <div
                       id="susi-container"
                       className="susi-container susi-reset"
                     >
                       <div id="susi-chatbox" className="susi-chatbox">
-                        <div className="susi-sheet-content">
+                        <div
+                          className="susi-sheet-content"
+                          style={{ marginTop: '48px', marginBottom: '66px' }}
+                        >
                           <SUSIMessageContainer
                             className="susi-sheet-content-container"
                             backgroundColor={botbuilderBackgroundBody}
                             backgroundImage={botbuilderBodyBackgroundImg}
                           >
-                            <div className="susi-conversation-parts-container">
+                            <div
+                              className="susi-conversation-parts-container"
+                              style={{ padding: '5px' }}
+                            >
                               <div
                                 id="susi-message"
                                 className="susi-conversation-parts"
@@ -435,36 +424,51 @@ class Preview extends Component {
                         </div>
                         <div className="susi-composer-container">
                           <div id="susi-composer" className="susi-composer ">
-                            <div className="susi-composer-textarea-container">
-                              <div className="susi-composer-textarea">
-                                <SendButtonWrapper>
-                                  <Send onClick={this.sendMessage} />
-                                </SendButtonWrapper>
-                                <textarea
-                                  placeholder="Enter your response"
-                                  rows="1"
-                                  value={message}
-                                  onKeyPress={event => {
-                                    if (event.which === 13 /* Enter */) {
-                                      event.preventDefault();
+                            <div
+                              className="susi-composer-textarea-container"
+                              style={{ backgroundColor: '#f9f9f9' }}
+                            >
+                              <div
+                                className="susi-composer-textarea"
+                                style={{
+                                  boxShadow:
+                                    'rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem, rgba(0, 0, 0, 0.23) 0px 3px 6px',
+                                  padding: '0.875rem 0rem 0rem 0.5rem',
+                                }}
+                              >
+                                <div style={{ display: 'flex' }}>
+                                  <Textarea
+                                    placeholder="Type a message..."
+                                    rows="1"
+                                    value={message}
+                                    onKeyPress={event => {
+                                      if (event.which === 13) {
+                                        event.preventDefault();
+                                      }
+                                    }}
+                                    onChange={ev =>
+                                      this.setState({
+                                        message: ev.target.value,
+                                      })
                                     }
-                                  }}
-                                  onChange={ev =>
-                                    this.setState({ message: ev.target.value })
-                                  }
-                                  onKeyDown={event => {
-                                    if (event.keyCode === 13) {
-                                      this.sendMessage();
-                                    }
-                                  }}
-                                />
+                                    onKeyDown={event => {
+                                      if (event.keyCode === 13) {
+                                        this.sendMessage();
+                                      }
+                                    }}
+                                  />
+                                  <div>
+                                    <IconButton onClick={this.sendMessage}>
+                                      <Send />
+                                    </IconButton>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <CloseButton onClick={this.togglePreview} />
                   </SUSIFrameWrapper>
                 </SUSIFrameContainer>
               )}
