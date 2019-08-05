@@ -15,7 +15,7 @@ import './Chatbot.css';
 const Paper = styled(_Paper)`
   width: ${props => props.width};
   position: relative;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 15px 0px;
   @media (min-width: 769px) {
     padding: 15px;
@@ -41,11 +41,11 @@ const BR = styled.br`
 `;
 
 const PreviewContainer = styled.div`
-  height: 660px;
+  height: ${props => (props.width < 1200 ? '740px' : '100%')};
   max-width: 95%;
-  width: 330px;
+  width: 360px;
   margin: 14px auto auto auto;
-  padding: 10px;
+  padding: 0px 10px 10px;
   position: relative;
   overflow: hidden;
   @media (max-width: 520px) {
@@ -55,7 +55,8 @@ const PreviewContainer = styled.div`
 `;
 
 const PreviewChatContainer = styled.div`
-  min-height: 550px;
+  min-height: ${props =>
+    props.width > 1200 ? props.height - 250 + 'px' : '100%'};
   @media (max-width: 520px) {
     width: 100%;
   }
@@ -70,14 +71,15 @@ const moveFromBottomFadeKeyframe = keyframes`
 
 const SUSIFrameContainer = styled.div`
   overflow: auto;
-  max-height: 610px;
+  max-height: 800px;
   min-height: 280px;
   max-width: 100%;
   margin: 0;
   border-radius: 4px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.16);
   overflow-x: hidden;
-  height: 550px;
+  height: ${props =>
+    props.width > 1200 ? props.height - 250 + 'px' : '630px'};
   width: 100%;
   animation: ${moveFromBottomFadeKeyframe} 0.3s ease both;
 
@@ -189,7 +191,6 @@ const SUSICommentContent = styled.div`
 `;
 
 const H1 = styled.h1`
-  padding: 1rem 0rem;
   margin: 0px;
   text-align: center;
 
@@ -228,7 +229,7 @@ const Textarea = styled.textarea`
     border: 1px solid white;
     padding: 10px !important;
     margin-right: 5px;
-    width: 255px !important;
+    width: 85% !important;
     border-radius: 10px !important;
     height: 50px;
   }
@@ -242,8 +243,15 @@ class Preview extends Component {
       messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
       message: '',
       previewChat: true,
+      width: window.innerWidth,
+      height: window.innerHeight,
     };
   }
+
+  componentDidMount = () => {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  };
 
   togglePreview = () => {
     this.setState(prevState => ({
@@ -330,8 +338,19 @@ class Preview extends Component {
     textsDiv.scrollTop = textsDiv.scrollHeight;
   };
 
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  };
+
+  updateWindowDimensions = () => {
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
   render() {
-    const { messages, previewChat, message } = this.state;
+    const { messages, previewChat, message, width, height } = this.state;
     const {
       design: {
         botbuilderBackgroundBody,
@@ -378,16 +397,14 @@ class Preview extends Component {
     }
     return (
       <Container>
-        <div>
+        <Paper width={paperWidth}>
           <ChevronRight onClick={handlePreviewToggle} />
           <BR />
           <H1>Preview</H1>
-        </div>
-        <Paper width={paperWidth}>
-          <PreviewContainer>
-            <PreviewChatContainer>
+          <PreviewContainer width={width}>
+            <PreviewChatContainer width={width} height={height}>
               {previewChat && (
-                <SUSIFrameContainer>
+                <SUSIFrameContainer width={width} height={height}>
                   <SUSIFrameWrapper>
                     <ActionBar>
                       <div>Chat with SUSI.AI</div>
