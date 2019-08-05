@@ -10,6 +10,7 @@ import createActions from '../../../redux/actions/create';
 import uiActions from '../../../redux/actions/ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
+import QuestionIcon from '@material-ui/icons/ContactSupport';
 import Popover from '@material-ui/core/Popover';
 import { Link } from 'react-router-dom';
 import ISO6391 from 'iso-639-1';
@@ -269,9 +270,6 @@ const Img = styled.img`
 const ImageDiv = styled.div`
   width: auto;
 
-  @media (min-width: 1200px) and (max-width: 1496px) {
-    padding-top: 1rem;
-  }
   @media (max-width: 1029px) {
     padding-top: 2rem;
   }
@@ -1089,19 +1087,18 @@ class SkillWizard extends Component {
                   </Text>
                 </Popover>
                 <DetailText>
-                  Open Source and Public Skill(Coming Soon) (
-                  <span
+                  Open Source and Public Skill (Coming Soon)
+                  <IconButton
                     onClick={this.handleClick}
-                    style={{ color: '#4285F4', cursor: 'pointer' }}
+                    style={{ padding: '0px' }}
                   >
-                    ?
-                  </span>
-                  ):
+                    <QuestionIcon />
+                  </IconButton>
+                  :
                 </DetailText>{' '}
                 <Switch
                   color="primary"
                   checked={publicSkill}
-                  disabled={true}
                   onChange={this.handleChangePublicSkill}
                 />
                 <DropDownWrap>
@@ -1139,7 +1136,14 @@ class SkillWizard extends Component {
                       }}
                     />
                   </SkillDetail>
-                  <ImageDiv>
+                  <ImageDiv
+                    style={{
+                      paddingTop:
+                        this.state.colPreview === 0 && window.innerWidth > 1200
+                          ? '0rem'
+                          : '1rem',
+                    }}
+                  >
                     <IconWrap>
                       <Img alt="preview" id="target" src={image} />
                       <Check />
