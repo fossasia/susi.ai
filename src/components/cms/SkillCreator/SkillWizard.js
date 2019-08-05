@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
@@ -104,7 +104,9 @@ const SkillDetail = styled.div`
   display: block;
   align-items: center;
   margin-right: 1rem;
-  width: 26%;
+  width: calc(25% - 1rem);
+  box-sizing: border-box;
+
   @media (max-width: 813px) {
     width: 15.625rem;
     margin-top: 1rem;
@@ -134,8 +136,8 @@ const CommitField = styled(OutlinedTextField)`
 
 const UploadCircularButton = styled.label`
   border-radius: 50%;
-  height: 3.75rem;
-  width: 3.75rem;
+  height: 56px;
+  width: 56px;
   background-color: #eee;
   text-align: center;
   float: left;
@@ -260,8 +262,8 @@ const AddIcon = styled(Add)`
 `;
 
 const Img = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   margin-right: 20px;
   position: relative;
@@ -270,8 +272,8 @@ const Img = styled.img`
 const ImageDiv = styled.div`
   width: auto;
 
-  @media (max-width: 1029px) {
-    padding-top: 2rem;
+  @media (max-width: 813px) {
+    padding-top: 1rem;
   }
 `;
 
@@ -1086,21 +1088,31 @@ class SkillWizard extends Component {
                     currently only be used by the creator/owner.
                   </Text>
                 </Popover>
-                <DetailText>
-                  Open Source and Public Skill (Coming Soon)
-                  <IconButton
-                    onClick={this.handleClick}
-                    style={{ padding: '0px' }}
-                  >
-                    <QuestionIcon />
-                  </IconButton>
-                  :
-                </DetailText>{' '}
-                <Switch
-                  color="primary"
-                  checked={publicSkill}
-                  onChange={this.handleChangePublicSkill}
-                />
+                {this.isBotBuilder ? null : (
+                  <Fragment>
+                    <DetailText
+                      style={{ color: publicSkill ? '#808080' : '#4285f4' }}
+                    >
+                      Private Skill (Coming Soon)
+                      <IconButton
+                        onClick={this.handleClick}
+                        style={{ padding: '0px' }}
+                      >
+                        <QuestionIcon />
+                      </IconButton>
+                    </DetailText>
+                    <Switch
+                      color="primary"
+                      checked={publicSkill}
+                      onChange={this.handleChangePublicSkill}
+                    />
+                    <DetailText
+                      style={{ color: publicSkill ? '#4285f4' : '#808080' }}
+                    >
+                      Open Source and Public Skill
+                    </DetailText>
+                  </Fragment>
+                )}
                 <DropDownWrap>
                   <SkillDetail>
                     <OutlinedSelectField
@@ -1136,14 +1148,7 @@ class SkillWizard extends Component {
                       }}
                     />
                   </SkillDetail>
-                  <ImageDiv
-                    style={{
-                      paddingTop:
-                        this.state.colPreview === 0 && window.innerWidth > 1200
-                          ? '0rem'
-                          : '1rem',
-                    }}
-                  >
+                  <ImageDiv>
                     <IconWrap>
                       <Img alt="preview" id="target" src={image} />
                       <Check />
