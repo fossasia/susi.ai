@@ -1243,7 +1243,7 @@ class SkillWizard extends Component {
               xl={this.state.colSkill}
               style={{
                 display: this.state.colSkill === 0 ? 'none' : 'block',
-                maxWidth: this.isBotBuilder ? '100%' : '98%',
+                maxWidth: '100%',
                 marginBottom: this.isBotBuilder ? '0px' : '40px',
               }}
             >
