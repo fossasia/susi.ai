@@ -1,9 +1,12 @@
+import tableStyles from '../../../shared/table';
+
 const SLIDESHOW = [
   {
     title: 'Link to',
     field: 'redirectLink',
     cellStyle: {
       width: '25%',
+      ...tableStyles,
     },
   },
   {
@@ -11,6 +14,7 @@ const SLIDESHOW = [
     field: 'info',
     cellStyle: {
       width: '30%',
+      ...tableStyles,
     },
   },
   {
@@ -18,6 +22,7 @@ const SLIDESHOW = [
     field: 'image_name',
     cellStyle: {
       width: '30%',
+      ...tableStyles,
     },
   },
 ];
