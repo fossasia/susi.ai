@@ -881,3 +881,19 @@ export function setControlOptions(payload) {
     { isTokenRequired: false },
   );
 }
+
+export function setupDeviceConfig(payload) {
+  const { ssid: wifissid, password: wifipassd, hotword, wake } = payload;
+
+  const url = `${SOUND_SERVER_API_URL}/setup`;
+  return ajax.post(
+    url,
+    { wifissid, wifipassd, hotword, wake },
+    { isTokenRequired: false },
+  );
+}
+
+export function checkDeviceWiFiAccessPoint() {
+  const url = '/check_ap';
+  return ajax.get(url, {}, { isTokenRequired: false });
+}

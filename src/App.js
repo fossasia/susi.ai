@@ -43,8 +43,10 @@ import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
 import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
 import AppBanner from './components/shared/AppBanner';
+import DeviceSetupPage from './components/smart-speaker/Setup';
 import withTracker from './withTracker';
 import GoogleAnalytics from 'react-ga';
+import { checkDeviceWiFiAccessPoint } from './apis';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
@@ -101,6 +103,23 @@ class App extends Component {
     isLocalEnv: PropTypes.bool,
     mode: PropTypes.string,
   };
+
+  constructor(props) {
+    super(props);
+    const { isLocalEnv } = this.props;
+    if (!isLocalEnv) {
+      this.deviceAccessPoint = false;
+    } else {
+      checkDeviceWiFiAccessPoint()
+        .then(payload => {
+          this.deviceAccessPoint = payload.status === 'true';
+        })
+        .catch(error => {
+          this.deviceAccessPoint = false;
+          console.log('Error, catched', error);
+        });
+    }
+  }
 
   componentDidMount = () => {
     const { accessToken, actions } = this.props;
@@ -162,7 +181,10 @@ class App extends Component {
     const skillListRegex = new RegExp('^/');
     const pathLength = pathname.split('/').length;
     const renderAppBanner = isLocalEnv ? <AppBanner /> : null;
-    const renderAppBar = pathname !== '/chat' ? <NavigationBar /> : null;
+    const renderAppBar =
+      pathname !== '/chat' && !this.deviceAccessPoint ? (
+        <NavigationBar />
+      ) : null;
     const renderFooter =
       (skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
       renderFooterPagesList.includes(pathname) ? (
@@ -176,7 +198,8 @@ class App extends Component {
       isModalOpen || mode === 'fullScreen' ? <DialogSection /> : null;
     const renderChatBubble =
       hideBubble.includes(location.pathname.split('/')[1]) ||
-      hideBubble.includes(location.pathname.split('/')[3]) ? null : (
+      (hideBubble.includes(location.pathname.split('/')[3]) &&
+        this.deviceAccessPoint) ? null : (
         <ChatApp />
       );
     return (
@@ -199,7 +222,11 @@ class App extends Component {
             {renderChatBubble}
             <RootContainer>
               <Switch>
-                <Route exact path="/" component={EnhancedBrowseSkill} />
+                {!this.deviceAccessPoint ? (
+                  <Route exact path="/" component={EnhancedBrowseSkill} />
+                ) : (
+                  <Route exact path="/" component={DeviceSetupPage} />
+                )}
                 <Route
                   exact
                   path="/category/:category"
