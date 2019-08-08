@@ -41,6 +41,13 @@ const MESSAGE_CONFIG = [
     options: 'Mail',
     time: 'No dates available',
   },
+  {
+    recipients: 'Admin',
+    trigger: 'Test Email',
+    emailMessage: 'You have successfully sent a test email.',
+    options: 'Mail',
+    time: 'No dates available',
+  },
 ];
 
 export default MESSAGE_CONFIG;
