@@ -77,15 +77,12 @@ class ConfigKeys extends React.Component {
     fetchApiKeys()
       .then(payload => {
         let apiKeys = [];
-        let i = 1;
         let keys = Object.keys(payload.keys);
         keys.forEach(j => {
           const apiKey = {
-            serialNum: i,
             keyName: j,
-            value: payload.keys[j],
+            value: payload.keys[j].value,
           };
-          ++i;
           apiKeys.push(apiKey);
         });
         this.setState({
