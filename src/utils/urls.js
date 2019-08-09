@@ -1,5 +1,12 @@
+function check() {
+  if (process && process.env.REACT_APP_LOCAL_ENV === 'true') {
+    return 'http://' + window.location.hostname + ':4000';
+  }
+  return 'https://api.susi.ai';
+}
+
 const urls = {
-  API_URL: process.env.REACT_APP_API_URL || 'https://api.susi.ai',
+  API_URL: check(),
   SOUND_SERVER_API_URL: 'http://0.0.0.0:7070',
   CHAT_URL: 'https://susi.ai/chat',
   SKILL_URL: 'https://susi.ai/skills',
