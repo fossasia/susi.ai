@@ -253,6 +253,18 @@ export function checkAccountPermission() {
   return ajax.get(url, {});
 }
 
+export function resetPassword(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/resetpassword.json`;
+  const { token, newpass } = payload;
+  return ajax.get(url, { token, newpass: encodeURIComponent(newpass) });
+}
+
+export function checkResetPasswordToken(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/recoverpassword.json`;
+  const { token } = payload;
+  return ajax.get(url, { getParameters: true, token });
+}
+
 // Skills API
 export function fetchMetricsSkills(payload) {
   const { languageValue } = payload;

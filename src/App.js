@@ -195,7 +195,11 @@ class App extends Component {
       showCookiePolicy === true ? <CookiePolicy /> : null;
     // const renderDialog = isModalOpen || !visited  ?  <DialogSection /> : null;
     const renderDialog =
-      isModalOpen || mode === 'fullScreen' ? <DialogSection /> : null;
+      isModalOpen ||
+      mode === 'fullScreen' ||
+      location.pathname === '/resetpass' ? (
+        <DialogSection />
+      ) : null;
     const renderChatBubble =
       hideBubble.includes(location.pathname.split('/')[1]) ||
       (hideBubble.includes(location.pathname.split('/')[3]) &&
@@ -227,6 +231,11 @@ class App extends Component {
                 ) : (
                   <Route exact path="/" component={DeviceSetupPage} />
                 )}
+                <Route
+                  exact
+                  path="/resetPass"
+                  component={EnhancedBrowseSkill}
+                />
                 <Route
                   exact
                   path="/category/:category"
