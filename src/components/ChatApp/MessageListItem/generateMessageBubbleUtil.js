@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react';
 import { AllHtmlEntities } from 'html-entities';
 import Emojify from 'react-emojione';
@@ -266,7 +267,7 @@ const generateWebSearchRssBubble = (action, index, data) => {
 };
 
 export const generateMessageBubble = (
-  message = [],
+  message = {},
   latestUserMsgID,
   markID,
   ttsLanguage,
@@ -331,233 +332,227 @@ export const generateMessageBubble = (
   } else if (stringWithLinks) {
     replacedText = processText(stringWithLinks);
   }
-  if (message && message.hasOwnProperty('response')) {
-    if (Object.keys(message.response).length > 0) {
-      const answer = message.response.answers[0];
-      let actions = message.actions;
-      let listItems = [];
-      let mapIndex = actions.indexOf('map');
+  if (message && message.hasOwnProperty('action')) {
+    const answer = message.answer;
+    let action = message.action;
+    let actionType = message.actionType;
+    const allActions = message.allActions;
+    let listItems = [];
+    const index = message.id;
+    let noResultsFound = false;
 
-      let mapAnchor = null;
-      if (actions.indexOf('map') > -1) {
-        if (actions.indexOf('anchor')) {
-          const anchorIndex = actions.indexOf('anchor');
-          const link = answer.actions[anchorIndex].link;
-          const text = answer.actions[anchorIndex].text;
+    let showFeedback = allActions[allActions.length - 1] === actionType;
+
+    switch (actionType) {
+      case 'answer': {
+        if (
+          allActions.indexOf('rss') > -1 ||
+          allActions.indexOf('websearch') > -1
+        ) {
+          showFeedback = true;
+        }
+        if (answer.data[0].type === 'gif') {
+          let gifSource = answer.data[0].embed_url;
+          listItems.push(
+            generateGifBubble(
+              actionType,
+              index,
+              gifSource,
+              message,
+              latestUserMsgID,
+              showFeedback,
+            ),
+          );
+        } else {
+          listItems.push(
+            generateAnswerBubble(
+              actionType,
+              index,
+              replacedText,
+              message,
+              latestUserMsgID,
+              showFeedback,
+            ),
+          );
+        }
+        break;
+      }
+      case 'anchor': {
+        const { link, text } = action;
+        listItems.push(
+          generateAnchorBubble(
+            actionType,
+            index,
+            text,
+            link,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
+      }
+      case 'map': {
+        let mapAnchor = null;
+        if (allActions.indexOf('anchor') > -1) {
+          const link = action.link;
+          const text = action.text;
           mapAnchor = renderAnchor(text, link);
         }
-        actions = ['map'];
-      }
 
-      let noResultsFound = false;
-
-      actions.forEach((action, index) => {
-        let showFeedback = actions[actions.length - 1] === action;
-        switch (action) {
-          case 'answer': {
-            if (
-              actions.indexOf('rss') > -1 ||
-              actions.indexOf('websearch') > -1
-            ) {
-              showFeedback = true;
-            }
-            if (answer.data[0].type === 'gif') {
-              let gifSource = answer.data[0].embed_url;
-              listItems.push(
-                generateGifBubble(
-                  action,
-                  index,
-                  gifSource,
-                  message,
-                  latestUserMsgID,
-                  showFeedback,
-                ),
-              );
-            } else {
-              listItems.push(
-                generateAnswerBubble(
-                  action,
-                  index,
-                  replacedText,
-                  message,
-                  latestUserMsgID,
-                  showFeedback,
-                ),
-              );
-            }
-            break;
-          }
-          case 'anchor': {
-            const { link, text } = answer.actions[index];
-            listItems.push(
-              generateAnchorBubble(
-                action,
-                index,
-                text,
-                link,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'map': {
-            let { latitude, longitude, zoom } = answer.actions[mapIndex];
-            latitude = parseFloat(latitude);
-            longitude = parseFloat(longitude);
-            zoom = parseFloat(zoom);
-            let mymap;
-            if (isNaN(latitude) || isNaN(longitude)) {
-              /* Check if user's geo data is available or else perform the action */
-              if (userGeoData === null) {
-                getUserGeoData();
-              } else {
-                /* Manually providing mapanchor and replacedText
+        let { latitude, longitude, zoom } = action;
+        latitude = parseFloat(latitude);
+        longitude = parseFloat(longitude);
+        zoom = parseFloat(zoom);
+        let mymap;
+        if (isNaN(latitude) || isNaN(longitude)) {
+          /* Check if user's geo data is available or else perform the action */
+          if (userGeoData === null) {
+            getUserGeoData();
+          } else {
+            /* Manually providing mapanchor and replacedText
                  fields as schema stiching in reducer*/
-                mapAnchor = (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
-                  >
-                    Here is a map
-                  </a>
-                );
+            mapAnchor = (
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
+              >
+                Here is a map
+              </a>
+            );
 
-                replacedText = 'Your location';
-                mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
-              }
-            } else {
-              mymap = drawMap(latitude, longitude, zoom);
-            }
-            listItems.push(
-              generateMapBubble(
-                action,
-                index,
-                replacedText,
-                mapAnchor,
-                mymap,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
+            replacedText = 'Your location';
+            mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
           }
-          case 'table': {
-            let { columns, count } = answer.actions[index];
-            let table = drawTable(columns, answer.data, count);
-            listItems.push(
-              generateTableBubble(
-                action,
-                index,
-                table,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'video_play': {
-            const { identifier } = answer.actions[index];
-            listItems.push(
-              generateVideoBubble(
-                action,
-                index,
-                height,
-                width,
-                identifier,
-                latestMessage,
-                message,
-                latestUserMsgID,
-                showFeedback,
-                onYouTubePlayerReady,
-                scrollBottom,
-              ),
-            );
-            break;
-          }
-          case 'audio_play': {
-            const { identifier: src } = answer.actions[index];
-            listItems.push(
-              generateAudioBubble(
-                action,
-                index,
-                src,
-                message,
-                latestMessage,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'rss': {
-            const { rssResults } = message;
-            if (rssResults.length === 0) {
-              noResultsFound = true;
-            }
-            listItems.push(
-              generateWebSearchRssBubble(action, index, rssResults),
-            );
-            break;
-          }
-          case 'websearch': {
-            const { websearchresults } = message;
-            if (websearchresults.length === 0) {
-              noResultsFound = true;
-            }
-            listItems.push(
-              generateWebSearchRssBubble(action, index, websearchresults),
-            );
-            break;
-          }
-          case 'stop': {
-            pauseAllVideos();
-            window.speechSynthesis.cancel();
-            break;
-          }
-          default:
+        } else {
+          mymap = drawMap(latitude, longitude, zoom);
         }
-      });
-
-      if (noResultsFound && message.text === 'I found this on the web:') {
-        listItems.splice(0, 1);
+        listItems.push(
+          generateMapBubble(
+            actionType,
+            index,
+            replacedText,
+            mapAnchor,
+            mymap,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
       }
-
-      // Only set voice Outputs for text responses
-      let voiceOutput;
-      if (message.text) {
-        // Remove all hyper links
-        voiceOutput = message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
-      } else {
-        voiceOutput = '';
+      case 'table': {
+        let { columns, count } = action;
+        let table = drawTable(columns, answer.data, count);
+        listItems.push(
+          generateTableBubble(
+            actionType,
+            index,
+            table,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
       }
-
-      let locale = document.documentElement.getAttribute('lang');
-      if (!locale) {
-        locale = ttsLanguage;
+      case 'video_play': {
+        const { identifier } = action;
+        listItems.push(
+          generateVideoBubble(
+            actionType,
+            index,
+            height,
+            width,
+            identifier,
+            latestMessage,
+            message,
+            latestUserMsgID,
+            showFeedback,
+            onYouTubePlayerReady,
+            scrollBottom,
+          ),
+        );
+        break;
       }
-
-      return (
-        <div>
-          {listItems}
-          {message.voice && (
-            <VoicePlayer
-              play
-              text={voiceOutput}
-              rate={speechRate}
-              pitch={speechPitch}
-              lang={message.lang ? message.lang : locale}
-              onStart={onTextToSpeechStart}
-              onEnd={onTextToSpeechEnd}
-            />
-          )}
-        </div>
-      );
+      case 'audio_play': {
+        const { identifier: src } = action;
+        listItems.push(
+          generateAudioBubble(
+            actionType,
+            index,
+            src,
+            message,
+            latestMessage,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
+      }
+      case 'rss': {
+        const { rssResults } = message;
+        if (rssResults.length === 0) {
+          noResultsFound = true;
+        }
+        listItems.push(
+          generateWebSearchRssBubble(actionType, index, rssResults),
+        );
+        break;
+      }
+      case 'websearch': {
+        const { websearchresults } = message;
+        if (websearchresults.length === 0) {
+          noResultsFound = true;
+        }
+        listItems.push(
+          generateWebSearchRssBubble(actionType, index, websearchresults),
+        );
+        break;
+      }
+      case 'stop': {
+        pauseAllVideos();
+        window.speechSynthesis.cancel();
+        break;
+      }
+      default:
     }
+
+    if (noResultsFound && message.text === 'I found this on the web:') {
+      listItems.splice(0, 1);
+    }
+
+    // Only set voice Outputs for text responses
+    let voiceOutput;
+    if (message.text) {
+      // Remove all hyper links
+      voiceOutput = message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    } else {
+      voiceOutput = '';
+    }
+
+    let locale = document.documentElement.getAttribute('lang');
+    if (!locale) {
+      locale = ttsLanguage;
+    }
+
+    return (
+      <div>
+        {listItems}
+        {message.voice && (
+          <VoicePlayer
+            play
+            text={voiceOutput}
+            rate={speechRate}
+            pitch={speechPitch}
+            lang={message.lang ? message.lang : locale}
+            onStart={onTextToSpeechStart}
+            onEnd={onTextToSpeechEnd}
+          />
+        )}
+      </div>
+    );
   }
 
   return (
