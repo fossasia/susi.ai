@@ -2,7 +2,7 @@ import urls from './urls';
 
 export const isProduction = () => {
   let domain = window.location.hostname;
-  return domain.indexOf('.susi.ai') > 0;
+  return domain.indexOf('susi.ai') > -1;
 };
 
 export const cookieDomain = isProduction() ? '.susi.ai' : '';
