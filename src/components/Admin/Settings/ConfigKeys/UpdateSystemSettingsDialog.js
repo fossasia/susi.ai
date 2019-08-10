@@ -13,6 +13,7 @@ class UpdateSystemSettings extends React.Component {
     this.state = {
       keyName: this.props.keyName || '',
       keyValue: this.props.keyValue || '',
+      apiType: this.props.apiType || 'public',
     };
   }
 
@@ -23,9 +24,9 @@ class UpdateSystemSettings extends React.Component {
   };
 
   handleSave = () => {
-    const { keyName, keyValue } = this.state;
+    const { keyName, keyValue, apiType } = this.state;
     const { handleConfirm } = this.props;
-    createApiKey({ keyName, keyValue })
+    createApiKey({ keyName, keyValue, apiType })
       .then(() => handleConfirm())
       .catch(error => {
         console.log(error);
@@ -78,6 +79,7 @@ class UpdateSystemSettings extends React.Component {
 
 UpdateSystemSettings.propTypes = {
   type: PropTypes.string,
+  apiType: PropTypes.string,
   keyName: PropTypes.string,
   keyValue: PropTypes.string,
   handleConfirm: PropTypes.func,

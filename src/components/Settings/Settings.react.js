@@ -20,6 +20,7 @@ import AccountIcon from '@material-ui/icons/AccountBox';
 import LockIcon from '@material-ui/icons/Lock';
 import MobileIcon from '@material-ui/icons/PhoneAndroid';
 import ShareIcon from '@material-ui/icons/Share';
+import KeyIcon from '@material-ui/icons/VpnKey';
 
 import MicrophoneTab from './MicrophoneTab.react';
 import ThemeChangeTab from './ThemeChangeTab.react';
@@ -28,14 +29,17 @@ import AccountTab from './AccountTab.react';
 import PasswordTab from './PasswordTab.react';
 import MobileTab from './MobileTab.react';
 import ChatAppTab from './ChatAppTab.react';
+import UserKeysTab from './UserKeysTab';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
+import { isProduction } from '../../utils/helperFunctions';
 
 const settingsOptions = [
   { name: 'Account', icon: <AccountIcon /> },
   { name: 'Password', icon: <LockIcon /> },
   { name: 'Mobile', icon: <MobileIcon /> },
   { name: 'ChatApp', icon: <ChatIcon /> },
+  ...(!isProduction() ? [{ name: 'User API keys', icon: <KeyIcon /> }] : []),
   { name: 'Theme', icon: <ThemeIcon /> },
   { name: 'Microphone', icon: <VoiceIcon /> },
   { name: 'Speech', icon: <SpeechIcon /> },
@@ -252,6 +256,9 @@ class Settings extends Component {
       }
       case 'ChatApp': {
         return <ChatAppTab />;
+      }
+      case 'User API keys': {
+        return <UserKeysTab />;
       }
       default:
         return null;

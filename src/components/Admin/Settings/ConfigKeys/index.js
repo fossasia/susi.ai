@@ -23,14 +23,16 @@ class ConfigKeys extends React.Component {
   };
 
   confirmUpdate = () => {
-    this.fetchApiKeys();
+    const { apiType } = this.props;
+    this.fetchApiKeys({ apiType });
     this.props.actions.closeModal();
   };
 
   confirmDelete = () => {
+    const { apiType } = this.props;
     const { keyName } = this.state;
-    deleteApiKey({ keyName })
-      .then(this.fetchApiKeys)
+    deleteApiKey({ keyName, apiType })
+      .then(() => this.fetchApiKeys({ apiType }))
       .catch(error => {
         console.log(error);
       });
@@ -43,6 +45,7 @@ class ConfigKeys extends React.Component {
       type: 'Update',
       keyName: keyName,
       keyValue: value,
+      apiType: this.props.apiType,
       handleConfirm: this.confirmUpdate,
       handleClose: this.props.actions.closeModal,
     });
@@ -55,6 +58,7 @@ class ConfigKeys extends React.Component {
       handleConfirm: this.confirmUpdate,
       keyName: '',
       keyValue: '',
+      apiType: this.props.apiType,
       handleClose: this.props.actions.closeModal,
     });
   };
@@ -70,11 +74,12 @@ class ConfigKeys extends React.Component {
   };
 
   componentDidMount() {
-    this.fetchApiKeys();
+    const { apiType } = this.props;
+    this.fetchApiKeys({ apiType });
   }
 
-  fetchApiKeys = () => {
-    fetchApiKeys()
+  fetchApiKeys = ({ apiType }) => {
+    fetchApiKeys({ apiType })
       .then(payload => {
         let apiKeys = [];
         let keys = Object.keys(payload.keys);
@@ -154,6 +159,11 @@ class ConfigKeys extends React.Component {
 ConfigKeys.propTypes = {
   history: PropTypes.object,
   actions: PropTypes.object,
+  apiType: PropTypes.string,
+};
+
+ConfigKeys.defaultProps = {
+  apiType: 'public',
 };
 
 function mapDispatchToProps(dispatch) {
