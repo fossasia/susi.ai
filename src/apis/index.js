@@ -1,6 +1,7 @@
 /* eslint camelcase: 0 */
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
+import _get from 'lodash/get';
 
 const { API_URL, SOUND_SERVER_API_URL, GITHUB_API } = urls;
 const AUTH_API_PREFIX = 'aaa';
@@ -8,26 +9,31 @@ const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
 const SUSI_API_PREFIX = 'susi';
 
-export function fetchApiKeys() {
+export function fetchApiKeys(payload) {
+  const type = _get(payload, 'apiType', 'public');
   const url = `${API_URL}/${AUTH_API_PREFIX}/getApiKeys.json`;
-  return ajax.get(url, {}, { shouldCamelizeKeys: false });
+  return ajax.get(url, { type }, { shouldCamelizeKeys: false });
 }
 
 export function createApiKey(payload) {
   const { keyName, keyValue } = payload;
+  const type = _get(payload, 'apiType', 'public');
   const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
   return ajax.get(url, {
     keyName,
     keyValue,
+    type,
   });
 }
 
 export function deleteApiKey(payload) {
   const { keyName } = payload;
+  const type = _get(payload, 'apiType', 'public');
   const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
   return ajax.get(url, {
     keyName,
     deleteKey: true,
+    type,
   });
 }
 
@@ -251,6 +257,18 @@ export function deleteAccount(payload) {
 export function checkAccountPermission() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/account-permissions.json`;
   return ajax.get(url, {});
+}
+
+export function resetPassword(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/resetpassword.json`;
+  const { token, newpass } = payload;
+  return ajax.get(url, { token, newpass: encodeURIComponent(newpass) });
+}
+
+export function checkResetPasswordToken(payload) {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/recoverpassword.json`;
+  const { token } = payload;
+  return ajax.get(url, { getParameters: true, token });
 }
 
 // Skills API
@@ -885,7 +903,7 @@ export function setControlOptions(payload) {
 export function setupDeviceConfig(payload) {
   const { ssid: wifissid, password: wifipassd, hotword, wake } = payload;
 
-  const url = `${SOUND_SERVER_API_URL}/setup`;
+  const url = `${SOUND_SERVER_API_URL}/reboot`;
   return ajax.post(
     url,
     { wifissid, wifipassd, hotword, wake },
