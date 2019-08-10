@@ -1,6 +1,7 @@
 /* eslint camelcase: 0 */
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
+import _get from 'lodash/get';
 
 const { API_URL, SOUND_SERVER_API_URL, GITHUB_API } = urls;
 const AUTH_API_PREFIX = 'aaa';
@@ -8,26 +9,31 @@ const CHAT_API_PREFIX = 'susi';
 const CMS_API_PREFIX = 'cms';
 const SUSI_API_PREFIX = 'susi';
 
-export function fetchApiKeys() {
+export function fetchApiKeys(payload) {
+  const type = _get(payload, 'apiType', 'public');
   const url = `${API_URL}/${AUTH_API_PREFIX}/getApiKeys.json`;
-  return ajax.get(url, {}, { shouldCamelizeKeys: false });
+  return ajax.get(url, { type }, { shouldCamelizeKeys: false });
 }
 
 export function createApiKey(payload) {
   const { keyName, keyValue } = payload;
+  const type = _get(payload, 'apiType', 'public');
   const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
   return ajax.get(url, {
     keyName,
     keyValue,
+    type,
   });
 }
 
 export function deleteApiKey(payload) {
   const { keyName } = payload;
+  const type = _get(payload, 'apiType', 'public');
   const url = `${API_URL}/${AUTH_API_PREFIX}/apiKeys.json`;
   return ajax.get(url, {
     keyName,
     deleteKey: true,
+    type,
   });
 }
 
