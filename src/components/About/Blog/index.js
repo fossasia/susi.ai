@@ -473,9 +473,8 @@ class Blog extends Component {
 }
 
 function mapStateToProps(store) {
-  const { blogKey } = store.app.apiKeys;
   return {
-    blogKey,
+    blogKey: store.app.apiKeys.blogKey,
   };
 }
 
