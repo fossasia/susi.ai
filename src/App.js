@@ -46,6 +46,7 @@ import AppBanner from './components/shared/AppBanner';
 import DeviceSetupPage from './components/smart-speaker/Setup';
 import withTracker from './withTracker';
 import GoogleAnalytics from 'react-ga';
+import { isProduction } from './utils/helperFunctions';
 import { checkDeviceWiFiAccessPoint } from './apis';
 
 const RootContainer = styled.div`
@@ -123,6 +124,7 @@ class App extends Component {
 
   componentDidMount = () => {
     const { accessToken, actions } = this.props;
+    let isGAInitialised = false;
 
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
@@ -131,7 +133,19 @@ class App extends Component {
       const {
         keys: { googleAnalyticsKey = null },
       } = payload;
-      googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
+      if (accessToken && !isProduction()) {
+        actions.getApiKeys({ apiType: 'user' }).then(({ payload }) => {
+          const userKeys = payload.keys;
+          if (userKeys && userKeys.googleAnalyticsKey) {
+            isGAInitialised = true;
+            userKeys.googleAnalyticsKey &&
+              GoogleAnalytics.initialize(userKeys.googleAnalyticsKey);
+          }
+        });
+      }
+      if (!isGAInitialised) {
+        googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
+      }
     });
     if (accessToken) {
       actions.getAdmin();

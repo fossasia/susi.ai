@@ -3,6 +3,7 @@ import actionTypes from '../actionTypes';
 import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import urls from '../../utils/urls';
 import Cookies from 'universal-cookie';
+import { isProduction } from '../../utils/helperFunctions';
 
 const cookies = new Cookies();
 
@@ -45,10 +46,16 @@ const cookiesAppValues = {
 export default handleActions(
   {
     [actionTypes.APP_GET_API_KEYS](state, { payload }) {
-      const { keys } = payload;
+      const {
+        keys,
+        requestPayload: { type: apiType },
+      } = payload;
+      if (apiType === 'user' && isProduction()) {
+        return { ...state };
+      }
       return {
         ...state,
-        apiKeys: { ...keys },
+        apiKeys: { ...state.apiKeys, ...keys },
       };
     },
     [actionTypes.APP_GET_LOGIN](state, { payload }) {
