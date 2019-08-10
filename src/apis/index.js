@@ -897,7 +897,7 @@ export function setControlOptions(payload) {
 export function setupDeviceConfig(payload) {
   const { ssid: wifissid, password: wifipassd, hotword, wake } = payload;
 
-  const url = `${SOUND_SERVER_API_URL}/setup`;
+  const url = `${SOUND_SERVER_API_URL}/reboot`;
   return ajax.post(
     url,
     { wifissid, wifipassd, hotword, wake },
