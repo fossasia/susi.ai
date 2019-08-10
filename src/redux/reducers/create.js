@@ -110,14 +110,16 @@ export default handleActions(
     [actionTypes.CREATE_GET_SKILL_CODE](state, { payload }) {
       const { text: code } = payload;
       const match = code.match(/^::image\s(.*)$/m);
-      let image = getImageSrc({
-        relativePath: `model=general&language=${state.skill.language}&group=${
-          state.skill.category
-        }&image=${code
-          .split('::image')[1]
-          .split('::')[0]
-          .trim()}`,
-      });
+      let image = match
+        ? getImageSrc({
+            relativePath: `model=general&language=${
+              state.skill.language
+            }&group=${state.skill.category}&image=${code
+              .split('::image')[1]
+              .split('::')[0]
+              .trim()}`,
+          })
+        : null;
       return {
         ...state,
         skill: {
