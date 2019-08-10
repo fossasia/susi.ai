@@ -28,7 +28,9 @@ import ConfirmDeleteWithInput from './dialogTypes/confirmDeleteWithInput';
 import StandardActionDialog from './dialogTypes/StandardActionDialog';
 import ChatApp from '../../ChatApp/ChatApp.react';
 import AddDeviceDialog from '../../cms/MyDevices/AddDeviceDialog';
+import ResetPasswordDialog from '../../Auth/ResetPassword';
 import isMobileView from '../../../utils/isMobileView';
+import { withRouter } from 'react-router-dom';
 
 const DialogData = {
   share: { Component: Share, size: 'xs' },
@@ -95,6 +97,10 @@ const DialogData = {
     Component: AddDeviceDialog,
     size: 'sm',
   },
+  resetPass: {
+    Component: ResetPasswordDialog,
+    size: 'sm',
+  },
 };
 
 const DialogSection = props => {
@@ -103,6 +109,7 @@ const DialogSection = props => {
     modalProps: { isModalOpen, modalType, ...otherProps },
     visited,
     mode,
+    location: { pathname },
   } = props;
 
   const getDialog = () => {
@@ -114,6 +121,8 @@ const DialogSection = props => {
     // }
     else if (mode === 'fullScreen') {
       return DialogData.chat;
+    } else if (pathname === '/resetpass') {
+      return DialogData.resetPass;
     }
     return DialogData.noComponent;
   };
@@ -150,6 +159,7 @@ DialogSection.propTypes = {
   modalProps: PropTypes.object,
   visited: PropTypes.bool,
   mode: PropTypes.string,
+  location: PropTypes.object,
 };
 
 function mapStateToProps(store) {
@@ -166,7 +176,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DialogSection);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(DialogSection),
+);
