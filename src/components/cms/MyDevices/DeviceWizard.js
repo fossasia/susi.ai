@@ -10,7 +10,7 @@ import { GoogleApiWrapper } from 'google-maps-react';
 import CircularLoader from '../../shared/CircularLoader';
 import ControlSection from './ControlSection';
 import ConfigureSection from './ConfigureSection';
-import { Paper, ErrorText } from './styles';
+import { Paper, ErrorText, OverlayContainer } from './styles';
 
 class DeviceWizard extends React.Component {
   static propTypes = {
@@ -217,7 +217,9 @@ class DeviceWizard extends React.Component {
               handleChangeSpeech={this.handleChangeSpeech}
               handleRemoveConfirmation={this.handleRemoveConfirmation}
             />
-            <ControlSection />
+            <OverlayContainer>
+              <ControlSection />
+            </OverlayContainer>
           </div>
         ) : (
           <ErrorText>
