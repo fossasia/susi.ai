@@ -887,14 +887,13 @@ export function refreshDeviceList() {
 
 export function setControlOptions(payload) {
   const url = `${SOUND_SERVER_API_URL}/config`;
-  const { stt, tts, hotword, wake } = payload;
+  const { stt, tts, hotword } = payload;
   return ajax.get(
     url,
     {
       stt,
       tts,
       hotword,
-      wake,
     },
     { isTokenRequired: false },
   );
@@ -931,5 +930,16 @@ export function setupDeviceConfig(payload) {
 
 export function checkDeviceWiFiAccessPoint() {
   const url = '/check_ap';
+  return ajax.get(url, {}, { isTokenRequired: false });
+}
+
+export function setWifiSettings(payload) {
+  const { wifissid, wifipassd } = payload;
+  const url = `${SOUND_SERVER_API_URL}/add_wifi`;
+  return ajax.get(url, { wifissid, wifipassd }, { isTokenRequired: false });
+}
+
+export function fetchActiveDeviceMacId() {
+  const url = `${SOUND_SERVER_API_URL}/mac`;
   return ajax.get(url, {}, { isTokenRequired: false });
 }
