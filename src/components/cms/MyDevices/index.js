@@ -6,7 +6,12 @@ import MapContainer from './MapContainer';
 import PropTypes from 'prop-types';
 import uiActions from '../../../redux/actions/ui';
 import settingActions from '../../../redux/actions/settings';
-import { addUserDevice, removeUserDevice } from '../../../apis/index';
+import {
+  addUserDevice,
+  removeUserDevice,
+  fetchDevices,
+  modifyUserDevices,
+} from '../../../apis/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Tabs from '@material-ui/core/Tabs';
@@ -79,36 +84,101 @@ class DevicesTab extends React.Component {
     emptyText: 'You do not have any devices connected yet!',
     value: 0,
     macId: '',
+    email: '',
   };
 
   componentDidMount() {
-    const { accessToken, actions } = this.props;
-    if (accessToken) {
-      actions
-        .getUserDevices()
-        .then(({ payload }) => {
-          this.initialiseDevices();
-          this.setState({
-            loading: false,
-            emptyText: 'You do not have any devices connected yet!',
-          });
-        })
-        .catch(error => {
-          this.setState({
-            loading: false,
-            emptyText: 'Some error occurred while fetching the devices!',
-          });
-          console.log(error);
-        });
+    const parameters = new URL(window.location).searchParams;
+    const email = parameters.get('email');
+    const macId = parameters.get('macId');
+    if (email) {
+      this.loadDevices(email, macId);
+    } else {
+      this.loadUserDevices();
     }
     document.title =
       'My Devices - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   }
 
+  loadUserDevices = () => {
+    const { actions } = this.props;
+    actions
+      .getUserDevices()
+      .then(({ payload }) => {
+        this.initialiseDevices();
+        this.setState({
+          loading: false,
+          emptyText: 'You do not have any devices connected yet!',
+        });
+      })
+      .catch(error => {
+        this.setState({
+          loading: false,
+          emptyText: 'Some error occurred while fetching the devices!',
+        });
+        console.log(error);
+      });
+  };
+
+  loadDevices = (email, macId) => {
+    fetchDevices({ search: email })
+      .then(payload => {
+        const { devices } = payload;
+        let devicesData = [];
+        let invalidLocationDevices = 0;
+        devices.forEach(device => {
+          const email = device.name;
+          const devices = device.devices;
+          const macIdArray = Object.keys(devices);
+          macIdArray.forEach(macId => {
+            const device = devices[macId];
+            let deviceName = device.name !== undefined ? device.name : '-';
+            deviceName =
+              deviceName.length > 30
+                ? deviceName.substr(0, 30) + '...'
+                : deviceName;
+            let location = 'Location not given';
+            if (device.geolocation) {
+              location = `${device.geolocation.latitude},${device.geolocation.longitude}`;
+            } else {
+              invalidLocationDevices++;
+            }
+            const deviceObj = {
+              deviceName,
+              macId,
+              email,
+              room: device.room,
+              location,
+              latitude:
+                device.geolocation !== undefined
+                  ? device.geolocation.latitude
+                  : '-',
+              longitude:
+                device.geolocation !== undefined
+                  ? device.geolocation.longitude
+                  : '-',
+            };
+            devicesData.push(deviceObj);
+          });
+        });
+        this.setState({
+          devicesData,
+          invalidLocationDevices,
+          loading: false,
+          macId,
+          value: macId ? macId : 0,
+          email,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   handleRemoveDevice = rowIndex => {
     const data = this.state.devicesData;
-
-    removeUserDevice({ macId: data[rowIndex].macId })
+    const { email } = this.state;
+    removeUserDevice({ macId: data[rowIndex].macId, email })
       .then(payload => {
         this.setState({
           devicesData: data.filter((row, index) => index !== rowIndex),
@@ -150,6 +220,19 @@ class DevicesTab extends React.Component {
     const deviceData = this.state.devicesData[rowIndex];
 
     addUserDevice({ ...deviceData })
+      .then(payload => {})
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  handleEditByAdmin = rowIndex => {
+    this.setState({
+      editIdx: -1,
+    });
+    const deviceData = this.state.devicesData[rowIndex];
+    const { email, deviceName, macId, room } = deviceData;
+    modifyUserDevices({ email, name: deviceName, macid: macId, room })
       .then(payload => {})
       .catch(error => {
         console.log(error);
@@ -244,6 +327,7 @@ class DevicesTab extends React.Component {
       emptyText,
       value,
       macId,
+      email,
     } = this.state;
     const { google, mapKey } = this.props;
     if (loading) {
@@ -274,7 +358,9 @@ class DevicesTab extends React.Component {
                     handleRemoveConfirmation={this.handleRemoveConfirmation}
                     startEditing={this.startEditing}
                     editIdx={editIdx}
-                    onDeviceSave={this.handleDeviceSave}
+                    onDeviceSave={
+                      email ? this.handleEditByAdmin : this.handleDeviceSave
+                    }
                     onView={this.handleView}
                     handleChange={this.handleChange}
                     tableData={devicesData}
