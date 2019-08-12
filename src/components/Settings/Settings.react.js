@@ -311,7 +311,7 @@ Settings.propTypes = {
 
 function mapStateToProps(store) {
   return {
-    mapKey: store.app.apiKeys.mapKey,
+    mapKey: store.app.apiKeys,
     theme: store.settings.theme,
     customThemeValue: store.settings.customThemeValue,
     accessToken: store.app.accessToken,

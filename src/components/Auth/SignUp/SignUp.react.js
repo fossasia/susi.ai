@@ -34,7 +34,6 @@ class SignUp extends Component {
     actions: PropTypes.object,
     captchaKey: PropTypes.string,
     openSnackBar: PropTypes.func,
-    isClientCaptchaEnabled: PropTypes.bool,
   };
 
   constructor(props) {
@@ -268,7 +267,7 @@ class SignUp extends Component {
       loading,
       success,
     } = this.state;
-    const { actions, captchaKey, isClientCaptchaEnabled } = this.props;
+    const { actions, captchaKey } = this.props;
 
     const isValid =
       email &&
@@ -277,7 +276,7 @@ class SignUp extends Component {
       !passwordErrorMessage &&
       confirmPassword &&
       !passwordConfirmErrorMessage &&
-      (isClientCaptchaEnabled ? isCaptchaVerified : true);
+      isCaptchaVerified;
     return (
       <React.Fragment>
         <DialogTitle>
@@ -328,7 +327,7 @@ class SignUp extends Component {
               {passwordConfirmErrorMessage}
             </FormHelperText>
           </FormControl>
-          {!!isClientCaptchaEnabled && captchaKey && (
+          {captchaKey && (
             <Recaptcha
               captchaKey={captchaKey}
               onCaptchaLoad={this.onCaptchaLoad}
@@ -367,10 +366,9 @@ class SignUp extends Component {
 }
 
 function mapStateToProps(store) {
-  const { captchaKey, isClientCaptchaEnabled } = store.app.apiKeys;
+  const { captchaKey } = store.app.apiKeys;
   return {
     captchaKey,
-    isClientCaptchaEnabled: isClientCaptchaEnabled === 'true',
   };
 }
 

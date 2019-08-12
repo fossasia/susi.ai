@@ -48,18 +48,14 @@ export default handleActions(
     [actionTypes.APP_GET_API_KEYS](state, { payload }) {
       const {
         keys,
-        requestPayload: { type: apiType = 'public' },
+        requestPayload: { type: apiType },
       } = payload;
       if (apiType === 'user' && isProduction()) {
         return { ...state };
       }
-      let keyValueObj = {};
-      for (let [key, value] of Object.entries(keys)) {
-        keyValueObj = { ...keyValueObj, [key]: value.value };
-      }
       return {
         ...state,
-        apiKeys: { ...state.apiKeys, ...keyValueObj },
+        apiKeys: { ...state.apiKeys, ...keys },
       };
     },
     [actionTypes.APP_GET_LOGIN](state, { payload }) {
