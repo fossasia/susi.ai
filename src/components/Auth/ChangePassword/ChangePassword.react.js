@@ -62,6 +62,7 @@ class ChangePassword extends Component {
     actions: PropTypes.object,
     email: PropTypes.string,
     captchaKey: PropTypes.string,
+    isClientCaptchaEnabled: PropTypes.bool,
   };
 
   constructor(props) {
@@ -267,15 +268,14 @@ class ChangePassword extends Component {
       loading,
       showCaptchaErrorMessage,
     } = this.state;
-    const { actions, captchaKey } = this.props;
+    const { actions, captchaKey, isClientCaptchaEnabled } = this.props;
     const isValid =
       !newPasswordErrorMessage &&
       !newPasswordConfirmErrorMessage &&
-      !showCaptchaErrorMessage &&
+      (isClientCaptchaEnabled ? !showCaptchaErrorMessage : true) &&
       password &&
       newPassword &&
       confirmNewPassword;
-
     return (
       <React.Fragment>
         <form autoComplete="false">
@@ -316,7 +316,7 @@ class ChangePassword extends Component {
               </FormHelperText>
             </Form>
           </div>
-          {captchaKey && (
+          {isClientCaptchaEnabled && captchaKey && (
             <Recaptcha
               captchaKey={captchaKey}
               onCaptchaLoad={this.onCaptchaLoad}
@@ -353,10 +353,11 @@ class ChangePassword extends Component {
 
 function mapStateToProps(store) {
   const { email } = store.app;
-  const { captchaKey } = store.app.apiKeys;
+  const { captchaKey, isClientCaptchaEnabled } = store.app.apiKeys;
   return {
     email,
     captchaKey,
+    isClientCaptchaEnabled: isClientCaptchaEnabled === 'true',
   };
 }
 
