@@ -1,6 +1,10 @@
+/* eslint-disable max-nested-callbacks */
 import { formatUserMessage, formatSusiMessage } from './formatMessage';
 import { getSusiReply } from '../apis';
 import mobileView from './isMobileView';
+import { TaskRunner, plannedFunction } from './scheduler';
+
+let tasks = new TaskRunner();
 
 const isMobileView = mobileView();
 
@@ -31,9 +35,18 @@ export default function({
             formatSusiMessage({
               response,
               voice,
-              // eslint-disable-next-line max-nested-callbacks
-            }).then(susiMessage => {
-              createSusiMessage(susiMessage);
+            }).then(susiMessages => {
+              susiMessages.forEach(eachMessage => {
+                if (eachMessage.planDelay) {
+                  tasks.push(
+                    plannedFunction,
+                    () => createSusiMessage({ message: eachMessage }),
+                    eachMessage.planDelay,
+                  );
+                } else {
+                  createSusiMessage({ message: eachMessage });
+                }
+              });
               !!pendingUserMessage &&
                 setPendingUserMessage({ pendingUserMessage: null });
             });
