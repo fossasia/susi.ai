@@ -17,6 +17,7 @@ import ConfirmDeleteAccount from '../../Auth/DeleteAccount/ConfirmDeleteAccount.
 import AuthorSkills from '../../cms/AuthorSkills/AuthorSkills';
 import UpdateSystemSettings from '../../Admin/Settings/ConfigKeys/UpdateSystemSettingsDialog';
 import EditSkill from '../../Admin/ListSkills/EditSkillDialog';
+import EditDevice from '../../Admin/ListDevices/EditDeviceDialog';
 import ConfirmDialog from './dialogTypes/ConfirmDialog';
 import ReportSkillDialog from '../../cms/SkillPage/ReportSkillDialog';
 import EditFeedbackDialog from '../../cms/SkillFeedbackPage/EditFeedbackDialog';
@@ -67,6 +68,7 @@ const DialogData = {
   },
   confirm: { Component: ConfirmDialog, size: 'xs' },
   editSkill: { Component: EditSkill, size: 'sm' },
+  editDevice: { Component: EditDevice, size: 'sm' },
   restoreSkill: {
     Component: StandardActionDialog,
     size: 'sm',
