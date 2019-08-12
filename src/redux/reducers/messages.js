@@ -118,9 +118,11 @@ export default handleActions(
         messagePairArray.forEach(messagePair => {
           const { userMessage, susiMessage } = messagePair;
           messages.push(userMessage.id);
-          messages.push(susiMessage.id);
           messagesByID[userMessage.id] = userMessage;
-          messagesByID[susiMessage.id] = susiMessage;
+          susiMessage.forEach(eachSusiMessage => {
+            messages.push(eachSusiMessage.id);
+            messagesByID[eachSusiMessage.id] = eachSusiMessage;
+          });
         });
       }
       return {

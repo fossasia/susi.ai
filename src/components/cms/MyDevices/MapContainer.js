@@ -4,8 +4,8 @@ import { Map as _Map, InfoWindow, Marker } from 'google-maps-react';
 import PropTypes from 'prop-types';
 
 const Container = styled.div`
-  width: 100%;
-  height: 300px;
+  width: ${props => (props.adminTable ? '250px' : '100%')};
+  height: ${props => (props.adminTable ? '250px' : '300px')};
   display: flex;
   justify-content: center;
 `;
@@ -13,7 +13,7 @@ const Container = styled.div`
 const Map = styled(_Map)`
   height: 300px !important;
   position: relative;
-  width: 85% !important;
+  width: ${props => (props.adminTable ? '250px' : '85% !important')};
 
   @media (max-width: 1060px) {
     width: 80% !important;
@@ -29,6 +29,7 @@ class MapContainer extends Component {
     devicesData: PropTypes.array,
     google: PropTypes.object,
     invalidLocationDevices: PropTypes.number,
+    adminTable: PropTypes.bool,
   };
 
   state = {
@@ -81,16 +82,22 @@ class MapContainer extends Component {
 
   render() {
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
-    const { google, devicesData = [], invalidLocationDevices } = this.props;
+    const {
+      google,
+      devicesData = [],
+      invalidLocationDevices,
+      adminTable,
+    } = this.props;
     const mapCenter = this.getMapCenter(devicesData, invalidLocationDevices);
     return (
-      <Container>
+      <Container adminTable={adminTable}>
         <Map
           google={google}
           zoom={5}
           center={mapCenter}
           initialCenter={mapCenter}
           onClick={this.onMapClicked}
+          adminTable={adminTable}
         >
           {devicesData.map(eachDevice => (
             <Marker

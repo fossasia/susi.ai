@@ -4,13 +4,18 @@ import DevicesTable from './DevicesTable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
-import { addUserDevice, removeUserDevice } from '../../../apis/index';
+import {
+  addUserDevice,
+  removeUserDevice,
+  fetchDevices,
+  modifyUserDevices,
+} from '../../../apis/index';
 import MapContainer from './MapContainer';
 import { GoogleApiWrapper } from 'google-maps-react';
 import CircularLoader from '../../shared/CircularLoader';
 import ControlSection from './ControlSection';
 import ConfigureSection from './ConfigureSection';
-import { Paper, ErrorText } from './styles';
+import { Paper, ErrorText, OverlayContainer } from './styles';
 
 class DeviceWizard extends React.Component {
   static propTypes = {
@@ -30,6 +35,8 @@ class DeviceWizard extends React.Component {
     this.state = {
       devicesData: [],
       editIdx: null,
+      email: '',
+      loading: true,
       invalidLocationDevices: 0,
       synchronizePublicSkills: true,
       synchronizePrivateSkills: false,
@@ -39,7 +46,13 @@ class DeviceWizard extends React.Component {
   }
 
   componentDidMount() {
-    this.initialiseDevice();
+    const parameters = new URL(window.location).searchParams;
+    const email = parameters.get('email');
+    if (email) {
+      this.loadDevice(email);
+    } else {
+      this.initialiseDevice();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -50,12 +63,67 @@ class DeviceWizard extends React.Component {
     }
   }
 
+  loadDevice = email => {
+    fetchDevices({ search: email })
+      .then(payload => {
+        const { devices } = payload;
+        let devicesData = [];
+        let invalidLocationDevices = 0;
+        devices.forEach(eachDevice => {
+          const macId = this.macId;
+          const email = eachDevice.name;
+          const devices = eachDevice.devices;
+          const device = devices[macId];
+          let deviceName = device.name !== undefined ? device.name : '-';
+          deviceName =
+            deviceName.length > 30
+              ? deviceName.substr(0, 30) + '...'
+              : deviceName;
+          let location = 'Location not given';
+          if (device.geolocation) {
+            location = `${device.geolocation.latitude},${device.geolocation.longitude}`;
+          } else {
+            invalidLocationDevices++;
+          }
+          const deviceObj = {
+            deviceName,
+            macId,
+            email,
+            room: device.room,
+            location,
+            latitude:
+              device.geolocation !== undefined
+                ? device.geolocation.latitude
+                : '-',
+            longitude:
+              device.geolocation !== undefined
+                ? device.geolocation.longitude
+                : '-',
+          };
+          devicesData.push(deviceObj);
+        });
+        this.setState({
+          devicesData,
+          invalidLocationDevices,
+          email,
+          loading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        console.log(error);
+      });
+  };
+
   handleRemoveDevice = () => {
     const macId = this.macId;
-    removeUserDevice({ macId })
+    const { email } = this.state;
+    removeUserDevice({ macId, email })
       .then(payload => {
         this.props.actions.closeModal();
-        window.location.replace('/mydevices');
+        email !== ''
+          ? window.location.replace(`/mydevices?email=${email}`)
+          : window.location.replace('/mydevices');
       })
       .catch(error => {
         console.log(error);
@@ -92,6 +160,19 @@ class DeviceWizard extends React.Component {
     const deviceData = this.state.devicesData[rowIndex];
 
     addUserDevice({ ...deviceData })
+      .then(payload => {})
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  handleEditByAdmin = rowIndex => {
+    this.setState({
+      editIdx: -1,
+    });
+    const deviceData = this.state.devicesData[rowIndex];
+    const { email, deviceName, macId, room } = deviceData;
+    modifyUserDevices({ email, name: deviceName, macid: macId, room })
       .then(payload => {})
       .catch(error => {
         console.log(error);
@@ -152,6 +233,7 @@ class DeviceWizard extends React.Component {
         });
       }
     }
+    this.setState({ loading: false });
   };
 
   render() {
@@ -163,9 +245,14 @@ class DeviceWizard extends React.Component {
       invalidLocationDevices,
       speechToText,
       textToSpeech,
+      email,
+      loading,
     } = this.state;
     const macId = this.macId;
     const { mapKey, google } = this.props;
+    if (loading) {
+      return <LoadingContainer />;
+    }
     return (
       <React.Fragment>
         {devicesData.length ? (
@@ -176,7 +263,9 @@ class DeviceWizard extends React.Component {
                 handleRemoveConfirmation={this.handleRemoveConfirmation}
                 startEditing={this.startEditing}
                 editIdx={editIdx}
-                onDeviceSave={this.handleDeviceSave}
+                onDeviceSave={
+                  email ? this.handleEditByAdmin : this.handleDeviceSave
+                }
                 handleChange={this.handleChange}
                 tableData={devicesData}
                 deviceWizard={true}
@@ -217,7 +306,9 @@ class DeviceWizard extends React.Component {
               handleChangeSpeech={this.handleChangeSpeech}
               handleRemoveConfirmation={this.handleRemoveConfirmation}
             />
-            <ControlSection />
+            <OverlayContainer>
+              <ControlSection />
+            </OverlayContainer>
           </div>
         ) : (
           <ErrorText>
