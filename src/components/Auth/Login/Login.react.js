@@ -39,7 +39,6 @@ class Login extends Component {
     history: PropTypes.object,
     serverUrl: PropTypes.string,
     captchaKey: PropTypes.string,
-    isClientCaptchaEnabled: PropTypes.bool,
   };
 
   constructor(props) {
@@ -230,18 +229,13 @@ class Login extends Component {
       showCaptchaErrorMessage,
       attempts,
     } = this.state;
-    const { actions, captchaKey, isClientCaptchaEnabled } = this.props;
+    const { actions, captchaKey } = this.props;
     const isValid =
       email &&
       !emailErrorMessage &&
       password &&
       !passwordErrorMessage &&
-      // eslint-disable-next-line no-nested-ternary
-      (isClientCaptchaEnabled
-        ? attempts > 0
-          ? !showCaptchaErrorMessage
-          : true
-        : true);
+      (attempts > 0 ? !showCaptchaErrorMessage : true);
     return (
       <React.Fragment>
         <DialogTitle>
@@ -277,7 +271,7 @@ class Login extends Component {
               {passwordErrorMessage}
             </FormHelperText>
           </FormControl>
-          {captchaKey && isClientCaptchaEnabled.value && attempts > 0 && (
+          {captchaKey && attempts > 0 && (
             <Recaptcha
               captchaKey={captchaKey}
               onCaptchaLoad={this.onCaptchaLoad}
@@ -329,7 +323,6 @@ function mapStateToProps(store) {
     ...store.router,
     serverUrl: store.settings.serverUrl,
     captchaKey: store.app.apiKeys.captchaKey,
-    isClientCaptchaEnabled: store.app.apiKeys.isClientCaptchaEnabled === 'true',
   };
 }
 
