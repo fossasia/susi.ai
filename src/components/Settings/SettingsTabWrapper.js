@@ -8,6 +8,9 @@ import { Divider } from './SettingStyles';
 const Container = styled.div`
   text-align: left;
   padding: 24px;
+  @media (max-width: 410px) {
+    padding: 18px;
+  }
 `;
 
 const HeadingContainer = styled.div`

@@ -34,6 +34,13 @@ const CountryCode = styled.div`
   align-items: center;
 `;
 
+const InputText = styled.div`
+  margin-right: 2rem;
+  @media (max-width: 410px) {
+    margin-right: 2px;
+  }
+`;
+
 const PhoneNumber = styled.div`
   margin-top: 1rem;
   font-size: 14px;
@@ -150,9 +157,9 @@ class MobileTab extends React.Component {
           <Translate text="In future, we will text a verification code to your number. Standard SMS fees may apply." />
         </Details>
         <CountryCode>
-          <div style={{ marginRight: '2rem' }}>
+          <InputText>
             <Translate text="Country/region :" />
-          </div>
+          </InputText>
           <div>
             <Select
               style={{ width: '12rem' }}
@@ -164,7 +171,7 @@ class MobileTab extends React.Component {
           </div>
         </CountryCode>
         <PhoneNumber>
-          <div style={{ marginRight: '2rem' }}>Phone number :</div>
+          <InputText>Phone number :</InputText>
           <PhoneDetails>
             <PhoneCode>
               <TextField
