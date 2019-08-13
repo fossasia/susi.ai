@@ -18,9 +18,7 @@ import isMobileView from '../../utils/isMobileView';
 import CircularLoader from '../shared/CircularLoader';
 
 const Container = styled.div`
-  padding-top: 20px;
-  padding-left: 25px;
-  padding-right: 30px;
+  padding: 20px 30px 60px 25px;
 `;
 
 const Tabs = styled(_Tabs)`
