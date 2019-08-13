@@ -1,35 +1,47 @@
+import tableStyles from '../../shared/table';
+
 const TABLE_CONFIG = [
   {
     title: 'Recipients',
     field: 'recipients',
     cellStyle: {
-      width: '8%',
+      ...tableStyles,
     },
   },
   {
     title: 'Trigger',
     field: 'trigger',
     cellStyle: {
-      width: '8%',
+      ...tableStyles,
     },
   },
   {
-    title: 'Email Message',
-    field: 'emailMessage',
+    title: 'On-screen Message',
+    field: 'userMessage',
     cellStyle: {
-      width: '30%',
+      ...tableStyles,
+    },
+  },
+  {
+    title: 'Subject',
+    field: 'subject',
+    cellStyle: {
+      ...tableStyles,
+    },
+  },
+  {
+    title: 'Email text',
+    field: 'emailText',
+    cellStyle: {
+      ...tableStyles,
     },
   },
   {
     title: 'Options',
     field: 'options',
     cellStyle: {
-      width: '8%',
+      ...tableStyles,
     },
-  },
-  {
-    title: 'Time/Date sent out',
-    field: 'time',
   },
 ];
 

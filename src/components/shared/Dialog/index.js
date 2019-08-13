@@ -67,6 +67,7 @@ const DialogData = {
     componentProps: { entityType: 'skill' },
   },
   confirm: { Component: ConfirmDialog, size: 'xs' },
+  showMessage: { Component: ConfirmDialog, size: 'sm' },
   editSkill: { Component: EditSkill, size: 'sm' },
   editDevice: { Component: EditDevice, size: 'sm' },
   restoreSkill: {
