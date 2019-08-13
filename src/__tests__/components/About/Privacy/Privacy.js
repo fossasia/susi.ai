@@ -1,5 +1,5 @@
 import React from 'react';
-import Privacy from '../../../components/Privacy/Privacy.react';
+import Privacy from '../../../../components/About/Privacy/Privacy.react';
 import { shallow } from 'enzyme';
 
 describe('<Privacy />', () => {

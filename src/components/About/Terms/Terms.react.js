@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from '../shared/About';
+import { Header } from '../../shared/About';
 import styled from 'styled-components';
 
 const Section = styled.div`
