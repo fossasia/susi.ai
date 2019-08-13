@@ -1,3 +1,5 @@
+import tableStyles from '../../shared/table';
+
 export const getColumnConfig = groups => {
   return [
     {
@@ -5,6 +7,7 @@ export const getColumnConfig = groups => {
       field: 'skillName',
       cellStyle: {
         width: '20%',
+        ...tableStyles,
       },
       filtering: false,
     },
@@ -14,6 +17,7 @@ export const getColumnConfig = groups => {
       lookup: groups,
       cellStyle: {
         width: '10%',
+        ...tableStyles,
       },
     },
     {
@@ -21,6 +25,7 @@ export const getColumnConfig = groups => {
       field: 'language',
       cellStyle: {
         width: '10%',
+        ...tableStyles,
       },
       filtering: false,
     },
@@ -30,6 +35,7 @@ export const getColumnConfig = groups => {
       lookup: { private: 'Private', public: 'Public' },
       cellStyle: {
         width: '10%',
+        ...tableStyles,
       },
     },
     {
@@ -37,6 +43,7 @@ export const getColumnConfig = groups => {
       field: 'author',
       cellStyle: {
         width: '10%',
+        ...tableStyles,
       },
       filtering: false,
     },
@@ -46,6 +53,7 @@ export const getColumnConfig = groups => {
       lookup: { Approved: 'Reviewed', 'Not Reviewed': 'Not Reviewed' },
       cellStyle: {
         width: '15%',
+        ...tableStyles,
       },
     },
     {
@@ -54,6 +62,7 @@ export const getColumnConfig = groups => {
       lookup: { Editable: 'Editable', 'Not Editable': 'Not Editable' },
       cellStyle: {
         width: '15%',
+        ...tableStyles,
       },
     },
   ];
