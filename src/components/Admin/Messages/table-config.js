@@ -16,21 +16,21 @@ const TABLE_CONFIG = [
     },
   },
   {
-    title: 'On-screen Message',
+    title: 'On Screen Message',
     field: 'userMessage',
     cellStyle: {
       ...tableStyles,
     },
   },
   {
-    title: 'Subject',
+    title: 'Email Subject',
     field: 'subject',
     cellStyle: {
       ...tableStyles,
     },
   },
   {
-    title: 'Email text',
+    title: 'Email Text',
     field: 'emailText',
     cellStyle: {
       ...tableStyles,
