@@ -17,6 +17,7 @@ import ConfirmDeleteAccount from '../../Auth/DeleteAccount/ConfirmDeleteAccount.
 import AuthorSkills from '../../cms/AuthorSkills/AuthorSkills';
 import UpdateSystemSettings from '../../Admin/Settings/ConfigKeys/UpdateSystemSettingsDialog';
 import EditSkill from '../../Admin/ListSkills/EditSkillDialog';
+import EditDevice from '../../Admin/ListDevices/EditDeviceDialog';
 import ConfirmDialog from './dialogTypes/ConfirmDialog';
 import ReportSkillDialog from '../../cms/SkillPage/ReportSkillDialog';
 import EditFeedbackDialog from '../../cms/SkillFeedbackPage/EditFeedbackDialog';
@@ -29,6 +30,7 @@ import StandardActionDialog from './dialogTypes/StandardActionDialog';
 import ChatApp from '../../ChatApp/ChatApp.react';
 import AddDeviceDialog from '../../cms/MyDevices/AddDeviceDialog';
 import ResetPasswordDialog from '../../Auth/ResetPassword';
+import DeviceContolDialog from '../../cms/MyDevices/ControlSection';
 import isMobileView from '../../../utils/isMobileView';
 import { withRouter } from 'react-router-dom';
 
@@ -65,7 +67,9 @@ const DialogData = {
     componentProps: { entityType: 'skill' },
   },
   confirm: { Component: ConfirmDialog, size: 'xs' },
+  showMessage: { Component: ConfirmDialog, size: 'sm' },
   editSkill: { Component: EditSkill, size: 'sm' },
+  editDevice: { Component: EditDevice, size: 'sm' },
   restoreSkill: {
     Component: StandardActionDialog,
     size: 'sm',
@@ -100,6 +104,10 @@ const DialogData = {
   resetPass: {
     Component: ResetPasswordDialog,
     size: 'sm',
+  },
+  deviceControlSettings: {
+    Component: DeviceContolDialog,
+    size: 'md',
   },
 };
 

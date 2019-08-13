@@ -1,10 +1,12 @@
+import tableStyles from '../../shared/table';
+
 const COULMNS = [
   {
     title: 'S.No.',
     field: 'serialNum',
     sorter: false,
     cellStyle: {
-      width: '2%',
+      ...tableStyles,
     },
   },
   {
@@ -12,7 +14,7 @@ const COULMNS = [
     field: 'email',
     sorter: false,
     cellStyle: {
-      width: '10%',
+      ...tableStyles,
     },
     key: 'email',
   },
@@ -20,7 +22,7 @@ const COULMNS = [
     title: 'User Name',
     field: 'userName',
     cellStyle: {
-      width: '5%',
+      ...tableStyles,
     },
   },
   {
@@ -28,28 +30,28 @@ const COULMNS = [
     field: 'confirmed',
     sorter: false,
     cellStyle: {
-      width: '10%',
+      ...tableStyles,
     },
   },
   {
     title: 'Signup',
     field: 'signup',
     cellStyle: {
-      width: '5%',
+      ...tableStyles,
     },
   },
   {
     title: 'Last Login',
     field: 'lastLogin',
     cellStyle: {
-      width: '5%',
+      ...tableStyles,
     },
   },
   {
     title: 'IP of Last Login',
     field: 'ipLastLogin',
     cellStyle: {
-      width: '5%',
+      ...tableStyles,
     },
   },
   {
@@ -57,7 +59,7 @@ const COULMNS = [
     field: 'userRole',
     sorter: false,
     cellStyle: {
-      width: '7%',
+      ...tableStyles,
     },
   },
 ];

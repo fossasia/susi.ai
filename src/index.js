@@ -39,8 +39,18 @@ let piwik = null,
 
 let usepiwik = false;
 fetchApiKeys().then(payload => {
-  matomoSiteId = payload.keys.matomoSiteId.value || '';
-  matomoUrl = payload.keys.matomoUrl.value || '';
+  matomoSiteId =
+    (payload &&
+      payload.keys &&
+      payload.keys.matomoSiteId &&
+      payload.keys.matomoSiteId.value) ||
+    '';
+  matomoUrl =
+    (payload &&
+      payload.keys &&
+      payload.keys.matomoUrl &&
+      payload.keys.matomoUrl.value) ||
+    '';
   piwik = new ReactPiwik({
     url: matomoUrl || '',
     siteId: matomoSiteId || '',

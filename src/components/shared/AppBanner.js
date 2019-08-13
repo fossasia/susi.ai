@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import uiActions from '../../redux/actions/ui';
+import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -14,13 +18,38 @@ const Container = styled.div`
   height: 40px;
 `;
 
-const AppBanner = () => {
+const ConfigureSpan = styled.span`
+  text-decoration: underline;
+  margin-left: 4px;
+  cursor: pointer;
+`;
+
+const AppBanner = ({ actions }) => {
+  const openControlPage = () => {
+    actions.openModal({
+      modalType: 'deviceControlSettings',
+    });
+  };
   return (
     <Container>
       You are currently accessing the local version of your SUSI.AI running on
-      your smart device
+      your smart device.
+      <ConfigureSpan onClick={openControlPage}>Configure now</ConfigureSpan>
     </Container>
   );
 };
 
-export default AppBanner;
+AppBanner.propTypes = {
+  actions: PropTypes.object,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(uiActions, dispatch),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(AppBanner);

@@ -24,6 +24,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import DialogContent from '@material-ui/core/DialogContent';
 import {
   resumeAction,
   pauseAction,
@@ -37,13 +38,7 @@ import {
   refreshDeviceList,
   setControlOptions,
 } from '../../../apis';
-import {
-  Section,
-  Overlay,
-  OverlayContainer,
-  ControlHeading,
-  FlexContainer,
-} from './styles';
+import { Section, Overlay, ControlHeading, FlexContainer } from './styles';
 
 class ControlSection extends React.Component {
   static propTypes = {
@@ -131,253 +126,256 @@ class ControlSection extends React.Component {
     } = this.state;
     const { isLocalEnv } = this.props;
     return (
-      <OverlayContainer>
+      <React.Fragment>
         {!isLocalEnv && (
           <Overlay>
             {/* You need to access this page on your device to control your device. */}
             Coming Soon
           </Overlay>
         )}
-        <h1>Controls</h1>
-        <Section>
-          <ControlHeading>Volume</ControlHeading>
-          <Grid container spacing={2}>
-            <Grid item>
-              <VolumeDown />
+        <h1 style={{ textAlign: 'center' }}>Controls</h1>
+        <DialogContent style={{ textAlign: 'left' }}>
+          <Section>
+            <ControlHeading>Volume</ControlHeading>
+            <Grid container spacing={2}>
+              <Grid item>
+                <VolumeDown />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={volume}
+                  valueLabelDisplay="auto"
+                  onChange={this.handleVolumeChange}
+                />
+              </Grid>
+              <Grid item>
+                <VolumeUp />
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <Slider
-                value={volume}
-                valueLabelDisplay="auto"
-                onChange={this.handleVolumeChange}
+          </Section>
+          <Section>
+            <ControlHeading>Playback Control</ControlHeading>
+            <Grid container spacing={1}>
+              <Grid item>
+                <Button variant="outlined" onClick={pauseAction}>
+                  Pause
+                  <Pause />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  onClick={resumeAction}
+                  style={{ color: 'green' }}
+                >
+                  Resume
+                  <PlayArrow />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={restartAction}
+                >
+                  Restart
+                  <Replay />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  onClick={stopAction}
+                  style={{ color: 'red' }}
+                >
+                  Stop
+                  <Stop />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="outlined" onClick={previousAction}>
+                  Previous
+                  <SkipPrevious />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={shuffleAction}
+                >
+                  Shuffle
+                  <Shuffle />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="outlined" onClick={nextAction}>
+                  Next
+                  <SkipNext />
+                </Button>
+              </Grid>
+            </Grid>
+          </Section>
+          <Section>
+            <ControlHeading>Play YouTube songs</ControlHeading>
+            <FlexContainer>
+              <OutlinedTextField
+                label="YouTube link"
+                placeholder="YouTube link"
+                value={youtubeLink || ''}
+                name="youtubeLink"
+                style={{ marginRight: '2rem', width: '80%' }}
+                onChange={this.handleChange}
               />
-            </Grid>
-            <Grid item>
-              <VolumeUp />
-            </Grid>
-          </Grid>
-        </Section>
-        <Section>
-          <ControlHeading>Playback Control</ControlHeading>
-          <Grid container spacing={2}>
-            <Grid item>
-              <Button variant="outlined" onClick={pauseAction}>
-                Pause
-                <Pause />
-              </Button>
-            </Grid>
-            <Grid item>
               <Button
                 variant="outlined"
                 color="inherit"
-                onClick={resumeAction}
+                disabled={!youtubeLink}
+                onClick={() => playInYoutubeAction({ youtubeLink })}
                 style={{ color: 'green' }}
               >
-                Resume
+                Play
                 <PlayArrow />
               </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={restartAction}
+            </FlexContainer>
+          </Section>
+          <Section>
+            <ControlHeading>Play songs from your local device</ControlHeading>
+            <FlexContainer>
+              <Select
+                value={selectedDevice}
+                onChange={this.handleDeviceSelect}
+                style={{ marginRight: '2rem', width: '80%' }}
+                disabled={devicesList.length === 0}
+                input={<OutlinedTextField name="devices" />}
               >
-                Restart
-                <Replay />
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="inherit"
-                onClick={stopAction}
-                style={{ color: 'red' }}
-              >
-                Stop
-                <Stop />
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined" onClick={previousAction}>
-                Previous
-                <SkipPrevious />
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={shuffleAction}
-              >
-                Shuffle
-                <Shuffle />
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined" onClick={nextAction}>
-                Next
-                <SkipNext />
-              </Button>
-            </Grid>
-          </Grid>
-        </Section>
-        <Section>
-          <ControlHeading>Play YouTube songs</ControlHeading>
-          <OutlinedTextField
-            label="YouTube link"
-            placeholder="YouTube link"
-            value={youtubeLink || ''}
-            name="youtubeLink"
-            fullWidth
-            onChange={this.handleChange}
-          />
-          <Button
-            variant="outlined"
-            color="inherit"
-            disabled={!youtubeLink}
-            onClick={() => playInYoutubeAction({ youtubeLink })}
-            style={{ color: 'green' }}
-          >
-            Play
-            <PlayArrow />
-          </Button>
-        </Section>
-        <Section>
-          <ControlHeading>Play songs from your local device</ControlHeading>
-          <FlexContainer>
-            <Select
-              value={selectedDevice}
-              onChange={this.handleDeviceSelect}
-              fullWidth
-              style={{ marginRight: '2rem' }}
-              disabled={devicesList.length === 0}
-              input={<OutlinedTextField name="devices" />}
-            >
-              {devicesList.map((eachDevice, index) => (
-                <MenuItem key={index} value={eachDevice.name}>
-                  {eachDevice.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <Fab color="primary" onClick={this.populateDeviceList}>
-              <Refresh />
-            </Fab>
-          </FlexContainer>
-        </Section>
+                {devicesList.map((eachDevice, index) => (
+                  <MenuItem key={index} value={eachDevice.name}>
+                    {eachDevice.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              <Fab color="primary" onClick={this.populateDeviceList}>
+                <Refresh />
+              </Fab>
+            </FlexContainer>
+          </Section>
 
-        <Section>
-          <ControlHeading>Speech To Text(STT)</ControlHeading>
-          <FlexContainer>
-            <FormControl>
-              <RadioGroup
-                aria-label="stt"
-                name="stt"
-                value={stt}
-                onChange={this.handleRadioChange}
-              >
-                <FormControlLabel
-                  value="google"
-                  control={<Radio />}
-                  label="Google"
-                />
-                <FormControlLabel
-                  value="watson"
-                  control={<Radio />}
-                  label="Watson"
-                />
-                <FormControlLabel
-                  value="bing"
-                  control={<Radio />}
-                  label="Bing"
-                />
-                <FormControlLabel
-                  value="pocketsphinx"
-                  control={<Radio />}
-                  label="Pocket Sphinx"
-                />
-              </RadioGroup>
-            </FormControl>
-          </FlexContainer>
-        </Section>
-        <Section>
-          <ControlHeading>Text To Speech(TTS)</ControlHeading>
-          <FlexContainer>
-            <FormControl>
-              <RadioGroup
-                aria-label="tts"
-                name="tts"
-                value={tts}
-                onChange={this.handleRadioChange}
-              >
-                <FormControlLabel
-                  value="google"
-                  control={<Radio />}
-                  label="Google"
-                />
-                <FormControlLabel
-                  value="watson"
-                  control={<Radio />}
-                  label="Watson"
-                />
-                <FormControlLabel
-                  value="flite"
-                  control={<Radio />}
-                  label="Flite"
-                />
-              </RadioGroup>
-            </FormControl>
-          </FlexContainer>
-        </Section>
-        <Section>
-          <ControlHeading>Set Hotword Engine</ControlHeading>
-          <FlexContainer>
-            <FormControl>
-              <RadioGroup
-                aria-label="Hotword"
-                name="hotword"
-                value={hotword}
-                onChange={this.handleRadioChange}
-              >
-                <FormControlLabel
-                  value="Snowboy"
-                  control={<Radio />}
-                  label="Snowboy"
-                />
-                <FormControlLabel
-                  value="PocketSphinx"
-                  control={<Radio />}
-                  label="Pocket Sphinx"
-                />
-              </RadioGroup>
-            </FormControl>
-          </FlexContainer>
-        </Section>
-        <Section>
-          <ControlHeading>Wake Button</ControlHeading>
-          <FlexContainer>
-            <FormControl>
-              <RadioGroup
-                aria-label="wake-button"
-                name="wake"
-                value={wake}
-                onChange={this.handleRadioChange}
-              >
-                <FormControlLabel
-                  value="y"
-                  control={<Radio />}
-                  label="Enable"
-                />
-                <FormControlLabel
-                  value="n"
-                  control={<Radio />}
-                  label="Disable"
-                />
-              </RadioGroup>
-            </FormControl>
-          </FlexContainer>
-        </Section>
-      </OverlayContainer>
+          <Section>
+            <ControlHeading>Speech To Text(STT)</ControlHeading>
+            <FlexContainer>
+              <FormControl>
+                <RadioGroup
+                  aria-label="stt"
+                  name="stt"
+                  value={stt}
+                  onChange={this.handleRadioChange}
+                >
+                  <FormControlLabel
+                    value="google"
+                    control={<Radio />}
+                    label="Google"
+                  />
+                  <FormControlLabel
+                    value="watson"
+                    control={<Radio />}
+                    label="Watson"
+                  />
+                  <FormControlLabel
+                    value="bing"
+                    control={<Radio />}
+                    label="Bing"
+                  />
+                  <FormControlLabel
+                    value="pocketsphinx"
+                    control={<Radio />}
+                    label="Pocket Sphinx"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </FlexContainer>
+          </Section>
+          <Section>
+            <ControlHeading>Text To Speech(TTS)</ControlHeading>
+            <FlexContainer>
+              <FormControl>
+                <RadioGroup
+                  aria-label="tts"
+                  name="tts"
+                  value={tts}
+                  onChange={this.handleRadioChange}
+                >
+                  <FormControlLabel
+                    value="google"
+                    control={<Radio />}
+                    label="Google"
+                  />
+                  <FormControlLabel
+                    value="watson"
+                    control={<Radio />}
+                    label="Watson"
+                  />
+                  <FormControlLabel
+                    value="flite"
+                    control={<Radio />}
+                    label="Flite"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </FlexContainer>
+          </Section>
+          <Section>
+            <ControlHeading>Set Hotword Engine</ControlHeading>
+            <FlexContainer>
+              <FormControl>
+                <RadioGroup
+                  aria-label="Hotword"
+                  name="hotword"
+                  value={hotword}
+                  onChange={this.handleRadioChange}
+                >
+                  <FormControlLabel
+                    value="Snowboy"
+                    control={<Radio />}
+                    label="Snowboy"
+                  />
+                  <FormControlLabel
+                    value="PocketSphinx"
+                    control={<Radio />}
+                    label="Pocket Sphinx"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </FlexContainer>
+          </Section>
+          <Section>
+            <ControlHeading>Wake Button</ControlHeading>
+            <FlexContainer>
+              <FormControl>
+                <RadioGroup
+                  aria-label="wake-button"
+                  name="wake"
+                  value={wake}
+                  onChange={this.handleRadioChange}
+                >
+                  <FormControlLabel
+                    value="y"
+                    control={<Radio />}
+                    label="Enable"
+                  />
+                  <FormControlLabel
+                    value="n"
+                    control={<Radio />}
+                    label="Disable"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </FlexContainer>
+          </Section>
+        </DialogContent>
+      </React.Fragment>
     );
   }
 }

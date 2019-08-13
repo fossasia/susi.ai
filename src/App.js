@@ -200,8 +200,9 @@ class App extends Component {
         <NavigationBar />
       ) : null;
     const renderFooter =
-      (skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
-      renderFooterPagesList.includes(pathname) ? (
+      ((skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
+        renderFooterPagesList.includes(pathname)) &&
+      !pathname.includes('/admin/') ? (
         <Footer />
       ) : null;
 
