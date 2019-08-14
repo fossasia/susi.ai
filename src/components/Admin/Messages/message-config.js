@@ -7,6 +7,7 @@ const MESSAGE_CONFIG = [
     userMessage: 'Your password has been changed successfully!',
     options: 'Mail',
     email: 'Your password has been changed successfully!',
+    emailText: 'Your password has been changed..',
     time: 'No dates available',
   },
   {
@@ -114,6 +115,7 @@ const MESSAGE_CONFIG = [
   {
     recipients: 'Admin',
     trigger: 'Modify Skill',
+    userMessage: ' ',
     email: (
       <span>
         Dear Adminstrator,
