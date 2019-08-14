@@ -370,6 +370,7 @@ class MessageSection extends Component {
 
   addYouTube = newPlayer => {
     this.pauseAllVideos();
+    this.scrollToBottom();
     this.setState(prevState => ({ player: [...prevState.player, newPlayer] }));
   };
 
