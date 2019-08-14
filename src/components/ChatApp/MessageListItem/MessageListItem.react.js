@@ -81,6 +81,7 @@ class MessageListItem extends React.Component {
       speechRate,
       latestMessage,
       userGeoData,
+      scrollBottom,
     } = this.props;
     const { width, height } = this.state;
     return generateMessageBubble(
@@ -99,7 +100,7 @@ class MessageListItem extends React.Component {
       this.onYouTubePlayerReady,
       this.getUserGeoData,
       this.props.pauseAllVideos,
-      this.props.scrollBottom,
+      scrollBottom,
     );
   }
 }
