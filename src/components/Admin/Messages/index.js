@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { DialogTitle } from '@material-ui/core';
 
 const StyledDiv = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.38);
@@ -35,16 +36,17 @@ const Messages = ({ actions }) => {
     actions.openModal({
       modalType: 'showMessage',
       content: (
-        <React.Fragment>
-          <OutlinedTextField
-            label={'Recipient type'}
-            value={`${recipients.toString()}`}
-            fullWidth={true}
-            disabled
-          />
+        <div style={{ marginTop: '-1rem' }}>
           <OutlinedTextField
             label={'On-screen Message'}
             value={`${userMessage.toString()}`}
+            fullWidth={true}
+            disabled
+          />
+          <DialogTitle>Email Message</DialogTitle>
+          <OutlinedTextField
+            label={'Recipient type'}
+            value={`${recipients.toString()}`}
             fullWidth={true}
             disabled
           />
@@ -56,9 +58,9 @@ const Messages = ({ actions }) => {
           />
           <Text>Email Text</Text>
           <StyledDiv>{email}</StyledDiv>
-        </React.Fragment>
+        </div>
       ),
-      title: 'Message Details',
+      title: 'On Screen Message',
       handleConfirm: actions.closeModal,
     });
   };
