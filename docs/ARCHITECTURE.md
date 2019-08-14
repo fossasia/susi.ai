@@ -86,9 +86,9 @@ susi.ai/
 * `deploy.sh` - handles the continuous Travis Deployment of the project on `gh-pages`
 * `surge_deploy.sh` - automatic Surge deploy script
 
-### `/src` directory
+### `/src/components` directory
 
-The source directory is broken into subdirectories for separate components:
+The components directory is broken into subdirectories for separate components:
 * `About` - overview, about and other static pages
 * `Admin` - admin panel
 * `Auth` - authentication related
