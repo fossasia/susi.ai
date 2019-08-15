@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header } from '../shared/About';
-import { scrollToTopAnimation } from '../../utils/animateScroll';
+import { Header } from '../../shared/About';
+import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import styled, { css } from 'styled-components';
 
 const commonContactContent = css`
