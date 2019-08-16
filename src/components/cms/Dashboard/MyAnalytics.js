@@ -9,6 +9,9 @@ import { Cell } from 'recharts';
 import PieChartContainer from '../../shared/PieChartContainer';
 import { SubTitle } from '../../shared/Typography';
 import styled from 'styled-components';
+import Link from '../../shared/Link';
+import Button from '@material-ui/core/Button';
+import Add from '@material-ui/icons/Add';
 
 const Container = styled.div`
   @media (max-width: 720px) {
@@ -107,7 +110,30 @@ class MyAnalytics extends Component {
             </div>
           </Container>
         )}
+<<<<<<< HEAD
         
+=======
+        {skillUsageCount === 0 && !loading && skillUsage.length === 0 && (
+          <Container>
+            <div className="center">
+              <br />
+              <h2>
+                {"You haven't created any skill yet."}&nbsp;&nbsp;
+                <Link to="/skillWizard">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleMenuClick}
+                  >
+                    <Add /> Create Skill
+                  </Button>
+                </Link>
+              </h2>
+              <br />
+            </div>
+          </Container>
+        )}
+>>>>>>> de262afaab52551b363ad578c266cb9b2850266b
       </div>
     );
   }
