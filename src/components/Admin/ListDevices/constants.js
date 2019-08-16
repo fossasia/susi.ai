@@ -1,9 +1,12 @@
+import tableStyles from '../../shared/table';
+
 export const DEVICE = [
   {
     title: 'Device Name',
     field: 'deviceName',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
   },
   {
@@ -11,6 +14,7 @@ export const DEVICE = [
     field: 'macId',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
   },
   {
@@ -18,6 +22,7 @@ export const DEVICE = [
     field: 'room',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
   },
   {
@@ -25,6 +30,7 @@ export const DEVICE = [
     field: 'email',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
   },
   {
@@ -32,6 +38,7 @@ export const DEVICE = [
     field: 'dateAdded',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
     customSort: (a, b) =>
       new Date(a.dateAdded === '-' ? 'Thu Jan 01 1970' : a.dateAdded) -
@@ -42,6 +49,7 @@ export const DEVICE = [
     field: 'lastActive',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
     customSort: (a, b) =>
       new Date(a.lastActive === '-' ? 'Thu Jan 01 1970' : a.lastActive) -
@@ -52,6 +60,7 @@ export const DEVICE = [
     field: 'lastLoginIP',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
   },
   {
@@ -59,6 +68,7 @@ export const DEVICE = [
     field: 'location',
     cellStyle: {
       width: '10%',
+      ...tableStyles,
     },
   },
 ];
