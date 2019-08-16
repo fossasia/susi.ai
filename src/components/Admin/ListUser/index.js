@@ -239,7 +239,7 @@ class ListUser extends Component {
   render() {
     const { loading, search, totalUsers, page, data } = this.state;
     return (
-      <Container style={{ padding: '1rem 0' }}>
+      <Container>
         <SearchBar
           placeholder="Search by email"
           value={search}
