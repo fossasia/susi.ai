@@ -46,6 +46,10 @@ class ListDevices extends React.Component {
           macIdArray.forEach(macId => {
             const device = devices[macId];
             let deviceName = device.name !== undefined ? device.name : '-';
+            deviceName =
+              deviceName.length > 20
+                ? deviceName.substr(0, 20) + '...'
+                : deviceName;
             let location = 'Location not given';
             if (device.geolocation) {
               location = (
