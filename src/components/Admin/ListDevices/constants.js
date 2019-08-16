@@ -1,39 +1,37 @@
-import { singleLineStyle } from '../../shared/table';
-
 export const DEVICE = [
   {
     title: 'Device Name',
     field: 'deviceName',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
   },
   {
     title: 'Mac Id',
     field: 'macId',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
   },
   {
     title: 'Room',
     field: 'room',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
   },
   {
     title: 'Email',
     field: 'email',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
   },
   {
     title: 'Date Added',
     field: 'dateAdded',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
     customSort: (a, b) =>
       new Date(a.dateAdded === '-' ? 'Thu Jan 01 1970' : a.dateAdded) -
@@ -43,7 +41,7 @@ export const DEVICE = [
     title: 'Last Active',
     field: 'lastActive',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
     customSort: (a, b) =>
       new Date(a.lastActive === '-' ? 'Thu Jan 01 1970' : a.lastActive) -
@@ -53,14 +51,14 @@ export const DEVICE = [
     title: 'Last Login IP',
     field: 'lastLoginIP',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
   },
   {
     title: 'Location',
     field: 'location',
     cellStyle: {
-      ...singleLineStyle,
+      width: '10%',
     },
   },
 ];
