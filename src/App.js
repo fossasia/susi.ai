@@ -248,11 +248,11 @@ class App extends Component {
             {renderChatBubble}
             <RootContainer>
               <Switch>
-                {/* {!this.deviceAccessPoint ? (
+                {!this.deviceAccessPoint ? (
                   <Route exact path="/" component={EnhancedBrowseSkill} />
-                ) : ( */}
-                <Route exact path="/" component={DeviceSetupPage} />
-                {/* )} */}
+                ) : (
+                  <Route exact path="/" component={DeviceSetupPage} />
+                )}
                 <Route
                   exact
                   path="/resetPass"
