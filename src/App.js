@@ -77,20 +77,6 @@ const EnhancedVerifyAccount = withTracker(VerifyAccount);
 const EnhancedSettings = withTracker(Settings);
 const EnhancedNotFound = withTracker(NotFound);
 
-const renderFooterPagesList = [
-  '/',
-  '/about',
-  '/team',
-  '/blog',
-  '/devices',
-  '/support',
-  '/privacy',
-  '/terms',
-  '/contact',
-];
-
-const hideBubble = ['skillWizard', 'botWizard', 'admin', 'edit'];
-
 class App extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -192,6 +178,27 @@ class App extends Component {
       location,
       // visited,
     } = this.props;
+
+    const renderFooterPagesList = [
+      this.deviceAccessPoint ? null : '/',
+      '/about',
+      '/team',
+      '/blog',
+      '/devices',
+      '/support',
+      '/privacy',
+      '/terms',
+      '/contact',
+    ];
+
+    const hideBubble = [
+      'skillWizard',
+      'botWizard',
+      'admin',
+      'edit',
+      this.deviceAccessPoint ? '' : null,
+    ];
+
     const skillListRegex = new RegExp('^/');
     const pathLength = pathname.split('/').length;
     const renderAppBanner = isLocalEnv ? <AppBanner /> : null;
@@ -241,11 +248,11 @@ class App extends Component {
             {renderChatBubble}
             <RootContainer>
               <Switch>
-                {!this.deviceAccessPoint ? (
+                {/* {!this.deviceAccessPoint ? (
                   <Route exact path="/" component={EnhancedBrowseSkill} />
-                ) : (
-                  <Route exact path="/" component={DeviceSetupPage} />
-                )}
+                ) : ( */}
+                <Route exact path="/" component={DeviceSetupPage} />
+                {/* )} */}
                 <Route
                   exact
                   path="/resetPass"
