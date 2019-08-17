@@ -13,6 +13,7 @@ import { GoogleApiWrapper } from 'google-maps-react';
 import CircularLoader from '../../shared/CircularLoader';
 import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 import { removeUserDevice, modifyUserDevices } from '../../../apis/index';
+import moment from 'moment';
 
 class ListDevices extends React.Component {
   state = {
@@ -41,30 +42,32 @@ class ListDevices extends React.Component {
             device.lastLoginIP !== undefined ? device.lastLoginIP : '-';
           const lastActive =
             device.lastActive !== undefined
-              ? new Date(device.lastActive).toDateString()
+              ? moment(new Date(device.lastActive)).format(
+                  'MMMM Do YYYY, H:mm:ss',
+                )
               : '-';
           macIdArray.forEach(macId => {
             const device = devices[macId];
             let deviceName = device.name !== undefined ? device.name : '-';
-            deviceName =
-              deviceName.length > 20
-                ? deviceName.substr(0, 20) + '...'
-                : deviceName;
             let location = 'Location not given';
             if (device.geolocation) {
               location = (
                 <span
                   onClick={this.handleClick}
                   name={macId}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', color: '#49a9ee' }}
                 >
-                  {device.geolocation.latitude},{device.geolocation.longitude}
+                  {device.geolocation.latitude},
+                  <br />
+                  {device.geolocation.longitude}
                 </span>
               );
             }
             const dateAdded =
               device.deviceAddTime !== undefined
-                ? new Date(device.deviceAddTime).toDateString()
+                ? moment(new Date(device.deviceAddTime)).format(
+                    'MMMM Do YYYY, H:mm:ss',
+                  )
                 : '-';
 
             const deviceObj = {
