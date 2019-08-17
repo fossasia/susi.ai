@@ -83,3 +83,6 @@ git commit -m "Travis CI Clean Deploy : ${SHA}"
 
 # There are changes in the Build; push the changes to local-pages
 echo "There are changes in the Build; pushing the changes to local-pages"
+
+# Actual push to gh-pages branch via Travis
+git push --force $SSH_REPO $LOCAL_TARGET_BRANCH
