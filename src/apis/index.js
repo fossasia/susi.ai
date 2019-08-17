@@ -37,6 +37,11 @@ export function deleteApiKey(payload) {
   });
 }
 
+export function fetchCaptchaConfig() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/getCaptchaConfig.json`;
+  return ajax.get(url, {}, { isTokenRequired: false });
+}
+
 export function getLogin(payload) {
   const { email, password, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
@@ -824,6 +829,12 @@ export function sendEmail(payload) {
     password,
     smtp_host: smtpHost,
   });
+}
+
+export function setRecaptchaConfig(payload) {
+  const { key, value } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/captchaConfigService.json`;
+  return ajax.get(url, { key, value });
 }
 
 // Control page for device
