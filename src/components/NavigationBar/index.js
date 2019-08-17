@@ -22,6 +22,7 @@ import Link from '../shared/Link';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
 import Dashboard from '@material-ui/icons/Dashboard';
+import _Add from '@material-ui/icons/Add';
 import Polymer from '@material-ui/icons/Polymer';
 import BotIcon from '@material-ui/icons/PersonPin';
 import DeviceIcon from '@material-ui/icons/Devices';
@@ -46,6 +47,7 @@ import susiFevicon from '../../images/favicon.png';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
+import isMobileView from '../../utils/isMobileView';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -124,6 +126,11 @@ const Toolbar = styled(_Toolbar)`
   align-items: center;
 `;
 
+const Add = styled(_Add)`
+  color: #ffffff;
+  margin-top: 5px;
+`;
+
 const HideOnScroll = ({ children }) => {
   const trigger = useScrollTrigger();
   return (
@@ -183,7 +190,7 @@ class NavigationBar extends Component {
     this.state = {
       searchType: this.props.searchType,
       searchSelectWidth: this.getSelectMenuWidth(this.props.searchType),
-      showSearchBar: window.innerWidth > 900,
+      showSearchBar: !isMobileView(1000),
     };
   }
 
@@ -448,12 +455,12 @@ class NavigationBar extends Component {
     }
     let renderSusiIcon = null;
     let renderSearchBar = null;
-    if (window.innerWidth > 900) {
+    if (!isMobileView(900)) {
       renderSusiIcon = (
         <SusiLogo marginRight={24} src={susiWhite} alt="susi-logo" />
       );
     }
-    if (window.innerWidth < 900 && !showSearchBar) {
+    if (isMobileView(900) && !showSearchBar) {
       renderSusiIcon = <SusiLogo src={susiFevicon} alt="susi-logo" />;
     }
     if (showSearchBar) {
@@ -504,7 +511,7 @@ class NavigationBar extends Component {
           >
             {this.languageMenuItems(languageValue)}
           </LanguageSelect>
-          {window.innerWidth < 900 && (
+          {isMobileView(900) && (
             <IconButton color="inherit" onClick={this.toggleSearchBar}>
               <CloseIcon />
             </IconButton>
@@ -576,7 +583,9 @@ class NavigationBar extends Component {
                         </FlexContainer>
                       </div>
                     </StyledIconButton>
-                    <StyledIconButton padding={'0.95rem'}>
+                    <StyledIconButton
+                      padding={isMobileView(400) ? '7px' : '0.95rem'}
+                    >
                       <div data-tip="custom" data-for={'right-menu-create'}>
                         <Popper
                           id={'right-menu-create'}
@@ -610,12 +619,17 @@ class NavigationBar extends Component {
                             </Link>
                           </Paper>
                         </Popper>
-                        <CreateDetail>Create</CreateDetail>
+                        {isMobileView(400) ? (
+                          <Add />
+                        ) : (
+                          <CreateDetail>Create</CreateDetail>
+                        )}
                       </div>
                     </StyledIconButton>
                     <IconButton
                       color="inherit"
                       onClick={() => history.push('/dashboard')}
+                      style={{ padding: '7px' }}
                     >
                       <Dashboard />
                     </IconButton>
@@ -631,10 +645,9 @@ class NavigationBar extends Component {
                 <IconButton
                   color="inherit"
                   onClick={
-                    window.innerWidth < 500
-                      ? this.openFullScreen
-                      : this.openPreview
+                    isMobileView(500) ? this.openFullScreen : this.openPreview
                   }
+                  style={{ padding: '7px' }}
                 >
                   <Chat />
                 </IconButton>
@@ -664,7 +677,14 @@ class NavigationBar extends Component {
                     </Paper>
                   </Popper>
                   <Link to="/about">
-                    <IconButton aria-haspopup="true" style={{ color: 'white' }}>
+                    <IconButton
+                      aria-haspopup="true"
+                      style={{
+                        color: 'white',
+                        paddingRight: '15px',
+                        paddingLeft: '7px',
+                      }}
+                    >
                       <ContactSupportIcon />
                     </IconButton>
                   </Link>
