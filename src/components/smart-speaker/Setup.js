@@ -17,7 +17,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   padding: 1rem;
-  margin-top: -30px;
+  margin-top: -10px;
 `;
 
 const Wrapper = styled.div`
