@@ -901,12 +901,30 @@ export function setControlOptions(payload) {
 }
 
 export function setupDeviceConfig(payload) {
-  const { ssid: wifissid, password: wifipassd, hotword, wake } = payload;
+  const {
+    wifissid,
+    wifipassd,
+    hotword,
+    email,
+    password,
+    auth,
+    roomName: room_name,
+  } = payload;
 
   const url = `${SOUND_SERVER_API_URL}/reboot`;
   return ajax.post(
     url,
-    { wifissid, wifipassd, hotword, wake },
+    {
+      wifissid,
+      wifipassd,
+      hotword,
+      email,
+      password,
+      auth,
+      room_name,
+      stt: 'google',
+      tts: 'google',
+    },
     { isTokenRequired: false },
   );
 }
