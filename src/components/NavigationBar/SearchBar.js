@@ -26,8 +26,20 @@ const StyledSearchBar = styled(_SearchBar)`
   height: 35px;
   padding-left: ${props => `${props.paddingLeft}rem`};
   width: 39rem;
-  @media (max-width: 1280px) {
+  @media (max-width: 1380px) {
     width: 30rem;
+  }
+  @media (max-width: 1250px) {
+    width: 25rem;
+  }
+  @media (max-width: 1150px) {
+    width: 21rem;
+  }
+  @media (max-width: 1100px) {
+    width: 19rem;
+  }
+  @media (max-width: 1050px) {
+    width: 14.5rem;
   }
   @media (max-width: 960px) {
     width: 100%;
