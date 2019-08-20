@@ -25,6 +25,7 @@ const CardContainer = styled.span`
   margin: 0 10px;
   @media (max-width: 894px) {
     margin: 0px;
+    width: 100%;
   }
   @media (max-width: 514px) {
     width: 100%;
@@ -70,7 +71,7 @@ const Card = styled(_Card)`
   & {
     margin-bottom: 20px;
   }
-  @media (max-width: 514px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
