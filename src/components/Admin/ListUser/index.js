@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { deleteUserAccount, fetchAdminUserStats } from '../../../apis/index';
 import styled from 'styled-components';
 import { Container } from '../AdminStyles';
+import { Link } from 'react-router-dom';
 import MaterialTable from 'material-table';
 import DevicePanel from './DevicePanel/index';
 import uiActions from '../../../redux/actions/ui';
@@ -180,8 +181,14 @@ class ListUser extends Component {
             serialNum: ++dataIndex + page * 50,
             email: data.name,
             confirmed: data.confirmed,
-            signup: data.signupTime === '' ? '-' : data.signupTime,
-            lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
+            signup:
+              data.signupTime === ''
+                ? '-'
+                : new Date(data.signupTime).toDateString(),
+            lastLogin:
+              data.lastLoginTime === ''
+                ? '-'
+                : new Date(data.lastLoginTime).toDateString(),
             ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
             userRole: data.userRole,
             userName:
@@ -270,10 +277,14 @@ class ListUser extends Component {
           components={{
             Action: props => (
               <React.Fragment>
+                <Link to={`/settings?email=${props.data.email}`}>
+                  <ActionSpan>Edit</ActionSpan>
+                </Link>
+                <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
                   onClick={event => props.action.onEdit(event, props.data)}
                 >
-                  Edit
+                  Role
                 </ActionSpan>
                 <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
