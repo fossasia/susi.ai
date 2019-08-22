@@ -19,7 +19,7 @@ import appActions from '../../redux/actions/app';
 import { voiceList } from '../../constants/SettingsVoiceConstants.js';
 import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
-import { setUserSettings, uploadAvatar } from '../../apis';
+import { setUserSettings, uploadAvatar, deleteUserAccount } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import isUserName from '../../utils/isUserName';
@@ -89,7 +89,13 @@ const styles = {
 class AccountTab extends React.Component {
   constructor(props) {
     super(props);
-    const { timeZone, prefLanguage, userName, avatarType } = this.props;
+    const {
+      timeZone,
+      prefLanguage,
+      userName,
+      avatarType,
+      userEmailId,
+    } = this.props;
     this.state = {
       timeZone,
       prefLanguage,
@@ -98,13 +104,14 @@ class AccountTab extends React.Component {
       avatarType,
       avatarSrc: defaultAvatar,
       file: '',
-      imagePreviewUrl: getUserAvatarLink(),
+      imagePreviewUrl: getUserAvatarLink({ userEmailId }),
       isAvatarAdded: false,
       uploadingAvatar: false,
       isAvatarUploaded: false,
       settingSave: false,
       avatarAnchorEl: null,
       loading: false,
+      deleteUserByAdminEmail: '',
     };
     if ('speechSynthesis' in window) {
       this.TTSBrowserSupport = true;
@@ -185,10 +192,11 @@ class AccountTab extends React.Component {
 
   handleAvatarSubmit = () => {
     const { file } = this.state;
-    const { accessToken, actions } = this.props;
+    const { accessToken, actions, userEmailId } = this.props;
     // eslint-disable-next-line no-undef
     let form = new FormData();
     form.append('access_token', accessToken);
+    userEmailId && form.append('email', userEmailId);
     form.append('image', file);
     this.setState({ uploadingAvatar: true });
     uploadAvatar(form).then(() => {
@@ -242,8 +250,14 @@ class AccountTab extends React.Component {
 
   handleSubmit = () => {
     const { timeZone, prefLanguage, userName, avatarType } = this.state;
-    const { actions } = this.props;
-    const payload = { timeZone, prefLanguage, userName, avatarType };
+    const { actions, userEmailId } = this.props;
+    let payload = {
+      timeZone,
+      prefLanguage,
+      userName,
+      avatarType,
+    };
+    payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
     this.setState({ loading: true });
     setUserSettings(payload)
       .then(data => {
@@ -256,7 +270,7 @@ class AccountTab extends React.Component {
             .then(() => {
               this.setState({ settingSave: true, loading: false });
             })
-            .then(() => actions.updateUserAvatar());
+            .then(() => userEmailId === '' && actions.updateUserAvatar());
         } else {
           actions.openSnackBar({
             snackBarMessage: 'Failed to save Settings',
@@ -269,6 +283,35 @@ class AccountTab extends React.Component {
           snackBarMessage: 'Failed to save Settings',
         });
       });
+  };
+
+  deleteUser = () => {
+    const { deleteUserByAdminEmail: email } = this.state;
+    deleteUserAccount({ email })
+      .then(payload => {
+        this.props.actions.openSnackBar({
+          snackBarMessage: `Account associated with ${email} is deleted successfully!`,
+          snackBarDuration: 2000,
+        });
+        window.location.replace('/admin/users');
+      })
+      .catch(error => {
+        console.log(error);
+        this.props.actions.openSnackBar({
+          snackBarMessage: `Account associated with ${email} cannot be deleted!!`,
+          snackBarDuration: 2000,
+        });
+      });
+  };
+
+  handleDelete = deleteUserByAdminEmail => {
+    this.setState({ deleteUserByAdminEmail });
+    this.props.actions.openModal({
+      modalType: 'deleteUserAccount',
+      userEmail: deleteUserByAdminEmail,
+      handleClose: this.props.actions.closeModal,
+      handleConfirm: this.deleteUser,
+    });
   };
 
   render() {
@@ -295,6 +338,7 @@ class AccountTab extends React.Component {
       prefLanguage: _prefLanguage,
       userName: _userName,
       avatarType: _avatarType,
+      userEmailId,
     } = this.props;
     const disabled =
       (timeZone === _timeZone &&
@@ -335,7 +379,7 @@ class AccountTab extends React.Component {
             <OutlinedInput
               labelWidth={0}
               name="email"
-              value={email}
+              value={userEmailId !== '' ? userEmailId : email}
               style={{ width: '16rem', height: '2.1rem' }}
               disabled={true}
             />
@@ -395,7 +439,7 @@ class AccountTab extends React.Component {
               anchorEl={anchorEl}
               file={file}
               avatarSrc={avatarSrc}
-              email={email}
+              email={userEmailId !== '' ? userEmailId : email}
             />
           </AvatarSection>
         </Container>
@@ -425,7 +469,11 @@ class AccountTab extends React.Component {
           <div>
             <DangerButton
               variant="contained"
-              onClick={() => actions.openModal({ modalType: 'deleteAccount' })}
+              onClick={() =>
+                userEmailId !== ''
+                  ? this.handleDelete(userEmailId)
+                  : actions.openModal({ modalType: 'deleteAccount' })
+              }
             >
               Delete
             </DangerButton>
@@ -444,16 +492,21 @@ AccountTab.propTypes = {
   accessToken: PropTypes.string,
   actions: PropTypes.object,
   avatarType: PropTypes.string,
+  userEmailId: PropTypes.string,
 };
 
 function mapStateToProps(store) {
+  const userSettingsViewedByAdmin = store.settings.userSettingsViewedByAdmin;
+  const { email } = userSettingsViewedByAdmin;
+  const settings = email !== '' ? userSettingsViewedByAdmin : store.settings;
   return {
-    userName: store.settings.userName,
-    timeZone: store.settings.timeZone,
-    prefLanguage: store.settings.prefLanguage,
+    userName: settings.userName,
+    timeZone: settings.timeZone,
+    prefLanguage: settings.prefLanguage,
     email: store.app.email,
+    userEmailId: email, // Admin access : email Id of the user being accesed
     accessToken: store.app.accessToken,
-    avatarType: store.settings.avatarType,
+    avatarType: settings.avatarType,
   };
 }
 

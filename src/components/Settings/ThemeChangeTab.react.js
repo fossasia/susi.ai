@@ -28,9 +28,13 @@ class ThemeChangeTab extends React.Component {
   };
 
   handleSubmit = () => {
-    const { actions, theme } = this.props;
+    const { actions, theme, userEmailId } = this.props;
     this.setState({ loading: true });
-    setUserSettings({ theme })
+    let payload = {
+      theme,
+    };
+    payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
+    setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
           actions.openSnackBar({
@@ -113,6 +117,7 @@ ThemeChangeTab.propTypes = {
   handleSelectChange: PropTypes.func,
   theme: PropTypes.string,
   actions: PropTypes.object,
+  userEmailId: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -121,7 +126,14 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+function mapStateToProps(store) {
+  return {
+    // Admin access : email Id of the user being accesed
+    userEmailId: store.settings.userSettingsViewedByAdmin.email,
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ThemeChangeTab);

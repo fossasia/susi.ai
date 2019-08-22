@@ -85,9 +85,9 @@ export function getChangePassword(payload) {
   });
 }
 
-export function getUserSettings() {
+export function getUserSettings(payload) {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserSettings.json`;
-  return ajax.get(url, {}, { shouldCamelizeKeys: false });
+  return ajax.get(url, payload, { shouldCamelizeKeys: false });
 }
 
 export function fetchDevices(payload) {
