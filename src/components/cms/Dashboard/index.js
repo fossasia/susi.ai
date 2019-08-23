@@ -36,14 +36,14 @@ class Dashboard extends Component {
   }
 
   getCurrentTab = () => {
-    switch (this.props.location.pathname) {
-      case '/dashboard':
+    switch (this.props.location.pathname.split('/')[1]) {
+      case 'dashboard':
         return 0;
-      case '/myskills':
+      case 'myskills':
         return 1;
-      case '/mybots':
+      case 'mybots':
         return 2;
-      case '/mydevices':
+      case 'mydevices':
         return 3;
       default:
         return 0;

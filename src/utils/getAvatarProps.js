@@ -3,12 +3,14 @@ import { urls } from './';
 import store from '../store';
 
 export const getUserAvatarLink = payload => {
-  const { getThumbnail = false } = payload || {};
+  const { getThumbnail = false, userEmailId } = payload || {};
   const { accessToken } = store.getState().app;
-  return `${
+  let link = `${
     urls.API_URL
-  }/getAvatar.png?access_token=${accessToken}&q=${new Date().getTime()}
-    &getThumbnail=${getThumbnail}`;
+  }/getAvatar.png?access_token=${accessToken}&q=${new Date().getTime()}`;
+  link += `&getThumbnail=${getThumbnail}`;
+  link = userEmailId ? (link += `&email=${userEmailId}`) : link;
+  return link;
 };
 
 export const getGravatarProps = emailId => {

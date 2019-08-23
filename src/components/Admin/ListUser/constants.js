@@ -39,6 +39,9 @@ const COULMNS = [
     cellStyle: {
       ...tableStyles,
     },
+    customSort: (a, b) =>
+      new Date(a.signup === '-' ? 'Thu Jan 01 1970' : a.signup) -
+      new Date(b.signup === '-' ? 'Thu Jan 01 1970' : b.signup),
   },
   {
     title: 'Last Login',
@@ -46,6 +49,9 @@ const COULMNS = [
     cellStyle: {
       ...tableStyles,
     },
+    customSort: (a, b) =>
+      new Date(a.lastLogin === '-' ? 'Thu Jan 01 1970' : a.lastLogin) -
+      new Date(b.lastLogin === '-' ? 'Thu Jan 01 1970' : b.lastLogin),
   },
   {
     title: 'IP of Last Login',

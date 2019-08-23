@@ -63,16 +63,18 @@ export default handleActions(
     },
     [actionTypes.SKILLS_GET_METRICS_SKILLS](state, { payload }) {
       const { metrics } = payload;
-      const metricSkills = {
-        staffPicksSkills: metrics.staffPicks,
-        topRatedSkills: metrics.rating,
-        topUsedSkills: metrics.usage,
-        latestUpdatedSkills: metrics.latest,
-        newestSkills: metrics.newest,
-        topFeedbackSkills: metrics.feedback,
-        topGames: metrics.gamesTriviaAndAccessories,
-        systemSkills: metrics.systemSkills,
-      };
+      const metricSkills = metrics
+        ? {
+            staffPicksSkills: metrics.staffPicks,
+            topRatedSkills: metrics.rating,
+            topUsedSkills: metrics.usage,
+            latestUpdatedSkills: metrics.latest,
+            newestSkills: metrics.newest,
+            topFeedbackSkills: metrics.feedback,
+            topGames: metrics.gamesTriviaAndAccessories,
+            systemSkills: metrics.systemSkills,
+          }
+        : {};
       return {
         ...state,
         metricSkills,
