@@ -30,7 +30,6 @@ import StandardActionDialog from './dialogTypes/StandardActionDialog';
 import ChatApp from '../../ChatApp/ChatApp.react';
 import AddDeviceDialog from '../../cms/MyDevices/AddDeviceDialog';
 import ResetPasswordDialog from '../../Auth/ResetPassword';
-import DeviceContolDialog from '../../cms/MyDevices/ControlSection';
 import isMobileView from '../../../utils/isMobileView';
 import { withRouter } from 'react-router-dom';
 
@@ -104,10 +103,6 @@ const DialogData = {
   resetPass: {
     Component: ResetPasswordDialog,
     size: 'sm',
-  },
-  deviceControlSettings: {
-    Component: DeviceContolDialog,
-    size: 'md',
   },
 };
 
