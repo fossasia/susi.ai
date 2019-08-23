@@ -147,6 +147,7 @@ class App extends Component {
         googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
       }
     });
+    actions.getCaptchaConfig();
     if (accessToken) {
       actions.getAdmin();
       actions.getUserSettings().catch(e => {
