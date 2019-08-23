@@ -1184,7 +1184,7 @@ class SkillWizard extends Component {
           <SkillCommitDiv>
             <SavePaper>
               <CommitField
-                label="Commit message"
+                label="Commit Message - your skill will be stored to https://github.com/fossasia/susi_skill_data"
                 placeholder="Enter Commit Message"
                 margin="dense"
                 value={this.state.commitMessage}
