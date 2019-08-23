@@ -15,8 +15,9 @@ import { setUserSettings } from '../../apis';
 class ChatAppTab extends React.Component {
   constructor(props) {
     super(props);
+    const { enterAsSend } = this.props;
     this.state = {
-      enterAsSend: this.props.enterAsSend,
+      enterAsSend,
       loading: false,
     };
   }
@@ -28,10 +29,14 @@ class ChatAppTab extends React.Component {
   };
 
   handleSubmit = () => {
-    const { actions } = this.props;
+    const { actions, userEmailId } = this.props;
     const { enterAsSend } = this.state;
     this.setState({ loading: true });
-    setUserSettings({ enterAsSend })
+    let payload = {
+      enterAsSend,
+    };
+    payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
+    setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
           actions.openSnackBar({
@@ -55,6 +60,8 @@ class ChatAppTab extends React.Component {
 
   render() {
     const { enterAsSend, loading } = this.state;
+    const { enterAsSend: _enterAsSend } = this.props;
+    const disabled = enterAsSend === _enterAsSend || loading;
     return (
       <SettingsTabWrapper heading="Preferences">
         <FlexContainer>
@@ -74,7 +81,7 @@ class ChatAppTab extends React.Component {
           variant="contained"
           color="primary"
           onClick={this.handleSubmit}
-          disabled={enterAsSend === this.props.enterAsSend || loading}
+          disabled={disabled}
           style={{ margin: '1.5rem 0', width: '10rem' }}
         >
           {loading ? (
@@ -91,11 +98,16 @@ class ChatAppTab extends React.Component {
 ChatAppTab.propTypes = {
   enterAsSend: PropTypes.bool,
   actions: PropTypes.object,
+  userEmailId: PropTypes.string,
 };
 
 function mapStateToProps(store) {
+  const userSettingsViewedByAdmin = store.settings.userSettingsViewedByAdmin;
+  const { email } = userSettingsViewedByAdmin;
+  const settings = email !== '' ? userSettingsViewedByAdmin : store.settings;
   return {
-    enterAsSend: store.settings.enterAsSend,
+    enterAsSend: settings.enterAsSend,
+    userEmailId: email, // Admin access : email Id of the user being accesed
   };
 }
 

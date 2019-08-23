@@ -9,7 +9,7 @@ import CircularLoader from '../../shared/CircularLoader';
 import LineChart from '../../shared/charts/LineChart';
 import moment from 'moment';
 import sortByDate from '../../../utils/sortByDate';
-import mergeByDate from '../../../utils/mergeByDate';
+import findUnixEpochDateIndex from '../../../utils/findUnixEpochDateIndex';
 
 const CardHeading = styled.h3`
   padding-left: 1rem;
@@ -193,7 +193,6 @@ class AdminTab extends React.Component {
         heading: 'Devices Added over Time',
         legend: 'Devices Added',
         sort: false,
-        decreaseYAxisRange: true,
       },
     ];
 
@@ -205,46 +204,30 @@ class AdminTab extends React.Component {
     });
   };
 
-  renderChart = ({
-    data,
-    heading,
-    legend,
-    sort = true,
-    decreaseYAxisRange = false,
-  }) => {
+  renderChart = ({ data, heading, legend, sort = true }) => {
     let dataOverTime = data;
     if (sort) {
-      const dateSortedData = sortByDate(data);
-      // The dateSortedData array has multiple entries for same date, add the count of same dates
-      dataOverTime = mergeByDate(dateSortedData);
+      dataOverTime = sortByDate(data);
     }
-    const chartData = dataOverTime.map(data => {
+    let chartData = dataOverTime.map(data => {
       const chatObj = {};
       chatObj.timestamp = moment(data.timeStamp).format('MM/YY');
       chatObj.count = data.count;
       return chatObj;
     });
-    let yAxisProps = {
-      domain: [0, 150],
-      ticks: [0, 30, 60, 90, 120, 150],
-    };
-    if (decreaseYAxisRange) {
-      yAxisProps = {
-        domain: [0, 50],
-        ticks: [0, 10, 20, 30, 40, 50],
-      };
+    let idx = findUnixEpochDateIndex(chartData);
+    if (idx >= 0) {
+      while (idx >= 0) {
+        chartData.shift();
+        idx--;
+      }
     }
 
     return (
       data.length > 0 && (
         <Card height={'400'} width={'1240px'} margin={'0 10px'}>
           <CardHeading>{heading}</CardHeading>
-          <LineChart
-            data={chartData}
-            legend={legend}
-            yAxisProps={yAxisProps}
-            customTooltip={true}
-          />
+          <LineChart data={chartData} legend={legend} customTooltip={true} />
         </Card>
       )
     );

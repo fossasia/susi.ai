@@ -403,7 +403,7 @@ class BrowseSkill extends React.Component {
     const { groups } = this.props;
     if (groups.length === 0) {
       this.props.actions.getGroupOptions().catch(error => {
-        throw new Error('load groups action failed');
+        console.log(error);
       });
     }
   };
