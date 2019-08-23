@@ -19,6 +19,11 @@ const defaultState = {
   avatarImg: `${urls.API_URL}/getAvatar.png`,
   avatarImgThumbnail: `${urls.API_URL}/getAvatar.png`,
   showCookiePolicy: false,
+  captchaConfig: {
+    login: true,
+    signUp: true,
+    changePassword: true,
+  },
 };
 
 const { emailId, uuid, loggedIn, visited, showCookiePolicy } = cookies.getAll();
@@ -60,6 +65,17 @@ export default handleActions(
       return {
         ...state,
         apiKeys: { ...state.apiKeys, ...keyValueObj },
+      };
+    },
+    [actionTypes.APP_GET_CAPTCHA_CONFIG](state, { payload }) {
+      const { captchaConfig } = payload;
+      let captchaObj = {};
+      for (let [key, value] of Object.entries(captchaConfig)) {
+        captchaObj = { ...captchaObj, [key]: value === 'true' };
+      }
+      return {
+        ...state,
+        captchaConfig: captchaObj,
       };
     },
     [actionTypes.APP_GET_LOGIN](state, { payload }) {

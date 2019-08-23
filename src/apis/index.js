@@ -37,6 +37,11 @@ export function deleteApiKey(payload) {
   });
 }
 
+export function fetchCaptchaConfig() {
+  const url = `${API_URL}/${AUTH_API_PREFIX}/getCaptchaConfig.json`;
+  return ajax.get(url, {}, { isTokenRequired: false });
+}
+
 export function getLogin(payload) {
   const { email, password, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
@@ -826,6 +831,12 @@ export function sendEmail(payload) {
   });
 }
 
+export function setRecaptchaConfig(payload) {
+  const { key, value } = payload;
+  const url = `${API_URL}/${AUTH_API_PREFIX}/captchaConfigService.json`;
+  return ajax.get(url, { key, value });
+}
+
 // Control page for device
 export function resumeAction() {
   const url = `${SOUND_SERVER_API_URL}/resume`;
@@ -887,14 +898,13 @@ export function refreshDeviceList() {
 
 export function setControlOptions(payload) {
   const url = `${SOUND_SERVER_API_URL}/config`;
-  const { stt, tts, hotword, wake } = payload;
+  const { stt, tts, hotword } = payload;
   return ajax.get(
     url,
     {
       stt,
       tts,
       hotword,
-      wake,
     },
     { isTokenRequired: false },
   );
@@ -931,5 +941,16 @@ export function setupDeviceConfig(payload) {
 
 export function checkDeviceWiFiAccessPoint() {
   const url = '/check_ap';
+  return ajax.get(url, {}, { isTokenRequired: false });
+}
+
+export function setWifiSettings(payload) {
+  const { wifissid, wifipassd } = payload;
+  const url = `${SOUND_SERVER_API_URL}/add_wifi`;
+  return ajax.get(url, { wifissid, wifipassd }, { isTokenRequired: false });
+}
+
+export function fetchActiveDeviceMacId() {
+  const url = `${SOUND_SERVER_API_URL}/mac`;
   return ajax.get(url, {}, { isTokenRequired: false });
 }

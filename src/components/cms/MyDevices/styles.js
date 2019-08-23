@@ -83,7 +83,7 @@ export const ControlHeading = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.65);
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 `;
 
 export const Section = styled.div`
