@@ -45,10 +45,14 @@ class MicrophoneTab extends React.Component {
   };
 
   handleSubmit = () => {
-    const { actions } = this.props;
+    const { actions, userEmailId } = this.props;
     const { micInput } = this.state;
     this.setState({ loading: true });
-    setUserSettings({ micInput })
+    let payload = {
+      micInput,
+    };
+    payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
+    setUserSettings(payload)
       .then(data => {
         if (data.accepted) {
           actions.openSnackBar({
@@ -72,7 +76,8 @@ class MicrophoneTab extends React.Component {
 
   render() {
     const { micInput, loading } = this.state;
-    const disabled = micInput === this.props.micInput || loading;
+    const { micInput: _micInput } = this.props;
+    const disabled = micInput === _micInput || loading;
     return (
       <SettingsTabWrapper heading="Mic Input">
         <FlexContainer>
@@ -109,11 +114,16 @@ class MicrophoneTab extends React.Component {
 MicrophoneTab.propTypes = {
   micInput: PropTypes.bool,
   actions: PropTypes.object,
+  userEmailId: PropTypes.string,
 };
 
 function mapStateToProps(store) {
+  const userSettingsViewedByAdmin = store.settings.userSettingsViewedByAdmin;
+  const { email } = userSettingsViewedByAdmin;
+  const settings = email !== '' ? userSettingsViewedByAdmin : store.settings;
   return {
-    micInput: store.settings.micInput,
+    micInput: settings.micInput,
+    userEmailId: email, // Admin access : email Id of the user being accesed
   };
 }
 

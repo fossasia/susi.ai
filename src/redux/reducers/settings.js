@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
 import urls from '../../utils/urls';
 
-const defaultState = {
+const config = {
   theme: 'light',
   server: urls.API_URL,
   enterAsSend: true,
@@ -32,13 +32,25 @@ const defaultState = {
   backgroundImage: '',
   messageBackgroundImage: '',
   avatarType: 'default',
+};
+
+const defaultState = {
+  ...config,
   devices: {},
+  userSettingsViewedByAdmin: {
+    ...config,
+    email: '',
+  },
 };
 
 export default handleActions(
   {
     [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { error, payload }) {
       const { settings } = payload;
+      const email =
+        payload.requestPayload && payload.requestPayload.email
+          ? payload.requestPayload.email
+          : null;
       if (error || !settings) {
         return state;
       }
@@ -69,8 +81,8 @@ export default handleActions(
       const themeArray = customThemeValue
         ? customThemeValue.split(',').map(value => `#${value}`)
         : defaultState.customThemeValue;
-      return {
-        ...state,
+
+      let userSettings = {
         server,
         serverUrl,
         theme,
@@ -100,11 +112,28 @@ export default handleActions(
           button: themeArray[5],
         },
       };
-    },
-    [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
+      let userSettingsViewedByAdmin = email
+        ? { ...userSettings, email }
+        : defaultState.userSettingsViewedByAdmin;
+      userSettings = email ? {} : userSettings;
       return {
         ...state,
-        ...payload,
+        ...userSettings,
+        userSettingsViewedByAdmin,
+      };
+    },
+    [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
+      let userSettings = { ...payload };
+      const { email } = state.userSettingsViewedByAdmin;
+      let userSettingsViewedByAdmin =
+        email !== ''
+          ? { ...state.userSettingsViewedByAdmin, ...userSettings }
+          : defaultState.userSettingsViewedByAdmin;
+      userSettings = email !== '' ? {} : userSettings;
+      return {
+        ...state,
+        ...userSettings,
+        userSettingsViewedByAdmin,
       };
     },
     [actionTypes.SETTINGS_GET_USER_DEVICES](state, { error, payload }) {

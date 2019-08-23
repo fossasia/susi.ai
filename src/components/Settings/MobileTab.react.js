@@ -99,9 +99,14 @@ class MobileTab extends React.Component {
   };
 
   handleSubmit = () => {
-    const { actions } = this.props;
+    const { actions, userEmailId } = this.props;
     const { phoneNo, countryCode, countryDialCode } = this.state;
-    const payload = { phoneNo, countryCode, countryDialCode };
+    let payload = {
+      phoneNo,
+      countryCode,
+      countryDialCode,
+    };
+    payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
     this.setState({ loading: true });
     setUserSettings(payload)
       .then(data => {
@@ -127,10 +132,9 @@ class MobileTab extends React.Component {
 
   render() {
     const { phoneNo, phoneNoError, countryCode, loading } = this.state;
+    const { phoneNo: _phoneNo, countryCode: _countryCode } = this.props;
     const disabled =
-      (countryCode === this.props.countryCode &&
-        phoneNo === this.props.phoneNo) ||
-      loading;
+      (countryCode === _countryCode && phoneNo === _phoneNo) || loading;
     sortCountryLexographical(countryData);
     let countries = countryData.countries.all.map((country, i) => {
       if (countryData.countries.all[i].countryCallingCodes[0]) {
@@ -222,14 +226,19 @@ MobileTab.propTypes = {
   countryCode: PropTypes.string,
   countryDialCode: PropTypes.string,
   actions: PropTypes.object,
+  userEmailId: PropTypes.string,
 };
 
 function mapStateToProps(store) {
+  const userSettingsViewedByAdmin = store.settings.userSettingsViewedByAdmin;
+  const { email } = userSettingsViewedByAdmin;
+  const settings = email !== '' ? userSettingsViewedByAdmin : store.settings;
   return {
-    theme: store.settings.theme,
-    phoneNo: store.settings.phoneNo,
-    countryCode: store.settings.countryCode,
-    countryDialCode: store.settings.countryDialCode,
+    theme: settings.theme,
+    phoneNo: settings.phoneNo,
+    countryCode: settings.countryCode,
+    countryDialCode: settings.countryDialCode,
+    userEmailId: email, // Admin access : email Id of the user being accesed
   };
 }
 
