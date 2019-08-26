@@ -30,6 +30,43 @@ Here you find step by step instructions for Pocket Science Lab (PSLab) using the
 * How to use the PSLab Multimeter?
 * How to use the PSLab Wavelength Generator?
 
+## How to use PSLab Instruments on Desktop
+
+- To use any feature of the PSLab Android application first follow these 2 steps:
+
+  1. Connect PSLab board with your Desktop using USB cable
+  2. Open <a href="https://github.com/fossasia/pslab-desktop">PSLab Desktop application</a>
+
+You will be presented with a home screen like this.  
+  
+
+<img src="./docs/images/desk_home_screen.jpg" alt="DESK_HOME" width="800px"/>  
+Click on the instrument you would like to use.
+
+### 1. Oscilloscope
+
+An instrument used to measure voltage changes over a period of time in real time.
+
+##### GUI description
+  <img src="./docs/images/desk_oscilloscope.jpg" alt="DESK_OSC" width="800px"/>
+
+  1. Options used to select the active channels and the range of measurement.
+  2. Timebase adjustments and trigger options.
+  3. Fourier analysis and sin/squre fitting options.
+  4. XY plotting settings.
+  5. Graph area.
+  6. Record button.
+
+##### Basic Usage
+  * Connect CH1, CH2, CH3 and MIC to any available volatage source that you would want to monitor. Jumper cables will be recommended for making the connections.
+  * For quick experiment, you can connect the pins to S1, S2 to observe Sine waves **( optional step )**
+  * Select the voltage range and timebase accordingly to plot the voltage vs time graph properly.
+  * Once the voltage vs time graph starts getting captured, set the trigger accordginly to get a stable graph.
+  * You can now apply fourier analyis on the signal to get more information about the graph.
+  * If the signal is a Sine wave or a Square wave, you can apply Sine / Square fitting to get parameter values like Frequency, Amplitude, etc.
+  * While monitoring more than one signal at once, you can apply XY plotting option to plot once signal with respect to other.
+  * You can click on the record option to write the observed values to a CSV file for playing it back later on the Android / Desktop app.
+
 ## Experiments
 
 * Do you want to measure your body resistance?
