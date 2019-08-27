@@ -395,7 +395,7 @@ class SkillCardList extends Component {
 
 function mapStateToProps(store) {
   return {
-    skills: store.skills.listSkills,
+    skills: store.skills.listSkills ? store.skills.listSkills : [],
   };
 }
 
