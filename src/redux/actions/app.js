@@ -8,6 +8,10 @@ const returnArgumentsFn = function(payload) {
 
 export default {
   getApiKeys: createAction(actionTypes.APP_GET_API_KEYS, apis.fetchApiKeys),
+  getCaptchaConfig: createAction(
+    actionTypes.APP_GET_CAPTCHA_CONFIG,
+    apis.fetchCaptchaConfig,
+  ),
   getLogin: createAction(actionTypes.APP_GET_LOGIN, apis.getLogin),
   getChangePassword: createAction(
     actionTypes.APP_GET_CHANGE_PASSWORD,

@@ -1,4 +1,6 @@
 import React from 'react';
+import RecaptchaOptions from './RecaptchaOptions';
+
 const MESSAGE_CONFIG = [
   {
     recipients: 'User',
@@ -138,6 +140,15 @@ const MESSAGE_CONFIG = [
     email: 'You have successfully sent a email',
     emailText: 'You have successfully sent a e..',
     subject: 'Testing email through Admin',
+    options: 'Mail',
+  },
+  {
+    recipients: 'User',
+    trigger: <RecaptchaOptions />,
+    userMessage: 'Please verify that you are a human.',
+    email: '',
+    emailText: '',
+    subject: '',
     options: 'Mail',
   },
 ];

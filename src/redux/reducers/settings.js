@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
 import urls from '../../utils/urls';
 
-const defaultState = {
+const config = {
   theme: 'light',
   server: urls.API_URL,
   enterAsSend: true,
@@ -32,45 +32,57 @@ const defaultState = {
   backgroundImage: '',
   messageBackgroundImage: '',
   avatarType: 'default',
+};
+
+const defaultState = {
+  ...config,
   devices: {},
+  userSettingsViewedByAdmin: {
+    ...config,
+    email: '',
+  },
 };
 
 export default handleActions(
   {
     [actionTypes.SETTINGS_GET_USER_SETTINGS](state, { error, payload }) {
       const { settings } = payload;
+      const email =
+        payload.requestPayload && payload.requestPayload.email
+          ? payload.requestPayload.email
+          : null;
       if (error || !settings) {
         return state;
       }
 
       const {
-        theme = defaultState.theme,
-        server,
-        serverUrl,
-        enterAsSend,
-        micInput,
-        speechOutput,
-        speechOutputAlways,
-        speechRate,
-        speechPitch,
-        ttsLanguage,
-        userName,
-        prefLanguage,
-        timeZone,
-        countryCode,
-        countryDialCode,
-        phoneNo,
-        checked,
-        backgroundImage,
-        messageBackgroundImage,
-        avatarType,
+        theme = config.theme,
+        server = config.server,
+        serverUrl = config.serverUrl,
+        enterAsSend = config.enterAsSend,
+        micInput = config.micInput,
+        speechOutput = config.speechOutput,
+        speechOutputAlways = config.speechOutputAlways,
+        speechRate = config.speechRate,
+        speechPitch = config.speechPitch,
+        ttsLanguage = config.ttsLanguage,
+        userName = config.userName,
+        prefLanguage = config.prefLanguage,
+        timeZone = config.timeZone,
+        countryCode = config.countryCode,
+        countryDialCode = config.countryDialCode,
+        phoneNo = config.phoneNo,
+        checked = config.checked,
+        backgroundImage = config.backgroundImage,
+        messageBackgroundImage = config.messageBackgroundImage,
+        avatarType = config.messageBackgroundImage,
       } = settings;
       let { customThemeValue } = settings;
       const themeArray = customThemeValue
         ? customThemeValue.split(',').map(value => `#${value}`)
         : defaultState.customThemeValue;
-      return {
-        ...state,
+
+      let userSettings = {
         server,
         serverUrl,
         theme,
@@ -100,11 +112,28 @@ export default handleActions(
           button: themeArray[5],
         },
       };
-    },
-    [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
+      let userSettingsViewedByAdmin = email
+        ? { ...userSettings, email }
+        : defaultState.userSettingsViewedByAdmin;
+      userSettings = email ? {} : userSettings;
       return {
         ...state,
-        ...payload,
+        ...userSettings,
+        userSettingsViewedByAdmin,
+      };
+    },
+    [actionTypes.SETTINGS_SET_USER_SETTINGS](state, { payload }) {
+      let userSettings = { ...payload };
+      const { email } = state.userSettingsViewedByAdmin;
+      let userSettingsViewedByAdmin =
+        email !== ''
+          ? { ...state.userSettingsViewedByAdmin, ...userSettings }
+          : defaultState.userSettingsViewedByAdmin;
+      userSettings = email !== '' ? {} : userSettings;
+      return {
+        ...state,
+        ...userSettings,
+        userSettingsViewedByAdmin,
       };
     },
     [actionTypes.SETTINGS_GET_USER_DEVICES](state, { error, payload }) {
