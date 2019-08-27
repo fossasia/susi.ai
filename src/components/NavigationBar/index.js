@@ -51,7 +51,7 @@ import isMobileView from '../../utils/isMobileView';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
-  max-width: 14rem;
+  max-width: 13rem;
   border-radius: 4px;
   @media (max-width: 550px) {
     width: 6rem;
@@ -60,7 +60,7 @@ const LanguageSelect = styled(Select)`
     padding: 4px;
   }
   .MuiInputBase-inputSelect {
-    padding-right: 1.75rem;
+    margin-right: 1.5rem;
   }
 `;
 
