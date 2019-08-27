@@ -114,7 +114,7 @@ export default handleActions(
         listOffset: 0,
         listPage: 1,
         entriesPerPage: 10,
-        listSkills: filteredData.slice(0, 10),
+        listSkills: filteredData && filteredData.slice(0, 10),
       };
     },
     [actionTypes.SKILLS_SET_VIEWTYPE](state, { payload }) {

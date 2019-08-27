@@ -466,7 +466,7 @@ class BrowseSkill extends React.Component {
   };
 
   handleRatingRefine = ratingRefine => {
-    const { skills, actions, history, location } = this.props;
+    const { skills = [], actions, history, location } = this.props;
     if (skills.length === 0) {
       actions.setSkillsLoading().then(() => this.loadCards());
     }
@@ -479,7 +479,7 @@ class BrowseSkill extends React.Component {
   };
 
   pageMenuItems = values => {
-    const { skills, entriesPerPage } = this.props;
+    const { skills = [], entriesPerPage } = this.props;
     let menuItems = [];
     for (let i = 1; i <= Math.ceil(skills.length / entriesPerPage); i += 1) {
       menuItems.push(i);
@@ -568,7 +568,7 @@ class BrowseSkill extends React.Component {
       searchQuery,
       ratingRefine,
       timeFilter,
-      skills,
+      skills = [],
       entriesPerPage,
       listPage,
       listOffset,
