@@ -128,10 +128,6 @@ const OutlinedInput = styled(OutlinedTextField)`
 const CommitField = styled(OutlinedTextField)`
   width: 100%;
   margin-right: 1rem;
-
-  @media (max-width: 480px) {
-    margin-bottom: 1rem;
-  }
 `;
 
 const UploadCircularButton = styled.label`
@@ -183,7 +179,6 @@ const SavePaper = styled(_Paper)`
   align-items: center;
   text-align: center;
   justify-content: center;
-  display: flex;
   @media (max-width: 500px) {
     display: block;
     text-align: right;
@@ -342,6 +337,13 @@ const DetailText = styled.span`
   margin-right: 0.5rem;
   @media (max-width: 414px) {
     padding-left: 0px;
+  }
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  @media (max-width: 480px) {
+    display: block;
   }
 `;
 
@@ -1181,45 +1183,59 @@ class SkillWizard extends Component {
         {view === 'conversation' && loadViews ? <ConversationView /> : null}
         {view === 'tree' && loadViews ? <TreeView botbuilder={false} /> : null}
         {!this.isBotBuilder && accessToken && this.state.editable && (
-          <SkillCommitDiv>
-            <SavePaper>
-              <CommitField
-                label="Commit Message - your skill will be stored to https://github.com/fossasia/susi_skill_data"
-                placeholder="Enter Commit Message"
-                margin="dense"
-                value={this.state.commitMessage}
-                onChange={this.handleCommitMessageChange}
-              />
-              <div style={{ display: 'flex', marginTop: '3px' }}>
-                <Link
-                  to={
-                    this.mode === 'create'
-                      ? '/'
-                      : {
-                          pathname:
-                            '/' + category + '/' + name + '/' + language,
-                        }
-                  }
-                >
-                  <Button variant="contained" color="primary">
-                    Cancel
-                  </Button>
-                </Link>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.saveClick}
-                  style={{ marginLeft: '10px' }}
-                >
-                  {this.state.loading ? (
-                    <CircularProgress color="#ffffff" size={24} />
-                  ) : (
-                    this.handleLabel()
-                  )}
-                </Button>
-              </div>
-            </SavePaper>
-          </SkillCommitDiv>
+          <Fragment>
+            <SkillCommitDiv>
+              <SavePaper>
+                <FlexWrapper>
+                  <CommitField
+                    label="Commit Message"
+                    placeholder="Enter Commit Message"
+                    margin="dense"
+                    value={this.state.commitMessage}
+                    onChange={this.handleCommitMessageChange}
+                  />
+                  <div style={{ display: 'flex', marginTop: '10px' }}>
+                    <Link
+                      to={
+                        this.mode === 'create'
+                          ? '/'
+                          : {
+                              pathname:
+                                '/' + category + '/' + name + '/' + language,
+                            }
+                      }
+                    >
+                      <Button variant="contained" color="primary">
+                        Cancel
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.saveClick}
+                      style={{ marginLeft: '10px', height: '36px' }}
+                    >
+                      {this.state.loading ? (
+                        <CircularProgress color="#ffffff" size={24} />
+                      ) : (
+                        this.handleLabel()
+                      )}
+                    </Button>
+                  </div>
+                </FlexWrapper>
+                <span style={{ float: 'left', marginTop: '10px' }}>
+                  Your skill will be stored to{' '}
+                  <a
+                    href="https://github.com/fossasia/susi_skill_data"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    susi_skill_data
+                  </a>
+                </span>
+              </SavePaper>
+            </SkillCommitDiv>
+          </Fragment>
         )}
         {this.state.prevButton === 1 ? (
           <PreviewButton>
