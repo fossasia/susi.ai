@@ -51,7 +51,7 @@ import isMobileView from '../../utils/isMobileView';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
-  max-width: 14rem;
+  max-width: 13rem;
   border-radius: 4px;
   @media (max-width: 550px) {
     width: 6rem;
@@ -60,7 +60,7 @@ const LanguageSelect = styled(Select)`
     padding: 4px;
   }
   .MuiInputBase-inputSelect {
-    padding-right: 1.75rem;
+    margin-right: 1.5rem;
   }
 `;
 
@@ -191,6 +191,7 @@ class NavigationBar extends Component {
       searchType: this.props.searchType,
       searchSelectWidth: this.getSelectMenuWidth(this.props.searchType),
       showSearchBar: !isMobileView(1000),
+      rightContainer: true,
     };
   }
 
@@ -348,7 +349,10 @@ class NavigationBar extends Component {
   };
 
   toggleSearchBar = () => {
-    this.setState(prevState => ({ showSearchBar: !prevState.showSearchBar }));
+    this.setState(prevState => ({
+      showSearchBar: !prevState.showSearchBar,
+      rightContainer: !prevState.rightContainer,
+    }));
   };
 
   render() {
@@ -540,7 +544,9 @@ class NavigationBar extends Component {
                 </SusiLogoContainer>
                 {renderSearchBar}
               </FlexContainer>
-              <TopRightMenuContainer>
+              <TopRightMenuContainer
+                style={{ display: this.state.rightContainer ? 'flex' : 'none' }}
+              >
                 {searchState ? (
                   <ExpandingSearchField
                     searchText={searchState.searchText}
