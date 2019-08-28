@@ -1,16 +1,16 @@
 import React from 'react';
-import Admin from '../../components/Admin';
+import Blog from '../../../../components/About/Blog';
 import { shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<Admin />', () => {
-  it('render Admin without crashing', () => {
+describe('<Login />', () => {
+  it('render Login without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Admin />
+        <Blog location={{ pathname: '/blog' }} />
       </Provider>,
     );
   });

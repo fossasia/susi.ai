@@ -1,16 +1,16 @@
 import React from 'react';
-import Admin from '../../components/Admin';
+import SignUp from '../../../../components/Auth/SignUp';
 import { shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<Admin />', () => {
-  it('render Admin without crashing', () => {
+describe('<SignUp />', () => {
+  it('render SignUp without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Admin />
+        <SignUp />
       </Provider>,
     );
   });

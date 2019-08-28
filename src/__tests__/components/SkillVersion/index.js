@@ -1,16 +1,18 @@
 import React from 'react';
-import AuthorSkills from '../../../components/cms/AuthorSkills';
+import SkillVersion from '../../../components/cms/SkillVersion';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<AuthorSkills />', () => {
-  it('render AuthorSkills without crashing', () => {
+describe('<SkillVersion />', () => {
+  it('render SkillVersion without crashing', () => {
     shallow(
       <Provider store={store}>
-        <AuthorSkills open={false} author="" author_url="" />
+        <SkillVersion
+          location={{ pathname: '/:category/:skill/versions/:lang' }}
+        />
       </Provider>,
     );
   });

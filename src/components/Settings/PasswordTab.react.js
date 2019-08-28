@@ -1,6 +1,6 @@
 import React from 'react';
 import SettingsTabWrapper from './SettingsTabWrapper';
-import ChangePassword from '../Auth/ChangePassword/ChangePassword.react';
+import ChangePassword from '../Auth/ChangePassword';
 
 const PasswordTab = () => {
   return (

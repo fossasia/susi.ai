@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
-import NotFound from '../NotFound/NotFound.react';
+import NotFound from '../NotFound';
 
 const ProtectedRoute = props => {
   const { accessToken, isAdmin, component: Component, ...restProps } = props;

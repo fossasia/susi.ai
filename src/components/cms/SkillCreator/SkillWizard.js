@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
-import Preview from '../BotBuilder/Preview/Preview';
+import Preview from '../BotBuilder/Preview';
 import searchURLPath from '../../../utils/searchURLPath';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';

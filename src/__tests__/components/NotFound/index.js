@@ -1,16 +1,16 @@
 import React from 'react';
-import Admin from '../../components/Admin';
+import NotFound from '../../../components/NotFound';
 import { shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<Admin />', () => {
-  it('render Admin without crashing', () => {
+describe('<NotFound />', () => {
+  it('renders NotFound without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Admin />
+        <NotFound location={{ pathname: '' }} />
       </Provider>,
     );
   });

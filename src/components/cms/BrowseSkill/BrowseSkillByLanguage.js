@@ -1,5 +1,5 @@
 import React from 'react';
-import BrowseSkill from './BrowseSkill';
+import BrowseSkill from '.';
 import PropTypes from 'prop-types';
 import ISO6391 from 'iso-639-1';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BrowseSkill from './BrowseSkill';
+import BrowseSkill from '.';
 import PropTypes from 'prop-types';
 
 export default class BrowseSkillByCategory extends Component {

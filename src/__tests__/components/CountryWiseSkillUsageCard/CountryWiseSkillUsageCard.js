@@ -1,5 +1,5 @@
 import React from 'react';
-import CountryWiseSkillUsageCard from '../../../components/cms/CountryWiseSkillUsageCard/CountryWiseSkillUsageCard';
+import CountryWiseSkillUsageCard from '../../../components/cms/CountryWiseSkillUsageCard';
 import { shallow } from 'enzyme';
 
 describe('<CountryWiseSkillUsageCard />', () => {

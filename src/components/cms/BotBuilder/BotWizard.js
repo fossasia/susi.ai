@@ -6,7 +6,7 @@ import StepButton from '@material-ui/core/StepButton';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import Design from './BotBuilderPages/Design';
-import Preview from './Preview/Preview';
+import Preview from './Preview';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CircularLoader from '../../shared/CircularLoader';
 import { Link } from 'react-router-dom';
