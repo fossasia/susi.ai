@@ -37,7 +37,7 @@ import {
   refreshDeviceList,
   setControlOptions,
   setWifiSettings,
-  removeUserDevice,
+  unlinkUserDevice,
 } from '../../apis';
 import {
   Section,
@@ -163,13 +163,24 @@ class ControlSection extends React.Component {
   };
 
   handleRemoveDevice = () => {
-    const { email, macId } = this.props;
-    removeUserDevice({ macId, email })
-      .then(payload => {
-        this.props.actions.closeModal();
+    const { macId, actions } = this.props;
+    unlinkUserDevice({ macId })
+      .then(({ accepted = false }) => {
+        if (accepted) {
+          actions.closeModal();
+          actions.openSnackBar({
+            snackBarMessage: 'Device successfully unlinked!',
+          });
+        }
+        actions.openSnackBar({
+          snackBarMessage: 'Unable to unlink Device',
+        });
       })
       .catch(error => {
         console.log(error);
+        actions.openSnackBar({
+          snackBarMessage: 'Unable to unlink Device',
+        });
       });
   };
 

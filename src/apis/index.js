@@ -954,3 +954,9 @@ export function fetchActiveDeviceMacId() {
   const url = `${SOUND_SERVER_API_URL}/mac`;
   return ajax.get(url, {}, { isTokenRequired: false });
 }
+
+export function unlinkUserDevice(payload) {
+  const { macId: macid } = payload;
+  const url = `${SOUND_SERVER_API_URL}/unlink_device`;
+  return ajax.get(url, { macid }, { isTokenRequired: false });
+}
