@@ -8,12 +8,12 @@ Here you find step by step instructions for Pocket Science Lab (PSLab) using the
 
 ## How to use PSLab Instruments on Android
 
-- To use any feature of the PSLab Android application first follow these 2 steps:
+- **To use any feature of the PSLab Android application first follow these 2 steps**:
 
   1. Connect PSLab board with your Android smartphone using OTG cable
   2. Open <a href="https://play.google.com/store/apps/details?id=io.pslab">PSLab Android application</a>
 
-* How to use the PSLab Oscilloscope?
+* **How to use the PSLab Oscilloscope?**
 
   1. Connect SI1 and SI2 pins on PSLab board to CH1 and CH2 pins respectively for Analog mode or connect SQ1,SQ2,SQ3 pins to CH1, CH2, CH3 pins respectively for Digital mode.
   2. Go to Wave Generator instrument in the PSLab Android application.
@@ -27,18 +27,30 @@ Here you find step by step instructions for Pocket Science Lab (PSLab) using the
   10. Use in built microphone of the smartphone as input select IN-BUILT MIC option on the bottom panel on the main screen.
   11. Use record button to record currently generated waves and store the data in a CSV file and play it back at will.
 
-* How to use the PSLab Multimeter?
-* How to use the PSLab Wavelength Generator?
+* **How to use the PSLab Multimeter?**
+  1. To measure volatage, connect PV1, PV2, PV3 to CH1, CH2, CH3 pins on PSLab board respectively and turn knob to either of the channel labels in the Multimeter instrument in PSLab Android application to see the volatage at corresponding PV pins.
+  2. To measure resistance, connect desired resistor between RES and GND pin on PSLab board and then turn the knob to resistance symbol in PSLab Android application Multimeter instrument.
+  3. To measure capacitance, connect desired capacitor between CAP and GND pin on PSLab board and then turn the knob to resistance symbol in PSLab Android application Multimeter instrument.
+  4. Frequency and count pulse can be measured by connecting any desired element between ID (or LA) and GND pins on PSLab board and turning knob to respective label in PSLab Android application Multimeter instrument.
 
+* **How to use the PSLab Wavelength Generator?**
+  1. Connect SI1 and SI2 pins on PSLab board to CH1 and CH2 pins respectively for Analog mode or connect SQ1,SQ2,SQ3 pins to CH1, CH2, CH3 pins respectively for Digital mode.
+  2. Go to Wave Generator instrument in the PSLab Android application.
+  3. Select either Digital or Analog mode.
+  4. Set desired frequency, phase and duty(in case of Digital mode) values for Wave1 and Wave2 (Analog mode) or SQ1,SQ2,SQ3 (Digital mode).
+  5. Select either sine or triangular wave shape for SI1 and SI2 in analog mode.
+  5. Use Play button to directly view set waves in Oscilloscope or Logical Analyzer
+  6. Use Save button to save the set wave configs and use these configs later.
+  
 ## How to use PSLab Instruments on Desktop
 
-- To use any feature of the PSLab Android application first follow these 2 steps:
+- To use any feature of the PSLab Desktop application first follow these 2 steps:
 
   1. Connect PSLab board with your Desktop using USB cable
   2. Open <a href="https://github.com/fossasia/pslab-desktop">PSLab Desktop application</a>
 
 You will be presented with a home screen like this.  
-  
+
 
 <img src="./docs/images/desk_home_screen.jpg" alt="DESK_HOME" width="800px"/>  
 Click on the instrument you would like to use.
@@ -81,6 +93,12 @@ An instrument used to measure voltage changes over a period of time in real time
 * Can you make a capacitor at home?
 * Do you want to see if you bought a new battery or a used one?
 * How much noise does school bell make?
+
+## Videos
+
+- [PSLab Android application overview](https://drive.google.com/file/d/1sAtDSZmRpBhzsofAOJ7ilAQSYgb_BI5i/view?usp=sharing)
+- [How to use save configs feature in PSLab Android application wave generator](https://www.youtube.com/watch?v=PTi6OZdyZbw)
+- [How to use Robotic Arm controller in PSLab android application](https://www.youtube.com/watch?v=TchiDUlZMIc)
 
 ## Template for Experiments
 
