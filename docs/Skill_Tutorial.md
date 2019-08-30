@@ -6,6 +6,14 @@ Do you want your own AI Skills for SUSI? It's surprisingly easy to add more Skil
 
 It's easy, DON'T PANIC. You don't need to be a software developer to enhance SUSI.AI
 
+### What will happen after you created / edited a skill in the public skill CMS
+
+Your skill goes into a public domain repository and will be published to https://github.com/fossasia/susi_skill_data
+
+This means:
+- your skill be used by SUSI for all requests of all users! (unless you creat a private skill)
+- other people can see and edit what you just wrote into the skill CMS
+
 ### What you have to do
 
 We have a SUSI Skill CMS at https://skills.susi.ai. Here you can create public SUSI.AI skills in a simpled editor window or private skill bots. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embeded code, which you can add to your website. You can configure colors and icons to suite your style.
