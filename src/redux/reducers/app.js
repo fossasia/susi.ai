@@ -88,7 +88,7 @@ export default handleActions(
         email: accessToken ? email : '',
         avatarImgThumbnail: `${
           urls.API_URL
-        }/getAvatar.png?access_token=${loggedIn}&q=${new Date().getTime()}&getThumbnail=true`,
+        }/getAvatar.png?access_token=${accessToken}&q=${new Date().getTime()}&getThumbnail=true`,
       };
     },
     [actionTypes.APP_LOGOUT](state, { payload }) {
