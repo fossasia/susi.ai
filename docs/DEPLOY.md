@@ -9,7 +9,7 @@
 
 ### Running on [Surge](./docs/INSTALLATION_SURGE_ENGLISH.md)
 
-* **Step 1:** Install Surge globally :```$ yarn global add surge```
+* **Step 1:** Install Surge globally:```$ yarn global add surge```
 * **Step 2:** Then cd into the cloned susi.ai folder
 * **Step 3:** Install the node modules:```$ yarn install```(if not already)
 * **Step 4:** Build the app:```$ yarn run build```
