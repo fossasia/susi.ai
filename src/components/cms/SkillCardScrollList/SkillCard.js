@@ -240,7 +240,7 @@ class SkillCard extends Component {
         );
       },
     );
-    if (cards.length <= this.state.scrollCards) {
+    if (cards.length <= this.state.scrollCards + 1) {
       this.setState({ rightBtnDisplay: 'none', leftBtnDisplay: 'none' });
     }
     this.setState({
