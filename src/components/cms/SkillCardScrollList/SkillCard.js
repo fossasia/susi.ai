@@ -62,32 +62,40 @@ class SkillCard extends Component {
     };
   }
 
+  componentWillMount = () => {
+    this.updateWindowDimensions();
+  };
   componentDidMount = () => {
     this.loadSkillCards();
-    // this.updateWindowDimensions();
   };
 
-  // updateWindowDimensions = () => {
-  //   let scrollCards = 1;
-  //   switch (true) {
-  //     case window.innerWidth >= 1400:
-  //       scrollCards = 5;
-  //       break;
-  //     case window.innerWidth >= 1120:
-  //       scrollCards = 3;
-  //       break;
-  //     case window.innerWidth >= 840:
-  //       scrollCards = 2;
-  //       break;
-  //     default:
-  //       scrollCards = 1;
-  //       this.setState({ rightBtnDisplay: 'inline' });
-  //   }
+  updateWindowDimensions = () => {
+    let scrollCards = 1;
+    switch (true) {
+      case window.innerWidth >= 1680:
+        scrollCards = 5;
+        break;
+      case window.innerWidth >= 1400:
+        scrollCards = 4;
+        break;
+      case window.innerWidth >= 1120:
+        scrollCards = 4;
+        break;
+      case window.innerWidth >= 840:
+        scrollCards = 3;
+        break;
+      case window.innerWidth >= 560:
+        scrollCards = 2;
+        break;
+      default:
+        scrollCards = 1;
+        this.setState({ rightBtnDisplay: 'inline' });
+    }
 
-  //   this.setState({
-  //     scrollCards: scrollCards,
-  //   });
-  // };
+    this.setState({
+      scrollCards: scrollCards,
+    });
+  };
 
   changeBtnDisplay = (scrollValue, maxScrollValue) => {
     if (maxScrollValue === 0) {
@@ -120,27 +128,6 @@ class SkillCard extends Component {
 
   loadSkillCards = () => {
     let cards = [];
-    let scrollCards = 1;
-    switch (true) {
-      case window.innerWidth >= 1680:
-        scrollCards = 5;
-        break;
-      case window.innerWidth >= 1400:
-        scrollCards = 4;
-        break;
-      case window.innerWidth >= 1120:
-        scrollCards = 4;
-        break;
-      case window.innerWidth >= 840:
-        scrollCards = 3;
-        break;
-      case window.innerWidth >= 560:
-        scrollCards = 2;
-        break;
-      default:
-        scrollCards = 1;
-        this.setState({ rightBtnDisplay: 'inline' });
-    }
     Object.keys(this.props.metricSkills[this.props.scrollSkills]).forEach(
       el => {
         let skill = this.props.metricSkills[this.props.scrollSkills][el];
@@ -261,7 +248,7 @@ class SkillCard extends Component {
         );
       },
     );
-    if (cards.length <= scrollCards) {
+    if (cards.length <= this.state.scrollCards) {
       this.setState({ rightBtnDisplay: 'none', leftBtnDisplay: 'none' });
     }
     this.setState({
