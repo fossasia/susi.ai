@@ -36,17 +36,16 @@ export default function({
               response,
               voice,
             }).then(susiMessages => {
-              susiMessages.forEach(eachMessage => {
-                if (eachMessage.planDelay) {
-                  tasks.push(
-                    plannedFunction,
-                    () => createSusiMessage({ message: eachMessage }),
-                    eachMessage.planDelay,
-                  );
-                } else {
-                  createSusiMessage({ message: eachMessage });
-                }
-              });
+              if (susiMessages[0].planDelay) {
+                tasks.push(
+                  plannedFunction,
+                  () => createSusiMessage({ message: susiMessages[0] }),
+                  susiMessages[0].planDelay,
+                );
+              } else {
+                createSusiMessage({ message: susiMessages[0] });
+              }
+
               !!pendingUserMessage &&
                 setPendingUserMessage({ pendingUserMessage: null });
             });
