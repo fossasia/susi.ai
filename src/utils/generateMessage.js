@@ -36,6 +36,12 @@ export default function({
               response,
               voice,
             }).then(susiMessages => {
+              susiMessages = Array.from(
+                new Set(susiMessages.map(message => message.text)),
+              ).map(text => {
+                return susiMessages.find(message => message.text === text);
+              });
+
               if (susiMessages[0].planDelay) {
                 tasks.push(
                   plannedFunction,
