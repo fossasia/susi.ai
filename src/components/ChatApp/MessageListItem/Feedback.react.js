@@ -1,20 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import ThumbDown from '@material-ui/icons/ThumbDown';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import actions from '../../../redux/actions/messages';
+import messageActions from '../../../redux/actions/messages';
+import uiActions from '../../../redux/actions/ui';
 import _ from 'lodash';
+import { FlexContainer } from '../../shared/Container';
 
 const styles = {
-  feedbackContainer: {
-    top: 5,
-    display: 'block',
-    position: 'relative',
-    float: 'right',
-  },
   feedbackButton: {
     height: '16px',
     cursor: 'pointer',
@@ -28,6 +24,7 @@ class Feedback extends React.Component {
     skillFeedbackByMessageId: PropTypes.object,
     countryCode: PropTypes.string,
     countryName: PropTypes.string,
+    theme: PropTypes.string,
   };
 
   constructor(props) {
@@ -49,7 +46,7 @@ class Feedback extends React.Component {
           skillObj.model = parsedData[3];
           skillObj.group = parsedData[4];
           skillObj.language = parsedData[5];
-          skillObj.skill = parsedData[6].slice(0, -4);
+          skillObj.skill = parsedData[6].split('.')[0];
         }
       }
     }
@@ -60,7 +57,7 @@ class Feedback extends React.Component {
     this.setState({ feedbackInProgress: false });
   };
 
-  postSkillFeedback = feedback => {
+  postSkillReplyFeedback = feedback => {
     const skillInfo = this.state.skill;
     const { actions, message, countryCode, countryName } = this.props;
     const query = _.get(message, 'response.query', '');
@@ -88,6 +85,10 @@ class Feedback extends React.Component {
       })
       .catch(err => {
         this.removeFeedback();
+        actions.openSnackBar({
+          snackBarMessage: 'Could not give feedback to the reply',
+          snackBarDuration: 2000,
+        });
       });
   };
 
@@ -101,44 +102,58 @@ class Feedback extends React.Component {
   };
 
   render() {
-    const { message, skillFeedbackByMessageId } = this.props;
+    const { message, skillFeedbackByMessageId, theme } = this.props;
     let feedback = skillFeedbackByMessageId[message.id]
       ? skillFeedbackByMessageId[message.id]
       : '';
-    const theme = UserPreferencesStore.getTheme();
     const defaultFeedbackColor = theme === 'light' ? '#90a4ae' : '#7eaaaf';
+
+    if (this.state.feedbackInProgress) {
+      return (
+        <span style={styles.feedbackContainer}>
+          <CircularProgress size={12} />
+        </span>
+      );
+    }
 
     return (
       <span>
         {message && message.authorName === 'SUSI' ? (
-          <span className="feedback" style={styles.feedbackContainer}>
+          <FlexContainer>
             <ThumbUp
-              onClick={() => this.postSkillFeedback('positive')}
-              style={styles.feedbackButton}
-              color={feedback === 'positive' ? '#00ff7f' : defaultFeedbackColor}
+              onClick={() => this.postSkillReplyFeedback('positive')}
+              style={{
+                ...styles.feedbackButton,
+                color:
+                  feedback === 'positive' ? '#00ff7f' : defaultFeedbackColor,
+              }}
             />
             <ThumbDown
-              onClick={() => this.postSkillFeedback('negative')}
-              style={styles.feedbackButton}
-              color={feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor}
+              onClick={() => this.postSkillReplyFeedback('negative')}
+              style={{
+                ...styles.feedbackButton,
+                color:
+                  feedback === 'negative' ? '#f23e3e' : defaultFeedbackColor,
+              }}
             />
-          </span>
+          </FlexContainer>
         ) : null}
       </span>
     );
   }
 }
 
-function mapStateToProps({ messages, app }) {
+function mapStateToProps({ messages, app, settings }) {
   return {
     skillFeedbackByMessageId: messages.skillFeedbackByMessageId,
     countryCode: _.get(app, 'location.countryCode', ''),
     countryName: _.get(app, 'location.countryName', ''),
+    theme: settings.theme,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...messageActions, ...uiActions }, dispatch),
   };
 }
 

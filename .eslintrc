@@ -6,7 +6,10 @@
     "jsx",
     "prettier"
   ],
-  "extends": ["plugin:react/recommended", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module",
@@ -14,7 +17,16 @@
       "jsx": true
     }
   },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "16.8.6"
+    }
+  },
   "env": {
+    "node": true,
+    "commonjs": true,
     "browser": true,
     "jasmine": true,
     "es6": true
@@ -55,7 +67,7 @@
     // Don't enforce the maximum depth that blocks can be nested.
     "max-depth": 0,
     // Maximum length of a line.
-    "max-len": [2, 90, 2, { "ignoreStrings": true, "ignoreUrls": true}],
+    "max-len": [2, 100, 2, { "ignoreStrings": true, "ignoreUrls": true}],
     // Maximum depth callbacks can be nested.
     "max-nested-callbacks": [2, 3],
     // Don't limit the number of parameters that can be used in a function.

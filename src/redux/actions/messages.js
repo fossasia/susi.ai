@@ -38,6 +38,14 @@ const messageActions = {
     returnArgumentsFn,
   ),
   resetMessageVoice: createAction(actionTypes.MESSAGES_RESET_MESSAGE_VOICE),
+  getUserGeoData: createAction(
+    actionTypes.MESSAGES_GET_USER_GEO_DATA,
+    apis.getDefaultMapData,
+  ),
+  setPendingUserMessage: createAction(
+    actionTypes.MESSAGES_SET_PENDING_USER_MESSAGE,
+    returnArgumentsFn,
+  ),
 };
 
 export default messageActions;

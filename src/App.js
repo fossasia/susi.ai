@@ -1,68 +1,159 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { StylesProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import Snackbar from 'material-ui/Snackbar';
-import Blog from './components/Blog/Blog.react';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { theme } from './MUItheme';
+import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
+import Blog from './components/About/Blog';
 import ChatApp from './components/ChatApp/ChatApp.react';
-import Contact from './components/Contact/Contact.react';
-import Devices from './components/Devices/Devices.react';
-import Logout from './components/Auth/Logout.react';
+import Contact from './components/About/Contact/Contact.react';
+import Devices from './components/About/Devices';
+import Logout from './components/Auth/Logout';
 import NotFound from './components/NotFound/NotFound.react';
-import Overview from './components/Overview/Overview.react';
-import Settings from './components/ChatApp/Settings/Settings.react';
-import Support from './components/Support/Support.react';
-import Team from './components/Team/Team.react';
-import Terms from './components/Terms/Terms.react';
-import Privacy from './components/Privacy/Privacy.react';
-import Login from './components/Auth/Login/Login.react';
-import SignUp from './components/Auth/SignUp/SignUp.react';
-import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword.react';
-import actions from './redux/actions/app';
-import ProtectedRoute from './components/ProtectedRoute';
+import Overview from './components/About/Overview';
+import Settings from './components/Settings/Settings.react';
+import Support from './components/About/Support';
+import Team from './components/About/Team';
+import Terms from './components/About/Terms/Terms.react';
+import Privacy from './components/About/Privacy/Privacy.react';
+import appActions from './redux/actions/app';
+import uiActions from './redux/actions/ui';
+import ProtectedRoute from './components/shared/ProtectedRoute';
+import DeviceProtectedRoute from './components/shared/DeviceProtectedRoute';
+import DialogSection from '../src/components/shared/Dialog';
+import settingActions from './redux/actions/settings';
+import BrowseSkill from './components/cms/BrowseSkill/BrowseSkill';
+import BrowseSkillByCategory from './components/cms/BrowseSkill/BrowseSkillByCategory';
+import BrowseSkillByLanguage from './components/cms/BrowseSkill/BrowseSkillByLanguage';
+import SkillListing from './components/cms/SkillPage/SkillListing';
+import SkillFeedbackPage from './components/cms/SkillFeedbackPage/SkillFeedbackPage';
+import Dashboard from './components/cms/Dashboard';
+import SkillVersion from './components/cms/SkillVersion/SkillVersion';
+import SkillHistory from './components/cms/SkillHistory/SkillHistory';
+import SkillRollBack from './components/cms/SkillRollBack/SkillRollBack';
+import SkillWizard from './components/cms/SkillCreator/SkillWizard';
+import BotBuilderWrap from './components/cms/BotBuilder/BotBuilderWrap';
+import NavigationBar from './components/NavigationBar';
+import Footer from './components/Footer/Footer.react';
+import CookiePolicy from './components/CookiePolicy/CookiePolicy.react';
+import Admin from './components/Admin/Admin';
+import CustomSnackbar from './components/shared/CustomSnackbar';
+import AppBanner from './components/shared/AppBanner';
+import DeviceSetupPage from './components/smart-speaker/Setup';
+import ConfigureSpeaker from './components/smart-speaker/Configure';
+import withTracker from './withTracker';
+import GoogleAnalytics from 'react-ga';
+import { isProduction } from './utils/helperFunctions';
+import { checkDeviceWiFiAccessPoint, fetchActiveDeviceMacId } from './apis';
 
-const muiTheme = getMuiTheme({
-  toggle: {
-    thumbOnColor: '#5ab1fc',
-    trackOnColor: '#4285f4',
-  },
-});
+const RootContainer = styled.div`
+  min-height: calc(100vh - 120px);
+  margin-top: 50px;
+`;
+
+const EnhancedBrowseSkill = withTracker(BrowseSkill);
+const EnhancedBrowseSkillByCategory = withTracker(BrowseSkillByCategory);
+const EnhancedBrowseSkillByLanguage = withTracker(BrowseSkillByLanguage);
+const EnhancedSkillListing = withTracker(SkillListing);
+const EnhancedSkillFeedbackPage = withTracker(SkillFeedbackPage);
+const EnhancedDashboard = withTracker(Dashboard);
+const EnhancedSkillVersion = withTracker(SkillVersion);
+const EnhancedSkillHistory = withTracker(SkillHistory);
+const EnhancedSkillRollBack = withTracker(SkillRollBack);
+const EnhancedSkillWizard = withTracker(SkillWizard);
+const EnhancedBotBuilderWrap = withTracker(BotBuilderWrap);
+const EnhancedOverview = withTracker(Overview);
+const EnhancedDevices = withTracker(Devices);
+const EnhancedTeam = withTracker(Team);
+const EnhancedBlog = withTracker(Blog);
+const EnhancedContact = withTracker(Contact);
+const EnhancedSupport = withTracker(Support);
+const EnhancedConfigureSpeaker = withTracker(ConfigureSpeaker);
+const EnhancedTerms = withTracker(Terms);
+const EnhancedPrivacy = withTracker(Privacy);
+const EnhancedVerifyAccount = withTracker(VerifyAccount);
+const EnhancedSettings = withTracker(Settings);
+const EnhancedNotFound = withTracker(NotFound);
 
 class App extends Component {
   static propTypes = {
     history: PropTypes.object,
     location: PropTypes.object,
-    closeVideo: PropTypes.func,
     actions: PropTypes.object,
     accessToken: PropTypes.string,
+    snackBarProps: PropTypes.object,
+    showCookiePolicy: PropTypes.bool,
+    modalProps: PropTypes.object,
+    visited: PropTypes.bool,
+    isLocalEnv: PropTypes.bool,
+    mode: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      video: false,
-      openLogin: false,
-      openSignUp: false,
-      openForgotPassword: false,
-      snackBarOpen: false,
-      snackBarMessage: '',
-      snackBarDuration: 4000,
-      snackBarAction: null,
-      snackBarActionHandler: null,
+      activeDeviceMacId: '',
+      deviceAccessPoint: false,
     };
   }
 
   componentDidMount = () => {
-    const { actions, accessToken } = this.props;
+    const { accessToken, actions, isLocalEnv } = this.props;
+
+    if (!isLocalEnv) {
+      this.setState({ deviceAccessPoint: false });
+    } else {
+      fetchActiveDeviceMacId()
+        .then(payload => {
+          this.setState({ activeDeviceMacId: payload.macid });
+        })
+        .catch(error => {
+          console.log(error, 'error');
+        });
+      checkDeviceWiFiAccessPoint()
+        .then(payload => {
+          this.setState({ deviceAccessPoint: payload.status === 'true' });
+        })
+        .catch(error => {
+          console.log('Error, catched', error);
+          this.setState({ deviceAccessPoint: false });
+        });
+    }
+
+    let isGAInitialised = false;
+
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
 
-    actions.getApiKeys();
-    accessToken && actions.getAdmin();
+    actions.getApiKeys().then(({ payload }) => {
+      const {
+        keys: { googleAnalyticsKey = null },
+      } = payload;
+      if (accessToken && !isProduction()) {
+        actions.getApiKeys({ apiType: 'user' }).then(({ payload }) => {
+          const userKeys = payload.keys;
+          if (userKeys && userKeys.googleAnalyticsKey) {
+            isGAInitialised = true;
+            userKeys.googleAnalyticsKey &&
+              GoogleAnalytics.initialize(userKeys.googleAnalyticsKey);
+          }
+        });
+      }
+      if (!isGAInitialised) {
+        googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
+      }
+    });
+    actions.getCaptchaConfig();
+    if (accessToken) {
+      actions.getAdmin();
+      actions.getUserSettings().catch(e => {
+        console.log(e);
+      });
+    }
   };
 
   componentWillUnmount = () => {
@@ -71,265 +162,251 @@ class App extends Component {
   };
 
   onUserOffline = () => {
-    this.openSnackBar({
+    const { actions } = this.props;
+    actions.openSnackBar({
       snackBarMessage: 'It seems you are offline!',
     });
   };
 
   onUserOnline = () => {
-    this.openSnackBar({
+    const { actions } = this.props;
+    actions.openSnackBar({
       snackBarMessage: 'Welcome back!',
-    });
-  };
-
-  closeVideo = () =>
-    this.setState({
-      video: false,
-    });
-
-  onRequestOpenLogin = () => {
-    this.setState({
-      openLogin: true,
-      openSignUp: false,
-      openForgotPassword: false,
-    });
-  };
-
-  onRequestOpenSignUp = () => {
-    this.setState({
-      openSignUp: true,
-      openLogin: false,
-      openForgotPassword: false,
-    });
-  };
-
-  onRequestOpenForgotPassword = () => {
-    this.setState({
-      openLogin: false,
-      openSignUp: false,
-      openForgotPassword: true,
-    });
-  };
-
-  onRequestClose = () => {
-    this.setState({
-      openLogin: false,
-      openSignUp: false,
-      openForgotPassword: false,
-    });
-  };
-
-  openSnackBar = ({
-    snackBarMessage,
-    snackBarDuration = 4000,
-    snackBarActionHandler,
-    snackBarAction,
-  }) => {
-    this.setState({
-      snackBarOpen: true,
-      snackBarMessage,
-      snackBarDuration,
-      snackBarActionHandler,
-      snackBarAction,
-    });
-  };
-
-  closeSnackBar = () => {
-    this.setState({
-      snackBarOpen: false,
-      snackBarMessage: '',
-      snackBarDuration: 4000,
-      snackBarAction: null,
-      snackBarActionHandler: null,
     });
   };
 
   render() {
     const {
-      openLogin,
-      openSignUp,
-      openForgotPassword,
-      snackBarOpen,
-      snackBarMessage,
-      snackBarDuration,
-      snackBarAction,
-      snackBarActionHandler,
-    } = this.state;
+      actions,
+      snackBarProps: {
+        snackBarMessage,
+        isSnackBarOpen,
+        snackBarDuration,
+        snackBarPosition,
+        variant,
+      },
+      modalProps: { isModalOpen },
+      location: { pathname },
+      showCookiePolicy,
+      isLocalEnv,
+      mode,
+      location,
+      // visited,
+    } = this.props;
 
-    if (location.pathname !== '/') {
-      document.body.className = 'white-body';
-    }
+    const { deviceAccessPoint, activeDeviceMacId } = this.state;
 
+    const renderFooterPagesList = [
+      deviceAccessPoint ? null : '/',
+      '/about',
+      '/team',
+      '/blog',
+      '/devices',
+      '/support',
+      '/privacy',
+      '/terms',
+      '/contact',
+    ];
+
+    const hideBubble = [
+      'skillWizard',
+      'botWizard',
+      'admin',
+      'edit',
+      deviceAccessPoint ? '' : null,
+    ];
+
+    const skillListRegex = new RegExp('^/');
+    const pathLength = pathname.split('/').length;
+    const renderAppBanner = isLocalEnv ? (
+      <AppBanner macId={activeDeviceMacId} />
+    ) : null;
+    const renderAppBar =
+      pathname !== '/chat' && !deviceAccessPoint ? <NavigationBar /> : null;
+    const renderFooter =
+      ((skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
+        renderFooterPagesList.includes(pathname)) &&
+      !pathname.includes('/admin/') ? (
+        <Footer />
+      ) : null;
+
+    const renderCookiePolicy =
+      showCookiePolicy === true ? <CookiePolicy /> : null;
+    // const renderDialog = isModalOpen || !visited  ?  <DialogSection /> : null;
+    const renderDialog =
+      isModalOpen ||
+      mode === 'fullScreen' ||
+      location.pathname === '/resetpass' ? (
+        <DialogSection />
+      ) : null;
+    const renderChatBubble =
+      hideBubble.includes(location.pathname.split('/')[1]) ||
+      (hideBubble.includes(location.pathname.split('/')[3]) &&
+        deviceAccessPoint) ? null : (
+        <ChatApp />
+      );
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          <Login
-            openLogin={openLogin}
-            onRequestOpenForgotPassword={this.onRequestOpenForgotPassword}
-            onRequestOpenSignUp={this.onRequestOpenSignUp}
-            onRequestClose={this.onRequestClose}
-            openSnackBar={this.openSnackBar}
-          />
-          <SignUp
-            openSignUp={openSignUp}
-            onRequestClose={this.onRequestClose}
-            onRequestOpenLogin={this.onRequestOpenLogin}
-            openSnackBar={this.openSnackBar}
-          />
-          <ForgotPassword
-            openForgotPassword={openForgotPassword}
-            onRequestClose={this.onRequestClose}
-            openSnackBar={this.openSnackBar}
-          />
-          <Snackbar
-            autoHideDuration={snackBarDuration}
-            action={snackBarAction}
-            onActionTouchTap={snackBarActionHandler}
-            open={snackBarOpen}
-            message={snackBarMessage}
-            onRequestClose={this.closeSnackBar}
-          />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={routeProps => (
-                <ChatApp
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+      <StylesProvider injectFirst>
+        <MuiThemeProvider theme={theme}>
+          <div>
+            {renderDialog}
+            {isSnackBarOpen && (
+              <CustomSnackbar
+                autoHideDuration={snackBarDuration}
+                open={isSnackBarOpen}
+                message={snackBarMessage}
+                onClose={actions.closeSnackBar}
+                anchorOrigin={snackBarPosition}
+                variant={variant}
+              />
+            )}
+            {renderAppBar}
+            {renderAppBanner}
+            {renderChatBubble}
+            <RootContainer>
+              <Switch>
+                {!deviceAccessPoint ? (
+                  <Route exact path="/" component={EnhancedBrowseSkill} />
+                ) : (
+                  <Route exact path="/" component={DeviceSetupPage} />
+                )}
+                <Route
+                  exact
+                  path="/resetPass"
+                  component={EnhancedBrowseSkill}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/overview"
-              render={routeProps => (
-                <Overview
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/category/:category"
+                  component={EnhancedBrowseSkillByCategory}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/devices"
-              render={routeProps => (
-                <Devices
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/language/:language"
+                  component={EnhancedBrowseSkillByLanguage}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/team"
-              render={routeProps => (
-                <Team
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/:category/:skills/:lang"
+                  component={EnhancedSkillListing}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/blog"
-              render={routeProps => (
-                <Blog
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/:category/:skills/:lang/feedbacks"
+                  component={EnhancedSkillFeedbackPage}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/contact"
-              render={routeProps => (
-                <Contact
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <ProtectedRoute
+                  exact
+                  path="/dashboard/"
+                  component={EnhancedDashboard}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/support"
-              render={routeProps => (
-                <Support
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/:category/:skill/versions/:lang"
+                  component={EnhancedSkillVersion}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/terms"
-              render={routeProps => (
-                <Terms
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/:category/:skill/compare/:lang/:oldid/:recentid"
+                  component={EnhancedSkillHistory}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/privacy"
-              render={routeProps => (
-                <Privacy
-                  {...routeProps}
-                  onRequestOpenLogin={this.onRequestOpenLogin}
-                  closeSnackBar={this.closeSnackBar}
-                  openSnackBar={this.openSnackBar}
+                <Route
+                  exact
+                  path="/:category/:skill/edit/:lang/:latestid/:revertid"
+                  component={EnhancedSkillRollBack}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/logout"
-              render={routeProps => (
-                <Logout {...routeProps} openSnackBar={this.openSnackBar} />
-              )}
-            />
-            <ProtectedRoute exact path="/settings" component={Settings} />
-            <Route exact path="/*:path(error-404|)" component={NotFound} />
-          </Switch>
-        </div>
-      </MuiThemeProvider>
+                <DeviceProtectedRoute
+                  exact
+                  path="/:category/:skill/edit/:lang"
+                  component={EnhancedSkillWizard}
+                />
+                <DeviceProtectedRoute
+                  exact
+                  path="/:category/:skill/edit/:lang/:commit"
+                  component={EnhancedSkillWizard}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/myskills"
+                  component={EnhancedDashboard}
+                />
+                <ProtectedRoute
+                  path="/mydevices"
+                  component={EnhancedDashboard}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/skillWizard"
+                  component={EnhancedSkillWizard}
+                />
+                <ProtectedRoute
+                  path="/botWizard"
+                  component={EnhancedBotBuilderWrap}
+                />
+                <Route
+                  path="/configure-speaker"
+                  component={EnhancedConfigureSpeaker}
+                />
+                <ProtectedRoute path="/mybots" component={EnhancedDashboard} />
+                <Route exact path="/about" component={EnhancedOverview} />
+                <Route exact path="/devices" component={EnhancedDevices} />
+                <Route exact path="/team" component={EnhancedTeam} />
+                <Route exact path="/blog" component={EnhancedBlog} />
+                <Route exact path="/contact" component={EnhancedContact} />
+                <Route exact path="/support" component={EnhancedSupport} />
+                <Route exact path="/terms" component={EnhancedTerms} />
+                <Route exact path="/privacy" component={EnhancedPrivacy} />
+                <Route
+                  exact
+                  path="/verify-account"
+                  component={EnhancedVerifyAccount}
+                />
+                <Route exact path="/logout" component={Logout} />
+                <Route path="/admin" component={Admin} />
+                <ProtectedRoute
+                  exact
+                  path="/settings"
+                  component={EnhancedSettings}
+                />
+                <Route
+                  exact
+                  path="/*:path(error-404|)"
+                  component={EnhancedNotFound}
+                />
+              </Switch>
+            </RootContainer>
+            <div>{renderFooter}</div>
+            {renderCookiePolicy}
+          </div>
+        </MuiThemeProvider>
+      </StylesProvider>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(
+      { ...appActions, ...uiActions, ...settingActions },
+      dispatch,
+    ),
   };
 }
 
 function mapStateToProps(store) {
-  const { app } = store;
   return {
-    ...app,
+    ...store.router,
+    ...store.ui,
+    accessToken: store.app.accessToken,
+    showCookiePolicy: store.app.showCookiePolicy,
+    visited: store.app.visited,
+    isLocalEnv: store.app.isLocalEnv,
+    googleAnalyticsKey: store.app.apiKeys.googleAnalyticsKey,
+    mode: store.ui.mode,
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(App),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

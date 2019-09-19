@@ -1,10 +1,10 @@
+/* eslint-disable complexity */
 import React from 'react';
 import { AllHtmlEntities } from 'html-entities';
 import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import VoicePlayer from './VoicePlayer';
 import YouTube from 'react-youtube';
-import { getDefaultMapData } from '../../../apis';
 import { injectIntl } from 'react-intl';
 import {
   imageParse,
@@ -15,6 +15,50 @@ import {
   renderAnchor,
   renderTiles,
 } from './helperFunctions.react.js';
+import styled, { css } from 'styled-components';
+import MessageBubble from './MessageBubbleStyle';
+import './highlight.css';
+
+const DateContainer = styled.section`
+  background: #999999;
+  color: #fff;
+  position: relative;
+  min-width: 5rem;
+  max-width: 80%;
+  font-size: 1.05rem;
+  line-height: 1.375rem;
+  padding: 0.5rem;
+  padding-bottom: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 0.5rem;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  margin: 0.3125rem;
+  overflow-wrap: break-word;
+  ${props =>
+    props.height &&
+    css`
+      height: ${props => props.height + '56'};
+    `};
+  &a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+`;
+
+const WebSearchRSSContainer = styled.div`
+  @media (min-width: 768px) {
+    width: 100%;
+    padding: 0 30px;
+    margin: 0 auto;
+  }
+`;
 
 const entities = new AllHtmlEntities();
 
@@ -36,60 +80,62 @@ const PostDate = injectIntl(({ date, intl }) => (
 
 const generateDateBubble = message => {
   return (
-    <div className="message-list-item">
-      <section className="container-date">
-        <div className="message-text">
+    <MessageContainer>
+      <DateContainer>
+        <div>
           <PostDate date={message.date} />
         </div>
-      </section>
-    </div>
+      </DateContainer>
+    </MessageContainer>
   );
 };
 
 const generateGifBubble = (
   action,
   index,
-  messageContainerClasses,
   gifSource,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">
-          <iframe src={gifSource} frameBorder="0" allowFullScreen />
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>
+          <iframe
+            src={gifSource}
+            title="SUSI features GIF"
+            frameBorder="0"
+            allowFullScreen
+          />
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateAnswerBubble = (
   action,
   index,
-  messageContainerClasses,
   replacedText,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">{replacedText}</div>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateAnchorBubble = (
   action,
   index,
-  messageContainerClasses,
   text,
   link,
   message,
@@ -97,19 +143,18 @@ const generateAnchorBubble = (
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">{renderAnchor(text, link)}</div>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div>{renderAnchor(text, link)}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateMapBubble = (
   action,
   index,
-  messageContainerClasses,
   replacedText,
   mapAnchor,
   mymap,
@@ -118,36 +163,35 @@ const generateMapBubble = (
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses} style={{ width: '80%' }}>
-        <div className="message-text">{replacedText}</div>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName} width={'80%'}>
+        <div>{replacedText}</div>
         <div>{mapAnchor}</div>
         <br />
         <div>{mymap}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateTableBubble = (
   action,
   index,
-  messageContainerClasses,
   table,
   message,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
         <div>
-          <div className="message-text">{table}</div>
+          <div>{table}</div>
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
@@ -157,22 +201,17 @@ const generateVideoBubble = (
   height,
   width,
   identifier,
-  messageContainerClasses,
   latestMessage,
   message,
   latestUserMsgID,
   showFeedback,
   onYouTubePlayerReady,
+  scrollBottom,
 ) => {
+  latestMessage && scrollBottom();
   return (
-    <div
-      className="message-list-item"
-      key={action + index}
-      style={{
-        height: height + 56,
-      }}
-    >
-      <section className={messageContainerClasses}>
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
         <YouTube
           videoId={identifier}
           opts={{
@@ -185,47 +224,50 @@ const generateVideoBubble = (
           onReady={onYouTubePlayerReady}
         />
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateAudioBubble = (
   action,
   index,
-  messageContainerClasses,
   src,
   message,
+  latestMessage,
   latestUserMsgID,
   showFeedback,
 ) => {
   return (
-    <div className="message-list-item" key={action + index}>
-      <section className={messageContainerClasses}>
-        <div className="message-text">
-          <iframe src={src} frameBorder="0" allowFullScreen />
+    <MessageContainer key={action + index}>
+      <MessageBubble author={message.authorName}>
+        <div style={{ margin: '0.6rem 0', height: '7rem' }}>
+          <iframe
+            id="sc-widget"
+            title="SUSI Soundcloud"
+            src={`https://w.soundcloud.com/player/?url=${src}&auto_play=${latestMessage}&buying=false&download=false&show_playcount=false&show_comments=false&visual=false&show_artwork=false`}
+            width="100%"
+            height="120"
+            scrolling="no"
+            allow="autoplay"
+          ></iframe>
         </div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };
 
 const generateWebSearchRssBubble = (action, index, data) => {
-  let sliderClass = 'swipe-rss-websearch';
-  if (window.matchMedia('only screen and (max-width: 768px)').matches) {
-    // for functionality on screens smaller than 768px
-    sliderClass = '';
-  }
   return (
-    <div className={sliderClass} key={action + index}>
+    <WebSearchRSSContainer key={action + index}>
       {renderTiles(data)}
-    </div>
+    </WebSearchRSSContainer>
   );
 };
 
 export const generateMessageBubble = (
-  message,
+  message = {},
   latestUserMsgID,
   markID,
   ttsLanguage,
@@ -234,9 +276,13 @@ export const generateMessageBubble = (
   latestMessage,
   width,
   height,
+  userGeoData,
   onTextToSpeechStart,
   onTextToSpeechEnd,
   onYouTubePlayerReady,
+  getUserGeoData,
+  pauseAllVideos,
+  scrollBottom,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -263,7 +309,7 @@ export const generateMessageBubble = (
                 key={key}
                 highlight={matchString}
                 text={part}
-                markTag="em"
+                markTag="span class=markTag"
                 caseSensitive={isCaseSensitive}
               />,
             );
@@ -286,249 +332,235 @@ export const generateMessageBubble = (
   } else if (stringWithLinks) {
     replacedText = processText(stringWithLinks);
   }
-  let messageContainerClasses = '';
-  if (message) {
-    messageContainerClasses = 'message-container ' + message.authorName;
-  }
-  if (message && message.hasOwnProperty('response')) {
-    if (Object.keys(message.response).length > 0) {
-      const answer = message.response.answers[0];
-      let actions = message.actions;
-      let listItems = [];
-      let mapIndex = actions.indexOf('map');
+  if (message && message.hasOwnProperty('action')) {
+    const answer = message.answer;
+    let action = message.action;
+    let actionType = message.actionType;
+    const allActions = message.allActions;
+    let listItems = [];
+    const index = message.id;
+    let noResultsFound = false;
 
-      let mapAnchor = null;
-      if (actions.indexOf('map') > -1) {
-        if (actions.indexOf('anchor')) {
-          const anchorIndex = actions.indexOf('anchor');
-          const link = answer.actions[anchorIndex].link;
-          const text = answer.actions[anchorIndex].text;
+    let showFeedback = allActions[allActions.length - 1] === actionType;
+
+    switch (actionType) {
+      case 'answer': {
+        if (
+          allActions.indexOf('rss') > -1 ||
+          allActions.indexOf('websearch') > -1
+        ) {
+          showFeedback = true;
+        }
+        if (answer.data[0].type === 'gif') {
+          let gifSource = answer.data[0].embed_url;
+          listItems.push(
+            generateGifBubble(
+              actionType,
+              index,
+              gifSource,
+              message,
+              latestUserMsgID,
+              showFeedback,
+            ),
+          );
+        } else {
+          listItems.push(
+            generateAnswerBubble(
+              actionType,
+              index,
+              replacedText,
+              message,
+              latestUserMsgID,
+              showFeedback,
+            ),
+          );
+        }
+        break;
+      }
+      case 'anchor': {
+        const { link, text } = action;
+        listItems.push(
+          generateAnchorBubble(
+            actionType,
+            index,
+            text,
+            link,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
+      }
+      case 'map': {
+        let mapAnchor = null;
+        if (allActions.indexOf('anchor') > -1) {
+          const link = action.link;
+          const text = action.text;
           mapAnchor = renderAnchor(text, link);
         }
-        actions = ['map'];
-      }
 
-      let noResultsFound = false;
+        let { latitude, longitude, zoom } = action;
+        latitude = parseFloat(latitude);
+        longitude = parseFloat(longitude);
+        zoom = parseFloat(zoom);
+        let mymap;
+        if (isNaN(latitude) || isNaN(longitude)) {
+          /* Check if user's geo data is available or else perform the action */
+          if (userGeoData === null) {
+            getUserGeoData();
+          } else {
+            /* Manually providing mapanchor and replacedText
+                 fields as schema stiching in reducer*/
+            mapAnchor = (
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
+              >
+                Here is a map
+              </a>
+            );
 
-      actions.forEach((action, index) => {
-        let showFeedback = actions[actions.length - 1] === action;
-        switch (action) {
-          case 'answer': {
-            if (
-              actions.indexOf('rss') > -1 ||
-              actions.indexOf('websearch') > -1
-            ) {
-              showFeedback = true;
-            }
-            if (answer.data[0].type === 'gif') {
-              let gifSource = answer.data[0].embed_url;
-              listItems.push(
-                generateGifBubble(
-                  action,
-                  index,
-                  messageContainerClasses,
-                  gifSource,
-                  message,
-                  latestUserMsgID,
-                  showFeedback,
-                ),
-              );
-            } else {
-              listItems.push(
-                generateAnswerBubble(
-                  action,
-                  index,
-                  messageContainerClasses,
-                  replacedText,
-                  message,
-                  latestUserMsgID,
-                  showFeedback,
-                ),
-              );
-            }
-            break;
+            replacedText = 'Your location';
+            mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
           }
-          case 'anchor': {
-            const { link, text } = answer.actions[index];
-            listItems.push(
-              generateAnchorBubble(
-                action,
-                index,
-                messageContainerClasses,
-                text,
-                link,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'map': {
-            let { latitude, longitude, zoom } = answer.actions[mapIndex];
-            latitude = parseFloat(latitude);
-            longitude = parseFloat(longitude);
-            zoom = parseFloat(zoom);
-            let mymap;
-            if (isNaN(latitude) || isNaN(longitude)) {
-              getDefaultMapData()
-                .then(response => {
-                  mymap = drawMap(response.latitude, response.longitude, zoom);
-                  listItems.push(
-                    generateMapBubble(
-                      action,
-                      index,
-                      messageContainerClasses,
-                      replacedText,
-                      mapAnchor,
-                      mymap,
-                      message,
-                      latestUserMsgID,
-                      showFeedback,
-                    ),
-                  );
-                })
-                .catch(error => {
-                  console.log(error);
-                  mymap = 'Map not found!';
-                });
-            } else {
-              mymap = drawMap(latitude, longitude, zoom);
-            }
-            listItems.push(
-              generateMapBubble(
-                action,
-                index,
-                messageContainerClasses,
-                replacedText,
-                mapAnchor,
-                mymap,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'table': {
-            let { columns, count } = answer.actions[index];
-            let table = drawTable(columns, answer.data, count);
-            listItems.push(
-              generateTableBubble(
-                action,
-                index,
-                messageContainerClasses,
-                table,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'video_play': {
-            const { identifier } = answer.actions[index];
-            listItems.push(
-              generateVideoBubble(
-                action,
-                index,
-                height,
-                width,
-                identifier,
-                messageContainerClasses,
-                latestMessage,
-                message,
-                latestUserMsgID,
-                showFeedback,
-                onYouTubePlayerReady,
-              ),
-            );
-            break;
-          }
-          case 'audio_play': {
-            let identifierType = answer.actions[index].identifier_type;
-            const { identifier } = answer.actions[index];
-            const src = `https://www.${identifierType}.com/embed/${identifier}?autoplay=1`;
-            listItems.push(
-              generateAudioBubble(
-                action,
-                index,
-                messageContainerClasses,
-                src,
-                message,
-                latestUserMsgID,
-                showFeedback,
-              ),
-            );
-            break;
-          }
-          case 'rss': {
-            const { rssResults } = message;
-            if (rssResults.length === 0) {
-              noResultsFound = true;
-            }
-            listItems.push(
-              generateWebSearchRssBubble(action, index, rssResults),
-            );
-            break;
-          }
-          case 'websearch': {
-            const { websearchresults } = message;
-            if (websearchresults.length === 0) {
-              noResultsFound = true;
-            }
-            listItems.push(
-              generateWebSearchRssBubble(action, index, websearchresults),
-            );
-            break;
-          }
-          default:
+        } else {
+          mymap = drawMap(latitude, longitude, zoom);
         }
-      });
-
-      if (noResultsFound && message.text === 'I found this on the web:') {
-        listItems.splice(0, 1);
+        listItems.push(
+          generateMapBubble(
+            actionType,
+            index,
+            replacedText,
+            mapAnchor,
+            mymap,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
       }
-
-      // Only set voice Outputs for text responses
-      let voiceOutput;
-      if (message.text) {
-        // Remove all hyper links
-        voiceOutput = message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
-      } else {
-        voiceOutput = '';
+      case 'table': {
+        let { columns, count } = action;
+        let table = drawTable(columns, answer.data, count);
+        listItems.push(
+          generateTableBubble(
+            actionType,
+            index,
+            table,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
       }
-
-      let locale = document.documentElement.getAttribute('lang');
-      if (!locale) {
-        locale = ttsLanguage;
+      case 'video_play': {
+        const { identifier } = action;
+        listItems.push(
+          generateVideoBubble(
+            actionType,
+            index,
+            height,
+            width,
+            identifier,
+            latestMessage,
+            message,
+            latestUserMsgID,
+            showFeedback,
+            onYouTubePlayerReady,
+            scrollBottom,
+          ),
+        );
+        break;
       }
-
-      return (
-        <div>
-          {listItems}
-          {message.voice && (
-            <VoicePlayer
-              play
-              text={voiceOutput}
-              rate={speechRate}
-              pitch={speechPitch}
-              lang={message.lang ? message.lang : locale}
-              onStart={onTextToSpeechStart}
-              onEnd={onTextToSpeechEnd}
-            />
-          )}
-        </div>
-      );
+      case 'audio_play': {
+        const { identifier: src } = action;
+        listItems.push(
+          generateAudioBubble(
+            actionType,
+            index,
+            src,
+            message,
+            latestMessage,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        break;
+      }
+      case 'rss': {
+        const { rssResults } = message;
+        if (rssResults.length === 0) {
+          noResultsFound = true;
+        }
+        listItems.push(
+          generateWebSearchRssBubble(actionType, index, rssResults),
+        );
+        break;
+      }
+      case 'websearch': {
+        const { websearchresults } = message;
+        if (websearchresults.length === 0) {
+          noResultsFound = true;
+        }
+        listItems.push(
+          generateWebSearchRssBubble(actionType, index, websearchresults),
+        );
+        break;
+      }
+      case 'stop': {
+        pauseAllVideos();
+        window.speechSynthesis.cancel();
+        break;
+      }
+      default:
     }
+
+    if (noResultsFound && message.text === 'I found this on the web:') {
+      listItems.splice(0, 1);
+    }
+
+    // Only set voice Outputs for text responses
+    let voiceOutput;
+    if (message.text) {
+      // Remove all hyper links
+      voiceOutput = message.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    } else {
+      voiceOutput = '';
+    }
+
+    let locale = document.documentElement.getAttribute('lang');
+    if (!locale) {
+      locale = ttsLanguage;
+    }
+
+    return (
+      <div>
+        {listItems}
+        {message.voice && (
+          <VoicePlayer
+            play
+            text={voiceOutput}
+            rate={speechRate}
+            pitch={speechPitch}
+            lang={message.lang ? message.lang : locale}
+            onStart={onTextToSpeechStart}
+            onEnd={onTextToSpeechEnd}
+          />
+        )}
+      </div>
+    );
   }
 
   return (
-    <div className="message-list-item">
-      <section className={messageContainerClasses}>
-        <div className="message-text">{replacedText}</div>
+    <MessageContainer>
+      <MessageBubble author={message.authorName}>
+        <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, true)}
-      </section>
-    </div>
+      </MessageBubble>
+    </MessageContainer>
   );
 };

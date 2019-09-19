@@ -2,60 +2,58 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import PasswordField from 'material-ui-password-field';
-import Dialog from 'material-ui/Dialog';
-import CircularProgress from 'material-ui/CircularProgress';
-import Close from 'material-ui/svg-icons/navigation/close';
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import _PasswordField from 'material-ui-password-field';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../../Translate/Translate.react';
-import ForgotPassword from '../ForgotPassword/ForgotPassword.react';
-import actions from '../../../redux/actions/app';
-import './ChangePassword.css';
+import appActions from '../../../redux/actions/app';
+import uiActions from '../../../redux/actions/ui';
+import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
+import isPassword from '../../../utils/isPassword';
+import Recaptcha from '../../shared/Recaptcha';
 
-const styles = {
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
-  fieldStyle: {
-    height: '35px',
-    borderRadius: 4,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '0px 12px',
-    width: '125%',
-  },
-  labelStyle: {
-    width: '30%',
-    minWidth: '150px',
-    float: 'left',
-    marginTop: '12px',
-  },
-  submitBtnStyle: {
-    float: 'left',
-    width: '300px',
-    margin: '0 auto',
-    marginBottom: '50px',
-  },
-  inputStyle: {
-    height: '35px',
-    marginBottom: '10px',
-  },
-  containerStyles: {
-    width: '100%',
-    textAlign: 'left',
-    padding: '10px',
-    paddingTop: '0px',
-  },
-};
+const PasswordField = styled(_PasswordField)`
+  height: 35px;
+  border-radius: 4;
+  border: 1px solid #ced4da;
+  padding: 0px 12px;
+  width: 22.5rem;
+  @media (max-width: 520px) {
+    width: 100%;
+    max-width: 17rem;
+  }
+`;
+
+const Form = styled(FormControl)`
+  @media (max-width: 520px) {
+    width: 100%;
+  }
+`;
+
+const ForgotPasswordLink = styled.div`
+  margin: 1rem 0;
+  color: #1da1f5;
+  cursor: pointer;
+  width: fit-content;
+  a {
+    text-decoration: none;
+  }
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+const LabelContainer = styled.div`
+  width: 30%;
+  min-width: 9rem;
+  float: left;
+  margin-top: 12px;
+`;
 
 class ChangePassword extends Component {
   static propTypes = {
@@ -63,6 +61,8 @@ class ChangePassword extends Component {
     settings: PropTypes.object,
     actions: PropTypes.object,
     email: PropTypes.string,
+    captchaKey: PropTypes.string,
+    isCaptchaEnabled: PropTypes.bool,
   };
 
   constructor(props) {
@@ -70,55 +70,52 @@ class ChangePassword extends Component {
 
     this.state = {
       password: '',
-      passwordErrorMessage: '',
       newPassword: '',
       newPasswordErrorMessage: '',
       newPasswordStrength: '',
       newPasswordScore: -1,
       confirmNewPassword: '',
       newPasswordConfirmErrorMessage: '',
-      dialogMessage: '',
       success: false,
-      showDialog: false,
-      showForgotPasswordDialog: false,
       loading: false,
+      showCaptchaErrorMessage: false,
+      captchaResponse: '',
     };
   }
 
+  onCaptchaLoad = () => {
+    this.setState({
+      showCaptchaErrorMessage: true,
+    });
+  };
+
+  onCaptchaSuccess = captchaResponse => {
+    if (captchaResponse) {
+      this.setState({
+        showCaptchaErrorMessage: false,
+        captchaResponse,
+      });
+    }
+  };
+
   handleCloseResetPassword = () => {
     const { success } = this.state;
+    this.props.actions.closeModal();
     if (success) {
       this.props.history.push('/logout');
     } else {
       this.setState({
         password: '',
-        passwordErrorMessage: '',
         newPassword: '',
         newPasswordErrorMessage: '',
         newPasswordStrength: '',
         newPasswordScore: -1,
         confirmNewPassword: '',
         newPasswordConfirmErrorMessage: '',
-        dialogMessage: '',
         success: false,
-        showDialog: false,
-        showForgotPasswordDialog: false,
         loading: false,
       });
     }
-  };
-
-  handleCloseForgotPassword = event => {
-    this.setState({
-      showForgotPasswordDialog: false,
-    });
-  };
-
-  onForgotPassword = event => {
-    event.preventDefault();
-    this.setState({
-      showForgotPasswordDialog: true,
-    });
   };
 
   // Handle changes to current, new and confirm new passwords
@@ -126,18 +123,8 @@ class ChangePassword extends Component {
     switch (event.target.name) {
       case 'password': {
         const password = event.target.value.trim();
-        const passwordError = !(
-          password &&
-          password.length >= 6 &&
-          password.length <= 64
-        );
         this.setState({
           password,
-          passwordErrorMessage: passwordError ? (
-            <Translate text="Must be between 6 to 64 characters" />
-          ) : (
-            ''
-          ),
         });
         break;
       }
@@ -147,11 +134,7 @@ class ChangePassword extends Component {
           newPasswordConfirmErrorMessage,
         } = this.state;
         const newPassword = event.target.value.trim();
-        const newPasswordError = !(
-          newPassword &&
-          newPassword.length >= 6 &&
-          newPassword.length <= 64
-        );
+        const newPasswordError = !isPassword(newPassword);
         const newPasswordScore = !newPasswordError
           ? zxcvbn(newPassword).score
           : -1;
@@ -172,7 +155,7 @@ class ChangePassword extends Component {
         this.setState({
           newPassword,
           newPasswordErrorMessage: newPasswordError ? (
-            <Translate text="Must be between 6 to 64 characters" />
+            <Translate text="Atleast 8 characters, 1 special character, number, 1 capital letter" />
           ) : (
             ''
           ),
@@ -212,17 +195,18 @@ class ChangePassword extends Component {
     const {
       password,
       newPassword,
-      passwordErrorMessage,
       newPasswordErrorMessage,
       newPasswordConfirmErrorMessage,
+      captchaResponse,
+      showCaptchaErrorMessage,
     } = this.state;
     const { actions, email } = this.props;
 
     if (
       !(
-        passwordErrorMessage ||
         newPasswordErrorMessage ||
-        newPasswordConfirmErrorMessage
+        newPasswordConfirmErrorMessage ||
+        showCaptchaErrorMessage
       )
     ) {
       this.setState({
@@ -233,6 +217,7 @@ class ChangePassword extends Component {
           email,
           password: encodeURIComponent(password),
           newPassword: encodeURIComponent(newPassword),
+          captchaResponse,
         })
         .then(({ payload }) => {
           let dialogMessage;
@@ -244,17 +229,27 @@ class ChangePassword extends Component {
             dialogMessage = `${payload.message}\n Please Try Again.`;
             success = false;
           }
+
+          this.props.actions.openModal({
+            modalType: 'confirm',
+            title: success ? 'Success' : 'Failure',
+            handleConfirm: this.handleCloseResetPassword,
+            content: <p>{dialogMessage}</p>,
+          });
+
           this.setState({
-            dialogMessage,
             success,
-            showDialog: true,
             loading: false,
           });
         })
         .catch(error => {
+          this.props.actions.openModal({
+            modalType: 'confirm',
+            title: 'Failure',
+            handleConfirm: this.handleCloseResetPassword,
+            content: <p>Failed. Try Again</p>,
+          });
           this.setState({
-            dialogMessage: 'Failed. Try Again',
-            showDialog: true,
             loading: false,
           });
         });
@@ -264,188 +259,119 @@ class ChangePassword extends Component {
   render() {
     const {
       password,
-      passwordErrorMessage,
       newPassword,
       newPasswordErrorMessage,
       confirmNewPassword,
       newPasswordConfirmErrorMessage,
       newPasswordScore,
       newPasswordStrength,
-      showForgotPasswordDialog,
-      dialogMessage,
-      showDialog,
       loading,
+      showCaptchaErrorMessage,
     } = this.state;
-
-    const { settings } = this.props;
-
+    const { actions, captchaKey, isCaptchaEnabled } = this.props;
     const isValid =
-      !passwordErrorMessage &&
       !newPasswordErrorMessage &&
       !newPasswordConfirmErrorMessage &&
+      (isCaptchaEnabled ? !showCaptchaErrorMessage : true) &&
       password &&
       newPassword &&
       confirmNewPassword;
 
-    const themeBackgroundColor =
-      (settings && settings.theme) === 'dark' ? '#19324c' : '#fff';
-    const themeForegroundColor =
-      (settings && settings.theme) === 'dark' ? '#fff' : '#272727';
-
-    const PasswordClass = [`is-strength-${newPasswordScore}`];
-
-    const {
-      closingStyle,
-      fieldStyle,
-      labelStyle,
-      submitBtnStyle,
-      inputStyle,
-      containerStyles,
-    } = styles;
-
     return (
-      <div className="changePasswordForm">
-        <Paper
-          zDepth={0}
-          style={{
-            ...containerStyles,
-            backgroundColor: themeBackgroundColor,
-          }}
-        >
-          <form onSubmit={this.changePassword}>
-            <div style={{ ...labelStyle, color: themeForegroundColor }}>
-              Current Password
-            </div>
-            <div>
-              <PasswordField
-                name="password"
-                style={fieldStyle}
-                value={password}
-                onChange={this.handleTextFieldChange}
-                inputStyle={{
-                  ...inputStyle,
-                  color: themeForegroundColor,
-                }}
-                errorText={passwordErrorMessage}
-                underlineStyle={{ display: 'none' }}
-                disableButton={true}
-                visibilityButtonStyle={{ display: 'none' }}
-                visibilityIconStyle={{ display: 'none' }}
-              />
-            </div>
-            <br />
-            <div style={{ ...labelStyle, color: themeForegroundColor }}>
-              New Password
-            </div>
-            <div className={PasswordClass.join(' ')}>
-              <PasswordField
-                name="newPassword"
-                placeholder="Must be between 6 to 64 characters"
-                style={fieldStyle}
-                value={newPassword}
-                onChange={this.handleTextFieldChange}
-                inputStyle={{
-                  ...inputStyle,
-                  color: themeForegroundColor,
-                }}
-                errorText={newPasswordErrorMessage}
-                underlineStyle={{ display: 'none' }}
-                disableButton={true}
-                visibilityButtonStyle={{ display: 'none' }}
-                visibilityIconStyle={{ display: 'none' }}
-              />
-              <div className="ReactPasswordStrength-strength-bar" />
-              <div>{newPasswordStrength}</div>
-            </div>
-            <br />
-            <div style={{ ...labelStyle, color: themeForegroundColor }}>
-              Verify Password
-            </div>
-            <div>
+      <React.Fragment>
+        <form autoComplete="false">
+          <LabelContainer>Current Password</LabelContainer>
+          <PasswordField
+            name="password"
+            value={password}
+            onChange={this.handleTextFieldChange}
+            style={{ marginBottom: '20px' }}
+          />
+          <LabelContainer>New Password</LabelContainer>
+          <Form error={newPasswordErrorMessage !== ''}>
+            <PasswordField
+              name="newPassword"
+              placeholder="Must be between 8-64 characters"
+              value={newPassword}
+              onChange={this.handleTextFieldChange}
+            />
+            <FormHelperText error={newPasswordErrorMessage !== ''}>
+              {newPasswordErrorMessage}
+            </FormHelperText>
+          </Form>
+          <div style={{ textAlign: 'center' }}>
+            <PasswordStrengthBar score={newPasswordScore} />
+            <span>{newPasswordStrength}</span>
+          </div>
+          <LabelContainer>Verify Password</LabelContainer>
+          <div>
+            <Form error={newPasswordConfirmErrorMessage !== ''}>
               <PasswordField
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
-                style={fieldStyle}
                 value={confirmNewPassword}
                 onChange={this.handleTextFieldChange}
-                inputStyle={{
-                  ...inputStyle,
-                  color: themeForegroundColor,
-                }}
-                errorText={newPasswordConfirmErrorMessage}
-                underlineStyle={{ display: 'none' }}
-                disableButton={true}
-                visibilityButtonStyle={{ display: 'none' }}
-                visibilityIconStyle={{ display: 'none' }}
               />
-            </div>
-            <div style={submitBtnStyle}>
-              <div className="forgot">
-                <a onClick={this.onForgotPassword}>Forgot your password?</a>
-              </div>
-              <div>
-                <br />
-                <RaisedButton
-                  label={
-                    !loading ? <Translate text="Save Changes" /> : undefined
-                  }
-                  type="submit"
-                  disabled={!isValid || loading}
-                  backgroundColor="#4285f4"
-                  labelColor="#fff"
-                  icon={loading ? <CircularProgress size={24} /> : undefined}
-                />
-              </div>
-            </div>
-          </form>
-        </Paper>
-
-        {/* Forgot Password Modal */}
-        <div className="ModalDiv" style={{ width: '50%' }}>
-          <Dialog
-            modal={false}
-            open={showForgotPasswordDialog}
-            onRequestClose={this.handleCloseForgotPassword}
-            className="ModalDiv"
-          >
-            <ForgotPassword closeModal={this.handleCloseForgotPassword} />
-          </Dialog>
-        </div>
-
-        {dialogMessage && (
-          <div>
-            <Dialog
-              modal={false}
-              open={showDialog}
-              onRequestClose={this.handleCloseResetPassword}
-            >
-              <Translate text={dialogMessage} />
-              <Close
-                style={closingStyle}
-                onTouchTap={this.handleCloseResetPassword}
-              />
-            </Dialog>
+              <FormHelperText error={newPasswordConfirmErrorMessage !== ''}>
+                {newPasswordConfirmErrorMessage}
+              </FormHelperText>
+            </Form>
           </div>
-        )}
-      </div>
+          {isCaptchaEnabled && captchaKey && (
+            <Recaptcha
+              captchaKey={captchaKey}
+              onCaptchaLoad={this.onCaptchaLoad}
+              onCaptchaSuccess={this.onCaptchaSuccess}
+              error={showCaptchaErrorMessage}
+            />
+          )}
+        </form>
+        <ForgotPasswordLink
+          onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
+        >
+          Forgot your password?
+        </ForgotPasswordLink>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={!isValid || loading}
+            onClick={this.changePassword}
+            style={{ width: '10rem' }}
+          >
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Translate text="Save Changes" />
+            )}
+          </Button>
+        </div>
+      </React.Fragment>
     );
   }
 }
 
 function mapStateToProps(store) {
   const { email } = store.app;
+  const { captchaKey } = store.app.apiKeys;
+  const { changePassword: isCaptchaEnabled = true } = store.app.captchaConfig;
   return {
     email,
+    captchaKey,
+    isCaptchaEnabled,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ChangePassword);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ChangePassword),
+);

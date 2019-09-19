@@ -16,14 +16,18 @@ class MessageListItem extends React.Component {
     speechPitch: PropTypes.number,
     ttsLanguage: PropTypes.string,
     actions: PropTypes.object,
+    userGeoData: PropTypes.object,
+    showChatPreview: PropTypes.bool,
+    pauseAllVideos: PropTypes.func,
+    scrollBottom: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       play: false,
-      width: 384,
-      height: 234,
+      width: this.props.showChatPreview ? 234 : 384,
+      height: this.props.showChatPreview ? 168 : 240,
     };
   }
 
@@ -37,9 +41,12 @@ class MessageListItem extends React.Component {
   };
 
   updateWindowDimensions = () => {
+    const { showChatPreview } = this.props;
     this.setState({
-      width: window.innerWidth > 488 ? 384 : 234,
-      height: window.innerWidth > 488 ? 240 : 168,
+      width:
+        window.innerWidth > 488 && showChatPreview === undefined ? 384 : 234,
+      height:
+        window.innerWidth > 488 && showChatPreview === undefined ? 240 : 168,
     });
   };
 
@@ -60,6 +67,10 @@ class MessageListItem extends React.Component {
     this.setState({ play: false });
   };
 
+  getUserGeoData = () => {
+    this.props.actions.getUserGeoData();
+  };
+
   render() {
     const {
       message,
@@ -69,6 +80,8 @@ class MessageListItem extends React.Component {
       speechPitch,
       speechRate,
       latestMessage,
+      userGeoData,
+      scrollBottom,
     } = this.props;
     const { width, height } = this.state;
     return generateMessageBubble(
@@ -81,19 +94,25 @@ class MessageListItem extends React.Component {
       latestMessage,
       width,
       height,
+      userGeoData,
       this.onTextToSpeechStart,
       this.onTextToSpeechEnd,
       this.onYouTubePlayerReady,
+      this.getUserGeoData,
+      this.props.pauseAllVideos,
+      scrollBottom,
     );
   }
 }
 
 function mapStateToProps(store) {
   const { speechRate, speechPitch, ttsLanguage } = store.settings;
+  const { userGeoData } = store.messages;
   return {
     speechRate,
     speechPitch,
     ttsLanguage,
+    userGeoData,
   };
 }
 

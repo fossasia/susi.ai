@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserPreferencesStore from '../../stores/UserPreferencesStore';
+import { connect } from 'react-redux';
 import de from './de.json';
 import am from './am.json';
 import zh from './zh.json';
@@ -14,7 +14,7 @@ import pb from './pb.json';
 import np from './np.json';
 import ge from './ge.json';
 
-const Translate = props => {
+const Translate = ({ text, prefLanguage }) => {
   const lang = {
     'de-DE': de,
     'am-AM': am,
@@ -31,7 +31,7 @@ const Translate = props => {
   };
 
   const getTranslation = text => {
-    const defaultPrefLanguage = UserPreferencesStore.getPrefLang();
+    const defaultPrefLanguage = prefLanguage;
     let translatedText;
 
     if (defaultPrefLanguage !== 'en-US') {
@@ -43,10 +43,21 @@ const Translate = props => {
     return !translatedText ? text : translatedText;
   };
 
-  return <span> {getTranslation(props.text)} </span>;
+  return <span> {getTranslation(text)} </span>;
 };
 
 Translate.propTypes = {
   text: PropTypes.string,
+  prefLanguage: PropTypes.string,
 };
-export default Translate;
+
+function mapStateToProps(store) {
+  return {
+    prefLanguage: store.settings.prefLanguage,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Translate);

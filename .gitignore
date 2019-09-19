@@ -6,18 +6,20 @@
 # testing
 /coverage
 
+# docker
+.dockerignore
+.8.dockerfile
+
 # production
 /build
 
 # misc
 .idea
 .DS_Store
-.env
 npm-debug.log*
 package-log.json*
 yarn-debug.log*
 yarn-error.log*
 jest
-..env.swp
 package-lock.json
 .vscode/

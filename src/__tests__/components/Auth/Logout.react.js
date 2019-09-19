@@ -1,5 +1,5 @@
 import React from 'react';
-import Logout from '../../../components/Auth/Logout.react';
+import Logout from '../../../components/Auth/Logout';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

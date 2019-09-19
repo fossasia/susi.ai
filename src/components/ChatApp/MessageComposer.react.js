@@ -1,68 +1,189 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactFitText from 'react-fittext';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import Modal from 'react-modal';
+import _Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
+import generateMessage from '../../utils/generateMessage';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
-import SendIcon from 'material-ui/svg-icons/content/send';
-import MicIcon from 'material-ui/svg-icons/av/mic';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
-import TextareaAutosize from 'react-textarea-autosize';
+import Send from '@material-ui/icons/Send';
+import Mic from '@material-ui/icons/Mic';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import _TextareaAutosize from 'react-textarea-autosize';
 import './ChatApp.css';
-import actions from '../../redux/actions/messages';
-import {
-  formatUserMessage,
-  formatSusiMessage,
-} from '../../utils/formatMessage';
-import { urlParam } from '../../utils/helperFunctions';
-import * as apis from '../../apis';
+import messageActions from '../../redux/actions/messages';
+import uiActions from '../../redux/actions/ui';
+import { invertColorTextArea } from '../../utils/invertColor';
+import getCustomThemeColors from '../../utils/colors';
 import VoiceRecognition from './VoiceRecognition';
-import { getAllUserMessages } from '../../utils/messageFilter';
-
-injectTapEventPlugin();
 
 const ENTER_KEY_CODE = 13;
 const UP_KEY_CODE = 38;
 const DOWN_KEY_CODE = 40;
 
-const styles = {
-  buttonStyle: {
-    mini: true,
-    bottom: '14px',
-    right: '5px',
-    position: 'absolute',
-  },
-  iconStyles: {
-    color: '#fff',
-    fill: 'currentcolor',
-    height: '40px',
-    width: '40px',
-    marginTop: '20px',
-    userSelect: 'none',
-    transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 120000,
-    fill: '#444',
-    width: '20px',
-    height: '20px',
-    right: '0px',
-    top: '0px',
-    cursor: 'pointer',
-  },
-};
+const SendButton = styled(IconButton)`
+  align-content: center;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease-in-out;
+  bottom: 0.875rem;
+  right: 0.3125rem;
+  position: absolute;
+  color: rgb(66, 133, 244);
+`;
+
+const CloseButton = styled(CloseIcon)`
+  position: absolute;
+  z-index: 120000;
+  fill: #444;
+  width: 1.25rem;
+  height: 1.25rem;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+`;
+
+const VoiceResponse = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  max-width: 46.5rem;
+  margin: 0 auto;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    display: block;
+    flex-wrap: row;
+    max-width: 18.75rem;
+  }
+`;
+
+const MicContainer = styled.div`
+  border: 1px solid #eee;
+  border-radius: 100%;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  left: 0;
+  pointer-events: none;
+  transition: background-color 0.218s, border 0.218s, box-shadow 0.218s;
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+  background-color: #fe2222;
+  animation: blinker 1s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+  @media (max-width: 768px) {
+    margin: 1rem auto;
+    text-align: center;
+  }
+`;
+
+const StyledMic = styled(Mic)`
+  && {
+    color: #fff;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-top: 1.25rem;
+    user-select: none;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  }
+`;
+
+const VoiceOutputText = styled.h1`
+  font-family: 'Lato', sans-serif;
+  width: 31rem;
+  font-size: 100%;
+  max-width: 25rem;
+  text-align: left;
+  padding-right: 1.25rem;
+  color: ${props => props.color};
+  @media (max-width: 768px) {
+    width: 100%;
+    text-align: center;
+    padding-right: 0px;
+    margin: 0 auto;
+  }
+`;
+
+const TextAreaContainer = styled.div`
+  max-width: 89%;
+  border-radius: 10px;
+  display: block;
+  position: relative;
+  box-sizing: content-box;
+  line-height: 20px;
+  font-size: 15px;
+  min-height: 20px;
+  border: none;
+  padding: 0.625rem 0.75rem;
+  background-color: ${props => props.backgroundColor};
+  color: ${props => props.color};
+  max-height: 5rem;
+  width: ${props => (props.showChatPreview ? '81%' : 'auto')};
+  @media (max-width: 768px) {
+    width: 81%;
+  }
+`;
+
+const TextareaAutosize = styled(_TextareaAutosize)`
+  line-height: 1rem;
+  background-color: ${props => props.backgroundColor};
+  color: ${props => props.color};
+  border: none;
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+  resize: none;
+  font-family: 'Product Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  margin-top: 0.1875rem;
+  background: #fff;
+  color: #001d38;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  min-height: 80%;
+  position: relative;
+  top: 0px;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  margin: 0 8px 0 0;
+  padding: 0.875rem 0.5625rem 0.5rem 0.5625rem;
+  font-size: 0.875rem;
+  border: none;
+  background: 0 0;
+  text-align: left;
+  color: inherit;
+  -webkit-appearance: none;
+  border-radius: 0;
+  display: block;
+  text-align: left;
+  color: inherit;
+  outline: 0;
+`;
+
+const Modal = styled(_Modal)`
+  top: 0;
+  width: 100%;
+  min-width: 100%;
+  border-radius: 0px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  background: #fff;
+  z-index: 10000;
+  position: absolute;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+`;
 
 class MessageComposer extends Component {
   static propTypes = {
     dream: PropTypes.string,
     textarea: PropTypes.string,
-    textcolor: PropTypes.string,
     speechOutput: PropTypes.bool,
     speechOutputAlways: PropTypes.bool,
-    micColor: PropTypes.string,
     focus: PropTypes.bool,
     actions: PropTypes.object,
     enterAsSend: PropTypes.bool,
@@ -71,6 +192,11 @@ class MessageComposer extends Component {
     messages: PropTypes.array,
     openSnackBar: PropTypes.func,
     loadingHistory: PropTypes.bool,
+    theme: PropTypes.string,
+    customThemeValue: PropTypes.object,
+    exitSearch: PropTypes.func,
+    showChatPreview: PropTypes.bool,
+    pendingUserMessage: PropTypes.string,
   };
 
   constructor(props) {
@@ -101,33 +227,9 @@ class MessageComposer extends Component {
   }
 
   componentDidMount() {
-    const { speechOutputAlways, enterAsSend } = this.props;
-    let testSkill = urlParam('testExample');
-    if (testSkill) {
-      let text = testSkill.trim();
-      if (text) {
-        if (!enterAsSend) {
-          text = text.split('\n').join(' ');
-        }
-        setTimeout(() => {
-          this.createUserMessage(text, speechOutputAlways);
-        }, 1);
-      }
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { messagesByID, messages } = this.props;
-    if (
-      messages.length !== 0 &&
-      prevProps.loadingHistory !== this.props.loadingHistory
-    ) {
-      this.userMessageHistory = getAllUserMessages(
-        messages,
-        messagesByID,
-        'REVERSE',
-      );
-    }
+    const { pendingUserMessage, speechOutputAlways } = this.props;
+    !!pendingUserMessage &&
+      this.createUserMessage(pendingUserMessage, speechOutputAlways);
   }
 
   onStart = () => {
@@ -179,15 +281,14 @@ class MessageComposer extends Component {
 
   speechDialogClose = () => {
     const { speechToTextOutput, micAccess } = this.state;
-    const { openSnackBar } = this.props;
+    const { actions } = this.props;
     this.setState({
       isSpeechDialogOpen: false,
       isListening: false,
     });
     if (speechToTextOutput === '' && micAccess) {
-      openSnackBar({
+      actions.openSnackBar({
         snackBarMessage: "Sorry, didn't hear anything. Please speak again.",
-        snackBarDuration: 4000,
       });
     }
   };
@@ -221,9 +322,7 @@ class MessageComposer extends Component {
         if (!enterAsSend) {
           text = text.split('\n').join(' ');
         }
-        setTimeout(() => {
-          this.createUserMessage(text, this.props.speechOutputAlways);
-        }, 1);
+        this.createUserMessage(text, this.props.speechOutputAlways);
       }
       this.setState({ text: '', currentMessageIndex: -1 });
     }
@@ -231,25 +330,14 @@ class MessageComposer extends Component {
 
   createUserMessage(text, voice) {
     this.userMessageHistory = [text, ...this.userMessageHistory];
-    formatUserMessage({
+    generateMessage({
       text,
       voice,
-    }).then(userMessage => {
-      this.props.actions
-        .createMessage(userMessage)
-        .then(
-          apis.getSusiReply(userMessage).then(response => {
-            formatSusiMessage({
-              response,
-              voice,
-            }).then(susiMessage => {
-              this.props.actions.createSusiMessage(susiMessage);
-            });
-          }),
-        )
-        .catch(error => {
-          console.log(error);
-        });
+      createMessage: this.props.actions.createMessage,
+      createSusiMessage: this.props.actions.createSusiMessage,
+      mode: '',
+      setPendingUserMessage: this.props.actions.setPendingUserMessage,
+      pendingUserMessage: this.props.pendingUserMessage,
     });
   }
 
@@ -259,7 +347,8 @@ class MessageComposer extends Component {
 
   onKeyDown = event => {
     let { text, currentMessageIndex } = this.state;
-    const { enterAsSend, speechOutputAlways } = this.props;
+    const { enterAsSend, speechOutputAlways, exitSearch } = this.props;
+    exitSearch();
     if (event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
       if (enterAsSend) {
         event.preventDefault();
@@ -312,9 +401,11 @@ class MessageComposer extends Component {
       speechRecognitionTextcolor,
       speechToTextOutput,
     } = this.state;
-    const { textarea, textcolor, focus, micColor } = this.props;
+    const { focus, theme, customThemeValue, showChatPreview } = this.props;
+    const { textarea } = getCustomThemeColors({ theme, customThemeValue });
+    const textcolor = invertColorTextArea(textarea);
     return (
-      <div className="message-composer">
+      <Container>
         {isListening && (
           <VoiceRecognition
             onStart={this.onStart}
@@ -324,7 +415,10 @@ class MessageComposer extends Component {
             lang="en-US"
           />
         )}
-        <div className="textBack" style={{ backgroundColor: textarea }}>
+        <TextAreaContainer
+          backgroundColor={textarea}
+          showChatPreview={showChatPreview}
+        >
           <TextareaAutosize
             className="scroll"
             id="scroll"
@@ -337,25 +431,14 @@ class MessageComposer extends Component {
             ref={textarea => {
               this.nameInput = textarea;
             }}
-            style={{
-              background: textarea,
-              color: textcolor,
-              lineHeight: '15px',
-            }}
             autoFocus={focus}
+            background={textarea}
+            color={textcolor}
           />
-        </div>
-        <IconButton
-          className="send_button"
-          iconStyle={{
-            fill: micColor,
-            margin: '1px 0px 1px 0px',
-          }}
-          onTouchTap={this.onClickButton}
-          style={styles.buttonStyle}
-        >
-          {this.speechToTextAvailable && !text ? <MicIcon /> : <SendIcon />}
-        </IconButton>
+        </TextAreaContainer>
+        <SendButton onClick={this.onClickButton}>
+          {this.speechToTextAvailable && !text ? <Mic /> : <Send />}
+        </SendButton>
 
         <Modal
           isOpen={isSpeechDialogOpen}
@@ -363,39 +446,36 @@ class MessageComposer extends Component {
           contentLabel="Speak Now"
           overlayClassName="Overlay"
         >
-          <div className="voice-response">
+          <VoiceResponse>
             <ReactFitText compressor={0.5} minFontSize={12} maxFontSize={26}>
-              <h1
-                style={{ color: speechRecognitionTextcolor }}
-                className="voice-output"
-              >
+              <VoiceOutputText color={speechRecognitionTextcolor}>
                 {speechToTextOutput ? speechToTextOutput : 'Speak Now...'}
-              </h1>
+              </VoiceOutputText>
             </ReactFitText>
-            <div
-              className={isListening ? 'mic-container active' : 'mic-container'}
-            >
-              <MicIcon style={styles.iconStyles} />
-            </div>
-            <CloseIcon
-              style={styles.closingStyle}
-              onTouchTap={this.speechDialogCloseButton}
-            />
-          </div>
+            <MicContainer>
+              <StyledMic />
+            </MicContainer>
+            <CloseButton onClick={this.speechDialogCloseButton} />
+          </VoiceResponse>
         </Modal>
-      </div>
+      </Container>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators({ ...messageActions, ...uiActions }, dispatch),
   };
 }
 
 function mapStateToProps(store) {
-  const { messagesByID, messages, loadingHistory } = store.messages;
+  const {
+    messagesByID,
+    messages,
+    loadingHistory,
+    pendingUserMessage,
+  } = store.messages;
   const {
     enterAsSend,
     micInput,
@@ -410,6 +490,9 @@ function mapStateToProps(store) {
     speechOutputAlways,
     messages,
     loadingHistory,
+    pendingUserMessage,
+    customThemeValue: store.settings.customThemeValue,
+    theme: store.settings.theme,
   };
 }
 

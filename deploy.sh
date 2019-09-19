@@ -2,6 +2,7 @@
 
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
+LOCAL_TARGET_BRANCH="local-pages"
 
 # Pull requests and commits to other branches shouldn't try to deploy.
 if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
@@ -24,50 +25,64 @@ chmod 600 ../deploy_key
 eval `ssh-agent -s`
 ssh-add ../deploy_key
 
-# Cloning the repository to repo/ directory,
+# Cloning the source branch only of repository to repo/ directory,
 # Creating gh-pages branch if it doesn't exists else moving to that branch
-git clone $REPO repo
-cd repo
-git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-cd ..
+git clone --single-branch --branch $SOURCE_BRANCH $REPO repo
 
 # Setting up the username and email.
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
-# Cleaning up the old repo's gh-pages branch except CNAME file and 404.html
-find repo/* ! -name "CNAME" ! -name "404.html" -maxdepth 1  -exec rm -rf {} \; 2> /dev/null
 cd repo
-
-git add --all
-git commit -m "Travis CI Clean Deploy : ${SHA}"
-
-git checkout $SOURCE_BRANCH
 
 # Actual building and setup of current push or PR.
 npm install
 npm run build
 mv build ../build/
 
-git checkout $TARGET_BRANCH
-rm -rf node_modules/
+# Create an orphan target branch
+git checkout --orphan $TARGET_BRANCH
+# Remove all the files that were checked out from source branch
+git rm -rf .
 mv ../build/* .
 cp index.html 404.html
+rm -Rf node_modules/ package-lock.json
 
-# Staging the new build for commit; and then committing the latest build
-git add -A
-git commit --amend --no-edit --allow-empty
+# Create a commit on target branch
+git add --all
+git commit -m "Travis CI Clean Deploy : ${SHA}"
 
-# Deploying only if the build has changed
-if [ -z `git diff --name-only HEAD HEAD~1` ]; then
+# There are changes in the Build; push the changes to gh-pages
+echo "There are changes in the Build; pushing the changes to gh-pages"
 
-  echo "No Changes in the Build; exiting"
-  exit 0
+# Actual push to gh-pages branch via Travis
+git push --force $SSH_REPO $TARGET_BRANCH
 
-else
-  # There are changes in the Build; push the changes to gh-pages
-  echo "There are changes in the Build; pushing the changes to gh-pages"
 
-  # Actual push to gh-pages branch via Travis
-  git push --force $SSH_REPO $TARGET_BRANCH
-fi
+
+# Deploying to local-pages
+git checkout $SOURCE_BRANCH
+
+npm install
+export REACT_APP_API_URL=http://localhost:4000
+export REACT_APP_LOCAL_ENV=true
+npm run build
+mv build ../build/
+
+# Create an orphan local target branch
+git checkout --orphan $LOCAL_TARGET_BRANCH
+# Remove all the files that were checked out from source branch
+git rm -rf .
+mv ../build/* .
+cp index.html 404.html
+rm -Rf node_modules/ package-lock.json
+
+# Create a commit on target branch
+git add --all
+git commit -m "Travis CI Clean Deploy : ${SHA}"
+
+# There are changes in the Build; push the changes to local-pages
+echo "There are changes in the Build; pushing the changes to local-pages"
+
+# Actual push to gh-pages branch via Travis
+git push --force $SSH_REPO $LOCAL_TARGET_BRANCH

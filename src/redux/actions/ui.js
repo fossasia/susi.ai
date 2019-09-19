@@ -10,6 +10,7 @@ const dialogActions = {
   closeModal: createAction(actionTypes.UI_CLOSE_MODAL, returnArgumentsFn),
   openSnackBar: createAction(actionTypes.UI_OPEN_SNACKBAR, returnArgumentsFn),
   closeSnackBar: createAction(actionTypes.UI_CLOSE_SNACKBAR, returnArgumentsFn),
+  setChatMode: createAction(actionTypes.SET_CHAT_MODE, returnArgumentsFn),
 };
 
 export default dialogActions;

@@ -2,8 +2,10 @@ import urls from './urls';
 
 export const isProduction = () => {
   let domain = window.location.hostname;
-  return domain.indexOf('.susi.ai') > 0;
+  return domain.indexOf('susi.ai') > -1;
 };
+
+export const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 export const getAvatarProps = (emailId, accessToken) => {
   const imageUrl = `${urls.API_URL}/getAvatar.png?access_token=${accessToken}`;
@@ -35,4 +37,13 @@ export const urlParam = param => {
     return ans;
   }
   return 0;
+};
+
+// Helper Logger to disable console.* in Production mode
+export const Logger = () => {
+  if (isProduction()) {
+    console.log = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+  }
 };

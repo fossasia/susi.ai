@@ -4,80 +4,42 @@ import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import appActions from '../../../redux/actions/app';
 import messagesActions from '../../../redux/actions/messages';
+import uiActions from '../../../redux/actions/ui';
 
 // Components
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import CircularProgress from 'material-ui/CircularProgress';
-import PasswordField from 'material-ui-password-field';
-import Close from 'material-ui/svg-icons/navigation/close';
-import Dialog from 'material-ui/Dialog';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
-import { isProduction } from '../../../utils/helperFunctions';
+import { cookieDomain } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
 import { createMessagePairArray } from '../../../utils/formatMessage';
-
-// Static assets
-import './Login.css';
-
-const cookieDomain = isProduction() ? '.susi.ai' : '';
+import Recaptcha from '../../shared/Recaptcha';
+import {
+  PasswordField,
+  OutlinedInput,
+  FormControl,
+  Button,
+  StyledLink,
+  LinkContainer,
+} from '../AuthStyles';
 
 const cookies = new Cookies();
 
-const styles = {
-  containerStyle: {
-    width: '100%',
-    textAlign: 'center',
-    padding: '10px',
-  },
-  fieldStyle: {
-    height: '35px',
-    borderRadius: 4,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '0px 10px',
-    width: '250px',
-    marginTop: '10px',
-  },
-  inputStyle: {
-    height: '35px',
-    marginBottom: '10px',
-  },
-  inputpassStyle: {
-    height: '35px',
-    marginBottom: '-9px',
-    marginRight: '50px',
-    width: '90%',
-  },
-  closingStyle: {
-    position: 'absolute',
-    zIndex: 1200,
-    fill: '#444',
-    width: '26px',
-    height: '26px',
-    right: '10px',
-    top: '10px',
-    cursor: 'pointer',
-  },
-};
-
 class Login extends Component {
   static propTypes = {
-    handleForgotPassword: PropTypes.func,
     handleSignUp: PropTypes.func,
-    onRequestClose: PropTypes.func,
     actions: PropTypes.object,
-    openLogin: PropTypes.bool,
-    onRequestOpenSignUp: PropTypes.func,
-    onRequestOpenForgotPassword: PropTypes.func,
     openSnackBar: PropTypes.func,
     location: PropTypes.object,
     history: PropTypes.object,
+    serverUrl: PropTypes.string,
+    captchaKey: PropTypes.string,
+    isCaptchaEnabled: PropTypes.bool,
   };
 
   constructor(props) {
@@ -89,11 +51,18 @@ class Login extends Component {
       passwordErrorMessage: '',
       success: false,
       loading: false,
+      showCaptchaErrorMessage: false,
+      attempts: sessionStorage.getItem('loginAttempts') || 0,
+      captchaResponse: '',
     };
   }
 
+  componentWillUnmount() {
+    sessionStorage.setItem('loginAttempts', this.state.attempts);
+  }
+
   handleDialogClose = () => {
-    const { onRequestClose } = this.props;
+    const { actions } = this.props;
     this.setState({
       email: '',
       password: '',
@@ -102,13 +71,12 @@ class Login extends Component {
       passwordErrorMessage: '',
       loading: false,
     });
-    onRequestClose();
+    actions.closeModal();
   };
 
   handleSubmit = e => {
-    e.preventDefault();
-    const { actions, openSnackBar, location, history } = this.props;
-    const { password, email } = this.state;
+    const { actions, location, history } = this.props;
+    const { password, email, captchaResponse } = this.state;
 
     if (!email || !password) {
       return;
@@ -116,10 +84,14 @@ class Login extends Component {
     if (isEmail(email)) {
       this.setState({ loading: true });
       actions
-        .getLogin({ email, password: encodeURIComponent(password) })
+        .getLogin({
+          email,
+          password: encodeURIComponent(password),
+          captchaResponse,
+        })
         .then(({ payload }) => {
-          const { accessToken, time, uuid } = payload;
           let snackBarMessage;
+          const { accessToken, time, uuid } = payload;
           if (payload.accepted) {
             snackBarMessage = payload.message;
             actions
@@ -127,7 +99,7 @@ class Login extends Component {
               .getAdmin({ access_token: payload.accessToken })
               .then(({ payload }) => {
                 this.setCookies({ accessToken, time, uuid, email });
-                if (location.pathname !== '/') {
+                if (location.pathname !== '/chat') {
                   history.push('/');
                 } else {
                   actions.getHistoryFromServer().then(({ payload }) => {
@@ -148,33 +120,29 @@ class Login extends Component {
               });
             this.handleDialogClose();
           } else {
-            this.setState({
+            snackBarMessage = 'Login Failed. Try Again';
+            this.setState(prevState => ({
               password: '',
               success: false,
               loading: false,
-            });
-            snackBarMessage = 'Login Failed. Try Again';
+              attempts: prevState.attempts + 1,
+            }));
           }
-          openSnackBar({
-            snackBarMessage,
-          });
+          actions.openSnackBar({ snackBarMessage });
         })
         .catch(error => {
           console.log(error);
-          this.setState({
+          this.setState(prevState => ({
             password: '',
             success: false,
             loading: false,
-          });
-          openSnackBar({
+            attempts: prevState.attempts + 1,
+          }));
+          actions.openSnackBar({
             snackBarMessage: 'Login Failed. Try Again',
           });
         });
     }
-  };
-
-  handleForgotPassword = () => {
-    this.props.handleForgotPassword();
   };
 
   // Handle changes in email and password
@@ -192,9 +160,13 @@ class Login extends Component {
       }
       case 'password': {
         const password = event.target.value.trim();
+        let passwordErrorMessage = '';
+        if (!password || password.length < 6) {
+          passwordErrorMessage = 'Password should be atleast 6 characters';
+        }
         this.setState({
           password,
-          passwordErrorMessage: !password ? 'Enter a valid password' : '',
+          passwordErrorMessage,
         });
         break;
       }
@@ -205,9 +177,8 @@ class Login extends Component {
 
   setCookies = payload => {
     const { accessToken, time, email, uuid } = payload;
-    const defaults = UserPreferencesStore.getPreferences();
-    const BASE_URL = defaults.Server;
-    cookies.set('serverUrl', BASE_URL, {
+    const { serverUrl } = this.props;
+    cookies.set('serverUrl', serverUrl, {
       path: '/',
       domain: cookieDomain,
     });
@@ -221,16 +192,32 @@ class Login extends Component {
       maxAge: time,
       domain: cookieDomain,
     });
-    cookies.set('username', UserPreferencesStore.getUserName(), {
-      path: '/',
-      maxAge: time,
-      domain: cookieDomain,
-    });
     cookies.set('uuid', uuid, {
       path: '/',
       maxAge: time,
       domain: cookieDomain,
     });
+  };
+
+  onEnterKey = e => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
+  onCaptchaLoad = () => {
+    this.setState({
+      showCaptchaErrorMessage: true,
+    });
+  };
+
+  onCaptchaSuccess = captchaResponse => {
+    if (captchaResponse) {
+      this.setState({
+        showCaptchaErrorMessage: false,
+        captchaResponse,
+      });
+    }
   };
 
   render() {
@@ -240,103 +227,91 @@ class Login extends Component {
       emailErrorMessage,
       passwordErrorMessage,
       loading,
+      showCaptchaErrorMessage,
+      attempts,
+      isCaptchaEnabled,
     } = this.state;
-    const {
-      openLogin,
-      onRequestOpenSignUp,
-      onRequestOpenForgotPassword,
-    } = this.props;
-    const {
-      containerStyle,
-      fieldStyle,
-      inputStyle,
-      inputpassStyle,
-      closingStyle,
-    } = styles;
-
+    const { actions, captchaKey } = this.props;
     const isValid =
-      email && !emailErrorMessage && password && !passwordErrorMessage;
-
+      email &&
+      !emailErrorMessage &&
+      password &&
+      !passwordErrorMessage &&
+      // eslint-disable-next-line no-nested-ternary
+      (isCaptchaEnabled
+        ? attempts > 0
+          ? !showCaptchaErrorMessage
+          : true
+        : true);
     return (
-      <Dialog
-        className="dialogStyle"
-        modal={false}
-        open={openLogin}
-        autoScrollBodyContent={true}
-        bodyStyle={{
-          padding: 0,
-          textAlign: 'center',
-        }}
-        contentStyle={{ width: '35%', minWidth: '300px' }}
-        onRequestClose={this.handleDialogClose}
-      >
-        <div className="login-form">
-          <Paper zDepth={0} style={containerStyle}>
-            <div>
-              <Translate text="Log into SUSI" />
-            </div>
-            <form onSubmit={this.handleSubmit}>
-              <div>
-                <TextField
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={this.handleTextFieldChange}
-                  style={fieldStyle}
-                  inputStyle={inputStyle}
-                  placeholder="Email"
-                  underlineStyle={{ display: 'none' }}
-                  errorText={emailErrorMessage}
-                />
-              </div>
-              <div>
-                <PasswordField
-                  name="password"
-                  style={fieldStyle}
-                  inputStyle={inputpassStyle}
-                  value={password}
-                  placeholder="Password"
-                  underlineStyle={{ display: 'none' }}
-                  onChange={this.handleTextFieldChange}
-                  errorText={passwordErrorMessage}
-                  visibilityButtonStyle={{
-                    marginTop: '-3px',
-                  }}
-                  visibilityIconStyle={{
-                    marginTop: '-3px',
-                  }}
-                  textFieldStyle={{ padding: '0px' }}
-                />
-              </div>
-              <RaisedButton
-                label={!loading && <Translate text="Log In" />}
-                type="submit"
-                backgroundColor={
-                  UserPreferencesStore.getTheme() === 'light'
-                    ? '#4285f4'
-                    : '#19314B'
-                }
-                labelColor="#fff"
-                disabled={!isValid || loading}
-                style={{ width: '275px', margin: '10px 0px' }}
-                icon={loading && <CircularProgress size={24} />}
-              />
-              <div className="login-links-section">
-                <span
-                  className="forgot-password"
-                  onClick={onRequestOpenForgotPassword}
-                >
-                  <Translate text="Forgot Password?" />
-                </span>
-                <span className="sign-up" onClick={onRequestOpenSignUp}>
-                  <Translate text="Sign up for SUSI" />
-                </span>
-              </div>
-            </form>
-          </Paper>
-        </div>
-        <Close style={closingStyle} onTouchTap={this.handleDialogClose} />
-      </Dialog>
+      <React.Fragment>
+        <DialogTitle>
+          <Translate text="Log into SUSI" />
+          <CloseButton onClick={this.handleDialogClose} />
+        </DialogTitle>
+        <DialogContent>
+          <FormControl error={emailErrorMessage !== ''}>
+            <OutlinedInput
+              labelWidth={0}
+              name="email"
+              value={email}
+              onChange={this.handleTextFieldChange}
+              aria-describedby="email-error-text"
+              placeholder="Email"
+              onKeyUp={this.onEnterKey}
+              autoFocus={true}
+            />
+            <FormHelperText error={emailErrorMessage !== ''}>
+              {emailErrorMessage}
+            </FormHelperText>
+          </FormControl>
+
+          <FormControl error={passwordErrorMessage !== ''}>
+            <PasswordField
+              name="password"
+              value={password}
+              placeholder="Password"
+              onChange={this.handleTextFieldChange}
+              onKeyUp={this.onEnterKey}
+            />
+            <FormHelperText error={passwordErrorMessage !== ''}>
+              {passwordErrorMessage}
+            </FormHelperText>
+          </FormControl>
+          {captchaKey && isCaptchaEnabled && attempts > 0 && (
+            <Recaptcha
+              captchaKey={captchaKey}
+              onCaptchaLoad={this.onCaptchaLoad}
+              onCaptchaSuccess={this.onCaptchaSuccess}
+              error={showCaptchaErrorMessage}
+            />
+          )}
+          <Button
+            onClick={this.handleSubmit}
+            variant="contained"
+            color="primary"
+            disabled={!isValid || loading}
+          >
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Translate text="Log In" />
+            )}
+          </Button>
+          <LinkContainer>
+            <StyledLink
+              onClick={() => actions.openModal({ modalType: 'forgotPassword' })}
+            >
+              <Translate text="Forgot Password?" />
+            </StyledLink>
+            <StyledLink
+              onClick={() => actions.openModal({ modalType: 'signUp' })}
+            >
+              <Translate text="Sign up for SUSI" />
+            </StyledLink>
+          </LinkContainer>
+        </DialogContent>
+      </React.Fragment>
     );
   }
 }
@@ -344,15 +319,24 @@ class Login extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      { ...appActions, ...messagesActions },
+      { ...appActions, ...messagesActions, ...uiActions },
       dispatch,
     ),
   };
 }
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps,
-  )(Login),
-);
+function mapStateToProps(store) {
+  return {
+    ...store.router,
+    serverUrl: store.settings.serverUrl,
+    captchaKey: store.app.apiKeys.captchaKey,
+    isCaptchaEnabled: store.app.captchaConfig
+      ? store.app.captchaConfig.login
+      : true,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

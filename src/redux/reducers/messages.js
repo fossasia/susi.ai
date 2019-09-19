@@ -10,8 +10,9 @@ const defaultState = {
   loadingHistoryError: false,
   loadingReply: false,
   initialisedVoices: false,
-  TTSVoices: [],
   historyBuffer: [],
+  userGeoData: null,
+  pendingUserMessage: null,
 };
 
 export default handleActions(
@@ -20,6 +21,12 @@ export default handleActions(
       return {
         ...state,
         unreadMessageIDs: [],
+      };
+    },
+    [actionTypes.MESSAGES_GET_USER_GEO_DATA](state, { payload }) {
+      return {
+        ...state,
+        userGeoData: payload,
       };
     },
     [actionTypes.MESSAGES_CREATE_USER_MESSAGE](state, { payload }) {
@@ -74,11 +81,12 @@ export default handleActions(
     },
     [actionTypes.MESSAGES_RESET_MESSAGE_VOICE](state, { payload }) {
       let { messagesByID } = state;
-      messagesByID.forEach(message => {
+      for (let message in messagesByID) {
         if (message.authorName === 'SUSI') {
           message.voice = false;
         }
-      });
+      }
+
       return {
         ...state,
         messagesByID,
@@ -94,36 +102,31 @@ export default handleActions(
         },
       };
     },
-    [actionTypes.MESSAGES_INIT_TTS_VOICES](state, { payload }) {
-      // ACTION needed
-      const { TTSVoices } = payload;
-      return {
-        ...state,
-        initialisedVoices: true,
-        TTSVoices,
-      };
-    },
     [actionTypes.MESSAGES_GET_HISTORY_FROM_SERVER](state, { payload }) {
       return {
-        ...defaultState,
+        ...state,
         loadingHistory: true,
         loadingHistoryError: false,
       };
     },
     [actionTypes.MESSAGES_INITIALIZE_MESSAGE_STORE](state, { payload }) {
       let { messagePairArray } = payload;
-      messagePairArray = messagePairArray.reverse();
       let messages = [];
       let messagesByID = {};
-      messagePairArray.forEach(messagePair => {
-        const { userMessage, susiMessage } = messagePair;
-        messages.push(userMessage.id);
-        messages.push(susiMessage.id);
-        messagesByID[userMessage.id] = userMessage;
-        messagesByID[susiMessage.id] = susiMessage;
-      });
+      if (Array.isArray(messagePairArray)) {
+        messagePairArray = messagePairArray.reverse();
+        messagePairArray.forEach(messagePair => {
+          const { userMessage, susiMessage } = messagePair;
+          messages.push(userMessage.id);
+          messagesByID[userMessage.id] = userMessage;
+          susiMessage.forEach(eachSusiMessage => {
+            messages.push(eachSusiMessage.id);
+            messagesByID[eachSusiMessage.id] = eachSusiMessage;
+          });
+        });
+      }
       return {
-        ...defaultState,
+        ...state,
         messages,
         messagesByID,
         loadingHistory: false,
@@ -139,6 +142,13 @@ export default handleActions(
     [actionTypes.APP_LOGOUT](state, { payload }) {
       return {
         ...defaultState,
+      };
+    },
+    [actionTypes.MESSAGES_SET_PENDING_USER_MESSAGE](state, { payload }) {
+      const { pendingUserMessage } = payload;
+      return {
+        ...state,
+        pendingUserMessage,
       };
     },
   },

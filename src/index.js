@@ -1,12 +1,9 @@
+/* eslint-disable */
 import './index.css';
-import * as ChatWebAPIUtils from './utils/ChatWebAPIUtils';
-import * as Actions from './actions/';
 import App from './App';
-import MessageStore from './stores/MessageStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import UserPreferencesStore from './stores/UserPreferencesStore';
+import { connect, Provider } from 'react-redux';
 // Internationalization
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
@@ -15,34 +12,73 @@ import de from 'react-intl/locale-data/de';
 import ru from 'react-intl/locale-data/ru';
 import { IntlProvider } from 'react-intl';
 import { addLocaleData } from 'react-intl';
-import { BrowserRouter as Router } from 'react-router-dom';
-import store from './store';
+import { ConnectedRouter } from 'connected-react-router';
+import { Logger } from './utils/helperFunctions';
+import configureStore, { history } from './redux/configureStore';
+import ReactPiwik from 'react-piwik';
+import { fetchApiKeys } from './apis';
+
+export const store = configureStore();
 
 addLocaleData([...en, ...fr, ...es, ...de, ...ru]);
 
-ChatWebAPIUtils.getSettings();
-ChatWebAPIUtils.getLocation();
-ChatWebAPIUtils.getHistory();
-ChatWebAPIUtils.getAllMessages();
+// Disable console.* in production mode
+Logger();
 
-let defaults = UserPreferencesStore.getPreferences();
-let defaultPrefLanguage = defaults.PrefLanguage;
+function mapStateToProps(store) {
+  return {
+    locale: store.settings.prefLanguage,
+  };
+}
 
-window.speechSynthesis.onvoiceschanged = function() {
-  if (!MessageStore.getTTSInitStatus()) {
-    const speechSynthesisVoices = speechSynthesis.getVoices();
-    Actions.getTTSLangText(speechSynthesisVoices);
-    Actions.initialiseTTSVoices(speechSynthesisVoices);
-  }
-};
+let ConnectedIntlProvider = connect(mapStateToProps)(IntlProvider);
+
+let piwik = null,
+  matomoSiteId,
+  matomoUrl;
+
+let usepiwik = false;
+fetchApiKeys().then(payload => {
+  matomoSiteId =
+    (payload &&
+      payload.keys &&
+      payload.keys.matomoSiteId &&
+      payload.keys.matomoSiteId.value) ||
+    '';
+  matomoUrl =
+    (payload &&
+      payload.keys &&
+      payload.keys.matomoUrl &&
+      payload.keys.matomoUrl.value) ||
+    '';
+  piwik = new ReactPiwik({
+    url: matomoUrl || '',
+    siteId: matomoSiteId || '',
+    trackErrors: true,
+  });
+  usepiwik = true;
+});
 
 ReactDOM.render(
   <Provider store={store} key="provider">
-    <IntlProvider locale={defaultPrefLanguage}>
-      <Router>
+    <ConnectedIntlProvider>
+      <ConnectedRouter
+        history={
+          matomoSiteId !== '' && matomoUrl !== '' && !piwik && usepiwik
+            ? piwik.connectToHistory(history)
+            : history
+        }
+      >
         <App />
-      </Router>
-    </IntlProvider>
+      </ConnectedRouter>
+    </ConnectedIntlProvider>
   </Provider>,
   document.getElementById('root'),
 );
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    const NextApp = require('./App').default;
+    ReactDOM.render(NextApp);
+  });
+}

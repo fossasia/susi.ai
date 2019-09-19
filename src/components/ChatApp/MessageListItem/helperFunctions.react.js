@@ -4,42 +4,70 @@ import Linkify from 'react-linkify';
 import Feedback from './Feedback.react';
 import ShareButton from './ShareButton';
 import Emojify from 'react-emojione';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { divIcon } from 'leaflet';
-import Slider from 'react-slick';
-import TickIcon from 'material-ui/svg-icons/action/done';
-import ClockIcon from 'material-ui/svg-icons/action/schedule';
-import UserPreferencesStore from '../../../stores/UserPreferencesStore';
+import SlickSlider from 'react-slick';
+import TickIcon from '@material-ui/icons/Done';
+import ClockIcon from '@material-ui/icons/Schedule';
 import Parser from 'html-react-parser';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import _Card from '@material-ui/core/Card';
+import _CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import _CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import { injectIntl } from 'react-intl';
+import styled from 'styled-components';
+import { FlexContainer } from '../../shared/Container';
 
-const styles = {
-  footerStyle: {
-    display: 'block',
-    float: 'left',
-  },
-  indicatorStyle: {
-    height: '13px',
-  },
-};
+const FooterList = styled.div`
+  font-size: 0.75rem;
+  color: ${props => (props.author === 'SUSI' ? '#AAA9AA' : '#C6DAFB')};
+  padding: 0;
+  text-align: right;
+  float: ${props => (props.author === 'SUSI' ? 'right' : 'left')};
+  list-style-type: none;
+  align-items: center;
+  margin-top: 5px;
+  display: flex;
+`;
 
-// Keeps the Map Popup open initially
-class ExtendedMarker extends Marker {
-  componentDidMount() {
-    super.componentDidMount();
+const CardTitle = styled(Typography)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 
-    this.leafletElement.openPopup();
-  }
-}
+const CardMedia = styled(_CardMedia)`
+  height: 120px;
+  object-fit: contain;
+  vertical-align: middle;
+`;
+
+const CardUrl = styled.div`
+  color: #a9a9a9;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const Card = styled(_Card)`
+  height: 250px;
+  cursor: pointer;
+  position: relative;
+`;
+
+const CardActionArea = styled(_CardActionArea)`
+  vertical-align: middle;
+  height: 100%;
+`;
 
 // Render anchor for given text
 export function renderAnchor(text, link) {
@@ -53,47 +81,33 @@ export function renderAnchor(text, link) {
 // Returns the message time and status indicator
 export function renderMessageFooter(message, latestMsgID, isLastAction) {
   let footerContent = null;
-  let { footerStyle, indicatorStyle } = styles;
-  const isLightTheme = UserPreferencesStore.getTheme() === 'light';
-
   if (message && message.authorName === 'You') {
     if (message.id === latestMsgID) {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
-          <ClockIcon
-            style={indicatorStyle}
-            color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
-          />
-        </li>
+        <FlexContainer>
+          <ClockIcon style={{ height: '0.8135rem' }} />
+        </FlexContainer>
       );
     } else {
       footerContent = (
-        <li className="response-time" style={footerStyle}>
-          <TickIcon
-            style={indicatorStyle}
-            color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
-          />
-        </li>
+        <FlexContainer>
+          <TickIcon style={{ height: '0.8135rem' }} />
+        </FlexContainer>
       );
     }
   } else if (message && message.authorName === 'SUSI') {
     footerContent = (
-      <li className="response-time" style={footerStyle}>
-        <ShareButton
-          message={message}
-          color={isLightTheme ? '#90a4ae' : '#7eaaaf'}
-        />
-      </li>
+      <FlexContainer>
+        <ShareButton message={message} />
+      </FlexContainer>
     );
-    footerStyle = { ...footerStyle, float: 'right' };
   }
-
   return (
-    <ul className="message-time" style={footerStyle}>
+    <FooterList author={message.authorName}>
+      {footerContent}
       <PostDate date={message ? message.date : null} />
       {isLastAction && <Feedback message={message} />}
-      {footerContent}
-    </ul>
+    </FooterList>
   );
 }
 // Format Date for internationalization
@@ -188,24 +202,6 @@ function urlDomain(data) {
 
 // Draw Tiles for Websearch RSS data
 export function drawCards(tilesData) {
-  const titleStyle = {
-    marginTop: '-10px',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: 'block',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    color: '#4285f4',
-  };
-
-  let cardClass = 'card-noImg';
-  tilesData.forEach((card, index) => {
-    if (card.image) {
-      cardClass = 'card';
-    }
-  });
-
   let resultTiles = tilesData.map((tile, i) => {
     let cardText = tile.description;
     if (!cardText) {
@@ -213,22 +209,21 @@ export function drawCards(tilesData) {
     }
     return (
       <Card
-        className={cardClass}
         key={i}
         onClick={() => {
           window.open(tile.link, '_blank');
         }}
       >
-        {tile.image && (
-          <CardMedia>
-            <img src={tile.image} alt="" className="card-img" />
-          </CardMedia>
-        )}
-        <CardTitle title={tile.title} titleStyle={titleStyle} />
-        <CardText>
-          <div className="card-text line-clamp">{cardText}</div>
-          <div className="card-url">{urlDomain(tile.link)}</div>
-        </CardText>
+        <CardActionArea>
+          {tile.image && <CardMedia image={tile.image} alt="" />}
+          <CardContent style={{ padding: 8, height: 130 }}>
+            <CardTitle variant="h6">{tile.title}</CardTitle>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {cardText}
+            </Typography>
+          </CardContent>
+          <CardUrl>{urlDomain(tile.link)}</CardUrl>
+        </CardActionArea>
       </Card>
     );
   });
@@ -238,29 +233,33 @@ export function drawCards(tilesData) {
 // Render Websearch RSS tiles
 export function renderTiles(tiles) {
   if (tiles.length === 0) {
-    let noResultFound = 'NO Results Found';
+    let noResultFound = 'No Results Found';
     return <center>{noResultFound}</center>;
   }
   let resultTiles = drawCards(tiles);
-  let slidesToShow = 3;
-  let showArrows = true;
-  if (window.matchMedia('only screen and (max-width: 768px)').matches) {
-    // do functionality on screens smaller than 768px
-    slidesToShow = 2;
-    showArrows = false;
-  }
   const settings = {
     speed: 500,
-    slidesToShow: slidesToShow,
+    slidesToShow: 2.5,
     slidesToScroll: 1,
     swipeToSlide: true,
     swipe: true,
-    arrows: showArrows,
+    arrows: true,
+    infinite: false,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 760,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
   };
   return (
-    <Slider {...settings} adaptiveHeight={true}>
+    <SlickSlider {...settings} adaptiveHeight>
       {resultTiles}
-    </Slider>
+    </SlickSlider>
   );
 }
 
@@ -278,7 +277,7 @@ export function drawTable(columns, tableData, count) {
   // Create the Table Header
   let tableheader = parseKeys.map((key, i) => {
     return (
-      <TableHeaderColumn
+      <TableCell
         key={i}
         style={{
           whiteSpace: 'normal',
@@ -286,7 +285,7 @@ export function drawTable(columns, tableData, count) {
         }}
       >
         {columns[key]}
-      </TableHeaderColumn>
+      </TableCell>
     );
   });
   // Calculate #rows in table
@@ -310,7 +309,7 @@ export function drawTable(columns, tableData, count) {
     if (validRow) {
       let rowcols = parseKeys.map((key, i) => {
         return (
-          <TableRowColumn
+          <TableCell
             key={i}
             style={{
               whiteSpace: 'normal',
@@ -318,9 +317,9 @@ export function drawTable(columns, tableData, count) {
             }}
           >
             <Linkify properties={{ target: '_blank' }}>
-              <abbr title={eachrow[key]}>{processText(eachrow[key])}</abbr>
+              {processText(eachrow[key])}
             </Linkify>
-          </TableRowColumn>
+          </TableCell>
         );
       });
       rows.push(<TableRow key={j}>{rowcols}</TableRow>);
@@ -328,14 +327,10 @@ export function drawTable(columns, tableData, count) {
   }
   // Populate the Table
   const table = (
-    <MuiThemeProvider>
-      <Table selectable={false} style={{ width: 'auto', tableLayout: 'auto' }}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          {showColName && <TableRow>{tableheader}</TableRow>}
-        </TableHeader>
-        <TableBody displayRowCheckbox={false}>{rows}</TableBody>
-      </Table>
-    </MuiThemeProvider>
+    <Table>
+      <TableHead>{showColName && <TableRow>{tableheader}</TableRow>}</TableHead>
+      <TableBody>{rows}</TableBody>
+    </Table>
   );
 
   return table;
@@ -351,13 +346,13 @@ export function drawMap(lat, lng, zoom) {
   const map = (
     <Map center={position} zoom={zoom} scrollWheelZoom={false}>
       <TileLayer attribution="" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-      <ExtendedMarker position={position} icon={icon}>
+      <Marker position={position} icon={icon}>
         <Popup>
           <span>
             <strong>Here!</strong>
           </span>
         </Popup>
-      </ExtendedMarker>
+      </Marker>
     </Map>
   );
   return map;

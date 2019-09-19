@@ -1,22 +1,98 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, IconButton } from 'material-ui';
-import SearchIcon from 'material-ui/svg-icons/action/search';
-import UpIcon from 'material-ui/svg-icons/navigation/arrow-upward';
-import DownIcon from 'material-ui/svg-icons/navigation/arrow-downward';
-import ExitIcon from 'material-ui/svg-icons/navigation/close';
-
-const animationStyle = {
-  transition: 'width 0.75s cubic-bezier(0.000, 0.795, 0.000, 1.000)',
-};
-
-const additionalStyles = {
-  text: animationStyle,
-  frame: animationStyle,
-};
+import { TextField, IconButton as _IconButton } from '@material-ui/core';
+import styled, { css } from 'styled-components';
+import SearchIcon from '@material-ui/icons/Search';
+import _CloseIcon from '@material-ui/icons/Close';
+import _UpIcon from '@material-ui/icons/ExpandLess';
+import _DownIcon from '@material-ui/icons/ExpandMore';
 
 const ESCAPE_KEY = 27;
 const F_KEY = 70;
+
+const NavigationIconStyle = css`
+  width: 0.8rem;
+  height: 0.8rem;
+  color: #fff;
+`;
+
+const CloseIcon = styled(_CloseIcon)`
+  ${NavigationIconStyle}
+  margin-top: -6px;
+`;
+const UpIcon = styled(_UpIcon)`
+  ${NavigationIconStyle}
+  margin-top: -6px;
+`;
+const DownIcon = styled(_DownIcon)`
+  ${NavigationIconStyle}
+  margin-top: -6px;
+`;
+
+const NavigateIconButton = styled(_IconButton)`
+  padding: 8px;
+  ${NavigationIconStyle}
+  margin-left: 0.8rem;
+`;
+
+const SearchInputField = styled(TextField)`
+  font-size: 10px;
+  color: #fefefe;
+  border-right: 1px solid #878787;
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+  .MuiOutlinedInput-input {
+    padding: 18.5px 28px 18.5px 2px;
+    width: 11rem;
+    font-size: 0.7rem;
+  }
+`;
+
+const IconButton = styled(_IconButton)`
+  padding: 3.5px;
+  color: #fff;
+`;
+
+const FlexContainer = styled.div`
+  border-radius: 5px;
+  height: 24px;
+  top: 4px;
+  color: #f2f2f2;
+  padding: 2px;
+  font-size: 0.8rem;
+  position: absolute;
+  left: 120px;
+`;
+
+const Container = styled.div`
+  display: inline-flex;
+  justify-content: flex-end;
+  width: auto;
+  max-width: 300px;
+  transition: width 0.75s cubic-bezier(0, 0.795, 0, 1);
+  @media (max-width: 500px) {
+    max-width: 90%;
+  }
+`;
+
+const SearchContainer = styled.div`
+  position: absolute;
+  top: 47px;
+  background: #555555;
+  z-index: 1;
+  right: 10px;
+  width: 15rem;
+  display: flex;
+  padding: 4px 8px;
+  align-items: center;
+`;
 
 class ExpandingSearchField extends Component {
   constructor(props) {
@@ -113,113 +189,50 @@ class ExpandingSearchField extends Component {
   }
 
   render() {
-    const baseStyles = {
-      open: {
-        width: 180,
-      },
-
-      closed: {
-        width: 0,
-      },
-
-      smallIcon: {
-        fill: 'white',
-      },
-
-      icon: {
-        width: 40,
-        height: 40,
-        padding: 5,
-        top: 10,
-      },
-
-      frame: {},
-    };
-
-    const { searchCount } = this.props;
-
+    const { searchCount, open, searchText } = this.props;
     const { indexCnt } = this.state;
-
-    const searchStyle = {
-      WebkitTextFillColor: 'white',
-      color: 'white',
-    };
-
-    let textStyle = this.props.open ? baseStyles.open : baseStyles.closed;
-    textStyle = Object.assign(
-      textStyle,
-      additionalStyles ? additionalStyles.text : {},
-    );
-
-    const divStyle = Object.assign(
-      {},
-      textStyle,
-      baseStyles.frame,
-      additionalStyles ? additionalStyles.frame : {},
-    );
-    divStyle.width += baseStyles.icon.width + 5;
-    divStyle.display = 'inline';
-
-    if (this.props.open) {
-      return (
-        <div style={divStyle} className="searchComponent">
-          <TextField
-            name="search"
-            className="search displayNone"
-            placeholder="Search..."
-            inputStyle={searchStyle}
-            style={textStyle}
-            value={this.props.searchText}
-            onChange={event => this.onChange(event)}
-            autoFocus={true}
-          />
-          <span className="counter">
-            {indexCnt}/{searchCount}
-          </span>
-          <IconButton
-            className="displayNone"
-            iconStyle={baseStyles.smallIcon}
-            style={baseStyles.icon}
-            onClick={this.onClickPrev}
-          >
-            <UpIcon />
-          </IconButton>
-          <IconButton
-            className="displayNone"
-            iconStyle={baseStyles.smallIcon}
-            style={baseStyles.icon}
-            onClick={this.onClickRecent}
-          >
-            <DownIcon />
-          </IconButton>
-          <IconButton
-            className="displayCloseNone"
-            iconStyle={baseStyles.smallIcon}
-            style={baseStyles.icon}
-            onClick={this.onClick}
-          >
-            <ExitIcon />
-          </IconButton>
-        </div>
-      );
-    }
     return (
-      <div style={divStyle}>
-        <IconButton
-          className="displayNone displayCloseNone"
-          iconStyle={baseStyles.smallIcon}
-          style={baseStyles.icon}
-          onClick={this.onClick}
-        >
-          <SearchIcon />
-        </IconButton>
-        <TextField
-          name="search"
-          value={this.props.searchText}
-          style={textStyle}
-          inputStyle={searchStyle}
-        />
-      </div>
+      <React.Fragment>
+        <Container>
+          <IconButton onClick={this.onClick}>
+            <SearchIcon />
+          </IconButton>
+        </Container>
+        {open && (
+          <SearchContainer>
+            <SearchInputField
+              name="search"
+              placeholder="Search Messages"
+              value={searchText}
+              onChange={event => this.onChange(event)}
+              variant="outlined"
+              autoFocus={false}
+              style={{ height: '24px', width: '70%' }}
+              InputProps={{
+                style: {
+                  height: '24px',
+                  width: '200',
+                  color: '#f2f2f2',
+                },
+              }}
+            />
+            {searchText && (
+              <FlexContainer>
+                {indexCnt}/{searchCount}
+              </FlexContainer>
+            )}
+            <NavigateIconButton onClick={this.onClickPrev}>
+              <UpIcon />
+            </NavigateIconButton>
+            <NavigateIconButton onClick={this.onClickRecent}>
+              <DownIcon />
+            </NavigateIconButton>
+            <NavigateIconButton onClick={this.onClick}>
+              <CloseIcon />
+            </NavigateIconButton>
+          </SearchContainer>
+        )}
+      </React.Fragment>
     );
   }
 }

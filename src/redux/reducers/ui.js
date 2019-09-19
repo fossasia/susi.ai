@@ -9,12 +9,17 @@ const defaultState = {
   snackBarProps: {
     isSnackBarOpen: false,
     snackBarMessage: '',
+    snackBarDuration: 2500,
+    snackBarPosition: { vertical: 'bottom', horizontal: 'center' },
+    variant: '',
   },
+  // For chat
+  mode: 'minimize',
 };
 
 export default handleActions(
   {
-    [actionTypes.UI_OPEN_MODAL](state, payload) {
+    [actionTypes.UI_OPEN_MODAL](state, { payload }) {
       return {
         ...state,
         modalProps: {
@@ -29,10 +34,11 @@ export default handleActions(
         modalProps: defaultState.modalProps,
       };
     },
-    [actionTypes.UI_OPEN_SNACKBAR](state, payload) {
+    [actionTypes.UI_OPEN_SNACKBAR](state, { payload }) {
       return {
         ...state,
         snackBarProps: {
+          ...state.snackBarProps,
           isSnackBarOpen: true,
           ...payload,
         },
@@ -42,6 +48,13 @@ export default handleActions(
       return {
         ...state,
         snackBarProps: defaultState.snackBarProps,
+      };
+    },
+    [actionTypes.SET_CHAT_MODE](state, { payload }) {
+      const { mode } = payload;
+      return {
+        ...state,
+        mode,
       };
     },
   },
