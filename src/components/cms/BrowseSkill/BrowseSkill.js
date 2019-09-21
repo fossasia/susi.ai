@@ -669,7 +669,7 @@ class BrowseSkill extends React.Component {
       );
     } else if (searchQuery.length > 0) {
       renderSkillCount = (
-        <div style={{ padding: '10px' }}>
+        <div style={{ padding: '10px 10px 10px 500px' }}>
           <h2 style={{ fontWeight: '400' }}>
             Your search <b>&quot;{searchQuery}&quot;</b> did not match any
             skills.
@@ -913,7 +913,7 @@ class BrowseSkill extends React.Component {
                     <Grid
                       item
                       alignItems="center"
-                      sm={6}
+                      sm={0}
                       style={{
                         textAlign: 'center',
                         padding: isMobile ? '10px 30px' : '30px 25px 0',
