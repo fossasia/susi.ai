@@ -27,62 +27,63 @@ class ListBots extends React.Component {
     this.loadBots();
   }
 
-  loadBots = () => {
-    fetchBots()
-      .then(payload => {
-        const { chatbots } = payload;
-        let bots = [];
-        chatbots.forEach(chatBot => {
-          const { configure } = chatBot;
-          chatBot.displaySkills = configure.enableDefaultSkills
-            ? 'true'
-            : 'false';
-          let allowedSites =
-            configure.allowBotOnlyOnOwnSites && configure.allowedSites;
-          let botSites = [];
-          if (allowedSites) {
-            allowedSites = allowedSites.split(',');
-            allowedSites.forEach(site => {
-              botSites.push(
-                <li>
-                  <a href={site} target="_blank" rel="noopener noreferrer">
-                    {site}
-                  </a>
-                </li>,
-              );
-            });
-          }
-          chatBot.botSite = botSites.length > 0 ? botSites : '-';
-          bots.push(chatBot);
-        });
-        this.setState({ loadingBots: false, bots });
-      })
-      .catch(error => {
-        console.log(error);
+  loadBots = async () => {
+    try {
+      let payload = await fetchBots();
+      const { chatbots } = payload;
+      let bots = [];
+      chatbots.forEach(chatBot => {
+        const { configure } = chatBot;
+        chatBot.displaySkills = configure.enableDefaultSkills
+          ? 'true'
+          : 'false';
+        let allowedSites =
+          configure.allowBotOnlyOnOwnSites && configure.allowedSites;
+        let botSites = [];
+
+        if (allowedSites) {
+          allowedSites = allowedSites.split(',');
+          allowedSites.forEach(site => {
+            botSites.push(
+              <li>
+                <a href={site} target="_blank" rel="noopener noreferrer">
+                  {site}
+                </a>
+              </li>,
+            );
+          });
+        }
+
+        chatBot.botSite = botSites.length > 0 ? botSites : '-';
+        bots.push(chatBot);
       });
+      this.setState({ loadingBots: false, bots });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  confirmDelete = () => {
+  confirmDelete = async () => {
     const { actions } = this.props;
     const { group, language, name, uuid } = this.state;
-    deleteChatBot({ group, language, skill: name, uuid })
-      .then(payload => {
-        actions.openSnackBar({
-          snackBarMessage: `Successfully ${payload.message}`,
-          snackBarDuration: 2000,
-        });
-        actions.closeModal();
-        this.setState({
-          loadingBots: true,
-        });
-        this.loadBots();
-      })
-      .catch(error => {
-        actions.openSnackBar({
-          snackBarMessage: `Unable to delete chatbot ${name}. Please try again.`,
-          snackBarDuration: 2000,
-        });
+
+    try {
+      let payload = await deleteChatBot({ group, language, skill: name, uuid });
+      actions.openSnackBar({
+        snackBarMessage: `Successfully ${payload.message}`,
+        snackBarDuration: 2000,
       });
+      actions.closeModal();
+      this.setState({
+        loadingBots: true,
+      });
+      this.loadBots();
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: `Unable to delete chatbot ${name}. Please try again.`,
+        snackBarDuration: 2000,
+      });
+    }
   };
 
   handleDelete = (name, language, group, uuid) => {

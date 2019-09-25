@@ -44,7 +44,7 @@ class MicrophoneTab extends React.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { actions, userEmailId } = this.props;
     const { micInput } = this.state;
     this.setState({ loading: true });
@@ -52,26 +52,25 @@ class MicrophoneTab extends React.Component {
       micInput,
     };
     payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
-    setUserSettings(payload)
-      .then(data => {
-        if (data.accepted) {
-          actions.openSnackBar({
-            snackBarMessage: 'Settings updated',
-          });
-          actions.setUserSettings({ micInput });
-          this.setState({ loading: false });
-        } else {
-          actions.openSnackBar({
-            snackBarMessage: 'Failed to save Settings',
-          });
-          this.setState({ loading: false });
-        }
-      })
-      .catch(error => {
+    try {
+      let data = await setUserSettings(payload);
+      if (data.accepted) {
+        actions.openSnackBar({
+          snackBarMessage: 'Settings updated',
+        });
+        actions.setUserSettings({ micInput });
+        this.setState({ loading: false });
+      } else {
         actions.openSnackBar({
           snackBarMessage: 'Failed to save Settings',
         });
+        this.setState({ loading: false });
+      }
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to save Settings',
       });
+    }
   };
 
   render() {

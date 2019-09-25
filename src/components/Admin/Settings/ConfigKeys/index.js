@@ -28,14 +28,16 @@ class ConfigKeys extends React.Component {
     this.props.actions.closeModal();
   };
 
-  confirmDelete = () => {
+  confirmDelete = async () => {
     const { apiType } = this.props;
     const { keyName } = this.state;
-    deleteApiKey({ keyName, apiType })
-      .then(() => this.fetchApiKeys({ apiType }))
-      .catch(error => {
-        console.log(error);
-      });
+    try {
+      await deleteApiKey({ keyName, apiType });
+      this.fetchApiKeys({ apiType });
+    } catch (error) {
+      console.log(error);
+    }
+
     this.props.actions.closeModal();
   };
 
@@ -78,26 +80,25 @@ class ConfigKeys extends React.Component {
     this.fetchApiKeys({ apiType });
   }
 
-  fetchApiKeys = ({ apiType }) => {
-    fetchApiKeys({ apiType })
-      .then(payload => {
-        let apiKeys = [];
-        let keys = Object.keys(payload.keys);
-        keys.forEach(j => {
-          const apiKey = {
-            keyName: j,
-            value: payload.keys[j].value,
-          };
-          apiKeys.push(apiKey);
-        });
-        this.setState({
-          apiKeys: apiKeys,
-          loading: false,
-        });
-      })
-      .catch(error => {
-        console.log(error);
+  fetchApiKeys = async ({ apiType }) => {
+    try {
+      let payload = await fetchApiKeys({ apiType });
+      let apiKeys = [];
+      let keys = Object.keys(payload.keys);
+      keys.forEach(j => {
+        const apiKey = {
+          keyName: j,
+          value: payload.keys[j].value,
+        };
+        apiKeys.push(apiKey);
       });
+      this.setState({
+        apiKeys: apiKeys,
+        loading: false,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {

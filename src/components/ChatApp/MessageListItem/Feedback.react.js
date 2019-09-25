@@ -57,7 +57,7 @@ class Feedback extends React.Component {
     this.setState({ feedbackInProgress: false });
   };
 
-  postSkillReplyFeedback = feedback => {
+  postSkillReplyFeedback = async feedback => {
     const skillInfo = this.state.skill;
     const { actions, message, countryCode, countryName } = this.props;
     const query = _.get(message, 'response.query', '');
@@ -66,38 +66,34 @@ class Feedback extends React.Component {
     this.setState({
       feedbackInProgress: true,
     });
-
-    actions
-      .postSkillFeedback({
+    try {
+      let payload = await actions.postSkillFeedback({
         ...skillInfo,
         feedback,
         query,
         reply,
         countryName,
         countryCode,
-      })
-      .then(({ payload }) => {
-        if (payload.accepted) {
-          this.saveSkillFeedback(feedback);
-        } else {
-          this.removeFeedback();
-        }
-      })
-      .catch(err => {
-        this.removeFeedback();
-        actions.openSnackBar({
-          snackBarMessage: 'Could not give feedback to the reply',
-          snackBarDuration: 2000,
-        });
       });
+      if (payload.accepted) {
+        this.saveSkillFeedback(feedback);
+      } else {
+        this.removeFeedback();
+      }
+    } catch (error) {
+      this.removeFeedback();
+      actions.openSnackBar({
+        snackBarMessage: 'Could not give feedback to the reply',
+        snackBarDuration: 2000,
+      });
+    }
   };
 
-  saveSkillFeedback = feedback => {
+  saveSkillFeedback = async feedback => {
     const { actions, message } = this.props;
-    actions.saveSkillFeedback({ messageId: message.id, feedback }).then(() => {
-      this.setState({
-        feedbackInProgress: false,
-      });
+    await actions.saveSkillFeedback({ messageId: message.id, feedback });
+    this.setState({
+      feedbackInProgress: false,
     });
   };
 

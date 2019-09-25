@@ -102,12 +102,11 @@ class ControlSection extends React.Component {
     });
   };
 
-  populateDeviceList = () => {
-    refreshDeviceList().then(({ data }) => {
-      this.setState({
-        devicesList: data,
-        selectedDevice: '',
-      });
+  populateDeviceList = async () => {
+    let { data } = await refreshDeviceList();
+    this.setState({
+      devicesList: data,
+      selectedDevice: '',
     });
   };
 
@@ -117,43 +116,41 @@ class ControlSection extends React.Component {
     });
   };
 
-  handleRadioChange = e => {
+  handleRadioChange = async e => {
     const { actions } = this.props;
     const { name, value } = e.target;
-    this.setState({ [name]: value }, () => {
+    this.setState({ [name]: value }, async () => {
       const { stt, tts, hotword } = this.state;
-      setControlOptions({
-        stt,
-        tts,
-        hotword,
-      })
-        .then(() => {
-          actions.openSnackBar({
-            snackBarMessage: 'Successfully updated Speaker configuration',
-          });
-        })
-        .catch(error => {
-          actions.openSnackBar({
-            snackBarMessage: 'Failed to update Speaker configuration',
-          });
+      try {
+        await setControlOptions({
+          stt,
+          tts,
+          hotword,
         });
+        actions.openSnackBar({
+          snackBarMessage: 'Successfully updated Speaker configuration',
+        });
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to update Speaker configuration',
+        });
+      }
     });
   };
 
-  saveWiFiSettings = () => {
+  saveWiFiSettings = async () => {
     const { actions } = this.props;
     const { wifissid, wifipassd } = this.state;
-    setWifiSettings({ wifissid, wifipassd })
-      .then(payload => {
-        actions.openSnackBar({
-          snackBarMessage: 'Saved the WiFi settings',
-        });
-      })
-      .catch(error => {
-        actions.openSnackBar({
-          snackBarMessage: 'Failed to save WiFi settings',
-        });
+    try {
+      await setWifiSettings({ wifissid, wifipassd });
+      actions.openSnackBar({
+        snackBarMessage: 'Saved the WiFi settings',
       });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to save WiFi settings',
+      });
+    }
   };
 
   handleCheck = event => {
@@ -162,26 +159,25 @@ class ControlSection extends React.Component {
     });
   };
 
-  handleRemoveDevice = () => {
+  handleRemoveDevice = async () => {
     const { macId, actions } = this.props;
-    unlinkUserDevice({ macId })
-      .then(({ accepted = false }) => {
-        if (accepted) {
-          actions.closeModal();
-          actions.openSnackBar({
-            snackBarMessage: 'Device successfully unlinked!',
-          });
-        }
+    try {
+      let { accepted = false } = await unlinkUserDevice({ macId });
+      if (accepted) {
+        actions.closeModal();
         actions.openSnackBar({
-          snackBarMessage: 'Unable to unlink Device',
+          snackBarMessage: 'Device successfully unlinked!',
         });
-      })
-      .catch(error => {
-        console.log(error);
-        actions.openSnackBar({
-          snackBarMessage: 'Unable to unlink Device',
-        });
+      }
+      actions.openSnackBar({
+        snackBarMessage: 'Unable to unlink Device',
       });
+    } catch (error) {
+      console.log(error);
+      actions.openSnackBar({
+        snackBarMessage: 'Unable to unlink Device',
+      });
+    }
   };
 
   handleRemoveConfirmation = () => {
