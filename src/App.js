@@ -44,10 +44,11 @@ import Admin from './components/Admin/Admin';
 import CustomSnackbar from './components/shared/CustomSnackbar';
 import AppBanner from './components/shared/AppBanner';
 import DeviceSetupPage from './components/smart-speaker/Setup';
+import ConfigureSpeaker from './components/smart-speaker/Configure';
 import withTracker from './withTracker';
 import GoogleAnalytics from 'react-ga';
 import { isProduction } from './utils/helperFunctions';
-import { checkDeviceWiFiAccessPoint } from './apis';
+import { checkDeviceWiFiAccessPoint, fetchActiveDeviceMacId } from './apis';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
@@ -71,6 +72,7 @@ const EnhancedTeam = withTracker(Team);
 const EnhancedBlog = withTracker(Blog);
 const EnhancedContact = withTracker(Contact);
 const EnhancedSupport = withTracker(Support);
+const EnhancedConfigureSpeaker = withTracker(ConfigureSpeaker);
 const EnhancedTerms = withTracker(Terms);
 const EnhancedPrivacy = withTracker(Privacy);
 const EnhancedVerifyAccount = withTracker(VerifyAccount);
@@ -93,23 +95,35 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    const { isLocalEnv } = this.props;
-    if (!isLocalEnv) {
-      this.deviceAccessPoint = false;
-    } else {
-      checkDeviceWiFiAccessPoint()
-        .then(payload => {
-          this.deviceAccessPoint = payload.status === 'true';
-        })
-        .catch(error => {
-          this.deviceAccessPoint = false;
-          console.log('Error, catched', error);
-        });
-    }
+    this.state = {
+      activeDeviceMacId: '',
+      deviceAccessPoint: false,
+    };
   }
 
   componentDidMount = () => {
-    const { accessToken, actions } = this.props;
+    const { accessToken, actions, isLocalEnv } = this.props;
+
+    if (!isLocalEnv) {
+      this.setState({ deviceAccessPoint: false });
+    } else {
+      fetchActiveDeviceMacId()
+        .then(payload => {
+          this.setState({ activeDeviceMacId: payload.macid });
+        })
+        .catch(error => {
+          console.log(error, 'error');
+        });
+      checkDeviceWiFiAccessPoint()
+        .then(payload => {
+          this.setState({ deviceAccessPoint: payload.status === 'true' });
+        })
+        .catch(error => {
+          console.log('Error, catched', error);
+          this.setState({ deviceAccessPoint: false });
+        });
+    }
+
     let isGAInitialised = false;
 
     window.addEventListener('offline', this.onUserOffline);
@@ -133,6 +147,7 @@ class App extends Component {
         googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
       }
     });
+    actions.getCaptchaConfig();
     if (accessToken) {
       actions.getAdmin();
       actions.getUserSettings().catch(e => {
@@ -179,8 +194,10 @@ class App extends Component {
       // visited,
     } = this.props;
 
+    const { deviceAccessPoint, activeDeviceMacId } = this.state;
+
     const renderFooterPagesList = [
-      this.deviceAccessPoint ? null : '/',
+      deviceAccessPoint ? null : '/',
       '/about',
       '/team',
       '/blog',
@@ -196,16 +213,16 @@ class App extends Component {
       'botWizard',
       'admin',
       'edit',
-      this.deviceAccessPoint ? '' : null,
+      deviceAccessPoint ? '' : null,
     ];
 
     const skillListRegex = new RegExp('^/');
     const pathLength = pathname.split('/').length;
-    const renderAppBanner = isLocalEnv ? <AppBanner /> : null;
+    const renderAppBanner = isLocalEnv ? (
+      <AppBanner macId={activeDeviceMacId} />
+    ) : null;
     const renderAppBar =
-      pathname !== '/chat' && !this.deviceAccessPoint ? (
-        <NavigationBar />
-      ) : null;
+      pathname !== '/chat' && !deviceAccessPoint ? <NavigationBar /> : null;
     const renderFooter =
       ((skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
         renderFooterPagesList.includes(pathname)) &&
@@ -225,7 +242,7 @@ class App extends Component {
     const renderChatBubble =
       hideBubble.includes(location.pathname.split('/')[1]) ||
       (hideBubble.includes(location.pathname.split('/')[3]) &&
-        this.deviceAccessPoint) ? null : (
+        deviceAccessPoint) ? null : (
         <ChatApp />
       );
     return (
@@ -248,11 +265,11 @@ class App extends Component {
             {renderChatBubble}
             <RootContainer>
               <Switch>
-                {/* {!this.deviceAccessPoint ? (
+                {!deviceAccessPoint ? (
                   <Route exact path="/" component={EnhancedBrowseSkill} />
-                ) : ( */}
-                <Route exact path="/" component={DeviceSetupPage} />
-                {/* )} */}
+                ) : (
+                  <Route exact path="/" component={DeviceSetupPage} />
+                )}
                 <Route
                   exact
                   path="/resetPass"
@@ -314,7 +331,6 @@ class App extends Component {
                   component={EnhancedDashboard}
                 />
                 <ProtectedRoute
-                  exact
                   path="/mydevices"
                   component={EnhancedDashboard}
                 />
@@ -326,6 +342,10 @@ class App extends Component {
                 <ProtectedRoute
                   path="/botWizard"
                   component={EnhancedBotBuilderWrap}
+                />
+                <Route
+                  path="/configure-speaker"
+                  component={EnhancedConfigureSpeaker}
                 />
                 <ProtectedRoute path="/mybots" component={EnhancedDashboard} />
                 <Route exact path="/about" component={EnhancedOverview} />

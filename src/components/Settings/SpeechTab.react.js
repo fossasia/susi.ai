@@ -74,14 +74,15 @@ class SpeechTab extends React.Component {
       speechPitch,
       speechRate,
     } = this.state;
-    const { actions } = this.props;
-    const payload = {
+    const { actions, userEmailId } = this.props;
+    let payload = {
       speechOutput,
       speechOutputAlways,
       ttsLanguage,
       speechPitch,
       speechRate,
     };
+    payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
     this.setState({ loading: true });
     setUserSettings(payload)
       .then(data => {
@@ -114,12 +115,19 @@ class SpeechTab extends React.Component {
       speechRate,
       loading,
     } = this.state;
+    const {
+      speechOutput: _speechOutput,
+      speechOutputAlways: _speechOutputAlways,
+      ttsLanguage: _ttsLanguage,
+      speechPitch: _speechPitch,
+      speechRate: _speechRate,
+    } = this.props;
     const disabled =
-      (speechOutput === this.props.speechOutput &&
-        speechOutputAlways === this.props.speechOutputAlways &&
-        ttsLanguage === this.props.ttsLanguage &&
-        speechPitch === this.props.speechPitch &&
-        speechRate === this.props.speechRate) ||
+      (speechOutput === _speechOutput &&
+        speechOutputAlways === _speechOutputAlways &&
+        ttsLanguage === _ttsLanguage &&
+        speechPitch === _speechPitch &&
+        speechRate === _speechRate) ||
       loading;
     return (
       <SettingsTabWrapper heading="Speech Output">
@@ -188,15 +196,20 @@ SpeechTab.propTypes = {
   speechRate: PropTypes.number,
   ttsLanguage: PropTypes.string,
   actions: PropTypes.object,
+  userEmailId: PropTypes.string,
 };
 
 function mapStateToProps(store) {
+  const userSettingsViewedByAdmin = store.settings.userSettingsViewedByAdmin;
+  const { email } = userSettingsViewedByAdmin;
+  const settings = email !== '' ? userSettingsViewedByAdmin : store.settings;
   return {
-    speechOutput: store.settings.speechOutput,
-    speechOutputAlways: store.settings.speechOutputAlways,
-    ttsLanguage: store.settings.ttsLanguage,
-    speechPitch: store.settings.speechPitch,
-    speechRate: store.settings.speechRate,
+    speechOutput: settings.speechOutput,
+    speechOutputAlways: settings.speechOutputAlways,
+    ttsLanguage: settings.ttsLanguage,
+    speechPitch: settings.speechPitch,
+    speechRate: settings.speechRate,
+    userEmailId: email, // Admin access : email Id of the user being accesed
   };
 }
 

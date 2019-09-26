@@ -162,8 +162,16 @@ class Settings extends Component {
   }
 
   componentDidMount() {
-    const { accessToken, actions, theme } = this.props;
-    if (accessToken) {
+    const { actions, theme } = this.props;
+    const parameters = new URL(window.location).searchParams;
+    const email = parameters.get('email');
+    if (email) {
+      actions.getUserSettings({ email }).then(({ payload }) => {
+        const { settings } = payload;
+        const { theme } = settings;
+        this.setState({ loading: false, theme });
+      });
+    } else {
       actions.getUserSettings().then(({ payload }) => {
         this.setState({ loading: false, theme });
       });

@@ -5,6 +5,7 @@ import { Container } from '../AdminStyles';
 import ConfigKeys from './ConfigKeys';
 import Slideshow from './Slideshow';
 import Mail from './Mail';
+import ReCaptcha from './ReCaptcha';
 
 class SystemSettings extends Component {
   state = {
@@ -23,10 +24,12 @@ class SystemSettings extends Component {
           <Tab label="Config Keys" />
           <Tab label="Slideshow" />
           <Tab label="Mail" />
+          <Tab label="Recaptcha Config" />
         </Tabs>
         {value === 0 && <ConfigKeys />}
         {value === 1 && <Slideshow />}
         {value === 2 && <Mail />}
+        {value === 3 && <ReCaptcha />}
       </Container>
     );
   }
