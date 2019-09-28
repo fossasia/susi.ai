@@ -77,14 +77,13 @@ class Login extends Component {
   handleSubmit = async e => {
     const { actions, location, history } = this.props;
     const { password, email, captchaResponse } = this.state;
-
     if (!email || !password) {
       return;
     }
     if (isEmail(email)) {
       this.setState({ loading: true });
       try {
-        let payload = await actions.getLogin({
+        let { payload } = await actions.getLogin({
           email,
           password: encodeURIComponent(password),
           captchaResponse,
@@ -95,9 +94,11 @@ class Login extends Component {
         if (payload.accepted) {
           snackBarMessage = payload.message;
           try {
-            let { payload } = await actions
-              // eslint-disable-next-line camelcase
-              .getAdmin({ access_token: payload.accessToken });
+            /*eslint-disable */
+            let { payload } = await actions.getAdmin({
+              access_token: payload.accessToken,
+            });
+            /* eslint-enable */
             this.setCookies({ accessToken, time, uuid, email });
             if (location.pathname !== '/chat') {
               history.push('/');
