@@ -547,9 +547,9 @@ class SkillWizard extends Component {
         searchURLPath('group') &&
         searchURLPath('language')
       ) {
-        payload = { ...payload, private: 1 };
+        let dataForBotBuilderCode = { ...payload, private: 1 };
         try {
-          let payload = await actions.getBotBuilderCode(payload);
+          let payload = await actions.getBotBuilderCode(dataForBotBuilderCode);
           const {
             payload: { text: code },
           } = payload;

@@ -95,8 +95,8 @@ class Login extends Component {
           snackBarMessage = payload.message;
           try {
             /*eslint-disable */
-            let { payload } = await actions.getAdmin({
-              access_token: payload.accessToken,
+            await actions.getAdmin({
+              access_token: accessToken,
             });
             /* eslint-enable */
             this.setCookies({ accessToken, time, uuid, email });
