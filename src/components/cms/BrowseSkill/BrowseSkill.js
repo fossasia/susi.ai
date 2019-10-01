@@ -1004,7 +1004,7 @@ class BrowseSkill extends React.Component {
                       <SkillCardGrid history={history} />
                     )}
                   </div>
-                  {skills.length > 10 && (
+                  {skills.length > this.props.entriesPerPage && (
                     <PageNavigationContainer>
                       <div>
                         Page: {listPage} out of{' '}
