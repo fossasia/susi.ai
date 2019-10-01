@@ -114,7 +114,7 @@ class App extends Component {
       }
 
       try {
-        payload = await checkDeviceWiFiAccessPoint();
+        let payload = await checkDeviceWiFiAccessPoint();
         this.setState({ deviceAccessPoint: payload.status === 'true' });
       } catch (error) {
         console.log('Error, catched', error);

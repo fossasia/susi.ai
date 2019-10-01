@@ -17,16 +17,17 @@ const deleteCookie = function(name, options = {}) {
   document.cookie = cookieString;
 };
 
-const Logout = async ({ actions, history }) => {
+const Logout = ({ actions, history }) => {
   deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
   deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
   deleteCookie('emailId', { domain: cookieDomain, path: '/' });
   deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
   if (history) {
-    await actions.logout();
-    actions.openSnackBar({
-      snackBarMessage: 'You have logged out successfully',
+    actions.logout().then(() => {
+      actions.openSnackBar({
+        snackBarMessage: 'You have logged out successfully',
+      });
     });
     history.push('/');
   }
