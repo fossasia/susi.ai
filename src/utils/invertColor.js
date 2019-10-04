@@ -1,5 +1,9 @@
 export const invertColorTextArea = textarea => {
   // get the text are code
+  if (textarea == null) {
+    return;
+  }
+
   let hex = textarea.slice(1);
 
   // convert 3-digit hex to 6-digits.
