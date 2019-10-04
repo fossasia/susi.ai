@@ -214,30 +214,28 @@ class NavigationBar extends Component {
     actions.openModal({ modalType: 'login' });
   };
 
-  handleSearchTypeChange = e => {
+  handleSearchTypeChange = async e => {
     const { actions, searchQuery } = this.props;
     const { value: searchType } = e.target;
-    actions.setSearchFilter({ searchType }).then(() => {
-      this.setState({
-        searchSelectWidth: this.getSelectMenuWidth(searchType),
-      });
-      if (searchQuery !== '') {
-        this.loadCards();
-      }
+    await actions.setSearchFilter({ searchType });
+    this.setState({
+      searchSelectWidth: this.getSelectMenuWidth(searchType),
     });
+    if (searchQuery !== '') {
+      this.loadCards();
+    }
   };
 
-  handleSearch = value => {
+  handleSearch = async value => {
     if (typeof value !== 'string') {
       value = '';
     }
     value = value.trim();
-    this.props.actions.setSearchFilter({ searchQuery: value }).then(() => {
-      this.loadCards();
-      if (value !== '') {
-        this.props.history.push('/');
-      }
-    });
+    await this.props.actions.setSearchFilter({ searchQuery: value });
+    this.loadCards();
+    if (value !== '') {
+      this.props.history.push('/');
+    }
   };
 
   componentDidMount() {
@@ -326,20 +324,19 @@ class NavigationBar extends Component {
     ));
   };
 
-  handleLanguageChange = (event, index, values) => {
+  handleLanguageChange = async (event, index, values) => {
     localStorage.setItem('languages', event.target.value);
-    this.props.actions
-      .setLanguageFilter({ languageValue: event.target.value })
-      .then(() => {
-        if (
-          this.props.routeType ||
-          ['category', 'language'].includes(window.location.href.split('/')[4])
-        ) {
-          this.loadCards();
-        } else {
-          this.loadMetricsSkills();
-        }
-      });
+    await this.props.actions.setLanguageFilter({
+      languageValue: event.target.value,
+    });
+    if (
+      this.props.routeType ||
+      ['category', 'language'].includes(window.location.href.split('/')[4])
+    ) {
+      this.loadCards();
+    } else {
+      this.loadMetricsSkills();
+    }
   };
 
   loadMetricsSkills = () => {

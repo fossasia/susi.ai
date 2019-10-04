@@ -101,27 +101,25 @@ class App extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { accessToken, actions, isLocalEnv } = this.props;
-
     if (!isLocalEnv) {
       this.setState({ deviceAccessPoint: false });
     } else {
-      fetchActiveDeviceMacId()
-        .then(payload => {
-          this.setState({ activeDeviceMacId: payload.macid });
-        })
-        .catch(error => {
-          console.log(error, 'error');
-        });
-      checkDeviceWiFiAccessPoint()
-        .then(payload => {
-          this.setState({ deviceAccessPoint: payload.status === 'true' });
-        })
-        .catch(error => {
-          console.log('Error, catched', error);
-          this.setState({ deviceAccessPoint: false });
-        });
+      try {
+        let payload = await fetchActiveDeviceMacId();
+        this.setState({ activeDeviceMacId: payload.macid });
+      } catch (error) {
+        console.log(error, 'error');
+      }
+
+      try {
+        let payload = await checkDeviceWiFiAccessPoint();
+        this.setState({ deviceAccessPoint: payload.status === 'true' });
+      } catch (error) {
+        console.log('Error, catched', error);
+        this.setState({ deviceAccessPoint: false });
+      }
     }
 
     let isGAInitialised = false;
@@ -129,24 +127,25 @@ class App extends Component {
     window.addEventListener('offline', this.onUserOffline);
     window.addEventListener('online', this.onUserOnline);
 
-    actions.getApiKeys().then(({ payload }) => {
-      const {
-        keys: { googleAnalyticsKey = null },
-      } = payload;
-      if (accessToken && !isProduction()) {
-        actions.getApiKeys({ apiType: 'user' }).then(({ payload }) => {
-          const userKeys = payload.keys;
-          if (userKeys && userKeys.googleAnalyticsKey) {
-            isGAInitialised = true;
-            userKeys.googleAnalyticsKey &&
-              GoogleAnalytics.initialize(userKeys.googleAnalyticsKey);
-          }
-        });
+    let { payload } = await actions.getApiKeys();
+    const {
+      keys: { googleAnalyticsKey = null },
+    } = payload;
+
+    if (accessToken && !isProduction()) {
+      let { payload } = await actions.getApiKeys({ apiType: 'user' });
+      const userKeys = payload.keys;
+      if (userKeys && userKeys.googleAnalyticsKey) {
+        isGAInitialised = true;
+        userKeys.googleAnalyticsKey &&
+          GoogleAnalytics.initialize(userKeys.googleAnalyticsKey);
       }
-      if (!isGAInitialised) {
-        googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
-      }
-    });
+    }
+
+    if (!isGAInitialised) {
+      googleAnalyticsKey && GoogleAnalytics.initialize(googleAnalyticsKey);
+    }
+
     actions.getCaptchaConfig();
     if (accessToken) {
       actions.getAdmin();

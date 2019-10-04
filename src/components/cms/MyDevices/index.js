@@ -40,24 +40,22 @@ class DevicesTab extends React.Component {
     value: 0,
   };
 
-  loadUserDevices = () => {
+  loadUserDevices = async () => {
     const { actions } = this.props;
-    actions
-      .getUserDevices()
-      .then(({ payload }) => {
-        this.initialiseDevices();
-        this.setState({
-          loading: false,
-          emptyText: 'You do not have any devices connected yet!',
-        });
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-          emptyText: 'Some error occurred while fetching the devices!',
-        });
-        console.log(error);
+    try {
+      await actions.getUserDevices();
+      this.initialiseDevices();
+      this.setState({
+        loading: false,
+        emptyText: 'You do not have any devices connected yet!',
       });
+    } catch (error) {
+      this.setState({
+        loading: false,
+        emptyText: 'Some error occurred while fetching the devices!',
+      });
+      console.log(error);
+    }
   };
 
   initialiseDevices = () => {

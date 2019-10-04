@@ -21,48 +21,47 @@ class EditUserRole extends React.Component {
     this.setState({ userRole: event.target.value });
   };
 
-  handleConfirm = () => {
+  handleConfirm = async () => {
     const { userEmail: user, userRole: role } = this.state;
     const { actions } = this.props;
-    changeUserRole({ user, role }).then(payload => {
-      this.setState({ changeRoleDialog: true });
-      actions
-        .openModal({
-          modalType: 'confirm',
-          content: (
-            <React.Fragment>
-              User role of
-              <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
-                {this.state.userEmail}
-              </span>
-              is changed to
-              <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
-                {this.state.userRole}
-              </span>
-              successfully!
-            </React.Fragment>
-          ),
-          title: 'Success',
-          handleConfirm: this.props.actions.closeModal,
-        })
-        .catch(error => {
-          const { statusCode } = error;
-          if (statusCode === 401) {
-            if (window.console) {
-              console.log(error.responseText);
-              console.log('Error 401: Permission Denied!');
-            }
-          } else if (statusCode === 503) {
-            if (window.console) {
-              console.log(error.responseText);
-            }
-            console.log('Error 503: Server not responding!');
-            document.location.reload();
-          } else {
-            console.log(error);
+    await changeUserRole({ user, role });
+    this.setState({ changeRoleDialog: true });
+    actions
+      .openModal({
+        modalType: 'confirm',
+        content: (
+          <React.Fragment>
+            User role of
+            <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
+              {this.state.userEmail}
+            </span>
+            is changed to
+            <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
+              {this.state.userRole}
+            </span>
+            successfully!
+          </React.Fragment>
+        ),
+        title: 'Success',
+        handleConfirm: this.props.actions.closeModal,
+      })
+      .catch(error => {
+        const { statusCode } = error;
+        if (statusCode === 401) {
+          if (window.console) {
+            console.log(error.responseText);
+            console.log('Error 401: Permission Denied!');
           }
-        });
-    });
+        } else if (statusCode === 503) {
+          if (window.console) {
+            console.log(error.responseText);
+          }
+          console.log('Error 503: Server not responding!');
+          document.location.reload();
+        } else {
+          console.log(error);
+        }
+      });
   };
 
   render() {

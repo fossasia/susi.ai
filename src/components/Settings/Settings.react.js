@@ -161,20 +161,18 @@ class Settings extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { actions, theme } = this.props;
     const parameters = new URL(window.location).searchParams;
     const email = parameters.get('email');
     if (email) {
-      actions.getUserSettings({ email }).then(({ payload }) => {
-        const { settings } = payload;
-        const { theme } = settings;
-        this.setState({ loading: false, theme });
-      });
+      let { payload } = await actions.getUserSettings({ email });
+      const { settings } = payload;
+      const { theme } = settings;
+      this.setState({ loading: false, theme });
     } else {
-      actions.getUserSettings().then(({ payload }) => {
-        this.setState({ loading: false, theme });
-      });
+      await actions.getUserSettings();
+      this.setState({ loading: false, theme });
     }
     document.title =
       'Settings - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
