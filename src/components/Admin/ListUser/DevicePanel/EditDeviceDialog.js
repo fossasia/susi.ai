@@ -26,47 +26,43 @@ class EditDeviceSettings extends React.Component {
     });
   };
 
-  handleConfirm = () => {
+  handleConfirm = async () => {
     const { room } = this.state;
     const { email, actions, macid } = this.props;
     this.setState({ showEditDeviceDialog: false });
-    modifyUserDevices({ email, macid, room })
-      .then(payload => {
-        actions.openModal({
-          modalType: 'confirm',
-          content: (
-            <div>
-              Successfully changed the configuration of device with macid
-              <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
-                {macid}
-              </span>
-              !
-            </div>
-          ),
-          title: 'Success',
-          handleConfirm: this.props.actions.closeModal,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-
-        actions.openModal({
-          modalType: 'confirm',
-          content: (
-            <div>
-              Unable to change the configuration of device with macid
-              <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
-                {macid}
-              </span>
-              !
-            </div>
-          ),
-          title: 'Failure',
-          handleConfirm: this.props.actions.closeModal,
-        });
-
-        this.setState({ editDeviceFailedDialog: true });
+    try {
+      // eslint-disable-next-line no-unused-vars
+      let payload = await modifyUserDevices({ email, macid, room });
+      actions.openModal({
+        modalType: 'confirm',
+        content: (
+          <div>
+            Successfully changed the configuration of device with macid
+            <span style={{ fontWeight: 'bold', margin: '0 5px' }}>{macid}</span>
+            !
+          </div>
+        ),
+        title: 'Success',
+        handleConfirm: this.props.actions.closeModal,
       });
+    } catch (error) {
+      console.log(error);
+
+      actions.openModal({
+        modalType: 'confirm',
+        content: (
+          <div>
+            Unable to change the configuration of device with macid
+            <span style={{ fontWeight: 'bold', margin: '0 5px' }}>{macid}</span>
+            !
+          </div>
+        ),
+        title: 'Failure',
+        handleConfirm: this.props.actions.closeModal,
+      });
+
+      this.setState({ editDeviceFailedDialog: true });
+    }
   };
 
   render() {

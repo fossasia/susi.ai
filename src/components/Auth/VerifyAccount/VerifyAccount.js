@@ -45,32 +45,35 @@ class VerifyAccount extends Component {
     message: null,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { accessToken, validateEmail, requestSession } = this.props;
     if (accessToken && validateEmail) {
-      verifyEmail({ accessToken, validateEmail, requestSession })
-        .then(payload => {
-          const { accepted } = payload;
-          if (accepted) {
-            this.setState({
-              loading: false,
-              message:
-                'Thank you! Your account is now verified. Please login to continue.',
-            });
-          } else {
-            this.setState({
-              loading: false,
-              message: 'Bad access token or email id!',
-            });
-          }
-        })
-        .catch(error => {
-          console.log(error);
+      try {
+        let payload = await verifyEmail({
+          accessToken,
+          validateEmail,
+          requestSession,
+        });
+        const { accepted } = payload;
+        if (accepted) {
           this.setState({
             loading: false,
-            message: 'An error occurred. Please try again.',
+            message:
+              'Thank you! Your account is now verified. Please login to continue.',
           });
+        } else {
+          this.setState({
+            loading: false,
+            message: 'Bad access token or email id!',
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        this.setState({
+          loading: false,
+          message: 'An error occurred. Please try again.',
         });
+      }
     } else {
       this.setState({
         loading: false,

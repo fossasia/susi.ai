@@ -29,99 +29,97 @@ class ListDevices extends React.Component {
     this.loadDevices();
   }
 
-  loadDevices = () => {
-    fetchDevices()
-      .then(payload => {
-        const { devices } = payload;
-        let devicesArray = [];
-        devices.forEach(device => {
-          const email = device.name;
-          const devices = device.devices;
-          const macIdArray = Object.keys(devices);
-          const lastLoginIP =
-            device.lastLoginIP !== undefined ? device.lastLoginIP : '-';
-          const lastActive =
-            device.lastActive !== undefined
-              ? moment(new Date(device.lastActive)).format(
+  loadDevices = async () => {
+    try {
+      let payload = await fetchDevices();
+      const { devices } = payload;
+      let devicesArray = [];
+      devices.forEach(device => {
+        const email = device.name;
+        const devices = device.devices;
+        const macIdArray = Object.keys(devices);
+        const lastLoginIP =
+          device.lastLoginIP !== undefined ? device.lastLoginIP : '-';
+        const lastActive =
+          device.lastActive !== undefined
+            ? moment(new Date(device.lastActive)).format(
+                'MMMM Do YYYY, H:mm:ss',
+              )
+            : '-';
+        macIdArray.forEach(macId => {
+          const device = devices[macId];
+          let deviceName = device.name !== undefined ? device.name : '-';
+          let location = 'Location not given';
+          if (device.geolocation) {
+            location = (
+              <span
+                onClick={this.handleClick}
+                name={macId}
+                style={{ cursor: 'pointer', color: '#49a9ee' }}
+              >
+                {device.geolocation.latitude},
+                <br />
+                {device.geolocation.longitude}
+              </span>
+            );
+          }
+          const dateAdded =
+            device.deviceAddTime !== undefined
+              ? moment(new Date(device.deviceAddTime)).format(
                   'MMMM Do YYYY, H:mm:ss',
                 )
               : '-';
-          macIdArray.forEach(macId => {
-            const device = devices[macId];
-            let deviceName = device.name !== undefined ? device.name : '-';
-            let location = 'Location not given';
-            if (device.geolocation) {
-              location = (
-                <span
-                  onClick={this.handleClick}
-                  name={macId}
-                  style={{ cursor: 'pointer', color: '#49a9ee' }}
-                >
-                  {device.geolocation.latitude},
-                  <br />
-                  {device.geolocation.longitude}
-                </span>
-              );
-            }
-            const dateAdded =
-              device.deviceAddTime !== undefined
-                ? moment(new Date(device.deviceAddTime)).format(
-                    'MMMM Do YYYY, H:mm:ss',
-                  )
-                : '-';
 
-            const deviceObj = {
-              deviceName,
-              macId,
-              email,
-              room: device.room,
-              location,
-              latitude:
-                device.geolocation !== undefined
-                  ? device.geolocation.latitude
-                  : '-',
-              longitude:
-                device.geolocation !== undefined
-                  ? device.geolocation.longitude
-                  : '-',
-              dateAdded,
-              lastActive,
-              lastLoginIP,
-            };
-            devicesArray.push(deviceObj);
-          });
+          const deviceObj = {
+            deviceName,
+            macId,
+            email,
+            room: device.room,
+            location,
+            latitude:
+              device.geolocation !== undefined
+                ? device.geolocation.latitude
+                : '-',
+            longitude:
+              device.geolocation !== undefined
+                ? device.geolocation.longitude
+                : '-',
+            dateAdded,
+            lastActive,
+            lastLoginIP,
+          };
+          devicesArray.push(deviceObj);
         });
-        this.setState({
-          loadingDevices: false,
-          devices: devicesArray,
-        });
-      })
-      .catch(error => {
-        console.log(error);
       });
+      this.setState({
+        loadingDevices: false,
+        devices: devicesArray,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  confirmDelete = () => {
+  confirmDelete = async () => {
     const { actions } = this.props;
     const { macId, email } = this.state;
-    removeUserDevice({ macId, email })
-      .then(payload => {
-        actions.openSnackBar({
-          snackBarMessage: payload.message,
-          snackBarDuration: 2000,
-        });
-        actions.closeModal();
-        this.setState({
-          loadingDevices: true,
-        });
-        this.loadDevices();
-      })
-      .catch(error => {
-        actions.openSnackBar({
-          snackBarMessage: `Unable to delete device with macID ${macId}. Please try again.`,
-          snackBarDuration: 2000,
-        });
+    try {
+      let payload = await removeUserDevice({ macId, email });
+      actions.openSnackBar({
+        snackBarMessage: payload.message,
+        snackBarDuration: 2000,
       });
+      actions.closeModal();
+      this.setState({
+        loadingDevices: true,
+      });
+      this.loadDevices();
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: `Unable to delete device with macID ${macId}. Please try again.`,
+        snackBarDuration: 2000,
+      });
+    }
   };
 
   handleDelete = (macId, deviceName, email) => {
@@ -137,24 +135,23 @@ class ListDevices extends React.Component {
     });
   };
 
-  confirmEdit = (email, macid, room, name) => {
+  confirmEdit = async (email, macid, room, name) => {
     const { actions } = this.props;
-    modifyUserDevices({ email, macid, room, name })
-      .then(payload => {
-        actions.openSnackBar({
-          snackBarMessage: payload.message,
-          snackBarDuration: 2000,
-        });
-        actions.closeModal();
-        this.setState({ loadingDevices: true });
-        this.loadDevices();
-      })
-      .catch(error => {
-        actions.openSnackBar({
-          snackBarMessage: `Unable to update device with macID ${macid}. Please try again.`,
-          snackBarDuration: 2000,
-        });
+    try {
+      let payload = await modifyUserDevices({ email, macid, room, name });
+      actions.openSnackBar({
+        snackBarMessage: payload.message,
+        snackBarDuration: 2000,
       });
+      actions.closeModal();
+      this.setState({ loadingDevices: true });
+      this.loadDevices();
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: `Unable to update device with macID ${macid}. Please try again.`,
+        snackBarDuration: 2000,
+      });
+    }
   };
 
   handleEdit = (email, macId, room, deviceName) => {

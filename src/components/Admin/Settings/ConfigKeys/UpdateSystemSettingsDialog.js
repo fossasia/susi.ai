@@ -23,14 +23,15 @@ class UpdateSystemSettings extends React.Component {
     });
   };
 
-  handleSave = () => {
+  handleSave = async () => {
     const { keyName, keyValue, apiType } = this.state;
     const { handleConfirm } = this.props;
-    createApiKey({ keyName, keyValue, apiType })
-      .then(() => handleConfirm())
-      .catch(error => {
-        console.log(error);
-      });
+    try {
+      await createApiKey({ keyName, keyValue, apiType });
+      handleConfirm();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
