@@ -190,39 +190,42 @@ class SkillListing extends Component {
     this.props.actions.openModal({ modalType: 'authorSkills' });
   };
 
-  deleteSkill = () => {
+  deleteSkill = async () => {
     const { actions, history } = this.props;
     const { model, group, language, skill } = this.skillData;
-    actions
-      .deleteSkill({ model, group, language, skill })
-      .then(payload => {
-        actions.openModal({
-          modalType: 'confirm',
-          title: 'Success',
-          handleConfirm: () => {
-            actions.closeModal();
-            history.push('/');
-          },
-          content: (
-            <p>
-              You successfully deleted <b>{skill}</b>!
-            </p>
-          ),
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        actions.openModal({
-          title: 'Failed',
-          handleConfirm: actions.closeModal,
-          skillName: skill,
-          content: (
-            <p>
-              Error! <b>{skill}</b> could not be deleted!
-            </p>
-          ),
-        });
+    try {
+      await actions.deleteSkill({
+        model,
+        group,
+        language,
+        skill,
       });
+      actions.openModal({
+        modalType: 'confirm',
+        title: 'Success',
+        handleConfirm: () => {
+          actions.closeModal();
+          history.push('/');
+        },
+        content: (
+          <p>
+            You successfully deleted <b>{skill}</b>!
+          </p>
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+      actions.openModal({
+        title: 'Failed',
+        handleConfirm: actions.closeModal,
+        skillName: skill,
+        content: (
+          <p>
+            Error! <b>{skill}</b> could not be deleted!
+          </p>
+        ),
+      });
+    }
   };
 
   handleDeleteDialog = () => {
@@ -242,24 +245,26 @@ class SkillListing extends Component {
     });
   };
 
-  handleReportSubmit = () => {
+  handleReportSubmit = async () => {
     const { actions } = this.props;
     const { feedbackMessage } = this.state;
-    reportSkill({ ...this.skillData, feedback: feedbackMessage })
-      .then(payload => {
-        actions.closeModal();
-        actions.openSnackBar({
-          snackBarMessage: 'Skill has been reported successfully.',
-          snackBarDuration: 3000,
-        });
-      })
-      .catch(error => {
-        actions.closeModal();
-        actions.openSnackBar({
-          snackBarMessage: 'Failed to report the skill.',
-          snackBarDuration: 3000,
-        });
+    try {
+      await reportSkill({
+        ...this.skillData,
+        feedback: feedbackMessage,
       });
+      actions.closeModal();
+      actions.openSnackBar({
+        snackBarMessage: 'Skill has been reported successfully.',
+        snackBarDuration: 3000,
+      });
+    } catch (error) {
+      actions.closeModal();
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to report the skill.',
+        snackBarDuration: 3000,
+      });
+    }
   };
 
   toggleSkillExamples = () => {

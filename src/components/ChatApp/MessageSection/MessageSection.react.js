@@ -290,31 +290,25 @@ class MessageSection extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { actions } = this.props;
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    actions
-      .getHistoryFromServer()
-      .then(({ payload }) => {
-        createMessagePairArray(payload).then(messagePairArray => {
-          actions.initializeMessageStore(messagePairArray).then(() => {
-            const { messagesByID, messages } = this.props;
-            this.userMessageHistory = getAllUserMessages(
-              messages,
-              messagesByID,
-              'REVERSE',
-            );
-          });
-        });
-      })
-      .then(() => {
-        this.scrollarea && this.scrollarea.scrollToBottom();
-      })
-      .catch(error => {
-        actions.initializeMessageStoreFailed();
-        console.log(error);
-      });
+    try {
+      let { payload } = await actions.getHistoryFromServer();
+      let messagePairArray = await createMessagePairArray(payload);
+      await actions.initializeMessageStore(messagePairArray);
+      const { messagesByID, messages } = this.props;
+      this.userMessageHistory = getAllUserMessages(
+        messages,
+        messagesByID,
+        'REVERSE',
+      );
+      this.scrollarea && this.scrollarea.scrollToBottom();
+    } catch (error) {
+      actions.initializeMessageStoreFailed();
+      console.log(error);
+    }
   };
 
   componentWillUnmount = () => {

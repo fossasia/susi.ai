@@ -17,6 +17,13 @@ const deleteCookie = function(name, options = {}) {
   document.cookie = cookieString;
 };
 
+async function callLogout(actions) {
+  await actions.logout();
+  actions.openSnackBar({
+    snackBarMessage: 'You have logged out successfully',
+  });
+}
+
 const Logout = ({ actions, history }) => {
   deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
   deleteCookie('serverUrl', { domain: cookieDomain, path: '/' });
@@ -24,11 +31,7 @@ const Logout = ({ actions, history }) => {
   deleteCookie('uuid', { domain: cookieDomain, path: '/' });
 
   if (history) {
-    actions.logout().then(() => {
-      actions.openSnackBar({
-        snackBarMessage: 'You have logged out successfully',
-      });
-    });
+    callLogout(actions);
     history.push('/');
   }
   return null;

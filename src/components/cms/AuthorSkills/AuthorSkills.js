@@ -74,12 +74,14 @@ class AuthorSkills extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { author, actions } = this.props;
-    actions
-      .getAuthorSkills({ author })
-      .then(() => this.setState({ loading: false }))
-      .catch(error => console.log('Failed to Get Author Skills'));
+    try {
+      await actions.getAuthorSkills({ author });
+      this.setState({ loading: false });
+    } catch (error) {
+      console.log('Failed to Get Author Skills');
+    }
   }
 
   loadSkillCards = () => {

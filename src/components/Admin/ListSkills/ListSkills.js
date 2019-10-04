@@ -57,7 +57,7 @@ class ListSkills extends React.Component {
     this.loadReportedSkill();
   }
 
-  changeStatus = (
+  changeStatus = async (
     skillReviewStatus,
     skillEditStatus,
     skillStaffPickStatus,
@@ -70,44 +70,45 @@ class ListSkills extends React.Component {
       skillTag: skill,
     } = this.state;
 
-    changeSkillStatus({
-      model,
-      group,
-      language,
-      skill,
-      reviewed: skillReviewStatus,
-      editable: skillEditStatus,
-      staffPick: skillStaffPickStatus,
-      systemSkill: systemSkillStatus,
-    })
-      .then(payload => {
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Success',
-          handleConfirm: this.props.actions.closeModal,
-          content: (
-            <p>
-              Status of <b>{skill}</b> has been changed successfully!
-            </p>
-          ),
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Failed',
-          handleConfirm: this.props.actions.closeModal,
-          content: (
-            <p>
-              Error! Status of <b>{skill}</b> could not be changed!
-            </p>
-          ),
-        });
+    try {
+      // eslint-disable-next-line no-unused-vars
+      let payload = await changeSkillStatus({
+        model,
+        group,
+        language,
+        skill,
+        reviewed: skillReviewStatus,
+        editable: skillEditStatus,
+        staffPick: skillStaffPickStatus,
+        systemSkill: systemSkillStatus,
       });
+
+      this.props.actions.openModal({
+        modalType: 'confirm',
+        title: 'Success',
+        handleConfirm: this.props.actions.closeModal,
+        content: (
+          <p>
+            Status of <b>{skill}</b> has been changed successfully!
+          </p>
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+      this.props.actions.openModal({
+        modalType: 'confirm',
+        title: 'Failed',
+        handleConfirm: this.props.actions.closeModal,
+        content: (
+          <p>
+            Error! Status of <b>{skill}</b> could not be changed!
+          </p>
+        ),
+      });
+    }
   };
 
-  deleteSkill = () => {
+  deleteSkill = async () => {
     this.setState({ loading: true });
     const {
       skillModel: model,
@@ -115,37 +116,37 @@ class ListSkills extends React.Component {
       skillLanguage: language,
       skillName: skill,
     } = this.state;
-    deleteSkill({ model, group, language, skill })
-      .then(payload => {
-        this.setState({ loading: false });
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Success',
-          handleConfirm: this.props.actions.closeModal,
-          content: (
-            <p>
-              You successfully deleted <b>{skill}</b>!
-            </p>
-          ),
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ loading: false });
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Failed',
-          handleConfirm: this.props.actions.closeModal,
-          content: (
-            <p>
-              Error! <b>{skill}</b> could not be deleted!
-            </p>
-          ),
-        });
+    try {
+      // eslint-disable-next-line no-unused-vars
+      let payload = await deleteSkill({ model, group, language, skill });
+      this.setState({ loading: false });
+      this.props.actions.openModal({
+        modalType: 'confirm',
+        title: 'Success',
+        handleConfirm: this.props.actions.closeModal,
+        content: (
+          <p>
+            You successfully deleted <b>{skill}</b>!
+          </p>
+        ),
       });
+    } catch (error) {
+      console.log(error);
+      this.setState({ loading: false });
+      this.props.actions.openModal({
+        modalType: 'confirm',
+        title: 'Failed',
+        handleConfirm: this.props.actions.closeModal,
+        content: (
+          <p>
+            Error! <b>{skill}</b> could not be deleted!
+          </p>
+        ),
+      });
+    }
   };
 
-  restoreSkill = () => {
+  restoreSkill = async () => {
     this.setState({ loading: true });
     const {
       skillModel: model,
@@ -153,147 +154,146 @@ class ListSkills extends React.Component {
       skillLanguage: language,
       skillName: skill,
     } = this.state;
-    undoDeleteSkill({ model, group, language, skill })
-      .then(payload => {
-        this.setState({ loading: false });
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Success',
-          handleConfirm: this.props.actions.closeModal,
-          content: (
-            <p>
-              You successfully restored <b>{skill}</b>!
-            </p>
-          ),
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ loading: false });
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Failed',
-          handleConfirm: this.props.actions.closeModal,
-          content: (
-            <p>
-              Error! <b>{skill}</b> could not be restored!
-            </p>
-          ),
-        });
+    try {
+      // eslint-disable-next-line no-unused-vars
+      let payload = await undoDeleteSkill({ model, group, language, skill });
+      this.setState({ loading: false });
+      this.props.actions.openModal({
+        modalType: 'confirm',
+        title: 'Success',
+        handleConfirm: this.props.actions.closeModal,
+        content: (
+          <p>
+            You successfully restored <b>{skill}</b>!
+          </p>
+        ),
       });
+    } catch (error) {
+      console.log(error);
+      this.setState({ loading: false });
+      this.props.actions.openModal({
+        modalType: 'confirm',
+        title: 'Failed',
+        handleConfirm: this.props.actions.closeModal,
+        content: (
+          <p>
+            Error! <b>{skill}</b> could not be restored!
+          </p>
+        ),
+      });
+    }
   };
 
-  loadReportedSkill = () => {
+  loadReportedSkill = async () => {
     let skills = [];
-    fetchReportedSkills()
-      .then(({ list }) => {
-        for (let skillMetadata of list) {
+    try {
+      let { list } = await fetchReportedSkills();
+      for (let skillMetadata of list) {
+        let skill = {
+          skillName: skillMetadata.skillName,
+          model: skillMetadata.model,
+          group: skillMetadata.group,
+          language: skillMetadata.language,
+          type: 'public',
+          author: skillMetadata.author,
+          reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
+          editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
+        };
+        skills.push(skill);
+      }
+      this.setState({ loadingReportedSkills: false, reportedSkills: skills });
+    } catch (error) {
+      console.log(error, 'Error');
+    }
+  };
+
+  loadDeletedSkills = async () => {
+    let deletedSkills = [];
+    try {
+      let { skills } = await skillsToBeDeleted();
+      for (let skillMetadata of skills) {
+        let skill = {
+          skillName: skillMetadata.skillName,
+          model: skillMetadata.model,
+          group: skillMetadata.group,
+          language: skillMetadata.language,
+          type: 'public',
+          author: skillMetadata.author,
+          reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
+          editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
+        };
+        deletedSkills.push(skill);
+      }
+      this.setState({ deletedSkills: skills });
+    } catch (error) {
+      console.log(error, 'Error');
+    }
+  };
+
+  loadGroups = async () => {
+    try {
+      let payload = await fetchGroupOptions();
+      let groups = {};
+      if (payload) {
+        for (let i of payload.groups) {
+          groups = { ...groups, [i]: i };
+        }
+      }
+      this.setState({
+        groups,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  loadSkills = async () => {
+    const { actions } = this.props;
+    try {
+      let payload = await fetchUserSkill({
+        filterName: 'ascending',
+        filterType: 'lexicographical',
+      });
+      let skills = [];
+      let systemSkills = [];
+      if (payload) {
+        const { filteredData } = payload;
+        for (let skillMetadata of filteredData) {
           let skill = {
             skillName: skillMetadata.skillName,
             model: skillMetadata.model,
             group: skillMetadata.group,
             language: skillMetadata.language,
+            skillTag: skillMetadata.skillTag,
+            reviewStatus: skillMetadata.reviewed,
+            editStatus: skillMetadata.editable,
+            staffPickStatus: skillMetadata.staffPick,
+            systemSkillStatus: skillMetadata.systemSkill,
             type: 'public',
             author: skillMetadata.author,
             reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
             editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
           };
           skills.push(skill);
-        }
-        this.setState({ loadingReportedSkills: false, reportedSkills: skills });
-      })
-      .catch(error => {
-        console.log(error, 'Error');
-      });
-  };
-
-  loadDeletedSkills = () => {
-    let deletedSkills = [];
-    skillsToBeDeleted()
-      .then(({ skills }) => {
-        for (let skillMetadata of skills) {
-          let skill = {
-            skillName: skillMetadata.skillName,
-            model: skillMetadata.model,
-            group: skillMetadata.group,
-            language: skillMetadata.language,
-            type: 'public',
-            author: skillMetadata.author,
-            reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
-            editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
-          };
-          deletedSkills.push(skill);
-        }
-        this.setState({ deletedSkills: skills });
-      })
-      .catch(error => {
-        console.log(error, 'Error');
-      });
-  };
-
-  loadGroups = () => {
-    fetchGroupOptions()
-      .then(payload => {
-        let groups = {};
-        if (payload) {
-          for (let i of payload.groups) {
-            groups = { ...groups, [i]: i };
+          if (skillMetadata.systemSkill) {
+            systemSkills.push(skill);
           }
         }
-        this.setState({
-          groups,
-        });
-      })
-      .catch(error => {
-        console.log(error);
+      }
+      this.setState({
+        skillsData: skills,
+        loading: false,
+        systemSkills,
       });
-  };
-
-  loadSkills = () => {
-    const { actions } = this.props;
-    fetchUserSkill({ filterName: 'ascending', filterType: 'lexicographical' })
-      .then(payload => {
-        let skills = [];
-        let systemSkills = [];
-        if (payload) {
-          const { filteredData } = payload;
-          for (let skillMetadata of filteredData) {
-            let skill = {
-              skillName: skillMetadata.skillName,
-              model: skillMetadata.model,
-              group: skillMetadata.group,
-              language: skillMetadata.language,
-              skillTag: skillMetadata.skillTag,
-              reviewStatus: skillMetadata.reviewed,
-              editStatus: skillMetadata.editable,
-              staffPickStatus: skillMetadata.staffPick,
-              systemSkillStatus: skillMetadata.systemSkill,
-              type: 'public',
-              author: skillMetadata.author,
-              reviewed: skillMetadata.reviewed ? 'Approved' : 'Not Reviewed',
-              editable: skillMetadata.editable ? 'Editable' : 'Not Editable',
-            };
-            skills.push(skill);
-            if (skillMetadata.systemSkill) {
-              systemSkills.push(skill);
-            }
-          }
-        }
-        this.setState({
-          skillsData: skills,
-          loading: false,
-          systemSkills,
-        });
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-        });
-        actions.openSnackBar({
-          snackBarMessage: "Error. Couldn't fetch skills.",
-          snackBarDuration: 2000,
-        });
+    } catch (error) {
+      this.setState({
+        loading: false,
       });
+      actions.openSnackBar({
+        snackBarMessage: "Error. Couldn't fetch skills.",
+        snackBarDuration: 2000,
+      });
+    }
   };
 
   handleChange = (

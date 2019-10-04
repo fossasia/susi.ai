@@ -259,49 +259,51 @@ class Preview extends Component {
     }));
   };
 
-  sendMessage = event => {
+  sendMessage = async event => {
     const { message } = this.state;
     const { code } = this.props;
     if (message.trim().length > 0) {
       this.addMessage(message, 'You');
       const encodedMessage = encodeURIComponent(message);
       const encodedCode = encodeURIComponent(code);
-      fetchConversationResponse({ q: encodedMessage, instant: encodedCode })
-        .then(payload => {
-          const { messages } = this.state;
-          let index;
-          for (let i = 0; i < messages.length; i++) {
-            if (messages[i].loading === true) {
-              index = i;
-              break;
-            }
-          }
-
-          let messageObj;
-          if (payload.answers[0]) {
-            messageObj = {
-              message: payload.answers[0].actions[0].expression,
-              author: 'SUSI',
-              loading: false,
-            };
-          } else {
-            messageObj = {
-              message: 'Sorry, I could not understand what you just said.',
-              author: 'SUSI',
-              loading: false,
-            };
-          }
-          this.setState(prevState => ({
-            messages: [
-              ...prevState.messages.slice(0, index),
-              messageObj,
-              ...prevState.messages.slice(index + 1),
-            ],
-          }));
-        })
-        .catch(error => {
-          console.log('Could not fetch reply');
+      try {
+        let payload = await fetchConversationResponse({
+          q: encodedMessage,
+          instant: encodedCode,
         });
+        const { messages } = this.state;
+        let index;
+        for (let i = 0; i < messages.length; i++) {
+          if (messages[i].loading === true) {
+            index = i;
+            break;
+          }
+        }
+
+        let messageObj;
+        if (payload.answers[0]) {
+          messageObj = {
+            message: payload.answers[0].actions[0].expression,
+            author: 'SUSI',
+            loading: false,
+          };
+        } else {
+          messageObj = {
+            message: 'Sorry, I could not understand what you just said.',
+            author: 'SUSI',
+            loading: false,
+          };
+        }
+        this.setState(prevState => ({
+          messages: [
+            ...prevState.messages.slice(0, index),
+            messageObj,
+            ...prevState.messages.slice(index + 1),
+          ],
+        }));
+      } catch (error) {
+        console.log('Could not fetch reply');
+      }
       this.setState({ message: '' });
     }
   };
