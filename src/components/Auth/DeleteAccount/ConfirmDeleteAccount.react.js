@@ -63,31 +63,29 @@ class ConfirmDeleteAccount extends React.Component {
     this.props.actions.closeModal();
   };
 
-  handleConfirm = event => {
+  handleConfirm = async event => {
     this.setState({ loading: true });
     const { confirmed } = this.state;
     const { actions, history } = this.props;
     if (confirmed) {
-      deleteAccount()
-        .then(response => {
-          this.setState({ loading: false });
-          deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
-          deleteCookie('emailId', { domain: cookieDomain, path: '/' });
-          actions.logout().then(() => {
-            actions.closeModal();
-            actions.openSnackBar({
-              snackBarMessage: 'Account deleted successfully',
-            });
-            history.push('/');
-          });
-        })
-        .catch(error => {
-          this.setState({ loading: false });
-          console.error('Some error occured');
-          actions.openSnackBar({
-            snackBarMessage: 'Invalid Password! Try again later',
-          });
+      try {
+        await deleteAccount();
+        this.setState({ loading: false });
+        deleteCookie('loggedIn', { domain: cookieDomain, path: '/' });
+        deleteCookie('emailId', { domain: cookieDomain, path: '/' });
+        await actions.logout();
+        actions.closeModal();
+        actions.openSnackBar({
+          snackBarMessage: 'Account deleted successfully',
         });
+        history.push('/');
+      } catch (error) {
+        this.setState({ loading: false });
+        console.error('Some error occured');
+        actions.openSnackBar({
+          snackBarMessage: 'Invalid Password! Try again later',
+        });
+      }
     }
   };
 

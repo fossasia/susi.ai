@@ -308,28 +308,26 @@ class BrowseSkill extends React.Component {
     return obj;
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     // Initialize store based on query params
     const obj = this.initStore();
     const { actions, routeType } = this.props;
     document.title = 'SUSI.AI - Browse Skills';
-    actions
-      .initializeSkillData(obj)
-      .then(() => {
-        this.loadGroups();
-        if (
-          routeType ||
-          ['category', 'language'].includes(window.location.href.split('/')[4])
-        ) {
-          this.loadCards();
-        } else {
-          this.loadLanguages('All');
-          this.loadMetricsSkills();
-        }
-      })
-      .catch(error => {
-        actions.initializeSkillData(obj);
-      });
+    try {
+      await actions.initializeSkillData(obj);
+      this.loadGroups();
+      if (
+        routeType ||
+        ['category', 'language'].includes(window.location.href.split('/')[4])
+      ) {
+        this.loadCards();
+      } else {
+        this.loadLanguages('All');
+        this.loadMetricsSkills();
+      }
+    } catch (error) {
+      actions.initializeSkillData(obj);
+    }
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }
@@ -345,11 +343,12 @@ class BrowseSkill extends React.Component {
   };
 
   // FilterChange
-  handleFilterChange = event => {
+  handleFilterChange = async event => {
     const { value } = event.target;
     const { location, history, actions } = this.props;
     appendQueryString(location, history, 'sort_by', value);
-    actions.setFilterType({ filterType: value }).then(() => this.loadCards());
+    await actions.setFilterType({ filterType: value });
+    this.loadCards();
   };
 
   handleEntriesPerPageChange = event => {
@@ -382,20 +381,18 @@ class BrowseSkill extends React.Component {
     actions.setSkillsViewType({ viewType: value });
   };
 
-  handleArrivalTimeChange = value => {
+  handleArrivalTimeChange = async value => {
     const { actions, history, location } = this.props;
     if (value) {
       appendQueryString(location, history, 'creation_date&duration', value);
-      actions
-        .setTimeFilter({
-          filterType: `creation_date&duration=${value}`,
-          timeFilter: value,
-        })
-        .then(() => this.loadCards());
+      await actions.setTimeFilter({
+        filterType: `creation_date&duration=${value}`,
+        timeFilter: value,
+      });
+      this.loadCards();
     } else {
-      actions
-        .setTimeFilter({ filterType: 'rating', timeFilter: null })
-        .then(() => this.loadCards());
+      await actions.setTimeFilter({ filterType: 'rating', timeFilter: null });
+      this.loadCards();
     }
   };
 
@@ -465,16 +462,18 @@ class BrowseSkill extends React.Component {
     window.scrollTo(0, 0);
   };
 
-  handleRatingRefine = ratingRefine => {
+  handleRatingRefine = async ratingRefine => {
     const { skills = [], actions, history, location } = this.props;
     if (skills.length === 0) {
-      actions.setSkillsLoading().then(() => this.loadCards());
+      await actions.setSkillsLoading();
+      this.loadCards();
     }
     if (ratingRefine) {
       actions.setStarRatingFilter({ ratingRefine });
       appendQueryString(location, history, 'rating_refine', ratingRefine);
     } else {
-      actions.setStarRatingFilter({ ratingRefine }).then(this.loadCards());
+      await actions.setStarRatingFilter({ ratingRefine });
+      this.loadCards();
     }
   };
 
@@ -491,33 +490,32 @@ class BrowseSkill extends React.Component {
     ));
   };
 
-  handleOrderByChange = () => {
+  handleOrderByChange = async () => {
     const { orderBy, actions, history, location } = this.props;
     const value = orderBy === 'ascending' ? 'descending' : 'ascending';
     appendQueryString(location, history, 'order_by', value);
-    actions.setOrderByFilter({ orderBy: value }).then(() => this.loadCards());
+    await actions.setOrderByFilter({ orderBy: value });
+    this.loadCards();
   };
 
-  handleReviewFilterChange = e => {
+  handleReviewFilterChange = async e => {
     const { actions, history, location } = this.props;
     const { checked } = e.target;
     appendQueryString(location, history, 'reviewed', checked);
-    actions
-      .setReviewedFilter({
-        reviewed: checked,
-      })
-      .then(() => this.loadCards());
+    await actions.setReviewedFilter({
+      reviewed: checked,
+    });
+    this.loadCards();
   };
 
-  handleStaffFilterChange = e => {
+  handleStaffFilterChange = async e => {
     const { actions, history, location } = this.props;
     const { checked } = e.target;
     appendQueryString(location, history, 'staff_picks', checked);
-    actions
-      .setStaffpickFilter({
-        staffPicks: e.target.checked,
-      })
-      .then(() => this.loadCards());
+    await actions.setStaffpickFilter({
+      staffPicks: e.target.checked,
+    });
+    this.loadCards();
   };
 
   handleMenuClick = event => {

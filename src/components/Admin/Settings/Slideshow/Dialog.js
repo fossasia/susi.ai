@@ -40,23 +40,25 @@ class SkillSlideshowDialog extends React.Component {
     isSliderImageAdded: false,
   };
 
-  saveSlide = () => {
+  saveSlide = async () => {
     const { redirectLink, info, imagePath } = this.state;
-    modifySkillSlideshow({ redirectLink, info, imageName: imagePath })
-      .then(() => {
-        this.props.getSkillSlideshow();
-      })
-      .catch(error => console.log('Error', error));
+    try {
+      await modifySkillSlideshow({ redirectLink, info, imageName: imagePath });
+      this.props.getSkillSlideshow();
+    } catch (error) {
+      console.log('Error', error);
+    }
     this.props.actions.closeModal();
   };
 
-  deleteSlide = () => {
+  deleteSlide = async () => {
     const { redirectLink, imagePath } = this.state;
-    deleteSkillSlideshow({ redirectLink, imageName: imagePath })
-      .then(() => {
-        this.props.getSkillSlideshow();
-      })
-      .catch(error => console.log('Error', error));
+    try {
+      await deleteSkillSlideshow({ redirectLink, imageName: imagePath });
+      this.props.getSkillSlideshow();
+    } catch (error) {
+      console.log('Error', error);
+    }
     this.props.actions.closeModal();
   };
 
@@ -66,7 +68,7 @@ class SkillSlideshowDialog extends React.Component {
     });
   };
 
-  handleSliderSubmit = () => {
+  handleSliderSubmit = async () => {
     const { file, imageSuffix } = this.state;
     const { accessToken, actions } = this.props;
     // eslint-disable-next-line no-undef
@@ -75,15 +77,14 @@ class SkillSlideshowDialog extends React.Component {
     form.append('image', file);
     form.append('image_name', imageSuffix);
     this.setState({ uploadingImage: true });
-    uploadImage(form).then(({ imagePath }) => {
-      actions.openSnackBar({
-        snackBarMessage: 'Slider Uploaded',
-      });
-      this.setState({
-        uploadingImage: false,
-        isSliderImageUploaded: true,
-        imagePath,
-      });
+    let { imagePath } = await uploadImage(form);
+    actions.openSnackBar({
+      snackBarMessage: 'Slider Uploaded',
+    });
+    this.setState({
+      uploadingImage: false,
+      isSliderImageUploaded: true,
+      imagePath,
     });
   };
 

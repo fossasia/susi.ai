@@ -224,17 +224,17 @@ class Blog extends Component {
     }
   };
 
-  getPosts = blogKey => {
-    getBlogReponse(blogKey)
-      .then(payload => {
-        if (payload.status !== 'ok') {
-          throw payload.message;
-        }
-        this.setState({ posts: payload.items, postRendered: true });
-      })
-      .catch(error => {
-        console.log("Couldn't fetch blog response");
-      });
+  getPosts = async blogKey => {
+    let payload = await getBlogReponse(blogKey);
+
+    try {
+      if (payload.status !== 'ok') {
+        throw payload.message;
+      }
+      this.setState({ posts: payload.items, postRendered: true });
+    } catch (err) {
+      console.log("Couldn't fetch blog response");
+    }
   };
 
   scrollStep = () => {

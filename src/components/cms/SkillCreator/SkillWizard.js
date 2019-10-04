@@ -424,39 +424,38 @@ class SkillWizard extends Component {
     };
   }
 
-  loadLanguages() {
+  async loadLanguages() {
     if (this.state.languages.length === 0) {
-      fetchAllLanguageOptions()
-        .then(payload => {
-          const data = payload.languagesArray;
-          let languages = data.map(language => {
-            if (ISO6391.getNativeName(language)) {
-              return (
-                <MenuItem value={language} key={language}>
-                  {ISO6391.getNativeName(language)}
-                </MenuItem>
-              );
-            }
+      try {
+        let payload = await fetchAllLanguageOptions();
+        const data = payload.languagesArray;
+        let languages = data.map(language => {
+          if (ISO6391.getNativeName(language)) {
             return (
               <MenuItem value={language} key={language}>
-                Universal
+                {ISO6391.getNativeName(language)}
               </MenuItem>
             );
-          });
-          languages.sort(function(a, b) {
-            if (a.props.primaryText < b.props.primaryText) {
-              return -1;
-            }
-            if (a.props.primaryText > b.props.primaryText) {
-              return 1;
-            }
-            return 0;
-          });
-          this.setState({ languages });
-        })
-        .catch(error => {
-          console.log('Error while fetching languages', error);
+          }
+          return (
+            <MenuItem value={language} key={language}>
+              Universal
+            </MenuItem>
+          );
         });
+        languages.sort(function(a, b) {
+          if (a.props.primaryText < b.props.primaryText) {
+            return -1;
+          }
+          if (a.props.primaryText > b.props.primaryText) {
+            return 1;
+          }
+          return 0;
+        });
+        this.setState({ languages });
+      } catch (error) {
+        console.log('Error while fetching languages', error);
+      }
     }
   }
 
@@ -467,7 +466,7 @@ class SkillWizard extends Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     // Check if admin is logged in or not
     const { actions } = this.props;
     if (this.isBotBuilder) {
@@ -494,16 +493,15 @@ class SkillWizard extends Component {
         model: 'general',
       };
 
-      fetchSkillMetaData(payload)
-        .then(payload => {
-          this.setState({
-            editable: payload.skillMetadata.editable,
-            loadViews: true,
-          });
-        })
-        .catch(error => {
-          console.log('Error while fetching skill metadata', error);
+      try {
+        let skillData = await fetchSkillMetaData(payload);
+        this.setState({
+          editable: skillData.skillMetadata.editable,
+          loadViews: true,
         });
+      } catch (error) {
+        console.log('Error while fetching skill metadata', error);
+      }
 
       actions.setSkillData({
         name: this.skillTag,
@@ -514,64 +512,57 @@ class SkillWizard extends Component {
       if (this.mode === 'edit') {
         document.title = 'SUSI.AI - Edit Skill';
         if (this.commitId) {
-          actions
-            .getSkillByCommitId({
-              ...payload,
-              commitID: this.commitId,
-            })
-            .then(payload => {
-              this.setState({
-                author: payload.author,
-                date: payload.commitDate,
-                loadViews: true,
-              });
-              const match = payload.file.match(/^::image\s(.*)$/m);
-              if (match != null) {
-                this.setState({ codeChanged: true });
-              }
-            });
+          let skillByCommitId = await actions.getSkillByCommitId({
+            ...payload,
+            commitID: this.commitId,
+          });
+          this.setState({
+            author: skillByCommitId.author,
+            date: skillByCommitId.commitDate,
+            loadViews: true,
+          });
+          const match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+          if (match != null) {
+            this.setState({ codeChanged: true });
+          }
         }
         // Edit already existing Skill
-        actions
-          .getSkillCode(payload)
-          .then(payload => {
-            const {
-              payload: { text: code },
-            } = payload;
-            const match = code.match(/^::image\s(.*)$/m);
-            if (match !== null) {
-              this.setState({
-                codeChanged: true,
-                loadViews: true,
-              });
-            }
-          })
-          .catch(error => {
-            console.log('Error while fetching skill', error);
-          });
+        try {
+          let skillCode = await actions.getSkillCode(payload);
+          const {
+            payload: { text: code },
+          } = skillCode;
+          const match = code.match(/^::image\s(.*)$/m);
+          if (match !== null) {
+            this.setState({
+              codeChanged: true,
+              loadViews: true,
+            });
+          }
+        } catch (error) {
+          console.log('Error while fetching skill', error);
+        }
       } else if (
         searchURLPath('name') &&
         searchURLPath('group') &&
         searchURLPath('language')
       ) {
-        payload = { ...payload, private: 1 };
-        actions
-          .getBotBuilderCode(payload)
-          .then(payload => {
-            const {
-              payload: { text: code },
-            } = payload;
-            const match = code.match(/^::image\s(.*)$/m);
-            if (match !== null) {
-              this.setState({
-                codeChanged: true,
-                loadViews: true,
-              });
-            }
-          })
-          .catch(error => {
-            console.log('Error while fetching skill', error);
-          });
+        let dataForBotBuilderCode = { ...payload, private: 1 };
+        try {
+          let payload = await actions.getBotBuilderCode(dataForBotBuilderCode);
+          const {
+            payload: { text: code },
+          } = payload;
+          const match = code.match(/^::image\s(.*)$/m);
+          if (match !== null) {
+            this.setState({
+              codeChanged: true,
+              loadViews: true,
+            });
+          }
+        } catch (error) {
+          console.log('Error while fetching skill', error);
+        }
       }
     } else {
       document.title = 'SUSI.AI - Create Skill';
@@ -612,27 +603,26 @@ class SkillWizard extends Component {
     }
   };
 
-  loadgroups() {
+  async loadgroups() {
     if (this.state.groups.length === 0) {
-      fetchAllGroupOptions()
-        .then(payload => {
-          if (payload.groups) {
-            const data = payload.groups;
-            data.sort();
-            let groups = [];
-            for (let i = 0; i < data.length; i++) {
-              groups.push(
-                <MenuItem value={data[i]} key={data[i]}>
-                  {`${data[i]}`}
-                </MenuItem>,
-              );
-            }
-            this.setState({ groups });
+      try {
+        let payload = await fetchAllGroupOptions();
+        if (payload.groups) {
+          const data = payload.groups;
+          data.sort();
+          let groups = [];
+          for (let i = 0; i < data.length; i++) {
+            groups.push(
+              <MenuItem value={data[i]} key={data[i]}>
+                {`${data[i]}`}
+              </MenuItem>,
+            );
           }
-        })
-        .catch(error => {
-          console.log('Error while fetching groups', error);
-        });
+          this.setState({ groups });
+        }
+      } catch (error) {
+        console.log('Error while fetching groups', error);
+      }
     }
   }
 
@@ -690,7 +680,7 @@ class SkillWizard extends Component {
   };
 
   // eslint-disable-next-line complexity
-  saveClick = () => {
+  saveClick = async () => {
     const {
       email,
       accessToken,
@@ -801,48 +791,47 @@ class SkillWizard extends Component {
       if (this.isBotBuilder) {
         form.append('private', '1');
       }
-      createSkill(form)
-        .then(payload => {
-          if (payload.accepted === true) {
-            if (this.mode === 'create') {
-              this.props.actions.openSnackBar({
-                snackBarMessage: 'Your Skill has been uploaded to the server',
-                snackBarPosition: { vertical: 'top', horizontal: 'right' },
-                variant: 'success',
-              });
-            }
-            if (!this.props.hasOwnProperty('revertingCommit')) {
-              this.props.history.push({
-                pathname:
-                  '/' +
-                  category +
-                  '/' +
-                  name.trim().replace(/\s/g, '_') +
-                  '/' +
-                  language,
-              });
-            }
-          } else {
-            this.setState({
-              loading: false,
-            });
+      try {
+        let payload = await createSkill(form);
+        if (payload.accepted === true) {
+          if (this.mode === 'create') {
             this.props.actions.openSnackBar({
-              snackBarMessage: String(payload.message),
+              snackBarMessage: 'Your Skill has been uploaded to the server',
               snackBarPosition: { vertical: 'top', horizontal: 'right' },
-              variant: 'error',
+              variant: 'success',
             });
           }
-        })
-        .catch(error => {
+          if (!this.props.hasOwnProperty('revertingCommit')) {
+            this.props.history.push({
+              pathname:
+                '/' +
+                category +
+                '/' +
+                name.trim().replace(/\s/g, '_') +
+                '/' +
+                language,
+            });
+          }
+        } else {
           this.setState({
             loading: false,
           });
           this.props.actions.openSnackBar({
-            snackBarMessage: String(error),
+            snackBarMessage: String(payload.message),
             snackBarPosition: { vertical: 'top', horizontal: 'right' },
             variant: 'error',
           });
+        }
+      } catch (error) {
+        this.setState({
+          loading: false,
         });
+        this.props.actions.openSnackBar({
+          snackBarMessage: String(error),
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
+        });
+      }
     } else {
       form.append('OldModel', 'general');
       form.append('OldGroup', this.groupValue);
@@ -867,47 +856,45 @@ class SkillWizard extends Component {
         // append file to image
         form.append('image', file);
       }
-
-      modifySkill(form)
-        .then(payload => {
-          if (payload.accepted === true) {
-            this.props.actions.openSnackBar({
-              snackBarMessage: 'Skill has been updated at the server',
-              snackBarPosition: { vertical: 'top', horizontal: 'right' },
-              variant: 'success',
-            });
-            if (!this.props.hasOwnProperty('revertingCommit')) {
-              this.props.history.push({
-                pathname:
-                  '/' +
-                  category +
-                  '/' +
-                  name.trim().replace(/\s/g, '_') +
-                  '/' +
-                  language,
-              });
-            }
-          } else {
-            this.setState({
-              loading: false,
-            });
-            this.props.actions.openSnackBar({
-              snackBarMessage: String(payload.message),
-              snackBarPosition: { vertical: 'top', horizontal: 'right' },
-              variant: 'error',
+      try {
+        let payload = await modifySkill(form);
+        if (payload.accepted === true) {
+          this.props.actions.openSnackBar({
+            snackBarMessage: 'Skill has been updated at the server',
+            snackBarPosition: { vertical: 'top', horizontal: 'right' },
+            variant: 'success',
+          });
+          if (!this.props.hasOwnProperty('revertingCommit')) {
+            this.props.history.push({
+              pathname:
+                '/' +
+                category +
+                '/' +
+                name.trim().replace(/\s/g, '_') +
+                '/' +
+                language,
             });
           }
-        })
-        .catch(error => {
+        } else {
           this.setState({
             loading: false,
           });
           this.props.actions.openSnackBar({
-            snackBarMessage: String(error),
+            snackBarMessage: String(payload.message),
             snackBarPosition: { vertical: 'top', horizontal: 'right' },
             variant: 'error',
           });
+        }
+      } catch (error) {
+        this.setState({
+          loading: false,
         });
+        this.props.actions.openSnackBar({
+          snackBarMessage: String(error),
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
+        });
+      }
     }
 
     // Uncomment to check the form values
@@ -945,47 +932,46 @@ class SkillWizard extends Component {
     });
   };
 
-  deleteSkill = () => {
+  deleteSkill = async () => {
     this.setState({
       loading: true,
     });
     const { actions, history } = this.props;
     const { model, group, language, skill } = this.skillData;
-    deleteSkill({ model, group, language, skill })
-      .then(payload => {
-        this.setState({
-          loading: false,
-        });
-        actions.openModal({
-          modalType: 'confirm',
-          title: 'Success',
-          handleConfirm: () => {
-            actions.closeModal();
-            history.push('/');
-          },
-          content: (
-            <p>
-              You successfully deleted <b>{skill}</b>!
-            </p>
-          ),
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({
-          loading: false,
-        });
-        actions.openModal({
-          modalType: 'confirm',
-          title: 'Failed',
-          handleConfirm: actions.closeModal,
-          content: (
-            <p>
-              Error! <b>{skill}</b> could not be deleted!
-            </p>
-          ),
-        });
+    try {
+      await deleteSkill({ model, group, language, skill });
+      this.setState({
+        loading: false,
       });
+      actions.openModal({
+        modalType: 'confirm',
+        title: 'Success',
+        handleConfirm: () => {
+          actions.closeModal();
+          history.push('/');
+        },
+        content: (
+          <p>
+            You successfully deleted <b>{skill}</b>!
+          </p>
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+      this.setState({
+        loading: false,
+      });
+      actions.openModal({
+        modalType: 'confirm',
+        title: 'Failed',
+        handleConfirm: actions.closeModal,
+        content: (
+          <p>
+            Error! <b>{skill}</b> could not be deleted!
+          </p>
+        ),
+      });
+    }
   };
 
   handleLabel = () => {

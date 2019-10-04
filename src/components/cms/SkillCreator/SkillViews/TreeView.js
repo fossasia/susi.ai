@@ -88,7 +88,7 @@ class TreeView extends Component {
     this.setState({ userInputs }, () => this.getResponses(0));
   };
 
-  getResponses = responseNumber => {
+  getResponses = async responseNumber => {
     const { actions, code } = this.props;
     const { userInputs } = this.state;
     let userQuery = userInputs[responseNumber];
@@ -103,49 +103,48 @@ class TreeView extends Component {
         name: userQuery,
         id: 'u' + responseNumber,
       });
-      fetchConversationResponse({
-        q: encodeURIComponent(userQuery),
-        instant: encodeURIComponent(code),
-      })
-        .then(payload => {
-          let answer;
-          if (payload.answers[0]) {
-            answer = payload.answers[0].actions[0].expression;
-          } else {
-            answer = 'Sorry, I could not understand what you just said.';
-          }
-          if (!nodeData[responseNumber].children) {
-            nodeData[responseNumber].children = [];
-            nodeData[responseNumber].children.push({
-              id: 'b' + responseNumber,
-              name: answer.trim(),
-              type: 'bot',
-            });
-          } else {
-            nodeData[responseNumber].children.push({
-              id: 'b' + responseNumber,
-              name: answer.trim(),
-              type: 'bot',
-            });
-          }
-          skillData.children = nodeData;
-          this.setState(
-            prevState => ({
-              loaded:
-                responseNumber + 1 === userInputs.length
-                  ? true
-                  : prevState.loaded,
-              skillData,
-            }),
-            () => this.getResponses(++responseNumber),
-          );
-        })
-        .catch(error => {
-          actions.openSnackBar({
-            snackBarMessage: 'Unable to load tree view. Please try again.',
-            snackBarDuration: 2000,
-          });
+      try {
+        let payload = await fetchConversationResponse({
+          q: encodeURIComponent(userQuery),
+          instant: encodeURIComponent(code),
         });
+        let answer;
+        if (payload.answers[0]) {
+          answer = payload.answers[0].actions[0].expression;
+        } else {
+          answer = 'Sorry, I could not understand what you just said.';
+        }
+        if (!nodeData[responseNumber].children) {
+          nodeData[responseNumber].children = [];
+          nodeData[responseNumber].children.push({
+            id: 'b' + responseNumber,
+            name: answer.trim(),
+            type: 'bot',
+          });
+        } else {
+          nodeData[responseNumber].children.push({
+            id: 'b' + responseNumber,
+            name: answer.trim(),
+            type: 'bot',
+          });
+        }
+        skillData.children = nodeData;
+        this.setState(
+          prevState => ({
+            loaded:
+              responseNumber + 1 === userInputs.length
+                ? true
+                : prevState.loaded,
+            skillData,
+          }),
+          () => this.getResponses(++responseNumber),
+        );
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Unable to load tree view. Please try again.',
+          snackBarDuration: 2000,
+        });
+      }
     }
   };
 

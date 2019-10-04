@@ -83,94 +83,90 @@ class DeviceSettings extends React.Component {
       'My Devices - SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   }
 
-  loadUserDevices = () => {
+  loadUserDevices = async () => {
     const { actions } = this.props;
-    actions
-      .getUserDevices()
-      .then(({ payload }) => {
-        this.initialiseDevices();
-        this.setState({
-          loading: false,
-          emptyText: 'You do not have any devices connected yet!',
-        });
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-          emptyText: 'Some error occurred while fetching the devices!',
-        });
-        console.log(error);
+    try {
+      await actions.getUserDevices();
+      this.initialiseDevices();
+      this.setState({
+        loading: false,
+        emptyText: 'You do not have any devices connected yet!',
       });
+    } catch (error) {
+      this.setState({
+        loading: false,
+        emptyText: 'Some error occurred while fetching the devices!',
+      });
+      console.log(error);
+    }
   };
 
-  loadDevices = (email, macId) => {
-    fetchDevices({ search: email })
-      .then(payload => {
-        const { devices } = payload;
-        let devicesData = [];
-        let invalidLocationDevices = 0;
-        devices.forEach(device => {
-          const email = device.name;
-          const devices = device.devices;
-          const macIdArray = Object.keys(devices);
-          macIdArray.forEach(macId => {
-            const device = devices[macId];
-            let deviceName = device.name !== undefined ? device.name : '-';
-            deviceName =
-              deviceName.length > 30
-                ? deviceName.substr(0, 30) + '...'
-                : deviceName;
-            let location = 'Location not given';
-            if (device.geolocation) {
-              location = `${device.geolocation.latitude},${device.geolocation.longitude}`;
-            } else {
-              invalidLocationDevices++;
-            }
-            const deviceObj = {
-              deviceName,
-              macId,
-              email,
-              room: device.room,
-              location,
-              latitude:
-                device.geolocation !== undefined
-                  ? device.geolocation.latitude
-                  : '-',
-              longitude:
-                device.geolocation !== undefined
-                  ? device.geolocation.longitude
-                  : '-',
-            };
-            devicesData.push(deviceObj);
-          });
+  loadDevices = async (email, macId) => {
+    try {
+      let payload = await fetchDevices({ search: email });
+      const { devices } = payload;
+      let devicesData = [];
+      let invalidLocationDevices = 0;
+      devices.forEach(device => {
+        const email = device.name;
+        const devices = device.devices;
+        const macIdArray = Object.keys(devices);
+        macIdArray.forEach(macId => {
+          const device = devices[macId];
+          let deviceName = device.name !== undefined ? device.name : '-';
+          deviceName =
+            deviceName.length > 30
+              ? deviceName.substr(0, 30) + '...'
+              : deviceName;
+          let location = 'Location not given';
+          if (device.geolocation) {
+            location = `${device.geolocation.latitude},${device.geolocation.longitude}`;
+          } else {
+            invalidLocationDevices++;
+          }
+          const deviceObj = {
+            deviceName,
+            macId,
+            email,
+            room: device.room,
+            location,
+            latitude:
+              device.geolocation !== undefined
+                ? device.geolocation.latitude
+                : '-',
+            longitude:
+              device.geolocation !== undefined
+                ? device.geolocation.longitude
+                : '-',
+          };
+          devicesData.push(deviceObj);
         });
-        this.setState({
-          devicesData,
-          invalidLocationDevices,
-          loading: false,
-          macId,
-          value: macId ? macId : 0,
-          email,
-        });
-      })
-      .catch(error => {
-        console.log(error);
       });
+      this.setState({
+        devicesData,
+        invalidLocationDevices,
+        loading: false,
+        macId,
+        value: macId ? macId : 0,
+        email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  handleRemoveDevice = rowIndex => {
+  handleRemoveDevice = async rowIndex => {
     const data = this.state.devicesData;
     const { email } = this.state;
-    removeUserDevice({ macId: data[rowIndex].macId, email })
-      .then(payload => {
-        this.setState({
-          devicesData: data.filter((row, index) => index !== rowIndex),
-        });
-        this.props.actions.closeModal();
-      })
-      .catch(error => {
-        console.log(error);
+    try {
+      await removeUserDevice({ macId: data[rowIndex].macId, email });
+      this.setState({
+        devicesData: data.filter((row, index) => index !== rowIndex),
       });
+      this.props.actions.closeModal();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   startEditing = rowIndex => {
@@ -196,30 +192,30 @@ class DeviceSettings extends React.Component {
     });
   };
 
-  handleDeviceSave = rowIndex => {
+  handleDeviceSave = async rowIndex => {
     this.setState({
       editIdx: -1,
     });
     const deviceData = this.state.devicesData[rowIndex];
 
-    addUserDevice({ ...deviceData })
-      .then(payload => {})
-      .catch(error => {
-        console.log(error);
-      });
+    try {
+      await addUserDevice({ ...deviceData });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  handleEditByAdmin = rowIndex => {
+  handleEditByAdmin = async rowIndex => {
     this.setState({
       editIdx: -1,
     });
     const deviceData = this.state.devicesData[rowIndex];
     const { email, deviceName, macId, room } = deviceData;
-    modifyUserDevices({ email, name: deviceName, macid: macId, room })
-      .then(payload => {})
-      .catch(error => {
-        console.log(error);
-      });
+    try {
+      await modifyUserDevices({ email, name: deviceName, macid: macId, room });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleView = rowIndex => {

@@ -98,58 +98,72 @@ class AdminTab extends React.Component {
     };
   }
 
-  componentDidMount() {
-    Promise.all([
-      fetchAdminUserStats({ getUserStats: true })
-        .then(payload => {
-          const {
-            userStats,
-            lastLoginOverTime = [],
-            signupOverTime = [],
-          } = payload;
-          this.setState({
-            userStats,
-            lastLoginOverTime,
-            signupOverTime,
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        }),
-      fetchAdminUserStats({ getDeviceStats: true })
-        .then(payload => {
-          const { deviceStats } = payload;
-          const { deviceAddedOverTime } = deviceStats;
-          this.setState({ deviceStats, deviceAddedOverTime });
-        })
-        .catch(error => {
-          console.log(error);
-        }),
-      fetchAdminUserSkill()
-        .then(payload => {
-          const {
-            skillStats,
-            creationOverTime,
-            lastAccessOverTime,
-            lastModifiedOverTime,
-          } = payload;
-          this.setState({
-            skillStats,
-            creationOverTime,
-            lastAccessOverTime,
-            lastModifiedOverTime,
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        }),
-    ])
-      .then(() => {
-        this.setState({ loading: false });
-      })
-      .catch(error => {
+  async componentDidMount() {
+    try {
+      try {
+        let payload = await fetchAdminUserStats({ getUserStats: true });
+        const {
+          userStats,
+          lastLoginOverTime = [],
+          signupOverTime = [],
+        } = payload;
+        this.setState({
+          userStats,
+          lastLoginOverTime,
+          signupOverTime,
+        });
+      } catch (error) {
         console.log(error);
-      });
+      }
+
+      try {
+        let payload = await fetchAdminUserStats({ getDeviceStats: true });
+        const { deviceStats } = payload;
+        const { deviceAddedOverTime } = deviceStats;
+        this.setState({ deviceStats, deviceAddedOverTime });
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        let payload = await fetchAdminUserSkill();
+        const {
+          skillStats,
+          creationOverTime,
+          lastAccessOverTime,
+          lastModifiedOverTime,
+        } = payload;
+        this.setState({
+          skillStats,
+          creationOverTime,
+          lastAccessOverTime,
+          lastModifiedOverTime,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        let payload = await fetchAdminUserSkill();
+        const {
+          skillStats,
+          creationOverTime,
+          lastAccessOverTime,
+          lastModifiedOverTime,
+        } = payload;
+        this.setState({
+          skillStats,
+          creationOverTime,
+          lastAccessOverTime,
+          lastModifiedOverTime,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      this.setState({ loading: false });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   renderCharts = () => {
