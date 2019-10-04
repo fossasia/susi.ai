@@ -9,9 +9,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Icon from '@material-ui/core/Icon';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import _TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { ActionDiv } from '../../../../shared/TableActionStyles';
@@ -38,6 +39,21 @@ const Text = styled.div`
 
 const Container = styled.div`
   padding: 20px 0px;
+`;
+
+const TableCell = styled(_TableCell)`
+  padding: 14px 10px;
+  white-space: normal;
+  word-wrap: break-word;
+  &:last-child {
+    text-align: center;
+    width: 25%;
+  }
+  @media (max-width: 480px) {
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 10px 3px 10px 5px;
+  }
 `;
 
 class UIView extends Component {
@@ -334,7 +350,13 @@ class UIView extends Component {
                 Add a website
               </Button>
               {dataSource.length !== 0 && (
-                <Table style={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
+                <Table
+                  style={{
+                    tableLayout: 'fixed',
+                    width: '100%',
+                    border: '1px solid rgba(224, 224, 224, 1)',
+                  }}
+                >
                   <TableHead style={{ backgroundColor: '#FAFAFA' }}>
                     <TableRow>
                       <TableCell>Website</TableCell>
@@ -349,7 +371,9 @@ class UIView extends Component {
                         <TableCell>{row.date}</TableCell>
                         <TableCell>
                           <ActionDiv onClick={() => this.handleDelete(row.key)}>
-                            Delete
+                            <Icon color="error" fontSize="small">
+                              delete
+                            </Icon>
                           </ActionDiv>
                         </TableCell>
                       </TableRow>

@@ -237,7 +237,7 @@ export default handleActions(
     },
     [actionTypes.SKILL_GET_AUTHOR_SKILLS](state, { payload }) {
       let skillKeys = Object.keys(payload);
-      skillKeys = skillKeys.slice(0, skillKeys.length - 5);
+      skillKeys = skillKeys && skillKeys.slice(0, skillKeys.length - 5);
       const authorSkills = skillKeys.map(skillKey => {
         const dataPoints = payload[skillKey].toString().split('/');
         let name = dataPoints[6].split('.')[0];

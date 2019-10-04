@@ -61,15 +61,16 @@ class SkillCard extends Component {
       rightBtnDisplay: 'inline',
     };
   }
-
   componentDidMount = () => {
-    this.loadSkillCards();
     this.updateWindowDimensions();
   };
 
   updateWindowDimensions = () => {
     let scrollCards = 1;
     switch (true) {
+      case window.innerWidth >= 1680:
+        scrollCards = 5;
+        break;
       case window.innerWidth >= 1400:
         scrollCards = 4;
         break;
@@ -84,9 +85,14 @@ class SkillCard extends Component {
         this.setState({ rightBtnDisplay: 'inline' });
     }
 
-    this.setState({
-      scrollCards: scrollCards,
-    });
+    this.setState(
+      {
+        scrollCards: scrollCards,
+      },
+      () => {
+        this.loadSkillCards();
+      },
+    );
   };
 
   changeBtnDisplay = (scrollValue, maxScrollValue) => {

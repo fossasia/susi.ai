@@ -18,7 +18,7 @@ const defaultState = {
     image: avatarsIcon,
     imageUrl: '<image_name>',
     code:
-      '::name <Bot_name>\n::category Knowledge\n::language en\n::author <author_name>\n::author_url <author_url>\n::description <description> \n::dynamic_content <Yes/No>\n::developer_privacy_policy <link>\n::image images/<image_name>\n::terms_of_use <link>\n\n\n//replace the following lines:\nquery1|query2|query3...\n!example:<The question that should be shown in public skill displays>\n!expect:<The answer expected for the above example>\nAnswer for the user query\n',
+      '::name <Bot_name>\n::category Knowledge\n::language en\n::author <author_name>\n::author_url <author_url>\n::description <description> \n::dynamic_content <Yes/No>\n::developer_privacy_policy <link>\n::image images/<image_name>\n::terms_of_use <link>\n\n\n# replace the following lines - click on the (i) to get a tutorial:\n\nquery1|query2|query3...\n!example:<The question that should be shown in public skill displays>\n!expect:<The answer expected for the above example>\nAnswer for the user query\n',
     author: '',
   },
   design: {
