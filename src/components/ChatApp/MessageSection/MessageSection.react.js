@@ -256,7 +256,7 @@ class MessageSection extends Component {
     backgroundImage: PropTypes.string,
     messageBackgroundImage: PropTypes.string,
     actions: PropTypes.object,
-    customThemeValue: PropTypes.object,
+    customThemeValues: PropTypes.object,
     accessToken: PropTypes.string,
     mode: PropTypes.string, // From UI Reducer for chat
   };
@@ -688,13 +688,13 @@ class MessageSection extends Component {
       loadingHistory,
       messageBackgroundImage,
       loadingReply,
-      customThemeValue,
+      customThemeValues,
       mode,
     } = this.props;
 
     const { pane, body, composer, button, textarea } = getCustomThemeColors({
       theme,
-      customThemeValue,
+      customThemeValues,
     });
     const {
       search,
