@@ -8,7 +8,7 @@ let tasks = new TaskRunner();
 
 const isMobileView = mobileView();
 
-export default async function({
+export default function({
   text,
   voice,
   createMessage,
@@ -19,37 +19,42 @@ export default async function({
   pendingUserMessage,
 }) {
   if (mode === 'minimize') {
-    await setPendingUserMessage({ pendingUserMessage: text });
-    setChatMode({
-      mode: isMobileView ? 'fullScreen' : 'preview',
+    setPendingUserMessage({ pendingUserMessage: text }).then(() => {
+      setChatMode({
+        mode: isMobileView ? 'fullScreen' : 'preview',
+      });
     });
   } else {
-    try {
-      let userMessage = await formatUserMessage({
-        text,
-        voice,
-      });
-      await createMessage(userMessage);
-      let response = await getSusiReply(userMessage);
-      let susiMessages = await formatSusiMessage({
-        response,
-        voice,
-      });
-      susiMessages.forEach(eachMessage => {
-        if (eachMessage.planDelay) {
-          tasks.push(
-            plannedFunction,
-            () => createSusiMessage({ message: eachMessage }),
-            eachMessage.planDelay,
-          );
-        } else {
-          createSusiMessage({ message: eachMessage });
-        }
-      });
-      !!pendingUserMessage &&
-        setPendingUserMessage({ pendingUserMessage: null });
-    } catch (error) {
-      console.log(error);
-    }
+    formatUserMessage({
+      text,
+      voice,
+    }).then(userMessage => {
+      createMessage(userMessage)
+        .then(() => {
+          getSusiReply(userMessage).then(response => {
+            formatSusiMessage({
+              response,
+              voice,
+            }).then(susiMessages => {
+              susiMessages.forEach(eachMessage => {
+                if (eachMessage.planDelay) {
+                  tasks.push(
+                    plannedFunction,
+                    () => createSusiMessage({ message: eachMessage }),
+                    eachMessage.planDelay,
+                  );
+                } else {
+                  createSusiMessage({ message: eachMessage });
+                }
+              });
+              !!pendingUserMessage &&
+                setPendingUserMessage({ pendingUserMessage: null });
+            });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
   }
 }

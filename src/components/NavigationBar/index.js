@@ -214,28 +214,30 @@ class NavigationBar extends Component {
     actions.openModal({ modalType: 'login' });
   };
 
-  handleSearchTypeChange = async e => {
+  handleSearchTypeChange = e => {
     const { actions, searchQuery } = this.props;
     const { value: searchType } = e.target;
-    await actions.setSearchFilter({ searchType });
-    this.setState({
-      searchSelectWidth: this.getSelectMenuWidth(searchType),
+    actions.setSearchFilter({ searchType }).then(() => {
+      this.setState({
+        searchSelectWidth: this.getSelectMenuWidth(searchType),
+      });
+      if (searchQuery !== '') {
+        this.loadCards();
+      }
     });
-    if (searchQuery !== '') {
-      this.loadCards();
-    }
   };
 
-  handleSearch = async value => {
+  handleSearch = value => {
     if (typeof value !== 'string') {
       value = '';
     }
     value = value.trim();
-    await this.props.actions.setSearchFilter({ searchQuery: value });
-    this.loadCards();
-    if (value !== '') {
-      this.props.history.push('/');
-    }
+    this.props.actions.setSearchFilter({ searchQuery: value }).then(() => {
+      this.loadCards();
+      if (value !== '') {
+        this.props.history.push('/');
+      }
+    });
   };
 
   componentDidMount() {
@@ -324,19 +326,20 @@ class NavigationBar extends Component {
     ));
   };
 
-  handleLanguageChange = async (event, index, values) => {
+  handleLanguageChange = (event, index, values) => {
     localStorage.setItem('languages', event.target.value);
-    await this.props.actions.setLanguageFilter({
-      languageValue: event.target.value,
-    });
-    if (
-      this.props.routeType ||
-      ['category', 'language'].includes(window.location.href.split('/')[4])
-    ) {
-      this.loadCards();
-    } else {
-      this.loadMetricsSkills();
-    }
+    this.props.actions
+      .setLanguageFilter({ languageValue: event.target.value })
+      .then(() => {
+        if (
+          this.props.routeType ||
+          ['category', 'language'].includes(window.location.href.split('/')[4])
+        ) {
+          this.loadCards();
+        } else {
+          this.loadMetricsSkills();
+        }
+      });
   };
 
   loadMetricsSkills = () => {

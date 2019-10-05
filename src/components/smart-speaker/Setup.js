@@ -56,7 +56,7 @@ class ControlPage extends React.Component {
     roomName: 'My room',
   };
 
-  handleRebootSpeaker = async () => {
+  handleRebootSpeaker = () => {
     const {
       ssid,
       password,
@@ -66,7 +66,7 @@ class ControlPage extends React.Component {
       authType: auth,
       roomName,
     } = this.state;
-    await setupDeviceConfig({
+    setupDeviceConfig({
       wifissid: ssid,
       wifipassd: password,
       hotword,
@@ -74,8 +74,9 @@ class ControlPage extends React.Component {
       password: auth === 'anonymous' ? '' : authPassword,
       auth,
       roomName,
+    }).then(() => {
+      window.location.reload();
     });
-    window.location.reload();
   };
 
   handleInputFieldChange = e => {

@@ -29,25 +29,25 @@ class MyAnalytics extends Component {
     this.loadSkillsUsage();
   }
 
-  loadSkillsUsage = async () => {
+  loadSkillsUsage = () => {
     const { email, actions } = this.props;
     // eslint-disable-next-line
-    try {
-      // eslint-disable-next-line camelcase
-      let payload = await fetchSkillsByAuthor({ author_email: email });
-      this.saveUsageData(payload.authorSkills || []);
-      this.setState({
-        loading: false,
+    fetchSkillsByAuthor({ author_email: email })
+      .then(payload => {
+        this.saveUsageData(payload.authorSkills || []);
+        this.setState({
+          loading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          loading: false,
+        });
+        actions.openSnackBar({
+          snackBarMessage: "Error. Couldn't fetch skill usage.",
+          snackBarDuration: 2000,
+        });
       });
-    } catch (error) {
-      this.setState({
-        loading: false,
-      });
-      actions.openSnackBar({
-        snackBarMessage: "Error. Couldn't fetch skill usage.",
-        snackBarDuration: 2000,
-      });
-    }
   };
 
   saveUsageData = data => {

@@ -225,31 +225,32 @@ class UIView extends Component {
     this.backgroundImageSelectedFile = this.backgroundImage.files[0];
   };
 
-  uploadBackgroundImage = async () => {
+  uploadBackgroundImage = () => {
     const { accessToken, actions } = this.props;
     this.setState({ uploadingBodyBackgroundImg: true });
     let form = new FormData();
     form.append('access_token', accessToken);
     form.append('image_name', this.backgroundImageSelectedFile.name);
     form.append('image', this.backgroundImageSelectedFile);
-    try {
-      let payload = await uploadImage(form);
-      this.setImageBodyBackground(
-        getImageSrc({ relativePath: `image=${payload.imagePath}` }),
-        this.props.design.botbuilderBodyBackgroundImgName,
-      );
-      this.setState({
-        uploadingBodyBackgroundImg: false,
+    uploadImage(form)
+      .then(payload => {
+        this.setImageBodyBackground(
+          getImageSrc({ relativePath: `image=${payload.imagePath}` }),
+          this.props.design.botbuilderBodyBackgroundImgName,
+        );
+        this.setState({
+          uploadingBodyBackgroundImg: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          uploadingBodyBackgroundImg: false,
+        });
+        actions.openSnackBar({
+          snackBarMessage: "Error! Couldn't upload image",
+          snackBarDuration: 2000,
+        });
       });
-    } catch (error) {
-      this.setState({
-        uploadingBodyBackgroundImg: false,
-      });
-      actions.openSnackBar({
-        snackBarMessage: "Error! Couldn't upload image",
-        snackBarDuration: 2000,
-      });
-    }
   };
 
   setImageBodyBackground = (image, imageName) => {
@@ -285,32 +286,33 @@ class UIView extends Component {
     }
   };
 
-  uploadAvatarImage = async (file, filename) => {
+  uploadAvatarImage = (file, filename) => {
     const { accessToken, actions } = this.props;
     this.setState({ uploadingBotbuilderIconImg: true });
     let form = new FormData();
     form.append('access_token', accessToken);
     form.append('image_name', filename);
     form.append('image', file);
-    try {
-      let payload = await uploadImage(form);
-      this.setState({
-        uploadingBotbuilderIconImg: false,
+    uploadImage(form)
+      .then(payload => {
+        this.setState({
+          uploadingBotbuilderIconImg: false,
+        });
+        actions.setBotAvatar({
+          botbuilderIconImg: getImageSrc({
+            relativePath: `image=${payload.imagePath}`,
+          }),
+        });
+      })
+      .catch(error => {
+        this.setState({
+          uploadingBotbuilderIconImg: false,
+        });
+        actions.openSnackBar({
+          snackBarMessage: "Error! Couldn't set image",
+          snackBarDuration: 2000,
+        });
       });
-      actions.setBotAvatar({
-        botbuilderIconImg: getImageSrc({
-          relativePath: `image=${payload.imagePath}`,
-        }),
-      });
-    } catch (error) {
-      this.setState({
-        uploadingBotbuilderIconImg: false,
-      });
-      actions.openSnackBar({
-        snackBarMessage: "Error! Couldn't set image",
-        snackBarDuration: 2000,
-      });
-    }
   };
 
   handleRemoveUrlIcon = () => {
@@ -354,13 +356,14 @@ class UIView extends Component {
     });
   };
 
-  handleReset = async () => {
+  handleReset = () => {
     // reset to default values
     const { actions } = this.props;
     this.setState({ loadedSettings: false });
-    await actions.resetDesignData();
-    this.setState({
-      loadedSettings: true,
+    actions.resetDesignData().then(() => {
+      this.setState({
+        loadedSettings: true,
+      });
     });
   };
 

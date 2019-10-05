@@ -36,30 +36,31 @@ class Admin extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     document.title = 'SUSI.AI - Admin';
-    try {
-      let payload = await getAdmin();
-      const { showAdmin } = payload;
-      if (showAdmin) {
-        this.initilizeData();
-        this.setState({
-          loading: false,
-          isAdmin: true,
-        });
-      } else {
+    getAdmin()
+      .then(payload => {
+        const { showAdmin } = payload;
+        if (showAdmin) {
+          this.initilizeData();
+          this.setState({
+            loading: false,
+            isAdmin: true,
+          });
+        } else {
+          this.setState({
+            loading: false,
+            isAdmin: false,
+          });
+        }
+      })
+      .catch(error => {
         this.setState({
           loading: false,
           isAdmin: false,
         });
-      }
-    } catch (error) {
-      this.setState({
-        loading: false,
-        isAdmin: false,
+        console.log(error);
       });
-      console.log(error);
-    }
   }
 
   componentDidUpdate(prevProps) {

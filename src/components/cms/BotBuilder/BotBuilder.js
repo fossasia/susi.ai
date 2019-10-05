@@ -141,53 +141,55 @@ class BotBuilder extends React.Component {
     this.getDrafts();
   }
 
-  getChatbots = async () => {
+  getChatbots = () => {
     const { actions, accessToken } = this.props;
     if (accessToken) {
-      try {
-        let payload = await fetchChatBots();
-        this.setState({ chatbots: payload.chatbots, loadingBots: false });
-        this.getBotImages();
-      } catch (error) {
-        this.setState({
-          loadingBots: false,
-        });
-        if (error.status !== 404) {
-          actions.openSnackBar({
-            snackBarMessage:
-              "Couldn't get your chatbots. Please reload the page.",
-            snackBarDuration: 2000,
+      fetchChatBots()
+        .then(payload => {
+          this.setState({ chatbots: payload.chatbots, loadingBots: false });
+          this.getBotImages();
+        })
+        .catch(error => {
+          this.setState({
+            loadingBots: false,
           });
-        }
-      }
-    }
-  };
-
-  getBotImages = async () => {
-    const { actions } = this.props;
-    let { chatbots } = this.state;
-    if (chatbots) {
-      chatbots.forEach(async (bot, index) => {
-        let name = bot.name;
-        let language = bot.language;
-        let group = bot.group;
-        try {
-          let payload = await fetchBotImages({ name, group, language });
-          let imageMatch = payload.text.match(/^::image\s(.*)$/m);
-          if (imageMatch) {
-            bot.image = imageMatch[1];
-          }
-          chatbots[index] = bot;
-          this.setState({ chatbots });
-        } catch (error) {
           if (error.status !== 404) {
             actions.openSnackBar({
               snackBarMessage:
-                "Couldn't get your chatbot image. Please reload the page.",
+                "Couldn't get your chatbots. Please reload the page.",
               snackBarDuration: 2000,
             });
           }
-        }
+        });
+    }
+  };
+
+  getBotImages = () => {
+    const { actions } = this.props;
+    let { chatbots } = this.state;
+    if (chatbots) {
+      chatbots.forEach((bot, index) => {
+        let name = bot.name;
+        let language = bot.language;
+        let group = bot.group;
+        fetchBotImages({ name, group, language })
+          .then(payload => {
+            let imageMatch = payload.text.match(/^::image\s(.*)$/m);
+            if (imageMatch) {
+              bot.image = imageMatch[1];
+            }
+            chatbots[index] = bot;
+            this.setState({ chatbots });
+          })
+          .catch(error => {
+            if (error.status !== 404) {
+              actions.openSnackBar({
+                snackBarMessage:
+                  "Couldn't get your chatbot image. Please reload the page.",
+                snackBarDuration: 2000,
+              });
+            }
+          });
       });
     }
   };
@@ -259,42 +261,47 @@ class BotBuilder extends React.Component {
     return chatbots;
   };
 
-  deleteBot = async (name, language, group) => {
+  deleteBot = (name, language, group) => {
     const { actions } = this.props;
-    try {
-      let payload = await deleteChatBot({ group, language, skill: name });
-      await actions.openSnackBar({
-        snackBarMessage: `Successfully ${payload.message}`,
-        snackBarDuration: 2000,
+    deleteChatBot({ group, language, skill: name })
+      .then(payload => {
+        actions
+          .openSnackBar({
+            snackBarMessage: `Successfully ${payload.message}`,
+            snackBarDuration: 2000,
+          })
+          .then(() => {
+            this.props.actions.closeModal();
+            this.getChatbots();
+          });
+      })
+      .catch(error => {
+        this.setState({
+          deleteAlert: null,
+        });
+        actions.openSnackBar({
+          snackBarMessage: 'Unable to delete your chatbot. Please try again.',
+          snackBarDuration: 2000,
+        });
       });
-      this.props.actions.closeModal();
-      this.getChatbots();
-    } catch (error) {
-      this.setState({
-        deleteAlert: null,
-      });
-      actions.openSnackBar({
-        snackBarMessage: 'Unable to delete your chatbot. Please try again.',
-        snackBarDuration: 2000,
-      });
-    }
   };
 
-  getDrafts = async () => {
+  getDrafts = () => {
     const { actions } = this.props;
-    try {
-      let payload = await readDraft();
-      const { drafts } = payload;
-      this.showDrafts(drafts);
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: "Couldn't get your drafts. Please reload the page.",
-        snackBarDuration: 2000,
+    readDraft()
+      .then(payload => {
+        const { drafts } = payload;
+        this.showDrafts(drafts);
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: "Couldn't get your drafts. Please reload the page.",
+          snackBarDuration: 2000,
+        });
+        this.setState({
+          loadingDrafts: false,
+        });
       });
-      this.setState({
-        loadingDrafts: false,
-      });
-    }
   };
 
   showDrafts = drafts => {
@@ -349,25 +356,29 @@ class BotBuilder extends React.Component {
     }
   };
 
-  deleteDrafts = async id => {
+  deleteDrafts = id => {
     const { actions } = this.props;
-    try {
-      await deleteDraft({ id });
-      await actions.openSnackBar({
-        snackBarMessage: 'Draft successfully deleted.',
-        snackBarDuration: 2000,
+    deleteDraft({ id })
+      .then(payload => {
+        actions
+          .openSnackBar({
+            snackBarMessage: 'Draft successfully deleted.',
+            snackBarDuration: 2000,
+          })
+          .then(() => {
+            this.props.actions.closeModal();
+            this.getDrafts();
+          });
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: 'Unable to delete your draft. Please try again.',
+          snackBarDuration: 2000,
+        });
+        this.setState({
+          deleteAlert: null,
+        });
       });
-      this.props.actions.closeModal();
-      this.getDrafts();
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Unable to delete your draft. Please try again.',
-        snackBarDuration: 2000,
-      });
-      this.setState({
-        deleteAlert: null,
-      });
-    }
   };
 
   handleDeleteModal = (type, params) => {

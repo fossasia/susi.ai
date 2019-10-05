@@ -190,7 +190,7 @@ class AccountTab extends React.Component {
     });
   };
 
-  handleAvatarSubmit = async () => {
+  handleAvatarSubmit = () => {
     const { file } = this.state;
     const { accessToken, actions, userEmailId } = this.props;
     // eslint-disable-next-line no-undef
@@ -199,14 +199,15 @@ class AccountTab extends React.Component {
     userEmailId && form.append('email', userEmailId);
     form.append('image', file);
     this.setState({ uploadingAvatar: true });
-    await uploadAvatar(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Avatar Uploaded',
-    });
-    this.setState({
-      uploadingAvatar: false,
-      isAvatarAdded: true,
-      isAvatarUploaded: true,
+    uploadAvatar(form).then(() => {
+      actions.openSnackBar({
+        snackBarMessage: 'Avatar Uploaded',
+      });
+      this.setState({
+        uploadingAvatar: false,
+        isAvatarAdded: true,
+        isAvatarUploaded: true,
+      });
     });
   };
 
@@ -247,7 +248,7 @@ class AccountTab extends React.Component {
     });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { timeZone, prefLanguage, userName, avatarType } = this.state;
     const { actions, userEmailId } = this.props;
     let payload = {
@@ -258,44 +259,49 @@ class AccountTab extends React.Component {
     };
     payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
     this.setState({ loading: true });
-    try {
-      let data = await setUserSettings(payload);
-      if (data.accepted) {
-        actions.openSnackBar({
-          snackBarMessage: 'Settings updated',
-        });
-        await actions.setUserSettings(payload);
-        await this.setState({ settingSave: true, loading: false });
-        userEmailId === '' && actions.updateUserAvatar();
-      } else {
+    setUserSettings(payload)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions
+            .setUserSettings(payload)
+            .then(() => {
+              this.setState({ settingSave: true, loading: false });
+            })
+            .then(() => userEmailId === '' && actions.updateUserAvatar());
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+          this.setState({ loading: false });
+        }
+      })
+      .catch(error => {
         actions.openSnackBar({
           snackBarMessage: 'Failed to save Settings',
         });
-        this.setState({ loading: false });
-      }
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Failed to save Settings',
       });
-    }
   };
 
-  deleteUser = async () => {
+  deleteUser = () => {
     const { deleteUserByAdminEmail: email } = this.state;
-    try {
-      await deleteUserAccount({ email });
-      this.props.actions.openSnackBar({
-        snackBarMessage: `Account associated with ${email} is deleted successfully!`,
-        snackBarDuration: 2000,
+    deleteUserAccount({ email })
+      .then(payload => {
+        this.props.actions.openSnackBar({
+          snackBarMessage: `Account associated with ${email} is deleted successfully!`,
+          snackBarDuration: 2000,
+        });
+        window.location.replace('/admin/users');
+      })
+      .catch(error => {
+        console.log(error);
+        this.props.actions.openSnackBar({
+          snackBarMessage: `Account associated with ${email} cannot be deleted!!`,
+          snackBarDuration: 2000,
+        });
       });
-      window.location.replace('/admin/users');
-    } catch (error) {
-      console.log(error);
-      this.props.actions.openSnackBar({
-        snackBarMessage: `Account associated with ${email} cannot be deleted!!`,
-        snackBarDuration: 2000,
-      });
-    }
   };
 
   handleDelete = deleteUserByAdminEmail => {

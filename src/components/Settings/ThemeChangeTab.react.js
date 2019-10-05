@@ -27,32 +27,33 @@ class ThemeChangeTab extends React.Component {
     this.props.actions.openModal({ modalType: 'themeChange' });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { actions, theme, userEmailId } = this.props;
     this.setState({ loading: true });
     let payload = {
       theme,
     };
     payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
-    try {
-      let data = await setUserSettings(payload);
-      if (data.accepted) {
-        actions.openSnackBar({
-          snackBarMessage: 'Settings updated',
-        });
-        actions.setUserSettings({ theme });
-        this.setState({ loading: false });
-      } else {
+    setUserSettings(payload)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.setUserSettings({ theme });
+          this.setState({ loading: false });
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+          this.setState({ loading: false });
+        }
+      })
+      .catch(error => {
         actions.openSnackBar({
           snackBarMessage: 'Failed to save Settings',
         });
-        this.setState({ loading: false });
-      }
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Failed to save Settings',
       });
-    }
   };
 
   render() {

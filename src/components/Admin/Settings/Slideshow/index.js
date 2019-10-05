@@ -26,22 +26,23 @@ class Slideshow extends React.Component {
     slideshowData: [],
   };
 
-  getSkillSlideshow = async () => {
-    try {
-      let payload = await fetchSkillSlideshow();
-      const { slideshow } = payload;
-      let slideshowData = [];
-      for (const redirectLink in slideshow) {
-        let slideshowObj = { redirectLink };
-        let obj = slideshow[redirectLink];
-        slideshowObj = { ...slideshowObj, ...obj };
-        slideshowData.push(slideshowObj);
-      }
-      this.setState({ slideshowData, loading: false });
-    } catch (error) {
-      console.log('Error', error);
-      this.setState({ loading: false });
-    }
+  getSkillSlideshow = () => {
+    fetchSkillSlideshow()
+      .then(payload => {
+        const { slideshow } = payload;
+        let slideshowData = [];
+        for (const redirectLink in slideshow) {
+          let slideshowObj = { redirectLink };
+          let obj = slideshow[redirectLink];
+          slideshowObj = { ...slideshowObj, ...obj };
+          slideshowData.push(slideshowObj);
+        }
+        this.setState({ slideshowData, loading: false });
+      })
+      .catch(error => {
+        console.log('Error', error);
+        this.setState({ loading: false });
+      });
   };
 
   componentDidMount() {

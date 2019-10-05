@@ -139,7 +139,7 @@ class ThemeChanger extends Component {
   };
 
   // Send data to server, update settings
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { actions } = this.props;
     let {
       header,
@@ -175,24 +175,25 @@ class ThemeChanger extends Component {
       ...payloadToStore,
       customThemeValue,
     };
-    try {
-      let data = await setUserSettings(payloadToServer);
-      if (data.accepted) {
-        actions.openSnackBar({
-          snackBarMessage: 'Settings updated',
-        });
-        actions.closeModal();
-        actions.setUserSettings(payloadToStore);
-      } else {
+    setUserSettings(payloadToServer)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.closeModal();
+          actions.setUserSettings(payloadToStore);
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+        }
+      })
+      .catch(error => {
         actions.openSnackBar({
           snackBarMessage: 'Failed to save Settings',
         });
-      }
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Failed to save Settings',
       });
-    }
   };
 
   handleClickColorBox = id => {

@@ -190,7 +190,7 @@ class ChangePassword extends Component {
     }
   };
 
-  changePassword = async event => {
+  changePassword = event => {
     event.preventDefault();
     const {
       password,
@@ -212,45 +212,47 @@ class ChangePassword extends Component {
       this.setState({
         loading: true,
       });
-      try {
-        let payload = await actions.getChangePassword({
+      actions
+        .getChangePassword({
           email,
           password: encodeURIComponent(password),
           newPassword: encodeURIComponent(newPassword),
           captchaResponse,
-        });
-        let dialogMessage;
-        let success;
-        if (payload.accepted) {
-          dialogMessage = `${payload.message}\n Please login again.`;
-          success = true;
-        } else {
-          dialogMessage = `${payload.message}\n Please Try Again.`;
-          success = false;
-        }
+        })
+        .then(({ payload }) => {
+          let dialogMessage;
+          let success;
+          if (payload.accepted) {
+            dialogMessage = `${payload.message}\n Please login again.`;
+            success = true;
+          } else {
+            dialogMessage = `${payload.message}\n Please Try Again.`;
+            success = false;
+          }
 
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: success ? 'Success' : 'Failure',
-          handleConfirm: this.handleCloseResetPassword,
-          content: <p>{dialogMessage}</p>,
-        });
+          this.props.actions.openModal({
+            modalType: 'confirm',
+            title: success ? 'Success' : 'Failure',
+            handleConfirm: this.handleCloseResetPassword,
+            content: <p>{dialogMessage}</p>,
+          });
 
-        this.setState({
-          success,
-          loading: false,
+          this.setState({
+            success,
+            loading: false,
+          });
+        })
+        .catch(error => {
+          this.props.actions.openModal({
+            modalType: 'confirm',
+            title: 'Failure',
+            handleConfirm: this.handleCloseResetPassword,
+            content: <p>Failed. Try Again</p>,
+          });
+          this.setState({
+            loading: false,
+          });
         });
-      } catch (error) {
-        this.props.actions.openModal({
-          modalType: 'confirm',
-          title: 'Failure',
-          handleConfirm: this.handleCloseResetPassword,
-          content: <p>Failed. Try Again</p>,
-        });
-        this.setState({
-          loading: false,
-        });
-      }
     }
   };
 

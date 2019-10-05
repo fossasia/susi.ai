@@ -66,29 +66,25 @@ class SkillVersion extends Component {
     this.getCommitHistory();
   }
 
-  getCommitHistory = async () => {
+  getCommitHistory = () => {
     const {
       modelValue: model,
       groupValue: group,
       languageValue: language,
       skillName: skill,
     } = this.state.skillMeta;
-    try {
-      let commitsData = await fetchCommitHistory({
-        model,
-        group,
-        language,
-        skill,
+    fetchCommitHistory({ model, group, language, skill })
+      .then(commitsData => {
+        this.setCommitHistory(commitsData);
+      })
+      .catch(error => {
+        this.props.actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch data. Please Try Again',
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'error',
+        });
+        return 0;
       });
-      this.setCommitHistory(commitsData);
-    } catch (error) {
-      this.props.actions.openSnackBar({
-        snackBarMessage: 'Failed to fetch data. Please Try Again',
-        snackBarPosition: { vertical: 'top', horizontal: 'right' },
-        variant: 'error',
-      });
-      return 0;
-    }
   };
 
   setCommitHistory = commitsData => {

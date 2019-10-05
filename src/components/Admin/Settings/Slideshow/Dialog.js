@@ -40,25 +40,23 @@ class SkillSlideshowDialog extends React.Component {
     isSliderImageAdded: false,
   };
 
-  saveSlide = async () => {
+  saveSlide = () => {
     const { redirectLink, info, imagePath } = this.state;
-    try {
-      await modifySkillSlideshow({ redirectLink, info, imageName: imagePath });
-      this.props.getSkillSlideshow();
-    } catch (error) {
-      console.log('Error', error);
-    }
+    modifySkillSlideshow({ redirectLink, info, imageName: imagePath })
+      .then(() => {
+        this.props.getSkillSlideshow();
+      })
+      .catch(error => console.log('Error', error));
     this.props.actions.closeModal();
   };
 
-  deleteSlide = async () => {
+  deleteSlide = () => {
     const { redirectLink, imagePath } = this.state;
-    try {
-      await deleteSkillSlideshow({ redirectLink, imageName: imagePath });
-      this.props.getSkillSlideshow();
-    } catch (error) {
-      console.log('Error', error);
-    }
+    deleteSkillSlideshow({ redirectLink, imageName: imagePath })
+      .then(() => {
+        this.props.getSkillSlideshow();
+      })
+      .catch(error => console.log('Error', error));
     this.props.actions.closeModal();
   };
 
@@ -68,7 +66,7 @@ class SkillSlideshowDialog extends React.Component {
     });
   };
 
-  handleSliderSubmit = async () => {
+  handleSliderSubmit = () => {
     const { file, imageSuffix } = this.state;
     const { accessToken, actions } = this.props;
     // eslint-disable-next-line no-undef
@@ -77,14 +75,15 @@ class SkillSlideshowDialog extends React.Component {
     form.append('image', file);
     form.append('image_name', imageSuffix);
     this.setState({ uploadingImage: true });
-    let { imagePath } = await uploadImage(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Slider Uploaded',
-    });
-    this.setState({
-      uploadingImage: false,
-      isSliderImageUploaded: true,
-      imagePath,
+    uploadImage(form).then(({ imagePath }) => {
+      actions.openSnackBar({
+        snackBarMessage: 'Slider Uploaded',
+      });
+      this.setState({
+        uploadingImage: false,
+        isSliderImageUploaded: true,
+        imagePath,
+      });
     });
   };
 

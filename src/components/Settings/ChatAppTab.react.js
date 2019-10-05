@@ -28,7 +28,7 @@ class ChatAppTab extends React.Component {
     });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { actions, userEmailId } = this.props;
     const { enterAsSend } = this.state;
     this.setState({ loading: true });
@@ -36,25 +36,26 @@ class ChatAppTab extends React.Component {
       enterAsSend,
     };
     payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
-    try {
-      let data = await setUserSettings(payload);
-      if (data.accepted) {
-        actions.openSnackBar({
-          snackBarMessage: 'Settings updated',
-        });
-        actions.setUserSettings({ enterAsSend });
-        this.setState({ loading: false });
-      } else {
+    setUserSettings(payload)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.setUserSettings({ enterAsSend });
+          this.setState({ loading: false });
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+          this.setState({ loading: false });
+        }
+      })
+      .catch(error => {
         actions.openSnackBar({
           snackBarMessage: 'Failed to save Settings',
         });
-        this.setState({ loading: false });
-      }
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Failed to save Settings',
       });
-    }
   };
 
   render() {

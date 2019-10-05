@@ -39,38 +39,39 @@ class MyRatings extends Component {
     this.loadSkills();
   }
 
-  loadSkills = async () => {
+  loadSkills = () => {
     const { actions } = this.props;
     let ratingsData = [];
-    try {
-      let payload = await fetchUserRatings();
-      if (payload.ratedSkills) {
-        for (let i of payload.ratedSkills) {
-          let skillName = Object.keys(i)[0];
-          ratingsData.push({
-            skillName: skillName,
-            group: i[skillName].group,
-            language: i[skillName].language,
-            skillStar: i[skillName].stars,
-            ratingTimestamp: i[skillName].timestamp,
+    fetchUserRatings()
+      .then(payload => {
+        if (payload.ratedSkills) {
+          for (let i of payload.ratedSkills) {
+            let skillName = Object.keys(i)[0];
+            ratingsData.push({
+              skillName: skillName,
+              group: i[skillName].group,
+              language: i[skillName].language,
+              skillStar: i[skillName].stars,
+              ratingTimestamp: i[skillName].timestamp,
+            });
+          }
+          this.setState({
+            ratingsData,
           });
         }
         this.setState({
-          ratingsData,
+          loading: false,
         });
-      }
-      this.setState({
-        loading: false,
+      })
+      .catch(err => {
+        this.setState({
+          loading: false,
+        });
+        actions.openSnackBar({
+          snackBarMessage: "Error. Couldn't rating data.",
+          snackBarDuration: 2000,
+        });
       });
-    } catch (error) {
-      this.setState({
-        loading: false,
-      });
-      actions.openSnackBar({
-        snackBarMessage: "Error. Couldn't rating data.",
-        snackBarDuration: 2000,
-      });
-    }
   };
 
   render() {

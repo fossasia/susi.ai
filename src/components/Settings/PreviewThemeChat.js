@@ -122,46 +122,47 @@ class PreviewThemeChat extends Component {
     };
   }
 
-  sendMessage = async event => {
+  sendMessage = event => {
     const { messageText } = this.state;
     if (messageText.trim().length > 0) {
       this.addMessage(messageText, 'You');
       const encodedMessage = encodeURIComponent(messageText);
-      try {
-        let payload = await getSusiPreviewReply(encodedMessage);
-        const { messages } = this.state;
-        let index;
-        for (let i = 0; i < messages.length; i++) {
-          if (messages[i].loading === true) {
-            index = i;
-            break;
+      getSusiPreviewReply(encodedMessage)
+        .then(payload => {
+          const { messages } = this.state;
+          let index;
+          for (let i = 0; i < messages.length; i++) {
+            if (messages[i].loading === true) {
+              index = i;
+              break;
+            }
           }
-        }
 
-        let messageObj;
-        if (payload.answers[0]) {
-          messageObj = {
-            messageText: payload.answers[0].actions[0].expression,
-            author: 'SUSI',
-            loading: false,
-          };
-        } else {
-          messageObj = {
-            messageText: 'Sorry, I could not understand what you just said.',
-            author: 'SUSI',
-            loading: false,
-          };
-        }
-        this.setState(prevState => ({
-          messages: [
-            ...prevState.messages.slice(0, index),
-            messageObj,
-            ...prevState.messages.slice(index + 1),
-          ],
-        }));
-      } catch (error) {
-        console.log('Could not fetch reply');
-      }
+          let messageObj;
+          if (payload.answers[0]) {
+            messageObj = {
+              messageText: payload.answers[0].actions[0].expression,
+              author: 'SUSI',
+              loading: false,
+            };
+          } else {
+            messageObj = {
+              messageText: 'Sorry, I could not understand what you just said.',
+              author: 'SUSI',
+              loading: false,
+            };
+          }
+          this.setState(prevState => ({
+            messages: [
+              ...prevState.messages.slice(0, index),
+              messageObj,
+              ...prevState.messages.slice(index + 1),
+            ],
+          }));
+        })
+        .catch(error => {
+          console.log('Could not fetch reply');
+        });
       this.setState({ messageText: '' });
     }
   };

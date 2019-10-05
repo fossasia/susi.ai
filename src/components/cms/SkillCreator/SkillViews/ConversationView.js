@@ -81,7 +81,7 @@ class ConversationView extends Component {
     this.setState({ userInputs }, () => this.getResponses(0));
   };
 
-  getResponses = async responseNumber => {
+  getResponses = responseNumber => {
     const { actions, code } = this.props;
     let { userInputs, conversationsData } = this.state;
     let userQuery = userInputs[responseNumber];
@@ -91,38 +91,39 @@ class ConversationView extends Component {
         name: userQuery,
         id: 'u' + responseNumber,
       });
-      try {
-        let payload = await fetchConversationResponse({
-          q: encodeURIComponent(userQuery),
-          instant: encodeURIComponent(code),
+      fetchConversationResponse({
+        q: encodeURIComponent(userQuery),
+        instant: encodeURIComponent(code),
+      })
+        .then(payload => {
+          let answer;
+          if (payload.answers[0]) {
+            answer = payload.answers[0].actions[0].expression;
+          } else {
+            answer = 'Sorry, I could not understand what you just said.';
+          }
+          conversationsData.push({
+            type: 'bot',
+            name: answer,
+            id: 'b' + responseNumber,
+          });
+          this.setState(
+            prevState => ({
+              loaded:
+                responseNumber + 1 === userInputs.length
+                  ? true
+                  : prevState.loaded,
+              conversationsData,
+            }),
+            () => this.getResponses(++responseNumber),
+          );
+        })
+        .catch(error => {
+          actions.openSnackBar({
+            snackBarMessage: 'Unable to load tree view. Please try again.',
+            snackBarDuration: 2000,
+          });
         });
-        let answer;
-        if (payload.answers[0]) {
-          answer = payload.answers[0].actions[0].expression;
-        } else {
-          answer = 'Sorry, I could not understand what you just said.';
-        }
-        conversationsData.push({
-          type: 'bot',
-          name: answer,
-          id: 'b' + responseNumber,
-        });
-        this.setState(
-          prevState => ({
-            loaded:
-              responseNumber + 1 === userInputs.length
-                ? true
-                : prevState.loaded,
-            conversationsData,
-          }),
-          () => this.getResponses(++responseNumber),
-        );
-      } catch (error) {
-        actions.openSnackBar({
-          snackBarMessage: 'Unable to load tree view. Please try again.',
-          snackBarDuration: 2000,
-        });
-      }
     }
   };
 

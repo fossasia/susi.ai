@@ -66,26 +66,28 @@ class MySkills extends Component {
     this.loadSkills();
   }
 
-  loadSkills = async () => {
+  loadSkills = () => {
     const { actions } = this.props;
     let dataObj = {
       filterName: 'ascending',
       filterType: 'lexicographical',
     };
-    try {
-      await actions.getUserSkills(dataObj);
-      this.setState({
-        loading: false,
+    actions
+      .getUserSkills(dataObj)
+      .then(() => {
+        this.setState({
+          loading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          loading: false,
+        });
+        actions.openSnackBar({
+          snackBarMessage: "Error. Couldn't fetch skills.",
+          snackBarDuration: 2000,
+        });
       });
-    } catch (error) {
-      this.setState({
-        loading: false,
-      });
-      actions.openSnackBar({
-        snackBarMessage: "Error. Couldn't fetch skills.",
-        snackBarDuration: 2000,
-      });
-    }
   };
 
   render() {

@@ -80,7 +80,7 @@ class SkillFeedbackCard extends Component {
     this.setState({ newFeedbackValue: feedbackText });
   };
 
-  postFeedback = async () => {
+  postFeedback = () => {
     const { group, language, skillTag: skill, actions } = this.props;
     const { newFeedbackValue } = this.state;
     const skillData = {
@@ -91,13 +91,15 @@ class SkillFeedbackCard extends Component {
       feedback: newFeedbackValue,
     };
     if (newFeedbackValue !== undefined && newFeedbackValue.trim()) {
-      try {
-        await actions.setSkillFeedback(skillData);
-        actions.closeModal();
-        actions.getSkillFeedbacks(skillData);
-      } catch (error) {
-        console.log(error);
-      }
+      actions
+        .setSkillFeedback(skillData)
+        .then(payload => {
+          actions.closeModal();
+          actions.getSkillFeedbacks(skillData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     } else {
       this.setState({ errorText: 'Feedback cannot be empty' });
     }
@@ -113,7 +115,7 @@ class SkillFeedbackCard extends Component {
     });
   };
 
-  deleteFeedback = async () => {
+  deleteFeedback = () => {
     const { group, language, skillTag: skill, actions } = this.props;
     const skillData = {
       model: 'general',
@@ -121,13 +123,13 @@ class SkillFeedbackCard extends Component {
       language,
       skill,
     };
-    try {
-      await actions.deleteSkillFeedback(skillData);
-      actions.closeModal();
-      actions.getSkillFeedbacks(skillData);
-    } catch (error) {
-      console.log(error);
-    }
+    actions
+      .deleteSkillFeedback(skillData)
+      .then(payload => {
+        actions.closeModal();
+        actions.getSkillFeedbacks(skillData);
+      })
+      .catch(error => console.log(error));
   };
 
   render() {

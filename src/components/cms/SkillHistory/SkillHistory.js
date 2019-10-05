@@ -101,7 +101,7 @@ class SkillHistory extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     document.title = 'SUSI.AI - Skill History';
     const {
       modelValue: model,
@@ -109,26 +109,22 @@ class SkillHistory extends Component {
       languageValue: language,
       skillName: skill,
     } = this.state.skillMeta;
-    try {
-      let commitsData = await fetchCommitHistory({
-        model,
-        group,
-        language,
-        skill,
-      });
-      if (commitsData.accepted) {
-        let commits = commitsData.commits ? commitsData.commits : [];
-        if (commits.length > 0) {
-          commits[0].latest = true;
+    fetchCommitHistory({ model, group, language, skill })
+      .then(commitsData => {
+        if (commitsData.accepted) {
+          let commits = commitsData.commits ? commitsData.commits : [];
+          if (commits.length > 0) {
+            commits[0].latest = true;
+          }
+          this.setState({
+            allCommitsData: commits,
+          });
+          this.getCommitFiles();
         }
-        this.setState({
-          allCommitsData: commits,
-        });
-        this.getCommitFiles();
-      }
-    } catch (error) {
-      return <ErrorNotification />;
-    }
+      })
+      .catch(error => {
+        return <ErrorNotification />;
+      });
   }
 
   getCommitMeta = commitID => {
@@ -141,7 +137,7 @@ class SkillHistory extends Component {
     }
   };
 
-  getCommitFiles = async () => {
+  getCommitFiles = () => {
     const {
       modelValue: model,
       groupValue: group,
@@ -150,39 +146,40 @@ class SkillHistory extends Component {
     } = this.state.skillMeta;
     const { commits } = this.state;
     if (commits.length === 2) {
-      try {
-        let data1 = await fetchSkillByCommitId({
-          model,
-          group,
-          language,
-          skill,
-          commitID: commits[0],
-        });
-        try {
-          let data2 = await fetchSkillByCommitId({
+      fetchSkillByCommitId({
+        model,
+        group,
+        language,
+        skill,
+        commitID: commits[0],
+      })
+        .then(data1 => {
+          fetchSkillByCommitId({
             model,
             group,
             language,
             skill,
             commitID: commits[1],
-          });
-
-          this.updateData([
-            {
-              code: data1.file,
-              commit: this.getCommitMeta(commits[0]),
-            },
-            {
-              code: data2.file,
-              commit: this.getCommitMeta(commits[1]),
-            },
-          ]);
-        } catch (error) {
+          })
+            .then(data2 => {
+              this.updateData([
+                {
+                  code: data1.file,
+                  commit: this.getCommitMeta(commits[0]),
+                },
+                {
+                  code: data2.file,
+                  commit: this.getCommitMeta(commits[1]),
+                },
+              ]);
+            })
+            .catch(error => {
+              return <ErrorNotification />;
+            });
+        })
+        .catch(error => {
           return <ErrorNotification />;
-        }
-      } catch (error) {
-        return <ErrorNotification />;
-      }
+        });
     }
   };
 

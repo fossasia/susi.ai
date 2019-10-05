@@ -102,17 +102,18 @@ class SignUp extends Component {
     }
   };
 
-  isEmailAvailable = async () => {
+  isEmailAvailable = () => {
     const { email, emailErrorMessage } = this.state;
     if (!emailErrorMessage) {
-      let payload = await getEmailExists({
+      getEmailExists({
         email,
-      });
-      const { exists } = payload;
-      this.setState({
-        emailErrorMessage: exists
-          ? 'Email ID already taken, please use another account'
-          : '',
+      }).then(payload => {
+        const { exists } = payload;
+        this.setState({
+          emailErrorMessage: exists
+            ? 'Email ID already taken, please use another account'
+            : '',
+        });
       });
     }
   };
@@ -176,7 +177,7 @@ class SignUp extends Component {
     }
   };
 
-  onSignup = async event => {
+  onSignup = event => {
     this.setState({
       signupErrorMessage: '',
     });
@@ -198,49 +199,50 @@ class SignUp extends Component {
       isCaptchaVerified
     ) {
       this.setState({ loading: true });
-      try {
-        let { payload } = await getSignup({
-          email,
-          password: encodeURIComponent(password),
-          captchaResponse,
-        });
-        if (payload.accepted) {
+      getSignup({
+        email,
+        password: encodeURIComponent(password),
+        captchaResponse,
+      })
+        .then(({ payload }) => {
+          if (payload.accepted) {
+            this.setState({
+              password: '',
+              confirmPassword: '',
+              passwordStrength: '',
+              passwordScore: -1,
+              signupErrorMessage: payload.message,
+              success: true,
+              loading: false,
+            });
+          } else {
+            this.setState({
+              password: '',
+              success: false,
+              loading: false,
+            });
+            openSnackBar({
+              snackBarMessage: 'Signup Failed. Try Again',
+            });
+          }
+        })
+        .catch(error => {
           this.setState({
-            password: '',
-            confirmPassword: '',
-            passwordStrength: '',
-            passwordScore: -1,
-            signupErrorMessage: payload.message,
-            success: true,
-            loading: false,
-          });
-        } else {
-          this.setState({
-            password: '',
             success: false,
+            password: '',
             loading: false,
           });
+          let snackBarMessage;
+          if (error.statusCode === 422) {
+            snackBarMessage =
+              'Already registered. Please signup with a different email account';
+          } else {
+            snackBarMessage = 'Signup Failed. Try Again';
+          }
           openSnackBar({
-            snackBarMessage: 'Signup Failed. Try Again',
+            snackBarMessage,
           });
-        }
-      } catch (error) {
-        this.setState({
-          success: false,
-          password: '',
-          loading: false,
         });
-        let snackBarMessage;
-        if (error.statusCode === 422) {
-          snackBarMessage =
-            'Already registered. Please signup with a different email account';
-        } else {
-          snackBarMessage = 'Signup Failed. Try Again';
-        }
-        openSnackBar({
-          snackBarMessage,
-        });
-      }
     }
   };
 

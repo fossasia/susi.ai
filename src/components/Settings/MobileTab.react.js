@@ -98,7 +98,7 @@ class MobileTab extends React.Component {
     });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { actions, userEmailId } = this.props;
     const { phoneNo, countryCode, countryDialCode } = this.state;
     let payload = {
@@ -108,25 +108,26 @@ class MobileTab extends React.Component {
     };
     payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
     this.setState({ loading: true });
-    try {
-      let data = await setUserSettings(payload);
-      if (data.accepted) {
-        actions.openSnackBar({
-          snackBarMessage: 'Settings updated',
-        });
-        actions.setUserSettings(payload);
-        this.setState({ loading: false });
-      } else {
+    setUserSettings(payload)
+      .then(data => {
+        if (data.accepted) {
+          actions.openSnackBar({
+            snackBarMessage: 'Settings updated',
+          });
+          actions.setUserSettings(payload);
+          this.setState({ loading: false });
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed to save Settings',
+          });
+          this.setState({ loading: false });
+        }
+      })
+      .catch(error => {
         actions.openSnackBar({
           snackBarMessage: 'Failed to save Settings',
         });
-        this.setState({ loading: false });
-      }
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Failed to save Settings',
       });
-    }
   };
 
   render() {

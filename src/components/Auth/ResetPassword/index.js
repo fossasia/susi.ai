@@ -35,21 +35,22 @@ class ResetPassword extends Component {
     };
     this.token = this.props.location.search.split('=')[1] || '';
   }
-  async componentDidMount() {
+  componentDidMount() {
     const { actions } = this.props;
-    try {
-      let { message } = await checkResetPasswordToken({ token: this.token });
-      actions.openSnackBar({
-        snackBarMessage: message,
-        snackBarDuration: 4000,
+    checkResetPasswordToken({ token: this.token })
+      .then(({ message }) => {
+        actions.openSnackBar({
+          snackBarMessage: message,
+          snackBarDuration: 4000,
+        });
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: 'Invalid request!',
+          snackBarDuration: 4000,
+        });
+        this.setState({ invalidToken: true });
       });
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: 'Invalid request!',
-        snackBarDuration: 4000,
-      });
-      this.setState({ invalidToken: true });
-    }
   }
 
   componentWillUnmount() {
@@ -126,28 +127,26 @@ class ResetPassword extends Component {
     }
   };
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { actions } = this.props;
     const { newPassword } = this.state;
     this.setState({ loading: true });
-    try {
-      let message = await resetPassword({
-        token: this.token,
-        newpass: newPassword,
+    resetPassword({ token: this.token, newpass: newPassword })
+      .then(({ message }) => {
+        actions.openSnackBar({
+          snackBarMessage: message,
+          snackBarDuration: 4000,
+        });
+        actions.openModal({ modalType: 'login' });
+        this.setState({ loading: false });
+      })
+      .catch(error => {
+        actions.openSnackBar({
+          snackBarMessage: `Failed ${error.message}`,
+          snackBarDuration: 4000,
+        });
+        this.setState({ loading: false });
       });
-      actions.openSnackBar({
-        snackBarMessage: message,
-        snackBarDuration: 4000,
-      });
-      actions.openModal({ modalType: 'login' });
-      this.setState({ loading: false });
-    } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: `Failed ${error.message}`,
-        snackBarDuration: 4000,
-      });
-      this.setState({ loading: false });
-    }
   };
 
   render() {

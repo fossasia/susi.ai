@@ -52,46 +52,48 @@ class ForgotPassword extends Component {
     });
   };
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     const { actions } = this.props;
     const { email, emailErrorMessage } = this.state;
 
     if (email && !emailErrorMessage) {
       this.setState({ loading: true });
-      try {
-        let { payload } = await actions.getForgotPassword({ email });
-        let snackBarMessage = payload.message;
-        let success;
-        if (payload.accepted) {
-          success = true;
-        } else {
-          success = false;
-          snackBarMessage = 'Please Try Again';
-        }
-        this.setState({
-          success,
-          loading: false,
-        });
-        actions.closeModal();
-        actions.openSnackBar({
-          snackBarMessage,
-        });
-      } catch (error) {
-        actions.closeModal();
-        this.setState({
-          loading: false,
-          success: false,
-        });
-        if (error.statusCode === 422) {
-          actions.openSnackBar({
-            snackBarMessage: 'Email does not exist.',
+      actions
+        .getForgotPassword({ email })
+        .then(({ payload }) => {
+          let snackBarMessage = payload.message;
+          let success;
+          if (payload.accepted) {
+            success = true;
+          } else {
+            success = false;
+            snackBarMessage = 'Please Try Again';
+          }
+          this.setState({
+            success,
+            loading: false,
           });
-        } else {
+          actions.closeModal();
           actions.openSnackBar({
-            snackBarMessage: 'Failed. Try Again',
+            snackBarMessage,
           });
-        }
-      }
+        })
+        .catch(error => {
+          actions.closeModal();
+          this.setState({
+            loading: false,
+            success: false,
+          });
+          if (error.statusCode === 422) {
+            actions.openSnackBar({
+              snackBarMessage: 'Email does not exist.',
+            });
+          } else {
+            actions.openSnackBar({
+              snackBarMessage: 'Failed. Try Again',
+            });
+          }
+        });
     }
   };
 

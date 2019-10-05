@@ -268,11 +268,12 @@ class SkillFeedbackPage extends Component {
     return range(1, totalPages);
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     const { actions } = this.props;
     actions.getSkillMetaData(this.skillData);
-    await actions.getSkillFeedbacks(this.skillData);
-    this.setState({ loading: false });
+    actions
+      .getSkillFeedbacks(this.skillData)
+      .then(response => this.setState({ loading: false }));
     this.gotoPage(1);
   }
 
@@ -349,7 +350,7 @@ class SkillFeedbackPage extends Component {
     this.setState({ feedbackValue: event.target.value });
   };
 
-  postFeedback = async () => {
+  postFeedback = () => {
     const { group, language, skillTag: skill, actions } = this.props;
     const { feedbackValue } = this.state;
     const skillData = {
@@ -360,27 +361,29 @@ class SkillFeedbackPage extends Component {
       feedback: feedbackValue,
     };
     if (feedbackValue) {
-      try {
-        await actions.setSkillFeedback(skillData);
-        actions.getSkillFeedbacks(skillData);
-      } catch (error) {
-        console.log(error);
-      }
+      actions
+        .setSkillFeedback(skillData)
+        .then(payload => {
+          actions.getSkillFeedbacks(skillData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
       // this.handleEditClose();
     } else {
       this.setState({ errorText: 'Feedback cannot be empty' });
     }
   };
 
-  deleteFeedback = async () => {
+  deleteFeedback = () => {
     const { actions } = this.props;
-    try {
-      await actions.deleteSkillFeedback(this.skillData);
-      actions.closeModal();
-      actions.getSkillFeedbacks(this.skillData);
-    } catch (error) {
-      console.log(error);
-    }
+    actions
+      .deleteSkillFeedback(this.skillData)
+      .then(payload => {
+        actions.closeModal();
+        actions.getSkillFeedbacks(this.skillData);
+      })
+      .catch(error => console.log(error));
   };
 
   handleMenuOpen = event => {

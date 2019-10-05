@@ -308,26 +308,28 @@ class BrowseSkill extends React.Component {
     return obj;
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     // Initialize store based on query params
     const obj = this.initStore();
     const { actions, routeType } = this.props;
     document.title = 'SUSI.AI - Browse Skills';
-    try {
-      await actions.initializeSkillData(obj);
-      this.loadGroups();
-      if (
-        routeType ||
-        ['category', 'language'].includes(window.location.href.split('/')[4])
-      ) {
-        this.loadCards();
-      } else {
-        this.loadLanguages('All');
-        this.loadMetricsSkills();
-      }
-    } catch (error) {
-      actions.initializeSkillData(obj);
-    }
+    actions
+      .initializeSkillData(obj)
+      .then(() => {
+        this.loadGroups();
+        if (
+          routeType ||
+          ['category', 'language'].includes(window.location.href.split('/')[4])
+        ) {
+          this.loadCards();
+        } else {
+          this.loadLanguages('All');
+          this.loadMetricsSkills();
+        }
+      })
+      .catch(error => {
+        actions.initializeSkillData(obj);
+      });
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }
@@ -343,12 +345,11 @@ class BrowseSkill extends React.Component {
   };
 
   // FilterChange
-  handleFilterChange = async event => {
+  handleFilterChange = event => {
     const { value } = event.target;
     const { location, history, actions } = this.props;
     appendQueryString(location, history, 'sort_by', value);
-    await actions.setFilterType({ filterType: value });
-    this.loadCards();
+    actions.setFilterType({ filterType: value }).then(() => this.loadCards());
   };
 
   handleEntriesPerPageChange = event => {
@@ -381,18 +382,20 @@ class BrowseSkill extends React.Component {
     actions.setSkillsViewType({ viewType: value });
   };
 
-  handleArrivalTimeChange = async value => {
+  handleArrivalTimeChange = value => {
     const { actions, history, location } = this.props;
     if (value) {
       appendQueryString(location, history, 'creation_date&duration', value);
-      await actions.setTimeFilter({
-        filterType: `creation_date&duration=${value}`,
-        timeFilter: value,
-      });
-      this.loadCards();
+      actions
+        .setTimeFilter({
+          filterType: `creation_date&duration=${value}`,
+          timeFilter: value,
+        })
+        .then(() => this.loadCards());
     } else {
-      await actions.setTimeFilter({ filterType: 'rating', timeFilter: null });
-      this.loadCards();
+      actions
+        .setTimeFilter({ filterType: 'rating', timeFilter: null })
+        .then(() => this.loadCards());
     }
   };
 
@@ -462,18 +465,16 @@ class BrowseSkill extends React.Component {
     window.scrollTo(0, 0);
   };
 
-  handleRatingRefine = async ratingRefine => {
+  handleRatingRefine = ratingRefine => {
     const { skills = [], actions, history, location } = this.props;
     if (skills.length === 0) {
-      await actions.setSkillsLoading();
-      this.loadCards();
+      actions.setSkillsLoading().then(() => this.loadCards());
     }
     if (ratingRefine) {
       actions.setStarRatingFilter({ ratingRefine });
       appendQueryString(location, history, 'rating_refine', ratingRefine);
     } else {
-      await actions.setStarRatingFilter({ ratingRefine });
-      this.loadCards();
+      actions.setStarRatingFilter({ ratingRefine }).then(this.loadCards());
     }
   };
 
@@ -490,32 +491,33 @@ class BrowseSkill extends React.Component {
     ));
   };
 
-  handleOrderByChange = async () => {
+  handleOrderByChange = () => {
     const { orderBy, actions, history, location } = this.props;
     const value = orderBy === 'ascending' ? 'descending' : 'ascending';
     appendQueryString(location, history, 'order_by', value);
-    await actions.setOrderByFilter({ orderBy: value });
-    this.loadCards();
+    actions.setOrderByFilter({ orderBy: value }).then(() => this.loadCards());
   };
 
-  handleReviewFilterChange = async e => {
+  handleReviewFilterChange = e => {
     const { actions, history, location } = this.props;
     const { checked } = e.target;
     appendQueryString(location, history, 'reviewed', checked);
-    await actions.setReviewedFilter({
-      reviewed: checked,
-    });
-    this.loadCards();
+    actions
+      .setReviewedFilter({
+        reviewed: checked,
+      })
+      .then(() => this.loadCards());
   };
 
-  handleStaffFilterChange = async e => {
+  handleStaffFilterChange = e => {
     const { actions, history, location } = this.props;
     const { checked } = e.target;
     appendQueryString(location, history, 'staff_picks', checked);
-    await actions.setStaffpickFilter({
-      staffPicks: e.target.checked,
-    });
-    this.loadCards();
+    actions
+      .setStaffpickFilter({
+        staffPicks: e.target.checked,
+      })
+      .then(() => this.loadCards());
   };
 
   handleMenuClick = event => {
@@ -1005,7 +1007,7 @@ class BrowseSkill extends React.Component {
                       <SkillCardGrid history={history} />
                     )}
                   </div>
-                  {skills.length > this.props.entriesPerPage && (
+                  {skills.length > 10 && (
                     <PageNavigationContainer>
                       <div>
                         Page: {listPage} out of{' '}

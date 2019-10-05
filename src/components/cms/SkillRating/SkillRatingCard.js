@@ -96,7 +96,7 @@ class SkillRatingCard extends Component {
     };
   }
 
-  changeRating = async userRating => {
+  changeRating = userRating => {
     const { group, language, skillTag: skill, actions } = this.props;
     const skillData = {
       model: 'general',
@@ -105,20 +105,23 @@ class SkillRatingCard extends Component {
       skill,
       stars: userRating,
     };
-    try {
-      await actions.setUserRating({ userRating: userRating });
-      actions.openSnackBar({
-        snackBarMessage: 'The skill was successfully rated!',
-        snackBarDuration: 4000,
-      });
-      try {
-        await actions.getSkillRating(skillData);
-      } catch (error) {
+    actions
+      .setUserRating({ userRating: userRating })
+      .then(payload => {
+        actions.openSnackBar({
+          snackBarMessage: 'The skill was successfully rated!',
+          snackBarDuration: 4000,
+        });
+        actions
+          .getSkillRating(skillData)
+          .then(response => {})
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
         console.log(error);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      });
   };
 
   componentDidMount = () => {

@@ -67,34 +67,35 @@ class Mail extends React.Component {
     smtpHost: '',
   };
 
-  getMailSettings = async () => {
-    let { settings } = await fetchMailSettings();
-    const {
-      frontendUrl,
-      name,
-      sendgridToken,
-      type,
-      email,
-      trustselfsignedcerts,
-      encryption,
-      port,
-      smtpUserName: username,
-      smtpPassword: password,
-      smtpHost,
-    } = settings;
-    this.setState({
-      frontendUrl,
-      name,
-      sendgridToken,
-      type,
-      email,
-      trustselfsignedcerts,
-      encryption,
-      port,
-      username,
-      password,
-      smtpHost,
-      loading: false,
+  getMailSettings = () => {
+    fetchMailSettings().then(({ settings }) => {
+      const {
+        frontendUrl,
+        name,
+        sendgridToken,
+        type,
+        email,
+        trustselfsignedcerts,
+        encryption,
+        port,
+        smtpUserName: username,
+        smtpPassword: password,
+        smtpHost,
+      } = settings;
+      this.setState({
+        frontendUrl,
+        name,
+        sendgridToken,
+        type,
+        email,
+        trustselfsignedcerts,
+        encryption,
+        port,
+        username,
+        password,
+        smtpHost,
+        loading: false,
+      });
     });
   };
 
@@ -112,7 +113,7 @@ class Mail extends React.Component {
     this.setState({ type: event.target.value });
   };
 
-  saveSettings = async () => {
+  saveSettings = () => {
     this.setState({ isSaving: true });
     const {
       frontendUrl,
@@ -127,32 +128,32 @@ class Mail extends React.Component {
       password,
       smtpHost,
     } = this.state;
-
-    try {
-      await changeMailSettings({
-        frontendUrl,
-        name,
-        sendgridToken,
-        type,
-        email,
-        trustselfsignedcerts,
-        encryption,
-        port,
-        username,
-        password,
-        smtpHost,
+    changeMailSettings({
+      frontendUrl,
+      name,
+      sendgridToken,
+      type,
+      email,
+      trustselfsignedcerts,
+      encryption,
+      port,
+      username,
+      password,
+      smtpHost,
+    })
+      .then(() => {
+        this.setState({ isSaving: false });
+        this.props.actions.openSnackBar({
+          snackBarMessage: 'Successfully updated mail settings',
+        });
+      })
+      .catch(e => {
+        this.setState({ isSaving: false });
+        console.log('Error', e);
       });
-      this.setState({ isSaving: false });
-      this.props.actions.openSnackBar({
-        snackBarMessage: 'Successfully updated mail settings',
-      });
-    } catch (error) {
-      this.setState({ isSaving: false });
-      console.log('Error', error);
-    }
   };
 
-  sendTestMail = async () => {
+  sendTestMail = () => {
     const {
       frontendUrl,
       name,
@@ -168,27 +169,28 @@ class Mail extends React.Component {
     } = this.state;
     const { receiverEmail } = this.props;
     if (type === 'SMTP') {
-      try {
-        await sendEmail({
-          frontendUrl,
-          name,
-          sendgridToken,
-          type,
-          email,
-          trustselfsignedcerts,
-          encryption,
-          port,
-          username,
-          password,
-          receiverEmail,
-          smtpHost,
+      sendEmail({
+        frontendUrl,
+        name,
+        sendgridToken,
+        type,
+        email,
+        trustselfsignedcerts,
+        encryption,
+        port,
+        username,
+        password,
+        receiverEmail,
+        smtpHost,
+      })
+        .then(
+          this.props.actions.openSnackBar({
+            snackBarMessage: 'You have successfully sent a test email',
+          }),
+        )
+        .catch(e => {
+          console.log('Error', e);
         });
-        this.props.actions.openSnackBar({
-          snackBarMessage: 'You have successfully sent a test email',
-        });
-      } catch (error) {
-        console.log('Error', error);
-      }
     }
   };
 

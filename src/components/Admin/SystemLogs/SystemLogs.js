@@ -60,31 +60,33 @@ class SystemLogs extends React.Component {
     this.loadSystemLogs(1000);
   }
 
-  loadSystemLogs = async count => {
+  loadSystemLogs = count => {
     const { accessToken } = this.props;
-    try {
-      let response = await axios.get(
+    axios
+      .get(
         `${urls.API_URL}/log.txt?access_token=${accessToken}&count=${count}`,
         {
           responseType: 'arraybuffer',
         },
-      );
-      let { data } = response;
-      // eslint-disable-next-line
-      var buffer = new Buffer(data, 'binary');
-      var textdata = buffer.toString(); // for string
-      let error = false;
-      if (textdata.indexOf('WARN root') !== -1) {
-        error = true;
-      }
-      this.setState({
-        error: error,
-        logs: textdata,
-        loading: false,
+      )
+      .then(response => {
+        let { data } = response;
+        // eslint-disable-next-line
+        var buffer = new Buffer(data, 'binary');
+        var textdata = buffer.toString(); // for string
+        let error = false;
+        if (textdata.indexOf('WARN root') !== -1) {
+          error = true;
+        }
+        this.setState({
+          error: error,
+          logs: textdata,
+          loading: false,
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   handleCountChange = event => {
