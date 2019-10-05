@@ -74,74 +74,71 @@ class Login extends Component {
     actions.closeModal();
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     const { actions, location, history } = this.props;
     const { password, email, captchaResponse } = this.state;
-
     if (!email || !password) {
       return;
     }
     if (isEmail(email)) {
       this.setState({ loading: true });
-      actions
-        .getLogin({
+      try {
+        let { payload } = await actions.getLogin({
           email,
           password: encodeURIComponent(password),
           captchaResponse,
-        })
-        .then(({ payload }) => {
-          let snackBarMessage;
-          const { accessToken, time, uuid } = payload;
-          if (payload.accepted) {
-            snackBarMessage = payload.message;
-            actions
-              // eslint-disable-next-line camelcase
-              .getAdmin({ access_token: payload.accessToken })
-              .then(({ payload }) => {
-                this.setCookies({ accessToken, time, uuid, email });
-                if (location.pathname !== '/chat') {
-                  history.push('/');
-                } else {
-                  actions.getHistoryFromServer().then(({ payload }) => {
-                    // eslint-disable-next-line
-                    createMessagePairArray(payload).then(messagePairArray => {
-                      actions.initializeMessageStore(messagePairArray);
-                    });
-                  });
-                  this.setState({
-                    success: true,
-                    loading: false,
-                  });
-                }
-              })
-              .catch(error => {
-                actions.initializeMessageStoreFailed();
-                console.log(error);
+        });
+
+        let snackBarMessage;
+        const { accessToken, time, uuid } = payload;
+        if (payload.accepted) {
+          snackBarMessage = payload.message;
+          try {
+            /*eslint-disable */
+            await actions.getAdmin({
+              access_token: accessToken,
+            });
+            /* eslint-enable */
+            this.setCookies({ accessToken, time, uuid, email });
+            if (location.pathname !== '/chat') {
+              history.push('/');
+            } else {
+              let { payload } = await actions.getHistoryFromServer();
+              // eslint-disable-next-line
+              let messagePairArray = await createMessagePairArray(payload);
+              actions.initializeMessageStore(messagePairArray);
+              this.setState({
+                success: true,
+                loading: false,
               });
-            this.handleDialogClose();
-          } else {
-            snackBarMessage = 'Login Failed. Try Again';
-            this.setState(prevState => ({
-              password: '',
-              success: false,
-              loading: false,
-              attempts: prevState.attempts + 1,
-            }));
+            }
+          } catch (error) {
+            actions.initializeMessageStoreFailed();
+            console.log(error);
           }
-          actions.openSnackBar({ snackBarMessage });
-        })
-        .catch(error => {
-          console.log(error);
+          this.handleDialogClose();
+        } else {
+          snackBarMessage = 'Login Failed. Try Again';
           this.setState(prevState => ({
             password: '',
             success: false,
             loading: false,
             attempts: prevState.attempts + 1,
           }));
-          actions.openSnackBar({
-            snackBarMessage: 'Login Failed. Try Again',
-          });
+        }
+        actions.openSnackBar({ snackBarMessage });
+      } catch (error) {
+        console.log(error);
+        this.setState(prevState => ({
+          password: '',
+          success: false,
+          loading: false,
+          attempts: prevState.attempts + 1,
+        }));
+        actions.openSnackBar({
+          snackBarMessage: 'Login Failed. Try Again',
         });
+      }
     }
   };
 

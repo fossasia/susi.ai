@@ -22,23 +22,22 @@ const H3 = styled.h3`
 `;
 
 const RecaptchaOptions = ({ actions, captchaConfig }) => {
-  const handleRecaptchaChange = e => {
+  const handleRecaptchaChange = async e => {
     const { checked, name } = e.target;
-    setRecaptchaConfig({
-      key: name,
-      value: checked,
-    })
-      .then(() => {
-        actions.getCaptchaConfig();
-        actions.openSnackBar({
-          snackBarMessage: 'Successfully changed reCaptcha settings',
-        });
-      })
-      .catch(error => {
-        actions.openSnackBar({
-          snackBarMessage: 'Failed to change reCaptcha settings',
-        });
+    try {
+      await setRecaptchaConfig({
+        key: name,
+        value: checked,
       });
+      actions.getCaptchaConfig();
+      actions.openSnackBar({
+        snackBarMessage: 'Successfully changed reCaptcha settings',
+      });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to change reCaptcha settings',
+      });
+    }
   };
   const { login, signUp, changePassword } = captchaConfig;
   return (

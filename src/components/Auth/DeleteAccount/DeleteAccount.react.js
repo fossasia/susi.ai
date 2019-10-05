@@ -37,14 +37,14 @@ class DeleteAccount extends Component {
     this.passwordErrorMessage = '';
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { actions, accessToken } = this.props;
     if (accessToken) {
-      checkAccountPermission()
-        .then(response => {})
-        .catch(error => {
-          actions.openSnackBar({ snackBarMessage: 'Not logged In!' });
-        });
+      try {
+        await checkAccountPermission();
+      } catch (error) {
+        actions.openSnackBar({ snackBarMessage: 'Not logged In!' });
+      }
     } else {
       actions.openSnackBar({ snackBarMessage: 'Not logged In!' });
     }
@@ -87,23 +87,22 @@ class DeleteAccount extends Component {
     actions.closeModal();
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     this.setState({ loading: true });
     const { actions, email } = this.props;
     let password = this.state.password.trim();
-    checkPassword({ login: email, password: password })
-      .then(payload => {
-        if (payload.accepted) {
-          this.setState({ loading: false });
-          actions.openModal({ modalType: 'confirmDeleteAccount' });
-        }
-      })
-      .catch(error => {
+    try {
+      let payload = await checkPassword({ login: email, password: password });
+      if (payload.accepted) {
         this.setState({ loading: false });
-        actions.openSnackBar({
-          snackBarMessage: 'Account deletion failed! Incorrect Password.',
-        });
+        actions.openModal({ modalType: 'confirmDeleteAccount' });
+      }
+    } catch (error) {
+      this.setState({ loading: false });
+      actions.openSnackBar({
+        snackBarMessage: 'Account deletion failed! Incorrect Password.',
       });
+    }
   };
 
   render() {
