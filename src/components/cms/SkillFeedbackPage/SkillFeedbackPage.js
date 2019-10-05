@@ -31,6 +31,7 @@ import { Paper, CenterReaderContainer } from '../../shared/Container';
 import { SubTitle, Title } from '../../shared/Typography';
 import CircularLoader from '../../shared/CircularLoader';
 import OutlinedTextField from '../../shared/OutlinedTextField';
+import SkillRatingCard from '../SkillRating/SkillRatingCard';
 
 const LEFT_PAGE = 'LEFT';
 const RIGHT_PAGE = 'RIGHT';
@@ -613,6 +614,9 @@ class SkillFeedbackPage extends Component {
                 </div>
               </div>
             </SkillDetailContainer>
+          </Paper>
+          <SkillRatingCard></SkillRatingCard>
+          <Paper>
             <Title marginTop>Feedback</Title>
             {feedbackCardsElement}
             {skillFeedbacks &&
