@@ -827,7 +827,7 @@ class SkillWizard extends Component {
           loading: false,
         });
         this.props.actions.openSnackBar({
-          snackBarMessage: String(error),
+          snackBarMessage: 'Oops! something went wrong',
           snackBarPosition: { vertical: 'top', horizontal: 'right' },
           variant: 'error',
         });
