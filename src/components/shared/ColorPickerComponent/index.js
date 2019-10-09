@@ -40,7 +40,7 @@ const ColorPickerComponent = props => {
         <ColorPicker
           name="color"
           id={'colorPicker' + id}
-          defaultValue={backgroundColor}
+          value={backgroundColor}
           onChange={color => handleChangeColor(component, color)}
         />
       </ColorPickerContainer>
