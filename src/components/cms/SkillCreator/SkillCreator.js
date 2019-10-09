@@ -115,28 +115,26 @@ class SkillCreator extends Component {
     this.loadSkills();
   }
 
-  loadSkills = () => {
+  loadSkills = async () => {
     const { actions } = this.props;
     let dataObj = {
       filterName: 'ascending',
       filterType: 'lexicographical',
     };
-    actions
-      .getUserSkills(dataObj)
-      .then(() => {
-        this.setState({
-          loading: false,
-        });
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-        });
-        actions.openSnackBar({
-          snackBarMessage: "Error. Couldn't fetch skills.",
-          snackBarDuration: 2000,
-        });
+    try {
+      await actions.getUserSkills(dataObj);
+      this.setState({
+        loading: false,
       });
+    } catch (error) {
+      this.setState({
+        loading: false,
+      });
+      actions.openSnackBar({
+        snackBarMessage: "Error. Couldn't fetch skills.",
+        snackBarDuration: 2000,
+      });
+    }
   };
 
   showSkills = () => {

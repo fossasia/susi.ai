@@ -91,42 +91,40 @@ class SkillRollBack extends Component {
     return skillAtCommitIDUrl;
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     document.title = 'SUSI.AI - Skill RollBack';
     const baseUrl = this.getSkillAtCommitIDUrl();
     const latestCommitUrl = baseUrl + this.latestCommit;
     const revertingCommitUrl = baseUrl + this.revertingCommit;
 
-    fetchLatestCommitInformation({
-      url: latestCommitUrl,
-    })
-      .then(latestCommitResponse => {
-        fetchRevertingCommitInformation({
-          url: revertingCommitUrl,
-        }).then(revertingCommitResponse => {
-          this.updateData([
-            {
-              code: latestCommitResponse.file,
-              commitID: this.latestCommit,
-              author: latestCommitResponse.author,
-              date: latestCommitResponse.commitDate,
-            },
-            {
-              code: revertingCommitResponse.file,
-              commitID: this.revertingCommit,
-              author: revertingCommitResponse.author,
-              date: revertingCommitResponse.commitDate,
-            },
-          ]);
-        });
-      })
-      .catch(error => {
-        this.props.actions.openSnackBar({
-          snackBarMessage: 'Failed to fetch data. Please Try Again',
-          snackBarPosition: { vertical: 'top', horizontal: 'right' },
-          variant: 'error',
-        });
+    try {
+      let latestCommitResponse = await fetchLatestCommitInformation({
+        url: latestCommitUrl,
       });
+      let revertingCommitResponse = await fetchRevertingCommitInformation({
+        url: revertingCommitUrl,
+      });
+      this.updateData([
+        {
+          code: latestCommitResponse.file,
+          commitID: this.latestCommit,
+          author: latestCommitResponse.author,
+          date: latestCommitResponse.commitDate,
+        },
+        {
+          code: revertingCommitResponse.file,
+          commitID: this.revertingCommit,
+          author: revertingCommitResponse.author,
+          date: revertingCommitResponse.commitDate,
+        },
+      ]);
+    } catch (error) {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Failed to fetch data. Please Try Again',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'error',
+      });
+    }
   }
 
   updateData = commitData => {
@@ -145,7 +143,7 @@ class SkillRollBack extends Component {
     this.commitMessage = event.target.value;
   };
 
-  handleRollBack = () => {
+  handleRollBack = async () => {
     const { commitData } = this.state;
     const { accessToken } = this.props;
     if (!accessToken) {
@@ -205,41 +203,40 @@ class SkillRollBack extends Component {
     form.append('new_image_name', newImageName);
     form.append('access_token', accessToken);
 
-    modifySkill(form)
-      .then(response => {
-        const data = JSON.parse(response);
-        if (data.accepted === true) {
-          this.props.actions.openSnackBar({
-            snackBarMessage: 'Your Skill has been uploaded to the server',
-            snackBarPosition: { vertical: 'top', horizontal: 'right' },
-            variant: 'success',
-          });
-
-          this.props.history.push({
-            pathname: `/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
-            state: {
-              fromUpload: true,
-              expertValue: skillMetaData.skillName,
-              groupValue: skillMetaData.groupValue,
-              languageValue: skillMetaData.languageValue,
-            },
-          });
-        } else {
-          this.props.actions.openSnackBar({
-            snackBarMessage: data.message,
-            snackBarPosition: { vertical: 'top', horizontal: 'right' },
-            variant: 'error',
-          });
-        }
-      })
-      .catch(error => {
+    try {
+      let response = await modifySkill(form);
+      const data = JSON.parse(response);
+      if (data.accepted === true) {
         this.props.actions.openSnackBar({
-          snackBarMessage:
-            'Error in processing the request. Please try with some other skill',
+          snackBarMessage: 'Your Skill has been uploaded to the server',
+          snackBarPosition: { vertical: 'top', horizontal: 'right' },
+          variant: 'success',
+        });
+
+        this.props.history.push({
+          pathname: `/${skillMetaData.groupValue}/${skillMetaData.skillName}/${skillMetaData.languageValue}`,
+          state: {
+            fromUpload: true,
+            expertValue: skillMetaData.skillName,
+            groupValue: skillMetaData.groupValue,
+            languageValue: skillMetaData.languageValue,
+          },
+        });
+      } else {
+        this.props.actions.openSnackBar({
+          snackBarMessage: data.message,
           snackBarPosition: { vertical: 'top', horizontal: 'right' },
           variant: 'error',
         });
+      }
+    } catch (error) {
+      this.props.actions.openSnackBar({
+        snackBarMessage:
+          'Error in processing the request. Please try with some other skill',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'error',
       });
+    }
   };
 
   render() {

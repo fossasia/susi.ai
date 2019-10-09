@@ -256,7 +256,7 @@ class MessageSection extends Component {
     backgroundImage: PropTypes.string,
     messageBackgroundImage: PropTypes.string,
     actions: PropTypes.object,
-    customThemeValues: PropTypes.object,
+    customThemeValue: PropTypes.object,
     accessToken: PropTypes.string,
     mode: PropTypes.string, // From UI Reducer for chat
   };
@@ -290,31 +290,25 @@ class MessageSection extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { actions } = this.props;
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    actions
-      .getHistoryFromServer()
-      .then(({ payload }) => {
-        createMessagePairArray(payload).then(messagePairArray => {
-          actions.initializeMessageStore(messagePairArray).then(() => {
-            const { messagesByID, messages } = this.props;
-            this.userMessageHistory = getAllUserMessages(
-              messages,
-              messagesByID,
-              'REVERSE',
-            );
-          });
-        });
-      })
-      .then(() => {
-        this.scrollarea && this.scrollarea.scrollToBottom();
-      })
-      .catch(error => {
-        actions.initializeMessageStoreFailed();
-        console.log(error);
-      });
+    try {
+      let { payload } = await actions.getHistoryFromServer();
+      let messagePairArray = await createMessagePairArray(payload);
+      await actions.initializeMessageStore(messagePairArray);
+      const { messagesByID, messages } = this.props;
+      this.userMessageHistory = getAllUserMessages(
+        messages,
+        messagesByID,
+        'REVERSE',
+      );
+      this.scrollarea && this.scrollarea.scrollToBottom();
+    } catch (error) {
+      actions.initializeMessageStoreFailed();
+      console.log(error);
+    }
   };
 
   componentWillUnmount = () => {
@@ -694,13 +688,13 @@ class MessageSection extends Component {
       loadingHistory,
       messageBackgroundImage,
       loadingReply,
-      customThemeValues,
+      customThemeValue,
       mode,
     } = this.props;
 
     const { pane, body, composer, button, textarea } = getCustomThemeColors({
       theme,
-      customThemeValues,
+      customThemeValue,
     });
     const {
       search,
