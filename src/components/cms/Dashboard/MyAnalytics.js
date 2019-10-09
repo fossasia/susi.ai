@@ -99,7 +99,7 @@ class MyAnalytics extends Component {
           <Container>
             <div className="center">
               <br />
-              <h2>
+              <h2 style={{ textAlign: 'center' }}>
                 Your skill has not been used, make sure to improve your skill to
                 attract more users.
               </h2>
