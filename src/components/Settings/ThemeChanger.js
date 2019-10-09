@@ -116,22 +116,16 @@ class ThemeChanger extends Component {
 
       if (name === 'header') {
         state.header = color;
-        this.customTheme.header = state.header.substring(1);
       } else if (name === 'body') {
         state.body = color;
-        this.customTheme.body = state.body.substring(1);
       } else if (name === 'pane') {
         state.pane = color;
-        this.customTheme.pane = state.pane.substring(1);
       } else if (name === 'composer') {
         state.composer = color;
-        this.customTheme.composer = state.composer.substring(1);
       } else if (name === 'textarea') {
         state.textarea = color;
-        this.customTheme.textarea = state.textarea.substring(1);
       } else if (name === 'button') {
         state.button = color;
-        this.customTheme.button = state.button.substring(1);
       }
       this.setState(state);
       document.body.style.setProperty('background-color', this.state.body);
