@@ -75,7 +75,7 @@ export default handleActions(
         checked = config.checked,
         backgroundImage = config.backgroundImage,
         messageBackgroundImage = config.messageBackgroundImage,
-        avatarType = config.messageBackgroundImage,
+        avatarType = config.avatarType,
       } = settings;
       let { customThemeValue } = settings;
       const themeArray = customThemeValue
