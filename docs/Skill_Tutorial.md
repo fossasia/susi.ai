@@ -11,17 +11,17 @@ It's easy, DON'T PANIC. You don't need to be a software developer to enhance SUS
 Your skill goes into a public domain repository and will be published to https://github.com/fossasia/susi_skill_data
 
 This means:
-- your skill be used by SUSI for all requests of all users! (unless you creat a private skill)
+- your skill be used by SUSI for all requests of all users! (unless you create a private skill)
 - other people can see and edit what you just wrote into the skill CMS
 
 ### What you have to do
 
-We have a SUSI Skill CMS at https://skills.susi.ai. Here you can create public SUSI.AI skills in a simpled editor window or private skill bots. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embeded code, which you can add to your website. You can configure colors and icons to suite your style.
+We have a SUSI Skill CMS at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simpled editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embeded code, which you can add to your website. You can configure colors and icons to suite your style.
 
 ### Preparation to start testing
 
 To test the SUSI.AI Skills you are editing, you can use the public chat at:
-https://chat.susi.ai
+https://susi.ai and click at the chat button at the bottom right corner of the page to open chat.
 
 Once you create a public SUSI.AI skill you could also test it using the SUSI.AI Android Application at:
 https://play.google.com/store/apps/details?id=ai.susi
