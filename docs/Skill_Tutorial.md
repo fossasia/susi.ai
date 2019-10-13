@@ -16,13 +16,12 @@ This means:
 
 ### What you have to do
 
-We have a SUSI Skill CMS at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simpled editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embeded code, which you can add to your website. You can configure colors and icons to suite your style.
+We have a SUSI Skill Wizard at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simpled editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embeded code, which you can add to your website. You can configure colors and icons to suite your style.
 
 ### Preparation to start testing
 
-To test the SUSI.AI Skills once you have created, you can use the public chat at:
-Go to https://susi.ai then click at the chat button at the bottom right corner of the page 
-to open chat and test it in there.
+To test the SUSI.AI Skills once you have created, you can use the public chat at: https://susi.ai
+Click at the chat
 
 Once you create a public SUSI.AI skill you could also test it using the SUSI.AI Android Application at:
 https://play.google.com/store/apps/details?id=ai.susi
