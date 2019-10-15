@@ -30,6 +30,7 @@ class ThemeChangeTab extends React.Component {
   handleSubmit = async () => {
     const { actions, theme, userEmailId } = this.props;
     this.setState({ loading: true });
+    this.initialTheme = theme;
     let payload = {
       theme,
     };
