@@ -161,6 +161,7 @@ class NavigationBar extends Component {
     accessToken: PropTypes.string,
     email: PropTypes.string,
     userName: PropTypes.string,
+    userSettingsLoaded: PropTypes.bool,
     app: PropTypes.string,
     actions: PropTypes.object,
     avatarImgThumbnail: PropTypes.string,
@@ -362,6 +363,7 @@ class NavigationBar extends Component {
       isAdmin,
       email,
       userName,
+      userSettingsLoaded,
       avatarImgThumbnail,
       history,
       searchState,
@@ -583,9 +585,11 @@ class NavigationBar extends Component {
                             src={userAvatar}
                             size="32"
                           />
-                          <UserDetail>
-                            {!userName ? email : userName}
-                          </UserDetail>
+                          {userSettingsLoaded && (
+                            <UserDetail>
+                              {!userName ? email : userName}
+                            </UserDetail>
+                          )}
                           <ExpandMore />
                         </FlexContainer>
                       </div>
@@ -707,11 +711,12 @@ class NavigationBar extends Component {
 
 function mapStateToProps(store) {
   const { email, accessToken, isAdmin, avatarImgThumbnail } = store.app;
-  const { userName } = store.settings;
+  const { userName, userSettingsLoaded } = store.settings;
   return {
     email,
     accessToken,
     userName,
+    userSettingsLoaded,
     isAdmin,
     avatarImgThumbnail,
     ...store.skills,
