@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import Translate from '../Translate/Translate.react';
 import settingActions from '../../redux/actions/settings';
 import SettingsTabWrapper from './SettingsTabWrapper';
@@ -97,7 +97,7 @@ class MicrophoneTab extends React.Component {
           color="primary"
           onClick={this.handleSubmit}
           disabled={disabled}
-          style={{ margin: '1.5rem 0', width: '10rem' }}
+          style={{ margin: '1.5rem 0' }}
         >
           {loading ? (
             <CircularProgress size={24} />
