@@ -4,6 +4,7 @@ import CodeView from './SkillViews/CodeView';
 import ConversationView from './SkillViews/ConversationView';
 import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
+import Button from '../../shared/Button';
 import searchURLPath from '../../../utils/searchURLPath';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
@@ -39,7 +40,6 @@ import CircularLoader from '../../shared/CircularLoader';
 import './Animation.min.css';
 
 // Material-UI Components
-import Button from '@material-ui/core/Button';
 import _Paper from '@material-ui/core/Paper';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import MenuItem from '@material-ui/core/MenuItem';

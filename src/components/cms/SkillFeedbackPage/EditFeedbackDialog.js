@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 
 const EditFeedback = props => {
   const {
@@ -37,7 +37,12 @@ const EditFeedback = props => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button key={0} style={{ marginRight: 10 }} onClick={handleClose}>
+        <Button
+          key={0}
+          variant="contained"
+          color="primary"
+          onClick={handleClose}
+        >
           Cancel
         </Button>
         <Button
@@ -45,6 +50,7 @@ const EditFeedback = props => {
           variant="contained"
           color="primary"
           onClick={handleConfirm}
+          style={{ marginRight: '1em' }}
         >
           Edit
         </Button>
