@@ -47,6 +47,7 @@ import susiFevicon from '../../images/favicon.png';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
+import Tooltip from '@material-ui/core/Tooltip';
 import isMobileView from '../../utils/isMobileView';
 
 const LanguageSelect = styled(Select)`
@@ -633,13 +634,28 @@ class NavigationBar extends Component {
                         )}
                       </div>
                     </StyledIconButton>
-                    <IconButton
-                      color="inherit"
-                      onClick={() => history.push('/dashboard')}
-                      style={{ padding: '7px' }}
+                    <Tooltip
+                      placement="bottom"
+                      title="Dashboard"
+                      PopperProps={{
+                        popperOptions: {
+                          modifiers: {
+                            offset: {
+                              enabled: true,
+                              offset: '0px, -30px',
+                            },
+                          },
+                        },
+                      }}
                     >
-                      <Dashboard />
-                    </IconButton>
+                      <IconButton
+                        color="inherit"
+                        onClick={() => history.push('/dashboard')}
+                        style={{ padding: '7px' }}
+                      >
+                        <Dashboard />
+                      </IconButton>
+                    </Tooltip>
                   </React.Fragment>
                 )}
                 {accessToken ? null : (
@@ -649,15 +665,32 @@ class NavigationBar extends Component {
                     </ListItemText>
                   </MenuItem>
                 )}
-                <IconButton
-                  color="inherit"
-                  onClick={
-                    isMobileView(500) ? this.openFullScreen : this.openPreview
-                  }
-                  style={{ padding: '7px' }}
+
+                <Tooltip
+                  placement="bottom"
+                  title="Chat with Susi AI"
+                  PopperProps={{
+                    popperOptions: {
+                      modifiers: {
+                        offset: {
+                          enabled: true,
+                          offset: '0px, -30px',
+                        },
+                      },
+                    },
+                  }}
                 >
-                  <Chat />
-                </IconButton>
+                  <IconButton
+                    color="inherit"
+                    onClick={
+                      isMobileView(500) ? this.openFullScreen : this.openPreview
+                    }
+                    style={{ padding: '7px' }}
+                  >
+                    <Chat />
+                  </IconButton>
+                </Tooltip>
+
                 <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
                     id={'right-menu-about'}
