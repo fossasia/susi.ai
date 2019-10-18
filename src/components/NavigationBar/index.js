@@ -47,8 +47,8 @@ import susiFevicon from '../../images/favicon.png';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
-import Tooltip from '@material-ui/core/Tooltip';
 import isMobileView from '../../utils/isMobileView';
+import ToolTip from '../shared/ToolTip';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -634,20 +634,7 @@ class NavigationBar extends Component {
                         )}
                       </div>
                     </StyledIconButton>
-                    <Tooltip
-                      placement="bottom"
-                      title="Dashboard"
-                      PopperProps={{
-                        popperOptions: {
-                          modifiers: {
-                            offset: {
-                              enabled: true,
-                              offset: '0px, -30px',
-                            },
-                          },
-                        },
-                      }}
-                    >
+                    <ToolTip title="Dashboard">
                       <IconButton
                         color="inherit"
                         onClick={() => history.push('/dashboard')}
@@ -655,7 +642,7 @@ class NavigationBar extends Component {
                       >
                         <Dashboard />
                       </IconButton>
-                    </Tooltip>
+                    </ToolTip>
                   </React.Fragment>
                 )}
                 {accessToken ? null : (
@@ -665,21 +652,7 @@ class NavigationBar extends Component {
                     </ListItemText>
                   </MenuItem>
                 )}
-
-                <Tooltip
-                  placement="bottom"
-                  title="Chat with Susi AI"
-                  PopperProps={{
-                    popperOptions: {
-                      modifiers: {
-                        offset: {
-                          enabled: true,
-                          offset: '0px, -30px',
-                        },
-                      },
-                    },
-                  }}
-                >
+                <ToolTip title="Chat with Susi AI">
                   <IconButton
                     color="inherit"
                     onClick={
@@ -689,7 +662,7 @@ class NavigationBar extends Component {
                   >
                     <Chat />
                   </IconButton>
-                </Tooltip>
+                </ToolTip>
 
                 <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
