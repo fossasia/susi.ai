@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import _MenuList from '@material-ui/core/MenuList';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from '../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
