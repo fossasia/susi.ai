@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uiActions from '../../../redux/actions/ui';
@@ -43,7 +43,8 @@ class ReportSkill extends React.Component {
         <DialogActions>
           <Button
             key={0}
-            color="secondary"
+            variant="contained"
+            color="primary"
             onClick={handleConfirm}
             disabled={
               !(feedbackMessage !== undefined && feedbackMessage.trim())
@@ -51,7 +52,13 @@ class ReportSkill extends React.Component {
           >
             Report
           </Button>
-          <Button key={1} color="primary" onClick={handleClose}>
+          <Button
+            key={1}
+            color="primary"
+            onClick={handleClose}
+            variant="contained"
+            style={{ marginRight: '1em' }}
+          >
             Cancel
           </Button>
         </DialogActions>

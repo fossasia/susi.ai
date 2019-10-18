@@ -11,7 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '../../shared/Select';
 import _FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from '../../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import MenuList from '@material-ui/core/MenuList';
@@ -20,7 +20,7 @@ import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
 import _RadioGroup from '@material-ui/core/RadioGroup';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import Add from '@material-ui/icons/Add';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
@@ -720,7 +720,7 @@ class BrowseSkill extends React.Component {
               onClick={this.handleMenuClick}
               variant="contained"
               color="primary"
-              style={{ margin: '1rem 1rem 0', padding: '10px 20px' }}
+              style={{ margin: '1rem 1rem 0' }}
               buttonRef={node => {
                 this.anchorEl = node;
               }}
