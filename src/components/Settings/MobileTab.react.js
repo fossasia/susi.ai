@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabHeading } from './SettingStyles';
 import countryData from 'country-data';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import settingActions from '../../redux/actions/settings';
 import uiActions from '../../redux/actions/ui';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -207,7 +207,6 @@ class MobileTab extends React.Component {
           color="primary"
           onClick={this.handleSubmit}
           disabled={disabled}
-          style={{ width: '10rem' }}
         >
           {loading ? (
             <CircularProgress size={24} />

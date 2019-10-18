@@ -6,7 +6,7 @@ import Translate from '../Translate/Translate.react';
 import SettingsTabWrapper from './SettingsTabWrapper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -98,7 +98,6 @@ class ThemeChangeTab extends React.Component {
             color="primary"
             onClick={this.handleSubmit}
             disabled={disabled}
-            style={{ width: '10rem' }}
           >
             {loading ? (
               <CircularProgress size={24} />

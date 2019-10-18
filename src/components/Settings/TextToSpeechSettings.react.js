@@ -194,7 +194,7 @@ class TextToSpeechSettings extends Component {
             onChange={this.handleRate}
             style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
           />
-          <Button variant="contained" onClick={this.resetRate}>
+          <Button variant="contained" color="primary" onClick={this.resetRate}>
             <Translate text="Reset to normal" />
           </Button>
         </div>
@@ -209,13 +209,13 @@ class TextToSpeechSettings extends Component {
             onChange={this.handlePitch}
             style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
           />
-          <Button variant="contained" onClick={this.resetPitch}>
+          <Button variant="contained" color="primary" onClick={this.resetPitch}>
             <Translate text="Reset to normal" />
           </Button>
         </div>
 
         <PlayButtonContainer>
-          <Button variant="contained" onClick={this.playDemo} color="secondary">
+          <Button variant="contained" color="primary" onClick={this.playDemo}>
             <Icon
               style={{ marginRight: '0.7rem' }}
               className="fa fa-volume-up"
