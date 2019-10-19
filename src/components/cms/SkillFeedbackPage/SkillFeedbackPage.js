@@ -11,11 +11,11 @@ import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from '../../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -549,8 +549,8 @@ class SkillFeedbackPage extends Component {
                   label="Post"
                   color="primary"
                   variant="contained"
-                  style={{ margin: 10 }}
                   onClick={this.postFeedback}
+                  style={{ marginBottom: '1em' }}
                 >
                   Post
                 </Button>

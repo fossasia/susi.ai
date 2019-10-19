@@ -4,7 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import { getGravatarProps } from '../../utils/getAvatarProps';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import _Fab from '@material-ui/core/Fab';
 import Menu from '@material-ui/core/Menu';

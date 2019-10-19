@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _Toolbar from '@material-ui/core/Toolbar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from '../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Select from '@material-ui/core/Select';
@@ -22,7 +22,7 @@ import Link from '../shared/Link';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
 import Dashboard from '@material-ui/icons/Dashboard';
-import _Add from '@material-ui/icons/Add';
+import Add from '@material-ui/icons/Add';
 import Polymer from '@material-ui/icons/Polymer';
 import BotIcon from '@material-ui/icons/PersonPin';
 import DeviceIcon from '@material-ui/icons/Devices';
@@ -49,6 +49,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
 import isMobileView from '../../utils/isMobileView';
 import ToolTip from '../shared/ToolTip';
+import Devices from '@material-ui/icons/Devices';
+import Person from '@material-ui/icons/Person';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -125,11 +127,6 @@ const Toolbar = styled(_Toolbar)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Add = styled(_Add)`
-  color: #ffffff;
-  margin-top: 5px;
 `;
 
 const HideOnScroll = ({ children }) => {
@@ -218,6 +215,9 @@ class NavigationBar extends Component {
   handleSearchTypeChange = async e => {
     const { actions, searchQuery } = this.props;
     const { value: searchType } = e.target;
+    if (searchType.length === 0) {
+      searchType.push('skill_name');
+    }
     await actions.setSearchFilter({ searchType });
     this.setState({
       searchSelectWidth: this.getSelectMenuWidth(searchType),
@@ -606,6 +606,9 @@ class NavigationBar extends Component {
                           <Paper>
                             <Link to="/skillWizard">
                               <MenuItem>
+                                <ListItemIcon>
+                                  <Add />
+                                </ListItemIcon>
                                 <ListItemText>
                                   <Translate text="Create Skill" />
                                 </ListItemText>
@@ -613,6 +616,9 @@ class NavigationBar extends Component {
                             </Link>
                             <Link to="/botWizard">
                               <MenuItem>
+                                <ListItemIcon>
+                                  <Person />
+                                </ListItemIcon>
                                 <ListItemText>
                                   <Translate text="Create Bot" />
                                 </ListItemText>
@@ -620,6 +626,9 @@ class NavigationBar extends Component {
                             </Link>
                             <Link to="/mydevices">
                               <MenuItem>
+                                <ListItemIcon>
+                                  <Devices />
+                                </ListItemIcon>
                                 <ListItemText>
                                   <Translate text="Add Device" />
                                 </ListItemText>

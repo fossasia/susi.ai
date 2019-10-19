@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
 import { FlexContainer } from '../shared/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
