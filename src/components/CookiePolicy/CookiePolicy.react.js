@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -39,8 +39,8 @@ const CookiePolicy = ({ actions }) => {
       &quot;Accept&quot; you agree to us doing so. To know more about our
       policies click on &quot;More Info&quot; button
       <ButtonContainer>
-        <Button variant="contained" onClick={hideCookiePolicy}>
-          <Link style={{ color: 'black' }} to="/privacy">
+        <Button variant="contained" color="primary" onClick={hideCookiePolicy}>
+          <Link style={{ color: 'white' }} to="/privacy">
             More Info
           </Link>
         </Button>
@@ -48,6 +48,7 @@ const CookiePolicy = ({ actions }) => {
           onClick={hideCookiePolicy}
           style={{ marginLeft: '1rem' }}
           variant="contained"
+          color="primary"
         >
           Accept
         </Button>
