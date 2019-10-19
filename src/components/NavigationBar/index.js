@@ -215,6 +215,9 @@ class NavigationBar extends Component {
   handleSearchTypeChange = async e => {
     const { actions, searchQuery } = this.props;
     const { value: searchType } = e.target;
+    if (searchType.length === 0) {
+      searchType.push('skill_name');
+    }
     await actions.setSearchFilter({ searchType });
     this.setState({
       searchSelectWidth: this.getSelectMenuWidth(searchType),
