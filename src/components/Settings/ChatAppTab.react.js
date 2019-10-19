@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../Translate/Translate.react';
 import SettingsTabWrapper from './SettingsTabWrapper';
@@ -81,7 +81,7 @@ class ChatAppTab extends React.Component {
           color="primary"
           onClick={this.handleSubmit}
           disabled={disabled}
-          style={{ margin: '1.5rem 0', width: '10rem' }}
+          style={{ margin: '1.5rem 0' }}
         >
           {loading ? (
             <CircularProgress size={24} />

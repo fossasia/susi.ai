@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import _PasswordField from 'material-ui-password-field';
@@ -336,7 +336,6 @@ class ChangePassword extends Component {
             type="submit"
             disabled={!isValid || loading}
             onClick={this.changePassword}
-            style={{ width: '10rem' }}
           >
             {loading ? (
               <CircularProgress size={24} />
