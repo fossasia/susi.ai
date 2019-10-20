@@ -24,6 +24,7 @@ import EditBtn from '@material-ui/icons/BorderColor';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import Emoji from 'react-emoji-render';
 import styled, { css } from 'styled-components';
+import SkillRatingCard from '../SkillRating/SkillRatingCard';
 
 import { parseDate, formatDate } from '../../../utils';
 import getImageSrc from '../../../utils/getImageSrc';
@@ -610,6 +611,9 @@ class SkillFeedbackPage extends Component {
                 </div>
               </div>
             </SkillDetailContainer>
+          </Paper>
+          <SkillRatingCard />
+          <Paper>
             <Title marginTop>Feedback</Title>
             {feedbackCardsElement}
             {skillFeedbacks &&
