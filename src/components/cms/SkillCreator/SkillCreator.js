@@ -13,9 +13,20 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import _Paper from '@material-ui/core/Paper';
 import _EditBtn from '@material-ui/icons/Edit';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { Link } from 'react-router-dom';
 import getImageSrc from '../../../utils/getImageSrc';
+import theme from 'styled-theming';
+
+const headingColor = theme('mode', {
+  light: 'black',
+  dark: '#668bb0',
+});
+
+const paperColor = theme('mode', {
+  light: '#f2f2f2',
+  dark: '#204061',
+});
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
@@ -30,6 +41,7 @@ const Paper = styled(_Paper)`
   width: 100%;
   padding: 0.938rem;
   margin-top: 1.25rem;
+  background-color: ${paperColor};
 `;
 
 const SkillCardWrap = styled.div`
@@ -96,7 +108,7 @@ const EditBtn = styled(_EditBtn)`
 `;
 
 const H1 = styled.h1`
-  color: rgba(0, 0, 0, 0.65);
+  color: ${headingColor};
   padding-left: 1.25rem;
 `;
 
@@ -190,61 +202,71 @@ class SkillCreator extends Component {
 
   render() {
     const { loading, drafts } = this.state;
-    const { showTitle = true } = this.props;
+    const { showTitle = true, theme } = this.props;
     return (
-      <Container>
-        <Paper>
-          {showTitle && (
-            <H1>
-              My Skills
-              <br />
-            </H1>
-          )}
-          <H1>Created Skills</H1>
-          {loading ? (
-            <CircularLoader height={5} />
-          ) : (
-            <SkillCardWrap>
-              {this.showSkills()}
-              <Link to="/skillWizard">
-                <SkillCard
-                  style={{
-                    backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
-                    backgroundSize: 'cover',
-                    backgroundColor: '#000',
-                    opacity: '0.9',
-                  }}
-                >
-                  <Fab
-                    color="primary"
-                    size="small"
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <Container>
+          <Paper>
+            {showTitle && (
+              <H1>
+                My Skills
+                <br />
+              </H1>
+            )}
+            <H1>Created Skills</H1>
+            {loading ? (
+              <CircularLoader height={5} />
+            ) : (
+              <SkillCardWrap>
+                {this.showSkills()}
+                <Link to="/skillWizard">
+                  <SkillCard
                     style={{
-                      boxShadow:
-                        'rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.375rem, rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.25rem',
+                      backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
+                      backgroundSize: 'cover',
+                      backgroundColor: '#000',
+                      opacity: '0.9',
                     }}
                   >
-                    <Add
+                    <Fab
+                      color="primary"
+                      size="small"
                       style={{
-                        height: '2.5rem',
+                        boxShadow:
+                          'rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.375rem, rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.25rem',
                       }}
-                    />
-                  </Fab>
-                  <CardContent>Create a new skill</CardContent>
-                </SkillCard>
-              </Link>
-            </SkillCardWrap>
-          )}
-          <br />
-          <H1>Drafts</H1>
-          <SkillDraftWrap>
-            {drafts.length > 0 ? (
-              drafts
-            ) : (
-              <Typography>No drafts to display.</Typography>
+                    >
+                      <Add
+                        style={{
+                          height: '2.5rem',
+                        }}
+                      />
+                    </Fab>
+                    <CardContent>Create a new skill</CardContent>
+                  </SkillCard>
+                </Link>
+              </SkillCardWrap>
             )}
-          </SkillDraftWrap>
-        </Paper>
-      </Container>
+            <br />
+            <H1>Drafts</H1>
+            <SkillDraftWrap>
+              {drafts.length > 0 ? (
+                drafts
+              ) : (
+                <Typography
+                  style={
+                    theme === 'dark' ? { color: 'white' } : { color: 'white' }
+                  }
+                >
+                  No drafts to display.
+                </Typography>
+              )}
+            </SkillDraftWrap>
+          </Paper>
+        </Container>
+      </ThemeProvider>
     );
   }
 }
@@ -253,6 +275,7 @@ SkillCreator.propTypes = {
   userSkills: PropTypes.array,
   actions: PropTypes.object,
   showTitle: PropTypes.bool,
+  theme: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -261,10 +284,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mapStateToProps({ app }) {
-  const { userSkills } = app;
+function mapStateToProps(store) {
+  const { userSkills } = store.app;
+  const { theme } = store.settings;
   return {
     userSkills,
+    theme,
   };
 }
 

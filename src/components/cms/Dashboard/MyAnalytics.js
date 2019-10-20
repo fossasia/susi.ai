@@ -66,6 +66,7 @@ class MyAnalytics extends Component {
   };
 
   render() {
+    const { theme } = this.props;
     let { skillUsage, loading, skillUsageCount } = this.state;
     return (
       <div>
@@ -99,7 +100,13 @@ class MyAnalytics extends Component {
           <Container>
             <div className="center">
               <br />
-              <h2 style={{ textAlign: 'center' }}>
+              <h2
+                style={
+                  theme === 'dark'
+                    ? { textAlign: 'center', color: 'white' }
+                    : { textAlign: 'center', color: 'black' }
+                }
+              >
                 Your skill has not been used, make sure to improve your skill to
                 attract more users.
               </h2>
@@ -115,11 +122,13 @@ class MyAnalytics extends Component {
 MyAnalytics.propTypes = {
   email: PropTypes.string,
   actions: PropTypes.object,
+  theme: PropTypes.string,
 };
 
 function mapStateToProps(store) {
   return {
     email: store.app.email,
+    theme: store.settings.theme,
   };
 }
 

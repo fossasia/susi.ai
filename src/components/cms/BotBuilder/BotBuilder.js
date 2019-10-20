@@ -21,12 +21,28 @@ import {
   readDraft,
   deleteDraft,
 } from '../../../apis/index.js';
-import styled, { css } from 'styled-components';
+import styled, { css, ThemeProvider } from 'styled-components';
+import theme from 'styled-theming';
 
 const cookies = new Cookies();
 
+const paperColor = theme('mode', {
+  light: '#f2f2f2',
+  dark: '#204061',
+});
+
+const headingColor = theme('mode', {
+  light: 'black',
+  dark: '#668bb0',
+});
+
+const textColor = theme('mode', {
+  light: 'black',
+  dark: 'white',
+});
+
 const commonHeadingStyle = css`
-  color: rgba(0, 0, 0, 0.65);
+  color: ${headingColor}
   padding-left: 1.25rem;
 `;
 
@@ -48,6 +64,7 @@ const Paper = styled(_Paper)`
   @media (min-width: 769px) {
     padding: 15px;
   }
+  background-color: ${paperColor};
 `;
 
 const CardContent = styled(_CardContent)`
@@ -125,6 +142,7 @@ const Add = styled(_Add)`
 const Text = styled.p`
   font-size: 18px;
   padding-left: 10px;
+  color: ${textColor};
 `;
 
 class BotBuilder extends React.Component {
@@ -391,69 +409,74 @@ class BotBuilder extends React.Component {
 
   render() {
     const { drafts, loadingBots, loadingDrafts } = this.state;
+    const { theme } = this.props;
 
     return (
-      <div>
-        <Home>
-          <Paper>
-            <H1>Saved Bots</H1>
-            {loadingBots ? (
-              <CircularLoader height={5} />
-            ) : (
-              <BotContainer>
-                {this.showChatbots()}
-                <Link to="/botWizard">
-                  <Card
-                    style={{
-                      backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
-                    }}
-                  >
-                    <Fab color="primary" size="small">
-                      <Add />
-                    </Fab>
-                    <CardContent>Create a new bot</CardContent>
-                  </Card>
-                </Link>
-              </BotContainer>
-            )}
-            <H1>Drafts</H1>
-            {loadingDrafts ? (
-              <CircularLoader height={5} />
-            ) : (
-              <BotContainer>
-                {drafts.length > 0 ? (
-                  drafts
-                ) : (
-                  <Text>No drafts to display.</Text>
-                )}
-              </BotContainer>
-            )}
-          </Paper>
-          <Paper>
-            <H1>Pick a template</H1>
-            <BotContainer>
-              {this.props.templates.map(template => {
-                return (
-                  <Link
-                    key={template.id}
-                    to={'/botWizard?template=' + template.id}
-                  >
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <div>
+          <Home>
+            <Paper>
+              <H1>Saved Bots</H1>
+              {loadingBots ? (
+                <CircularLoader height={5} />
+              ) : (
+                <BotContainer>
+                  {this.showChatbots()}
+                  <Link to="/botWizard">
                     <Card
                       style={{
-                        backgroundImage: 'url(' + template.image + ')',
+                        backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
                       }}
                     >
-                      <Button variant="contained" color="primary">
-                        {template.name}
-                      </Button>
+                      <Fab color="primary" size="small">
+                        <Add />
+                      </Fab>
+                      <CardContent>Create a new bot</CardContent>
                     </Card>
                   </Link>
-                );
-              })}
-            </BotContainer>
-          </Paper>
-        </Home>
-      </div>
+                </BotContainer>
+              )}
+              <H1>Drafts</H1>
+              {loadingDrafts ? (
+                <CircularLoader height={5} />
+              ) : (
+                <BotContainer>
+                  {drafts.length > 0 ? (
+                    drafts
+                  ) : (
+                    <Text>No drafts to display.</Text>
+                  )}
+                </BotContainer>
+              )}
+            </Paper>
+            <Paper>
+              <H1>Pick a template</H1>
+              <BotContainer>
+                {this.props.templates.map(template => {
+                  return (
+                    <Link
+                      key={template.id}
+                      to={'/botWizard?template=' + template.id}
+                    >
+                      <Card
+                        style={{
+                          backgroundImage: 'url(' + template.image + ')',
+                        }}
+                      >
+                        <Button variant="contained" color="primary">
+                          {template.name}
+                        </Button>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </BotContainer>
+            </Paper>
+          </Home>
+        </div>
+      </ThemeProvider>
     );
   }
 }
@@ -462,11 +485,13 @@ BotBuilder.propTypes = {
   templates: PropTypes.array,
   actions: PropTypes.object,
   accessToken: PropTypes.string,
+  theme: PropTypes.string,
 };
 
 function mapStateToProps(store) {
   return {
     accessToken: store.app.accessToken,
+    theme: store.settings.theme,
   };
 }
 

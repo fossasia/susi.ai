@@ -10,7 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import NavigationChevronLeft from '@material-ui/icons/ChevronLeft';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import getImageSrc from '../../../utils/getImageSrc';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import SkillExampleBubble from '../../shared/SkillExampleBubble';
 import { ImageContainer, StaffPickImage } from '../SkillsStyle';
 import {
@@ -20,6 +20,16 @@ import {
   RatingContainer,
   TotalRating,
 } from '../SkillCardStyle';
+import theme from 'styled-theming';
+
+const cardBackgroundColor = theme('mode', {
+  light: '#f4f6f6',
+  dark: '#19324c',
+});
+
+const StyledCard = styled(Card)`
+  background-color: ${cardBackgroundColor};
+`;
 
 const ScrollWrapper = styled.div`
   margin: 0.625rem;
@@ -169,7 +179,7 @@ class SkillCard extends Component {
         }
 
         cards.push(
-          <Card key={el}>
+          <StyledCard key={el}>
             <ImageContainer key={el}>
               <Link
                 key={el}
@@ -242,7 +252,7 @@ class SkillCard extends Component {
                 <TotalRating>{totalRating || 0}</TotalRating>
               </Link>
             </RatingContainer>
-          </Card>,
+          </StyledCard>,
         );
       },
     );
@@ -256,41 +266,45 @@ class SkillCard extends Component {
 
   render() {
     const { leftBtnDisplay, rightBtnDisplay, cards } = this.state;
-    const { scrollSkills, isMobile = false } = this.props;
+    const { scrollSkills, isMobile = false, theme } = this.props;
     return (
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '10px',
-          textAlign: 'justify',
-          fontSize: '0.1px',
-          width: '100%',
-        }}
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
       >
-        <ScrollWrapper id={scrollSkills}>
-          {!isMobile && (
-            <LeftFab
-              size="small"
-              color="primary"
-              onClick={this.scrollLeft}
-              display={leftBtnDisplay}
-            >
-              <NavigationChevronLeft style={{ margin: '8.4px auto' }} />
-            </LeftFab>
-          )}
-          {cards}
-          {!isMobile && (
-            <RightFab
-              size="small"
-              color="primary"
-              display={rightBtnDisplay}
-              onClick={this.scrollRight}
-            >
-              <NavigationChevronRight style={{ margin: '8.4px auto' }} />
-            </RightFab>
-          )}
-        </ScrollWrapper>
-      </div>
+        <div
+          style={{
+            marginTop: '10px',
+            marginBottom: '10px',
+            textAlign: 'justify',
+            fontSize: '0.1px',
+            width: '100%',
+          }}
+        >
+          <ScrollWrapper id={scrollSkills}>
+            {!isMobile && (
+              <LeftFab
+                size="small"
+                color="primary"
+                onClick={this.scrollLeft}
+                display={leftBtnDisplay}
+              >
+                <NavigationChevronLeft style={{ margin: '8.4px auto' }} />
+              </LeftFab>
+            )}
+            {cards}
+            {!isMobile && (
+              <RightFab
+                size="small"
+                color="primary"
+                display={rightBtnDisplay}
+                onClick={this.scrollRight}
+              >
+                <NavigationChevronRight style={{ margin: '8.4px auto' }} />
+              </RightFab>
+            )}
+          </ScrollWrapper>
+        </div>
+      </ThemeProvider>
     );
   }
 }
@@ -300,11 +314,13 @@ SkillCard.propTypes = {
   scrollSkills: PropTypes.string.isRequired,
   history: PropTypes.object,
   isMobile: PropTypes.bool,
+  theme: PropTypes.string,
 };
 
 function mapStateToProps(store) {
   return {
     metricSkills: store.skills.metricSkills,
+    theme: store.settings.theme,
   };
 }
 

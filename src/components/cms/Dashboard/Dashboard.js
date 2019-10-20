@@ -4,7 +4,19 @@ import _Paper from '@material-ui/core/Paper';
 import MySkills from './MySkills';
 import MyRatings from './MyRatings';
 import MyAnalytics from './MyAnalytics';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import { connect } from 'react-redux';
+import theme from 'styled-theming';
+
+const headerColor = theme('mode', {
+  dark: '#70869c',
+  light: 'black',
+});
+
+const paperColor = theme('mode', {
+  dark: '#204061',
+  light: '#f2f2f2',
+});
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -13,6 +25,7 @@ const Paper = styled(_Paper)`
   @media (max-width: 740) {
     padding: 0 0 3rem;
   }
+  background-color: ${paperColor};
 `;
 
 const Heading = styled.h1`
@@ -27,7 +40,7 @@ const Heading = styled.h1`
 `;
 
 const SubHeading = styled.h1`
-  color: rgba(0, 0, 0, 0.65);
+  color: ${headerColor};
   padding-left: 1.25rem;
 `;
 
@@ -42,28 +55,43 @@ const Container = styled.div`
 
 const Dashboard = props => {
   document.title = 'SUSI.AI - Dashboard';
-  const { showTitle = true } = props;
+  const { showTitle = true, theme } = props;
   return (
     <Container>
       {showTitle && <Heading>My Dashboard</Heading>}
-      <Paper>
-        <SubHeading>My Skills</SubHeading>
-        <MySkills />
-      </Paper>
-      <Paper>
-        <SubHeading>My Ratings</SubHeading>
-        <MyRatings />
-      </Paper>
-      <Paper>
-        <SubHeading>My Analytics</SubHeading>
-        <MyAnalytics />
-      </Paper>
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <div>
+          <Paper>
+            <SubHeading>My Skills</SubHeading>
+            <MySkills />
+          </Paper>
+          <Paper>
+            <SubHeading>My Ratings</SubHeading>
+            <MyRatings />
+          </Paper>
+          <Paper>
+            <SubHeading>My Analytics</SubHeading>
+            <MyAnalytics />
+          </Paper>
+        </div>
+      </ThemeProvider>
     </Container>
   );
 };
 
 Dashboard.propTypes = {
   showTitle: PropTypes.bool,
+  theme: PropTypes.string,
 };
 
-export default Dashboard;
+function mapStateToProps(store) {
+  return {
+    theme: store.settings.theme,
+  };
+}
+export default connect(
+  mapStateToProps,
+  null,
+)(Dashboard);

@@ -12,10 +12,28 @@ import uiActions from '../../../redux/actions/ui';
 import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from 'styled-theming';
+
+const cellHeaderColor = theme('mode', {
+  light: 'black',
+  dark: 'white',
+});
+
+const cellContentColor = theme('mode', {
+  light: 'black',
+  dark: '#70869c',
+});
 
 const StyledTableCell = styled(TableCell)`
   padding: 0.625rem 1.5rem;
+  color: ${cellContentColor};
+`;
+
+const StyledHeaderTableCell = styled(TableCell)`
+  font-size: 1rem;
+  color: ${cellHeaderColor};
+  font-weight: bold;
 `;
 
 const TableWrap = styled.div`
@@ -75,72 +93,78 @@ class MyRatings extends Component {
 
   render() {
     let { ratingsData, loading } = this.state;
+    const { theme } = this.props;
     return (
-      <div>
-        {loading ? (
-          <CircularLoader height={5} />
-        ) : (
-          <TableWrap>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Skill Name</TableCell>
-                  <TableCell>Rating</TableCell>
-                  <TableCell>Timestamp</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {ratingsData.map((skill, index) => {
-                  const {
-                    group,
-                    skillName,
-                    ratingTimestamp,
-                    skillStar,
-                  } = skill;
-                  return (
-                    <TableRow key={index}>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        <Link
-                          to={{
-                            pathname: `/${group}/${skillName
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
-                          }}
-                        >
-                          {(
-                            skillName.charAt(0).toUpperCase() +
-                            skillName.slice(1)
-                          ).replace(/[_-]/g, ' ')}
-                        </Link>
-                      </StyledTableCell>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {skillStar}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {parseDate(ratingTimestamp)}
-                      </StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableWrap>
-        )}
-        {ratingsData.length === 0 && !loading && (
-          <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
-            <h2>
-              You have not rated any skill, go to{' '}
-              <Link to="/">SUSI Skills Explorer</Link> and rate.
-            </h2>
-          </div>
-        )}
-      </div>
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <div>
+          {loading ? (
+            <CircularLoader height={5} />
+          ) : (
+            <TableWrap>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <StyledHeaderTableCell>Skill Name</StyledHeaderTableCell>
+                    <StyledHeaderTableCell>Rating</StyledHeaderTableCell>
+                    <StyledHeaderTableCell>Timestamp</StyledHeaderTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {ratingsData.map((skill, index) => {
+                    const {
+                      group,
+                      skillName,
+                      ratingTimestamp,
+                      skillStar,
+                    } = skill;
+                    return (
+                      <TableRow key={index}>
+                        <StyledTableCell style={{ fontSize: '1rem' }}>
+                          <Link
+                            to={{
+                              pathname: `/${group}/${skillName
+                                .toLowerCase()
+                                .replace(/ /g, '_')}/language`,
+                            }}
+                          >
+                            {(
+                              skillName.charAt(0).toUpperCase() +
+                              skillName.slice(1)
+                            ).replace(/[_-]/g, ' ')}
+                          </Link>
+                        </StyledTableCell>
+                        <StyledTableCell style={{ fontSize: '1rem' }}>
+                          {skillStar}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {parseDate(ratingTimestamp)}
+                        </StyledTableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableWrap>
+          )}
+          {ratingsData.length === 0 && !loading && (
+            <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+              <h2>
+                You have not rated any skill, go to{' '}
+                <Link to="/">SUSI Skills Explorer</Link> and rate.
+              </h2>
+            </div>
+          )}
+        </div>
+      </ThemeProvider>
     );
   }
 }
 
 MyRatings.propTypes = {
   actions: PropTypes.object,
+  theme: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -149,7 +173,14 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+function mapStateToProps(store) {
+  const { theme } = store.settings;
+  return {
+    theme,
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(MyRatings);

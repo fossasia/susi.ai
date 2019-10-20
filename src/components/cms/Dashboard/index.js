@@ -10,6 +10,7 @@ import Botbuilder from '../BotBuilder/BotBuilder';
 import MyDevices from '../MyDevices/index';
 import isMobileView from '../../../utils/isMobileView';
 import { templates } from '../BotBuilder/BotBuilderWrap';
+import { connect } from 'react-redux';
 
 const Container = styled.div`
   padding-top: 20px;
@@ -90,11 +91,21 @@ class Dashboard extends Component {
   render() {
     const { value } = this.state;
     const mobileView = isMobileView();
+    const { theme } = this.props;
     return (
-      <div>
+      <div
+        style={
+          theme === 'dark'
+            ? { backgroundColor: '#000012', minHeight: '95vh' }
+            : { backgroundColor: '#f2f2f2' }
+        }
+      >
         <div>
           <Container>
-            <AppBar color="default" position="static">
+            <AppBar
+              color={theme === 'dark' ? 'secondary' : 'default'}
+              position="static"
+            >
               <Tabs
                 onChange={this.handleTabChange}
                 value={value}
@@ -120,6 +131,16 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
+  theme: PropTypes.string,
 };
 
-export default Dashboard;
+function mapStateToProps(store) {
+  return {
+    theme: store.settings.theme,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Dashboard);

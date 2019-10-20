@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SkillCard from './SkillCard';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from 'styled-theming';
+
+const headerTextColor = theme('mode', {
+  light: 'black',
+  dark: '#668bb0',
+});
 
 const HeaderText = styled.h4`
   padding-left: 1.5rem;
@@ -11,6 +17,7 @@ const HeaderText = styled.h4`
   @media (max-width: 418px) {
     font-size: 1rem;
   }
+  color: ${headerTextColor};
 `;
 
 const Container = styled.div`
@@ -56,19 +63,23 @@ const skillCardListData = [
   },
 ];
 
-const SkillCardScrollList = ({ metricSkills, history, isMobile }) => {
+const SkillCardScrollList = ({ metricSkills, history, isMobile, theme }) => {
   let renderCardScrollList = '';
 
   renderCardScrollList = skillCardListData.map((data, index) => {
     return metricSkills[data.skills].length ? (
-      <Container key={index}>
-        <HeaderText>{data.heading}</HeaderText>
-        <SkillCard
-          isMobile={isMobile}
-          scrollSkills={data.skills}
-          history={history}
-        />
-      </Container>
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <Container key={index}>
+          <HeaderText>{data.heading}</HeaderText>
+          <SkillCard
+            isMobile={isMobile}
+            scrollSkills={data.skills}
+            history={history}
+          />
+        </Container>
+      </ThemeProvider>
     ) : null;
   });
   return <div>{renderCardScrollList}</div>;
@@ -78,11 +89,13 @@ SkillCardScrollList.propTypes = {
   metricSkills: PropTypes.object,
   history: PropTypes.object,
   isMobile: PropTypes.bool,
+  theme: PropTypes.string,
 };
 
 function mapStateToProps(store) {
   return {
     metricSkills: store.skills.metricSkills,
+    theme: store.settings.theme,
   };
 }
 

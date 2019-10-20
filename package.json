@@ -85,6 +85,7 @@
     "redux-promise": "0.6.0",
     "slick-carousel": "1.8.1",
     "styled-components": "4.3.1",
+    "styled-theming": "^2.2.0",
     "surge": "0.21.3",
     "universal-cookie": "4.0.0",
     "zxcvbn": "4.4.2"

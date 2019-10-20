@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import PropTypes from 'prop-types';
-import Link from '../../shared/Link';
+import _Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import CircularLoader from '../../shared/CircularLoader';
@@ -20,11 +20,33 @@ import CircleImage from '../../shared/CircleImage';
 import _Img from 'react-image';
 import Add from '@material-ui/icons/Add';
 import { urls } from '../../../utils';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import getImageSrc from '../../../utils/getImageSrc';
+import theme from 'styled-theming';
+
+const cellHeaderColor = theme('mode', {
+  light: 'black',
+  dark: 'white',
+});
+
+const cellContentColor = theme('mode', {
+  light: 'black',
+  dark: '#70869c',
+});
 
 const StyledTableCell = styled(TableCell)`
   padding: 0.625rem 1.5rem;
+  color: ${cellContentColor};
+`;
+
+const StyledHeaderTableCell = styled(TableCell)`
+  font-size: 1rem;
+  color: ${cellHeaderColor};
+  font-weight: bold;
+`;
+
+const Link = styled(_Link)`
+  color: ${cellContentColor};
 `;
 
 const TableWrap = styled.div`
@@ -89,71 +111,51 @@ class MySkills extends Component {
   };
 
   render() {
-    const { userSkills } = this.props;
+    const { userSkills, theme } = this.props;
     const { loading } = this.state;
     return (
-      <div>
-        <Container>
-          <Link to="/skillWizard">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleMenuClick}
-            >
-              <Add /> Create Skill
-            </Button>
-          </Link>
-        </Container>
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <div>
+          <Container>
+            <Link to="/skillWizard">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleMenuClick}
+              >
+                <Add /> Create Skill
+              </Button>
+            </Link>
+          </Container>
 
-        {loading ? (
-          <CircularLoader height={5} />
-        ) : (
-          <TableWrap>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Image</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {userSkills.map((skill, index) => {
-                  const {
-                    group,
-                    skillTag,
-                    language,
-                    image,
-                    skillName,
-                    type,
-                  } = skill;
-                  return (
-                    <TableRow key={index}>
-                      <StyledTableCell>
-                        <Link
-                          to={{
-                            pathname: `/${group}/${skillTag
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/${language}`,
-                          }}
-                        >
-                          <Img
-                            // eslint-disable-next-line
-                            src={getImageSrc({
-                              relativePath: `model=general&language=${language}&group=${group.replace(
-                                / /g,
-                                '%20',
-                              )}&image=/${image}`,
-                            })}
-                            unloader={
-                              <CircleImage name={skillName} size="40" />
-                            }
-                          />
-                        </Link>
-                      </StyledTableCell>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {skillName ? (
+          {loading ? (
+            <CircularLoader height={5} />
+          ) : (
+            <TableWrap>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <StyledHeaderTableCell>Image</StyledHeaderTableCell>
+                    <StyledHeaderTableCell>Name</StyledHeaderTableCell>
+                    <StyledHeaderTableCell>Type</StyledHeaderTableCell>
+                    <StyledHeaderTableCell>Status</StyledHeaderTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {userSkills.map((skill, index) => {
+                    const {
+                      group,
+                      skillTag,
+                      language,
+                      image,
+                      skillName,
+                      type,
+                    } = skill;
+                    return (
+                      <TableRow key={index}>
+                        <StyledTableCell>
                           <Link
                             to={{
                               pathname: `/${group}/${skillTag
@@ -161,44 +163,68 @@ class MySkills extends Component {
                                 .replace(/ /g, '_')}/${language}`,
                             }}
                           >
-                            {skillName}
+                            <Img
+                              // eslint-disable-next-line
+                              src={getImageSrc({
+                                relativePath: `model=general&language=${language}&group=${group.replace(
+                                  / /g,
+                                  '%20',
+                                )}&image=/${image}`,
+                              })}
+                              unloader={
+                                <CircleImage name={skillName} size="40" />
+                              }
+                            />
                           </Link>
-                        ) : (
-                          'NA'
-                        )}
-                      </StyledTableCell>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {type}
-                      </StyledTableCell>
-                      <StyledTableCell style={{ width: '10rem' }}>
-                        <FormControl>
-                          <Select value={1} style={{ width: '10rem' }}>
-                            <MenuItem value={1}>Enable</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableWrap>
-        )}
-        {userSkills.length === 0 && !loading && (
-          <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
-            <h2>
-              Create your first skill or learn more about{' '}
-              <a
-                href={`${urls.GITHUB_URL}/blob/master/docs/Skill_Tutorial.md`}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                SUSI Skills
-              </a>
-            </h2>
-          </div>
-        )}
-      </div>
+                        </StyledTableCell>
+                        <StyledTableCell style={{ fontSize: '1rem' }}>
+                          {skillName ? (
+                            <Link
+                              to={{
+                                pathname: `/${group}/${skillTag
+                                  .toLowerCase()
+                                  .replace(/ /g, '_')}/${language}`,
+                              }}
+                            >
+                              {skillName}
+                            </Link>
+                          ) : (
+                            'NA'
+                          )}
+                        </StyledTableCell>
+                        <StyledTableCell style={{ fontSize: '1rem' }}>
+                          {type}
+                        </StyledTableCell>
+                        <StyledTableCell style={{ width: '10rem' }}>
+                          <FormControl>
+                            <Select value={1} style={{ width: '10rem' }}>
+                              <MenuItem value={1}>Enable</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </StyledTableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableWrap>
+          )}
+          {userSkills.length === 0 && !loading && (
+            <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+              <h2>
+                Create your first skill or learn more about{' '}
+                <a
+                  href={`${urls.GITHUB_URL}/blob/master/docs/Skill_Tutorial.md`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  SUSI Skills
+                </a>
+              </h2>
+            </div>
+          )}
+        </div>
+      </ThemeProvider>
     );
   }
 }
@@ -206,6 +232,7 @@ class MySkills extends Component {
 MySkills.propTypes = {
   userSkills: PropTypes.array,
   actions: PropTypes.object,
+  theme: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -214,10 +241,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mapStateToProps({ app }) {
-  const { userSkills } = app;
+function mapStateToProps(store) {
+  const { userSkills } = store.app;
+  const { theme } = store.settings;
   return {
     userSkills,
+    theme,
   };
 }
 

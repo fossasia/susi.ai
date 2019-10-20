@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import styled, { css } from 'styled-components';
+import styled, { css, ThemeProvider } from 'styled-components';
 import skillActions from '../../../redux/actions/skills';
 import uiActions from '../../../redux/actions/ui';
 import FormControl from '@material-ui/core/FormControl';
@@ -14,7 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-import MenuList from '@material-ui/core/MenuList';
+import _MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
@@ -47,6 +47,32 @@ import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
+import theme from 'styled-theming';
+
+const containerColor = theme('mode', {
+  light: '#f2f2f2',
+  dark: '#000012',
+});
+
+const sideBarItemColor = theme('mode', {
+  light: 'black',
+  dark: 'white',
+});
+
+const menuListBackgoundColor = theme('mode', {
+  light: '#f2f2f2',
+  dark: '#19324c',
+});
+
+const menuListColor = theme('mode', {
+  light: 'black',
+  dark: 'white',
+});
+
+const listSubHeaderColor = theme('mode', {
+  light: 'black',
+  dark: '#668bb0',
+});
 
 const Container = styled.div`
   display: flex;
@@ -54,6 +80,7 @@ const Container = styled.div`
   overflow-x: hidden;
   flex: 1 0 auto;
   margin-top: 3rem;
+  background: ${containerColor};
 `;
 
 const Link = styled(_Link)`
@@ -62,6 +89,11 @@ const Link = styled(_Link)`
   &:hover {
     color: #000;
   }
+`;
+
+const MenuList = styled(_MenuList)`
+  background-color: ${menuListBackgoundColor};
+  color: ${menuListColor};
 `;
 
 const SkillsFormControl = styled(FormControl)`
@@ -109,6 +141,7 @@ const FilterFormControl = styled(FormControl)`
 `;
 
 const ListSubheader = styled(_ListSubheader)`
+  color: ${listSubHeaderColor}
   font-size: 1rem;
   font-weight: 700;
   line-height: 0.5rem;
@@ -116,7 +149,7 @@ const ListSubheader = styled(_ListSubheader)`
 `;
 
 const SidebarItem = styled(MenuItem)`
-  ${SidebarTextStyles}
+  color: ${sideBarItemColor} ${SidebarTextStyles};
 `;
 
 const Sidebar = styled.div`
@@ -140,7 +173,7 @@ const SidebarLink = styled(Link)`
   width: fit-content;
   cursor: pointer;
   :hover {
-    color: #4285f4;
+    color: white;
   }
 `;
 
@@ -263,6 +296,7 @@ class BrowseSkill extends React.Component {
     history: PropTypes.object,
     accessToken: PropTypes.string,
     location: PropTypes.object,
+    theme: PropTypes.string,
   };
 
   constructor(props) {
@@ -577,6 +611,7 @@ class BrowseSkill extends React.Component {
       orderBy,
       filterType,
       loadingSkills,
+      theme,
     } = this.props;
     const { routeType, routeValue, history } = this.props;
     let isMobile = isMobileView();
@@ -711,340 +746,354 @@ class BrowseSkill extends React.Component {
 
     const { open } = this.state;
     return (
-      <Container>
-        <Sidebar>
-          <div>
-            <Button
-              aria-owns={open ? 'create-list-grow' : null}
-              aria-haspopup="true"
-              onClick={this.handleMenuClick}
-              variant="contained"
-              color="primary"
-              style={{ margin: '1rem 1rem 0', padding: '10px 20px' }}
-              buttonRef={node => {
-                this.anchorEl = node;
-              }}
-            >
-              <Add /> Create
-            </Button>
-            <Popper
-              open={open}
-              transition
-              disablePortal
-              style={{ zIndex: '2', position: 'absolute', left: '1rem' }}
-            >
-              {({ TransitionProps }) => (
-                <Grow {...TransitionProps} id="create-list-grow">
-                  <Paper>
-                    <ClickAwayListener onClickAway={this.handleMenuClose}>
-                      <MenuList>
-                        <MenuItem onClick={this.handleCreateSkillClick}>
-                          <ListItemIcon>
-                            <Add />
-                          </ListItemIcon>
-                          <ListItemText>Create Skill</ListItemText>
-                        </MenuItem>
-                        <MenuItem onClick={this.handleCreateBotClick}>
-                          <ListItemIcon>
-                            <Person />
-                          </ListItemIcon>
-                          <ListItemText>Create Bot</ListItemText>
-                        </MenuItem>
-                        <MenuItem onClick={this.handleAddDeviceClick}>
-                          <ListItemIcon>
-                            <Devices />
-                          </ListItemIcon>
-                          <ListItemText>Add Device</ListItemText>
-                        </MenuItem>
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </div>
-          <Paper style={{ boxShadow: 'none' }}>
-            <MenuList style={{ outline: 'none' }}>
-              {timeFilter ? (
-                <div>
+      <ThemeProvider
+        theme={theme === 'dark' ? { mode: 'dark' } : { mode: 'light' }}
+      >
+        <Container>
+          <Sidebar>
+            <div>
+              <Button
+                aria-owns={open ? 'create-list-grow' : null}
+                aria-haspopup="true"
+                onClick={this.handleMenuClick}
+                variant="contained"
+                color="primary"
+                style={{ margin: '1rem 1rem', padding: '10px 20px' }}
+                buttonRef={node => {
+                  this.anchorEl = node;
+                }}
+              >
+                <Add /> Create
+              </Button>
+              <Popper
+                open={open}
+                transition
+                disablePortal
+                style={{ zIndex: '2', position: 'absolute', left: '1rem' }}
+              >
+                {({ TransitionProps }) => (
+                  <Grow {...TransitionProps} id="create-list-grow">
+                    <Paper>
+                      <ClickAwayListener onClickAway={this.handleMenuClose}>
+                        <MenuList>
+                          <MenuItem onClick={this.handleCreateSkillClick}>
+                            <ListItemIcon>
+                              <Add />
+                            </ListItemIcon>
+                            <ListItemText>Create Skill</ListItemText>
+                          </MenuItem>
+                          <MenuItem onClick={this.handleCreateBotClick}>
+                            <ListItemIcon>
+                              <Person />
+                            </ListItemIcon>
+                            <ListItemText>Create Bot</ListItemText>
+                          </MenuItem>
+                          <MenuItem onClick={this.handleAddDeviceClick}>
+                            <ListItemIcon>
+                              <Devices />
+                            </ListItemIcon>
+                            <ListItemText>Add Device</ListItemText>
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </div>
+            <Paper style={{ boxShadow: 'none' }}>
+              <MenuList style={{ outline: 'none' }}>
+                {timeFilter ? (
+                  <div>
+                    <ListSubheader>
+                      <SidebarLink
+                        onClick={() => this.handleArrivalTimeChange(null)}
+                      >
+                        {'< Any release'}
+                      </SidebarLink>
+                    </ListSubheader>
+                    <SelectedText>{`Last ${timeFilter} Days`}</SelectedText>
+                  </div>
+                ) : (
+                  <ListSubheader>New Arrivals</ListSubheader>
+                )}
+                {!timeFilter && (
+                  <SidebarItem
+                    value="creation_date&duration=7"
+                    onClick={() => this.handleArrivalTimeChange(7)}
+                  >
+                    Last 7 Days
+                  </SidebarItem>
+                )}
+                {!timeFilter && (
+                  <SidebarItem
+                    value="creation_date&duration=30"
+                    onClick={() => this.handleArrivalTimeChange(30)}
+                  >
+                    Last 30 Days
+                  </SidebarItem>
+                )}
+                {!timeFilter && (
+                  <SidebarItem
+                    value="creation_date&duration=90"
+                    onClick={() => this.handleArrivalTimeChange(90)}
+                  >
+                    Last 90 Days
+                  </SidebarItem>
+                )}
+                <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
+                {routeType === 'category' ? (
+                  <div>
+                    <ListSubheader>
+                      <SidebarLink to="/">{'< SUSI Skills'}</SidebarLink>
+                    </ListSubheader>
+                    <SelectedText>{routeValue}</SelectedText>
+                  </div>
+                ) : (
+                  <div>
+                    <ListSubheader>SUSI Skills</ListSubheader>
+                    {renderMenu}
+                  </div>
+                )}
+                <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
+                {/* Refine by rating section*/}
+                <ListSubheader>Refine by</ListSubheader>
+                {metricsHidden && (
+                  <div
+                    style={{
+                      marginBottom: '12px',
+                      width: '100%',
+                      display: 'flex',
+                      justify: 'center',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          className="select"
+                          checked={staffPicks}
+                          onChange={this.handleStaffFilterChange}
+                        />
+                      }
+                      label="Staff Picks"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          className="select"
+                          checked={reviewed}
+                          onChange={this.handleReviewFilterChange}
+                        />
+                      }
+                      label="Reviewed Skills"
+                    />
+                  </div>
+                )}
+                <SidebarText>Avg. Customer Review</SidebarText>
+                {ratingRefine ? (
                   <ListSubheader>
-                    <SidebarLink
-                      onClick={() => this.handleArrivalTimeChange(null)}
-                    >
-                      {'< Any release'}
+                    <SidebarLink onClick={() => this.handleRatingRefine(null)}>
+                      {'< Clear'}
                     </SidebarLink>
                   </ListSubheader>
-                  <SelectedText>{`Last ${timeFilter} Days`}</SelectedText>
-                </div>
-              ) : (
-                <ListSubheader>New Arrivals</ListSubheader>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=7"
-                  onClick={() => this.handleArrivalTimeChange(7)}
-                >
-                  Last 7 Days
-                </SidebarItem>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=30"
-                  onClick={() => this.handleArrivalTimeChange(30)}
-                >
-                  Last 30 Days
-                </SidebarItem>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=90"
-                  onClick={() => this.handleArrivalTimeChange(90)}
-                >
-                  Last 90 Days
-                </SidebarItem>
-              )}
-              <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
-              {routeType === 'category' ? (
-                <div>
-                  <ListSubheader>
-                    <SidebarLink to="/">{'< SUSI Skills'}</SidebarLink>
-                  </ListSubheader>
-                  <SelectedText>{routeValue}</SelectedText>
-                </div>
-              ) : (
-                <div>
-                  <ListSubheader>SUSI Skills</ListSubheader>
-                  {renderMenu}
-                </div>
-              )}
-              <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
-              {/* Refine by rating section*/}
-              <ListSubheader>Refine by</ListSubheader>
-              {metricsHidden && (
-                <div
-                  style={{
-                    marginBottom: '12px',
-                    width: '100%',
-                    display: 'flex',
-                    justify: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="select"
-                        checked={staffPicks}
-                        onChange={this.handleStaffFilterChange}
-                      />
-                    }
-                    label="Staff Picks"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="select"
-                        checked={reviewed}
-                        onChange={this.handleReviewFilterChange}
-                      />
-                    }
-                    label="Reviewed Skills"
-                  />
-                </div>
-              )}
-              <SidebarText>Avg. Customer Review</SidebarText>
-              {ratingRefine ? (
-                <ListSubheader>
-                  <SidebarLink onClick={() => this.handleRatingRefine(null)}>
-                    {'< Clear'}
-                  </SidebarLink>
-                </ListSubheader>
-              ) : (
-                ''
-              )}
-              <SkillRatingContainer>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={4}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={3}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={2}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={1}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-              </SkillRatingContainer>
-            </MenuList>
-          </Paper>
-        </Sidebar>
-        <RightContainer>
-          {renderSkillSlideshow}
-          {loadingSkills ? (
-            <CircularLoader height={34} />
-          ) : (
-            <ContentContainer>
-              {metricsHidden ? (
-                <div>
-                  <Grid
-                    container
-                    spacing={3}
-                    direction={isMobile ? 'column-reverse' : 'row'}
-                  >
-                    <Grid
-                      item
-                      alignItems="center"
-                      sm={6}
-                      style={{
-                        textAlign: 'center',
-                        padding: isMobile ? '10px 30px' : '30px 25px 0',
-                        fontSize: isMobile ? '14px' : '16px',
-                      }}
-                    >
-                      {renderSkillCount}
-                    </Grid>
-                    <Grid item sm={6} alignItems="center">
-                      {skills.length > 0 && (
-                        <FlexContainer>
-                          {filterType !== '' && (
-                            <IconButton
-                              color="primary"
-                              onClick={this.handleOrderByChange}
-                            >
-                              {renderOrderBy}
-                            </IconButton>
-                          )}
-
-                          <FilterFormControl>
-                            <InputLabel>Sort By</InputLabel>
-                            <Select
-                              value={filterType}
-                              onChange={this.handleFilterChange}
-                            >
-                              <MenuItem value={'lexicographical'}>
-                                Name (A-Z)
-                              </MenuItem>
-                              <MenuItem value={'top_rated'}>Top Rated</MenuItem>
-                              <MenuItem value={'rating'}>Most Rated</MenuItem>
-                              <MenuItem value={'creation_date'}>
-                                Newly Created
-                              </MenuItem>
-                              <MenuItem value={'modified_date'}>
-                                Recently updated
-                              </MenuItem>
-                              <MenuItem value={'feedback'}>
-                                Feedback Count
-                              </MenuItem>
-                              <MenuItem value={'usage&duration=7'}>
-                                This Week Usage
-                              </MenuItem>
-                              <MenuItem value={'usage&duration=30'}>
-                                This Month Usage
-                              </MenuItem>
-                            </Select>
-                          </FilterFormControl>
-                          {skills.length > 10 && (
-                            <SkillsFormControl>
-                              <InputLabel>Skills per page</InputLabel>
-                              <Select
-                                value={entriesPerPage}
-                                onChange={this.handleEntriesPerPageChange}
-                                style={{ width: '5.1rem', marginTop: '1.5rem' }}
-                              >
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={20}>20</MenuItem>
-                                <MenuItem value={50}>50</MenuItem>
-                                <MenuItem value={100}>100</MenuItem>
-                              </Select>
-                            </SkillsFormControl>
-                          )}
-                          <RadioGroup
-                            defaultValue="list"
-                            value={viewType}
-                            onChange={this.handleViewChange}
-                            style={{ flexDirection: 'row' }}
-                          >
-                            <Radio
-                              value="list"
-                              style={{ width: 'fit-content', padding: '0px' }}
-                              checkedIcon={<ActionViewStream isActive={true} />}
-                              icon={<ActionViewStream isActive={false} />}
-                            />
-                            <Radio
-                              value="grid"
-                              style={{ width: 'fit-content', padding: '0px' }}
-                              checkedIcon={<ActionViewModule isActive={true} />}
-                              icon={<ActionViewModule isActive={false} />}
-                            />
-                          </RadioGroup>
-                        </FlexContainer>
-                      )}
-                    </Grid>
-                  </Grid>
+                ) : (
+                  ''
+                )}
+                <SkillRatingContainer>
+                  <SidebarItem>
+                    <SkillRating
+                      handleRatingRefine={this.handleRatingRefine}
+                      rating={4}
+                      ratingRefine={ratingRefine}
+                    />
+                  </SidebarItem>
+                  <SidebarItem>
+                    <SkillRating
+                      handleRatingRefine={this.handleRatingRefine}
+                      rating={3}
+                      ratingRefine={ratingRefine}
+                    />
+                  </SidebarItem>
+                  <SidebarItem>
+                    <SkillRating
+                      handleRatingRefine={this.handleRatingRefine}
+                      rating={2}
+                      ratingRefine={ratingRefine}
+                    />
+                  </SidebarItem>
+                  <SidebarItem>
+                    <SkillRating
+                      handleRatingRefine={this.handleRatingRefine}
+                      rating={1}
+                      ratingRefine={ratingRefine}
+                    />
+                  </SidebarItem>
+                </SkillRatingContainer>
+              </MenuList>
+            </Paper>
+          </Sidebar>
+          <RightContainer>
+            {renderSkillSlideshow}
+            {loadingSkills ? (
+              <CircularLoader height={34} />
+            ) : (
+              <ContentContainer>
+                {metricsHidden ? (
                   <div>
-                    {viewType === 'list' ? (
-                      <SkillCardList />
-                    ) : (
-                      <SkillCardGrid history={history} />
+                    <Grid
+                      container
+                      spacing={3}
+                      direction={isMobile ? 'column-reverse' : 'row'}
+                    >
+                      <Grid
+                        item
+                        alignItems="center"
+                        sm={6}
+                        style={{
+                          textAlign: 'center',
+                          padding: isMobile ? '10px 30px' : '30px 25px 0',
+                          fontSize: isMobile ? '14px' : '16px',
+                        }}
+                      >
+                        {renderSkillCount}
+                      </Grid>
+                      <Grid item sm={6} alignItems="center">
+                        {skills.length > 0 && (
+                          <FlexContainer>
+                            {filterType !== '' && (
+                              <IconButton
+                                color="primary"
+                                onClick={this.handleOrderByChange}
+                              >
+                                {renderOrderBy}
+                              </IconButton>
+                            )}
+
+                            <FilterFormControl>
+                              <InputLabel>Sort By</InputLabel>
+                              <Select
+                                value={filterType}
+                                onChange={this.handleFilterChange}
+                              >
+                                <MenuItem value={'lexicographical'}>
+                                  Name (A-Z)
+                                </MenuItem>
+                                <MenuItem value={'top_rated'}>
+                                  Top Rated
+                                </MenuItem>
+                                <MenuItem value={'rating'}>Most Rated</MenuItem>
+                                <MenuItem value={'creation_date'}>
+                                  Newly Created
+                                </MenuItem>
+                                <MenuItem value={'modified_date'}>
+                                  Recently updated
+                                </MenuItem>
+                                <MenuItem value={'feedback'}>
+                                  Feedback Count
+                                </MenuItem>
+                                <MenuItem value={'usage&duration=7'}>
+                                  This Week Usage
+                                </MenuItem>
+                                <MenuItem value={'usage&duration=30'}>
+                                  This Month Usage
+                                </MenuItem>
+                              </Select>
+                            </FilterFormControl>
+                            {skills.length > 10 && (
+                              <SkillsFormControl>
+                                <InputLabel>Skills per page</InputLabel>
+                                <Select
+                                  value={entriesPerPage}
+                                  onChange={this.handleEntriesPerPageChange}
+                                  style={{
+                                    width: '5.1rem',
+                                    marginTop: '1.5rem',
+                                  }}
+                                >
+                                  <MenuItem value={10}>10</MenuItem>
+                                  <MenuItem value={20}>20</MenuItem>
+                                  <MenuItem value={50}>50</MenuItem>
+                                  <MenuItem value={100}>100</MenuItem>
+                                </Select>
+                              </SkillsFormControl>
+                            )}
+                            <RadioGroup
+                              defaultValue="list"
+                              value={viewType}
+                              onChange={this.handleViewChange}
+                              style={{ flexDirection: 'row' }}
+                            >
+                              <Radio
+                                value="list"
+                                style={{ width: 'fit-content', padding: '0px' }}
+                                checkedIcon={
+                                  <ActionViewStream isActive={true} />
+                                }
+                                icon={<ActionViewStream isActive={false} />}
+                              />
+                              <Radio
+                                value="grid"
+                                style={{ width: 'fit-content', padding: '0px' }}
+                                checkedIcon={
+                                  <ActionViewModule isActive={true} />
+                                }
+                                icon={<ActionViewModule isActive={false} />}
+                              />
+                            </RadioGroup>
+                          </FlexContainer>
+                        )}
+                      </Grid>
+                    </Grid>
+                    <div>
+                      {viewType === 'list' ? (
+                        <SkillCardList />
+                      ) : (
+                        <SkillCardGrid history={history} />
+                      )}
+                    </div>
+                    {skills.length > this.props.entriesPerPage && (
+                      <PageNavigationContainer>
+                        <div>
+                          Page: {listPage} out of{' '}
+                          {Math.ceil(skills.length / entriesPerPage)}
+                        </div>
+                        <Fab
+                          disabled={listPage === 1}
+                          color="primary"
+                          style={{ marginRight: '15px' }}
+                          onClick={this.handleNavigationBackward}
+                        >
+                          <NavigationArrowBack />
+                        </Fab>
+                        <Fab
+                          disabled={
+                            listPage ===
+                            Math.ceil(skills.length / entriesPerPage)
+                          }
+                          color="primary"
+                          onClick={this.handleNavigationForward}
+                        >
+                          <NavigationArrowForward />
+                        </Fab>
+                      </PageNavigationContainer>
                     )}
                   </div>
-                  {skills.length > this.props.entriesPerPage && (
-                    <PageNavigationContainer>
-                      <div>
-                        Page: {listPage} out of{' '}
-                        {Math.ceil(skills.length / entriesPerPage)}
-                      </div>
-                      <Fab
-                        disabled={listPage === 1}
-                        color="primary"
-                        style={{ marginRight: '15px' }}
-                        onClick={this.handleNavigationBackward}
-                      >
-                        <NavigationArrowBack />
-                      </Fab>
-                      <Fab
-                        disabled={
-                          listPage === Math.ceil(skills.length / entriesPerPage)
-                        }
-                        color="primary"
-                        onClick={this.handleNavigationForward}
-                      >
-                        <NavigationArrowForward />
-                      </Fab>
-                    </PageNavigationContainer>
-                  )}
-                </div>
-              ) : (
-                ''
-              )}
-              <div>{renderCardScrollList}</div>
-              {/* Check if mobile view is currently active*/}
-              {routeType === 'category' ? (
-                backToHome
-              ) : (
-                <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
-              )}
-            </ContentContainer>
-          )}
-        </RightContainer>
-      </Container>
+                ) : (
+                  ''
+                )}
+                <div>{renderCardScrollList}</div>
+                {/* Check if mobile view is currently active*/}
+                {routeType === 'category' ? (
+                  backToHome
+                ) : (
+                  <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
+                )}
+              </ContentContainer>
+            )}
+          </RightContainer>
+        </Container>
+      </ThemeProvider>
     );
   }
 }
@@ -1054,6 +1103,7 @@ function mapStateToProps(store) {
     ...store.router,
     ...store.skills,
     accessToken: store.app.accessToken,
+    theme: store.settings.theme,
   };
 }
 
