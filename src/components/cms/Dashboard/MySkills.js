@@ -12,7 +12,7 @@ import uiActions from '../../../redux/actions/ui';
 import PropTypes from 'prop-types';
 import _Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import CircularLoader from '../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '../../shared/Select';

@@ -220,6 +220,7 @@ const ActionBar = styled.div`
   align-items: center;
   font-size: 1rem;
   justify-content: space-between;
+  background: ${props => props.headerColor};
 `;
 
 const ChatBubbleContainer = styled.div`
@@ -692,7 +693,14 @@ class MessageSection extends Component {
       mode,
     } = this.props;
 
-    const { pane, body, composer, button, textarea } = getCustomThemeColors({
+    const {
+      header,
+      pane,
+      body,
+      composer,
+      button,
+      textarea,
+    } = getCustomThemeColors({
       theme,
       customThemeValue,
     });
@@ -729,7 +737,10 @@ class MessageSection extends Component {
     }
 
     const actionBar = (
-      <ActionBar showFullScreenChat={mode === 'fullScreen'}>
+      <ActionBar
+        headerColor={header}
+        showFullScreenChat={mode === 'fullScreen'}
+      >
         <div>Chat with SUSI.AI</div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {searchState && (
