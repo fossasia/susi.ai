@@ -52,7 +52,7 @@ Here you find step by step instructions for Pocket Science Lab (PSLab) using the
 You will be presented with a home screen like this.  
 
 
-<img src="./docs/images/desk_home_screen.jpg" alt="DESK_HOME" width="800px"/>  
+<img src="./source/static/desk_home_screen.jpg" alt="DESK_HOME" width="800px"/>  
 Click on the instrument you would like to use.
 
 ### 1. Oscilloscope
@@ -60,7 +60,7 @@ Click on the instrument you would like to use.
 An instrument used to measure voltage changes over a period of time in real time.
 
 ##### GUI description
-  <img src="./docs/images/desk_oscilloscope.jpg" alt="DESK_OSC" width="800px"/>
+  <img src="./source/static/desk_oscilloscope.jpg" alt="DESK_OSC" width="800px"/>
 
   1. Options used to select the active channels and the range of measurement.
   2. Timebase adjustments and trigger options.
