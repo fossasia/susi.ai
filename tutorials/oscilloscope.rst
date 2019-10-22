@@ -1,5 +1,5 @@
 **********************
-Using the Oscilloscope
+Oscilloscope
 **********************
 
 What is an oscilloscope

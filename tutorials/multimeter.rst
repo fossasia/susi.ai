@@ -1,5 +1,5 @@
 ********************
-Using the Multimeter
+Multimeter
 ********************
 
 What's a Multimiter

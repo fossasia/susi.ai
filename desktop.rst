@@ -1,8 +1,8 @@
 ***********
-Desktop APP
+Desktop Application
 ***********
 
-How to use the desktop APP
+How to use the Desktop App
 ==========================
 
 - To use any feature of the PSLab Desktop application first follow these 2 steps:

@@ -1,8 +1,8 @@
 ***************
-The Android APP
+The Android Application
 ***************
 
-How to use the Android APP
+How to use the Android App
 ==========================
 
 - **To use any feature of the PSLab Android application first follow these 2 steps**:

@@ -20,9 +20,9 @@ Pocket Science Labs Documentation
    :maxdepth: 2
    :caption: Science Experiment Tutorials
 
-   tutorials/powersource
-   tutorials/multimeter
    tutorials/oscilloscope
+   tutorials/multimeter
+   tutorials/powersource
    tutorials/wavegenerator
    tutorials/digitalsensors
    tutorials/analogsensors
