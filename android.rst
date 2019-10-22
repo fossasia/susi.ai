@@ -1,5 +1,5 @@
 ***************
-The Android Application
+Android Application
 ***************
 
 How to use the Android App
@@ -11,7 +11,7 @@ How to use the Android App
   1. Connect PSLab board with your Android smartphone using OTG cable
   2. Open `PSLab Android application </https://play.google.com/store/apps/details?id=io.pslab>`_
 
-Overview of the Android app
+Overview of the Android App
 ===========================
 .. raw:: html
 
@@ -19,7 +19,7 @@ Overview of the Android app
         <iframe src="//www.youtube.com/embed/wj6lAvDzXwo" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
    </div>
   
-Save Configs in the Android app wave generator
+Save Configs in the Android App Wave Generator
 ==============================================
 .. raw:: html
 
@@ -28,7 +28,7 @@ Save Configs in the Android app wave generator
    </div>
    
 
-How to use Robotic Arm controller in the Android app
+How to use Robotic Arm Controller in the Android App
 ====================================================
 .. raw:: html
 

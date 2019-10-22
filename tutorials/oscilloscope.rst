@@ -2,12 +2,12 @@
 Oscilloscope
 **********************
 
-What is an oscilloscope
+What Is An Oscilloscope
 =======================
 
 An instrument used to measure voltage changes over a period of time in real time.
 
-How to use it
+How To Use It
 =============
   1. Connect SI1 and SI2 pins on PSLab board to CH1 and CH2 pins respectively for Analog mode or connect SQ1,SQ2,SQ3 pins to CH1, CH2, CH3 pins respectively for Digital mode.
   2. Go to Wave Generator instrument in the PSLab Android application.

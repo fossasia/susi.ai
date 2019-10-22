@@ -1,5 +1,5 @@
 ********************
-Hardware description
+Hardware
 ********************
 
 
