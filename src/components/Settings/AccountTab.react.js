@@ -247,9 +247,24 @@ class AccountTab extends React.Component {
     });
   };
 
+  isUserNameEntered = () => {
+    if (document.getElementById('userNameField').value.length === 0) {
+      this.setState({
+        userNameError:
+          'A valid username is required before setting timezone or preferred language!',
+      });
+      return false;
+    }
+    return true;
+  };
+
   handleSubmit = async () => {
     const { timeZone, prefLanguage, userName, avatarType } = this.state;
     const { actions, userEmailId } = this.props;
+
+    if (!this.isUserNameEntered()) {
+      return;
+    }
     let payload = {
       timeZone,
       prefLanguage,
@@ -362,8 +377,12 @@ class AccountTab extends React.Component {
                 aria-describedby="email-error-text"
                 style={{ width: '16rem', height: '2.1rem' }}
                 placeholder="Enter your User Name"
+                id="userNameField"
               />
-              <FormHelperText error={userNameError !== ''}>
+              <FormHelperText
+                error={userNameError !== ''}
+                style={{ maxWidth: '250px' }}
+              >
                 {userNameError}
               </FormHelperText>
             </FormControl>
