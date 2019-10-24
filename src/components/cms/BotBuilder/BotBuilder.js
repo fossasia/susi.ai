@@ -287,10 +287,12 @@ class BotBuilder extends React.Component {
       const { drafts } = payload;
       this.showDrafts(drafts);
     } catch (error) {
-      actions.openSnackBar({
-        snackBarMessage: "Couldn't get your drafts. Please reload the page.",
-        snackBarDuration: 2000,
-      });
+      if (error.status !== 404) {
+        actions.openSnackBar({
+          snackBarMessage: "Couldn't get your drafts. Please reload the page.",
+          snackBarDuration: 2000,
+        });
+      }
       this.setState({
         loadingDrafts: false,
       });
@@ -346,6 +348,10 @@ class BotBuilder extends React.Component {
         );
       }
       this.setState({ drafts: draftsOfBots, loadingDrafts: false });
+    } else {
+      this.setState({
+        loadingDrafts: false,
+      });
     }
   };
 
