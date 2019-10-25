@@ -69,7 +69,6 @@ class SkillFeedbackCard extends Component {
       modalType: 'editFeedback',
       handleConfirm: this.postFeedback,
       handleClose: this.props.actions.closeModal,
-      errorText: this.state.errorText,
       feedback: this.state.newFeedbackValue,
       handleEditFeedback: this.editFeedback,
     });
@@ -90,11 +89,13 @@ class SkillFeedbackCard extends Component {
       skill,
       feedback: newFeedbackValue,
     };
+
     if (newFeedbackValue !== undefined && newFeedbackValue.trim()) {
       try {
         await actions.setSkillFeedback(skillData);
         actions.closeModal();
         actions.getSkillFeedbacks(skillData);
+        await this.setState({ errorText: '' });
       } catch (error) {
         console.log(error);
       }
