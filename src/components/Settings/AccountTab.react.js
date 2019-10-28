@@ -6,7 +6,7 @@ import SettingsTabWrapper from './SettingsTabWrapper';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import Select from '../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _TimezonePicker from 'react-timezone';
@@ -35,7 +35,7 @@ const TimezoneContainer = styled.div`
 `;
 
 const Timezone = styled.div`
-  position: absolute;
+  position: relative;
   z-index: 99;
 `;
 
@@ -442,7 +442,7 @@ class AccountTab extends React.Component {
           color="primary"
           onClick={this.handleSubmit}
           disabled={disabled}
-          style={{ margin: '1.5rem 0', width: '10rem' }}
+          style={{ margin: '1.5rem 0' }}
         >
           {loading ? (
             <CircularProgress size={24} />

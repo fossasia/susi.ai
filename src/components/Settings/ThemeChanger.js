@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DialogActions from '@material-ui/core/DialogActions';
 import CloseButton from '../shared/CloseButton';
-import Button from '@material-ui/core/Button';
+import Button from '../shared/Button';
 import Translate from '../Translate/Translate.react';
 import OutlinedTextField from '../shared/OutlinedTextField';
 import { Col, Row } from 'react-flexbox-grid';
