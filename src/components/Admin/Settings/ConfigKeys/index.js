@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import uiActions from '../../../../redux/actions/ui';
 import { fetchApiKeys, deleteApiKey } from '../../../../apis/index';
-import { ActionSpan, ActionSeparator } from '../../../shared/TableActionStyles';
 import MaterialTable from 'material-table';
 import TABLE_CONFIG from './table-config';
 
@@ -119,31 +118,17 @@ class ConfigKeys extends React.Component {
           }}
           actions={[
             {
-              onEdit: (event, rowData) => {
-                this.handleUpdate(rowData.keyName, rowData.value);
-              },
-              onDelete: (event, rowData) => {
-                this.handleDelete(rowData.keyName);
-              },
+              icon: 'update',
+              tooltip: 'Update Key',
+              onClick: (event, rowData) =>
+                this.handleUpdate(rowData.keyName, rowData.value),
+            },
+            {
+              icon: 'delete',
+              tooltip: 'Delete Key',
+              onClick: (event, rowData) => this.handleDelete(rowData.keyName),
             },
           ]}
-          components={{
-            Action: props => (
-              <React.Fragment>
-                <ActionSpan
-                  onClick={event => props.action.onEdit(event, props.data)}
-                >
-                  Edit
-                </ActionSpan>
-                <ActionSeparator> | </ActionSeparator>
-                <ActionSpan
-                  onClick={event => props.action.onDelete(event, props.data)}
-                >
-                  Delete
-                </ActionSpan>
-              </React.Fragment>
-            ),
-          }}
         ></MaterialTable>
         <AddConfigButton
           variant="contained"
