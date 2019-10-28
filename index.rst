@@ -11,7 +11,7 @@ Pocket Science Labs Documentation
    :caption: Introduction to PSLab
 
    introduction
-   description
+   hardware
    android
    desktop
    library
@@ -22,27 +22,30 @@ Pocket Science Labs Documentation
 
    tutorials/oscilloscope
    tutorials/multimeter
-   tutorials/powersource
-   tutorials/wavegenerator
-   tutorials/digitalsensors
-   tutorials/analogsensors
    tutorials/logicanalyzer
-   tutorials/imu
-   tutorials/uart
-   tutorials/servos
-   
+   tutorials/sensors
+   tutorials/wavegenerator
+   tutorials/powersource
+   tutorials/luxmeter
+   tutorials/accelerometer
+   tutorials/barometer
+   tutorials/compass
+   tutorials/gyroscope
+   tutorials/thermometer
+   tutorials/roboticarm
+   tutorials/gassensor
+   tutorials/dustsensor
+ 
+.. toctree::
+   :maxdepth: 2
+   :caption: Advanced PSLab
+
+   advanced
+   programming
+
 .. toctree::
    :maxdepth: 2
    :caption: Collaborate!
    
    collaborate
    template
-    
-.. toctree::
-   :maxdepth: 2
-   :caption: Advanced PSLab
-
-   wifibluetooth
-   programming
-
-
