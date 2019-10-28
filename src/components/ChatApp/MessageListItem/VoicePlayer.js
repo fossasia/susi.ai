@@ -20,7 +20,7 @@ class VoicePlayer extends Component {
   }
 
   createSpeech = () => {
-    const { lang, rate, pitch } = this.props;
+    const { lang, rate, pitch, voice } = this.props;
     const defaults = {
       text: '',
       volume: 1,
@@ -28,6 +28,9 @@ class VoicePlayer extends Component {
       pitch,
       lang,
     };
+    if (voice) {
+      defaults.voice = voice;
+    }
     let speech = new SpeechSynthesisUtterance();
     Object.assign(speech, defaults, this.props);
     return speech;
@@ -101,6 +104,7 @@ VoicePlayer.propTypes = {
   pause: PropTypes.bool,
   text: PropTypes.string,
   lang: PropTypes.string,
+  voice: PropTypes.any,
   rate: PropTypes.number,
   pitch: PropTypes.number,
   onStart: PropTypes.func,

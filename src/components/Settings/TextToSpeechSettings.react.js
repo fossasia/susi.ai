@@ -30,6 +30,7 @@ class TextToSpeechSettings extends Component {
       play: false,
       playExample: false,
       ttsLanguage: this.props.lang,
+      currVoice: '',
       voiceList: speechSynthesis.getVoices(),
     };
     this.speechSynthesisExample = 'This is an example of speech synthesis';
@@ -104,6 +105,7 @@ class TextToSpeechSettings extends Component {
     this.props.newTtsSettings({
       speechRate: this.state.rate,
       speechPitch: this.state.pitch,
+      speechVoice: this.state.speechName,
       ttsLanguage: this.state.ttsLanguage,
     });
   };
@@ -111,7 +113,16 @@ class TextToSpeechSettings extends Component {
   componentDidMount() {
     speechSynthesis.onvoiceschanged = () => {
       const speechSynthesisVoices = speechSynthesis.getVoices();
-      this.setState({ voiceList: speechSynthesisVoices });
+      let speechName = '';
+      speechSynthesisVoices.forEach(item => {
+        if (item.lang === this.props.lang) {
+          speechName = item.name;
+        }
+      });
+      this.setState({
+        voiceList: speechSynthesisVoices,
+        currSpeechText: speechName + ' (' + this.props.lang + ')',
+      });
     };
   }
 
@@ -125,7 +136,7 @@ class TextToSpeechSettings extends Component {
       }
       langCodes.push(voice.lang);
       return (
-        <MenuItem value={voice.lang} key={index}>
+        <MenuItem value={voice.name + ' (' + voice.lang + ')'} key={index}>
           {voice.name + ' (' + voice.lang + ')'}
         </MenuItem>
       );
@@ -162,9 +173,21 @@ class TextToSpeechSettings extends Component {
 
   handleTTSVoices = event => {
     const { value } = event.target;
+    // eslint-disable-next-line no-useless-escape
+    const lang = value.match(/\(\w+\-\w+\)/g);
+    let speechName = value
+      .match(/(.*)\(/g)[0]
+      .replace('(', '')
+      .trim();
+    speechName = this.state.voiceList.filter(item => {
+      return item.name == speechName;
+    });
+
     this.setState(
       {
-        ttsLanguage: value,
+        ttsLanguage: lang[0].replace('(', '').replace(')', ''),
+        speechName: speechName[0],
+        currSpeechText: value,
       },
       () => this.handleSettingsChange(),
     );
@@ -179,7 +202,10 @@ class TextToSpeechSettings extends Component {
           <TabHeading>
             <Translate text="Speech Output Language" />
           </TabHeading>
-          <Select value={voiceOutput.voiceLang} onChange={this.handleTTSVoices}>
+          <Select
+            value={this.state.currSpeechText}
+            onChange={this.handleTTSVoices}
+          >
             {voiceOutput.voiceMenu}
           </Select>
         </div>
@@ -231,6 +257,7 @@ class TextToSpeechSettings extends Component {
             rate={rate}
             pitch={pitch}
             lang={ttsLanguage}
+            voice={this.state.speechName}
             onStart={this.onStart}
             onEnd={this.onEnd}
           />
