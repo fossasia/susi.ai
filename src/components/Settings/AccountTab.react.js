@@ -35,7 +35,7 @@ const TimezoneContainer = styled.div`
 `;
 
 const Timezone = styled.div`
-  position: absolute;
+  position: relative;
   z-index: 99;
 `;
 
