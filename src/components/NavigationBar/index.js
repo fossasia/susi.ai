@@ -158,6 +158,7 @@ class NavigationBar extends Component {
     accessToken: PropTypes.string,
     email: PropTypes.string,
     userName: PropTypes.string,
+    userSettingsLoaded: PropTypes.bool,
     app: PropTypes.string,
     actions: PropTypes.object,
     avatarImgThumbnail: PropTypes.string,
@@ -362,6 +363,7 @@ class NavigationBar extends Component {
       isAdmin,
       email,
       userName,
+      userSettingsLoaded,
       avatarImgThumbnail,
       history,
       searchState,
@@ -583,10 +585,16 @@ class NavigationBar extends Component {
                             src={userAvatar}
                             size="32"
                           />
-                          <UserDetail>
-                            {!userName ? email : userName}
-                          </UserDetail>
-                          <ExpandMore />
+                          {userSettingsLoaded && (
+                            <UserDetail>
+                              {!userName ? email : userName}
+                            </UserDetail>
+                          )}
+                          <ExpandMore
+                            style={{
+                              display: isMobileView(400) ? 'none' : 'inline',
+                            }}
+                          />
                         </FlexContainer>
                       </div>
                     </StyledIconButton>
@@ -636,9 +644,16 @@ class NavigationBar extends Component {
                           </Paper>
                         </Popper>
                         {isMobileView(400) ? (
-                          <Add />
+                          <Add
+                            style={{
+                              marginLeft: '5px',
+                              color: '#fff',
+                            }}
+                          />
                         ) : (
-                          <CreateDetail>Create</CreateDetail>
+                          <CreateDetail style={{ marginLeft: '20px' }}>
+                            Create
+                          </CreateDetail>
                         )}
                       </div>
                     </StyledIconButton>
@@ -716,11 +731,12 @@ class NavigationBar extends Component {
 
 function mapStateToProps(store) {
   const { email, accessToken, isAdmin, avatarImgThumbnail } = store.app;
-  const { userName } = store.settings;
+  const { userName, userSettingsLoaded } = store.settings;
   return {
     email,
     accessToken,
     userName,
+    userSettingsLoaded,
     isAdmin,
     avatarImgThumbnail,
     ...store.skills,

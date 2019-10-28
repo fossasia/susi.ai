@@ -13,6 +13,7 @@ const config = {
   speechPitch: 1,
   ttsLanguage: 'en-US',
   userName: '',
+  userSettingsLoaded: false,
   prefLanguage: 'en-US',
   timeZone: 'UTC-02',
   customThemeValue: {
@@ -94,6 +95,7 @@ export default handleActions(
         speechPitch: Number(speechPitch),
         ttsLanguage,
         userName,
+        userSettingsLoaded: true,
         prefLanguage,
         timeZone,
         countryCode,

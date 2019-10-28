@@ -81,49 +81,51 @@ class MyRatings extends Component {
           <CircularLoader height={5} />
         ) : (
           <TableWrap>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Skill Name</TableCell>
-                  <TableCell>Rating</TableCell>
-                  <TableCell>Timestamp</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {ratingsData.map((skill, index) => {
-                  const {
-                    group,
-                    skillName,
-                    ratingTimestamp,
-                    skillStar,
-                  } = skill;
-                  return (
-                    <TableRow key={index}>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        <Link
-                          to={{
-                            pathname: `/${group}/${skillName
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
-                          }}
-                        >
-                          {(
-                            skillName.charAt(0).toUpperCase() +
-                            skillName.slice(1)
-                          ).replace(/[_-]/g, ' ')}
-                        </Link>
-                      </StyledTableCell>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        {skillStar}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {parseDate(ratingTimestamp)}
-                      </StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+            {ratingsData.length !== 0 && (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Skill Name</TableCell>
+                    <TableCell>Rating</TableCell>
+                    <TableCell>Timestamp</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {ratingsData.map((skill, index) => {
+                    const {
+                      group,
+                      skillName,
+                      ratingTimestamp,
+                      skillStar,
+                    } = skill;
+                    return (
+                      <TableRow key={index}>
+                        <StyledTableCell style={{ fontSize: '1rem' }}>
+                          <Link
+                            to={{
+                              pathname: `/${group}/${skillName
+                                .toLowerCase()
+                                .replace(/ /g, '_')}/language`,
+                            }}
+                          >
+                            {(
+                              skillName.charAt(0).toUpperCase() +
+                              skillName.slice(1)
+                            ).replace(/[_-]/g, ' ')}
+                          </Link>
+                        </StyledTableCell>
+                        <StyledTableCell style={{ fontSize: '1rem' }}>
+                          {skillStar}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {parseDate(ratingTimestamp)}
+                        </StyledTableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            )}
           </TableWrap>
         )}
         {ratingsData.length === 0 && !loading && (
