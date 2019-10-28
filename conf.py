@@ -19,8 +19,10 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'PSLab Docs'
-copyright = '2019, Marco A. Gutierrez'
-author = 'Marco A. Gutierrez'
+copyright = '2019, Pocket Science Lab'
+author = 'PSLab.io'
+website = 'https://pslab.io'
+license = 'Apache 2.0'
 
 # The full version, including alpha/beta/rc tags
 release = '1.0'
@@ -56,4 +58,4 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-master_doc = 'index'
+master_doc = 'introduction'
