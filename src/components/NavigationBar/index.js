@@ -590,7 +590,11 @@ class NavigationBar extends Component {
                               {!userName ? email : userName}
                             </UserDetail>
                           )}
-                          <ExpandMore />
+                          <ExpandMore
+                            style={{
+                              display: isMobileView(400) ? 'none' : 'inline',
+                            }}
+                          />
                         </FlexContainer>
                       </div>
                     </StyledIconButton>
@@ -640,9 +644,16 @@ class NavigationBar extends Component {
                           </Paper>
                         </Popper>
                         {isMobileView(400) ? (
-                          <Add />
+                          <Add
+                            style={{
+                              marginLeft: '5px',
+                              color: '#fff',
+                            }}
+                          />
                         ) : (
-                          <CreateDetail>Create</CreateDetail>
+                          <CreateDetail style={{ marginLeft: '20px' }}>
+                            Create
+                          </CreateDetail>
                         )}
                       </div>
                     </StyledIconButton>
