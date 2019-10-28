@@ -4,6 +4,7 @@ import { Header } from '../../shared/About';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import { DEVICES_DATA } from '../../../constants/about';
 import styled from 'styled-components';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const DeviceSection = styled.div`
   margin: 0 auto;
@@ -140,6 +141,7 @@ const Devices = props => {
           </DeviceSection>
         );
       })}
+      <ScrollTopButton />
     </div>
   );
 };

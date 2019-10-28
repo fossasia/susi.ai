@@ -69,6 +69,7 @@
     "react-render-html": "0.6.0",
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
+    "react-scroll": "^1.7.14",
     "react-share": "3.0.0",
     "react-slick": "0.24.0",
     "react-swipeable-views": "0.13.3",
