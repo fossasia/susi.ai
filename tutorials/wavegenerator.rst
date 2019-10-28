@@ -2,7 +2,7 @@
 Wave Generator
 **************
 
-Introduction to Waves
+What is a Wave Generator
 =====================
 
 How to use the Wave Generator

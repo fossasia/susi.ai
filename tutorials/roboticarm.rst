@@ -1,5 +1,5 @@
 ******
-Servos
+Robotic Arm Servos
 ******
 
 Introduction to motors
