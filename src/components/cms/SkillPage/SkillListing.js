@@ -19,6 +19,7 @@ import Fab from '@material-ui/core/Fab';
 import Ratings from 'react-ratings-declarative';
 import { reportSkill } from '../../../apis';
 import { CenterReaderContainer } from '../../shared/Container';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 // Static Assets
 import CircleImage from '../../shared/CircleImage';
@@ -515,6 +516,7 @@ class SkillListing extends Component {
           <SkillRatingCard />
           <SkillFeedbackCard />
           <SkillUsageCard />
+          <ScrollTopButton />
         </Container>
       );
     }

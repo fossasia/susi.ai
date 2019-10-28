@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Header } from '../../shared/About';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import styled from 'styled-components';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const H1 = styled.h1`
   margin-top: 5rem;
@@ -155,6 +156,7 @@ const Privacy = props => {
           </p>
         </div>
       </HomeDiv>
+      <ScrollTopButton />
     </div>
   );
 };
