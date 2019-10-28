@@ -16,15 +16,14 @@ import styled, { css } from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
 import _Loading from 'react-loading-animation';
-import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import { getBlogReponse } from '../../../apis';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Next from '@material-ui/icons/KeyboardArrowRight';
 import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../../images/susi-logo.svg';
-import ToTopButton from '../../shared/ToTopButton';
 import { Header } from '../../shared/About';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const allCategories = [
   'FOSSASIA',
@@ -199,7 +198,6 @@ class Blog extends Component {
       startPage: 0,
       nextDisplay: 'visible',
       prevDisplay: 'hidden',
-      showScrollToTop: false,
     };
   }
 
@@ -207,13 +205,9 @@ class Blog extends Component {
     const { blogKey } = this.props;
     document.title =
       'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
-    scrollToTopAnimation();
     if (blogKey) {
       this.getPosts(blogKey);
     }
-    /* Adding scroll event Listener to window,
-    to display ToTopButton only when the user has scrolled 90px*/
-    window.addEventListener('scroll', this.showScrollToTop);
   }
 
   componentWillReceiveProps = props => {
@@ -286,16 +280,6 @@ class Blog extends Component {
     this.scrollToTop();
   };
 
-  showScrollToTop = () => {
-    this.setState({
-      showScrollToTop: window.scrollY >= 90,
-    });
-  };
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.showScrollToTop);
-  }
-
   render() {
     const nextStyle = {
       visibility: this.state.nextDisplay,
@@ -305,8 +289,6 @@ class Blog extends Component {
     const prevStyle = {
       visibility: this.state.prevDisplay,
     };
-
-    const { showScrollToTop } = this.state;
 
     return (
       <div>
@@ -464,9 +446,7 @@ class Blog extends Component {
             <BottomPost />
           </div>
         )}
-        <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>
-          <ToTopButton />
-        </div>
+        <ScrollTopButton />
       </div>
     );
   }
