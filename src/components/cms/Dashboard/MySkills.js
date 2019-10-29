@@ -22,9 +22,13 @@ import Add from '@material-ui/icons/Add';
 import { urls } from '../../../utils';
 import styled from 'styled-components';
 import getImageSrc from '../../../utils/getImageSrc';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 
-const StyledTableCell = styled(TableCell)`
-  padding: 0.625rem 1.5rem;
+const StyledHeaderCell = styled(TableCell)`
+  background-color: #6fa2ff;
+  color: white;
+  font-size: 1.1rem;
 `;
 
 const TableWrap = styled.div`
@@ -60,6 +64,8 @@ class MySkills extends Component {
     this.state = {
       skillsData: [],
       loading: true,
+      page: 0,
+      rowsPerPage: 5,
     };
   }
   componentDidMount() {
@@ -88,9 +94,22 @@ class MySkills extends Component {
     }
   };
 
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({
+      page: 0,
+      rowsPerPage: parseInt(event.target.value, 10),
+    });
+  };
+
   render() {
     const { userSkills } = this.props;
-    const { loading } = this.state;
+    const { loading, page, rowsPerPage } = this.state;
     return (
       <div>
         <Container>
@@ -99,6 +118,7 @@ class MySkills extends Component {
               variant="contained"
               color="primary"
               onClick={this.handleMenuClick}
+              style={{ marginBottom: '10px' }}
             >
               <Add /> Create Skill
             </Button>
@@ -111,50 +131,35 @@ class MySkills extends Component {
           <TableWrap>
             {userSkills.length !== 0 && (
               <Table>
+                <colgroup>
+                  <col style={{ width: '25%' }} />
+                  <col style={{ width: '25%' }} />
+                  <col style={{ width: '25%' }} />
+                  <col style={{ width: '25%' }} />
+                </colgroup>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Image</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Status</TableCell>
+                    <StyledHeaderCell>Image</StyledHeaderCell>
+                    <StyledHeaderCell>Name</StyledHeaderCell>
+                    <StyledHeaderCell>Type</StyledHeaderCell>
+                    <StyledHeaderCell>Status</StyledHeaderCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {userSkills.map((skill, index) => {
-                    const {
-                      group,
-                      skillTag,
-                      language,
-                      image,
-                      skillName,
-                      type,
-                    } = skill;
-                    return (
-                      <TableRow key={index}>
-                        <StyledTableCell>
-                          <Link
-                            to={{
-                              pathname: `/${group}/${skillTag
-                                .toLowerCase()
-                                .replace(/ /g, '_')}/${language}`,
-                            }}
-                          >
-                            <Img
-                              // eslint-disable-next-line
-                              src={getImageSrc({
-                                relativePath: `model=general&language=${language}&group=${group.replace(
-                                  / /g,
-                                  '%20',
-                                )}&image=/${image}`,
-                              })}
-                              unloader={
-                                <CircleImage name={skillName} size="40" />
-                              }
-                            />
-                          </Link>
-                        </StyledTableCell>
-                        <StyledTableCell style={{ fontSize: '1rem' }}>
-                          {skillName ? (
+                  {userSkills
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((skill, index) => {
+                      const {
+                        group,
+                        skillTag,
+                        language,
+                        image,
+                        skillName,
+                        type,
+                      } = skill;
+                      return (
+                        <TableRow key={index}>
+                          <TableCell>
                             <Link
                               to={{
                                 pathname: `/${group}/${skillTag
@@ -162,26 +167,61 @@ class MySkills extends Component {
                                   .replace(/ /g, '_')}/${language}`,
                               }}
                             >
-                              {skillName}
+                              <Img
+                                // eslint-disable-next-line
+                                src={getImageSrc({
+                                  relativePath: `model=general&language=${language}&group=${group.replace(
+                                    / /g,
+                                    '%20',
+                                  )}&image=/${image}`,
+                                })}
+                                unloader={
+                                  <CircleImage name={skillName} size="40" />
+                                }
+                              />
                             </Link>
-                          ) : (
-                            'NA'
-                          )}
-                        </StyledTableCell>
-                        <StyledTableCell style={{ fontSize: '1rem' }}>
-                          {type}
-                        </StyledTableCell>
-                        <StyledTableCell style={{ width: '10rem' }}>
-                          <FormControl>
-                            <Select value={1} style={{ width: '10rem' }}>
-                              <MenuItem value={1}>Enable</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </StyledTableCell>
-                      </TableRow>
-                    );
-                  })}
+                          </TableCell>
+                          <TableCell style={{ fontSize: '1rem' }}>
+                            {skillName ? (
+                              <Link
+                                to={{
+                                  pathname: `/${group}/${skillTag
+                                    .toLowerCase()
+                                    .replace(/ /g, '_')}/${language}`,
+                                }}
+                              >
+                                {skillName}
+                              </Link>
+                            ) : (
+                              'NA'
+                            )}
+                          </TableCell>
+                          <TableCell style={{ fontSize: '1rem' }}>
+                            {type}
+                          </TableCell>
+                          <TableCell style={{ width: '10rem' }}>
+                            <FormControl>
+                              <Select value={1} style={{ width: '10rem' }}>
+                                <MenuItem value={1}>Enable</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10]}
+                      count={userSkills.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onChangePage={this.handleChangePage}
+                      onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    ></TablePagination>
+                  </TableRow>
+                </TableFooter>
               </Table>
             )}
           </TableWrap>

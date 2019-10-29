@@ -14,9 +14,13 @@ import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
 import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 
-const StyledTableCell = styled(TableCell)`
-  padding: 0.625rem 1.5rem;
+const StyledHeaderCell = styled(TableCell)`
+  background-color: #6fa2ff;
+  color: white;
+  font-size: 1.1rem;
 `;
 
 const TableWrap = styled.div`
@@ -34,6 +38,8 @@ class MyRatings extends Component {
       ratingsData: [],
       loading: true,
       showMySkills: true,
+      page: 0,
+      rowsPerPage: 5,
     };
   }
   componentDidMount() {
@@ -74,8 +80,21 @@ class MyRatings extends Component {
     }
   };
 
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({
+      page: 0,
+      rowsPerPage: parseInt(event.target.value, 10),
+    });
+  };
+
   render() {
-    let { ratingsData, loading } = this.state;
+    let { ratingsData, loading, page, rowsPerPage } = this.state;
     return (
       <div>
         {loading ? (
@@ -83,58 +102,75 @@ class MyRatings extends Component {
         ) : (
           <TableWrap>
             <Table>
+              <colgroup>
+                <col style={{ width: '33%' }} />
+                <col style={{ width: '33%' }} />
+                <col style={{ width: '33%' }} />
+              </colgroup>
               <TableHead>
                 <TableRow>
-                  <TableCell>Skill Name</TableCell>
-                  <TableCell>Rating</TableCell>
-                  <TableCell>Timestamp</TableCell>
+                  <StyledHeaderCell>Skill Name</StyledHeaderCell>
+                  <StyledHeaderCell>Rating</StyledHeaderCell>
+                  <StyledHeaderCell>Timestamp</StyledHeaderCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ratingsData.map((skill, index) => {
-                  const {
-                    group,
-                    skillName,
-                    ratingTimestamp,
-                    skillStar,
-                  } = skill;
-                  return (
-                    <TableRow key={index}>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        <Link
-                          to={{
-                            pathname: `/${group}/${skillName
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
-                          }}
-                        >
-                          {(
-                            skillName.charAt(0).toUpperCase() +
-                            skillName.slice(1)
-                          ).replace(/[_-]/g, ' ')}
-                        </Link>
-                      </StyledTableCell>
-                      <StyledTableCell style={{ fontSize: '1rem' }}>
-                        <Ratings
-                          rating={skillStar}
-                          widgetRatedColors="#ffbb28"
-                          widgetDimensions="20px"
-                          widgetSpacings="0px"
-                        >
-                          <Ratings.Widget />
-                          <Ratings.Widget />
-                          <Ratings.Widget />
-                          <Ratings.Widget />
-                          <Ratings.Widget />
-                        </Ratings>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {parseDate(ratingTimestamp)}
-                      </StyledTableCell>
-                    </TableRow>
-                  );
-                })}
+                {ratingsData
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((skill, index) => {
+                    const {
+                      group,
+                      skillName,
+                      ratingTimestamp,
+                      skillStar,
+                    } = skill;
+                    return (
+                      <TableRow key={index}>
+                        <TableCell style={{ fontSize: '1rem' }}>
+                          <Link
+                            to={{
+                              pathname: `/${group}/${skillName
+                                .toLowerCase()
+                                .replace(/ /g, '_')}/language`,
+                            }}
+                          >
+                            {(
+                              skillName.charAt(0).toUpperCase() +
+                              skillName.slice(1)
+                            ).replace(/[_-]/g, ' ')}
+                          </Link>
+                        </TableCell>
+                        <TableCell style={{ fontSize: '1rem' }}>
+                          <Ratings
+                            rating={skillStar}
+                            widgetRatedColors="#ffbb28"
+                            widgetDimensions="20px"
+                            widgetSpacings="0px"
+                          >
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                          </Ratings>
+                        </TableCell>
+                        <TableCell>{parseDate(ratingTimestamp)}</TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 20]}
+                    count={ratingsData.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ></TablePagination>
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableWrap>
         )}
