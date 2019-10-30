@@ -60,7 +60,7 @@ const LanguageSelect = styled(Select)`
     width: 6rem;
   }
   .MuiOutlinedInput-input {
-    padding-right: 20px;
+    padding-right: 1.6rem;
   }
 `;
 
