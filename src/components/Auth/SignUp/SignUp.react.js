@@ -214,6 +214,10 @@ class SignUp extends Component {
             success: true,
             loading: false,
           });
+          this.props.actions.openModal({
+            modalType: 'login',
+            signupErrorMessage: payload.message,
+          });
         } else {
           this.setState({
             password: '',
