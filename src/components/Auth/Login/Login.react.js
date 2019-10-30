@@ -40,7 +40,7 @@ class Login extends Component {
     serverUrl: PropTypes.string,
     captchaKey: PropTypes.string,
     isCaptchaEnabled: PropTypes.bool,
-    signupErrorMessage: PropTypes.string,
+    message: PropTypes.string,
   };
 
   constructor(props) {
@@ -229,7 +229,7 @@ class Login extends Component {
       attempts,
       isCaptchaEnabled,
     } = this.state;
-    const { actions, captchaKey, signupErrorMessage } = this.props;
+    const { actions, captchaKey, message } = this.props;
     const isValid =
       email &&
       !emailErrorMessage &&
@@ -284,9 +284,7 @@ class Login extends Component {
               error={showCaptchaErrorMessage}
             />
           )}
-          {signupErrorMessage && (
-            <div style={{ color: '#388e3c' }}>{signupErrorMessage}</div>
-          )}
+          {message && <div style={{ color: '#388e3c' }}>{message}</div>}
           <Button
             onClick={this.handleSubmit}
             variant="contained"
