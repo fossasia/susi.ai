@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _Card from '@material-ui/core/Card';
 import _CardContent from '@material-ui/core/CardContent';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import _Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
@@ -127,6 +129,11 @@ const Text = styled.p`
   padding-left: 10px;
 `;
 
+const trytheme = createMuiTheme({
+  palette: {
+    type: 'dark', // Switching the dark mode on is a single property value change.
+  },
+});
 class BotBuilder extends React.Component {
   constructor(props) {
     super(props);
@@ -393,67 +400,69 @@ class BotBuilder extends React.Component {
     const { drafts, loadingBots, loadingDrafts } = this.state;
 
     return (
-      <div>
-        <Home>
-          <Paper>
-            <H1>Saved Bots</H1>
-            {loadingBots ? (
-              <CircularLoader height={5} />
-            ) : (
-              <BotContainer>
-                {this.showChatbots()}
-                <Link to="/botWizard">
-                  <Card
-                    style={{
-                      backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
-                    }}
-                  >
-                    <Fab color="primary" size="small">
-                      <Add />
-                    </Fab>
-                    <CardContent>Create a new bot</CardContent>
-                  </Card>
-                </Link>
-              </BotContainer>
-            )}
-            <H1>Drafts</H1>
-            {loadingDrafts ? (
-              <CircularLoader height={5} />
-            ) : (
-              <BotContainer>
-                {drafts.length > 0 ? (
-                  drafts
-                ) : (
-                  <Text>No drafts to display.</Text>
-                )}
-              </BotContainer>
-            )}
-          </Paper>
-          <Paper>
-            <H1>Pick a template</H1>
-            <BotContainer>
-              {this.props.templates.map(template => {
-                return (
-                  <Link
-                    key={template.id}
-                    to={'/botWizard?template=' + template.id}
-                  >
+      <ThemeProvider theme={trytheme}>
+        <div>
+          <Home>
+            <Paper>
+              <H1>Saved Bots</H1>
+              {loadingBots ? (
+                <CircularLoader height={5} />
+              ) : (
+                <BotContainer>
+                  {this.showChatbots()}
+                  <Link to="/botWizard">
                     <Card
                       style={{
-                        backgroundImage: 'url(' + template.image + ')',
+                        backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
                       }}
                     >
-                      <Button variant="contained" color="primary">
-                        {template.name}
-                      </Button>
+                      <Fab color="primary" size="small">
+                        <Add />
+                      </Fab>
+                      <CardContent>Create a new bot</CardContent>
                     </Card>
                   </Link>
-                );
-              })}
-            </BotContainer>
-          </Paper>
-        </Home>
-      </div>
+                </BotContainer>
+              )}
+              <H1>Drafts</H1>
+              {loadingDrafts ? (
+                <CircularLoader height={5} />
+              ) : (
+                <BotContainer>
+                  {drafts.length > 0 ? (
+                    drafts
+                  ) : (
+                    <Text>No drafts to display.</Text>
+                  )}
+                </BotContainer>
+              )}
+            </Paper>
+            <Paper>
+              <H1>Pick a template</H1>
+              <BotContainer>
+                {this.props.templates.map(template => {
+                  return (
+                    <Link
+                      key={template.id}
+                      to={'/botWizard?template=' + template.id}
+                    >
+                      <Card
+                        style={{
+                          backgroundImage: 'url(' + template.image + ')',
+                        }}
+                      >
+                        <Button variant="contained" color="primary">
+                          {template.name}
+                        </Button>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </BotContainer>
+            </Paper>
+          </Home>
+        </div>
+      </ThemeProvider>
     );
   }
 }

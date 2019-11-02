@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { StylesProvider } from '@material-ui/styles';
+import { StylesProvider, ThemeProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { theme } from './MUItheme';
+import { createMuiTheme } from '@material-ui/core/styles';
 import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
 import Blog from './components/About/Blog';
 import ChatApp from './components/ChatApp/ChatApp.react';
@@ -82,6 +81,7 @@ const EnhancedNotFound = withTracker(NotFound);
 class App extends Component {
   static propTypes = {
     history: PropTypes.object,
+    theme: PropTypes.string,
     location: PropTypes.object,
     actions: PropTypes.object,
     accessToken: PropTypes.string,
@@ -174,6 +174,7 @@ class App extends Component {
     });
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const {
       actions,
@@ -244,9 +245,23 @@ class App extends Component {
         deviceAccessPoint) ? null : (
         <ChatApp />
       );
+    const trytheme = createMuiTheme({
+      palette: {
+        type: this.props.theme === 'light' ? 'light' : 'dark',
+      },
+    });
+
+    if (this.props.theme === 'light') {
+      let body = document.getElementsByTagName('body')[0];
+      body.style.backgroundColor = '#fff';
+    } else {
+      let body = document.getElementsByTagName('body')[0];
+      body.style.backgroundColor = '';
+    }
+
     return (
       <StylesProvider injectFirst>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={trytheme}>
           <div>
             {renderDialog}
             {isSnackBarOpen && (
@@ -377,7 +392,7 @@ class App extends Component {
             <div>{renderFooter}</div>
             {renderCookiePolicy}
           </div>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </StylesProvider>
     );
   }
@@ -399,6 +414,7 @@ function mapStateToProps(store) {
     accessToken: store.app.accessToken,
     showCookiePolicy: store.app.showCookiePolicy,
     visited: store.app.visited,
+    theme: store.settings.theme,
     isLocalEnv: store.app.isLocalEnv,
     googleAnalyticsKey: store.app.apiKeys.googleAnalyticsKey,
     mode: store.ui.mode,

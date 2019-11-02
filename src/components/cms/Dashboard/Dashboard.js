@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _Paper from '@material-ui/core/Paper';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import MySkills from './MySkills';
 import MyRatings from './MyRatings';
 import MyAnalytics from './MyAnalytics';
@@ -40,25 +42,33 @@ const Container = styled.div`
   }
 `;
 
+const trytheme = createMuiTheme({
+  palette: {
+    type: 'dark', // Switching the dark mode on is a single property value change.
+  },
+});
+
 const Dashboard = props => {
   document.title = 'SUSI.AI - Dashboard';
   const { showTitle = true } = props;
   return (
-    <Container>
-      {showTitle && <Heading>My Dashboard</Heading>}
-      <Paper>
-        <SubHeading>My Skills</SubHeading>
-        <MySkills />
-      </Paper>
-      <Paper>
-        <SubHeading>My Ratings</SubHeading>
-        <MyRatings />
-      </Paper>
-      <Paper>
-        <SubHeading>My Analytics</SubHeading>
-        <MyAnalytics />
-      </Paper>
-    </Container>
+    <ThemeProvider theme={trytheme}>
+      <Container>
+        {showTitle && <Heading>My Dashboard</Heading>}
+        <Paper>
+          <SubHeading>My Skills</SubHeading>
+          <MySkills />
+        </Paper>
+        <Paper>
+          <SubHeading>My Ratings</SubHeading>
+          <MyRatings />
+        </Paper>
+        <Paper>
+          <SubHeading>My Analytics</SubHeading>
+          <MyAnalytics />
+        </Paper>
+      </Container>
+    </ThemeProvider>
   );
 };
 

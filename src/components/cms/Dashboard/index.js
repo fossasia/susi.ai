@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import styled from 'styled-components';
 import DashboardContent from './Dashboard';
@@ -17,10 +19,17 @@ const Container = styled.div`
   padding-right: 30px;
 `;
 
-const Tabs = styled(_Tabs)`
-  background-color: #ffffff;
-`;
+// Add condition to check background here
+// const Tabs = styled(_Tabs)`
+//   background-color: #ffffff;
+// `;
+const Tabs = styled(_Tabs)``;
 
+const trytheme = createMuiTheme({
+  palette: {
+    type: 'dark', // Switching the dark mode on is a single property value change.
+  },
+});
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -91,28 +100,30 @@ class Dashboard extends Component {
     const { value } = this.state;
     const mobileView = isMobileView();
     return (
-      <div>
+      <ThemeProvider theme={trytheme}>
         <div>
-          <Container>
-            <AppBar color="default" position="static">
-              <Tabs
-                onChange={this.handleTabChange}
-                value={value}
-                indicatorColor="primary"
-                textColor="primary"
-                scrollButtons="on"
-                variant={mobileView ? 'scrollable' : 'standard'}
-              >
-                <Tab label="Dashboard" />
-                <Tab label="My Skills" />
-                <Tab label="My Bots" />
-                <Tab label="My Devices" />
-              </Tabs>
-              {this.generateView()}
-            </AppBar>
-          </Container>
+          <div>
+            <Container>
+              <AppBar color="default" position="static">
+                <Tabs
+                  onChange={this.handleTabChange}
+                  value={value}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  scrollButtons="on"
+                  variant={mobileView ? 'scrollable' : 'standard'}
+                >
+                  <Tab label="Dashboard" />
+                  <Tab label="My Sksills" />
+                  <Tab label="My Bots" />
+                  <Tab label="My Devices" />
+                </Tabs>
+                {this.generateView()}
+              </AppBar>
+            </Container>
+          </div>
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 }

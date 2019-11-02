@@ -12,6 +12,7 @@ const ExampleComment = styled.div`
   cursor: pointer;
   font-style: italic;
   font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #eaeded;
