@@ -617,7 +617,8 @@ class BrowseSkill extends React.Component {
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
 
-    let renderSkillCount = '';
+    let renderSkillCount = '',
+      noSkillFound = '';
     if (skills.length > 0) {
       renderSkillCount = (
         <div
@@ -666,8 +667,15 @@ class BrowseSkill extends React.Component {
         </div>
       );
     } else if (searchQuery.length > 0) {
-      renderSkillCount = (
-        <div style={{ padding: '10px' }}>
+      noSkillFound = (
+        <div
+          style={{
+            display: 'block',
+            margin: '0 auto',
+            padding: '10px',
+            width: isMobile ? '' : '50%',
+          }}
+        >
           <h2 style={{ fontWeight: '400' }}>
             Your search <b>&quot;{searchQuery}&quot;</b> did not match any
             skills.
@@ -680,8 +688,15 @@ class BrowseSkill extends React.Component {
         </div>
       );
     } else {
-      renderSkillCount = (
-        <div>
+      noSkillFound = (
+        <div
+          style={{
+            display: 'block',
+            margin: '0 auto',
+            textAlign: 'center',
+            width: isMobile ? '' : '50%',
+          }}
+        >
           No result found for <SidebarLink to="/">SUSI Skill</SidebarLink>
           :&nbsp;
           {routeValue && (
@@ -903,6 +918,7 @@ class BrowseSkill extends React.Component {
             <ContentContainer>
               {metricsHidden ? (
                 <div>
+                  {noSkillFound}
                   <Grid
                     container
                     spacing={3}
