@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import _Card from '@material-ui/core/Card';
 import SocialLinkButtons from './SocialLinkButtons';
 import { Header } from '../../shared/About';
-import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import TEAM_MEMBERS from '../../../constants/team';
 import 'font-awesome/css/font-awesome.min.css';
 import Typography from '@material-ui/core/Typography';
-import ToTopButton from '../../shared/ToTopButton';
 import styled from 'styled-components';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Section = styled.div`
   margin: 0 auto;
@@ -141,33 +140,11 @@ export default class Team extends Component {
     location: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showScrollToTop: false,
-    };
-  }
-
   componentDidMount() {
-    //  Scrolling to top of page when component loads
-    scrollToTopAnimation();
     // Adding title tag to page
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-    /* Adding scroll event Listener to window,
-    to display ToTopButton only when the user has scrolled 90px*/
-    window.addEventListener('scroll', this.showScrollToTop);
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.showScrollToTop);
-  }
-
-  showScrollToTop = () => {
-    this.setState({
-      showScrollToTop: window.scrollY >= 90,
-    });
-  };
 
   createMemberCard = (member, key) => {
     return (
@@ -195,7 +172,6 @@ export default class Team extends Component {
   };
 
   render() {
-    const { showScrollToTop } = this.state;
     document.body.style.setProperty('background-image', 'none');
     const mentors = TEAM_MEMBERS.MENTORS.map((mentor, i) => {
       return this.createMemberCard(mentor, i);
@@ -229,10 +205,7 @@ export default class Team extends Component {
           <Heading>Alumni</Heading>
           <TeamContainer>{alumnis}</TeamContainer>
         </Section>
-
-        <div style={{ display: showScrollToTop ? 'inline-block' : 'none' }}>
-          <ToTopButton />
-        </div>
+        <ScrollTopButton />
       </div>
     );
   }

@@ -10,8 +10,8 @@ function getApiServerURL() {
 const urls = {
   API_URL: getApiServerURL(),
   SOUND_SERVER_API_URL: `${localHost}:7070`,
-  CHAT_URL: 'https://susi.ai/chat',
-  SKILL_URL: 'https://susi.ai/skills',
+  CHAT_URL: 'https://susi.ai',
+  SKILL_URL: 'https://susi.ai',
   HOME_URL: 'https://susi.ai',
   GITHUB_URL: 'https://github.com/fossasia/susi.ai',
   GITHUB_AVATAR_URL: 'https://avatars.githubusercontent.com',

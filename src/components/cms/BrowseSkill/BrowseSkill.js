@@ -47,6 +47,7 @@ import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Container = styled.div`
   display: flex;
@@ -1028,6 +1029,7 @@ class BrowseSkill extends React.Component {
                       >
                         <NavigationArrowForward />
                       </Fab>
+                      <ScrollTopButton />
                     </PageNavigationContainer>
                   )}
                 </div>
@@ -1044,6 +1046,7 @@ class BrowseSkill extends React.Component {
             </ContentContainer>
           )}
         </RightContainer>
+        <ScrollTopButton />
       </Container>
     );
   }
