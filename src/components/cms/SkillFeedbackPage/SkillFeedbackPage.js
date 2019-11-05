@@ -556,8 +556,10 @@ class SkillFeedbackPage extends Component {
             </div>
           </div>
         ) : null}
-        {userFeedbackCard}
-        {feedbackCards}
+        <div>
+          {userFeedbackCard}
+          {feedbackCards}
+        </div>
       </div>
     );
     let renderElement = null;
