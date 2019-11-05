@@ -295,9 +295,6 @@ class SkillFeedbackPage extends Component {
       totalRecords: skillFeedbacks,
     };
     this.setState({ currentPage }, () => this.onPageChanged(paginationData));
-    if (this.feedbackRef) {
-      this.feedbackRef.scrollIntoView({ behaviour: 'smooth' });
-    }
   };
 
   handleClick = page => evt => {
@@ -559,10 +556,8 @@ class SkillFeedbackPage extends Component {
             </div>
           </div>
         ) : null}
-        <div ref={el => (this.feedbackRef = el)}>
-          {userFeedbackCard}
-          {feedbackCards}
-        </div>
+        {userFeedbackCard}
+        {feedbackCards}
       </div>
     );
     let renderElement = null;
