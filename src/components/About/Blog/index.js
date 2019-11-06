@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import htmlToText from 'html-to-text';
 import { connect } from 'react-redux';
 import _Card from '@material-ui/core/Card';
-import _CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
 import dateFormat from 'dateformat';
 import Fab from '@material-ui/core/Fab';
 import {
@@ -13,7 +14,8 @@ import {
   TwitterIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
-import Typography from '@material-ui/core/Typography';
+import _Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import renderHTML from 'react-render-html';
 import _Loading from 'react-loading-animation';
 import { getBlogReponse } from '../../../apis';
@@ -24,6 +26,8 @@ import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../../images/susi-logo.svg';
 import { Header } from '../../shared/About';
 import ScrollTopButton from '../../shared/ScrollTopButton';
+import Fade from '@material-ui/core/Fade';
+import SearchBar from 'material-ui-search-bar';
 
 const allCategories = [
   'FOSSASIA',
@@ -94,18 +98,6 @@ const BlogFooter = styled.div`
   flex-wrap: wrap;
 `;
 
-const CardMedia = styled(_CardMedia)`
-  height: 0;
-  padding-top: 56.25%;
-  height: 31.25rem;
-  object-fit: contain;
-  vertical-align: middle;
-
-  @media (max-width: 1000px) {
-    height: 18.75rem;
-  }
-`;
-
 const Card = styled(_Card)`
   position: relative;
 `;
@@ -119,10 +111,13 @@ const Overlay = styled.div`
   margin-top: -3.5rem;
 `;
 
-const CustomTypography = styled(Typography)`
+const CustomTypography = styled(_Typography)`
   margin-bottom: 2rem;
   color: rgba(0, 0, 0, 0.54);
-  font-size: 0.875rem;
+`;
+
+const Typography = styled(_Typography)`
+  font-family: 'Raleway';
 `;
 
 const BlogNavigation = styled.div`
@@ -148,6 +143,7 @@ const SocialButtons = styled.div`
 `;
 
 const Icon = styled.i`
+  margin-left: 0.5rem;
   padding-right: 0.625rem;
 `;
 
@@ -169,6 +165,7 @@ const BlogFooterLink = styled.a`
 `;
 
 const OverlayLink = styled.a`
+  font-family: 'Raleway';
   &&& {
     ${LinkStyle};
   }
@@ -198,7 +195,9 @@ class Blog extends Component {
       startPage: 0,
       nextDisplay: 'visible',
       prevDisplay: 'hidden',
+      expandedElements: [],
     };
+    this.expandedElements = [];
   }
 
   componentDidMount() {
@@ -225,7 +224,10 @@ class Blog extends Component {
       if (payload.status !== 'ok') {
         throw payload.message;
       }
-      this.setState({ posts: payload.items, postRendered: true });
+      this.setState({
+        posts: payload.items,
+        postRendered: true,
+      });
     } catch (err) {
       console.log("Couldn't fetch blog response");
     }
@@ -280,6 +282,33 @@ class Blog extends Component {
     this.scrollToTop();
   };
 
+  handleClick = index => e => {
+    this.expandedElements.push(index);
+    this.setState({
+      expandedElements: this.expandedElements,
+    });
+  };
+
+  handleClickRemove = index => e => {
+    this.expandedElements.splice(this.expandedElements.indexOf(index), 1);
+    this.setState({
+      expandedElements: this.expandedElements,
+    });
+  };
+
+  handleSearch = value => {
+    var list = document.getElementsByClassName('section_blog');
+    for (let i = 0; i < list.length; i++) {
+      if (
+        list[i].textContent.toLowerCase().indexOf(value.toLowerCase()) != -1
+      ) {
+        list[i].style.display = 'block';
+      } else {
+        list[i].style.display = 'none';
+      }
+    }
+  };
+
   render() {
     const nextStyle = {
       visibility: this.state.nextDisplay,
@@ -290,10 +319,25 @@ class Blog extends Component {
       visibility: this.state.prevDisplay,
     };
 
+    const { search } = this.state;
     return (
       <div>
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
-        <Loading isLoading={!this.state.postRendered} />
+        <SearchBar
+          value={search}
+          onChange={value => this.handleSearch(value)}
+          onRequestSearch={() => console.log('onRequestSearch')}
+          style={{
+            margin: '0 auto',
+            maxWidth: 800,
+            height: '4rem',
+            marginTop: '2rem',
+          }}
+        />
+        <Loading
+          style={{ marginTop: '2rem' }}
+          isLoading={!this.state.postRendered}
+        />
         {!this.state.postRendered && (
           <div>
             <center>Fetching Blogs..</center>
@@ -350,6 +394,14 @@ class Blog extends Component {
                     .reduce((prev, curr) => [prev, ', ', curr]);
                   let htmlContent = content.replace(/<img.*?>/, '');
                   htmlContent = renderHTML(htmlContent);
+
+                  var dummyNode = document.createElement('div'),
+                    resultText = '';
+
+                  dummyNode.innerHTML = content;
+                  resultText = dummyNode.textContent;
+                  resultText = resultText.split(' ', 50).join(' ') + '....';
+
                   let image = susi;
                   const regExp = /\[(.*?)\]/;
                   const imageUrl = regExp.exec(description[0]);
@@ -359,19 +411,17 @@ class Blog extends Component {
                   const date = posts.pubDate.split(' ');
                   const d = new Date(date[0]);
                   return (
-                    <div key={posts} className="section_blog">
+                    <div key={i} className="section_blog">
                       <Card>
-                        <CardMedia image={image} />
-                        <Overlay>
-                          <OverlayLink href={posts.link}>
-                            {`Published on ${dateFormat(
-                              d,
-                              'dddd, mmmm dS, yyyy',
-                            )}`}
-                          </OverlayLink>
-                        </Overlay>
-                        <BlogPostContainer>
-                          <Typography variant="h4">{posts.title}</Typography>
+                        <CardContent>
+                          <Typography
+                            component={'span'}
+                            variant="h4"
+                            align="justify"
+                            className="blogTitle"
+                          >
+                            {posts.title}
+                          </Typography>
                           <CustomTypography variant="subtitle1">
                             by
                             <a
@@ -381,24 +431,92 @@ class Blog extends Component {
                               {posts.author}
                             </a>
                           </CustomTypography>
-                          <Typography variant="body1" gutterBottom>
-                            {htmlContent}
-                          </Typography>
-                        </BlogPostContainer>
+                        </CardContent>
+                        <CardMedia
+                          image={image}
+                          style={{
+                            height: '20rem',
+                            margin: '0 auto',
+                          }}
+                        />
+                        <Overlay>
+                          <OverlayLink href={posts.link}>
+                            {`Published on ${dateFormat(
+                              d,
+                              'dddd, mmmm dS, yyyy',
+                            )}`}
+                          </OverlayLink>
+                        </Overlay>
+                        {this.state.expandedElements.includes(i) ? (
+                          <Fade in={true} timeout={1100}>
+                            <BlogPostContainer>
+                              <Typography
+                                component={'span'}
+                                variant="body1"
+                                gutterBottom
+                              >
+                                {
+                                  <Typography
+                                    component={'span'}
+                                    variant="body1"
+                                    gutterBottom
+                                  >
+                                    {htmlContent}
+                                  </Typography>
+                                }
+                              </Typography>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleClickRemove(i)}
+                              >
+                                <Typography>Read Less</Typography>
+                                <Icon className="fa fa-chevron-up" />
+                              </Button>
+                            </BlogPostContainer>
+                          </Fade>
+                        ) : (
+                          <BlogPostContainer>
+                            <Typography
+                              variant="body1"
+                              component={'span'}
+                              gutterBottom
+                            >
+                              {
+                                <Typography variant="body1" gutterBottom>
+                                  {resultText}
+                                </Typography>
+                              }
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={this.handleClick(i)}
+                            >
+                              <Typography>Read More</Typography>
+                              <Icon className="fa fa-chevron-down" />
+                            </Button>
+                          </BlogPostContainer>
+                        )}
+
                         <SocialButtons>
                           <TwitterShareButton
+                            style={{ margin: '0px 5px' }}
                             url={posts.guid}
                             title={posts.title}
                             via="asksusi"
                             hashtags={posts.categories.slice(0, 4)}
                           >
-                            <TwitterIcon size={32} round={true} />
+                            <TwitterIcon size={48} round={true} />
                           </TwitterShareButton>
-                          <FacebookShareButton url={posts.link}>
-                            <FacebookIcon size={32} round={true} />
+                          <FacebookShareButton
+                            url={posts.link}
+                            style={{ margin: '0px 5px' }}
+                          >
+                            <FacebookIcon size={48} round={true} />
                           </FacebookShareButton>
                         </SocialButtons>
-                        <BlogFooter>
+                        <BlogFooter style={{ fontFamily: 'Raleway' }}>
                           <FlexBox>
                             <Icon className="fa fa-calendar" />
                             <BlogFooterLink href={posts.link}>

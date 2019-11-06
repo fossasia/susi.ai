@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Raleway&display=swap');
 .section_blog{
     font-size: 1rem;
     line-height: 1.375rem;
@@ -6,13 +7,15 @@
     padding: 2.5rem 0;
     position: relative;
     max-width: 100%;
-    width: 58.438rem;
+    width: 60rem;
     align-items: center;
     box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff, inset 0 -12.5rem 12.5rem -12.5rem #fff;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
 }
+
+
 
 .section_blog a{
     cursor: pointer;
@@ -27,6 +30,7 @@
 }
 
 .section_blog img{
+    max-width: 50rem;
     text-align: center;
     display: block;
     margin: 0 auto;

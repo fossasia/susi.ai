@@ -32,7 +32,7 @@
     "material-table": "1.39.2",
     "material-ui-color-picker": "3.2.0",
     "material-ui-password-field": "2.1.0",
-    "material-ui-search-bar": "1.0.0-beta.13",
+    "material-ui-search-bar": "^1.0.0-beta.13",
     "md5": "2.2.1",
     "moment": "2.24.0",
     "npm": "6.9.0",
