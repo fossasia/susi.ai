@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const IconStyle = {
   position: 'absolute',
   fill: '#444',
-  right: '1px',
+  right: '30px',
   top: '1px',
   cursor: 'pointer',
 };
