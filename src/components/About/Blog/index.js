@@ -28,6 +28,9 @@ import { Header } from '../../shared/About';
 import ScrollTopButton from '../../shared/ScrollTopButton';
 import Fade from '@material-ui/core/Fade';
 import SearchBar from 'material-ui-search-bar';
+import isMobileView from '../../../utils/isMobileView';
+import uiActions from '../../../redux/actions/ui';
+import { bindActionCreators } from 'redux';
 
 const allCategories = [
   'FOSSASIA',
@@ -293,15 +296,23 @@ class Blog extends Component {
   };
 
   handleSearch = value => {
+    let displayCount = 0;
+    const { actions } = this.props;
     var list = document.getElementsByClassName('section_blog');
     for (let i = 0; i < list.length; i++) {
       if (
         list[i].textContent.toLowerCase().indexOf(value.toLowerCase()) != -1
       ) {
         list[i].style.display = 'block';
+        displayCount++;
       } else {
         list[i].style.display = 'none';
       }
+    }
+    if (displayCount < 1) {
+      actions.openSnackBar({
+        snackBarMessage: 'No results found for the search term!',
+      });
     }
   };
 
@@ -316,6 +327,7 @@ class Blog extends Component {
     };
 
     const { search } = this.state;
+    const mobileView = isMobileView();
     return (
       <div>
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
@@ -323,8 +335,9 @@ class Blog extends Component {
           value={search}
           onChange={value => this.handleSearch(value)}
           style={{
+            width: mobileView ? '20rem' : '60rem',
             margin: '0 auto',
-            maxWidth: 800,
+
             height: '4rem',
             marginTop: '2rem',
           }}
@@ -565,6 +578,10 @@ class Blog extends Component {
   }
 }
 
+Blog.propTypes = {
+  actions: PropTypes.object,
+};
+
 function mapStateToProps(store) {
   const { blogKey } = store.app.apiKeys;
   return {
@@ -572,7 +589,13 @@ function mapStateToProps(store) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...uiActions }, dispatch),
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Blog);
