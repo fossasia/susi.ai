@@ -322,7 +322,6 @@ class Blog extends Component {
         <SearchBar
           value={search}
           onChange={value => this.handleSearch(value)}
-          onRequestSearch={() => console.log('onRequestSearch')}
           style={{
             margin: '0 auto',
             maxWidth: 800,
