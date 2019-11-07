@@ -13,7 +13,6 @@ import { DefaultMessage } from '../../shared/Typography';
 const ListContainer = styled.div`
   width: auto;
   max-height: 300px;
-  border: gray 1px solid;
   overflow-y: auto;
   padding: 16px;
   @media (max-width: 800px) {
