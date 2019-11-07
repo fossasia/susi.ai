@@ -342,7 +342,6 @@ export const generateMessageBubble = (
     let noResultsFound = false;
 
     let showFeedback = allActions[allActions.length - 1] === actionType;
-
     switch (actionType) {
       case 'answer': {
         if (
@@ -379,21 +378,75 @@ export const generateMessageBubble = (
         //}
         break;
       }
-      case 'anchor': {
-        const { link, text } = action;
-        listItems.push(
-          generateAnchorBubble(
-            actionType,
-            index,
-            text,
-            link,
-            message,
-            latestUserMsgID,
-            showFeedback,
-          ),
-        );
+      case 'anchor':
+        {
+          const { link, text } = action;
+          if (link.substring(0, 25) === 'https://www.openstreetmap') {
+            let mapAnchor = null;
+            let zoom = 13;
+            let coordinates = link.substring(38).split('/');
+            let latitude = parseFloat(coordinates[0]);
+            let longitude = parseFloat(coordinates[1]);
+
+            if (allActions.indexOf('anchor') > -1) {
+              const link = action.link;
+              const text = action.text;
+              mapAnchor = renderAnchor(text, link);
+            }
+
+            let mymap;
+            if (isNaN(latitude) || isNaN(longitude)) {
+              /* Check if user's geo data is available or else perform the action */
+              if (userGeoData === null) {
+                getUserGeoData();
+              } else {
+                /* Manually providing mapanchor and replacedText
+                     fields as schema stiching in reducer*/
+                mapAnchor = (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
+                  >
+                    Here is a map
+                  </a>
+                );
+
+                replacedText = 'Your location';
+                mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
+              }
+            } else {
+              mymap = drawMap(latitude, longitude, zoom);
+            }
+
+            listItems.push(
+              generateMapBubble(
+                actionType,
+                index,
+                replacedText,
+                mapAnchor,
+                mymap,
+                message,
+                latestUserMsgID,
+                showFeedback,
+              ),
+            );
+          } else {
+            listItems.push(
+              generateAnchorBubble(
+                actionType,
+                index,
+                text,
+                link,
+                message,
+                latestUserMsgID,
+                showFeedback,
+              ),
+            );
+          }
+        }
         break;
-      }
+
       case 'map': {
         let mapAnchor = null;
         if (allActions.indexOf('anchor') > -1) {
@@ -430,6 +483,7 @@ export const generateMessageBubble = (
         } else {
           mymap = drawMap(latitude, longitude, zoom);
         }
+
         listItems.push(
           generateMapBubble(
             actionType,
@@ -442,6 +496,7 @@ export const generateMessageBubble = (
             showFeedback,
           ),
         );
+
         break;
       }
       case 'table': {
