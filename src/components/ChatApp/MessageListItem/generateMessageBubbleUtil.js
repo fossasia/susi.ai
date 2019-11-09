@@ -18,6 +18,14 @@ import {
 import styled, { css } from 'styled-components';
 import MessageBubble from './MessageBubbleStyle';
 import './highlight.css';
+import Modal from '@material-ui/core/Modal';
+import Fade from '@material-ui/core/Fade';
+import ReactPlayer from 'react-player';
+import isMobileView from '../../../utils/isMobileView';
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import ToolTip from '../../shared/ToolTip';
+
+const isMobile = isMobileView(1000);
 
 const DateContainer = styled.section`
   background: #999999;
@@ -62,6 +70,62 @@ const WebSearchRSSContainer = styled.div`
 
 const entities = new AllHtmlEntities();
 
+const checkMapAction = (
+  link,
+  userGeoData,
+  allActions,
+  getUserGeoData,
+  action,
+) => {
+  if (link.substring(0, 25) === 'https://www.openstreetmap') {
+    let coordinates = link.substring(38).split('/');
+    let latitude = parseFloat(coordinates[0]);
+    let longitude = parseFloat(coordinates[1]);
+    let zoom = 8;
+    let replacedText, mymap;
+
+    let mapAnchor = null;
+    if (allActions.indexOf('anchor') > -1) {
+      const link = action.link;
+      const text = action.text;
+      mapAnchor = renderAnchor(text, link);
+    }
+
+    if (isNaN(latitude) || isNaN(longitude)) {
+      /* Check if user's geo data is available or else perform the action */
+      if (userGeoData === null) {
+        getUserGeoData();
+      } else {
+        /* Manually providing mapanchor and replacedText
+             fields as schema stiching in reducer*/
+        mapAnchor = (
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
+          >
+            Here is a map
+          </a>
+        );
+
+        replacedText = 'Your location';
+        mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
+      }
+    } else {
+      mymap = drawMap(latitude, longitude, zoom);
+    }
+    return {
+      status: 'true',
+      mymap,
+      mapAnchor,
+      replacedText,
+    };
+  }
+  return {
+    status: 'false',
+  };
+};
+
 const PostDate = injectIntl(({ date, intl }) => (
   <span
     title={intl.formatDate(date, {
@@ -90,6 +154,7 @@ const generateDateBubble = message => {
   );
 };
 
+/*
 const generateGifBubble = (
   action,
   index,
@@ -114,6 +179,7 @@ const generateGifBubble = (
     </MessageContainer>
   );
 };
+*/
 
 const generateAnswerBubble = (
   action,
@@ -207,6 +273,9 @@ const generateVideoBubble = (
   showFeedback,
   onYouTubePlayerReady,
   scrollBottom,
+  onClickPopout,
+  showModal,
+  onCloseModal,
 ) => {
   latestMessage && scrollBottom();
   return (
@@ -223,6 +292,37 @@ const generateVideoBubble = (
           }}
           onReady={onYouTubePlayerReady}
         />
+        <ToolTip title="Expand Player">
+          <AspectRatioIcon
+            onClick={onClickPopout}
+            style={{
+              color: '#90a4ae',
+              display: isMobile ? 'none' : 'inline',
+              margin: '5px',
+            }}
+          />
+        </ToolTip>
+
+        <Modal
+          open={showModal}
+          onClose={onCloseModal}
+          style={{
+            width: '800px',
+            height: '540px',
+            margin: '0 auto',
+          }}
+        >
+          <Fade in={showModal}>
+            <ReactPlayer
+              url={'https://www.youtube.com/watch?v=' + identifier}
+              style={{ marginTop: '1rem', marginBottom: '1rem' }}
+              width="100%"
+              height="100%"
+              controls="true"
+              playing
+            />
+          </Fade>
+        </Modal>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
     </MessageContainer>
@@ -283,6 +383,9 @@ export const generateMessageBubble = (
   getUserGeoData,
   pauseAllVideos,
   scrollBottom,
+  onClickPopout,
+  showModal,
+  onCloseModal,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -351,6 +454,7 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
+        /*
         if (answer.data[0].type === 'gif') {
           let gifSource = answer.data[0].embed_url;
           listItems.push(
@@ -364,34 +468,60 @@ export const generateMessageBubble = (
             ),
           );
         } else {
-          listItems.push(
-            generateAnswerBubble(
-              actionType,
-              index,
-              replacedText,
-              message,
-              latestUserMsgID,
-              showFeedback,
-            ),
-          );
-        }
-        break;
-      }
-      case 'anchor': {
-        const { link, text } = action;
+        */
         listItems.push(
-          generateAnchorBubble(
+          generateAnswerBubble(
             actionType,
             index,
-            text,
-            link,
+            replacedText,
             message,
             latestUserMsgID,
             showFeedback,
           ),
         );
+        // }
         break;
       }
+      case 'anchor':
+        {
+          const { link, text } = action;
+          const { status, mymap, mapAnchor, replacedText } = checkMapAction(
+            link,
+            userGeoData,
+            allActions,
+            getUserGeoData,
+            action,
+          );
+          if (status) {
+            listItems.push(
+              generateMapBubble(
+                actionType,
+                index,
+                replacedText,
+                mapAnchor,
+                mymap,
+                message,
+                latestUserMsgID,
+                showFeedback,
+              ),
+            );
+          } else {
+            listItems.push(
+              generateAnchorBubble(
+                actionType,
+                index,
+                text,
+                link,
+                message,
+                latestUserMsgID,
+                showFeedback,
+              ),
+            );
+          }
+        }
+        break;
+      /* Map case must be reimplemented when the 'map' case is
+       properly handled and set from the backend
       case 'map': {
         let mapAnchor = null;
         if (allActions.indexOf('anchor') > -1) {
@@ -406,12 +536,12 @@ export const generateMessageBubble = (
         zoom = parseFloat(zoom);
         let mymap;
         if (isNaN(latitude) || isNaN(longitude)) {
-          /* Check if user's geo data is available or else perform the action */
+           Check if user's geo data is available or else perform the action
           if (userGeoData === null) {
             getUserGeoData();
           } else {
-            /* Manually providing mapanchor and replacedText
-                 fields as schema stiching in reducer*/
+            // Manually providing mapanchor and replacedText
+            //     fields as schema stiching in reducer
             mapAnchor = (
               <a
                 target="_blank"
@@ -442,6 +572,7 @@ export const generateMessageBubble = (
         );
         break;
       }
+      */
       case 'table': {
         let { columns, count } = action;
         let table = drawTable(columns, answer.data, count);
@@ -472,6 +603,9 @@ export const generateMessageBubble = (
             showFeedback,
             onYouTubePlayerReady,
             scrollBottom,
+            onClickPopout,
+            showModal,
+            onCloseModal,
           ),
         );
         break;

@@ -19,6 +19,7 @@ import uiActions from '../../redux/actions/ui';
 import skillsAction from '../../redux/actions/skills';
 import skillAction from '../../redux/actions/skill';
 import Link from '../shared/Link';
+import localStorageService from '../../utils/localStorageService';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
 import Dashboard from '@material-ui/icons/Dashboard';
@@ -61,6 +62,11 @@ const LanguageSelect = styled(Select)`
   }
   .MuiOutlinedInput-input {
     padding-right: 1.6rem;
+  }
+  @media (max-width: 430px) {
+    .MuiOutlinedInput-input {
+      padding-right: 2rem;
+    }
   }
 `;
 
@@ -324,7 +330,7 @@ class NavigationBar extends Component {
   };
 
   handleLanguageChange = async (event, index, values) => {
-    localStorage.setItem('languages', event.target.value);
+    localStorageService.set('languages', event.target.value);
     let languages = event.target.value;
     if (languages.length === 0) {
       languages.push('en');

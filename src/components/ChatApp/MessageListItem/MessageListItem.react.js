@@ -28,6 +28,7 @@ class MessageListItem extends React.Component {
       play: false,
       width: this.props.showChatPreview ? 234 : 384,
       height: this.props.showChatPreview ? 168 : 240,
+      showModal: false,
     };
   }
 
@@ -71,6 +72,19 @@ class MessageListItem extends React.Component {
     this.props.actions.getUserGeoData();
   };
 
+  onClickPopout = () => {
+    this.setState({
+      showModal: true,
+    });
+    this.props.pauseAllVideos();
+  };
+
+  onCloseModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
   render() {
     const {
       message,
@@ -101,6 +115,9 @@ class MessageListItem extends React.Component {
       this.getUserGeoData,
       this.props.pauseAllVideos,
       scrollBottom,
+      this.onClickPopout,
+      this.state.showModal,
+      this.onCloseModal,
     );
   }
 }

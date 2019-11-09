@@ -13,6 +13,8 @@ import getImageSrc from '../../../utils/getImageSrc';
 import styled from 'styled-components';
 import SkillExampleBubble from '../../shared/SkillExampleBubble';
 import { ImageContainer, StaffPickImage } from '../SkillsStyle';
+import Tooltip from '../../shared/ToolTip';
+
 import {
   Card,
   Image,
@@ -211,7 +213,11 @@ class SkillCard extends Component {
               >
                 <span>{skillName}</span>
               </Link>
-              {staffPick && <StaffPickImage />}
+              {staffPick && (
+                <Tooltip title="Staff Pick">
+                  <StaffPickImage />
+                </Tooltip>
+              )}
             </TitleContainer>
             <RatingContainer>
               <Link
