@@ -351,6 +351,7 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
+        /*
         if (answer.data[0].type === 'gif') {
           let gifSource = answer.data[0].embed_url;
           listItems.push(
@@ -364,6 +365,7 @@ export const generateMessageBubble = (
             ),
           );
         } else {
+        */
           listItems.push(
             generateAnswerBubble(
               actionType,
@@ -374,7 +376,7 @@ export const generateMessageBubble = (
               showFeedback,
             ),
           );
-        }
+        //}
         break;
       }
       case 'anchor': {

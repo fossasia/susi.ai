@@ -48,6 +48,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
 import isMobileView from '../../utils/isMobileView';
+import ToolTip from '../shared/ToolTip';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
 
@@ -59,10 +60,7 @@ const LanguageSelect = styled(Select)`
     width: 6rem;
   }
   .MuiOutlinedInput-input {
-    padding: 4px;
-  }
-  .MuiInputBase-inputSelect {
-    margin-right: 1.5rem;
+    padding-right: 1.6rem;
   }
 `;
 
@@ -158,6 +156,7 @@ class NavigationBar extends Component {
     accessToken: PropTypes.string,
     email: PropTypes.string,
     userName: PropTypes.string,
+    userSettingsLoaded: PropTypes.bool,
     app: PropTypes.string,
     actions: PropTypes.object,
     avatarImgThumbnail: PropTypes.string,
@@ -363,6 +362,7 @@ class NavigationBar extends Component {
       isAdmin,
       email,
       userName,
+      userSettingsLoaded,
       avatarImgThumbnail,
       history,
       searchState,
@@ -586,9 +586,11 @@ class NavigationBar extends Component {
                             src={userAvatar}
                             size="32"
                           />
-                          <UserDetail>
-                            {!userName ? email : userName}
-                          </UserDetail>
+                          {userSettingsLoaded && (
+                            <UserDetail>
+                              {!userName ? email : userName}
+                            </UserDetail>
+                          )}
                           <ExpandMore
                             style={{
                               display: isMobileView(400) ? 'none' : 'inline',
@@ -656,13 +658,15 @@ class NavigationBar extends Component {
                         )}
                       </div>
                     </StyledIconButton>
-                    <IconButton
-                      color="inherit"
-                      onClick={() => history.push('/dashboard')}
-                      style={{ padding: '7px' }}
-                    >
-                      <Dashboard />
-                    </IconButton>
+                    <ToolTip title="Dashboard">
+                      <IconButton
+                        color="inherit"
+                        onClick={() => history.push('/dashboard')}
+                        style={{ padding: '7px' }}
+                      >
+                        <Dashboard />
+                      </IconButton>
+                    </ToolTip>
                   </React.Fragment>
                 )}
                 {accessToken ? null : (
@@ -672,15 +676,18 @@ class NavigationBar extends Component {
                     </ListItemText>
                   </MenuItem>
                 )}
-                <IconButton
-                  color="inherit"
-                  onClick={
-                    isMobileView(500) ? this.openFullScreen : this.openPreview
-                  }
-                  style={{ padding: '7px' }}
-                >
-                  <Chat />
-                </IconButton>
+                <ToolTip title="Chat with Susi AI">
+                  <IconButton
+                    color="inherit"
+                    onClick={
+                      isMobileView(500) ? this.openFullScreen : this.openPreview
+                    }
+                    style={{ padding: '7px' }}
+                  >
+                    <Chat />
+                  </IconButton>
+                </ToolTip>
+
                 <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
                     id={'right-menu-about'}
@@ -730,11 +737,12 @@ class NavigationBar extends Component {
 
 function mapStateToProps(store) {
   const { email, accessToken, isAdmin, avatarImgThumbnail } = store.app;
-  const { userName } = store.settings;
+  const { userName, userSettingsLoaded } = store.settings;
   return {
     email,
     accessToken,
     userName,
+    userSettingsLoaded,
     isAdmin,
     avatarImgThumbnail,
     ...store.skills,
