@@ -20,6 +20,9 @@ import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import _Check from '@material-ui/icons/Check';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+
 import {
   StyledPaper,
   Heading,
@@ -1008,6 +1011,7 @@ class SkillWizard extends Component {
       name,
       image,
       isAdmin,
+      theme,
     } = this.props;
     const { loadViews, anchorEl, publicSkill } = this.state;
     const open = !!anchorEl;
@@ -1016,332 +1020,350 @@ class SkillWizard extends Component {
       showTopBar = this.props.showTopBar;
     }
 
+    const currentTheme = createMuiTheme({
+      palette: {
+        type: theme === 'dark' ? 'dark' : 'light',
+      },
+    });
+
     const skillWizard = (
-      <div>
-        <HeadingContainer>
-          {this.isBotBuilder ? (
-            <Heading>1. Add a new skill to your bot</Heading>
-          ) : (
-            this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
-          )}
-          <ViewsDiv>
-            <IconButton onClick={() => actions.setView({ view: 'code' })}>
-              <Code color={view === 'code' ? 'primary' : 'inherit'} />
-            </IconButton>
-            <IconButton
-              onClick={() => actions.setView({ view: 'conversation' })}
-            >
-              <QA color={view === 'conversation' ? 'primary' : 'inherit'} />
-            </IconButton>
-            <IconButton onClick={() => actions.setView({ view: 'tree' })}>
-              <Timeline color={view === 'tree' ? 'primary' : 'inherit'} />
-            </IconButton>
-          </ViewsDiv>
-        </HeadingContainer>
-        <ReactToolTip
-          effect="solid"
-          place="bottom"
-          delayHide={500}
-          html={true}
-        />
-        {accessToken && this.state.editable && (
-          <PaperContainer>
-            <a
-              href="https://github.com/fossasia/susi.ai/blob/master/docs/Skill_Tutorial.md"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <InfoIcon data-tip="Learn more about SUSI Skill Language" />
-            </a>
-            <CenterDiv>
-              <DropDownDiv>
-                <Popover
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={this.handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
-                >
-                  <Text>
-                    Open Source Skills will show in the public directory and are
-                    editable by everyone just like a Wikipedia article. Private
-                    skills are only editable by the creator/owner of the skill.
-                    They are not listed in the public directory and can
-                    currently only be used by the creator/owner.
-                  </Text>
-                </Popover>
-                {this.isBotBuilder ? null : (
-                  <Fragment>
-                    <DetailText
-                      style={{ color: publicSkill ? '#808080' : '#4285f4' }}
-                    >
-                      Private Skill (Coming Soon)
-                      <IconButton
-                        onClick={this.handleClick}
-                        style={{ padding: '0px' }}
-                      >
-                        <QuestionIcon />
-                      </IconButton>
-                    </DetailText>
-                    <Switch
-                      color="primary"
-                      checked={publicSkill}
-                      onChange={this.handleChangePublicSkill}
-                    />
-                    <DetailText
-                      style={{ color: publicSkill ? '#4285f4' : '#808080' }}
-                    >
-                      Open Source and Public Skill
-                    </DetailText>
-                  </Fragment>
-                )}
-                <DropDownWrap>
-                  <SkillDetail>
-                    <OutlinedSelectField
-                      select
-                      label="Category"
-                      value={category}
-                      onChange={this.handleGroupChange}
-                      autoWidth={true}
-                    >
-                      {this.state.groups}
-                    </OutlinedSelectField>
-                  </SkillDetail>
-                  <SkillDetail>
-                    <OutlinedSelectField
-                      select
-                      label="Language"
-                      value={language}
-                      onChange={this.handleLanguageChange}
-                      autoWidth={true}
-                    >
-                      {this.state.languages}
-                    </OutlinedSelectField>
-                  </SkillDetail>
-                  <SkillDetail>
-                    <OutlinedInput
-                      id="outlined-name"
-                      label={this.isBotBuilder ? 'Bot Name ' : 'Skill Name '}
-                      margin="normal"
-                      value={name}
-                      onChange={this.handleExpertChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </SkillDetail>
-                  <ImageDiv>
-                    <IconWrap>
-                      <Img alt="preview" id="target" src={image} />
-                      <Check />
-                    </IconWrap>
-                    <Form>
-                      <UploadCircularButton title="Upload bot image">
-                        <Input
-                          accept="image/*"
-                          type="file"
-                          ref={c => {
-                            this.file = c;
-                          }}
-                          name="user[image]"
-                          multiple={false}
-                          onChange={this._onChange}
-                        />
-                        <AddIcon />
-                      </UploadCircularButton>
-                    </Form>
-                  </ImageDiv>
-                </DropDownWrap>
-              </DropDownDiv>
-            </CenterDiv>
-          </PaperContainer>
-        )}
-        {!loadViews ? <CircularLoader height={10} /> : null}
-        {view === 'code' && loadViews ? (
-          <CodeView editable={accessToken && this.state.editable} />
-        ) : null}
-        {view === 'conversation' && loadViews ? <ConversationView /> : null}
-        {view === 'tree' && loadViews ? <TreeView botbuilder={false} /> : null}
-        {!this.isBotBuilder && accessToken && this.state.editable && (
-          <Fragment>
-            <SkillCommitDiv>
-              <SavePaper>
-                <FlexWrapper>
-                  <CommitField
-                    label="Commit Message"
-                    placeholder="Enter Commit Message"
-                    margin="dense"
-                    value={this.state.commitMessage}
-                    onChange={this.handleCommitMessageChange}
-                  />
-                  <div style={{ display: 'flex', marginTop: '10px' }}>
-                    <Link
-                      to={
-                        this.mode === 'create'
-                          ? '/'
-                          : {
-                              pathname:
-                                '/' + category + '/' + name + '/' + language,
-                            }
-                      }
-                    >
-                      <Button variant="contained" color="primary">
-                        Cancel
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.saveClick}
-                      style={{ marginLeft: '10px', height: '36px' }}
-                    >
-                      {this.state.loading ? (
-                        <CircularProgress color="#ffffff" size={24} />
-                      ) : (
-                        this.handleLabel()
-                      )}
-                    </Button>
-                  </div>
-                </FlexWrapper>
-                <span style={{ float: 'left', marginTop: '10px' }}>
-                  Your skill will be stored to{' '}
-                  <a
-                    href="https://github.com/fossasia/susi_skill_data"
-                    target="_blank"
-                    rel="noopener noreferrer"
+      <ThemeProvider theme={currentTheme}>
+        <div>
+          <HeadingContainer
+            style={{ background: theme === 'dark' ? '#424242' : '#fff' }}
+          >
+            {this.isBotBuilder ? (
+              <Heading>1. Add a new skill to your bot</Heading>
+            ) : (
+              this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
+            )}
+            <ViewsDiv>
+              <IconButton onClick={() => actions.setView({ view: 'code' })}>
+                <Code color={view === 'code' ? 'primary' : 'inherit'} />
+              </IconButton>
+              <IconButton
+                onClick={() => actions.setView({ view: 'conversation' })}
+              >
+                <QA color={view === 'conversation' ? 'primary' : 'inherit'} />
+              </IconButton>
+              <IconButton onClick={() => actions.setView({ view: 'tree' })}>
+                <Timeline color={view === 'tree' ? 'primary' : 'inherit'} />
+              </IconButton>
+            </ViewsDiv>
+          </HeadingContainer>
+          <ReactToolTip
+            effect="solid"
+            place="bottom"
+            delayHide={500}
+            html={true}
+          />
+          {accessToken && this.state.editable && (
+            <PaperContainer>
+              <a
+                href="https://github.com/fossasia/susi.ai/blob/master/docs/Skill_Tutorial.md"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <InfoIcon data-tip="Learn more about SUSI Skill Language" />
+              </a>
+              <CenterDiv>
+                <DropDownDiv>
+                  <Popover
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={this.handleClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
                   >
-                    susi_skill_data
-                  </a>
-                </span>
-              </SavePaper>
-            </SkillCommitDiv>
-          </Fragment>
-        )}
-        {this.state.prevButton === 1 ? (
-          <PreviewButton>
-            <span title="See Preview">
-              <ChevronLeftIcon onClick={this.handlePreviewToggle} />
-            </span>
-          </PreviewButton>
-        ) : null}
-        {this.mode === 'edit' && isAdmin && (
-          <DeleteSkillSection>
-            <div>
+                    <Text>
+                      Open Source Skills will show in the public directory and
+                      are editable by everyone just like a Wikipedia article.
+                      Private skills are only editable by the creator/owner of
+                      the skill. They are not listed in the public directory and
+                      can currently only be used by the creator/owner.
+                    </Text>
+                  </Popover>
+                  {this.isBotBuilder ? null : (
+                    <Fragment>
+                      <DetailText
+                        style={{ color: publicSkill ? '#808080' : '#4285f4' }}
+                      >
+                        Private Skill (Coming Soon)
+                        <IconButton
+                          onClick={this.handleClick}
+                          style={{ padding: '0px' }}
+                        >
+                          <QuestionIcon />
+                        </IconButton>
+                      </DetailText>
+                      <Switch
+                        color="primary"
+                        checked={publicSkill}
+                        onChange={this.handleChangePublicSkill}
+                      />
+                      <DetailText
+                        style={{ color: publicSkill ? '#4285f4' : '#808080' }}
+                      >
+                        Open Source and Public Skill
+                      </DetailText>
+                    </Fragment>
+                  )}
+                  <DropDownWrap>
+                    <SkillDetail>
+                      <OutlinedSelectField
+                        select
+                        label="Category"
+                        value={category}
+                        onChange={this.handleGroupChange}
+                        autoWidth={true}
+                      >
+                        {this.state.groups}
+                      </OutlinedSelectField>
+                    </SkillDetail>
+                    <SkillDetail>
+                      <OutlinedSelectField
+                        select
+                        label="Language"
+                        value={language}
+                        onChange={this.handleLanguageChange}
+                        autoWidth={true}
+                      >
+                        {this.state.languages}
+                      </OutlinedSelectField>
+                    </SkillDetail>
+                    <SkillDetail>
+                      <OutlinedInput
+                        id="outlined-name"
+                        label={this.isBotBuilder ? 'Bot Name ' : 'Skill Name '}
+                        margin="normal"
+                        value={name}
+                        onChange={this.handleExpertChange}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </SkillDetail>
+                    <ImageDiv>
+                      <IconWrap>
+                        <Img alt="preview" id="target" src={image} />
+                        <Check />
+                      </IconWrap>
+                      <Form>
+                        <UploadCircularButton title="Upload bot image">
+                          <Input
+                            accept="image/*"
+                            type="file"
+                            ref={c => {
+                              this.file = c;
+                            }}
+                            name="user[image]"
+                            multiple={false}
+                            onChange={this._onChange}
+                          />
+                          <AddIcon />
+                        </UploadCircularButton>
+                      </Form>
+                    </ImageDiv>
+                  </DropDownWrap>
+                </DropDownDiv>
+              </CenterDiv>
+            </PaperContainer>
+          )}
+          {!loadViews ? <CircularLoader height={10} /> : null}
+          {view === 'code' && loadViews ? (
+            <CodeView editable={accessToken && this.state.editable} />
+          ) : null}
+          {view === 'conversation' && loadViews ? <ConversationView /> : null}
+          {view === 'tree' && loadViews ? (
+            <TreeView botbuilder={false} />
+          ) : null}
+          {!this.isBotBuilder && accessToken && this.state.editable && (
+            <Fragment>
+              <SkillCommitDiv>
+                <SavePaper>
+                  <FlexWrapper>
+                    <CommitField
+                      label="Commit Message"
+                      placeholder="Enter Commit Message"
+                      margin="dense"
+                      value={this.state.commitMessage}
+                      onChange={this.handleCommitMessageChange}
+                    />
+                    <div style={{ display: 'flex', marginTop: '10px' }}>
+                      <Link
+                        to={
+                          this.mode === 'create'
+                            ? '/'
+                            : {
+                                pathname:
+                                  '/' + category + '/' + name + '/' + language,
+                              }
+                        }
+                      >
+                        <Button variant="contained" color="primary">
+                          Cancel
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.saveClick}
+                        style={{ marginLeft: '10px', height: '36px' }}
+                      >
+                        {this.state.loading ? (
+                          <CircularProgress color="#ffffff" size={24} />
+                        ) : (
+                          this.handleLabel()
+                        )}
+                      </Button>
+                    </div>
+                  </FlexWrapper>
+                  <span style={{ float: 'left', marginTop: '10px' }}>
+                    Your skill will be stored to{' '}
+                    <a
+                      href="https://github.com/fossasia/susi_skill_data"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      susi_skill_data
+                    </a>
+                  </span>
+                </SavePaper>
+              </SkillCommitDiv>
+            </Fragment>
+          )}
+          {this.state.prevButton === 1 ? (
+            <PreviewButton>
+              <span title="See Preview">
+                <ChevronLeftIcon onClick={this.handlePreviewToggle} />
+              </span>
+            </PreviewButton>
+          ) : null}
+          {this.mode === 'edit' && isAdmin && (
+            <DeleteSkillSection>
               <div>
-                <b>Delete this Skill</b>
+                <div>
+                  <b>Delete this Skill</b>
+                </div>
+                {'Once you delete a skill, only admins can ' +
+                  'undo this action before 30 days of deletion. Please be certain.'}
               </div>
-              {'Once you delete a skill, only admins can ' +
-                'undo this action before 30 days of deletion. Please be certain.'}
-            </div>
-            <DeleteButton onClick={this.handleDeleteModal}>Delete</DeleteButton>
-          </DeleteSkillSection>
-        )}
-      </div>
+              <DeleteButton onClick={this.handleDeleteModal}>
+                Delete
+              </DeleteButton>
+            </DeleteSkillSection>
+          )}
+        </div>
+      </ThemeProvider>
     );
 
     return (
-      <Container style={this.isBotBuilder ? null : { padding: '20px 9px 0px' }}>
-        <Grid fluid style={this.isBotBuilder ? { padding: '0px' } : null}>
-          <Row>
-            <Col
-              md={12}
-              xl={this.state.colSkill}
-              style={{
-                display: this.state.colSkill === 0 ? 'none' : 'block',
-                maxWidth: '100%',
-                marginBottom: this.isBotBuilder ? '0px' : '40px',
-              }}
-            >
-              {this.mode === 'edit' &&
-                accessToken &&
-                !this.props.revertingCommit &&
-                this.commitId &&
-                showTopBar && (
-                  <EditPaper zDepth={1}>
-                    <div>
-                      {
-                        'You are currently editing an older version of the Skill: '
-                      }
-                      <B>{this.skillTag}</B>
-                      <br />
-                      <span>
-                        Author: <B>{this.state.author}</B>
-                      </span>
-                      <br />
-                      <span>
-                        commitID: <b>{this.commitId}</b>
-                      </span>
-                      <br />
-                      <span>
-                        Revision as of <b>{this.state.date}</b>
-                      </span>
-                    </div>
-                  </EditPaper>
-                )}
-              {!accessToken && (
-                <div>
-                  <HomeDiv>
-                    <TitlePara>
-                      YOU DO NOT HAVE PERMISSION TO EDIT THIS PAGE, SINCE YOU
-                      ARE NOT LOGGED IN.
-                    </TitlePara>
-                    <DescriptionPara>
-                      The code is shown below in a read only mode.
-                    </DescriptionPara>
-                  </HomeDiv>
-                </div>
-              )}
-              {accessToken &&
-                this.mode === 'edit' &&
-                !this.state.editable &&
-                !isAdmin && (
-                  <HomeDiv>
-                    <TitlePara>
-                      THIS SKILL IS NOT EDITABLE. IT IS CURRENTLY LOCKED BY
-                      ADMINS. YOU CAN STILL SEE THE CODE OF THE SKILL.
-                    </TitlePara>
-                    <SubTitlePara>
-                      There can be various reasons for non-editable skills.{' '}
-                      <br />
-                      For example if the skill is a standard skill, if there was
-                      vandalism happening in the skill or if there is a dispute
-                      about the skill.
-                    </SubTitlePara>
-                    <DescriptionPara>
-                      The code is shown below in a read only mode.
-                    </DescriptionPara>
-                  </HomeDiv>
-                )}
-
-              {this.isBotBuilder ? (
-                <div>{skillWizard}</div>
-              ) : (
-                <StyledPaper>{skillWizard}</StyledPaper>
-              )}
-            </Col>
-            {this.isBotBuilder ? null : (
-              <PreviewCol
+      <ThemeProvider theme={currentTheme}>
+        <Container
+          style={this.isBotBuilder ? null : { padding: '20px 9px 0px' }}
+        >
+          <Grid fluid style={this.isBotBuilder ? { padding: '0px' } : null}>
+            <Row>
+              <Col
                 md={12}
-                xl={this.state.colPreview}
+                xl={this.state.colSkill}
                 style={{
-                  display: this.state.colPreview === 0 ? 'none' : 'block',
+                  display: this.state.colSkill === 0 ? 'none' : 'block',
+                  maxWidth: '100%',
+                  marginBottom: this.isBotBuilder ? '0px' : '40px',
                 }}
               >
-                <Preview
-                  handlePreviewToggle={this.handlePreviewToggle}
-                  paperWidth={'100%'}
-                />
-              </PreviewCol>
-            )}
-          </Row>
-        </Grid>
-      </Container>
+                {this.mode === 'edit' &&
+                  accessToken &&
+                  !this.props.revertingCommit &&
+                  this.commitId &&
+                  showTopBar && (
+                    <EditPaper zDepth={1}>
+                      <div>
+                        {
+                          'You are currently editing an older version of the Skill: '
+                        }
+                        <B>{this.skillTag}</B>
+                        <br />
+                        <span>
+                          Author: <B>{this.state.author}</B>
+                        </span>
+                        <br />
+                        <span>
+                          commitID: <b>{this.commitId}</b>
+                        </span>
+                        <br />
+                        <span>
+                          Revision as of <b>{this.state.date}</b>
+                        </span>
+                      </div>
+                    </EditPaper>
+                  )}
+                {!accessToken && (
+                  <div>
+                    <HomeDiv>
+                      <TitlePara>
+                        YOU DO NOT HAVE PERMISSION TO EDIT THIS PAGE, SINCE YOU
+                        ARE NOT LOGGED IN.
+                      </TitlePara>
+                      <DescriptionPara>
+                        The code is shown below in a read only mode.
+                      </DescriptionPara>
+                    </HomeDiv>
+                  </div>
+                )}
+                {accessToken &&
+                  this.mode === 'edit' &&
+                  !this.state.editable &&
+                  !isAdmin && (
+                    <HomeDiv>
+                      <TitlePara>
+                        THIS SKILL IS NOT EDITABLE. IT IS CURRENTLY LOCKED BY
+                        ADMINS. YOU CAN STILL SEE THE CODE OF THE SKILL.
+                      </TitlePara>
+                      <SubTitlePara>
+                        There can be various reasons for non-editable skills.{' '}
+                        <br />
+                        For example if the skill is a standard skill, if there
+                        was vandalism happening in the skill or if there is a
+                        dispute about the skill.
+                      </SubTitlePara>
+                      <DescriptionPara>
+                        The code is shown below in a read only mode.
+                      </DescriptionPara>
+                    </HomeDiv>
+                  )}
+
+                {this.isBotBuilder ? (
+                  <div>{skillWizard}</div>
+                ) : (
+                  <StyledPaper>{skillWizard}</StyledPaper>
+                )}
+              </Col>
+              {this.isBotBuilder ? null : (
+                <PreviewCol
+                  md={12}
+                  xl={this.state.colPreview}
+                  style={{
+                    display: this.state.colPreview === 0 ? 'none' : 'block',
+                  }}
+                >
+                  <Preview
+                    handlePreviewToggle={this.handlePreviewToggle}
+                    paperWidth={'100%'}
+                  />
+                </PreviewCol>
+              )}
+            </Row>
+          </Grid>
+        </Container>
+      </ThemeProvider>
     );
   }
 }
@@ -1364,12 +1386,14 @@ SkillWizard.propTypes = {
   language: PropTypes.string,
   category: PropTypes.string,
   image: PropTypes.string,
+  theme: PropTypes.string,
   file: PropTypes.object,
 };
 
 function mapStateToProps(store) {
   return {
     userName: store.settings.userName,
+    theme: store.settings.theme,
     accessToken: store.app.accessToken,
     isAdmin: store.app.isAdmin,
     email: store.app.email,

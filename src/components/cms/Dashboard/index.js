@@ -4,6 +4,7 @@ import _Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import styled from 'styled-components';
 import DashboardContent from './Dashboard';
@@ -19,17 +20,6 @@ const Container = styled.div`
   padding-right: 30px;
 `;
 
-// Add condition to check background here
-// const Tabs = styled(_Tabs)`
-//   background-color: #ffffff;
-// `;
-const Tabs = styled(_Tabs)``;
-
-const trytheme = createMuiTheme({
-  palette: {
-    type: 'dark', // Switching the dark mode on is a single property value change.
-  },
-});
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -84,7 +74,7 @@ class Dashboard extends Component {
     const { value } = this.state;
     switch (value) {
       case 0:
-        return <DashboardContent showTitle={false} />;
+        return <DashboardContent theme={this.props.theme} showTitle={false} />;
       case 1:
         return <MySkills showTitle={false} />;
       case 2:
@@ -97,10 +87,20 @@ class Dashboard extends Component {
   };
 
   render() {
+    const Tabs = styled(_Tabs)`
+      background-color: ${this.props.theme === 'dark' ? '' : '#ffffff'};
+    `;
+
+    const currentTheme = createMuiTheme({
+      palette: {
+        type: this.props.theme === 'dark' ? 'dark' : 'light',
+      },
+    });
+
     const { value } = this.state;
     const mobileView = isMobileView();
     return (
-      <ThemeProvider theme={trytheme}>
+      <ThemeProvider theme={currentTheme}>
         <div>
           <div>
             <Container>
@@ -114,7 +114,7 @@ class Dashboard extends Component {
                   variant={mobileView ? 'scrollable' : 'standard'}
                 >
                   <Tab label="Dashboard" />
-                  <Tab label="My Sksills" />
+                  <Tab label="My Skills" />
                   <Tab label="My Bots" />
                   <Tab label="My Devices" />
                 </Tabs>
@@ -131,6 +131,16 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
+  theme: PropTypes.string,
 };
 
-export default Dashboard;
+function mapStateToProps(store) {
+  return {
+    theme: store.settings.theme,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Dashboard);

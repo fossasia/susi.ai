@@ -6,6 +6,8 @@ import StepButton from '@material-ui/core/StepButton';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import Design from './BotBuilderPages/Design';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import Preview from './Preview/Preview';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CircularLoader from '../../shared/CircularLoader';
@@ -548,155 +550,166 @@ class BotWizard extends React.Component {
       prevButton,
       colPreview,
     } = this.state;
+    const { theme } = this.props;
+    const currentTheme = createMuiTheme({
+      palette: {
+        type: theme === 'dark' ? 'dark' : 'light',
+      },
+    });
 
     return (
-      <Home>
-        <Grid fluid>
-          <Row>
-            <StepperCol
-              md={12}
-              xl={colBuild}
-              style={{
-                display: colBuild === 0 ? 'none' : 'block',
-              }}
-            >
-              <Container>
-                {!loaded ? (
-                  <CircularLoader />
-                ) : (
-                  <div>
-                    <Stepper
-                      activeStep={stepIndex}
-                      nonLinear
-                      alternativeLabel={!!isMobile}
-                    >
-                      <Step>
-                        <StepButton onClick={() => this.setStep(0)}>
-                          Build
-                        </StepButton>
-                      </Step>
-                      <Step>
-                        <StepButton onClick={() => this.setStep(1)}>
-                          Design
-                        </StepButton>
-                      </Step>
-                      <Step>
-                        <StepButton onClick={() => this.setStep(2)}>
-                          Configure
-                        </StepButton>
-                      </Step>
-                      <Step>
-                        <StepButton onClick={() => this.check()}>
-                          Deploy
-                        </StepButton>
-                      </Step>
-                    </Stepper>
-                    <ContentContainer>
-                      {this.getStepContent(stepIndex)}
-                      <ActionPaper
-                        style={{
-                          display: stepIndex === 3 ? 'none' : 'flex',
-                        }}
+      <ThemeProvider theme={currentTheme}>
+        <Home>
+          <Grid fluid>
+            <Row>
+              <StepperCol
+                md={12}
+                xl={colBuild}
+                style={{
+                  display: colBuild === 0 ? 'none' : 'block',
+                }}
+              >
+                <Container>
+                  {!loaded ? (
+                    <CircularLoader />
+                  ) : (
+                    <div>
+                      <Stepper
+                        activeStep={stepIndex}
+                        nonLinear
+                        alternativeLabel={!!isMobile}
                       >
-                        <ActionContainer>
-                          {stepIndex === 2 ? (
-                            <TextField
-                              label="Commit message"
-                              placeholder="Enter Commit Message"
-                              margin="normal"
-                              value={commitMessage}
-                              onChange={this.handleCommitMessageChange}
-                            />
-                          ) : null}
-
-                          {stepIndex <= 2 ? (
-                            <DraftButtonContainer>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.saveDraft}
-                              >
-                                Save Draft
-                              </Button>
-                            </DraftButtonContainer>
-                          ) : null}
-                          <ActionButtonContainer>
+                        <Step>
+                          <StepButton onClick={() => this.setStep(0)}>
+                            Build
+                          </StepButton>
+                        </Step>
+                        <Step>
+                          <StepButton onClick={() => this.setStep(1)}>
+                            Design
+                          </StepButton>
+                        </Step>
+                        <Step>
+                          <StepButton onClick={() => this.setStep(2)}>
+                            Configure
+                          </StepButton>
+                        </Step>
+                        <Step>
+                          <StepButton onClick={() => this.check()}>
+                            Deploy
+                          </StepButton>
+                        </Step>
+                      </Stepper>
+                      <ContentContainer>
+                        {this.getStepContent(stepIndex)}
+                        <ActionPaper
+                          style={{
+                            display: stepIndex === 3 ? 'none' : 'flex',
+                          }}
+                        >
+                          <ActionContainer>
                             {stepIndex === 2 ? (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.saveClick}
-                                style={{
-                                  minWidth: '11rem',
-                                  marginLeft: '10px',
-                                }}
-                              >
-                                {// eslint-disable-next-line
-                                savingSkill ? (
-                                  <CircularProgress color="inherit" size={24} />
-                                ) : updateSkillNow ? (
-                                  'Update and Deploy'
-                                ) : (
-                                  'Save and Deploy'
-                                )}
-                              </Button>
+                              <TextField
+                                label="Commit message"
+                                placeholder="Enter Commit Message"
+                                margin="normal"
+                                value={commitMessage}
+                                onChange={this.handleCommitMessageChange}
+                              />
                             ) : null}
-                            {stepIndex < 2 ? (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.handleNext}
-                                style={{ marginLeft: '10px' }}
-                              >
-                                Next
-                              </Button>
-                            ) : null}
-                            {stepIndex !== 0 && stepIndex !== 3 ? (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.handlePrev}
-                              >
-                                Back
-                              </Button>
-                            ) : null}
-                            {stepIndex === 0 ? (
-                              <Link to="/mybots">
-                                <Button variant="contained" color="primary">
-                                  Cancel
+
+                            {stepIndex <= 2 ? (
+                              <DraftButtonContainer>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={this.saveDraft}
+                                >
+                                  Save Draft
                                 </Button>
-                              </Link>
+                              </DraftButtonContainer>
                             ) : null}
-                          </ActionButtonContainer>
-                        </ActionContainer>
-                      </ActionPaper>
-                    </ContentContainer>
-                  </div>
-                )}
-              </Container>
-            </StepperCol>
-            {prevButton === 1 ? (
-              <PreviewButton>
-                <span title="See Preview">
-                  <ChevronLeft onClick={this.handlePreviewToggle} />
-                </span>
-              </PreviewButton>
-            ) : null}
-            <ContainerCol
-              md={12}
-              xl={colPreview}
-              style={{
-                display: colPreview === 0 ? 'none' : 'block',
-              }}
-            >
-              <Preview
-                handlePreviewToggle={this.handlePreviewToggle}
-                paperWidth={'100%'}
-              />
-            </ContainerCol>
-          </Row>
-        </Grid>
-      </Home>
+                            <ActionButtonContainer>
+                              {stepIndex === 2 ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={this.saveClick}
+                                  style={{
+                                    minWidth: '11rem',
+                                    marginLeft: '10px',
+                                  }}
+                                >
+                                  {// eslint-disable-next-line
+                                  savingSkill ? (
+                                    <CircularProgress
+                                      color="inherit"
+                                      size={24}
+                                    />
+                                  ) : updateSkillNow ? (
+                                    'Update and Deploy'
+                                  ) : (
+                                    'Save and Deploy'
+                                  )}
+                                </Button>
+                              ) : null}
+                              {stepIndex < 2 ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={this.handleNext}
+                                  style={{ marginLeft: '10px' }}
+                                >
+                                  Next
+                                </Button>
+                              ) : null}
+                              {stepIndex !== 0 && stepIndex !== 3 ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={this.handlePrev}
+                                >
+                                  Back
+                                </Button>
+                              ) : null}
+                              {stepIndex === 0 ? (
+                                <Link to="/mybots">
+                                  <Button variant="contained" color="primary">
+                                    Cancel
+                                  </Button>
+                                </Link>
+                              ) : null}
+                            </ActionButtonContainer>
+                          </ActionContainer>
+                        </ActionPaper>
+                      </ContentContainer>
+                    </div>
+                  )}
+                </Container>
+              </StepperCol>
+              {prevButton === 1 ? (
+                <PreviewButton>
+                  <span title="See Preview">
+                    <ChevronLeft onClick={this.handlePreviewToggle} />
+                  </span>
+                </PreviewButton>
+              ) : null}
+              <ContainerCol
+                md={12}
+                xl={colPreview}
+                style={{
+                  display: colPreview === 0 ? 'none' : 'block',
+                }}
+              >
+                <Preview
+                  handlePreviewToggle={this.handlePreviewToggle}
+                  paperWidth={'100%'}
+                />
+              </ContainerCol>
+            </Row>
+          </Grid>
+        </Home>
+      </ThemeProvider>
     );
   }
 }
@@ -709,6 +722,7 @@ BotWizard.propTypes = {
   code: PropTypes.string,
   view: PropTypes.string,
   imageUrl: PropTypes.string,
+  theme: PropTypes.string,
   name: PropTypes.string,
   language: PropTypes.string,
   buildCode: PropTypes.string,
@@ -723,6 +737,7 @@ function mapStateToProps(store) {
     email: store.app.email,
     accessToken: store.app.accessToken,
     buildCode: store.create.skill.code,
+    theme: store.settings.theme,
     name: store.create.skill.name,
     category: store.create.skill.category,
     language: store.create.skill.language,

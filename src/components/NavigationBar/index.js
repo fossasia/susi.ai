@@ -177,6 +177,7 @@ class NavigationBar extends Component {
     reviewed: PropTypes.bool,
     staffPicks: PropTypes.bool,
     groupValue: PropTypes.string,
+    theme: PropTypes.string,
     orderBy: PropTypes.string,
     languages: PropTypes.array,
     mode: PropTypes.string,
@@ -374,6 +375,7 @@ class NavigationBar extends Component {
       searchQuery,
       searchType,
       languageValue,
+      theme,
     } = this.props;
     const { searchSelectWidth, showSearchBar } = this.state;
     const Logged = props => (
@@ -474,6 +476,7 @@ class NavigationBar extends Component {
           <SearchBar
             handleSearchTypeChange={this.handleSearchTypeChange}
             onChange={_.debounce(this.handleSearch, 100)}
+            theme={theme}
             onRequestSearch={this.loadCards}
             value={searchQuery}
             searchType={searchType}

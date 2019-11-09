@@ -42,17 +42,16 @@ const Container = styled.div`
   }
 `;
 
-const trytheme = createMuiTheme({
-  palette: {
-    type: 'dark', // Switching the dark mode on is a single property value change.
-  },
-});
-
 const Dashboard = props => {
   document.title = 'SUSI.AI - Dashboard';
+  const currentTheme = createMuiTheme({
+    palette: {
+      type: props.theme === 'dark' ? 'dark' : 'light',
+    },
+  });
   const { showTitle = true } = props;
   return (
-    <ThemeProvider theme={trytheme}>
+    <ThemeProvider theme={currentTheme}>
       <Container>
         {showTitle && <Heading>My Dashboard</Heading>}
         <Paper>
@@ -74,6 +73,7 @@ const Dashboard = props => {
 
 Dashboard.propTypes = {
   showTitle: PropTypes.bool,
+  theme: PropTypes.string,
 };
 
 export default Dashboard;

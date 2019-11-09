@@ -129,11 +129,6 @@ const Text = styled.p`
   padding-left: 10px;
 `;
 
-const trytheme = createMuiTheme({
-  palette: {
-    type: 'dark', // Switching the dark mode on is a single property value change.
-  },
-});
 class BotBuilder extends React.Component {
   constructor(props) {
     super(props);
@@ -398,9 +393,15 @@ class BotBuilder extends React.Component {
 
   render() {
     const { drafts, loadingBots, loadingDrafts } = this.state;
+    const { theme } = this.props;
+    const currentTheme = createMuiTheme({
+      palette: {
+        type: theme === 'dark' ? 'dark' : 'light',
+      },
+    });
 
     return (
-      <ThemeProvider theme={trytheme}>
+      <ThemeProvider theme={currentTheme}>
         <div>
           <Home>
             <Paper>
@@ -471,11 +472,13 @@ BotBuilder.propTypes = {
   templates: PropTypes.array,
   actions: PropTypes.object,
   accessToken: PropTypes.string,
+  theme: PropTypes.string,
 };
 
 function mapStateToProps(store) {
   return {
     accessToken: store.app.accessToken,
+    theme: store.settings.theme,
   };
 }
 

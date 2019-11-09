@@ -123,6 +123,7 @@ const SearchBar = props => {
         value={searchType}
         onChange={e => handleSearchTypeChange(e)}
         input={<OutlinedInput />}
+        style={{ color: '#000000' }}
         width={searchSelectWidth}
         MenuProps={{
           anchorOrigin: {

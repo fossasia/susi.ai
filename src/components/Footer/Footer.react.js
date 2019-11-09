@@ -3,14 +3,9 @@ import susi from '../../images/susi-logo.svg';
 import { Link } from 'react-router-dom';
 import urls from '../../utils/urls';
 import styled from 'styled-components';
-
-const FooterContainer = styled.div`
-  background: #f6f6f6;
-  width: 100%;
-  z-index: 10;
-  border: 1px solid #ddd;
-  display: flex;
-`;
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 const FooterWrapper = styled.div`
   display: flex;
@@ -39,100 +34,121 @@ const SusiLogo = styled.img`
   }
 `;
 
-const ContentContainer = styled.div`
-  background: #f6f6f6;
-  margin-top: 0px;
-  min-height: 1.25rem;
-  max-width: 100%;
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  @media (max-width: 745px) {
-    padding-top: 0px;
-    justify-content: center;
-  }
-  li {
-    padding: 0.5rem;
-  }
-  li a {
-    text-decoration: none;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-    color: #414141;
-    font-size: 1rem;
-  }
-  li a:hover {
-    color: #4285f4;
-  }
-  ul {
-    list-style: none;
-    list-style-type: none;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    margin: 0.5rem;
-    padding: 0;
-  }
-`;
-
 const LeftContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
 `;
 
-const Footer = () => {
+const Footer = props => {
+  const FooterContainer = styled.div`
+    background: ${props.theme === 'light' ? '#f6f6f6' : ''};
+    width: 100%;
+    z-index: 10;
+    border: 1px solid #ddd;
+    display: flex;
+  `;
+
+  const ContentContainer = styled.div`
+    background: ${props.theme === 'light' ? '#f6f6f6' : ''};
+    margin-top: 0px;
+    min-height: 1.25rem;
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    @media (max-width: 745px) {
+      padding-top: 0px;
+      justify-content: center;
+    }
+    li {
+      padding: 0.5rem;
+    }
+    li a {
+      text-decoration: none;
+      font-weight: 300;
+      font-family: 'Roboto', sans-serif;
+      cursor: pointer;
+      color: ${props.theme === 'light' ? '#414141' : 'white'};
+      font-size: 1rem;
+    }
+    li a:hover {
+      color: #4285f4;
+    }
+    ul {
+      list-style: none;
+      list-style-type: none;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      margin: 0.5rem;
+      padding: 0;
+    }
+  `;
+
+  const trytheme = createMuiTheme({
+    palette: {
+      // eslint-disable-next-line react/prop-types
+      type: props.theme === 'light' ? 'light' : 'dark',
+    },
+  });
+
   return (
-    <FooterContainer>
-      <FooterWrapper>
-        <SusiLogoContainer to="/">
-          <SusiLogo src={susi} alt="SUSI" />
-        </SusiLogoContainer>
-        <ContentContainer>
-          <LeftContainer>
+    <ThemeProvider theme={trytheme}>
+      <FooterContainer>
+        <FooterWrapper>
+          <SusiLogoContainer to="/">
+            <SusiLogo src={susi} alt="SUSI" />
+          </SusiLogoContainer>
+          <ContentContainer>
+            <LeftContainer>
+              <ul>
+                <li>
+                  <Link to="/about">About</Link>
+                </li>
+                <li>
+                  <Link to="/devices">Devices</Link>
+                </li>
+                <li>
+                  <Link to="/blog">Blog</Link>
+                </li>
+                <li>
+                  <a href={urls.API_URL}>API</a>
+                </li>
+                <li>
+                  <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">
+                    Code
+                  </a>
+                </li>
+                <li>
+                  <Link to="/team">Team</Link>
+                </li>
+                <li>
+                  <Link to="/support">Support</Link>
+                </li>
+              </ul>
+            </LeftContainer>
             <ul>
               <li>
-                <Link to="/about">About</Link>
+                <Link to="/privacy">Privacy</Link>
               </li>
               <li>
-                <Link to="/devices">Devices</Link>
+                <Link to="/terms">Terms</Link>
               </li>
               <li>
-                <Link to="/blog">Blog</Link>
-              </li>
-              <li>
-                <a href={urls.API_URL}>API</a>
-              </li>
-              <li>
-                <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi">
-                  Code
-                </a>
-              </li>
-              <li>
-                <Link to="/team">Team</Link>
-              </li>
-              <li>
-                <Link to="/support">Support</Link>
+                <Link to="/contact">Contact</Link>
               </li>
             </ul>
-          </LeftContainer>
-          <ul>
-            <li>
-              <Link to="/privacy">Privacy</Link>
-            </li>
-            <li>
-              <Link to="/terms">Terms</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </ContentContainer>
-      </FooterWrapper>
-    </FooterContainer>
+          </ContentContainer>
+        </FooterWrapper>
+      </FooterContainer>
+    </ThemeProvider>
   );
+};
+
+Footer.propTypes = {
+  theme: PropTypes.string,
 };
 
 export default Footer;

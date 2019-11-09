@@ -6,9 +6,11 @@ import React, { Component } from 'react';
 import _MenuList from '@material-ui/core/MenuList';
 import ListItemIcon from '../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import CircularLoader from '../shared/CircularLoader';
 // Icons
 import ChatIcon from '@material-ui/icons/Chat';
@@ -51,7 +53,7 @@ const Container = styled.div`
   min-height: calc(100vh - 48px);
   overflow: scroll;
   margin-top: 2rem;
-  background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
+
   @media only screen and (max-width: 1060px) {
     height: 100vh;
   }
@@ -73,16 +75,6 @@ const SettingsOptionsContainer = styled(Paper)`
   overflow: hidden;
   margin-right: 12px;
   height: fit-content;
-  ${props =>
-    props.theme === 'dark'
-      ? css`
-          background: #19324c;
-          color: #ffffff;
-        `
-      : css`
-        background: #FFFFFF
-        color: #272727;
-  `};
 
   @media only screen and (max-width: 1060px) {
     width: 100%;
@@ -108,17 +100,6 @@ const MenuList = styled(_MenuList)`
 
 const SettingsBodyContainer = styled(Paper)`
   width: 70%;
-  ${props =>
-    props.theme === 'dark'
-      ? css`
-          background: #19324c;
-          color: #ffffff;
-        `
-      : css`
-        background: #FFFFFF
-        color: #272727;
-  `};
-
   @media only screen and (max-width: 1060px) {
     height: auto;
     width: 100%;
@@ -274,6 +255,11 @@ class Settings extends Component {
 
   render() {
     const { selectedSetting, theme, loading } = this.state;
+    const currentTheme = createMuiTheme({
+      palette: {
+        type: this.props.theme === 'dark' ? 'dark' : 'light',
+      },
+    });
 
     let menuItems = (
       <React.Fragment>
@@ -294,16 +280,22 @@ class Settings extends Component {
     );
 
     return (
-      <Container theme={theme}>
-        <SettingContainer>
-          <SettingsOptionsContainer theme={theme}>
-            {menuItems}
-          </SettingsOptionsContainer>
-          <SettingsBodyContainer theme={theme}>
-            {loading ? <CircularLoader height={27} /> : this.generateSettings()}
-          </SettingsBodyContainer>
-        </SettingContainer>
-      </Container>
+      <ThemeProvider theme={currentTheme}>
+        <Container theme={theme}>
+          <SettingContainer>
+            <SettingsOptionsContainer theme={theme}>
+              {menuItems}
+            </SettingsOptionsContainer>
+            <SettingsBodyContainer theme={theme}>
+              {loading ? (
+                <CircularLoader height={27} />
+              ) : (
+                this.generateSettings()
+              )}
+            </SettingsBodyContainer>
+          </SettingContainer>
+        </Container>
+      </ThemeProvider>
     );
   }
 }

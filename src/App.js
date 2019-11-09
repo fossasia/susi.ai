@@ -191,6 +191,7 @@ class App extends Component {
       isLocalEnv,
       mode,
       location,
+      theme,
       // visited,
     } = this.props;
 
@@ -227,7 +228,7 @@ class App extends Component {
       ((skillListRegex.test(pathname) && pathLength > 2 && pathLength <= 4) ||
         renderFooterPagesList.includes(pathname)) &&
       !pathname.includes('/admin/') ? (
-        <Footer />
+        <Footer theme={theme} />
       ) : null;
 
     const renderCookiePolicy =
@@ -245,9 +246,9 @@ class App extends Component {
         deviceAccessPoint) ? null : (
         <ChatApp />
       );
-    const trytheme = createMuiTheme({
+    const currentTheme = createMuiTheme({
       palette: {
-        type: this.props.theme === 'light' ? 'light' : 'dark',
+        type: theme === 'light' ? 'light' : 'dark',
       },
     });
 
@@ -261,7 +262,7 @@ class App extends Component {
 
     return (
       <StylesProvider injectFirst>
-        <ThemeProvider theme={trytheme}>
+        <ThemeProvider theme={currentTheme}>
           <div>
             {renderDialog}
             {isSnackBarOpen && (
