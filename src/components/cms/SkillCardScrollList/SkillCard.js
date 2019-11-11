@@ -25,9 +25,13 @@ const ScrollWrapper = styled.div`
   margin: 0.625rem;
   overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
   &::-webkit-scrollbar {
     display: none;
+  }
+  @media (max-width: 430px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
