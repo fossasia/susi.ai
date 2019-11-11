@@ -62,6 +62,13 @@ const WebSearchRSSContainer = styled.div`
 
 const entities = new AllHtmlEntities();
 
+const checkMapAction = link => {
+  if (link.substring(0, 25) === 'https://www.openstreetmap') {
+    return true;
+  }
+  return false;
+};
+
 const PostDate = injectIntl(({ date, intl }) => (
   <span
     title={intl.formatDate(date, {
@@ -90,6 +97,7 @@ const generateDateBubble = message => {
   );
 };
 
+/*
 const generateGifBubble = (
   action,
   index,
@@ -114,6 +122,7 @@ const generateGifBubble = (
     </MessageContainer>
   );
 };
+*/
 
 const generateAnswerBubble = (
   action,
@@ -365,25 +374,25 @@ export const generateMessageBubble = (
           );
         } else {
         */
-          listItems.push(
-            generateAnswerBubble(
-              actionType,
-              index,
-              replacedText,
-              message,
-              latestUserMsgID,
-              showFeedback,
-            ),
-          );
-        //}
+        listItems.push(
+          generateAnswerBubble(
+            actionType,
+            index,
+            replacedText,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        // }
         break;
       }
       case 'anchor':
         {
           const { link, text } = action;
-          if (link.substring(0, 25) === 'https://www.openstreetmap') {
+          if (checkMapAction(link)) {
             let mapAnchor = null;
-            let zoom = 13;
+            let zoom = 8;
             let coordinates = link.substring(38).split('/');
             let latitude = parseFloat(coordinates[0]);
             let longitude = parseFloat(coordinates[1]);
