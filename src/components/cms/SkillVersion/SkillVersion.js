@@ -23,7 +23,9 @@ const Button = styled(_Button)`
   right: ${props => props.position + 'rem'};
   bottom: 2rem;
   position: fixed;
-  z-index: 1;
+  z-index: +1;
+  top: 70px;
+  height: 35px;
 `;
 
 const Container = styled.div`
