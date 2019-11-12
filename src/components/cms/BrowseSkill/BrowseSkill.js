@@ -65,6 +65,13 @@ const Link = styled(_Link)`
   }
 `;
 
+const NoSkillFound = styled.div`
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+`;
+
 const SkillsFormControl = styled(FormControl)`
   width: 6.8rem;
   margin: 1rem 0.625rem 1rem 0;
@@ -669,14 +676,7 @@ class BrowseSkill extends React.Component {
       );
     } else if (searchQuery.length > 0) {
       noSkillFound = (
-        <div
-          style={{
-            display: 'block',
-            margin: '0 auto',
-            padding: '10px',
-            width: isMobile ? '' : '50%',
-          }}
-        >
+        <NoSkillFound>
           <h2 style={{ fontWeight: '400' }}>
             Your search <b>&quot;{searchQuery}&quot;</b> did not match any
             skills.
@@ -686,18 +686,11 @@ class BrowseSkill extends React.Component {
             <li>Using more general terms</li>
             <li>Checking your spelling</li>
           </ul>
-        </div>
+        </NoSkillFound>
       );
     } else {
       noSkillFound = (
-        <div
-          style={{
-            display: 'block',
-            margin: '0 auto',
-            textAlign: 'center',
-            width: isMobile ? '' : '50%',
-          }}
-        >
+        <NoSkillFound>
           No result found for <SidebarLink to="/">SUSI Skill</SidebarLink>
           :&nbsp;
           {routeValue && (
@@ -705,7 +698,7 @@ class BrowseSkill extends React.Component {
               {routeValue}
             </span>
           )}
-        </div>
+        </NoSkillFound>
       );
     }
 
