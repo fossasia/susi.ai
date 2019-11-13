@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import ISO6391 from 'iso-639-1';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuItem from '@material-ui/core/MenuItem';
 import Translate from '../Translate/Translate.react';
 import styled, { css } from 'styled-components';
@@ -33,6 +34,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Popper from './Popper';
 import _ExpandMore from '@material-ui/icons/ExpandMore';
+import MenuIcon from '@material-ui/icons/Menu';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import Chat from '@material-ui/icons/Chat';
@@ -108,7 +110,28 @@ const TopRightMenuContainer = styled.div`
   margin-top: 1px;
 `;
 
+const SidebarTextStyles = css`
+  min-height: 1.5rem;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+  padding: 0 1.5rem;
+`;
+
+const SidebarItem = styled(MenuItem)`
+  ${SidebarTextStyles}
+`;
+
 const SusiLogoContainer = styled.div`
+  @media (max-width: 680px) {
+    ${props =>
+      props.isSearchOpen &&
+      css`
+        display: none;
+      `}
+  }
+`;
+
+const MenuButton = styled.div`
   @media (max-width: 680px) {
     ${props =>
       props.isSearchOpen &&
@@ -153,6 +176,7 @@ class NavigationBar extends Component {
     settings: PropTypes.object,
     location: PropTypes.object,
     isAdmin: PropTypes.bool,
+    groups: PropTypes.array,
     accessToken: PropTypes.string,
     email: PropTypes.string,
     userName: PropTypes.string,
@@ -185,6 +209,7 @@ class NavigationBar extends Component {
     super(props);
     this.state = {
       searchType: this.props.searchType,
+      left: false,
       searchSelectWidth: this.getSelectMenuWidth(this.props.searchType),
       showSearchBar: !isMobileView(1000),
       rightContainer: true,
@@ -236,10 +261,6 @@ class NavigationBar extends Component {
       this.props.history.push('/');
     }
   };
-
-  componentDidMount() {
-    this.loadLanguages('All');
-  }
 
   loadLanguages = value => {
     this.props.actions
@@ -355,6 +376,14 @@ class NavigationBar extends Component {
     }));
   };
 
+  toggleDrawer = open => event => {
+    if (event && event.type === 'keydown') {
+      return;
+    }
+
+    this.setState({ ...this.state, left: open });
+  };
+
   render() {
     const {
       accessToken,
@@ -375,7 +404,18 @@ class NavigationBar extends Component {
       searchType,
       languageValue,
     } = this.props;
-    const { searchSelectWidth, showSearchBar } = this.state;
+    let renderMenu = '';
+    renderMenu = this.props.groups.map(categoryName => {
+      const linkValue = '/category/' + categoryName;
+      return (
+        <Link to={linkValue} key={linkValue}>
+          <SidebarItem key={categoryName} value={categoryName}>
+            {categoryName}
+          </SidebarItem>
+        </Link>
+      );
+    });
+    const { searchSelectWidth, showSearchBar, left } = this.state;
     const Logged = props => (
       <React.Fragment>
         <Link to="/dashboard">
@@ -538,6 +578,24 @@ class NavigationBar extends Component {
           <AppBar>
             <Toolbar variant="dense">
               <FlexContainer>
+                {isMobileView() && (
+                  <MenuButton
+                    isSearchOpen={search}
+                    onClick={this.toggleDrawer(true)}
+                  >
+                    <MenuIcon style={{ margin: '2px 4px 2px 2px' }} />
+                  </MenuButton>
+                )}
+                {isMobileView() && (
+                  <SwipeableDrawer
+                    style={{ padding: '2px 2px 2px 2px' }}
+                    open={left}
+                    onClose={this.toggleDrawer(false)}
+                    onOpen={this.toggleDrawer(true)}
+                  >
+                    {renderMenu}
+                  </SwipeableDrawer>
+                )}
                 <SusiLogoContainer isSearchOpen={search}>
                   <Link to="/" style={{ outline: '0' }}>
                     {renderSusiIcon}

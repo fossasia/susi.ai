@@ -26,7 +26,6 @@ import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
 import _ActionViewModule from '@material-ui/icons/ViewModule';
 import _ActionViewStream from '@material-ui/icons/ViewStream';
-import ChevronRight from '@material-ui/icons/ChevronRight';
 import Fab from '@material-ui/core/Fab';
 import NavigationArrowBack from '@material-ui/icons/ArrowBack';
 import NavigationArrowForward from '@material-ui/icons/ArrowForward';
@@ -150,29 +149,6 @@ const PageNavigationContainer = styled.div`
   margin: 0.5rem 0;
   @media (max-width: 418px) {
     justify-content: center;
-  }
-`;
-
-const MobileMenuItem = styled(MenuItem)`
-  min-height: 24px;
-  line-height: 24px;
-  font-size: 14px;
-`;
-
-const MobileMenuContainer = styled.div`
-  margin: 0 14px;
-  padding: 8px;
-  li {
-    border-top: 1px #e7e7e7 solid;
-    border-right: 1px #e7e7e7 solid;
-    border-left: 1px #e7e7e7 solid;
-  }
-  & a:last-child li {
-    border-bottom: 1px #e7e7e7 solid;
-    border-radius: 0 0 5px 5px;
-  }
-  & a:first-child li {
-    border-radius: 5px 5px 0 0;
   }
 `;
 
@@ -583,24 +559,12 @@ class BrowseSkill extends React.Component {
     let isMobile = isMobileView();
     let backToHome = null;
     let renderMenu = null;
-    let renderMobileMenu = null;
     if (isMobile) {
       backToHome = (
         <MobileBackButton variant="contained" color="default">
           <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
-      renderMobileMenu = groups.map(categoryName => {
-        const linkValue = '/category/' + categoryName;
-        return (
-          <Link to={linkValue} key={linkValue}>
-            <MobileMenuItem key={categoryName} value={categoryName}>
-              <span style={{ width: '90%' }}>{categoryName}</span>
-              <ChevronRight style={{ top: -8 }} />
-            </MobileMenuItem>
-          </Link>
-        );
-      });
     }
     if (!isMobile) {
       renderMenu = groups.map(categoryName => {
@@ -1038,11 +1002,7 @@ class BrowseSkill extends React.Component {
               )}
               <div>{renderCardScrollList}</div>
               {/* Check if mobile view is currently active*/}
-              {routeType === 'category' ? (
-                backToHome
-              ) : (
-                <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
-              )}
+              {routeType === 'category' ? backToHome : null}
             </ContentContainer>
           )}
         </RightContainer>
