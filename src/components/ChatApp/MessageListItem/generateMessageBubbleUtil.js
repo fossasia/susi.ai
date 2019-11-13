@@ -90,6 +90,7 @@ const generateDateBubble = message => {
   );
 };
 
+/*
 const generateGifBubble = (
   action,
   index,
@@ -114,6 +115,7 @@ const generateGifBubble = (
     </MessageContainer>
   );
 };
+*/
 
 const generateAnswerBubble = (
   action,
@@ -366,17 +368,17 @@ export const generateMessageBubble = (
           );
         } else {
         */
-          listItems.push(
-            generateAnswerBubble(
-              actionType,
-              index,
-              replacedText,
-              message,
-              latestUserMsgID,
-              showFeedback,
-            ),
-          );
-        //}
+        listItems.push(
+          generateAnswerBubble(
+            actionType,
+            index,
+            replacedText,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        // }
         break;
       }
       case 'anchor': {
