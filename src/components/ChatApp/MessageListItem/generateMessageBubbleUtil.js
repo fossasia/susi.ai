@@ -18,6 +18,13 @@ import {
 import styled, { css } from 'styled-components';
 import MessageBubble from './MessageBubbleStyle';
 import './highlight.css';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Fade from '@material-ui/core/Fade';
+import ReactPlayer from 'react-player';
+import isMobileView from '../../../utils/isMobileView';
+
+const isMobile = isMobileView(1000);
 
 const DateContainer = styled.section`
   background: #999999;
@@ -209,6 +216,9 @@ const generateVideoBubble = (
   showFeedback,
   onYouTubePlayerReady,
   scrollBottom,
+  onClickPopout,
+  showModal,
+  onCloseModal,
 ) => {
   latestMessage && scrollBottom();
   return (
@@ -225,6 +235,35 @@ const generateVideoBubble = (
           }}
           onReady={onYouTubePlayerReady}
         />
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={onClickPopout}
+          style={{ display: isMobile ? 'none' : 'inline', margin: '5px' }}
+        >
+          popout
+        </Button>
+        <Modal
+          open={showModal}
+          onClose={onCloseModal}
+          style={{
+            width: '800px',
+            height: '540px',
+            margin: '0 auto',
+          }}
+        >
+          <Fade in={showModal}>
+            <ReactPlayer
+              url={'https://www.youtube.com/watch?v=' + identifier}
+              style={{ marginTop: '1rem', marginBottom: '1rem' }}
+              width="100%"
+              height="100%"
+              controls="true"
+              playing
+            />
+          </Fade>
+        </Modal>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
     </MessageContainer>
@@ -285,6 +324,9 @@ export const generateMessageBubble = (
   getUserGeoData,
   pauseAllVideos,
   scrollBottom,
+  onClickPopout,
+  showModal,
+  onCloseModal,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -476,6 +518,9 @@ export const generateMessageBubble = (
             showFeedback,
             onYouTubePlayerReady,
             scrollBottom,
+            onClickPopout,
+            showModal,
+            onCloseModal,
           ),
         );
         break;
