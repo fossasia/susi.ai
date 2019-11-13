@@ -90,6 +90,7 @@ const generateDateBubble = message => {
   );
 };
 
+/*
 const generateGifBubble = (
   action,
   index,
@@ -114,6 +115,7 @@ const generateGifBubble = (
     </MessageContainer>
   );
 };
+*/
 
 const generateAnswerBubble = (
   action,
@@ -351,6 +353,7 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
+        /*
         if (answer.data[0].type === 'gif') {
           let gifSource = answer.data[0].embed_url;
           listItems.push(
@@ -364,17 +367,18 @@ export const generateMessageBubble = (
             ),
           );
         } else {
-          listItems.push(
-            generateAnswerBubble(
-              actionType,
-              index,
-              replacedText,
-              message,
-              latestUserMsgID,
-              showFeedback,
-            ),
-          );
-        }
+        */
+        listItems.push(
+          generateAnswerBubble(
+            actionType,
+            index,
+            replacedText,
+            message,
+            latestUserMsgID,
+            showFeedback,
+          ),
+        );
+        // }
         break;
       }
       case 'anchor': {
