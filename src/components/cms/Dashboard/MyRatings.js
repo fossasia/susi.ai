@@ -45,16 +45,20 @@ class MyRatings extends Component {
     let ratingsData = [];
     try {
       let payload = await fetchUserRatings();
+
       if (payload.ratedSkills) {
         for (let i of payload.ratedSkills) {
           let skillName = Object.keys(i)[0];
-          ratingsData.push({
+
+          let skill={
             skillName: skillName,
             group: i[skillName].group,
             language: i[skillName].language,
             skillStar: i[skillName].stars,
             ratingTimestamp: i[skillName].timestamp,
-          });
+          };
+
+          ratingsData.push(skill);
         }
         this.setState({
           ratingsData,
@@ -93,19 +97,28 @@ class MyRatings extends Component {
               <TableBody>
                 {ratingsData.map((skill, index) => {
                   const {
-                    group,
                     skillName,
-                    ratingTimestamp,
+                    group,
+                    language,
                     skillStar,
+                    ratingTimestamp,
                   } = skill;
+
+                  let v="";
+                  for(let i in skillName){
+                    let character=skillName[i];
+                    if (character == character.toUpperCase() && i!=0) {
+                      v+="_";
+                    }
+                    v+=character.toLowerCase();
+                  }
+
                   return (
                     <TableRow key={index}>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname: `/${group}/${skillName
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
+                            pathname: `/${group}/${v}/${language}`  
                           }}
                         >
                           {(
@@ -161,7 +174,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(MyRatings);
+export default connect( null, mapDispatchToProps )(MyRatings);
