@@ -67,7 +67,7 @@ npm install
 export REACT_APP_API_URL=http://localhost:4000
 export REACT_APP_LOCAL_ENV=true
 npm run build
-mv build ../build/
+mv build ../
 
 # Create an orphan local target branch
 git checkout --orphan $LOCAL_TARGET_BRANCH
