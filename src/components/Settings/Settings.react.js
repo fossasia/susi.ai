@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import _MenuList from '@material-ui/core/MenuList';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from '../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import ShareOnSocialMedia from './ShareOnSocialMedia';
@@ -49,6 +49,7 @@ const settingsOptions = [
 const Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 48px);
+  overflow: scroll;
   margin-top: 2rem;
   background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {

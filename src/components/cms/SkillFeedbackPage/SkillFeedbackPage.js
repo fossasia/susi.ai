@@ -11,11 +11,11 @@ import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from '../../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -24,6 +24,7 @@ import EditBtn from '@material-ui/icons/BorderColor';
 import NavigationChevronRight from '@material-ui/icons/ChevronRight';
 import Emoji from 'react-emoji-render';
 import styled, { css } from 'styled-components';
+import SkillRatingCard from '../SkillRating/SkillRatingCard';
 
 import { parseDate, formatDate } from '../../../utils';
 import getImageSrc from '../../../utils/getImageSrc';
@@ -294,9 +295,6 @@ class SkillFeedbackPage extends Component {
       totalRecords: skillFeedbacks,
     };
     this.setState({ currentPage }, () => this.onPageChanged(paginationData));
-    if (this.feedbackRef) {
-      this.feedbackRef.scrollIntoView({ behaviour: 'smooth' });
-    }
   };
 
   handleClick = page => evt => {
@@ -549,8 +547,8 @@ class SkillFeedbackPage extends Component {
                   label="Post"
                   color="primary"
                   variant="contained"
-                  style={{ margin: 10 }}
                   onClick={this.postFeedback}
+                  style={{ marginBottom: '1em' }}
                 >
                   Post
                 </Button>
@@ -558,10 +556,8 @@ class SkillFeedbackPage extends Component {
             </div>
           </div>
         ) : null}
-        <div ref={el => (this.feedbackRef = el)}>
-          {userFeedbackCard}
-          {feedbackCards}
-        </div>
+        {userFeedbackCard}
+        {feedbackCards}
       </div>
     );
     let renderElement = null;
@@ -610,6 +606,9 @@ class SkillFeedbackPage extends Component {
                 </div>
               </div>
             </SkillDetailContainer>
+          </Paper>
+          <SkillRatingCard />
+          <Paper>
             <Title marginTop>Feedback</Title>
             {feedbackCardsElement}
             {skillFeedbacks &&
