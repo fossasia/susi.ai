@@ -45,19 +45,17 @@ class MyRatings extends Component {
     let ratingsData = [];
     try {
       let payload = await fetchUserRatings();
-
       if (payload.ratedSkills) {
         for (let i of payload.ratedSkills) {
           let skillName = Object.keys(i)[0];
 
-          let skill={
+          let skill = {
             skillName: skillName,
             group: i[skillName].group,
             language: i[skillName].language,
             skillStar: i[skillName].stars,
             ratingTimestamp: i[skillName].timestamp,
           };
-
           ratingsData.push(skill);
         }
         this.setState({
@@ -103,16 +101,14 @@ class MyRatings extends Component {
                     skillStar,
                     ratingTimestamp,
                   } = skill;
-
-                  let v="";
-                  for(let i in skillName){
-                    let character=skillName[i];
-                    if (character == character.toUpperCase() && i!=0) {
-                      v+="_";
+                  let v = '' ;
+                  for (let i = 0; i < skillName.length; i++) {
+                    let character=skillName.charAt(i);
+                    if (character === character.toUpperCase() && i !== 0) {
+                      v += '_';
                     }
                     v+=character.toLowerCase();
                   }
-
                   return (
                     <TableRow key={index}>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
@@ -174,4 +170,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect( null, mapDispatchToProps )(MyRatings);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(MyRatings);
