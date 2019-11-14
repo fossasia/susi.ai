@@ -1007,7 +1007,7 @@ class BrowseSkill extends React.Component {
                   </div>
                   {skills.length > this.props.entriesPerPage && (
                     <PageNavigationContainer>
-                      <div>
+                      <div style={{ marginBottom: '12px' }}>
                         Page: {listPage} out of{' '}
                         {Math.ceil(skills.length / entriesPerPage)}
                       </div>
