@@ -22,6 +22,7 @@ class MyAnalytics extends Component {
     this.state = {
       skillUsage: [],
       loading: true,
+      userSkills: 0,
       skillUsageCount: 0,
     };
   }
@@ -61,12 +62,17 @@ class MyAnalytics extends Component {
     });
     this.setState({
       skillUsage,
+      userSkills: data.length,
       skillUsageCount,
     });
   };
 
   render() {
-    let { skillUsage, loading, skillUsageCount } = this.state;
+    let { skillUsage, loading, skillUsageCount, userSkills } = this.state;
+    let noskillCreatedMessage =
+      userSkills.length > 0
+        ? ''
+        : 'Your skill has not been used, make sure to improve your skill to attract more users.';
     return (
       <div>
         {loading ? (
@@ -95,14 +101,11 @@ class MyAnalytics extends Component {
             )}
           </Container>
         )}
-        {skillUsageCount === 0 && !loading && (
+        {skillUsageCount === 0 && noskillCreatedMessage !== '' && !loading && (
           <Container>
             <div className="center">
               <br />
-              <h2 style={{ textAlign: 'center' }}>
-                Your skill has not been used, make sure to improve your skill to
-                attract more users.
-              </h2>
+              <h2 style={{ textAlign: 'center' }}>{noskillCreatedMessage}</h2>
               <br />
             </div>
           </Container>
