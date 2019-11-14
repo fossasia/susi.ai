@@ -101,20 +101,20 @@ class MyRatings extends Component {
                     skillStar,
                     ratingTimestamp,
                   } = skill;
-                  let v = '' ;
+                  let v = '';
                   for (let i = 0; i < skillName.length; i++) {
-                    let character=skillName.charAt(i);
+                    let character = skillName.charAt(i);
                     if (character === character.toUpperCase() && i !== 0) {
                       v += '_';
                     }
-                    v+=character.toLowerCase();
+                    v += character.toLowerCase();
                   }
                   return (
                     <TableRow key={index}>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname: `/${group}/${v}/${language}`  
+                            pathname: `/${group}/${v}/${language}`,
                           }}
                         >
                           {(
