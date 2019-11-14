@@ -1012,6 +1012,7 @@ class BrowseSkill extends React.Component {
                         Page: {listPage} out of{' '}
                         {Math.ceil(skills.length / entriesPerPage)}
                       </div>
+                      <br />
                       <Fab
                         disabled={listPage === 1}
                         color="primary"
