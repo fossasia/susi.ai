@@ -12,7 +12,7 @@ import uiActions from '../../../redux/actions/ui';
 import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
-import {getSkillFromRating} from '../../../utils/getSkillFromRating';
+import { getSkillFromRating } from '../../../utils/getSkillFromRating';
 import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
 
@@ -107,7 +107,9 @@ class MyRatings extends Component {
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname: `/${group}/${getSkillFromRating(skillName)}/${language}`,
+                            pathname: `/${group}/${getSkillFromRating(
+                              skillName,
+                              )}/${language}`,
                           }}
                         >
                           {(
