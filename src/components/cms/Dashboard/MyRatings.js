@@ -109,7 +109,7 @@ class MyRatings extends Component {
                           to={{
                             pathname: `/${group}/${getSkillFromRating(
                               skillName,
-                              )}/${language}`,
+                            )}/${language}`,
                           }}
                         >
                           {(
