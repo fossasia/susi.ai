@@ -12,6 +12,7 @@ import uiActions from '../../../redux/actions/ui';
 import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
+import {getSkillFromRating} from '../../../utils/getSkillFromRating';
 import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
 
@@ -101,20 +102,12 @@ class MyRatings extends Component {
                     skillStar,
                     ratingTimestamp,
                   } = skill;
-                  let v = '';
-                  for (let i = 0; i < skillName.length; i++) {
-                    let character = skillName.charAt(i);
-                    if (character === character.toUpperCase() && i !== 0) {
-                      v += '_';
-                    }
-                    v += character.toLowerCase();
-                  }
                   return (
                     <TableRow key={index}>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname: `/${group}/${v}/${language}`,
+                            pathname: `/${group}/${getSkillFromRating(skillName)}/${language}`,
                           }}
                         >
                           {(
