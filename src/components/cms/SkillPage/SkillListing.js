@@ -20,6 +20,7 @@ import Ratings from 'react-ratings-declarative';
 import { reportSkill } from '../../../apis';
 import { CenterReaderContainer } from '../../shared/Container';
 import ScrollTopButton from '../../shared/ScrollTopButton';
+import { StaffPickBadge } from '../../shared/Badges';
 
 // Static Assets
 import CircleImage from '../../shared/CircleImage';
@@ -293,6 +294,7 @@ class SkillListing extends Component {
       dynamicContent,
       examples,
       skillRatings,
+      staffPick,
     } = this.props.metaData;
 
     const { loadingSkill, isAdmin, accessToken, history } = this.props;
@@ -348,6 +350,7 @@ class SkillListing extends Component {
                   {author}
                 </AuthorSpan>
               </h4>
+              {staffPick && <StaffPickBadge />}
               <SingleRating>
                 <Ratings
                   rating={skillRatings.avgStar}
@@ -535,6 +538,7 @@ SkillListing.propTypes = {
   snackMessage: PropTypes.string,
   accessToken: PropTypes.string,
   isAdmin: PropTypes.bool,
+  staffPick: PropTypes.bool,
 };
 
 function mapStateToProps(store) {

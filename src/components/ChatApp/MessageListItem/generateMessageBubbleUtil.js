@@ -90,7 +90,7 @@ const generateDateBubble = message => {
   );
 };
 
-// eslint-disable-next-line no-unused-vars
+/*
 const generateGifBubble = (
   action,
   index,
@@ -115,6 +115,7 @@ const generateGifBubble = (
     </MessageContainer>
   );
 };
+*/
 
 const generateAnswerBubble = (
   action,
