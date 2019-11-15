@@ -475,7 +475,7 @@ This action can be performed by doing a web search on the client side:
       "count": 3
       }
     ]
-  }],
+  }]
 }
 ```
 
@@ -502,6 +502,21 @@ A rendering would look like:
 
 The actual presentation can differ from this, i.e. using anchor tags it should be possible to click on the title or description and link to the given link content.
 
+### Video Actions
+
+A video action to play a youtube video would look like:
+```
+snore
+!console:I am snoring
+{
+"actions":[{
+    "type":"video_play",
+    "identifier":"tRqx7KouLAg",
+    "identifier_type":"youtube"
+}]
+}
+eol
+```
 
 
 Please be aware that a Susi answer may contain more than one action as answer.
