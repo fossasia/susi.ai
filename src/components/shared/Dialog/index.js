@@ -20,7 +20,7 @@ import EditSkill from '../../Admin/ListSkills/EditSkillDialog';
 import EditDevice from '../../Admin/ListDevices/EditDeviceDialog';
 import ConfirmDialog from './dialogTypes/ConfirmDialog';
 import ReportSkillDialog from '../../cms/SkillPage/ReportSkillDialog';
-import EditFeedbackDialog from '../../cms/SkillFeedbackPage/EditFeedbackDialog';
+import EditFeedback from '../../cms/SkillFeedbackPage/EditFeedbackDialog';
 import SkillSlideshowDialog from '../../Admin/Settings/Slideshow/Dialog';
 import EditUserRole from '../../Admin/ListUser/EditUserRoleDialog';
 import DeleteUserAccountDialog from '../../Admin/ListUser/DeleteDialog';
@@ -80,7 +80,11 @@ const DialogData = {
     size: 'sm',
     componentProps: { entityType: 'feedback', actionType: 'Delete' },
   },
-  editFeedback: { Component: EditFeedbackDialog, size: 'sm' },
+  editFeedback: {
+    Component: EditFeedback,
+    size: 'sm',
+    componentProps: { entityType: 'feedback', actionType: 'Edit' },
+  },
   // For skillCreator delete skill
   deleteBot: {
     Component: ConfirmDeleteWithInput,

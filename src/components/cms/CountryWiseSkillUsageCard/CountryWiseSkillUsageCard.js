@@ -11,7 +11,7 @@ import { isoCountries } from '../../../utils';
 import { DefaultMessage } from '../../shared/Typography';
 
 const ListContainer = styled.div`
-  width: 25%;
+  width: auto;
   max-height: 300px;
   overflow-y: auto;
   padding: 16px;

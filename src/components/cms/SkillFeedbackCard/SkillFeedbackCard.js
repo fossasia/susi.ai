@@ -63,15 +63,17 @@ class SkillFeedbackCard extends Component {
     this.setState({ newFeedbackValue: event.target.value });
   };
 
-  handleEditOpen = () => {
+  handleEditOpen = previousFeedback => {
     this.handleMenuClose();
-    this.props.actions.openModal({
-      modalType: 'editFeedback',
-      handleConfirm: this.postFeedback,
-      handleClose: this.props.actions.closeModal,
-      errorText: this.state.errorText,
-      feedback: this.state.newFeedbackValue,
-      handleEditFeedback: this.editFeedback,
+    this.setState({ newFeedbackValue: previousFeedback }, () => {
+      this.props.actions.openModal({
+        modalType: 'editFeedback',
+        handleConfirm: this.postFeedback,
+        handleClose: this.props.actions.closeModal,
+        errorText: this.state.errorText,
+        feedback: this.state.newFeedbackValue,
+        handleEditFeedback: this.editFeedback,
+      });
     });
   };
 
@@ -115,6 +117,7 @@ class SkillFeedbackCard extends Component {
 
   deleteFeedback = async () => {
     const { group, language, skillTag: skill, actions } = this.props;
+    this.setState({ newFeedbackValue: '' });
     const skillData = {
       model: 'general',
       group,
@@ -182,7 +185,11 @@ class SkillFeedbackCard extends Component {
                     open={open}
                     onClose={this.handleMenuClose}
                   >
-                    <MenuItem onClick={this.handleEditOpen}>
+                    <MenuItem
+                      onClick={() => {
+                        this.handleEditOpen(data.feedback);
+                      }}
+                    >
                       <ListItemIcon>
                         <EditBtn />
                       </ListItemIcon>
