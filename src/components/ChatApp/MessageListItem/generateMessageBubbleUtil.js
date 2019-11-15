@@ -62,11 +62,60 @@ const WebSearchRSSContainer = styled.div`
 
 const entities = new AllHtmlEntities();
 
-const checkMapAction = link => {
+const checkMapAction = (
+  link,
+  userGeoData,
+  allActions,
+  getUserGeoData,
+  action,
+) => {
   if (link.substring(0, 25) === 'https://www.openstreetmap') {
-    return true;
+    let coordinates = link.substring(38).split('/');
+    let latitude = parseFloat(coordinates[0]);
+    let longitude = parseFloat(coordinates[1]);
+    let zoom = 8;
+    let replacedText, mymap;
+
+    let mapAnchor = null;
+    if (allActions.indexOf('anchor') > -1) {
+      const link = action.link;
+      const text = action.text;
+      mapAnchor = renderAnchor(text, link);
+    }
+
+    if (isNaN(latitude) || isNaN(longitude)) {
+      /* Check if user's geo data is available or else perform the action */
+      if (userGeoData === null) {
+        getUserGeoData();
+      } else {
+        /* Manually providing mapanchor and replacedText
+             fields as schema stiching in reducer*/
+        mapAnchor = (
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
+          >
+            Here is a map
+          </a>
+        );
+
+        replacedText = 'Your location';
+        mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
+      }
+    } else {
+      mymap = drawMap(latitude, longitude, zoom);
+    }
+    return {
+      status: 'true',
+      mymap,
+      mapAnchor,
+      replacedText,
+    };
   }
-  return false;
+  return {
+    status: 'false',
+  };
 };
 
 const PostDate = injectIntl(({ date, intl }) => (
@@ -390,44 +439,14 @@ export const generateMessageBubble = (
       case 'anchor':
         {
           const { link, text } = action;
-          if (checkMapAction(link)) {
-            let mapAnchor = null;
-            let zoom = 8;
-            let coordinates = link.substring(38).split('/');
-            let latitude = parseFloat(coordinates[0]);
-            let longitude = parseFloat(coordinates[1]);
-
-            if (allActions.indexOf('anchor') > -1) {
-              const link = action.link;
-              const text = action.text;
-              mapAnchor = renderAnchor(text, link);
-            }
-
-            let mymap;
-            if (isNaN(latitude) || isNaN(longitude)) {
-              /* Check if user's geo data is available or else perform the action */
-              if (userGeoData === null) {
-                getUserGeoData();
-              } else {
-                /* Manually providing mapanchor and replacedText
-                     fields as schema stiching in reducer*/
-                mapAnchor = (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://www.openstreetmap.org/#map=13/${userGeoData.lat}/${userGeoData.lon}`}
-                  >
-                    Here is a map
-                  </a>
-                );
-
-                replacedText = 'Your location';
-                mymap = drawMap(userGeoData.lat, userGeoData.lon, zoom);
-              }
-            } else {
-              mymap = drawMap(latitude, longitude, zoom);
-            }
-
+          const { status, mymap, mapAnchor, replacedText } = checkMapAction(
+            link,
+            userGeoData,
+            allActions,
+            getUserGeoData,
+            action,
+          );
+          if (status) {
             listItems.push(
               generateMapBubble(
                 actionType,
@@ -455,6 +474,8 @@ export const generateMessageBubble = (
           }
         }
         break;
+      /* Map case must be reimplemented when the 'map' case is
+       properly handled and set from the backend
 
       case 'map': {
         let mapAnchor = null;
@@ -470,12 +491,12 @@ export const generateMessageBubble = (
         zoom = parseFloat(zoom);
         let mymap;
         if (isNaN(latitude) || isNaN(longitude)) {
-          /* Check if user's geo data is available or else perform the action */
+          // Check if user's geo data is available or else perform the action
           if (userGeoData === null) {
             getUserGeoData();
           } else {
-            /* Manually providing mapanchor and replacedText
-                 fields as schema stiching in reducer*/
+            // Manually providing mapanchor and replacedText
+            //     fields as schema stiching in reducer
             mapAnchor = (
               <a
                 target="_blank"
@@ -492,7 +513,6 @@ export const generateMessageBubble = (
         } else {
           mymap = drawMap(latitude, longitude, zoom);
         }
-
         listItems.push(
           generateMapBubble(
             actionType,
@@ -508,6 +528,7 @@ export const generateMessageBubble = (
 
         break;
       }
+*/
       case 'table': {
         let { columns, count } = action;
         let table = drawTable(columns, answer.data, count);
