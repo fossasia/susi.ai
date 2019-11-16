@@ -62,6 +62,11 @@ const LanguageSelect = styled(Select)`
   .MuiOutlinedInput-input {
     padding-right: 1.6rem;
   }
+  @media (max-width: 430px) {
+    .MuiOutlinedInput-input {
+      padding-right: 2rem;
+    }
+  }
 `;
 
 const UserDetail = styled.div`
