@@ -131,7 +131,7 @@ class MobileTab extends React.Component {
 
   render() {
     const { phoneNo, phoneNoError, countryCode, loading } = this.state;
-    const { phoneNo: _phoneNo, countryCode: _countryCode } = this.props;
+    const { phoneNo: _phoneNo, countryCode: _countryCode, theme } = this.props;
     const disabled =
       (countryCode === _countryCode && phoneNo === _phoneNo) || loading;
     sortCountryLexographical(countryData);
@@ -165,7 +165,17 @@ class MobileTab extends React.Component {
           </InputText>
           <div>
             <Select
-              style={{ width: '12rem' }}
+              style={
+                theme === 'dark'
+                  ? {
+                      color: 'white',
+                      width: '12rem',
+                    }
+                  : {
+                      color: 'rgba(0, 0, 0, 0.87)',
+                      width: '12rem',
+                    }
+              }
               value={countryCode ? countryCode : 'US'}
               onChange={this.handleCountryChange}
             >
@@ -178,7 +188,17 @@ class MobileTab extends React.Component {
           <PhoneDetails>
             <PhoneCode>
               <TextField
-                style={{ width: '45px' }}
+                style={
+                  theme === 'dark'
+                    ? {
+                        color: 'white',
+                        width: '45px',
+                      }
+                    : {
+                        color: 'rgba(0, 0, 0, 0.87)',
+                        width: '45px',
+                      }
+                }
                 name="selectedCountry"
                 disabled={true}
                 value={
@@ -189,9 +209,30 @@ class MobileTab extends React.Component {
             </PhoneCode>
             <Number>
               <FormControl error={phoneNoError !== ''}>
-                <InputLabel>Phone Number</InputLabel>
+                <InputLabel
+                  style={
+                    theme === 'dark'
+                      ? {
+                          color: 'white',
+                        }
+                      : {
+                          color: 'rgba(0, 0, 0, 0.87)',
+                        }
+                  }
+                >
+                  Phone Number
+                </InputLabel>
                 <Input
                   value={phoneNo}
+                  style={
+                    theme === 'dark'
+                      ? {
+                          color: 'white',
+                        }
+                      : {
+                          color: 'rgba(0, 0, 0, 0.87)',
+                        }
+                  }
                   onChange={this.handleTelephoneNoChange}
                   aria-describedby="phone-error-text"
                 />
@@ -224,6 +265,7 @@ MobileTab.propTypes = {
   countryCode: PropTypes.string,
   countryDialCode: PropTypes.string,
   actions: PropTypes.object,
+  theme: PropTypes.string,
   userEmailId: PropTypes.string,
 };
 

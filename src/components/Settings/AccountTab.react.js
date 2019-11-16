@@ -79,13 +79,6 @@ const AvatarSection = styled.div`
   }
 `;
 
-const styles = {
-  selectAvatarDropDownStyle: {
-    width: '40%',
-    minWidth: '9.5rem',
-  },
-};
-
 class AccountTab extends React.Component {
   constructor(props) {
     super(props);
@@ -328,6 +321,7 @@ class AccountTab extends React.Component {
     const {
       actions,
       email,
+      theme,
       timeZone: _timeZone,
       prefLanguage: _prefLanguage,
       userName: _userName,
@@ -346,6 +340,7 @@ class AccountTab extends React.Component {
 
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+
     return (
       <SettingsTabWrapper heading="Account">
         <Container>
@@ -360,7 +355,19 @@ class AccountTab extends React.Component {
                 value={userName}
                 onChange={this.handleUserName}
                 aria-describedby="email-error-text"
-                style={{ width: '16rem', height: '2.1rem' }}
+                style={
+                  theme === 'dark'
+                    ? {
+                        width: '16rem',
+                        height: '2.1rem',
+                        color: 'white',
+                      }
+                    : {
+                        width: '16rem',
+                        height: '2.1rem',
+                        color: 'rgba(0, 0, 0, 0.87)',
+                      }
+                }
                 placeholder="Enter your User Name"
               />
               <FormHelperText error={userNameError !== ''}>
@@ -374,7 +381,19 @@ class AccountTab extends React.Component {
               labelWidth={0}
               name="email"
               value={userEmailId !== '' ? userEmailId : email}
-              style={{ width: '16rem', height: '2.1rem' }}
+              style={
+                theme === 'dark'
+                  ? {
+                      width: '16rem',
+                      height: '2.1rem',
+                      color: 'white',
+                    }
+                  : {
+                      width: '16rem',
+                      height: '2.1rem',
+                      color: 'rgba(0, 0, 0, 0.87)',
+                    }
+              }
               disabled={true}
             />
             <TabHeading>
@@ -411,7 +430,21 @@ class AccountTab extends React.Component {
               <Select
                 onChange={this.handleAvatarTypeChange}
                 value={avatarType}
-                style={styles.selectAvatarDropDownStyle}
+                style={
+                  theme === 'dark'
+                    ? {
+                        width: '40%',
+                        minWidth: '9.5rem',
+                        color:
+                          theme === 'dark' ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      }
+                    : {
+                        width: '40%',
+                        minWidth: '9.5rem',
+                        color:
+                          theme === 'dark' ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      }
+                }
               >
                 <MenuItem value="default">Default</MenuItem>
                 <MenuItem value="server">Upload</MenuItem>
@@ -480,6 +513,7 @@ class AccountTab extends React.Component {
 
 AccountTab.propTypes = {
   timeZone: PropTypes.string,
+  theme: PropTypes.string,
   userName: PropTypes.string,
   prefLanguage: PropTypes.string,
   email: PropTypes.string,
@@ -501,6 +535,7 @@ function mapStateToProps(store) {
     userEmailId: email, // Admin access : email Id of the user being accesed
     accessToken: store.app.accessToken,
     avatarType: settings.avatarType,
+    theme: store.settings.theme,
   };
 }
 

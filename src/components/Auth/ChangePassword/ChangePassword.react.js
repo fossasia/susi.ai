@@ -61,6 +61,7 @@ class ChangePassword extends Component {
     settings: PropTypes.object,
     actions: PropTypes.object,
     email: PropTypes.string,
+    theme: PropTypes.string,
     captchaKey: PropTypes.string,
     isCaptchaEnabled: PropTypes.bool,
   };
@@ -266,7 +267,7 @@ class ChangePassword extends Component {
       loading,
       showCaptchaErrorMessage,
     } = this.state;
-    const { actions, captchaKey, isCaptchaEnabled } = this.props;
+    const { actions, captchaKey, isCaptchaEnabled, theme } = this.props;
     const isValid =
       !newPasswordErrorMessage &&
       !newPasswordConfirmErrorMessage &&
@@ -282,8 +283,18 @@ class ChangePassword extends Component {
           <PasswordField
             name="password"
             value={password}
+            style={
+              theme === 'dark'
+                ? {
+                    color: 'white',
+                    marginBottom: '20px',
+                  }
+                : {
+                    color: 'rgba(0, 0, 0, 0.87)',
+                    marginBottom: '20px',
+                  }
+            }
             onChange={this.handleTextFieldChange}
-            style={{ marginBottom: '20px' }}
           />
           <LabelContainer>New Password</LabelContainer>
           <Form error={newPasswordErrorMessage !== ''}>
@@ -291,6 +302,15 @@ class ChangePassword extends Component {
               name="newPassword"
               placeholder="Must be between 8-64 characters"
               value={newPassword}
+              style={
+                theme === 'dark'
+                  ? {
+                      color: 'white',
+                    }
+                  : {
+                      color: 'rgba(0, 0, 0, 0.87);',
+                    }
+              }
               onChange={this.handleTextFieldChange}
             />
             <FormHelperText error={newPasswordErrorMessage !== ''}>
@@ -307,6 +327,15 @@ class ChangePassword extends Component {
               <PasswordField
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
+                style={
+                  theme === 'dark'
+                    ? {
+                        color: 'white',
+                      }
+                    : {
+                        color: 'rgba(0, 0, 0, 0.87);',
+                      }
+                }
                 value={confirmNewPassword}
                 onChange={this.handleTextFieldChange}
               />
@@ -352,11 +381,13 @@ class ChangePassword extends Component {
 function mapStateToProps(store) {
   const { email } = store.app;
   const { captchaKey } = store.app.apiKeys;
+  const { theme } = store.settings;
   const { changePassword: isCaptchaEnabled = true } = store.app.captchaConfig;
   return {
     email,
     captchaKey,
     isCaptchaEnabled,
+    theme,
   };
 }
 
