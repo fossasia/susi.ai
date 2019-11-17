@@ -139,7 +139,7 @@ const DialogSection = props => {
     Component,
     fullScreen = false,
     style = {
-      padding: isMobileView() ? '0.3rem' : '1rem 1.5rem',
+      padding: isMobileView() ? '0.3rem' : '2.4rem 1.5rem',
       textAlign: 'center',
     },
     componentProps = {},
