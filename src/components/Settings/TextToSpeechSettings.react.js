@@ -180,7 +180,7 @@ class TextToSpeechSettings extends Component {
       .replace('(', '')
       .trim();
     speechName = this.state.voiceList.filter(item => {
-      return item.name === speechName;
+      return item.name == speechName;
     });
 
     this.setState(
