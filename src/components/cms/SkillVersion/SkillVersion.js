@@ -20,10 +20,7 @@ import CircularLoader from '../../shared/CircularLoader';
 import Checkbox from '@material-ui/core/Checkbox';
 
 const Button = styled(_Button)`
-  right: ${props => props.position + 'rem'};
-  bottom: 2rem;
-  position: fixed;
-  z-index: 1;
+  margin: 0 5px;
 `;
 
 const Container = styled.div`
@@ -33,11 +30,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 3rem auto;
-`;
-
-const ActionButtonDiv = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `;
 
 class SkillVersion extends Component {
@@ -190,41 +182,45 @@ class SkillVersion extends Component {
           <CircularLoader />
         ) : (
           <Container>
-            <h1 style={{ display: 'flex' }}>
-              <div style={{ textTransform: 'capitalize' }}>
-                {skillMeta.skillName.split('_').join(' ')}
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div>
+                <h1 style={{ display: 'flex' }}>
+                  <div style={{ textTransform: 'capitalize' }}>
+                    {skillMeta.skillName.split('_').join(' ')}
+                  </div>
+                  :&nbsp;Revision History
+                </h1>
+                <p>
+                  <span>
+                    For any version listed below, click on its date to view it.
+                    You can compare only two versions at a time.
+                  </span>
+                </p>
               </div>
-              :&nbsp;Revision History
-            </h1>
-            <p>
-              <span>
-                For any version listed below, click on its date to view it. You
-                can compare only two versions at a time.
-              </span>
-            </p>
-            <div style={{ margin: '0.625rem' }}>{commitHistoryTable}</div>
-            <ActionButtonDiv>
-              {checks.length === 2 && (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {checks.length === 2 && (
+                  <Link
+                    to={{
+                      pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
+                    }}
+                  >
+                    <Button variant="contained" color="primary" size="small">
+                      Compare
+                    </Button>
+                  </Link>
+                )}
                 <Link
                   to={{
-                    pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/compare/${skillMeta.languageValue}/${checkedCommits[0].commitId}/${checkedCommits[1].commitId}`,
+                    pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
                   }}
                 >
-                  <Button position={8} variant="contained" color="primary">
-                    Compare
+                  <Button variant="contained" color="primary" size="small">
+                    Back
                   </Button>
                 </Link>
-              )}
-              <Link
-                to={{
-                  pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/${skillMeta.languageValue}`,
-                }}
-              >
-                <Button position={2} variant="contained" color="primary">
-                  Back
-                </Button>
-              </Link>
-            </ActionButtonDiv>
+              </div>
+            </div>
+            <div style={{ margin: '0.625rem' }}>{commitHistoryTable}</div>
           </Container>
         )}
       </div>
