@@ -1,182 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import htmlToText from 'html-to-text';
 import { connect } from 'react-redux';
-import _Card from '@material-ui/core/Card';
-import _CardMedia from '@material-ui/core/CardMedia';
-import dateFormat from 'dateformat';
-import Fab from '@material-ui/core/Fab';
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  FacebookIcon,
-  TwitterIcon,
-} from 'react-share';
-import styled, { css } from 'styled-components';
-import Typography from '@material-ui/core/Typography';
-import renderHTML from 'react-render-html';
+import styled from 'styled-components';
 import _Loading from 'react-loading-animation';
 import { getBlogReponse } from '../../../apis';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
-import Next from '@material-ui/icons/KeyboardArrowRight';
-import Previous from '@material-ui/icons/KeyboardArrowLeft';
-import susi from '../../../images/susi-logo.svg';
 import { Header } from '../../shared/About';
 import ScrollTopButton from '../../shared/ScrollTopButton';
+import SearchBar from 'material-ui-search-bar';
+import isMobileView from '../../../utils/isMobileView';
+import uiActions from '../../../redux/actions/ui';
+import { bindActionCreators } from 'redux';
+import BlogPost from './BlogPost';
+import Pagination from 'react-paginating';
+import Button from '@material-ui/core/Button';
 
-const allCategories = [
-  'FOSSASIA',
-  'GSoC',
-  'SUSI.AI',
-  'Tutorial',
-  'Android',
-  'API',
-  'App generator',
-  'CodeHeat',
-  'Community',
-  'Event',
-  'Event Management',
-  'loklak',
-  'Meilix',
-  'Open Event',
-  'Phimpme',
-  'Pocket Science Lab',
-  'yaydoc',
-];
-
-const arrDiff = (a1, a2) => {
-  let a = [],
-    diff = [];
-  for (let f = 0; f < a1.length; f++) {
-    a[a1[f]] = true;
-  }
-  for (let z = 0; z < a2.length; z++) {
-    if (a[a2[z]]) {
-      delete a[a2[z]];
-    } else {
-      a[a2[z]] = true;
-    }
-  }
-  for (let k in a) {
-    diff.push(k);
-  }
-  return diff;
-};
+// Number of items shown in the page
+const limit = 5;
+// Pagination Element's displayed page count
+const pageCount = 3;
 
 const Loading = styled(_Loading)`
   margin-top: 1.25rem;
   position: relative;
 `;
 
-const LinkStyle = css`
-  font-size: 0.875rem;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.54);
-`;
-
-const FlexBox = styled.div`
-  display: flex;
-  align-items: baseline;
-  color: rgba(51, 51, 51, 0.7);
-  line-height: 1.563rem;
-  margin-right: 2rem;
-`;
-
-const BlogPostContainer = styled.div`
-  padding: 1rem;
-`;
-
-const BlogFooter = styled.div`
-  padding: 3rem;
-  background: #f7f7f7;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const CardMedia = styled(_CardMedia)`
-  height: 0;
-  padding-top: 56.25%;
-  height: 31.25rem;
-  object-fit: contain;
-  vertical-align: middle;
-
-  @media (max-width: 1000px) {
-    height: 18.75rem;
-  }
-`;
-
-const Card = styled(_Card)`
-  position: relative;
-`;
-
-const Overlay = styled.div`
-  position: relative;
-  left: 0rem;
-  background: rgba(0, 0, 0, 0.54);
-  width: 100%;
-  padding: 1rem;
-  margin-top: -3.5rem;
-`;
-
-const CustomTypography = styled(Typography)`
-  margin-bottom: 2rem;
-  color: rgba(0, 0, 0, 0.54);
-  font-size: 0.875rem;
-`;
-
-const BlogNavigation = styled.div`
-  display: none;
-  justify-content: center;
-  padding-top: 0.938rem;
-
-  @media (min-width: 1400px) {
-    position: absolute;
-    right: 15%;
-    bottom: 13.75rem;
-  }
-
-  @media (max-width: 1000px) {
-    bottom: 12.5rem;
-  }
-`;
-
-const SocialButtons = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 0.625rem 0 1.25rem 0.625rem;
-`;
-
-const Icon = styled.i`
-  padding-right: 0.625rem;
-`;
-
 const Container = styled.div`
   width: 100%;
 `;
 
-const BlogFooterLink = styled.a`
-  white-space: nowrap;
-  cursor: pointer;
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.87);
-  height: 1.875rem;
-
-  &:hover {
-    text-decoration: underline;
-    color: rgba(51, 51, 51, 0.7);
-  }
-`;
-
-const OverlayLink = styled.a`
-  &&& {
-    ${LinkStyle};
-  }
-`;
-
 const BottomPost = styled.div`
   padding: 6.25rem 1.25rem 2.5rem 1.25rem;
-
   @media (max-width: 1000px) {
     width: 90%;
     margin: 0.625rem 0 auto;
@@ -193,12 +48,19 @@ class Blog extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      total: 0,
       posts: [],
       postRendered: false,
-      startPage: 0,
-      nextDisplay: 'visible',
-      prevDisplay: 'hidden',
+      expandedElements: [],
+      elementsDisplayed: [],
+      currentPage: 1,
+      totalElements: 0,
+      mode: 'normal',
+      searchResults: [],
+      displaySearchbar: false,
     };
+    this.expandedElements = [];
+    this.elementsToDisplay = [];
   }
 
   componentDidMount() {
@@ -225,7 +87,13 @@ class Blog extends Component {
       if (payload.status !== 'ok') {
         throw payload.message;
       }
-      this.setState({ posts: payload.items, postRendered: true });
+      this.setState({
+        posts: payload.items,
+        postRendered: true,
+        elementsDisplayed: payload.items.slice(0, 5),
+        displaySearchbar: true,
+        total: payload.items.length,
+      });
     } catch (err) {
       console.log("Couldn't fetch blog response");
     }
@@ -242,58 +110,102 @@ class Blog extends Component {
     const intervalId = setInterval(this.scrollStep, 16.66);
     this.setState({ intervalId: intervalId });
   }
-  // Function to navigate to previous page
-  previousPage = () => {
-    const current = this.state.startPage;
-    if (current - 10 === 0) {
+
+  handlePageChange = (page, e) => {
+    let elementsToDisplay = [];
+    if (this.state.mode === 'normal') {
+      elementsToDisplay = this.state.posts.slice(page * 5 - 5, page * 5);
       this.setState({
-        startPage: current - 10,
-        prevDisplay: 'hidden',
-        nextDisplay: 'visible',
+        currentPage: page,
+        elementsDisplayed: elementsToDisplay,
+        total: 50,
       });
+      this.scrollToTop();
     } else {
+      elementsToDisplay = this.state.searchResults.slice(
+        page * 5 - 5,
+        page * 5,
+      );
       this.setState({
-        startPage: current - 10,
-        prevDisplay: 'visible',
-        nextDisplay: 'visible',
+        currentPage: page,
+        elementsDisplayed: elementsToDisplay,
+        total: this.state.searchResults.length,
       });
+      this.scrollToTop();
     }
-    this.scrollToTop();
   };
-  // Function to navigate to next page
-  nextPage = () => {
-    const current = this.state.startPage;
-    const size = this.state.posts.length;
-    if (current + 10 === size - 10) {
+
+  handleClick = index => {
+    this.expandedElements.push(index);
+    this.setState({
+      expandedElements: this.expandedElements,
+    });
+  };
+
+  handleClickRemove = index => {
+    this.expandedElements.splice(this.expandedElements.indexOf(index), 1);
+    this.setState({
+      expandedElements: this.expandedElements,
+    });
+  };
+
+  handleSearch = value => {
+    const { actions } = this.props;
+    let results = 0;
+    if (value.length === 0) {
       this.setState({
-        startPage: current + 10,
-        nextDisplay: 'hidden',
-        prevDisplay: 'visible',
+        mode: 'normal',
+        searchResults: [],
+        currentPage: 1,
       });
     } else {
+      let searchResults = [];
+      for (let i = 0; i < this.state.posts.length; i++) {
+        if (
+          this.state.posts[i].content
+            .toLowerCase()
+            .indexOf(value.toLowerCase()) !== -1
+        ) {
+          searchResults.push(this.state.posts[i]);
+          results++;
+        }
+      }
+      if (results === 0) {
+        actions.openSnackBar({
+          snackBarMessage: 'No results found for the search term!',
+        });
+      }
+      let elementsToDisplay = searchResults.slice(0, 5);
       this.setState({
-        startPage: current + 10,
-        prevDisplay: 'visible',
-        nextDisplay: 'visible',
+        mode: 'search',
+        searchResults: searchResults,
+        elementsDisplayed: elementsToDisplay,
+        total: searchResults.length,
       });
     }
-    this.scrollToTop();
   };
 
   render() {
-    const nextStyle = {
-      visibility: this.state.nextDisplay,
-      marginLeft: '0.625rem',
-    };
-
-    const prevStyle = {
-      visibility: this.state.prevDisplay,
-    };
-
+    const { search } = this.state;
+    const mobileView = isMobileView();
     return (
       <div>
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
-        <Loading isLoading={!this.state.postRendered} />
+        <SearchBar
+          value={search}
+          onChange={value => this.handleSearch(value)}
+          style={{
+            width: mobileView ? '20rem' : '60rem',
+            margin: '0 auto',
+            display: this.state.displaySearchbar == false ? 'none' : '',
+
+            marginTop: '2rem',
+          }}
+        />
+        <Loading
+          style={{ marginTop: '2rem' }}
+          isLoading={!this.state.postRendered}
+        />
         {!this.state.postRendered && (
           <div>
             <center>Fetching Blogs..</center>
@@ -302,147 +214,78 @@ class Blog extends Component {
         {this.state.postRendered && (
           <div>
             <Container>
-              {this.state.posts
-                .slice(this.state.startPage, this.state.startPage + 10)
-                .map((posts, i) => {
-                  const description = htmlToText
-                    .fromString(posts.description)
-                    .split('…');
-                  const content = posts.content;
-                  let category = [];
-                  posts.categories.forEach(cat => {
-                    let k = 0;
-                    for (k = 0; k < allCategories.length; k++) {
-                      if (cat === allCategories[k]) {
-                        category.push(cat);
-                      }
-                    }
-                  });
+              {this.state.elementsDisplayed.map((post, i) => {
+                return (
+                  <div key={post.title} className="section_blog">
+                    <BlogPost
+                      index={i}
+                      posts={post}
+                      handleClick={this.handleClick}
+                      handleClickRemove={this.handleClickRemove}
+                      expandedElements={this.state.expandedElements}
+                    />
+                  </div>
+                );
+              })}
+              <div className="pagination">
+                <Pagination
+                  total={this.state.total}
+                  limit={limit}
+                  pageCount={pageCount}
+                  currentPage={this.state.currentPage}
+                >
+                  {({ pages, currentPage, totalPages, getPageItemProps }) => (
+                    <div>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        {...getPageItemProps({
+                          pageValue: 1,
+                          onPageChange: this.handlePageChange,
+                        })}
+                      >
+                        first
+                      </Button>
 
-                  const tags = arrDiff(category, posts.categories);
-                  const fCategory = category
-                    .map(cat => (
-                      <BlogFooterLink
-                        key={cat}
-                        href={
-                          'http://blog.fossasia.org/category/' +
-                          cat.replace(/\s+/g, '-').toLowerCase()
+                      {pages.map((page, index) => {
+                        let activePage = null;
+                        if (currentPage === page) {
+                          activePage = {
+                            backgroundColor: '#0F2645',
+                          };
                         }
-                        rel="noopener noreferrer"
-                      >
-                        {cat}
-                      </BlogFooterLink>
-                    ))
-                    .reduce((prev, curr) => [prev, ', ', curr]);
-                  const ftags = tags
-                    .map(tag => (
-                      <BlogFooterLink
-                        key={tag}
-                        href={
-                          'http://blog.fossasia.org/tag/' +
-                          tag.replace(/\s+/g, '-').toLowerCase()
-                        }
-                        rel="noopener noreferrer"
-                      >
-                        {tag}
-                      </BlogFooterLink>
-                    ))
-                    .reduce((prev, curr) => [prev, ', ', curr]);
-                  let htmlContent = content.replace(/<img.*?>/, '');
-                  htmlContent = renderHTML(htmlContent);
-                  let image = susi;
-                  const regExp = /\[(.*?)\]/;
-                  const imageUrl = regExp.exec(description[0]);
-                  if (imageUrl) {
-                    image = imageUrl[1];
-                  }
-                  const date = posts.pubDate.split(' ');
-                  const d = new Date(date[0]);
-                  return (
-                    <div key={posts} className="section_blog">
-                      <Card>
-                        <CardMedia image={image} />
-                        <Overlay>
-                          <OverlayLink href={posts.link}>
-                            {`Published on ${dateFormat(
-                              d,
-                              'dddd, mmmm dS, yyyy',
-                            )}`}
-                          </OverlayLink>
-                        </Overlay>
-                        <BlogPostContainer>
-                          <Typography variant="h4">{posts.title}</Typography>
-                          <CustomTypography variant="subtitle1">
-                            by
-                            <a
-                              style={{ paddingLeft: '0.3rem' }}
-                              href={`http://blog.fossasia.org/author/${posts.author}`}
-                            >
-                              {posts.author}
-                            </a>
-                          </CustomTypography>
-                          <Typography variant="body1" gutterBottom>
-                            {htmlContent}
-                          </Typography>
-                        </BlogPostContainer>
-                        <SocialButtons>
-                          <TwitterShareButton
-                            url={posts.guid}
-                            title={posts.title}
-                            via="asksusi"
-                            hashtags={posts.categories.slice(0, 4)}
+                        return (
+                          <Button
+                            key={index}
+                            variant="contained"
+                            color="primary"
+                            {...getPageItemProps({
+                              pageValue: page,
+                              key: page,
+                              style: activePage,
+                              onPageChange: this.handlePageChange,
+                            })}
                           >
-                            <TwitterIcon size={32} round={true} />
-                          </TwitterShareButton>
-                          <FacebookShareButton url={posts.link}>
-                            <FacebookIcon size={32} round={true} />
-                          </FacebookShareButton>
-                        </SocialButtons>
-                        <BlogFooter>
-                          <FlexBox>
-                            <Icon className="fa fa-calendar" />
-                            <BlogFooterLink href={posts.link}>
-                              {dateFormat(d, 'mmmm dd, yyyy')}
-                            </BlogFooterLink>
-                          </FlexBox>
-                          <FlexBox>
-                            <Icon className="fa fa-user" />
-                            <BlogFooterLink
-                              rel="noopener noreferrer"
-                              href={
-                                'http://blog.fossasia.org/author/' +
-                                posts.author
-                              }
-                            >
-                              {posts.author}
-                            </BlogFooterLink>
-                          </FlexBox>
-                          <FlexBox>
-                            <Icon className="fa fa-folder-open-o" />
-                            {fCategory}
-                          </FlexBox>
-                          <FlexBox>
-                            <Icon className="fa fa-tags" />
-                            <div>{ftags}</div>
-                          </FlexBox>
-                        </BlogFooter>
-                      </Card>
+                            {page}
+                          </Button>
+                        );
+                      })}
+
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        {...getPageItemProps({
+                          pageValue: totalPages,
+                          onPageChange: this.handlePageChange,
+                        })}
+                      >
+                        last
+                      </Button>
                     </div>
-                  );
-                })}
+                  )}
+                </Pagination>
+              </div>
             </Container>
-            <BlogNavigation>
-              <Fab
-                style={prevStyle}
-                onClick={this.previousPage}
-                color="primary"
-              >
-                <Previous />
-              </Fab>
-              <Fab style={nextStyle} onClick={this.nextPage} color="primary">
-                <Next />
-              </Fab>
-            </BlogNavigation>
             <BottomPost />
           </div>
         )}
@@ -452,6 +295,10 @@ class Blog extends Component {
   }
 }
 
+Blog.propTypes = {
+  actions: PropTypes.object,
+};
+
 function mapStateToProps(store) {
   const { blogKey } = store.app.apiKeys;
   return {
@@ -459,7 +306,13 @@ function mapStateToProps(store) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...uiActions }, dispatch),
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Blog);

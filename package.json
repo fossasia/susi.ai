@@ -62,6 +62,7 @@
     "react-loading-animation": "1.4.0",
     "react-modal": "3.8.1",
     "react-orgchart": "1.0.5",
+    "react-paginating": "^1.3.1",
     "react-piwik": "1.6.0",
     "react-ratings-declarative": "3.4.1",
     "react-recaptcha": "2.3.10",
