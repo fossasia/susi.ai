@@ -18,11 +18,12 @@ import {
 import styled, { css } from 'styled-components';
 import MessageBubble from './MessageBubbleStyle';
 import './highlight.css';
-import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import ReactPlayer from 'react-player';
 import isMobileView from '../../../utils/isMobileView';
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import ToolTip from '../../shared/ToolTip';
 
 const isMobile = isMobileView(1000);
 
@@ -235,15 +236,17 @@ const generateVideoBubble = (
           }}
           onReady={onYouTubePlayerReady}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={onClickPopout}
-          style={{ display: isMobile ? 'none' : 'inline', margin: '5px' }}
-        >
-          popout
-        </Button>
+        <ToolTip title="Expand Player">
+          <AspectRatioIcon
+            onClick={onClickPopout}
+            style={{
+              color: '#90a4ae',
+              display: isMobile ? 'none' : 'inline',
+              margin: '5px',
+            }}
+          />
+        </ToolTip>
+
         <Modal
           open={showModal}
           onClose={onCloseModal}
