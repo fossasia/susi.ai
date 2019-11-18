@@ -47,6 +47,7 @@ import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Container = styled.div`
   display: flex;
@@ -62,6 +63,13 @@ const Link = styled(_Link)`
   &:hover {
     color: #000;
   }
+`;
+
+const NoSkillFound = styled.div`
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
 `;
 
 const SkillsFormControl = styled(FormControl)`
@@ -617,7 +625,8 @@ class BrowseSkill extends React.Component {
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
 
-    let renderSkillCount = '';
+    let renderSkillCount = '',
+      noSkillFound = '';
     if (skills.length > 0) {
       renderSkillCount = (
         <div
@@ -666,8 +675,8 @@ class BrowseSkill extends React.Component {
         </div>
       );
     } else if (searchQuery.length > 0) {
-      renderSkillCount = (
-        <div style={{ padding: '10px' }}>
+      noSkillFound = (
+        <NoSkillFound>
           <h2 style={{ fontWeight: '400' }}>
             Your search <b>&quot;{searchQuery}&quot;</b> did not match any
             skills.
@@ -677,11 +686,11 @@ class BrowseSkill extends React.Component {
             <li>Using more general terms</li>
             <li>Checking your spelling</li>
           </ul>
-        </div>
+        </NoSkillFound>
       );
     } else {
-      renderSkillCount = (
-        <div>
+      noSkillFound = (
+        <NoSkillFound>
           No result found for <SidebarLink to="/">SUSI Skill</SidebarLink>
           :&nbsp;
           {routeValue && (
@@ -689,7 +698,7 @@ class BrowseSkill extends React.Component {
               {routeValue}
             </span>
           )}
-        </div>
+        </NoSkillFound>
       );
     }
 
@@ -903,6 +912,7 @@ class BrowseSkill extends React.Component {
             <ContentContainer>
               {metricsHidden ? (
                 <div>
+                  {noSkillFound}
                   <Grid
                     container
                     spacing={3}
@@ -1011,6 +1021,7 @@ class BrowseSkill extends React.Component {
                         Page: {listPage} out of{' '}
                         {Math.ceil(skills.length / entriesPerPage)}
                       </div>
+                      <br />
                       <Fab
                         disabled={listPage === 1}
                         color="primary"
@@ -1028,6 +1039,7 @@ class BrowseSkill extends React.Component {
                       >
                         <NavigationArrowForward />
                       </Fab>
+                      <ScrollTopButton />
                     </PageNavigationContainer>
                   )}
                 </div>
@@ -1044,6 +1056,7 @@ class BrowseSkill extends React.Component {
             </ContentContainer>
           )}
         </RightContainer>
+        <ScrollTopButton />
       </Container>
     );
   }
