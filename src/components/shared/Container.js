@@ -8,9 +8,6 @@ export const FlexContainer = styled.div`
   @media (max-width: 900px) {
     width: 100%;
   }
-  @media (max-width: 500px) {
-    width: 37px;
-  }
 `;
 
 export const DialogContainer = styled.div`
