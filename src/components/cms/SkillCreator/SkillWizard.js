@@ -1025,15 +1025,22 @@ class SkillWizard extends Component {
             this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
           )}
           <ViewsDiv>
-            <IconButton onClick={() => actions.setView({ view: 'code' })}>
+            <IconButton
+              title="Code"
+              onClick={() => actions.setView({ view: 'code' })}
+            >
               <Code color={view === 'code' ? 'primary' : 'inherit'} />
             </IconButton>
             <IconButton
+              title="Conversation"
               onClick={() => actions.setView({ view: 'conversation' })}
             >
               <QA color={view === 'conversation' ? 'primary' : 'inherit'} />
             </IconButton>
-            <IconButton onClick={() => actions.setView({ view: 'tree' })}>
+            <IconButton
+              title="Tree"
+              onClick={() => actions.setView({ view: 'tree' })}
+            >
               <Timeline color={view === 'tree' ? 'primary' : 'inherit'} />
             </IconButton>
           </ViewsDiv>
