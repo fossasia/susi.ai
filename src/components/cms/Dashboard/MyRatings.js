@@ -12,6 +12,7 @@ import uiActions from '../../../redux/actions/ui';
 import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
+import { getSkillFromRating } from '../../../utils/getSkillFromRating';
 import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
 
@@ -48,13 +49,15 @@ class MyRatings extends Component {
       if (payload.ratedSkills) {
         for (let i of payload.ratedSkills) {
           let skillName = Object.keys(i)[0];
-          ratingsData.push({
+
+          let skill = {
             skillName: skillName,
             group: i[skillName].group,
             language: i[skillName].language,
             skillStar: i[skillName].stars,
             ratingTimestamp: i[skillName].timestamp,
-          });
+          };
+          ratingsData.push(skill);
         }
         this.setState({
           ratingsData,
@@ -93,19 +96,20 @@ class MyRatings extends Component {
               <TableBody>
                 {ratingsData.map((skill, index) => {
                   const {
-                    group,
                     skillName,
-                    ratingTimestamp,
+                    group,
+                    language,
                     skillStar,
+                    ratingTimestamp,
                   } = skill;
                   return (
                     <TableRow key={index}>
                       <StyledTableCell style={{ fontSize: '1rem' }}>
                         <Link
                           to={{
-                            pathname: `/${group}/${skillName
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/language`,
+                            pathname: `/${group}/${getSkillFromRating(
+                              skillName,
+                            )}/${language}`,
                           }}
                         >
                           {(
