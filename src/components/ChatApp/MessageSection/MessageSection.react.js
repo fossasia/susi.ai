@@ -25,6 +25,7 @@ import _Close from '@material-ui/icons/Close';
 import _FullScreen from '@material-ui/icons/Fullscreen';
 import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
+import ToolTip from '../../shared/ToolTip';
 
 const MessageList = styled.div`
   background: ${props => props.pane};
@@ -758,15 +759,21 @@ class MessageSection extends Component {
           )}
           <CustomIconButton width={width}>
             {mode === 'fullScreen' ? (
-              <FullScreenExit onClick={this.openPreview} />
+              <ToolTip title="Exit full screen">
+                <FullScreenExit onClick={this.openPreview} />
+              </ToolTip>
             ) : (
-              <FullScreen onClick={this.openFullScreen} />
+              <ToolTip title="Full screen">
+                <FullScreen onClick={this.openFullScreen} />
+              </ToolTip>
             )}
           </CustomIconButton>
           <IconButton
             onClick={mode === 'fullScreen' ? this.handleClose : this.toggleChat}
           >
-            <Close />
+            <ToolTip title="Close">
+              <Close />
+            </ToolTip>
           </IconButton>
         </div>
       </ActionBar>
