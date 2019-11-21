@@ -6,8 +6,8 @@ import { addUrlProps, UrlQueryParamTypes } from 'react-url-query';
 import { verifyEmail } from '../../../apis/index';
 
 const Container = styled.div`
-  height: 100vh;
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
   font-family: 'Roboto', sans-serif;
