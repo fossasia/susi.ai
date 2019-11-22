@@ -18,45 +18,8 @@ import htmlToText from 'html-to-text';
 import renderHTML from 'react-render-html';
 import susi from '../../../images/susi-logo.svg';
 import PropTypes from 'prop-types';
-
-const allCategories = [
-  'FOSSASIA',
-  'GSoC',
-  'SUSI.AI',
-  'Tutorial',
-  'Android',
-  'API',
-  'App generator',
-  'CodeHeat',
-  'Community',
-  'Event',
-  'Event Management',
-  'loklak',
-  'Meilix',
-  'Open Event',
-  'Phimpme',
-  'Pocket Science Lab',
-  'yaydoc',
-];
-
-const arrDiff = (a1, a2) => {
-  let a = [],
-    diff = [];
-  for (let f = 0; f < a1.length; f++) {
-    a[a1[f]] = true;
-  }
-  for (let z = 0; z < a2.length; z++) {
-    if (a[a2[z]]) {
-      delete a[a2[z]];
-    } else {
-      a[a2[z]] = true;
-    }
-  }
-  for (let k in a) {
-    diff.push(k);
-  }
-  return diff;
-};
+import { allCategories } from './constants';
+import _ from 'lodash';
 
 const Overlay = styled.div`
   position: relative;
@@ -138,11 +101,71 @@ class BlogPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expandedElements: [],
+      isExpanded: false,
     };
-    this.expandedElements = [];
     this.post = this.props.posts;
   }
+
+  handleClickExpand = () => {
+    this.setState({
+      isExpanded: true,
+    });
+  };
+
+  handleClickShrink = () => {
+    this.setState({
+      isExpanded: false,
+    });
+  };
+
+  getfCategories = category => {
+    let fCategory = category
+      .map(cat => (
+        <BlogFooterLink
+          key={cat}
+          href={
+            'http://blog.fossasia.org/category/' +
+            cat.replace(/\s+/g, '-').toLowerCase()
+          }
+          rel="noopener noreferrer"
+        >
+          {cat}
+        </BlogFooterLink>
+      ))
+      .reduce((prev, curr) => [prev, ', ', curr]);
+
+    return fCategory;
+  };
+
+  getfTags = tags => {
+    let ftag = tags
+      .map(tag => (
+        <BlogFooterLink
+          key={tag}
+          href={
+            'http://blog.fossasia.org/tag/' +
+            tag.replace(/\s+/g, '-').toLowerCase()
+          }
+          rel="noopener noreferrer"
+        >
+          {tag}
+        </BlogFooterLink>
+      ))
+      .reduce((prev, curr) => [prev, ', ', curr]);
+
+    return ftag;
+  };
+
+  getResultText = content => {
+    var dummyNode = document.createElement('div'),
+      resultText = '';
+
+    dummyNode.innerHTML = content;
+    resultText = dummyNode.textContent;
+    resultText = resultText.split(' ', 50).join(' ') + '....';
+
+    return resultText;
+  };
 
   render() {
     const description = htmlToText.fromString(this.post.description).split('…');
@@ -157,44 +180,14 @@ class BlogPost extends React.Component {
       }
     });
 
-    const tags = arrDiff(category, this.post.categories);
-    const fCategory = category
-      .map(cat => (
-        <BlogFooterLink
-          key={cat}
-          href={
-            'http://blog.fossasia.org/category/' +
-            cat.replace(/\s+/g, '-').toLowerCase()
-          }
-          rel="noopener noreferrer"
-        >
-          {cat}
-        </BlogFooterLink>
-      ))
-      .reduce((prev, curr) => [prev, ', ', curr]);
-    const ftags = tags
-      .map(tag => (
-        <BlogFooterLink
-          key={tag}
-          href={
-            'http://blog.fossasia.org/tag/' +
-            tag.replace(/\s+/g, '-').toLowerCase()
-          }
-          rel="noopener noreferrer"
-        >
-          {tag}
-        </BlogFooterLink>
-      ))
-      .reduce((prev, curr) => [prev, ', ', curr]);
+    const tags = _.difference(this.post.categories, category);
+    const fCategory = this.getfCategories(category);
+    const ftags = this.getfTags(tags);
+
     let htmlContent = content.replace(/<img.*?>/, '');
     htmlContent = renderHTML(htmlContent);
 
-    var dummyNode = document.createElement('div'),
-      resultText = '';
-
-    dummyNode.innerHTML = content;
-    resultText = dummyNode.textContent;
-    resultText = resultText.split(' ', 50).join(' ') + '....';
+    let resultText = this.getResultText(content);
 
     let image = susi;
     const regExp = /\[(.*?)\]/;
@@ -238,7 +231,7 @@ class BlogPost extends React.Component {
             {`Published on ${dateFormat(d, 'dddd, mmmm dS, yyyy')}`}
           </OverlayLink>
         </Overlay>
-        {this.props.expandedElements.includes(this.props.index) ? (
+        {this.state.isExpanded ? (
           <Fade in={true} timeout={1100}>
             <BlogPostContainer>
               <Typography component={'span'} variant="body1" gutterBottom>
@@ -251,9 +244,7 @@ class BlogPost extends React.Component {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => {
-                  this.props.handleClickRemove(this.props.index);
-                }}
+                onClick={this.handleClickShrink}
               >
                 <Typography>Read Less</Typography>
                 <Icon className="fa fa-chevron-up" />
@@ -272,9 +263,7 @@ class BlogPost extends React.Component {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => {
-                this.props.handleClick(this.props.index);
-              }}
+              onClick={this.handleClickExpand}
             >
               <Typography>Read More</Typography>
               <Icon className="fa fa-chevron-down" />
@@ -332,8 +321,5 @@ class BlogPost extends React.Component {
 BlogPost.propTypes = {
   index: PropTypes.number,
   posts: PropTypes.object,
-  handleClick: PropTypes.func,
-  handleClickRemove: PropTypes.func,
-  expandedElements: PropTypes.array,
 };
 export default BlogPost;

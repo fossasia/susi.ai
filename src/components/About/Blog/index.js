@@ -51,7 +51,6 @@ class Blog extends Component {
       total: 0,
       posts: [],
       postRendered: false,
-      expandedElements: [],
       elementsDisplayed: [],
       currentPage: 1,
       totalElements: 0,
@@ -59,7 +58,6 @@ class Blog extends Component {
       searchResults: [],
       displaySearchbar: false,
     };
-    this.expandedElements = [];
     this.elementsToDisplay = [];
   }
 
@@ -135,20 +133,6 @@ class Blog extends Component {
     }
   };
 
-  handleClick = index => {
-    this.expandedElements.push(index);
-    this.setState({
-      expandedElements: this.expandedElements,
-    });
-  };
-
-  handleClickRemove = index => {
-    this.expandedElements.splice(this.expandedElements.indexOf(index), 1);
-    this.setState({
-      expandedElements: this.expandedElements,
-    });
-  };
-
   handleSearch = value => {
     const { actions } = this.props;
     let results = 0;
@@ -217,13 +201,7 @@ class Blog extends Component {
               {this.state.elementsDisplayed.map((post, i) => {
                 return (
                   <div key={post.title} className="section_blog">
-                    <BlogPost
-                      index={i}
-                      posts={post}
-                      handleClick={this.handleClick}
-                      handleClickRemove={this.handleClickRemove}
-                      expandedElements={this.state.expandedElements}
-                    />
+                    <BlogPost index={i} posts={post} />
                   </div>
                 );
               })}
