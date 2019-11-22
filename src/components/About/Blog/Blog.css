@@ -1,7 +1,6 @@
 .section_blog{
     font-size: 1rem;
     line-height: 1.375rem;
-    text-align: justify;
     margin: 0 auto;
     padding: 2.5rem 0;
     position: relative;
@@ -10,7 +9,6 @@
     align-items: center;
     box-shadow: inset 0 12.5rem 12.5rem -12.5rem #fff, inset 0 -12.5rem 12.5rem -12.5rem #fff;
     display: flex;
-    flex-flow: row wrap;
     justify-content: space-between;
 }
 
@@ -30,6 +28,7 @@
     text-align: center;
     display: block;
     margin: 0 auto;
+    max-width: 100%;
 }
 
 .authorName{
@@ -74,10 +73,16 @@ table{
         padding: 0% 5% 5% 5%;
         align-self: center;
     }
+    .section_blog img{
+        max-width: 100%;
+    }
 }
 
 @media only screen and (max-width: 480px){
     .section_blog{
         padding: 5% 0%;
+    }
+    .section_blog img{
+        max-width: 100%;
     }
 }
