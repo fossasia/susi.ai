@@ -29,7 +29,7 @@
     "keymirror": "0.1.1",
     "leaflet": "1.5.1",
     "lodash": "4.17.14",
-    "material-table": "1.39.2",
+    "material-table": "^1.54.1",
     "material-ui-color-picker": "3.2.0",
     "material-ui-password-field": "2.1.0",
     "material-ui-search-bar": "1.0.0-beta.13",
