@@ -66,10 +66,10 @@ const Link = styled(_Link)`
 `;
 
 const NoSkillFound = styled.div`
-  display: block;
+  display: flex;
   margin: 0 auto;
   padding: 10px;
-  text-align: center;
+  justify-content: center;
 `;
 
 const SkillsFormControl = styled(FormControl)`
@@ -677,15 +677,25 @@ class BrowseSkill extends React.Component {
     } else if (searchQuery.length > 0) {
       noSkillFound = (
         <NoSkillFound>
-          <h2 style={{ fontWeight: '400' }}>
-            Your search <b>&quot;{searchQuery}&quot;</b> did not match any
-            skills.
-          </h2>
-          <h3 style={{ margin: '15px 0 10px 0' }}>Try something like</h3>
-          <ul style={{ listStyle: 'inside' }}>
-            <li>Using more general terms</li>
-            <li>Checking your spelling</li>
-          </ul>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h2 style={{ fontWeight: '400' }}>
+              Your search <b>&quot;{searchQuery}&quot;</b> did not match any
+              skills.
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <h3 style={{ margin: '0px 0 10px 0' }}>Try something like</h3>
+              <ul style={{ listStyle: 'inside' }}>
+                <li>Using more general terms</li>
+                <li>Checking your spelling</li>
+              </ul>
+            </div>
+          </div>
         </NoSkillFound>
       );
     } else {
