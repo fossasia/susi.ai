@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import _CloseIcon from '@material-ui/icons/Close';
 import _UpIcon from '@material-ui/icons/ExpandLess';
 import _DownIcon from '@material-ui/icons/ExpandMore';
+import ToolTip from '../shared/ToolTip';
 
 const ESCAPE_KEY = 27;
 const F_KEY = 70;
@@ -195,7 +196,9 @@ class ExpandingSearchField extends Component {
       <React.Fragment>
         <Container>
           <IconButton onClick={this.onClick}>
-            <SearchIcon />
+            <ToolTip title="Search">
+              <SearchIcon />
+            </ToolTip>
           </IconButton>
         </Container>
         {open && (
