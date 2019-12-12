@@ -303,11 +303,20 @@ class BotWizard extends React.Component {
   handleNext = () => {
     const { stepIndex } = this.state;
     const { name } = this.props;
-    this.setState({
-      stepIndex: stepIndex + 1,
-      finished: stepIndex >= 3,
-      commitMessage: 'Created Bot ' + name,
-    });
+    const botName = name.trim();
+    if (botName === '') {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please do not leave name field empty',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
+      });
+    } else {
+      this.setState({
+        stepIndex: stepIndex + 1,
+        finished: stepIndex >= 3,
+        commitMessage: 'Created Bot ' + name,
+      });
+    }
   };
 
   handlePrev = () => {
