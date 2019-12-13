@@ -10,7 +10,7 @@ const Paper = styled(_Paper)`
   width: 100%;
   margin-top: 1.25rem;
   padding: 1rem 1rem 3rem;
-  @media (max-width: 740) {
+  @media (max-width: 740px) {
     padding: 0 0 3rem;
   }
 `;
@@ -36,7 +36,7 @@ const Container = styled.div`
   padding: 1.25rem 1.875rem 1.875rem;
 
   @media (max-width: 480px) {
-    padding: 1.25rem 1rem 1.875rem;
+    padding: 0rem 0rem 0rem;
   }
 `;
 

@@ -16,6 +16,7 @@ const commonIconStyle = css`
   display: flex;
   align-items: flex-start;
   width: 100%;
+  outline: none;
 `;
 
 const ShareIconContainer = styled.div`
