@@ -146,7 +146,7 @@ class ForgotPassword extends Component {
             <StyledLink
               onClick={() => actions.openModal({ modalType: 'login' })}
             >
-              <Translate text="Login Instead!" />
+              <Translate text="Back to Login" />
             </StyledLink>
           </LinkContainer>
         </DialogContent>
