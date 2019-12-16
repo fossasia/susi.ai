@@ -45,7 +45,7 @@ const Container = styled.div`
     margin-right: 0;
   }
 `;
-
+const isSmallScreen = window.screen.availWidth < 500;
 class MySkills extends Component {
   constructor(props) {
     super(props);
@@ -185,6 +185,7 @@ class MySkills extends Component {
                 options={{
                   search: false,
                   toolbar: false,
+                  showFirstLastPageButtons: !isSmallScreen,
                   headerStyle: {
                     backgroundColor: '#6fa2ff',
                     color: '#FFF',

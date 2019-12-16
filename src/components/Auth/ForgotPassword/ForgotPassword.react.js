@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Button, OutlinedInput } from '../AuthStyles';
+import {
+  Button,
+  OutlinedInput,
+  StyledLink,
+  LinkContainer,
+} from '../AuthStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import CloseButton from '../../shared/CloseButton';
@@ -103,6 +108,7 @@ class ForgotPassword extends Component {
 
   render() {
     const { email, emailErrorMessage, loading } = this.state;
+    const { actions } = this.props;
     const isValid = !emailErrorMessage && email;
     return (
       <React.Fragment>
@@ -136,6 +142,13 @@ class ForgotPassword extends Component {
           >
             {loading ? <CircularProgress size={24} /> : 'Reset'}
           </Button>
+          <LinkContainer>
+            <StyledLink
+              onClick={() => actions.openModal({ modalType: 'login' })}
+            >
+              <Translate text="Back to Login" />
+            </StyledLink>
+          </LinkContainer>
         </DialogContent>
       </React.Fragment>
     );
