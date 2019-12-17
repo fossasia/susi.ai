@@ -30,17 +30,6 @@
     <meta name="twitter:url" content="https://susi.ai">
     <meta name="twitter:title" content="Web Chat with Susi.ai - Open Source Personal Assistant">
     <meta name="twitter:description" content="Chat with an Open Source Personal Assistant">
-    <style>
-      .loader-text{
-        opacity: 0;
-        animation: fade 1s ease-in-out infinite alternate;
-      }
-      @keyframes fade {
-        100% {
-          opacity: 1;
-        }
-      }
-    </style>
   </head>
   <body>
   <script type="text/javascript">
@@ -49,11 +38,7 @@
       document.location = "/403.html";
     }
   </script>
-    <div id="root">
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <h1 class="loader-text">Loading...</h1>
-      </div>
-    </div>
+    <div id="root"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
