@@ -8,7 +8,7 @@ const Container = styled.div`
 `;
 
 const ContentLoader = styled(_ContentLoader)`
-  width: 280px;
+  width: 260px;
   height: 168px;
   margin: 20px;
 `;
@@ -19,10 +19,10 @@ const addLoader = () => {
   for (let i = 0; i < limit; i++) {
     loader.push(
       <ContentLoader speed={2}>
-        <circle cx="34" cy="34" r="34" />
-        <rect x="75" y="18" rx="4" ry="4" width="140" height="30" />
-        <rect x="0" y="100" rx="8" ry="8" width="150" height="12" />
-        <rect x="0" y="120" rx="8" ry="8" width="90" height="12" />
+        <circle cx="28" cy="28" r="28" />
+        <rect x="75" y="14" rx="4" ry="4" width="140" height="30" />
+        <rect x="0" y="80" rx="8" ry="8" width="200" height="8" />
+        <rect x="0" y="100" rx="8" ry="8" width="120" height="8" />
       </ContentLoader>,
     );
   }
