@@ -29,7 +29,6 @@ import {
 } from '../../shared/Typography';
 import LineChart from '../../shared/charts/LineChart';
 import GetSkillName from '../../../utils/GetSkillName';
-import formatDate from '../../../utils/formatDate';
 
 const Paper = styled(_Paper)`
   width: 100%;
