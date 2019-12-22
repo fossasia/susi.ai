@@ -1051,7 +1051,41 @@ class BrowseSkill extends React.Component {
               {routeType === 'category' ? (
                 backToHome
               ) : (
-                <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
+                <div>
+                  <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
+                  <ListSubheader>Refine by</ListSubheader>
+                  <SidebarText>Avg. Customer Review</SidebarText>
+                  <SkillRatingContainer>
+                    <SidebarItem>
+                      <SkillRating
+                        handleRatingRefine={this.handleRatingRefine}
+                        rating={4}
+                        ratingRefine={ratingRefine}
+                      />
+                    </SidebarItem>
+                    <SidebarItem>
+                      <SkillRating
+                        handleRatingRefine={this.handleRatingRefine}
+                        rating={3}
+                        ratingRefine={ratingRefine}
+                      />
+                    </SidebarItem>
+                    <SidebarItem>
+                      <SkillRating
+                        handleRatingRefine={this.handleRatingRefine}
+                        rating={2}
+                        ratingRefine={ratingRefine}
+                      />
+                    </SidebarItem>
+                    <SidebarItem>
+                      <SkillRating
+                        handleRatingRefine={this.handleRatingRefine}
+                        rating={1}
+                        ratingRefine={ratingRefine}
+                      />
+                    </SidebarItem>
+                  </SkillRatingContainer>
+                </div>
               )}
             </ContentContainer>
           )}
