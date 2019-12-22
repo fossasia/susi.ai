@@ -1,4 +1,4 @@
-const GetSkillName = skillTag => {
+const getSkillNameFromSkillTag = skillTag => {
   var name = skillTag.replace(/_/g, ' ');
   var regularExpression = /(\b[a-z](?!\s))/g;
   name = name.replace(regularExpression, function(x) {
@@ -6,4 +6,4 @@ const GetSkillName = skillTag => {
   });
   return name;
 };
-export default GetSkillName;
+export default getSkillNameFromSkillTag;
