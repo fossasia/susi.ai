@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -7,6 +7,7 @@ import OutlinedTextField from '../../shared/OutlinedTextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '../../shared/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const EditFeedback = props => {
   const {
@@ -16,6 +17,14 @@ const EditFeedback = props => {
     errorText,
     handleEditFeedback,
   } = props;
+
+  const [loader, updateLoader] = useState(false);
+
+  const handleEdit = () => {
+    updateLoader(true);
+    handleConfirm();
+  };
+
   return (
     <React.Fragment>
       <DialogTitle>Edit Feedback</DialogTitle>
@@ -49,10 +58,11 @@ const EditFeedback = props => {
           key={1}
           variant="contained"
           color="primary"
-          onClick={handleConfirm}
+          onClick={handleEdit}
           style={{ marginRight: '1em' }}
+          disabled={loader}
         >
-          Edit
+          {loader ? <CircularProgress size={24} color="white" /> : 'Edit'}
         </Button>
       </DialogActions>
     </React.Fragment>
