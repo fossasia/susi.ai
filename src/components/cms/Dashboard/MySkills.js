@@ -1,10 +1,5 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import appActions from '../../../redux/actions/app';
@@ -22,13 +17,10 @@ import Add from '@material-ui/icons/Add';
 import { urls } from '../../../utils';
 import styled from 'styled-components';
 import getImageSrc from '../../../utils/getImageSrc';
-
-const StyledTableCell = styled(TableCell)`
-  padding: 0.625rem 1.5rem;
-`;
+import MaterialTable from 'material-table';
 
 const TableWrap = styled.div`
-  padding: 0rem 1.25rem;
+  padding: 0rem 0.5rem;
   @media (max-width: 769px) {
     overflow-x: scroll;
     padding: 0;
@@ -53,7 +45,7 @@ const Container = styled.div`
     margin-right: 0;
   }
 `;
-
+const isSmallScreen = window.screen.availWidth < 500;
 class MySkills extends Component {
   constructor(props) {
     super(props);
@@ -91,6 +83,7 @@ class MySkills extends Component {
   render() {
     const { userSkills } = this.props;
     const { loading } = this.state;
+
     return (
       <div>
         <Container>
@@ -110,79 +103,97 @@ class MySkills extends Component {
         ) : (
           <TableWrap>
             {userSkills.length !== 0 && (
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Image</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Status</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {userSkills.map((skill, index) => {
-                    const {
-                      group,
-                      skillTag,
-                      language,
-                      image,
-                      skillName,
-                      type,
-                    } = skill;
-                    return (
-                      <TableRow key={index}>
-                        <StyledTableCell>
-                          <Link
-                            to={{
-                              pathname: `/${group}/${skillTag
-                                .toLowerCase()
-                                .replace(/ /g, '_')}/${language}`,
-                            }}
-                          >
-                            <Img
-                              // eslint-disable-next-line
-                              src={getImageSrc({
-                                relativePath: `model=general&language=${language}&group=${group.replace(
-                                  / /g,
-                                  '%20',
-                                )}&image=/${image}`,
-                              })}
-                              unloader={
-                                <CircleImage name={skillName} size="40" />
-                              }
-                            />
-                          </Link>
-                        </StyledTableCell>
-                        <StyledTableCell style={{ fontSize: '1rem' }}>
-                          {skillName ? (
-                            <Link
-                              to={{
-                                pathname: `/${group}/${skillTag
-                                  .toLowerCase()
-                                  .replace(/ /g, '_')}/${language}`,
-                              }}
-                            >
-                              {skillName}
-                            </Link>
-                          ) : (
-                            'NA'
-                          )}
-                        </StyledTableCell>
-                        <StyledTableCell style={{ fontSize: '1rem' }}>
-                          {type}
-                        </StyledTableCell>
-                        <StyledTableCell style={{ width: '10rem' }}>
-                          <FormControl>
-                            <Select value={1} style={{ width: '10rem' }}>
-                              <MenuItem value={1}>Enable</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </StyledTableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
+              <MaterialTable
+                title="My Skills"
+                columns={[
+                  {
+                    title: 'Image',
+                    field: 'imageLink',
+                    render: rowData => {
+                      return (
+                        <Link
+                          to={{
+                            pathname: `/${
+                              rowData.group
+                            }/${rowData.skillTag
+                              .toLowerCase()
+                              .replace(/ /g, '_')}/${rowData.language}`,
+                          }}
+                        >
+                          <Img
+                            // eslint-disable-next-line
+                            src={getImageSrc({
+                              relativePath: `model=general&language=${
+                                rowData.language
+                              }&group=${rowData.group.replace(
+                                / /g,
+                                '%20',
+                              )}&image=/${rowData.image}`,
+                            })}
+                            unloader={
+                              <CircleImage name={rowData.skillName} size="40" />
+                            }
+                          />
+                        </Link>
+                      );
+                    },
+                  },
+                  {
+                    title: 'Name',
+                    field: 'name',
+                    render: rowData => {
+                      return (
+                        <Link
+                          to={{
+                            pathname: `/${
+                              rowData.group
+                            }/${rowData.skillTag
+                              .toLowerCase()
+                              .replace(/ /g, '_')}/${rowData.language}`,
+                          }}
+                        >
+                          {rowData.skillName}
+                        </Link>
+                      );
+                    },
+                  },
+                  { title: 'Type', field: 'type' },
+                  {
+                    title: 'Status',
+                    field: 'status',
+                    render: rowData => {
+                      return (
+                        <FormControl>
+                          <Select value={1} style={{ width: '10rem' }}>
+                            <MenuItem value={1}>Enable</MenuItem>
+                          </Select>
+                        </FormControl>
+                      );
+                    },
+                  },
+                ]}
+                data={userSkills.map((skill, index) => {
+                  return {
+                    group: skill.group,
+                    skillTag: skill.skillTag,
+                    language: skill.language,
+                    image: skill.image,
+                    skillName: skill.skillName,
+                    type: skill.type,
+                  };
+                })}
+                options={{
+                  search: false,
+                  toolbar: false,
+                  showFirstLastPageButtons: !isSmallScreen,
+                  headerStyle: {
+                    backgroundColor: '#6fa2ff',
+                    color: '#FFF',
+                    fontSize: '1.2rem',
+                  },
+                }}
+                style={{ margin: '10px' }}
+              />
             )}
           </TableWrap>
         )}

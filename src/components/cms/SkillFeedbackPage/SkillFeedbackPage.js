@@ -327,14 +327,16 @@ class SkillFeedbackPage extends Component {
     });
   };
 
-  handleEditModal = () => {
-    this.props.actions.openModal({
-      modalType: 'editFeedback',
-      handleConfirm: this.postFeedback,
-      handleClose: this.props.actions.closeModal,
-      errorText: this.state.errorText,
-      feedback: this.state.feedbackValue,
-      handleEditFeedback: this.editFeedback,
+  handleEditModal = previousFeedback => {
+    this.setState({ feedbackValue: previousFeedback }, () => {
+      this.props.actions.openModal({
+        modalType: 'editFeedback',
+        handleConfirm: this.postFeedback,
+        handleClose: this.props.actions.closeModal,
+        errorText: this.state.errorText,
+        feedback: this.state.feedbackValue,
+        handleEditFeedback: this.editFeedback,
+      });
     });
   };
 
@@ -464,7 +466,11 @@ class SkillFeedbackPage extends Component {
                   open={open}
                   onClose={this.handleMenuClose}
                 >
-                  <MenuItem onClick={this.handleEditModal}>
+                  <MenuItem
+                    onClick={() => {
+                      this.handleEditModal(userFeedback.feedback);
+                    }}
+                  >
                     <ListItemIcon>
                       <EditBtn />
                     </ListItemIcon>

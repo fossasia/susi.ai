@@ -679,6 +679,36 @@ class SkillWizard extends Component {
     });
   };
 
+  getSnackbarMessage = (language, category, name) => {
+    let fields = [];
+    let message = 'Please do not leave the ';
+    if (language === '') {
+      fields.push('language');
+    }
+    if (category === null) {
+      fields.push('category');
+    }
+    if (name === '') {
+      fields.push('name');
+    }
+    let length = fields.length;
+    fields.map((field, index) => {
+      if (index === length - 2) {
+        message += field + ' and ';
+      } else if (index === length - 1) {
+        message += field;
+      } else {
+        message += field + ' , ';
+      }
+      return field;
+    });
+    if (length > 1) {
+      message += ' fields empty';
+    } else {
+      message += ' field empty';
+    }
+    return message;
+  };
   // eslint-disable-next-line complexity
   saveClick = async () => {
     const {
@@ -717,14 +747,17 @@ class SkillWizard extends Component {
       });
       return 0;
     }
-    if (category === null || language === '' || name === '') {
+
+    if (language === '' || category === null || name === '') {
+      let message = this.getSnackbarMessage(language, category, name);
       this.props.actions.openSnackBar({
-        snackBarMessage: 'Please select a group, language and a skill',
+        snackBarMessage: message,
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
       });
       return 0;
     }
+
     if (
       !new RegExp(/.+\.\w+/g).test(imageUrl) &&
       !(
@@ -1022,7 +1055,9 @@ class SkillWizard extends Component {
           {this.isBotBuilder ? (
             <Heading>1. Add a new skill to your bot</Heading>
           ) : (
-            this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
+            (this.mode === 'create' && (
+              <Heading>Create a SUSI.AI skill</Heading>
+            )) || <Heading>Edit skill</Heading>
           )}
           <ViewsDiv>
             <IconButton
