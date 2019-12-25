@@ -374,11 +374,6 @@ class MessageSection extends Component {
     const { showScrollBottom, showScrollTop, search } = this.state;
     if (this.scrollarea) {
       let scrollValues = this.scrollarea.getValues();
-      console.log(scrollValues);
-      console.log(
-        scrollValues.scrollHeight - Math.ceil(scrollValues.scrollTop) ===
-          scrollValues.clientHeight,
-      );
 
       if (scrollValues.top === 0) {
         this.setState({
