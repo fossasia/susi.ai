@@ -118,7 +118,6 @@ const DraftButtonContainer = styled.div`
 
 const NextButton = styled(Button)`
   margin-left: 10px;
-
   @media (max-width: 480px) {
     margin-left: 0px;
     margin-bottom: 10px;
