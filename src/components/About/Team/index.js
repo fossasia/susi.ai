@@ -73,6 +73,8 @@ const TeamContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Heading = styled.div`
@@ -80,7 +82,8 @@ const Heading = styled.div`
   font: 300 2.125rem/2.5rem sans-serif;
   letter-spacing: -0.01em;
   margin: 2.5rem 0 1.25rem;
-  text-align: left;
+  text-align: center;
+  width: 100%;
 
   @media (max-width: 1000px) {
     font-size: 2.25rem;
