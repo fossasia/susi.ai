@@ -364,6 +364,7 @@ class AccountTab extends React.Component {
             <FormControl
               error={userNameError !== ''}
               style={{ maxWidth: '250px' }}
+              disabled={loading}
             >
               <OutlinedInput
                 labelWidth={0}
@@ -393,7 +394,7 @@ class AccountTab extends React.Component {
             </TabHeading>
             <Select
               value={voiceOutput.voiceLang}
-              disabled={!this.TTSBrowserSupport}
+              disabled={!this.TTSBrowserSupport | loading}
               onChange={this.handlePrefLang}
               style={{ margin: '1rem 0' }}
             >
