@@ -123,7 +123,7 @@ class ConfirmDeleteAccount extends React.Component {
             <br />
             <strong>Please type in your email id to confirm.</strong>
           </DialogContentText>
-          <FormControl error={this.emailErrorMessage !== ''}>
+          <FormControl error={this.emailErrorMessage !== ''} disabled={loading}>
             <OutlinedInput
               name="email"
               value={emailInput}
