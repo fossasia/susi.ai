@@ -6,10 +6,12 @@ import {
   LinkedinShareButton as _LinkedinShareButton,
   TwitterShareButton as _TwitterShareButton,
   WhatsappShareButton as _WhatsappShareButton,
+  TelegramShareButton as _TelegramShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
   WhatsappIcon,
+  TelegramIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
 
@@ -56,6 +58,10 @@ const WhatsappShareButton = styled(_WhatsappShareButton)`
   ${commonIconStyle};
 `;
 
+const TelegramShareButton = styled(_TelegramShareButton)`
+  ${commonIconStyle};
+`;
+
 const ShareOnSocialMedia = () => {
   const shareUrl = 'https://susi.ai';
   const title = 'Lets chat with SUSI.AI, the open source personal assistant';
@@ -94,6 +100,14 @@ const ShareOnSocialMedia = () => {
             </div>
             <TextContainer>Whatsapp</TextContainer>
           </WhatsappShareButton>
+        </IconButton>
+        <IconButton>
+          <TelegramShareButton url={shareUrl} title={title}>
+            <div>
+              <TelegramIcon size={42} />
+            </div>
+            <TextContainer>Telegram</TextContainer>
+          </TelegramShareButton>
         </IconButton>
       </ShareIconContainer>
     </React.Fragment>
