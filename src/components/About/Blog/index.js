@@ -128,7 +128,6 @@ const CustomTypography = styled(Typography)`
 `;
 
 const BlogNavigation = styled.div`
-  display: none;
   justify-content: center;
   padding-top: 0.938rem;
 
@@ -205,29 +204,47 @@ class Blog extends Component {
 
   componentDidMount() {
     const { blogKey } = this.props;
+    this.blogKey = blogKey;
     document.title =
       'Blog Posts about Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots - SUSI.AI';
     if (blogKey) {
-      this.getPosts(blogKey);
+      this.getPosts(0);
     }
   }
 
   componentWillReceiveProps = props => {
     const { blogKey } = props;
+    this.blogKey = blogKey;
     const { posts } = this.state;
     if (posts.length === 0 && blogKey) {
-      this.getPosts(blogKey);
+      this.getPosts(0);
     }
   };
 
-  getPosts = async blogKey => {
-    let payload = await getBlogReponse(blogKey);
+  getPosts = async offset => {
+    this.setState({ postRendered: false });
+    let payload = await getBlogReponse(this.blogKey, 10, offset);
 
     try {
       if (payload.status !== 'ok') {
         throw payload.message;
       }
-      this.setState({ posts: payload.items, postRendered: true });
+      const postsCount = payload.items.length;
+      let nextDisplay = 'visible';
+      let prevDisplay = 'visible';
+      if (postsCount < 10) {
+        nextDisplay = 'hidden';
+      }
+      if (offset === 0) {
+        prevDisplay = 'hidden';
+      }
+      this.setState({
+        posts: payload.items,
+        postRendered: true,
+        startPage: offset,
+        nextDisplay: nextDisplay,
+        prevDisplay: prevDisplay,
+      });
     } catch (err) {
       console.log("Couldn't fetch blog response");
     }
@@ -247,39 +264,16 @@ class Blog extends Component {
   // Function to navigate to previous page
   previousPage = () => {
     const current = this.state.startPage;
-    if (current - 10 === 0) {
-      this.setState({
-        startPage: current - 10,
-        prevDisplay: 'hidden',
-        nextDisplay: 'visible',
-      });
-    } else {
-      this.setState({
-        startPage: current - 10,
-        prevDisplay: 'visible',
-        nextDisplay: 'visible',
-      });
-    }
+    const offset = current - 10;
     this.scrollToTop();
+    this.getPosts(offset);
   };
   // Function to navigate to next page
   nextPage = () => {
     const current = this.state.startPage;
-    const size = this.state.posts.length;
-    if (current + 10 === size - 10) {
-      this.setState({
-        startPage: current + 10,
-        nextDisplay: 'hidden',
-        prevDisplay: 'visible',
-      });
-    } else {
-      this.setState({
-        startPage: current + 10,
-        prevDisplay: 'visible',
-        nextDisplay: 'visible',
-      });
-    }
+    const offset = current + 10;
     this.scrollToTop();
+    this.getPosts(offset);
   };
 
   render() {
@@ -304,137 +298,134 @@ class Blog extends Component {
         {this.state.postRendered && (
           <div>
             <Container>
-              {this.state.posts
-                .slice(this.state.startPage, this.state.startPage + 10)
-                .map((posts, i) => {
-                  const description = htmlToText
-                    .fromString(posts.description)
-                    .split('…');
-                  const content = posts.content;
-                  let category = [];
-                  posts.categories.forEach(cat => {
-                    let k = 0;
-                    for (k = 0; k < allCategories.length; k++) {
-                      if (cat === allCategories[k]) {
-                        category.push(cat);
-                      }
+              {this.state.posts.map((posts, i) => {
+                const description = htmlToText
+                  .fromString(posts.description)
+                  .split('…');
+                const content = posts.content;
+                let category = [];
+                posts.categories.forEach(cat => {
+                  let k = 0;
+                  for (k = 0; k < allCategories.length; k++) {
+                    if (cat === allCategories[k]) {
+                      category.push(cat);
                     }
-                  });
-
-                  const tags = arrDiff(category, posts.categories);
-                  const fCategory = category
-                    .map(cat => (
-                      <BlogFooterLink
-                        key={cat}
-                        href={
-                          'http://blog.fossasia.org/category/' +
-                          cat.replace(/\s+/g, '-').toLowerCase()
-                        }
-                        rel="noopener noreferrer"
-                      >
-                        {cat}
-                      </BlogFooterLink>
-                    ))
-                    .reduce((prev, curr) => [prev, ', ', curr]);
-                  const ftags = tags
-                    .map(tag => (
-                      <BlogFooterLink
-                        key={tag}
-                        href={
-                          'http://blog.fossasia.org/tag/' +
-                          tag.replace(/\s+/g, '-').toLowerCase()
-                        }
-                        rel="noopener noreferrer"
-                      >
-                        {tag}
-                      </BlogFooterLink>
-                    ))
-                    .reduce((prev, curr) => [prev, ', ', curr]);
-                  let htmlContent = content.replace(/<img.*?>/, '');
-                  htmlContent = renderHTML(htmlContent);
-                  let image = susi;
-                  const regExp = /\[(.*?)\]/;
-                  const imageUrl = regExp.exec(description[0]);
-                  if (imageUrl) {
-                    image = imageUrl[1];
                   }
-                  const date = posts.pubDate.split(' ');
-                  const d = new Date(date[0]);
-                  return (
-                    <div key={posts} className="section_blog">
-                      <Card>
-                        <CardMedia image={image} />
-                        <Overlay>
-                          <OverlayLink href={posts.link}>
-                            {`Published on ${dateFormat(
-                              d,
-                              'dddd, mmmm dS, yyyy',
-                            )}`}
-                          </OverlayLink>
-                        </Overlay>
-                        <BlogPostContainer>
-                          <Typography variant="h4">{posts.title}</Typography>
-                          <CustomTypography variant="subtitle1">
-                            by
-                            <a
-                              style={{ paddingLeft: '0.3rem' }}
-                              href={`http://blog.fossasia.org/author/${posts.author}`}
-                            >
-                              {posts.author}
-                            </a>
-                          </CustomTypography>
-                          <Typography variant="body1" gutterBottom>
-                            {htmlContent}
-                          </Typography>
-                        </BlogPostContainer>
-                        <SocialButtons>
-                          <TwitterShareButton
-                            url={posts.guid}
-                            title={posts.title}
-                            via="asksusi"
-                            hashtags={posts.categories.slice(0, 4)}
+                });
+
+                const tags = arrDiff(category, posts.categories);
+                const fCategory = category
+                  .map(cat => (
+                    <BlogFooterLink
+                      key={cat}
+                      href={
+                        'http://blog.fossasia.org/category/' +
+                        cat.replace(/\s+/g, '-').toLowerCase()
+                      }
+                      rel="noopener noreferrer"
+                    >
+                      {cat}
+                    </BlogFooterLink>
+                  ))
+                  .reduce((prev, curr) => [prev, ', ', curr]);
+                const ftags = tags
+                  .map(tag => (
+                    <BlogFooterLink
+                      key={tag}
+                      href={
+                        'http://blog.fossasia.org/tag/' +
+                        tag.replace(/\s+/g, '-').toLowerCase()
+                      }
+                      rel="noopener noreferrer"
+                    >
+                      {tag}
+                    </BlogFooterLink>
+                  ))
+                  .reduce((prev, curr) => [prev, ', ', curr]);
+                let htmlContent = content.replace(/<img.*?>/, '');
+                htmlContent = renderHTML(htmlContent);
+                let image = susi;
+                const regExp = /\[(.*?)\]/;
+                const imageUrl = regExp.exec(description[0]);
+                if (imageUrl) {
+                  image = imageUrl[1];
+                }
+                const date = posts.pubDate.split(' ');
+                const d = new Date(date[0]);
+                return (
+                  <div key={posts} className="section_blog">
+                    <Card>
+                      <CardMedia image={image} />
+                      <Overlay>
+                        <OverlayLink href={posts.link}>
+                          {`Published on ${dateFormat(
+                            d,
+                            'dddd, mmmm dS, yyyy',
+                          )}`}
+                        </OverlayLink>
+                      </Overlay>
+                      <BlogPostContainer>
+                        <Typography variant="h4">{posts.title}</Typography>
+                        <CustomTypography variant="subtitle1">
+                          by
+                          <a
+                            style={{ paddingLeft: '0.3rem' }}
+                            href={`http://blog.fossasia.org/author/${posts.author}`}
                           >
-                            <TwitterIcon size={32} round={true} />
-                          </TwitterShareButton>
-                          <FacebookShareButton url={posts.link}>
-                            <FacebookIcon size={32} round={true} />
-                          </FacebookShareButton>
-                          <LinkedinShareButton url={posts.link}>
-                            <LinkedinIcon size={32} round={true} />
-                          </LinkedinShareButton>
-                        </SocialButtons>
-                        <BlogFooter>
-                          <FlexBox>
-                            <Icon className="fa fa-calendar" />
-                            <BlogFooterLink href={posts.link}>
-                              {dateFormat(d, 'mmmm dd, yyyy')}
-                            </BlogFooterLink>
-                          </FlexBox>
-                          <FlexBox>
-                            <Icon className="fa fa-user" />
-                            <BlogFooterLink
-                              rel="noopener noreferrer"
-                              href={
-                                'http://blog.fossasia.org/author/' +
-                                posts.author
-                              }
-                            >
-                              {posts.author}
-                            </BlogFooterLink>
-                          </FlexBox>
-                          <FlexBox>
-                            <Icon className="fa fa-folder-open-o" />
-                            {fCategory}
-                          </FlexBox>
-                          <FlexBox>
-                            <Icon className="fa fa-tags" />
-                            <div>{ftags}</div>
-                          </FlexBox>
-                        </BlogFooter>
-                      </Card>
-                    </div>
-                  );
-                })}
+                            {posts.author}
+                          </a>
+                        </CustomTypography>
+                        <Typography variant="body1" gutterBottom>
+                          {htmlContent}
+                        </Typography>
+                      </BlogPostContainer>
+                      <SocialButtons>
+                        <TwitterShareButton
+                          url={posts.guid}
+                          title={posts.title}
+                          via="asksusi"
+                          hashtags={posts.categories.slice(0, 4)}
+                        >
+                          <TwitterIcon size={32} round={true} />
+                        </TwitterShareButton>
+                        <FacebookShareButton url={posts.link}>
+                          <FacebookIcon size={32} round={true} />
+                        </FacebookShareButton>
+                        <LinkedinShareButton url={posts.link}>
+                          <LinkedinIcon size={32} round={true} />
+                        </LinkedinShareButton>
+                      </SocialButtons>
+                      <BlogFooter>
+                        <FlexBox>
+                          <Icon className="fa fa-calendar" />
+                          <BlogFooterLink href={posts.link}>
+                            {dateFormat(d, 'mmmm dd, yyyy')}
+                          </BlogFooterLink>
+                        </FlexBox>
+                        <FlexBox>
+                          <Icon className="fa fa-user" />
+                          <BlogFooterLink
+                            rel="noopener noreferrer"
+                            href={
+                              'http://blog.fossasia.org/author/' + posts.author
+                            }
+                          >
+                            {posts.author}
+                          </BlogFooterLink>
+                        </FlexBox>
+                        <FlexBox>
+                          <Icon className="fa fa-folder-open-o" />
+                          {fCategory}
+                        </FlexBox>
+                        <FlexBox>
+                          <Icon className="fa fa-tags" />
+                          <div>{ftags}</div>
+                        </FlexBox>
+                      </BlogFooter>
+                    </Card>
+                  </div>
+                );
+              })}
             </Container>
             <BlogNavigation>
               <Fab
