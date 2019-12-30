@@ -238,6 +238,7 @@ const Textarea = styled.textarea`
 class Preview extends Component {
   constructor() {
     super();
+    this.messageEndRef = React.createRef();
     this.msgNumber = 1;
     this.state = {
       messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
@@ -250,8 +251,15 @@ class Preview extends Component {
 
   componentDidMount = () => {
     this.updateWindowDimensions();
+    this.scrollToBottom();
     window.addEventListener('resize', this.updateWindowDimensions);
   };
+
+  componentDidUpdate() {
+    if (this.messageEndRef.current) {
+      this.scrollToBottom();
+    }
+  }
 
   togglePreview = () => {
     this.setState(prevState => ({
@@ -335,9 +343,8 @@ class Preview extends Component {
   };
 
   // Scroll to the bottom
-  scrollToBottomOfResults = () => {
-    var textsDiv = document.querySelector('.susi-sheet-content');
-    textsDiv.scrollTop = textsDiv.scrollHeight;
+  scrollToBottom = () => {
+    this.messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   componentWillUnmount = () => {
@@ -437,6 +444,7 @@ class Preview extends Component {
                                 className="susi-conversation-parts"
                               >
                                 {renderMessages}
+                                <div ref={this.messageEndRef} />
                               </div>
                             </div>
                           </SUSIMessageContainer>
