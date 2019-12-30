@@ -13,6 +13,10 @@ import {
   TwitterIcon,
   LinkedinShareButton,
   LinkedinIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  RedditShareButton,
+  RedditIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
 import Typography from '@material-ui/core/Typography';
@@ -402,6 +406,12 @@ class Blog extends Component {
                           <LinkedinShareButton url={posts.link}>
                             <LinkedinIcon size={32} round={true} />
                           </LinkedinShareButton>
+                          <TelegramShareButton url={posts.link}>
+                            <TelegramIcon size={32} round={true} />
+                          </TelegramShareButton>
+                          <RedditShareButton url={posts.link}>
+                            <RedditIcon size={32} round={true} />
+                          </RedditShareButton>
                         </SocialButtons>
                         <BlogFooter>
                           <FlexBox>
