@@ -11,6 +11,8 @@ import {
   TwitterShareButton,
   FacebookIcon,
   TwitterIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
 import Typography from '@material-ui/core/Typography';
@@ -397,6 +399,9 @@ class Blog extends Component {
                           <FacebookShareButton url={posts.link}>
                             <FacebookIcon size={32} round={true} />
                           </FacebookShareButton>
+                          <LinkedinShareButton url={posts.link}>
+                            <LinkedinIcon size={32} round={true} />
+                          </LinkedinShareButton>
                         </SocialButtons>
                         <BlogFooter>
                           <FlexBox>

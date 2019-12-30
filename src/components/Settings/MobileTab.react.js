@@ -188,7 +188,7 @@ class MobileTab extends React.Component {
               />
             </PhoneCode>
             <Number>
-              <FormControl error={phoneNoError !== ''}>
+              <FormControl error={phoneNoError !== ''} disabled={loading}>
                 <InputLabel>Phone Number</InputLabel>
                 <Input
                   value={phoneNo}
