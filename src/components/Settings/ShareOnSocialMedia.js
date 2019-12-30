@@ -32,7 +32,7 @@ const ShareIconContainer = styled.div`
 const TextContainer = styled.div`
   height: 3rem;
   line-height: 3rem;
-  verticalalign: center;
+  vertical-align: center;
   padding-left: 0.5rem;
 `;
 
