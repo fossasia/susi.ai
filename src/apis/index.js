@@ -153,10 +153,11 @@ export function getSusiPreviewReply(message) {
   return ajax.get(url, { q: message });
 }
 
-export function getBlogReponse(blogKey) {
+export function getBlogReponse(blogKey, limit, offset) {
   const url = 'https://api.rss2json.com/v1/api.json';
   return ajax.get(url, {
-    count: '50',
+    limit: limit,
+    offset: offset,
     // eslint-disable-next-line
     api_key: blogKey,
     // eslint-disable-next-line

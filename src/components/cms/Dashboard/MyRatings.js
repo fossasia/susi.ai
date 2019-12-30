@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
-import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
 import { getSkillFromRating } from '../../../utils/getSkillFromRating';
 import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
 import MaterialTable from 'material-table';
+import TableSleleton from '../../shared/TableLoader';
 
 const TableWrap = styled.div`
   padding: 0rem 1.25rem;
@@ -74,7 +74,7 @@ class MyRatings extends Component {
     return (
       <div>
         {loading ? (
-          <CircularLoader height={5} />
+          <TableSleleton />
         ) : (
           <TableWrap>
             <MaterialTable

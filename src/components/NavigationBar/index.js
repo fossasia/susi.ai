@@ -19,7 +19,7 @@ import uiActions from '../../redux/actions/ui';
 import skillsAction from '../../redux/actions/skills';
 import skillAction from '../../redux/actions/skill';
 import Link from '../shared/Link';
-import localStorageService from '../../utils/localStorageService';
+import storageService from '../../utils/storageService';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
 import Dashboard from '@material-ui/icons/Dashboard';
@@ -330,7 +330,7 @@ class NavigationBar extends Component {
   };
 
   handleLanguageChange = async (event, index, values) => {
-    localStorageService.set('languages', event.target.value);
+    storageService.set('languages', event.target.value, 'local');
     let languages = event.target.value;
     if (languages.length === 0) {
       languages.push('en');
