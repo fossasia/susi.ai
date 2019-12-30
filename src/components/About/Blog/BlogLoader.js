@@ -13,7 +13,7 @@ const Center = styled.div`
   }
 `;
 
-const SingleLoader = () => (
+const BlogCardSkeleton = () => (
   <ContentLoader
     height={320}
     width={700}
@@ -31,9 +31,9 @@ const SingleLoader = () => (
 );
 const BlogLoader = () => (
   <Center>
-    <SingleLoader />
-    <SingleLoader />
-    <SingleLoader />
+    <BlogCardSkeleton />
+    <BlogCardSkeleton />
+    <BlogCardSkeleton />
   </Center>
 );
 
