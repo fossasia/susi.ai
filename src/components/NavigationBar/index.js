@@ -540,199 +540,197 @@ class NavigationBar extends Component {
     return (
       <div>
         <CssBaseline />
-        <HideOnScroll>
-          <AppBar>
-            <Toolbar variant="dense">
-              <FlexContainer>
-                <SusiLogoContainer isSearchOpen={search}>
-                  <Link to="/" style={{ outline: '0' }}>
-                    {renderSusiIcon}
-                  </Link>
-                </SusiLogoContainer>
-                {renderSearchBar}
-              </FlexContainer>
-              <TopRightMenuContainer
-                style={{ display: this.state.rightContainer ? 'flex' : 'none' }}
-              >
-                {searchState ? (
-                  <ExpandingSearchField
-                    searchText={searchState.searchText}
-                    searchIndex={searchState.searchIndex}
-                    open={search}
-                    searchCount={searchState.scrollLimit}
-                    onTextChange={searchTextChanged}
-                    activateSearch={openSearch}
-                    exitSearch={exitSearch}
-                    scrollRecent={nextSearchItem}
-                    scrollPrev={previousSearchItem}
-                  />
-                ) : null}
-                {accessToken && (
-                  <React.Fragment>
-                    <StyledIconButton padding={'0.55rem'}>
-                      <div data-tip="custom" data-for={'right-menu'}>
-                        <FlexContainer>
-                          <Popper
-                            id={'right-menu'}
-                            place="bottom"
-                            effect="solid"
-                            delayHide={200}
-                            type={'light'}
-                            marginTop={8}
-                          >
-                            <Paper>
-                              <Logged />
-                            </Paper>
-                          </Popper>
-                          <CircleImage
-                            name="User Avatar"
-                            src={userAvatar}
-                            size="32"
-                          />
-                          {userSettingsLoaded && (
-                            <UserDetail>
-                              {!userName ? email : userName}
-                            </UserDetail>
-                          )}
-                          <ExpandMore
-                            style={{
-                              display: isMobileView(400) ? 'none' : 'inline',
-                            }}
-                          />
-                        </FlexContainer>
-                      </div>
-                    </StyledIconButton>
-                    <StyledIconButton
-                      padding={isMobileView(400) ? '7px' : '0.95rem'}
-                    >
-                      <div data-tip="custom" data-for={'right-menu-create'}>
+        <AppBar>
+          <Toolbar variant="dense">
+            <FlexContainer>
+              <SusiLogoContainer isSearchOpen={search}>
+                <Link to="/" style={{ outline: '0' }}>
+                  {renderSusiIcon}
+                </Link>
+              </SusiLogoContainer>
+              {renderSearchBar}
+            </FlexContainer>
+            <TopRightMenuContainer
+              style={{ display: this.state.rightContainer ? 'flex' : 'none' }}
+            >
+              {searchState ? (
+                <ExpandingSearchField
+                  searchText={searchState.searchText}
+                  searchIndex={searchState.searchIndex}
+                  open={search}
+                  searchCount={searchState.scrollLimit}
+                  onTextChange={searchTextChanged}
+                  activateSearch={openSearch}
+                  exitSearch={exitSearch}
+                  scrollRecent={nextSearchItem}
+                  scrollPrev={previousSearchItem}
+                />
+              ) : null}
+              {accessToken && (
+                <React.Fragment>
+                  <StyledIconButton padding={'0.55rem'}>
+                    <div data-tip="custom" data-for={'right-menu'}>
+                      <FlexContainer>
                         <Popper
-                          id={'right-menu-create'}
+                          id={'right-menu'}
                           place="bottom"
                           effect="solid"
                           delayHide={200}
                           type={'light'}
-                          offset={{ top: -15 }}
+                          marginTop={8}
                         >
                           <Paper>
-                            <Link to="/skillWizard">
-                              <MenuItem>
-                                <ListItemIcon>
-                                  <Add />
-                                </ListItemIcon>
-                                <ListItemText>
-                                  <Translate text="Create Skill" />
-                                </ListItemText>
-                              </MenuItem>
-                            </Link>
-                            <Link to="/botWizard">
-                              <MenuItem>
-                                <ListItemIcon>
-                                  <Person />
-                                </ListItemIcon>
-                                <ListItemText>
-                                  <Translate text="Create Bot" />
-                                </ListItemText>
-                              </MenuItem>
-                            </Link>
-                            <Link to="/mydevices">
-                              <MenuItem>
-                                <ListItemIcon>
-                                  <Devices />
-                                </ListItemIcon>
-                                <ListItemText>
-                                  <Translate text="Add Device" />
-                                </ListItemText>
-                              </MenuItem>
-                            </Link>
+                            <Logged />
                           </Paper>
                         </Popper>
-                        {isMobileView(400) ? (
-                          <Add
-                            style={{
-                              marginLeft: '5px',
-                              color: '#fff',
-                            }}
-                          />
-                        ) : (
-                          <CreateDetail style={{ marginLeft: '20px' }}>
-                            Create
-                          </CreateDetail>
+                        <CircleImage
+                          name="User Avatar"
+                          src={userAvatar}
+                          size="32"
+                        />
+                        {userSettingsLoaded && (
+                          <UserDetail>
+                            {!userName ? email : userName}
+                          </UserDetail>
                         )}
-                      </div>
-                    </StyledIconButton>
-                    <ToolTip title="Dashboard">
-                      <IconButton
-                        color="inherit"
-                        onClick={() => history.push('/dashboard')}
-                        style={{ padding: '7px' }}
+                        <ExpandMore
+                          style={{
+                            display: isMobileView(400) ? 'none' : 'inline',
+                          }}
+                        />
+                      </FlexContainer>
+                    </div>
+                  </StyledIconButton>
+                  <StyledIconButton
+                    padding={isMobileView(400) ? '7px' : '0.95rem'}
+                  >
+                    <div data-tip="custom" data-for={'right-menu-create'}>
+                      <Popper
+                        id={'right-menu-create'}
+                        place="bottom"
+                        effect="solid"
+                        delayHide={200}
+                        type={'light'}
+                        offset={{ top: -15 }}
                       >
-                        <Dashboard />
-                      </IconButton>
-                    </ToolTip>
-                  </React.Fragment>
-                )}
-                {accessToken ? null : (
-                  <MenuItem onClick={this.handleLogin}>
-                    <ListItemText>
-                      <Translate text="Login" />
-                    </ListItemText>
-                  </MenuItem>
-                )}
-                <ToolTip title="Chat with Susi AI">
-                  <IconButton
-                    color="inherit"
-                    onClick={
-                      isMobileView(500) ? this.openFullScreen : this.openPreview
-                    }
-                    style={{ padding: '7px' }}
-                  >
-                    <Chat />
-                  </IconButton>
-                </ToolTip>
-
-                <div data-tip="custom" data-for={'right-menu-about'}>
-                  <Popper
-                    id={'right-menu-about'}
-                    place="bottom"
-                    effect="solid"
-                    delayHide={200}
-                    type={'light'}
-                  >
-                    <Paper>
-                      <Link to="/about">
-                        <MenuItem>
-                          <ListItemText>
-                            <Translate text="About" />
-                          </ListItemText>
-                        </MenuItem>
-                      </Link>
-                      <Link to="/support">
-                        <MenuItem>
-                          <ListItemText>
-                            <Translate text="Support" />
-                          </ListItemText>
-                        </MenuItem>
-                      </Link>
-                    </Paper>
-                  </Popper>
-                  <Link to="/about">
+                        <Paper>
+                          <Link to="/skillWizard">
+                            <MenuItem>
+                              <ListItemIcon>
+                                <Add />
+                              </ListItemIcon>
+                              <ListItemText>
+                                <Translate text="Create Skill" />
+                              </ListItemText>
+                            </MenuItem>
+                          </Link>
+                          <Link to="/botWizard">
+                            <MenuItem>
+                              <ListItemIcon>
+                                <Person />
+                              </ListItemIcon>
+                              <ListItemText>
+                                <Translate text="Create Bot" />
+                              </ListItemText>
+                            </MenuItem>
+                          </Link>
+                          <Link to="/mydevices">
+                            <MenuItem>
+                              <ListItemIcon>
+                                <Devices />
+                              </ListItemIcon>
+                              <ListItemText>
+                                <Translate text="Add Device" />
+                              </ListItemText>
+                            </MenuItem>
+                          </Link>
+                        </Paper>
+                      </Popper>
+                      {isMobileView(400) ? (
+                        <Add
+                          style={{
+                            marginLeft: '5px',
+                            color: '#fff',
+                          }}
+                        />
+                      ) : (
+                        <CreateDetail style={{ marginLeft: '20px' }}>
+                          Create
+                        </CreateDetail>
+                      )}
+                    </div>
+                  </StyledIconButton>
+                  <ToolTip title="Dashboard">
                     <IconButton
-                      aria-haspopup="true"
-                      style={{
-                        color: 'white',
-                        marginRight: '10px',
-                        padding: '7px',
-                      }}
+                      color="inherit"
+                      onClick={() => history.push('/dashboard')}
+                      style={{ padding: '7px' }}
                     >
-                      <ContactSupportIcon />
+                      <Dashboard />
                     </IconButton>
-                  </Link>
-                </div>
-              </TopRightMenuContainer>
-            </Toolbar>
-          </AppBar>
-        </HideOnScroll>
+                  </ToolTip>
+                </React.Fragment>
+              )}
+              {accessToken ? null : (
+                <MenuItem onClick={this.handleLogin}>
+                  <ListItemText>
+                    <Translate text="Login" />
+                  </ListItemText>
+                </MenuItem>
+              )}
+              <ToolTip title="Chat with Susi AI">
+                <IconButton
+                  color="inherit"
+                  onClick={
+                    isMobileView(500) ? this.openFullScreen : this.openPreview
+                  }
+                  style={{ padding: '7px' }}
+                >
+                  <Chat />
+                </IconButton>
+              </ToolTip>
+
+              <div data-tip="custom" data-for={'right-menu-about'}>
+                <Popper
+                  id={'right-menu-about'}
+                  place="bottom"
+                  effect="solid"
+                  delayHide={200}
+                  type={'light'}
+                >
+                  <Paper>
+                    <Link to="/about">
+                      <MenuItem>
+                        <ListItemText>
+                          <Translate text="About" />
+                        </ListItemText>
+                      </MenuItem>
+                    </Link>
+                    <Link to="/support">
+                      <MenuItem>
+                        <ListItemText>
+                          <Translate text="Support" />
+                        </ListItemText>
+                      </MenuItem>
+                    </Link>
+                  </Paper>
+                </Popper>
+                <Link to="/about">
+                  <IconButton
+                    aria-haspopup="true"
+                    style={{
+                      color: 'white',
+                      marginRight: '10px',
+                      padding: '7px',
+                    }}
+                  >
+                    <ContactSupportIcon />
+                  </IconButton>
+                </Link>
+              </div>
+            </TopRightMenuContainer>
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }
