@@ -224,20 +224,12 @@ class Blog extends Component {
         throw payload.message;
       }
       const postsCount = payload.items.length;
-      let nextDisplay = 'visible';
-      let prevDisplay = 'visible';
-      if (postsCount < 10) {
-        nextDisplay = 'hidden';
-      }
-      if (offset === 0) {
-        prevDisplay = 'hidden';
-      }
       this.setState({
         posts: payload.items,
         postRendered: true,
         startPage: offset,
-        nextDisplay: nextDisplay,
-        prevDisplay: prevDisplay,
+        nextDisplay: postsCount < 10 ? 'hidden' : 'visible',
+        prevDisplay: offset === 0 ? 'hidden' : 'visible',
       });
     } catch (err) {
       console.log("Couldn't fetch blog response");
