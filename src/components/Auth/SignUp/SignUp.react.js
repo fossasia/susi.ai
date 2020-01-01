@@ -138,17 +138,21 @@ class SignUp extends Component {
         const password = event.target.value.trim();
         const passwordScore = zxcvbn(password).score;
         const strength = ['Worst', 'Bad', 'Weak', 'Good', 'Strong'];
-        const passwordError = !isPassword(password);
+        const passwordError = isPassword(password);
         const passwordConfirmError =
           (confirmPassword || passwordConfirmErrorMessage) &&
           !(confirmPassword === password);
         this.setState({
           password,
-          passwordErrorMessage: passwordError
-            ? 'Atleast 8 characters, 1 special character, number, 1 capital letter'
-            : '',
-          passwordScore: passwordError ? -1 : passwordScore,
-          passwordStrength: passwordError ? '' : strength[passwordScore],
+          passwordErrorMessage: passwordError.errorStatus ? (
+            <Translate text={passwordError.message} />
+          ) : (
+            ''
+          ),
+          passwordScore: passwordError.errorStatus ? -1 : passwordScore,
+          passwordStrength: passwordError.errorStatus
+            ? ''
+            : strength[passwordScore],
           passwordConfirmErrorMessage: passwordConfirmError
             ? 'Password does not match'
             : '',
