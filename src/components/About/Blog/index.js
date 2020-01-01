@@ -126,7 +126,6 @@ const CustomTypography = styled(Typography)`
 `;
 
 const BlogNavigation = styled.div`
-  display: none;
   justify-content: center;
   padding-top: 0.938rem;
 
