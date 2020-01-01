@@ -1,7 +1,6 @@
 /* eslint-disable */
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
@@ -76,8 +75,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
-
-serviceWorker.register();
 
 if (module.hot) {
   module.hot.accept('./App', () => {

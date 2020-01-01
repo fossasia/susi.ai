@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Header } from '../../shared/About';
+import ScrollTopButton from '../../shared/ScrollTopButton';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import styled, { css } from 'styled-components';
 
@@ -89,6 +90,7 @@ const Contact = props => {
           to report the issue
         </ContactContent>
       </Section>
+      <ScrollTopButton />
     </div>
   );
 };
