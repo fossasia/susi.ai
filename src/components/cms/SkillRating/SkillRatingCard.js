@@ -28,6 +28,7 @@ import {
   LargeText,
 } from '../../shared/Typography';
 import LineChart from '../../shared/charts/LineChart';
+import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -198,7 +199,10 @@ class SkillRatingCard extends Component {
             <div>
               <SubTitle size="1rem">
                 {' '}
-                Rate your experience with {skillTag} on SUSI.AI{' '}
+                Rate your experience with {getSkillNameFromSkillTag(
+                  skillTag,
+                )}{' '}
+                on SUSI.AI{' '}
               </SubTitle>
               <div
                 style={{

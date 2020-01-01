@@ -11,11 +11,12 @@ import {
   TwitterShareButton,
   FacebookIcon,
   TwitterIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
-import _Loading from 'react-loading-animation';
 import { getBlogReponse } from '../../../apis';
 import './Blog.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -24,7 +25,7 @@ import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../../images/susi-logo.svg';
 import { Header } from '../../shared/About';
 import ScrollTopButton from '../../shared/ScrollTopButton';
-
+import BlogLoader from './BlogLoader';
 const allCategories = [
   'FOSSASIA',
   'GSoC',
@@ -63,11 +64,6 @@ const arrDiff = (a1, a2) => {
   }
   return diff;
 };
-
-const Loading = styled(_Loading)`
-  margin-top: 1.25rem;
-  position: relative;
-`;
 
 const LinkStyle = css`
   font-size: 0.875rem;
@@ -293,10 +289,11 @@ class Blog extends Component {
     return (
       <div>
         <Header title="Blog" subtitle="Latest Blog Posts on SUSI.AI" />
-        <Loading isLoading={!this.state.postRendered} />
         {!this.state.postRendered && (
           <div>
-            <center>Fetching Blogs..</center>
+            <center>
+              <BlogLoader />
+            </center>
           </div>
         )}
         {this.state.postRendered && (
@@ -397,6 +394,9 @@ class Blog extends Component {
                           <FacebookShareButton url={posts.link}>
                             <FacebookIcon size={32} round={true} />
                           </FacebookShareButton>
+                          <LinkedinShareButton url={posts.link}>
+                            <LinkedinIcon size={32} round={true} />
+                          </LinkedinShareButton>
                         </SocialButtons>
                         <BlogFooter>
                           <FlexBox>
