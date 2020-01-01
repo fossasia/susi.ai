@@ -66,11 +66,11 @@ const Contact = props => {
         <ContactContent>
           <H5>SUSI</H5>
           <Text>
-            6 Eu Tong Sen Street
+            12 Eu Tong Sen Street
             <br />
-            #5-07 The Central,
+            #8-169 ,
             <br />
-            Singapore 059817
+            Singapore 059819
             <br />
             Phone +65 83435672
             <br />
