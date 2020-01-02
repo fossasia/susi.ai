@@ -89,6 +89,7 @@
     "styled-components": "4.3.1",
     "surge": "0.21.3",
     "universal-cookie": "4.0.0",
+    "yarn": "^1.21.1",
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
@@ -123,7 +124,7 @@
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "surge"
+    "deploy": "surge --project ./build --domain https://pr-3114-fossasia-susi-web-chat.surge.sh"
   },
   "lint-staged": {
     "src/**/*.js": [
