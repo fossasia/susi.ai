@@ -4,6 +4,7 @@ import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import SkillLoader from './skillLoader';
 import skillActions from '../../../redux/actions/skills';
 import uiActions from '../../../redux/actions/ui';
 import FormControl from '@material-ui/core/FormControl';
@@ -36,7 +37,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
-import CircularLoader from '../../shared/CircularLoader';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
@@ -907,7 +907,7 @@ class BrowseSkill extends React.Component {
         <RightContainer>
           {renderSkillSlideshow}
           {loadingSkills ? (
-            <CircularLoader height={34} />
+            <SkillLoader />
           ) : (
             <ContentContainer>
               {metricsHidden ? (

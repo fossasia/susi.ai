@@ -6,10 +6,12 @@ import {
   LinkedinShareButton as _LinkedinShareButton,
   TwitterShareButton as _TwitterShareButton,
   WhatsappShareButton as _WhatsappShareButton,
+  TelegramShareButton as _TelegramShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
   WhatsappIcon,
+  TelegramIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
 
@@ -30,7 +32,7 @@ const ShareIconContainer = styled.div`
 const TextContainer = styled.div`
   height: 3rem;
   line-height: 3rem;
-  verticalalign: center;
+  vertical-align: center;
   padding-left: 0.5rem;
 `;
 
@@ -53,6 +55,10 @@ const TwitterShareButton = styled(_TwitterShareButton)`
 `;
 
 const WhatsappShareButton = styled(_WhatsappShareButton)`
+  ${commonIconStyle};
+`;
+
+const TelegramShareButton = styled(_TelegramShareButton)`
   ${commonIconStyle};
 `;
 
@@ -94,6 +100,14 @@ const ShareOnSocialMedia = () => {
             </div>
             <TextContainer>Whatsapp</TextContainer>
           </WhatsappShareButton>
+        </IconButton>
+        <IconButton>
+          <TelegramShareButton url={shareUrl} title={title}>
+            <div>
+              <TelegramIcon size={42} />
+            </div>
+            <TextContainer>Telegram</TextContainer>
+          </TelegramShareButton>
         </IconButton>
       </ShareIconContainer>
     </React.Fragment>
