@@ -90,10 +90,10 @@ const Contact = props => {
           to report the issue
         </ContactContent>
       </Section>
-    <ScrollTopButton />
-   </div>
- );
-};
+      <ScrollTopButton />
+     </div>
+    );
+   };
 
 Contact.propTypes = {
   history: PropTypes.object,
