@@ -124,7 +124,7 @@
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "surge --project ./build --domain https://pr-3114-fossasia-susi-web-chat.surge.sh"
+    "deploy": "surge --project ./build --domain https://pr-3058-fossasia-susi-web-chat.surge.sh"
   },
   "lint-staged": {
     "src/**/*.js": [
