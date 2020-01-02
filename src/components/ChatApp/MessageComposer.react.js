@@ -17,10 +17,9 @@ import uiActions from '../../redux/actions/ui';
 import { invertColorTextArea } from '../../utils/invertColor';
 import getCustomThemeColors from '../../utils/colors';
 import VoiceRecognition from './VoiceRecognition';
+import onChatComposerKeyDown from '../../utils/onChatComposerKeyDown';
 
 const ENTER_KEY_CODE = 13;
-const UP_KEY_CODE = 38;
-const DOWN_KEY_CODE = 40;
 
 const SendButton = styled(IconButton)`
   align-content: center;
@@ -359,36 +358,17 @@ class MessageComposer extends Component {
         this.setState({ text: '', currentMessageIndex: -1 });
       }
     } else {
-      switch (event.keyCode) {
-        case UP_KEY_CODE: {
-          event.preventDefault();
-          const newMessageIndex =
-            (currentMessageIndex + 1) % this.userMessageHistory.length;
-          this.setState({
-            text: this.userMessageHistory[newMessageIndex],
-            currentMessageIndex: newMessageIndex,
-          });
-          break;
-        }
-        case DOWN_KEY_CODE: {
-          event.preventDefault();
-          if (currentMessageIndex - 1 === -1) {
-            const newMessageIndex = this.userMessageHistory.length - 1;
-            this.setState({
-              text: this.userMessageHistory[newMessageIndex],
-              currentMessageIndex: newMessageIndex,
-            });
-          } else {
-            const newMessageIndex = currentMessageIndex - 1;
-            this.setState({
-              text: this.userMessageHistory[newMessageIndex],
-              currentMessageIndex: newMessageIndex,
-            });
-          }
-          break;
-        }
-        default:
-          break;
+      const { message, newMessageIndex } = onChatComposerKeyDown(
+        event.keyCode,
+        this.userMessageHistory,
+        currentMessageIndex,
+      );
+      if (message !== '') {
+        event.preventDefault();
+        this.setState({
+          text: message,
+          currentMessageIndex: newMessageIndex,
+        });
       }
     }
   };
