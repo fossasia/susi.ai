@@ -119,7 +119,7 @@ class ForgotPassword extends Component {
           <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
         <DialogContent>
-          <FormControl error={emailErrorMessage !== ''}>
+          <FormControl error={emailErrorMessage !== ''} disabled={loading}>
             <OutlinedInput
               name="email"
               value={email}
