@@ -44,7 +44,7 @@ export const RatingContainer = styled.div`
   float: left;
 `;
 
-export const TotalRating = styled.span`
+export const Rating = styled.span`
   font-size: 0.8125rem;
   padding-left: 5px;
   color: #108ee9;

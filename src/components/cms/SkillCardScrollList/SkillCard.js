@@ -20,7 +20,7 @@ import {
   Image,
   TitleContainer,
   RatingContainer,
-  TotalRating,
+  Rating,
 } from '../SkillCardStyle';
 
 const ScrollWrapper = styled.div`
@@ -135,8 +135,7 @@ class SkillCard extends Component {
           examples,
           image,
           staffPick = false;
-        let averageRating = 0,
-          totalRating = 0;
+        let averageRating = 0;
         if (skill.skillName) {
           skillName = skill.skillName;
           skillName = skillName.charAt(0).toUpperCase() + skillName.slice(1);
@@ -163,7 +162,6 @@ class SkillCard extends Component {
         }
         if (skill.skillRating) {
           averageRating = parseFloat(skill.skillRating.stars.avgStar);
-          totalRating = parseInt(skill.skillRating.stars.totalStar, 10);
         }
 
         if (skill.staffPick) {
@@ -245,7 +243,7 @@ class SkillCard extends Component {
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <TotalRating>{totalRating || 0}</TotalRating>
+                <Rating>{averageRating || 0}</Rating>
               </Link>
             </RatingContainer>
           </Card>,
