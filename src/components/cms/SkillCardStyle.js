@@ -49,6 +49,11 @@ export const TotalRating = styled.span`
   padding-left: 5px;
   color: #108ee9;
 `;
+export const AverageRating = styled.span`
+  font-size: 0.8125rem;
+  padding-left: 5px;
+  color: #108ee9;
+`;
 
 export const ReactTooltip = styled(_ReactTooltip)`
   border: 1px solid #cdcdcd;
