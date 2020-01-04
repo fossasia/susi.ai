@@ -49,6 +49,7 @@ import withTracker from './withTracker';
 import GoogleAnalytics from 'react-ga';
 import { isProduction } from './utils/helperFunctions';
 import { checkDeviceWiFiAccessPoint, fetchActiveDeviceMacId } from './apis';
+import ScrollTopButton from './components/shared/ScrollTopButton';
 
 const RootContainer = styled.div`
   min-height: calc(100vh - 120px);
@@ -261,6 +262,7 @@ class App extends Component {
             )}
             {renderAppBar}
             {renderAppBanner}
+            <ScrollTopButton />
             {renderChatBubble}
             <RootContainer>
               <Switch>
