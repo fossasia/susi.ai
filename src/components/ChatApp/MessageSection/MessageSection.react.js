@@ -374,12 +374,7 @@ class MessageSection extends Component {
     const { showScrollBottom, showScrollTop, search } = this.state;
     if (this.scrollarea) {
       let scrollValues = this.scrollarea.getValues();
-      if (scrollValues.top >= 1) {
-        this.setState({
-          showScrollTop: true,
-          showScrollBottom: false,
-        });
-      } else if (scrollValues.top === 0) {
+      if (scrollValues.top === 0) {
         this.setState({
           showScrollTop: false,
           showScrollBottom: true,
@@ -387,6 +382,14 @@ class MessageSection extends Component {
       } else if (!(showScrollBottom && showScrollTop)) {
         this.setState({
           showScrollBottom: true,
+          showScrollTop: true,
+        });
+      } else if (
+        scrollValues.scrollHeight - Math.ceil(scrollValues.scrollTop) ===
+        scrollValues.clientHeight
+      ) {
+        this.setState({
+          showScrollBottom: false,
           showScrollTop: true,
         });
       }
@@ -403,7 +406,7 @@ class MessageSection extends Component {
     if (scrollBar) {
       scrollBar.view.scroll({
         top: scrollBar.getScrollHeight(),
-        behavior: 'auto',
+        behavior: 'smooth',
       });
     }
   };

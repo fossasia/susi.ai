@@ -2,6 +2,7 @@ import React from 'react';
 import susi from '../../images/susi-logo.svg';
 import { Link } from 'react-router-dom';
 import urls from '../../utils/urls';
+import isMobileView from '../../utils/isMobileView';
 import styled from 'styled-components';
 
 const FooterContainer = styled.div`
@@ -75,6 +76,12 @@ const ContentContainer = styled.div`
     margin: 0.5rem;
     padding: 0;
   }
+  @media (max-width: 745px) {
+    ul {
+      justify-content: center;
+      margin: 0.2rem;
+    }
+  }
 `;
 
 const LeftContainer = styled.div`
@@ -83,7 +90,24 @@ const LeftContainer = styled.div`
   justify-content: space-between;
 `;
 
+const getLinks = () => {
+  let links = [],
+    linksForMobileView = ['Privacy', 'Terms', 'Contact'];
+  for (let i = 0; i < 3; i++) {
+    links.push(
+      <li>
+        <Link to={'/' + linksForMobileView[i].toLowerCase()}>
+          {linksForMobileView[i]}
+        </Link>
+      </li>,
+    );
+  }
+
+  return links;
+};
+
 const Footer = () => {
+  const isMobile = isMobileView();
   return (
     <FooterContainer>
       <FooterWrapper>
@@ -116,19 +140,22 @@ const Footer = () => {
               <li>
                 <Link to="/support">Support</Link>
               </li>
+              {isMobile && getLinks()}
             </ul>
           </LeftContainer>
-          <ul>
-            <li>
-              <Link to="/privacy">Privacy</Link>
-            </li>
-            <li>
-              <Link to="/terms">Terms</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
+          {!isMobile && (
+            <ul>
+              <li>
+                <Link to="/privacy">Privacy</Link>
+              </li>
+              <li>
+                <Link to="/terms">Terms</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact</Link>
+              </li>
+            </ul>
+          )}
         </ContentContainer>
       </FooterWrapper>
     </FooterContainer>

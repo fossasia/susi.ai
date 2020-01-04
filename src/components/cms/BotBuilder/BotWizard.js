@@ -116,6 +116,14 @@ const DraftButtonContainer = styled.div`
   }
 `;
 
+const NextButton = styled(Button)`
+  margin-left: 10px;
+  @media (max-width: 480px) {
+    margin-left: 0px;
+    margin-bottom: 10px;
+  }
+`;
+
 const ActionButtonContainer = styled.div`
   float: right;
   display: flex;
@@ -303,11 +311,20 @@ class BotWizard extends React.Component {
   handleNext = () => {
     const { stepIndex } = this.state;
     const { name } = this.props;
-    this.setState({
-      stepIndex: stepIndex + 1,
-      finished: stepIndex >= 3,
-      commitMessage: 'Created Bot ' + name,
-    });
+    const botName = name.trim();
+    if (botName === '') {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Please do not leave name field empty',
+        snackBarPosition: { vertical: 'top', horizontal: 'right' },
+        variant: 'warning',
+      });
+    } else {
+      this.setState({
+        stepIndex: stepIndex + 1,
+        finished: stepIndex >= 3,
+        commitMessage: 'Created Bot ' + name,
+      });
+    }
   };
 
   handlePrev = () => {
@@ -622,13 +639,12 @@ class BotWizard extends React.Component {
                           ) : null}
                           <ActionButtonContainer>
                             {stepIndex === 2 ? (
-                              <Button
+                              <NextButton
                                 variant="contained"
                                 color="primary"
                                 onClick={this.saveClick}
                                 style={{
                                   minWidth: '11rem',
-                                  marginLeft: '10px',
                                 }}
                               >
                                 {// eslint-disable-next-line
@@ -639,18 +655,19 @@ class BotWizard extends React.Component {
                                 ) : (
                                   'Save and Deploy'
                                 )}
-                              </Button>
+                              </NextButton>
                             ) : null}
                             {stepIndex < 2 ? (
-                              <Button
+                              <NextButton
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleNext}
-                                style={{ marginLeft: '10px' }}
                               >
                                 Next
-                              </Button>
+                              </NextButton>
                             ) : null}
+                          </ActionButtonContainer>
+                          <ActionButtonContainer>
                             {stepIndex !== 0 && stepIndex !== 3 ? (
                               <Button
                                 variant="contained"
@@ -660,6 +677,8 @@ class BotWizard extends React.Component {
                                 Back
                               </Button>
                             ) : null}
+                          </ActionButtonContainer>
+                          <ActionButtonContainer>
                             {stepIndex === 0 ? (
                               <Link to="/mybots">
                                 <Button variant="contained" color="primary">
