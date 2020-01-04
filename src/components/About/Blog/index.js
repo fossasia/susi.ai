@@ -9,8 +9,12 @@ import Fab from '@material-ui/core/Fab';
 import {
   FacebookShareButton,
   TwitterShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
   FacebookIcon,
   TwitterIcon,
+  TelegramIcon,
+  WhatsappIcon,
   LinkedinShareButton,
   LinkedinIcon,
 } from 'react-share';
@@ -140,6 +144,12 @@ const SocialButtons = styled.div`
   width: 100%;
   display: flex;
   padding: 0.625rem 0 1.25rem 0.625rem;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  * {
+    margin-right: 5px;
+  }
 `;
 
 const Icon = styled.i`
@@ -380,7 +390,13 @@ class Blog extends Component {
                         </FacebookShareButton>
                         <LinkedinShareButton url={posts.link}>
                           <LinkedinIcon size={32} round={true} />
-                        </LinkedinShareButton>
+                        </LinkedinShareButton>{' '}
+                        <WhatsappShareButton url={posts.link}>
+                          <WhatsappIcon size={32} round={true} />
+                        </WhatsappShareButton>
+                        <TelegramShareButton url={posts.link}>
+                          <TelegramIcon size={32} round={true} />
+                        </TelegramShareButton>
                       </SocialButtons>
                       <BlogFooter>
                         <FlexBox>
