@@ -90,8 +90,10 @@ class ConfirmDeleteAccount extends React.Component {
   };
 
   handleEmailChange = event => {
-    const { email } = this.props;
-    const { value } = event.target;
+    let { email } = this.props;
+    email = email.toLowerCase();
+    let { value } = event.target;
+    value = value.toLowerCase();
     const emailError = !(email === value);
     if (emailError) {
       this.emailErrorMessage = 'Email does not match';

@@ -298,8 +298,7 @@ class SkillFeedbackCard extends Component {
           {!userFeedbackCard && !feedbackCards && (
             <DefaultMessage>No feedback present for this skill!</DefaultMessage>
           )}
-          {(userFeedbackCard && skillFeedbacks.length >= 4) ||
-          skillFeedbacks.length >= 5 ? (
+          {skillFeedbacks.length >= 5 ? (
             <Link to={`${language}/feedbacks`} style={{ display: 'block' }}>
               <ListItem button>
                 <ListItemText style={{ textAlign: 'center' }}>
