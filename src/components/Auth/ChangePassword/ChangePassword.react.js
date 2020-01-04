@@ -200,7 +200,9 @@ class ChangePassword extends Component {
       captchaResponse,
       showCaptchaErrorMessage,
     } = this.state;
-    const { actions, email } = this.props;
+    let { actions, email } = this.props;
+
+    email = email.toLowerCase();
 
     if (
       !(
