@@ -77,7 +77,8 @@ class Login extends Component {
 
   handleSubmit = async e => {
     const { actions, location, history } = this.props;
-    const { password, email, captchaResponse } = this.state;
+    let { password, email, captchaResponse } = this.state;
+    email = email.toLowerCase();
     if (!email || !password) {
       return;
     }
