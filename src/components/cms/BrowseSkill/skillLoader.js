@@ -33,12 +33,45 @@ const addLoader = () => {
 };
 
 const SkillLoader = () => {
+  const isMobile = isMobileView();
   return (
-    <div>
+    <>
+      <ContentLoader
+        height={isMobile ? 240 : 320}
+        width={950}
+        speed={2}
+        primaryColor="#f3f3f3"
+        secondaryColor="#ecebeb"
+      >
+        <rect
+          x={isMobile ? '30' : '1'}
+          y="2"
+          rx="0"
+          ry="0"
+          width={isMobile ? '100' : '30'}
+          height="290"
+        />
+        <rect
+          x={isMobile ? '820' : '860'}
+          y="1"
+          rx="0"
+          ry="0"
+          width={isMobile ? '100' : '30'}
+          height="290"
+        />
+        <rect
+          x={isMobile ? '150' : '40'}
+          y="2"
+          rx="0"
+          ry="0"
+          width={isMobile ? '650' : '810'}
+          height="290"
+        />
+      </ContentLoader>
       <Container>{addLoader()}</Container>
       <Container>{addLoader()}</Container>
       <Container>{addLoader()}</Container>
-    </div>
+    </>
   );
 };
 
