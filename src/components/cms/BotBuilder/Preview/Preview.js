@@ -473,6 +473,7 @@ class Preview extends Component {
                                     onKeyDown={event => {
                                       if (event.keyCode === 13) {
                                         this.sendMessage();
+                                        this.setState({ message: '' });
                                       }
                                     }}
                                   />
