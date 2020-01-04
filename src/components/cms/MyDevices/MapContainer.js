@@ -26,10 +26,12 @@ const Map = styled(_Map)`
 
 class MapContainer extends Component {
   static propTypes = {
-    devicesData: PropTypes.array,
+    data: PropTypes.array,
     google: PropTypes.object,
-    invalidLocationDevices: PropTypes.number,
+    invalidLocations: PropTypes.number,
     adminTable: PropTypes.bool,
+    style: PropTypes.object,
+    tooltipRenderer: PropTypes.func,
   };
 
   state = {
@@ -62,21 +64,21 @@ class MapContainer extends Component {
     }
   };
 
-  getMapCenter = (devicesData, invalidLocationDevices) => {
-    const latitudeSum = devicesData.reduce(
+  getMapCenter = (data, invalidLocations) => {
+    const latitudeSum = data.reduce(
       (a, b) => ({ latitude: a.latitude + b.latitude }),
       {
         latitude: 0.0,
       },
     ).latitude;
-    const longitudeSum = devicesData.reduce(
+    const longitudeSum = data.reduce(
       (a, b) => ({ longitude: a.longitude + b.longitude }),
       { longitude: 0.0 },
     ).longitude;
 
     return {
-      lat: latitudeSum / (devicesData.length - invalidLocationDevices),
-      lng: longitudeSum / (devicesData.length - invalidLocationDevices),
+      lat: latitudeSum / (data.length - invalidLocations),
+      lng: longitudeSum / (data.length - invalidLocations),
     };
   };
 
@@ -84,22 +86,26 @@ class MapContainer extends Component {
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
     const {
       google,
-      devicesData = [],
-      invalidLocationDevices,
+      data = [],
+      invalidLocations = 0,
       adminTable,
+      style,
     } = this.props;
-    const mapCenter = this.getMapCenter(devicesData, invalidLocationDevices);
+
+    const mapCenter = this.getMapCenter(data, invalidLocations);
+
     return (
       <Container adminTable={adminTable}>
         <Map
           google={google}
           zoom={5}
+          style={style || {}}
           center={mapCenter}
           initialCenter={mapCenter}
           onClick={this.onMapClicked}
           adminTable={adminTable}
         >
-          {devicesData.map(eachDevice => (
+          {data.map(eachDevice => (
             <Marker
               key={eachDevice.deviceName}
               title={eachDevice.deviceName}
@@ -114,15 +120,7 @@ class MapContainer extends Component {
             onClose={this.onInfoWindowClose}
             visible={showingInfoWindow}
           >
-            <div>
-              <p>
-                {`Mac Address: ${selectedPlace.macId}`}
-                <br />
-                {`Room: ${selectedPlace.room}`}
-                <br />
-                {`Device Name: ${selectedPlace.title}`}
-              </p>
-            </div>
+            <div>{this.props.tooltipRenderer(selectedPlace)}</div>
           </InfoWindow>
         </Map>
       </Container>
