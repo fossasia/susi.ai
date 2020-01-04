@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '../../shared/Button';
-import CircularLoader from '../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '../../shared/Select';
 import CircleImage from '../../shared/CircleImage';
@@ -18,6 +17,7 @@ import { urls } from '../../../utils';
 import styled from 'styled-components';
 import getImageSrc from '../../../utils/getImageSrc';
 import MaterialTable from 'material-table';
+import TableSleleton from '../../shared/TableLoader';
 
 const TableWrap = styled.div`
   padding: 0rem 0.5rem;
@@ -99,7 +99,7 @@ class MySkills extends Component {
         </Container>
 
         {loading ? (
-          <CircularLoader height={5} />
+          <TableSleleton />
         ) : (
           <TableWrap>
             {userSkills.length !== 0 && (
