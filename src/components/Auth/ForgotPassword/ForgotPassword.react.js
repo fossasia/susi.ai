@@ -59,7 +59,9 @@ class ForgotPassword extends Component {
 
   handleSubmit = async event => {
     const { actions } = this.props;
-    const { email, emailErrorMessage } = this.state;
+    let { email, emailErrorMessage } = this.state;
+
+    email = email.toLowerCase();
 
     if (email && !emailErrorMessage) {
       this.setState({ loading: true });
