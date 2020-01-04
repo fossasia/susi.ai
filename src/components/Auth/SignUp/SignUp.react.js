@@ -181,7 +181,7 @@ class SignUp extends Component {
       signupErrorMessage: '',
     });
 
-    const {
+    let {
       email,
       password,
       emailErrorMessage,
@@ -189,6 +189,8 @@ class SignUp extends Component {
       isCaptchaVerified,
       captchaResponse,
     } = this.state;
+
+    email = email.toLowerCase();
 
     const { getSignup, openSnackBar } = this.props.actions;
 
