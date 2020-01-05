@@ -25,6 +25,7 @@ import Emoji from 'react-emoji-render';
 import { parseDate, formatDate } from '../../../utils';
 import { Title, DefaultMessage, SubTitle } from '../../shared/Typography';
 import { Paper as _Paper } from '../../shared/Container';
+import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 
 // Icons
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -252,7 +253,8 @@ class SkillFeedbackCard extends Component {
           <div>
             <SubTitle size="1rem">
               {' '}
-              Write your invaluable feedback with {skillTag} on SUSI.AI{' '}
+              Write your invaluable feedback with{' '}
+              {getSkillNameFromSkillTag(skillTag)} on SUSI.AI{' '}
             </SubTitle>
             <div>
               <div style={{ margin: '1rem' }}>
@@ -296,8 +298,7 @@ class SkillFeedbackCard extends Component {
           {!userFeedbackCard && !feedbackCards && (
             <DefaultMessage>No feedback present for this skill!</DefaultMessage>
           )}
-          {(userFeedbackCard && skillFeedbacks.length >= 4) ||
-          skillFeedbacks.length >= 5 ? (
+          {skillFeedbacks.length >= 5 ? (
             <Link to={`${language}/feedbacks`} style={{ display: 'block' }}>
               <ListItem button>
                 <ListItemText style={{ textAlign: 'center' }}>

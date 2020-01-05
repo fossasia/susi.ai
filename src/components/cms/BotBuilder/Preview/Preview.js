@@ -11,6 +11,9 @@ import _ChevronRight from '@material-ui/icons/ChevronRight';
 import loadingGIF from '../../../../images/loading.gif';
 import MessageBubble from '../../../ChatApp/MessageListItem/MessageBubbleStyle';
 import './Chatbot.css';
+import onChatComposerKeyDown from '../../../../utils/onChatComposerKeyDown';
+
+const ENTER_KEY_CODE = 13;
 
 const Paper = styled(_Paper)`
   width: ${props => props.width};
@@ -82,7 +85,6 @@ const SUSIFrameContainer = styled.div`
     props.width > 1200 ? props.height - 250 + 'px' : '630px'};
   width: 100%;
   animation: ${moveFromBottomFadeKeyframe} 0.3s ease both;
-
   media(max-width: 667px) {
     left: 0;
     right: 0;
@@ -193,7 +195,6 @@ const SUSICommentContent = styled.div`
 const H1 = styled.h1`
   margin: 0px;
   text-align: center;
-
   @media (max-width: 769px) {
     padding-top: 0rem;
   }
@@ -238,6 +239,7 @@ const Textarea = styled.textarea`
 class Preview extends Component {
   constructor() {
     super();
+    this.messageEndRef = React.createRef();
     this.msgNumber = 1;
     this.state = {
       messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
@@ -245,13 +247,23 @@ class Preview extends Component {
       previewChat: true,
       width: window.innerWidth,
       height: window.innerHeight,
+      messageHistory: [],
+      showMessage: false,
+      currentMessageIndex: -1,
     };
   }
 
   componentDidMount = () => {
     this.updateWindowDimensions();
+    this.scrollToBottom();
     window.addEventListener('resize', this.updateWindowDimensions);
   };
+
+  componentDidUpdate() {
+    if (this.messageEndRef.current) {
+      this.scrollToBottom();
+    }
+  }
 
   togglePreview = () => {
     this.setState(prevState => ({
@@ -260,9 +272,14 @@ class Preview extends Component {
   };
 
   sendMessage = async event => {
-    const { message } = this.state;
+    const { message, messageHistory } = this.state;
     const { code } = this.props;
     if (message.trim().length > 0) {
+      this.setState({
+        messageHistory: [message, ...messageHistory],
+        showMessage: true,
+        currentMessageIndex: -1,
+      });
       this.addMessage(message, 'You');
       const encodedMessage = encodeURIComponent(message);
       const encodedCode = encodeURIComponent(code);
@@ -308,6 +325,27 @@ class Preview extends Component {
     }
   };
 
+  onKeydown = event => {
+    if (event.keyCode === ENTER_KEY_CODE) {
+      event.preventDefault();
+      this.sendMessage();
+    } else {
+      const { messageHistory, currentMessageIndex } = this.state;
+      const { message, newMessageIndex } = onChatComposerKeyDown(
+        event.keyCode,
+        messageHistory,
+        currentMessageIndex,
+      );
+      if (message !== '') {
+        event.preventDefault();
+        this.setState({
+          message: message,
+          currentMessageIndex: newMessageIndex,
+        });
+      }
+    }
+  };
+
   addMessage = (message, author, loading = false) => {
     const messageObj = { message, author, loading };
     const loadingObj = {
@@ -335,9 +373,8 @@ class Preview extends Component {
   };
 
   // Scroll to the bottom
-  scrollToBottomOfResults = () => {
-    var textsDiv = document.querySelector('.susi-sheet-content');
-    textsDiv.scrollTop = textsDiv.scrollHeight;
+  scrollToBottom = () => {
+    this.messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   componentWillUnmount = () => {
@@ -437,6 +474,7 @@ class Preview extends Component {
                                 className="susi-conversation-parts"
                               >
                                 {renderMessages}
+                                <div ref={this.messageEndRef} />
                               </div>
                             </div>
                           </SUSIMessageContainer>
@@ -461,7 +499,7 @@ class Preview extends Component {
                                     rows="1"
                                     value={message}
                                     onKeyPress={event => {
-                                      if (event.which === 13) {
+                                      if (event.which === ENTER_KEY_CODE) {
                                         event.preventDefault();
                                       }
                                     }}
@@ -471,9 +509,7 @@ class Preview extends Component {
                                       })
                                     }
                                     onKeyDown={event => {
-                                      if (event.keyCode === 13) {
-                                        this.sendMessage();
-                                      }
+                                      this.onKeydown(event);
                                     }}
                                   />
                                   <div>

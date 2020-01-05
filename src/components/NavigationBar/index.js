@@ -721,8 +721,8 @@ class NavigationBar extends Component {
                       aria-haspopup="true"
                       style={{
                         color: 'white',
-                        paddingRight: '15px',
-                        paddingLeft: '7px',
+                        marginRight: '10px',
+                        padding: '7px',
                       }}
                     >
                       <ContactSupportIcon />

@@ -5,11 +5,16 @@ import {
   FacebookShareButton as _FacebookShareButton,
   LinkedinShareButton as _LinkedinShareButton,
   TwitterShareButton as _TwitterShareButton,
+  WhatsappShareButton as _WhatsappShareButton,
+  TelegramShareButton as _TelegramShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
+  WhatsappIcon,
+  TelegramIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
+import CopyWithButton from '../../utils/CopyWithButton';
 
 const commonIconStyle = css`
   margin-top: 1rem;
@@ -21,15 +26,7 @@ const commonIconStyle = css`
 
 const ShareIconContainer = styled.div`
   display: flex;
-  flex-direction: column;
   margin: 0.7rem 2.5rem;
-`;
-
-const TextContainer = styled.div`
-  height: 3rem;
-  line-height: 3rem;
-  verticalalign: center;
-  padding-left: 0.5rem;
 `;
 
 const IconButton = styled(_IconButton)`
@@ -50,19 +47,31 @@ const TwitterShareButton = styled(_TwitterShareButton)`
   ${commonIconStyle};
 `;
 
+const WhatsappShareButton = styled(_WhatsappShareButton)`
+  ${commonIconStyle};
+`;
+
+const TelegramShareButton = styled(_TelegramShareButton)`
+  ${commonIconStyle};
+`;
+
 const ShareOnSocialMedia = () => {
   const shareUrl = 'https://susi.ai';
   const title = 'Lets chat with SUSI.AI, the open source personal assistant';
+  const shareText =
+    'Lets chat with SUSI.AI, the open source personal assistant https://susi.ai';
+
   return (
     <React.Fragment>
       <DialogTitle>Share about SUSI</DialogTitle>
+
+      <CopyWithButton value={shareText} />
       <ShareIconContainer>
         <IconButton>
           <FacebookShareButton url={shareUrl} quote={title}>
             <div>
               <FacebookIcon size={42} />
             </div>
-            <TextContainer>Facebook</TextContainer>
           </FacebookShareButton>
         </IconButton>
         <IconButton>
@@ -70,7 +79,6 @@ const ShareOnSocialMedia = () => {
             <div>
               <TwitterIcon size={42} />
             </div>
-            <TextContainer>Twitter</TextContainer>
           </TwitterShareButton>
         </IconButton>
         <IconButton>
@@ -78,8 +86,21 @@ const ShareOnSocialMedia = () => {
             <div>
               <LinkedinIcon size={42} />
             </div>
-            <TextContainer>LinkedIn</TextContainer>
           </LinkedinShareButton>
+        </IconButton>
+        <IconButton>
+          <WhatsappShareButton url={shareUrl} title={title}>
+            <div>
+              <WhatsappIcon size={42} />
+            </div>
+          </WhatsappShareButton>
+        </IconButton>
+        <IconButton>
+          <TelegramShareButton url={shareUrl} title={title}>
+            <div>
+              <TelegramIcon size={42} />
+            </div>
+          </TelegramShareButton>
         </IconButton>
       </ShareIconContainer>
     </React.Fragment>

@@ -77,7 +77,8 @@ class Login extends Component {
 
   handleSubmit = async e => {
     const { actions, location, history } = this.props;
-    const { password, email, captchaResponse } = this.state;
+    let { password, email, captchaResponse } = this.state;
+    email = email.toLowerCase();
     if (!email || !password) {
       return;
     }
@@ -248,7 +249,7 @@ class Login extends Component {
           <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
         <DialogContent>
-          <FormControl error={emailErrorMessage !== ''}>
+          <FormControl error={emailErrorMessage !== ''} disabled={loading}>
             <OutlinedInput
               labelWidth={0}
               name="email"
@@ -264,7 +265,7 @@ class Login extends Component {
             </FormHelperText>
           </FormControl>
 
-          <FormControl error={passwordErrorMessage !== ''}>
+          <FormControl error={passwordErrorMessage !== ''} disabled={loading}>
             <PasswordField
               name="password"
               value={password}

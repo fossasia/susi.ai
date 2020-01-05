@@ -181,7 +181,7 @@ class SignUp extends Component {
       signupErrorMessage: '',
     });
 
-    const {
+    let {
       email,
       password,
       emailErrorMessage,
@@ -189,6 +189,8 @@ class SignUp extends Component {
       isCaptchaVerified,
       captchaResponse,
     } = this.state;
+
+    email = email.toLowerCase();
 
     const { getSignup, openSnackBar } = this.props.actions;
 
@@ -287,7 +289,7 @@ class SignUp extends Component {
           <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
         <DialogContent>
-          <FormControl error={emailErrorMessage !== ''}>
+          <FormControl error={emailErrorMessage !== ''} disabled={loading}>
             <OutlinedInput
               labelWidth={0}
               name="email"
@@ -302,7 +304,7 @@ class SignUp extends Component {
               {emailErrorMessage}
             </FormHelperText>
           </FormControl>
-          <FormControl error={passwordErrorMessage !== ''}>
+          <FormControl error={passwordErrorMessage !== ''} disabled={loading}>
             <PasswordField
               name="password"
               value={password}
@@ -318,7 +320,10 @@ class SignUp extends Component {
             <PasswordStrengthBar score={passwordScore} />
             <span>{passwordStrength}</span>
           </div>
-          <FormControl error={passwordConfirmErrorMessage !== ''}>
+          <FormControl
+            error={passwordConfirmErrorMessage !== ''}
+            disabled={loading}
+          >
             <PasswordField
               name="confirmPassword"
               value={confirmPassword}

@@ -10,9 +10,13 @@ import {
   FacebookShareButton as _FacebookShareButton,
   LinkedinShareButton as _LinkedinShareButton,
   TwitterShareButton as _TwitterShareButton,
+  TelegramShareButton as _TelegramShareButton,
+  WhatsappShareButton as _WhatsappShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
+  WhatsappIcon,
+  TelegramIcon,
 } from 'react-share';
 import _IconButton from '@material-ui/core/IconButton';
 
@@ -34,7 +38,7 @@ const ShareIconContainer = styled.div`
 const TextContainer = styled.div`
   height: 3rem;
   line-height: 3rem;
-  verticalalign: center;
+  vertical-align: center;
   padding-left: 0.5rem;
 `;
 
@@ -53,6 +57,14 @@ const LinkedinShareButton = styled(_LinkedinShareButton)`
 `;
 
 const TwitterShareButton = styled(_TwitterShareButton)`
+  ${commonIconStyle};
+`;
+
+const TelegramShareButton = styled(_TelegramShareButton)`
+  ${commonIconStyle};
+`;
+
+const WhatsappShareButton = styled(_WhatsappShareButton)`
   ${commonIconStyle};
 `;
 
@@ -85,6 +97,22 @@ const Share = ({ actions, message }) => {
             </div>
             <TextContainer>LinkedIn</TextContainer>
           </LinkedinShareButton>
+        </IconButton>
+        <IconButton>
+          <TelegramShareButton url={shareUrl} title={title}>
+            <div>
+              <TelegramIcon size={42} />
+            </div>
+            <TextContainer>Telegram</TextContainer>
+          </TelegramShareButton>
+        </IconButton>
+        <IconButton>
+          <WhatsappShareButton url={shareUrl} title={title}>
+            <div>
+              <WhatsappIcon size={42} />
+            </div>
+            <TextContainer>WhatsApp</TextContainer>
+          </WhatsappShareButton>
         </IconButton>
       </ShareIconContainer>
       <CloseButton onClick={actions.closeModal} />
