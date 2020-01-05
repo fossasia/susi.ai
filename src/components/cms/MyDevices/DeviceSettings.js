@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GoogleApiWrapper } from 'google-maps-react';
 import DevicesTable from './DevicesTable';
 import MapContainer from './MapContainer';
 import PropTypes from 'prop-types';
@@ -20,6 +19,7 @@ import Button from '@material-ui/core/Button';
 import _Devices from '@material-ui/icons/Devices';
 import ControlSection from '../../smart-speaker/Control';
 import { withRouter } from 'react-router-dom';
+import withGoogleApiWrapper from '../../../utils/withGoogleApiWrapper';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -49,6 +49,18 @@ const Devices = styled(_Devices)`
   margin-right: 5px;
 `;
 
+function renderTooltip(selectedPlace) {
+  return (
+    <p>
+      {`Mac Address: ${selectedPlace.macId}`}
+      <br />
+      {`Room: ${selectedPlace.room}`}
+      <br />
+      {`Device Name: ${selectedPlace.title}`}
+    </p>
+  );
+}
+
 class DeviceSettings extends React.Component {
   static propTypes = {
     google: PropTypes.object,
@@ -62,7 +74,7 @@ class DeviceSettings extends React.Component {
   state = {
     loading: true,
     devicesData: [],
-    invalidLocationDevices: 0,
+    invalidLocations: 0,
     editIdx: null,
     emptyText: 'You do not have any devices connected yet!',
     value: 0,
@@ -106,7 +118,7 @@ class DeviceSettings extends React.Component {
       let payload = await fetchDevices({ search: email });
       const { devices } = payload;
       let devicesData = [];
-      let invalidLocationDevices = 0;
+      let invalidLocations = 0;
       devices.forEach(device => {
         const email = device.name;
         const devices = device.devices;
@@ -122,7 +134,7 @@ class DeviceSettings extends React.Component {
           if (device.geolocation) {
             location = `${device.geolocation.latitude},${device.geolocation.longitude}`;
           } else {
-            invalidLocationDevices++;
+            invalidLocations++;
           }
           const deviceObj = {
             deviceName,
@@ -144,7 +156,7 @@ class DeviceSettings extends React.Component {
       });
       this.setState({
         devicesData,
-        invalidLocationDevices,
+        invalidLocations,
         loading: false,
         macId,
         value: macId ? macId : 0,
@@ -231,7 +243,7 @@ class DeviceSettings extends React.Component {
     if (devices) {
       let devicesData = [];
       let deviceIds = Object.keys(devices);
-      let invalidLocationDevices = 0;
+      let invalidLocations = 0;
 
       deviceIds.forEach(eachDevice => {
         const {
@@ -254,7 +266,7 @@ class DeviceSettings extends React.Component {
           deviceObj.longitude === 'Longitude not available.'
         ) {
           deviceObj.location = 'Not found';
-          invalidLocationDevices++;
+          invalidLocations++;
         } else {
           deviceObj.latitude = parseFloat(latitude);
           deviceObj.longitude = parseFloat(longitude);
@@ -264,7 +276,7 @@ class DeviceSettings extends React.Component {
 
       this.setState({
         devicesData,
-        invalidLocationDevices,
+        invalidLocations,
       });
     }
   };
@@ -288,7 +300,7 @@ class DeviceSettings extends React.Component {
   };
 
   renderDevicesInfo = () => {
-    const { devicesData, invalidLocationDevices, editIdx, email } = this.state;
+    const { devicesData, invalidLocations, editIdx, email } = this.state;
     const { google, mapKey } = this.props;
     return (
       <div>
@@ -320,14 +332,15 @@ class DeviceSettings extends React.Component {
           <div style={{ maxHeight: '300px', marginTop: '10px' }}>
             {mapKey && (
               <MapContainer
+                tooltipRenderer={renderTooltip}
                 google={google}
-                devicesData={devicesData}
-                invalidLocationDevices={invalidLocationDevices}
+                data={devicesData}
+                invalidLocations={invalidLocations}
               />
             )}
           </div>
 
-          {invalidLocationDevices ? (
+          {invalidLocations ? (
             <div style={{ marginTop: '10px' }}>
               <b>NOTE: </b>Location info of one or more devices could not be
               retrieved.
@@ -384,10 +397,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(
-    GoogleApiWrapper(props => ({
-      LoadingContainer: LoadingContainer,
-      apiKey: props.mapKey,
-    }))(DeviceSettings),
-  ),
+  )(withGoogleApiWrapper(DeviceSettings)),
 );
