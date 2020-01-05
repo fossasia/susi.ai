@@ -1,5 +1,5 @@
-@import "~slick-carousel/slick/slick.css";
-@import "~slick-carousel/slick/slick-theme.css";
+@import "../src/helpers/slick/slick.css";
+@import "../src/helpers/slick/slick-theme.css";
 
 body {
   margin: 0;
@@ -8,6 +8,7 @@ body {
   font-family: 'Lato', sans-serif;
   background-color: #fff;
 }
+
 a {
   color: #1890ff;
   text-decoration: none;

@@ -1,9 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled, { css } from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import { Header } from '../../shared/About';
 import ScrollTopButton from '../../shared/ScrollTopButton';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
-import styled, { css } from 'styled-components';
+import MapContainer from '../../cms/MyDevices/MapContainer';
+import withGoogleApiWrapper from '../../../utils/withGoogleApiWrapper';
+
+const Address = styled.div`
+  height: 70vh;
+  margin-bottom: 10px;
+  border-bottom: 0.063rem solid #eee;
+  position: relative;
+  @media (max-width: 1000px) {
+    height: 90vh;
+  }
+`;
+
+const MapBox = styled.div`
+  position: absolute;
+  margin-bottom: 10vh;
+`;
 
 const commonContactContent = css`
   padding: 3.125rem 0 1.563rem 0;
@@ -50,11 +69,24 @@ const Text = styled.p`
   font-weight: 500;
 `;
 
+function renderTooltip(selectedPlace) {
+  return <h3>{selectedPlace.title}</h3>;
+}
+
 const Contact = props => {
   document.title =
     'Contact Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   scrollToTopAnimation();
   document.body.style.setProperty('background-image', 'none');
+
+  const { google, mapKey } = props;
+
+  const locationFossasia = {
+    deviceName: 'fossasia',
+    latitude: 1.2879848,
+    longitude: 103.84602,
+    location: `${1.2879848}, ${103.84602}`,
+  };
 
   return (
     <div>
@@ -66,23 +98,37 @@ const Contact = props => {
     <a class="twitter-timeline" data-width="508" data-height="800" href="https://twitter.com/susiai_?ref_src=twsrc%5Etfw">Tweets by susiai_</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       />
       <Section>
-        <ContactContent>
-          <H5>SUSI</H5>
-          <Text>
-            12 Eu Tong Sen Street
-            <br />
-            #8-169 ,
-            <br />
-            Singapore 059819
-            <br />
-            Phone +65 83435672
-            <br />
-            Email: support@susper.net
-            <br />
-            Board of Directors: Phuc Hong Dang
-            <br />
-          </Text>
-        </ContactContent>
+        <Address>
+          <div>
+            <H5>SUSI</H5>
+            <Text>
+              12 Eu Tong Sen Street
+              <br />
+              #8-169 ,
+              <br />
+              Singapore 059819
+              <br />
+              Phone +65 83435672
+              <br />
+              Email: support@susper.net
+              <br />
+              Board of Directors: Phuc Hong Dang
+              <br />
+            </Text>
+          </div>
+          <MapBox>
+            {mapKey && (
+              <MapContainer
+                google={google}
+                style={{
+                  width: '65vw',
+                }}
+                tooltipRenderer={renderTooltip}
+                data={[locationFossasia]}
+              />
+            )}
+          </MapBox>
+        </Address>
         <ContactContent>
           Report a safety or abuse issue affecting our products.
           <br />
@@ -100,6 +146,16 @@ const Contact = props => {
 Contact.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
+  google: PropTypes.object,
+  mapKey: PropTypes.string,
 };
 
-export default Contact;
+function mapStateToProps(store) {
+  return {
+    mapKey: store.app.apiKeys.mapKey || '',
+  };
+}
+
+export default withRouter(
+  connect(mapStateToProps)(withGoogleApiWrapper(Contact)),
+);
