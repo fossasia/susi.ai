@@ -62,6 +62,8 @@ const Contact = props => {
         title="Contact Us"
         subtitle="Get the help and information you need from our community and team
               through various channels."
+    
+    <a class="twitter-timeline" data-width="508" data-height="800" href="https://twitter.com/susiai_?ref_src=twsrc%5Etfw">Tweets by susiai_</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       />
       <Section>
         <ContactContent>
