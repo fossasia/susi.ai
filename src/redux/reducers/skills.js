@@ -145,7 +145,6 @@ export default handleActions(
       const { listPage } = payload;
       const { entriesPerPage, skills } = state;
       const listOffset = entriesPerPage * (listPage - 1);
-
       return {
         ...state,
         listPage,
@@ -179,6 +178,7 @@ export default handleActions(
       return {
         ...state,
         languageValue,
+        listPage: 1,
         loadingSkills: true,
       };
     },
@@ -236,6 +236,7 @@ export default handleActions(
             skill.skillRating &&
             skill.skillRating.stars.avgStar >= ratingRefine,
         ),
+        listPage: 1,
         ratingRefine,
       };
     },
