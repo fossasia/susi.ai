@@ -1055,7 +1055,9 @@ class SkillWizard extends Component {
           {this.isBotBuilder ? (
             <Heading>1. Add a new skill to your bot</Heading>
           ) : (
-            this.mode === 'create' && <Heading>Create a SUSI Skill</Heading>
+            (this.mode === 'create' && (
+              <Heading>Create a SUSI.AI skill</Heading>
+            )) || <Heading>Edit skill</Heading>
           )}
           <ViewsDiv>
             <IconButton

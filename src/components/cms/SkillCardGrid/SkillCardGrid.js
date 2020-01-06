@@ -28,6 +28,13 @@ const Author = styled.div`
   color: #555555;
 `;
 
+const TruncatedName = styled.p`
+  white-space: nowrap;
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const GridList = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
@@ -120,7 +127,7 @@ class SkillCardGrid extends Component {
             {staffPick && <StaffPickImage />}
           </TitleContainer>
           <Author>
-            <p>{authorName}</p>
+            <TruncatedName>{authorName}</TruncatedName>
           </Author>
           <div style={{ positive: 'relative', float: 'left' }}>
             <div data-tip="custom" data-for={dataId}>
