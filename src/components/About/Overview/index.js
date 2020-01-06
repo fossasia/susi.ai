@@ -35,7 +35,6 @@ import appStore from '../../../images/app-store.svg';
 import './Overview.css';
 import styled, { css } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const commonDesc = css`
   text-align: left;
@@ -913,7 +912,6 @@ class Overview extends Component {
             <CloseIcon onClick={this.toggleVideoModal} />
           </VideoContainer>
         </VideoModal>
-        <ScrollTopButton />
       </div>
     );
   }
