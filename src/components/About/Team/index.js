@@ -7,7 +7,6 @@ import TEAM_MEMBERS from '../../../constants/team';
 import 'font-awesome/css/font-awesome.min.css';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Section = styled.div`
   margin: 0 auto;
@@ -205,7 +204,6 @@ export default class Team extends Component {
           <Heading>Alumni</Heading>
           <TeamContainer>{alumnis}</TeamContainer>
         </Section>
-        <ScrollTopButton />
       </div>
     );
   }
