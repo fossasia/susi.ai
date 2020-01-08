@@ -79,7 +79,7 @@ class MyAnalytics extends Component {
           <CircularLoader height={5} />
         ) : (
           <Container>
-            {skillUsageCount !== 0 && (
+            {skillUsage && Array.isArray(skillUsage) && skillUsageCount !== 0 && (
               <React.Fragment>
                 <SubTitle marginLeft={1.4}>Skill Usage Distribution</SubTitle>
                 <PieChartContainer
