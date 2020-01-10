@@ -1,10 +1,10 @@
 import { handleActions } from 'redux-actions';
 import actionTypes from '../actionTypes';
-import localStorageService from '../../utils/localStorageService';
+import storageService from '../../utils/storageService';
 
 let languageArray =
-  localStorageService.get('languages') !== null
-    ? localStorageService.get('languages').split(',')
+  storageService.get('languages', 'local') !== null
+    ? storageService.get('languages', 'local').split(',')
     : [];
 
 const defaultState = {
