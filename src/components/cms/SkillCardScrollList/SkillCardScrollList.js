@@ -60,7 +60,7 @@ const SkillCardScrollList = ({ metricSkills, history, isMobile }) => {
   let renderCardScrollList = '';
 
   renderCardScrollList = skillCardListData.map((data, index) => {
-    return metricSkills[data.skills].length ? (
+    return metricSkills[data.skills] && metricSkills[data.skills].length ? (
       <Container key={index}>
         <HeaderText>{data.heading}</HeaderText>
         <SkillCard
