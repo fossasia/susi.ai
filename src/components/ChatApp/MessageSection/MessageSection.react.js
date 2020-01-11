@@ -55,7 +55,7 @@ const ScrollBottomFab = styled(Fab)`
   margin-right: 0.4rem;
   margin-bottom: 0.5rem;
   box-shadow: none;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   border: 0.45px solid darkgray;
 `;
 
@@ -64,7 +64,7 @@ const ScrollTopFab = styled(Fab)`
   margin-left: 0.4rem;
   margin-top: 0.5rem;
   box-shadow: none;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   border: 0.45px solid darkgray;
 `;
 
@@ -85,7 +85,7 @@ const MessageComposeContainer = styled.div`
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
-  background: ${props => props.backgroundColor};
+  background: ${props => props.$backgroundColor};
   color: ${props => (props.theme === 'dark' ? 'white' : 'black')};
   min-height: 4.625rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,
@@ -840,7 +840,7 @@ class MessageSection extends Component {
           </div>
         )}
         <MessageComposeContainer
-          backgroundColor={composer}
+          $backgroundColor={composer}
           theme={theme}
           showChatPreview={mode === 'preview'}
         >

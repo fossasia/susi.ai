@@ -105,8 +105,8 @@ const SUSIFrameWrapper = styled.div`
 
 const SUSIMessageContainer = styled.div`
   && {
-    background-color: ${props => props.backgroundColor};
-    background-image: ${props => `url(${props.backgroundImage})`};
+    background-color: ${props => props.$backgroundColor};
+    background-image: ${props => `url(${props.$backgroundImage})`};
   }
 `;
 
@@ -153,8 +153,8 @@ const SUSILauncherWrapper = styled.div`
 `;
 
 const SUSILauncherButton = styled.div`
-  background-color: ${props => props.backgroundColor};
-  background-image: ${props => `url(${props.backgroundImage})`};
+  background-color: ${props => props.$backgroundColor};
+  background-image: ${props => `url(${props.$backgroundImage})`};
   width: 60px;
   height: 60px;
   background-size: 60px;
@@ -412,7 +412,7 @@ class Preview extends Component {
             <MessageBubble
               author={message.author}
               width={'fit-content'}
-              backgroundColor={botbuilderUserMessageBackground}
+              $backgroundColor={botbuilderUserMessageBackground}
               color={botbuilderUserMessageTextColor}
             >
               <SUSICommentContent>{message.message}</SUSICommentContent>
@@ -424,7 +424,7 @@ class Preview extends Component {
             key={index}
             author={message.author}
             width={'fit-content'}
-            backgroundColor={botbuilderBotMessageBackground}
+            $backgroundColor={botbuilderBotMessageBackground}
             color={botbuilderBotMessageTextColor}
           >
             <SUSICommentContent>{message.message}</SUSICommentContent>
@@ -462,8 +462,8 @@ class Preview extends Component {
                         >
                           <SUSIMessageContainer
                             className="susi-sheet-content-container"
-                            backgroundColor={botbuilderBackgroundBody}
-                            backgroundImage={botbuilderBodyBackgroundImg}
+                            $backgroundColor={botbuilderBackgroundBody}
+                            $backgroundImage={botbuilderBodyBackgroundImg}
                           >
                             <div
                               className="susi-conversation-parts-container"
@@ -533,8 +533,8 @@ class Preview extends Component {
                 <SUSILauncherWrapper onClick={this.togglePreview}>
                   <SUSILauncherButton
                     data-tip="Toggle Launcher"
-                    backgroundColor={botbuilderIconColor}
-                    backgroundImage={botbuilderIconImg}
+                    $backgroundColor={botbuilderIconColor}
+                    $backgroundImage={botbuilderIconImg}
                   />
                 </SUSILauncherWrapper>
               </SUSILauncherContainer>

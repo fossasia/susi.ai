@@ -1150,7 +1150,7 @@ class SkillWizard extends Component {
                       label="Category"
                       value={category}
                       onChange={this.handleGroupChange}
-                      autoWidth={true}
+                      autowidth="true"
                     >
                       {this.state.groups}
                     </OutlinedSelectField>
@@ -1161,7 +1161,7 @@ class SkillWizard extends Component {
                       label="Language"
                       value={language}
                       onChange={this.handleLanguageChange}
-                      autoWidth={true}
+                      autowidth="true"
                     >
                       {this.state.languages}
                     </OutlinedSelectField>
