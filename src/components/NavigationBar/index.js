@@ -367,7 +367,7 @@ class NavigationBar extends Component {
       isAdmin,
       email,
       userName,
-      userSettingsLoaded,
+      // userSettingsLoaded,
       avatarImgThumbnail,
       history,
       searchState,
@@ -589,11 +589,11 @@ class NavigationBar extends Component {
                             src={userAvatar}
                             size="32"
                           />
-                          {userSettingsLoaded && (
-                            <UserDetail>
-                              {!userName ? email : userName}
-                            </UserDetail>
-                          )}
+                          {/* {userSettingsLoaded && ( */}
+                          <UserDetail>
+                            {!userName ? email : userName}
+                          </UserDetail>
+                          {/* )} */}
                           <ExpandMore
                             style={{
                               display: isMobileView(400) ? 'none' : 'inline',
