@@ -43,7 +43,6 @@ import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
 import SkillRating from '../SkillRating/SkillRating.js';
 import isMobileView from '../../../utils/isMobileView';
 import Grid from '@material-ui/core/Grid';
-import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
@@ -637,7 +636,8 @@ class BrowseSkill extends React.Component {
           {listOffset + entriesPerPage > skills.length
             ? skills.length
             : listOffset + entriesPerPage}{' '}
-          out of {skills.length} {pluralize('result', skills.length)} for&nbsp;
+          out of {skills.length} result {skills.length === 1 ? null : 's'}{' '}
+          for&nbsp;
           <b>
             <SidebarLink to="/">SUSI Skill</SidebarLink>
           </b>
