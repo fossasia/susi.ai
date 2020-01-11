@@ -36,7 +36,6 @@ import Popper from './Popper';
 import _ExpandMore from '@material-ui/icons/ExpandMore';
 import ExpandingSearchField from '../ChatApp/SearchField.react';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import Chat from '@material-ui/icons/Chat';
 import { StyledIconButton, OutlinedSelectStyles } from './Styles';
 import { FlexContainer } from '../shared/Container';
 import ListIcon from '@material-ui/icons/List';
@@ -679,17 +678,6 @@ class NavigationBar extends Component {
                     </ListItemText>
                   </MenuItem>
                 )}
-                <ToolTip title="Chat with Susi AI">
-                  <IconButton
-                    color="inherit"
-                    onClick={
-                      isMobileView(500) ? this.openFullScreen : this.openPreview
-                    }
-                    style={{ padding: '7px' }}
-                  >
-                    <Chat />
-                  </IconButton>
-                </ToolTip>
 
                 <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
