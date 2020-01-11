@@ -4,7 +4,7 @@ import htmlToText from 'html-to-text';
 import { connect } from 'react-redux';
 import _Card from '@material-ui/core/Card';
 import _CardMedia from '@material-ui/core/CardMedia';
-import dateFormat from 'dateformat';
+import dateFormat from '../../../utils/dateFormat';
 import Fab from '@material-ui/core/Fab';
 import {
   FacebookShareButton,
