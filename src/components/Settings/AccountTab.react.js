@@ -169,7 +169,8 @@ class AccountTab extends React.Component {
   };
 
   handleUserName = event => {
-    const { value: userName } = event.target;
+    let { value: userName } = event.target;
+    userName = userName.trim();
     this.setState({ userName });
     if (!isUserName(userName)) {
       this.setState({
