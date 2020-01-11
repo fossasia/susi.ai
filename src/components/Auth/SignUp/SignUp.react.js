@@ -190,7 +190,7 @@ class SignUp extends Component {
       captchaResponse,
     } = this.state;
 
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
 
     const { getSignup, openSnackBar } = this.props.actions;
 
