@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const Text = styled.textarea`
-  width: 33%;
+  width: ${props => (props.width ? props.width : '33%')};
   font-size: 1rem;
   padding: 2px 0.5rem;
   border-top-left-radius: 5px;
@@ -40,7 +40,11 @@ class CopyWithButton extends React.Component {
   render() {
     return (
       <Container>
-        <Text value={this.props.value} />
+        <Text
+          value={this.props.value}
+          width={this.props.width}
+          onChange={event => this.props.handleChange(event)}
+        />
         <CopyToClipboard
           text={this.props.value}
           onCopy={() => this.setState({ copied: true })}
@@ -58,6 +62,8 @@ class CopyWithButton extends React.Component {
 
 CopyWithButton.propTypes = {
   value: PropTypes.string,
+  width: PropTypes.any,
+  handleChange: PropTypes.func,
 };
 
 export default CopyWithButton;
