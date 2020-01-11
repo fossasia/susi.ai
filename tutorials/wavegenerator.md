@@ -4,6 +4,19 @@ Wave Generator
 Introduction to Waves
 ---------------------
 
+A wave is a physical phenomenon characterized by its frequency, wavelength, and amplitude.
+In general, waves transfer energy from one location to another, in which case they have a velocity.
+
+![wave-amplitude-length](../_static/wave-amplitude-length.png)
+
+Standing waves may also occur; these have no net velocity and involve no net transfer of energy. They have frequency,
+wavelength and amplitude.
+Mechanical waves require a medium to travel through: for example, sound waves and earthquake waves cannot travel 
+through a vacuum.
+Electromagnetic waves, such as light, do not require a medium and can travel through a vacuum.
+Transverse waves, such as light, oscillate perpendicular to the direction the wave is carrying energy as in the
+diagram above. Longitudinal waves, such as sound, oscillate parallel to the direction of energy transfer.
+
 How to use the Wave Generator
 -----------------------------
 
@@ -22,8 +35,19 @@ How to use the Wave Generator
 > 7.  Use Save button to save the set wave configs and use these configs
 >     later.
 
+<table>
+     <tr>
+         <td><img src="/_static/Wave-Genarator-Analog-wave.jpg"/></td>
+         <td><img src="/_static/Wave-Genarator-Digital-wave.jpg"/></td>
+     </tr>
+ </table>
+
 Experiment: Generate Sounds with Waves
 --------------------------------------
+
+- Experiment video on Youtube:
+[Using Wave Generator In PSLab Android App to produce different waveforms | FOSSASIA | GSoC'18
+](https://www.youtube.com/watch?v=NC2T5kElWbE)
 
 Experiment: Blinking LEDs with the wave generator
 -------------------------------------------------
