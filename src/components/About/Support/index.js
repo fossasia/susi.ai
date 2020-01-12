@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import _Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 import stackoverflow from '../../../images/stackoverflow.png';
 import { Header } from '../../shared/About';
 import support from '../../../images/support.png';
@@ -444,7 +443,6 @@ class Support extends Component {
             </SignUpFooter>
           ) : null}
         </SignUpWrapper>
-        <ScrollTopButton />
       </div>
     );
   }
