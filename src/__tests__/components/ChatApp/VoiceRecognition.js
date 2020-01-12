@@ -1,17 +1,18 @@
 import React from 'react';
-import MapContainer from '../../../components/cms/MyDevices/MapContainer';
+import VoiceRecognition from '../../../components/ChatApp/VoiceRecognition';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<MapContainer />', () => {
-  it('renders MapContainer without crashing', () => {
+describe('<VoiceRecognition />', () => {
+  it('render VoiceRecognition without crashing', () => {
     shallow(
       <Provider store={store}>
-        <MapContainer />
+        <VoiceRecognition />
       </Provider>,
+      { disableLifecycleMethods: true },
     );
   });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Header } from '../../shared/About';
 import styled from 'styled-components';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Section = styled.div`
   max-width: 85%;
@@ -325,7 +324,6 @@ const Terms = () => {
           </TermsList>
         </SectionContainer>
       </Section>
-      <ScrollTopButton />
     </div>
   );
 };

@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '../../shared/Button';
-import CircularLoader from '../../shared/CircularLoader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '../../shared/Select';
 import CircleImage from '../../shared/CircleImage';
@@ -18,6 +17,7 @@ import { urls } from '../../../utils';
 import styled from 'styled-components';
 import getImageSrc from '../../../utils/getImageSrc';
 import MaterialTable from 'material-table';
+import TableSleleton from '../../shared/TableLoader';
 
 const TableWrap = styled.div`
   padding: 0rem 0.5rem;
@@ -99,102 +99,107 @@ class MySkills extends Component {
         </Container>
 
         {loading ? (
-          <CircularLoader height={5} />
+          <TableSleleton />
         ) : (
           <TableWrap>
-            {userSkills.length !== 0 && (
-              <MaterialTable
-                title="My Skills"
-                columns={[
-                  {
-                    title: 'Image',
-                    field: 'imageLink',
-                    render: rowData => {
-                      return (
-                        <Link
-                          to={{
-                            pathname: `/${
-                              rowData.group
-                            }/${rowData.skillTag
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/${rowData.language}`,
-                          }}
-                        >
-                          <Img
-                            // eslint-disable-next-line
-                            src={getImageSrc({
-                              relativePath: `model=general&language=${
-                                rowData.language
-                              }&group=${rowData.group.replace(
-                                / /g,
-                                '%20',
-                              )}&image=/${rowData.image}`,
-                            })}
-                            unloader={
-                              <CircleImage name={rowData.skillName} size="40" />
-                            }
-                          />
-                        </Link>
-                      );
+            {userSkills &&
+              Array.isArray(userSkills) &&
+              userSkills.length !== 0 && (
+                <MaterialTable
+                  title="My Skills"
+                  columns={[
+                    {
+                      title: 'Image',
+                      field: 'imageLink',
+                      render: rowData => {
+                        return (
+                          <Link
+                            to={{
+                              pathname: `/${
+                                rowData.group
+                              }/${rowData.skillTag
+                                .toLowerCase()
+                                .replace(/ /g, '_')}/${rowData.language}`,
+                            }}
+                          >
+                            <Img
+                              // eslint-disable-next-line
+                              src={getImageSrc({
+                                relativePath: `model=general&language=${
+                                  rowData.language
+                                }&group=${rowData.group.replace(
+                                  / /g,
+                                  '%20',
+                                )}&image=/${rowData.image}`,
+                              })}
+                              unloader={
+                                <CircleImage
+                                  name={rowData.skillName}
+                                  size="40"
+                                />
+                              }
+                            />
+                          </Link>
+                        );
+                      },
                     },
-                  },
-                  {
-                    title: 'Name',
-                    field: 'name',
-                    render: rowData => {
-                      return (
-                        <Link
-                          to={{
-                            pathname: `/${
-                              rowData.group
-                            }/${rowData.skillTag
-                              .toLowerCase()
-                              .replace(/ /g, '_')}/${rowData.language}`,
-                          }}
-                        >
-                          {rowData.skillName}
-                        </Link>
-                      );
+                    {
+                      title: 'Name',
+                      field: 'name',
+                      render: rowData => {
+                        return (
+                          <Link
+                            to={{
+                              pathname: `/${
+                                rowData.group
+                              }/${rowData.skillTag
+                                .toLowerCase()
+                                .replace(/ /g, '_')}/${rowData.language}`,
+                            }}
+                          >
+                            {rowData.skillName}
+                          </Link>
+                        );
+                      },
                     },
-                  },
-                  { title: 'Type', field: 'type' },
-                  {
-                    title: 'Status',
-                    field: 'status',
-                    render: rowData => {
-                      return (
-                        <FormControl>
-                          <Select value={1} style={{ width: '10rem' }}>
-                            <MenuItem value={1}>Enable</MenuItem>
-                          </Select>
-                        </FormControl>
-                      );
+                    { title: 'Type', field: 'type' },
+                    {
+                      title: 'Status',
+                      field: 'status',
+                      render: rowData => {
+                        return (
+                          <FormControl>
+                            <Select value={1} style={{ width: '10rem' }}>
+                              <MenuItem value={1}>Enable</MenuItem>
+                            </Select>
+                          </FormControl>
+                        );
+                      },
                     },
-                  },
-                ]}
-                data={userSkills.map((skill, index) => {
-                  return {
-                    group: skill.group,
-                    skillTag: skill.skillTag,
-                    language: skill.language,
-                    image: skill.image,
-                    skillName: skill.skillName,
-                    type: skill.type,
-                  };
-                })}
-                options={{
-                  search: false,
-                  toolbar: false,
-                  showFirstLastPageButtons: !isSmallScreen,
-                  headerStyle: {
-                    backgroundColor: '#6fa2ff',
-                    color: '#FFF',
-                    fontSize: '1.2rem',
-                  },
-                }}
-                style={{ margin: '10px' }}
-              />
-            )}
+                  ]}
+                  data={userSkills.map((skill, index) => {
+                    return {
+                      group: skill.group,
+                      skillTag: skill.skillTag,
+                      language: skill.language,
+                      image: skill.image,
+                      skillName: skill.skillName,
+                      type: skill.type,
+                    };
+                  })}
+                  options={{
+                    search: false,
+                    toolbar: false,
+                    showFirstLastPageButtons: !isSmallScreen,
+                    headerStyle: {
+                      backgroundColor: '#6fa2ff',
+                      color: '#FFF',
+                      fontSize: '1.2rem',
+                    },
+                  }}
+                  style={{ margin: '10px' }}
+                />
+              )}
           </TableWrap>
         )}
         {userSkills.length === 0 && !loading && (

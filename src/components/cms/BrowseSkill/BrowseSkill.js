@@ -47,7 +47,6 @@ import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Container = styled.div`
   display: flex;
@@ -905,158 +904,168 @@ class BrowseSkill extends React.Component {
           </Paper>
         </Sidebar>
         <RightContainer>
-          {renderSkillSlideshow}
           {loadingSkills ? (
             <SkillLoader />
           ) : (
-            <ContentContainer>
-              {metricsHidden ? (
-                <div>
-                  {noSkillFound}
-                  <Grid
-                    container
-                    spacing={3}
-                    direction={isMobile ? 'column-reverse' : 'row'}
-                  >
-                    <Grid
-                      item
-                      alignItems="center"
-                      sm={6}
-                      style={{
-                        textAlign: 'center',
-                        padding: isMobile ? '10px 30px' : '30px 25px 0',
-                        fontSize: isMobile ? '14px' : '16px',
-                      }}
-                    >
-                      {renderSkillCount}
-                    </Grid>
-                    <Grid item sm={6} alignItems="center">
-                      {skills.length > 0 && (
-                        <FlexContainer>
-                          {filterType !== '' && (
-                            <IconButton
-                              color="primary"
-                              onClick={this.handleOrderByChange}
-                            >
-                              {renderOrderBy}
-                            </IconButton>
-                          )}
-
-                          <FilterFormControl>
-                            <InputLabel>Sort By</InputLabel>
-                            <Select
-                              value={filterType}
-                              onChange={this.handleFilterChange}
-                            >
-                              <MenuItem value={'lexicographical'}>
-                                Name (A-Z)
-                              </MenuItem>
-                              <MenuItem value={'top_rated'}>Top Rated</MenuItem>
-                              <MenuItem value={'rating'}>Most Rated</MenuItem>
-                              <MenuItem value={'creation_date'}>
-                                Newly Created
-                              </MenuItem>
-                              <MenuItem value={'modified_date'}>
-                                Recently updated
-                              </MenuItem>
-                              <MenuItem value={'feedback'}>
-                                Feedback Count
-                              </MenuItem>
-                              <MenuItem value={'usage&duration=7'}>
-                                This Week Usage
-                              </MenuItem>
-                              <MenuItem value={'usage&duration=30'}>
-                                This Month Usage
-                              </MenuItem>
-                            </Select>
-                          </FilterFormControl>
-                          {skills.length > 10 && (
-                            <SkillsFormControl>
-                              <InputLabel>Skills per page</InputLabel>
-                              <Select
-                                value={entriesPerPage}
-                                onChange={this.handleEntriesPerPageChange}
-                                style={{ width: '5.1rem', marginTop: '1.5rem' }}
-                              >
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={20}>20</MenuItem>
-                                <MenuItem value={50}>50</MenuItem>
-                                <MenuItem value={100}>100</MenuItem>
-                              </Select>
-                            </SkillsFormControl>
-                          )}
-                          <RadioGroup
-                            defaultValue="list"
-                            value={viewType}
-                            onChange={this.handleViewChange}
-                            style={{ flexDirection: 'row' }}
-                          >
-                            <Radio
-                              value="list"
-                              style={{ width: 'fit-content', padding: '0px' }}
-                              checkedIcon={<ActionViewStream isActive={true} />}
-                              icon={<ActionViewStream isActive={false} />}
-                            />
-                            <Radio
-                              value="grid"
-                              style={{ width: 'fit-content', padding: '0px' }}
-                              checkedIcon={<ActionViewModule isActive={true} />}
-                              icon={<ActionViewModule isActive={false} />}
-                            />
-                          </RadioGroup>
-                        </FlexContainer>
-                      )}
-                    </Grid>
-                  </Grid>
+            <React.Fragment>
+              {renderSkillSlideshow}
+              <ContentContainer>
+                {metricsHidden ? (
                   <div>
-                    {viewType === 'list' ? (
-                      <SkillCardList />
-                    ) : (
-                      <SkillCardGrid history={history} />
+                    {noSkillFound}
+                    <Grid
+                      container
+                      spacing={3}
+                      direction={isMobile ? 'column-reverse' : 'row'}
+                    >
+                      <Grid
+                        item
+                        alignItems="center"
+                        sm={6}
+                        style={{
+                          textAlign: 'center',
+                          padding: isMobile ? '10px 30px' : '30px 25px 0',
+                          fontSize: isMobile ? '14px' : '16px',
+                        }}
+                      >
+                        {renderSkillCount}
+                      </Grid>
+                      <Grid item sm={6} alignItems="center">
+                        {skills.length > 0 && (
+                          <FlexContainer>
+                            {filterType !== '' && (
+                              <IconButton
+                                color="primary"
+                                onClick={this.handleOrderByChange}
+                              >
+                                {renderOrderBy}
+                              </IconButton>
+                            )}
+
+                            <FilterFormControl>
+                              <InputLabel>Sort By</InputLabel>
+                              <Select
+                                value={filterType}
+                                onChange={this.handleFilterChange}
+                              >
+                                <MenuItem value={'lexicographical'}>
+                                  Name (A-Z)
+                                </MenuItem>
+                                <MenuItem value={'top_rated'}>
+                                  Top Rated
+                                </MenuItem>
+                                <MenuItem value={'rating'}>Most Rated</MenuItem>
+                                <MenuItem value={'creation_date'}>
+                                  Newly Created
+                                </MenuItem>
+                                <MenuItem value={'modified_date'}>
+                                  Recently updated
+                                </MenuItem>
+                                <MenuItem value={'feedback'}>
+                                  Feedback Count
+                                </MenuItem>
+                                <MenuItem value={'usage&duration=7'}>
+                                  This Week Usage
+                                </MenuItem>
+                                <MenuItem value={'usage&duration=30'}>
+                                  This Month Usage
+                                </MenuItem>
+                              </Select>
+                            </FilterFormControl>
+                            {skills.length > 10 && (
+                              <SkillsFormControl>
+                                <InputLabel>Skills per page</InputLabel>
+                                <Select
+                                  value={entriesPerPage}
+                                  onChange={this.handleEntriesPerPageChange}
+                                  style={{
+                                    width: '5.1rem',
+                                    marginTop: '1.5rem',
+                                  }}
+                                >
+                                  <MenuItem value={10}>10</MenuItem>
+                                  <MenuItem value={20}>20</MenuItem>
+                                  <MenuItem value={50}>50</MenuItem>
+                                  <MenuItem value={100}>100</MenuItem>
+                                </Select>
+                              </SkillsFormControl>
+                            )}
+                            <RadioGroup
+                              defaultValue="list"
+                              value={viewType}
+                              onChange={this.handleViewChange}
+                              style={{ flexDirection: 'row' }}
+                            >
+                              <Radio
+                                value="list"
+                                style={{ width: 'fit-content', padding: '0px' }}
+                                checkedIcon={
+                                  <ActionViewStream isActive={true} />
+                                }
+                                icon={<ActionViewStream isActive={false} />}
+                              />
+                              <Radio
+                                value="grid"
+                                style={{ width: 'fit-content', padding: '0px' }}
+                                checkedIcon={
+                                  <ActionViewModule isActive={true} />
+                                }
+                                icon={<ActionViewModule isActive={false} />}
+                              />
+                            </RadioGroup>
+                          </FlexContainer>
+                        )}
+                      </Grid>
+                    </Grid>
+                    <div>
+                      {viewType === 'list' ? (
+                        <SkillCardList />
+                      ) : (
+                        <SkillCardGrid history={history} />
+                      )}
+                    </div>
+                    {skills.length > this.props.entriesPerPage && (
+                      <PageNavigationContainer>
+                        <div>
+                          Page: {listPage} out of{' '}
+                          {Math.ceil(skills.length / entriesPerPage)}
+                        </div>
+                        <br />
+                        <Fab
+                          disabled={listPage === 1}
+                          color="primary"
+                          style={{ marginRight: '15px' }}
+                          onClick={this.handleNavigationBackward}
+                        >
+                          <NavigationArrowBack />
+                        </Fab>
+                        <Fab
+                          disabled={
+                            listPage ===
+                            Math.ceil(skills.length / entriesPerPage)
+                          }
+                          color="primary"
+                          onClick={this.handleNavigationForward}
+                        >
+                          <NavigationArrowForward />
+                        </Fab>
+                      </PageNavigationContainer>
                     )}
                   </div>
-                  {skills.length > this.props.entriesPerPage && (
-                    <PageNavigationContainer>
-                      <div>
-                        Page: {listPage} out of{' '}
-                        {Math.ceil(skills.length / entriesPerPage)}
-                      </div>
-                      <br />
-                      <Fab
-                        disabled={listPage === 1}
-                        color="primary"
-                        style={{ marginRight: '15px' }}
-                        onClick={this.handleNavigationBackward}
-                      >
-                        <NavigationArrowBack />
-                      </Fab>
-                      <Fab
-                        disabled={
-                          listPage === Math.ceil(skills.length / entriesPerPage)
-                        }
-                        color="primary"
-                        onClick={this.handleNavigationForward}
-                      >
-                        <NavigationArrowForward />
-                      </Fab>
-                      <ScrollTopButton />
-                    </PageNavigationContainer>
-                  )}
-                </div>
-              ) : (
-                ''
-              )}
-              <div>{renderCardScrollList}</div>
-              {/* Check if mobile view is currently active*/}
-              {routeType === 'category' ? (
-                backToHome
-              ) : (
-                <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
-              )}
-            </ContentContainer>
+                ) : (
+                  ''
+                )}
+                <div>{renderCardScrollList}</div>
+                {/* Check if mobile view is currently active*/}
+                {routeType === 'category' ? (
+                  backToHome
+                ) : (
+                  <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
+                )}
+              </ContentContainer>
+            </React.Fragment>
           )}
         </RightContainer>
-        <ScrollTopButton />
       </Container>
     );
   }

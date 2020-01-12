@@ -9,8 +9,12 @@ import Fab from '@material-ui/core/Fab';
 import {
   FacebookShareButton,
   TwitterShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
   FacebookIcon,
   TwitterIcon,
+  TelegramIcon,
+  WhatsappIcon,
   LinkedinShareButton,
   LinkedinIcon,
 } from 'react-share';
@@ -24,7 +28,7 @@ import Next from '@material-ui/icons/KeyboardArrowRight';
 import Previous from '@material-ui/icons/KeyboardArrowLeft';
 import susi from '../../../images/susi-logo.svg';
 import { Header } from '../../shared/About';
-import ScrollTopButton from '../../shared/ScrollTopButton';
+
 import BlogLoader from './BlogLoader';
 const allCategories = [
   'FOSSASIA',
@@ -140,6 +144,12 @@ const SocialButtons = styled.div`
   width: 100%;
   display: flex;
   padding: 0.625rem 0 1.25rem 0.625rem;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  * {
+    margin-right: 5px;
+  }
 `;
 
 const Icon = styled.i`
@@ -193,6 +203,7 @@ class Blog extends Component {
       startPage: 0,
       nextDisplay: 'visible',
       prevDisplay: 'hidden',
+      nextPosts: [],
     };
   }
 
@@ -217,8 +228,13 @@ class Blog extends Component {
 
   getPosts = async offset => {
     this.setState({ postRendered: false });
-    let payload = await getBlogReponse(this.blogKey, 10, offset);
-
+    let payload = null;
+    if (this.state.nextPosts.length == 0 || offset <= this.state.startPage) {
+      payload = await getBlogReponse(this.blogKey, 10, offset);
+    } else {
+      payload = { items: this.state.nextPosts, status: 'ok' };
+    }
+    let nextPaylod = await getBlogReponse(this.blogKey, 10, offset + 10);
     try {
       if (payload.status !== 'ok') {
         throw payload.message;
@@ -226,9 +242,13 @@ class Blog extends Component {
       const postsCount = payload.items.length;
       this.setState({
         posts: payload.items,
+        nextPosts: nextPaylod.items,
         postRendered: true,
         startPage: offset,
-        nextDisplay: postsCount < 10 ? 'hidden' : 'visible',
+        nextDisplay:
+          postsCount < 10 || nextPaylod.items.length === 0
+            ? 'hidden'
+            : 'visible',
         prevDisplay: offset === 0 ? 'hidden' : 'visible',
       });
     } catch (err) {
@@ -380,7 +400,13 @@ class Blog extends Component {
                         </FacebookShareButton>
                         <LinkedinShareButton url={posts.link}>
                           <LinkedinIcon size={32} round={true} />
-                        </LinkedinShareButton>
+                        </LinkedinShareButton>{' '}
+                        <WhatsappShareButton url={posts.link}>
+                          <WhatsappIcon size={32} round={true} />
+                        </WhatsappShareButton>
+                        <TelegramShareButton url={posts.link}>
+                          <TelegramIcon size={32} round={true} />
+                        </TelegramShareButton>
                       </SocialButtons>
                       <BlogFooter>
                         <FlexBox>
@@ -429,7 +455,6 @@ class Blog extends Component {
             <BottomPost />
           </div>
         )}
-        <ScrollTopButton />
       </div>
     );
   }

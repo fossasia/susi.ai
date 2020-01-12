@@ -1,4 +1,3 @@
-// Packages
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
@@ -17,6 +16,7 @@ import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import { cookieDomain } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
+import storageService from '../../../utils/storageService';
 import { createMessagePairArray } from '../../../utils/formatMessage';
 import Recaptcha from '../../shared/Recaptcha';
 import {
@@ -53,13 +53,13 @@ class Login extends Component {
       success: false,
       loading: false,
       showCaptchaErrorMessage: false,
-      attempts: sessionStorage.getItem('loginAttempts') || 0,
+      attempts: storageService.get('loginAttempts', 'session') || 0,
       captchaResponse: '',
     };
   }
 
   componentWillUnmount() {
-    sessionStorage.setItem('loginAttempts', this.state.attempts);
+    storageService.set('loginAttempts', this.state.attempts, 'session');
   }
 
   handleDialogClose = () => {
@@ -77,7 +77,8 @@ class Login extends Component {
 
   handleSubmit = async e => {
     const { actions, location, history } = this.props;
-    const { password, email, captchaResponse } = this.state;
+    let { password, email, captchaResponse } = this.state;
+    email = email.toLowerCase();
     if (!email || !password) {
       return;
     }
