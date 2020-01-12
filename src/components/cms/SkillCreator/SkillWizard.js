@@ -716,11 +716,11 @@ class SkillWizard extends Component {
       accessToken,
       category,
       language,
-      name,
       file,
       imageUrl,
     } = this.props;
-    let { code } = this.props;
+    let { code, name } = this.props;
+    name = name.trim();
     if (this.mode !== 'edit') {
       code = '::author_email ' + email + '\n' + code;
       if (this.isBotBuilder) {
