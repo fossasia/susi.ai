@@ -42,11 +42,11 @@ const Message = styled.div`
   ${props =>
     props.author === 'SUSI'
       ? css`
-          background-color: #ffffff;
+          background-color: ${props.backgroundColor};
           align-self: flex-start;
         `
       : css`
-          background-color: #e0e0e0;
+          background-color: ${props.backgroundColor};
           align-self: flex-end;
           text-align: left;
         `}
@@ -60,7 +60,7 @@ const ChatContainer = styled.div`
     ${props =>
       props.backgroundImageUrl &&
       css`
-        background-image: url(props.backgroundImageUrl);
+        background-image: url(${props.backgroundImageUrl});
       `};
 `;
 
@@ -99,7 +99,7 @@ const ChatWindow = styled.div`
   ${props =>
     props.backgroundImageUrl &&
     css`
-      background-image: url(props.backgroundImageUrl);
+      background-image: url(${props.backgroundImageUrl});
     `};
   @media (max-width: 800px) {
     min-width: 12.5rem;
@@ -187,6 +187,8 @@ class PreviewThemeChat extends Component {
   render() {
     const { messages, messageText } = this.state;
     const colors = {
+      susiBackgroundColor: this.props.susiBackgroundColor,
+      userBackgroundColor: this.props.userBackgroundColor,
       headerColor: this.props.header,
       paneColor: this.props.pane,
       bodyColor: this.props.body,
@@ -203,13 +205,21 @@ class PreviewThemeChat extends Component {
       renderMessages = messages.map((messageObj, index) => {
         if (messageObj.author === 'You') {
           return (
-            <Message author={'You'} key={index}>
+            <Message
+              author={'You'}
+              key={index}
+              backgroundColor={colors.userBackgroundColor}
+            >
               {messageObj.messageText}
             </Message>
           );
         }
         return (
-          <Message author={'SUSI'} key={index}>
+          <Message
+            author={'SUSI'}
+            key={index}
+            backgroundColor={colors.susiBackgroundColor}
+          >
             {messageObj.messageText}
           </Message>
         );
@@ -272,6 +282,8 @@ PreviewThemeChat.propTypes = {
   button: PropTypes.string,
   messageBackgroundImage: PropTypes.string,
   bodyBackgroundImage: PropTypes.string,
+  userBackgroundColor: PropTypes.string,
+  susiBackgroundColor: PropTypes.string,
 };
 
 export default PreviewThemeChat;
