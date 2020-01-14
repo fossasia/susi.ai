@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import _OutlinedTextField from '../../shared/OutlinedTextField';
 import styled from 'styled-components';
 
@@ -27,6 +27,7 @@ export default class EditDeviceDialog extends Component {
     this.state = {
       room,
       deviceName,
+      loading: false,
     };
   }
 
@@ -36,7 +37,7 @@ export default class EditDeviceDialog extends Component {
 
   render() {
     const { macId, email, handleConfirm, handleClose } = this.props;
-    const { room, deviceName } = this.state;
+    const { room, deviceName, loading } = this.state;
     return (
       <React.Fragment>
         <DialogTitle>Edit Device Details for {macId}</DialogTitle>
@@ -57,17 +58,26 @@ export default class EditDeviceDialog extends Component {
             onChange={this.handleChange}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
             key={1}
+            variant="contained"
             color="primary"
-            onClick={() => handleConfirm(email, macId, room, deviceName)}
-          >
-            Change
-          </Button>
-          <Button key={2} color="primary" onClick={handleClose}>
-            Cancel
-          </Button>
+            handleClick={() => {
+              this.setState({ loading: true });
+              handleConfirm(email, macId, room, deviceName);
+            }}
+            isLoading={loading}
+            disabled={loading}
+            buttonText="Change"
+          />
+          <Button
+            key={2}
+            variant="contained"
+            color="primary"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
         </DialogActions>
       </React.Fragment>
     );

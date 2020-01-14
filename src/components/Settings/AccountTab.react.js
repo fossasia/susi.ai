@@ -7,6 +7,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Select from '../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _TimezonePicker from 'react-timezone';
@@ -21,8 +22,11 @@ import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
 import { setUserSettings, uploadAvatar, deleteUserAccount } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import isUserName from '../../utils/isUserName';
+import {
+  extractImageFileExtensionFromBase64,
+  base64StringtoFile,
+} from '../../utils/helperFunctions';
 
 const TimezonePicker = styled(_TimezonePicker)`
   & > ul {
@@ -53,7 +57,8 @@ const DangerContainer = styled.div`
   align-items: center;
 `;
 
-const DangerButton = styled(Button)`
+const DangerButton = styled(_Button)`
+  width: 10rem;
   background-color: #fafbfc;
   color: #cb2431;
   &:hover {
@@ -169,7 +174,8 @@ class AccountTab extends React.Component {
   };
 
   handleUserName = event => {
-    const { value: userName } = event.target;
+    let { value: userName } = event.target;
+    userName = userName.trim();
     this.setState({ userName });
     if (!isUserName(userName)) {
       this.setState({
@@ -191,8 +197,11 @@ class AccountTab extends React.Component {
   };
 
   handleAvatarSubmit = async () => {
-    const { file } = this.state;
+    const { imageFile } = this.state;
     const { accessToken, actions, userEmailId } = this.props;
+    const fileExt = extractImageFileExtensionFromBase64(imageFile);
+    const fileName = 'image.' + fileExt;
+    const file = base64StringtoFile(imageFile, fileName);
     // eslint-disable-next-line no-undef
     let form = new FormData();
     form.append('access_token', accessToken);
@@ -216,16 +225,46 @@ class AccountTab extends React.Component {
     let reader = new FileReader();
     const file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-        isAvatarAdded: true,
-      });
+      this.setState(
+        {
+          file: file,
+          imagePreviewUrl: reader.result,
+          isAvatarAdded: true,
+        },
+        () => {
+          this.getImageCropModal();
+        },
+      );
     };
     reader.readAsDataURL(file);
     this.handleMenuClose();
   };
 
+  getImageCropModal = () => {
+    const { actions } = this.props;
+    const { imagePreviewUrl } = this.state;
+    actions.openModal({
+      modalType: 'crop',
+      title: 'Crop',
+      imagePreviewUrl: imagePreviewUrl,
+      handleConfirm: this.getCroppedImage,
+      handleClose: actions.closeModal,
+    });
+  };
+
+  getCroppedImage = (croppedImg, img) => {
+    this.setState(
+      {
+        imagePreviewUrl: croppedImg,
+        imageFile: img,
+      },
+      async () => {
+        const { actions } = this.props;
+        await this.handleAvatarSubmit();
+        actions.closeModal();
+      },
+    );
+  };
   removeAvatarImage = () => {
     this.setState({
       file: '',
@@ -257,7 +296,6 @@ class AccountTab extends React.Component {
       });
       return;
     }
-
     let payload = {
       timeZone,
       prefLanguage,
@@ -450,18 +488,14 @@ class AccountTab extends React.Component {
           </AvatarSection>
         </Container>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
           style={{ margin: '1.5rem 0' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+        />
         <TabHeading>
           <Translate text="Danger Zone" />
         </TabHeading>

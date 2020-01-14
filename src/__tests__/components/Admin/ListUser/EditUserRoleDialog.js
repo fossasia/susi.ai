@@ -1,5 +1,5 @@
 import React from 'react';
-import EditUserRole from '../../../components/Admin/ListUser/EditUserRoleDialog';
+import EditUserRole from '../../../../components/Admin/ListUser/EditUserRoleDialog';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

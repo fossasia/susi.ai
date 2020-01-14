@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from '../shared/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../Translate/Translate.react';
 import SettingsTabWrapper from './SettingsTabWrapper';
 import Switch from '@material-ui/core/Switch';
@@ -77,18 +76,14 @@ class ChatAppTab extends React.Component {
           </div>
         </FlexContainer>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
           style={{ margin: '1.5rem 0' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+        />
       </SettingsTabWrapper>
     );
   }

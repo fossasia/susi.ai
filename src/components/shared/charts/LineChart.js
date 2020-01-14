@@ -73,7 +73,7 @@ LineChart.propTypes = {
   data: PropTypes.array,
   legend: PropTypes.string,
   XAxisdataKey: PropTypes.string,
-  width: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   yAxisProps: PropTypes.object,
   lineKey: PropTypes.string,
   margin: PropTypes.object,

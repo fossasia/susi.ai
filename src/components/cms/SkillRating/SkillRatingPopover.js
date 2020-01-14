@@ -49,9 +49,12 @@ const SkillRatingPopover = props => {
             dataKey="value"
           >
             <LabelList position="insideLeft" fill="#666666" offset={130} />
-            {skillRatings.map((entry, index) => (
-              <Cell key={index} fill="#FDBA3C" />
-            ))}
+            {skillRatings &&
+              Array.isArray(skillRatings) &&
+              skillRatings.length > 0 &&
+              skillRatings.map((entry, index) => (
+                <Cell key={index} fill="#FDBA3C" />
+              ))}
           </Bar>
         </BarChart>
       </ResponsiveContainer>

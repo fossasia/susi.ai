@@ -130,6 +130,11 @@ const Toolbar = styled(_Toolbar)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  @media (max-width: 400px) {
+    padding-left: 15px;
+  }
 `;
 
 const HideOnScroll = ({ children }) => {
@@ -361,6 +366,24 @@ class NavigationBar extends Component {
     }));
   };
 
+  onLogout = () => {
+    const { actions } = this.props;
+    actions.openModal({
+      modalType: 'confirm',
+      title: 'Logout',
+      handleConfirm: this.handleLogOut,
+      confirmText: 'Logout',
+      handleClose: actions.closeModal,
+      content: <p>Are you sure you want to log out ?</p>,
+    });
+  };
+
+  handleLogOut = () => {
+    const { actions, history } = this.props;
+    history.push('/logout');
+    actions.closeModal();
+  };
+
   render() {
     const {
       accessToken,
@@ -447,19 +470,16 @@ class NavigationBar extends Component {
             </MenuItem>
           </Link>
         ) : null}
-        <Link to="/logout">
-          <MenuItem>
-            <ListItemIcon>
-              <Exit />
-            </ListItemIcon>
-            <ListItemText>
-              <Translate text="Logout" />
-            </ListItemText>
-          </MenuItem>
-        </Link>
+        <MenuItem onClick={this.onLogout}>
+          <ListItemIcon>
+            <Exit />
+          </ListItemIcon>
+          <ListItemText>
+            <Translate text="Logout" />
+          </ListItemText>
+        </MenuItem>
       </React.Fragment>
     );
-
     let userAvatar = null;
     if (accessToken) {
       userAvatar = avatarImgThumbnail;
