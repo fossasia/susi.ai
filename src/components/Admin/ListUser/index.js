@@ -251,7 +251,8 @@ class ListUser extends Component {
           placeholder="Search by email"
           value={search}
           onChange={value => this.handleSearch(value)}
-          closeIcon={<CloseIcon onClick={this.onClose} />}
+          closeIcon={<CloseIcon />}
+          onCancelSearch={this.onClose}
         />
         <MaterialTable
           isLoading={loading}
