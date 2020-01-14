@@ -56,11 +56,11 @@ const ChatContainer = styled.div`
   border: 1px solid #000000;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: ${props => props.backgroundColor}
+  background-color: ${props => props.$backgroundColor}
     ${props =>
-      props.backgroundImageUrl &&
+      props.$backgroundImageUrl &&
       css`
-        background-image: url(props.backgroundImageUrl);
+        background-image: url(props.$backgroundImageUrl);
       `};
 `;
 
@@ -70,7 +70,7 @@ const ChatComposerContainer = styled.div`
   padding: 1rem;
   justify-content: space-evenly;
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
 `;
 
 const TextArea = styled.textarea.attrs({
@@ -81,25 +81,25 @@ const TextArea = styled.textarea.attrs({
   border: none;
   font-size: 0.875rem;
   border-radius: 6px;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
 `;
 
 const NavBar = styled.div`
   display: flex;
   height: 1.875rem;
   justify-content: space-between;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
 `;
 
 const ChatWindow = styled.div`
   margin: 0 1.25rem 0 1.25rem;
   min-width: 16rem;
   background-color: ${props =>
-    props.backgroundColor ? props.backgroundColor : 'black'};
+    props.$backgroundColor ? props.$backgroundColor : 'black'};
   ${props =>
-    props.backgroundImageUrl &&
+    props.$backgroundImageUrl &&
     css`
-      background-image: url(props.backgroundImageUrl);
+      background-image: url(props.$backgroundImageUrl);
     `};
   @media (max-width: 800px) {
     min-width: 12.5rem;
@@ -221,21 +221,21 @@ class PreviewThemeChat extends Component {
       <div>
         <h2>Preview</h2>
         <ChatContainer
-          backgroundColor={colors.bodyColor}
-          backgroundImageUrl={backgroundImages.bodyBackgroundImage}
+          $backgroundColor={colors.bodyColor}
+          $backgroundImageUrl={backgroundImages.bodyBackgroundImage}
         >
-          <NavBar backgroundColor={colors.headerColor}>
+          <NavBar $backgroundColor={colors.headerColor}>
             <SusiLogo src={susiWhite} />
             <MoreVertIcon style={{ height: '30px', width: '15px' }} />
           </NavBar>
           <ChatWindow
-            backgroundColor={colors.paneColor}
-            backgroundImageUrl={backgroundImages.messageBackgroundImage}
+            $backgroundColor={colors.paneColor}
+            $backgroundImageUrl={backgroundImages.messageBackgroundImage}
           >
             <ChatMessagesContainer>
               <ChatMessages>{renderMessages}</ChatMessages>
             </ChatMessagesContainer>
-            <ChatComposerContainer backgroundColor={colors.composerColor}>
+            <ChatComposerContainer $backgroundColor={colors.composerColor}>
               <TextArea
                 value={messageText}
                 onChange={ev => this.setState({ messageText: ev.target.value })}
@@ -249,7 +249,7 @@ class PreviewThemeChat extends Component {
                     event.preventDefault();
                   }
                 }}
-                backgroundColor={colors.textareColor}
+                $backgroundColor={colors.textareColor}
               />
               <Send
                 onClick={this.sendMessage}

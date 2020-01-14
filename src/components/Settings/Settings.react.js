@@ -285,7 +285,7 @@ class Settings extends Component {
             onChange={this.loadSettings}
             value={selectedSetting}
             style={{ width: '100%' }}
-            autoWidth={false}
+            autowidth="false"
           >
             {this.generateDropDownMenu()}
           </Select>
