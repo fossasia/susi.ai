@@ -27,6 +27,21 @@ import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
 import ToolTip from '../../shared/ToolTip';
 
+const Date = styled.div`
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0.8rem auto;
+  top: 0em;
+  position: sticky;
+  z-index: 100;
+  * {
+    background-color: grey;
+    border-radius: 5px;
+    padding: 4px 6px;
+    color: white;
+  }
+`;
+
 const MessageList = styled.div`
   background: ${props => props.pane};
   position: ${props => (props.showChatPreview ? 'inherit' : 'fixed')};
@@ -604,20 +619,33 @@ class MessageSection extends Component {
     }
 
     const latestMessageID = messages[messages.length - 1];
-
+    let previousDate = null;
     // return the list of messages
     return messages.map(id => {
+      const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
+      let updateDate = null;
+      if (currentDate !== previousDate) {
+        updateDate = true;
+        previousDate = currentDate;
+      }
       return (
-        <MessageListItem
-          key={id}
-          message={messagesByID[id]}
-          latestUserMsgID={latestUserMsgID}
-          latestMessage={id === latestMessageID}
-          addYouTube={addYouTube}
-          pauseAllVideos={pauseAllVideos}
-          showChatPreview={mode === 'preview'}
-          scrollBottom={this.scrollToBottom}
-        />
+        <>
+          {updateDate && (
+            <Date>
+              <span>{currentDate}</span>
+            </Date>
+          )}
+          <MessageListItem
+            key={id}
+            message={messagesByID[id]}
+            latestUserMsgID={latestUserMsgID}
+            latestMessage={id === latestMessageID}
+            addYouTube={addYouTube}
+            pauseAllVideos={pauseAllVideos}
+            showChatPreview={mode === 'preview'}
+            scrollBottom={this.scrollToBottom}
+          />
+        </>
       );
     });
   };
