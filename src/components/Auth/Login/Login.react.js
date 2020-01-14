@@ -122,7 +122,7 @@ class Login extends Component {
         } else {
           snackBarMessage = 'Login Failed. Try Again';
           this.setState(prevState => ({
-            password: '',
+            password: password,
             success: false,
             loading: false,
             attempts: prevState.attempts + 1,
@@ -132,7 +132,7 @@ class Login extends Component {
       } catch (error) {
         console.log(error);
         this.setState(prevState => ({
-          password: '',
+          password: password,
           success: false,
           loading: false,
           attempts: prevState.attempts + 1,
