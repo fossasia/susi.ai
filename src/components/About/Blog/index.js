@@ -229,7 +229,7 @@ class Blog extends Component {
   getPosts = async offset => {
     this.setState({ postRendered: false });
     let payload = null;
-    if (this.state.nextPosts.length == 0 || offset <= this.state.startPage) {
+    if (this.state.nextPosts.length === 0 || offset <= this.state.startPage) {
       payload = await getBlogReponse(this.blogKey, 10, offset);
     } else {
       payload = { items: this.state.nextPosts, status: 'ok' };
