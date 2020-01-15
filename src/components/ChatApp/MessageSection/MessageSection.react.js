@@ -47,6 +47,8 @@ const MessageList = styled.div`
   position: ${props => (props.showChatPreview ? 'inherit' : 'fixed')};
   top: 3rem;
   left: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
   bottom: 4.6rem;
   right: 0;
   width: ${props => (props.showChatPreview ? '376px' : '100vw')};
