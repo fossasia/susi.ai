@@ -189,13 +189,13 @@ const generateAnswerBubble = (
   message,
   latestUserMsgID,
   showFeedback,
-  susiBackgroundColor,
+  susiMessageBackgroundColor,
 ) => {
   return (
     <MessageContainer key={action + index}>
       <MessageBubble
         author={message.authorName}
-        backgroundColor={susiBackgroundColor}
+        $backgroundColor={susiMessageBackgroundColor}
       >
         <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
@@ -397,8 +397,10 @@ export const generateMessageBubble = (
     return generateDateBubble(message);
   }
   const stringWithLinks = message ? message.text : '';
-  // console.log(customThemeValue);
-  const { susiBackgroundColor, userBackgroundColor } = getCustomThemeColors({
+  const {
+    susiMessageBackgroundColor,
+    userMessageBackgroundColor,
+  } = getCustomThemeColors({
     theme: 'custom',
     customThemeValue,
   });
@@ -487,7 +489,7 @@ export const generateMessageBubble = (
             message,
             latestUserMsgID,
             showFeedback,
-            susiBackgroundColor,
+            susiMessageBackgroundColor,
           ),
         );
         // }
@@ -700,13 +702,14 @@ export const generateMessageBubble = (
     );
   }
   const backgroundColor =
-    message.authorName === 'SUSI' ? susiBackgroundColor : userBackgroundColor;
-  // console.log(message);
+    message.authorName === 'SUSI'
+      ? susiMessageBackgroundColor
+      : userMessageBackgroundColor;
   return (
     <MessageContainer>
       <MessageBubble
         author={message.authorName}
-        backgroundColor={backgroundColor}
+        $backgroundColor={backgroundColor}
       >
         <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, true)}

@@ -60,8 +60,8 @@ const componentsList = [
   { id: 4, component: 'composer', name: 'Message Composer' },
   { id: 5, component: 'textarea', name: 'User Textarea' },
   { id: 6, component: 'button', name: 'User Button' },
-  { id: 7, component: 'susiBackgroundColor', name: 'susi Background' },
-  { id: 8, component: 'userBackgroundColor', name: 'user Background' },
+  { id: 7, component: 'susiMessageBackgroundColor', name: 'susi Background' },
+  { id: 8, component: 'userMessageBackgroundColor', name: 'user Background' },
 ];
 
 class ThemeChanger extends Component {
@@ -75,8 +75,8 @@ class ThemeChanger extends Component {
       textarea,
       button,
       messageBackgroundImage,
-      susiBackgroundColor,
-      userBackgroundColor,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     } = this.props.customThemeValue;
     console.log('customThemeValue', this.props.customThemeValue);
     const showMessageBackgroundImage = messageBackgroundImage !== '';
@@ -90,8 +90,8 @@ class ThemeChanger extends Component {
       backgroundImage: '',
       messageBackgroundImage,
       showMessageBackgroundImage,
-      susiBackgroundColor,
-      userBackgroundColor,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
       loading: false,
     };
 
@@ -105,8 +105,8 @@ class ThemeChanger extends Component {
       backgroundImage: '',
       messageBackgroundImage,
       showMessageBackgroundImage,
-      susiBackgroundColor,
-      userBackgroundColor,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     };
   }
 
@@ -137,10 +137,10 @@ class ThemeChanger extends Component {
         state.textarea = color;
       } else if (name === 'button') {
         state.button = color;
-      } else if (name === 'susiBackgroundColor') {
-        state.susiBackgroundColor = color;
-      } else if (name === 'userBackgroundColor') {
-        state.userBackgroundColor = color;
+      } else if (name === 'susiMessageBackgroundColor') {
+        state.susiMessageBackgroundColor = color;
+      } else if (name === 'userMessageBackgroundColor') {
+        state.userMessageBackgroundColor = color;
       }
       this.setState(state);
       document.body.style.setProperty('background-color', this.state.body);
@@ -166,8 +166,8 @@ class ThemeChanger extends Component {
       button,
       backgroundImage,
       messageBackgroundImage,
-      susiBackgroundColor,
-      userBackgroundColor,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     } = this.state;
 
     const payloadToStore = {
@@ -180,8 +180,8 @@ class ThemeChanger extends Component {
         composer,
         textarea,
         button,
-        susiBackgroundColor,
-        userBackgroundColor,
+        susiMessageBackgroundColor,
+        userMessageBackgroundColor,
       },
     };
 
@@ -189,9 +189,9 @@ class ThemeChanger extends Component {
       1,
     )},${body.substring(1)},${composer.substring(1)},${textarea.substring(
       1,
-    )},${button.substring(1)},${susiBackgroundColor.substring(
+    )},${button.substring(1)},${susiMessageBackgroundColor.substring(
       1,
-    )},${button.substring(1)},${userBackgroundColor.substring(1)}`;
+    )},${button.substring(1)},${userMessageBackgroundColor.substring(1)}`;
 
     const payloadToServer = {
       ...payloadToStore,
@@ -241,8 +241,8 @@ class ThemeChanger extends Component {
       messageBackgroundImage,
       backgroundImage,
       loading,
-      susiBackgroundColor,
-      userBackgroundColor,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     } = this.state;
 
     const disabled = _.isEqual(
@@ -256,8 +256,8 @@ class ThemeChanger extends Component {
         showMessageBackgroundImage,
         messageBackgroundImage,
         backgroundImage,
-        susiBackgroundColor,
-        userBackgroundColor,
+        susiMessageBackgroundColor,
+        userMessageBackgroundColor,
       },
       this.initialValue,
     );
@@ -332,8 +332,8 @@ class ThemeChanger extends Component {
             <ThemeChangerContainer>{components}</ThemeChangerContainer>
             <PreviewChatContainer>
               <PreviewThemeChat
-                susiBackgroundColor={susiBackgroundColor}
-                userBackgroundColor={userBackgroundColor}
+                susiMessageBackgroundColor={susiMessageBackgroundColor}
+                userMessageBackgroundColor={userMessageBackgroundColor}
                 header={header}
                 pane={pane}
                 messageBackgroundImage={messageBackgroundImage}

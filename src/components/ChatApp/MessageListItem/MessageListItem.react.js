@@ -99,7 +99,6 @@ class MessageListItem extends React.Component {
       scrollBottom,
       customThemeValue,
     } = this.props;
-    // console.log(customThemeValue);
     const { width, height } = this.state;
     return generateMessageBubble(
       message,
@@ -127,7 +126,6 @@ class MessageListItem extends React.Component {
 }
 
 function mapStateToProps(store) {
-  // console.log(store.settings);
   const {
     speechRate,
     speechPitch,
