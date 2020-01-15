@@ -171,6 +171,7 @@ export default handleActions(
       return {
         ...state,
         filterType,
+        listPage: 1,
         loadingSkills: true,
       };
     },
@@ -179,6 +180,7 @@ export default handleActions(
       return {
         ...state,
         languageValue,
+        listPage: 1,
         loadingSkills: true,
       };
     },
@@ -236,6 +238,7 @@ export default handleActions(
             skill.skillRating &&
             skill.skillRating.stars.avgStar >= ratingRefine,
         ),
+        listPage: 1,
         ratingRefine,
       };
     },
