@@ -329,6 +329,7 @@ class Preview extends Component {
     if (event.keyCode === ENTER_KEY_CODE) {
       event.preventDefault();
       this.sendMessage();
+      this.setState({ message: '' });
     } else {
       const { messageHistory, currentMessageIndex } = this.state;
       const { message, newMessageIndex } = onChatComposerKeyDown(
