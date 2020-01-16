@@ -17,7 +17,14 @@ export const dark = {
 };
 
 export const getCustomThemeColors = ({ theme, customThemeValue }) => {
-  let header, pane, body, composer, button, textarea;
+  let header,
+    pane,
+    body,
+    composer,
+    button,
+    textarea,
+    susiMessageBackgroundColor,
+    userMessageBackgroundColor;
   if (theme === 'custom') {
     header = customThemeValue.header;
     pane = customThemeValue.pane;
@@ -25,6 +32,8 @@ export const getCustomThemeColors = ({ theme, customThemeValue }) => {
     composer = customThemeValue.composer;
     button = customThemeValue.button;
     textarea = customThemeValue.textarea;
+    susiMessageBackgroundColor = customThemeValue.susiMessageBackgroundColor;
+    userMessageBackgroundColor = customThemeValue.userMessageBackgroundColor;
   } else {
     header = theme === 'dark' ? dark.header : light.header;
     pane = theme === 'dark' ? dark.pane : light.pane;
@@ -33,6 +42,7 @@ export const getCustomThemeColors = ({ theme, customThemeValue }) => {
     button = theme === 'dark' ? dark.button : light.button;
     textarea = theme === 'dark' ? dark.textarea : light.textarea;
   }
+
   return {
     header,
     pane,
@@ -40,6 +50,8 @@ export const getCustomThemeColors = ({ theme, customThemeValue }) => {
     composer,
     button,
     textarea,
+    susiMessageBackgroundColor,
+    userMessageBackgroundColor,
   };
 };
 

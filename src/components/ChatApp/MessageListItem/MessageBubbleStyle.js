@@ -49,13 +49,13 @@ const MessageBubble = styled.section`
           margin-left: 0.75rem;
           margin-right: 0.42rem;
           background: ${props =>
-            props.backgroundColor ? props.backgroundColor : '#f3f2f4'};
+            props.$backgroundColor ? props.$backgroundColor : '#f3f2f4'};
           color: ${props => (props.color ? props.color : '#000000')};
         `
       : css`
           animation: ${UserKeyframe} 700ms ease;
           background: ${props =>
-            props.backgroundColor ? props.backgroundColor : '#4285f4'};
+            props.$backgroundColor ? props.$backgroundColor : '#4285f4'};
           color: ${props => (props.color ? props.color : '#ffffff')};
         `};
   &::after {
@@ -88,19 +88,19 @@ const MessageBubble = styled.section`
             border-left: 1rem solid transparent;
             border-right: 0.3rem solid
               ${props =>
-                props.backgroundColor ? props.backgroundColor : '#f3f2f4'};
+                props.$backgroundColor ? props.$backgroundColor : '#f3f2f4'};
             border-top: 1.5rem solid
               ${props =>
-                props.backgroundColor ? props.backgroundColor : '#f3f2f4'};
+                props.$backgroundColor ? props.$backgroundColor : '#f3f2f4'};
           `
         : css`
             border-left: 0.3rem solid
               ${props =>
-                props.backgroundColor ? props.backgroundColor : '#4285f4'};
+                props.$backgroundColor ? props.$backgroundColor : '#4285f4'};
             border-right: 1rem solid transparent;
             border-top: 1.5rem solid
               ${props =>
-                props.backgroundColor ? props.backgroundColor : '#4285f4'};
+                props.$backgroundColor ? props.$backgroundColor : '#4285f4'};
             right: -0.5625rem;
           `};
   }

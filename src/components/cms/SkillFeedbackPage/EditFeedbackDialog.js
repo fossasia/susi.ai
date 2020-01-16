@@ -5,24 +5,22 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '../../shared/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const EditFeedback = props => {
-  const {
-    handleConfirm,
-    handleClose,
-    feedback,
-    errorText,
-    handleEditFeedback,
-  } = props;
+  const { handleConfirm, handleClose, feedback, handleEditFeedback } = props;
 
   const [loader, updateLoader] = useState(false);
+  const [newFeedback, updateNewFeedback] = useState(feedback);
 
   const handleEdit = () => {
     updateLoader(true);
     handleConfirm();
+  };
+
+  const handelChange = e => {
+    updateNewFeedback(e.target.value);
   };
 
   return (
@@ -36,13 +34,14 @@ const EditFeedback = props => {
             placeholder="Skill Feedback"
             defaultValue={feedback || ''}
             multiLine={true}
+            disabled={loader}
             fullWidth={true}
-            onChange={handleEditFeedback}
+            onChange={e => {
+              handleEditFeedback();
+              handelChange(e);
+            }}
             aria-describedby="edit-feedback-helper-text"
           />
-          <FormHelperText id="edit-feedback-helper-text" error>
-            {errorText}
-          </FormHelperText>
         </FormControl>
       </DialogContent>
       <DialogActions>
@@ -60,7 +59,7 @@ const EditFeedback = props => {
           color="primary"
           onClick={handleEdit}
           style={{ marginRight: '1em' }}
-          disabled={loader}
+          disabled={loader || newFeedback.trim().length === 0}
         >
           {loader ? <CircularProgress size={24} color="white" /> : 'Edit'}
         </Button>
