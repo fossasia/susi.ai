@@ -24,7 +24,7 @@ const StyledSearchBar = styled(_SearchBar)`
   display: flex;
   align-items: center;
   height: 35px;
-  padding-left: ${props => `${props.paddingLeft}rem`};
+  padding-left: ${props => `${props.$paddingLeft}rem`};
   width: 39rem;
   @media (max-width: 1380px) {
     width: 30rem;
@@ -139,11 +139,12 @@ const SearchBar = props => {
         {renderSelectMenu}
       </Select>
       <StyledSearchBar
-        paddingLeft={searchSelectWidth}
+        $paddingLeft={searchSelectWidth}
         value={value}
         onChange={onChange}
         placeholder={'Search skills'}
-        closeIcon={<CloseIcon onClick={onClose} />}
+        closeIcon={<CloseIcon />}
+        onCancelSearch={onClose}
       />
     </Container>
   );
