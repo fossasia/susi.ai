@@ -166,9 +166,6 @@ class Login extends Component {
       case 'password': {
         const password = event.target.value.trim();
         let passwordErrorMessage = '';
-        if (!password || password.length < 6) {
-          passwordErrorMessage = 'Password should be atleast 6 characters';
-        }
         this.setState({
           password,
           passwordErrorMessage,
