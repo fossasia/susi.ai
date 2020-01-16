@@ -25,6 +25,7 @@ import ReactPlayer from 'react-player';
 import isMobileView from '../../../utils/isMobileView';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import ToolTip from '../../shared/ToolTip';
+import mexp from 'math-expression-evaluator';
 
 const isMobile = isMobileView(1000);
 
@@ -457,7 +458,6 @@ export const generateMessageBubble = (
     let noResultsFound = false;
 
     let showFeedback = allActions[allActions.length - 1] === actionType;
-
     switch (actionType) {
       case 'answer': {
         if (
@@ -466,6 +466,26 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
+
+        let query = message.answer.data[0];
+        try {
+          const res = mexp.eval(query[0]);
+          listItems.push(
+            generateAnswerBubble(
+              actionType,
+              index,
+              res,
+              message,
+              latestUserMsgID,
+              showFeedback,
+              susiMessageBackgroundColor,
+            ),
+          );
+          break;
+        } catch (error) {
+          // do nothing
+        }
+
         /*
         if (answer.data[0].type === 'gif') {
           let gifSource = answer.data[0].embed_url;
