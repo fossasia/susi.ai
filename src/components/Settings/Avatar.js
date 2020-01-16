@@ -1,10 +1,8 @@
 import React from 'react';
 import _AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import { getGravatarProps } from '../../utils/getAvatarProps';
-import Button from '../shared/Button';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import _Fab from '@material-ui/core/Fab';
 import Menu from '@material-ui/core/Menu';
@@ -81,8 +79,6 @@ const Avatar = props => {
     removeAvatarImage,
     handleAvatarImageChange,
     isAvatarAdded,
-    isAvatarUploaded,
-    uploadingAvatar,
     email,
     handleMenuClose,
     handleMenuClick,
@@ -162,18 +158,6 @@ const Avatar = props => {
               />
             </label>
           )}
-          <Button
-            disabled={!isAvatarAdded || isAvatarUploaded}
-            onClick={e => handleAvatarSubmit(e)}
-            variant="contained"
-            color="primary"
-          >
-            {isAvatarAdded && uploadingAvatar ? (
-              <CircularProgress size={24} color="secondary" />
-            ) : (
-              'Upload Image'
-            )}
-          </Button>
         </Form>
       );
     case 'gravatar':

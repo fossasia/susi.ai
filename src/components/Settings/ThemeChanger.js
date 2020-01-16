@@ -17,6 +17,7 @@ import { setUserSettings } from '../../apis';
 import _ from 'lodash';
 import styled from 'styled-components';
 import ColorPickerComponent from '../shared/ColorPickerComponent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Container = styled.div`
   display: flex;
@@ -59,6 +60,8 @@ const componentsList = [
   { id: 4, component: 'composer', name: 'Message Composer' },
   { id: 5, component: 'textarea', name: 'User Textarea' },
   { id: 6, component: 'button', name: 'User Button' },
+  { id: 7, component: 'susiMessageBackgroundColor', name: 'susi Background' },
+  { id: 8, component: 'userMessageBackgroundColor', name: 'user Background' },
 ];
 
 class ThemeChanger extends Component {
@@ -72,7 +75,10 @@ class ThemeChanger extends Component {
       textarea,
       button,
       messageBackgroundImage,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     } = this.props.customThemeValue;
+    console.log('customThemeValue', this.props.customThemeValue);
     const showMessageBackgroundImage = messageBackgroundImage !== '';
     this.state = {
       header,
@@ -84,6 +90,9 @@ class ThemeChanger extends Component {
       backgroundImage: '',
       messageBackgroundImage,
       showMessageBackgroundImage,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
+      loading: false,
     };
 
     this.initialValue = {
@@ -96,6 +105,8 @@ class ThemeChanger extends Component {
       backgroundImage: '',
       messageBackgroundImage,
       showMessageBackgroundImage,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     };
   }
 
@@ -126,6 +137,10 @@ class ThemeChanger extends Component {
         state.textarea = color;
       } else if (name === 'button') {
         state.button = color;
+      } else if (name === 'susiMessageBackgroundColor') {
+        state.susiMessageBackgroundColor = color;
+      } else if (name === 'userMessageBackgroundColor') {
+        state.userMessageBackgroundColor = color;
       }
       this.setState(state);
       document.body.style.setProperty('background-color', this.state.body);
@@ -141,6 +156,7 @@ class ThemeChanger extends Component {
   // Send data to server, update settings
   handleSubmit = async () => {
     const { actions } = this.props;
+    this.setState({ loading: true });
     let {
       header,
       pane,
@@ -150,6 +166,8 @@ class ThemeChanger extends Component {
       button,
       backgroundImage,
       messageBackgroundImage,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     } = this.state;
 
     const payloadToStore = {
@@ -162,6 +180,8 @@ class ThemeChanger extends Component {
         composer,
         textarea,
         button,
+        susiMessageBackgroundColor,
+        userMessageBackgroundColor,
       },
     };
 
@@ -169,7 +189,9 @@ class ThemeChanger extends Component {
       1,
     )},${body.substring(1)},${composer.substring(1)},${textarea.substring(
       1,
-    )},${button.substring(1)}`;
+    )},${button.substring(1)},${susiMessageBackgroundColor.substring(
+      1,
+    )},${button.substring(1)},${userMessageBackgroundColor.substring(1)}`;
 
     const payloadToServer = {
       ...payloadToStore,
@@ -177,6 +199,7 @@ class ThemeChanger extends Component {
     };
     try {
       let data = await setUserSettings(payloadToServer);
+
       if (data.accepted) {
         actions.openSnackBar({
           snackBarMessage: 'Settings updated',
@@ -217,6 +240,9 @@ class ThemeChanger extends Component {
       showMessageBackgroundImage,
       messageBackgroundImage,
       backgroundImage,
+      loading,
+      susiMessageBackgroundColor,
+      userMessageBackgroundColor,
     } = this.state;
 
     const disabled = _.isEqual(
@@ -230,6 +256,8 @@ class ThemeChanger extends Component {
         showMessageBackgroundImage,
         messageBackgroundImage,
         backgroundImage,
+        susiMessageBackgroundColor,
+        userMessageBackgroundColor,
       },
       this.initialValue,
     );
@@ -304,6 +332,8 @@ class ThemeChanger extends Component {
             <ThemeChangerContainer>{components}</ThemeChangerContainer>
             <PreviewChatContainer>
               <PreviewThemeChat
+                susiMessageBackgroundColor={susiMessageBackgroundColor}
+                userMessageBackgroundColor={userMessageBackgroundColor}
                 header={header}
                 pane={pane}
                 messageBackgroundImage={messageBackgroundImage}
@@ -323,9 +353,13 @@ class ThemeChanger extends Component {
             style={{ margin: '0 5px' }}
             variant="contained"
             color="primary"
-            disabled={disabled}
+            disabled={disabled || loading}
           >
-            <Translate text="Save" />
+            {loading ? (
+              <CircularProgress size={24} color="white" />
+            ) : (
+              <Translate text="Save" />
+            )}
           </Button>
           <Button
             onClick={this.handleReset}

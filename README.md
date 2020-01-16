@@ -38,6 +38,20 @@ SUSI.AI is written in JavaScript with React. To get started with the code, follo
 * node --version >= 6
 * yarn --version >= 3
 
+## Local Installation
+### Steps
+* `git clone <repository-url>` , where `<repository-url>` is the link to the forked repository
+* `cd susi.ai`
+
+**Note :** If you want to contribute, first fork the original repository and clone the forked repository into your local machine followed by ```cd``` into the directory
+```sh
+git clone https://github.com/USERNAME/susi.ai.git
+cd susi.ai
+```
+* Install all the dependecies with `npm install`
+* Start the server with `npm start`
+* Visit your app at [http://localhost:3000](http://localhost:3000).
+
 ## How to deploy?
 [Click Here to read how to deploy](https://github.com/fossasia/susi.ai/blob/master/docs/DEPLOY.md)
 

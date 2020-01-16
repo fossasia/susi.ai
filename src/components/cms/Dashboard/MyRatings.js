@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
-import CircularLoader from '../../shared/CircularLoader';
 import { fetchUserRatings } from '../../../apis';
 import { parseDate } from '../../../utils';
 import { getSkillFromRating } from '../../../utils/getSkillFromRating';
 import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
 import MaterialTable from 'material-table';
+import TableSleleton from '../../shared/TableLoader';
 
 const TableWrap = styled.div`
   padding: 0rem 1.25rem;
@@ -74,79 +74,83 @@ class MyRatings extends Component {
     return (
       <div>
         {loading ? (
-          <CircularLoader height={5} />
+          <TableSleleton />
         ) : (
           <TableWrap>
-            <MaterialTable
-              title="My Rating"
-              columns={[
-                {
-                  title: 'Skill Name',
-                  field: 'skillName',
-                  render: rowData => {
-                    return (
-                      <Link
-                        to={{
-                          pathname: `/${rowData.group}/${getSkillFromRating(
-                            rowData.skillName,
-                          )}/${rowData.language}`,
-                        }}
-                      >
-                        {(
-                          rowData.skillName.charAt(0).toUpperCase() +
-                          rowData.skillName.slice(1)
-                        ).replace(/[_-]/g, ' ')}
-                      </Link>
-                    );
-                  },
-                },
-                {
-                  title: 'Rating',
-                  field: 'rating',
-                  render: rowData => {
-                    return (
-                      <Ratings
-                        rating={rowData.skillStar}
-                        widgetRatedColors="#ffbb28"
-                        widgetDimensions="20px"
-                        widgetSpacings="0px"
-                      >
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                      </Ratings>
-                    );
-                  },
-                },
-                {
-                  title: 'Timestamp',
-                  field: 'timestamp',
-                  render: rowData => {
-                    return parseDate(rowData.ratingTimestamp);
-                  },
-                },
-              ]}
-              data={ratingsData.map((rating, index) => {
-                return {
-                  group: rating.group,
-                  skillName: rating.skillName,
-                  ratingTimestamp: rating.ratingTimestamp,
-                  skillStar: rating.skillStar,
-                  language: rating.language,
-                };
-              })}
-              options={{
-                search: false,
-                toolbar: false,
-                headerStyle: {
-                  backgroundColor: '#6fa2ff',
-                  color: '#FFF',
-                  fontSize: '1.2rem',
-                },
-              }}
-            />
+            {ratingsData &&
+              Array.isArray(ratingsData) &&
+              ratingsData.length !== 0 && (
+                <MaterialTable
+                  title="My Rating"
+                  columns={[
+                    {
+                      title: 'Skill Name',
+                      field: 'skillName',
+                      render: rowData => {
+                        return (
+                          <Link
+                            to={{
+                              pathname: `/${rowData.group}/${getSkillFromRating(
+                                rowData.skillName,
+                              )}/${rowData.language}`,
+                            }}
+                          >
+                            {(
+                              rowData.skillName.charAt(0).toUpperCase() +
+                              rowData.skillName.slice(1)
+                            ).replace(/[_-]/g, ' ')}
+                          </Link>
+                        );
+                      },
+                    },
+                    {
+                      title: 'Rating',
+                      field: 'rating',
+                      render: rowData => {
+                        return (
+                          <Ratings
+                            rating={rowData.skillStar}
+                            widgetRatedColors="#ffbb28"
+                            widgetDimensions="20px"
+                            widgetSpacings="0px"
+                          >
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                          </Ratings>
+                        );
+                      },
+                    },
+                    {
+                      title: 'Timestamp',
+                      field: 'timestamp',
+                      render: rowData => {
+                        return parseDate(rowData.ratingTimestamp);
+                      },
+                    },
+                  ]}
+                  data={ratingsData.map((rating, index) => {
+                    return {
+                      group: rating.group,
+                      skillName: rating.skillName,
+                      ratingTimestamp: rating.ratingTimestamp,
+                      skillStar: rating.skillStar,
+                      language: rating.language,
+                    };
+                  })}
+                  options={{
+                    search: false,
+                    toolbar: false,
+                    headerStyle: {
+                      backgroundColor: '#6fa2ff',
+                      color: '#FFF',
+                      fontSize: '1.2rem',
+                    },
+                  }}
+                />
+              )}
           </TableWrap>
         )}
         {ratingsData.length === 0 && !loading && (

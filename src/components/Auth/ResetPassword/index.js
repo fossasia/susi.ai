@@ -174,7 +174,10 @@ class ResetPassword extends Component {
         </DialogTitle>
         <DialogContent>
           <form autoComplete="false">
-            <FormControl error={newPasswordErrorMessage !== ''}>
+            <FormControl
+              error={newPasswordErrorMessage !== ''}
+              disabled={loading}
+            >
               <PasswordField
                 name="newPassword"
                 value={newPassword}
@@ -190,7 +193,10 @@ class ResetPassword extends Component {
               <PasswordStrengthBar score={newPasswordScore} />
               <span>{newPasswordStrength}</span>
             </div>
-            <FormControl error={newPasswordConfirmErrorMessage !== ''}>
+            <FormControl
+              error={newPasswordConfirmErrorMessage !== ''}
+              disabled={loading}
+            >
               <PasswordField
                 name="confirmNewPassword"
                 value={confirmNewPassword}

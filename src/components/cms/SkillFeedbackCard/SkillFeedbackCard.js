@@ -14,7 +14,6 @@ import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
 import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -25,6 +24,7 @@ import Emoji from 'react-emoji-render';
 import { parseDate, formatDate } from '../../../utils';
 import { Title, DefaultMessage, SubTitle } from '../../shared/Typography';
 import { Paper as _Paper } from '../../shared/Container';
+import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 
 // Icons
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -43,7 +43,6 @@ const Timestamp = styled.div`
 
 class SkillFeedbackCard extends Component {
   state = {
-    errorText: '',
     anchorEl: null,
     newFeedbackValue: '',
     loading: false,
@@ -72,7 +71,6 @@ class SkillFeedbackCard extends Component {
         modalType: 'editFeedback',
         handleConfirm: this.postFeedback,
         handleClose: this.props.actions.closeModal,
-        errorText: this.state.errorText,
         feedback: this.state.newFeedbackValue,
         handleEditFeedback: this.editFeedback,
       });
@@ -96,7 +94,7 @@ class SkillFeedbackCard extends Component {
       feedback: newFeedbackValue,
     };
 
-    if (newFeedbackValue !== undefined && newFeedbackValue.trim()) {
+    if (newFeedbackValue && newFeedbackValue.trim().length > 0) {
       if (!loading) {
         this.setState({ loading: true });
       }
@@ -108,8 +106,6 @@ class SkillFeedbackCard extends Component {
         console.log(error);
       }
       this.setState({ loading: false });
-    } else {
-      this.setState({ errorText: 'Feedback cannot be empty' });
     }
   };
 
@@ -149,7 +145,7 @@ class SkillFeedbackCard extends Component {
       email,
       accessToken,
     } = this.props;
-    const { errorText, anchorEl, newFeedbackValue, loading } = this.state;
+    const { anchorEl, newFeedbackValue, loading } = this.state;
     const open = Boolean(anchorEl);
 
     let userName = '';
@@ -252,7 +248,8 @@ class SkillFeedbackCard extends Component {
           <div>
             <SubTitle size="1rem">
               {' '}
-              Write your invaluable feedback with {skillTag} on SUSI.AI{' '}
+              Write your invaluable feedback with{' '}
+              {getSkillNameFromSkillTag(skillTag)} on SUSI.AI{' '}
             </SubTitle>
             <div>
               <div style={{ margin: '1rem' }}>
@@ -268,9 +265,6 @@ class SkillFeedbackCard extends Component {
                     onChange={this.handleFeedbackChange}
                     aria-describedby="post-feedback-helper-text"
                   />
-                  <FormHelperText id="post-feedback-helper-text" error>
-                    {errorText}
-                  </FormHelperText>
                 </FormControl>
                 <Button
                   label="Post"
@@ -278,7 +272,7 @@ class SkillFeedbackCard extends Component {
                   variant="contained"
                   style={{ marginTop: 10 }}
                   onClick={this.postFeedback}
-                  disabled={loading}
+                  disabled={loading || newFeedbackValue.trim().length === 0}
                 >
                   {loading ? (
                     <CircularProgress size={24} color="white" />
@@ -296,8 +290,7 @@ class SkillFeedbackCard extends Component {
           {!userFeedbackCard && !feedbackCards && (
             <DefaultMessage>No feedback present for this skill!</DefaultMessage>
           )}
-          {(userFeedbackCard && skillFeedbacks.length >= 4) ||
-          skillFeedbacks.length >= 5 ? (
+          {skillFeedbacks.length >= 5 ? (
             <Link to={`${language}/feedbacks`} style={{ display: 'block' }}>
               <ListItem button>
                 <ListItemText style={{ textAlign: 'center' }}>

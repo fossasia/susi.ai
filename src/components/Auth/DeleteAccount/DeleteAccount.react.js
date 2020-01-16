@@ -126,7 +126,10 @@ class DeleteAccount extends Component {
           </h4>
           <form onSubmit={this.handleSubmit}>
             <div>
-              <FormControl error={this.passwordErrorMessage !== ''}>
+              <FormControl
+                error={this.passwordErrorMessage !== ''}
+                disabled={loading}
+              >
                 <PasswordField
                   name="password"
                   style={fieldStyle}
