@@ -14,7 +14,6 @@ import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
 import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -44,7 +43,6 @@ const Timestamp = styled.div`
 
 class SkillFeedbackCard extends Component {
   state = {
-    errorText: '',
     anchorEl: null,
     newFeedbackValue: '',
     loading: false,
@@ -73,7 +71,6 @@ class SkillFeedbackCard extends Component {
         modalType: 'editFeedback',
         handleConfirm: this.postFeedback,
         handleClose: this.props.actions.closeModal,
-        errorText: this.state.errorText,
         feedback: this.state.newFeedbackValue,
         handleEditFeedback: this.editFeedback,
       });
@@ -97,7 +94,7 @@ class SkillFeedbackCard extends Component {
       feedback: newFeedbackValue,
     };
 
-    if (newFeedbackValue !== undefined && newFeedbackValue.trim()) {
+    if (newFeedbackValue && newFeedbackValue.trim().length > 0) {
       if (!loading) {
         this.setState({ loading: true });
       }
@@ -109,8 +106,6 @@ class SkillFeedbackCard extends Component {
         console.log(error);
       }
       this.setState({ loading: false });
-    } else {
-      this.setState({ errorText: 'Feedback cannot be empty' });
     }
   };
 
@@ -150,7 +145,7 @@ class SkillFeedbackCard extends Component {
       email,
       accessToken,
     } = this.props;
-    const { errorText, anchorEl, newFeedbackValue, loading } = this.state;
+    const { anchorEl, newFeedbackValue, loading } = this.state;
     const open = Boolean(anchorEl);
 
     let userName = '';
@@ -270,9 +265,6 @@ class SkillFeedbackCard extends Component {
                     onChange={this.handleFeedbackChange}
                     aria-describedby="post-feedback-helper-text"
                   />
-                  <FormHelperText id="post-feedback-helper-text" error>
-                    {errorText}
-                  </FormHelperText>
                 </FormControl>
                 <Button
                   label="Post"
@@ -280,7 +272,7 @@ class SkillFeedbackCard extends Component {
                   variant="contained"
                   style={{ marginTop: 10 }}
                   onClick={this.postFeedback}
-                  disabled={loading}
+                  disabled={loading || newFeedbackValue.trim().length === 0}
                 >
                   {loading ? (
                     <CircularProgress size={24} color="white" />

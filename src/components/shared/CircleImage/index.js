@@ -18,7 +18,7 @@ const defaultColors = [
 
 const Avatar = styled(_Avatar)`
   margin-right: 10px;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   width: ${props => props.size + 'px'};
   height: ${props => props.size + 'px'};
   align-items: center;
@@ -67,9 +67,9 @@ const CircleImage = props => {
 
   return (
     <Avatar
-      backgroundColor={backgroundColor}
+      $backgroundColor={backgroundColor}
       size={size}
-      borderRadius={borderRadius}
+      $borderRadius={borderRadius}
       src={src}
       srcSet={srcset}
     >

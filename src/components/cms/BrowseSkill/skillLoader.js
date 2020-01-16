@@ -19,7 +19,7 @@ const addLoader = () => {
   const limit = isMobileView() ? 2 : 4;
   for (let i = 0; i < limit; i++) {
     loader.push(
-      <ContentContainer>
+      <ContentContainer key={i}>
         <ContentLoader width={260} height={168} speed={2}>
           <circle cx="44" cy="46" r="28" />
           <rect x="100" y="24" rx="4" ry="4" width="120" height="44" />

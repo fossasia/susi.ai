@@ -5,6 +5,7 @@ import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import VoicePlayer from './VoicePlayer';
 import YouTube from 'react-youtube';
+import getCustomThemeColors from '../../../utils/colors';
 import { injectIntl } from 'react-intl';
 import {
   imageParse,
@@ -188,10 +189,14 @@ const generateAnswerBubble = (
   message,
   latestUserMsgID,
   showFeedback,
+  susiMessageBackgroundColor,
 ) => {
   return (
     <MessageContainer key={action + index}>
-      <MessageBubble author={message.authorName}>
+      <MessageBubble
+        author={message.authorName}
+        $backgroundColor={susiMessageBackgroundColor}
+      >
         <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
@@ -386,12 +391,19 @@ export const generateMessageBubble = (
   onClickPopout,
   showModal,
   onCloseModal,
+  customThemeValue,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
   }
-
   const stringWithLinks = message ? message.text : '';
+  const {
+    susiMessageBackgroundColor,
+    userMessageBackgroundColor,
+  } = getCustomThemeColors({
+    theme: 'custom',
+    customThemeValue,
+  });
 
   let replacedText = '';
   let markMsgID = markID;
@@ -477,6 +489,7 @@ export const generateMessageBubble = (
             message,
             latestUserMsgID,
             showFeedback,
+            susiMessageBackgroundColor,
           ),
         );
         // }
@@ -688,10 +701,16 @@ export const generateMessageBubble = (
       </div>
     );
   }
-
+  const backgroundColor =
+    message.authorName === 'SUSI'
+      ? susiMessageBackgroundColor
+      : userMessageBackgroundColor;
   return (
     <MessageContainer>
-      <MessageBubble author={message.authorName}>
+      <MessageBubble
+        author={message.authorName}
+        $backgroundColor={backgroundColor}
+      >
         <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, true)}
       </MessageBubble>

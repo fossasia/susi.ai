@@ -46,6 +46,7 @@
     "react-content-loader": "4.3.2",
     "react-cookie": "4.0.0",
     "react-copy-to-clipboard": "5.0.1",
+    "react-country-flag": "2.0.1",
     "react-custom-scrollbars": "4.2.1",
     "react-diff-viewer": "1.1.0",
     "react-dom": "16.8.6",
