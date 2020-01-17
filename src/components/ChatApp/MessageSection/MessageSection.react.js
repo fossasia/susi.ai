@@ -631,14 +631,13 @@ class MessageSection extends Component {
         previousDate = currentDate;
       }
       return (
-        <>
+        <Fragment key={id}>
           {updateDate && (
             <Date>
               <span>{currentDate}</span>
             </Date>
           )}
           <MessageListItem
-            key={id}
             message={messagesByID[id]}
             latestUserMsgID={latestUserMsgID}
             latestMessage={id === latestMessageID}
@@ -647,7 +646,7 @@ class MessageSection extends Component {
             showChatPreview={mode === 'preview'}
             scrollBottom={this.scrollToBottom}
           />
-        </>
+        </Fragment>
       );
     });
   };
