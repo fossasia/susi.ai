@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import SkillLoader from './skillLoader';
 import skillActions from '../../../redux/actions/skills';
 import uiActions from '../../../redux/actions/ui';
 import FormControl from '@material-ui/core/FormControl';
@@ -36,7 +37,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
-import CircularLoader from '../../shared/CircularLoader';
+import SideDrawer from './SideDrawer';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
@@ -47,7 +48,6 @@ import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Container = styled.div`
   display: flex;
@@ -161,6 +161,7 @@ const PageNavigationContainer = styled.div`
 `;
 
 const MobileMenuItem = styled(MenuItem)`
+  color: ${props => (props.color ? props.color : null)};
   min-height: 24px;
   line-height: 24px;
   font-size: 14px;
@@ -173,9 +174,9 @@ const MobileMenuContainer = styled.div`
     border-top: 1px #e7e7e7 solid;
     border-right: 1px #e7e7e7 solid;
     border-left: 1px #e7e7e7 solid;
+    border-bottom: 1px #e7e7e7 solid;
   }
   & a:last-child li {
-    border-bottom: 1px #e7e7e7 solid;
     border-radius: 0 0 5px 5px;
   }
   & a:first-child li {
@@ -591,6 +592,7 @@ class BrowseSkill extends React.Component {
     let backToHome = null;
     let renderMenu = null;
     let renderMobileMenu = null;
+
     if (isMobile) {
       backToHome = (
         <MobileBackButton variant="contained" color="default">
@@ -609,18 +611,16 @@ class BrowseSkill extends React.Component {
         );
       });
     }
-    if (!isMobile) {
-      renderMenu = groups.map(categoryName => {
-        const linkValue = '/category/' + categoryName;
-        return (
-          <Link to={linkValue} key={linkValue}>
-            <SidebarItem key={categoryName} value={categoryName}>
-              {categoryName}
-            </SidebarItem>
-          </Link>
-        );
-      });
-    }
+    renderMenu = groups.map(categoryName => {
+      const linkValue = '/category/' + categoryName;
+      return (
+        <Link to={linkValue} key={linkValue}>
+          <SidebarItem key={categoryName} value={categoryName}>
+            {categoryName}
+          </SidebarItem>
+        </Link>
+      );
+    });
 
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
@@ -718,6 +718,123 @@ class BrowseSkill extends React.Component {
         <NavigationArrowDownward />
       );
 
+    const renderTimeFilter = (
+      <>
+        {timeFilter ? (
+          <div>
+            <ListSubheader>
+              <SidebarLink onClick={() => this.handleArrivalTimeChange(null)}>
+                {'< Any release'}
+              </SidebarLink>
+            </ListSubheader>
+            <SelectedText>{`Last ${timeFilter} Days`}</SelectedText>
+          </div>
+        ) : (
+          <ListSubheader>New Arrivals</ListSubheader>
+        )}
+        {!timeFilter && (
+          <SidebarItem
+            value="creation_date&duration=7"
+            onClick={() => this.handleArrivalTimeChange(7)}
+          >
+            Last 7 Days
+          </SidebarItem>
+        )}
+        {!timeFilter && (
+          <SidebarItem
+            value="creation_date&duration=30"
+            onClick={() => this.handleArrivalTimeChange(30)}
+          >
+            Last 30 Days
+          </SidebarItem>
+        )}
+        {!timeFilter && (
+          <SidebarItem
+            value="creation_date&duration=90"
+            onClick={() => this.handleArrivalTimeChange(90)}
+          >
+            Last 90 Days
+          </SidebarItem>
+        )}
+      </>
+    );
+    const renderRatingsFilter = (
+      <>
+        <ListSubheader>Refine by</ListSubheader>
+        {metricsHidden && (
+          <div
+            style={{
+              marginBottom: '12px',
+              width: '100%',
+              display: 'flex',
+              justify: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className="select"
+                  checked={staffPicks}
+                  onChange={this.handleStaffFilterChange}
+                />
+              }
+              label="Staff Picks"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className="select"
+                  checked={reviewed}
+                  onChange={this.handleReviewFilterChange}
+                />
+              }
+              label="Reviewed Skills"
+            />
+          </div>
+        )}
+        <SidebarText>Avg. Customer Review</SidebarText>
+        {ratingRefine ? (
+          <ListSubheader>
+            <SidebarLink onClick={() => this.handleRatingRefine(null)}>
+              {'< Clear'}
+            </SidebarLink>
+          </ListSubheader>
+        ) : (
+          ''
+        )}
+        <SkillRatingContainer>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={4}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={3}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={2}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={1}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+        </SkillRatingContainer>
+      </>
+    );
     const { open } = this.state;
     return (
       <Container>
@@ -774,44 +891,8 @@ class BrowseSkill extends React.Component {
           </div>
           <Paper style={{ boxShadow: 'none' }}>
             <MenuList style={{ outline: 'none' }}>
-              {timeFilter ? (
-                <div>
-                  <ListSubheader>
-                    <SidebarLink
-                      onClick={() => this.handleArrivalTimeChange(null)}
-                    >
-                      {'< Any release'}
-                    </SidebarLink>
-                  </ListSubheader>
-                  <SelectedText>{`Last ${timeFilter} Days`}</SelectedText>
-                </div>
-              ) : (
-                <ListSubheader>New Arrivals</ListSubheader>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=7"
-                  onClick={() => this.handleArrivalTimeChange(7)}
-                >
-                  Last 7 Days
-                </SidebarItem>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=30"
-                  onClick={() => this.handleArrivalTimeChange(30)}
-                >
-                  Last 30 Days
-                </SidebarItem>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=90"
-                  onClick={() => this.handleArrivalTimeChange(90)}
-                >
-                  Last 90 Days
-                </SidebarItem>
-              )}
+              {renderTimeFilter}
+
               <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
               {routeType === 'category' ? (
                 <div>
@@ -828,235 +909,195 @@ class BrowseSkill extends React.Component {
               )}
               <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
               {/* Refine by rating section*/}
-              <ListSubheader>Refine by</ListSubheader>
-              {metricsHidden && (
-                <div
-                  style={{
-                    marginBottom: '12px',
-                    width: '100%',
-                    display: 'flex',
-                    justify: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="select"
-                        checked={staffPicks}
-                        onChange={this.handleStaffFilterChange}
-                      />
-                    }
-                    label="Staff Picks"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="select"
-                        checked={reviewed}
-                        onChange={this.handleReviewFilterChange}
-                      />
-                    }
-                    label="Reviewed Skills"
-                  />
-                </div>
-              )}
-              <SidebarText>Avg. Customer Review</SidebarText>
-              {ratingRefine ? (
-                <ListSubheader>
-                  <SidebarLink onClick={() => this.handleRatingRefine(null)}>
-                    {'< Clear'}
-                  </SidebarLink>
-                </ListSubheader>
-              ) : (
-                ''
-              )}
-              <SkillRatingContainer>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={4}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={3}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={2}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={1}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-              </SkillRatingContainer>
+              {renderRatingsFilter}
             </MenuList>
           </Paper>
         </Sidebar>
         <RightContainer>
-          {renderSkillSlideshow}
           {loadingSkills ? (
-            <CircularLoader height={34} />
+            <SkillLoader />
           ) : (
-            <ContentContainer>
-              {metricsHidden ? (
-                <div>
-                  {noSkillFound}
-                  <Grid
-                    container
-                    spacing={3}
-                    direction={isMobile ? 'column-reverse' : 'row'}
-                  >
-                    <Grid
-                      item
-                      alignItems="center"
-                      sm={6}
-                      style={{
-                        textAlign: 'center',
-                        padding: isMobile ? '10px 30px' : '30px 25px 0',
-                        fontSize: isMobile ? '14px' : '16px',
-                      }}
-                    >
-                      {renderSkillCount}
-                    </Grid>
-                    <Grid item sm={6} alignItems="center">
-                      {skills.length > 0 && (
-                        <FlexContainer>
-                          {filterType !== '' && (
-                            <IconButton
-                              color="primary"
-                              onClick={this.handleOrderByChange}
-                            >
-                              {renderOrderBy}
-                            </IconButton>
-                          )}
-
-                          <FilterFormControl>
-                            <InputLabel>Sort By</InputLabel>
-                            <Select
-                              value={filterType}
-                              onChange={this.handleFilterChange}
-                            >
-                              <MenuItem value={'lexicographical'}>
-                                Name (A-Z)
-                              </MenuItem>
-                              <MenuItem value={'top_rated'}>Top Rated</MenuItem>
-                              <MenuItem value={'rating'}>Most Rated</MenuItem>
-                              <MenuItem value={'creation_date'}>
-                                Newly Created
-                              </MenuItem>
-                              <MenuItem value={'modified_date'}>
-                                Recently updated
-                              </MenuItem>
-                              <MenuItem value={'feedback'}>
-                                Feedback Count
-                              </MenuItem>
-                              <MenuItem value={'usage&duration=7'}>
-                                This Week Usage
-                              </MenuItem>
-                              <MenuItem value={'usage&duration=30'}>
-                                This Month Usage
-                              </MenuItem>
-                            </Select>
-                          </FilterFormControl>
-                          {skills.length > 10 && (
-                            <SkillsFormControl>
-                              <InputLabel>Skills per page</InputLabel>
-                              <Select
-                                value={entriesPerPage}
-                                onChange={this.handleEntriesPerPageChange}
-                                style={{ width: '5.1rem', marginTop: '1.5rem' }}
-                              >
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={20}>20</MenuItem>
-                                <MenuItem value={50}>50</MenuItem>
-                                <MenuItem value={100}>100</MenuItem>
-                              </Select>
-                            </SkillsFormControl>
-                          )}
-                          <RadioGroup
-                            defaultValue="list"
-                            value={viewType}
-                            onChange={this.handleViewChange}
-                            style={{ flexDirection: 'row' }}
-                          >
-                            <Radio
-                              value="list"
-                              style={{ width: 'fit-content', padding: '0px' }}
-                              checkedIcon={<ActionViewStream isActive={true} />}
-                              icon={<ActionViewStream isActive={false} />}
-                            />
-                            <Radio
-                              value="grid"
-                              style={{ width: 'fit-content', padding: '0px' }}
-                              checkedIcon={<ActionViewModule isActive={true} />}
-                              icon={<ActionViewModule isActive={false} />}
-                            />
-                          </RadioGroup>
-                        </FlexContainer>
-                      )}
-                    </Grid>
-                  </Grid>
+            <React.Fragment>
+              {renderSkillSlideshow}
+              {routeType !== 'category' && isMobile && (
+                <Fragment>
+                  <SideDrawer>
+                    <>{renderTimeFilter}</>
+                    <Divider
+                      style={{ marginLeft: '16px', marginRight: '16px' }}
+                    />
+                    <>
+                      <ListSubheader>SUSI Skills</ListSubheader>
+                      {renderMenu}
+                    </>
+                    <Divider
+                      style={{ marginLeft: '16px', marginRight: '16px' }}
+                    />
+                    <>{renderRatingsFilter}</>
+                  </SideDrawer>
+                </Fragment>
+              )}
+              <ContentContainer>
+                {metricsHidden ? (
                   <div>
-                    {viewType === 'list' ? (
-                      <SkillCardList />
-                    ) : (
-                      <SkillCardGrid history={history} />
+                    {noSkillFound}
+                    <Grid
+                      container
+                      spacing={3}
+                      direction={isMobile ? 'column-reverse' : 'row'}
+                    >
+                      <Grid
+                        item
+                        alignItems="center"
+                        sm={6}
+                        style={{
+                          textAlign: 'center',
+                          padding: isMobile ? '10px 30px' : '30px 25px 0',
+                          fontSize: isMobile ? '14px' : '16px',
+                        }}
+                      >
+                        {renderSkillCount}
+                      </Grid>
+                      <Grid item sm={6} alignItems="center">
+                        {skills.length > 0 && (
+                          <FlexContainer>
+                            {filterType !== '' && (
+                              <IconButton
+                                color="primary"
+                                onClick={this.handleOrderByChange}
+                              >
+                                {renderOrderBy}
+                              </IconButton>
+                            )}
+
+                            <FilterFormControl>
+                              <InputLabel>Sort By</InputLabel>
+                              <Select
+                                value={filterType}
+                                onChange={this.handleFilterChange}
+                              >
+                                <MenuItem value={'lexicographical'}>
+                                  Name (A-Z)
+                                </MenuItem>
+                                <MenuItem value={'top_rated'}>
+                                  Top Rated
+                                </MenuItem>
+                                <MenuItem value={'rating'}>Most Rated</MenuItem>
+                                <MenuItem value={'creation_date'}>
+                                  Newly Created
+                                </MenuItem>
+                                <MenuItem value={'modified_date'}>
+                                  Recently updated
+                                </MenuItem>
+                                <MenuItem value={'feedback'}>
+                                  Feedback Count
+                                </MenuItem>
+                                <MenuItem value={'usage&duration=7'}>
+                                  This Week Usage
+                                </MenuItem>
+                                <MenuItem value={'usage&duration=30'}>
+                                  This Month Usage
+                                </MenuItem>
+                              </Select>
+                            </FilterFormControl>
+                            {skills.length > 10 && (
+                              <SkillsFormControl>
+                                <InputLabel>Skills per page</InputLabel>
+                                <Select
+                                  value={entriesPerPage}
+                                  onChange={this.handleEntriesPerPageChange}
+                                  style={{
+                                    width: '5.1rem',
+                                    marginTop: '1.5rem',
+                                  }}
+                                >
+                                  <MenuItem value={10}>10</MenuItem>
+                                  <MenuItem value={20}>20</MenuItem>
+                                  <MenuItem value={50}>50</MenuItem>
+                                  <MenuItem value={100}>100</MenuItem>
+                                </Select>
+                              </SkillsFormControl>
+                            )}
+                            <RadioGroup
+                              defaultValue="list"
+                              value={viewType}
+                              onChange={this.handleViewChange}
+                              style={{ flexDirection: 'row' }}
+                            >
+                              <Radio
+                                value="list"
+                                style={{ width: 'fit-content', padding: '0px' }}
+                                checkedIcon={
+                                  <ActionViewStream isActive={true} />
+                                }
+                                icon={<ActionViewStream isActive={false} />}
+                              />
+                              <Radio
+                                value="grid"
+                                style={{ width: 'fit-content', padding: '0px' }}
+                                checkedIcon={
+                                  <ActionViewModule isActive={true} />
+                                }
+                                icon={<ActionViewModule isActive={false} />}
+                              />
+                            </RadioGroup>
+                          </FlexContainer>
+                        )}
+                      </Grid>
+                    </Grid>
+                    <div>
+                      {viewType === 'list' ? (
+                        <SkillCardList />
+                      ) : (
+                        <SkillCardGrid history={history} />
+                      )}
+                    </div>
+                    {skills.length > this.props.entriesPerPage && (
+                      <PageNavigationContainer>
+                        <div>
+                          Page: {listPage} out of{' '}
+                          {Math.ceil(skills.length / entriesPerPage)}
+                        </div>
+                        <br />
+                        <Fab
+                          disabled={listPage === 1}
+                          color="primary"
+                          style={{ marginRight: '15px' }}
+                          onClick={this.handleNavigationBackward}
+                        >
+                          <NavigationArrowBack />
+                        </Fab>
+                        <Fab
+                          disabled={
+                            listPage ===
+                            Math.ceil(skills.length / entriesPerPage)
+                          }
+                          color="primary"
+                          onClick={this.handleNavigationForward}
+                        >
+                          <NavigationArrowForward />
+                        </Fab>
+                      </PageNavigationContainer>
                     )}
                   </div>
-                  {skills.length > this.props.entriesPerPage && (
-                    <PageNavigationContainer>
-                      <div>
-                        Page: {listPage} out of{' '}
-                        {Math.ceil(skills.length / entriesPerPage)}
-                      </div>
-                      <br />
-                      <Fab
-                        disabled={listPage === 1}
-                        color="primary"
-                        style={{ marginRight: '15px' }}
-                        onClick={this.handleNavigationBackward}
-                      >
-                        <NavigationArrowBack />
-                      </Fab>
-                      <Fab
-                        disabled={
-                          listPage === Math.ceil(skills.length / entriesPerPage)
-                        }
-                        color="primary"
-                        onClick={this.handleNavigationForward}
-                      >
-                        <NavigationArrowForward />
-                      </Fab>
-                      <ScrollTopButton />
-                    </PageNavigationContainer>
-                  )}
-                </div>
-              ) : (
-                ''
-              )}
-              <div>{renderCardScrollList}</div>
-              {/* Check if mobile view is currently active*/}
-              {routeType === 'category' ? (
-                backToHome
-              ) : (
-                <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
-              )}
-            </ContentContainer>
+                ) : (
+                  ''
+                )}
+                <div>{renderCardScrollList}</div>
+                {/* Check if mobile view is currently active*/}
+                {routeType === 'category'
+                  ? backToHome
+                  : isMobile && (
+                      <Fragment>
+                        <MobileMenuContainer>
+                          {renderMobileMenu}
+                        </MobileMenuContainer>
+                      </Fragment>
+                    )}
+              </ContentContainer>
+            </React.Fragment>
           )}
         </RightContainer>
-        <ScrollTopButton />
       </Container>
     );
   }

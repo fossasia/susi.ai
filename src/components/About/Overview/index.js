@@ -35,7 +35,6 @@ import appStore from '../../../images/app-store.svg';
 import './Overview.css';
 import styled, { css } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const commonDesc = css`
   text-align: left;
@@ -599,7 +598,6 @@ class Overview extends Component {
 
   render() {
     const { gifIndex } = this.state;
-    const { classes } = this.props;
     return (
       <div>
         <Container>
@@ -655,7 +653,11 @@ class Overview extends Component {
               {buttonAttributes.map((button, index) => (
                 <Button
                   key={index}
-                  className={classes.button}
+                  style={
+                    gifIndex === index
+                      ? { backgroundColor: '#4285f4', color: '#ffffff' }
+                      : { backgroundColor: '#ffffff' }
+                  }
                   variant="contained"
                   onClick={e => this.handleGIFChange(index)}
                 >
@@ -672,7 +674,6 @@ class Overview extends Component {
                 src={buttonAttributes[gifIndex].video}
                 style={gifIndex === index ? {} : { display: 'none' }}
                 autoPlay
-                loop
                 muted
                 playsinline
               />
@@ -911,7 +912,6 @@ class Overview extends Component {
             <CloseIcon onClick={this.toggleVideoModal} />
           </VideoContainer>
         </VideoModal>
-        <ScrollTopButton />
       </div>
     );
   }

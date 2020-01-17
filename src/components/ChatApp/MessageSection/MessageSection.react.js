@@ -25,12 +25,30 @@ import _Close from '@material-ui/icons/Close';
 import _FullScreen from '@material-ui/icons/Fullscreen';
 import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
+import ToolTip from '../../shared/ToolTip';
+
+const Date = styled.div`
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0.8rem auto;
+  top: 0em;
+  position: sticky;
+  z-index: 100;
+  * {
+    background-color: grey;
+    border-radius: 5px;
+    padding: 4px 6px;
+    color: white;
+  }
+`;
 
 const MessageList = styled.div`
   background: ${props => props.pane};
   position: ${props => (props.showChatPreview ? 'inherit' : 'fixed')};
   top: 3rem;
   left: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
   bottom: 4.6rem;
   right: 0;
   width: ${props => (props.showChatPreview ? '376px' : '100vw')};
@@ -54,7 +72,7 @@ const ScrollBottomFab = styled(Fab)`
   margin-right: 0.4rem;
   margin-bottom: 0.5rem;
   box-shadow: none;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   border: 0.45px solid darkgray;
 `;
 
@@ -63,7 +81,7 @@ const ScrollTopFab = styled(Fab)`
   margin-left: 0.4rem;
   margin-top: 0.5rem;
   box-shadow: none;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   border: 0.45px solid darkgray;
 `;
 
@@ -84,7 +102,7 @@ const MessageComposeContainer = styled.div`
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
-  background: ${props => props.backgroundColor};
+  background: ${props => props.$backgroundColor};
   color: ${props => (props.theme === 'dark' ? 'white' : 'black')};
   min-height: 4.625rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,
@@ -373,12 +391,7 @@ class MessageSection extends Component {
     const { showScrollBottom, showScrollTop, search } = this.state;
     if (this.scrollarea) {
       let scrollValues = this.scrollarea.getValues();
-      if (scrollValues.top >= 1) {
-        this.setState({
-          showScrollTop: true,
-          showScrollBottom: false,
-        });
-      } else if (scrollValues.top === 0) {
+      if (scrollValues.top === 0) {
         this.setState({
           showScrollTop: false,
           showScrollBottom: true,
@@ -386,6 +399,14 @@ class MessageSection extends Component {
       } else if (!(showScrollBottom && showScrollTop)) {
         this.setState({
           showScrollBottom: true,
+          showScrollTop: true,
+        });
+      } else if (
+        scrollValues.scrollHeight - Math.ceil(scrollValues.scrollTop) ===
+        scrollValues.clientHeight
+      ) {
+        this.setState({
+          showScrollBottom: false,
           showScrollTop: true,
         });
       }
@@ -402,7 +423,7 @@ class MessageSection extends Component {
     if (scrollBar) {
       scrollBar.view.scroll({
         top: scrollBar.getScrollHeight(),
-        behavior: 'auto',
+        behavior: 'smooth',
       });
     }
   };
@@ -600,20 +621,33 @@ class MessageSection extends Component {
     }
 
     const latestMessageID = messages[messages.length - 1];
-
+    let previousDate = null;
     // return the list of messages
     return messages.map(id => {
+      const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
+      let updateDate = null;
+      if (currentDate !== previousDate) {
+        updateDate = true;
+        previousDate = currentDate;
+      }
       return (
-        <MessageListItem
-          key={id}
-          message={messagesByID[id]}
-          latestUserMsgID={latestUserMsgID}
-          latestMessage={id === latestMessageID}
-          addYouTube={addYouTube}
-          pauseAllVideos={pauseAllVideos}
-          showChatPreview={mode === 'preview'}
-          scrollBottom={this.scrollToBottom}
-        />
+        <>
+          {updateDate && (
+            <Date>
+              <span>{currentDate}</span>
+            </Date>
+          )}
+          <MessageListItem
+            key={id}
+            message={messagesByID[id]}
+            latestUserMsgID={latestUserMsgID}
+            latestMessage={id === latestMessageID}
+            addYouTube={addYouTube}
+            pauseAllVideos={pauseAllVideos}
+            showChatPreview={mode === 'preview'}
+            scrollBottom={this.scrollToBottom}
+          />
+        </>
       );
     });
   };
@@ -758,15 +792,21 @@ class MessageSection extends Component {
           )}
           <CustomIconButton width={width}>
             {mode === 'fullScreen' ? (
-              <FullScreenExit onClick={this.openPreview} />
+              <ToolTip title="Exit full screen">
+                <FullScreenExit onClick={this.openPreview} />
+              </ToolTip>
             ) : (
-              <FullScreen onClick={this.openFullScreen} />
+              <ToolTip title="Full screen">
+                <FullScreen onClick={this.openFullScreen} />
+              </ToolTip>
             )}
           </CustomIconButton>
           <IconButton
             onClick={mode === 'fullScreen' ? this.handleClose : this.toggleChat}
           >
-            <Close />
+            <ToolTip title="Close">
+              <Close />
+            </ToolTip>
           </IconButton>
         </div>
       </ActionBar>
@@ -830,7 +870,7 @@ class MessageSection extends Component {
           </div>
         )}
         <MessageComposeContainer
-          backgroundColor={composer}
+          $backgroundColor={composer}
           theme={theme}
           showChatPreview={mode === 'preview'}
         >

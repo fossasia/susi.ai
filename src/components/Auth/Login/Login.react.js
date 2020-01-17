@@ -1,4 +1,3 @@
-// Packages
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
@@ -17,6 +16,7 @@ import CloseButton from '../../shared/CloseButton';
 import Translate from '../../Translate/Translate.react';
 import { cookieDomain } from '../../../utils/helperFunctions';
 import { isEmail } from '../../../utils';
+import storageService from '../../../utils/storageService';
 import { createMessagePairArray } from '../../../utils/formatMessage';
 import Recaptcha from '../../shared/Recaptcha';
 import {
@@ -53,13 +53,14 @@ class Login extends Component {
       success: false,
       loading: false,
       showCaptchaErrorMessage: false,
-      attempts: sessionStorage.getItem('loginAttempts') || 0,
+      attempts: storageService.get('loginAttempts', 'session') || 0,
       captchaResponse: '',
+      errorMessage: '',
     };
   }
 
   componentWillUnmount() {
-    sessionStorage.setItem('loginAttempts', this.state.attempts);
+    storageService.set('loginAttempts', this.state.attempts, 'session');
   }
 
   handleDialogClose = () => {
@@ -77,7 +78,8 @@ class Login extends Component {
 
   handleSubmit = async e => {
     const { actions, location, history } = this.props;
-    const { password, email, captchaResponse } = this.state;
+    let { password, email, captchaResponse } = this.state;
+    email = email.toLowerCase();
     if (!email || !password) {
       return;
     }
@@ -125,6 +127,7 @@ class Login extends Component {
             success: false,
             loading: false,
             attempts: prevState.attempts + 1,
+            errorMessage: 'Email or password entered is incorrect',
           }));
         }
         actions.openSnackBar({ snackBarMessage });
@@ -135,6 +138,7 @@ class Login extends Component {
           success: false,
           loading: false,
           attempts: prevState.attempts + 1,
+          errorMessage: 'Email or password entered is incorrect',
         }));
         actions.openSnackBar({
           snackBarMessage: 'Login Failed. Try Again',
@@ -145,6 +149,9 @@ class Login extends Component {
 
   // Handle changes in email and password
   handleTextFieldChange = event => {
+    this.setState({
+      errorMessage: '',
+    });
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
@@ -159,9 +166,6 @@ class Login extends Component {
       case 'password': {
         const password = event.target.value.trim();
         let passwordErrorMessage = '';
-        if (!password || password.length < 6) {
-          passwordErrorMessage = 'Password should be atleast 6 characters';
-        }
         this.setState({
           password,
           passwordErrorMessage,
@@ -228,6 +232,7 @@ class Login extends Component {
       showCaptchaErrorMessage,
       attempts,
       isCaptchaEnabled,
+      errorMessage,
     } = this.state;
     const { actions, captchaKey, message } = this.props;
     const isValid =
@@ -248,7 +253,7 @@ class Login extends Component {
           <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
         <DialogContent>
-          <FormControl error={emailErrorMessage !== ''}>
+          <FormControl error={emailErrorMessage !== ''} disabled={loading}>
             <OutlinedInput
               labelWidth={0}
               name="email"
@@ -264,7 +269,7 @@ class Login extends Component {
             </FormHelperText>
           </FormControl>
 
-          <FormControl error={passwordErrorMessage !== ''}>
+          <FormControl error={passwordErrorMessage !== ''} disabled={loading}>
             <PasswordField
               name="password"
               value={password}
@@ -276,6 +281,7 @@ class Login extends Component {
               {passwordErrorMessage}
             </FormHelperText>
           </FormControl>
+          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
           {captchaKey && isCaptchaEnabled && attempts > 0 && (
             <Recaptcha
               captchaKey={captchaKey}

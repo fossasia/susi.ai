@@ -14,7 +14,6 @@ import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
 import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -25,11 +24,13 @@ import Emoji from 'react-emoji-render';
 import { parseDate, formatDate } from '../../../utils';
 import { Title, DefaultMessage, SubTitle } from '../../shared/Typography';
 import { Paper as _Paper } from '../../shared/Container';
+import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 
 // Icons
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -42,9 +43,9 @@ const Timestamp = styled.div`
 
 class SkillFeedbackCard extends Component {
   state = {
-    errorText: '',
     anchorEl: null,
     newFeedbackValue: '',
+    loading: false,
   };
 
   handleMenuOpen = event => {
@@ -70,7 +71,6 @@ class SkillFeedbackCard extends Component {
         modalType: 'editFeedback',
         handleConfirm: this.postFeedback,
         handleClose: this.props.actions.closeModal,
-        errorText: this.state.errorText,
         feedback: this.state.newFeedbackValue,
         handleEditFeedback: this.editFeedback,
       });
@@ -84,7 +84,8 @@ class SkillFeedbackCard extends Component {
 
   postFeedback = async () => {
     const { group, language, skillTag: skill, actions } = this.props;
-    const { newFeedbackValue } = this.state;
+    const { newFeedbackValue, loading } = this.state;
+
     const skillData = {
       model: 'general',
       group,
@@ -92,7 +93,11 @@ class SkillFeedbackCard extends Component {
       skill,
       feedback: newFeedbackValue,
     };
-    if (newFeedbackValue !== undefined && newFeedbackValue.trim()) {
+
+    if (newFeedbackValue && newFeedbackValue.trim().length > 0) {
+      if (!loading) {
+        this.setState({ loading: true });
+      }
       try {
         await actions.setSkillFeedback(skillData);
         actions.closeModal();
@@ -100,8 +105,7 @@ class SkillFeedbackCard extends Component {
       } catch (error) {
         console.log(error);
       }
-    } else {
-      this.setState({ errorText: 'Feedback cannot be empty' });
+      this.setState({ loading: false });
     }
   };
 
@@ -141,7 +145,7 @@ class SkillFeedbackCard extends Component {
       email,
       accessToken,
     } = this.props;
-    const { errorText, anchorEl, newFeedbackValue } = this.state;
+    const { anchorEl, newFeedbackValue, loading } = this.state;
     const open = Boolean(anchorEl);
 
     let userName = '';
@@ -244,7 +248,8 @@ class SkillFeedbackCard extends Component {
           <div>
             <SubTitle size="1rem">
               {' '}
-              Write your invaluable feedback with {skillTag} on SUSI.AI{' '}
+              Write your invaluable feedback with{' '}
+              {getSkillNameFromSkillTag(skillTag)} on SUSI.AI{' '}
             </SubTitle>
             <div>
               <div style={{ margin: '1rem' }}>
@@ -260,9 +265,6 @@ class SkillFeedbackCard extends Component {
                     onChange={this.handleFeedbackChange}
                     aria-describedby="post-feedback-helper-text"
                   />
-                  <FormHelperText id="post-feedback-helper-text" error>
-                    {errorText}
-                  </FormHelperText>
                 </FormControl>
                 <Button
                   label="Post"
@@ -270,8 +272,13 @@ class SkillFeedbackCard extends Component {
                   variant="contained"
                   style={{ marginTop: 10 }}
                   onClick={this.postFeedback}
+                  disabled={loading || newFeedbackValue.trim().length === 0}
                 >
-                  Post
+                  {loading ? (
+                    <CircularProgress size={24} color="white" />
+                  ) : (
+                    'Post'
+                  )}
                 </Button>
               </div>
             </div>
@@ -283,8 +290,7 @@ class SkillFeedbackCard extends Component {
           {!userFeedbackCard && !feedbackCards && (
             <DefaultMessage>No feedback present for this skill!</DefaultMessage>
           )}
-          {(userFeedbackCard && skillFeedbacks.length >= 4) ||
-          skillFeedbacks.length >= 5 ? (
+          {skillFeedbacks.length >= 5 ? (
             <Link to={`${language}/feedbacks`} style={{ display: 'block' }}>
               <ListItem button>
                 <ListItemText style={{ textAlign: 'center' }}>

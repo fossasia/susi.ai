@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Button, OutlinedInput } from '../AuthStyles';
+import {
+  Button,
+  OutlinedInput,
+  StyledLink,
+  LinkContainer,
+} from '../AuthStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import CloseButton from '../../shared/CloseButton';
@@ -54,7 +59,9 @@ class ForgotPassword extends Component {
 
   handleSubmit = async event => {
     const { actions } = this.props;
-    const { email, emailErrorMessage } = this.state;
+    let { email, emailErrorMessage } = this.state;
+
+    email = email.toLowerCase();
 
     if (email && !emailErrorMessage) {
       this.setState({ loading: true });
@@ -103,6 +110,7 @@ class ForgotPassword extends Component {
 
   render() {
     const { email, emailErrorMessage, loading } = this.state;
+    const { actions } = this.props;
     const isValid = !emailErrorMessage && email;
     return (
       <React.Fragment>
@@ -113,7 +121,7 @@ class ForgotPassword extends Component {
           <CloseButton onClick={this.handleDialogClose} />
         </DialogTitle>
         <DialogContent>
-          <FormControl error={emailErrorMessage !== ''}>
+          <FormControl error={emailErrorMessage !== ''} disabled={loading}>
             <OutlinedInput
               name="email"
               value={email}
@@ -136,6 +144,13 @@ class ForgotPassword extends Component {
           >
             {loading ? <CircularProgress size={24} /> : 'Reset'}
           </Button>
+          <LinkContainer>
+            <StyledLink
+              onClick={() => actions.openModal({ modalType: 'login' })}
+            >
+              <Translate text="Back to Login" />
+            </StyledLink>
+          </LinkContainer>
         </DialogContent>
       </React.Fragment>
     );

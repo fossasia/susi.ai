@@ -23,6 +23,10 @@ import { setUserSettings, uploadAvatar, deleteUserAccount } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import isUserName from '../../utils/isUserName';
+import {
+  extractImageFileExtensionFromBase64,
+  base64StringtoFile,
+} from '../../utils/helperFunctions';
 
 const TimezonePicker = styled(_TimezonePicker)`
   & > ul {
@@ -169,7 +173,8 @@ class AccountTab extends React.Component {
   };
 
   handleUserName = event => {
-    const { value: userName } = event.target;
+    let { value: userName } = event.target;
+    userName = userName.trim();
     this.setState({ userName });
     if (!isUserName(userName)) {
       this.setState({
@@ -191,8 +196,11 @@ class AccountTab extends React.Component {
   };
 
   handleAvatarSubmit = async () => {
-    const { file } = this.state;
+    const { imageFile } = this.state;
     const { accessToken, actions, userEmailId } = this.props;
+    const fileExt = extractImageFileExtensionFromBase64(imageFile);
+    const fileName = 'image.' + fileExt;
+    const file = base64StringtoFile(imageFile, fileName);
     // eslint-disable-next-line no-undef
     let form = new FormData();
     form.append('access_token', accessToken);
@@ -216,16 +224,46 @@ class AccountTab extends React.Component {
     let reader = new FileReader();
     const file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result,
-        isAvatarAdded: true,
-      });
+      this.setState(
+        {
+          file: file,
+          imagePreviewUrl: reader.result,
+          isAvatarAdded: true,
+        },
+        () => {
+          this.getImageCropModal();
+        },
+      );
     };
     reader.readAsDataURL(file);
     this.handleMenuClose();
   };
 
+  getImageCropModal = () => {
+    const { actions } = this.props;
+    const { imagePreviewUrl } = this.state;
+    actions.openModal({
+      modalType: 'crop',
+      title: 'Crop',
+      imagePreviewUrl: imagePreviewUrl,
+      handleConfirm: this.getCroppedImage,
+      handleClose: actions.closeModal,
+    });
+  };
+
+  getCroppedImage = (croppedImg, img) => {
+    this.setState(
+      {
+        imagePreviewUrl: croppedImg,
+        imageFile: img,
+      },
+      async () => {
+        const { actions } = this.props;
+        await this.handleAvatarSubmit();
+        actions.closeModal();
+      },
+    );
+  };
   removeAvatarImage = () => {
     this.setState({
       file: '',
@@ -250,6 +288,13 @@ class AccountTab extends React.Component {
   handleSubmit = async () => {
     const { timeZone, prefLanguage, userName, avatarType } = this.state;
     const { actions, userEmailId } = this.props;
+    if (!(userName.trim().length > 0)) {
+      this.setState({
+        userNameError:
+          'A valid username is required before setting timezone or preferred language!',
+      });
+      return;
+    }
     let payload = {
       timeZone,
       prefLanguage,
@@ -353,7 +398,11 @@ class AccountTab extends React.Component {
             <TabHeading>
               <Translate text="User Name" />
             </TabHeading>
-            <FormControl error={userNameError !== ''}>
+            <FormControl
+              error={userNameError !== ''}
+              style={{ maxWidth: '250px' }}
+              disabled={loading}
+            >
               <OutlinedInput
                 labelWidth={0}
                 name="username"
@@ -382,7 +431,7 @@ class AccountTab extends React.Component {
             </TabHeading>
             <Select
               value={voiceOutput.voiceLang}
-              disabled={!this.TTSBrowserSupport}
+              disabled={!this.TTSBrowserSupport | loading}
               onChange={this.handlePrefLang}
               style={{ margin: '1rem 0' }}
             >
