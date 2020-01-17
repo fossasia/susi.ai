@@ -92,7 +92,7 @@ class MySkills extends Component {
               variant="contained"
               color="primary"
               onClick={this.handleMenuClick}
-              style={{ width: "-webkit-fill-available" }}
+              style={{ width: '-webkit-fill-available' }}
             >
               <Add /> Create Skill
             </Button>
