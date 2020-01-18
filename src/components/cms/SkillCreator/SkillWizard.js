@@ -521,7 +521,10 @@ class SkillWizard extends Component {
             date: skillByCommitId.commitDate,
             loadViews: true,
           });
-          const match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+          let match = null;
+          if (skillByCommitId && skillByCommitId.file) {
+            match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+          }
           if (match != null) {
             this.setState({ codeChanged: true });
           }
@@ -1150,7 +1153,7 @@ class SkillWizard extends Component {
                       label="Category"
                       value={category}
                       onChange={this.handleGroupChange}
-                      autoWidth={true}
+                      autowidth="true"
                     >
                       {this.state.groups}
                     </OutlinedSelectField>
@@ -1161,7 +1164,7 @@ class SkillWizard extends Component {
                       label="Language"
                       value={language}
                       onChange={this.handleLanguageChange}
-                      autoWidth={true}
+                      autowidth="true"
                     >
                       {this.state.languages}
                     </OutlinedSelectField>
@@ -1241,6 +1244,7 @@ class SkillWizard extends Component {
                       variant="contained"
                       color="primary"
                       onClick={this.saveClick}
+                      disabled={this.state.loading}
                       style={{ marginLeft: '10px', height: '36px' }}
                     >
                       {this.state.loading ? (
@@ -1278,8 +1282,8 @@ class SkillWizard extends Component {
               <div>
                 <b>Delete this Skill</b>
               </div>
-              {'Once you delete a skill, only admins can ' +
-                'undo this action before 30 days of deletion. Please be certain.'}
+              Once you delete a skill, only admins can undo this action before
+              30 days of deletion. Please be certain.
             </div>
             <DeleteButton onClick={this.handleDeleteModal}>Delete</DeleteButton>
           </DeleteSkillSection>

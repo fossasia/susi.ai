@@ -1,16 +1,16 @@
 import React from 'react';
-import EditFeedback from '../../../components/cms/SkillFeedbackPage/EditFeedbackDialog';
+import AdminTab from '../../../../components/Admin/AdminTab/AdminTab';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 const mockStore = configureMockStore();
 const store = mockStore({});
 
-describe('<EditFeedback />', () => {
-  it('render EditFeedback without crashing', () => {
+describe('<AdminTab />', () => {
+  it('render AdminTab without crashing', () => {
     shallow(
       <Provider store={store}>
-        <EditFeedback />
+        <AdminTab />
       </Provider>,
     );
   });

@@ -23,6 +23,8 @@ const config = {
     composer: '#f3f2f4',
     textarea: '#fff',
     button: '#4285f4',
+    susiMessageBackgroundColor: '#f3f2f4',
+    userMessageBackgroundColor: '#4285f4',
   },
   localStorage: true,
   countryCode: 'US',
@@ -112,6 +114,8 @@ export default handleActions(
           composer: themeArray[3],
           textarea: themeArray[4],
           button: themeArray[5],
+          susiMessageBackgroundColor: themeArray[6],
+          userMessageBackgroundColor: themeArray[7],
         },
       };
       let userSettingsViewedByAdmin = email
