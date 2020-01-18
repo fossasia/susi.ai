@@ -27,7 +27,7 @@ const commonIconStyle = css`
 `;
 
 const ShareIconContainer = styled.div`
-  display: flow-root;
+  display: flex-wrap;
   margin: 0.7rem 2.5rem;
 `;
 
