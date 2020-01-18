@@ -123,7 +123,7 @@ class ListBots extends React.Component {
             data={bots}
             title=""
             actions={[
-              {
+              rowData => ({
                 onDelete: (event, rowData) => {
                   this.handleDelete(
                     rowData.name,
@@ -132,7 +132,7 @@ class ListBots extends React.Component {
                     rowData.key,
                   );
                 },
-              },
+              }),
             ]}
             components={{
               Action: props => (
