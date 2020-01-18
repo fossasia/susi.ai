@@ -239,7 +239,7 @@ class ListDevices extends React.Component {
             margin: '2rem',
           }}
           actions={[
-            {
+            rowData => ({
               onEdit: (event, rowData) => {
                 this.handleEdit(
                   rowData.email,
@@ -255,7 +255,7 @@ class ListDevices extends React.Component {
                   rowData.email,
                 );
               },
-            },
+            }),
           ]}
           components={{
             Action: props => (
