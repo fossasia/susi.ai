@@ -10,6 +10,7 @@ const ScrollTopFab = styled(Fab)`
   top: ${props => props.height - 95 + 'px'};
   right: ${props => (props.width < 1100 ? '70px' : '100px')};
   margin: 15px;
+  z-index: 9000;
 `;
 
 class ScrollTopButton extends React.Component {

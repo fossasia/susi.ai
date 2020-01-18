@@ -79,7 +79,7 @@ const Messages = ({ actions }) => {
         margin: '2rem',
       }}
       actions={[
-        {
+        rowData => ({
           onClick: (event, rowData) => {
             handleView(
               rowData.recipients,
@@ -88,7 +88,7 @@ const Messages = ({ actions }) => {
               rowData.userMessage,
             );
           },
-        },
+        }),
       ]}
       components={{
         /* eslint-disable */

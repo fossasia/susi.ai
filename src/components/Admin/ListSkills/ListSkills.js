@@ -426,7 +426,7 @@ class ListSkills extends React.Component {
               padding: '1rem',
             }}
             actions={[
-              {
+              rowData => ({
                 onDelete: (event, rowData) => {
                   this.handleDelete(
                     rowData.skillName,
@@ -435,7 +435,7 @@ class ListSkills extends React.Component {
                     rowData.language,
                   );
                 },
-              },
+              }),
             ]}
             components={{
               Action: props => (
@@ -467,7 +467,7 @@ class ListSkills extends React.Component {
               padding: '1rem',
             }}
             actions={[
-              {
+              rowData => ({
                 onClick: (event, rowData) => {
                   this.handleRestore(
                     rowData.skillName,
@@ -476,7 +476,7 @@ class ListSkills extends React.Component {
                     rowData.language,
                   );
                 },
-              },
+              }),
             ]}
             components={{
               Action: props => (

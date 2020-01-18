@@ -27,10 +27,13 @@ const MessageBubble = styled.section`
   min-width: 5rem;
   max-width: 80%;
   ${props =>
-    props.width &&
-    css`
-      width: ${props => props.width};
-    `}
+    props.width
+      ? css`
+          width: ${props => props.width};
+        `
+      : css`
+          width: auto;
+        `}
   font-weight: 300;
   vertical-align: middle;
   line-height: 1.375rem;
