@@ -6,6 +6,7 @@ import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
 import Button from '../../shared/Button';
 import searchURLPath from '../../../utils/searchURLPath';
+import { base64StringtoFile } from '../../../utils/helperFunctions';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
 import uiActions from '../../../redux/actions/ui';
@@ -942,24 +943,35 @@ class SkillWizard extends Component {
     // console.log(imageUrl.replace('images/', ''));
   };
 
-  _onChange = event => {
+  _onChange = async event => {
     const { actions } = this.props;
     let { code } = this.props;
     // Assuming only image
     let payload = {};
     let file = this.file.files[0];
-    const image = window.URL.createObjectURL(file);
-    // console.log(file) // Would see a path?
-    let imageUrl = file.name;
-    if (this.props.imageUrl !== `images/${imageUrl}`) {
-      this.setState({
-        imageNameChanged: true,
-      });
-    }
-    const pattern = /^::image\s(.*)$/m;
-    code = code.replace(pattern, `::image images/${imageUrl}`);
-    payload = { ...payload, file, imageUrl, code, image };
-    actions.setSkillData(payload);
+    let image = window.URL.createObjectURL(file);
+    let imageName = file.name;
+
+    await actions.openModal({
+      modalType: 'crop',
+      title: `Crop ${this.isBotBuilder ? 'bot' : 'skill'} image`,
+      handleConfirm: (cropImageUrl, imageBase64) => {
+        image = cropImageUrl;
+        file = base64StringtoFile(imageBase64, imageName);
+        if (this.props.imageUrl !== `images/${imageName}`) {
+          this.setState({
+            imageNameChanged: true,
+          });
+        }
+        const pattern = /^::image\s(.*)$/m;
+        code = code.replace(pattern, `::image images/${imageName}`);
+        payload = { ...payload, file, imageName, code, image };
+        actions.setSkillData(payload);
+        actions.closeModal();
+      },
+      handleClose: actions.closeModal,
+      imagePreviewUrl: image,
+    });
   };
 
   handleCommitMessageChange = event => {
