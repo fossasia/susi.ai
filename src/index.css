@@ -9,6 +9,10 @@ body {
   background-color: #fff;
 }
 
+.MuiListSubheader-sticky {
+  position: inherit;
+}
+
 a {
   color: #1890ff;
   text-decoration: none;
