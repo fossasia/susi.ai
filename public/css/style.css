@@ -80,6 +80,9 @@ body, html {
   transition: all 0.2s ease-in-out;
   z-index: 3;
 }
+.MuiListSubheader-sticky {
+  position: inherit;
+}
 @media (max-width: 300px) {
   #mainC .footer a {
     -webkit-box-flex: 5;
