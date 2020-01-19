@@ -6,6 +6,7 @@ import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
 import Button from '../../shared/Button';
 import searchURLPath from '../../../utils/searchURLPath';
+import { base64StringtoFile } from '../../../utils/helperFunctions';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
 import uiActions from '../../../redux/actions/ui';
@@ -521,7 +522,10 @@ class SkillWizard extends Component {
             date: skillByCommitId.commitDate,
             loadViews: true,
           });
-          const match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+          let match = null;
+          if (skillByCommitId && skillByCommitId.file) {
+            match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+          }
           if (match != null) {
             this.setState({ codeChanged: true });
           }
@@ -716,11 +720,11 @@ class SkillWizard extends Component {
       accessToken,
       category,
       language,
-      name,
       file,
       imageUrl,
     } = this.props;
-    let { code } = this.props;
+    let { code, name } = this.props;
+    name = name.trim();
     if (this.mode !== 'edit') {
       code = '::author_email ' + email + '\n' + code;
       if (this.isBotBuilder) {
@@ -939,24 +943,35 @@ class SkillWizard extends Component {
     // console.log(imageUrl.replace('images/', ''));
   };
 
-  _onChange = event => {
+  _onChange = async event => {
     const { actions } = this.props;
     let { code } = this.props;
     // Assuming only image
     let payload = {};
     let file = this.file.files[0];
-    const image = window.URL.createObjectURL(file);
-    // console.log(file) // Would see a path?
-    let imageUrl = file.name;
-    if (this.props.imageUrl !== `images/${imageUrl}`) {
-      this.setState({
-        imageNameChanged: true,
-      });
-    }
-    const pattern = /^::image\s(.*)$/m;
-    code = code.replace(pattern, `::image images/${imageUrl}`);
-    payload = { ...payload, file, imageUrl, code, image };
-    actions.setSkillData(payload);
+    let image = window.URL.createObjectURL(file);
+    let imageName = file.name;
+
+    await actions.openModal({
+      modalType: 'crop',
+      title: `Crop ${this.isBotBuilder ? 'bot' : 'skill'} image`,
+      handleConfirm: (cropImageUrl, imageBase64) => {
+        image = cropImageUrl;
+        file = base64StringtoFile(imageBase64, imageName);
+        if (this.props.imageUrl !== `images/${imageName}`) {
+          this.setState({
+            imageNameChanged: true,
+          });
+        }
+        const pattern = /^::image\s(.*)$/m;
+        code = code.replace(pattern, `::image images/${imageName}`);
+        payload = { ...payload, file, imageName, code, image };
+        actions.setSkillData(payload);
+        actions.closeModal();
+      },
+      handleClose: actions.closeModal,
+      imagePreviewUrl: image,
+    });
   };
 
   handleCommitMessageChange = event => {
@@ -1150,7 +1165,7 @@ class SkillWizard extends Component {
                       label="Category"
                       value={category}
                       onChange={this.handleGroupChange}
-                      autoWidth={true}
+                      autowidth="true"
                     >
                       {this.state.groups}
                     </OutlinedSelectField>
@@ -1161,7 +1176,7 @@ class SkillWizard extends Component {
                       label="Language"
                       value={language}
                       onChange={this.handleLanguageChange}
-                      autoWidth={true}
+                      autowidth="true"
                     >
                       {this.state.languages}
                     </OutlinedSelectField>
@@ -1241,6 +1256,7 @@ class SkillWizard extends Component {
                       variant="contained"
                       color="primary"
                       onClick={this.saveClick}
+                      disabled={this.state.loading}
                       style={{ marginLeft: '10px', height: '36px' }}
                     >
                       {this.state.loading ? (
@@ -1278,8 +1294,8 @@ class SkillWizard extends Component {
               <div>
                 <b>Delete this Skill</b>
               </div>
-              {'Once you delete a skill, only admins can ' +
-                'undo this action before 30 days of deletion. Please be certain.'}
+              Once you delete a skill, only admins can undo this action before
+              30 days of deletion. Please be certain.
             </div>
             <DeleteButton onClick={this.handleDeleteModal}>Delete</DeleteButton>
           </DeleteSkillSection>

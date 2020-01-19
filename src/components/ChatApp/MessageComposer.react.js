@@ -114,7 +114,7 @@ const TextAreaContainer = styled.div`
   min-height: 20px;
   border: none;
   padding: 0.625rem 0.75rem;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   color: ${props => props.color};
   max-height: 5rem;
   width: ${props => (props.showChatPreview ? '81%' : 'auto')};
@@ -125,7 +125,7 @@ const TextAreaContainer = styled.div`
 
 const TextareaAutosize = styled(_TextareaAutosize)`
   line-height: 1rem;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${props => props.$backgroundColor};
   color: ${props => props.color};
   border: none;
   width: 100%;
@@ -396,7 +396,7 @@ class MessageComposer extends Component {
           />
         )}
         <TextAreaContainer
-          backgroundColor={textarea}
+          $backgroundColor={textarea}
           showChatPreview={showChatPreview}
         >
           <TextareaAutosize

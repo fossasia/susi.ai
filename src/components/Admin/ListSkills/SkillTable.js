@@ -22,7 +22,7 @@ class SkillTable extends Component {
           padding: '1rem',
         }}
         actions={[
-          {
+          rowData => ({
             onEdit: (event, rowData) => {
               handleOpen(
                 rowData.skillName,
@@ -44,7 +44,7 @@ class SkillTable extends Component {
                 rowData.language,
               );
             },
-          },
+          }),
         ]}
         components={{
           Action: props => (

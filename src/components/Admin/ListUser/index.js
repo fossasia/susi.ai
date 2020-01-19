@@ -251,7 +251,8 @@ class ListUser extends Component {
           placeholder="Search by email"
           value={search}
           onChange={value => this.handleSearch(value)}
-          closeIcon={<CloseIcon onClick={this.onClose} />}
+          closeIcon={<CloseIcon />}
+          onCancelSearch={this.onClose}
         />
         <MaterialTable
           isLoading={loading}
@@ -265,14 +266,14 @@ class ListUser extends Component {
           data={data}
           title=""
           actions={[
-            {
+            rowData => ({
               onEdit: (event, rowData) => {
                 this.handleEdit(rowData.email, rowData.userRole);
               },
               onDelete: (event, rowData) => {
                 this.handleDelete(rowData.email);
               },
-            },
+            }),
           ]}
           components={{
             Action: props => (
@@ -298,8 +299,8 @@ class ListUser extends Component {
               <TablePagination
                 rowsPerPageOptions={[50]}
                 colSpan={3}
-                count={totalUsers}
-                rowsPerPage={'50'}
+                count={totalUsers || 0}
+                rowsPerPage={50}
                 page={page}
                 onChangePage={this.handleChangePage}
                 style={{ float: 'right' }}
