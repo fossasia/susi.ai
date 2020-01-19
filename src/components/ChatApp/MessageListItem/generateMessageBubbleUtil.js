@@ -44,6 +44,10 @@ const DateContainer = styled.section`
   text-align: center;
 `;
 
+const Gif = styled.div`
+  overflow: hidden;
+`;
+
 const MessageContainer = styled.div`
   display: flex;
   margin: 0.3125rem;
@@ -155,32 +159,33 @@ const generateDateBubble = message => {
   );
 };
 
-/*
 const generateGifBubble = (
   action,
   index,
-  gifSource,
   message,
   latestUserMsgID,
   showFeedback,
+  susiMessageBackgroundColor,
 ) => {
   return (
     <MessageContainer key={action + index}>
-      <MessageBubble author={message.authorName}>
-        <div>
+      <MessageBubble
+        author={message.authorName}
+        $backgroundColor={susiMessageBackgroundColor}
+      >
+        <Gif>
           <iframe
-            src={gifSource}
+            src={message.text}
             title="SUSI features GIF"
             frameBorder="0"
             allowFullScreen
           />
-        </div>
+        </Gif>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
     </MessageContainer>
   );
 };
-*/
 
 const generateAnswerBubble = (
   action,
@@ -466,33 +471,30 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
-        /*
         if (answer.data[0].type === 'gif') {
-          let gifSource = answer.data[0].embed_url;
           listItems.push(
             generateGifBubble(
               actionType,
               index,
-              gifSource,
               message,
               latestUserMsgID,
               showFeedback,
+              susiMessageBackgroundColor,
             ),
           );
         } else {
-        */
-        listItems.push(
-          generateAnswerBubble(
-            actionType,
-            index,
-            replacedText,
-            message,
-            latestUserMsgID,
-            showFeedback,
-            susiMessageBackgroundColor,
-          ),
-        );
-        // }
+          listItems.push(
+            generateAnswerBubble(
+              actionType,
+              index,
+              replacedText,
+              message,
+              latestUserMsgID,
+              showFeedback,
+              susiMessageBackgroundColor,
+            ),
+          );
+        }
         break;
       }
       case 'anchor':
