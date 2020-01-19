@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _IconButton from '@material-ui/core/IconButton';
-import DialogTitle from '@material-ui/core/DialogTitle';
+// import DialogTitle from '@material-ui/core/DialogTitle';
 import {
   FacebookShareButton as _FacebookShareButton,
   LinkedinShareButton as _LinkedinShareButton,
@@ -14,12 +14,13 @@ import {
   TelegramIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
+import SettingsTabWrapper from './SettingsTabWrapper';
 import CopyWithButton from '../../utils/CopyWithButton';
 import PropTypes from 'prop-types';
 import urls from '../../utils/urls';
 
 const commonIconStyle = css`
-  margin-top: 1rem;
+  margin-top: 0rem;
   display: flex;
   align-items: flex-start;
   width: 100%;
@@ -28,13 +29,19 @@ const commonIconStyle = css`
 
 const ShareIconContainer = styled.div`
   display: flex;
-  margin: 0.7rem 2.5rem;
+  margin: 0.7rem 0rem;
 `;
 
 const IconButton = styled(_IconButton)`
   border-radius: 0.125rem;
   padding: 0.5rem;
   font-size: 1rem;
+  &:hover {
+    opacity: 0.5;
+  }
+  &:action {
+    opacity: 1;
+  }
 `;
 
 const FacebookShareButton = styled(_FacebookShareButton)`
@@ -74,65 +81,80 @@ class ShareOnSocialMedia extends Component {
   render() {
     return (
       <React.Fragment>
-        <DialogTitle>Share about SUSI.AI</DialogTitle>
-
-        <CopyWithButton
-          value={this.state.shareText}
-          width={this.props.width}
-          handleChange={this.handleChange}
-        />
-        <ShareIconContainer>
-          <IconButton>
-            <FacebookShareButton
-              url={this.state.shareUrl}
-              quote={this.state.title}
+        <SettingsTabWrapper heading="Share about SUSI.AI">
+          <CopyWithButton
+            value={this.state.shareText}
+            width={this.props.width}
+            handleChange={this.handleChange}
+          />
+          <ShareIconContainer>
+            <IconButton
+              variant="raised"
+              style={{ backgroundColor: 'transparent' }}
             >
-              <div>
-                <FacebookIcon size={42} />
-              </div>
-            </FacebookShareButton>
-          </IconButton>
-          <IconButton>
-            <TwitterShareButton
-              url={this.state.shareUrl}
-              title={this.state.title}
+              <FacebookShareButton
+                url={this.state.shareUrl}
+                quote={this.state.title}
+              >
+                <div>
+                  <FacebookIcon size={42} />
+                </div>
+              </FacebookShareButton>
+            </IconButton>
+            <IconButton
+              variant="raised"
+              style={{ backgroundColor: 'transparent' }}
             >
-              <div>
-                <TwitterIcon size={42} />
-              </div>
-            </TwitterShareButton>
-          </IconButton>
-          <IconButton>
-            <LinkedinShareButton
-              url={this.state.shareUrl}
-              title={this.state.title}
+              <TwitterShareButton
+                url={this.state.shareUrl}
+                title={this.state.title}
+              >
+                <div>
+                  <TwitterIcon size={42} />
+                </div>
+              </TwitterShareButton>
+            </IconButton>
+            <IconButton
+              variant="raised"
+              style={{ backgroundColor: 'transparent' }}
             >
-              <div>
-                <LinkedinIcon size={42} />
-              </div>
-            </LinkedinShareButton>
-          </IconButton>
-          <IconButton>
-            <WhatsappShareButton
-              url={this.state.shareUrl}
-              title={this.state.title}
+              <LinkedinShareButton
+                url={this.state.shareUrl}
+                title={this.state.title}
+              >
+                <div>
+                  <LinkedinIcon size={42} />
+                </div>
+              </LinkedinShareButton>
+            </IconButton>
+            <IconButton
+              variant="raised"
+              style={{ backgroundColor: 'transparent' }}
             >
-              <div>
-                <WhatsappIcon size={42} />
-              </div>
-            </WhatsappShareButton>
-          </IconButton>
-          <IconButton>
-            <TelegramShareButton
-              url={this.state.shareUrl}
-              title={this.state.title}
+              <WhatsappShareButton
+                url={this.state.shareUrl}
+                title={this.state.title}
+              >
+                <div>
+                  <WhatsappIcon size={42} />
+                </div>
+              </WhatsappShareButton>
+            </IconButton>
+            <IconButton
+              variant="raised"
+              style={{ backgroundColor: 'transparent' }}
             >
-              <div>
-                <TelegramIcon size={42} />
-              </div>
-            </TelegramShareButton>
-          </IconButton>
-        </ShareIconContainer>
+              <TelegramShareButton
+                url={this.state.shareUrl}
+                title={this.state.title}
+              >
+                <div>
+                  <TelegramIcon size={42} />
+                </div>
+              </TelegramShareButton>
+            </IconButton>
+          </ShareIconContainer>
+        </SettingsTabWrapper>
       </React.Fragment>
     );
   }
