@@ -39,6 +39,7 @@ const NavigateIconButton = styled(_IconButton)`
 const SearchInputField = styled(TextField)`
   font-size: 10px;
   color: #fefefe;
+  z-index: 9999 !important;
   border-right: 1px solid #878787;
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border: none;
