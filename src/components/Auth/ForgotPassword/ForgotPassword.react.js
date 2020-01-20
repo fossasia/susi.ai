@@ -61,7 +61,7 @@ class ForgotPassword extends Component {
     const { actions } = this.props;
     let { email, emailErrorMessage } = this.state;
 
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
 
     if (email && !emailErrorMessage) {
       this.setState({ loading: true });
