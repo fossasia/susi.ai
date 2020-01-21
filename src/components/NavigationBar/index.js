@@ -606,7 +606,7 @@ class NavigationBar extends Component {
                           />
                           {userSettingsLoaded && (
                             <UserDetail>
-                              {!userName ? email : userName}
+                              {userName ? userName : email}
                             </UserDetail>
                           )}
                           <ExpandMore
