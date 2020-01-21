@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import styled from 'styled-components';
@@ -38,6 +38,7 @@ export default class EditSkillDialog extends Component {
       skillEditStatus,
       skillStaffPickStatus,
       systemSkillStatus,
+      loading: false,
     };
   }
 
@@ -52,6 +53,7 @@ export default class EditSkillDialog extends Component {
       skillEditStatus,
       skillStaffPickStatus,
       systemSkillStatus,
+      loading,
     } = this.state;
     return (
       <React.Fragment>
@@ -103,23 +105,32 @@ export default class EditSkillDialog extends Component {
             />
           </Container>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
             key={1}
-            onClick={() =>
+            variant="contained"
+            color="primary"
+            handleClick={() => {
+              this.setState({ loading: true });
               handleConfirm(
                 skillReviewStatus,
                 skillEditStatus,
                 skillStaffPickStatus,
                 systemSkillStatus,
-              )
-            }
-          >
-            Change
-          </Button>
-          <Button key={2} onClick={handleClose}>
-            Cancel
-          </Button>
+              );
+            }}
+            isLoading={loading}
+            disabled={loading}
+            buttonText="Change"
+          />
+          <Button
+            key={2}
+            variant="contained"
+            color="primary"
+            handleClick={handleClose}
+            style={{ marginRight: '1em' }}
+            buttonText="Cancel"
+          />
         </DialogActions>
       </React.Fragment>
     );

@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { bindActionCreators } from 'redux';
@@ -203,17 +202,13 @@ class MobileTab extends React.Component {
           </PhoneDetails>
         </PhoneNumber>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
+        />
       </SettingsTabWrapper>
     );
   }

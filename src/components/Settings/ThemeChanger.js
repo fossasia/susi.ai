@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import DialogActions from '@material-ui/core/DialogActions';
 import CloseButton from '../shared/CloseButton';
 import Button from '../shared/Button';
-import Translate from '../Translate/Translate.react';
 import OutlinedTextField from '../shared/OutlinedTextField';
 import { Col, Row } from 'react-flexbox-grid';
 import Switch from '@material-ui/core/Switch';
@@ -17,7 +16,6 @@ import { setUserSettings } from '../../apis';
 import _ from 'lodash';
 import styled from 'styled-components';
 import ColorPickerComponent from '../shared/ColorPickerComponent';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Container = styled.div`
   display: flex;
@@ -349,26 +347,21 @@ class ThemeChanger extends Component {
         </div>
         <DialogActions>
           <Button
-            onClick={this.handleSubmit}
-            style={{ margin: '0 5px' }}
-            variant="contained"
+            handleClick={this.handleSubmit}
             color="primary"
+            variant="contained"
+            style={{ margin: '0 5px' }}
             disabled={disabled || loading}
-          >
-            {loading ? (
-              <CircularProgress size={24} color="white" />
-            ) : (
-              <Translate text="Save" />
-            )}
-          </Button>
+            isLoading={loading}
+            buttonText="Save"
+          />
           <Button
-            onClick={this.handleReset}
-            style={{ margin: '0 5px' }}
-            variant="contained"
             color="primary"
-          >
-            <Translate text="Reset" />
-          </Button>
+            variant="contained"
+            handleClick={this.handleReset}
+            style={{ margin: '0 5px' }}
+            buttonText="Reset"
+          />
         </DialogActions>
       </div>
     );

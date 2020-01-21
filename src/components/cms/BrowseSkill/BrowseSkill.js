@@ -21,7 +21,7 @@ import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
 import _RadioGroup from '@material-ui/core/RadioGroup';
-import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Add from '@material-ui/icons/Add';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
@@ -55,6 +55,10 @@ const Container = styled.div`
   overflow-x: hidden;
   flex: 1 0 auto;
   margin-top: 3rem;
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const Link = styled(_Link)`
@@ -215,10 +219,8 @@ const RightContainer = styled.div`
 `;
 
 const MobileBackButton = styled(Button)`
-   {
-    width: 70%;
-    margin: 0 auto;
-  }
+  width: 70%;
+  margin: 0 auto;
 `;
 
 const commonListIconStyles = css`
