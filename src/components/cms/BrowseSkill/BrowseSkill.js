@@ -706,6 +706,7 @@ class BrowseSkill extends React.Component {
     renderCardScrollList = !metricsHidden && !routeType && (
       <SkillCardScrollList isMobile={isMobile} history={history} />
     );
+    let isSkillSearch = !metricsHidden && !routeType;
     let renderSkillSlideshow = null;
     renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
 
@@ -915,7 +916,7 @@ class BrowseSkill extends React.Component {
         </Sidebar>
         <RightContainer>
           {loadingSkills ? (
-            <SkillLoader />
+            <SkillLoader isSkillSearch={!isSkillSearch} />
           ) : (
             <React.Fragment>
               {renderSkillSlideshow}
