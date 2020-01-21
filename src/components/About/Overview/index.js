@@ -27,7 +27,7 @@ import Web from '@material-ui/icons/Web';
 import GIF from '@material-ui/icons/Gif';
 import LocationOn from '@material-ui/icons/LocationOn';
 import Action from '@material-ui/icons/ChatBubble';
-import Button from '@material-ui/core/Button';
+import _Button from '@material-ui/core/Button';
 import PlusOne from '@material-ui/icons/PlusOne';
 import Search from '@material-ui/icons/Search';
 import googlePlay from '../../../images/google-play.svg';
@@ -35,6 +35,11 @@ import appStore from '../../../images/app-store.svg';
 import './Overview.css';
 import styled, { css } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
+
+const Button = styled(_Button)`
+  width: 30%;
+  margin: 4px;
+`;
 
 const commonDesc = css`
   text-align: left;
@@ -289,6 +294,7 @@ const RowDiv = styled.div`
 
   @media (max-width: 480px) {
     width: auto;
+    justify-content: flex-start;
   }
 `;
 
