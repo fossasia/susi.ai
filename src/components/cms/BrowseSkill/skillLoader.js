@@ -9,14 +9,29 @@ const Container = styled.div`
 
 const ContentContainer = styled.div`
   width: 260px;
-  height: 168px;
+  height: '100%';
   margin: 8px;
   border: 0.5px solid #eaeded;
 `;
 
+const loaderLimit = () => {
+  const innerWidth = window.innerWidth;
+  let limit = 2;
+  if (innerWidth >= 1680) {
+    limit = 6;
+  } else if (innerWidth >= 1400) {
+    limit = 5;
+  } else if (innerWidth >= 1120) {
+    limit = 4;
+  } else if (innerWidth >= 840) {
+    limit = 3;
+  }
+  return limit;
+};
+
 const addLoader = () => {
   const loader = [];
-  const limit = isMobileView() ? 2 : 4;
+  const limit = loaderLimit();
   for (let i = 0; i < limit; i++) {
     loader.push(
       <ContentContainer key={i}>
