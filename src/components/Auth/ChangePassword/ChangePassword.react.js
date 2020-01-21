@@ -134,11 +134,11 @@ class ChangePassword extends Component {
           newPasswordConfirmErrorMessage,
         } = this.state;
         const newPassword = event.target.value.trim();
-        const newPasswordError = !isPassword(newPassword);
-        const newPasswordScore = !newPasswordError
+        const newPasswordError = isPassword(newPassword);
+        const newPasswordScore = !newPasswordError.errorStatus
           ? zxcvbn(newPassword).score
           : -1;
-        const newPasswordStrength = !newPasswordError
+        const newPasswordStrength = !newPasswordError.errorStatus
           ? [
               <Translate key={1} text="Too Insecure" />,
               <Translate key={2} text="Bad" />,
@@ -154,8 +154,8 @@ class ChangePassword extends Component {
 
         this.setState({
           newPassword,
-          newPasswordErrorMessage: newPasswordError ? (
-            <Translate text="Atleast 8 characters, 1 special character, number, 1 capital letter" />
+          newPasswordErrorMessage: newPasswordError.errorStatus ? (
+            <Translate text={newPasswordError.message} />
           ) : (
             ''
           ),
@@ -202,7 +202,7 @@ class ChangePassword extends Component {
     } = this.state;
     let { actions, email } = this.props;
 
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
 
     if (
       !(

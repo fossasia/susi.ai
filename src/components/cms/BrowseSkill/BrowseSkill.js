@@ -357,6 +357,11 @@ class BrowseSkill extends React.Component {
     const { location, history, actions } = this.props;
     appendQueryString(location, history, 'sort_by', value);
     await actions.setFilterType({ filterType: value });
+    if (value === 'lexicographical') {
+      await actions.setOrderByFilter({ orderBy: 'ascending' });
+    } else {
+      await actions.setOrderByFilter({ orderBy: 'descending' });
+    }
     this.loadCards();
   };
 
@@ -423,8 +428,9 @@ class BrowseSkill extends React.Component {
   };
 
   loadCards = () => {
-    const { routeType, routeValue } = this.props;
     const {
+      routeType,
+      routeValue,
       languageValue,
       filterType,
       reviewed,
