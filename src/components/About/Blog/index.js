@@ -325,9 +325,9 @@ class Blog extends Component {
 
                   const tags = arrDiff(category, posts.categories);
                   const fCategory = category
-                    .map(cat => (
+                    .map((cat, index) => (
                       <BlogFooterLink
-                        key={cat}
+                        key={index}
                         href={
                           'http://blog.fossasia.org/category/' +
                           cat.replace(/\s+/g, '-').toLowerCase()
@@ -339,9 +339,9 @@ class Blog extends Component {
                     ))
                     .reduce((prev, curr) => [prev, ', ', curr]);
                   const ftags = tags
-                    .map(tag => (
+                    .map((tag, index) => (
                       <BlogFooterLink
-                        key={tag}
+                        key={index}
                         href={
                           'http://blog.fossasia.org/tag/' +
                           tag.replace(/\s+/g, '-').toLowerCase()
@@ -363,7 +363,7 @@ class Blog extends Component {
                   const date = posts.pubDate.split(' ');
                   const d = new Date(date[0]);
                   return (
-                    <div key={posts} className="section_blog">
+                    <div key={i} className="section_blog">
                       <Card>
                         <CardMedia image={image} />
                         <Overlay>
