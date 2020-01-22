@@ -6,7 +6,7 @@ import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
 import Button from '../../shared/Button';
 import searchURLPath from '../../../utils/searchURLPath';
-import { base64StringtoFile } from '../../../utils/helperFunctions';
+import { urltoFile } from '../../../utils/helperFunctions';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
 import uiActions from '../../../redux/actions/ui';
@@ -955,9 +955,10 @@ class SkillWizard extends Component {
     await actions.openModal({
       modalType: 'crop',
       title: `Crop ${this.isBotBuilder ? 'bot' : 'skill'} image`,
-      handleConfirm: (cropImageUrl, imageBase64) => {
+      handleConfirm: cropImageUrl => {
         image = cropImageUrl;
-        file = base64StringtoFile(imageBase64, imageName);
+        const fileExt = imageName.split('.')[1];
+        file = urltoFile(image, imageName, `image/${fileExt}`);
         if (this.props.imageUrl !== `images/${imageName}`) {
           this.setState({
             imageNameChanged: true,
