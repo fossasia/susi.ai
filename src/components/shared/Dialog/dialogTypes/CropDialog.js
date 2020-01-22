@@ -5,7 +5,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '../../../shared/Button';
 import ReactCrop from 'react-image-crop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import 'react-image-crop/dist/ReactCrop.css';
 
 class CropDialog extends Component {
@@ -113,29 +112,24 @@ class CropDialog extends Component {
         </DialogContent>
         <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
-            variant="contained"
-            color="primary"
             key={0}
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
             color="primary"
-            disabled={loading}
+            variant="contained"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
+          <Button
             key={1}
-            onClick={() => {
+            color="primary"
+            variant="contained"
+            handleClick={() => {
               this.setState({ loading: true });
               handleConfirm(croppedImageUrl, imageBase64);
             }}
-          >
-            {loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              'Upload'
-            )}
-          </Button>
+            isLoading={loading}
+            disabled={loading}
+            buttonText="Upload"
+          />
         </DialogActions>
       </React.Fragment>
     );

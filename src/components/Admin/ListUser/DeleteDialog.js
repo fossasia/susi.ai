@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 
 const DeleteAccount = ({ userEmail, handleConfirm, handleClose }) => {
+  const [loading, setLoading] = useState(false);
   return (
     <React.Fragment>
       <DialogTitle>Delete User Account</DialogTitle>
@@ -16,13 +17,26 @@ const DeleteAccount = ({ userEmail, handleConfirm, handleClose }) => {
         </span>
         ?
       </DialogContent>
-      <DialogActions>
-        <Button key={1} color="secondary" onClick={handleConfirm}>
-          Delete
-        </Button>
-        <Button key={2} color="primary" onClick={handleClose}>
-          Cancel
-        </Button>
+      <DialogActions style={{ justifyContent: 'space-around' }}>
+        <Button
+          key={1}
+          variant="contained"
+          color="primary"
+          handleClick={() => {
+            setLoading(true);
+            handleConfirm();
+          }}
+          isLoading={loading}
+          disabled={loading}
+          buttonText="Delete"
+        />
+        <Button
+          key={2}
+          variant="contained"
+          color="primary"
+          handleClick={handleClose}
+          buttonText="Cancel"
+        />
       </DialogActions>
     </React.Fragment>
   );

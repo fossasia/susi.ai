@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -7,6 +7,8 @@ import Button from '../../../shared/Button';
 
 const ConfirmDialog = props => {
   const { title, content, handleConfirm, handleClose, confirmText } = props;
+  const [loading, setLoading] = useState(false);
+
   return (
     <React.Fragment>
       <DialogTitle>{title}</DialogTitle>
@@ -17,31 +19,38 @@ const ConfirmDialog = props => {
         <DialogActions>
           <Button
             key={0}
-            variant="contained"
             color="primary"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
+            variant="contained"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
           <Button
             key={1}
-            variant="contained"
             color="primary"
-            onClick={handleConfirm}
-          >
-            {confirmText}
-          </Button>
+            variant="contained"
+            handleClick={() => {
+              setLoading(true);
+              handleConfirm();
+            }}
+            isLoading={loading}
+            disabled={loading}
+            buttonText={confirmText}
+          />
         </DialogActions>
       ) : (
         <DialogActions>
           <Button
-            key={1}
-            variant="contained"
+            key={0}
             color="primary"
-            onClick={handleConfirm}
-          >
-            ok
-          </Button>
+            variant="contained"
+            handleClick={() => {
+              setLoading(true);
+              handleConfirm();
+            }}
+            isLoading={loading}
+            disabled={loading}
+            buttonText="ok"
+          />
         </DialogActions>
       )}
     </React.Fragment>
