@@ -98,11 +98,14 @@ class SystemLogs extends React.Component {
 
   render() {
     const { loading } = this.state;
-    let renderMenu = menuObj.map(menu => (
-      <MenuItem key={menu.value} value={menu.value}>
-        {menu.text}
-      </MenuItem>
-    ));
+    let renderMenu = null;
+    if (menuObj && Array.isArray(menuObj) && menuObj.length > 0) {
+      renderMenu = menuObj.map(menu => (
+        <MenuItem key={menu.value} value={menu.value}>
+          {menu.text}
+        </MenuItem>
+      ));
+    }
     return (
       <Container>
         <Select

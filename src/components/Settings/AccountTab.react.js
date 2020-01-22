@@ -7,6 +7,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Select from '../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _TimezonePicker from 'react-timezone';
@@ -21,7 +22,6 @@ import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
 import { setUserSettings, uploadAvatar, deleteUserAccount } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import isUserName from '../../utils/isUserName';
 import {
   extractImageFileExtensionFromBase64,
@@ -57,7 +57,8 @@ const DangerContainer = styled.div`
   align-items: center;
 `;
 
-const DangerButton = styled(Button)`
+const DangerButton = styled(_Button)`
+  width: 10rem;
   background-color: #fafbfc;
   color: #cb2431;
   &:hover {
@@ -487,18 +488,14 @@ class AccountTab extends React.Component {
           </AvatarSection>
         </Container>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
           style={{ margin: '1.5rem 0' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+        />
         <TabHeading>
           <Translate text="Danger Zone" />
         </TabHeading>

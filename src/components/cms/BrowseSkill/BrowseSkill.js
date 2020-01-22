@@ -21,7 +21,7 @@ import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
 import _RadioGroup from '@material-ui/core/RadioGroup';
-import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Add from '@material-ui/icons/Add';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
@@ -55,6 +55,10 @@ const Container = styled.div`
   overflow-x: hidden;
   flex: 1 0 auto;
   margin-top: 3rem;
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const Link = styled(_Link)`
@@ -215,10 +219,8 @@ const RightContainer = styled.div`
 `;
 
 const MobileBackButton = styled(Button)`
-   {
-    width: 70%;
-    margin: 0 auto;
-  }
+  width: 70%;
+  margin: 0 auto;
 `;
 
 const commonListIconStyles = css`
@@ -498,11 +500,16 @@ class BrowseSkill extends React.Component {
     for (let i = 1; i <= Math.ceil(skills.length / entriesPerPage); i += 1) {
       menuItems.push(i);
     }
-    return menuItems.map(menuItem => (
-      <MenuItem key={menuItem} value={menuItem}>
-        {menuItem.toString()}
-      </MenuItem>
-    ));
+    return (
+      menuItems &&
+      Array.isArray(menuItems) &&
+      menuItems.length > 0 &&
+      menuItems.map(menuItem => (
+        <MenuItem key={menuItem} value={menuItem}>
+          {menuItem.toString()}
+        </MenuItem>
+      ))
+    );
   };
 
   handleOrderByChange = async () => {
@@ -605,28 +612,36 @@ class BrowseSkill extends React.Component {
           <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
-      renderMobileMenu = groups.map(categoryName => {
+      renderMobileMenu =
+        groups &&
+        Array.isArray(groups) &&
+        groups.length > 0 &&
+        groups.map(categoryName => {
+          const linkValue = '/category/' + categoryName;
+          return (
+            <Link to={linkValue} key={linkValue}>
+              <MobileMenuItem key={categoryName} value={categoryName}>
+                <span style={{ width: '90%' }}>{categoryName}</span>
+                <ChevronRight style={{ top: -8 }} />
+              </MobileMenuItem>
+            </Link>
+          );
+        });
+    }
+    renderMenu =
+      groups &&
+      Array.isArray(groups) &&
+      groups.length > 0 &&
+      groups.map(categoryName => {
         const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
-            <MobileMenuItem key={categoryName} value={categoryName}>
-              <span style={{ width: '90%' }}>{categoryName}</span>
-              <ChevronRight style={{ top: -8 }} />
-            </MobileMenuItem>
+            <SidebarItem key={categoryName} value={categoryName}>
+              {categoryName}
+            </SidebarItem>
           </Link>
         );
       });
-    }
-    renderMenu = groups.map(categoryName => {
-      const linkValue = '/category/' + categoryName;
-      return (
-        <Link to={linkValue} key={linkValue}>
-          <SidebarItem key={categoryName} value={categoryName}>
-            {categoryName}
-          </SidebarItem>
-        </Link>
-      );
-    });
 
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
@@ -712,6 +727,7 @@ class BrowseSkill extends React.Component {
     renderCardScrollList = !metricsHidden && !routeType && (
       <SkillCardScrollList isMobile={isMobile} history={history} />
     );
+    let isSkillSearch = !metricsHidden && !routeType;
     let renderSkillSlideshow = null;
     renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
 
@@ -921,7 +937,7 @@ class BrowseSkill extends React.Component {
         </Sidebar>
         <RightContainer>
           {loadingSkills ? (
-            <SkillLoader />
+            <SkillLoader isSkillSearch={!isSkillSearch} />
           ) : (
             <React.Fragment>
               {renderSkillSlideshow}
