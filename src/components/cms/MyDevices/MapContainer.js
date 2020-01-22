@@ -105,16 +105,22 @@ class MapContainer extends Component {
           onClick={this.onMapClicked}
           adminTable={adminTable}
         >
-          {data.map(eachDevice => (
-            <Marker
-              key={eachDevice.deviceName}
-              title={eachDevice.deviceName}
-              macId={eachDevice.macId}
-              room={eachDevice.room}
-              onClick={this.onMarkerClick}
-              position={{ lat: eachDevice.latitude, lng: eachDevice.longitude }}
-            />
-          ))}
+          {data &&
+            Array.isArray(data) &&
+            data.length > 0 &&
+            data.map(eachDevice => (
+              <Marker
+                key={eachDevice.deviceName}
+                title={eachDevice.deviceName}
+                macId={eachDevice.macId}
+                room={eachDevice.room}
+                onClick={this.onMarkerClick}
+                position={{
+                  lat: eachDevice.latitude,
+                  lng: eachDevice.longitude,
+                }}
+              />
+            ))}
           <InfoWindow
             marker={activeMarker}
             onClose={this.onInfoWindowClose}
