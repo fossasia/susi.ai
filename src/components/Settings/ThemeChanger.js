@@ -261,70 +261,77 @@ class ThemeChanger extends Component {
       },
       this.initialValue,
     );
-    const components = componentsList.map(component => {
-      return (
-        <ThemePropertyContainer key={component.id}>
-          <Row style={{ marginBottom: '15px' }}>
-            <Col xs={6} md={6} lg={6}>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div
-                  style={{
-                    fontSize: '18px',
-                    paddingTop: '12px',
-                    fontWeight: '400',
-                    color: 'rgba(0,0,0,.85)',
-                  }}
-                >
-                  {component.name}
-                </div>
-                {component.id === 1 && (
-                  <div style={{ marginTop: '-1px' }}>
-                    <span
-                      style={{ paddingRight: '0.7rem' }}
-                      onClick={this.showMessageBackgroundImageToggle}
-                    >
-                      Color
-                    </span>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={showMessageBackgroundImage}
-                          onChange={this.showMessageBackgroundImageToggle}
-                        />
-                      }
-                      label="Image"
-                    />
+    let components = null;
+    if (
+      componentsList &&
+      Array.isArray(componentsList) &&
+      componentsList.length > 0
+    ) {
+      components = componentsList.map(component => {
+        return (
+          <ThemePropertyContainer key={component.id}>
+            <Row style={{ marginBottom: '15px' }}>
+              <Col xs={6} md={6} lg={6}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div
+                    style={{
+                      fontSize: '18px',
+                      paddingTop: '12px',
+                      fontWeight: '400',
+                      color: 'rgba(0,0,0,.85)',
+                    }}
+                  >
+                    {component.name}
                   </div>
-                )}
-              </div>
-            </Col>
-            <Col xs={6} md={6} lg={6} style={{ marginTop: '10px' }}>
-              {(component.id !== 1 ||
-                (component.id === 1 && !showMessageBackgroundImage)) && (
-                <ColorPickerComponent
-                  component={component.component}
-                  id={component.id}
-                  handleChangeColor={this.handleChangeComplete}
-                  backgroundColor={this.state[component.component]}
-                  handleClickColorBox={this.handleClickColorBox}
-                />
-              )}
-              {component.id === 1 && showMessageBackgroundImage && (
-                <OutlinedTextField
-                  margin="dense"
-                  name="messageImg"
-                  onChange={this.handleChangeMessageBackgroundImage(
-                    'messageBackgroundImage',
+                  {component.id === 1 && (
+                    <div style={{ marginTop: '-1px' }}>
+                      <span
+                        style={{ paddingRight: '0.7rem' }}
+                        onClick={this.showMessageBackgroundImageToggle}
+                      >
+                        Color
+                      </span>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={showMessageBackgroundImage}
+                            onChange={this.showMessageBackgroundImageToggle}
+                          />
+                        }
+                        label="Image"
+                      />
+                    </div>
                   )}
-                  value={messageBackgroundImage}
-                  label={'Message Image URL'}
-                />
-              )}
-            </Col>
-          </Row>
-        </ThemePropertyContainer>
-      );
-    });
+                </div>
+              </Col>
+              <Col xs={6} md={6} lg={6} style={{ marginTop: '10px' }}>
+                {(component.id !== 1 ||
+                  (component.id === 1 && !showMessageBackgroundImage)) && (
+                  <ColorPickerComponent
+                    component={component.component}
+                    id={component.id}
+                    handleChangeColor={this.handleChangeComplete}
+                    backgroundColor={this.state[component.component]}
+                    handleClickColorBox={this.handleClickColorBox}
+                  />
+                )}
+                {component.id === 1 && showMessageBackgroundImage && (
+                  <OutlinedTextField
+                    margin="dense"
+                    name="messageImg"
+                    onChange={this.handleChangeMessageBackgroundImage(
+                      'messageBackgroundImage',
+                    )}
+                    value={messageBackgroundImage}
+                    label={'Message Image URL'}
+                  />
+                )}
+              </Col>
+            </Row>
+          </ThemePropertyContainer>
+        );
+      });
+    }
     return (
       <div>
         <div style={{ overflowY: 'auto' }}>

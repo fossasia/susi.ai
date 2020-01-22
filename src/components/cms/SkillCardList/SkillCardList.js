@@ -238,7 +238,9 @@ function createListCard(
         </Header>
         <DetailsContainer>
           <ExampleContainer>
-            {examples.length > 0 &&
+            {examples &&
+              Array.isArray(examples) &&
+              examples.length > 0 &&
               examples.map((eg, index) => {
                 return (
                   <SkillExampleBubble key={index} data={eg} history={history} />
