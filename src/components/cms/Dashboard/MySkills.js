@@ -7,7 +7,7 @@ import uiActions from '../../../redux/actions/ui';
 import PropTypes from 'prop-types';
 import Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '../../shared/Select';
 import CircleImage from '../../shared/CircleImage';
@@ -25,6 +25,10 @@ const TableWrap = styled.div`
     overflow-x: scroll;
     padding: 0;
   }
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const Img = styled(_Img)`

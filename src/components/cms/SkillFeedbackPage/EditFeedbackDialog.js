@@ -6,7 +6,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '../../shared/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const EditFeedback = props => {
   const { handleConfirm, handleClose, feedback, handleEditFeedback } = props;
@@ -47,22 +46,21 @@ const EditFeedback = props => {
       <DialogActions>
         <Button
           key={0}
-          variant="contained"
           color="primary"
-          onClick={handleClose}
-        >
-          Cancel
-        </Button>
+          variant="contained"
+          handleClick={handleClose}
+          buttonText="Cancel"
+        />
         <Button
           key={1}
-          variant="contained"
           color="primary"
-          onClick={handleEdit}
+          variant="contained"
+          handleClick={handleEdit}
           style={{ marginRight: '1em' }}
-          disabled={loader || newFeedback.trim().length === 0}
-        >
-          {loader ? <CircularProgress size={24} color="white" /> : 'Edit'}
-        </Button>
+          disabled={newFeedback.trim().length === 0 || loader}
+          isLoading={loader}
+          buttonText="Edit"
+        />
       </DialogActions>
     </React.Fragment>
   );
