@@ -135,18 +135,27 @@ class MobileTab extends React.Component {
     const disabled =
       (countryCode === _countryCode && phoneNo === _phoneNo) || loading;
     sortCountryLexographical(countryData);
-    let countries = countryData.countries.all.map((country, i) => {
-      if (countryData.countries.all[i].countryCallingCodes[0]) {
-        return (
-          <MenuItem value={countryData.countries.all[i].alpha2} key={i}>
-            {countryData.countries.all[i].name +
-              ' ' +
-              countryData.countries.all[i].countryCallingCodes[0]}
-          </MenuItem>
-        );
-      }
-      return null;
-    });
+    let countries = null;
+    if (
+      countryData &&
+      countryData.countries &&
+      countryData.countries.all &&
+      Array.isArray(countryData.countries.all) &&
+      countryData.countries.all.length > 0
+    ) {
+      countries = countryData.countries.all.map((country, i) => {
+        if (countryData.countries.all[i].countryCallingCodes[0]) {
+          return (
+            <MenuItem value={countryData.countries.all[i].alpha2} key={i}>
+              {countryData.countries.all[i].name +
+                ' ' +
+                countryData.countries.all[i].countryCallingCodes[0]}
+            </MenuItem>
+          );
+        }
+        return null;
+      });
+    }
     return (
       <SettingsTabWrapper heading="Mobile">
         <div style={{ fontSize: '14px' }}>
