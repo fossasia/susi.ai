@@ -50,32 +50,40 @@ const DevicesTable = props => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            {COLUMNS.map(eachColumn => (
-              <TableCell key={eachColumn.field}>{eachColumn.title}</TableCell>
-            ))}
+            {COLUMNS &&
+              Array.isArray(COLUMNS) &&
+              COLUMNS.length > 0 &&
+              COLUMNS.map(eachColumn => (
+                <TableCell key={eachColumn.field}>{eachColumn.title}</TableCell>
+              ))}
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {tableData &&
+            Array.isArray(tableData) &&
+            tableData.length > 0 &&
             tableData.map((eachRow, rowIndex) => (
               <TableRow key={rowIndex}>
-                {COLUMNS.map((eachColumn, index) => {
-                  const { field, isEditable } = eachColumn;
-                  return (
-                    <TableCell key={field}>
-                      {editIdx === rowIndex && isEditable ? (
-                        <TextField
-                          name={index.toString()}
-                          onChange={e => handleChange(e, field, rowIndex)}
-                          value={eachRow[field]}
-                        />
-                      ) : (
-                        eachRow[field]
-                      )}
-                    </TableCell>
-                  );
-                })}
+                {COLUMNS &&
+                  Array.isArray(COLUMNS) &&
+                  COLUMNS.length > 0 &&
+                  COLUMNS.map((eachColumn, index) => {
+                    const { field, isEditable } = eachColumn;
+                    return (
+                      <TableCell key={field}>
+                        {editIdx === rowIndex && isEditable ? (
+                          <TextField
+                            name={index.toString()}
+                            onChange={e => handleChange(e, field, rowIndex)}
+                            value={eachRow[field]}
+                          />
+                        ) : (
+                          eachRow[field]
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 <CustomTableCell align="left">
                   {deviceWizard ? null : (
                     <IconButton

@@ -201,7 +201,7 @@ class ChangePassword extends Component {
     } = this.state;
     let { actions, email } = this.props;
 
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
 
     if (
       !(

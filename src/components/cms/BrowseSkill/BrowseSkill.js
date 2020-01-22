@@ -500,11 +500,16 @@ class BrowseSkill extends React.Component {
     for (let i = 1; i <= Math.ceil(skills.length / entriesPerPage); i += 1) {
       menuItems.push(i);
     }
-    return menuItems.map(menuItem => (
-      <MenuItem key={menuItem} value={menuItem}>
-        {menuItem.toString()}
-      </MenuItem>
-    ));
+    return (
+      menuItems &&
+      Array.isArray(menuItems) &&
+      menuItems.length > 0 &&
+      menuItems.map(menuItem => (
+        <MenuItem key={menuItem} value={menuItem}>
+          {menuItem.toString()}
+        </MenuItem>
+      ))
+    );
   };
 
   handleOrderByChange = async () => {
@@ -607,28 +612,36 @@ class BrowseSkill extends React.Component {
           <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
-      renderMobileMenu = groups.map(categoryName => {
+      renderMobileMenu =
+        groups &&
+        Array.isArray(groups) &&
+        groups.length > 0 &&
+        groups.map(categoryName => {
+          const linkValue = '/category/' + categoryName;
+          return (
+            <Link to={linkValue} key={linkValue}>
+              <MobileMenuItem key={categoryName} value={categoryName}>
+                <span style={{ width: '90%' }}>{categoryName}</span>
+                <ChevronRight style={{ top: -8 }} />
+              </MobileMenuItem>
+            </Link>
+          );
+        });
+    }
+    renderMenu =
+      groups &&
+      Array.isArray(groups) &&
+      groups.length > 0 &&
+      groups.map(categoryName => {
         const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
-            <MobileMenuItem key={categoryName} value={categoryName}>
-              <span style={{ width: '90%' }}>{categoryName}</span>
-              <ChevronRight style={{ top: -8 }} />
-            </MobileMenuItem>
+            <SidebarItem key={categoryName} value={categoryName}>
+              {categoryName}
+            </SidebarItem>
           </Link>
         );
       });
-    }
-    renderMenu = groups.map(categoryName => {
-      const linkValue = '/category/' + categoryName;
-      return (
-        <Link to={linkValue} key={linkValue}>
-          <SidebarItem key={categoryName} value={categoryName}>
-            {categoryName}
-          </SidebarItem>
-        </Link>
-      );
-    });
 
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;

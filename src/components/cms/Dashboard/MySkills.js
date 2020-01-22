@@ -106,82 +106,81 @@ class MySkills extends Component {
           <TableSleleton />
         ) : (
           <TableWrap>
-            {userSkills &&
-              Array.isArray(userSkills) &&
-              userSkills.length !== 0 && (
-                <MaterialTable
-                  title="My Skills"
-                  columns={[
-                    {
-                      title: 'Image',
-                      field: 'imageLink',
-                      render: rowData => {
-                        return (
-                          <Link
-                            to={{
-                              pathname: `/${
-                                rowData.group
-                              }/${rowData.skillTag
-                                .toLowerCase()
-                                .replace(/ /g, '_')}/${rowData.language}`,
-                            }}
-                          >
-                            <Img
-                              // eslint-disable-next-line
-                              src={getImageSrc({
-                                relativePath: `model=general&language=${
-                                  rowData.language
-                                }&group=${rowData.group.replace(
-                                  / /g,
-                                  '%20',
-                                )}&image=/${rowData.image}`,
-                              })}
-                              unloader={
-                                <CircleImage
-                                  name={rowData.skillName}
-                                  size="40"
-                                />
-                              }
-                            />
-                          </Link>
-                        );
-                      },
+            {userSkills && Array.isArray(userSkills) && userSkills.length > 0 && (
+              <MaterialTable
+                title="My Skills"
+                columns={[
+                  {
+                    title: 'Image',
+                    field: 'imageLink',
+                    render: rowData => {
+                      return (
+                        <Link
+                          to={{
+                            pathname: `/${
+                              rowData.group
+                            }/${rowData.skillTag
+                              .toLowerCase()
+                              .replace(/ /g, '_')}/${rowData.language}`,
+                          }}
+                        >
+                          <Img
+                            // eslint-disable-next-line
+                            src={getImageSrc({
+                              relativePath: `model=general&language=${
+                                rowData.language
+                              }&group=${rowData.group.replace(
+                                / /g,
+                                '%20',
+                              )}&image=/${rowData.image}`,
+                            })}
+                            unloader={
+                              <CircleImage name={rowData.skillName} size="40" />
+                            }
+                          />
+                        </Link>
+                      );
                     },
-                    {
-                      title: 'Name',
-                      field: 'name',
-                      render: rowData => {
-                        return (
-                          <Link
-                            to={{
-                              pathname: `/${
-                                rowData.group
-                              }/${rowData.skillTag
-                                .toLowerCase()
-                                .replace(/ /g, '_')}/${rowData.language}`,
-                            }}
-                          >
-                            {rowData.skillName}
-                          </Link>
-                        );
-                      },
+                  },
+                  {
+                    title: 'Name',
+                    field: 'name',
+                    render: rowData => {
+                      return (
+                        <Link
+                          to={{
+                            pathname: `/${
+                              rowData.group
+                            }/${rowData.skillTag
+                              .toLowerCase()
+                              .replace(/ /g, '_')}/${rowData.language}`,
+                          }}
+                        >
+                          {rowData.skillName}
+                        </Link>
+                      );
                     },
-                    { title: 'Type', field: 'type' },
-                    {
-                      title: 'Status',
-                      field: 'status',
-                      render: rowData => {
-                        return (
-                          <FormControl>
-                            <Select value={1} style={{ width: '10rem' }}>
-                              <MenuItem value={1}>Enable</MenuItem>
-                            </Select>
-                          </FormControl>
-                        );
-                      },
+                  },
+                  { title: 'Type', field: 'type' },
+                  {
+                    title: 'Status',
+                    field: 'status',
+                    render: rowData => {
+                      return (
+                        <FormControl>
+                          <Select value={1} style={{ width: '10rem' }}>
+                            <MenuItem value={1}>Enable</MenuItem>
+                          </Select>
+                        </FormControl>
+                      );
                     },
-                  ]}
-                  data={userSkills.map((skill, index) => {
+                  },
+                ]}
+                data={
+                  userSkills &&
+                  Array.isArray(userSkills) &&
+                  userSkills.length > 0 &&
+                  userSkills.map((skill, index) => {
                     return {
                       group: skill.group,
                       skillTag: skill.skillTag,
@@ -190,20 +189,21 @@ class MySkills extends Component {
                       skillName: skill.skillName,
                       type: skill.type,
                     };
-                  })}
-                  options={{
-                    search: false,
-                    toolbar: false,
-                    showFirstLastPageButtons: !isSmallScreen,
-                    headerStyle: {
-                      backgroundColor: '#6fa2ff',
-                      color: '#FFF',
-                      fontSize: '1.2rem',
-                    },
-                  }}
-                  style={{ margin: '10px' }}
-                />
-              )}
+                  })
+                }
+                options={{
+                  search: false,
+                  toolbar: false,
+                  showFirstLastPageButtons: !isSmallScreen,
+                  headerStyle: {
+                    backgroundColor: '#6fa2ff',
+                    color: '#FFF',
+                    fontSize: '1.2rem',
+                  },
+                }}
+                style={{ margin: '10px' }}
+              />
+            )}
           </TableWrap>
         )}
         {userSkills.length === 0 && !loading && (
