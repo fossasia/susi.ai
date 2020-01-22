@@ -599,7 +599,7 @@ class MessageSection extends Component {
   ) => {
     // markID indicates search mode on
     const { mode } = this.props;
-    if (markID) {
+    if (markID && Array.isArray(markID) && markID.length > 0) {
       return messages.map(id => {
         return (
           <MessageListItem
@@ -623,32 +623,37 @@ class MessageSection extends Component {
     const latestMessageID = messages[messages.length - 1];
     let previousDate = null;
     // return the list of messages
-    return messages.map(id => {
-      const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
-      let updateDate = null;
-      if (currentDate !== previousDate) {
-        updateDate = true;
-        previousDate = currentDate;
-      }
-      return (
-        <Fragment key={id}>
-          {updateDate && (
-            <Date>
-              <span>{currentDate}</span>
-            </Date>
-          )}
-          <MessageListItem
-            message={messagesByID[id]}
-            latestUserMsgID={latestUserMsgID}
-            latestMessage={id === latestMessageID}
-            addYouTube={addYouTube}
-            pauseAllVideos={pauseAllVideos}
-            showChatPreview={mode === 'preview'}
-            scrollBottom={this.scrollToBottom}
-          />
-        </Fragment>
-      );
-    });
+    return (
+      messages &&
+      Array.isArray(messages) &&
+      messages.length > 0 &&
+      messages.map(id => {
+        const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
+        let updateDate = null;
+        if (currentDate !== previousDate) {
+          updateDate = true;
+          previousDate = currentDate;
+        }
+        return (
+          <Fragment key={id}>
+            {updateDate && (
+              <Date>
+                <span>{currentDate}</span>
+              </Date>
+            )}
+            <MessageListItem
+              message={messagesByID[id]}
+              latestUserMsgID={latestUserMsgID}
+              latestMessage={id === latestMessageID}
+              addYouTube={addYouTube}
+              pauseAllVideos={pauseAllVideos}
+              showChatPreview={mode === 'preview'}
+              scrollBottom={this.scrollToBottom}
+            />
+          </Fragment>
+        );
+      })
+    );
   };
 
   renderThumb = ({ style, ...props }) => {

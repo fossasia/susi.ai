@@ -76,11 +76,14 @@ class NavMenu extends React.Component {
       history,
     } = this.props;
 
-    const listItems = sublinks.map(({ label, url }) => (
-      <Link key={label} to={url}>
-        <MenuItem>{label}</MenuItem>
-      </Link>
-    ));
+    let listItems = null;
+    if (sublinks && Array.isArray(sublinks) && sublinks.length > 0) {
+      sublinks.map(({ label, url }) => (
+        <Link key={label} to={url}>
+          <MenuItem>{label}</MenuItem>
+        </Link>
+      ));
+    }
     return (
       <div data-tip="custom" data-for={label}>
         <NavButton
@@ -122,9 +125,12 @@ class TopMenu extends React.Component {
   };
   render() {
     const { isAdmin, accessToken } = this.props;
-    const navLinks = LINKS(accessToken, isAdmin).map(link => {
-      return <WithRouterMenu key={link.label} link={link} />;
-    });
+    let navLinks = null;
+    if (LINKS(accessToken, isAdmin)) {
+      navLinks = LINKS(accessToken, isAdmin).map(link => {
+        return <WithRouterMenu key={link.label} link={link} />;
+      });
+    }
     return <NavLinkContainer>{navLinks}</NavLinkContainer>;
   }
 }

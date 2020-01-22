@@ -204,7 +204,7 @@ class PreviewThemeChat extends Component {
       bodyBackgroundImage: this.props.bodyBackgroundImage,
     };
     let renderMessages = null;
-    if (messages.length) {
+    if (messages && Array.isArray(messages) && messages.length > 0) {
       renderMessages = messages.map((messageObj, index) => {
         if (messageObj.author === 'You') {
           return (
