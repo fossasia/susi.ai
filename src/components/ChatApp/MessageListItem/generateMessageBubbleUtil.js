@@ -237,10 +237,15 @@ const generateMapBubble = (
   message,
   latestUserMsgID,
   showFeedback,
+  susiMessageBackgroundColor,
 ) => {
   return (
     <MessageContainer key={action + index}>
-      <MessageBubble author={message.authorName} width={'80%'}>
+      <MessageBubble
+        author={message.authorName}
+        width={'80%'}
+        $backgroundColor={susiMessageBackgroundColor}
+      >
         <div>{replacedText}</div>
         <div>{mapAnchor}</div>
         <br />
@@ -397,6 +402,7 @@ export const generateMessageBubble = (
   showModal,
   onCloseModal,
   customThemeValue,
+  theme,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
@@ -406,7 +412,7 @@ export const generateMessageBubble = (
     susiMessageBackgroundColor,
     userMessageBackgroundColor,
   } = getCustomThemeColors({
-    theme: 'custom',
+    theme,
     customThemeValue,
   });
 
@@ -518,6 +524,7 @@ export const generateMessageBubble = (
                 message,
                 latestUserMsgID,
                 showFeedback,
+                susiMessageBackgroundColor,
               ),
             );
           } else {
