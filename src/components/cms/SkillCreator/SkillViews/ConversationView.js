@@ -133,6 +133,9 @@ class ConversationView extends Component {
         {!loaded ? (
           <CircularLoader height={10} />
         ) : (
+          conversationsData &&
+          Array.isArray(conversationsData) &&
+          conversationsData.length > 0 &&
           conversationsData.map(item => {
             let text = item.name;
             let messageArr = text.match(/.{1,28}/g);

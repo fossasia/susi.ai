@@ -4,7 +4,6 @@ import Button from '../shared/Button';
 import Translate from '../Translate/Translate.react';
 import settingActions from '../../redux/actions/settings';
 import SettingsTabWrapper from './SettingsTabWrapper';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
 import { FlexContainer } from '../shared/Container';
@@ -93,18 +92,14 @@ class MicrophoneTab extends React.Component {
           </div>
         </FlexContainer>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
           style={{ margin: '1.5rem 0' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+          buttonText="Save Changes"
+        />
       </SettingsTabWrapper>
     );
   }

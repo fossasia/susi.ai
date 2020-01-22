@@ -406,7 +406,7 @@ class Preview extends Component {
       paperWidth,
     } = this.props;
     let renderMessages = null;
-    if (messages.length) {
+    if (messages && Array.isArray(messages) && messages.length > 0) {
       renderMessages = messages.map((message, index) => {
         if (message.author === 'You') {
           return (
