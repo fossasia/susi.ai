@@ -103,43 +103,52 @@ const Devices = props => {
         title="Devices"
         subtitle="SUSI.AI is available on many platform"
       />
-      {DEVICES_DATA.map(deviceSection => {
-        const {
-          heading,
-          description,
-          descriptionLink,
-          iconLink,
-          iconLabel,
-          iconComponent: IconComponent,
-          videoComponent: VideoComponent,
-          videoSrc,
-        } = deviceSection;
-        return (
-          <DeviceSection key={heading}>
-            <DeviceDescription>
-              <Heading>{heading}</Heading>
-              <TextDescription>
-                {description} {descriptionLink ? descriptionLink : null}
-              </TextDescription>
-              {iconLink ? (
-                <StoreIcons>
-                  <IconComponent
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={iconLink}
-                  >
-                    {' '}
-                    {iconLabel}
-                  </IconComponent>
-                </StoreIcons>
-              ) : null}
-            </DeviceDescription>
-            <ImgContainer>
-              <VideoComponent src={videoSrc} autoPlay loop muted playsinline />
-            </ImgContainer>
-          </DeviceSection>
-        );
-      })}
+      {DEVICES_DATA &&
+        Array.isArray(DEVICES_DATA) &&
+        DEVICES_DATA.length > 0 &&
+        DEVICES_DATA.map(deviceSection => {
+          const {
+            heading,
+            description,
+            descriptionLink,
+            iconLink,
+            iconLabel,
+            iconComponent: IconComponent,
+            videoComponent: VideoComponent,
+            videoSrc,
+          } = deviceSection;
+          return (
+            <DeviceSection key={heading}>
+              <DeviceDescription>
+                <Heading>{heading}</Heading>
+                <TextDescription>
+                  {description} {descriptionLink ? descriptionLink : null}
+                </TextDescription>
+                {iconLink ? (
+                  <StoreIcons>
+                    <IconComponent
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={iconLink}
+                    >
+                      {' '}
+                      {iconLabel}
+                    </IconComponent>
+                  </StoreIcons>
+                ) : null}
+              </DeviceDescription>
+              <ImgContainer>
+                <VideoComponent
+                  src={videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsinline
+                />
+              </ImgContainer>
+            </DeviceSection>
+          );
+        })}
     </div>
   );
 };
