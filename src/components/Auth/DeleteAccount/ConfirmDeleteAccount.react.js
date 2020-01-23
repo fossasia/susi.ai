@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseButton from '../../shared/CloseButton';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { connect } from 'react-redux';
