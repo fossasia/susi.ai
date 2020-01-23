@@ -1,5 +1,5 @@
 import React from 'react';
-import ListDevices from '../../../components/Admin/ListDevices/index';
+import ListDevices from '../../../../components/Admin/ListDevices/index';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

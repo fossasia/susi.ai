@@ -7,7 +7,7 @@ import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
 import messagesActions from '../../../redux/actions/messages';
 import generateMessage from '../../../utils/generateMessage';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';

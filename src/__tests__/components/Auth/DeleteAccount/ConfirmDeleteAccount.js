@@ -1,5 +1,5 @@
 import React from 'react';
-import ConfirmDeleteAccount from '../../../components/Auth/DeleteAccount/ConfirmDeleteAccount';
+import ConfirmDeleteAccount from '../../../../components/Auth/DeleteAccount/ConfirmDeleteAccount.react';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
