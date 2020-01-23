@@ -97,6 +97,10 @@ const ExpandMore = styled(_ExpandMore)`
   color: white;
 `;
 
+const clicked = {
+  display: 'none',
+};
+
 const SusiLogo = styled.img`
   height: 1.5rem;
   display: block;
@@ -321,6 +325,7 @@ class NavigationBar extends Component {
         key={name}
         checked={values && values.indexOf(name) > -1}
         value={name}
+        onClick={clicked}
       >
         {ISO6391.getNativeName(name)
           ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
@@ -403,7 +408,7 @@ class NavigationBar extends Component {
     const Logged = props => (
       <React.Fragment>
         <Link to="/dashboard">
-          <MenuItem>
+          <MenuItem onClick={clicked}>
             <ListItemIcon>
               <Dashboard />
             </ListItemIcon>
@@ -413,7 +418,7 @@ class NavigationBar extends Component {
           </MenuItem>
         </Link>
         <Link to="/myskills">
-          <MenuItem>
+          <MenuItem onClick={clicked}>
             <ListItemIcon>
               <Polymer />
             </ListItemIcon>
@@ -423,7 +428,7 @@ class NavigationBar extends Component {
           </MenuItem>
         </Link>
         <Link to="/mybots">
-          <MenuItem>
+          <MenuItem onClick={clicked}>
             <ListItemIcon>
               <BotIcon />
             </ListItemIcon>
@@ -433,7 +438,7 @@ class NavigationBar extends Component {
           </MenuItem>
         </Link>
         <Link to="/mydevices">
-          <MenuItem>
+          <MenuItem onClick={clicked}>
             <ListItemIcon>
               <DeviceIcon />
             </ListItemIcon>
@@ -444,7 +449,7 @@ class NavigationBar extends Component {
         </Link>
         <Divider />
         <Link to="/settings">
-          <MenuItem>
+          <MenuItem onClick={clicked}>
             <ListItemIcon>
               <Settings />
             </ListItemIcon>
@@ -455,7 +460,7 @@ class NavigationBar extends Component {
         </Link>
         {isAdmin ? (
           <Link to="/admin">
-            <MenuItem>
+            <MenuItem onClick={clicked}>
               <ListItemIcon>
                 <ListIcon />
               </ListItemIcon>
@@ -631,7 +636,7 @@ class NavigationBar extends Component {
                         >
                           <Paper>
                             <Link to="/skillWizard">
-                              <MenuItem>
+                              <MenuItem onClick={clicked}>
                                 <ListItemIcon>
                                   <Add />
                                 </ListItemIcon>
@@ -641,7 +646,7 @@ class NavigationBar extends Component {
                               </MenuItem>
                             </Link>
                             <Link to="/botWizard">
-                              <MenuItem>
+                              <MenuItem onClick={clicked}>
                                 <ListItemIcon>
                                   <Person />
                                 </ListItemIcon>
@@ -651,7 +656,7 @@ class NavigationBar extends Component {
                               </MenuItem>
                             </Link>
                             <Link to="/mydevices">
-                              <MenuItem>
+                              <MenuItem onClick={clicked}>
                                 <ListItemIcon>
                                   <Devices />
                                 </ListItemIcon>
@@ -716,14 +721,14 @@ class NavigationBar extends Component {
                   >
                     <Paper>
                       <Link to="/about">
-                        <MenuItem>
+                        <MenuItem onClick={clicked}>
                           <ListItemText>
                             <Translate text="About" />
                           </ListItemText>
                         </MenuItem>
                       </Link>
                       <Link to="/support">
-                        <MenuItem>
+                        <MenuItem onClick={clicked}>
                           <ListItemText>
                             <Translate text="Support" />
                           </ListItemText>
