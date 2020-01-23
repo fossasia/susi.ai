@@ -1,5 +1,5 @@
 import React from 'react';
-import Messages from '../../../components/Admin/Messages/index.js';
+import Messages from '../../../../components/Admin/Messages/index.js';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

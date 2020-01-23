@@ -5,6 +5,7 @@ import Emojify from 'react-emojione';
 import TextHighlight from 'react-text-highlight';
 import VoicePlayer from './VoicePlayer';
 import YouTube from 'react-youtube';
+import getCustomThemeColors from '../../../utils/colors';
 import { injectIntl } from 'react-intl';
 import {
   imageParse,
@@ -41,6 +42,10 @@ const DateContainer = styled.section`
   border-radius: 0.5rem;
   margin: 0 auto;
   text-align: center;
+`;
+
+const Gif = styled.div`
+  overflow: hidden;
 `;
 
 const MessageContainer = styled.div`
@@ -154,32 +159,33 @@ const generateDateBubble = message => {
   );
 };
 
-/*
 const generateGifBubble = (
   action,
   index,
-  gifSource,
   message,
   latestUserMsgID,
   showFeedback,
+  susiMessageBackgroundColor,
 ) => {
   return (
     <MessageContainer key={action + index}>
-      <MessageBubble author={message.authorName}>
-        <div>
+      <MessageBubble
+        author={message.authorName}
+        $backgroundColor={susiMessageBackgroundColor}
+      >
+        <Gif>
           <iframe
-            src={gifSource}
+            src={message.text}
             title="SUSI features GIF"
             frameBorder="0"
             allowFullScreen
           />
-        </div>
+        </Gif>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
     </MessageContainer>
   );
 };
-*/
 
 const generateAnswerBubble = (
   action,
@@ -188,10 +194,14 @@ const generateAnswerBubble = (
   message,
   latestUserMsgID,
   showFeedback,
+  susiMessageBackgroundColor,
 ) => {
   return (
     <MessageContainer key={action + index}>
-      <MessageBubble author={message.authorName}>
+      <MessageBubble
+        author={message.authorName}
+        $backgroundColor={susiMessageBackgroundColor}
+      >
         <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, showFeedback)}
       </MessageBubble>
@@ -386,12 +396,19 @@ export const generateMessageBubble = (
   onClickPopout,
   showModal,
   onCloseModal,
+  customThemeValue,
 ) => {
   if (message && message.type === 'date') {
     return generateDateBubble(message);
   }
-
   const stringWithLinks = message ? message.text : '';
+  const {
+    susiMessageBackgroundColor,
+    userMessageBackgroundColor,
+  } = getCustomThemeColors({
+    theme: 'custom',
+    customThemeValue,
+  });
 
   let replacedText = '';
   let markMsgID = markID;
@@ -454,32 +471,30 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
-        /*
         if (answer.data[0].type === 'gif') {
-          let gifSource = answer.data[0].embed_url;
           listItems.push(
             generateGifBubble(
               actionType,
               index,
-              gifSource,
               message,
               latestUserMsgID,
               showFeedback,
+              susiMessageBackgroundColor,
             ),
           );
         } else {
-        */
-        listItems.push(
-          generateAnswerBubble(
-            actionType,
-            index,
-            replacedText,
-            message,
-            latestUserMsgID,
-            showFeedback,
-          ),
-        );
-        // }
+          listItems.push(
+            generateAnswerBubble(
+              actionType,
+              index,
+              replacedText,
+              message,
+              latestUserMsgID,
+              showFeedback,
+              susiMessageBackgroundColor,
+            ),
+          );
+        }
         break;
       }
       case 'anchor':
@@ -688,10 +703,16 @@ export const generateMessageBubble = (
       </div>
     );
   }
-
+  const backgroundColor =
+    message.authorName === 'SUSI'
+      ? susiMessageBackgroundColor
+      : userMessageBackgroundColor;
   return (
     <MessageContainer>
-      <MessageBubble author={message.authorName}>
+      <MessageBubble
+        author={message.authorName}
+        $backgroundColor={backgroundColor}
+      >
         <div>{replacedText}</div>
         {renderMessageFooter(message, latestUserMsgID, true)}
       </MessageBubble>

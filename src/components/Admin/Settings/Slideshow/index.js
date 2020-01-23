@@ -98,7 +98,7 @@ class Slideshow extends React.Component {
             padding: '1rem',
           }}
           actions={[
-            {
+            rowData => ({
               onEdit: (event, rowData) => {
                 this.handleUpdate(
                   rowData.redirectLink,
@@ -109,7 +109,7 @@ class Slideshow extends React.Component {
               onDelete: (event, rowData) => {
                 this.handleDelete(rowData.redirectLink, rowData.image_name);
               },
-            },
+            }),
           ]}
           components={{
             Action: props => (

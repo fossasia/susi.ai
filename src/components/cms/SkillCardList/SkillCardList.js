@@ -13,6 +13,7 @@ import { StaffPickImage } from '../SkillsStyle';
 import { RatingContainer, TotalRating, ReactTooltip } from '../SkillCardStyle';
 import SkillExampleBubble from '../../shared/SkillExampleBubble';
 import styled from 'styled-components';
+import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 
 const Card = styled.div`
   width: 100%;
@@ -158,7 +159,7 @@ function createListCard(
                   pathname: skillPathname,
                 }}
               >
-                <span>{skillName}</span>
+                <span>{getSkillNameFromSkillTag(skillName)}</span>
               </Link>
             </TitleContainer>
             <div style={{ fontSize: 12 }}>
@@ -201,6 +202,7 @@ function createListCard(
       </Card>
     );
   }
+
   return (
     <Card key={el}>
       <ImageContainer>
@@ -226,7 +228,7 @@ function createListCard(
                 pathname: skillPathname,
               }}
             >
-              <span>{skillName}</span>
+              <span>{getSkillNameFromSkillTag(skillName)}</span>
             </Link>
             {staffPick && <StaffPickImage />}
           </TitleContainer>
@@ -236,7 +238,9 @@ function createListCard(
         </Header>
         <DetailsContainer>
           <ExampleContainer>
-            {examples.length > 0 &&
+            {examples &&
+              Array.isArray(examples) &&
+              examples.length > 0 &&
               examples.map((eg, index) => {
                 return (
                   <SkillExampleBubble key={index} data={eg} history={history} />

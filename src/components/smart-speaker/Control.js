@@ -331,11 +331,14 @@ class ControlSection extends React.Component {
                 disabled={devicesList.length === 0}
                 input={<OutlinedTextField name="devices" margin="dense" />}
               >
-                {devicesList.map((eachDevice, index) => (
-                  <MenuItem key={index} value={eachDevice.name}>
-                    {eachDevice.name}
-                  </MenuItem>
-                ))}
+                {devicesList &&
+                  Array.isArray(devicesList) &&
+                  devicesList.length > 0 &&
+                  devicesList.map((eachDevice, index) => (
+                    <MenuItem key={index} value={eachDevice.name}>
+                      {eachDevice.name}
+                    </MenuItem>
+                  ))}
               </Select>
               <Fab color="primary" onClick={this.populateDeviceList}>
                 <Refresh />

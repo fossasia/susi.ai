@@ -432,24 +432,27 @@ class BotBuilder extends React.Component {
           <Paper>
             <H1>Pick a template</H1>
             <BotContainer>
-              {this.props.templates.map(template => {
-                return (
-                  <Link
-                    key={template.id}
-                    to={'/botWizard?template=' + template.id}
-                  >
-                    <Card
-                      style={{
-                        backgroundImage: 'url(' + template.image + ')',
-                      }}
+              {this.props.templates &&
+                Array.isArray(this.props.templates) &&
+                this.props.templates.length > 0 &&
+                this.props.templates.map(template => {
+                  return (
+                    <Link
+                      key={template.id}
+                      to={'/botWizard?template=' + template.id}
                     >
-                      <Button variant="contained" color="primary">
-                        {template.name}
-                      </Button>
-                    </Card>
-                  </Link>
-                );
-              })}
+                      <Card
+                        style={{
+                          backgroundImage: 'url(' + template.image + ')',
+                        }}
+                      >
+                        <Button variant="contained" color="primary">
+                          {template.name}
+                        </Button>
+                      </Card>
+                    </Link>
+                  );
+                })}
             </BotContainer>
           </Paper>
         </Home>

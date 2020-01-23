@@ -204,32 +204,42 @@ class Settings extends Component {
 
   generateMenu = () => {
     const { theme, selectedSetting } = this.state;
-    return settingsOptions.map(eachOption => (
-      <MenuItem
-        key={eachOption.name}
-        onClick={this.loadSettings}
-        style={{
-          color: theme === 'dark' ? '#fff' : '#272727',
-          borderBottom:
-            theme === 'light' ? '1px solid #f2f2f2' : '1px solid #ffffff',
-        }}
-        selected={selectedSetting === eachOption.name}
-      >
-        <ListItemIcon>{eachOption.icon}</ListItemIcon>
-        <ListItemText primary={eachOption.name} />
-        <ChevronRight />
-      </MenuItem>
-    ));
+    return (
+      settingsOptions &&
+      Array.isArray(settingsOptions) &&
+      settingsOptions.length > 0 &&
+      settingsOptions.map(eachOption => (
+        <MenuItem
+          key={eachOption.name}
+          onClick={this.loadSettings}
+          style={{
+            color: theme === 'dark' ? '#fff' : '#272727',
+            borderBottom:
+              theme === 'light' ? '1px solid #f2f2f2' : '1px solid #ffffff',
+          }}
+          selected={selectedSetting === eachOption.name}
+        >
+          <ListItemIcon>{eachOption.icon}</ListItemIcon>
+          <ListItemText primary={eachOption.name} />
+          <ChevronRight />
+        </MenuItem>
+      ))
+    );
   };
 
   generateDropDownMenu = () => {
-    return settingsOptions.map(eachOption => {
-      return (
-        <SettingsMenuItem key={eachOption.name} value={eachOption.name}>
-          {eachOption.name}
-        </SettingsMenuItem>
-      );
-    });
+    return (
+      settingsOptions &&
+      Array.isArray(settingsOptions) &&
+      settingsOptions.length > 0 &&
+      settingsOptions.map(eachOption => {
+        return (
+          <SettingsMenuItem key={eachOption.name} value={eachOption.name}>
+            {eachOption.name}
+          </SettingsMenuItem>
+        );
+      })
+    );
   };
 
   generateSettings = () => {
@@ -285,7 +295,7 @@ class Settings extends Component {
             onChange={this.loadSettings}
             value={selectedSetting}
             style={{ width: '100%' }}
-            autoWidth={false}
+            autowidth="false"
           >
             {this.generateDropDownMenu()}
           </Select>
