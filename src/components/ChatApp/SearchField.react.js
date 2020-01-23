@@ -84,6 +84,7 @@ const Container = styled.div`
 `;
 
 const SearchContainer = styled.div`
+  z-index: 9999 !important;
   position: absolute;
   top: 47px;
   background: #555555;

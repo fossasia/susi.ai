@@ -9,7 +9,6 @@ import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import _PasswordField from 'material-ui-password-field';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
@@ -202,7 +201,7 @@ class ChangePassword extends Component {
     } = this.state;
     let { actions, email } = this.props;
 
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
 
     if (
       !(
@@ -338,18 +337,16 @@ class ChangePassword extends Component {
         </ForgotPasswordLink>
         <div>
           <Button
-            variant="contained"
             color="primary"
-            type="submit"
-            disabled={!isValid || loading}
-            onClick={this.changePassword}
-          >
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Translate text="Save Changes" />
-            )}
-          </Button>
+            variant="contained"
+            disabled={loading || !isValid}
+            handleClick={() => {
+              this.setState({ loading: true });
+              this.changePassword();
+            }}
+            buttonText="Save Changes"
+            isLoading={loading}
+          />
         </div>
       </React.Fragment>
     );

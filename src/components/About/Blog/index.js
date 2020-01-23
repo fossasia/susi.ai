@@ -305,140 +305,144 @@ class Blog extends Component {
         {this.state.postRendered && (
           <div>
             <Container>
-              {this.state.posts.map((posts, i) => {
-                const description = htmlToText
-                  .fromString(posts.description)
-                  .split('…');
-                const content = posts.content;
-                let category = [];
-                posts.categories.forEach(cat => {
-                  let k = 0;
-                  for (k = 0; k < allCategories.length; k++) {
-                    if (cat === allCategories[k]) {
-                      category.push(cat);
+              {this.state.posts &&
+                Array.isArray(this.state.posts) &&
+                this.state.posts.length > 0 &&
+                this.state.posts.map((posts, i) => {
+                  const description = htmlToText
+                    .fromString(posts.description)
+                    .split('…');
+                  const content = posts.content;
+                  let category = [];
+                  posts.categories.forEach(cat => {
+                    let k = 0;
+                    for (k = 0; k < allCategories.length; k++) {
+                      if (cat === allCategories[k]) {
+                        category.push(cat);
+                      }
                     }
-                  }
-                });
+                  });
 
-                const tags = arrDiff(category, posts.categories);
-                const fCategory = category
-                  .map(cat => (
-                    <BlogFooterLink
-                      key={cat}
-                      href={
-                        'http://blog.fossasia.org/category/' +
-                        cat.replace(/\s+/g, '-').toLowerCase()
-                      }
-                      rel="noopener noreferrer"
-                    >
-                      {cat}
-                    </BlogFooterLink>
-                  ))
-                  .reduce((prev, curr) => [prev, ', ', curr]);
-                const ftags = tags
-                  .map(tag => (
-                    <BlogFooterLink
-                      key={tag}
-                      href={
-                        'http://blog.fossasia.org/tag/' +
-                        tag.replace(/\s+/g, '-').toLowerCase()
-                      }
-                      rel="noopener noreferrer"
-                    >
-                      {tag}
-                    </BlogFooterLink>
-                  ))
-                  .reduce((prev, curr) => [prev, ', ', curr]);
-                let htmlContent = content.replace(/<img.*?>/, '');
-                htmlContent = renderHTML(htmlContent);
-                let image = susi;
-                const regExp = /\[(.*?)\]/;
-                const imageUrl = regExp.exec(description[0]);
-                if (imageUrl) {
-                  image = imageUrl[1];
-                }
-                const date = posts.pubDate.split(' ');
-                const d = new Date(date[0]);
-                return (
-                  <div key={posts} className="section_blog">
-                    <Card>
-                      <CardMedia image={image} />
-                      <Overlay>
-                        <OverlayLink href={posts.link}>
-                          {`Published on ${dateFormat(
-                            d,
-                            'dddd, mmmm dS, yyyy',
-                          )}`}
-                        </OverlayLink>
-                      </Overlay>
-                      <BlogPostContainer>
-                        <Typography variant="h4">{posts.title}</Typography>
-                        <CustomTypography variant="subtitle1">
-                          by
-                          <a
-                            style={{ paddingLeft: '0.3rem' }}
-                            href={`http://blog.fossasia.org/author/${posts.author}`}
+                  const tags = arrDiff(category, posts.categories);
+                  const fCategory = category
+                    .map(cat => (
+                      <BlogFooterLink
+                        key={cat}
+                        href={
+                          'http://blog.fossasia.org/category/' +
+                          cat.replace(/\s+/g, '-').toLowerCase()
+                        }
+                        rel="noopener noreferrer"
+                      >
+                        {cat}
+                      </BlogFooterLink>
+                    ))
+                    .reduce((prev, curr) => [prev, ', ', curr]);
+                  const ftags = tags
+                    .map(tag => (
+                      <BlogFooterLink
+                        key={tag}
+                        href={
+                          'http://blog.fossasia.org/tag/' +
+                          tag.replace(/\s+/g, '-').toLowerCase()
+                        }
+                        rel="noopener noreferrer"
+                      >
+                        {tag}
+                      </BlogFooterLink>
+                    ))
+                    .reduce((prev, curr) => [prev, ', ', curr]);
+                  let htmlContent = content.replace(/<img.*?>/, '');
+                  htmlContent = renderHTML(htmlContent);
+                  let image = susi;
+                  const regExp = /\[(.*?)\]/;
+                  const imageUrl = regExp.exec(description[0]);
+                  if (imageUrl) {
+                    image = imageUrl[1];
+                  }
+                  const date = posts.pubDate.split(' ');
+                  const d = new Date(date[0]);
+                  return (
+                    <div key={posts} className="section_blog">
+                      <Card>
+                        <CardMedia image={image} />
+                        <Overlay>
+                          <OverlayLink href={posts.link}>
+                            {`Published on ${dateFormat(
+                              d,
+                              'dddd, mmmm dS, yyyy',
+                            )}`}
+                          </OverlayLink>
+                        </Overlay>
+                        <BlogPostContainer>
+                          <Typography variant="h4">{posts.title}</Typography>
+                          <CustomTypography variant="subtitle1">
+                            by
+                            <a
+                              style={{ paddingLeft: '0.3rem' }}
+                              href={`http://blog.fossasia.org/author/${posts.author}`}
+                            >
+                              {posts.author}
+                            </a>
+                          </CustomTypography>
+                          <Typography variant="body1" gutterBottom>
+                            {htmlContent}
+                          </Typography>
+                        </BlogPostContainer>
+                        <SocialButtons>
+                          <TwitterShareButton
+                            url={posts.guid}
+                            title={posts.title}
+                            via="asksusi"
+                            hashtags={posts.categories.slice(0, 4)}
                           >
-                            {posts.author}
-                          </a>
-                        </CustomTypography>
-                        <Typography variant="body1" gutterBottom>
-                          {htmlContent}
-                        </Typography>
-                      </BlogPostContainer>
-                      <SocialButtons>
-                        <TwitterShareButton
-                          url={posts.guid}
-                          title={posts.title}
-                          via="asksusi"
-                          hashtags={posts.categories.slice(0, 4)}
-                        >
-                          <TwitterIcon size={32} round={true} />
-                        </TwitterShareButton>
-                        <FacebookShareButton url={posts.link}>
-                          <FacebookIcon size={32} round={true} />
-                        </FacebookShareButton>
-                        <LinkedinShareButton url={posts.link}>
-                          <LinkedinIcon size={32} round={true} />
-                        </LinkedinShareButton>{' '}
-                        <WhatsappShareButton url={posts.link}>
-                          <WhatsappIcon size={32} round={true} />
-                        </WhatsappShareButton>
-                        <TelegramShareButton url={posts.link}>
-                          <TelegramIcon size={32} round={true} />
-                        </TelegramShareButton>
-                      </SocialButtons>
-                      <BlogFooter>
-                        <FlexBox>
-                          <Icon className="fa fa-calendar" />
-                          <BlogFooterLink href={posts.link}>
-                            {dateFormat(d, 'mmmm dd, yyyy')}
-                          </BlogFooterLink>
-                        </FlexBox>
-                        <FlexBox>
-                          <Icon className="fa fa-user" />
-                          <BlogFooterLink
-                            rel="noopener noreferrer"
-                            href={
-                              'http://blog.fossasia.org/author/' + posts.author
-                            }
-                          >
-                            {posts.author}
-                          </BlogFooterLink>
-                        </FlexBox>
-                        <FlexBox>
-                          <Icon className="fa fa-folder-open-o" />
-                          {fCategory}
-                        </FlexBox>
-                        <FlexBox>
-                          <Icon className="fa fa-tags" />
-                          <div>{ftags}</div>
-                        </FlexBox>
-                      </BlogFooter>
-                    </Card>
-                  </div>
-                );
-              })}
+                            <TwitterIcon size={32} round={true} />
+                          </TwitterShareButton>
+                          <FacebookShareButton url={posts.link}>
+                            <FacebookIcon size={32} round={true} />
+                          </FacebookShareButton>
+                          <LinkedinShareButton url={posts.link}>
+                            <LinkedinIcon size={32} round={true} />
+                          </LinkedinShareButton>{' '}
+                          <WhatsappShareButton url={posts.link}>
+                            <WhatsappIcon size={32} round={true} />
+                          </WhatsappShareButton>
+                          <TelegramShareButton url={posts.link}>
+                            <TelegramIcon size={32} round={true} />
+                          </TelegramShareButton>
+                        </SocialButtons>
+                        <BlogFooter>
+                          <FlexBox>
+                            <Icon className="fa fa-calendar" />
+                            <BlogFooterLink href={posts.link}>
+                              {dateFormat(d, 'mmmm dd, yyyy')}
+                            </BlogFooterLink>
+                          </FlexBox>
+                          <FlexBox>
+                            <Icon className="fa fa-user" />
+                            <BlogFooterLink
+                              rel="noopener noreferrer"
+                              href={
+                                'http://blog.fossasia.org/author/' +
+                                posts.author
+                              }
+                            >
+                              {posts.author}
+                            </BlogFooterLink>
+                          </FlexBox>
+                          <FlexBox>
+                            <Icon className="fa fa-folder-open-o" />
+                            {fCategory}
+                          </FlexBox>
+                          <FlexBox>
+                            <Icon className="fa fa-tags" />
+                            <div>{ftags}</div>
+                          </FlexBox>
+                        </BlogFooter>
+                      </Card>
+                    </div>
+                  );
+                })}
             </Container>
             <BlogNavigation>
               <Fab

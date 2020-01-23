@@ -1,5 +1,5 @@
 import React from 'react';
-import ReCaptcha from '../../../../components/Admin/Settings/ReCaptcha';
+import ReCaptcha from '../../../../../components/Admin/Settings/ReCaptcha';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
