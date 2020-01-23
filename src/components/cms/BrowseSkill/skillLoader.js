@@ -12,11 +12,15 @@ const ContentContainer = styled.div`
   height: 168px;
   margin: 8px;
   border: 0.5px solid #eaeded;
+  @media (max-width: 600px) {
+    width: 270px;
+    margin-left: 8%;
+  }
 `;
 
 const addLoader = () => {
   const loader = [];
-  const limit = isMobileView() ? 2 : 4;
+  const limit = isMobileView() ? 1 : 4;
   for (let i = 0; i < limit; i++) {
     loader.push(
       <ContentContainer>
