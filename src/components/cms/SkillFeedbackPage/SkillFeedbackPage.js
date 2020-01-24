@@ -553,11 +553,10 @@ class SkillFeedbackPage extends Component {
                   label="Post"
                   color="primary"
                   variant="contained"
-                  onClick={this.postFeedback}
+                  handleClick={this.postFeedback}
                   style={{ marginBottom: '1em' }}
-                >
-                  Post
-                </Button>
+                  buttonText="Post"
+                />
               </Timestamp>
             </div>
           </div>

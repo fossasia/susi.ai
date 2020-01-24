@@ -30,7 +30,6 @@ import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Delete from '@material-ui/icons/Delete';
 import EditBtn from '@material-ui/icons/BorderColor';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -271,15 +270,11 @@ class SkillFeedbackCard extends Component {
                   color="primary"
                   variant="contained"
                   style={{ marginTop: 10 }}
-                  onClick={this.postFeedback}
-                  disabled={loading || newFeedbackValue.trim().length === 0}
-                >
-                  {loading ? (
-                    <CircularProgress size={24} color="white" />
-                  ) : (
-                    'Post'
-                  )}
-                </Button>
+                  handleClick={this.postFeedback}
+                  disabled={newFeedbackValue.trim().length === 0 || loading}
+                  isLoading={loading}
+                  buttonText="Post"
+                />
               </div>
             </div>
           </div>

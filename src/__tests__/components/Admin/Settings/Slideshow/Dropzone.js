@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropzone from '../../../../components/Admin/Settings/Slideshow/Dropzone';
+import Dropzone from '../../../../../components/Admin/Settings/Slideshow/Dropzone';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

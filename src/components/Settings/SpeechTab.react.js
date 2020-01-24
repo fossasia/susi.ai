@@ -6,7 +6,6 @@ import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
 import { FlexContainer } from '../shared/Container';
 import Button from '../shared/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
 import uiActions from '../../redux/actions/ui';
@@ -170,18 +169,14 @@ class SpeechTab extends React.Component {
           />
         </div>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
           style={{ marginTop: '1.5rem', width: '10rem' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+          buttonText="Save Changes"
+        />
       </SettingsTabWrapper>
     );
   }

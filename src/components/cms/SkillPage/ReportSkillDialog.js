@@ -14,6 +14,7 @@ class ReportSkill extends React.Component {
     super(props);
     this.state = {
       feedbackMessage: '',
+      loading: false,
     };
   }
 
@@ -24,7 +25,7 @@ class ReportSkill extends React.Component {
   };
 
   render() {
-    const { feedbackMessage } = this.state;
+    const { feedbackMessage, loading } = this.state;
     const { handleConfirm, handleClose } = this.props;
     return (
       <React.Fragment>
@@ -40,27 +41,30 @@ class ReportSkill extends React.Component {
             placeholder="Leave a feedback message"
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
             key={0}
-            variant="contained"
             color="primary"
-            onClick={handleConfirm}
+            variant="contained"
+            handleClick={() => {
+              this.setState({ loading: true });
+              handleConfirm();
+            }}
             disabled={
-              !(feedbackMessage !== undefined && feedbackMessage.trim())
+              !(feedbackMessage !== undefined && feedbackMessage.trim()) ||
+              loading
             }
-          >
-            Report
-          </Button>
+            isLoading={loading}
+            buttonText="Report"
+          />
           <Button
             key={1}
             color="primary"
-            onClick={handleClose}
             variant="contained"
+            handleClick={handleClose}
+            buttonText="Cancel"
             style={{ marginRight: '1em' }}
-          >
-            Cancel
-          </Button>
+          />
         </DialogActions>
       </React.Fragment>
     );

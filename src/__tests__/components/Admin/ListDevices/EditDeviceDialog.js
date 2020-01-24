@@ -1,5 +1,5 @@
 import React from 'react';
-import EditDeviceDialog from '../../../components/Admin/ListDevices/EditDeviceDialog';
+import EditDeviceDialog from '../../../../components/Admin/ListDevices/EditDeviceDialog';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
