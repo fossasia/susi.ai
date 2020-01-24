@@ -92,26 +92,24 @@ class Dashboard extends Component {
     const mobileView = isMobileView();
     return (
       <div>
-        <div>
-          <Container>
-            <AppBar color="default" position="static">
-              <Tabs
-                onChange={this.handleTabChange}
-                value={value}
-                indicatorColor="primary"
-                textColor="primary"
-                scrollButtons="on"
-                variant={mobileView ? 'scrollable' : 'standard'}
-              >
-                <Tab label="Dashboard" />
-                <Tab label="My Skills" />
-                <Tab label="My Bots" />
-                <Tab label="My Devices" />
-              </Tabs>
-              {this.generateView()}
-            </AppBar>
-          </Container>
-        </div>
+        <Container>
+          <AppBar color="default" position="static">
+            <Tabs
+              onChange={this.handleTabChange}
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              scrollButtons="on"
+              variant={mobileView ? 'scrollable' : 'standard'}
+            >
+              <Tab label="Dashboard" />
+              <Tab label="My Skills" />
+              <Tab label="My Bots" />
+              <Tab label="My Devices" />
+            </Tabs>
+            {this.generateView()}
+          </AppBar>
+        </Container>
       </div>
     );
   }

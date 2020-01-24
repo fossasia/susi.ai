@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Select from '../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _MenuList from '@material-ui/core/MenuList';
 import ListItemIcon from '../shared/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -33,6 +33,7 @@ import UserKeysTab from './UserKeysTab';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
 import { isProduction } from '../../utils/helperFunctions';
+import Footer from '../Footer/Footer.react';
 
 const settingsOptions = [
   { name: 'Account', icon: <AccountIcon /> },
@@ -286,7 +287,7 @@ class Settings extends Component {
     const { selectedSetting, theme, loading } = this.state;
 
     let menuItems = (
-      <React.Fragment>
+      <Fragment>
         <SettingsListContainer>
           <MenuList>{this.generateMenu()}</MenuList>
         </SettingsListContainer>
@@ -300,20 +301,27 @@ class Settings extends Component {
             {this.generateDropDownMenu()}
           </Select>
         </SettingsDropDownContainer>
-      </React.Fragment>
+      </Fragment>
     );
 
     return (
-      <Container theme={theme}>
-        <SettingContainer>
-          <SettingsOptionsContainer theme={theme}>
-            {menuItems}
-          </SettingsOptionsContainer>
-          <SettingsBodyContainer theme={theme}>
-            {loading ? <CircularLoader height={27} /> : this.generateSettings()}
-          </SettingsBodyContainer>
-        </SettingContainer>
-      </Container>
+      <Fragment>
+        <Container theme={theme}>
+          <SettingContainer>
+            <SettingsOptionsContainer theme={theme}>
+              {menuItems}
+            </SettingsOptionsContainer>
+            <SettingsBodyContainer theme={theme}>
+              {loading ? (
+                <CircularLoader height={27} />
+              ) : (
+                this.generateSettings()
+              )}
+            </SettingsBodyContainer>
+          </SettingContainer>
+        </Container>
+        <Footer />
+      </Fragment>
     );
   }
 }
