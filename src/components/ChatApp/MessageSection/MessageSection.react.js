@@ -27,20 +27,6 @@ import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
 import ToolTip from '../../shared/ToolTip';
 import susiImage from '../../../../public/customAvatars/0.png';
-const Date = styled.div`
-  text-align: center;
-  box-sizing: border-box;
-  margin: 0.8rem auto;
-  top: 0em;
-  position: sticky;
-  z-index: 100;
-  * {
-    background-color: grey;
-    border-radius: 5px;
-    padding: 4px 6px;
-    color: white;
-  }
-`;
 
 const Date = styled.div`
   text-align: center;
