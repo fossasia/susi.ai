@@ -14,6 +14,8 @@ const AddConfigButton = styled(Button)`
 `;
 
 class ConfigKeys extends React.Component {
+  _isMounted = false;
+
   state = {
     apiKeys: [],
     loading: true,
@@ -75,8 +77,16 @@ class ConfigKeys extends React.Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     const { apiType } = this.props;
-    this.fetchApiKeys({ apiType });
+    if (this._isMounted) {
+      this.fetchApiKeys({ apiType });
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   fetchApiKeys = async ({ apiType }) => {
@@ -91,10 +101,13 @@ class ConfigKeys extends React.Component {
         };
         apiKeys.push(apiKey);
       });
-      this.setState({
-        apiKeys: apiKeys,
-        loading: false,
-      });
+
+      if (this._isMounted) {
+        this.setState({
+          apiKeys: apiKeys,
+          loading: false,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

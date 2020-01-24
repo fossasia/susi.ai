@@ -27,6 +27,8 @@ const Container = styled.div`
 `;
 
 class DevicesTab extends React.Component {
+  _isMounted = false;
+
   static propTypes = {
     devices: PropTypes.object,
     history: PropTypes.object,
@@ -45,15 +47,19 @@ class DevicesTab extends React.Component {
     try {
       await actions.getUserDevices();
       this.initialiseDevices();
-      this.setState({
-        loading: false,
-        emptyText: 'You do not have any devices connected yet!',
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+          emptyText: 'You do not have any devices connected yet!',
+        });
+      }
     } catch (error) {
-      this.setState({
-        loading: false,
-        emptyText: 'Some error occurred while fetching the devices!',
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+          emptyText: 'Some error occurred while fetching the devices!',
+        });
+      }
       console.log(error);
     }
   };
@@ -103,7 +109,13 @@ class DevicesTab extends React.Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.loadUserDevices();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   handleTabChange = (event, value) => {

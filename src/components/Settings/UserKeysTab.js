@@ -6,9 +6,7 @@ const UserKeysTab = () => {
   return (
     <SettingsTabWrapper heading="User API Keys">
       <div>
-        <div>
-          <ConfigKeys apiType="user" />
-        </div>
+        <ConfigKeys apiType="user" />
       </div>
     </SettingsTabWrapper>
   );

@@ -17,6 +17,8 @@ const Container = styled.div`
 `;
 
 class MyAnalytics extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -26,8 +28,15 @@ class MyAnalytics extends Component {
       skillUsageCount: 0,
     };
   }
+
   componentDidMount() {
+    this._isMounted = true;
+
     this.loadSkillsUsage();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   loadSkillsUsage = async () => {
@@ -37,13 +46,17 @@ class MyAnalytics extends Component {
       // eslint-disable-next-line camelcase
       let payload = await fetchSkillsByAuthor({ author_email: email });
       this.saveUsageData(payload.authorSkills || []);
-      this.setState({
-        loading: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
       actions.openSnackBar({
         snackBarMessage: "Error. Couldn't fetch skill usage.",
         snackBarDuration: 2000,

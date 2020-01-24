@@ -80,6 +80,8 @@ const settings = {
 };
 
 class Carousel extends React.Component {
+  _isMounted = false;
+
   state = {
     slideshowData: [],
     loading: true,
@@ -96,15 +98,25 @@ class Carousel extends React.Component {
         slideshowObj = { ...slideshowObj, ...obj };
         slideshowData.push(slideshowObj);
       }
-      this.setState({ slideshowData, loading: false });
+      if (this._isMounted) {
+        this.setState({ slideshowData, loading: false });
+      }
     } catch (error) {
       console.log('Error', error);
-      this.setState({ loading: false });
+      if (this._isMounted) {
+        this.setState({ loading: false });
+      }
     }
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.getSkillSlideshow();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

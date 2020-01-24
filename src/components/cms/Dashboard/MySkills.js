@@ -51,6 +51,8 @@ const Container = styled.div`
 `;
 const isSmallScreen = window.screen.availWidth < 500;
 class MySkills extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +61,13 @@ class MySkills extends Component {
     };
   }
   componentDidMount() {
+    this._isMounted = true;
+
     this.loadSkills();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   loadSkills = async () => {
@@ -70,13 +78,18 @@ class MySkills extends Component {
     };
     try {
       await actions.getUserSkills(dataObj);
-      this.setState({
-        loading: false,
-      });
+
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
       actions.openSnackBar({
         snackBarMessage: "Error. Couldn't fetch skills.",
         snackBarDuration: 2000,

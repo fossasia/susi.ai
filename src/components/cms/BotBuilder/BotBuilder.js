@@ -128,6 +128,8 @@ const Text = styled.p`
 `;
 
 class BotBuilder extends React.Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -137,8 +139,17 @@ class BotBuilder extends React.Component {
       loadingBots: true,
       loadingDrafts: true,
     };
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+
     this.getChatbots();
     this.getDrafts();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   getChatbots = async () => {
@@ -146,12 +157,16 @@ class BotBuilder extends React.Component {
     if (accessToken) {
       try {
         let payload = await fetchChatBots();
-        this.setState({ chatbots: payload.chatbots, loadingBots: false });
-        this.getBotImages();
+        if (this._isMounted) {
+          this.setState({ chatbots: payload.chatbots, loadingBots: false });
+          this.getBotImages();
+        }
       } catch (error) {
-        this.setState({
-          loadingBots: false,
-        });
+        if (this._isMounted) {
+          this.setState({
+            loadingBots: false,
+          });
+        }
         if (error.status !== 404) {
           actions.openSnackBar({
             snackBarMessage:
@@ -178,7 +193,9 @@ class BotBuilder extends React.Component {
             bot.image = imageMatch[1];
           }
           chatbots[index] = bot;
-          this.setState({ chatbots });
+          if (this._isMounted) {
+            this.setState({ chatbots });
+          }
         } catch (error) {
           if (error.status !== 404) {
             actions.openSnackBar({
@@ -270,9 +287,11 @@ class BotBuilder extends React.Component {
       this.props.actions.closeModal();
       this.getChatbots();
     } catch (error) {
-      this.setState({
-        deleteAlert: null,
-      });
+      if (this._isMounted) {
+        this.setState({
+          deleteAlert: null,
+        });
+      }
       actions.openSnackBar({
         snackBarMessage: 'Unable to delete your chatbot. Please try again.',
         snackBarDuration: 2000,
@@ -291,9 +310,11 @@ class BotBuilder extends React.Component {
         snackBarMessage: "Couldn't get your drafts. Please reload the page.",
         snackBarDuration: 2000,
       });
-      this.setState({
-        loadingDrafts: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loadingDrafts: false,
+        });
+      }
     }
   };
 
@@ -345,7 +366,9 @@ class BotBuilder extends React.Component {
           </Card>,
         );
       }
-      this.setState({ drafts: draftsOfBots, loadingDrafts: false });
+      if (this._isMounted) {
+        this.setState({ drafts: draftsOfBots, loadingDrafts: false });
+      }
     }
   };
 
@@ -364,14 +387,18 @@ class BotBuilder extends React.Component {
         snackBarMessage: 'Unable to delete your draft. Please try again.',
         snackBarDuration: 2000,
       });
-      this.setState({
-        deleteAlert: null,
-      });
+      if (this._isMounted) {
+        this.setState({
+          deleteAlert: null,
+        });
+      }
     }
   };
 
   handleDeleteModal = (type, params) => {
-    this.setState({ deleteAlert: { type, params } });
+    if (this._isMounted) {
+      this.setState({ deleteAlert: { type, params } });
+    }
     this.props.actions.openModal({
       modalType: 'deleteBot',
       name: params[0],

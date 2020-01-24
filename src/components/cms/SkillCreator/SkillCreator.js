@@ -106,13 +106,21 @@ const SkillDraftWrap = styled.div`
 `;
 
 class SkillCreator extends Component {
+  _isMounted = false;
+
   state = {
     loading: true,
     drafts: [],
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.loadSkills();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   loadSkills = async () => {
@@ -123,13 +131,17 @@ class SkillCreator extends Component {
     };
     try {
       await actions.getUserSkills(dataObj);
-      this.setState({
-        loading: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
       actions.openSnackBar({
         snackBarMessage: "Error. Couldn't fetch skills.",
         snackBarDuration: 2000,
