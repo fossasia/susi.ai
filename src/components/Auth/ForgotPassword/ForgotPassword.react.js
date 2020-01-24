@@ -144,13 +144,17 @@ class ForgotPassword extends Component {
           >
             {loading ? <CircularProgress size={24} /> : 'Reset'}
           </Button>
-          <LinkContainer>
-            <StyledLink
-              onClick={() => actions.openModal({ modalType: 'login' })}
-            >
-              <Translate text="Back to Login" />
-            </StyledLink>
-          </LinkContainer>
+          {window.location.pathname === '/settings' ? (
+            <div />
+          ) : (
+            <LinkContainer>
+              <StyledLink
+                onClick={() => actions.openModal({ modalType: 'login' })}
+              >
+                <Translate text="Back to Login" />
+              </StyledLink>
+            </LinkContainer>
+          )}
         </DialogContent>
       </React.Fragment>
     );
