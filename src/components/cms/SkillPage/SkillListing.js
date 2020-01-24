@@ -419,20 +419,23 @@ class SkillListing extends Component {
                 <tr>
                   <td>Languages supported:</td>
                   <td>
-                    {supportedLanguages.map((data, index) => {
-                      const delimiter =
-                        supportedLanguages.length === index + 1 ? null : ', ';
-                      return (
-                        <Link
-                          key={index}
-                          onClick={this.forceUpdate}
-                          to={`/${this.groupValue}/${data.name}/${data.language}`}
-                        >
-                          {ISO6391.getNativeName(data.language)}
-                          {delimiter}
-                        </Link>
-                      );
-                    })}
+                    {supportedLanguages &&
+                      Array.isArray(supportedLanguages) &&
+                      supportedLanguages.length > 0 &&
+                      supportedLanguages.map((data, index) => {
+                        const delimiter =
+                          supportedLanguages.length === index + 1 ? null : ', ';
+                        return (
+                          <Link
+                            key={index}
+                            onClick={this.forceUpdate}
+                            to={`/${this.groupValue}/${data.name}/${data.language}`}
+                          >
+                            {ISO6391.getNativeName(data.language)}
+                            {delimiter}
+                          </Link>
+                        );
+                      })}
                   </td>
                 </tr>
                 {accessToken && (

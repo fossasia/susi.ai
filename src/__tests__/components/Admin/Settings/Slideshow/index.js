@@ -1,5 +1,5 @@
 import React from 'react';
-import Slideshow from '../../../../components/Admin/Settings/Slideshow';
+import Slideshow from '../../../../../components/Admin/Settings/Slideshow';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

@@ -1,5 +1,5 @@
 import React from 'react';
-import DevicePanel from '../../../../components/Admin/ListUser/DevicePanel';
+import DevicePanel from '../../../../../components/Admin/ListUser/DevicePanel';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

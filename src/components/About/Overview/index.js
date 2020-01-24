@@ -656,6 +656,7 @@ class Overview extends Component {
               Don&apos;t forget, these are only a few 😊
             </DescriptionText>
             <RowDiv>
+<<<<<<< HEAD
               {buttonAttributes.map((button, index) => (
                 <Button
                   key={index}
@@ -676,19 +677,47 @@ class Overview extends Component {
                   {button.label}
                 </Button>
               ))}
+=======
+              {buttonAttributes &&
+                Array.isArray(buttonAttributes) &&
+                buttonAttributes.length > 0 &&
+                buttonAttributes.map((button, index) => (
+                  <Button
+                    key={index}
+                    style={
+                      gifIndex === index
+                        ? {
+                            backgroundColor: '#4285f4',
+                            color: '#ffffff',
+                          }
+                        : {
+                            backgroundColor: '#ffffff',
+                          }
+                    }
+                    variant="contained"
+                    onClick={e => this.handleGIFChange(index)}
+                  >
+                    {button.icon}
+                    {button.label}
+                  </Button>
+                ))}
+>>>>>>> 486675a90384704287d10923b3149bba2aa3d72d
             </RowDiv>
           </ConversationDescription>
           <ImgContainer>
-            {buttonAttributes.map((img, index) => (
-              <SusiTestVideo
-                key={index}
-                src={buttonAttributes[gifIndex].video}
-                style={gifIndex === index ? {} : { display: 'none' }}
-                autoPlay
-                muted
-                playsinline
-              />
-            ))}
+            {buttonAttributes &&
+              Array.isArray(buttonAttributes) &&
+              buttonAttributes.length > 0 &&
+              buttonAttributes.map((img, index) => (
+                <SusiTestVideo
+                  key={index}
+                  src={buttonAttributes[gifIndex].video}
+                  style={gifIndex === index ? {} : { display: 'none' }}
+                  autoPlay
+                  muted
+                  playsinline
+                />
+              ))}
           </ImgContainer>
         </Section>
         <Section>

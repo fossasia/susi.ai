@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../../shared/Button';
 import OutlinedTextField from '../../../shared/OutlinedTextField';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ class EditDeviceSettings extends React.Component {
   state = {
     deviceName: this.props.deviceName,
     room: this.props.room,
+    loading: false,
   };
 
   handleClose = () => {
@@ -67,7 +68,7 @@ class EditDeviceSettings extends React.Component {
 
   render() {
     const { macid } = this.props;
-    const { deviceName, room } = this.state;
+    const { deviceName, room, loading } = this.state;
 
     return (
       <React.Fragment>
@@ -94,18 +95,26 @@ class EditDeviceSettings extends React.Component {
             margin="dense"
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
-            variant="outlined"
-            color="primary"
             key={1}
-            onClick={this.handleConfirm}
-          >
-            Save
-          </Button>
-          <Button key={2} onClick={this.handleClose}>
-            Cancel
-          </Button>
+            variant="contained"
+            color="primary"
+            handleClick={() => {
+              this.setState({ loading: true });
+              this.handleConfirm();
+            }}
+            isLoading={loading}
+            disabled={loading}
+            buttonText="Save"
+          />
+          <Button
+            key={2}
+            variant="contained"
+            color="primary"
+            handleClick={this.handleClose}
+            buttonText="Cancel"
+          />
         </DialogActions>
       </React.Fragment>
     );

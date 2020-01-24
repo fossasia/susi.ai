@@ -1,5 +1,5 @@
 import React from 'react';
-import DeleteAccount from '../../../components/Auth/DeleteAccount/DeleteAccount';
+import DeleteAccount from '../../../../components/Auth/DeleteAccount/DeleteAccount.react';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';

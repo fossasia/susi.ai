@@ -1,5 +1,5 @@
 import React from 'react';
-import SystemLogs from '../../../components/Admin/SystemLogs/SystemLogs';
+import SystemLogs from '../../../../components/Admin/SystemLogs/SystemLogs';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
