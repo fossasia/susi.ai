@@ -42,6 +42,21 @@ const Date = styled.div`
   }
 `;
 
+const Date = styled.div`
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0.8rem auto;
+  top: 0em;
+  position: sticky;
+  z-index: 100;
+  * {
+    background-color: grey;
+    border-radius: 5px;
+    padding: 4px 6px;
+    color: white;
+  }
+`;
+
 const MessageList = styled.div`
   background: ${props => props.pane};
   position: ${props => (props.showChatPreview ? 'inherit' : 'fixed')};
