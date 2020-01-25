@@ -78,7 +78,7 @@ module.exports = ({ mode }) => {
         hot: true,
       },
       output: {
-        publicPath: '/',
+        publicPath: './',
         path: path.resolve(__dirname, 'build'),
         filename: 'bundled.js',
       },
