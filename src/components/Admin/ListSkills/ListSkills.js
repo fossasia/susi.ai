@@ -27,6 +27,8 @@ import ReportPanel from './ReportPanel';
 import SkillTable from './SkillTable';
 
 class ListSkills extends React.Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -51,10 +53,16 @@ class ListSkills extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.loadSkills();
     this.loadGroups();
     this.loadDeletedSkills();
     this.loadReportedSkill();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   changeStatus = async (
@@ -109,7 +117,9 @@ class ListSkills extends React.Component {
   };
 
   deleteSkill = async () => {
-    this.setState({ loading: true });
+    if (this._isMounted) {
+      this.setState({ loading: true });
+    }
     const {
       skillModel: model,
       skillGroup: group,
@@ -119,7 +129,10 @@ class ListSkills extends React.Component {
     try {
       // eslint-disable-next-line no-unused-vars
       let payload = await deleteSkill({ model, group, language, skill });
-      this.setState({ loading: false });
+
+      if (this._isMounted) {
+        this.setState({ loading: false });
+      }
       this.props.actions.openModal({
         modalType: 'confirm',
         title: 'Success',
@@ -132,7 +145,10 @@ class ListSkills extends React.Component {
       });
     } catch (error) {
       console.log(error);
-      this.setState({ loading: false });
+
+      if (this._isMounted) {
+        this.setState({ loading: false });
+      }
       this.props.actions.openModal({
         modalType: 'confirm',
         title: 'Failed',
@@ -147,7 +163,9 @@ class ListSkills extends React.Component {
   };
 
   restoreSkill = async () => {
-    this.setState({ loading: true });
+    if (this._isMounted) {
+      this.setState({ loading: true });
+    }
     const {
       skillModel: model,
       skillGroup: group,
@@ -157,7 +175,10 @@ class ListSkills extends React.Component {
     try {
       // eslint-disable-next-line no-unused-vars
       let payload = await undoDeleteSkill({ model, group, language, skill });
-      this.setState({ loading: false });
+
+      if (this._isMounted) {
+        this.setState({ loading: false });
+      }
       this.props.actions.openModal({
         modalType: 'confirm',
         title: 'Success',
@@ -170,7 +191,9 @@ class ListSkills extends React.Component {
       });
     } catch (error) {
       console.log(error);
-      this.setState({ loading: false });
+      if (this._isMounted) {
+        this.setState({ loading: false });
+      }
       this.props.actions.openModal({
         modalType: 'confirm',
         title: 'Failed',
@@ -201,7 +224,10 @@ class ListSkills extends React.Component {
         };
         skills.push(skill);
       }
-      this.setState({ loadingReportedSkills: false, reportedSkills: skills });
+
+      if (this._isMounted) {
+        this.setState({ loadingReportedSkills: false, reportedSkills: skills });
+      }
     } catch (error) {
       console.log(error, 'Error');
     }
@@ -224,7 +250,10 @@ class ListSkills extends React.Component {
         };
         deletedSkills.push(skill);
       }
-      this.setState({ deletedSkills: skills });
+
+      if (this._isMounted) {
+        this.setState({ deletedSkills: skills });
+      }
     } catch (error) {
       console.log(error, 'Error');
     }
@@ -239,9 +268,12 @@ class ListSkills extends React.Component {
           groups = { ...groups, [i]: i };
         }
       }
-      this.setState({
-        groups,
-      });
+
+      if (this._isMounted) {
+        this.setState({
+          groups,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -280,15 +312,19 @@ class ListSkills extends React.Component {
           }
         }
       }
-      this.setState({
-        skillsData: skills,
-        loading: false,
-        systemSkills,
-      });
+      if (this._isMounted) {
+        this.setState({
+          skillsData: skills,
+          loading: false,
+          systemSkills,
+        });
+      }
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          loading: false,
+        });
+      }
       actions.openSnackBar({
         snackBarMessage: "Error. Couldn't fetch skills.",
         snackBarDuration: 2000,

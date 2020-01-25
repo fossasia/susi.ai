@@ -82,6 +82,8 @@ const SkillCard = styled.div`
 `;
 
 class AdminTab extends React.Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -99,6 +101,8 @@ class AdminTab extends React.Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
+
     try {
       try {
         let payload = await fetchAdminUserStats({ getUserStats: true });
@@ -107,11 +111,13 @@ class AdminTab extends React.Component {
           lastLoginOverTime = [],
           signupOverTime = [],
         } = payload;
-        this.setState({
-          userStats,
-          lastLoginOverTime,
-          signupOverTime,
-        });
+        if (this._isMounted) {
+          this.setState({
+            userStats,
+            lastLoginOverTime,
+            signupOverTime,
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -120,7 +126,9 @@ class AdminTab extends React.Component {
         let payload = await fetchAdminUserStats({ getDeviceStats: true });
         const { deviceStats } = payload;
         const { deviceAddedOverTime } = deviceStats;
-        this.setState({ deviceStats, deviceAddedOverTime });
+        if (this._isMounted) {
+          this.setState({ deviceStats, deviceAddedOverTime });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -133,12 +141,14 @@ class AdminTab extends React.Component {
           lastAccessOverTime,
           lastModifiedOverTime,
         } = payload;
-        this.setState({
-          skillStats,
-          creationOverTime,
-          lastAccessOverTime,
-          lastModifiedOverTime,
-        });
+        if (this._isMounted) {
+          this.setState({
+            skillStats,
+            creationOverTime,
+            lastAccessOverTime,
+            lastModifiedOverTime,
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -151,19 +161,27 @@ class AdminTab extends React.Component {
           lastAccessOverTime,
           lastModifiedOverTime,
         } = payload;
-        this.setState({
-          skillStats,
-          creationOverTime,
-          lastAccessOverTime,
-          lastModifiedOverTime,
-        });
+        if (this._isMounted) {
+          this.setState({
+            skillStats,
+            creationOverTime,
+            lastAccessOverTime,
+            lastModifiedOverTime,
+          });
+        }
       } catch (error) {
         console.log(error);
       }
-      this.setState({ loading: false });
+      if (this._isMounted) {
+        this.setState({ loading: false });
+      }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   renderCharts = () => {
