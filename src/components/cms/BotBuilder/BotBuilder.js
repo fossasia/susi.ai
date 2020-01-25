@@ -14,6 +14,12 @@ import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
 import getImageSrc from '../../../utils/getImageSrc';
 import Cookies from 'universal-cookie';
+import pngOne from '../../../../public/customAvatars/1.png';
+import imgEventRegistration from '../../../../public/botTemplates/event-registration.jpg';
+import imgContactUs from '../../../../public/botTemplates/contact-us.png';
+import imgJobApplication from '../../../../public/botTemplates/job-application.jpg';
+import imgChatBot from '../../../../public/botTemplates/chat-bot.jpg';
+
 import {
   fetchChatBots,
   fetchBotImages,
@@ -215,15 +221,14 @@ class BotBuilder extends React.Component {
     if (bots) {
       bots.forEach(bot => {
         let imageUrl;
-        let { protocol, host } = window.location;
         if (bot.image === 'images/<image_name>') {
-          imageUrl = `${protocol}//${host}/customAvatars/1.png`;
+          imageUrl = pngOne;
         } else if (bot.image === 'images/<image_name_event>') {
-          imageUrl = `${protocol}//${host}/botTemplates/event-registration.jpg`;
+          imageUrl = imgEventRegistration;
         } else if (bot.image === 'images/<image_name_job>') {
-          imageUrl = `${protocol}//${host}/botTemplates/job-application.jpg`;
+          imageUrl = imgJobApplication;
         } else if (bot.image === 'images/<image_name_contact>') {
-          imageUrl = `${protocol}//${host}/botTemplates/contact-us.png`;
+          imageUrl = imgContactUs;
         } else {
           imageUrl = bot.image
             ? getImageSrc({
@@ -323,15 +328,14 @@ class BotBuilder extends React.Component {
       let draftsOfBots = [];
       for (let draft in drafts) {
         let imageUrl;
-        let { protocol, host } = window.location;
         if (drafts[draft].image === 'images/<image_name>') {
-          imageUrl = `${protocol}//${host}/customAvatars/1.png`;
+          imageUrl = pngOne;
         } else if (drafts[draft].image === 'images/<image_name_event>') {
-          imageUrl = `${protocol}//${host}/botTemplates/event-registration.jpg`;
+          imageUrl = imgEventRegistration;
         } else if (drafts[draft].image === 'images/<image_name_job>') {
-          imageUrl = `${protocol}//${host}/botTemplates/job-application.jpg`;
+          imageUrl = imgJobApplication;
         } else if (drafts[draft].image === 'images/<image_name_contact>') {
-          imageUrl = `${protocol}//${host}/botTemplates/contact-us.png`;
+          imageUrl = imgContactUs;
         } else {
           imageUrl = drafts[draft].image
             ? getImageSrc({
@@ -432,7 +436,7 @@ class BotBuilder extends React.Component {
                 <Link to="/botWizard">
                   <Card
                     style={{
-                      backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
+                      backgroundImage: `url(${imgChatBot})`,
                     }}
                   >
                     <Fab color="primary" size="small">
