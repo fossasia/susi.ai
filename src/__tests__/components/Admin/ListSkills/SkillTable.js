@@ -1,5 +1,5 @@
 import React from 'react';
-import SkillTable from '../../../components/Admin/ListSkills/SkillTable';
+import SkillTable from '../../../../components/Admin/ListSkills/SkillTable';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

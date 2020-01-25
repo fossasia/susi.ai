@@ -53,6 +53,9 @@ const StyledSearchBar = styled(_SearchBar)`
   @media (max-width: 400px) {
     min-width: 220px;
   }
+  @media (max-width: 370px) {
+    min-width: 200px;
+  }
 `;
 
 const Select = styled(_Select)`

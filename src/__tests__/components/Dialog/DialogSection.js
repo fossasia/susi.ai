@@ -1,5 +1,5 @@
 import React from 'react';
-import DialogSection from '../../components/Dialog/DialogSection';
+import DialogSection from '../../../components/shared/Dialog/index';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
