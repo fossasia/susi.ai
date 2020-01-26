@@ -24,7 +24,7 @@ module.exports = () => ({
       { from: 'public/favicon.ico', to: '' },
     ]),
     new InterpolateHtmlPlugin({
-      PUBLIC_URL: '',
+      PUBLIC_URL: '.',
     }),
   ],
 });
