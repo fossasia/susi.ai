@@ -5,7 +5,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '../../../shared/Button';
 import ReactCrop from 'react-image-crop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import 'react-image-crop/dist/ReactCrop.css';
 
 class CropDialog extends Component {
@@ -25,7 +24,6 @@ class CropDialog extends Component {
       aspect: 1 / 1,
     },
     croppedImageUrl: null,
-    imageBase64: null,
     loading: false,
   };
 
@@ -48,11 +46,6 @@ class CropDialog extends Component {
       crop.width,
       crop.height,
     );
-
-    let imageBase64 = canvas.toDataURL('image');
-    this.setState({
-      imageBase64,
-    });
 
     return new Promise((resolve, reject) => {
       canvas.toBlob(blob => {
@@ -95,7 +88,7 @@ class CropDialog extends Component {
 
   render() {
     const { title, handleConfirm, imagePreviewUrl, handleClose } = this.props;
-    const { croppedImageUrl, crop, imageBase64, loading } = this.state;
+    const { croppedImageUrl, crop, loading } = this.state;
     return (
       <React.Fragment>
         <DialogTitle>{title}</DialogTitle>
@@ -113,29 +106,24 @@ class CropDialog extends Component {
         </DialogContent>
         <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
-            variant="contained"
-            color="primary"
             key={0}
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
             color="primary"
-            disabled={loading}
+            variant="contained"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
+          <Button
             key={1}
-            onClick={() => {
+            color="primary"
+            variant="contained"
+            handleClick={() => {
               this.setState({ loading: true });
-              handleConfirm(croppedImageUrl, imageBase64);
+              handleConfirm(croppedImageUrl);
             }}
-          >
-            {loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              'Upload'
-            )}
-          </Button>
+            isLoading={loading}
+            disabled={loading}
+            buttonText="Upload"
+          />
         </DialogActions>
       </React.Fragment>
     );

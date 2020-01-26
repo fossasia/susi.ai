@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../shared/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '../../shared/Select';
 import { changeUserRole } from '../../../apis';
@@ -16,6 +16,7 @@ class EditUserRole extends React.Component {
   state = {
     userEmail: this.props.userEmail,
     userRole: this.props.userRole,
+    loading: false,
   };
   handleUserRoleChange = event => {
     this.setState({ userRole: event.target.value });
@@ -66,7 +67,7 @@ class EditUserRole extends React.Component {
 
   render() {
     const { userEmail, handleClose } = this.props;
-    const { userRole } = this.state;
+    const { userRole, loading } = this.state;
     return (
       <React.Fragment>
         <DialogTitle>Change User Role</DialogTitle>
@@ -97,13 +98,26 @@ class EditUserRole extends React.Component {
             </MenuItem>
           </Select>
         </DialogContent>
-        <DialogActions>
-          <Button key={1} onClick={this.handleConfirm}>
-            Change
-          </Button>
-          <Button key={2} onClick={handleClose}>
-            Cancel
-          </Button>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            key={1}
+            handleClick={() => {
+              this.setState({ loading: true });
+              this.handleConfirm();
+            }}
+            disabled={loading}
+            isLoading={loading}
+            buttonText="Change"
+          />
+          <Button
+            key={2}
+            variant="contained"
+            color="primary"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
         </DialogActions>
       </React.Fragment>
     );

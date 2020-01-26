@@ -7,6 +7,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Select from '../shared/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import _TimezonePicker from 'react-timezone';
@@ -21,12 +22,8 @@ import { getUserAvatarLink } from '../../utils/getAvatarProps';
 import styled from 'styled-components';
 import { setUserSettings, uploadAvatar, deleteUserAccount } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import isUserName from '../../utils/isUserName';
-import {
-  extractImageFileExtensionFromBase64,
-  base64StringtoFile,
-} from '../../utils/helperFunctions';
+import { urltoFile } from '../../utils/helperFunctions';
 
 const TimezonePicker = styled(_TimezonePicker)`
   & > ul {
@@ -57,7 +54,8 @@ const DangerContainer = styled.div`
   align-items: center;
 `;
 
-const DangerButton = styled(Button)`
+const DangerButton = styled(_Button)`
+  width: 10rem;
   background-color: #fafbfc;
   color: #cb2431;
   &:hover {
@@ -196,16 +194,20 @@ class AccountTab extends React.Component {
   };
 
   handleAvatarSubmit = async () => {
-    const { imageFile } = this.state;
+    const { imagePreviewUrl, file } = this.state;
     const { accessToken, actions, userEmailId } = this.props;
-    const fileExt = extractImageFileExtensionFromBase64(imageFile);
-    const fileName = 'image.' + fileExt;
-    const file = base64StringtoFile(imageFile, fileName);
+    const fileName = file.name;
+    const fileExt = fileName.split('.')[1];
+    const imageFile = await urltoFile(
+      imagePreviewUrl,
+      fileName,
+      `image/${fileExt}`,
+    );
     // eslint-disable-next-line no-undef
     let form = new FormData();
     form.append('access_token', accessToken);
     userEmailId && form.append('email', userEmailId);
-    form.append('image', file);
+    form.append('image', imageFile);
     this.setState({ uploadingAvatar: true });
     await uploadAvatar(form);
     actions.openSnackBar({
@@ -215,6 +217,7 @@ class AccountTab extends React.Component {
       uploadingAvatar: false,
       isAvatarAdded: true,
       isAvatarUploaded: true,
+      settingSave: false,
     });
   };
 
@@ -251,11 +254,10 @@ class AccountTab extends React.Component {
     });
   };
 
-  getCroppedImage = (croppedImg, img) => {
+  getCroppedImage = croppedImg => {
     this.setState(
       {
         imagePreviewUrl: croppedImg,
-        imageFile: img,
       },
       async () => {
         const { actions } = this.props;
@@ -487,18 +489,14 @@ class AccountTab extends React.Component {
           </AvatarSection>
         </Container>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
           style={{ margin: '1.5rem 0' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+        />
         <TabHeading>
           <Translate text="Danger Zone" />
         </TabHeading>

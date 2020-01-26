@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../../shared/Button';
 
 const StandardActionDialog = props => {
   const { handleConfirm, handleClose, entityType, actionType, name } = props;
+  const [loading, setLoading] = useState(false);
   return (
     <React.Fragment>
       <DialogTitle>
@@ -17,18 +18,26 @@ const StandardActionDialog = props => {
       <DialogContent>
         Are you sure, you want to {actionType} your <b>{name}</b> {entityType}?
       </DialogContent>
-      <DialogActions>
-        <Button key={2} style={{ marginRight: '10px' }} onClick={handleClose}>
-          Cancel
-        </Button>
+      <DialogActions style={{ justifyContent: 'space-around' }}>
         <Button
           key={1}
-          variant="contained"
           color="primary"
-          onClick={handleConfirm}
-        >
-          {actionType}
-        </Button>
+          variant="contained"
+          handleClick={handleClose}
+          buttonText="Cancel"
+        />
+        <Button
+          key={2}
+          color="primary"
+          variant="contained"
+          handleClick={() => {
+            setLoading(true);
+            handleConfirm();
+          }}
+          isLoading={loading}
+          disabled={loading}
+          buttonText={actionType}
+        />
       </DialogActions>
     </React.Fragment>
   );
