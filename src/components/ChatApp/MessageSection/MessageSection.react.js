@@ -26,6 +26,7 @@ import _FullScreen from '@material-ui/icons/Fullscreen';
 import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
 import ToolTip from '../../shared/ToolTip';
+import susiImage from '../../../../public/customAvatars/0.png';
 
 const Date = styled.div`
   text-align: center;
@@ -150,10 +151,8 @@ const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string },
 };
 
-const img = '/customAvatars/0.png';
-
 const SUSILauncherButton = styled.div`
-  background-image: url(${img});
+  background-image: url(${susiImage});
   width: 60px;
   height: 60px;
   float: right;
