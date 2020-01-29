@@ -16,6 +16,7 @@ import _EditBtn from '@material-ui/icons/Edit';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import getImageSrc from '../../../utils/getImageSrc';
+import chatBot from '../../../../public/botTemplates/chat-bot.jpg';
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
@@ -209,7 +210,7 @@ class SkillCreator extends Component {
               <Link to="/skillWizard">
                 <SkillCard
                   style={{
-                    backgroundImage: 'url(/botTemplates/chat-bot.jpg)',
+                    backgroundImage: `url(${chatBot})`,
                     backgroundSize: 'cover',
                     backgroundColor: '#000',
                     opacity: '0.9',
