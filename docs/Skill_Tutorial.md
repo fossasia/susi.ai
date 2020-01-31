@@ -1,10 +1,10 @@
 # SUSI.AI Skill Development Tutorial
 
-Do you want your own AI Skills for SUSI? It's surprisingly easy to add more Skills to SUSI.AI
+Do you want your own AI Skills for SUSI? It's not difficult to add more Skills to SUSI.AI
 
 ## Getting Started
 
-It's easy, DON'T PANIC. You don't need to be a software developer to enhance SUSI.AI
+It's uncomplicated, DON'T PANIC. You don't need to be a software developer to enhance SUSI.AI
 
 ### What will happen after you created / edited a skill in the public skill CMS
 
@@ -12,7 +12,7 @@ Your skill goes into a public domain repository and will be published to https:/
 
 This means:
 - your skill will be used by SUSI for all requests of all users! (unless you create a private skill)
-- other people can see and edit what you just wrote into the skill CMS
+- other people can see and edit what you wrote into the skill CMS
 
 ### What you have to do
 
@@ -60,10 +60,10 @@ Therefore, we can access every expert with the 4-tuple
 {model, group, language, expert}
 ```
 ### The SUSI.AI Skill Language: A Language of Thought
-As you will see in the tutorial levels below, the language looks like an extremely simple pattern-matching Question-Answer declaration. But that is just the facade, it is easy for beginners but under the hood there is an expert system which is able to do planning and proving. The artificial intelligence in SUSI.AI is implemented as a theorem prover which can explore the domain of possible answers and gives one which is _true_ in SUSI's universe of knowledge.
+As you will see in the tutorial levels below, the language looks like an extremely effortless pattern-matching Question-Answer declaration. But that is the facade, it is easier for beginners but under the hood there is an expert system which is able to do planning and proving. The artificial intelligence in SUSI.AI is implemented as a theorem prover which can explore the domain of possible answers and gives one which is _true_ in SUSI's universe of knowledge.
 
 However, we had to combine the complex world of declaration-based logic programming with natural language declarations.
-We believe that the result is a easy-to-learn skill language with the ability to advance to true artificial intelligence when we reach a certain level of experience.
+We believe that the result is a uncomplicated skill language with the ability to advance to true artificial intelligence when we reach a certain level of experience.
 
 ### Tutorial Level 0: Fixed Query-Answer Phrase Collections
 
@@ -73,14 +73,14 @@ In your editor window write:
 roses are red
 SUSI is a hack
 ```
-This defines one simple intent: to answer on "roses are red" the phrase "SUSI is a hack". The other lines mean:
+This defines one light intent: to answer on "roses are red" the phrase "SUSI is a hack". The other lines mean:
 * all lines starting with `#` are comment lines and are ignored.
 * all other text lines define Skills. Skills are separated by empty lines. Comment and section declaration modifiers also count as empty lines and separate Skills.
 
 Now you can test the new intent:
 * send the following query to SUSI: "roses are red"
 * SUSI.AI will answer with "SUSI is a hack".
-The Skill file is just a text file where two lines which are not separated by an empty line represent a conversation pattern.
+The Skill file is a text file where two lines which are not separated by an empty line represent a conversation pattern.
 You can actually add a third line to your file:
 ```
 # SUSI.AI tutorial playground
@@ -93,8 +93,8 @@ With that file, SUSI.AI would respond on "roses are red" the answer "SUSI is a h
 
 ### Tutorial Level 1: Random Answers
 Skills without a deterministic behavior will create less predictable results.
-That can easily be defined with intents. Lets consider you want a intent where different answers
-on "What is your favorite dish?" are "Potatoes", "Vegetables" or "Fish". That's easy: add an empty line
+That can be defined with intents. Lets consider you want a intent where different answers
+on "What is your favorite dish?" are "Potatoes", "Vegetables" or "Fish". That's not difficult: add an empty line
 to the end of your test file and then:
 ```
 What is your favorite dish
@@ -103,7 +103,7 @@ Potatoes|Vegetables|Fish
 
 ### Tutorial Level 2: Query Alternatives
 Maybe you want that SUSI.AI responds to several different queries with the same answer. This can be
-done very easy with Alternatives in the query line:
+done with Alternatives in the query line:
 ```
 Bonjour|Buenos días|Ciao
 Hello
@@ -125,14 +125,14 @@ we want to use that pattern in the result, we can denote that with the term `$1$
 May I get a *?
 Yes you may get a $1$!
 ```
-It is, of course, possible to combine Query-Patterns with alternatives
+It is, possible to combine Query-Patterns with alternatives
 in the query part and the response part.
 
 ### Tutorial Level 5: Multiple Patterns in Queries and Answers
-You can have of course multiple wildcards in the query pattern.
+You can have multiple wildcards in the query pattern.
 There may be different reasons for that: either it is actually intended
 that both wildcards are used in the response or one of the wildcard
-is just there because you want to ignore everything where it matches.
+is there because you want to ignore everything where it matches.
 
 The following example shows a case where both wildcards are used:
 ```
@@ -140,7 +140,7 @@ For * I can buy a *
 Yeah, I believe $1$ is a good price for a $2$
 ```
 
-Another case is, where you just want to ignore a whole part of the query:
+Another case is, where you want to ignore a whole part of the query:
 ```
 * buy a *
 Sure, you should buy a $2$!
@@ -169,8 +169,8 @@ You can now use that variable in another rule:
 * beer * best?
 I bet you like $_beerbrand$ beer!
 ```
-Note that the `*` wildcards in the query are not used at all. They are just there
-to make it easy that this rule matches. It will i.e. match on "What beer brand is the best?"
+Note that the `*` wildcards in the query are not used at all. They are there
+to make sure that this rule matches. It will i.e. match on "What beer brand is the best?"
 
 Variables are only visible within the same user session. Therefore we need
 authenticated users and that is the main reason that you have to log on to use SUSI.AI
@@ -197,7 +197,7 @@ In this example, SUSI.AI remembers your mood and can tell you about it. The actu
 ### Tutorial Level 8: Conditions for Answers
 
 Whenever you are using variables in answers which are not set in the same rule, you should test if these variables exist and had been set.
-It is possible to add simple conditions to the answer lines:
+It is possible to add conditions to the answer lines:
 
 ```
 How do I feel?
@@ -228,12 +228,12 @@ What is your favorite color?
 ?$_mycolour$:My favorite colour is $_mycolour$!:I like `function colour`>_mycolour!
 ```
 
-Here, the colour is randomly generated with the `function colour` call, but only if SUSI.AI has not done that yet. If SUSI.AI just generated a colour in the answer, that answer will be stored in the variable `_mycolour`. But if that variable already existed, it will be used to make the answer without the `function colour`.
+Here, the colour is randomly generated with the `function colour` call, but only if SUSI.AI has not done that yet. If SUSI.AI generated a colour in the answer, that answer will be stored in the variable `_mycolour`. But if that variable already existed, it will be used to make the answer without the `function colour`.
 
 ### Tutorial Level 10: Embed Javascript into an intent
 
 If you are able to compute whatever you want to inside a rule, there are billions of possibilities of what you can do with SUSI Skills.
-Embedding Javascript is extremely easy, for example:
+Embedding Javascript is extremely straightforward, for example:
 
 ```
 javascript hello

@@ -11,7 +11,7 @@ The Firebase CLI (Command Line Interface) requires [Node.js](https://nodejs.org/
 **Note :** The Firebase CLI requires Node.js version 5.10.0 or greater.
 Once we have Node.js and npm installed, we can install the Firebase CLI via npm:
 **$ npm install -g firebase-tools**
-This installs the globally available firebase command. To update to the latest version, we simply re-run the same command.
+This installs the globally available firebase command. To update to the latest version, we then re-run the same command.
 
 Now login to the Firebase console using 
  $ firebase login 
@@ -48,7 +48,7 @@ If we skip running these commands, on deploying we will see a dialog box, by def
 Now we can run the $ firebase serve command to test our web app on a local server. Once, everything looks fine, we can proceed to the next step. 
 >
 **Deploy the web app on Firebase**
-To deploy our web app we simply run:
+To deploy our web app run:
 $ firebase deploy
 Our app will be deployed to the domain <OUR-FIREBASE-APP>.firebaseapp.com
 >

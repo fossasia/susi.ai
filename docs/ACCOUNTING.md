@@ -33,7 +33,7 @@ Signup endpoint : `BASE_URL+'/aaa/signup.json?signup=EMAIL&password=PASSWORD;`
 User is then sent a verification link to confirm the sign up. And upon verifying through mail, the sign up process is completed.
 
 ##### Login
- Once the user has registered with the server, he can directly login using :
+ Once the user has registered with the server, they can directly login using :
  >- Email
  >- Password
 >- SUSI Server
@@ -41,7 +41,7 @@ User is then sent a verification link to confirm the sign up. And upon verifying
 Login endpoint : `BASE_URL+'/aaa/login.json?type=access-token&login=EMAIL&password=PASSWORD';`
 
 ##### Password Recovery
-Incase the user forgets his password, he can use the `Forgot Password` option to reset his password.
+Incase the user forgets their password, they can use the `Forgot Password` option to reset their password.
 The Password recovery service uses :
 >- Email
 >- SUSI Server
@@ -55,8 +55,8 @@ Upon clicking that link, the user is redirected to a reset password service app 
 Reset password Redirect : `BASE_URL+'/apps/resetpass/index.html?token=TOKEN'`
 '
 ##### Change Password
-Incase the user wants to change his password, he can login using his current password and preferred server and use the `Change Password` option to set a new password for his account.
-This service is different from `Password Recovery` service where the user has forgot his password and wants a new password. Here the user knows his current password and wants to change it.
+Incase the user wants to change their password, they can login using their current password and preferred server and use the `Change Password` option to set a new password for their account.
+This service is different from `Password Recovery` service where the user has forgot their password and wants a new password. Here the user knows their current password and wants to change it.
 The Change Password service uses:
 >- Email
 >- Current Password

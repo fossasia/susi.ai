@@ -17,7 +17,7 @@ SUSI.AI can be used anomymously or as a logged in user by using the account feat
 
 ### Retrieving User Chat History
 
-Whenever a user logs in he must be able to view his chat history in the chat client.
+Whenever a user logs in they must be able to view their chat history in the chat client.
 A user might also be using multiple chat clients, so the history across all platforms must be in sync.
 
 A [memory servlet](https://github.com/fossasia/susi_server/blob/development/src/ai/susi/server/api/susi/UserService.java) is used to retrieve the user history.
