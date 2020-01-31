@@ -76,7 +76,7 @@ class ThemeChanger extends Component {
       susiMessageBackgroundColor,
       userMessageBackgroundColor,
     } = this.props.customThemeValue;
-    console.log('customThemeValue', this.props.customThemeValue);
+
     const showMessageBackgroundImage = messageBackgroundImage !== '';
     this.state = {
       header,

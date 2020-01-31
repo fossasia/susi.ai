@@ -208,7 +208,7 @@ class MySkills extends Component {
         )}
         {userSkills.length === 0 && !loading && (
           <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
-            <h2>
+            <h2 style={{ padding: '5px' }}>
               Create your first skill or learn more about{' '}
               <a
                 href={`${urls.GITHUB_URL}/blob/master/docs/Skill_Tutorial.md`}
