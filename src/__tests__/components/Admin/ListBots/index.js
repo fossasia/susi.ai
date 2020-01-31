@@ -1,5 +1,5 @@
 import React from 'react';
-import ListBots from '../../../components/Admin/ListBots/index';
+import ListBots from '../../../../components/Admin/ListBots/index';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

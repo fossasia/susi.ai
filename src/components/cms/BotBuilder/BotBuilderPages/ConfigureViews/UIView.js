@@ -365,19 +365,24 @@ class UIView extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {dataSource.map(row => (
-                      <TableRow key={row.id}>
-                        <TableCell>{row.name}</TableCell>
-                        <TableCell>{row.date}</TableCell>
-                        <TableCell>
-                          <ActionDiv onClick={() => this.handleDelete(row.key)}>
-                            <Icon color="error" fontSize="small">
-                              delete
-                            </Icon>
-                          </ActionDiv>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {dataSource &&
+                      Array.isArray(dataSource) &&
+                      dataSource.length > 0 &&
+                      dataSource.map(row => (
+                        <TableRow key={row.id}>
+                          <TableCell>{row.name}</TableCell>
+                          <TableCell>{row.date}</TableCell>
+                          <TableCell>
+                            <ActionDiv
+                              onClick={() => this.handleDelete(row.key)}
+                            >
+                              <Icon color="error" fontSize="small">
+                                delete
+                              </Icon>
+                            </ActionDiv>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               )}

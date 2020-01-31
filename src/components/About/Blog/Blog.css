@@ -32,6 +32,10 @@
     margin: 0 auto;
 }
 
+figure > img {
+    max-width: 100%;
+}
+
 .authorName{
     padding-left: 0.625rem;
     font-size: 1.125rem;

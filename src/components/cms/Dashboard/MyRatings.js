@@ -79,7 +79,7 @@ class MyRatings extends Component {
           <TableWrap>
             {ratingsData &&
               Array.isArray(ratingsData) &&
-              ratingsData.length !== 0 && (
+              ratingsData.length > 0 && (
                 <MaterialTable
                   title="My Rating"
                   columns={[
@@ -131,15 +131,20 @@ class MyRatings extends Component {
                       },
                     },
                   ]}
-                  data={ratingsData.map((rating, index) => {
-                    return {
-                      group: rating.group,
-                      skillName: rating.skillName,
-                      ratingTimestamp: rating.ratingTimestamp,
-                      skillStar: rating.skillStar,
-                      language: rating.language,
-                    };
-                  })}
+                  data={
+                    ratingsData &&
+                    Array.isArray(ratingsData) &&
+                    ratingsData.length > 0 &&
+                    ratingsData.map((rating, index) => {
+                      return {
+                        group: rating.group,
+                        skillName: rating.skillName,
+                        ratingTimestamp: rating.ratingTimestamp,
+                        skillStar: rating.skillStar,
+                        language: rating.language,
+                      };
+                    })
+                  }
                   options={{
                     search: false,
                     toolbar: false,
