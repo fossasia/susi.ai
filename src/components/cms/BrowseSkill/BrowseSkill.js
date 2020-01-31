@@ -146,10 +146,15 @@ const SidebarText = styled.h4`
   ${SidebarTextStyles}
 `;
 
-const SidebarLink = styled(Link)`
+const SidebarLink = styled.button`
   color: rgba(0, 0, 0, 0.54);
   font-weight: bold;
+  border: none;
+  padding: 0px;
+  outline: none;
   width: fit-content;
+
+  font-size: 1rem;
   cursor: pointer;
   :hover {
     color: #4285f4;
@@ -225,7 +230,7 @@ const MobileBackButton = styled(Button)`
 
 const commonListIconStyles = css`
   font-size: 50px;
-  fill: ${props => (props.isActive === true ? '#4285f4' : '#e0e0e0')};
+  fill: ${props => (props['is-active'] ? '#4285f4' : '#e0e0e0')};
   @media (max-width: 1260px) {
     font-size: 30px;
   }
@@ -293,7 +298,7 @@ class BrowseSkill extends React.Component {
       obj = {
         ...obj,
         filterType: `&creation_date&duration=${value}`,
-        timeFilter: value,
+        timeFilter: parseFloat(value),
       };
     }
     if (params.has('rating_refine')) {
@@ -403,7 +408,7 @@ class BrowseSkill extends React.Component {
       appendQueryString(location, history, 'creation_date&duration', value);
       await actions.setTimeFilter({
         filterType: `creation_date&duration=${value}`,
-        timeFilter: value,
+        timeFilter: parseFloat(value),
       });
       this.loadCards();
     } else {
@@ -970,6 +975,7 @@ class BrowseSkill extends React.Component {
                     >
                       <Grid
                         item
+                        container
                         alignItems="center"
                         sm={6}
                         style={{
@@ -980,7 +986,7 @@ class BrowseSkill extends React.Component {
                       >
                         {renderSkillCount}
                       </Grid>
-                      <Grid item sm={6} alignItems="center">
+                      <Grid item sm={6} container alignItems="center">
                         {skills.length > 0 && (
                           <FlexContainer>
                             {filterType !== '' && (
@@ -1049,18 +1055,14 @@ class BrowseSkill extends React.Component {
                               <Radio
                                 value="list"
                                 style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={
-                                  <ActionViewStream isActive={true} />
-                                }
-                                icon={<ActionViewStream isActive={false} />}
+                                checkedIcon={<ActionViewStream is-active={1} />}
+                                icon={<ActionViewStream />}
                               />
                               <Radio
                                 value="grid"
                                 style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={
-                                  <ActionViewModule isActive={true} />
-                                }
-                                icon={<ActionViewModule isActive={false} />}
+                                checkedIcon={<ActionViewModule is-active={1} />}
+                                icon={<ActionViewModule />}
                               />
                             </RadioGroup>
                           </FlexContainer>
