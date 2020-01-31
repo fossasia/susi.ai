@@ -97,7 +97,7 @@ class ThemeChangeTab extends React.Component {
             handleClick={this.handleSubmit}
             disabled={disabled || loading}
             isLoading={loading}
-            buttonText="SaveChanges"
+            buttonText="Save Changes"
           />
         </div>
       </SettingsTabWrapper>
