@@ -433,7 +433,7 @@ class AccountTab extends React.Component {
             </TabHeading>
             <Select
               value={voiceOutput.voiceLang}
-              disabled={!this.TTSBrowserSupport | loading}
+              disabled={!this.TTSBrowserSupport || loading}
               onChange={this.handlePrefLang}
               style={{ margin: '1rem 0' }}
             >
