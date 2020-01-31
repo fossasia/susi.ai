@@ -203,7 +203,7 @@ class TextToSpeechSettings extends Component {
             <Translate text="Speech Output Language" />
           </TabHeading>
           <Select
-            value={this.state.currSpeechText}
+            value={this.state.currSpeechText || 0}
             onChange={this.handleTTSVoices}
           >
             {voiceOutput.voiceMenu}
