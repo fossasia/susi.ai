@@ -15,14 +15,14 @@ const useStyles = makeStyles({
 
 const Button = styled.button`
   float: right;
+  margin: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #4285f4;
 `;
 
 const Icon = styled.i`
-  margin: 0.5rem 1rem;
-  border-radius: 5px;
-  padding: 0.4rem 0.8rem;
+  padding: 0.4rem 0.4rem;
   color: #fff;
-  background-color: #4285f4;
 `;
 
 export default function SideDrawer(props) {
