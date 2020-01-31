@@ -6,7 +6,7 @@ export const FlexContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   @media (max-width: 900px) {
-    width: 100%;
+    width: auto;
   }
 `;
 
