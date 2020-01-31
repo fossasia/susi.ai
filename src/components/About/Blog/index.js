@@ -19,7 +19,6 @@ import {
   LinkedinIcon,
 } from 'react-share';
 import styled, { css } from 'styled-components';
-import Typography from '@material-ui/core/Typography';
 import renderHTML from 'react-render-html';
 import { getBlogReponse } from '../../../apis';
 import './Blog.css';
@@ -119,7 +118,16 @@ const Overlay = styled.div`
   margin-top: -3.5rem;
 `;
 
-const CustomTypography = styled(Typography)`
+const Heading = styled.p`
+  font-size: 2.125rem;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: 0.00735em;
+`;
+
+const CustomTypography = styled.div`
   margin-bottom: 2rem;
   color: rgba(0, 0, 0, 0.54);
   font-size: 0.875rem;
@@ -325,9 +333,9 @@ class Blog extends Component {
 
                   const tags = arrDiff(category, posts.categories);
                   const fCategory = category
-                    .map(cat => (
+                    .map((cat, index) => (
                       <BlogFooterLink
-                        key={cat}
+                        key={index}
                         href={
                           'http://blog.fossasia.org/category/' +
                           cat.replace(/\s+/g, '-').toLowerCase()
@@ -339,9 +347,9 @@ class Blog extends Component {
                     ))
                     .reduce((prev, curr) => [prev, ', ', curr]);
                   const ftags = tags
-                    .map(tag => (
+                    .map((tag, index) => (
                       <BlogFooterLink
-                        key={tag}
+                        key={index}
                         href={
                           'http://blog.fossasia.org/tag/' +
                           tag.replace(/\s+/g, '-').toLowerCase()
@@ -363,7 +371,7 @@ class Blog extends Component {
                   const date = posts.pubDate.split(' ');
                   const d = new Date(date[0]);
                   return (
-                    <div key={posts} className="section_blog">
+                    <div key={i} className="section_blog">
                       <Card>
                         <CardMedia image={image} />
                         <Overlay>
@@ -375,8 +383,8 @@ class Blog extends Component {
                           </OverlayLink>
                         </Overlay>
                         <BlogPostContainer>
-                          <Typography variant="h4">{posts.title}</Typography>
-                          <CustomTypography variant="subtitle1">
+                          <Heading>{posts.title}</Heading>
+                          <CustomTypography>
                             by
                             <a
                               style={{ paddingLeft: '0.3rem' }}
@@ -385,9 +393,7 @@ class Blog extends Component {
                               {posts.author}
                             </a>
                           </CustomTypography>
-                          <Typography variant="body1" gutterBottom>
-                            {htmlContent}
-                          </Typography>
+                          <div>{htmlContent}</div>
                         </BlogPostContainer>
                         <SocialButtons>
                           <TwitterShareButton
