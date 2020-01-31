@@ -32,7 +32,7 @@ const Privacy = props => {
           your information and put you in control.
         </H1>
         <div>
-          <p>
+          <div>
             This Privacy Policy is meant to help you understand what information
             we collect, why we collect it, and how you can update, manage,
             export, and delete your information. We build a range of services
@@ -44,7 +44,7 @@ const Privacy = props => {
               <li>Custom Chatbots</li>
               <li>Personalised Skills</li>
             </ul>
-          </p>
+          </div>
           <p>
             You can use our services in a variety of ways to manage your
             privacy. For example, you can sign up for a SUSI.AI Account if you
@@ -113,14 +113,14 @@ const Privacy = props => {
             content you’ve saved with SUSI.AI.
           </p>
           <h2>Deleting your information</h2>
-          <p>
+          <div>
             To delete your information, you can:
             <ul>
               <li>Request an admin to delete your skill</li>
               <li>Delete your chatbots</li>
               <li>Delete your entire SUSI.AI account</li>
             </ul>
-          </p>
+          </div>
           <h2>
             We build security into our services to protect your information
           </h2>
@@ -132,7 +132,7 @@ const Privacy = props => {
             think you should know about, we’ll notify you and help guide you
             through steps to stay better protected.
           </p>
-          <p>
+          <div>
             We work hard to protect you and SUSI.AI from unauthorized access,
             alteration, disclosure, or destruction of information we hold,
             including:
@@ -152,7 +152,7 @@ const Privacy = props => {
                 or terminated if they fail to meet these obligations.
               </li>
             </ul>
-          </p>
+          </div>
         </div>
       </HomeDiv>
     </div>

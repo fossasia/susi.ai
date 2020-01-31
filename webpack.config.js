@@ -77,8 +77,17 @@ module.exports = ({ mode }) => {
         port: 3000,
         hot: true,
       },
+      entry: {
+        index: [
+          './src/index.js',
+          './public/js/index.js',
+          './public/js/recaptcha.js',
+          './public/js/charts.js',
+          './public/susi-chatbot.js',
+        ],
+      },
       output: {
-        publicPath: './',
+        publicPath: '/',
         path: path.resolve(__dirname, 'build'),
         filename: 'bundled.js',
       },
