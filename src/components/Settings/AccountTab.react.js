@@ -23,10 +23,7 @@ import styled from 'styled-components';
 import { setUserSettings, uploadAvatar, deleteUserAccount } from '../../apis';
 import defaultAvatar from '../../images/defaultAvatar.png';
 import isUserName from '../../utils/isUserName';
-import {
-  extractImageFileExtensionFromBase64,
-  base64StringtoFile,
-} from '../../utils/helperFunctions';
+import { urltoFile } from '../../utils/helperFunctions';
 
 const TimezonePicker = styled(_TimezonePicker)`
   & > ul {
@@ -197,26 +194,37 @@ class AccountTab extends React.Component {
   };
 
   handleAvatarSubmit = async () => {
-    const { imageFile } = this.state;
+    const { imagePreviewUrl, file } = this.state;
     const { accessToken, actions, userEmailId } = this.props;
-    const fileExt = extractImageFileExtensionFromBase64(imageFile);
-    const fileName = 'image.' + fileExt;
-    const file = base64StringtoFile(imageFile, fileName);
+    const fileName = file.name;
+    const fileExt = fileName.split('.')[1];
+    const imageFile = await urltoFile(
+      imagePreviewUrl,
+      fileName,
+      `image/${fileExt}`,
+    );
     // eslint-disable-next-line no-undef
     let form = new FormData();
     form.append('access_token', accessToken);
     userEmailId && form.append('email', userEmailId);
-    form.append('image', file);
+    form.append('image', imageFile);
     this.setState({ uploadingAvatar: true });
-    await uploadAvatar(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Avatar Uploaded',
-    });
-    this.setState({
-      uploadingAvatar: false,
-      isAvatarAdded: true,
-      isAvatarUploaded: true,
-    });
+    try {
+      await uploadAvatar(form);
+      actions.openSnackBar({
+        snackBarMessage: 'Avatar Uploaded',
+      });
+      this.setState({
+        uploadingAvatar: false,
+        isAvatarAdded: true,
+        isAvatarUploaded: true,
+        settingSave: false,
+      });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to upload Avatar!',
+      });
+    }
   };
 
   handleAvatarImageChange = e => {
@@ -252,11 +260,10 @@ class AccountTab extends React.Component {
     });
   };
 
-  getCroppedImage = (croppedImg, img) => {
+  getCroppedImage = croppedImg => {
     this.setState(
       {
         imagePreviewUrl: croppedImg,
-        imageFile: img,
       },
       async () => {
         const { actions } = this.props;

@@ -68,34 +68,42 @@ class Mail extends React.Component {
   };
 
   getMailSettings = async () => {
-    let { settings } = await fetchMailSettings();
-    const {
-      frontendUrl,
-      name,
-      sendgridToken,
-      type,
-      email,
-      trustselfsignedcerts,
-      encryption,
-      port,
-      smtpUserName: username,
-      smtpPassword: password,
-      smtpHost,
-    } = settings;
-    this.setState({
-      frontendUrl,
-      name,
-      sendgridToken,
-      type,
-      email,
-      trustselfsignedcerts,
-      encryption,
-      port,
-      username,
-      password,
-      smtpHost,
-      loading: false,
-    });
+    try {
+      let { settings } = await fetchMailSettings();
+      const {
+        frontendUrl,
+        name,
+        sendgridToken,
+        type,
+        email,
+        trustselfsignedcerts,
+        encryption,
+        port,
+        smtpUserName: username,
+        smtpPassword: password,
+        smtpHost,
+      } = settings;
+      this.setState({
+        frontendUrl,
+        name,
+        sendgridToken,
+        type,
+        email,
+        trustselfsignedcerts,
+        encryption,
+        port,
+        username,
+        password,
+        smtpHost,
+        loading: false,
+      });
+    } catch (error) {
+      this.props.actions.openSnackBar({
+        snackBarMessage: 'Failed to fetch mail Settings!',
+        snackBarDurations: 2000,
+      });
+      console.log(error);
+    }
   };
 
   componentDidMount() {

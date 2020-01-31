@@ -518,21 +518,25 @@ class SkillWizard extends Component {
       if (this.mode === 'edit') {
         document.title = 'SUSI.AI - Edit Skill';
         if (this.commitId) {
-          let skillByCommitId = await actions.getSkillByCommitId({
-            ...payload,
-            commitID: this.commitId,
-          });
-          this.setState({
-            author: skillByCommitId.author,
-            date: skillByCommitId.commitDate,
-            loadViews: true,
-          });
-          let match = null;
-          if (skillByCommitId && skillByCommitId.file) {
-            match = skillByCommitId.file.match(/^::image\s(.*)$/m);
-          }
-          if (match != null) {
-            this.setState({ codeChanged: true });
+          try {
+            let skillByCommitId = await actions.getSkillByCommitId({
+              ...payload,
+              commitID: this.commitId,
+            });
+            this.setState({
+              author: skillByCommitId.author,
+              date: skillByCommitId.commitDate,
+              loadViews: true,
+            });
+            let match = null;
+            if (skillByCommitId && skillByCommitId.file) {
+              match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+            }
+            if (match != null) {
+              this.setState({ codeChanged: true });
+            }
+          } catch (error) {
+            console.log('Error while fetching skill', error);
           }
         }
         // Edit already existing Skill

@@ -103,11 +103,20 @@ class ControlSection extends React.Component {
   };
 
   populateDeviceList = async () => {
-    let { data } = await refreshDeviceList();
-    this.setState({
-      devicesList: data,
-      selectedDevice: '',
-    });
+    try {
+      let { data } = await refreshDeviceList();
+      this.setState({
+        devicesList: data,
+        selectedDevice: '',
+      });
+    } catch (error) {
+      const { actions } = this.props;
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to fetch the devices',
+        snackBarDuration: 2000,
+      });
+      console.log(error);
+    }
   };
 
   handleDeviceSelect = e => {
