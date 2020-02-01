@@ -25,7 +25,11 @@ class EditUserRole extends React.Component {
   handleConfirm = async () => {
     const { userEmail: user, userRole: role } = this.state;
     const { actions } = this.props;
-    await changeUserRole({ user, role });
+    try {
+      await changeUserRole({ user, role });
+    } catch (error) {
+      console.log(error);
+    }
     this.setState({ changeRoleDialog: true });
     actions
       .openModal({
