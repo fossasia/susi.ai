@@ -32,6 +32,7 @@ import ChatAppTab from './ChatAppTab.react';
 import UserKeysTab from './UserKeysTab';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
+import uiActions from '../../redux/actions/ui';
 import { isProduction } from '../../utils/helperFunctions';
 
 const settingsOptions = [
@@ -167,12 +168,28 @@ class Settings extends Component {
     const parameters = new URL(window.location).searchParams;
     const email = parameters.get('email');
     if (email) {
-      let { payload } = await actions.getUserSettings({ email });
-      const { settings } = payload;
-      const { theme } = settings;
-      this.setState({ loading: false, theme });
+      try {
+        let { payload } = await actions.getUserSettings({ email });
+        const { settings } = payload;
+        const { theme } = settings;
+        this.setState({ loading: false, theme });
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch your settings!',
+          snackBarDuration: 2000,
+        });
+        console.log(error);
+      }
     } else {
-      await actions.getUserSettings();
+      try {
+        await actions.getUserSettings();
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch your settings!',
+          snackBarDuration: 2000,
+        });
+        console.log(error);
+      }
       this.setState({ loading: false, theme });
     }
     document.title =
@@ -204,32 +221,42 @@ class Settings extends Component {
 
   generateMenu = () => {
     const { theme, selectedSetting } = this.state;
-    return settingsOptions.map(eachOption => (
-      <MenuItem
-        key={eachOption.name}
-        onClick={this.loadSettings}
-        style={{
-          color: theme === 'dark' ? '#fff' : '#272727',
-          borderBottom:
-            theme === 'light' ? '1px solid #f2f2f2' : '1px solid #ffffff',
-        }}
-        selected={selectedSetting === eachOption.name}
-      >
-        <ListItemIcon>{eachOption.icon}</ListItemIcon>
-        <ListItemText primary={eachOption.name} />
-        <ChevronRight />
-      </MenuItem>
-    ));
+    return (
+      settingsOptions &&
+      Array.isArray(settingsOptions) &&
+      settingsOptions.length > 0 &&
+      settingsOptions.map(eachOption => (
+        <MenuItem
+          key={eachOption.name}
+          onClick={this.loadSettings}
+          style={{
+            color: theme === 'dark' ? '#fff' : '#272727',
+            borderBottom:
+              theme === 'light' ? '1px solid #f2f2f2' : '1px solid #ffffff',
+          }}
+          selected={selectedSetting === eachOption.name}
+        >
+          <ListItemIcon>{eachOption.icon}</ListItemIcon>
+          <ListItemText primary={eachOption.name} />
+          <ChevronRight />
+        </MenuItem>
+      ))
+    );
   };
 
   generateDropDownMenu = () => {
-    return settingsOptions.map(eachOption => {
-      return (
-        <SettingsMenuItem key={eachOption.name} value={eachOption.name}>
-          {eachOption.name}
-        </SettingsMenuItem>
-      );
-    });
+    return (
+      settingsOptions &&
+      Array.isArray(settingsOptions) &&
+      settingsOptions.length > 0 &&
+      settingsOptions.map(eachOption => {
+        return (
+          <SettingsMenuItem key={eachOption.name} value={eachOption.name}>
+            {eachOption.name}
+          </SettingsMenuItem>
+        );
+      })
+    );
   };
 
   generateSettings = () => {
@@ -285,7 +312,7 @@ class Settings extends Component {
             onChange={this.loadSettings}
             value={selectedSetting}
             style={{ width: '100%' }}
-            autoWidth={false}
+            autowidth="false"
           >
             {this.generateDropDownMenu()}
           </Select>
@@ -327,7 +354,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(settingActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...settingActions }, dispatch),
   };
 }
 

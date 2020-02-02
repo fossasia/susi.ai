@@ -1,5 +1,5 @@
 import React from 'react';
-import Admin from '../../components/Admin/Admin';
+import Admin from '../../../components/Admin/Admin';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

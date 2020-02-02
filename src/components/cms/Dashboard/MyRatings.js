@@ -77,81 +77,90 @@ class MyRatings extends Component {
           <TableSleleton />
         ) : (
           <TableWrap>
-            <MaterialTable
-              title="My Rating"
-              columns={[
-                {
-                  title: 'Skill Name',
-                  field: 'skillName',
-                  render: rowData => {
-                    return (
-                      <Link
-                        to={{
-                          pathname: `/${rowData.group}/${getSkillFromRating(
-                            rowData.skillName,
-                          )}/${rowData.language}`,
-                        }}
-                      >
-                        {(
-                          rowData.skillName.charAt(0).toUpperCase() +
-                          rowData.skillName.slice(1)
-                        ).replace(/[_-]/g, ' ')}
-                      </Link>
-                    );
-                  },
-                },
-                {
-                  title: 'Rating',
-                  field: 'rating',
-                  render: rowData => {
-                    return (
-                      <Ratings
-                        rating={rowData.skillStar}
-                        widgetRatedColors="#ffbb28"
-                        widgetDimensions="20px"
-                        widgetSpacings="0px"
-                      >
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                        <Ratings.Widget />
-                      </Ratings>
-                    );
-                  },
-                },
-                {
-                  title: 'Timestamp',
-                  field: 'timestamp',
-                  render: rowData => {
-                    return parseDate(rowData.ratingTimestamp);
-                  },
-                },
-              ]}
-              data={ratingsData.map((rating, index) => {
-                return {
-                  group: rating.group,
-                  skillName: rating.skillName,
-                  ratingTimestamp: rating.ratingTimestamp,
-                  skillStar: rating.skillStar,
-                  language: rating.language,
-                };
-              })}
-              options={{
-                search: false,
-                toolbar: false,
-                headerStyle: {
-                  backgroundColor: '#6fa2ff',
-                  color: '#FFF',
-                  fontSize: '1.2rem',
-                },
-              }}
-            />
+            {ratingsData &&
+              Array.isArray(ratingsData) &&
+              ratingsData.length > 0 && (
+                <MaterialTable
+                  title="My Rating"
+                  columns={[
+                    {
+                      title: 'Skill Name',
+                      field: 'skillName',
+                      render: rowData => {
+                        return (
+                          <Link
+                            to={{
+                              pathname: `/${rowData.group}/${getSkillFromRating(
+                                rowData.skillName,
+                              )}/${rowData.language}`,
+                            }}
+                          >
+                            {(
+                              rowData.skillName.charAt(0).toUpperCase() +
+                              rowData.skillName.slice(1)
+                            ).replace(/[_-]/g, ' ')}
+                          </Link>
+                        );
+                      },
+                    },
+                    {
+                      title: 'Rating',
+                      field: 'rating',
+                      render: rowData => {
+                        return (
+                          <Ratings
+                            rating={rowData.skillStar}
+                            widgetRatedColors="#ffbb28"
+                            widgetDimensions="20px"
+                            widgetSpacings="0px"
+                          >
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                          </Ratings>
+                        );
+                      },
+                    },
+                    {
+                      title: 'Timestamp',
+                      field: 'timestamp',
+                      render: rowData => {
+                        return parseDate(rowData.ratingTimestamp);
+                      },
+                    },
+                  ]}
+                  data={
+                    ratingsData &&
+                    Array.isArray(ratingsData) &&
+                    ratingsData.length > 0 &&
+                    ratingsData.map((rating, index) => {
+                      return {
+                        group: rating.group,
+                        skillName: rating.skillName,
+                        ratingTimestamp: rating.ratingTimestamp,
+                        skillStar: rating.skillStar,
+                        language: rating.language,
+                      };
+                    })
+                  }
+                  options={{
+                    search: false,
+                    toolbar: false,
+                    headerStyle: {
+                      backgroundColor: '#6fa2ff',
+                      color: '#FFF',
+                      fontSize: '1.2rem',
+                    },
+                  }}
+                />
+              )}
           </TableWrap>
         )}
         {ratingsData.length === 0 && !loading && (
           <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
-            <h2>
+            <h2 style={{ padding: '5px' }}>
               You have not rated any skill, go to{' '}
               <Link to="/">SUSI Skills Explorer</Link> and rate.
             </h2>

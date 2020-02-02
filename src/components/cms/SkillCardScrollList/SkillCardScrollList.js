@@ -58,19 +58,24 @@ const skillCardListData = [
 
 const SkillCardScrollList = ({ metricSkills, history, isMobile }) => {
   let renderCardScrollList = '';
-
-  renderCardScrollList = skillCardListData.map((data, index) => {
-    return metricSkills[data.skills].length ? (
-      <Container key={index}>
-        <HeaderText>{data.heading}</HeaderText>
-        <SkillCard
-          isMobile={isMobile}
-          scrollSkills={data.skills}
-          history={history}
-        />
-      </Container>
-    ) : null;
-  });
+  if (
+    skillCardListData &&
+    Array.isArray(skillCardListData) &&
+    skillCardListData.length > 0
+  ) {
+    renderCardScrollList = skillCardListData.map((data, index) => {
+      return metricSkills[data.skills] && metricSkills[data.skills].length ? (
+        <Container key={index}>
+          <HeaderText>{data.heading}</HeaderText>
+          <SkillCard
+            isMobile={isMobile}
+            scrollSkills={data.skills}
+            history={history}
+          />
+        </Container>
+      ) : null;
+    });
+  }
   return <div>{renderCardScrollList}</div>;
 };
 

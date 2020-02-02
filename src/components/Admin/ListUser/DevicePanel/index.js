@@ -51,22 +51,25 @@ class DevicePanel extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map(({ devicename, macid, room, latitude, longitude }) => (
-                <TableRow key={macid}>
-                  <TableCell>{devicename}</TableCell>
-                  <TableCell>{macid}</TableCell>
-                  <TableCell>{room}</TableCell>
-                  <TableCell>{latitude}</TableCell>
-                  <TableCell>{longitude}</TableCell>
-                  <TableCell>
-                    <span
-                      onClick={() => this.editDevice(devicename, room, macid)}
-                    >
-                      Edit
-                    </span>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {data &&
+                Array.isArray(data) &&
+                data.length > 0 &&
+                data.map(({ devicename, macid, room, latitude, longitude }) => (
+                  <TableRow key={macid}>
+                    <TableCell>{devicename}</TableCell>
+                    <TableCell>{macid}</TableCell>
+                    <TableCell>{room}</TableCell>
+                    <TableCell>{latitude}</TableCell>
+                    <TableCell>{longitude}</TableCell>
+                    <TableCell>
+                      <span
+                        onClick={() => this.editDevice(devicename, room, macid)}
+                      >
+                        Edit
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         ) : (

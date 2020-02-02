@@ -1,29 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import createActions from '../../../../../redux/actions/create';
 import PropTypes from 'prop-types';
 import AceEditorComponent from '../../../../shared/AceEditor.js';
 
-class CodeView extends Component {
-  handleChangeCode = event => {
-    const { actions } = this.props;
+const CodeView = ({ actions, configCode }) => {
+  const handleChangeCode = event => {
     actions.setConfigureData({ configCode: event });
   };
-
-  render() {
-    const { configCode } = this.props;
-    return (
-      <div>
-        <AceEditorComponent
-          value={configCode}
-          onChange={this.handleChangeCode}
-          height="18.75rem"
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <AceEditorComponent
+        value={configCode}
+        onChange={handleChangeCode}
+        height="18.75rem"
+      />
+    </div>
+  );
+};
 
 CodeView.propTypes = {
   actions: PropTypes.object,

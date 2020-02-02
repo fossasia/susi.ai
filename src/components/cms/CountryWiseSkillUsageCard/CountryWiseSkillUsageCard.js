@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import styled from 'styled-components';
 import { isoCountries } from '../../../utils';
 import { DefaultMessage } from '../../shared/Typography';
+import ReactCountryFlag from 'react-country-flag';
 
 const ListContainer = styled.div`
   width: auto;
@@ -54,8 +55,11 @@ const CountryWiseSkillUsageCard = ({ countryWiseSkillUsage }) => {
               const countryName = getCountryName(countryCode);
               return (
                 <TableRow key={id}>
-                  <TableCell style={{ width: '70%', padding: '0' }}>
-                    {countryName}:
+                  <TableCell style={{ width: '20%', padding: '0 2px' }}>
+                    <ReactCountryFlag countryCode={countryCode} svg />
+                  </TableCell>
+                  <TableCell style={{ width: '60%', padding: '0 5px' }}>
+                    {countryName}
                   </TableCell>
                   <TableCell>{usage}</TableCell>
                 </TableRow>
