@@ -281,14 +281,11 @@ class BrowseSkill extends React.Component {
     location: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      innerWidth: window.innerWidth,
-      open: false,
-    };
-    this.groups = [];
-  }
+  state = {
+    innerWidth: window.innerWidth,
+    open: false,
+  };
+  groups = [];
 
   initStore = () => {
     const { actions } = this.props;

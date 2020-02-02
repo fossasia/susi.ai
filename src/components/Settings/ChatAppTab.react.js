@@ -12,14 +12,10 @@ import { bindActionCreators } from 'redux';
 import { setUserSettings } from '../../apis';
 
 class ChatAppTab extends React.Component {
-  constructor(props) {
-    super(props);
-    const { enterAsSend } = this.props;
-    this.state = {
-      enterAsSend,
-      loading: false,
-    };
-  }
+  state = {
+    enterAsSend: this.props.enterAsSend,
+    loading: false,
+  };
 
   handleEnterAsSend = (event, isInputChecked) => {
     this.setState({

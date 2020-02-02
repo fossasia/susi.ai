@@ -27,15 +27,12 @@ const DeleteButton = styled(Button)`
 `;
 
 class DeleteAccount extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      password: '',
-      passwordError: false,
-      loading: false,
-    };
-    this.passwordErrorMessage = '';
-  }
+  state = {
+    password: '',
+    passwordError: false,
+    loading: false,
+  };
+  passwordErrorMessage = '';
 
   async componentDidMount() {
     const { actions, accessToken } = this.props;

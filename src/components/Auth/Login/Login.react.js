@@ -43,21 +43,18 @@ class Login extends Component {
     message: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      emailErrorMessage: '',
-      password: '',
-      passwordErrorMessage: '',
-      success: false,
-      loading: false,
-      showCaptchaErrorMessage: false,
-      attempts: storageService.get('loginAttempts', 'session') || 0,
-      captchaResponse: '',
-      errorMessage: '',
-    };
-  }
+  state = {
+    email: '',
+    emailErrorMessage: '',
+    password: '',
+    passwordErrorMessage: '',
+    success: false,
+    loading: false,
+    showCaptchaErrorMessage: false,
+    attempts: storageService.get('loginAttempts', 'session') || 0,
+    captchaResponse: '',
+    errorMessage: '',
+  };
 
   componentWillUnmount() {
     storageService.set('loginAttempts', this.state.attempts, 'session');

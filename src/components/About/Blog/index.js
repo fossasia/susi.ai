@@ -203,17 +203,14 @@ class Blog extends Component {
     blogKey: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: [],
-      postRendered: false,
-      startPage: 0,
-      nextDisplay: 'visible',
-      prevDisplay: 'hidden',
-      nextPosts: [],
-    };
-  }
+  state = {
+    posts: [],
+    postRendered: false,
+    startPage: 0,
+    nextDisplay: 'visible',
+    prevDisplay: 'hidden',
+    nextPosts: [],
+  };
 
   componentDidMount() {
     const { blogKey } = this.props;

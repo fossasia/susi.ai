@@ -49,15 +49,12 @@ class ConfirmDeleteAccount extends React.Component {
     email: PropTypes.string,
     history: PropTypes.object,
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      confirmed: false,
-      emailError: '',
-      emailInput: '',
-      loading: false,
-    };
-  }
+  state = {
+    confirmed: false,
+    emailError: '',
+    emailInput: '',
+    loading: false,
+  };
 
   handleClose = event => {
     this.props.actions.closeModal();
