@@ -21,6 +21,10 @@ input {
   font-weight: 400 !important;
 }
 
+.MuiListSubheader-sticky {
+  position: inherit;
+}
+
 /* Remove input autofill yellow background */
 @-webkit-keyframes autofill {
   to {
