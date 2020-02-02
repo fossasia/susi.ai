@@ -18,13 +18,14 @@ export const StyledIconButton = styled(Button)`
 
 const Container = styled.div`
   display: flex;
-  margin: 0rem 3rem;
-  margin-top: 1rem;
+  margin: 0rem 0rem;
+  margin-top: 2rem;
   margin-bottom: -0.5rem;
 `;
 
 const Text = styled.textarea`
-  width: ${props => (props.width ? props.width : '33%')};
+  width: ${props => (props.width ? props.width : '80%')};
+  min-height: 5rem;
   font-size: 1rem;
   padding: 2px 0.5rem;
   border-top-left-radius: 5px;

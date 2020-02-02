@@ -63,12 +63,16 @@ class CropDialog extends Component {
 
   async makeClientCrop(crop) {
     if (this.imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await this.getCroppedImg(
-        this.imageRef,
-        crop,
-        'newFile.jpeg',
-      );
-      this.setState({ croppedImageUrl });
+      try {
+        const croppedImageUrl = await this.getCroppedImg(
+          this.imageRef,
+          crop,
+          'newFile.jpeg',
+        );
+        this.setState({ croppedImageUrl });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
