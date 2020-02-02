@@ -19,10 +19,14 @@ export default async function({
   pendingUserMessage,
 }) {
   if (mode === 'minimize') {
-    await setPendingUserMessage({ pendingUserMessage: text });
-    setChatMode({
-      mode: isMobileView ? 'fullScreen' : 'preview',
-    });
+    try {
+      await setPendingUserMessage({ pendingUserMessage: text });
+      setChatMode({
+        mode: isMobileView ? 'fullScreen' : 'preview',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   } else {
     try {
       let userMessage = await formatUserMessage({

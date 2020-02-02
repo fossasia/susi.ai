@@ -6,7 +6,7 @@ import TreeView from './SkillViews/TreeView';
 import Preview from '../BotBuilder/Preview/Preview';
 import _Button from '@material-ui/core/Button';
 import searchURLPath from '../../../utils/searchURLPath';
-import { base64StringtoFile } from '../../../utils/helperFunctions';
+import { urltoFile } from '../../../utils/helperFunctions';
 import getQueryStringValue from '../../../utils/getQueryStringValue';
 import createActions from '../../../redux/actions/create';
 import uiActions from '../../../redux/actions/ui';
@@ -518,21 +518,25 @@ class SkillWizard extends Component {
       if (this.mode === 'edit') {
         document.title = 'SUSI.AI - Edit Skill';
         if (this.commitId) {
-          let skillByCommitId = await actions.getSkillByCommitId({
-            ...payload,
-            commitID: this.commitId,
-          });
-          this.setState({
-            author: skillByCommitId.author,
-            date: skillByCommitId.commitDate,
-            loadViews: true,
-          });
-          let match = null;
-          if (skillByCommitId && skillByCommitId.file) {
-            match = skillByCommitId.file.match(/^::image\s(.*)$/m);
-          }
-          if (match != null) {
-            this.setState({ codeChanged: true });
+          try {
+            let skillByCommitId = await actions.getSkillByCommitId({
+              ...payload,
+              commitID: this.commitId,
+            });
+            this.setState({
+              author: skillByCommitId.author,
+              date: skillByCommitId.commitDate,
+              loadViews: true,
+            });
+            let match = null;
+            if (skillByCommitId && skillByCommitId.file) {
+              match = skillByCommitId.file.match(/^::image\s(.*)$/m);
+            }
+            if (match != null) {
+              this.setState({ codeChanged: true });
+            }
+          } catch (error) {
+            console.log('Error while fetching skill', error);
           }
         }
         // Edit already existing Skill
@@ -960,9 +964,10 @@ class SkillWizard extends Component {
     await actions.openModal({
       modalType: 'crop',
       title: `Crop ${this.isBotBuilder ? 'bot' : 'skill'} image`,
-      handleConfirm: (cropImageUrl, imageBase64) => {
+      handleConfirm: cropImageUrl => {
         image = cropImageUrl;
-        file = base64StringtoFile(imageBase64, imageName);
+        const fileExt = imageName.split('.')[1];
+        file = urltoFile(image, imageName, `image/${fileExt}`);
         if (this.props.imageUrl !== `images/${imageName}`) {
           this.setState({
             imageNameChanged: true,

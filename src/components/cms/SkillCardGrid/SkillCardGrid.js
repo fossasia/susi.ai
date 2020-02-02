@@ -100,7 +100,7 @@ class SkillCardGrid extends Component {
         authorName = skill.author;
       }
       cards.push(
-        <Card grid={true} key={el}>
+        <Card grid={1} key={`i${el}`}>
           <ImageContainer key={el}>
             <Link
               key={el}
@@ -153,7 +153,7 @@ class SkillCardGrid extends Component {
                     place="bottom"
                     effect="solid"
                     delayHide={200}
-                    border="true"
+                    border={true}
                   >
                     <Link to={{ pathname: skillFeedbackPathname }}>
                       <SkillRatingPopover stars={stars} />

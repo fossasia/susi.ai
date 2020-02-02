@@ -24,7 +24,6 @@ class CropDialog extends Component {
       aspect: 1 / 1,
     },
     croppedImageUrl: null,
-    imageBase64: null,
     loading: false,
   };
 
@@ -48,11 +47,6 @@ class CropDialog extends Component {
       crop.height,
     );
 
-    let imageBase64 = canvas.toDataURL('image');
-    this.setState({
-      imageBase64,
-    });
-
     return new Promise((resolve, reject) => {
       canvas.toBlob(blob => {
         if (!blob) {
@@ -69,12 +63,16 @@ class CropDialog extends Component {
 
   async makeClientCrop(crop) {
     if (this.imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await this.getCroppedImg(
-        this.imageRef,
-        crop,
-        'newFile.jpeg',
-      );
-      this.setState({ croppedImageUrl });
+      try {
+        const croppedImageUrl = await this.getCroppedImg(
+          this.imageRef,
+          crop,
+          'newFile.jpeg',
+        );
+        this.setState({ croppedImageUrl });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -94,7 +92,7 @@ class CropDialog extends Component {
 
   render() {
     const { title, handleConfirm, imagePreviewUrl, handleClose } = this.props;
-    const { croppedImageUrl, crop, imageBase64, loading } = this.state;
+    const { croppedImageUrl, crop, loading } = this.state;
     return (
       <React.Fragment>
         <DialogTitle>{title}</DialogTitle>
@@ -124,7 +122,7 @@ class CropDialog extends Component {
             variant="contained"
             handleClick={() => {
               this.setState({ loading: true });
-              handleConfirm(croppedImageUrl, imageBase64);
+              handleConfirm(croppedImageUrl);
             }}
             isLoading={loading}
             disabled={loading}
