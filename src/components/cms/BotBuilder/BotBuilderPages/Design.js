@@ -17,46 +17,43 @@ import {
   IconButtonContainer,
 } from '../styles';
 
-class Design extends React.Component {
-  render() {
-    const { actions, view } = this.props;
-    return (
-      <div>
-        <HeadingContainer>
-          <Heading>2. Choose Color and Background</Heading>
-          <IconButtonContainer>
-            <IconButton
-              className="iconbutton"
-              onClick={() => {
-                actions.setView({ view: 'code' });
-              }}
-            >
-              <Code color={view === 'code' ? 'primary' : 'inherit'} />
-            </IconButton>
-            <IconButton
-              className="iconbutton"
-              onClick={() => {
-                actions.setView({ view: 'ui' });
-              }}
-            >
-              <Table color={view === 'ui' ? 'primary' : 'inherit'} />
-            </IconButton>
-          </IconButtonContainer>
-        </HeadingContainer>
-        {view === 'code' && (
-          <EditorContainer>
-            <CodeView />
-          </EditorContainer>
-        )}
-        {view === 'ui' && (
-          <Container>
-            <UIView />
-          </Container>
-        )}
-      </div>
-    );
-  }
-}
+const Design = ({ actions, view }) => {
+  return (
+    <div>
+      <HeadingContainer>
+        <Heading>2. Choose Color and Background</Heading>
+        <IconButtonContainer>
+          <IconButton
+            className="iconbutton"
+            onClick={() => {
+              actions.setView({ view: 'code' });
+            }}
+          >
+            <Code color={view === 'code' ? 'primary' : 'inherit'} />
+          </IconButton>
+          <IconButton
+            className="iconbutton"
+            onClick={() => {
+              actions.setView({ view: 'ui' });
+            }}
+          >
+            <Table color={view === 'ui' ? 'primary' : 'inherit'} />
+          </IconButton>
+        </IconButtonContainer>
+      </HeadingContainer>
+      {view === 'code' && (
+        <EditorContainer>
+          <CodeView />
+        </EditorContainer>
+      )}
+      {view === 'ui' && (
+        <Container>
+          <UIView />
+        </Container>
+      )}
+    </div>
+  );
+};
 
 Design.propTypes = {
   view: PropTypes.string,

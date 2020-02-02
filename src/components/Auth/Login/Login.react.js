@@ -106,14 +106,22 @@ class Login extends Component {
             if (location.pathname !== '/chat') {
               history.push('/');
             } else {
-              let { payload } = await actions.getHistoryFromServer();
-              // eslint-disable-next-line
-              let messagePairArray = await createMessagePairArray(payload);
-              actions.initializeMessageStore(messagePairArray);
-              this.setState({
-                success: true,
-                loading: false,
-              });
+              try {
+                let { payload } = await actions.getHistoryFromServer();
+                // eslint-disable-next-line
+                let messagePairArray = await createMessagePairArray(payload);
+                actions.initializeMessageStore(messagePairArray);
+                this.setState({
+                  success: true,
+                  loading: false,
+                });
+              } catch (error) {
+                actions.initializeMessageStoreFailed();
+                this.setState({
+                  loading: false,
+                });
+                console.log(error);
+              }
             }
           } catch (error) {
             actions.initializeMessageStoreFailed();

@@ -70,15 +70,24 @@ class SkillSlideshowDialog extends React.Component {
     form.append('image', file);
     form.append('image_name', imageSuffix);
     this.setState({ uploadingImage: true });
-    let { imagePath } = await uploadImage(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Slider Uploaded',
-    });
-    this.setState({
-      uploadingImage: false,
-      isSliderImageUploaded: true,
-      imagePath,
-    });
+    try {
+      let { imagePath } = await uploadImage(form);
+      actions.openSnackBar({
+        snackBarMessage: 'Slider Uploaded',
+      });
+      this.setState({
+        uploadingImage: false,
+        isSliderImageUploaded: true,
+        imagePath,
+      });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to upload Slider!',
+      });
+      this.setState({
+        uploadingImage: false,
+      });
+    }
   };
 
   handleImageChange = e => {

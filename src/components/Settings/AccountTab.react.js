@@ -209,16 +209,22 @@ class AccountTab extends React.Component {
     userEmailId && form.append('email', userEmailId);
     form.append('image', imageFile);
     this.setState({ uploadingAvatar: true });
-    await uploadAvatar(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Avatar Uploaded',
-    });
-    this.setState({
-      uploadingAvatar: false,
-      isAvatarAdded: true,
-      isAvatarUploaded: true,
-      settingSave: false,
-    });
+    try {
+      await uploadAvatar(form);
+      actions.openSnackBar({
+        snackBarMessage: 'Avatar Uploaded',
+      });
+      this.setState({
+        uploadingAvatar: false,
+        isAvatarAdded: true,
+        isAvatarUploaded: true,
+        settingSave: false,
+      });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to upload Avatar!',
+      });
+    }
   };
 
   handleAvatarImageChange = e => {
