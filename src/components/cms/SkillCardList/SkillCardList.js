@@ -10,7 +10,7 @@ import SkillRatingPopover from '../SkillRating/SkillRatingPopover.js';
 import NavigationArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import getImageSrc from '../../../utils/getImageSrc';
 import { StaffPickImage } from '../SkillsStyle';
-import { RatingContainer, TotalRating, ReactTooltip } from '../SkillCardStyle';
+import { RatingContainer, Rating, ReactTooltip } from '../SkillCardStyle';
 import SkillExampleBubble from '../../shared/SkillExampleBubble';
 import styled from 'styled-components';
 
@@ -184,7 +184,7 @@ function createListCard(
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <TotalRating>{totalRating || 0}</TotalRating>
+                <Rating>{averageRating || 0}</Rating>
               </Link>
             </RatingContainer>
             <ExampleContainer>
@@ -284,7 +284,7 @@ function createListCard(
                         cursor: 'pointer',
                       }}
                     />
-                    <TotalRating>{totalRating || 0}</TotalRating>
+                    <Rating>{averageRating || 0}</Rating>
                   </Link>
                 </div>
               </div>

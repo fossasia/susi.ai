@@ -17,7 +17,7 @@ import {
   TitleContainer,
   Card,
   Image,
-  TotalRating,
+  Rating,
   ReactTooltip,
 } from '../SkillCardStyle';
 
@@ -169,7 +169,7 @@ class SkillCardGrid extends Component {
                     cursor: 'pointer',
                   }}
                 />
-                <TotalRating>{totalRating || 0}</TotalRating>
+                <Rating>{totalRating || 0}</Rating>
               </Link>
             </div>
           </div>
