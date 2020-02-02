@@ -105,15 +105,19 @@ class SignUp extends Component {
   isEmailAvailable = async () => {
     const { email, emailErrorMessage } = this.state;
     if (!emailErrorMessage) {
-      let payload = await getEmailExists({
-        email,
-      });
-      const { exists } = payload;
-      this.setState({
-        emailErrorMessage: exists
-          ? 'Email ID already taken, please use another account'
-          : '',
-      });
+      try {
+        let payload = await getEmailExists({
+          email,
+        });
+        const { exists } = payload;
+        this.setState({
+          emailErrorMessage: exists
+            ? 'Email ID already taken, please use another account'
+            : '',
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
