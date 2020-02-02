@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,42 +17,39 @@ import {
   IconButtonContainer,
 } from '../styles';
 
-class Configure extends Component {
-  render() {
-    const { actions, view } = this.props;
-    return (
-      <div>
-        <HeadingContainer>
-          <Heading>3. Configure your bot</Heading>
-          <IconButtonContainer>
-            <IconButton
-              className="iconbutton"
-              onClick={() => actions.setView({ view: 'code' })}
-            >
-              <Code color={view === 'code' ? 'primary' : 'inherit'} />
-            </IconButton>
-            <IconButton
-              className="iconbutton"
-              onClick={() => actions.setView({ view: 'ui' })}
-            >
-              <Table color={view === 'ui' ? 'primary' : 'inherit'} />
-            </IconButton>
-          </IconButtonContainer>
-        </HeadingContainer>
-        {view === 'code' ? (
-          <EditorContainer>
-            <CodeView />
-          </EditorContainer>
-        ) : null}
-        {view === 'ui' ? (
-          <Container>
-            <UIView />
-          </Container>
-        ) : null}
-      </div>
-    );
-  }
-}
+const Configure = ({ actions, view }) => {
+  return (
+    <div>
+      <HeadingContainer>
+        <Heading>3. Configure your bot</Heading>
+        <IconButtonContainer>
+          <IconButton
+            className="iconbutton"
+            onClick={() => actions.setView({ view: 'code' })}
+          >
+            <Code color={view === 'code' ? 'primary' : 'inherit'} />
+          </IconButton>
+          <IconButton
+            className="iconbutton"
+            onClick={() => actions.setView({ view: 'ui' })}
+          >
+            <Table color={view === 'ui' ? 'primary' : 'inherit'} />
+          </IconButton>
+        </IconButtonContainer>
+      </HeadingContainer>
+      {view === 'code' ? (
+        <EditorContainer>
+          <CodeView />
+        </EditorContainer>
+      ) : null}
+      {view === 'ui' ? (
+        <Container>
+          <UIView />
+        </Container>
+      ) : null}
+    </div>
+  );
+};
 
 Configure.propTypes = {
   view: PropTypes.string,
