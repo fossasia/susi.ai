@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import _Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -116,8 +117,9 @@ const DraftButtonContainer = styled.div`
   }
 `;
 
-const NextButton = styled(Button)`
+const NextButton = styled(_Button)`
   margin-left: 10px;
+  width: 10rem;
   @media (max-width: 480px) {
     margin-left: 0px;
     margin-bottom: 10px;
@@ -596,12 +598,11 @@ class BotWizard extends React.Component {
                           {stepIndex <= 2 ? (
                             <DraftButtonContainer>
                               <Button
-                                variant="contained"
                                 color="primary"
-                                onClick={this.saveDraft}
-                              >
-                                Save Draft
-                              </Button>
+                                variant="contained"
+                                handleClick={this.saveDraft}
+                                buttonText="Save Draft"
+                              />
                             </DraftButtonContainer>
                           ) : null}
                           <ActionButtonContainer>
@@ -637,20 +638,21 @@ class BotWizard extends React.Component {
                           <ActionButtonContainer>
                             {stepIndex !== 0 && stepIndex !== 3 ? (
                               <Button
-                                variant="contained"
                                 color="primary"
-                                onClick={this.handlePrev}
-                              >
-                                Back
-                              </Button>
+                                variant="contained"
+                                handleClick={this.handlePrev}
+                                buttonText="Back"
+                              />
                             ) : null}
                           </ActionButtonContainer>
                           <ActionButtonContainer>
                             {stepIndex === 0 ? (
                               <Link to="/mybots">
-                                <Button variant="contained" color="primary">
-                                  Cancel
-                                </Button>
+                                <Button
+                                  color="primary"
+                                  variant="contained"
+                                  buttonText="Cancel"
+                                />
                               </Link>
                             ) : null}
                           </ActionButtonContainer>

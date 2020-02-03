@@ -58,13 +58,86 @@ const Container = styled.div`
   }
 `;
 
+const NotFoundText = styled.div`
+  #notfound {
+    position: relative;
+    height: 50vh;
+    margin-top: 40px;
+  }
+
+  #notfound .notfound {
+    position: relative;
+    left: 50%;
+    top: 40%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .notfound {
+    max-width: 920px;
+    width: 100%;
+    line-height: 1.4;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .notfound .notfound-404 {
+    position: absolute;
+    height: 100px;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+
+  .notfound .notfound-404 h1 {
+    color: #ececec;
+    font-weight: 900;
+    font-size: 276px;
+    margin: 0px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .notfound h2 {
+    font-size: 46px;
+    color: #000;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0px;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .notfound .notfound-404 h1 {
+      font-size: 162px;
+    }
+    .notfound h2 {
+      font-size: 26px;
+    }
+  }
+`;
+
 const RenderText = ({ renderLogin }) => {
   if (!renderLogin) {
     return (
-      <React.Fragment>
-        <h1>404</h1>
-        <h2>Page not found</h2>
-      </React.Fragment>
+      <NotFoundText>
+        <div id="notfound">
+          <div className="notfound">
+            <div className="notfound-404">
+              <h1>404</h1>
+            </div>
+            <h2>We are sorry, Page not found!</h2>
+          </div>
+        </div>
+      </NotFoundText>
     );
   }
   return <LoginText>Please login to access this page</LoginText>;
@@ -83,7 +156,7 @@ const NotFound = ({ accessToken, actions, renderLogin = false }) => {
       <RenderText renderLogin={renderLogin} />
       <Link style={{ textDecoration: 'none' }} to={'/'}>
         <Button variant="contained" color="primary">
-          Chat With SUSI
+          Back To Homepage
         </Button>
       </Link>
       {!accessToken && (
