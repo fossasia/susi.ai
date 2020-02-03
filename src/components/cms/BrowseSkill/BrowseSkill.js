@@ -21,7 +21,7 @@ import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
 import _RadioGroup from '@material-ui/core/RadioGroup';
-import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Add from '@material-ui/icons/Add';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
@@ -55,6 +55,10 @@ const Container = styled.div`
   overflow-x: hidden;
   flex: 1 0 auto;
   margin-top: 3rem;
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const Link = styled(_Link)`
@@ -142,10 +146,15 @@ const SidebarText = styled.h4`
   ${SidebarTextStyles}
 `;
 
-const SidebarLink = styled(Link)`
+const SidebarLink = styled.button`
   color: rgba(0, 0, 0, 0.54);
   font-weight: bold;
+  border: none;
+  padding: 0px;
+  outline: none;
   width: fit-content;
+
+  font-size: 1rem;
   cursor: pointer;
   :hover {
     color: #4285f4;
@@ -215,15 +224,13 @@ const RightContainer = styled.div`
 `;
 
 const MobileBackButton = styled(Button)`
-   {
-    width: 70%;
-    margin: 0 auto;
-  }
+  width: 70%;
+  margin: 0 auto;
 `;
 
 const commonListIconStyles = css`
   font-size: 50px;
-  fill: ${props => (props.isActive === true ? '#4285f4' : '#e0e0e0')};
+  fill: ${props => (props['is-active'] ? '#4285f4' : '#e0e0e0')};
   @media (max-width: 1260px) {
     font-size: 30px;
   }
@@ -291,7 +298,7 @@ class BrowseSkill extends React.Component {
       obj = {
         ...obj,
         filterType: `&creation_date&duration=${value}`,
-        timeFilter: value,
+        timeFilter: parseFloat(value),
       };
     }
     if (params.has('rating_refine')) {
@@ -401,7 +408,7 @@ class BrowseSkill extends React.Component {
       appendQueryString(location, history, 'creation_date&duration', value);
       await actions.setTimeFilter({
         filterType: `creation_date&duration=${value}`,
-        timeFilter: value,
+        timeFilter: parseFloat(value),
       });
       this.loadCards();
     } else {
@@ -498,11 +505,16 @@ class BrowseSkill extends React.Component {
     for (let i = 1; i <= Math.ceil(skills.length / entriesPerPage); i += 1) {
       menuItems.push(i);
     }
-    return menuItems.map(menuItem => (
-      <MenuItem key={menuItem} value={menuItem}>
-        {menuItem.toString()}
-      </MenuItem>
-    ));
+    return (
+      menuItems &&
+      Array.isArray(menuItems) &&
+      menuItems.length > 0 &&
+      menuItems.map(menuItem => (
+        <MenuItem key={menuItem} value={menuItem}>
+          {menuItem.toString()}
+        </MenuItem>
+      ))
+    );
   };
 
   handleOrderByChange = async () => {
@@ -605,28 +617,36 @@ class BrowseSkill extends React.Component {
           <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
-      renderMobileMenu = groups.map(categoryName => {
+      renderMobileMenu =
+        groups &&
+        Array.isArray(groups) &&
+        groups.length > 0 &&
+        groups.map(categoryName => {
+          const linkValue = '/category/' + categoryName;
+          return (
+            <Link to={linkValue} key={linkValue}>
+              <MobileMenuItem key={categoryName} value={categoryName}>
+                <span style={{ width: '90%' }}>{categoryName}</span>
+                <ChevronRight style={{ top: -8 }} />
+              </MobileMenuItem>
+            </Link>
+          );
+        });
+    }
+    renderMenu =
+      groups &&
+      Array.isArray(groups) &&
+      groups.length > 0 &&
+      groups.map(categoryName => {
         const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
-            <MobileMenuItem key={categoryName} value={categoryName}>
-              <span style={{ width: '90%' }}>{categoryName}</span>
-              <ChevronRight style={{ top: -8 }} />
-            </MobileMenuItem>
+            <SidebarItem key={categoryName} value={categoryName}>
+              {categoryName}
+            </SidebarItem>
           </Link>
         );
       });
-    }
-    renderMenu = groups.map(categoryName => {
-      const linkValue = '/category/' + categoryName;
-      return (
-        <Link to={linkValue} key={linkValue}>
-          <SidebarItem key={categoryName} value={categoryName}>
-            {categoryName}
-          </SidebarItem>
-        </Link>
-      );
-    });
 
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
@@ -712,6 +732,7 @@ class BrowseSkill extends React.Component {
     renderCardScrollList = !metricsHidden && !routeType && (
       <SkillCardScrollList isMobile={isMobile} history={history} />
     );
+    let isSkillSearch = !metricsHidden && !routeType;
     let renderSkillSlideshow = null;
     renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
 
@@ -921,7 +942,7 @@ class BrowseSkill extends React.Component {
         </Sidebar>
         <RightContainer>
           {loadingSkills ? (
-            <SkillLoader />
+            <SkillLoader isSkillSearch={!isSkillSearch} />
           ) : (
             <React.Fragment>
               {renderSkillSlideshow}
@@ -954,6 +975,7 @@ class BrowseSkill extends React.Component {
                     >
                       <Grid
                         item
+                        container
                         alignItems="center"
                         sm={6}
                         style={{
@@ -964,7 +986,7 @@ class BrowseSkill extends React.Component {
                       >
                         {renderSkillCount}
                       </Grid>
-                      <Grid item sm={6} alignItems="center">
+                      <Grid item sm={6} container alignItems="center">
                         {skills.length > 0 && (
                           <FlexContainer>
                             {filterType !== '' && (
@@ -1033,18 +1055,14 @@ class BrowseSkill extends React.Component {
                               <Radio
                                 value="list"
                                 style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={
-                                  <ActionViewStream isActive={true} />
-                                }
-                                icon={<ActionViewStream isActive={false} />}
+                                checkedIcon={<ActionViewStream is-active={1} />}
+                                icon={<ActionViewStream />}
                               />
                               <Radio
                                 value="grid"
                                 style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={
-                                  <ActionViewModule isActive={true} />
-                                }
-                                icon={<ActionViewModule isActive={false} />}
+                                checkedIcon={<ActionViewModule is-active={1} />}
+                                icon={<ActionViewModule />}
                               />
                             </RadioGroup>
                           </FlexContainer>

@@ -38,23 +38,28 @@ let piwik = null,
   matomoUrl;
 
 let usepiwik = false;
+
 fetchApiKeys().then(payload => {
   matomoSiteId =
-    (payload &&
-      payload.keys &&
-      payload.keys.matomoSiteId &&
-      payload.keys.matomoSiteId.value) ||
-    '';
+    payload &&
+    payload.keys &&
+    payload.keys.matomoSiteId &&
+    payload.keys.matomoSiteId.value;
+  matomoSiteId = parseFloat(matomoSiteId);
+  if (isNaN(matomoSiteId)) matomoSiteId = 0;
+
   matomoUrl =
-    (payload &&
-      payload.keys &&
-      payload.keys.matomoUrl &&
-      payload.keys.matomoUrl.value) ||
-    '';
+    payload &&
+    payload.keys &&
+    payload.keys.matomoUrl &&
+    payload.keys.matomoUrl.value;
+  matomoUrl = matomoUrl || '';
+
   piwik = new ReactPiwik({
-    url: matomoUrl || '',
-    siteId: matomoSiteId || '',
+    url: matomoUrl.split('/')[0],
+    siteId: matomoSiteId,
     trackErrors: true,
+    phpFilename: matomoUrl.split('/')[1],
   });
   usepiwik = true;
 });
@@ -64,7 +69,7 @@ ReactDOM.render(
     <ConnectedIntlProvider>
       <ConnectedRouter
         history={
-          matomoSiteId !== '' && matomoUrl !== '' && !piwik && usepiwik
+          usepiwik && matomoSiteId !== '' && matomoUrl !== '' && !piwik
             ? piwik.connectToHistory(history)
             : history
         }

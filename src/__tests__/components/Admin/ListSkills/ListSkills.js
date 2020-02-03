@@ -1,5 +1,5 @@
 import React from 'react';
-import ListSkills from '../../../components/Admin/ListSkills/ListSkills';
+import ListSkills from '../../../../components/Admin/ListSkills/ListSkills';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

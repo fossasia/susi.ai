@@ -85,39 +85,40 @@ class ListUser extends Component {
       .then(payload => {
         let userList = payload.users;
         let users = [];
-        userList.map((data, dataIndex) => {
-          let devices = [];
-          let keys = Object.keys(data.devices);
-          keys.forEach(deviceIndex => {
-            let device = {
-              macid: deviceIndex,
-              devicename: data.devices[deviceIndex].name,
-              room: data.devices[deviceIndex].room,
-              latitude: data.devices[deviceIndex].geolocation.latitude,
-              longitude: data.devices[deviceIndex].geolocation.longitude,
+        if (userList && Array.isArray(userList) && userList.length > 0) {
+          userList.map((data, dataIndex) => {
+            let devices = [];
+            let keys = Object.keys(data.devices);
+            keys.forEach(deviceIndex => {
+              let device = {
+                macid: deviceIndex,
+                devicename: data.devices[deviceIndex].name,
+                room: data.devices[deviceIndex].room,
+                latitude: data.devices[deviceIndex].geolocation.latitude,
+                longitude: data.devices[deviceIndex].geolocation.longitude,
+              };
+              devices.push(device);
+            });
+            let user = {
+              serialNum: ++dataIndex,
+              email: data.name,
+              signup: data.signupTime === '' ? '-' : data.signupTime,
+              lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
+              ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
+              userName:
+                data.userName === '' ? '-' : data.userName.substring(0, 30),
+              userRole: data.userRole,
+              devices: devices,
             };
-            devices.push(device);
+            if (data.confirmed) {
+              user.confirmed = 'Activated';
+            } else {
+              user.confirmed = 'Not Activated';
+            }
+            users.push(user);
+            return 1;
           });
-          let user = {
-            serialNum: ++dataIndex,
-            email: data.name,
-            signup: data.signupTime === '' ? '-' : data.signupTime,
-            lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
-            ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
-            userName:
-              data.userName === '' ? '-' : data.userName.substring(0, 30),
-            userRole: data.userRole,
-            devices: devices,
-          };
-          if (data.confirmed) {
-            user.confirmed = 'Activated';
-          } else {
-            user.confirmed = 'Not Activated';
-          }
-
-          users.push(user);
-          return 1;
-        });
+        }
         this.setState({
           data: users,
           loading: false,
@@ -164,46 +165,48 @@ class ListUser extends Component {
       .then(payload => {
         let userList = payload.users;
         let users = [];
-        userList.map((data, dataIndex) => {
-          let devices = [];
-          let keys = Object.keys(data.devices);
-          keys.forEach(deviceIndex => {
-            let device = {
-              macid: deviceIndex,
-              devicename: data.devices[deviceIndex].name,
-              room: data.devices[deviceIndex].room,
-              latitude: data.devices[deviceIndex].geolocation.latitude,
-              longitude: data.devices[deviceIndex].geolocation.longitude,
+        if (userList && Array.isArray(userList) && userList.length > 0) {
+          userList.map((data, dataIndex) => {
+            let devices = [];
+            let keys = Object.keys(data.devices);
+            keys.forEach(deviceIndex => {
+              let device = {
+                macid: deviceIndex,
+                devicename: data.devices[deviceIndex].name,
+                room: data.devices[deviceIndex].room,
+                latitude: data.devices[deviceIndex].geolocation.latitude,
+                longitude: data.devices[deviceIndex].geolocation.longitude,
+              };
+              devices.push(device);
+            });
+            let user = {
+              serialNum: ++dataIndex + page * 50,
+              email: data.name,
+              confirmed: data.confirmed,
+              signup:
+                data.signupTime === ''
+                  ? '-'
+                  : new Date(data.signupTime).toDateString(),
+              lastLogin:
+                data.lastLoginTime === ''
+                  ? '-'
+                  : new Date(data.lastLoginTime).toDateString(),
+              ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
+              userRole: data.userRole,
+              userName:
+                data.userName === '' ? '-' : data.userName.substring(0, 30),
+              devices: devices,
             };
-            devices.push(device);
-          });
-          let user = {
-            serialNum: ++dataIndex + page * 50,
-            email: data.name,
-            confirmed: data.confirmed,
-            signup:
-              data.signupTime === ''
-                ? '-'
-                : new Date(data.signupTime).toDateString(),
-            lastLogin:
-              data.lastLoginTime === ''
-                ? '-'
-                : new Date(data.lastLoginTime).toDateString(),
-            ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
-            userRole: data.userRole,
-            userName:
-              data.userName === '' ? '-' : data.userName.substring(0, 30),
-            devices: devices,
-          };
-          if (user.confirmed) {
-            user.confirmed = 'Activated';
-          } else {
-            user.confirmed = 'Not Activated';
-          }
+            if (user.confirmed) {
+              user.confirmed = 'Activated';
+            } else {
+              user.confirmed = 'Not Activated';
+            }
 
-          users.push(user);
-          return 1;
-        });
+            users.push(user);
+            return 1;
+          });
+        }
         this.setState({
           data: users,
           loading: false,

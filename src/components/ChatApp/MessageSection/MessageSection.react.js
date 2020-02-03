@@ -26,6 +26,7 @@ import _FullScreen from '@material-ui/icons/Fullscreen';
 import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
 import ToolTip from '../../shared/ToolTip';
+import susiImage from '../../../../public/customAvatars/0.png';
 
 const Date = styled.div`
   text-align: center;
@@ -150,10 +151,8 @@ const urlPropsQueryConfig = {
   dream: { type: UrlQueryParamTypes.string },
 };
 
-const img = '/customAvatars/0.png';
-
 const SUSILauncherButton = styled.div`
-  background-image: url(${img});
+  background-image: url(${susiImage});
   width: 60px;
   height: 60px;
   float: right;
@@ -599,7 +598,7 @@ class MessageSection extends Component {
   ) => {
     // markID indicates search mode on
     const { mode } = this.props;
-    if (markID) {
+    if (markID && Array.isArray(markID) && markID.length > 0) {
       return messages.map(id => {
         return (
           <MessageListItem
@@ -623,32 +622,37 @@ class MessageSection extends Component {
     const latestMessageID = messages[messages.length - 1];
     let previousDate = null;
     // return the list of messages
-    return messages.map(id => {
-      const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
-      let updateDate = null;
-      if (currentDate !== previousDate) {
-        updateDate = true;
-        previousDate = currentDate;
-      }
-      return (
-        <Fragment key={id}>
-          {updateDate && (
-            <Date>
-              <span>{currentDate}</span>
-            </Date>
-          )}
-          <MessageListItem
-            message={messagesByID[id]}
-            latestUserMsgID={latestUserMsgID}
-            latestMessage={id === latestMessageID}
-            addYouTube={addYouTube}
-            pauseAllVideos={pauseAllVideos}
-            showChatPreview={mode === 'preview'}
-            scrollBottom={this.scrollToBottom}
-          />
-        </Fragment>
-      );
-    });
+    return (
+      messages &&
+      Array.isArray(messages) &&
+      messages.length > 0 &&
+      messages.map(id => {
+        const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
+        let updateDate = null;
+        if (currentDate !== previousDate) {
+          updateDate = true;
+          previousDate = currentDate;
+        }
+        return (
+          <Fragment key={id}>
+            {updateDate && (
+              <Date>
+                <span>{currentDate}</span>
+              </Date>
+            )}
+            <MessageListItem
+              message={messagesByID[id]}
+              latestUserMsgID={latestUserMsgID}
+              latestMessage={id === latestMessageID}
+              addYouTube={addYouTube}
+              pauseAllVideos={pauseAllVideos}
+              showChatPreview={mode === 'preview'}
+              scrollBottom={this.scrollToBottom}
+            />
+          </Fragment>
+        );
+      })
+    );
   };
 
   renderThumb = ({ style, ...props }) => {
