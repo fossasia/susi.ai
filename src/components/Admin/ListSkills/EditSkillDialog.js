@@ -25,22 +25,13 @@ export default class EditSkillDialog extends Component {
     systemSkillStatus: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
-    const {
-      skillReviewStatus,
-      skillEditStatus,
-      skillStaffPickStatus,
-      systemSkillStatus,
-    } = this.props;
-    this.state = {
-      skillReviewStatus,
-      skillEditStatus,
-      skillStaffPickStatus,
-      systemSkillStatus,
-      loading: false,
-    };
-  }
+  state = {
+    skillReviewStatus: this.props.skillReviewStatus,
+    skillEditStatus: this.props.skillEditStatus,
+    skillStaffPickStatus: this.props.skillStaffPickStatus,
+    systemSkillStatus: this.props.systemSkillStatus,
+    loading: false,
+  };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });

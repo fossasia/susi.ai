@@ -283,30 +283,27 @@ class MessageSection extends Component {
     dream: '',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      player: [],
-      search: false,
-      showLoading: false,
-      showScrollBottom: false,
-      showScrollTop: false,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      hasScrolled: false,
-      searchState: {
-        markedMessagesByID: {},
-        markedIDs: [],
-        markedIndices: [],
-        scrollLimit: 0,
-        scrollIndex: -1,
-        scrollID: null,
-        caseSensitive: false,
-        searchIndex: 0,
-        searchText: '',
-      },
-    };
-  }
+  state = {
+    player: [],
+    search: false,
+    showLoading: false,
+    showScrollBottom: false,
+    showScrollTop: false,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    hasScrolled: false,
+    searchState: {
+      markedMessagesByID: {},
+      markedIDs: [],
+      markedIndices: [],
+      scrollLimit: 0,
+      scrollIndex: -1,
+      scrollID: null,
+      caseSensitive: false,
+      searchIndex: 0,
+      searchText: '',
+    },
+  };
 
   componentDidMount = async () => {
     const { actions } = this.props;
@@ -395,17 +392,21 @@ class MessageSection extends Component {
           showScrollTop: false,
           showScrollBottom: true,
         });
-      } else if (!(showScrollBottom && showScrollTop)) {
-        this.setState({
-          showScrollBottom: true,
-          showScrollTop: true,
-        });
       } else if (
-        scrollValues.scrollHeight - Math.ceil(scrollValues.scrollTop) ===
-        scrollValues.clientHeight
+        scrollValues.clientHeight + Math.ceil(scrollValues.scrollTop) >=
+        scrollValues.scrollHeight
       ) {
         this.setState({
           showScrollBottom: false,
+          showScrollTop: true,
+        });
+      } else if (
+        !(showScrollBottom && showScrollTop) &&
+        scrollValues.clientHeight + Math.ceil(scrollValues.scrollTop) <
+          scrollValues.scrollHeight
+      ) {
+        this.setState({
+          showScrollBottom: true,
           showScrollTop: true,
         });
       }

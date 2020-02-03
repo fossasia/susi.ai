@@ -477,6 +477,9 @@ export const generateMessageBubble = (
         ) {
           showFeedback = true;
         }
+        if (replacedText === '' || !replacedText) {
+          replacedText = 'Um… let me get back to you.';
+        }
         if (answer.data[0].type === 'gif') {
           listItems.push(
             generateGifBubble(

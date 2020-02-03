@@ -25,15 +25,12 @@ class ForgotPassword extends Component {
     openSnackBar: PropTypes.func,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      emailErrorMessage: '',
-      success: false,
-      loading: false,
-    };
-  }
+  state = {
+    email: '',
+    emailErrorMessage: '',
+    success: false,
+    loading: false,
+  };
 
   handleDialogClose = () => {
     const { actions } = this.props;

@@ -183,20 +183,17 @@ const customiseOptionsList = [
 ];
 
 class UIView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadedSettings: false,
-      uploadingBodyBackgroundImg: false,
-      botbuilderBodyBackgroundImgName: this.props.design
-        .botbuilderBodyBackgroundImgName,
-      uploadingBotbuilderIconImg: false,
-      showBackgroundImageChange:
-        this.props.design.botbuilderBodyBackgroundImgName !== '',
-      botbuilderIconSelected: this.props.design.botbuilderIconSelected,
-      avatars: this.props.design.avatars,
-    };
-  }
+  state = {
+    loadedSettings: false,
+    uploadingBodyBackgroundImg: false,
+    botbuilderBodyBackgroundImgName: this.props.design
+      .botbuilderBodyBackgroundImgName,
+    uploadingBotbuilderIconImg: false,
+    showBackgroundImageChange:
+      this.props.design.botbuilderBodyBackgroundImgName !== '',
+    botbuilderIconSelected: this.props.design.botbuilderIconSelected,
+    avatars: this.props.design.avatars,
+  };
 
   componentDidMount() {
     this.getSettings();
