@@ -64,6 +64,7 @@ const SettingContainer = styled.div`
   max-width: 95%;
   width: 1060px;
   margin: 0 auto;
+  overflow: hidden;
   @media only screen and (max-width: 1060px) {
     flex-direction: column;
   }
@@ -71,7 +72,7 @@ const SettingContainer = styled.div`
 
 const SettingsOptionsContainer = styled(Paper)`
   width: 28%;
-  overflow: hidden;
+  overflow-x: hidden;
   margin-right: 12px;
   height: fit-content;
   ${props =>
