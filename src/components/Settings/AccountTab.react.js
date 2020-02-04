@@ -52,6 +52,9 @@ const DangerContainer = styled.div`
   justify-content: space-between;
   padding: 1rem;
   align-items: center;
+  @media (max-width: 500px) {
+    flex-direction: column !important;
+  }
 `;
 
 const DangerButton = styled(_Button)`
@@ -61,6 +64,9 @@ const DangerButton = styled(_Button)`
   &:hover {
     background-color: #ff0000;
     color: #fff;
+  }
+  @media (max-width: 500px) {
+    margin-top: 8px;
   }
 `;
 
