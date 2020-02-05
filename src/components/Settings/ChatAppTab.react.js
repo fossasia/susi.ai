@@ -14,9 +14,10 @@ import { setUserSettings } from '../../apis';
 class ChatAppTab extends React.Component {
   constructor(props) {
     super(props);
-    const { enterAsSend } = this.props;
+    const { enterAsSend, hideBubble } = this.props;
     this.state = {
       enterAsSend,
+      hideBubble,
       loading: false,
     };
   }
@@ -27,12 +28,19 @@ class ChatAppTab extends React.Component {
     });
   };
 
+  handleHideBubble = (event, isInputChecked) => {
+    this.setState({
+      hideBubble: isInputChecked,
+    });
+  };
+
   handleSubmit = async () => {
     const { actions, userEmailId } = this.props;
-    const { enterAsSend } = this.state;
+    const { enterAsSend, hideBubble } = this.state;
     this.setState({ loading: true });
     let payload = {
       enterAsSend,
+      hideBubble,
     };
     payload = userEmailId !== '' ? { ...payload, email: userEmailId } : payload;
     try {
@@ -41,7 +49,7 @@ class ChatAppTab extends React.Component {
         actions.openSnackBar({
           snackBarMessage: 'Settings updated',
         });
-        actions.setUserSettings({ enterAsSend });
+        actions.setUserSettings({ enterAsSend, hideBubble });
         this.setState({ loading: false });
       } else {
         actions.openSnackBar({
@@ -57,9 +65,10 @@ class ChatAppTab extends React.Component {
   };
 
   render() {
-    const { enterAsSend, loading } = this.state;
-    const { enterAsSend: _enterAsSend } = this.props;
-    const disabled = enterAsSend === _enterAsSend || loading;
+    const { enterAsSend, loading, hideBubble } = this.state;
+    const { enterAsSend: _enterAsSend, hideBubble: _hideBubble } = this.props;
+    const disabled =
+      (enterAsSend === _enterAsSend && hideBubble === _hideBubble) || loading;
     return (
       <SettingsTabWrapper heading="Preferences">
         <FlexContainer>
@@ -72,6 +81,19 @@ class ChatAppTab extends React.Component {
               className="settings-toggle"
               onChange={this.handleEnterAsSend}
               checked={enterAsSend}
+            />
+          </div>
+        </FlexContainer>
+        <FlexContainer>
+          <div>
+            <Translate text="Hide Floating Chat-Button" />
+          </div>
+          <div>
+            <Switch
+              color="primary"
+              className="settings-toggle"
+              onChange={this.handleHideBubble}
+              checked={hideBubble}
             />
           </div>
         </FlexContainer>
@@ -91,6 +113,7 @@ class ChatAppTab extends React.Component {
 
 ChatAppTab.propTypes = {
   enterAsSend: PropTypes.bool,
+  hideBubble: PropTypes.bool,
   actions: PropTypes.object,
   userEmailId: PropTypes.string,
 };
@@ -101,6 +124,7 @@ function mapStateToProps(store) {
   const settings = email !== '' ? userSettingsViewedByAdmin : store.settings;
   return {
     enterAsSend: settings.enterAsSend,
+    hideBubble: settings.hideBubble,
     userEmailId: email, // Admin access : email Id of the user being accesed
   };
 }

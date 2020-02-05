@@ -90,6 +90,7 @@ class App extends Component {
     snackBarProps: PropTypes.object,
     showCookiePolicy: PropTypes.bool,
     modalProps: PropTypes.object,
+    settings: PropTypes.object,
     visited: PropTypes.bool,
     isLocalEnv: PropTypes.bool,
     mode: PropTypes.string,
@@ -241,11 +242,13 @@ class App extends Component {
         <DialogSection />
       ) : null;
     const renderChatBubble =
+      this.props.settings.hideBubble ||
       hideBubble.includes(location.pathname.split('/')[1]) ||
       (hideBubble.includes(location.pathname.split('/')[3]) &&
         deviceAccessPoint) ? null : (
         <ChatApp />
       );
+
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -405,6 +408,7 @@ function mapStateToProps(store) {
     isLocalEnv: store.app.isLocalEnv,
     googleAnalyticsKey: store.app.apiKeys.googleAnalyticsKey,
     mode: store.ui.mode,
+    settings: store.settings,
   };
 }
 
