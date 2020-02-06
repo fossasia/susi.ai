@@ -115,22 +115,20 @@ NavMenu.propTypes = {
 
 const WithRouterMenu = withRouter(NavMenu);
 
-class TopMenu extends React.Component {
-  static propTypes = {
-    isAdmin: PropTypes.bool,
-    accessToken: PropTypes.string,
-  };
-  render() {
-    const { isAdmin, accessToken } = this.props;
-    let navLinks = null;
-    if (LINKS(accessToken, isAdmin)) {
-      navLinks = LINKS(accessToken, isAdmin).map(link => {
-        return <WithRouterMenu key={link.label} link={link} />;
-      });
-    }
-    return <NavLinkContainer>{navLinks}</NavLinkContainer>;
+const TopMenu = ({ isAdmin, accessToken }) => {
+  let navLinks = null;
+  if (LINKS(accessToken, isAdmin)) {
+    navLinks = LINKS(accessToken, isAdmin).map(link => {
+      return <WithRouterMenu key={link.label} link={link} />;
+    });
   }
-}
+  return <NavLinkContainer>{navLinks}</NavLinkContainer>;
+};
+
+TopMenu.propTypes = {
+  isAdmin: PropTypes.bool,
+  accessToken: PropTypes.string,
+};
 
 function mapStateToProps(store) {
   return {

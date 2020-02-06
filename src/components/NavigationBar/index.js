@@ -87,7 +87,6 @@ const UserDetail = styled.div`
 `;
 const CreateDetail = styled.div`
   color: white;
-  margin-right: 5px;
   font-size: 1rem;
   cursor: pointer;
   bottom: 8px;
@@ -675,9 +674,7 @@ class NavigationBar extends Component {
                             }}
                           />
                         ) : (
-                          <CreateDetail style={{ marginLeft: '20px' }}>
-                            Create
-                          </CreateDetail>
+                          <CreateDetail>Create</CreateDetail>
                         )}
                       </div>
                     </StyledIconButton>
