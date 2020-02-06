@@ -32,6 +32,7 @@ import ChatAppTab from './ChatAppTab.react';
 import UserKeysTab from './UserKeysTab';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
+import uiActions from '../../redux/actions/ui';
 import { isProduction } from '../../utils/helperFunctions';
 
 const settingsOptions = [
@@ -167,12 +168,28 @@ class Settings extends Component {
     const parameters = new URL(window.location).searchParams;
     const email = parameters.get('email');
     if (email) {
-      let { payload } = await actions.getUserSettings({ email });
-      const { settings } = payload;
-      const { theme } = settings;
-      this.setState({ loading: false, theme });
+      try {
+        let { payload } = await actions.getUserSettings({ email });
+        const { settings } = payload;
+        const { theme } = settings;
+        this.setState({ loading: false, theme });
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch your settings!',
+          snackBarDuration: 2000,
+        });
+        console.log(error);
+      }
     } else {
-      await actions.getUserSettings();
+      try {
+        await actions.getUserSettings();
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch your settings!',
+          snackBarDuration: 2000,
+        });
+        console.log(error);
+      }
       this.setState({ loading: false, theme });
     }
     document.title =
@@ -337,7 +354,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(settingActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...settingActions }, dispatch),
   };
 }
 

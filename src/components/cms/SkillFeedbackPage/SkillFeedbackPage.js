@@ -272,9 +272,18 @@ class SkillFeedbackPage extends Component {
   async componentDidMount() {
     const { actions } = this.props;
     actions.getSkillMetaData(this.skillData);
-    await actions.getSkillFeedbacks(this.skillData);
-    this.setState({ loading: false });
-    this.gotoPage(1);
+    try {
+      await actions.getSkillFeedbacks(this.skillData);
+      this.setState({ loading: false });
+      this.gotoPage(1);
+    } catch (error) {
+      this.setState({ loading: false });
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to fetch skill feedbacks',
+        snackBarDuration: 2000,
+      });
+      console.log(error);
+    }
   }
 
   onPageChanged = data => {

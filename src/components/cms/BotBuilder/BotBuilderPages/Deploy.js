@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
@@ -92,80 +92,75 @@ const CodeBox = styled.div`
 `;
 
 const api = window.location.protocol + '//' + window.location.host;
-class Deploy extends Component {
-  render() {
-    const { category, language, name, actions, uuid } = this.props;
-    const part =
-      'data-skill=&quot;' +
-      name +
-      '&quot; src=&quot;' +
-      api +
-      '/susi-chatbot.js&quot;';
-    const code =
-      '&lt;script type=&quot;text/javascript&quot;' +
-      'id=&quot;susi-bot-script&quot; data-userid=&quot;' +
-      uuid +
-      '&quot; data-group=&quot;' +
-      category +
-      '&quot; data-language=&quot;' +
-      language +
-      '&quot;' +
-      part +
-      '&gt;&lt;/script&gt;';
+const Deploy = props => {
+  const { category, language, name, actions, uuid } = props;
+  const part = `data-skill=&quot;
+    ${name}
+    &quot; src=&quot;
+    ${api}
+    /susi-chatbot.js&quot;
+  `;
+  const code = `&lt;script type=&quot;text/javascript&quot;
+    id=&quot;susi-bot-script&quot; data-userid=&quot;
+    ${uuid}
+    &quot; data-group=&quot;
+    ${category}
+    &quot; data-language=&quot;
+    ${language}
+    &quot;
+    ${part} 
+    &gt;&lt;/script&gt;`;
 
-    return (
-      <div>
-        <HeadingContainer>
-          <Heading>4. Deploy your bot to your own website</Heading>
-        </HeadingContainer>
-        <Container>
-          <OrderedList>
-            <ListItem>
-              Add the code below to every page you want the Messenger to appear.
-              Copy and paste it before the <Span>&lt;&#47;body&gt;</Span> tag on
-              each page.
-              <br />
-              <br />
-              <CodeWrap>
-                <CodeBox>
-                  <code dangerouslySetInnerHTML={{ __html: code }} />
-                  <CopyToClipboard
-                    text={
-                      "<script type='text/javascript' id='susi-bot-script' data-userid='" +
-                      uuid +
-                      "' data-group='" +
-                      category +
-                      "' data-language='" +
-                      language +
-                      "' data-skill='" +
-                      name +
-                      "' src='" +
-                      api +
-                      "/susi-chatbot.js'></script>"
-                    }
-                    onCopy={() =>
-                      actions.openSnackBar({
-                        snackBarMessage: 'Copied to clipboard!',
-                        snackBarDuration: 2000,
-                      })
-                    }
-                  >
-                    <CopyButton>copy</CopyButton>
-                  </CopyToClipboard>
-                </CodeBox>
-              </CodeWrap>
-            </ListItem>
-            <ListItem>
-              Open your web app or website and look for the Messenger in the
-              bottom right corner.
-            </ListItem>
-            <ListItem>Start chatting with your SUSI bot.</ListItem>
-          </OrderedList>
-        </Container>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <HeadingContainer>
+        <Heading>4. Deploy your bot to your own website</Heading>
+      </HeadingContainer>
+      <Container>
+        <OrderedList>
+          <ListItem>
+            Add the code below to every page you want the Messenger to appear.
+            Copy and paste it before the <Span>&lt;&#47;body&gt;</Span> tag on
+            each page.
+            <br />
+            <br />
+            <CodeWrap>
+              <CodeBox>
+                <code dangerouslySetInnerHTML={{ __html: code }} />
+                <CopyToClipboard
+                  text={`<script type='text/javascript' id='susi-bot-script' data-userid='
+                    ${uuid}
+                    ' data-group='
+                    ${category}
+                    ' data-language='
+                    ${language}
+                    ' data-skill='
+                    ${name} +
+                    ' src='
+                    ${api}
+                    /susi-chatbot.js'></script>`}
+                  onCopy={() =>
+                    actions.openSnackBar({
+                      snackBarMessage: 'Copied to clipboard!',
+                      snackBarDuration: 2000,
+                    })
+                  }
+                >
+                  <CopyButton>copy</CopyButton>
+                </CopyToClipboard>
+              </CodeBox>
+            </CodeWrap>
+          </ListItem>
+          <ListItem>
+            Open your web app or website and look for the Messenger in the
+            bottom right corner.
+          </ListItem>
+          <ListItem>Start chatting with your SUSI bot.</ListItem>
+        </OrderedList>
+      </Container>
+    </div>
+  );
+};
 
 Deploy.propTypes = {
   category: PropTypes.string,
