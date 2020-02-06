@@ -136,7 +136,6 @@ class SkillCard extends Component {
           image,
           staffPick = false;
         let averageRating = 0;
-        // totalRating = 0;
         if (skill.skillName) {
           skillName = skill.skillName;
           skillName = skillName.charAt(0).toUpperCase() + skillName.slice(1);
@@ -163,7 +162,6 @@ class SkillCard extends Component {
         }
         if (skill.skillRating) {
           averageRating = parseFloat(skill.skillRating.stars.avgStar);
-          // totalRating = parseInt(skill.skillRating.stars.totalStar, 10);
         }
 
         if (skill.staffPick) {
