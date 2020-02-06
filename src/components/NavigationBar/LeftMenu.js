@@ -67,24 +67,27 @@ class LeftMenu extends React.Component {
               timeout="auto"
               unmountOnExit={true}
             >
-              {sublinks.map(({ label, url, Icon }) => {
-                return (
-                  <ListItem
-                    button={true}
-                    key={label}
-                    component={Link}
-                    to={url}
-                    onClick={handleDrawerClose}
-                  >
-                    {Icon && (
-                      <ListItemIcon>
-                        <Icon />
-                      </ListItemIcon>
-                    )}
-                    <ListItemText primary={label} />
-                  </ListItem>
-                );
-              })}
+              {sublinks &&
+                Array.isArray(sublinks) &&
+                sublinks.length > 0 &&
+                sublinks.map(({ label, url, Icon }) => {
+                  return (
+                    <ListItem
+                      button={true}
+                      key={label}
+                      component={Link}
+                      to={url}
+                      onClick={handleDrawerClose}
+                    >
+                      {Icon && (
+                        <ListItemIcon>
+                          <Icon />
+                        </ListItemIcon>
+                      )}
+                      <ListItemText primary={label} />
+                    </ListItem>
+                  );
+                })}
             </Collapse>
             <Divider />
           </React.Fragment>

@@ -117,17 +117,17 @@ class ConfigKeys extends React.Component {
             padding: '1rem',
           }}
           actions={[
-            {
+            rowData => ({
               icon: 'update',
               tooltip: 'Update Key',
               onClick: (event, rowData) =>
                 this.handleUpdate(rowData.keyName, rowData.value),
-            },
-            {
+            }),
+            rowData => ({
               icon: 'delete',
               tooltip: 'Delete Key',
               onClick: (event, rowData) => this.handleDelete(rowData.keyName),
-            },
+            }),
           ]}
         ></MaterialTable>
         <AddConfigButton

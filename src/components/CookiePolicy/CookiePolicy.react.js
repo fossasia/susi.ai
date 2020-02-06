@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Button from '../shared/Button';
+import _Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -19,6 +19,10 @@ const Container = styled.div`
   color: white;
   padding: 2rem;
   z-index: 101;
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const ButtonContainer = styled.div`

@@ -4,6 +4,9 @@ import avatars from '../../utils/avatars';
 import getImageSrc from '../../utils/getImageSrc';
 import _ from 'lodash';
 import Cookies from 'universal-cookie';
+import imgEventRegistration from '../../../public/botTemplates/event-registration.jpg';
+import imgContactUs from '../../../public/botTemplates/contact-us.png';
+import imgJobApplication from '../../../public/botTemplates/job-application.jpg';
 
 const cookies = new Cookies();
 let avatarsIcon = avatars.slice()[10].url;
@@ -175,11 +178,11 @@ export default handleActions(
             imageNameMatch[1],
         });
       } else if (imageNameMatch[1] === 'images/<image_name_event>') {
-        imagePreviewUrl = '/botTemplates/event-registration.jpg';
+        imagePreviewUrl = imgEventRegistration;
       } else if (imageNameMatch[1] === 'images/<image_name_job>') {
-        imagePreviewUrl = '/botTemplates/job-application.jpg';
+        imagePreviewUrl = imgJobApplication;
       } else if (imageNameMatch[1] === 'images/<image_name_contact>') {
-        imagePreviewUrl = '/botTemplates/contact-us.png';
+        imagePreviewUrl = imgContactUs;
       } else {
         imagePreviewUrl = image;
       }

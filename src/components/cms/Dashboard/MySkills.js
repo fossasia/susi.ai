@@ -7,7 +7,7 @@ import uiActions from '../../../redux/actions/ui';
 import PropTypes from 'prop-types';
 import Link from '../../shared/Link';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '../../shared/Select';
 import CircleImage from '../../shared/CircleImage';
@@ -25,6 +25,10 @@ const TableWrap = styled.div`
     overflow-x: scroll;
     padding: 0;
   }
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const Img = styled(_Img)`
@@ -102,7 +106,7 @@ class MySkills extends Component {
           <TableSleleton />
         ) : (
           <TableWrap>
-            {userSkills.length !== 0 && (
+            {userSkills && Array.isArray(userSkills) && userSkills.length > 0 && (
               <MaterialTable
                 title="My Skills"
                 columns={[
@@ -172,16 +176,21 @@ class MySkills extends Component {
                     },
                   },
                 ]}
-                data={userSkills.map((skill, index) => {
-                  return {
-                    group: skill.group,
-                    skillTag: skill.skillTag,
-                    language: skill.language,
-                    image: skill.image,
-                    skillName: skill.skillName,
-                    type: skill.type,
-                  };
-                })}
+                data={
+                  userSkills &&
+                  Array.isArray(userSkills) &&
+                  userSkills.length > 0 &&
+                  userSkills.map((skill, index) => {
+                    return {
+                      group: skill.group,
+                      skillTag: skill.skillTag,
+                      language: skill.language,
+                      image: skill.image,
+                      skillName: skill.skillName,
+                      type: skill.type,
+                    };
+                  })
+                }
                 options={{
                   search: false,
                   toolbar: false,
@@ -199,7 +208,7 @@ class MySkills extends Component {
         )}
         {userSkills.length === 0 && !loading && (
           <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
-            <h2>
+            <h2 style={{ padding: '5px' }}>
               Create your first skill or learn more about{' '}
               <a
                 href={`${urls.GITHUB_URL}/blob/master/docs/Skill_Tutorial.md`}
