@@ -95,7 +95,7 @@ const getLinks = () => {
     linksForMobileView = ['Privacy', 'Terms', 'Contact'];
   for (let i = 0; i < 3; i++) {
     links.push(
-      <li>
+      <li key={i}>
         <Link to={'/' + linksForMobileView[i].toLowerCase()}>
           {linksForMobileView[i]}
         </Link>

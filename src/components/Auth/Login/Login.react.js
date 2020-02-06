@@ -55,6 +55,7 @@ class Login extends Component {
       showCaptchaErrorMessage: false,
       attempts: storageService.get('loginAttempts', 'session') || 0,
       captchaResponse: '',
+      errorMessage: '',
     };
   }
 
@@ -78,7 +79,7 @@ class Login extends Component {
   handleSubmit = async e => {
     const { actions, location, history } = this.props;
     let { password, email, captchaResponse } = this.state;
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
     if (!email || !password) {
       return;
     }
@@ -105,14 +106,22 @@ class Login extends Component {
             if (location.pathname !== '/chat') {
               history.push('/');
             } else {
-              let { payload } = await actions.getHistoryFromServer();
-              // eslint-disable-next-line
-              let messagePairArray = await createMessagePairArray(payload);
-              actions.initializeMessageStore(messagePairArray);
-              this.setState({
-                success: true,
-                loading: false,
-              });
+              try {
+                let { payload } = await actions.getHistoryFromServer();
+                // eslint-disable-next-line
+                let messagePairArray = await createMessagePairArray(payload);
+                actions.initializeMessageStore(messagePairArray);
+                this.setState({
+                  success: true,
+                  loading: false,
+                });
+              } catch (error) {
+                actions.initializeMessageStoreFailed();
+                this.setState({
+                  loading: false,
+                });
+                console.log(error);
+              }
             }
           } catch (error) {
             actions.initializeMessageStoreFailed();
@@ -126,6 +135,7 @@ class Login extends Component {
             success: false,
             loading: false,
             attempts: prevState.attempts + 1,
+            errorMessage: 'Email or password entered is incorrect',
           }));
         }
         actions.openSnackBar({ snackBarMessage });
@@ -136,6 +146,7 @@ class Login extends Component {
           success: false,
           loading: false,
           attempts: prevState.attempts + 1,
+          errorMessage: 'Email or password entered is incorrect',
         }));
         actions.openSnackBar({
           snackBarMessage: 'Login Failed. Try Again',
@@ -146,6 +157,9 @@ class Login extends Component {
 
   // Handle changes in email and password
   handleTextFieldChange = event => {
+    this.setState({
+      errorMessage: '',
+    });
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
@@ -160,9 +174,6 @@ class Login extends Component {
       case 'password': {
         const password = event.target.value.trim();
         let passwordErrorMessage = '';
-        if (!password || password.length < 6) {
-          passwordErrorMessage = 'Password should be atleast 6 characters';
-        }
         this.setState({
           password,
           passwordErrorMessage,
@@ -229,6 +240,7 @@ class Login extends Component {
       showCaptchaErrorMessage,
       attempts,
       isCaptchaEnabled,
+      errorMessage,
     } = this.state;
     const { actions, captchaKey, message } = this.props;
     const isValid =
@@ -277,6 +289,7 @@ class Login extends Component {
               {passwordErrorMessage}
             </FormHelperText>
           </FormControl>
+          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
           {captchaKey && isCaptchaEnabled && attempts > 0 && (
             <Recaptcha
               captchaKey={captchaKey}

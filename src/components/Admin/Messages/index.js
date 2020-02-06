@@ -31,6 +31,14 @@ const Text = styled.span`
   font-size: 12px;
 `;
 
+const generateRowsOption = total => {
+  let array = [];
+  for (let i = Math.max(10, total); i <= total; i += 10) {
+    array.push(i);
+  }
+  return array;
+};
+
 const Messages = ({ actions }) => {
   const handleView = (recipients, subject, email, userMessage) => {
     actions.openModal({
@@ -69,7 +77,8 @@ const Messages = ({ actions }) => {
     <MaterialTable
       options={{
         actionsColumnIndex: -1,
-        pageSize: 100,
+        pageSize: Math.max(10, MESSAGE_CONFIG.length),
+        pageSizeOptions: [...generateRowsOption(MESSAGE_CONFIG.length)],
       }}
       columns={TABLE_CONFIG}
       data={MESSAGE_CONFIG}
@@ -79,7 +88,7 @@ const Messages = ({ actions }) => {
         margin: '2rem',
       }}
       actions={[
-        {
+        rowData => ({
           onClick: (event, rowData) => {
             handleView(
               rowData.recipients,
@@ -88,7 +97,7 @@ const Messages = ({ actions }) => {
               rowData.userMessage,
             );
           },
-        },
+        }),
       ]}
       components={{
         /* eslint-disable */

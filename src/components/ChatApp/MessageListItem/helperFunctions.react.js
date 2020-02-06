@@ -202,31 +202,35 @@ function urlDomain(data) {
 
 // Draw Tiles for Websearch RSS data
 export function drawCards(tilesData) {
-  let resultTiles = tilesData.map((tile, i) => {
-    let cardText = tile.description;
-    if (!cardText) {
-      cardText = tile.descriptionShort;
-    }
-    return (
-      <Card
-        key={i}
-        onClick={() => {
-          window.open(tile.link, '_blank');
-        }}
-      >
-        <CardActionArea>
-          {tile.image && <CardMedia image={tile.image} alt="" />}
-          <CardContent style={{ padding: 8, height: 130 }}>
-            <CardTitle variant="h6">{tile.title}</CardTitle>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {cardText}
-            </Typography>
-          </CardContent>
-          <CardUrl>{urlDomain(tile.link)}</CardUrl>
-        </CardActionArea>
-      </Card>
-    );
-  });
+  let resultTiles = null;
+
+  if (tilesData && Array.isArray(tilesData) && tilesData.length > 0) {
+    resultTiles = tilesData.map((tile, i) => {
+      let cardText = tile.description;
+      if (!cardText) {
+        cardText = tile.descriptionShort;
+      }
+      return (
+        <Card
+          key={i}
+          onClick={() => {
+            window.open(tile.link, '_blank');
+          }}
+        >
+          <CardActionArea>
+            {tile.image && <CardMedia image={tile.image} alt="" />}
+            <CardContent style={{ padding: 8, height: 130 }}>
+              <CardTitle variant="h6">{tile.title}</CardTitle>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {cardText}
+              </Typography>
+            </CardContent>
+            <CardUrl>{urlDomain(tile.link)}</CardUrl>
+          </CardActionArea>
+        </Card>
+      );
+    });
+  }
   return resultTiles;
 }
 
@@ -275,67 +279,72 @@ export function drawTable(columns, tableData, count) {
     parseKeys = Object.keys(columns);
   }
   // Create the Table Header
-  let tableheader = parseKeys.map((key, i) => {
-    return (
-      <TableCell
-        key={i}
-        style={{
-          whiteSpace: 'normal',
-          wordWrap: 'break-word',
-        }}
-      >
-        {columns[key]}
-      </TableCell>
-    );
-  });
-  // Calculate #rows in table
-  let rowCount = tableData.length;
-  if (count > -1) {
-    rowCount = Math.min(count, tableData.length);
-  }
-  let rows = [];
-  for (let j = 0; j < rowCount; j++) {
-    let eachrow = tableData[j];
-    // Check if the data object can be populated as a table row
-    let validRow = true;
-    for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
-      let colKey = parseKeys[keyInd];
-      if (!eachrow.hasOwnProperty(colKey)) {
-        validRow = false;
-        break;
+  let tableheader = null;
+
+  if (parseKeys && Array.isArray(parseKeys) && parseKeys.length > 0) {
+    tableheader = parseKeys.map((key, i) => {
+      return (
+        <TableCell
+          key={i}
+          style={{
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+          }}
+        >
+          {columns[key]}
+        </TableCell>
+      );
+    });
+    // Calculate #rows in table
+    let rowCount = tableData.length;
+    if (count > -1) {
+      rowCount = Math.min(count, tableData.length);
+    }
+    let rows = [];
+    for (let j = 0; j < rowCount; j++) {
+      let eachrow = tableData[j];
+      // Check if the data object can be populated as a table row
+      let validRow = true;
+      for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
+        let colKey = parseKeys[keyInd];
+        if (!eachrow.hasOwnProperty(colKey)) {
+          validRow = false;
+          break;
+        }
+      }
+      // Populate a Table Row
+      if (validRow && Array.isArray(validRow) && validRow.length > 0) {
+        let rowcols = parseKeys.map((key, i) => {
+          return (
+            <TableCell
+              key={i}
+              style={{
+                whiteSpace: 'normal',
+                wordWrap: 'break-word',
+              }}
+            >
+              <Linkify properties={{ target: '_blank' }}>
+                {processText(eachrow[key])}
+              </Linkify>
+            </TableCell>
+          );
+        });
+        rows.push(<TableRow key={j}>{rowcols}</TableRow>);
       }
     }
-    // Populate a Table Row
-    if (validRow) {
-      let rowcols = parseKeys.map((key, i) => {
-        return (
-          <TableCell
-            key={i}
-            style={{
-              whiteSpace: 'normal',
-              wordWrap: 'break-word',
-            }}
-          >
-            <Linkify properties={{ target: '_blank' }}>
-              {processText(eachrow[key])}
-            </Linkify>
-          </TableCell>
-        );
-      });
-      rows.push(<TableRow key={j}>{rowcols}</TableRow>);
-    }
+    // Populate the Table
+    const table = (
+      <Table>
+        <TableHead>
+          {showColName && <TableRow>{tableheader}</TableRow>}
+        </TableHead>
+        <TableBody>{rows}</TableBody>
+      </Table>
+    );
+
+    return table;
   }
-  // Populate the Table
-  const table = (
-    <Table>
-      <TableHead>{showColName && <TableRow>{tableheader}</TableRow>}</TableHead>
-      <TableBody>{rows}</TableBody>
-    </Table>
-  );
-
-  return table;
 }
-
 // Draw a Map
 export function drawMap(lat, lng, zoom) {
   let position = [lat, lng];

@@ -23,12 +23,15 @@ const ReportPanel = ({ reports = [] }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {reports.map(({ email, feedback }) => (
-            <TableRow key={email}>
-              <TableCell>{email}</TableCell>
-              <TableCell>{feedback}</TableCell>
-            </TableRow>
-          ))}
+          {reports &&
+            Array.isArray(reports) &&
+            reports.length > 0 &&
+            reports.map(({ email, feedback }) => (
+              <TableRow key={email}>
+                <TableCell>{email}</TableCell>
+                <TableCell>{feedback}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </Container>

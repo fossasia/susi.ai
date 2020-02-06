@@ -15,11 +15,13 @@ class MessageListItem extends React.Component {
     speechRate: PropTypes.number,
     speechPitch: PropTypes.number,
     ttsLanguage: PropTypes.string,
+    theme: PropTypes.string,
     actions: PropTypes.object,
     userGeoData: PropTypes.object,
     showChatPreview: PropTypes.bool,
     pauseAllVideos: PropTypes.func,
     scrollBottom: PropTypes.func,
+    customThemeValue: PropTypes.object,
   };
 
   constructor(props) {
@@ -96,7 +98,10 @@ class MessageListItem extends React.Component {
       latestMessage,
       userGeoData,
       scrollBottom,
+      customThemeValue,
+      theme,
     } = this.props;
+
     const { width, height } = this.state;
     return generateMessageBubble(
       message,
@@ -118,18 +123,28 @@ class MessageListItem extends React.Component {
       this.onClickPopout,
       this.state.showModal,
       this.onCloseModal,
+      customThemeValue,
+      theme,
     );
   }
 }
 
 function mapStateToProps(store) {
-  const { speechRate, speechPitch, ttsLanguage } = store.settings;
+  const {
+    speechRate,
+    speechPitch,
+    ttsLanguage,
+    customThemeValue,
+    theme,
+  } = store.settings;
   const { userGeoData } = store.messages;
   return {
     speechRate,
     speechPitch,
     ttsLanguage,
     userGeoData,
+    customThemeValue,
+    theme,
   };
 }
 

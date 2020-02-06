@@ -18,7 +18,6 @@ const defaultColors = [
 
 const Avatar = styled(_Avatar)`
   margin-right: 10px;
-  background-color: ${props => props.backgroundColor};
   width: ${props => props.size + 'px'};
   height: ${props => props.size + 'px'};
   align-items: center;
@@ -33,46 +32,16 @@ const Avatar = styled(_Avatar)`
       `)}
 `;
 
-function sumChars(str) {
-  let sum = 0;
-  for (let i = 0; i < str.length; i++) {
-    sum += str.charCodeAt(i);
-  }
-  return sum;
-}
-
 const CircleImage = props => {
-  const {
-    src,
-    srcset,
-    name,
-    color,
-    colors,
-    borderRadius = '100%',
-    size,
-  } = props;
+  const { src, srcset, name, size } = props;
 
-  let backgroundColor = '';
   let innerElement = null;
   if (!src && !srcset) {
-    if (color) {
-      backgroundColor = color;
-    } else {
-      // Pick a deterministic color from the list
-      const i = sumChars(name) % colors.length;
-      backgroundColor = colors[i];
-    }
     innerElement = initials(name);
   }
 
   return (
-    <Avatar
-      backgroundColor={backgroundColor}
-      size={size}
-      borderRadius={borderRadius}
-      src={src}
-      srcSet={srcset}
-    >
+    <Avatar size={size} src={src} srcSet={srcset}>
       {innerElement}
     </Avatar>
   );

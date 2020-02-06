@@ -1,5 +1,5 @@
 import React from 'react';
-import EditSkillDialog from '../../../components/Admin/ListSkills/EditSkillDialog';
+import EditSkillDialog from '../../../../components/Admin/ListSkills/EditSkillDialog';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

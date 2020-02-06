@@ -7,6 +7,23 @@ export const isProduction = () => {
 
 export const cookieDomain = isProduction() ? '.susi.ai' : '';
 
+export const urltoFile = (url, filename, mimeType) => {
+  return fetch(url)
+    .then(function(res) {
+      return res.arrayBuffer();
+    })
+    .then(function(buf) {
+      return new File([buf], filename, { type: mimeType });
+    });
+};
+
+export const extractImageFileExtensionFromBase64 = base64Data => {
+  return base64Data.substring(
+    'data:image/'.length,
+    base64Data.indexOf(';base64'),
+  );
+};
+
 export const getAvatarProps = (emailId, accessToken) => {
   const imageUrl = `${urls.API_URL}/getAvatar.png?access_token=${accessToken}`;
   const avatarProps = {
