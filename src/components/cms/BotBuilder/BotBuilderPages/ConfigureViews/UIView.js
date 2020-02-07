@@ -57,41 +57,36 @@ const TableCell = styled(_TableCell)`
 `;
 
 class UIView extends Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      {
-        title: 'Website',
-        dataIndex: 'name',
-        editable: true,
-        width: '40%',
+  columns = [
+    {
+      title: 'Website',
+      dataIndex: 'name',
+      editable: true,
+      width: '40%',
+    },
+    {
+      title: 'Date Added',
+      dataIndex: 'date',
+      width: '55%',
+    },
+    {
+      title: 'Operation',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return <div onClick={() => this.handleDelete(record.key)}>Delete</div>;
       },
-      {
-        title: 'Date Added',
-        dataIndex: 'date',
-        width: '55%',
-      },
-      {
-        title: 'Operation',
-        dataIndex: 'operation',
-        render: (text, record) => {
-          return (
-            <div onClick={() => this.handleDelete(record.key)}>Delete</div>
-          );
-        },
-      },
-    ];
-    this.state = {
-      dataSource: [],
-      websiteName: '',
-      count: 0,
-      myDevices: false, // use chatbot in your devices
-      publicDevices: false, // allow chatbot to be used in other people's devices
-      includeSusiSkills: true,
-      limitSites: false,
-    };
-    this.dataSource = [];
-  }
+    },
+  ];
+  state = {
+    dataSource: [],
+    websiteName: '',
+    count: 0,
+    myDevices: false, // use chatbot in your devices
+    publicDevices: false, // allow chatbot to be used in other people's devices
+    includeSusiSkills: true,
+    limitSites: false,
+  };
+  dataSource = [];
 
   handleDelete = key => {
     const dataSource = [...this.state.dataSource];

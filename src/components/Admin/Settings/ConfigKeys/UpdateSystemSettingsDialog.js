@@ -8,15 +8,12 @@ import Button from '../../../shared/Button';
 import { createApiKey } from '../../../../apis';
 
 class UpdateSystemSettings extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keyName: this.props.keyName || '',
-      keyValue: this.props.keyValue || '',
-      apiType: this.props.apiType || 'public',
-      loading: false,
-    };
-  }
+  state = {
+    keyName: this.props.keyName || '',
+    keyValue: this.props.keyValue || '',
+    apiType: this.props.apiType || 'public',
+    loading: false,
+  };
 
   handleChange = e => {
     this.setState({

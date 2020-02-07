@@ -10,13 +10,10 @@ import uiActions from '../../../redux/actions/ui';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 
 class ReportSkill extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      feedbackMessage: '',
-      loading: false,
-    };
-  }
+  state = {
+    feedbackMessage: '',
+    loading: false,
+  };
 
   saveReportFeedback = feedbackMessage => {
     this.setState({

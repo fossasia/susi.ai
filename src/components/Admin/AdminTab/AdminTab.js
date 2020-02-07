@@ -82,21 +82,18 @@ const SkillCard = styled.div`
 `;
 
 class AdminTab extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userStats: {},
-      skillStats: {},
-      deviceStats: {},
-      loading: false,
-      creationOverTime: [],
-      lastAccessOverTime: [],
-      lastModifiedOverTime: [],
-      lastLoginOverTime: [],
-      signupOverTime: [],
-      deviceAddedOverTime: [],
-    };
-  }
+  state = {
+    userStats: {},
+    skillStats: {},
+    deviceStats: {},
+    loading: false,
+    creationOverTime: [],
+    lastAccessOverTime: [],
+    lastModifiedOverTime: [],
+    lastLoginOverTime: [],
+    signupOverTime: [],
+    deviceAddedOverTime: [],
+  };
 
   async componentDidMount() {
     try {

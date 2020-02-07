@@ -38,20 +38,17 @@ class SkillVersion extends Component {
     actions: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      commits: [],
-      dataReceived: false,
-      skillMeta: {
-        modelValue: 'general',
-        groupValue: this.props.location.pathname.split('/')[1],
-        languageValue: this.props.location.pathname.split('/')[4],
-        skillName: this.props.location.pathname.split('/')[2],
-      },
-      checks: [],
-    };
-  }
+  state = {
+    commits: [],
+    dataReceived: false,
+    skillMeta: {
+      modelValue: 'general',
+      groupValue: this.props.location.pathname.split('/')[1],
+      languageValue: this.props.location.pathname.split('/')[4],
+      skillName: this.props.location.pathname.split('/')[2],
+    },
+    checks: [],
+  };
 
   componentDidMount() {
     document.title = 'SUSI.AI - Skill Version';
