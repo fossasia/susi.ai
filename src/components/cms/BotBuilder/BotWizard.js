@@ -3,7 +3,7 @@ import Button from '../../shared/Button';
 import _Button from '@material-ui/core/Button';
 import _Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
+import StepLabel from '@material-ui/core/StepLabel';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import Design from './BotBuilderPages/Design';
@@ -130,7 +130,6 @@ const ActionButtonContainer = styled.div`
   float: right;
   display: flex;
   flex-direction: row-reverse;
-
   @media (max-width: 480px) {
     float: left;
     margin-right: 10px;
@@ -311,20 +310,26 @@ class BotWizard extends React.Component {
   };
 
   handleNext = () => {
-    const { stepIndex } = this.state;
-    const { name } = this.props;
+    const { stepIndex, updateSkillNow } = this.state;
+    const { name, actions } = this.props;
     const botName = name.trim();
     if (botName === '') {
-      this.props.actions.openSnackBar({
+      actions.openSnackBar({
         snackBarMessage: 'Please do not leave name field empty',
         snackBarPosition: { vertical: 'top', horizontal: 'right' },
         variant: 'warning',
+      });
+    } else if (stepIndex === 2 && !updateSkillNow) {
+      actions.openSnackBar({
+        snackBarMessage:
+          'Please save the chatbot in Configure tab before deploying.',
+        snackBarDuration: 2000,
       });
     } else {
       this.setState({
         stepIndex: stepIndex + 1,
         finished: stepIndex >= 3,
-        commitMessage: 'Created Bot ' + name,
+        commitMessage: 'Created Bot ' + botName,
       });
     }
   };
@@ -349,17 +354,6 @@ class BotWizard extends React.Component {
       default:
     }
   }
-
-  setStep = stepIndex => {
-    const { actions, name } = this.props;
-    if (stepIndex === 0) {
-      actions.setView({ view: 'code' });
-    }
-    this.setState({
-      stepIndex,
-      commitMessage: 'Created Bot ' + name,
-    });
-  };
 
   handlePreviewToggle = () => {
     let { slideState } = this.state;
@@ -542,20 +536,6 @@ class BotWizard extends React.Component {
     }
   };
 
-  check = () => {
-    const { actions } = this.props;
-    const { updateSkillNow } = this.state;
-    if (updateSkillNow) {
-      this.setStep(3);
-    } else {
-      actions.openSnackBar({
-        snackBarMessage:
-          'Please save the chatbot in Configure tab before deploying.',
-        snackBarDuration: 2000,
-      });
-    }
-  };
-
   render() {
     const {
       colBuild,
@@ -567,6 +547,7 @@ class BotWizard extends React.Component {
       prevButton,
       colPreview,
     } = this.state;
+    const steps = ['Build', 'Design', 'Configure', 'Deploy'];
 
     return (
       <Home>
@@ -586,29 +567,15 @@ class BotWizard extends React.Component {
                   <div>
                     <Stepper
                       activeStep={stepIndex}
-                      nonLinear
                       alternativeLabel={!!isMobile}
                     >
-                      <Step>
-                        <StepButton onClick={() => this.setStep(0)}>
-                          Build
-                        </StepButton>
-                      </Step>
-                      <Step>
-                        <StepButton onClick={() => this.setStep(1)}>
-                          Design
-                        </StepButton>
-                      </Step>
-                      <Step>
-                        <StepButton onClick={() => this.setStep(2)}>
-                          Configure
-                        </StepButton>
-                      </Step>
-                      <Step>
-                        <StepButton onClick={() => this.check()}>
-                          Deploy
-                        </StepButton>
-                      </Step>
+                      {steps.map(step => {
+                        return (
+                          <Step key={step}>
+                            <StepLabel>{step}</StepLabel>
+                          </Step>
+                        );
+                      })}
                     </Stepper>
                     <ContentContainer>
                       {this.getStepContent(stepIndex)}

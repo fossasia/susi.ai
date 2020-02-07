@@ -14,14 +14,11 @@ const ScrollTopFab = styled(Fab)`
 `;
 
 class ScrollTopButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      height: window.innerHeight,
-      width: window.innerWidth,
-      shouldDisplayButton: false,
-    };
-  }
+  state = {
+    height: window.innerHeight,
+    width: window.innerWidth,
+    shouldDisplayButton: false,
+  };
 
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);

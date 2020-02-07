@@ -88,14 +88,11 @@ class SkillRatingCard extends Component {
     accessToken: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chartWidth: 0,
-      ratingsOverTimeWidth: 0,
-      offset: 0,
-    };
-  }
+  state = {
+    chartWidth: 0,
+    ratingsOverTimeWidth: 0,
+    offset: 0,
+  };
 
   changeRating = async userRating => {
     const { group, language, skillTag: skill, actions } = this.props;

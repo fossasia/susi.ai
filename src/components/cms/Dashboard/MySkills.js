@@ -51,13 +51,11 @@ const Container = styled.div`
 `;
 const isSmallScreen = window.screen.availWidth < 500;
 class MySkills extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      skillsData: [],
-      loading: true,
-    };
-  }
+  state = {
+    skillsData: [],
+    loading: true,
+  };
+
   componentDidMount() {
     this.loadSkills();
   }

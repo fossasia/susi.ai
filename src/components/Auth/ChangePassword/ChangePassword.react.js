@@ -64,23 +64,19 @@ class ChangePassword extends Component {
     isCaptchaEnabled: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      password: '',
-      newPassword: '',
-      newPasswordErrorMessage: '',
-      newPasswordStrength: '',
-      newPasswordScore: -1,
-      confirmNewPassword: '',
-      newPasswordConfirmErrorMessage: '',
-      success: false,
-      loading: false,
-      showCaptchaErrorMessage: false,
-      captchaResponse: '',
-    };
-  }
+  state = {
+    password: '',
+    newPassword: '',
+    newPasswordErrorMessage: '',
+    newPasswordStrength: '',
+    newPasswordScore: -1,
+    confirmNewPassword: '',
+    newPasswordConfirmErrorMessage: '',
+    success: false,
+    loading: false,
+    showCaptchaErrorMessage: false,
+    captchaResponse: '',
+  };
 
   onCaptchaLoad = () => {
     this.setState({

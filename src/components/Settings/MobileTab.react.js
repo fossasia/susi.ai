@@ -63,17 +63,13 @@ const Number = styled.div`
 `;
 
 class MobileTab extends React.Component {
-  constructor(props) {
-    super(props);
-    const { phoneNo, countryCode, countryDialCode } = this.props;
-    this.state = {
-      phoneNo,
-      phoneNoError: '',
-      countryCode,
-      countryDialCode,
-      loading: false,
-    };
-  }
+  state = {
+    phoneNo: this.props.phoneNo,
+    phoneNoError: '',
+    countryCode: this.props.countryCode,
+    countryDialCode: this.props.countryDialCode,
+    loading: false,
+  };
 
   handleTelephoneNoChange = event => {
     const { value } = event.target;

@@ -115,15 +115,12 @@ const Send = styled(_Send)`
 `;
 
 class PreviewThemeChat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      messages: [
-        { messageText: 'Hi, I am SUSI', author: 'SUSI', loading: false },
-      ],
-      messageText: '',
-    };
-  }
+  state = {
+    messages: [
+      { messageText: 'Hi, I am SUSI', author: 'SUSI', loading: false },
+    ],
+    messageText: '',
+  };
 
   sendMessage = async event => {
     const { messageText } = this.state;
