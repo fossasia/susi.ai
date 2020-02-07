@@ -21,14 +21,12 @@ const TableWrap = styled.div`
 `;
 
 class MyRatings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ratingsData: [],
-      loading: true,
-      showMySkills: true,
-    };
-  }
+  state = {
+    ratingsData: [],
+    loading: true,
+    showMySkills: true,
+  };
+
   componentDidMount() {
     this.loadSkills();
   }

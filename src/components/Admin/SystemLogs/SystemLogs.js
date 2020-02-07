@@ -46,15 +46,12 @@ const menuObj = [
 ];
 
 class SystemLogs extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      logs: '',
-      error: false,
-      loading: true,
-      currentCount: '1000',
-    };
-  }
+  state = {
+    logs: '',
+    error: false,
+    loading: true,
+    currentCount: '1000',
+  };
 
   componentDidMount() {
     this.loadSystemLogs(1000);

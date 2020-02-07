@@ -23,14 +23,11 @@ const MessageDiv = styled.div`
 `;
 
 class ConversationView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInputs: [],
-      conversationsData: [],
-      loaded: false,
-    };
-  }
+  state = {
+    userInputs: [],
+    conversationsData: [],
+    loaded: false,
+  };
 
   componentDidMount = () => {
     this.fetchUserInputs();

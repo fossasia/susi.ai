@@ -283,30 +283,27 @@ class MessageSection extends Component {
     dream: '',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      player: [],
-      search: false,
-      showLoading: false,
-      showScrollBottom: false,
-      showScrollTop: false,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      hasScrolled: false,
-      searchState: {
-        markedMessagesByID: {},
-        markedIDs: [],
-        markedIndices: [],
-        scrollLimit: 0,
-        scrollIndex: -1,
-        scrollID: null,
-        caseSensitive: false,
-        searchIndex: 0,
-        searchText: '',
-      },
-    };
-  }
+  state = {
+    player: [],
+    search: false,
+    showLoading: false,
+    showScrollBottom: false,
+    showScrollTop: false,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    hasScrolled: false,
+    searchState: {
+      markedMessagesByID: {},
+      markedIDs: [],
+      markedIndices: [],
+      scrollLimit: 0,
+      scrollIndex: -1,
+      scrollID: null,
+      caseSensitive: false,
+      searchIndex: 0,
+      searchText: '',
+    },
+  };
 
   componentDidMount = async () => {
     const { actions } = this.props;

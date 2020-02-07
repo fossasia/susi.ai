@@ -26,15 +26,11 @@ const Tabs = styled(_Tabs)`
 `;
 
 class Admin extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isAdmin: false,
-      loading: true,
-      value: 0,
-    };
-  }
+  state = {
+    isAdmin: false,
+    loading: true,
+    value: 0,
+  };
 
   async componentDidMount() {
     document.title = 'SUSI.AI - Admin';
