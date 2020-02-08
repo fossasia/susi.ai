@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { bindActionCreators } from 'redux';
@@ -64,17 +63,13 @@ const Number = styled.div`
 `;
 
 class MobileTab extends React.Component {
-  constructor(props) {
-    super(props);
-    const { phoneNo, countryCode, countryDialCode } = this.props;
-    this.state = {
-      phoneNo,
-      phoneNoError: '',
-      countryCode,
-      countryDialCode,
-      loading: false,
-    };
-  }
+  state = {
+    phoneNo: this.props.phoneNo,
+    phoneNoError: '',
+    countryCode: this.props.countryCode,
+    countryDialCode: this.props.countryDialCode,
+    loading: false,
+  };
 
   handleTelephoneNoChange = event => {
     const { value } = event.target;
@@ -135,18 +130,27 @@ class MobileTab extends React.Component {
     const disabled =
       (countryCode === _countryCode && phoneNo === _phoneNo) || loading;
     sortCountryLexographical(countryData);
-    let countries = countryData.countries.all.map((country, i) => {
-      if (countryData.countries.all[i].countryCallingCodes[0]) {
-        return (
-          <MenuItem value={countryData.countries.all[i].alpha2} key={i}>
-            {countryData.countries.all[i].name +
-              ' ' +
-              countryData.countries.all[i].countryCallingCodes[0]}
-          </MenuItem>
-        );
-      }
-      return null;
-    });
+    let countries = null;
+    if (
+      countryData &&
+      countryData.countries &&
+      countryData.countries.all &&
+      Array.isArray(countryData.countries.all) &&
+      countryData.countries.all.length > 0
+    ) {
+      countries = countryData.countries.all.map((country, i) => {
+        if (countryData.countries.all[i].countryCallingCodes[0]) {
+          return (
+            <MenuItem value={countryData.countries.all[i].alpha2} key={i}>
+              {countryData.countries.all[i].name +
+                ' ' +
+                countryData.countries.all[i].countryCallingCodes[0]}
+            </MenuItem>
+          );
+        }
+        return null;
+      });
+    }
     return (
       <SettingsTabWrapper heading="Mobile">
         <div style={{ fontSize: '14px' }}>
@@ -203,17 +207,13 @@ class MobileTab extends React.Component {
           </PhoneDetails>
         </PhoneNumber>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
+        />
       </SettingsTabWrapper>
     );
   }

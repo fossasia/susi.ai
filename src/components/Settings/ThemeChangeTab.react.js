@@ -7,21 +7,16 @@ import SettingsTabWrapper from './SettingsTabWrapper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '../shared/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import settingActions from '../../redux/actions/settings';
 import { setUserSettings } from '../../apis';
 
 class ThemeChangeTab extends React.Component {
-  constructor(props) {
-    super(props);
-    const { theme } = this.props;
-    this.state = {
-      loading: false,
-    };
-    this.initialTheme = theme;
-  }
+  state = {
+    loading: false,
+  };
+  initialTheme = this.props.theme;
 
   handleCustomTheme = () => {
     this.props.actions.openModal({ modalType: 'themeChange' });
@@ -85,26 +80,21 @@ class ThemeChangeTab extends React.Component {
           />
         </RadioGroup>
         <Button
-          disabled={theme !== 'custom'}
-          onClick={this.handleCustomTheme}
-          variant="contained"
           color="primary"
-        >
-          <Translate text="Edit theme" />
-        </Button>
+          variant="contained"
+          disabled={theme !== 'custom'}
+          handleClick={this.handleCustomTheme}
+          buttonText="Edit theme"
+        />
         <div style={{ marginTop: '1rem' }}>
           <Button
-            variant="contained"
             color="primary"
-            onClick={this.handleSubmit}
-            disabled={disabled}
-          >
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Translate text="Save Changes" />
-            )}
-          </Button>
+            variant="contained"
+            handleClick={this.handleSubmit}
+            disabled={disabled || loading}
+            isLoading={loading}
+            buttonText="Save Changes"
+          />
         </div>
       </SettingsTabWrapper>
     );

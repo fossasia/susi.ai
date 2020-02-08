@@ -23,14 +23,11 @@ const MessageDiv = styled.div`
 `;
 
 class ConversationView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInputs: [],
-      conversationsData: [],
-      loaded: false,
-    };
-  }
+  state = {
+    userInputs: [],
+    conversationsData: [],
+    loaded: false,
+  };
 
   componentDidMount = () => {
     this.fetchUserInputs();
@@ -133,6 +130,9 @@ class ConversationView extends Component {
         {!loaded ? (
           <CircularLoader height={10} />
         ) : (
+          conversationsData &&
+          Array.isArray(conversationsData) &&
+          conversationsData.length > 0 &&
           conversationsData.map(item => {
             let text = item.name;
             let messageArr = text.match(/.{1,28}/g);

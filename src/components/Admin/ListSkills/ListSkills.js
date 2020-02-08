@@ -27,28 +27,25 @@ import ReportPanel from './ReportPanel';
 import SkillTable from './SkillTable';
 
 class ListSkills extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      skillsData: [],
-      groups: {},
-      deletedSkills: [],
-      loading: true,
-      loadingReportedSkills: true,
-      skillName: '',
-      skillTag: '',
-      skillModel: '',
-      skillGroup: '',
-      skillLanguage: '',
-      skillReviewStatus: false,
-      skillEditStatus: true,
-      skillStaffPickStatus: false,
-      systemSkillStatus: false,
-      value: 0,
-      reportedSkills: [],
-      systemSkills: [],
-    };
-  }
+  state = {
+    skillsData: [],
+    groups: {},
+    deletedSkills: [],
+    loading: true,
+    loadingReportedSkills: true,
+    skillName: '',
+    skillTag: '',
+    skillModel: '',
+    skillGroup: '',
+    skillLanguage: '',
+    skillReviewStatus: false,
+    skillEditStatus: true,
+    skillStaffPickStatus: false,
+    systemSkillStatus: false,
+    value: 0,
+    reportedSkills: [],
+    systemSkills: [],
+  };
 
   componentDidMount() {
     this.loadSkills();
@@ -426,7 +423,7 @@ class ListSkills extends React.Component {
               padding: '1rem',
             }}
             actions={[
-              {
+              rowData => ({
                 onDelete: (event, rowData) => {
                   this.handleDelete(
                     rowData.skillName,
@@ -435,7 +432,7 @@ class ListSkills extends React.Component {
                     rowData.language,
                   );
                 },
-              },
+              }),
             ]}
             components={{
               Action: props => (
@@ -467,7 +464,7 @@ class ListSkills extends React.Component {
               padding: '1rem',
             }}
             actions={[
-              {
+              rowData => ({
                 onClick: (event, rowData) => {
                   this.handleRestore(
                     rowData.skillName,
@@ -476,7 +473,7 @@ class ListSkills extends React.Component {
                     rowData.language,
                   );
                 },
-              },
+              }),
             ]}
             components={{
               Action: props => (

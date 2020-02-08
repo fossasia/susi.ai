@@ -1,5 +1,5 @@
 import React from 'react';
-import SkillSlideshowDialog from '../../../../components/Admin/Settings/Slideshow/Dialog';
+import SkillSlideshowDialog from '../../../../../components/Admin/Settings/Slideshow/Dialog';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

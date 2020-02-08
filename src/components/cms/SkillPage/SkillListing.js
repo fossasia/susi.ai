@@ -19,7 +19,6 @@ import Fab from '@material-ui/core/Fab';
 import Ratings from 'react-ratings-declarative';
 import { reportSkill } from '../../../apis';
 import { CenterReaderContainer } from '../../shared/Container';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 import { StaffPickBadge } from '../../shared/Badges';
 
 // Static Assets
@@ -110,33 +109,29 @@ const ButtonContainer = styled.div`
 `;
 
 class SkillListing extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    skillFeedback: [],
+    feedbackMessage: '',
+  };
 
-    this.state = {
-      skillFeedback: [],
-      feedbackMessage: '',
-    };
-
-    this.groupValue = this.props.location.pathname.split('/')[1];
-    this.skillTag = this.props.location.pathname.split('/')[2];
-    this.languageValue = this.props.location.pathname.split('/')[3];
-    this.skillData = {
-      model: 'general',
-      group: this.groupValue,
-      language: this.languageValue,
-      skill: this.skillTag,
-    };
-    this.skillName = this.skillTag
-      ? this.skillTag
-          .split('_')
-          .map(data => {
-            const s = data.charAt(0).toUpperCase() + data.substring(1);
-            return s;
-          })
-          .join(' ')
-      : '';
-  }
+  groupValue = this.props.location.pathname.split('/')[1];
+  skillTag = this.props.location.pathname.split('/')[2];
+  languageValue = this.props.location.pathname.split('/')[3];
+  skillData = {
+    model: 'general',
+    group: this.groupValue,
+    language: this.languageValue,
+    skill: this.skillTag,
+  };
+  skillName = this.skillTag
+    ? this.skillTag
+        .split('_')
+        .map(data => {
+          const s = data.charAt(0).toUpperCase() + data.substring(1);
+          return s;
+        })
+        .join(' ')
+    : '';
 
   componentDidMount() {
     document.title = `SUSI.AI - ${this.skillName} Skills`;
@@ -420,20 +415,23 @@ class SkillListing extends Component {
                 <tr>
                   <td>Languages supported:</td>
                   <td>
-                    {supportedLanguages.map((data, index) => {
-                      const delimiter =
-                        supportedLanguages.length === index + 1 ? null : ', ';
-                      return (
-                        <Link
-                          key={index}
-                          onClick={this.forceUpdate}
-                          to={`/${this.groupValue}/${data.name}/${data.language}`}
-                        >
-                          {ISO6391.getNativeName(data.language)}
-                          {delimiter}
-                        </Link>
-                      );
-                    })}
+                    {supportedLanguages &&
+                      Array.isArray(supportedLanguages) &&
+                      supportedLanguages.length > 0 &&
+                      supportedLanguages.map((data, index) => {
+                        const delimiter =
+                          supportedLanguages.length === index + 1 ? null : ', ';
+                        return (
+                          <Link
+                            key={index}
+                            onClick={this.forceUpdate}
+                            to={`/${this.groupValue}/${data.name}/${data.language}`}
+                          >
+                            {ISO6391.getNativeName(data.language)}
+                            {delimiter}
+                          </Link>
+                        );
+                      })}
                   </td>
                 </tr>
                 {accessToken && (
@@ -459,7 +457,6 @@ class SkillListing extends Component {
           <SkillRatingCard />
           <SkillFeedbackCard />
           <SkillUsageCard />
-          <ScrollTopButton />
         </Container>
       );
     }

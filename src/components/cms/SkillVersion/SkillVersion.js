@@ -38,20 +38,17 @@ class SkillVersion extends Component {
     actions: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      commits: [],
-      dataReceived: false,
-      skillMeta: {
-        modelValue: 'general',
-        groupValue: this.props.location.pathname.split('/')[1],
-        languageValue: this.props.location.pathname.split('/')[4],
-        skillName: this.props.location.pathname.split('/')[2],
-      },
-      checks: [],
-    };
-  }
+  state = {
+    commits: [],
+    dataReceived: false,
+    skillMeta: {
+      modelValue: 'general',
+      groupValue: this.props.location.pathname.split('/')[1],
+      languageValue: this.props.location.pathname.split('/')[4],
+      skillName: this.props.location.pathname.split('/')[2],
+    },
+    checks: [],
+  };
 
   componentDidMount() {
     document.title = 'SUSI.AI - Skill Version';
@@ -95,7 +92,10 @@ class SkillVersion extends Component {
 
   getCheckedCommits = () => {
     const { commits, checks } = this.state;
-    let checkedCommits = checks.map(check => commits[check]);
+    let checkedCommits = null;
+    if (checks && Array.isArray(checks) && checks.length > 0) {
+      checkedCommits = checks.map(check => commits[check]);
+    }
     return checkedCommits;
   };
 
@@ -132,33 +132,36 @@ class SkillVersion extends Component {
       </TableRow>
     );
 
-    let commitHistoryTableRows = commits.map((commit, index) => {
-      const { commitId, commitDate, author, commitMessage } = commit;
-      return (
-        <TableRow key={index}>
-          <TableCell padding="checkbox">
-            <Checkbox
-              id={index}
-              checked={checks.indexOf(index.toString()) > -1}
-              onChange={this.onCheck}
-              color="primary"
-            />
-          </TableCell>
-          <TableCell padding="dense">
-            <Link
-              to={{
-                pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/edit/${skillMeta.languageValue}/${commitId}`,
-              }}
-            >
-              {commitDate}
-            </Link>
-          </TableCell>
-          <TableCell padding="dense">{commitId}</TableCell>
-          <TableCell padding="dense">{author}</TableCell>
-          <TableCell padding="dense">{commitMessage}</TableCell>
-        </TableRow>
-      );
-    });
+    let commitHistoryTableRows = null;
+    if (commits && Array.isArray(commits) && commits.length > 0) {
+      commitHistoryTableRows = commits.map((commit, index) => {
+        const { commitId, commitDate, author, commitMessage } = commit;
+        return (
+          <TableRow key={index}>
+            <TableCell padding="checkbox">
+              <Checkbox
+                id={index}
+                checked={checks.indexOf(index.toString()) > -1}
+                onChange={this.onCheck}
+                color="primary"
+              />
+            </TableCell>
+            <TableCell padding="dense">
+              <Link
+                to={{
+                  pathname: `/${skillMeta.groupValue}/${skillMeta.skillName}/edit/${skillMeta.languageValue}/${commitId}`,
+                }}
+              >
+                {commitDate}
+              </Link>
+            </TableCell>
+            <TableCell padding="dense">{commitId}</TableCell>
+            <TableCell padding="dense">{author}</TableCell>
+            <TableCell padding="dense">{commitMessage}</TableCell>
+          </TableRow>
+        );
+      });
+    }
 
     const commitHistoryTable = (
       <Table

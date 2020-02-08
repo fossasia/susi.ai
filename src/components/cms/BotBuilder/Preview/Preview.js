@@ -105,8 +105,8 @@ const SUSIFrameWrapper = styled.div`
 
 const SUSIMessageContainer = styled.div`
   && {
-    background-color: ${props => props.backgroundColor};
-    background-image: ${props => `url(${props.backgroundImage})`};
+    background-color: ${props => props.$backgroundColor};
+    background-image: ${props => `url(${props.$backgroundImage})`};
   }
 `;
 
@@ -153,8 +153,8 @@ const SUSILauncherWrapper = styled.div`
 `;
 
 const SUSILauncherButton = styled.div`
-  background-color: ${props => props.backgroundColor};
-  background-image: ${props => `url(${props.backgroundImage})`};
+  background-color: ${props => props.$backgroundColor};
+  background-image: ${props => `url(${props.$backgroundImage})`};
   width: 60px;
   height: 60px;
   background-size: 60px;
@@ -237,21 +237,18 @@ const Textarea = styled.textarea`
 `;
 
 class Preview extends Component {
-  constructor() {
-    super();
-    this.messageEndRef = React.createRef();
-    this.msgNumber = 1;
-    this.state = {
-      messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
-      message: '',
-      previewChat: true,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      messageHistory: [],
-      showMessage: false,
-      currentMessageIndex: -1,
-    };
-  }
+  messageEndRef = React.createRef();
+  msgNumber = 1;
+  state = {
+    messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
+    message: '',
+    previewChat: true,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    messageHistory: [],
+    showMessage: false,
+    currentMessageIndex: -1,
+  };
 
   componentDidMount = () => {
     this.updateWindowDimensions();
@@ -329,6 +326,7 @@ class Preview extends Component {
     if (event.keyCode === ENTER_KEY_CODE) {
       event.preventDefault();
       this.sendMessage();
+      this.setState({ message: '' });
     } else {
       const { messageHistory, currentMessageIndex } = this.state;
       const { message, newMessageIndex } = onChatComposerKeyDown(
@@ -405,14 +403,14 @@ class Preview extends Component {
       paperWidth,
     } = this.props;
     let renderMessages = null;
-    if (messages.length) {
+    if (messages && Array.isArray(messages) && messages.length > 0) {
       renderMessages = messages.map((message, index) => {
         if (message.author === 'You') {
           return (
             <MessageBubble
               author={message.author}
               width={'fit-content'}
-              backgroundColor={botbuilderUserMessageBackground}
+              $backgroundColor={botbuilderUserMessageBackground}
               color={botbuilderUserMessageTextColor}
             >
               <SUSICommentContent>{message.message}</SUSICommentContent>
@@ -424,7 +422,7 @@ class Preview extends Component {
             key={index}
             author={message.author}
             width={'fit-content'}
-            backgroundColor={botbuilderBotMessageBackground}
+            $backgroundColor={botbuilderBotMessageBackground}
             color={botbuilderBotMessageTextColor}
           >
             <SUSICommentContent>{message.message}</SUSICommentContent>
@@ -462,8 +460,8 @@ class Preview extends Component {
                         >
                           <SUSIMessageContainer
                             className="susi-sheet-content-container"
-                            backgroundColor={botbuilderBackgroundBody}
-                            backgroundImage={botbuilderBodyBackgroundImg}
+                            $backgroundColor={botbuilderBackgroundBody}
+                            $backgroundImage={botbuilderBodyBackgroundImg}
                           >
                             <div
                               className="susi-conversation-parts-container"
@@ -533,8 +531,8 @@ class Preview extends Component {
                 <SUSILauncherWrapper onClick={this.togglePreview}>
                   <SUSILauncherButton
                     data-tip="Toggle Launcher"
-                    backgroundColor={botbuilderIconColor}
-                    backgroundImage={botbuilderIconImg}
+                    $backgroundColor={botbuilderIconColor}
+                    $backgroundImage={botbuilderIconImg}
                   />
                 </SUSILauncherWrapper>
               </SUSILauncherContainer>

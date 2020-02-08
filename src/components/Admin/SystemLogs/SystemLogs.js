@@ -46,15 +46,12 @@ const menuObj = [
 ];
 
 class SystemLogs extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      logs: '',
-      error: false,
-      loading: true,
-      currentCount: '1000',
-    };
-  }
+  state = {
+    logs: '',
+    error: false,
+    loading: true,
+    currentCount: '1000',
+  };
 
   componentDidMount() {
     this.loadSystemLogs(1000);
@@ -98,11 +95,14 @@ class SystemLogs extends React.Component {
 
   render() {
     const { loading } = this.state;
-    let renderMenu = menuObj.map(menu => (
-      <MenuItem key={menu.value} value={menu.value}>
-        {menu.text}
-      </MenuItem>
-    ));
+    let renderMenu = null;
+    if (menuObj && Array.isArray(menuObj) && menuObj.length > 0) {
+      renderMenu = menuObj.map(menu => (
+        <MenuItem key={menu.value} value={menu.value}>
+          {menu.text}
+        </MenuItem>
+      ));
+    }
     return (
       <Container>
         <Select

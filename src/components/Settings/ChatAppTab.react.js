@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from '../shared/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../Translate/Translate.react';
 import SettingsTabWrapper from './SettingsTabWrapper';
 import Switch from '@material-ui/core/Switch';
@@ -13,14 +12,10 @@ import { bindActionCreators } from 'redux';
 import { setUserSettings } from '../../apis';
 
 class ChatAppTab extends React.Component {
-  constructor(props) {
-    super(props);
-    const { enterAsSend } = this.props;
-    this.state = {
-      enterAsSend,
-      loading: false,
-    };
-  }
+  state = {
+    enterAsSend: this.props.enterAsSend,
+    loading: false,
+  };
 
   handleEnterAsSend = (event, isInputChecked) => {
     this.setState({
@@ -77,18 +72,14 @@ class ChatAppTab extends React.Component {
           </div>
         </FlexContainer>
         <Button
-          variant="contained"
           color="primary"
-          onClick={this.handleSubmit}
-          disabled={disabled}
+          variant="contained"
+          handleClick={this.handleSubmit}
+          disabled={disabled || loading}
+          isLoading={loading}
+          buttonText="Save Changes"
           style={{ margin: '1.5rem 0' }}
-        >
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Translate text="Save Changes" />
-          )}
-        </Button>
+        />
       </SettingsTabWrapper>
     );
   }

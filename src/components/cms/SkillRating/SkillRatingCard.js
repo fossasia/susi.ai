@@ -88,14 +88,11 @@ class SkillRatingCard extends Component {
     accessToken: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chartWidth: 0,
-      ratingsOverTimeWidth: 0,
-      offset: 0,
-    };
-  }
+  state = {
+    chartWidth: 0,
+    ratingsOverTimeWidth: 0,
+    offset: 0,
+  };
 
   changeRating = async userRating => {
     const { group, language, skillTag: skill, actions } = this.props;
@@ -278,20 +275,23 @@ class SkillRatingCard extends Component {
                         offset={offset}
                         fill="#666666"
                       />
-                      {ratingsData.map((entry, index) => (
-                        <Cell
-                          key={index}
-                          fill={
-                            [
-                              '#81C784',
-                              '#AED581',
-                              '#FFF176',
-                              '#FFB74D',
-                              '#E57373',
-                            ][index % 5]
-                          }
-                        />
-                      ))}
+                      {ratingsData &&
+                        Array.isArray(ratingsData) &&
+                        ratingsData.length > 0 &&
+                        ratingsData.map((entry, index) => (
+                          <Cell
+                            key={index}
+                            fill={
+                              [
+                                '#81C784',
+                                '#AED581',
+                                '#FFF176',
+                                '#FFB74D',
+                                '#E57373',
+                              ][index % 5]
+                            }
+                          />
+                        ))}
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>

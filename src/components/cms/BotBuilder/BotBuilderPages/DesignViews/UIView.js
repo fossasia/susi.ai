@@ -183,20 +183,17 @@ const customiseOptionsList = [
 ];
 
 class UIView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadedSettings: false,
-      uploadingBodyBackgroundImg: false,
-      botbuilderBodyBackgroundImgName: this.props.design
-        .botbuilderBodyBackgroundImgName,
-      uploadingBotbuilderIconImg: false,
-      showBackgroundImageChange:
-        this.props.design.botbuilderBodyBackgroundImgName !== '',
-      botbuilderIconSelected: this.props.design.botbuilderIconSelected,
-      avatars: this.props.design.avatars,
-    };
-  }
+  state = {
+    loadedSettings: false,
+    uploadingBodyBackgroundImg: false,
+    botbuilderBodyBackgroundImgName: this.props.design
+      .botbuilderBodyBackgroundImgName,
+    uploadingBotbuilderIconImg: false,
+    showBackgroundImageChange:
+      this.props.design.botbuilderBodyBackgroundImgName !== '',
+    botbuilderIconSelected: this.props.design.botbuilderIconSelected,
+    avatars: this.props.design.avatars,
+  };
 
   componentDidMount() {
     this.getSettings();
@@ -415,154 +412,165 @@ class UIView extends Component {
       design,
     } = this.props;
     console.log({ botbuilderBodyBackgroundImgName });
-    const customizeComponents = customiseOptionsList.map(component => {
-      return (
-        <div key={component.id} className="circleChoose">
-          <Row>
-            <Col xs={12} md={6} lg={6}>
-              {component.id === 7 ? (
-                <ColumnContainer>
-                  <div
-                    style={{
-                      fontSize: '18px',
-                      fontWeight: '400',
-                    }}
-                  >
-                    {component.name}
-                  </div>
-                </ColumnContainer>
-              ) : (
-                <ColumnContainer>
-                  <ComponentName>{component.name}</ComponentName>
-                  {component.id === 1 && (
-                    <div>
-                      <ToggleLabel
-                        onClick={this.handleShowBackgroundImageChangeToggle}
-                      >
-                        Color
-                      </ToggleLabel>
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={showBackgroundImageChange}
-                            onChange={
-                              this.handleShowBackgroundImageChangeToggle
-                            }
-                            color="primary"
-                          />
-                        }
-                        label="Image"
-                      />
+    let customizeComponents = null;
+    if (
+      customiseOptionsList &&
+      Array.isArray(customiseOptionsList) &&
+      customiseOptionsList.length > 0
+    ) {
+      customizeComponents = customiseOptionsList.map(component => {
+        return (
+          <div key={component.id} className="circleChoose">
+            <Row>
+              <Col xs={12} md={6} lg={6}>
+                {component.id === 7 ? (
+                  <ColumnContainer>
+                    <div
+                      style={{
+                        fontSize: '18px',
+                        fontWeight: '400',
+                      }}
+                    >
+                      {component.name}
                     </div>
-                  )}
-                </ColumnContainer>
-              )}
-            </Col>
-            <Col xs={12} md={6} lg={6}>
-              {component.id !== 7 &&
-              !(component.id === 1 && showBackgroundImageChange === true) ? (
-                <RowContainer>
-                  <ColorPickerComponent
-                    component={component.component}
-                    id={component.id}
-                    handleChangeColor={this.handleChangeColor}
-                    backgroundColor={design[component.component]}
-                    handleClickColorBox={this.handleClickColorBox}
-                  />
-                </RowContainer>
-              ) : null}
-              {component.component === 'botbuilderBackgroundBody' &&
-                showBackgroundImageChange === true && (
-                  <div>
-                    <Form>
-                      {botbuilderBodyBackgroundImg === '' && (
-                        <AvatarUploadButton top="0">
-                          <Input
-                            disabled={uploadingBodyBackgroundImg}
-                            type="file"
-                            ref={c => {
-                              this.backgroundImage = c;
-                            }}
-                            onChange={this.handleChangeBodyBackgroundImage}
-                            accept="image/*"
-                          />
-                          <AddIcon />
-                        </AvatarUploadButton>
-                      )}
-                      <FileUploadButton
-                        title="Upload Background Image"
-                        onClick={this.uploadBackgroundImage}
-                      >
-                        {uploadingBodyBackgroundImg && (
-                          <CircularLoader
-                            height={2.25}
-                            color="inherit"
-                            size={24}
-                          />
-                        )}
-                        {!uploadingBodyBackgroundImg &&
-                          (botbuilderBodyBackgroundImgName !== '' ||
-                            botbuilderBodyBackgroundImg !== '') &&
-                          'Upload Image'}
-                      </FileUploadButton>
-                    </Form>
-                    {botbuilderBodyBackgroundImg && (
+                  </ColumnContainer>
+                ) : (
+                  <ColumnContainer>
+                    <ComponentName>{component.name}</ComponentName>
+                    {component.id === 1 && (
                       <div>
-                        <span>{botbuilderBodyBackgroundImgName}</span>
-                        <span title="Remove image">
-                          <Close onClick={this.handleRemoveUrlBody} />
-                        </span>
+                        <ToggleLabel
+                          onClick={this.handleShowBackgroundImageChangeToggle}
+                        >
+                          Color
+                        </ToggleLabel>
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={showBackgroundImageChange}
+                              onChange={
+                                this.handleShowBackgroundImageChangeToggle
+                              }
+                              color="primary"
+                            />
+                          }
+                          label="Image"
+                        />
                       </div>
                     )}
-                  </div>
+                  </ColumnContainer>
                 )}
-            </Col>
-          </Row>
-          {component.component === 'botbuilderAvatar' && (
-            <BotBuilderContainer>
-              {avatars.map(icon => {
-                return (
-                  <IconWrap
-                    id={icon.id}
-                    key={icon.id}
-                    icon={botbuilderIconSelected === icon.id}
-                  >
-                    <BotAvatarImg
-                      alt="icon"
-                      src={icon.url}
-                      onClick={() => this.handleIconSelect(icon)}
+              </Col>
+              <Col xs={12} md={6} lg={6}>
+                {component.id !== 7 &&
+                !(component.id === 1 && showBackgroundImageChange === true) ? (
+                  <RowContainer>
+                    <ColorPickerComponent
+                      component={component.component}
+                      id={component.id}
+                      handleChangeColor={this.handleChangeColor}
+                      backgroundColor={design[component.component]}
+                      handleClickColorBox={this.handleClickColorBox}
                     />
-                    <Check />
-                  </IconWrap>
-                );
-              })}
-              <Form>
-                <AvatarUploadButton title="Upload your own bot icon">
-                  <Input
-                    disabled={uploadingBotbuilderIconImg}
-                    type="file"
-                    ref={c => {
-                      this.botBuilderIcon = c;
-                    }}
-                    onChange={
-                      uploadingBotbuilderIconImg
-                        ? null
-                        : this.handleChangeIconImage
-                    }
-                    accept="image/x-png,image/gif,image/jpeg"
-                  />
-                  {uploadingBotbuilderIconImg ? (
-                    <CircularLoader height={3.7} size={30} />
-                  ) : (
-                    <AddIcon />
+                  </RowContainer>
+                ) : null}
+                {component.component === 'botbuilderBackgroundBody' &&
+                  showBackgroundImageChange === true && (
+                    <div>
+                      <Form>
+                        {botbuilderBodyBackgroundImg === '' && (
+                          <AvatarUploadButton top="0">
+                            <Input
+                              disabled={uploadingBodyBackgroundImg}
+                              type="file"
+                              ref={c => {
+                                this.backgroundImage = c;
+                              }}
+                              onChange={this.handleChangeBodyBackgroundImage}
+                              accept="image/*"
+                            />
+                            <AddIcon />
+                          </AvatarUploadButton>
+                        )}
+                        <FileUploadButton
+                          title="Upload Background Image"
+                          onClick={this.uploadBackgroundImage}
+                        >
+                          {uploadingBodyBackgroundImg && (
+                            <CircularLoader
+                              height={2.25}
+                              color="inherit"
+                              size={24}
+                            />
+                          )}
+                          {!uploadingBodyBackgroundImg &&
+                            (botbuilderBodyBackgroundImgName !== '' ||
+                              botbuilderBodyBackgroundImg !== '') &&
+                            'Upload Image'}
+                        </FileUploadButton>
+                      </Form>
+                      {botbuilderBodyBackgroundImg && (
+                        <div>
+                          <span>{botbuilderBodyBackgroundImgName}</span>
+                          <span title="Remove image">
+                            <Close onClick={this.handleRemoveUrlBody} />
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   )}
-                </AvatarUploadButton>
-              </Form>
-            </BotBuilderContainer>
-          )}
-        </div>
-      );
-    });
+              </Col>
+            </Row>
+            {component.component === 'botbuilderAvatar' && (
+              <BotBuilderContainer>
+                {avatars &&
+                  Array.isArray(avatars) &&
+                  avatars.length > 0 &&
+                  avatars.map(icon => {
+                    return (
+                      <IconWrap
+                        id={icon.id}
+                        key={icon.id}
+                        icon={botbuilderIconSelected === icon.id}
+                      >
+                        <BotAvatarImg
+                          alt="icon"
+                          src={icon.url}
+                          onClick={() => this.handleIconSelect(icon)}
+                        />
+                        <Check />
+                      </IconWrap>
+                    );
+                  })}
+                <Form>
+                  <AvatarUploadButton title="Upload your own bot icon">
+                    <Input
+                      disabled={uploadingBotbuilderIconImg}
+                      type="file"
+                      ref={c => {
+                        this.botBuilderIcon = c;
+                      }}
+                      onChange={
+                        uploadingBotbuilderIconImg
+                          ? null
+                          : this.handleChangeIconImage
+                      }
+                      accept="image/x-png,image/gif,image/jpeg"
+                    />
+                    {uploadingBotbuilderIconImg ? (
+                      <CircularLoader height={3.7} size={30} />
+                    ) : (
+                      <AddIcon />
+                    )}
+                  </AvatarUploadButton>
+                </Form>
+              </BotBuilderContainer>
+            )}
+          </div>
+        );
+      });
+    }
+
     return (
       <div>
         {!loadedSettings ? (

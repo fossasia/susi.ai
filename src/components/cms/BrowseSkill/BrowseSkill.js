@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link as _Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -21,7 +21,7 @@ import _ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
 import _RadioGroup from '@material-ui/core/RadioGroup';
-import Button from '../../shared/Button';
+import _Button from '@material-ui/core/Button';
 import Add from '@material-ui/icons/Add';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
@@ -37,6 +37,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
+import SideDrawer from './SideDrawer';
 import SkillCardList from '../SkillCardList/SkillCardList';
 import SkillCardGrid from '../SkillCardGrid/SkillCardGrid';
 import SkillCardScrollList from '../SkillCardScrollList/SkillCardScrollList';
@@ -47,7 +48,6 @@ import pluralize from 'pluralize';
 import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
-import ScrollTopButton from '../../shared/ScrollTopButton';
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +55,10 @@ const Container = styled.div`
   overflow-x: hidden;
   flex: 1 0 auto;
   margin-top: 3rem;
+`;
+
+const Button = styled(_Button)`
+  width: 10rem;
 `;
 
 const Link = styled(_Link)`
@@ -142,10 +146,15 @@ const SidebarText = styled.h4`
   ${SidebarTextStyles}
 `;
 
-const SidebarLink = styled(Link)`
+const SidebarLink = styled.button`
   color: rgba(0, 0, 0, 0.54);
   font-weight: bold;
+  border: none;
+  padding: 0px;
+  outline: none;
   width: fit-content;
+
+  font-size: 1rem;
   cursor: pointer;
   :hover {
     color: #4285f4;
@@ -161,6 +170,7 @@ const PageNavigationContainer = styled.div`
 `;
 
 const MobileMenuItem = styled(MenuItem)`
+  color: ${props => (props.color ? props.color : null)};
   min-height: 24px;
   line-height: 24px;
   font-size: 14px;
@@ -173,9 +183,9 @@ const MobileMenuContainer = styled.div`
     border-top: 1px #e7e7e7 solid;
     border-right: 1px #e7e7e7 solid;
     border-left: 1px #e7e7e7 solid;
+    border-bottom: 1px #e7e7e7 solid;
   }
   & a:last-child li {
-    border-bottom: 1px #e7e7e7 solid;
     border-radius: 0 0 5px 5px;
   }
   & a:first-child li {
@@ -214,15 +224,13 @@ const RightContainer = styled.div`
 `;
 
 const MobileBackButton = styled(Button)`
-   {
-    width: 70%;
-    margin: 0 auto;
-  }
+  width: 70%;
+  margin: 0 auto;
 `;
 
 const commonListIconStyles = css`
   font-size: 50px;
-  fill: ${props => (props.isActive === true ? '#4285f4' : '#e0e0e0')};
+  fill: ${props => (props['is-active'] ? '#4285f4' : '#e0e0e0')};
   @media (max-width: 1260px) {
     font-size: 30px;
   }
@@ -273,14 +281,11 @@ class BrowseSkill extends React.Component {
     location: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      innerWidth: window.innerWidth,
-      open: false,
-    };
-    this.groups = [];
-  }
+  state = {
+    innerWidth: window.innerWidth,
+    open: false,
+  };
+  groups = [];
 
   initStore = () => {
     const { actions } = this.props;
@@ -290,7 +295,7 @@ class BrowseSkill extends React.Component {
       obj = {
         ...obj,
         filterType: `&creation_date&duration=${value}`,
-        timeFilter: value,
+        timeFilter: parseFloat(value),
       };
     }
     if (params.has('rating_refine')) {
@@ -356,6 +361,11 @@ class BrowseSkill extends React.Component {
     const { location, history, actions } = this.props;
     appendQueryString(location, history, 'sort_by', value);
     await actions.setFilterType({ filterType: value });
+    if (value === 'lexicographical') {
+      await actions.setOrderByFilter({ orderBy: 'ascending' });
+    } else {
+      await actions.setOrderByFilter({ orderBy: 'descending' });
+    }
     this.loadCards();
   };
 
@@ -395,7 +405,7 @@ class BrowseSkill extends React.Component {
       appendQueryString(location, history, 'creation_date&duration', value);
       await actions.setTimeFilter({
         filterType: `creation_date&duration=${value}`,
-        timeFilter: value,
+        timeFilter: parseFloat(value),
       });
       this.loadCards();
     } else {
@@ -422,8 +432,9 @@ class BrowseSkill extends React.Component {
   };
 
   loadCards = () => {
-    const { routeType, routeValue } = this.props;
     const {
+      routeType,
+      routeValue,
       languageValue,
       filterType,
       reviewed,
@@ -491,11 +502,16 @@ class BrowseSkill extends React.Component {
     for (let i = 1; i <= Math.ceil(skills.length / entriesPerPage); i += 1) {
       menuItems.push(i);
     }
-    return menuItems.map(menuItem => (
-      <MenuItem key={menuItem} value={menuItem}>
-        {menuItem.toString()}
-      </MenuItem>
-    ));
+    return (
+      menuItems &&
+      Array.isArray(menuItems) &&
+      menuItems.length > 0 &&
+      menuItems.map(menuItem => (
+        <MenuItem key={menuItem} value={menuItem}>
+          {menuItem.toString()}
+        </MenuItem>
+      ))
+    );
   };
 
   handleOrderByChange = async () => {
@@ -591,26 +607,34 @@ class BrowseSkill extends React.Component {
     let backToHome = null;
     let renderMenu = null;
     let renderMobileMenu = null;
+
     if (isMobile) {
       backToHome = (
         <MobileBackButton variant="contained" color="default">
           <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
-      renderMobileMenu = groups.map(categoryName => {
-        const linkValue = '/category/' + categoryName;
-        return (
-          <Link to={linkValue} key={linkValue}>
-            <MobileMenuItem key={categoryName} value={categoryName}>
-              <span style={{ width: '90%' }}>{categoryName}</span>
-              <ChevronRight style={{ top: -8 }} />
-            </MobileMenuItem>
-          </Link>
-        );
-      });
+      renderMobileMenu =
+        groups &&
+        Array.isArray(groups) &&
+        groups.length > 0 &&
+        groups.map(categoryName => {
+          const linkValue = '/category/' + categoryName;
+          return (
+            <Link to={linkValue} key={linkValue}>
+              <MobileMenuItem key={categoryName} value={categoryName}>
+                <span style={{ width: '90%' }}>{categoryName}</span>
+                <ChevronRight style={{ top: -8 }} />
+              </MobileMenuItem>
+            </Link>
+          );
+        });
     }
-    if (!isMobile) {
-      renderMenu = groups.map(categoryName => {
+    renderMenu =
+      groups &&
+      Array.isArray(groups) &&
+      groups.length > 0 &&
+      groups.map(categoryName => {
         const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
@@ -620,7 +644,6 @@ class BrowseSkill extends React.Component {
           </Link>
         );
       });
-    }
 
     let metricsHidden =
       routeType || searchQuery.length > 0 || ratingRefine || timeFilter;
@@ -706,6 +729,7 @@ class BrowseSkill extends React.Component {
     renderCardScrollList = !metricsHidden && !routeType && (
       <SkillCardScrollList isMobile={isMobile} history={history} />
     );
+    let isSkillSearch = !metricsHidden && !routeType;
     let renderSkillSlideshow = null;
     renderSkillSlideshow = !metricsHidden && !routeType && <SkillSlideshow />;
 
@@ -718,6 +742,123 @@ class BrowseSkill extends React.Component {
         <NavigationArrowDownward />
       );
 
+    const renderTimeFilter = (
+      <>
+        {timeFilter ? (
+          <div>
+            <ListSubheader>
+              <SidebarLink onClick={() => this.handleArrivalTimeChange(null)}>
+                {'< Any release'}
+              </SidebarLink>
+            </ListSubheader>
+            <SelectedText>{`Last ${timeFilter} Days`}</SelectedText>
+          </div>
+        ) : (
+          <ListSubheader>New Arrivals</ListSubheader>
+        )}
+        {!timeFilter && (
+          <SidebarItem
+            value="creation_date&duration=7"
+            onClick={() => this.handleArrivalTimeChange(7)}
+          >
+            Last 7 Days
+          </SidebarItem>
+        )}
+        {!timeFilter && (
+          <SidebarItem
+            value="creation_date&duration=30"
+            onClick={() => this.handleArrivalTimeChange(30)}
+          >
+            Last 30 Days
+          </SidebarItem>
+        )}
+        {!timeFilter && (
+          <SidebarItem
+            value="creation_date&duration=90"
+            onClick={() => this.handleArrivalTimeChange(90)}
+          >
+            Last 90 Days
+          </SidebarItem>
+        )}
+      </>
+    );
+    const renderRatingsFilter = (
+      <>
+        <ListSubheader>Refine by</ListSubheader>
+        {metricsHidden && (
+          <div
+            style={{
+              marginBottom: '12px',
+              width: '100%',
+              display: 'flex',
+              justify: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className="select"
+                  checked={staffPicks}
+                  onChange={this.handleStaffFilterChange}
+                />
+              }
+              label="Staff Picks"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className="select"
+                  checked={reviewed}
+                  onChange={this.handleReviewFilterChange}
+                />
+              }
+              label="Reviewed Skills"
+            />
+          </div>
+        )}
+        <SidebarText>Avg. Customer Review</SidebarText>
+        {ratingRefine ? (
+          <ListSubheader>
+            <SidebarLink onClick={() => this.handleRatingRefine(null)}>
+              {'< Clear'}
+            </SidebarLink>
+          </ListSubheader>
+        ) : (
+          ''
+        )}
+        <SkillRatingContainer>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={4}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={3}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={2}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+          <SidebarItem>
+            <SkillRating
+              handleRatingRefine={this.handleRatingRefine}
+              rating={1}
+              ratingRefine={ratingRefine}
+            />
+          </SidebarItem>
+        </SkillRatingContainer>
+      </>
+    );
     const { open } = this.state;
     return (
       <Container>
@@ -774,44 +915,8 @@ class BrowseSkill extends React.Component {
           </div>
           <Paper style={{ boxShadow: 'none' }}>
             <MenuList style={{ outline: 'none' }}>
-              {timeFilter ? (
-                <div>
-                  <ListSubheader>
-                    <SidebarLink
-                      onClick={() => this.handleArrivalTimeChange(null)}
-                    >
-                      {'< Any release'}
-                    </SidebarLink>
-                  </ListSubheader>
-                  <SelectedText>{`Last ${timeFilter} Days`}</SelectedText>
-                </div>
-              ) : (
-                <ListSubheader>New Arrivals</ListSubheader>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=7"
-                  onClick={() => this.handleArrivalTimeChange(7)}
-                >
-                  Last 7 Days
-                </SidebarItem>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=30"
-                  onClick={() => this.handleArrivalTimeChange(30)}
-                >
-                  Last 30 Days
-                </SidebarItem>
-              )}
-              {!timeFilter && (
-                <SidebarItem
-                  value="creation_date&duration=90"
-                  onClick={() => this.handleArrivalTimeChange(90)}
-                >
-                  Last 90 Days
-                </SidebarItem>
-              )}
+              {renderTimeFilter}
+
               <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
               {routeType === 'category' ? (
                 <div>
@@ -828,88 +933,34 @@ class BrowseSkill extends React.Component {
               )}
               <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
               {/* Refine by rating section*/}
-              <ListSubheader>Refine by</ListSubheader>
-              {metricsHidden && (
-                <div
-                  style={{
-                    marginBottom: '12px',
-                    width: '100%',
-                    display: 'flex',
-                    justify: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="select"
-                        checked={staffPicks}
-                        onChange={this.handleStaffFilterChange}
-                      />
-                    }
-                    label="Staff Picks"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        className="select"
-                        checked={reviewed}
-                        onChange={this.handleReviewFilterChange}
-                      />
-                    }
-                    label="Reviewed Skills"
-                  />
-                </div>
-              )}
-              <SidebarText>Avg. Customer Review</SidebarText>
-              {ratingRefine ? (
-                <ListSubheader>
-                  <SidebarLink onClick={() => this.handleRatingRefine(null)}>
-                    {'< Clear'}
-                  </SidebarLink>
-                </ListSubheader>
-              ) : (
-                ''
-              )}
-              <SkillRatingContainer>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={4}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={3}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={2}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-                <SidebarItem>
-                  <SkillRating
-                    handleRatingRefine={this.handleRatingRefine}
-                    rating={1}
-                    ratingRefine={ratingRefine}
-                  />
-                </SidebarItem>
-              </SkillRatingContainer>
+              {renderRatingsFilter}
             </MenuList>
           </Paper>
         </Sidebar>
         <RightContainer>
           {loadingSkills ? (
-            <SkillLoader />
+            <SkillLoader isSkillSearch={!isSkillSearch} />
           ) : (
             <React.Fragment>
               {renderSkillSlideshow}
+              {routeType !== 'category' && isMobile && (
+                <Fragment>
+                  <SideDrawer>
+                    <>{renderTimeFilter}</>
+                    <Divider
+                      style={{ marginLeft: '16px', marginRight: '16px' }}
+                    />
+                    <>
+                      <ListSubheader>SUSI Skills</ListSubheader>
+                      {renderMenu}
+                    </>
+                    <Divider
+                      style={{ marginLeft: '16px', marginRight: '16px' }}
+                    />
+                    <>{renderRatingsFilter}</>
+                  </SideDrawer>
+                </Fragment>
+              )}
               <ContentContainer>
                 {metricsHidden ? (
                   <div>
@@ -921,6 +972,7 @@ class BrowseSkill extends React.Component {
                     >
                       <Grid
                         item
+                        container
                         alignItems="center"
                         sm={6}
                         style={{
@@ -931,7 +983,7 @@ class BrowseSkill extends React.Component {
                       >
                         {renderSkillCount}
                       </Grid>
-                      <Grid item sm={6} alignItems="center">
+                      <Grid item sm={6} container alignItems="center">
                         {skills.length > 0 && (
                           <FlexContainer>
                             {filterType !== '' && (
@@ -1000,18 +1052,14 @@ class BrowseSkill extends React.Component {
                               <Radio
                                 value="list"
                                 style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={
-                                  <ActionViewStream isActive={true} />
-                                }
-                                icon={<ActionViewStream isActive={false} />}
+                                checkedIcon={<ActionViewStream is-active={1} />}
+                                icon={<ActionViewStream />}
                               />
                               <Radio
                                 value="grid"
                                 style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={
-                                  <ActionViewModule isActive={true} />
-                                }
-                                icon={<ActionViewModule isActive={false} />}
+                                checkedIcon={<ActionViewModule is-active={1} />}
+                                icon={<ActionViewModule />}
                               />
                             </RadioGroup>
                           </FlexContainer>
@@ -1050,7 +1098,6 @@ class BrowseSkill extends React.Component {
                         >
                           <NavigationArrowForward />
                         </Fab>
-                        <ScrollTopButton />
                       </PageNavigationContainer>
                     )}
                   </div>
@@ -1059,16 +1106,19 @@ class BrowseSkill extends React.Component {
                 )}
                 <div>{renderCardScrollList}</div>
                 {/* Check if mobile view is currently active*/}
-                {routeType === 'category' ? (
-                  backToHome
-                ) : (
-                  <MobileMenuContainer>{renderMobileMenu}</MobileMenuContainer>
-                )}
+                {routeType === 'category'
+                  ? backToHome
+                  : isMobile && (
+                      <Fragment>
+                        <MobileMenuContainer>
+                          {renderMobileMenu}
+                        </MobileMenuContainer>
+                      </Fragment>
+                    )}
               </ContentContainer>
             </React.Fragment>
           )}
         </RightContainer>
-        <ScrollTopButton />
       </Container>
     );
   }

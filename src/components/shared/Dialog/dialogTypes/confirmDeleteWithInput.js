@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '../../../shared/Button';
-import Translate from '../../../Translate/Translate.react';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -17,11 +16,6 @@ const WarningContainer = styled.div`
   border: 1px solid rgba(27, 31, 35, 0.15);
 `;
 
-const DangerButton = styled(Button)`
-  color: #cb2431;
-  border-color: #cb2431;
-`;
-
 class ConfirmDeleteWithInput extends Component {
   static propTypes = {
     name: PropTypes.string,
@@ -32,6 +26,7 @@ class ConfirmDeleteWithInput extends Component {
 
   state = {
     inputValue: '',
+    loading: false,
   };
 
   // Handle changes in input
@@ -44,7 +39,7 @@ class ConfirmDeleteWithInput extends Component {
   render() {
     const { handleConfirm, handleClose, name, entityType } = this.props;
 
-    const { inputValue } = this.state;
+    const { inputValue, loading } = this.state;
     const shouldDisable = !(inputValue === name);
     return (
       <div>
@@ -72,17 +67,26 @@ class ConfirmDeleteWithInput extends Component {
             fullWidth
           />
         </DialogContent>
-        <DialogActions>
-          <Button color="primary" variant="outlined" onClick={handleClose}>
-            Cancel
-          </Button>
-          <DangerButton
-            variant="outlined"
-            disabled={shouldDisable}
-            onClick={handleConfirm}
-          >
-            <Translate text={`I understand, delete ${entityType}`} />
-          </DangerButton>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
+          <Button
+            key={0}
+            variant="contained"
+            color="primary"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
+          <Button
+            key={1}
+            color="secondary"
+            variant="contained"
+            handleClick={() => {
+              this.setState({ loading: true });
+              handleConfirm();
+            }}
+            isLoading={loading}
+            buttonText={`I understand, delete ${entityType}`}
+            disabled={shouldDisable || loading}
+          />
         </DialogActions>
       </div>
     );

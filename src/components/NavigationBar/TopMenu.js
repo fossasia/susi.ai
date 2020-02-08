@@ -36,12 +36,9 @@ const NavButton = styled(StyledIconButton)`
 `;
 
 class NavMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: null,
-    };
-  }
+  state = {
+    activeTab: null,
+  };
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
@@ -76,11 +73,14 @@ class NavMenu extends React.Component {
       history,
     } = this.props;
 
-    const listItems = sublinks.map(({ label, url }) => (
-      <Link key={label} to={url}>
-        <MenuItem>{label}</MenuItem>
-      </Link>
-    ));
+    let listItems = null;
+    if (sublinks && Array.isArray(sublinks) && sublinks.length > 0) {
+      sublinks.map(({ label, url }) => (
+        <Link key={label} to={url}>
+          <MenuItem>{label}</MenuItem>
+        </Link>
+      ));
+    }
     return (
       <div data-tip="custom" data-for={label}>
         <NavButton
@@ -115,19 +115,20 @@ NavMenu.propTypes = {
 
 const WithRouterMenu = withRouter(NavMenu);
 
-class TopMenu extends React.Component {
-  static propTypes = {
-    isAdmin: PropTypes.bool,
-    accessToken: PropTypes.string,
-  };
-  render() {
-    const { isAdmin, accessToken } = this.props;
-    const navLinks = LINKS(accessToken, isAdmin).map(link => {
+const TopMenu = ({ isAdmin, accessToken }) => {
+  let navLinks = null;
+  if (LINKS(accessToken, isAdmin)) {
+    navLinks = LINKS(accessToken, isAdmin).map(link => {
       return <WithRouterMenu key={link.label} link={link} />;
     });
-    return <NavLinkContainer>{navLinks}</NavLinkContainer>;
   }
-}
+  return <NavLinkContainer>{navLinks}</NavLinkContainer>;
+};
+
+TopMenu.propTypes = {
+  isAdmin: PropTypes.bool,
+  accessToken: PropTypes.string,
+};
 
 function mapStateToProps(store) {
   return {

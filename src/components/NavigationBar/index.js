@@ -19,7 +19,7 @@ import uiActions from '../../redux/actions/ui';
 import skillsAction from '../../redux/actions/skills';
 import skillAction from '../../redux/actions/skill';
 import Link from '../shared/Link';
-import localStorageService from '../../utils/localStorageService';
+import storageService from '../../utils/storageService';
 import Settings from '@material-ui/icons/Settings';
 import Exit from '@material-ui/icons/ExitToApp';
 import Dashboard from '@material-ui/icons/Dashboard';
@@ -87,7 +87,6 @@ const UserDetail = styled.div`
 `;
 const CreateDetail = styled.div`
   color: white;
-  margin-right: 5px;
   font-size: 1rem;
   cursor: pointer;
   bottom: 8px;
@@ -130,6 +129,11 @@ const Toolbar = styled(_Toolbar)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  @media (max-width: 400px) {
+    padding-left: 15px;
+  }
 `;
 
 const HideOnScroll = ({ children }) => {
@@ -330,7 +334,7 @@ class NavigationBar extends Component {
   };
 
   handleLanguageChange = async (event, index, values) => {
-    localStorageService.set('languages', event.target.value);
+    storageService.set('languages', event.target.value, 'local');
     let languages = event.target.value;
     if (languages.length === 0) {
       languages.push('en');
@@ -359,6 +363,24 @@ class NavigationBar extends Component {
       showSearchBar: !prevState.showSearchBar,
       rightContainer: !prevState.rightContainer,
     }));
+  };
+
+  onLogout = () => {
+    const { actions } = this.props;
+    actions.openModal({
+      modalType: 'confirm',
+      title: 'Logout',
+      handleConfirm: this.handleLogOut,
+      confirmText: 'Logout',
+      handleClose: actions.closeModal,
+      content: <p>Are you sure you want to log out ?</p>,
+    });
+  };
+
+  handleLogOut = () => {
+    const { actions, history } = this.props;
+    history.push('/logout');
+    actions.closeModal();
   };
 
   render() {
@@ -447,19 +469,16 @@ class NavigationBar extends Component {
             </MenuItem>
           </Link>
         ) : null}
-        <Link to="/logout">
-          <MenuItem>
-            <ListItemIcon>
-              <Exit />
-            </ListItemIcon>
-            <ListItemText>
-              <Translate text="Logout" />
-            </ListItemText>
-          </MenuItem>
-        </Link>
+        <MenuItem onClick={this.onLogout}>
+          <ListItemIcon>
+            <Exit />
+          </ListItemIcon>
+          <ListItemText>
+            <Translate text="Logout" />
+          </ListItemText>
+        </MenuItem>
       </React.Fragment>
     );
-
     let userAvatar = null;
     if (accessToken) {
       userAvatar = avatarImgThumbnail;
@@ -655,9 +674,7 @@ class NavigationBar extends Component {
                             }}
                           />
                         ) : (
-                          <CreateDetail style={{ marginLeft: '20px' }}>
-                            Create
-                          </CreateDetail>
+                          <CreateDetail>Create</CreateDetail>
                         )}
                       </div>
                     </StyledIconButton>

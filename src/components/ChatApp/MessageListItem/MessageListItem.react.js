@@ -15,22 +15,21 @@ class MessageListItem extends React.Component {
     speechRate: PropTypes.number,
     speechPitch: PropTypes.number,
     ttsLanguage: PropTypes.string,
+    theme: PropTypes.string,
     actions: PropTypes.object,
     userGeoData: PropTypes.object,
     showChatPreview: PropTypes.bool,
     pauseAllVideos: PropTypes.func,
     scrollBottom: PropTypes.func,
+    customThemeValue: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      play: false,
-      width: this.props.showChatPreview ? 234 : 384,
-      height: this.props.showChatPreview ? 168 : 240,
-      showModal: false,
-    };
-  }
+  state = {
+    play: false,
+    width: this.props.showChatPreview ? 234 : 384,
+    height: this.props.showChatPreview ? 168 : 240,
+    showModal: false,
+  };
 
   componentDidMount = () => {
     this.updateWindowDimensions();
@@ -96,7 +95,10 @@ class MessageListItem extends React.Component {
       latestMessage,
       userGeoData,
       scrollBottom,
+      customThemeValue,
+      theme,
     } = this.props;
+
     const { width, height } = this.state;
     return generateMessageBubble(
       message,
@@ -118,18 +120,28 @@ class MessageListItem extends React.Component {
       this.onClickPopout,
       this.state.showModal,
       this.onCloseModal,
+      customThemeValue,
+      theme,
     );
   }
 }
 
 function mapStateToProps(store) {
-  const { speechRate, speechPitch, ttsLanguage } = store.settings;
+  const {
+    speechRate,
+    speechPitch,
+    ttsLanguage,
+    customThemeValue,
+    theme,
+  } = store.settings;
   const { userGeoData } = store.messages;
   return {
     speechRate,
     speechPitch,
     ttsLanguage,
     userGeoData,
+    customThemeValue,
+    theme,
   };
 }
 

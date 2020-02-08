@@ -45,6 +45,8 @@ import CustomSnackbar from './components/shared/CustomSnackbar';
 import AppBanner from './components/shared/AppBanner';
 import DeviceSetupPage from './components/smart-speaker/Setup';
 import ConfigureSpeaker from './components/smart-speaker/Configure';
+import ScrollTopButton from './components/shared/ScrollTopButton';
+
 import withTracker from './withTracker';
 import GoogleAnalytics from 'react-ga';
 import { isProduction } from './utils/helperFunctions';
@@ -93,13 +95,10 @@ class App extends Component {
     mode: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeDeviceMacId: '',
-      deviceAccessPoint: false,
-    };
-  }
+  state = {
+    activeDeviceMacId: '',
+    deviceAccessPoint: false,
+  };
 
   componentDidMount = async () => {
     const { accessToken, actions, isLocalEnv } = this.props;
@@ -262,6 +261,7 @@ class App extends Component {
             {renderAppBar}
             {renderAppBanner}
             {renderChatBubble}
+            <ScrollTopButton />
             <RootContainer>
               <Switch>
                 {!deviceAccessPoint ? (

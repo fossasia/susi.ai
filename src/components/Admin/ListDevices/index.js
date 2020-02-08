@@ -9,11 +9,10 @@ import { fetchDevices } from '../../../apis/index';
 import { DEVICE } from './constants';
 import Popover from '@material-ui/core/Popover';
 import MapContainer from '../../cms/MyDevices/MapContainer';
-import { GoogleApiWrapper } from 'google-maps-react';
-import CircularLoader from '../../shared/CircularLoader';
 import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 import { removeUserDevice, modifyUserDevices } from '../../../apis/index';
 import moment from 'moment';
+import withGoogleApiWrapper from '../../../utils/withGoogleApiWrapper';
 
 class ListDevices extends React.Component {
   state = {
@@ -240,7 +239,7 @@ class ListDevices extends React.Component {
             margin: '2rem',
           }}
           actions={[
-            {
+            rowData => ({
               onEdit: (event, rowData) => {
                 this.handleEdit(
                   rowData.email,
@@ -256,7 +255,7 @@ class ListDevices extends React.Component {
                   rowData.email,
                 );
               },
-            },
+            }),
           ]}
           components={{
             Action: props => (
@@ -305,14 +304,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const LoadingContainer = props => <CircularLoader height={27} />;
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(
-  GoogleApiWrapper(props => ({
-    LoadingContainer: LoadingContainer,
-    apiKey: props.mapKey,
-  }))(ListDevices),
-);
+)(withGoogleApiWrapper(ListDevices));

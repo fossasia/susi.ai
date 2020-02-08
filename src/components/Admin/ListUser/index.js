@@ -21,18 +21,15 @@ const SearchBar = styled(_SearchBar)`
 `;
 
 class ListUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: [],
-      userEmail: '',
-      data: [],
-      pagination: {},
-      loading: true,
-      search: '',
-      page: 1,
-    };
-  }
+  state = {
+    username: [],
+    userEmail: '',
+    data: [],
+    pagination: {},
+    loading: true,
+    search: '',
+    page: 1,
+  };
 
   deleteUser = () => {
     const { userEmail: email } = this.state;
@@ -85,39 +82,40 @@ class ListUser extends Component {
       .then(payload => {
         let userList = payload.users;
         let users = [];
-        userList.map((data, dataIndex) => {
-          let devices = [];
-          let keys = Object.keys(data.devices);
-          keys.forEach(deviceIndex => {
-            let device = {
-              macid: deviceIndex,
-              devicename: data.devices[deviceIndex].name,
-              room: data.devices[deviceIndex].room,
-              latitude: data.devices[deviceIndex].geolocation.latitude,
-              longitude: data.devices[deviceIndex].geolocation.longitude,
+        if (userList && Array.isArray(userList) && userList.length > 0) {
+          userList.map((data, dataIndex) => {
+            let devices = [];
+            let keys = Object.keys(data.devices);
+            keys.forEach(deviceIndex => {
+              let device = {
+                macid: deviceIndex,
+                devicename: data.devices[deviceIndex].name,
+                room: data.devices[deviceIndex].room,
+                latitude: data.devices[deviceIndex].geolocation.latitude,
+                longitude: data.devices[deviceIndex].geolocation.longitude,
+              };
+              devices.push(device);
+            });
+            let user = {
+              serialNum: ++dataIndex,
+              email: data.name,
+              signup: data.signupTime === '' ? '-' : data.signupTime,
+              lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
+              ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
+              userName:
+                data.userName === '' ? '-' : data.userName.substring(0, 30),
+              userRole: data.userRole,
+              devices: devices,
             };
-            devices.push(device);
+            if (data.confirmed) {
+              user.confirmed = 'Activated';
+            } else {
+              user.confirmed = 'Not Activated';
+            }
+            users.push(user);
+            return 1;
           });
-          let user = {
-            serialNum: ++dataIndex,
-            email: data.name,
-            signup: data.signupTime === '' ? '-' : data.signupTime,
-            lastLogin: data.lastLoginTime === '' ? '-' : data.lastLoginTime,
-            ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
-            userName:
-              data.userName === '' ? '-' : data.userName.substring(0, 30),
-            userRole: data.userRole,
-            devices: devices,
-          };
-          if (data.confirmed) {
-            user.confirmed = 'Activated';
-          } else {
-            user.confirmed = 'Not Activated';
-          }
-
-          users.push(user);
-          return 1;
-        });
+        }
         this.setState({
           data: users,
           loading: false,
@@ -164,46 +162,48 @@ class ListUser extends Component {
       .then(payload => {
         let userList = payload.users;
         let users = [];
-        userList.map((data, dataIndex) => {
-          let devices = [];
-          let keys = Object.keys(data.devices);
-          keys.forEach(deviceIndex => {
-            let device = {
-              macid: deviceIndex,
-              devicename: data.devices[deviceIndex].name,
-              room: data.devices[deviceIndex].room,
-              latitude: data.devices[deviceIndex].geolocation.latitude,
-              longitude: data.devices[deviceIndex].geolocation.longitude,
+        if (userList && Array.isArray(userList) && userList.length > 0) {
+          userList.map((data, dataIndex) => {
+            let devices = [];
+            let keys = Object.keys(data.devices);
+            keys.forEach(deviceIndex => {
+              let device = {
+                macid: deviceIndex,
+                devicename: data.devices[deviceIndex].name,
+                room: data.devices[deviceIndex].room,
+                latitude: data.devices[deviceIndex].geolocation.latitude,
+                longitude: data.devices[deviceIndex].geolocation.longitude,
+              };
+              devices.push(device);
+            });
+            let user = {
+              serialNum: ++dataIndex + page * 50,
+              email: data.name,
+              confirmed: data.confirmed,
+              signup:
+                data.signupTime === ''
+                  ? '-'
+                  : new Date(data.signupTime).toDateString(),
+              lastLogin:
+                data.lastLoginTime === ''
+                  ? '-'
+                  : new Date(data.lastLoginTime).toDateString(),
+              ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
+              userRole: data.userRole,
+              userName:
+                data.userName === '' ? '-' : data.userName.substring(0, 30),
+              devices: devices,
             };
-            devices.push(device);
-          });
-          let user = {
-            serialNum: ++dataIndex + page * 50,
-            email: data.name,
-            confirmed: data.confirmed,
-            signup:
-              data.signupTime === ''
-                ? '-'
-                : new Date(data.signupTime).toDateString(),
-            lastLogin:
-              data.lastLoginTime === ''
-                ? '-'
-                : new Date(data.lastLoginTime).toDateString(),
-            ipLastLogin: data.lastLoginIP === '' ? '-' : data.lastLoginIP,
-            userRole: data.userRole,
-            userName:
-              data.userName === '' ? '-' : data.userName.substring(0, 30),
-            devices: devices,
-          };
-          if (user.confirmed) {
-            user.confirmed = 'Activated';
-          } else {
-            user.confirmed = 'Not Activated';
-          }
+            if (user.confirmed) {
+              user.confirmed = 'Activated';
+            } else {
+              user.confirmed = 'Not Activated';
+            }
 
-          users.push(user);
-          return 1;
-        });
+            users.push(user);
+            return 1;
+          });
+        }
         this.setState({
           data: users,
           loading: false,
@@ -251,7 +251,8 @@ class ListUser extends Component {
           placeholder="Search by email"
           value={search}
           onChange={value => this.handleSearch(value)}
-          closeIcon={<CloseIcon onClick={this.onClose} />}
+          closeIcon={<CloseIcon />}
+          onCancelSearch={this.onClose}
         />
         <MaterialTable
           isLoading={loading}
@@ -265,14 +266,14 @@ class ListUser extends Component {
           data={data}
           title=""
           actions={[
-            {
+            rowData => ({
               onEdit: (event, rowData) => {
                 this.handleEdit(rowData.email, rowData.userRole);
               },
               onDelete: (event, rowData) => {
                 this.handleDelete(rowData.email);
               },
-            },
+            }),
           ]}
           components={{
             Action: props => (
@@ -298,8 +299,8 @@ class ListUser extends Component {
               <TablePagination
                 rowsPerPageOptions={[50]}
                 colSpan={3}
-                count={totalUsers}
-                rowsPerPage={'50'}
+                count={totalUsers || 0}
+                rowsPerPage={50}
                 page={page}
                 onChangePage={this.handleChangePage}
                 style={{ float: 'right' }}

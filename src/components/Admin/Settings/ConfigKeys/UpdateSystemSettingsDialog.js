@@ -4,18 +4,16 @@ import OutlinedTextField from '../../../shared/OutlinedTextField';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import Button from '../../../shared/Button';
 import { createApiKey } from '../../../../apis';
 
 class UpdateSystemSettings extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keyName: this.props.keyName || '',
-      keyValue: this.props.keyValue || '',
-      apiType: this.props.apiType || 'public',
-    };
-  }
+  state = {
+    keyName: this.props.keyName || '',
+    keyValue: this.props.keyValue || '',
+    apiType: this.props.apiType || 'public',
+    loading: false,
+  };
 
   handleChange = e => {
     this.setState({
@@ -36,7 +34,7 @@ class UpdateSystemSettings extends React.Component {
 
   render() {
     const { type, handleClose } = this.props;
-    const { keyName, keyValue } = this.state;
+    const { keyName, keyValue, loading } = this.state;
     const disabled = keyName.trim() === '' || keyValue.trim() === '';
     return (
       <React.Fragment>
@@ -60,18 +58,26 @@ class UpdateSystemSettings extends React.Component {
             onChange={this.handleChange}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
             key={1}
+            variant="contained"
             color="primary"
-            onClick={this.handleSave}
-            disabled={disabled}
-          >
-            {type}
-          </Button>
-          <Button key={2} color="primary" onClick={handleClose}>
-            Cancel
-          </Button>
+            handleClick={() => {
+              this.setState({ loading: true });
+              this.handleSave();
+            }}
+            buttonText={type}
+            disabled={disabled || loading}
+            isLoading={loading}
+          />
+          <Button
+            key={2}
+            variant="contained"
+            color="primary"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
         </DialogActions>
       </React.Fragment>
     );

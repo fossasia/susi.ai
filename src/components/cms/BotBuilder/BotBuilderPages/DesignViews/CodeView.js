@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,18 +18,15 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
 
-class CodeView extends Component {
-  render() {
-    const { actions, code } = this.props;
-    return (
-      <AceEditorComponent
-        value={code}
-        onChange={event => actions.setDesignData({ code: event })}
-        height="12.5rem"
-      />
-    );
-  }
-}
+const CodeView = ({ actions, code }) => {
+  return (
+    <AceEditorComponent
+      value={code}
+      onChange={event => actions.setDesignData({ code: event })}
+      height="12.5rem"
+    />
+  );
+};
 
 CodeView.propTypes = {
   actions: PropTypes.object,

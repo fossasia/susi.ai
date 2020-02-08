@@ -9,7 +9,6 @@ import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import _PasswordField from 'material-ui-password-field';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
@@ -65,23 +64,19 @@ class ChangePassword extends Component {
     isCaptchaEnabled: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      password: '',
-      newPassword: '',
-      newPasswordErrorMessage: '',
-      newPasswordStrength: '',
-      newPasswordScore: -1,
-      confirmNewPassword: '',
-      newPasswordConfirmErrorMessage: '',
-      success: false,
-      loading: false,
-      showCaptchaErrorMessage: false,
-      captchaResponse: '',
-    };
-  }
+  state = {
+    password: '',
+    newPassword: '',
+    newPasswordErrorMessage: '',
+    newPasswordStrength: '',
+    newPasswordScore: -1,
+    confirmNewPassword: '',
+    newPasswordConfirmErrorMessage: '',
+    success: false,
+    loading: false,
+    showCaptchaErrorMessage: false,
+    captchaResponse: '',
+  };
 
   onCaptchaLoad = () => {
     this.setState({
@@ -134,11 +129,11 @@ class ChangePassword extends Component {
           newPasswordConfirmErrorMessage,
         } = this.state;
         const newPassword = event.target.value.trim();
-        const newPasswordError = !isPassword(newPassword);
-        const newPasswordScore = !newPasswordError
+        const newPasswordError = isPassword(newPassword);
+        const newPasswordScore = !newPasswordError.errorStatus
           ? zxcvbn(newPassword).score
           : -1;
-        const newPasswordStrength = !newPasswordError
+        const newPasswordStrength = !newPasswordError.errorStatus
           ? [
               <Translate key={1} text="Too Insecure" />,
               <Translate key={2} text="Bad" />,
@@ -154,8 +149,8 @@ class ChangePassword extends Component {
 
         this.setState({
           newPassword,
-          newPasswordErrorMessage: newPasswordError ? (
-            <Translate text="Atleast 8 characters, 1 special character, number, 1 capital letter" />
+          newPasswordErrorMessage: newPasswordError.errorStatus ? (
+            <Translate text={newPasswordError.message} />
           ) : (
             ''
           ),
@@ -202,7 +197,7 @@ class ChangePassword extends Component {
     } = this.state;
     let { actions, email } = this.props;
 
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
 
     if (
       !(
@@ -338,18 +333,16 @@ class ChangePassword extends Component {
         </ForgotPasswordLink>
         <div>
           <Button
-            variant="contained"
             color="primary"
-            type="submit"
-            disabled={!isValid || loading}
-            onClick={this.changePassword}
-          >
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Translate text="Save Changes" />
-            )}
-          </Button>
+            variant="contained"
+            disabled={loading || !isValid}
+            handleClick={() => {
+              this.setState({ loading: true });
+              this.changePassword();
+            }}
+            buttonText="Save Changes"
+            isLoading={loading}
+          />
         </div>
       </React.Fragment>
     );

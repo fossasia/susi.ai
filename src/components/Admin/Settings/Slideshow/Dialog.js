@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import _Button from '@material-ui/core/Button';
+import Button from '../../../shared/Button';
 import OutlinedTextField from '../../../shared/OutlinedTextField';
 import Dropzone from './Dropzone';
 import uiActions from '../../../../redux/actions/ui';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import getImageSrc from '../../../../utils/getImageSrc';
 import {
   modifySkillSlideshow,
@@ -18,12 +16,6 @@ import {
   deleteSkillSlideshow,
 } from '../../../../apis/index';
 import { FlexContainer } from '../../../shared/Container';
-
-const Button = styled(_Button)`
-  float: left;
-  margin: 1rem 0;
-  width: 9rem;
-`;
 
 class SkillSlideshowDialog extends React.Component {
   state = {
@@ -38,6 +30,7 @@ class SkillSlideshowDialog extends React.Component {
     uploadingImage: false,
     isSliderImageUploaded: this.props.operation === 'Edit',
     isSliderImageAdded: false,
+    loading: false,
   };
 
   saveSlide = async () => {
@@ -77,15 +70,24 @@ class SkillSlideshowDialog extends React.Component {
     form.append('image', file);
     form.append('image_name', imageSuffix);
     this.setState({ uploadingImage: true });
-    let { imagePath } = await uploadImage(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Slider Uploaded',
-    });
-    this.setState({
-      uploadingImage: false,
-      isSliderImageUploaded: true,
-      imagePath,
-    });
+    try {
+      let { imagePath } = await uploadImage(form);
+      actions.openSnackBar({
+        snackBarMessage: 'Slider Uploaded',
+      });
+      this.setState({
+        uploadingImage: false,
+        isSliderImageUploaded: true,
+        imagePath,
+      });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to upload Slider!',
+      });
+      this.setState({
+        uploadingImage: false,
+      });
+    }
   };
 
   handleImageChange = e => {
@@ -127,6 +129,7 @@ class SkillSlideshowDialog extends React.Component {
       previewUrl,
       uploadingImage,
       imagePath,
+      loading,
     } = this.state;
     const { handleClose, operation, imageName } = this.props;
     const disabled = operation === 'Delete';
@@ -213,37 +216,41 @@ class SkillSlideshowDialog extends React.Component {
             style={{ display: 'none' }}
           />
           <Button
-            color="primary"
-            onClick={this.handleSliderSubmit}
-            disabled={uploadDisabled}
             variant="contained"
-          >
-            {uploadingImage ? <CircularProgress size={24} /> : 'Upload Image'}
-          </Button>
+            color="primary"
+            handleClick={this.handleSliderSubmit}
+            disabled={uploadDisabled || uploadingImage}
+            buttonText="Upload Image"
+            isLoading={uploadingImage}
+          />
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
             key={1}
-            onClick={handleClose}
-            style={{ marginRight: '0.7rem' }}
-          >
-            Cancel
-          </Button>
+            variant="contained"
+            color="primary"
+            handleClick={handleClose}
+            buttonText="Cancel"
+          />
           <Button
             key={2}
             variant="contained"
             color="primary"
-            onClick={this.handleConfirm}
+            handleClick={() => {
+              this.setState({ loading: true });
+              this.handleConfirm();
+            }}
             disabled={
-              operation === 'Create' &&
-              (redirectLink === '' ||
-                imageSuffix === '' ||
-                imagePath === '' ||
-                !isSliderImageUploaded)
+              (operation === 'Create' &&
+                (redirectLink === '' ||
+                  imageSuffix === '' ||
+                  imagePath === '' ||
+                  !isSliderImageUploaded)) ||
+              loading
             }
-          >
-            {operation === 'Delete' ? 'Delete' : 'Save'}
-          </Button>
+            isLoading={loading}
+            buttonText={operation === 'Delete' ? 'Delete' : 'Save'}
+          />
         </DialogActions>
       </React.Fragment>
     );

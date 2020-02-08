@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseButton from '../../shared/CloseButton';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { connect } from 'react-redux';
@@ -49,15 +49,12 @@ class ConfirmDeleteAccount extends React.Component {
     email: PropTypes.string,
     history: PropTypes.object,
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      confirmed: false,
-      emailError: '',
-      emailInput: '',
-      loading: false,
-    };
-  }
+  state = {
+    confirmed: false,
+    emailError: '',
+    emailInput: '',
+    loading: false,
+  };
 
   handleClose = event => {
     this.props.actions.closeModal();
@@ -91,7 +88,7 @@ class ConfirmDeleteAccount extends React.Component {
 
   handleEmailChange = event => {
     let { email } = this.props;
-    email = email.toLowerCase();
+    email = email.toLowerCase().trim();
     let { value } = event.target;
     value = value.toLowerCase();
     const emailError = !(email === value);
