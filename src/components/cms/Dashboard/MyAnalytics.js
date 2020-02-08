@@ -17,15 +17,13 @@ const Container = styled.div`
 `;
 
 class MyAnalytics extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      skillUsage: [],
-      loading: true,
-      userSkills: 0,
-      skillUsageCount: 0,
-    };
-  }
+  state = {
+    skillUsage: [],
+    loading: true,
+    userSkills: 0,
+    skillUsageCount: 0,
+  };
+
   componentDidMount() {
     this.loadSkillsUsage();
   }

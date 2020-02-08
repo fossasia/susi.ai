@@ -26,17 +26,14 @@ const PersonIcon = styled(Person)`
 `;
 
 class TreeView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      skillData: {
-        name: 'Welcome!', // Starting message of chatbot
-        children: [], // contains subsequent user queries and bot responses
-      },
-      userInputs: [],
-      loaded: false,
-    };
-  }
+  state = {
+    skillData: {
+      name: 'Welcome!', // Starting message of chatbot
+      children: [], // contains subsequent user queries and bot responses
+    },
+    userInputs: [],
+    loaded: false,
+  };
 
   componentDidMount = () => {
     this.skills = [];

@@ -67,12 +67,9 @@ const Image = styled(Img)`
 `;
 
 class AuthorSkills extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
-  }
+  state = {
+    loading: true,
+  };
 
   async componentDidMount() {
     const { author, actions } = this.props;

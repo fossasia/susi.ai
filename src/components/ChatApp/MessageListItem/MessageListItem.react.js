@@ -24,15 +24,12 @@ class MessageListItem extends React.Component {
     customThemeValue: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      play: false,
-      width: this.props.showChatPreview ? 234 : 384,
-      height: this.props.showChatPreview ? 168 : 240,
-      showModal: false,
-    };
-  }
+  state = {
+    play: false,
+    width: this.props.showChatPreview ? 234 : 384,
+    height: this.props.showChatPreview ? 168 : 240,
+    showModal: false,
+  };
 
   componentDidMount = () => {
     this.updateWindowDimensions();

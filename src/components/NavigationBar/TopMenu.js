@@ -36,12 +36,9 @@ const NavButton = styled(StyledIconButton)`
 `;
 
 class NavMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: null,
-    };
-  }
+  state = {
+    activeTab: null,
+  };
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {

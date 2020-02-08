@@ -13,14 +13,10 @@ import settingActions from '../../redux/actions/settings';
 import { setUserSettings } from '../../apis';
 
 class ThemeChangeTab extends React.Component {
-  constructor(props) {
-    super(props);
-    const { theme } = this.props;
-    this.state = {
-      loading: false,
-    };
-    this.initialTheme = theme;
-  }
+  state = {
+    loading: false,
+  };
+  initialTheme = this.props.theme;
 
   handleCustomTheme = () => {
     this.props.actions.openModal({ modalType: 'themeChange' });

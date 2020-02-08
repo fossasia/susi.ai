@@ -45,12 +45,9 @@ class SkillUsageCard extends Component {
     countryWiseSkillUsage: PropTypes.array,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: 0,
-    };
-  }
+  state = {
+    width: 0,
+  };
 
   componentDidMount = () => {
     this.updateWindowDimensions();
