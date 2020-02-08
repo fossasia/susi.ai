@@ -100,6 +100,37 @@ export function fetchDevices(payload) {
   return ajax.get(url, payload, { shouldCamelizeKeys: false });
 }
 
+export async function getContributors() {
+  const contributorsWebLink =
+    'https://api.github.com/repos/fossasia/susi.ai/contributors';
+  const contributorsServerLink =
+    'https://api.github.com/repos/fossasia/susi_server/contributors';
+  let data = [];
+
+  let res = await ajax.get(contributorsWebLink);
+  delete res.statusCode;
+  for (let key in res) {
+    let contributor = res[key];
+    data.push({
+      name: contributor.login,
+      github: contributor.htmlUrl,
+      avatar: contributor.avatarUrl,
+    });
+  }
+  res = await ajax.get(contributorsServerLink);
+  delete res.statusCode;
+  for (let key in res) {
+    let contributor = res[key];
+    data.push({
+      name: contributor.login,
+      github: contributor.htmlUrl,
+      avatar: contributor.avatarUrl,
+    });
+  }
+
+  return data;
+}
+
 export function getUserDevices() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserDevices.json`;
   return ajax.get(url, {}, { shouldCamelizeKeys: false });
