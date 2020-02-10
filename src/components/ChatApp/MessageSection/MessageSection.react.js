@@ -22,6 +22,7 @@ import styled, { keyframes } from 'styled-components';
 import getCustomThemeColors from '../../../utils/colors';
 import MessageBubble from '../MessageListItem/MessageBubbleStyle';
 import _Close from '@material-ui/icons/Close';
+import Draggable from 'react-draggable';
 import _FullScreen from '@material-ui/icons/Fullscreen';
 import _FullScreenExit from '@material-ui/icons/FullscreenExit';
 import { IconButton as _IconButton } from '@material-ui/core';
@@ -165,16 +166,18 @@ const SUSILauncherButton = styled.div`
   background-repeat: no-repeat;
   cursor: pointer;
   bottom: 15px;
-  :after {
-    content: '';
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #2ecc71;
-    bottom: 1px;
-    right: -1px;
-  }
+`;
+
+const SusiDragger = styled.div`
+  content: '';
+  cursor: pointer;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #2ecc71;
+  bottom: 1px;
+  right: -1px;
 `;
 
 const launcherFrameAppearKeyframe = keyframes`
@@ -889,18 +892,32 @@ class MessageSection extends Component {
     );
 
     const ChatBubble = (
-      <ChatBubbleContainer className="chatbubble" height={height} width={width}>
-        {mode === 'preview' ? messageSection : null}
-        {mode !== 'fullScreen' ? (
-          <SUSILauncherContainer>
-            <SUSILauncherWrapper
-              onClick={width < 500 ? this.openFullScreen : this.toggleChat}
-            >
-              <SUSILauncherButton data-tip="Toggle Launcher" />
-            </SUSILauncherWrapper>
-          </SUSILauncherContainer>
-        ) : null}
-      </ChatBubbleContainer>
+      <Draggable
+        axis="x"
+        handle=".SusiDragger"
+        defaultPosition={{ x: 0, y: 0 }}
+        position={null}
+        grid={[25, 25]}
+        scale={1}
+      >
+        <ChatBubbleContainer
+          className="chatbubble"
+          height={height}
+          width={width}
+        >
+          {mode === 'preview' ? messageSection : null}
+          {mode !== 'fullScreen' ? (
+            <SUSILauncherContainer>
+              <SUSILauncherWrapper
+                onClick={width < 500 ? this.openFullScreen : this.toggleChat}
+              >
+                <SUSILauncherButton data-tip="Toggle Launcher" />
+                <SusiDragger className="SusiDragger" />
+              </SUSILauncherWrapper>
+            </SUSILauncherContainer>
+          ) : null}
+        </ChatBubbleContainer>
+      </Draggable>
     );
 
     return (
