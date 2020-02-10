@@ -194,27 +194,23 @@ class BotWizard extends React.Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-    let avatarsIcons = avatars.slice();
-    this.state = {
-      finished: false,
-      stepIndex: 0,
-      themeSettingsString: '{}',
-      slideState: 1, // 1 means in middle, 2 means preview collapsed
-      colBuild: 8,
-      colPreview: 4,
-      prevButton: 0, // 0 means disappear, 1 means appear
-      savingSkill: false,
-      savedSkillOld: {}, // contains skill meta data information for last saved skill
-      updateSkillNow: false,
-      imageChanged: false,
-      loaded: false,
-      commitMessage: '',
-      image: avatarsIcons[1].url,
-      newBot: true,
-    };
-  }
+  state = {
+    finished: false,
+    stepIndex: 0,
+    themeSettingsString: '{}',
+    slideState: 1, // 1 means in middle, 2 means preview collapsed
+    colBuild: 8,
+    colPreview: 4,
+    prevButton: 0, // 0 means disappear, 1 means appear
+    savingSkill: false,
+    savedSkillOld: {}, // contains skill meta data information for last saved skill
+    updateSkillNow: false,
+    imageChanged: false,
+    loaded: false,
+    commitMessage: '',
+    image: avatars.slice()[1].url,
+    newBot: true,
+  };
 
   componentWillUnmount() {
     const { actions } = this.props;
