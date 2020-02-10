@@ -37,31 +37,29 @@ class SignUp extends Component {
     isCaptchaEnabled: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    email: '',
+    emailErrorMessage: '',
+    password: '',
+    passwordErrorMessage: '',
+    passwordScore: -1,
+    passwordStrength: '',
+    confirmPassword: '',
+    passwordConfirmErrorMessage: '',
+    showCaptchaErrorMessage: '',
+    signupErrorMessage: '',
+    isCaptchaVerified: false,
+    success: false,
+    loading: false,
+  };
 
-    this.state = {
-      email: '',
-      emailErrorMessage: '',
-      password: '',
-      passwordErrorMessage: '',
-      passwordScore: -1,
-      passwordStrength: '',
-      confirmPassword: '',
-      passwordConfirmErrorMessage: '',
-      showCaptchaErrorMessage: '',
-      signupErrorMessage: '',
-      isCaptchaVerified: false,
-      success: false,
-      loading: false,
-    };
-
+  componentDidMount = () => {
     if (document.cookie.split('=')[0] === 'loggedIn') {
       window.location.reload();
     }
 
     this.debouncedIsEmailAvailable = debounce(this.isEmailAvailable, 700);
-  }
+  };
 
   handleDialogClose = () => {
     const { actions } = this.props;
