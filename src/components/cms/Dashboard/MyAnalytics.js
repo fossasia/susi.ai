@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,40 +16,15 @@ const Container = styled.div`
   }
 `;
 
-class MyAnalytics extends Component {
-  state = {
+const MyAnalytics = props => {
+  const [state, setState] = useState({
     skillUsage: [],
     loading: true,
     userSkills: 0,
     skillUsageCount: 0,
-  };
+  });
 
-  componentDidMount() {
-    this.loadSkillsUsage();
-  }
-
-  loadSkillsUsage = async () => {
-    const { email, actions } = this.props;
-    // eslint-disable-next-line
-    try {
-      // eslint-disable-next-line camelcase
-      let payload = await fetchSkillsByAuthor({ author_email: email });
-      this.saveUsageData(payload.authorSkills || []);
-      this.setState({
-        loading: false,
-      });
-    } catch (error) {
-      this.setState({
-        loading: false,
-      });
-      actions.openSnackBar({
-        snackBarMessage: "Error. Couldn't fetch skill usage.",
-        snackBarDuration: 2000,
-      });
-    }
-  };
-
-  saveUsageData = data => {
+  const saveUsageData = data => {
     let skillUsageCount = 0;
     let skillUsage = null;
     if (data && Array.isArray(data) && data.length > 0) {
@@ -61,74 +36,102 @@ class MyAnalytics extends Component {
         return dataObject;
       });
     }
-    this.setState({
+    setState({
+      ...state,
       skillUsage,
       userSkills: data.length,
       skillUsageCount,
     });
   };
 
-  render() {
-    let { skillUsage, loading, skillUsageCount, userSkills } = this.state;
-    let noskillCreatedMessage =
-      userSkills.length > 0
-        ? ''
-        : 'Your skill has not been used, make sure to improve your skill to attract more users.';
-    return (
-      <div>
-        {loading ? (
-          <CircularLoader height={5} />
-        ) : (
-          <Container>
-            {skillUsage &&
-              Array.isArray(skillUsage) &&
-              skillUsage.length > 0 &&
-              skillUsageCount !== 0 && (
-                <React.Fragment>
-                  <SubTitle marginLeft={1.4}>Skill Usage Distribution</SubTitle>
-                  <PieChartContainer
-                    cellData={
-                      skillUsage &&
-                      Array.isArray(skillUsage) &&
-                      skillUsage.length > 0 &&
-                      skillUsage.map((entry, index) => (
-                        <Cell
-                          key={index}
-                          fill={
-                            [
-                              '#0088FE',
-                              '#00C49F',
-                              '#FFBB28',
-                              '#FF8042',
-                              '#EA4335',
-                            ][index % 5]
-                          }
-                        />
-                      ))
-                    }
-                    data={skillUsage}
-                    nameKey="skillName"
-                    dataKey="usageCount"
-                  />
-                </React.Fragment>
-              )}
-          </Container>
-        )}
-        {skillUsageCount === 0 && noskillCreatedMessage !== '' && !loading && (
-          <Container>
-            <div className="center">
-              <br />
-              <h2 style={{ textAlign: 'center', padding: '5px' }}>
-                {noskillCreatedMessage}
-              </h2>
-              <br />
-            </div>
-          </Container>
-        )}
-      </div>
-    );
-  }
-}
+  const loadSkillsUsage = async () => {
+    const { email, actions } = props;
+    // eslint-disable-next-line
+    try {
+      // eslint-disable-next-line camelcase
+      let payload = await fetchSkillsByAuthor({ author_email: email });
+      saveUsageData(payload.authorSkills || []);
+
+      setState({
+        ...state,
+        loading: false,
+      });
+    } catch (error) {
+      setState({
+        ...state,
+        loading: false,
+      });
+      actions.openSnackBar({
+        snackBarMessage: "Error. Couldn't fetch skill usage.",
+        snackBarDuration: 2000,
+      });
+    }
+  };
+
+  useEffect(() => {
+    loadSkillsUsage();
+    return () => {};
+  }, []);
+
+  let { skillUsage, loading, skillUsageCount, userSkills } = state;
+  let noskillCreatedMessage =
+    userSkills.length > 0
+      ? ''
+      : 'Your skill has not been used, make sure to improve your skill to attract more users.';
+  return (
+    <div>
+      {loading ? (
+        <CircularLoader height={5} />
+      ) : (
+        <Container>
+          {skillUsage &&
+            Array.isArray(skillUsage) &&
+            skillUsage.length > 0 &&
+            skillUsageCount !== 0 && (
+              <React.Fragment>
+                <SubTitle marginLeft={1.4}>Skill Usage Distribution</SubTitle>
+                <PieChartContainer
+                  cellData={
+                    skillUsage &&
+                    Array.isArray(skillUsage) &&
+                    skillUsage.length > 0 &&
+                    skillUsage.map((entry, index) => (
+                      <Cell
+                        key={index}
+                        fill={
+                          [
+                            '#0088FE',
+                            '#00C49F',
+                            '#FFBB28',
+                            '#FF8042',
+                            '#EA4335',
+                          ][index % 5]
+                        }
+                      />
+                    ))
+                  }
+                  data={skillUsage}
+                  nameKey="skillName"
+                  dataKey="usageCount"
+                />
+              </React.Fragment>
+            )}
+        </Container>
+      )}
+      {skillUsageCount === 0 && noskillCreatedMessage !== '' && !loading && (
+        <Container>
+          <div className="center">
+            <br />
+            <h2 style={{ textAlign: 'center', padding: '5px' }}>
+              {noskillCreatedMessage}
+            </h2>
+            <br />
+          </div>
+        </Container>
+      )}
+    </div>
+  );
+};
 
 MyAnalytics.propTypes = {
   email: PropTypes.string,
