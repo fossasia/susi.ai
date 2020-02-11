@@ -21,20 +21,19 @@ class ResetPassword extends Component {
     actions: PropTypes.object,
     history: PropTypes.object,
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      newPassword: '',
-      newPasswordErrorMessage: '',
-      newPasswordStrength: '',
-      newPasswordScore: -1,
-      confirmNewPassword: '',
-      newPasswordConfirmErrorMessage: '',
-      invalidToken: false,
-    };
-    this.token = this.props.location.search.split('=')[1] || '';
-  }
+
+  state = {
+    loading: false,
+    newPassword: '',
+    newPasswordErrorMessage: '',
+    newPasswordStrength: '',
+    newPasswordScore: -1,
+    confirmNewPassword: '',
+    newPasswordConfirmErrorMessage: '',
+    invalidToken: false,
+  };
+
+  token = this.props.location.search.split('=')[1] || '';
   async componentDidMount() {
     const { actions } = this.props;
     try {
