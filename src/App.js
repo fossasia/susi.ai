@@ -95,13 +95,10 @@ class App extends Component {
     mode: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeDeviceMacId: '',
-      deviceAccessPoint: false,
-    };
-  }
+  state = {
+    activeDeviceMacId: '',
+    deviceAccessPoint: false,
+  };
 
   componentDidMount = async () => {
     const { accessToken, actions, isLocalEnv } = this.props;

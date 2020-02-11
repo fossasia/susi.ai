@@ -43,21 +43,18 @@ class Login extends Component {
     message: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      emailErrorMessage: '',
-      password: '',
-      passwordErrorMessage: '',
-      success: false,
-      loading: false,
-      showCaptchaErrorMessage: false,
-      attempts: storageService.get('loginAttempts', 'session') || 0,
-      captchaResponse: '',
-      errorMessage: '',
-    };
-  }
+  state = {
+    email: '',
+    emailErrorMessage: '',
+    password: '',
+    passwordErrorMessage: '',
+    success: false,
+    loading: false,
+    showCaptchaErrorMessage: false,
+    attempts: storageService.get('loginAttempts', 'session') || 0,
+    captchaResponse: '',
+    errorMessage: '',
+  };
 
   componentWillUnmount() {
     storageService.set('loginAttempts', this.state.attempts, 'session');
@@ -106,14 +103,22 @@ class Login extends Component {
             if (location.pathname !== '/chat') {
               history.push('/');
             } else {
-              let { payload } = await actions.getHistoryFromServer();
-              // eslint-disable-next-line
-              let messagePairArray = await createMessagePairArray(payload);
-              actions.initializeMessageStore(messagePairArray);
-              this.setState({
-                success: true,
-                loading: false,
-              });
+              try {
+                let { payload } = await actions.getHistoryFromServer();
+                // eslint-disable-next-line
+                let messagePairArray = await createMessagePairArray(payload);
+                actions.initializeMessageStore(messagePairArray);
+                this.setState({
+                  success: true,
+                  loading: false,
+                });
+              } catch (error) {
+                actions.initializeMessageStoreFailed();
+                this.setState({
+                  loading: false,
+                });
+                console.log(error);
+              }
             }
           } catch (error) {
             actions.initializeMessageStoreFailed();

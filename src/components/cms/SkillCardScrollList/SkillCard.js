@@ -54,15 +54,13 @@ const RightFab = styled(Fab)`
 `;
 
 class SkillCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cards: [],
-      scrollCards: 4,
-      leftBtnDisplay: 'none',
-      rightBtnDisplay: 'inline',
-    };
-  }
+  state = {
+    cards: [],
+    scrollCards: 4,
+    leftBtnDisplay: 'none',
+    rightBtnDisplay: 'inline',
+  };
+
   componentDidMount = () => {
     this.updateWindowDimensions();
   };

@@ -21,18 +21,15 @@ const SearchBar = styled(_SearchBar)`
 `;
 
 class ListUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: [],
-      userEmail: '',
-      data: [],
-      pagination: {},
-      loading: true,
-      search: '',
-      page: 1,
-    };
-  }
+  state = {
+    username: [],
+    userEmail: '',
+    data: [],
+    pagination: {},
+    loading: true,
+    search: '',
+    page: 1,
+  };
 
   deleteUser = () => {
     const { userEmail: email } = this.state;

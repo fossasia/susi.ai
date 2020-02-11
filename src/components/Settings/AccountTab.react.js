@@ -209,16 +209,22 @@ class AccountTab extends React.Component {
     userEmailId && form.append('email', userEmailId);
     form.append('image', imageFile);
     this.setState({ uploadingAvatar: true });
-    await uploadAvatar(form);
-    actions.openSnackBar({
-      snackBarMessage: 'Avatar Uploaded',
-    });
-    this.setState({
-      uploadingAvatar: false,
-      isAvatarAdded: true,
-      isAvatarUploaded: true,
-      settingSave: false,
-    });
+    try {
+      await uploadAvatar(form);
+      actions.openSnackBar({
+        snackBarMessage: 'Avatar Uploaded',
+      });
+      this.setState({
+        uploadingAvatar: false,
+        isAvatarAdded: true,
+        isAvatarUploaded: true,
+        settingSave: false,
+      });
+    } catch (error) {
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to upload Avatar!',
+      });
+    }
   };
 
   handleAvatarImageChange = e => {
@@ -433,7 +439,7 @@ class AccountTab extends React.Component {
             </TabHeading>
             <Select
               value={voiceOutput.voiceLang}
-              disabled={!this.TTSBrowserSupport | loading}
+              disabled={!this.TTSBrowserSupport || loading}
               onChange={this.handlePrefLang}
               style={{ margin: '1rem 0' }}
             >

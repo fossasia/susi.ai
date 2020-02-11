@@ -22,21 +22,18 @@ const PlayButtonContainer = styled.div`
 `;
 
 class TextToSpeechSettings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rate: this.props.rate,
-      pitch: this.props.pitch,
-      play: false,
-      playExample: false,
-      ttsLanguage: this.props.lang,
-      currVoice: '',
-      voiceList: speechSynthesis.getVoices(),
-    };
-    this.speechSynthesisExample = 'This is an example of speech synthesis';
-    this.speechDemo = 'Hi! I am SUSI';
-  }
+  state = {
+    rate: this.props.rate,
+    pitch: this.props.pitch,
+    play: false,
+    playExample: false,
+    ttsLanguage: this.props.lang,
+    currVoice: '',
+    voiceList: speechSynthesis.getVoices(),
+  };
 
+  speechSynthesisExample = 'This is an example of speech synthesis';
+  speechDemo = 'Hi! I am SUSI';
   // Triggered when the voice player is started
   onStart = () => {
     this.setState({
@@ -203,7 +200,7 @@ class TextToSpeechSettings extends Component {
             <Translate text="Speech Output Language" />
           </TabHeading>
           <Select
-            value={this.state.currSpeechText}
+            value={this.state.currSpeechText || 0}
             onChange={this.handleTTSVoices}
           >
             {voiceOutput.voiceMenu}
