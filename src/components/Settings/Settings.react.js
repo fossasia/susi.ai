@@ -50,8 +50,8 @@ const settingsOptions = [
 const Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 48px);
-  overflow: scroll;
   margin-top: 2rem;
+  overflow: auto;
   background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {
     height: 100vh;
