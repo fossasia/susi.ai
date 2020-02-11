@@ -27,10 +27,13 @@ class Feedback extends React.Component {
     theme: PropTypes.string,
   };
 
-  state = {
-    feedbackInProgress: false,
-    skill: this.parseSkill(),
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      feedbackInProgress: false,
+      skill: this.parseSkill(),
+    };
+  }
 
   parseSkill = () => {
     const { message } = this.props;

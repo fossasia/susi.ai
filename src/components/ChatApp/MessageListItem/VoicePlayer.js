@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class VoicePlayer extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    started: false,
+    playing: false,
+  };
 
+  componentDidMount = () => {
     if ('speechSynthesis' in window) {
       this.speech = this.createSpeech();
     } else {
@@ -13,11 +16,7 @@ class VoicePlayer extends Component {
         'The current browser does not support the speechSynthesis API.',
       );
     }
-    this.state = {
-      started: false,
-      playing: false,
-    };
-  }
+  };
 
   createSpeech = () => {
     const { lang, rate, pitch, voice } = this.props;
