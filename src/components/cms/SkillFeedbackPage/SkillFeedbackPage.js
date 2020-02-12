@@ -500,7 +500,13 @@ class SkillFeedbackPage extends Component {
       }
     }
     if (skillFeedbacks) {
-      feedbackCards = skillFeedbacks
+      feedbackCards = []
+        .concat(skillFeedbacks)
+        .sort((a, b) => {
+          let dateA = new Date(a.timestamp);
+          let dateB = new Date(b.timestamp);
+          return dateB - dateA;
+        })
         .slice((currentPage - 1) * pageLimit, currentPage * pageLimit)
         .map((data, index) => {
           userEmail = data.email;

@@ -153,85 +153,94 @@ class SkillFeedbackCard extends Component {
     let userFeedbackCard = null;
     let feedbackCards = null;
     if (skillFeedbacks) {
-      feedbackCards = skillFeedbacks.map((data, index) => {
-        userEmail = data.email;
-        userAvatarLink = data.avatar;
-        userName = data.userName;
-        const name = userName === '' ? userEmail : userName;
-        const avatarProps = {
-          src: userAvatarLink,
-          name,
-        };
-        if (accessToken && email && userEmail === email) {
-          userFeedbackCard = (
-            <div key={index}>
+      feedbackCards = []
+        .concat(skillFeedbacks)
+        .sort((a, b) => {
+          let dateA = new Date(a.timestamp);
+          let dateB = new Date(b.timestamp);
+          return dateB - dateA;
+        })
+        .map((data, index) => {
+          userEmail = data.email;
+          userAvatarLink = data.avatar;
+          userName = data.userName;
+          const name = userName === '' ? userEmail : userName;
+          const avatarProps = {
+            src: userAvatarLink,
+            name,
+          };
+          if (accessToken && email && userEmail === email) {
+            userFeedbackCard = (
+              <div key={index}>
+                <ListItem key={index} button>
+                  <CircleImage {...avatarProps} size="40" />
+                  <div style={{ width: '90%' }}>
+                    <div>{name}</div>
+                    <Timestamp>
+                      {formatDate(parseDate(data.timestamp))}
+                    </Timestamp>
+                    <div>
+                      <Emoji text={data.feedback} />
+                    </div>
+                  </div>
+                  <div>
+                    <IconButton
+                      aria-owns={open ? 'options' : undefined}
+                      aria-haspopup="true"
+                      onClick={this.handleMenuOpen}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="options"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={this.handleMenuClose}
+                    >
+                      <MenuItem
+                        onClick={() => {
+                          this.handleEditOpen(data.feedback);
+                        }}
+                      >
+                        <ListItemIcon>
+                          <EditBtn />
+                        </ListItemIcon>
+                        <ListItemText> Edit</ListItemText>
+                      </MenuItem>
+                      <MenuItem onClick={this.handleFeedbackDelete}>
+                        <ListItemIcon>
+                          <Delete />
+                        </ListItemIcon>
+                        <ListItemText>Delete</ListItemText>
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                </ListItem>
+                <Divider />
+              </div>
+            );
+            return null;
+          }
+          // eslint-disable-next-line
+          else {
+            return (
               <ListItem key={index} button>
                 <CircleImage {...avatarProps} size="40" />
-                <div style={{ width: '90%' }}>
-                  <div>{name}</div>
+                <div>
+                  <div>
+                    {userName !== ''
+                      ? userName
+                      : `${userEmail.slice(0, userEmail.indexOf('@') + 1)}...`}
+                  </div>
                   <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
                   <div>
                     <Emoji text={data.feedback} />
                   </div>
                 </div>
-                <div>
-                  <IconButton
-                    aria-owns={open ? 'options' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleMenuOpen}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="options"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={this.handleMenuClose}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        this.handleEditOpen(data.feedback);
-                      }}
-                    >
-                      <ListItemIcon>
-                        <EditBtn />
-                      </ListItemIcon>
-                      <ListItemText> Edit</ListItemText>
-                    </MenuItem>
-                    <MenuItem onClick={this.handleFeedbackDelete}>
-                      <ListItemIcon>
-                        <Delete />
-                      </ListItemIcon>
-                      <ListItemText>Delete</ListItemText>
-                    </MenuItem>
-                  </Menu>
-                </div>
               </ListItem>
-              <Divider />
-            </div>
-          );
-          return null;
-        }
-        // eslint-disable-next-line
-        else {
-          return (
-            <ListItem key={index} button>
-              <CircleImage {...avatarProps} size="40" />
-              <div>
-                <div>
-                  {userName !== ''
-                    ? userName
-                    : `${userEmail.slice(0, userEmail.indexOf('@') + 1)}...`}
-                </div>
-                <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
-                <div>
-                  <Emoji text={data.feedback} />
-                </div>
-              </div>
-            </ListItem>
-          );
-        }
-      });
+            );
+          }
+        });
     }
 
     if (feedbackCards && userFeedbackCard) {
