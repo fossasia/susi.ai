@@ -16,7 +16,7 @@ const ConfirmDialog = props => {
         <p>{content}</p>
       </DialogContent>
       {confirmText ? (
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'space-around' }}>
           <Button
             key={0}
             color="primary"
