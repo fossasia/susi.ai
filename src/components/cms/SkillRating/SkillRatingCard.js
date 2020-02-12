@@ -19,7 +19,6 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import Ratings from 'react-ratings-declarative';
 import { Paper as _Paper } from '../../shared/Container';
 import {
   SubTitle,
@@ -28,7 +27,6 @@ import {
   LargeText,
 } from '../../shared/Typography';
 import LineChart from '../../shared/charts/LineChart';
-import getSkillNameFromSkillTag from '../../../utils/getSkillNameFromSkillTag';
 
 const Paper = styled(_Paper)`
   width: 100%;
@@ -144,26 +142,6 @@ class SkillRatingCard extends Component {
     });
   };
 
-  getRatingMessage = () => {
-    const { userRating } = this.props;
-    switch (userRating) {
-      case 0:
-        return 'The skill has not been rated by you';
-      case 1:
-        return 'Hated it';
-      case 2:
-        return 'Disliked it';
-      case 3:
-        return "It's OK";
-      case 4:
-        return 'Liked it';
-      case 5:
-        return 'Loved it';
-      default:
-        return '';
-    }
-  };
-
   roundOffRating = ratingsOverTime => {
     ratingsOverTime = ratingsOverTime.map(obj => {
       return { ...obj, rating: parseFloat(obj.rating.toFixed(1)) };
@@ -173,13 +151,7 @@ class SkillRatingCard extends Component {
 
   render() {
     const { chartWidth, ratingsOverTimeWidth, offset } = this.state;
-    const {
-      skillTag,
-      userRating,
-      skillRatings,
-      ratingsOverTime,
-      accessToken,
-    } = this.props;
+    const { skillRatings, ratingsOverTime } = this.props;
     const ratingsData = [
       { name: '5.0 ⭐', value: parseInt(skillRatings.fiveStar, 10) || 0 },
       { name: '4.0 ⭐', value: parseInt(skillRatings.fourStar, 10) || 0 },
@@ -192,40 +164,6 @@ class SkillRatingCard extends Component {
       <div>
         <Paper>
           <Title>Ratings</Title>
-          {accessToken && (
-            <div>
-              <SubTitle size="1rem">
-                {' '}
-                Rate your experience with {getSkillNameFromSkillTag(
-                  skillTag,
-                )}{' '}
-                on SUSI.AI{' '}
-              </SubTitle>
-              <div
-                style={{
-                  textAlign: 'center',
-                  margin: '1.5rem',
-                }}
-              >
-                <Ratings
-                  rating={userRating}
-                  widgetRatedColors="#ffbb28"
-                  widgetHoverColors="#ffbb28"
-                  widgetDimensions={mobileView ? '30px' : '50px'}
-                  changeRating={this.changeRating}
-                >
-                  <Ratings.Widget />
-                  <Ratings.Widget />
-                  <Ratings.Widget />
-                  <Ratings.Widget />
-                  <Ratings.Widget />
-                </Ratings>
-              </div>
-              <div style={{ textAlign: 'center', fontSize: '1rem' }}>
-                {this.getRatingMessage()}
-              </div>
-            </div>
-          )}
           {skillRatings.totalStar ? (
             <RatingSection>
               <RatingTextContainer>

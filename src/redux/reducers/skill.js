@@ -33,6 +33,7 @@ const defaultState = {
     lastAccessTime: '',
   },
   userRating: 0,
+  userRatingTimestamp: null,
   feedback: '',
   dateWiseSkillUsage: [],
   countryWiseSkillUsage: [],
@@ -100,11 +101,14 @@ export default handleActions(
     },
     [actionTypes.SKILL_GET_USER_RATING](state, { payload }) {
       if (payload.ratings) {
-        const { stars } = payload.ratings;
+        const { stars, timestamp } = payload.ratings;
         const userRating = parseInt(stars, 10);
+        const userRatingTimestamp = timestamp;
+
         return {
           ...state,
           userRating,
+          userRatingTimestamp,
         };
       }
       return {
