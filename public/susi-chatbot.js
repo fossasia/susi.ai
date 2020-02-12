@@ -14,17 +14,19 @@ link.type = 'text/css';
 link.href = `${susi_skills_deployed_url}chat-style.css`;
 link.media = 'all';
 headTag.appendChild(link);
-const script_tag = document.getElementById('susi-bot-script');
-const userid = script_tag.getAttribute('data-userid');
-const group = script_tag.getAttribute('data-group');
-const language = script_tag.getAttribute('data-language');
-const skill = script_tag.getAttribute('data-skill');
-const botWindow = script_tag.getAttribute('data-bot-type')
-  ? script_tag.getAttribute('data-bot-type') === 'botWindow'
-    ? true
-    : false
-  : false;
-
+let script_tag, userid, group, skill, language, botWindow;
+if (document.getElementById('susi-bot-script')) {
+  script_tag = document.getElementById('susi-bot-script');
+  userid = script_tag.getAttribute('data-userid');
+  group = script_tag.getAttribute('data-group');
+  language = script_tag.getAttribute('data-language');
+  skill = script_tag.getAttribute('data-skill');
+  botWindow = script_tag.getAttribute('data-bot-type')
+    ? script_tag.getAttribute('data-bot-type') === 'botWindow'
+      ? true
+      : false
+    : false;
+}
 // custom theme variables
 let botbuilderBackgroundBody = '#ffffff';
 let botbuilderBodyBackgroundImg = '';
@@ -74,10 +76,9 @@ function getThemeCallBack(data) {
 }
 
 (function() {
-  url = `${api_url}/cms/getSkillMetadata.json?userid=${userid}&group=${group}&language=${language}&skill=${skill}`;
+  let url = `${api_url}/cms/getSkillMetadata.json?userid=${userid}&group=${group}&language=${language}&skill=${skill}`;
   fetch(url, {
     headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
     mode: 'cors',
   })
     .then(res => res.json())
