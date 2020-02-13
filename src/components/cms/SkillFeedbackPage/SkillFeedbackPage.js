@@ -16,6 +16,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
 import Button from '../../shared/Button';
+import isMobileView from '../../../utils/isMobileView';
+import FiveStarRatingWidget from '../../shared/FiveStarRatingWidget';
+import { RATING_TO_HINT_MAP } from '../../../constants/ratingHints';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -192,6 +195,8 @@ class SkillFeedbackPage extends Component {
       currentPage: 1,
       currentRecords: [],
       anchorEl: null,
+      rating: 0,
+      loader: false,
     };
     this.totalPages = 1;
     this.pageNeighbours =
@@ -272,9 +277,18 @@ class SkillFeedbackPage extends Component {
   async componentDidMount() {
     const { actions } = this.props;
     actions.getSkillMetaData(this.skillData);
-    await actions.getSkillFeedbacks(this.skillData);
-    this.setState({ loading: false });
-    this.gotoPage(1);
+    try {
+      await actions.getSkillFeedbacks(this.skillData);
+      this.setState({ loading: false });
+      this.gotoPage(1);
+    } catch (error) {
+      this.setState({ loading: false });
+      actions.openSnackBar({
+        snackBarMessage: 'Failed to fetch skill feedbacks',
+        snackBarDuration: 2000,
+      });
+      console.log(error);
+    }
   }
 
   onPageChanged = data => {
@@ -328,6 +342,7 @@ class SkillFeedbackPage extends Component {
   };
 
   handleEditModal = previousFeedback => {
+    this.handleMenuClose();
     this.setState({ feedbackValue: previousFeedback }, () => {
       this.props.actions.openModal({
         modalType: 'editFeedback',
@@ -335,9 +350,15 @@ class SkillFeedbackPage extends Component {
         handleClose: this.props.actions.closeModal,
         errorText: this.state.errorText,
         feedback: this.state.feedbackValue,
+        rating: this.props.userRating,
         handleEditFeedback: this.editFeedback,
+        handleEditRating: this.editRating,
       });
     });
+  };
+
+  editRating = rating => {
+    this.setState({ rating });
   };
 
   editFeedback = () => {
@@ -349,31 +370,69 @@ class SkillFeedbackPage extends Component {
     this.setState({ feedbackValue: event.target.value });
   };
 
-  postFeedback = async () => {
+  setSkillRating = async ({ message }) => {
+    const { rating } = this.state;
     const { group, language, skillTag: skill, actions } = this.props;
-    const { feedbackValue } = this.state;
+
     const skillData = {
       model: 'general',
       group,
       language,
       skill,
-      feedback: feedbackValue,
+      stars: rating,
     };
-    if (feedbackValue) {
+    try {
+      await actions.setUserRating({ userRating: rating });
+      if (message === 'rate') {
+        actions.openSnackBar({
+          snackBarMessage: 'The skill was reviewed successfully!',
+          snackBarDuration: 4000,
+        });
+      }
       try {
-        await actions.setSkillFeedback(skillData);
-        actions.getSkillFeedbacks(skillData);
+        await actions.getSkillRating(skillData);
       } catch (error) {
         console.log(error);
       }
-      // this.handleEditClose();
-    } else {
-      this.setState({ errorText: 'Feedback cannot be empty' });
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  postFeedback = async () => {
+    if (this.state.feedbackValue !== '') {
+      const { group, language, skillTag: skill, actions } = this.props;
+      const { feedbackValue } = this.state;
+      const skillData = {
+        model: 'general',
+        group,
+        language,
+        skill,
+        feedback: feedbackValue,
+      };
+      if (feedbackValue) {
+        try {
+          this.setState({ loader: true });
+          await actions.setSkillFeedback(skillData);
+          actions.closeModal();
+          await actions.getSkillFeedbacks(skillData);
+        } catch (error) {
+          console.log(error);
+        }
+        this.setState({ loader: false });
+        // this.handleEditClose();
+      } else {
+        this.setState({ errorText: 'Feedback cannot be empty' });
+      }
+    }
+    await this.setSkillRating({ message: 'rate' });
   };
 
   deleteFeedback = async () => {
     const { actions } = this.props;
+    this.setState({ rating: 0 }, () => {
+      this.setSkillRating({ message: 'delete' });
+    });
     try {
       await actions.deleteSkillFeedback(this.skillData);
       actions.closeModal();
@@ -409,8 +468,10 @@ class SkillFeedbackPage extends Component {
       email,
       author,
       accessToken,
+      userRatingTimestamp,
+      userRating,
+      avatarImgThumbnail,
     } = this.props;
-
     const open = Boolean(anchorEl);
     const imgUrl = !image
       ? '/favicon-512x512.jpg'
@@ -420,78 +481,86 @@ class SkillFeedbackPage extends Component {
     const skillName = _skillName === null ? 'No Name Given' : _skillName;
 
     const pages = this.fetchPageNumbers();
-
+    const mobileView = isMobileView();
     let feedbackCards = [];
     let userFeedbackCard;
     let userFeedback;
     let userName = '';
     let userAvatarLink = '';
     let userEmail = '';
-
+    let userFeedbackValue = '';
     if (skillFeedbacks) {
+      userEmail = email;
+      userAvatarLink = avatarImgThumbnail;
+      userName = this.props.userName;
+      const avatarProps = {
+        src: userAvatarLink,
+        name: userName === '' ? userEmail : userName,
+      };
       userFeedback =
         skillFeedbacks[skillFeedbacks.findIndex(x => x.email === email)];
-      if (userFeedback && currentPage === 1) {
-        userEmail = userFeedback.email;
-        userAvatarLink = userFeedback.avatar;
-        userName = userFeedback.userName;
-        const avatarProps = {
-          src: userAvatarLink,
-          name: userName === '' ? userEmail : userName,
-        };
-        userFeedbackCard = (
-          <div>
-            <ListItem button>
-              <CircleImage {...avatarProps} size="40" />
-              <div style={{ width: '90%' }}>
-                <div>{userName === '' ? userEmail : userName}</div>
-                <Timestamp>
-                  {formatDate(parseDate(userFeedback.timestamp))}
-                </Timestamp>
-                <div>
-                  <Emoji text={userFeedback.feedback} />
-                </div>
-              </div>
-              <div>
-                <IconButton
-                  aria-owns={open ? 'options' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenuOpen}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="options"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={this.handleMenuClose}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      this.handleEditModal(userFeedback.feedback);
-                    }}
-                  >
-                    <ListItemIcon>
-                      <EditBtn />
-                    </ListItemIcon>
-                    <ListItemText> Edit</ListItemText>
-                  </MenuItem>
-                  <MenuItem onClick={this.handleDeleteModal}>
-                    <ListItemIcon>
-                      <Delete />
-                    </ListItemIcon>
-                    <ListItemText>Delete</ListItemText>
-                  </MenuItem>
-                </Menu>
-              </div>
-            </ListItem>
-            <Divider inset={true} />
-          </div>
-        );
+      if (userFeedback) {
+        userFeedbackValue = userFeedback.feedback;
       }
+      userFeedbackCard = userRating > 0 && (
+        <div>
+          <ListItem button>
+            <CircleImage {...avatarProps} size="40" />
+            <div style={{ width: '90%' }}>
+              <div>{userName === '' ? userEmail : userName}</div>
+              <Timestamp>
+                {formatDate(parseDate(userRatingTimestamp))}
+              </Timestamp>
+              <FiveStarRatingWidget rating={userRating} />
+              <div>
+                <Emoji text={userFeedbackValue} />
+              </div>
+            </div>
+            <div>
+              <IconButton
+                aria-owns={open ? 'options' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleMenuOpen}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="options"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={this.handleMenuClose}
+              >
+                <MenuItem
+                  onClick={() => {
+                    this.handleEditModal(userFeedbackValue);
+                  }}
+                >
+                  <ListItemIcon>
+                    <EditBtn />
+                  </ListItemIcon>
+                  <ListItemText> Edit</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={this.handleDeleteModal}>
+                  <ListItemIcon>
+                    <Delete />
+                  </ListItemIcon>
+                  <ListItemText>Delete</ListItemText>
+                </MenuItem>
+              </Menu>
+            </div>
+          </ListItem>
+          <Divider inset={true} />
+        </div>
+      );
     }
     if (skillFeedbacks) {
-      feedbackCards = skillFeedbacks
+      feedbackCards = []
+        .concat(skillFeedbacks)
+        .sort((a, b) => {
+          let dateA = new Date(a.timestamp);
+          let dateB = new Date(b.timestamp);
+          return dateB - dateA;
+        })
         .slice((currentPage - 1) * pageLimit, currentPage * pageLimit)
         .map((data, index) => {
           userEmail = data.email;
@@ -512,6 +581,10 @@ class SkillFeedbackPage extends Component {
                       : `${userEmail.slice(0, userEmail.indexOf('@') + 1)}...`}
                   </div>
                   <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
+                  {data.rating > 0 ? (
+                    <FiveStarRatingWidget rating={data.rating} />
+                  ) : null}
+
                   <div>
                     <Emoji text={data.feedback} />
                   </div>
@@ -525,18 +598,37 @@ class SkillFeedbackPage extends Component {
     let feedbackCardsElement = null;
     feedbackCardsElement = (
       <div>
-        {accessToken && !userFeedback ? (
+        {accessToken && !userRating ? (
           <div>
             <SubTitle size="1rem">
-              {`Write your invaluable feedback with
+              {`Write your invaluable feedback and rating with
             ${this.skillName} on SUSI.AI`}
             </SubTitle>
             <div>
               <Timestamp>
                 <FormControl fullWidth={true}>
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      margin: '1.5rem',
+                    }}
+                  >
+                    <FiveStarRatingWidget
+                      rating={this.state.rating}
+                      widgetHoverColors="#ffbb28"
+                      widgetDimensions={mobileView ? '30px' : '50px'}
+                      widgetSpacings="5px"
+                      changeRating={Rating => {
+                        this.setState({ rating: Rating });
+                      }}
+                    />
+                  </div>
+                  <div style={{ textAlign: 'center', fontSize: '1rem' }}>
+                    {RATING_TO_HINT_MAP[this.state.rating]}
+                  </div>
                   <OutlinedTextField
                     id="post-feedback"
-                    label="Skill Feedback"
+                    label="Skill Feedback(optional)"
                     placeholder="Skill Feedback"
                     defaultValue=""
                     margin="dense"
@@ -554,6 +646,8 @@ class SkillFeedbackPage extends Component {
                   color="primary"
                   variant="contained"
                   handleClick={this.postFeedback}
+                  disabled={this.state.rating === 0 || this.state.loader}
+                  isLoading={this.state.loader}
                   style={{ marginBottom: '1em' }}
                   buttonText="Post"
                 />
@@ -561,7 +655,7 @@ class SkillFeedbackPage extends Component {
             </div>
           </div>
         ) : null}
-        {userFeedbackCard}
+        {userRating > 0 ? userFeedbackCard : null}
         {feedbackCards}
       </div>
     );
@@ -614,7 +708,7 @@ class SkillFeedbackPage extends Component {
           </Paper>
           <SkillRatingCard />
           <Paper>
-            <Title marginTop>Feedback</Title>
+            <Title marginTop>Feedback and Rating</Title>
             {feedbackCardsElement}
             {skillFeedbacks &&
               (skillFeedbacks.length > 0 ? (
@@ -725,6 +819,10 @@ SkillFeedbackPage.propTypes = {
   skillName: PropTypes.string,
   email: PropTypes.string,
   accessToken: PropTypes.string,
+  userRating: PropTypes.number,
+  userName: PropTypes.string,
+  avatarImgThumbnail: PropTypes.string,
+  userRatingTimestamp: PropTypes.string,
 };
 
 function mapStateToProps(store) {
@@ -739,6 +837,10 @@ function mapStateToProps(store) {
     skillName: store.skill.metaData.skillName,
     email: store.app.email,
     accessToken: store.app.accessToken,
+    userRating: store.skill.userRating,
+    userRatingTimestamp: store.skill.userRatingTimestamp,
+    userName: store.settings.userName,
+    avatarImgThumbnail: store.app.avatarImgThumbnail,
   };
 }
 

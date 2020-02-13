@@ -17,15 +17,13 @@ const Container = styled.div`
 `;
 
 class MyAnalytics extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      skillUsage: [],
-      loading: true,
-      userSkills: 0,
-      skillUsageCount: 0,
-    };
-  }
+  state = {
+    skillUsage: [],
+    loading: true,
+    userSkills: 0,
+    skillUsageCount: 0,
+  };
+
   componentDidMount() {
     this.loadSkillsUsage();
   }
@@ -120,7 +118,9 @@ class MyAnalytics extends Component {
           <Container>
             <div className="center">
               <br />
-              <h2 style={{ textAlign: 'center' }}>{noskillCreatedMessage}</h2>
+              <h2 style={{ textAlign: 'center', padding: '5px' }}>
+                {noskillCreatedMessage}
+              </h2>
               <br />
             </div>
           </Container>

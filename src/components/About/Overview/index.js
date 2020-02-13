@@ -556,13 +556,11 @@ const buttonAttributes = [
 ];
 
 class Overview extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gifIndex: 0,
-      isVideoModalOpen: false,
-    };
-  }
+  state = {
+    gifIndex: 0,
+    isVideoModalOpen: false,
+  };
+
   // Toggle Video dialog
 
   toggleVideoModal = () => {

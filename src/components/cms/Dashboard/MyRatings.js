@@ -21,14 +21,12 @@ const TableWrap = styled.div`
 `;
 
 class MyRatings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ratingsData: [],
-      loading: true,
-      showMySkills: true,
-    };
-  }
+  state = {
+    ratingsData: [],
+    loading: true,
+    showMySkills: true,
+  };
+
   componentDidMount() {
     this.loadSkills();
   }
@@ -160,7 +158,7 @@ class MyRatings extends Component {
         )}
         {ratingsData.length === 0 && !loading && (
           <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
-            <h2>
+            <h2 style={{ padding: '5px' }}>
               You have not rated any skill, go to{' '}
               <Link to="/">SUSI Skills Explorer</Link> and rate.
             </h2>

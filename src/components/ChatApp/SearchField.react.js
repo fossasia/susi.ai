@@ -97,10 +97,7 @@ const SearchContainer = styled.div`
 `;
 
 class ExpandingSearchField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isOpen: false, indexCnt: 0 };
-  }
+  state = { isOpen: false, indexCnt: 0 };
 
   closeSearch = state => {
     if (this.props.open) {

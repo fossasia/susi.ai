@@ -66,16 +66,20 @@ class ControlPage extends React.Component {
       authType: auth,
       roomName,
     } = this.state;
-    await setupDeviceConfig({
-      wifissid: ssid,
-      wifipassd: password,
-      hotword,
-      email: auth === 'anonymous' ? '' : email,
-      password: auth === 'anonymous' ? '' : authPassword,
-      auth,
-      roomName,
-    });
-    window.location.reload();
+    try {
+      await setupDeviceConfig({
+        wifissid: ssid,
+        wifipassd: password,
+        hotword,
+        email: auth === 'anonymous' ? '' : email,
+        password: auth === 'anonymous' ? '' : authPassword,
+        auth,
+        roomName,
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleInputFieldChange = e => {

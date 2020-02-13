@@ -109,33 +109,29 @@ const ButtonContainer = styled.div`
 `;
 
 class SkillListing extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    skillFeedback: [],
+    feedbackMessage: '',
+  };
 
-    this.state = {
-      skillFeedback: [],
-      feedbackMessage: '',
-    };
-
-    this.groupValue = this.props.location.pathname.split('/')[1];
-    this.skillTag = this.props.location.pathname.split('/')[2];
-    this.languageValue = this.props.location.pathname.split('/')[3];
-    this.skillData = {
-      model: 'general',
-      group: this.groupValue,
-      language: this.languageValue,
-      skill: this.skillTag,
-    };
-    this.skillName = this.skillTag
-      ? this.skillTag
-          .split('_')
-          .map(data => {
-            const s = data.charAt(0).toUpperCase() + data.substring(1);
-            return s;
-          })
-          .join(' ')
-      : '';
-  }
+  groupValue = this.props.location.pathname.split('/')[1];
+  skillTag = this.props.location.pathname.split('/')[2];
+  languageValue = this.props.location.pathname.split('/')[3];
+  skillData = {
+    model: 'general',
+    group: this.groupValue,
+    language: this.languageValue,
+    skill: this.skillTag,
+  };
+  skillName = this.skillTag
+    ? this.skillTag
+        .split('_')
+        .map(data => {
+          const s = data.charAt(0).toUpperCase() + data.substring(1);
+          return s;
+        })
+        .join(' ')
+    : '';
 
   componentDidMount() {
     document.title = `SUSI.AI - ${this.skillName} Skills`;

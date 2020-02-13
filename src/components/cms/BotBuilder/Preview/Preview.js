@@ -237,21 +237,18 @@ const Textarea = styled.textarea`
 `;
 
 class Preview extends Component {
-  constructor() {
-    super();
-    this.messageEndRef = React.createRef();
-    this.msgNumber = 1;
-    this.state = {
-      messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
-      message: '',
-      previewChat: true,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      messageHistory: [],
-      showMessage: false,
-      currentMessageIndex: -1,
-    };
-  }
+  messageEndRef = React.createRef();
+  msgNumber = 1;
+  state = {
+    messages: [{ message: 'Hi, I am SUSI', author: 'SUSI', loading: false }],
+    message: '',
+    previewChat: true,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    messageHistory: [],
+    showMessage: false,
+    currentMessageIndex: -1,
+  };
 
   componentDidMount = () => {
     this.updateWindowDimensions();

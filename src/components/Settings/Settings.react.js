@@ -32,6 +32,7 @@ import ChatAppTab from './ChatAppTab.react';
 import UserKeysTab from './UserKeysTab';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
+import uiActions from '../../redux/actions/ui';
 import { isProduction } from '../../utils/helperFunctions';
 
 const settingsOptions = [
@@ -49,8 +50,8 @@ const settingsOptions = [
 const Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 48px);
-  overflow: scroll;
   margin-top: 2rem;
+  overflow: auto;
   background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {
     height: 100vh;
@@ -63,6 +64,7 @@ const SettingContainer = styled.div`
   max-width: 95%;
   width: 1060px;
   margin: 0 auto;
+  overflow: hidden;
   @media only screen and (max-width: 1060px) {
     flex-direction: column;
   }
@@ -70,7 +72,7 @@ const SettingContainer = styled.div`
 
 const SettingsOptionsContainer = styled(Paper)`
   width: 28%;
-  overflow: hidden;
+  overflow-x: hidden;
   margin-right: 12px;
   height: fit-content;
   ${props =>
@@ -167,12 +169,28 @@ class Settings extends Component {
     const parameters = new URL(window.location).searchParams;
     const email = parameters.get('email');
     if (email) {
-      let { payload } = await actions.getUserSettings({ email });
-      const { settings } = payload;
-      const { theme } = settings;
-      this.setState({ loading: false, theme });
+      try {
+        let { payload } = await actions.getUserSettings({ email });
+        const { settings } = payload;
+        const { theme } = settings;
+        this.setState({ loading: false, theme });
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch your settings!',
+          snackBarDuration: 2000,
+        });
+        console.log(error);
+      }
     } else {
-      await actions.getUserSettings();
+      try {
+        await actions.getUserSettings();
+      } catch (error) {
+        actions.openSnackBar({
+          snackBarMessage: 'Failed to fetch your settings!',
+          snackBarDuration: 2000,
+        });
+        console.log(error);
+      }
       this.setState({ loading: false, theme });
     }
     document.title =
@@ -337,7 +355,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(settingActions, dispatch),
+    actions: bindActionCreators({ ...uiActions, ...settingActions }, dispatch),
   };
 }
 

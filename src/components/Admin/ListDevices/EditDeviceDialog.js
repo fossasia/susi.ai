@@ -21,15 +21,11 @@ export default class EditDeviceDialog extends Component {
     handleConfirm: PropTypes.func,
   };
 
-  constructor(props) {
-    super(props);
-    const { room, deviceName } = this.props;
-    this.state = {
-      room,
-      deviceName,
-      loading: false,
-    };
-  }
+  state = {
+    room: this.props.room,
+    deviceName: this.props.deviceName,
+    loading: false,
+  };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
