@@ -14,10 +14,13 @@ const useStyles = makeStyles({
 });
 
 const Button = styled.button`
-  float: right;
+  position: fixed;
+  bottom: 20px;
+  float: left;
   margin: 0.5rem 1rem;
   border-radius: 5px;
   background-color: #4285f4;
+  z-index: 89;
 `;
 
 const Icon = styled.i`
