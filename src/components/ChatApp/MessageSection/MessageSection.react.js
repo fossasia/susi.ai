@@ -392,17 +392,21 @@ class MessageSection extends Component {
           showScrollTop: false,
           showScrollBottom: true,
         });
-      } else if (!(showScrollBottom && showScrollTop)) {
-        this.setState({
-          showScrollBottom: true,
-          showScrollTop: true,
-        });
       } else if (
-        scrollValues.scrollHeight - Math.ceil(scrollValues.scrollTop) ===
-        scrollValues.clientHeight
+        scrollValues.clientHeight + Math.ceil(scrollValues.scrollTop) >=
+        scrollValues.scrollHeight
       ) {
         this.setState({
           showScrollBottom: false,
+          showScrollTop: true,
+        });
+      } else if (
+        !(showScrollBottom && showScrollTop) &&
+        scrollValues.clientHeight + Math.ceil(scrollValues.scrollTop) <
+          scrollValues.scrollHeight
+      ) {
+        this.setState({
+          showScrollBottom: true,
           showScrollTop: true,
         });
       }
