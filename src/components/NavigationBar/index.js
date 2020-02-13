@@ -52,6 +52,7 @@ import isMobileView from '../../utils/isMobileView';
 import ToolTip from '../shared/ToolTip';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
+import Icon from '@material-ui/core/Icon';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -674,7 +675,14 @@ class NavigationBar extends Component {
                             }}
                           />
                         ) : (
-                          <CreateDetail>Create</CreateDetail>
+                          <CreateDetail>
+                            <IconButton
+                              color="inherit"
+                              style={{ padding: '7px' }}
+                            >
+                              <Icon style={{ fontSize: 30 }}>add</Icon>
+                            </IconButton>
+                          </CreateDetail>
                         )}
                       </div>
                     </StyledIconButton>
@@ -691,9 +699,11 @@ class NavigationBar extends Component {
                 )}
                 {accessToken ? null : (
                   <MenuItem onClick={this.handleLogin}>
-                    <ListItemText>
-                      <Translate text="Login" />
-                    </ListItemText>
+                    <ToolTip title="Login">
+                      <IconButton color="inherit" style={{ padding: '7px' }}>
+                        <Icon style={{ fontSize: 30 }}>account_circle</Icon>
+                      </IconButton>
+                    </ToolTip>
                   </MenuItem>
                 )}
                 <ToolTip title="Chat with Susi AI">
