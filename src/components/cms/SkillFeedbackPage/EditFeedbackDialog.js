@@ -6,15 +6,28 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '../../shared/Button';
+import FiveStarRatingWidget from '../../shared/FiveStarRatingWidget';
+import { RATING_TO_HINT_MAP } from '../../../constants/ratingHints';
+import isMobileView from '../../../utils/isMobileView';
 
 const EditFeedback = props => {
-  const { handleConfirm, handleClose, feedback, handleEditFeedback } = props;
+  const {
+    handleConfirm,
+    handleClose,
+    feedback,
+    handleEditFeedback,
+    handleEditRating,
+    rating,
+  } = props;
 
   const [loader, updateLoader] = useState(false);
   const [newFeedback, updateNewFeedback] = useState(feedback);
+  const [newRating, updateRating] = useState(rating);
+  const mobileView = isMobileView();
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     updateLoader(true);
+    await handleEditRating(newRating);
     handleConfirm();
   };
 
@@ -26,6 +39,19 @@ const EditFeedback = props => {
     <React.Fragment>
       <DialogTitle>Edit Feedback</DialogTitle>
       <DialogContent>
+        <FiveStarRatingWidget
+          rating={newRating}
+          id="edit-rating"
+          widgetHoverColors="#ffbb28"
+          widgetSpacings="5px"
+          widgetDimensions={mobileView ? '30px' : '50px'}
+          changeRating={Rating => {
+            updateRating(Rating);
+          }}
+        />
+        <div style={{ textAlign: 'center', fontSize: '1rem' }}>
+          {RATING_TO_HINT_MAP[newRating]}
+        </div>
         <FormControl fullWidth={true}>
           <OutlinedTextField
             id="edit-feedback"
@@ -57,7 +83,9 @@ const EditFeedback = props => {
           variant="contained"
           handleClick={handleEdit}
           style={{ marginRight: '1em' }}
-          disabled={newFeedback.trim().length === 0 || loader}
+          disabled={
+            (newRating === rating && newFeedback.trim().length === 0) || loader
+          }
           isLoading={loader}
           buttonText="Edit"
         />
@@ -72,6 +100,8 @@ EditFeedback.propTypes = {
   handleEditFeedback: PropTypes.func,
   feedback: PropTypes.string,
   errorText: PropTypes.string,
+  rating: PropTypes.number,
+  handleEditRating: PropTypes.func,
 };
 
 export default EditFeedback;

@@ -7,12 +7,15 @@ import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
 import styled from 'styled-components';
+import isMobileView from '../../../utils/isMobileView';
 // Components
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import CircleImage from '../../shared/CircleImage';
 import Button from '../../shared/Button';
+import { RATING_TO_HINT_MAP } from '../../../constants/ratingHints';
+import FiveStarRatingWidget from '../../shared/FiveStarRatingWidget';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedTextField from '../../shared/OutlinedTextField';
 import IconButton from '@material-ui/core/IconButton';
@@ -45,6 +48,7 @@ class SkillFeedbackCard extends Component {
     anchorEl: null,
     newFeedbackValue: '',
     loading: false,
+    rating: 0,
   };
 
   handleMenuOpen = event => {
@@ -71,7 +75,9 @@ class SkillFeedbackCard extends Component {
         handleConfirm: this.postFeedback,
         handleClose: this.props.actions.closeModal,
         feedback: this.state.newFeedbackValue,
+        rating: this.props.userRating,
         handleEditFeedback: this.editFeedback,
+        handleEditRating: this.editRating,
       });
     });
   };
@@ -81,31 +87,69 @@ class SkillFeedbackCard extends Component {
     this.setState({ newFeedbackValue: feedbackText });
   };
 
-  postFeedback = async () => {
+  editRating = rating => {
+    this.setState({ rating });
+  };
+
+  setSkillRating = async ({ message }) => {
+    const { rating } = this.state;
     const { group, language, skillTag: skill, actions } = this.props;
-    const { newFeedbackValue, loading } = this.state;
 
     const skillData = {
       model: 'general',
       group,
       language,
       skill,
-      feedback: newFeedbackValue,
+      stars: rating,
     };
-
-    if (newFeedbackValue && newFeedbackValue.trim().length > 0) {
-      if (!loading) {
-        this.setState({ loading: true });
+    try {
+      await actions.setUserRating({ userRating: rating });
+      if (message === 'rate') {
+        actions.openSnackBar({
+          snackBarMessage: 'The skill was reviewed successfully!',
+          snackBarDuration: 4000,
+        });
       }
       try {
-        await actions.setSkillFeedback(skillData);
-        actions.closeModal();
-        actions.getSkillFeedbacks(skillData);
+        await actions.getSkillRating(skillData);
       } catch (error) {
         console.log(error);
       }
-      this.setState({ loading: false });
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  postFeedback = async () => {
+    const { newFeedbackValue } = this.state;
+
+    if (newFeedbackValue !== '') {
+      const { group, language, skillTag: skill, actions } = this.props;
+      const { loading } = this.state;
+
+      const skillData = {
+        model: 'general',
+        group,
+        language,
+        skill,
+        feedback: newFeedbackValue,
+      };
+
+      if (newFeedbackValue && newFeedbackValue.trim().length > 0) {
+        if (!loading) {
+          this.setState({ loading: true });
+        }
+        try {
+          await actions.setSkillFeedback(skillData);
+          actions.closeModal();
+          await actions.getSkillFeedbacks(skillData);
+        } catch (error) {
+          console.log(error);
+        }
+        this.setState({ loading: false });
+      }
+    }
+    await this.setSkillRating({ message: 'rate' });
   };
 
   handleFeedbackDelete = () => {
@@ -121,6 +165,10 @@ class SkillFeedbackCard extends Component {
   deleteFeedback = async () => {
     const { group, language, skillTag: skill, actions } = this.props;
     this.setState({ newFeedbackValue: '' });
+    this.setState({ rating: 0 }, () => {
+      this.setSkillRating({ message: 'delete' });
+    });
+
     const skillData = {
       model: 'general',
       group,
@@ -136,6 +184,7 @@ class SkillFeedbackCard extends Component {
     }
   };
 
+  // eslint-disable-next-line complexity
   render() {
     const {
       skillFeedbacks,
@@ -143,14 +192,20 @@ class SkillFeedbackCard extends Component {
       language,
       email,
       accessToken,
+      avatarImgThumbnail,
+      userRatingTimestamp,
+      userRating,
     } = this.props;
-    const { anchorEl, newFeedbackValue, loading } = this.state;
+    const { anchorEl, newFeedbackValue, loading, rating } = this.state;
     const open = Boolean(anchorEl);
-
+    const mobileView = isMobileView();
     let userName = '';
     let userAvatarLink = '';
     let userEmail = '';
-    let userFeedbackCard = null;
+    let name = this.props.userName === '' ? email : this.props.userName;
+    let userProps = { src: avatarImgThumbnail, name };
+    let userFeedback = '';
+
     let feedbackCards = null;
     if (skillFeedbacks) {
       feedbackCards = []
@@ -170,55 +225,7 @@ class SkillFeedbackCard extends Component {
             name,
           };
           if (accessToken && email && userEmail === email) {
-            userFeedbackCard = (
-              <div key={index}>
-                <ListItem key={index} button>
-                  <CircleImage {...avatarProps} size="40" />
-                  <div style={{ width: '90%' }}>
-                    <div>{name}</div>
-                    <Timestamp>
-                      {formatDate(parseDate(data.timestamp))}
-                    </Timestamp>
-                    <div>
-                      <Emoji text={data.feedback} />
-                    </div>
-                  </div>
-                  <div>
-                    <IconButton
-                      aria-owns={open ? 'options' : undefined}
-                      aria-haspopup="true"
-                      onClick={this.handleMenuOpen}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                      id="options"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={this.handleMenuClose}
-                    >
-                      <MenuItem
-                        onClick={() => {
-                          this.handleEditOpen(data.feedback);
-                        }}
-                      >
-                        <ListItemIcon>
-                          <EditBtn />
-                        </ListItemIcon>
-                        <ListItemText> Edit</ListItemText>
-                      </MenuItem>
-                      <MenuItem onClick={this.handleFeedbackDelete}>
-                        <ListItemIcon>
-                          <Delete />
-                        </ListItemIcon>
-                        <ListItemText>Delete</ListItemText>
-                      </MenuItem>
-                    </Menu>
-                  </div>
-                </ListItem>
-                <Divider />
-              </div>
-            );
+            userFeedback = data.feedback;
             return null;
           }
           // eslint-disable-next-line
@@ -233,6 +240,9 @@ class SkillFeedbackCard extends Component {
                       : `${userEmail.slice(0, userEmail.indexOf('@') + 1)}...`}
                   </div>
                   <Timestamp>{formatDate(parseDate(data.timestamp))}</Timestamp>
+                  {data.rating > 0 ? (
+                    <FiveStarRatingWidget rating={data.rating} />
+                  ) : null}
                   <div>
                     <Emoji text={data.feedback} />
                   </div>
@@ -242,6 +252,57 @@ class SkillFeedbackCard extends Component {
           }
         });
     }
+    let userFeedbackCard = userRating > 0 && (
+      <div>
+        <ListItem key={1} button>
+          <CircleImage {...userProps} size="40" />
+          <div style={{ width: '90%' }}>
+            <div>{name}</div>
+            <Timestamp>
+              {userRatingTimestamp &&
+                formatDate(parseDate(userRatingTimestamp))}
+            </Timestamp>
+            <FiveStarRatingWidget rating={userRating} />
+            <div>
+              <Emoji text={userFeedback} />
+            </div>
+          </div>
+          <div>
+            <IconButton
+              aria-owns={open ? 'options' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleMenuOpen}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="options"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={this.handleMenuClose}
+            >
+              <MenuItem
+                onClick={() => {
+                  this.handleEditOpen(userFeedback);
+                }}
+              >
+                <ListItemIcon>
+                  <EditBtn />
+                </ListItemIcon>
+                <ListItemText> Edit</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={this.handleFeedbackDelete}>
+                <ListItemIcon>
+                  <Delete />
+                </ListItemIcon>
+                <ListItemText>Delete</ListItemText>
+              </MenuItem>
+            </Menu>
+          </div>
+        </ListItem>
+        <Divider />
+      </div>
+    );
 
     if (feedbackCards && userFeedbackCard) {
       feedbackCards.splice(4);
@@ -251,40 +312,57 @@ class SkillFeedbackCard extends Component {
 
     return (
       <Paper>
-        <Title>Feedback</Title>
-        {accessToken && !userFeedbackCard && (
+        <Title>Feedback and Rating</Title>
+        {accessToken && !userRating && (
           <div>
             <SubTitle size="1rem">
               {' '}
-              Write your invaluable feedback with{' '}
+              Rate your experience and give feedback with{' '}
               {getSkillNameFromSkillTag(skillTag)} on SUSI.AI{' '}
             </SubTitle>
-            <div>
-              <div style={{ margin: '1rem' }}>
-                <FormControl fullWidth={true}>
-                  <OutlinedTextField
-                    margin="dense"
-                    value={newFeedbackValue}
-                    label="Skill Feedback"
-                    placeholder="Skill Feedback"
-                    defaultValue=""
-                    multiline={true}
-                    fullWidth={true}
-                    onChange={this.handleFeedbackChange}
-                    aria-describedby="post-feedback-helper-text"
-                  />
-                </FormControl>
-                <Button
-                  label="Post"
-                  color="primary"
-                  variant="contained"
-                  style={{ marginTop: 10 }}
-                  handleClick={this.postFeedback}
-                  disabled={newFeedbackValue.trim().length === 0 || loading}
-                  isLoading={loading}
-                  buttonText="Post"
+            <div
+              style={{
+                textAlign: 'center',
+                margin: '1.5rem',
+              }}
+            >
+              <FiveStarRatingWidget
+                rating={rating}
+                widgetHoverColors="#ffbb28"
+                widgetDimensions={mobileView ? '30px' : '50px'}
+                widgetSpacings="5px"
+                changeRating={Rating => {
+                  this.setState({ rating: Rating });
+                }}
+              />
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '1rem' }}>
+              {RATING_TO_HINT_MAP[rating]}
+            </div>
+            <div style={{ margin: '1rem' }}>
+              <FormControl fullWidth={true}>
+                <OutlinedTextField
+                  margin="dense"
+                  value={newFeedbackValue}
+                  label="Skill Feedback(optional)"
+                  placeholder="Skill Feedback"
+                  defaultValue=""
+                  multiline={true}
+                  fullWidth={true}
+                  onChange={this.handleFeedbackChange}
+                  aria-describedby="post-feedback-helper-text"
                 />
-              </div>
+              </FormControl>
+              <Button
+                label="Post"
+                color="primary"
+                variant="contained"
+                style={{ marginTop: 10 }}
+                handleClick={this.postFeedback}
+                disabled={!rating || loading}
+                isLoading={loading}
+                buttonText="Post"
+              />
             </div>
           </div>
         )}
@@ -318,6 +396,10 @@ SkillFeedbackCard.propTypes = {
   actions: PropTypes.object,
   accessToken: PropTypes.string,
   email: PropTypes.string,
+  userRating: PropTypes.number,
+  userName: PropTypes.string,
+  avatarImgThumbnail: PropTypes.string,
+  userRatingTimestamp: PropTypes.string,
 };
 
 function mapStateToProps(store) {
@@ -329,6 +411,10 @@ function mapStateToProps(store) {
     skillFeedbacks: store.skill.skillFeedbacks,
     email: store.app.email,
     accessToken: store.app.accessToken,
+    userRating: store.skill.userRating,
+    userRatingTimestamp: store.skill.userRatingTimestamp,
+    userName: store.settings.userName,
+    avatarImgThumbnail: store.app.avatarImgThumbnail,
   };
 }
 
