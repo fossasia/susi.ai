@@ -17,6 +17,11 @@ const TooltipContainer = styled.div`
   padding: 0 1rem;
 `;
 
+const Date = styled.div`
+  padding: 0;
+  margin: 0;
+`;
+
 const LineChart = props => {
   const {
     data,
@@ -33,7 +38,7 @@ const LineChart = props => {
     if (active) {
       return (
         <TooltipContainer>
-          <p style={{ padding: '0', margin: '0' }}>{`Date: ${label}`}</p>
+          <Date>{`Date: ${label}`}</Date>
           <p
             style={{ color: '#82ca9d', padding: '0', margin: '0' }}
           >{`${payload[0].name}: ${payload[0].value}`}</p>
