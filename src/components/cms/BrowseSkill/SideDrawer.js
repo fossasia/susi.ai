@@ -13,9 +13,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Button = styled.button`
+const Button = styled(Fab)`
   position: fixed;
-  bottom: 20px;
+  bottom: 16px;
   float: left;
   margin: 0.5rem 1rem;
   border-radius: 5px;
