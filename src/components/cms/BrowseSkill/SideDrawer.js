@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -13,11 +14,14 @@ const useStyles = makeStyles({
   },
 });
 
-const Button = styled.button`
-  float: right;
+const Button = styled(Fab)`
+  position: fixed;
+  bottom: 16.5px;
+  float: left;
   margin: 0.5rem 1rem;
-  border-radius: 5px;
+  border-radius: 50%;
   background-color: #4285f4;
+  z-index: 89;
 `;
 
 const Icon = styled.i`
