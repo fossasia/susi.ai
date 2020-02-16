@@ -146,7 +146,7 @@ const SidebarText = styled.h4`
   ${SidebarTextStyles}
 `;
 
-const SidebarLink = styled.button`
+const SidebarLink = styled(Link)`
   color: rgba(0, 0, 0, 0.54);
   font-weight: bold;
   border: none;
