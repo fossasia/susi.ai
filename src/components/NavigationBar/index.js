@@ -198,6 +198,9 @@ class NavigationBar extends Component {
       searchSelectWidth: this.getSelectMenuWidth(this.props.searchType),
       showSearchBar: !isMobileView(1000),
       rightContainer: true,
+      showMenu: true,
+      showMenu2: true,
+      showMenu3: true,
     };
   }
 
@@ -377,6 +380,32 @@ class NavigationBar extends Component {
     });
   };
 
+  showMen = () => {
+    this.setState({
+      showMenu: true,
+    });
+  };
+
+  hideMen = () => {
+    this.setState({
+      showMenu: false,
+      showMenu2: false,
+      showMenu3: false,
+    });
+  };
+
+  showMen2 = () => {
+    this.setState({
+      showMenu2: true,
+    });
+  };
+
+  showMen3 = () => {
+    this.setState({
+      showMenu3: true,
+    });
+  };
+
   handleLogOut = () => {
     const { actions, history } = this.props;
     history.push('/logout');
@@ -408,7 +437,7 @@ class NavigationBar extends Component {
     const Logged = props => (
       <React.Fragment>
         <Link to="/dashboard">
-          <MenuItem>
+          <MenuItem onClick={this.hideMen}>
             <ListItemIcon>
               <Dashboard />
             </ListItemIcon>
@@ -418,7 +447,7 @@ class NavigationBar extends Component {
           </MenuItem>
         </Link>
         <Link to="/myskills">
-          <MenuItem>
+          <MenuItem onClick={this.hideMen}>
             <ListItemIcon>
               <Polymer />
             </ListItemIcon>
@@ -428,7 +457,7 @@ class NavigationBar extends Component {
           </MenuItem>
         </Link>
         <Link to="/mybots">
-          <MenuItem>
+          <MenuItem onClick={this.hideMen}>
             <ListItemIcon>
               <BotIcon />
             </ListItemIcon>
@@ -438,7 +467,7 @@ class NavigationBar extends Component {
           </MenuItem>
         </Link>
         <Link to="/mydevices">
-          <MenuItem>
+          <MenuItem onClick={this.hideMen}>
             <ListItemIcon>
               <DeviceIcon />
             </ListItemIcon>
@@ -449,7 +478,7 @@ class NavigationBar extends Component {
         </Link>
         <Divider />
         <Link to="/settings">
-          <MenuItem>
+          <MenuItem onClick={this.hideMen}>
             <ListItemIcon>
               <Settings />
             </ListItemIcon>
@@ -460,7 +489,7 @@ class NavigationBar extends Component {
         </Link>
         {isAdmin ? (
           <Link to="/admin">
-            <MenuItem>
+            <MenuItem onClick={this.hideMen}>
               <ListItemIcon>
                 <ListIcon />
               </ListItemIcon>
@@ -600,25 +629,33 @@ class NavigationBar extends Component {
                             type={'light'}
                             marginTop={8}
                           >
-                            <Paper>
+                            <Paper
+                              style={{
+                                display: this.state.showMenu2
+                                  ? 'block'
+                                  : 'none',
+                              }}
+                            >
                               <Logged />
                             </Paper>
                           </Popper>
-                          <CircleImage
-                            name="User Avatar"
-                            src={userAvatar}
-                            size="32"
-                          />
-                          {userSettingsLoaded && (
-                            <UserDetail>
-                              {!userName ? email : userName}
-                            </UserDetail>
-                          )}
-                          <ExpandMore
-                            style={{
-                              display: isMobile ? 'none' : 'inline',
-                            }}
-                          />
+                          <FlexContainer onMouseEnter={this.showMen2}>
+                            <CircleImage
+                              name="User Avatar"
+                              src={userAvatar}
+                              size="32"
+                            />
+                            {userSettingsLoaded && (
+                              <UserDetail>
+                                {!userName ? email : userName}
+                              </UserDetail>
+                            )}
+                            <ExpandMore
+                              style={{
+                                display: isMobile ? 'none' : 'inline',
+                              }}
+                            />
+                          </FlexContainer>
                         </FlexContainer>
                       </div>
                     </StyledIconButton>
@@ -632,53 +669,61 @@ class NavigationBar extends Component {
                           type={'light'}
                           marginTop={8}
                         >
-                          <Paper>
-                            <Link to="/skillWizard">
-                              <MenuItem>
-                                <ListItemIcon>
-                                  <Add />
-                                </ListItemIcon>
-                                <ListItemText>
-                                  <Translate text="Create Skill" />
-                                </ListItemText>
-                              </MenuItem>
-                            </Link>
-                            <Link to="/botWizard">
-                              <MenuItem>
-                                <ListItemIcon>
-                                  <Person />
-                                </ListItemIcon>
-                                <ListItemText>
-                                  <Translate text="Create Bot" />
-                                </ListItemText>
-                              </MenuItem>
-                            </Link>
-                            <Link to="/mydevices">
-                              <MenuItem>
-                                <ListItemIcon>
-                                  <Devices />
-                                </ListItemIcon>
-                                <ListItemText>
-                                  <Translate text="Add Device" />
-                                </ListItemText>
-                              </MenuItem>
-                            </Link>
-                          </Paper>
-                        </Popper>
-                        {isMobile ? (
-                          <Add
+                          <FlexContainer
                             style={{
-                              marginLeft: '0px',
-                              marginRight: '0px',
-                              marginTop: '3px',
-                              color: '#fff',
+                              display: this.state.showMenu ? 'block' : 'none',
                             }}
-                          />
-                        ) : (
-                          <CreateDetail style={{ padding: '7px' }}>
-                            Create
-                          </CreateDetail>
-                        )}
+                          >
+                            <Paper>
+                              <Link to="/skillWizard">
+                                <MenuItem onClick={this.hideMen}>
+                                  <ListItemIcon>
+                                    <Add />
+                                  </ListItemIcon>
+                                  <ListItemText>
+                                    <Translate text="Create Skill" />
+                                  </ListItemText>
+                                </MenuItem>
+                              </Link>
+                              <Link to="/botWizard">
+                                <MenuItem onClick={this.hideMen}>
+                                  <ListItemIcon>
+                                    <Person />
+                                  </ListItemIcon>
+                                  <ListItemText>
+                                    <Translate text="Create Bot" />
+                                  </ListItemText>
+                                </MenuItem>
+                              </Link>
+                              <Link to="/mydevices">
+                                <MenuItem onClick={this.hideMen}>
+                                  <ListItemIcon>
+                                    <Devices />
+                                  </ListItemIcon>
+                                  <ListItemText>
+                                    <Translate text="Add Device" />
+                                  </ListItemText>
+                                </MenuItem>
+                              </Link>
+                            </Paper>
+                          </FlexContainer>
+                        </Popper>
+                        <FlexContainer onMouseEnter={this.showMen}>
+                          {isMobile ? (
+                            <Add
+                              style={{
+                                marginLeft: '0px',
+                                marginRight: '0px',
+                                marginTop: '3px',
+                                color: '#fff',
+                              }}
+                            />
+                          ) : (
+                            <CreateDetail style={{ padding: '7px' }}>
+                              Create
+                            </CreateDetail>
+                          )}
+                        </FlexContainer>
                       </div>
                     </StyledIconButton>
                     {!isMobile ? (
@@ -724,26 +769,35 @@ class NavigationBar extends Component {
                     id={'right-menu-about'}
                     place="bottom"
                     effect="solid"
+                    delayShow={200}
                     delayHide={200}
                     type={'light'}
+                    display={'none'}
                   >
-                    <Paper style={{ marginRight: '25px' }}>
-                      <Link to="/about">
-                        <MenuItem>
-                          <ListItemText>
-                            <Translate text="About" />
-                          </ListItemText>
-                        </MenuItem>
-                      </Link>
-                      <Link to="/support">
-                        <MenuItem>
-                          <ListItemText>
-                            <Translate text="Support" />
-                          </ListItemText>
-                        </MenuItem>
-                      </Link>
-                    </Paper>
+                    <FlexContainer style={{ marginRight: '25px' }}>
+                      <Paper
+                        style={{
+                          display: this.state.showMenu3 ? 'block' : 'none',
+                        }}
+                      >
+                        <Link to="/about">
+                          <MenuItem onClick={this.hideMen}>
+                            <ListItemText>
+                              <Translate text="About" />
+                            </ListItemText>
+                          </MenuItem>
+                        </Link>
+                        <Link to="/support">
+                          <MenuItem onClick={this.hideMen}>
+                            <ListItemText>
+                              <Translate text="Support" />
+                            </ListItemText>
+                          </MenuItem>
+                        </Link>
+                      </Paper>
+                    </FlexContainer>
                   </Popper>
+
                   <Link to="/about">
                     <IconButton
                       aria-haspopup="true"
@@ -751,7 +805,7 @@ class NavigationBar extends Component {
                         color: 'white',
                       }}
                     >
-                      <ContactSupportIcon />
+                      <ContactSupportIcon onMouseEnter={this.showMen3} />
                     </IconButton>
                   </Link>
                 </div>
