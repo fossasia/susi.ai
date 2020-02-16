@@ -40,6 +40,7 @@ const Section = styled.div`
 const Card = styled(_Card)`
   margin: 0.625rem 0.625rem 0 0;
   max-width: 14.688rem;
+  background-color: #d5d6d6;
 
   @media (max-width: 1000px) {
     max-width: 15rem;
