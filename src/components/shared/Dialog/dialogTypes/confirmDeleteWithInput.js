@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '../../../shared/Button';
-import DialogActions from '@material-ui/core/DialogActions';
+import _DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+const DialogActions = styled(_DialogActions)`
+  justify-content: space-around;
+`;
 
 const WarningContainer = styled.div`
   background-color: #fffbdd;
@@ -67,7 +71,7 @@ class ConfirmDeleteWithInput extends Component {
             fullWidth
           />
         </DialogContent>
-        <DialogActions style={{ justifyContent: 'space-around' }}>
+        <DialogActions>
           <Button
             key={0}
             variant="contained"
