@@ -29,6 +29,10 @@ const BlogNavigation = styled.div`
 
 const Container = styled.div`
   width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-gap: 16px;
 `;
 
 const BottomPost = styled.div`

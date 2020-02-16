@@ -127,7 +127,7 @@ const BlogFooter = styled.div`
 const CardMedia = styled(_CardMedia)`
   height: 0;
   padding-top: 56.25%;
-  height: 31.25rem;
+  height: 3.25rem;
   object-fit: contain;
   vertical-align: middle;
 
@@ -142,6 +142,10 @@ const Title = styled.div`
 
 const Card = styled(_Card)`
   position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Overlay = styled.div`
