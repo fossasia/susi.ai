@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -35,7 +35,7 @@ class EditUserRole extends React.Component {
       .openModal({
         modalType: 'confirm',
         content: (
-          <React.Fragment>
+          <Fragment>
             User role of
             <span style={{ fontWeight: 'bold', margin: '0 5px' }}>
               {this.state.userEmail}
@@ -45,7 +45,7 @@ class EditUserRole extends React.Component {
               {this.state.userRole}
             </span>
             successfully!
-          </React.Fragment>
+          </Fragment>
         ),
         title: 'Success',
         handleConfirm: this.props.actions.closeModal,
