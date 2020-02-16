@@ -27,7 +27,6 @@ import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
 import _ActionViewModule from '@material-ui/icons/ViewModule';
 import _ActionViewStream from '@material-ui/icons/ViewStream';
-import ChevronRight from '@material-ui/icons/ChevronRight';
 import Fab from '@material-ui/core/Fab';
 import NavigationArrowBack from '@material-ui/icons/ArrowBack';
 import NavigationArrowForward from '@material-ui/icons/ArrowForward';
@@ -167,13 +166,6 @@ const PageNavigationContainer = styled.div`
   @media (max-width: 418px) {
     justify-content: center;
   }
-`;
-
-const MobileMenuItem = styled(MenuItem)`
-  color: ${props => (props.color ? props.color : null)};
-  min-height: 24px;
-  line-height: 24px;
-  font-size: 14px;
 `;
 
 const MobileMenuContainer = styled.div`
@@ -614,21 +606,6 @@ class BrowseSkill extends React.Component {
           <Link to="/">Back to SUSI Skills</Link>
         </MobileBackButton>
       );
-      renderMobileMenu =
-        groups &&
-        Array.isArray(groups) &&
-        groups.length > 0 &&
-        groups.map(categoryName => {
-          const linkValue = '/category/' + categoryName;
-          return (
-            <Link to={linkValue} key={linkValue}>
-              <MobileMenuItem key={categoryName} value={categoryName}>
-                <span style={{ width: '90%' }}>{categoryName}</span>
-                <ChevronRight style={{ top: -8 }} />
-              </MobileMenuItem>
-            </Link>
-          );
-        });
     }
     renderMenu =
       groups &&
