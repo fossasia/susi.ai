@@ -19,6 +19,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import getImageSrc from '../../../utils/getImageSrc';
 import chatBot from '../../../../public/botTemplates/chat-bot.jpg';
+import Tooltip from '../../shared/ToolTip';
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
@@ -233,12 +234,14 @@ class SkillCreator extends Component {
               </SkillNameButton>
             </Link>
             <SkillActions>
-              <Link style={{ margin: '0px 5px' }}>
-                <Delete
-                  color="rgb(255, 255, 255)"
-                  onClick={() => this.handleDeleteSkill(skill)}
-                />
-              </Link>
+              <Tooltip title="Delete Skill">
+                <Link style={{ margin: '0px 5px' }}>
+                  <Delete
+                    color="rgb(255, 255, 255)"
+                    onClick={() => this.handleDeleteSkill(skill)}
+                  />
+                </Link>
+              </Tooltip>
               <Link
                 to={{
                   pathname: `/${group}/${skillTag
@@ -246,7 +249,9 @@ class SkillCreator extends Component {
                     .replace(/ /g, '_')}/edit/${language}`,
                 }}
               >
-                <EditBtn />
+                <Tooltip title="Edit Skill">
+                  <EditBtn />
+                </Tooltip>
               </Link>
             </SkillActions>
           </SkillCard>,
