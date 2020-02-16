@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import stackoverflow from '../../../images/stackoverflow.png';
 import { Header } from '../../shared/About';
@@ -15,6 +14,7 @@ import googleGroups from '../../../images/google-groups.png';
 import code from '../../../images/code.png';
 import uiActions from '../../../redux/actions/ui';
 import styled from 'styled-components';
+import Link from '../../shared/Link';
 
 const GrayWrapper = styled.div`
   background: #f7f7f7;
@@ -382,18 +382,18 @@ class Support extends Component {
               </SupportDescription>
             </RowDescription>
             <RowDescription>
-              <Link to="/" style={{ textDecoration: 'none' }}>
+              <Link to="/" colorize>
                 <SupportItemIconContainer>
                   <SupportItemIcon alt="code" src={code} />
                 </SupportItemIconContainer>
               </Link>
               <SupportDescription>
-                <Link to="/" style={{ textDecoration: 'none' }}>
+                <Link to="/" colorize>
                   <H3>Create and Edit a SUSI.AI skill</H3>
                 </Link>
                 <SupportDescriptionContent>
                   You can easily create a skill on the SUSI.AI skills editor at{' '}
-                  <Link to="/" style={{ textDecoration: 'none' }}>
+                  <Link to="/" colorize>
                     susi.ai
                   </Link>
                 </SupportDescriptionContent>

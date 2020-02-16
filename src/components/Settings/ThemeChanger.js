@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DialogActions from '@material-ui/core/DialogActions';
 import CloseButton from '../shared/CloseButton';
-import Button from '../shared/Button';
+import _Button from '../shared/Button';
 import OutlinedTextField from '../shared/OutlinedTextField';
-import { Col, Row } from 'react-flexbox-grid';
+import { Col, Row as _Row } from 'react-flexbox-grid';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import uiActions from '../../redux/actions/ui';
@@ -16,6 +16,14 @@ import { setUserSettings } from '../../apis';
 import _ from 'lodash';
 import styled from 'styled-components';
 import ColorPickerComponent from '../shared/ColorPickerComponent';
+
+const Button = styled(_Button)`
+  margin: 0 5px;
+`;
+
+const Row = styled(_Row)`
+  margin-bottom: 15px;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -268,7 +276,7 @@ class ThemeChanger extends Component {
       components = componentsList.map(component => {
         return (
           <ThemePropertyContainer key={component.id}>
-            <Row style={{ marginBottom: '15px' }}>
+            <Row>
               <Col xs={6} md={6} lg={6}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <div
@@ -357,7 +365,6 @@ class ThemeChanger extends Component {
             handleClick={this.handleSubmit}
             color="primary"
             variant="contained"
-            style={{ margin: '0 5px' }}
             disabled={disabled || loading}
             isLoading={loading}
             buttonText="Save"
@@ -366,7 +373,6 @@ class ThemeChanger extends Component {
             color="primary"
             variant="contained"
             handleClick={this.handleReset}
-            style={{ margin: '0 5px' }}
             buttonText="Reset"
           />
         </DialogActions>

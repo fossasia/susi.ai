@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import DialogActions from '@material-ui/core/DialogActions';
+import _DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '../../shared/Button';
+import styled from 'styled-components';
+
+const DialogActions = styled(_DialogActions)`
+  justify-content: space-around;
+`;
 
 const DeleteAccount = ({ userEmail, handleConfirm, handleClose }) => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +22,7 @@ const DeleteAccount = ({ userEmail, handleConfirm, handleClose }) => {
         </span>
         ?
       </DialogContent>
-      <DialogActions style={{ justifyContent: 'space-around' }}>
+      <DialogActions>
         <Button
           key={1}
           variant="contained"

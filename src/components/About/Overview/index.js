@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
-import { Link } from 'react-router-dom';
 import urls from '../../../utils/urls';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
 import _PlayCircle from '@material-ui/icons/PlayCircleFilled';
@@ -35,6 +34,7 @@ import appStore from '../../../images/app-store.svg';
 import './Overview.css';
 import styled, { css } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
+import Link from '../../shared/Link';
 
 const Button = styled(_Button)`
   width: 30%;
@@ -853,7 +853,7 @@ class Overview extends Component {
             <DescriptionText>
               SUSI is having many skills. You can look at the collection of
               skills at{' '}
-              <Link to="/" style={{ textDecoration: 'none' }} target="_blank">
+              <Link to="/" target="_blank" colorize>
                 susi.ai
               </Link>{' '}
               SUSI skills are divided into groups like knowledge, assistant,

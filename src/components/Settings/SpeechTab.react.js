@@ -5,13 +5,19 @@ import PropTypes from 'prop-types';
 import TextToSpeechSettings from './TextToSpeechSettings.react';
 import Switch from '@material-ui/core/Switch';
 import { FlexContainer } from '../shared/Container';
-import Button from '../shared/Button';
+import _Button from '../shared/Button';
 import { bindActionCreators } from 'redux';
 import settingActions from '../../redux/actions/settings';
 import uiActions from '../../redux/actions/ui';
 import { connect } from 'react-redux';
 import { TabHeading } from './SettingStyles';
 import { setUserSettings } from '../../apis';
+import styled from 'styled-components';
+
+const Button = styled(_Button)`
+  margin-top: 1.5rem;
+  width: 10rem;
+`;
 
 class SpeechTab extends React.Component {
   constructor(props) {
@@ -174,7 +180,6 @@ class SpeechTab extends React.Component {
           handleClick={this.handleSubmit}
           disabled={disabled || loading}
           isLoading={loading}
-          style={{ marginTop: '1.5rem', width: '10rem' }}
           buttonText="Save Changes"
         />
       </SettingsTabWrapper>
