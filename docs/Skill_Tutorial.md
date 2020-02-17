@@ -16,7 +16,7 @@ This means:
 
 ### What you have to do
 
-We have a SUSI Skill Wizard at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simpled editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embeded code, which you can add to your website. You can configure colors and icons to suite your style.
+We have a SUSI Skill Wizard at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simple editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embedded code, which you can add to your website. You can configure colors and icons to suit your style.
 
 ### Preparation to start testing
 
@@ -63,7 +63,7 @@ Therefore, we can access every expert with the 4-tuple
 As you will see in the tutorial levels below, the language looks like an extremely simple pattern-matching Question-Answer declaration. But that is just the facade, it is easy for beginners but under the hood there is an expert system which is able to do planning and proving. The artificial intelligence in SUSI.AI is implemented as a theorem prover which can explore the domain of possible answers and gives one which is _true_ in SUSI's universe of knowledge.
 
 However, we had to combine the complex world of declaration-based logic programming with natural language declarations.
-We believe that the result is a easy-to-learn skill language with the ability to advance to true artificial intelligence when we reach a certain level of experience.
+We believe that the result is an easy-to-learn skill language with the ability to advance to true artificial intelligence when we reach a certain level of experience.
 
 ### Tutorial Level 0: Fixed Query-Answer Phrase Collections
 
@@ -271,7 +271,7 @@ eol
 
 This will call the loklak search API and gets back a big list of tweets from the given query in $1$. That list is somewhere inside the
 answer json of the API call, and we must tell SUSI where it can find that list. This hint is given in the attribute 'path' which has
-the syntax of a JSONPath. Here, the statuses object contains a list of objects, which contain always the same attribute keys.
+the syntax of a JSONPath. Here, the statuses object contains a list of objects, which always contains the same attribute keys.
 One of these attributes has the name 'text' and that attribute is selected with the $text$ pattern.
 Note that the bang definition part until the eol line must be given in JSON.
 
@@ -361,7 +361,7 @@ Clients which render SUSI action results must render _all_ actions in the order 
 
 #### Table actions:
 
-A table is defined by the names of the colums. The rows of the table are taken
+A table is defined by the names of the columns. The rows of the table are taken
 from the "data" object. The following example shows a console rule which produces only one action, which
 shall be rendered as table:
 

@@ -79,7 +79,7 @@ const Privacy = props => {
           <p>
             We also collect the content you create, upload or receive from
             others when using our services. This includes things like skills and
-            chatbots you create and feeback you receive on your skills, profile
+            chatbots you create and feedback you receive on your skills, profile
             photo you upload, and comments and rating you make on existing
             skills.
           </p>
