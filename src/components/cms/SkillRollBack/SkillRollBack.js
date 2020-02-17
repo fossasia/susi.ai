@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AceEditor from 'react-ace';
+import _AceEditor from 'react-ace';
 import Paper from '@material-ui/core/Paper';
 import Diff from 'react-diff-viewer';
 import { connect } from 'react-redux';
@@ -33,6 +33,7 @@ import 'brace/theme/solarized_dark';
 import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/searchbox';
+import styled from 'styled-components';
 
 const styles = {
   paperStyle: {
@@ -51,6 +52,12 @@ const styles = {
     marginTop: '20px',
   },
 };
+
+const AceEditor = styled(_AceEditor)`
+  resize: vertical;
+  overflowy: auto;
+  minheight: 200px;
+`;
 
 class SkillRollBack extends Component {
   static propTypes = {
@@ -292,11 +299,6 @@ class SkillRollBack extends Component {
                     scrollPastEnd={false}
                     wrapEnabled={true}
                     editorProps={{ $blockScrolling: true }}
-                    style={{
-                      resize: 'vertical',
-                      overflowY: 'auto',
-                      minHeight: '200px',
-                    }}
                   />
                 </div>
               </VersionContainer>
@@ -322,11 +324,6 @@ class SkillRollBack extends Component {
                     scrollPastEnd={false}
                     wrapEnabled={true}
                     editorProps={{ $blockScrolling: true }}
-                    style={{
-                      resize: 'vertical',
-                      overflowY: 'auto',
-                      minHeight: '200px',
-                    }}
                   />
                 </div>
               </VersionContainer>

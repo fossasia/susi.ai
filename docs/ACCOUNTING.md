@@ -41,7 +41,7 @@ User is then sent a verification link to confirm the sign up. And upon verifying
 Login endpoint : `BASE_URL+'/aaa/login.json?type=access-token&login=EMAIL&password=PASSWORD';`
 
 ##### Password Recovery
-Incase the user forgets his password, he can use the `Forgot Password` option to reset his password.
+In case the user forgets his password, he can use the `Forgot Password` option to reset his password.
 The Password recovery service uses :
 >- Email
 >- SUSI Server
@@ -55,7 +55,7 @@ Upon clicking that link, the user is redirected to a reset password service app 
 Reset password Redirect : `BASE_URL+'/apps/resetpass/index.html?token=TOKEN'`
 '
 ##### Change Password
-Incase the user wants to change his password, he can login using his current password and preferred server and use the `Change Password` option to set a new password for his account.
+In case the user wants to change his password, he can login using his current password and preferred server and use the `Change Password` option to set a new password for his account.
 This service is different from `Password Recovery` service where the user has forgot his password and wants a new password. Here the user knows his current password and wants to change it.
 The Change Password service uses:
 >- Email
@@ -153,7 +153,7 @@ The current settings and notations implemented are :
   - DEFAULT_VALUE : `1`
 
 - **Speech Pitch**
-  - Used to control pitch of speech output.
+  - Used to control the pitch of speech output.
   - SETTING_NAME :  `speechPitch`
   - SETTING_VALUE : `0 - 2`
   - DEFAULT_VALUE : `1`
