@@ -6,6 +6,8 @@ import styled from 'styled-components';
 const StaffChip = styled(_Chip)`
   background-color: #f9a602;
   color: white;
+  margin: 5px 0px;
+  padding: 2px;
 `;
 
 const PeopleIcon = styled(_PeopleIcon)`
@@ -13,15 +15,5 @@ const PeopleIcon = styled(_PeopleIcon)`
 `;
 
 export const StaffPickBadge = () => {
-  return (
-    <StaffChip
-      size="small"
-      icon={<PeopleIcon />}
-      label="Staff Pick"
-      style={{
-        margin: '5px 0px',
-        padding: '2px',
-      }}
-    />
-  );
+  return <StaffChip size="small" icon={<PeopleIcon />} label="Staff Pick" />;
 };
