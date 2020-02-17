@@ -302,7 +302,7 @@ const BlogItem = ({ posts }) => {
           <FlexBox>
             <Icon className="fa fa-calendar" />
             <BlogFooterLink href={posts.link}>
-              {dateFormat(d, 'mmmm dd, yyyy')}
+              &nbsp; {dateFormat(d, 'mmmm dd, yyyy')}
             </BlogFooterLink>
           </FlexBox>
           <FlexBox>
@@ -311,16 +311,16 @@ const BlogItem = ({ posts }) => {
               rel="noopener noreferrer"
               href={'http://blog.fossasia.org/author/' + posts.author}
             >
-              {posts.author}
+              &nbsp; {posts.author}
             </BlogFooterLink>
           </FlexBox>
           <FlexBox>
             <Icon className="fa fa-folder-open-o" />
-            {fCategory}
+            &nbsp; {fCategory}
           </FlexBox>
           <FlexBox>
             <Icon className="fa fa-tags" />
-            <div>{ftags}</div>
+            <div> &nbsp; {ftags}</div>
           </FlexBox>
         </BlogFooter>
       </Card>

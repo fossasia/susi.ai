@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../redux/actions/ui';
 import _Button from '@material-ui/core/Button';
 import LogoImg from '../../images/susi-logo.svg';
 import styled from 'styled-components';
+import Link from '../shared/Link';
 
 const SusiLogo = styled.img.attrs({
   alt: 'Page Not Found',
@@ -154,7 +154,7 @@ const NotFound = ({ accessToken, actions, renderLogin = false }) => {
         <SusiLogo />
       </Link>
       <RenderText renderLogin={renderLogin} />
-      <Link style={{ textDecoration: 'none' }} to={'/'}>
+      <Link to={'/'} colorize>
         <Button variant="contained" color="primary">
           Back To Homepage
         </Button>

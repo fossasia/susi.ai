@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DialogActions from '@material-ui/core/DialogActions';
+import _DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '../../../shared/Button';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import styled from 'styled-components';
+
+const DialogActions = styled(_DialogActions)`
+  justify-content: space-around;
+`;
 
 class CropDialog extends Component {
   static propTypes = {
@@ -108,7 +113,7 @@ class CropDialog extends Component {
             />
           )}
         </DialogContent>
-        <DialogActions style={{ justifyContent: 'space-around' }}>
+        <DialogActions>
           <Button
             key={0}
             color="primary"
