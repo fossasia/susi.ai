@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uiActions from '../../../redux/actions/ui';
+import dashboardActions from '../../../redux/actions/dashboard';
 import CircularLoader from '../../shared/CircularLoader';
 import { fetchSkillsByAuthor } from '../../../apis';
 import { Cell } from 'recharts';
@@ -17,39 +18,31 @@ const Container = styled.div`
 `;
 
 class MyAnalytics extends Component {
-  state = {
-    skillUsage: [],
-    loading: true,
-    userSkills: 0,
-    skillUsageCount: 0,
-  };
-
   componentDidMount() {
     this.loadSkillsUsage();
   }
 
   loadSkillsUsage = async () => {
-    const { email, actions } = this.props;
+    const { email, uiActions } = this.props;
     // eslint-disable-next-line
     try {
       // eslint-disable-next-line camelcase
       let payload = await fetchSkillsByAuthor({ author_email: email });
       this.saveUsageData(payload.authorSkills || []);
-      this.setState({
-        loading: false,
-      });
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
-      actions.openSnackBar({
+      uiActions.openSnackBar({
         snackBarMessage: "Error. Couldn't fetch skill usage.",
         snackBarDuration: 2000,
+      });
+      dashboardActions.setUserAnalytics({
+        loading: false,
       });
     }
   };
 
   saveUsageData = data => {
+    const { dashboardActions } = this.props;
+
     let skillUsageCount = 0;
     let skillUsage = null;
     if (data && Array.isArray(data) && data.length > 0) {
@@ -61,17 +54,23 @@ class MyAnalytics extends Component {
         return dataObject;
       });
     }
-    this.setState({
+    dashboardActions.setUserAnalytics({
       skillUsage,
+      loading: false,
       userSkills: data.length,
       skillUsageCount,
     });
   };
 
   render() {
-    let { skillUsage, loading, skillUsageCount, userSkills } = this.state;
+    let {
+      skillUsage,
+      skillUsageCount,
+      userSkills,
+      loading,
+    } = this.props.analytics;
     let noskillCreatedMessage =
-      userSkills.length > 0
+      userSkills && Array.isArray(userSkills) && userSkills.length > 0
         ? ''
         : 'Your skill has not been used, make sure to improve your skill to attract more users.';
     return (
@@ -132,18 +131,22 @@ class MyAnalytics extends Component {
 
 MyAnalytics.propTypes = {
   email: PropTypes.string,
-  actions: PropTypes.object,
+  analytics: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  uiActions: PropTypes.object,
+  dashboardActions: PropTypes.object,
 };
 
 function mapStateToProps(store) {
   return {
     email: store.app.email,
+    analytics: store.dashboard.analytics,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(uiActions, dispatch),
+    uiActions: bindActionCreators(uiActions, dispatch),
+    dashboardActions: bindActionCreators(dashboardActions, dispatch),
   };
 }
 
