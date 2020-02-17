@@ -6,7 +6,7 @@ import isMobileView from '../../utils/isMobileView';
 import styled from 'styled-components';
 
 const FooterContainer = styled.div`
-  background: #f6f6f6;
+  background: #042658;
   width: 100%;
   z-index: 10;
   border: 1px solid #ddd;
@@ -41,7 +41,7 @@ const SusiLogo = styled.img`
 `;
 
 const ContentContainer = styled.div`
-  background: #f6f6f6;
+  background: #042658;
   margin-top: 0px;
   min-height: 1.25rem;
   max-width: 100%;
@@ -61,11 +61,11 @@ const ContentContainer = styled.div`
     font-weight: 300;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
-    color: #414141;
+    color: #ffffff;
     font-size: 1rem;
   }
   li a:hover {
-    color: #4285f4;
+    text-shadow: 1px 1px 8px white;
   }
   ul {
     list-style: none;
