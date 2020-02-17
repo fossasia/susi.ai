@@ -24,6 +24,7 @@ const BlogNavigation = styled.div`
 
   @media (max-width: 1000px) {
     bottom: 12.5rem;
+    text-align: center;
   }
 `;
 

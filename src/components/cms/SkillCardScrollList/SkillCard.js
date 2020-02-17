@@ -251,7 +251,9 @@ class SkillCard extends Component {
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <TotalRating>{totalRating || 0}</TotalRating>
+                <Tooltip title="Total Rating">
+                  <TotalRating>{totalRating || 0}</TotalRating>
+                </Tooltip>
               </Link>
             </RatingContainer>
           </Card>,
