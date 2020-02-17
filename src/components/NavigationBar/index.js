@@ -384,6 +384,7 @@ class NavigationBar extends Component {
   };
 
   render() {
+    const isMobile = isMobileView(400);
     const {
       accessToken,
       isAdmin,
@@ -588,7 +589,7 @@ class NavigationBar extends Component {
                 ) : null}
                 {accessToken && (
                   <React.Fragment>
-                    <StyledIconButton padding={'0.55rem'}>
+                    <StyledIconButton padding={'0.05rem'}>
                       <div data-tip="custom" data-for={'right-menu'}>
                         <FlexContainer>
                           <Popper
@@ -615,15 +616,13 @@ class NavigationBar extends Component {
                           )}
                           <ExpandMore
                             style={{
-                              display: isMobileView(400) ? 'none' : 'inline',
+                              display: isMobile ? 'none' : 'inline',
                             }}
                           />
                         </FlexContainer>
                       </div>
                     </StyledIconButton>
-                    <StyledIconButton
-                      padding={isMobileView(400) ? '7px' : '0.95rem'}
-                    >
+                    <StyledIconButton padding={isMobile ? '3px' : '0.95rem'}>
                       <div data-tip="custom" data-for={'right-menu-create'}>
                         <Popper
                           id={'right-menu-create'}
@@ -631,7 +630,7 @@ class NavigationBar extends Component {
                           effect="solid"
                           delayHide={200}
                           type={'light'}
-                          offset={{ top: -15 }}
+                          marginTop={8}
                         >
                           <Paper>
                             <Link to="/skillWizard">
@@ -666,27 +665,33 @@ class NavigationBar extends Component {
                             </Link>
                           </Paper>
                         </Popper>
-                        {isMobileView(400) ? (
+                        {isMobile ? (
                           <Add
                             style={{
-                              marginLeft: '5px',
+                              marginLeft: '0px',
+                              marginRight: '0px',
+                              marginTop: '3px',
                               color: '#fff',
                             }}
                           />
                         ) : (
-                          <CreateDetail>Create</CreateDetail>
+                          <CreateDetail style={{ padding: '7px' }}>
+                            Create
+                          </CreateDetail>
                         )}
                       </div>
                     </StyledIconButton>
-                    <ToolTip title="Dashboard">
-                      <IconButton
-                        color="inherit"
-                        onClick={() => history.push('/dashboard')}
-                        style={{ padding: '7px' }}
-                      >
-                        <Dashboard />
-                      </IconButton>
-                    </ToolTip>
+                    {!isMobile ? (
+                      <ToolTip title="Dashboard">
+                        <IconButton
+                          color="inherit"
+                          onClick={() => history.push('/dashboard')}
+                          style={{ padding: '7px' }}
+                        >
+                          <Dashboard />
+                        </IconButton>
+                      </ToolTip>
+                    ) : null}
                   </React.Fragment>
                 )}
                 {accessToken ? null : (
@@ -696,17 +701,23 @@ class NavigationBar extends Component {
                     </ListItemText>
                   </MenuItem>
                 )}
-                <ToolTip title="Chat with Susi AI">
-                  <IconButton
-                    color="inherit"
-                    onClick={
-                      isMobileView(500) ? this.openFullScreen : this.openPreview
-                    }
-                    style={{ padding: '7px' }}
-                  >
-                    <Chat />
-                  </IconButton>
-                </ToolTip>
+                {!isMobile ? (
+                  <ToolTip title="Chat with Susi AI">
+                    <IconButton
+                      color="inherit"
+                      onClick={
+                        isMobileView(500)
+                          ? this.openFullScreen
+                          : this.openPreview
+                      }
+                      style={{ padding: '7px' }}
+                    >
+                      <Chat />
+                    </IconButton>
+                  </ToolTip>
+                ) : (
+                  <span></span>
+                )}
 
                 <div data-tip="custom" data-for={'right-menu-about'}>
                   <Popper
@@ -716,7 +727,7 @@ class NavigationBar extends Component {
                     delayHide={200}
                     type={'light'}
                   >
-                    <Paper>
+                    <Paper style={{ marginRight: '25px' }}>
                       <Link to="/about">
                         <MenuItem>
                           <ListItemText>
@@ -733,18 +744,14 @@ class NavigationBar extends Component {
                       </Link>
                     </Paper>
                   </Popper>
-                  <Link to="/about">
-                    <IconButton
-                      aria-haspopup="true"
-                      style={{
-                        color: 'white',
-                        marginRight: '10px',
-                        padding: '7px',
-                      }}
-                    >
-                      <ContactSupportIcon />
-                    </IconButton>
-                  </Link>
+                  <IconButton
+                    aria-haspopup="true"
+                    style={{
+                      color: 'white',
+                    }}
+                  >
+                    <ContactSupportIcon />
+                  </IconButton>
                 </div>
               </TopRightMenuContainer>
             </Toolbar>

@@ -53,6 +53,14 @@ const RightFab = styled(Fab)`
   display: ${props => props.display};
 `;
 
+const Container = styled.div`
+  margintop: 10px;
+  marginbottom: 10px;
+  textalign: justify;
+  fontsize: 0.1px;
+  width: 100%;
+`;
+
 class SkillCard extends Component {
   state = {
     cards: [],
@@ -264,15 +272,7 @@ class SkillCard extends Component {
     const { leftBtnDisplay, rightBtnDisplay, cards } = this.state;
     const { scrollSkills, isMobile = false } = this.props;
     return (
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '10px',
-          textAlign: 'justify',
-          fontSize: '0.1px',
-          width: '100%',
-        }}
-      >
+      <Container>
         <ScrollWrapper id={scrollSkills}>
           {!isMobile && (
             <LeftFab
@@ -296,7 +296,7 @@ class SkillCard extends Component {
             </RightFab>
           )}
         </ScrollWrapper>
-      </div>
+      </Container>
     );
   }
 }

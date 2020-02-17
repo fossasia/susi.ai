@@ -40,6 +40,7 @@ const Typography = styled(_Typography)`
 const Container = styled.div`
   width: 840px;
   margin: auto;
+  margin: 2rem 0;
   @media (min-width: 1319px) {
     ${CardContainer}:last-child {
       display: table;
@@ -275,124 +276,122 @@ class AdminTab extends React.Component {
         {loading ? (
           <CircularLoader />
         ) : (
-          <div style={{ margin: '2rem 0' }}>
-            <Container>
-              <CardContainer>
-                <Card>
-                  <CardHeading>User Roles</CardHeading>
-                  <Divider />
-                  <CardContentContainer>
-                    <Typography variant="body1" gutterBottom>
-                      Anonymous: {anonymous}
+          <Container>
+            <CardContainer>
+              <Card>
+                <CardHeading>User Roles</CardHeading>
+                <Divider />
+                <CardContentContainer>
+                  <Typography variant="body1" gutterBottom>
+                    Anonymous: {anonymous}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Users: {users}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Reviewers: {reviewers}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Operators: {operators}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Admins: {admins}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Super Admins: {superAdmins}
+                  </Typography>
+                </CardContentContainer>
+              </Card>
+            </CardContainer>
+            <CardContainer>
+              <Card width={'400px'}>
+                <CardHeading>Users</CardHeading>
+                <Divider />
+                <SkillCard>
+                  <div>
+                    <Typography variant="h6" gutterBottom>
+                      Total
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Users: {users}
+                    <Lozenge color="orange" text={totalUsers} />
+                  </div>
+                  <div>
+                    <Typography variant="h6" gutterBottom>
+                      Active
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Reviewers: {reviewers}
+                    <Lozenge color="green" text={activeUsers} />
+                  </div>
+                  <div>
+                    <Typography variant="h6" gutterBottom>
+                      Inactive
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Operators: {operators}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Admins: {admins}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Super Admins: {superAdmins}
-                    </Typography>
-                  </CardContentContainer>
-                </Card>
-              </CardContainer>
-              <CardContainer>
-                <Card width={'400px'}>
-                  <CardHeading>Users</CardHeading>
-                  <Divider />
-                  <SkillCard>
-                    <div>
-                      <Typography variant="h6" gutterBottom>
-                        Total
-                      </Typography>
-                      <Lozenge color="orange" text={totalUsers} />
-                    </div>
-                    <div>
-                      <Typography variant="h6" gutterBottom>
-                        Active
-                      </Typography>
-                      <Lozenge color="green" text={activeUsers} />
-                    </div>
-                    <div>
-                      <Typography variant="h6" gutterBottom>
-                        Inactive
-                      </Typography>
-                      <Lozenge color="red" text={inactiveUsers} />
-                    </div>
-                  </SkillCard>
-                </Card>
-              </CardContainer>
+                    <Lozenge color="red" text={inactiveUsers} />
+                  </div>
+                </SkillCard>
+              </Card>
+            </CardContainer>
 
-              <CardContainer>
-                <Card width={'400px'}>
-                  <CardHeading>Skills</CardHeading>
-                  <Divider />
-                  <SkillCard>
-                    <div>
-                      <Typography variant="h6" gutterBottom>
-                        Total
-                      </Typography>
-                      <Lozenge color="orange" text={totalSkills} />
-                    </div>
-                    <div>
-                      <Typography variant="h6" gutterBottom>
-                        Reviewed
-                      </Typography>
-                      <Lozenge color="green" text={reviewedSkills} />
-                    </div>
-                    <div>
-                      <Typography variant="h6" gutterBottom>
-                        Not Reviewed
-                      </Typography>
-                      <Lozenge color="red" text={nonReviewedSkills} />
-                    </div>
-                  </SkillCard>
-                </Card>
-              </CardContainer>
-              <CardContainer>
-                <Card>
-                  <CardHeading>Skill Types</CardHeading>
-                  <Divider />
-                  <CardContentContainer>
-                    <Typography variant="body1" gutterBottom>
-                      System Skills: {systemSkills}
+            <CardContainer>
+              <Card width={'400px'}>
+                <CardHeading>Skills</CardHeading>
+                <Divider />
+                <SkillCard>
+                  <div>
+                    <Typography variant="h6" gutterBottom>
+                      Total
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Staff Picks: {staffPicks}
+                    <Lozenge color="orange" text={totalSkills} />
+                  </div>
+                  <div>
+                    <Typography variant="h6" gutterBottom>
+                      Reviewed
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Editable: {editableSkills}
+                    <Lozenge color="green" text={reviewedSkills} />
+                  </div>
+                  <div>
+                    <Typography variant="h6" gutterBottom>
+                      Not Reviewed
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Non Editable: {nonEditableSkills}
-                    </Typography>
-                  </CardContentContainer>
-                </Card>
-              </CardContainer>
-              <CardContainer>
-                <Card>
-                  <CardHeading>Devices</CardHeading>
-                  <Divider />
-                  <CardContentContainer>
-                    <Typography variant="body1" gutterBottom>
-                      Connected devices: {connectedDevices}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      User with devices: {deviceUsers}
-                    </Typography>
-                  </CardContentContainer>
-                </Card>
-              </CardContainer>
-              {this.renderCharts()}
-            </Container>
-          </div>
+                    <Lozenge color="red" text={nonReviewedSkills} />
+                  </div>
+                </SkillCard>
+              </Card>
+            </CardContainer>
+            <CardContainer>
+              <Card>
+                <CardHeading>Skill Types</CardHeading>
+                <Divider />
+                <CardContentContainer>
+                  <Typography variant="body1" gutterBottom>
+                    System Skills: {systemSkills}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Staff Picks: {staffPicks}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Editable: {editableSkills}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Non Editable: {nonEditableSkills}
+                  </Typography>
+                </CardContentContainer>
+              </Card>
+            </CardContainer>
+            <CardContainer>
+              <Card>
+                <CardHeading>Devices</CardHeading>
+                <Divider />
+                <CardContentContainer>
+                  <Typography variant="body1" gutterBottom>
+                    Connected devices: {connectedDevices}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    User with devices: {deviceUsers}
+                  </Typography>
+                </CardContentContainer>
+              </Card>
+            </CardContainer>
+            {this.renderCharts()}
+          </Container>
         )}
       </React.Fragment>
     );

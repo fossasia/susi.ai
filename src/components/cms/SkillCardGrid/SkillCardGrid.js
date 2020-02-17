@@ -130,10 +130,17 @@ const SkillCardGrid = props => {
               />
             ) : null}
           </ImageContainer>
-          <TitleContainer>
-            <span>{skillName}</span>
-            {staffPick && <StaffPickImage />}
-          </TitleContainer>
+          <Link
+            key={el}
+            to={{
+              pathname: skillPathname,
+            }}
+          >
+            <TitleContainer>
+              <span>{skillName}</span>
+              {staffPick && <StaffPickImage />}
+            </TitleContainer>
+          </Link>
           <Author>
             <TruncatedName>{authorName}</TruncatedName>
           </Author>
