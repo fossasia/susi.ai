@@ -744,16 +744,14 @@ class NavigationBar extends Component {
                       </Link>
                     </Paper>
                   </Popper>
-                  <Link to="/about">
-                    <IconButton
-                      aria-haspopup="true"
-                      style={{
-                        color: 'white',
-                      }}
-                    >
-                      <ContactSupportIcon />
-                    </IconButton>
-                  </Link>
+                  <IconButton
+                    aria-haspopup="true"
+                    style={{
+                      color: 'white',
+                    }}
+                  >
+                    <ContactSupportIcon />
+                  </IconButton>
                 </div>
               </TopRightMenuContainer>
             </Toolbar>
