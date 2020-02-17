@@ -252,15 +252,8 @@ class Preview extends Component {
 
   componentDidMount = () => {
     this.updateWindowDimensions();
-    this.scrollToBottom();
     window.addEventListener('resize', this.updateWindowDimensions);
   };
-
-  componentDidUpdate() {
-    if (this.messageEndRef.current) {
-      this.scrollToBottom();
-    }
-  }
 
   togglePreview = () => {
     this.setState(prevState => ({
@@ -368,11 +361,6 @@ class Preview extends Component {
 
   replaceAll = (str, find, replace) => {
     return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
-  };
-
-  // Scroll to the bottom
-  scrollToBottom = () => {
-    this.messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   componentWillUnmount = () => {
