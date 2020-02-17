@@ -6,6 +6,7 @@ import ui from './ui';
 import skills from './skills';
 import skill from './skill';
 import create from './create';
+import dashboard from './dashboard';
 import { connectRouter } from 'connected-react-router';
 
 export default history =>
@@ -18,4 +19,5 @@ export default history =>
     skills,
     skill,
     create,
+    dashboard,
   });
