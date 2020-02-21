@@ -6,7 +6,7 @@ import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import Card from '@material-ui/core/Card';
 import _CardContent from '@material-ui/core/CardContent';
-import Add from '@material-ui/icons/Add';
+import _Add from '@material-ui/icons/Add';
 import { deleteSkill } from '../../../apis/index';
 import Button from '@material-ui/core/Button';
 import CircularLoader from '../../shared/CircularLoader';
@@ -19,6 +19,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import getImageSrc from '../../../utils/getImageSrc';
 import chatBot from '../../../../public/botTemplates/chat-bot.jpg';
+import Tooltip from '../../shared/ToolTip';
+
+const Add = styled(_Add)`
+  height: 2.5rem;
+`;
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
@@ -233,12 +238,14 @@ class SkillCreator extends Component {
               </SkillNameButton>
             </Link>
             <SkillActions>
-              <Link style={{ margin: '0px 5px' }}>
-                <Delete
-                  color="rgb(255, 255, 255)"
-                  onClick={() => this.handleDeleteSkill(skill)}
-                />
-              </Link>
+              <Tooltip title="Delete Skill">
+                <Link style={{ margin: '0px 5px' }}>
+                  <Delete
+                    color="rgb(255, 255, 255)"
+                    onClick={() => this.handleDeleteSkill(skill)}
+                  />
+                </Link>
+              </Tooltip>
               <Link
                 to={{
                   pathname: `/${group}/${skillTag
@@ -246,7 +253,9 @@ class SkillCreator extends Component {
                     .replace(/ /g, '_')}/edit/${language}`,
                 }}
               >
-                <EditBtn />
+                <Tooltip title="Edit Skill">
+                  <EditBtn />
+                </Tooltip>
               </Link>
             </SkillActions>
           </SkillCard>,
@@ -291,11 +300,7 @@ class SkillCreator extends Component {
                         'rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.375rem, rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.25rem',
                     }}
                   >
-                    <Add
-                      style={{
-                        height: '2.5rem',
-                      }}
-                    />
+                    <Add />
                   </Fab>
                   <CardContent>Create a new skill</CardContent>
                 </SkillCard>

@@ -28,6 +28,7 @@ import {
   deleteDraft,
 } from '../../../apis/index.js';
 import styled, { css } from 'styled-components';
+import { Tooltip } from '@material-ui/core';
 
 const cookies = new Cookies();
 
@@ -247,15 +248,17 @@ class BotBuilder extends React.Component {
               </Button>
             </Link>
             <DeleteBotContainer>
-              <Delete
-                onClick={() =>
-                  this.handleDeleteModal('bot', [
-                    bot.name,
-                    bot.language,
-                    bot.group,
-                  ])
-                }
-              />
+              <Tooltip title="Delete Bot">
+                <Delete
+                  onClick={() =>
+                    this.handleDeleteModal('bot', [
+                      bot.name,
+                      bot.language,
+                      bot.group,
+                    ])
+                  }
+                />
+              </Tooltip>
             </DeleteBotContainer>
           </Card>,
         );

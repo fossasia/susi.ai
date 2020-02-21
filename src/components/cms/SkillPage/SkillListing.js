@@ -32,6 +32,7 @@ import getImageSrc from '../../../utils/getImageSrc';
 import styled from 'styled-components';
 import CircularLoader from '../../shared/CircularLoader';
 import SkillExampleBubble from '../../shared/SkillExampleBubble';
+import { Tooltip } from '@material-ui/core';
 
 const SingleRating = styled.div`
   display: flex;
@@ -302,7 +303,9 @@ class SkillListing extends Component {
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <RatingLabel>{skillRatings.totalStar}</RatingLabel>
+                <Tooltip title="Total Rating" placement="bottom">
+                  <RatingLabel>{skillRatings.totalStar}</RatingLabel>
+                </Tooltip>
               </SingleRating>
             </div>
             <ButtonContainer>

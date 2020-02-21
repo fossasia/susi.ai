@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 /* Material UI */
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import MaterialTable from 'material-table';
+import _MaterialTable from 'material-table';
 import { fetchReportedSkills } from '../../../apis/index';
 
 /* Utils */
@@ -25,6 +25,11 @@ import { Container } from '../AdminStyles';
 import { ActionDiv } from '../../shared/TableActionStyles';
 import ReportPanel from './ReportPanel';
 import SkillTable from './SkillTable';
+import styled from 'styled-components';
+
+const MaterialTable = styled(_MaterialTable)`
+  padding: 1rem;
+`;
 
 class ListSkills extends React.Component {
   state = {
@@ -419,9 +424,6 @@ class ListSkills extends React.Component {
             columns={getColumnConfig(groups)}
             data={reportedSkills}
             title=""
-            style={{
-              padding: '1rem',
-            }}
             actions={[
               rowData => ({
                 onDelete: (event, rowData) => {
@@ -460,9 +462,6 @@ class ListSkills extends React.Component {
             columns={getColumnConfig(groups)}
             data={deletedSkills}
             title=""
-            style={{
-              padding: '1rem',
-            }}
             actions={[
               rowData => ({
                 onClick: (event, rowData) => {

@@ -22,4 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 jest
 package-lock.json
+yarn.lock
 .vscode/

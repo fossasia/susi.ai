@@ -1,15 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 import susilogo from './susilogo.svg';
-import OutlinedTextField from '../shared/OutlinedTextField';
+import _OutlinedTextField from '../shared/OutlinedTextField';
 import Button from '@material-ui/core/Button';
-import Select from '../shared/Select';
+import _Select from '../shared/Select';
 import Radio from '@material-ui/core/Radio';
 import _FormControlLabel from '@material-ui/core/FormControlLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import { setupDeviceConfig } from '../../apis';
 import { isEmail } from '../../utils';
+
+const Select = styled(_Select)`
+  background: white;
+  margintop: 8;
+`;
+
+const OutlinedTextField = styled(_OutlinedTextField)`
+  background: white;
+`;
 
 const Container = styled.div`
   background: #f5f5f5;
@@ -122,7 +131,6 @@ class ControlPage extends React.Component {
             value={ssid}
             name="ssid"
             onChange={this.handleInputFieldChange}
-            style={{ background: 'white' }}
             margin="dense"
           />
           <OutlinedTextField
@@ -132,7 +140,6 @@ class ControlPage extends React.Component {
             value={password}
             name="password"
             onChange={this.handleInputFieldChange}
-            style={{ background: 'white' }}
             margin="dense"
           />
           <OutlinedTextField
@@ -142,7 +149,6 @@ class ControlPage extends React.Component {
             value={roomName}
             name="roomName"
             onChange={this.handleInputFieldChange}
-            style={{ background: 'white' }}
             margin="dense"
           />
           <h2>Choose Hotword Recognition</h2>
@@ -150,7 +156,6 @@ class ControlPage extends React.Component {
             value={hotword}
             fullWidth
             onChange={this.handleInputFieldChange}
-            style={{ background: 'white', marginTop: 8 }}
             input={<OutlinedInput name="hotword" id="hotword" margin="dense" />}
           >
             <MenuItem value="y">Snowboy</MenuItem>
@@ -186,7 +191,6 @@ class ControlPage extends React.Component {
                 value={email}
                 name="email"
                 onChange={this.handleInputFieldChange}
-                style={{ background: 'white' }}
                 aria-describedby="email"
                 margin="dense"
                 disabled={authType === 'anonymous'}
@@ -199,7 +203,6 @@ class ControlPage extends React.Component {
                 value={authPassword}
                 name="authPassword"
                 onChange={this.handleInputFieldChange}
-                style={{ background: 'white' }}
                 margin="dense"
                 disabled={authType === 'anonymous'}
                 error={passwordErrorText !== ''}

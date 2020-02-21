@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import uiActions from '../../../redux/actions/ui';
-import MaterialTable from 'material-table';
+import _MaterialTable from 'material-table';
 import { fetchDevices } from '../../../apis/index';
 import { DEVICE } from './constants';
 import Popover from '@material-ui/core/Popover';
@@ -13,6 +13,17 @@ import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 import { removeUserDevice, modifyUserDevices } from '../../../apis/index';
 import moment from 'moment';
 import withGoogleApiWrapper from '../../../utils/withGoogleApiWrapper';
+import styled from 'styled-components';
+
+const Location = styled.span`
+  cursor: pointer;
+  color: #49a9ee;
+`;
+
+const MaterialTable = styled(_MaterialTable)`
+  padding: 1rem;
+  margin: 2rem;
+`;
 
 class ListDevices extends React.Component {
   state = {
@@ -51,15 +62,11 @@ class ListDevices extends React.Component {
           let location = 'Location not given';
           if (device.geolocation) {
             location = (
-              <span
-                onClick={this.handleClick}
-                name={macId}
-                style={{ cursor: 'pointer', color: '#49a9ee' }}
-              >
+              <Location onClick={this.handleClick} name={macId}>
                 {device.geolocation.latitude},
                 <br />
                 {device.geolocation.longitude}
-              </span>
+              </Location>
             );
           }
           const dateAdded =
@@ -234,10 +241,6 @@ class ListDevices extends React.Component {
           columns={DEVICE}
           data={devices}
           title=""
-          style={{
-            padding: '1rem',
-            margin: '2rem',
-          }}
           actions={[
             rowData => ({
               onEdit: (event, rowData) => {
