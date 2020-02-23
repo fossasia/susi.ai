@@ -58,9 +58,11 @@ const Paper = styled(_Paper)`
 `;
 
 const CardContent = styled(_CardContent)`
-  color: #ffffff;
-  font-size: 16px;
+  color: black;
+  font-size: 1.25rem;
   padding-top: 20px;
+  text-shadow: 2px 2px 8px white;
+  font-weight: bold;
 `;
 
 const H1 = styled.h1`

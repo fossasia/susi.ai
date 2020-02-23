@@ -48,12 +48,14 @@ const SkillCardWrap = styled.div`
 `;
 
 const CardContent = styled(_CardContent)`
-  color: white;
+  color: black;
   font-family: Helvetica;
-  font-size: 1rem;
+  font-size: 1.5rem;
   padding-top: 1.25rem;
   width: 100%;
   text-align: center;
+  font-weight: bold;
+  text-shadow: 2px 2px 8px white;
 `;
 
 const SkillActions = styled.div`
