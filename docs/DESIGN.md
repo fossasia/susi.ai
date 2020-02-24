@@ -9,8 +9,11 @@
 * Fonts
 	* Chat Message Font: "Product Sans", sans-serif
 	* Message Composer Font: "Product Sans", sans-serif
+    * Privacy and Terms Page Font: "Lato", sans-serif
 	* Chat Message Font Size: 14px
 	* Chat Composer Font Size: 16px
+    * Privacy and Terms Page Font Size: 1rem
+
 
 ### Component Colors of Light theme
 
@@ -35,3 +38,4 @@
 * Search Result Colour: ![#ff9631](./images/color/FF9631.png) `#ff9631`
 * Chat Message Font Colour: ![#c6dafb](./images/color/C6DAFB.png) `#c6dafb`
 * Message Composer Font Colour: ![#000000](./images/color/000000.png) `#000000`
+* Privacy and Terms Page Font Colour: ![#000000](./images/color/000000.png) `#000000`
