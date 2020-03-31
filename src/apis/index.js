@@ -101,34 +101,41 @@ export function fetchDevices(payload) {
 }
 
 export async function getContributors() {
-  const contributorsWebLink =
-    'https://api.github.com/repos/fossasia/susi.ai/contributors';
-  const contributorsServerLink =
-    'https://api.github.com/repos/fossasia/susi_server/contributors';
   let data = [];
+  let repos = [
+    'susi.ai',
+    'susi_server',
+    'susi_android',
+    'susi_iOS',
+    'susi_linux',
+  ];
 
-  let res = await ajax.get(contributorsWebLink);
-  delete res.statusCode;
-  for (let key in res) {
-    let contributor = res[key];
-    data.push({
-      name: contributor.login,
-      github: contributor.htmlUrl,
-      avatar: contributor.avatarUrl,
-    });
-  }
-  res = await ajax.get(contributorsServerLink);
-  delete res.statusCode;
-  for (let key in res) {
-    let contributor = res[key];
-    data.push({
-      name: contributor.login,
-      github: contributor.htmlUrl,
-      avatar: contributor.avatarUrl,
-    });
-  }
+  try {
+    let res = await Promise.all(
+      repos.map(repo =>
+        ajax.get(`https://api.github.com/repos/fossasia/${repo}/contributors`),
+      ),
+    );
 
-  return data;
+    res.forEach(value => {
+      for (let key in value) {
+        if (key.toString() !== 'statusCode') {
+          let contributor = value[key];
+          if (contributor.login.includes('dependabot')) {
+            continue;
+          }
+          data.push({
+            name: contributor.login,
+            github: contributor.htmlUrl,
+            avatar: contributor.avatarUrl,
+          });
+        }
+      }
+    });
+    return data;
+  } catch (error) {
+    return [];
+  }
 }
 
 export function getUserDevices() {
