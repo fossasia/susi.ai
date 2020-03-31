@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import Ratings from 'react-ratings-declarative';
 import MaterialTable from 'material-table';
 import TableSleleton from '../../shared/TableLoader';
+import dashboardActions from '../../../redux/actions/dashboard';
 
 const TableWrap = styled.div`
   padding: 0rem 1.25rem;
@@ -22,7 +23,6 @@ const TableWrap = styled.div`
 
 class MyRatings extends Component {
   state = {
-    ratingsData: [],
     loading: true,
     showMySkills: true,
   };
@@ -32,7 +32,7 @@ class MyRatings extends Component {
   }
 
   loadSkills = async () => {
-    const { actions } = this.props;
+    const { actions, dashboardActions } = this.props;
     let ratingsData = [];
     try {
       let payload = await fetchUserRatings();
@@ -49,26 +49,22 @@ class MyRatings extends Component {
           };
           ratingsData.push(skill);
         }
-        this.setState({
-          ratingsData,
-        });
+        dashboardActions.setUserRatings(ratingsData);
       }
-      this.setState({
-        loading: false,
-      });
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
       actions.openSnackBar({
         snackBarMessage: "Error. Couldn't rating data.",
         snackBarDuration: 2000,
       });
     }
+    this.setState({
+      loading: false,
+    });
   };
 
   render() {
-    let { ratingsData, loading } = this.state;
+    let { loading } = this.state;
+    let { ratings: ratingsData } = this.props;
     return (
       <div>
         {loading ? (
@@ -170,16 +166,25 @@ class MyRatings extends Component {
 }
 
 MyRatings.propTypes = {
+  dashboardActions: PropTypes.object,
   actions: PropTypes.object,
+  ratings: PropTypes.array,
 };
+
+function mapStateToProps(store) {
+  return {
+    ratings: store.dashboard.ratings,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(uiActions, dispatch),
+    dashboardActions: bindActionCreators(dashboardActions, dispatch),
   };
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(MyRatings);

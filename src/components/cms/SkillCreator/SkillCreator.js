@@ -6,17 +6,24 @@ import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import Card from '@material-ui/core/Card';
 import _CardContent from '@material-ui/core/CardContent';
-import Add from '@material-ui/icons/Add';
+import _Add from '@material-ui/icons/Add';
+import { deleteSkill } from '../../../apis/index';
 import Button from '@material-ui/core/Button';
 import CircularLoader from '../../shared/CircularLoader';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import _Paper from '@material-ui/core/Paper';
 import _EditBtn from '@material-ui/icons/Edit';
+import Delete from '@material-ui/icons/Delete';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import getImageSrc from '../../../utils/getImageSrc';
 import chatBot from '../../../../public/botTemplates/chat-bot.jpg';
+import Tooltip from '../../shared/ToolTip';
+
+const Add = styled(_Add)`
+  height: 2.5rem;
+`;
 
 const Container = styled.div`
   margin: 0rem 0.625rem;
@@ -138,6 +145,65 @@ class SkillCreator extends Component {
     }
   };
 
+  handleDeleteSkill = async skill => {
+    this.props.actions.openModal({
+      modalType: 'confirm',
+      title: `Delete Skill ${skill.skillName}`,
+      handleConfirm: () => {
+        this.onConfirmDelete(skill);
+      },
+      confirmText: 'Delete',
+      handleClose: this.props.actions.closeModal,
+      content: (
+        <p>
+          Are you you want to <strong>delete</strong> your skill{' '}
+          <strong>{skill.skillName} ?</strong>
+        </p>
+      ),
+    });
+  };
+
+  onConfirmDelete = async skill => {
+    const { group, language, model, skillName } = skill;
+    const { actions } = this.props;
+    this.setState({ loading: true }, () => {
+      actions.closeModal();
+    });
+    try {
+      await deleteSkill({
+        model,
+        group,
+        language,
+        skill: skillName,
+      });
+      await this.loadSkills();
+      this.setState({ loading: false });
+      actions.openModal({
+        modalType: 'confirm',
+        title: 'Success',
+        handleConfirm: actions.closeModal,
+        content: (
+          <p>
+            You successfully deleted <b>{skillName}</b>!
+          </p>
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+      this.setState({ loading: false });
+      actions.openModal({
+        modalType: 'confirm',
+        title: 'Failed',
+        handleConfirm: actions.closeModal,
+        content: (
+          <p>
+            Error! <b>{skillName}</b> could not be deleted!
+          </p>
+        ),
+      });
+    }
+  };
+
   showSkills = () => {
     let skillsArray = [];
     let skills = this.props.userSkills;
@@ -172,6 +238,14 @@ class SkillCreator extends Component {
               </SkillNameButton>
             </Link>
             <SkillActions>
+              <Tooltip title="Delete Skill">
+                <Link style={{ margin: '0px 5px' }}>
+                  <Delete
+                    color="rgb(255, 255, 255)"
+                    onClick={() => this.handleDeleteSkill(skill)}
+                  />
+                </Link>
+              </Tooltip>
               <Link
                 to={{
                   pathname: `/${group}/${skillTag
@@ -179,7 +253,9 @@ class SkillCreator extends Component {
                     .replace(/ /g, '_')}/edit/${language}`,
                 }}
               >
-                <EditBtn />
+                <Tooltip title="Edit Skill">
+                  <EditBtn />
+                </Tooltip>
               </Link>
             </SkillActions>
           </SkillCard>,
@@ -224,11 +300,7 @@ class SkillCreator extends Component {
                         'rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.375rem, rgba(0, 0, 0, 0.12) 0rem 0.063rem 0.25rem',
                     }}
                   >
-                    <Add
-                      style={{
-                        height: '2.5rem',
-                      }}
-                    />
+                    <Add />
                   </Fab>
                   <CardContent>Create a new skill</CardContent>
                 </SkillCard>

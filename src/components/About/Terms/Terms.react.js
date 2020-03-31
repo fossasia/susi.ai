@@ -5,16 +5,16 @@ import styled from 'styled-components';
 const Section = styled.div`
   max-width: 85%;
   padding: 0 1.25rem 7.5rem 1.25rem;
-  width: 58.438rem;
+  width: 80rem;
   margin: 0 auto;
 `;
 
 const SectionContainer = styled.div`
   margin: 0 auto;
-  max-width: 70rem;
+  max-width: 78rem;
   padding: 5rem 1.25rem 5rem 0rem;
   text-align: center;
-  color: #414141;
+  color: #000000;
 
   @media only screen and (max-width: 106px) {
     padding: 5rem 0rem 7.5rem;
@@ -25,13 +25,13 @@ const TermsList = styled.div`
   width: 100%;
   text-align: justify;
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.375rem;
 `;
 
 const Heading = styled.h2`
-  font-size: 1.875rem;
-  font-weight: 300;
+  font-size: 1.5rem;
+  font-weight: 570;
   line-height: 2.188rem;
 
   @media only screen and (max-width: 480px) {

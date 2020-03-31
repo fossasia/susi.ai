@@ -50,8 +50,12 @@ const settingsOptions = [
 const Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 48px);
-  overflow: scroll;
   margin-top: 2rem;
+  overflow: visible;
+  overflow-style: none;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  scrollbar-width: none;
   background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {
     height: 100vh;
@@ -64,6 +68,7 @@ const SettingContainer = styled.div`
   max-width: 95%;
   width: 1060px;
   margin: 0 auto;
+  overflow: hidden;
   @media only screen and (max-width: 1060px) {
     flex-direction: column;
   }
@@ -71,7 +76,7 @@ const SettingContainer = styled.div`
 
 const SettingsOptionsContainer = styled(Paper)`
   width: 28%;
-  overflow: hidden;
+  overflow-x: hidden;
   margin-right: 12px;
   height: fit-content;
   ${props =>

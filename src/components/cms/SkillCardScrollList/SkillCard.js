@@ -27,12 +27,16 @@ const ScrollWrapper = styled.div`
   margin: 0.625rem;
   overflow-x: scroll;
   overflow-y: hidden;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  overflow-style: none;
   white-space: nowrap;
   &::-webkit-scrollbar {
     display: none;
   }
 `;
-
 const LeftFab = styled(Fab)`
   position: absolute;
   left: 16rem;
@@ -51,6 +55,14 @@ const RightFab = styled(Fab)`
   margin-right: 0.625rem;
   z-index: 1;
   display: ${props => props.display};
+`;
+
+const Container = styled.div`
+  margintop: 10px;
+  marginbottom: 10px;
+  textalign: justify;
+  fontsize: 0.1px;
+  width: 100%;
 `;
 
 class SkillCard extends Component {
@@ -243,7 +255,9 @@ class SkillCard extends Component {
                   <Ratings.Widget />
                   <Ratings.Widget />
                 </Ratings>
-                <TotalRating>{totalRating || 0}</TotalRating>
+                <Tooltip title="Total Rating">
+                  <TotalRating>{totalRating || 0}</TotalRating>
+                </Tooltip>
               </Link>
             </RatingContainer>
           </Card>,
@@ -262,15 +276,7 @@ class SkillCard extends Component {
     const { leftBtnDisplay, rightBtnDisplay, cards } = this.state;
     const { scrollSkills, isMobile = false } = this.props;
     return (
-      <div
-        style={{
-          marginTop: '10px',
-          marginBottom: '10px',
-          textAlign: 'justify',
-          fontSize: '0.1px',
-          width: '100%',
-        }}
-      >
+      <Container>
         <ScrollWrapper id={scrollSkills}>
           {!isMobile && (
             <LeftFab
@@ -294,7 +300,7 @@ class SkillCard extends Component {
             </RightFab>
           )}
         </ScrollWrapper>
-      </div>
+      </Container>
     );
   }
 }
