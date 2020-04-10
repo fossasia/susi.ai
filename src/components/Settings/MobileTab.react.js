@@ -20,6 +20,7 @@ import { sortCountryLexographical } from '../../utils/helperFunctions';
 import { isPhoneNumber } from '../../utils';
 import { setUserSettings } from '../../apis';
 import styled from 'styled-components';
+import Emoji from 'react-emoji-render';
 
 const Details = styled.div`
   margin-bottom: 0.5rem;
@@ -142,6 +143,7 @@ class MobileTab extends React.Component {
         if (countryData.countries.all[i].countryCallingCodes[0]) {
           return (
             <MenuItem value={countryData.countries.all[i].alpha2} key={i}>
+              <Emoji text={countryData.countries.all[i].emoji} />
               {countryData.countries.all[i].name +
                 ' ' +
                 countryData.countries.all[i].countryCallingCodes[0]}
