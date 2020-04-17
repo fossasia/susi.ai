@@ -126,7 +126,7 @@ class AdminTab extends React.Component {
       try {
         let payload = await fetchAdminUserSkill();
         const {
-          skillStats,
+          skillStats = {},
           creationOverTime,
           lastAccessOverTime,
           lastModifiedOverTime,
@@ -144,7 +144,7 @@ class AdminTab extends React.Component {
       try {
         let payload = await fetchAdminUserSkill();
         const {
-          skillStats,
+          skillStats = {},
           creationOverTime,
           lastAccessOverTime,
           lastModifiedOverTime,
@@ -209,7 +209,7 @@ class AdminTab extends React.Component {
     ];
 
     return CONFIG.map(chart => {
-      if (chart.data.length > 0) {
+      if (chart.data && chart.data.length > 0) {
         return this.renderChart(chart);
       }
       return null;
@@ -236,6 +236,7 @@ class AdminTab extends React.Component {
     }
 
     return (
+      data &&
       data.length > 0 && (
         <Card height={'400'} width={'1240px'} margin={'0 10px'}>
           <CardHeading>{heading}</CardHeading>

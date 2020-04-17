@@ -50,11 +50,19 @@ const SkillTable = props => {
         // eslint-disable-next-line react/display-name
         Action: ({ action }) => (
           <React.Fragment>
-            <ActionSpan onClick={event => action.onEdit(event, props.data)}>
+            <ActionSpan
+              onClick={event => {
+                action.action(props.data).onEdit(event, props.data);
+              }}
+            >
               Edit
             </ActionSpan>
             <ActionSeparator> | </ActionSeparator>
-            <ActionSpan onClick={event => action.onDelete(event, props.data)}>
+            <ActionSpan
+              onClick={event =>
+                action.action(props.data).onDelete(event, props.data)
+              }
+            >
               Delete
             </ActionSpan>
           </React.Fragment>
