@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import _Card from '@material-ui/core/Card';
-import SocialLinkButtons from './SocialLinkButtons';
-import { Header } from '../../shared/About';
-import TEAM_MEMBERS from '../../../constants/team';
 import 'font-awesome/css/font-awesome.min.css';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import SocialLinkButtons from './SocialLinkButtons';
+import { Header } from '../../shared/About';
+import TEAM_MEMBERS from '../../../constants/team';
+import { getContributors } from '../../../apis/index';
 
 const Section = styled.div`
   margin: 0 auto;
@@ -57,14 +58,10 @@ const Card = styled(_Card)`
 `;
 
 const Img = styled.img`
-  max-width: 14.688rem;
-
-  @media (max-width: 1000px) {
-    max-width: 15rem;
-  }
+  width: 14.688rem;
 
   @media (max-width: 800px) {
-    max-width: 100%;
+    width: 100%;
   }
 `;
 
@@ -93,6 +90,7 @@ const Heading = styled.div`
 
 const Container = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const OverLay = styled.div`
@@ -133,19 +131,54 @@ const Description = styled.div`
   padding: 1rem;
 `;
 
-export default class Team extends Component {
-  static propTypes = {
-    history: PropTypes.object,
-    location: PropTypes.object,
-  };
+const Team = props => {
+  let [contributors, updataContributors] = useState([]);
+  /*eslint-disable */
 
-  componentDidMount() {
+  useEffect(async () => {
     // Adding title tag to page
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
-  }
 
-  createMemberCard = (member, key) => {
+    let data = await getContributors();
+    let flags = [],
+      output = [];
+    for (let i = 0; i < data.length; i++) {
+      if (flags[data[i].name]) {
+        continue;
+      }
+      flags[data[i].name] = true;
+      output.push(data[i]);
+    }
+    updataContributors(output);
+  }, []);
+  /* eslint-enable */
+
+  const createContributorCard = (contributor, key) => {
+    return (
+      <Card key={key}>
+        <Container>
+          <Img
+            /* eslint no-undef: 0 */
+            src={contributor.avatar}
+            alt={contributor.name}
+          />
+          <OverLay>
+            <Text>
+              <SocialLinkButtons member={contributor} />
+            </Text>
+          </OverLay>
+        </Container>
+        <Description>
+          <Typography variant="h6" gutterBottom>
+            {contributor.name}
+          </Typography>
+        </Description>
+      </Card>
+    );
+  };
+
+  const createMemberCard = (member, key) => {
     return (
       <Card key={key}>
         <Container>
@@ -170,41 +203,53 @@ export default class Team extends Component {
     );
   };
 
-  render() {
-    document.body.style.setProperty('background-image', 'none');
-    const mentors = TEAM_MEMBERS.MENTORS.map((mentor, i) => {
-      return this.createMemberCard(mentor, i);
-    });
-    const managers = TEAM_MEMBERS.MANAGERS.map((manager, i) => {
-      return this.createMemberCard(manager, i);
-    });
-    const developers = TEAM_MEMBERS.DEVELOPERS.map((developer, i) => {
-      return this.createMemberCard(developer, i);
-    });
-    const alumnis = TEAM_MEMBERS.ALUMNIS.map((alum, i) => {
-      return this.createMemberCard(alum, i);
-    });
+  document.body.style.setProperty('background-image', 'none');
+  const contributorsToDisplay = contributors.map((contributor, i) => {
+    return createContributorCard(contributor, i);
+  });
+  const mentors = TEAM_MEMBERS.MENTORS.map((mentor, i) => {
+    return createMemberCard(mentor, i);
+  });
+  const managers = TEAM_MEMBERS.MANAGERS.map((manager, i) => {
+    return createMemberCard(manager, i);
+  });
+  const developers = TEAM_MEMBERS.DEVELOPERS.map((developer, i) => {
+    return createMemberCard(developer, i);
+  });
+  const alumnis = TEAM_MEMBERS.ALUMNIS.map((alum, i) => {
+    return createMemberCard(alum, i);
+  });
 
-    return (
-      <div>
-        <Header title="Team" />
-        <Section>
-          <Heading>Project Founders</Heading>
-          <TeamContainer>{mentors}</TeamContainer>
-        </Section>
-        <Section>
-          <Heading>Project Managers</Heading>
-          <TeamContainer>{managers}</TeamContainer>
-        </Section>
-        <Section>
-          <Heading>Developers</Heading>
-          <TeamContainer>{developers}</TeamContainer>
-        </Section>
-        <Section>
-          <Heading>Alumni</Heading>
-          <TeamContainer>{alumnis}</TeamContainer>
-        </Section>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Header title="Team" />
+      <Section>
+        <Heading>Project Founders</Heading>
+        <TeamContainer>{mentors}</TeamContainer>
+      </Section>
+      <Section>
+        <Heading>Project Managers</Heading>
+        <TeamContainer>{managers}</TeamContainer>
+      </Section>
+      <Section>
+        <Heading>Developers</Heading>
+        <TeamContainer>{developers}</TeamContainer>
+      </Section>
+      <Section>
+        <Heading>Alumni</Heading>
+        <TeamContainer>{alumnis}</TeamContainer>
+      </Section>
+      <Section>
+        <Heading>Contributors</Heading>
+        <TeamContainer>{contributorsToDisplay}</TeamContainer>
+      </Section>
+    </div>
+  );
+};
+
+Team.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+};
+
+export default Team;
