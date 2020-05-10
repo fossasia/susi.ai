@@ -87,6 +87,7 @@ const ContentContainer = styled.div`
 const LeftContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
+  margin-left:calc(10vw);
   justify-content: space-between;
 `;
 
