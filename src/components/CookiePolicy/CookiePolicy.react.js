@@ -17,18 +17,21 @@ const Container = styled.div`
   left: 0px;
   background: rgba(1, 16, 38);
   color: white;
-  padding: 2rem;
+  padding: 1rem;
   z-index: 101;
+  padding-bottom: 30px;
 `;
 
 const Button = styled(_Button)`
-  width: 10rem;
+  width: 8rem;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 1rem;
+  display: inline-block;
+  padding-left: 20px;
+  position: fixed;
 `;
 
 const CookiePolicy = ({ actions }) => {
