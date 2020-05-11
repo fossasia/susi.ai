@@ -558,7 +558,11 @@ const buttonAttributes = [
 const Overview = () => {
   const [gifIndex, setgifIndex] = useState(0);
   const [isVideoModalOpen, setVideoModalOpen] = useState(false);
-  var exampleTime;
+  const exampleTime = setInterval(() => {
+    const newGifIndex = (gifIndex + 1) % 6;
+    setgifIndex(newGifIndex);
+    changeGIF(newGifIndex);
+  }, 7000);
 
   // Toggle Video dialog
 
@@ -573,12 +577,7 @@ const Overview = () => {
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
-
-    exampleTime = setInterval(() => {
-      const newGifIndex = (gifIndex + 1) % 6;
-      setgifIndex(newGifIndex);
-      changeGIF(newGifIndex);
-    }, 7000);
+    exampleTime();
 
     return () => {
       clearInterval(exampleTime);
