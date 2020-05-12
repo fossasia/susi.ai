@@ -19,19 +19,19 @@ const Container = styled.div`
   color: white;
   padding: 1rem;
   z-index: 101;
-  padding-bottom: 30px;
+  padding-left: 50px;
 `;
 
 const Button = styled(_Button)`
   width: 8rem;
+  margin: 5px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
   display: inline-block;
-  padding-left: 20px;
-  position: fixed;
+  margin-left: 30px;
 `;
 
 const CookiePolicy = ({ actions }) => {
@@ -51,12 +51,7 @@ const CookiePolicy = ({ actions }) => {
             More Info
           </Link>
         </Button>
-        <Button
-          onClick={hideCookiePolicy}
-          style={{ marginLeft: '1rem' }}
-          variant="contained"
-          color="primary"
-        >
+        <Button onClick={hideCookiePolicy} variant="contained" color="primary">
           Accept
         </Button>
       </ButtonContainer>
