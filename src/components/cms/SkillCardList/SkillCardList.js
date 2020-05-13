@@ -273,7 +273,6 @@ function createListCard(
                         type={'light'}
                         place="bottom"
                         effect="solid"
-                        delayHide={250}
                         border={true}
                       >
                         <SkillRatingPopover stars={stars} />
