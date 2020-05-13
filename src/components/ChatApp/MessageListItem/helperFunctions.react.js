@@ -166,12 +166,14 @@ export function imageParse(stringWithLinks) {
     let checkmatch = item.match(replacePattern);
     if (checkmatch) {
       result.push(
-        <img
+    <img
           key={key}
           src={checkmatch}
           style={{ width: '95%', height: 'auto' }}
           alt=""
-        />,
+          className="zoom"
+        />
+      ,
       );
     } else {
       let htmlParseItem = Parser(item);
