@@ -51,3 +51,16 @@
 .chatbubble {
   z-index:100;
 }
+.zoom {
+transition: 0.6s ease;
+transform-origin: 65% 75%;
+transition: transform 1s, filter .5s ease-out;
+
+}
+
+.zoom:hover {
+  transform: scale(2.0);
+  transition: 0.6s ease;
+
+  z-index: 999;
+}
