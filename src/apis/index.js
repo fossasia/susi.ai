@@ -2,6 +2,7 @@
 import ajax from '../helpers/ajax';
 import urls from '../utils/urls';
 import _get from 'lodash/get';
+import axios from 'axios';
 
 const { API_URL, SOUND_SERVER_API_URL, GITHUB_API } = urls;
 const AUTH_API_PREFIX = 'aaa';
@@ -102,6 +103,7 @@ export function fetchDevices(payload) {
 
 export async function getContributors() {
   let data = [];
+  let contributors = [];
   let repos = [
     'susi.ai',
     'susi_server',
@@ -113,11 +115,11 @@ export async function getContributors() {
   try {
     let res = await Promise.all(
       repos.map(repo =>
-        ajax.get(`https://api.github.com/repos/fossasia/${repo}/contributors`),
+        axios.get(`https://api.github.com/repos/fossasia/${repo}/contributors`),
       ),
     );
-
-    res.forEach(value => {
+    res.map((response, index) => contributors.push(response.data));
+    contributors.forEach(value => {
       for (let key in value) {
         if (key.toString() !== 'statusCode') {
           let contributor = value[key];
@@ -126,8 +128,8 @@ export async function getContributors() {
           }
           data.push({
             name: contributor.login,
-            github: contributor.htmlUrl,
-            avatar: contributor.avatarUrl,
+            github: contributor.html_url,
+            avatar: contributor.avatar_url,
           });
         }
       }
