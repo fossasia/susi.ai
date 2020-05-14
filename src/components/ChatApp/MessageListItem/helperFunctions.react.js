@@ -171,6 +171,7 @@ export function imageParse(stringWithLinks) {
           src={checkmatch}
           style={{ width: '95%', height: 'auto' }}
           alt=""
+          className="zoom"
         />,
       );
     } else {
