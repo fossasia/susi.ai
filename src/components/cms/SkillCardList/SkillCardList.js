@@ -267,6 +267,8 @@ function createListCard(
                       <Ratings.Widget />
                       <Ratings.Widget />
                       <Ratings.Widget />
+                      <Ratings.Widget />
+                      <Ratings.Widget />
                       <ReactTooltip
                         className="customeTheme"
                         id={dataId}
@@ -277,8 +279,6 @@ function createListCard(
                       >
                         <SkillRatingPopover stars={stars} />
                       </ReactTooltip>
-                      <Ratings.Widget />
-                      <Ratings.Widget />
                     </Ratings>
                     <NavigationArrowDropDown
                       style={{
