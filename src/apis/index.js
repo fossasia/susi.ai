@@ -111,9 +111,14 @@ export async function getContributors() {
   ];
 
   try {
+    const settings = { isTokenRequired: false };
     let res = await Promise.all(
       repos.map(repo =>
-        ajax.get(`https://api.github.com/repos/fossasia/${repo}/contributors`),
+        ajax.get(
+          `https://api.github.com/repos/fossasia/${repo}/contributors`,
+          null,
+          settings,
+        ),
       ),
     );
 

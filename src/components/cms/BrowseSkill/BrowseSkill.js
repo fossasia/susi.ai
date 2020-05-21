@@ -49,6 +49,12 @@ import SkillSlideshow from '../SkillSlideshow';
 import { SelectedText } from '../SkillsStyle';
 import appendQueryString from '../../../utils/appendQueryString';
 
+const List = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align-last: left;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -705,10 +711,12 @@ class BrowseSkill extends React.Component {
             skills.
           </h2>
           <h3 style={{ margin: '15px 0 10px 0' }}>Try something like</h3>
-          <ul style={{ listStyle: 'inside' }}>
-            <li>Using more general terms</li>
-            <li>Checking your spelling</li>
-          </ul>
+          <List>
+            <ul style={{ listStyle: 'inside' }}>
+              <li>Using more general terms</li>
+              <li>Checking your spelling</li>
+            </ul>
+          </List>
         </NoSkillFound>
       );
     } else {
