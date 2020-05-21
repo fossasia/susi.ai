@@ -18,6 +18,8 @@ export const StyledIconButton = styled(Button)`
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0rem 0rem;
   margin-top: 2rem;
   margin-bottom: -0.5rem;
@@ -25,6 +27,7 @@ const Container = styled.div`
 
 const Text = styled.textarea`
   width: ${props => (props.width ? props.width : '80%')};
+  flex: 2;
   min-height: 5rem;
   font-size: 1rem;
   padding: 2px 0.5rem;
