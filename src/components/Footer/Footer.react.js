@@ -118,13 +118,13 @@ const Footer = () => {
           <LeftContainer>
             <ul>
               <li>
-                <Link to="/about">About</Link>
+                <a href="/about">About</a>
               </li>
               <li>
-                <Link to="/devices">Devices</Link>
+                <a href="/devices">Devices</a>
               </li>
               <li>
-                <Link to="/blog">Blog</Link>
+                <a href="/blog">Blog</a>
               </li>
               <li>
                 <a href={urls.API_URL}>API</a>
@@ -135,10 +135,10 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <Link to="/team">Team</Link>
+                <a href="/team">Team</a>
               </li>
               <li>
-                <Link to="/support">Support</Link>
+                <a href="/support">Support</a>
               </li>
               {isMobile && getLinks()}
             </ul>
@@ -146,13 +146,13 @@ const Footer = () => {
           {!isMobile && (
             <ul>
               <li>
-                <Link to="/privacy">Privacy</Link>
+                <a href="/privacy">Privacy</a>
               </li>
               <li>
-                <Link to="/terms">Terms</Link>
+                <a href="/terms">Terms</a>
               </li>
               <li>
-                <Link to="/contact">Contact</Link>
+                <a href="/contact">Contact</a>
               </li>
             </ul>
           )}
