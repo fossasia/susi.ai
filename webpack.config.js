@@ -74,7 +74,7 @@ module.exports = ({ mode }) => {
       devServer: {
         historyApiFallback: true,
         contentBase: path.join(__dirname, 'public'),
-        port: 3000,
+        port: 4000,
         hot: true,
       },
       entry: {

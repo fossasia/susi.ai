@@ -496,7 +496,7 @@ class NavigationBar extends Component {
     }
     if (showSearchBar) {
       renderSearchBar = (
-        <React.Fragment>
+        <FlexContainer>
           <SearchBar
             handleSearchTypeChange={this.handleSearchTypeChange}
             onChange={_.debounce(this.handleSearch, 100)}
@@ -547,11 +547,15 @@ class NavigationBar extends Component {
               <CloseIcon />
             </IconButton>
           )}
-        </React.Fragment>
+        </FlexContainer>
       );
     } else {
       renderSearchBar = (
-        <IconButton color="inherit" onClick={this.toggleSearchBar}>
+        <IconButton
+          color="inherit"
+          onClick={this.toggleSearchBar}
+          style={{ marginRight: 'auto' }}
+        >
           <SearchIcon />
         </IconButton>
       );
@@ -569,8 +573,8 @@ class NavigationBar extends Component {
                     {renderSusiIcon}
                   </a>
                 </SusiLogoContainer>
-                {renderSearchBar}
               </FlexContainer>
+              {renderSearchBar}
               <TopRightMenuContainer
                 style={{ display: this.state.rightContainer ? 'flex' : 'none' }}
               >
