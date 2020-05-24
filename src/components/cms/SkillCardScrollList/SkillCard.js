@@ -27,12 +27,16 @@ const ScrollWrapper = styled.div`
   margin: 0.625rem;
   overflow-x: scroll;
   overflow-y: hidden;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  overflow-style: none;
   white-space: nowrap;
   &::-webkit-scrollbar {
     display: none;
   }
 `;
-
 const LeftFab = styled(Fab)`
   position: absolute;
   left: 16rem;

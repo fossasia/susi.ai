@@ -100,6 +100,49 @@ export function fetchDevices(payload) {
   return ajax.get(url, payload, { shouldCamelizeKeys: false });
 }
 
+export async function getContributors() {
+  let data = [];
+  let repos = [
+    'susi.ai',
+    'susi_server',
+    'susi_android',
+    'susi_iOS',
+    'susi_linux',
+  ];
+
+  try {
+    const settings = { isTokenRequired: false };
+    let res = await Promise.all(
+      repos.map(repo =>
+        ajax.get(
+          `https://api.github.com/repos/fossasia/${repo}/contributors`,
+          null,
+          settings,
+        ),
+      ),
+    );
+
+    res.forEach(value => {
+      for (let key in value) {
+        if (key.toString() !== 'statusCode') {
+          let contributor = value[key];
+          if (contributor.login.includes('dependabot')) {
+            continue;
+          }
+          data.push({
+            name: contributor.login,
+            github: contributor.htmlUrl,
+            avatar: contributor.avatarUrl,
+          });
+        }
+      }
+    });
+    return data;
+  } catch (error) {
+    return [];
+  }
+}
+
 export function getUserDevices() {
   const url = `${API_URL}/${AUTH_API_PREFIX}/listUserDevices.json`;
   return ajax.get(url, {}, { shouldCamelizeKeys: false });

@@ -599,7 +599,7 @@ class MessageSection extends Component {
   ) => {
     // markID indicates search mode on
     const { mode } = this.props;
-    if (markID && Array.isArray(markID) && markID.length > 0) {
+    if (markID) {
       return messages.map(id => {
         return (
           <MessageListItem

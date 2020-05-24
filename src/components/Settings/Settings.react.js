@@ -51,7 +51,11 @@ const Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 48px);
   margin-top: 2rem;
-  overflow: auto;
+  overflow: visible;
+  overflow-style: none;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  scrollbar-width: none;
   background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {
     height: 100vh;
