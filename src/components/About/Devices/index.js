@@ -101,7 +101,7 @@ const Devices = props => {
     <div>
       <Header
         title="Devices"
-        subtitle="SUSI.AI is available on many platform"
+        subtitle="SUSI.AI is available on many platforms."
       />
       {DEVICES_DATA &&
         Array.isArray(DEVICES_DATA) &&
