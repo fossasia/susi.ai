@@ -17,3 +17,12 @@ export SURGE_TOKEN=a34fd7119aacd204150edd6a8e29903d
 
 export DEPLOY_DOMAIN=https://pr-${TRAVIS_PULL_REQUEST}-fossasia-susi-web-chat.surge.sh
 surge --project ./build --domain $DEPLOY_DOMAIN;
+
+
+
+
+
+
+
+
+

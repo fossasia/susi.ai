@@ -23,7 +23,7 @@ const FooterWrapper = styled.div`
   }
 `;
 
-const SusiLogoContainer = styled.a`
+const SusiLogoContainer = styled(Link)`
   @media (max-width: 745px) {
     display: flex;
     justify-content: center;
@@ -111,20 +111,20 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterWrapper>
-        <SusiLogoContainer href="/">
+        <SusiLogoContainer to="/">
           <SusiLogo src={susi} alt="SUSI" />
         </SusiLogoContainer>
         <ContentContainer>
           <LeftContainer>
             <ul>
               <li>
-                <a href="/about">About</a>
+                <Link to="/about">About</Link>
               </li>
               <li>
-                <a href="/devices">Devices</a>
+                <Link to="/devices">Devices</Link>
               </li>
               <li>
-                <a href="/blog">Blog</a>
+                <Link to="/blog">Blog</Link>
               </li>
               <li>
                 <a href={urls.API_URL}>API</a>
@@ -135,10 +135,10 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/team">Team</a>
+                <Link to="/team">Team</Link>
               </li>
               <li>
-                <a href="/support">Support</a>
+                <Link to="/support">Support</Link>
               </li>
               {isMobile && getLinks()}
             </ul>
@@ -146,13 +146,13 @@ const Footer = () => {
           {!isMobile && (
             <ul>
               <li>
-                <a href="/privacy">Privacy</a>
+                <Link to="/privacy">Privacy</Link>
               </li>
               <li>
-                <a href="/terms">Terms</a>
+                <Link to="/terms">Terms</Link>
               </li>
               <li>
-                <a href="/contact">Contact</a>
+                <Link to="/contact">Contact</Link>
               </li>
             </ul>
           )}
