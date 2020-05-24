@@ -132,6 +132,9 @@ const SearchBar = props => {
             vertical: 'bottom',
             horizontal: 'center',
           },
+          MenuListProps: {
+            disablePadding: true,
+          },
           transformOrigin: {
             vertical: 'top',
             horizontal: 'center',
