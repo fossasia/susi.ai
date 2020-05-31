@@ -138,7 +138,7 @@ const Team = props => {
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
 
-    (async function fetchData() {
+    (async function fetchContributorsList() {
       const response = await getContributors();
       let flags = [],
         output = [];
