@@ -133,26 +133,25 @@ const Description = styled.div`
 
 const Team = props => {
   let [contributors, updataContributors] = useState([]);
-  /*eslint-disable */
 
-  useEffect(async () => {
-    // Adding title tag to page
+  useEffect(() => {
     document.title =
       'Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
 
-    let data = await getContributors();
-    let flags = [],
-      output = [];
-    for (let i = 0; i < data.length; i++) {
-      if (flags[data[i].name]) {
-        continue;
+    (async function fetchContributorsList() {
+      const response = await getContributors();
+      let flags = [],
+        output = [];
+      for (let i = 0; i < response.length; i++) {
+        if (flags[response[i].name]) {
+          continue;
+        }
+        flags[response[i].name] = true;
+        output.push(response[i]);
       }
-      flags[data[i].name] = true;
-      output.push(data[i]);
-    }
-    updataContributors(output);
+      updataContributors(output);
+    })();
   }, []);
-  /* eslint-enable */
 
   const createContributorCard = (contributor, key) => {
     return (
