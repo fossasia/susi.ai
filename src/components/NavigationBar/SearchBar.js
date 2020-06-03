@@ -25,7 +25,7 @@ const StyledSearchBar = styled(_SearchBar)`
   align-items: center;
   height: 35px;
   padding-left: ${props => `${props['padding-left']}rem`};
-  width: 39rem;
+  width: 39cm;
   @media (max-width: 1380px) {
     width: 30rem;
   }
@@ -105,7 +105,7 @@ const SearchBar = props => {
 
   const renderSelectText = (selected = []) => {
     if (selected.length === 0) {
-      return <DashIcon style={{ marginTop: '4px', color: '#565656' }} />;
+      return <DashIcon style={{ marginTop: '1px', color: '#565656' }} />;
     }
     if (selected.length === Object.keys(SEARCHTYPES).length) {
       return 'All';
