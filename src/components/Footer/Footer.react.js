@@ -23,7 +23,7 @@ const FooterWrapper = styled.div`
   }
 `;
 
-const SusiLogoContainer = styled.a`
+const SusiLogoContainer = styled(Link)`
   @media (max-width: 745px) {
     display: flex;
     justify-content: center;
@@ -111,7 +111,7 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterWrapper>
-        <SusiLogoContainer href="/">
+        <SusiLogoContainer to="/">
           <SusiLogo src={susi} alt="SUSI" />
         </SusiLogoContainer>
         <ContentContainer>
