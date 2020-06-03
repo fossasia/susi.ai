@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import urls from '../../../utils/urls';
@@ -555,382 +555,364 @@ const buttonAttributes = [
   { label: 'Math', icon: <PlusOne />, video: MathDemo },
 ];
 
-class Overview extends Component {
-  state = {
-    gifIndex: 0,
-    isVideoModalOpen: false,
-  };
+const Overview = () => {
+  const [gifIndex, setgifIndex] = useState(0);
+  const [isVideoModalOpen, setVideoModalOpen] = useState(false);
+  const exampleTime = setInterval(() => {
+    const newGifIndex = (gifIndex + 1) % 6;
+    setgifIndex(newGifIndex);
+    changeGIF(newGifIndex);
+  }, 7000);
 
   // Toggle Video dialog
 
-  toggleVideoModal = () => {
-    this.setState(prevState => ({
-      isVideoModalOpen: !prevState.isVideoModalOpen,
-    }));
+  const toggleVideoModal = () => {
+    setVideoModalOpen(!isVideoModalOpen);
   };
 
-  componentDidMount() {
+  useEffect(() => {
     document.body.style.backgroundColor = '#fff';
     // Adding title tag to page
     document.title =
       'SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots.';
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
+    exampleTime();
 
-    this.exampleTime = setInterval(() => {
-      const { gifIndex } = this.state;
-      const newGifIndex = (gifIndex + 1) % 6;
-      this.setState({ gifIndex: newGifIndex });
-      this.changeGIF(newGifIndex);
-    }, 7000);
-  }
+    return () => {
+      clearInterval(exampleTime);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    clearInterval(this.exampleTime);
-  }
-
-  changeGIF(index) {
-    this.setState({
-      gifIndex: index,
-    });
-  }
-
-  handleGIFChange = index => {
-    this.changeGIF(index);
-    clearInterval(this.exampleTime);
+  const changeGIF = index => {
+    setgifIndex(index);
   };
 
-  render() {
-    const { gifIndex } = this.state;
-    return (
-      <div>
-        <Container>
-          <SectionContainer>
-            <div>
-              <MeetSusiVideo autoPlay loop muted playsinline>
-                <source src={SUSIVideo} type="video/mp4" />
-              </MeetSusiVideo>
-              <Heading>
-                Meet SUSI.AI, Your Artificial Intelligence for Personal
-                Assistants, Robots, Help Desks and Chatbots.
-              </Heading>
-              <Para>
-                Ask it questions. Tell it to do things. Always ready to help.
-              </Para>
-              <PlayCircleLink onClick={this.toggleVideoModal}>
-                <PlayCircle />
-                <WatchSpan>Watch</WatchSpan>
-              </PlayCircleLink>
-            </div>
-          </SectionContainer>
-        </Container>
-        <Section>
-          <ConversationDescription>
-            <DescriptionHeading>Ask it anything.</DescriptionHeading>
-            <DescriptionText>
-              Search for the capital of Vietnam or find translations in
-              different languages. Ask SUSI for your location, and what the
-              weather’s like when you get there.
-            </DescriptionText>
-          </ConversationDescription>
-          <ImgContainer>
-            <SusiTestVideo
-              src={susiTestVideo}
-              autoPlay
-              loop
-              muted
-              playsinline
-            />
-          </ImgContainer>
-        </Section>
-        <Section>
-          <ConversationDescription>
-            <DescriptionHeading>Explore What it can do.</DescriptionHeading>
-            <DescriptionText>
-              From finding GIF of your favorite cartoon to exploring new things
-              that you never thought of before. Susi can do a lot of things that
-              you might not expect. Here are some examples of what SUSI can do.
-              <br />
-              Don&apos;t forget, these are only a few 😊
-            </DescriptionText>
-            <RowDiv>
-              {buttonAttributes &&
-                Array.isArray(buttonAttributes) &&
-                buttonAttributes.length > 0 &&
-                buttonAttributes.map((button, index) => (
-                  <Button
-                    key={index}
-                    style={
-                      gifIndex === index
-                        ? {
-                            backgroundColor: '#4285f4',
-                            color: '#ffffff',
-                          }
-                        : {
-                            backgroundColor: '#ffffff',
-                          }
-                    }
-                    variant="contained"
-                    onClick={e => this.handleGIFChange(index)}
-                  >
-                    {button.icon}
-                    {button.label}
-                  </Button>
-                ))}
-            </RowDiv>
-          </ConversationDescription>
-          <ImgContainer>
+  const handleGIFChange = index => {
+    changeGIF(index);
+    clearInterval(exampleTime);
+  };
+
+  return (
+    <div>
+      <Container>
+        <SectionContainer>
+          <div>
+            <MeetSusiVideo autoPlay loop muted playsinline>
+              <source src={SUSIVideo} type="video/mp4" />
+            </MeetSusiVideo>
+            <Heading>
+              Meet SUSI.AI, Your Artificial Intelligence for Personal
+              Assistants, Robots, Help Desks and Chatbots.
+            </Heading>
+            <Para>
+              Ask it questions. Tell it to do things. Always ready to help.
+            </Para>
+            <PlayCircleLink onClick={toggleVideoModal}>
+              <PlayCircle />
+              <WatchSpan>Watch</WatchSpan>
+            </PlayCircleLink>
+          </div>
+        </SectionContainer>
+      </Container>
+      <Section>
+        <ConversationDescription>
+          <DescriptionHeading>Ask it anything.</DescriptionHeading>
+          <DescriptionText>
+            Search for the capital of Vietnam or find translations in different
+            languages. Ask SUSI for your location, and what the weather’s like
+            when you get there.
+          </DescriptionText>
+        </ConversationDescription>
+        <ImgContainer>
+          <SusiTestVideo src={susiTestVideo} autoPlay loop muted playsinline />
+        </ImgContainer>
+      </Section>
+      <Section>
+        <ConversationDescription>
+          <DescriptionHeading>Explore What it can do.</DescriptionHeading>
+          <DescriptionText>
+            From finding GIF of your favorite cartoon to exploring new things
+            that you never thought of before. Susi can do a lot of things that
+            you might not expect. Here are some examples of what SUSI can do.
+            <br />
+            Don&apos;t forget, these are only a few 😊
+          </DescriptionText>
+          <RowDiv>
             {buttonAttributes &&
               Array.isArray(buttonAttributes) &&
               buttonAttributes.length > 0 &&
-              buttonAttributes.map((img, index) => (
-                <SusiTestVideo
+              buttonAttributes.map((button, index) => (
+                <Button
                   key={index}
-                  src={buttonAttributes[gifIndex].video}
-                  style={gifIndex === index ? {} : { display: 'none' }}
-                  autoPlay
-                  muted
-                  playsinline
-                />
+                  style={
+                    gifIndex === index
+                      ? {
+                          backgroundColor: '#4285f4',
+                          color: '#ffffff',
+                        }
+                      : {
+                          backgroundColor: '#ffffff',
+                        }
+                  }
+                  variant="contained"
+                  onClick={e => handleGIFChange(index)}
+                >
+                  {button.icon}
+                  {button.label}
+                </Button>
               ))}
-          </ImgContainer>
-        </Section>
-        <Section>
-          <ConversationDescription>
-            <DescriptionHeading>Tell it to do things.</DescriptionHeading>
+          </RowDiv>
+        </ConversationDescription>
+        <ImgContainer>
+          {buttonAttributes &&
+            Array.isArray(buttonAttributes) &&
+            buttonAttributes.length > 0 &&
+            buttonAttributes.map((img, index) => (
+              <SusiTestVideo
+                key={index}
+                src={buttonAttributes[gifIndex].video}
+                style={gifIndex === index ? {} : { display: 'none' }}
+                autoPlay
+                muted
+                playsinline
+              />
+            ))}
+        </ImgContainer>
+      </Section>
+      <Section>
+        <ConversationDescription>
+          <DescriptionHeading>Tell it to do things.</DescriptionHeading>
+          <DescriptionText>
+            SUSI can listen to you through the Mic and answer back on your
+            Speaker. You can activate the assistant saying
+            <b> &quot;Hi SUSI&quot;</b> already on many clients and devices. The
+            more you talk with SUSI the better it gets. You can even tell SUSI
+            to remember things.
+          </DescriptionText>
+        </ConversationDescription>
+        <ImgContainer>
+          <AndroidMockupImg src={mapAndroid} alt="Map" />
+        </ImgContainer>
+      </Section>
+      <Section>
+        <ConversationDescription>
+          <DescriptionHeading>For your Smartphone</DescriptionHeading>
+          <DescriptionText>
+            SUSI is available for <b>Android</b>
+            &nbsp;and <b>iOS devices</b>. Download the App to have access to
+            SUSI on the go.
+          </DescriptionText>
+          <DescriptionText>
+            <PlayStore
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://play.google.com/store/apps/details?id=ai.susi"
+            >
+              {' '}
+              Get it on Google Play
+            </PlayStore>
+            <AppStore
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://github.com/fossasia/susi_iOS"
+            >
+              {' '}
+              Download on the App Store
+            </AppStore>
+          </DescriptionText>
+        </ConversationDescription>
+        <ImgContainer>
+          <AndroidMockupImg src={androidMockup} alt="Android Mockup" />
+        </ImgContainer>
+      </Section>
+      <Section style={{ alignItems: 'unset' }}>
+        <ColumnSection>
+          <CustomDescription>
+            <CustomImgContainer>
+              <BotsMockupImg src={bots} alt="Android Mockup" />
+            </CustomImgContainer>
+            <CustomDescriptionHeading>
+              On many Platforms
+            </CustomDescriptionHeading>
             <DescriptionText>
-              SUSI can listen to you through the Mic and answer back on your
-              Speaker. You can activate the assistant saying
-              <b> &quot;Hi SUSI&quot;</b> already on many clients and devices.
-              The more you talk with SUSI the better it gets. You can even tell
-              SUSI to remember things.
-            </DescriptionText>
-          </ConversationDescription>
-          <ImgContainer>
-            <AndroidMockupImg src={mapAndroid} alt="Map" />
-          </ImgContainer>
-        </Section>
-        <Section>
-          <ConversationDescription>
-            <DescriptionHeading>For your Smartphone</DescriptionHeading>
-            <DescriptionText>
-              SUSI is available for <b>Android</b>
-              &nbsp;and <b>iOS devices</b>. Download the App to have access to
-              SUSI on the go.
-            </DescriptionText>
-            <DescriptionText>
-              <PlayStore
-                rel="noopener noreferrer"
+              <b>SUSI.AI</b> already runs on many chat services and social
+              networks. We are developing plugins for all major services
+              including &nbsp;
+              <a
                 target="_blank"
-                href="https://play.google.com/store/apps/details?id=ai.susi"
-              >
-                {' '}
-                Get it on Google Play
-              </PlayStore>
-              <AppStore
                 rel="noopener noreferrer"
-                target="_blank"
-                href="https://github.com/fossasia/susi_iOS"
+                href="https://github.com/fossasia/susi_tweetbot"
               >
-                {' '}
-                Download on the App Store
-              </AppStore>
+                Twitter
+              </a>
+              , &nbsp;
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia/susi_fbbot"
+              >
+                Facebook
+              </a>
+              , &nbsp;
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia/susi_linebot"
+              >
+                Line
+              </a>
+              , &nbsp;
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia/susi_slackbot"
+              >
+                Slack
+              </a>
+              , &nbsp;
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia/susi_wechatbot"
+              >
+                We Chat
+              </a>
+              , &nbsp;
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia/susi_viberbot"
+              >
+                Viber
+              </a>
+              , &nbsp;
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia/susi_gitterbot"
+              >
+                Gitter
+              </a>
+              . Just set up SUSI on your channel and add &nbsp;<b>@susi</b> in
+              your conversations and SUSI is ready to help.
             </DescriptionText>
-          </ConversationDescription>
-          <ImgContainer>
-            <AndroidMockupImg src={androidMockup} alt="Android Mockup" />
-          </ImgContainer>
-        </Section>
-        <Section style={{ alignItems: 'unset' }}>
-          <ColumnSection>
-            <CustomDescription>
-              <CustomImgContainer>
-                <BotsMockupImg src={bots} alt="Android Mockup" />
-              </CustomImgContainer>
-              <CustomDescriptionHeading>
-                On many Platforms
-              </CustomDescriptionHeading>
-              <DescriptionText>
-                <b>SUSI.AI</b> already runs on many chat services and social
-                networks. We are developing plugins for all major services
-                including &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_tweetbot"
-                >
-                  Twitter
-                </a>
-                , &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_fbbot"
-                >
-                  Facebook
-                </a>
-                , &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_linebot"
-                >
-                  Line
-                </a>
-                , &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_slackbot"
-                >
-                  Slack
-                </a>
-                , &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_wechatbot"
-                >
-                  We Chat
-                </a>
-                , &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_viberbot"
-                >
-                  Viber
-                </a>
-                , &nbsp;
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia/susi_gitterbot"
-                >
-                  Gitter
-                </a>
-                . Just set up SUSI on your channel and add &nbsp;<b>@susi</b> in
-                your conversations and SUSI is ready to help.
-              </DescriptionText>
-            </CustomDescription>
-          </ColumnSection>
-          <ColumnSection>
-            <CustomDescription>
-              <CustomImgContainer>
-                <BotsMockupImg src={allDevices} alt="Android Mockup" />
-              </CustomImgContainer>
-              <CustomDescriptionHeading>
-                For all Devices
-              </CustomDescriptionHeading>
-              <DescriptionText>
-                <b>SUSI.AI</b> is available for any android, iOS device and also
-                you can access the web chat application from this URL{' '}
-                <a href={urls.CHAT_URL}>{urls.CHAT_URL}</a>
-              </DescriptionText>
-            </CustomDescription>
-          </ColumnSection>
-          <ColumnSection>
-            <CustomDescription>
-              <CustomImgContainer>
-                <BotsMockupImg src={manyLanguages} alt="Android Mockup" />
-              </CustomImgContainer>
-              <CustomDescriptionHeading>
-                Use it in many Languages
-              </CustomDescriptionHeading>
-              <DescriptionText>
-                You can use <b>SUSI.AI</b> in different languages. You can ask
-                questions in many languages. SUSI is intelligent to identify and
-                answer your question in your language.
-              </DescriptionText>
-            </CustomDescription>
-          </ColumnSection>
-        </Section>
-        <SectionCenter>
-          <CenterDescription>
-            <DescriptionHeading style={{ textAlign: 'center' }}>
-              SUSI Skills
-            </DescriptionHeading>
+          </CustomDescription>
+        </ColumnSection>
+        <ColumnSection>
+          <CustomDescription>
+            <CustomImgContainer>
+              <BotsMockupImg src={allDevices} alt="Android Mockup" />
+            </CustomImgContainer>
+            <CustomDescriptionHeading>For all Devices</CustomDescriptionHeading>
             <DescriptionText>
-              SUSI is having many skills. You can look at the collection of
-              skills at{' '}
-              <Link to="/" target="_blank" colorize>
-                susi.ai
-              </Link>{' '}
-              SUSI skills are divided into groups like knowledge, assistant,
-              problem solving, entertainment, shopping and small talks. SUSI
-              Skill development is easy and fun.{' '}
+              <b>SUSI.AI</b> is available for any android, iOS device and also
+              you can access the web chat application from this URL{' '}
+              <a href={urls.CHAT_URL}>{urls.CHAT_URL}</a>
             </DescriptionText>
-          </CenterDescription>
-          <CustomImgContainer>
-            <SkillWikiImg src={susiSkill} alt="Skills" />
-          </CustomImgContainer>
-        </SectionCenter>
-        <SafeAndSecureSection>
-          <ConversationDescription>
-            <DescriptionHeading>Safe and secure.</DescriptionHeading>
+          </CustomDescription>
+        </ColumnSection>
+        <ColumnSection>
+          <CustomDescription>
+            <CustomImgContainer>
+              <BotsMockupImg src={manyLanguages} alt="Android Mockup" />
+            </CustomImgContainer>
+            <CustomDescriptionHeading>
+              Use it in many Languages
+            </CustomDescriptionHeading>
             <DescriptionText>
-              <b>SUSI.AI</b> is{' '}
-              <b>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'none', color: '#000' }}
-                  href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi"
-                >
-                  Open Source
-                </a>
-              </b>
-              . The code is always available for security reviews and can be
-              improved by anyone with the knowledge and understanding online.
+              You can use <b>SUSI.AI</b> in different languages. You can ask
+              questions in many languages. SUSI is intelligent to identify and
+              answer your question in your language.
             </DescriptionText>
-            <OpenSourceLogos>
-              <OpenSource>
-                <a
-                  rel="noopener noreferrer"
-                  href="https://opensource.org/"
-                  target="_blank"
-                >
-                  <OpenSourceImg src={openSource} alt="osi" />
-                </a>
-              </OpenSource>
-              <GithubLogo>
-                <a
-                  rel="noopener noreferrer"
-                  href="https://github.com/fossasia?utf8=✓&q=susi"
-                  target="_blank"
-                >
-                  <GithubImg src={githubText} alt="ghlogo" />
-                </a>
-              </GithubLogo>
-            </OpenSourceLogos>
-          </ConversationDescription>
-          <ImgContainer>
-            <ShieldImg src={shield} alt="Android Mockup" />
-          </ImgContainer>
-        </SafeAndSecureSection>
-        {/* Video */}
-        <VideoModal
-          isOpen={this.state.isVideoModalOpen}
-          onRequestClose={this.toggleVideoModal}
-          contentLabel="Assistant Video"
-          overlayClassName="Video-Overlay"
-        >
-          <VideoContainer>
-            <Iframe
-              id="player"
-              title="SUSI features Video"
-              type="text/html"
-              frameBorder="0"
-              allowFullScreen
-              src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
-            />
-            <CloseIcon onClick={this.toggleVideoModal} />
-          </VideoContainer>
-        </VideoModal>
-      </div>
-    );
-  }
-}
+          </CustomDescription>
+        </ColumnSection>
+      </Section>
+      <SectionCenter>
+        <CenterDescription>
+          <DescriptionHeading style={{ textAlign: 'center' }}>
+            SUSI Skills
+          </DescriptionHeading>
+          <DescriptionText>
+            SUSI is having many skills. You can look at the collection of skills
+            at{' '}
+            <Link to="/" target="_blank" colorize>
+              susi.ai
+            </Link>{' '}
+            SUSI skills are divided into groups like knowledge, assistant,
+            problem solving, entertainment, shopping and small talks. SUSI Skill
+            development is easy and fun.{' '}
+          </DescriptionText>
+        </CenterDescription>
+        <CustomImgContainer>
+          <SkillWikiImg src={susiSkill} alt="Skills" />
+        </CustomImgContainer>
+      </SectionCenter>
+      <SafeAndSecureSection>
+        <ConversationDescription>
+          <DescriptionHeading>Safe and secure.</DescriptionHeading>
+          <DescriptionText>
+            <b>SUSI.AI</b> is{' '}
+            <b>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: '#000' }}
+                href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi"
+              >
+                Open Source
+              </a>
+            </b>
+            . The code is always available for security reviews and can be
+            improved by anyone with the knowledge and understanding online.
+          </DescriptionText>
+          <OpenSourceLogos>
+            <OpenSource>
+              <a
+                rel="noopener noreferrer"
+                href="https://opensource.org/"
+                target="_blank"
+              >
+                <OpenSourceImg src={openSource} alt="osi" />
+              </a>
+            </OpenSource>
+            <GithubLogo>
+              <a
+                rel="noopener noreferrer"
+                href="https://github.com/fossasia?utf8=✓&q=susi"
+                target="_blank"
+              >
+                <GithubImg src={githubText} alt="ghlogo" />
+              </a>
+            </GithubLogo>
+          </OpenSourceLogos>
+        </ConversationDescription>
+        <ImgContainer>
+          <ShieldImg src={shield} alt="Android Mockup" />
+        </ImgContainer>
+      </SafeAndSecureSection>
+      {/* Video */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onRequestClose={toggleVideoModal}
+        contentLabel="Assistant Video"
+        overlayClassName="Video-Overlay"
+      >
+        <VideoContainer>
+          <Iframe
+            id="player"
+            title="SUSI features Video"
+            type="text/html"
+            frameBorder="0"
+            allowFullScreen
+            src="https://www.youtube.com/embed/tIG5griC-G0?enablejsapi=1&autoplay=1"
+          />
+          <CloseIcon onClick={toggleVideoModal} />
+        </VideoContainer>
+      </VideoModal>
+    </div>
+  );
+};
 Overview.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,

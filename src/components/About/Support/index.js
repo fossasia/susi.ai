@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -235,218 +235,216 @@ const H3 = styled.h3`
   color: #039be5;
 `;
 
-class Support extends Component {
-  static propTypes = {
-    history: PropTypes.object,
-    accessToken: PropTypes.string,
-    actions: PropTypes.object,
-  };
-
-  componentDidMount() {
+const Support = props => {
+  useEffect(() => {
     // Adding title tag to page
     document.title =
       'Support for SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
     //  Scrolling to top of page when component loads
     scrollToTopAnimation();
-  }
+  }, []);
 
-  handleSignUp = () => {
-    const { actions } = this.props;
+  const handleSignUp = () => {
+    const { actions } = props;
     actions.openModal({ modalType: 'signUp' });
   };
 
-  render() {
-    const { accessToken } = this.props;
+  const { accessToken } = props;
 
-    return (
-      <div>
-        <Heading>
-          <Header
-            title="Support"
-            subtitle="Get the help and information you need from our community and
-        team through various channels."
-          />
-        </Heading>
-        <GrayWrapper>
-          <WhiteGrayWrapper>
-            <CustomConversationDescription>
-              <SupportHeading>Support</SupportHeading>
-              <SupportText>
-                Get the help and information you need from our community and
-                team through various channels.
-              </SupportText>
-            </CustomConversationDescription>
-            <ImgContainer>
-              <SupportImg src={support} alt="support" />
-            </ImgContainer>
-          </WhiteGrayWrapper>
-        </GrayWrapper>
-        <Section>
-          <ConversationDescription>
-            <SupportHeading>Developer Documentation</SupportHeading>
-          </ConversationDescription>
-          <RowGroup>
-            <RowDescription>
+  return (
+    <div>
+      <Heading>
+        <Header
+          title="Support"
+          subtitle="Get the help and information you need from our community and
+                      team through various channels."
+        />
+      </Heading>
+      <GrayWrapper>
+        <WhiteGrayWrapper>
+          <CustomConversationDescription>
+            <SupportHeading>Support</SupportHeading>
+            <SupportText>
+              Get the help and information you need from our community and team
+              through various channels.
+            </SupportText>
+          </CustomConversationDescription>
+          <ImgContainer>
+            <SupportImg src={support} alt="support" />
+          </ImgContainer>
+        </WhiteGrayWrapper>
+      </GrayWrapper>
+      <Section>
+        <ConversationDescription>
+          <SupportHeading>Developer Documentation</SupportHeading>
+        </ConversationDescription>
+        <RowGroup>
+          <RowDescription>
+            <a href="http://dev.susi.ai/">
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="gitter" src={documentation} />
+              </SupportItemIconContainer>
+            </a>
+            <SupportDescription>
               <a href="http://dev.susi.ai/">
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="gitter" src={documentation} />
-                </SupportItemIconContainer>
+                <H3>SUSI.AI Docs</H3>
               </a>
-              <SupportDescription>
-                <a href="http://dev.susi.ai/">
-                  <H3>SUSI.AI Docs</H3>
-                </a>
-                <SupportDescriptionContent>
-                  Access the full Developer Documentation on{' '}
-                  <a href="http://dev.susi.ai">dev.susi.ai</a> to begin setting
-                  up and running SUSI.AI on your machine.
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-          </RowGroup>
-        </Section>
-        <Section>
-          <ConversationDescription>
-            <SupportHeading>Ask the community</SupportHeading>
-          </ConversationDescription>
-          <RowGroup>
-            <RowDescription>
+              <SupportDescriptionContent>
+                Access the full Developer Documentation on{' '}
+                <a href="http://dev.susi.ai">dev.susi.ai</a> to begin setting up
+                and running SUSI.AI on your machine.
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+        </RowGroup>
+      </Section>
+      <Section>
+        <ConversationDescription>
+          <SupportHeading>Ask the community</SupportHeading>
+        </ConversationDescription>
+        <RowGroup>
+          <RowDescription>
+            <a href="https://stackoverflow.com/questions/tagged/susi.ai">
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="gitter" src={stackoverflow} />
+              </SupportItemIconContainer>
+            </a>
+            <SupportDescription>
               <a href="https://stackoverflow.com/questions/tagged/susi.ai">
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="gitter" src={stackoverflow} />
-                </SupportItemIconContainer>
+                <H3>Stack Overflow</H3>
               </a>
-              <SupportDescription>
-                <a href="https://stackoverflow.com/questions/tagged/susi.ai">
-                  <H3>Stack Overflow</H3>
-                </a>
-                <SupportDescriptionContent>
-                  Your resource for all technical questions and answers
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-            <RowDescription>
+              <SupportDescriptionContent>
+                Your resource for all technical questions and answers
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+          <RowDescription>
+            <a href="http://groups.google.com/forum/#!forum/susiai">
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="google groups" src={googleGroups} />
+              </SupportItemIconContainer>
+            </a>
+            <SupportDescription>
               <a href="http://groups.google.com/forum/#!forum/susiai">
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="google groups" src={googleGroups} />
-                </SupportItemIconContainer>
+                <H3>SUSI.AI Forums</H3>
               </a>
-              <SupportDescription>
-                <a href="http://groups.google.com/forum/#!forum/susiai">
-                  <H3>SUSI.AI Forums</H3>
-                </a>
-                <SupportDescriptionContent>
-                  Discuss about the projects on our Google Groups Channel.
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-            <RowDescription>
+              <SupportDescriptionContent>
+                Discuss about the projects on our Google Groups Channel.
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+          <RowDescription>
+            <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="github" src={github} />
+              </SupportItemIconContainer>
+            </a>
+            <SupportDescription>
               <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="github" src={github} />
-                </SupportItemIconContainer>
+                <H3>Github</H3>
               </a>
-              <SupportDescription>
-                <a href="https://github.com/fossasia?utf8=%E2%9C%93&q=susi&type=&language=">
-                  <H3>Github</H3>
-                </a>
-                <SupportDescriptionContent>
-                  Visit our repositories and start contributing.
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-          </RowGroup>
-        </Section>
-        <Section>
-          <ConversationDescription>
-            <SupportHeading>
-              Browse, Create and Edit your own Skills
-            </SupportHeading>
-          </ConversationDescription>
-          <RowGroup>
-            <RowDescription>
+              <SupportDescriptionContent>
+                Visit our repositories and start contributing.
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+        </RowGroup>
+      </Section>
+      <Section>
+        <ConversationDescription>
+          <SupportHeading>
+            Browse, Create and Edit your own Skills
+          </SupportHeading>
+        </ConversationDescription>
+        <RowGroup>
+          <RowDescription>
+            <a href="http://dream.susi.ai">
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="code" src={code} />
+              </SupportItemIconContainer>
+            </a>
+            <SupportDescription>
               <a href="http://dream.susi.ai">
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="code" src={code} />
-                </SupportItemIconContainer>
+                <H3>Test SUSI.AI Skills and Create Dreams</H3>
               </a>
-              <SupportDescription>
-                <a href="http://dream.susi.ai">
-                  <H3>Test SUSI.AI Skills and Create Dreams</H3>
-                </a>
-                <SupportDescriptionContent>
-                  You can insert your skill code and test it on the SUSI.AI
-                  Etherpad at
-                  <a href="http://dream.susi.ai">&nbsp;dream.susi.ai</a>
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-            <RowDescription>
+              <SupportDescriptionContent>
+                You can insert your skill code and test it on the SUSI.AI
+                Etherpad at
+                <a href="http://dream.susi.ai">&nbsp;dream.susi.ai</a>
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+          <RowDescription>
+            <Link to="/" colorize>
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="code" src={code} />
+              </SupportItemIconContainer>
+            </Link>
+            <SupportDescription>
               <Link to="/" colorize>
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="code" src={code} />
-                </SupportItemIconContainer>
+                <H3>Create and Edit a SUSI.AI skill</H3>
               </Link>
-              <SupportDescription>
+              <SupportDescriptionContent>
+                You can easily create a skill on the SUSI.AI skills editor at{' '}
                 <Link to="/" colorize>
-                  <H3>Create and Edit a SUSI.AI skill</H3>
+                  susi.ai
                 </Link>
-                <SupportDescriptionContent>
-                  You can easily create a skill on the SUSI.AI skills editor at{' '}
-                  <Link to="/" colorize>
-                    susi.ai
-                  </Link>
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-          </RowGroup>
-        </Section>
-        <Section>
-          <ConversationDescription>
-            <SupportHeading>Chat With Us</SupportHeading>
-          </ConversationDescription>
-          <RowGroup>
-            <RowDescription>
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+        </RowGroup>
+      </Section>
+      <Section>
+        <ConversationDescription>
+          <SupportHeading>Chat With Us</SupportHeading>
+        </ConversationDescription>
+        <RowGroup>
+          <RowDescription>
+            <a href="https://gitter.im/fossasia/susi_server">
+              <SupportItemIconContainer>
+                <SupportItemIcon alt="question" src={question} />
+              </SupportItemIconContainer>
+            </a>
+            <SupportDescription>
               <a href="https://gitter.im/fossasia/susi_server">
-                <SupportItemIconContainer>
-                  <SupportItemIcon alt="question" src={question} />
-                </SupportItemIconContainer>
+                <H3>Get Support</H3>
               </a>
-              <SupportDescription>
-                <a href="https://gitter.im/fossasia/susi_server">
-                  <H3>Get Support</H3>
-                </a>
-                <SupportDescriptionContent>
-                  Facing a problem? Join us on
-                  <a href="https://gitter.im/fossasia/susi_server"> gitter </a>
-                  <br />
-                  Found a bug? File it on{' '}
-                  <a href="https://github.com/fossasia/susi_server/">
-                    github
-                  </a>{' '}
-                  and our developers will look into it
-                </SupportDescriptionContent>
-              </SupportDescription>
-            </RowDescription>
-          </RowGroup>
-        </Section>
-        <SignUpWrapper>
-          {!accessToken ? (
-            <SignUpFooter>
-              <FooterDescription>
-                <FooterHeading>Get Started Today</FooterHeading>
+              <SupportDescriptionContent>
+                Facing a problem? Join us on
+                <a href="https://gitter.im/fossasia/susi_server"> gitter </a>
+                <br />
+                Found a bug? File it on{' '}
+                <a href="https://github.com/fossasia/susi_server/">
+                  github
+                </a>{' '}
+                and our developers will look into it
+              </SupportDescriptionContent>
+            </SupportDescription>
+          </RowDescription>
+        </RowGroup>
+      </Section>
+      <SignUpWrapper>
+        {!accessToken ? (
+          <SignUpFooter>
+            <FooterDescription>
+              <FooterHeading>Get Started Today</FooterHeading>
 
-                <Button variant="contained" onClick={this.handleSignUp}>
-                  Sign Up
-                </Button>
-              </FooterDescription>
-            </SignUpFooter>
-          ) : null}
-        </SignUpWrapper>
-      </div>
-    );
-  }
-}
+              <Button variant="contained" onClick={handleSignUp}>
+                Sign Up
+              </Button>
+            </FooterDescription>
+          </SignUpFooter>
+        ) : null}
+      </SignUpWrapper>
+    </div>
+  );
+};
+
+Support.propTypes = {
+  history: PropTypes.object,
+  accessToken: PropTypes.string,
+  actions: PropTypes.object,
+};
 
 function mapDispatchToProps(dispatch) {
   return {
