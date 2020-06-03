@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 export const StyledIconButton = styled(IconButton)`
   border-radius: 2px;
-  padding: ${props => (props.padding ? props.padding : '0rem 0rem')};
+  padding: ${props => (props.padding ? props.padding : '0.2rem 0.5rem')};
 `;
 
 export const OutlinedSelectStyles = css`
