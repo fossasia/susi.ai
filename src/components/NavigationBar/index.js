@@ -52,8 +52,7 @@ import isMobileView from '../../utils/isMobileView';
 import ToolTip from '../shared/ToolTip';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
-import CancelIcon from '@material-ui/icons/Cancel';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -337,9 +336,9 @@ class NavigationBar extends Component {
           ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
           : 'Universal'}
         {this.props.languageValue.indexOf(name) > -1 ? (
-          <CancelIcon style={checkIcon} />
+          <Checkbox checked={true} style={checkIcon} />
         ) : (
-          <AddCircleOutlineIcon style={checkIcon} />
+          <Checkbox checked={false} style={checkIcon} />
         )}
       </MenuItem>
     ));
