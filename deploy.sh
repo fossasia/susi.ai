@@ -36,8 +36,8 @@ git config user.email "$COMMIT_AUTHOR_EMAIL"
 cd repo
 
 # Actual building and setup of current push or PR.
-npm install
-npm run build
+yarn install
+yarn build
 mv build ../build/
 
 # Create an orphan target branch
@@ -46,7 +46,7 @@ git checkout --orphan $TARGET_BRANCH
 git rm -rf .
 mv ../build/* .
 cp index.html 404.html
-rm -Rf node_modules/ package-lock.json
+rm -Rf node_modules/ yarn.lock
 
 # Create a commit on target branch
 git add --all
@@ -63,10 +63,9 @@ git push --force $SSH_REPO $TARGET_BRANCH
 # Deploying to local-pages
 git checkout $SOURCE_BRANCH
 
-npm install
-export REACT_APP_API_URL=http://localhost:4000
+yarn install
 export REACT_APP_LOCAL_ENV=true
-npm run build
+yarn build
 mv build ../
 
 # Create an orphan local target branch
@@ -75,7 +74,7 @@ git checkout --orphan $LOCAL_TARGET_BRANCH
 git rm -rf .
 mv ../build/* .
 cp index.html 404.html
-rm -Rf node_modules/ package-lock.json
+rm -Rf node_modules/ yarn.lock
 
 # Create a commit on target branch
 git add --all
