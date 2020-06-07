@@ -22,7 +22,7 @@ const Date = styled.div`
   margin: 0;
 `;
 
-const LineChart = props => {
+const LineChart = (props) => {
   const {
     data,
     legend,

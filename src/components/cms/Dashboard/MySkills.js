@@ -11,7 +11,7 @@ import _Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '../../shared/Select';
 import CircleImage from '../../shared/CircleImage';
-import _Img from 'react-image';
+import { Img as _Img } from 'react-image';
 import Add from '@material-ui/icons/Add';
 import { urls } from '../../../utils';
 import styled from 'styled-components';
@@ -111,7 +111,7 @@ class MySkills extends Component {
                   {
                     title: 'Image',
                     field: 'imageLink',
-                    render: rowData => {
+                    render: (rowData) => {
                       return (
                         <Link
                           to={{
@@ -143,7 +143,7 @@ class MySkills extends Component {
                   {
                     title: 'Name',
                     field: 'name',
-                    render: rowData => {
+                    render: (rowData) => {
                       return (
                         <Link
                           to={{
@@ -163,7 +163,7 @@ class MySkills extends Component {
                   {
                     title: 'Status',
                     field: 'status',
-                    render: rowData => {
+                    render: (rowData) => {
                       return (
                         <FormControl>
                           <Select value={1} style={{ width: '10rem' }}>
@@ -241,7 +241,4 @@ function mapStateToProps({ app }) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MySkills);
+export default connect(mapStateToProps, mapDispatchToProps)(MySkills);

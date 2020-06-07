@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectMUI from '@material-ui/core/Select';
 
-const Select = props => (
+const Select = (props) => (
   <SelectMUI
     MenuProps={{
       anchorOrigin: {

@@ -26,7 +26,7 @@ const map = (xs, f) => {
   return res;
 };
 
-const walk = obj => {
+const walk = (obj) => {
   if (!obj || typeof obj !== 'object') {
     return obj;
   }
@@ -47,7 +47,7 @@ const walk = obj => {
   );
 };
 
-export default obj => {
+export default (obj) => {
   if (typeof obj === 'string') {
     return camelcase(obj);
   }

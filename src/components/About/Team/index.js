@@ -131,7 +131,7 @@ const Description = styled.div`
   padding: 1rem;
 `;
 
-const Team = props => {
+const Team = (props) => {
   let [contributors, updataContributors] = useState([]);
 
   useEffect(() => {

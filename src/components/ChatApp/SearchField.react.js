@@ -99,7 +99,7 @@ const SearchContainer = styled.div`
 class ExpandingSearchField extends Component {
   state = { isOpen: false, indexCnt: 0 };
 
-  closeSearch = state => {
+  closeSearch = (state) => {
     if (this.props.open) {
       this.setState({ isOpen: false });
       this.setState({ indexCnt: 0 });
@@ -117,7 +117,7 @@ class ExpandingSearchField extends Component {
     }
   };
 
-  handleKeyDown = event => {
+  handleKeyDown = (event) => {
     switch (event.keyCode) {
       case ESCAPE_KEY:
         this.closeSearch();
@@ -137,7 +137,7 @@ class ExpandingSearchField extends Component {
     this.toggleSearch();
   };
 
-  onChange = event => {
+  onChange = (event) => {
     this.props.onTextChange(event);
     setTimeout(() => {
       this.setState({ indexCnt: this.props.searchCount });
@@ -205,7 +205,7 @@ class ExpandingSearchField extends Component {
               name="search"
               placeholder="Search Messages"
               value={searchText}
-              onChange={event => this.onChange(event)}
+              onChange={(event) => this.onChange(event)}
               variant="outlined"
               autoFocus={false}
               style={{ height: '24px', width: '70%' }}

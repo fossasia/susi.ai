@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { StylesProvider } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './MUItheme';
 import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
 import Blog from './components/About/Blog';
@@ -148,7 +148,7 @@ class App extends Component {
     actions.getCaptchaConfig();
     if (accessToken) {
       actions.getAdmin();
-      actions.getUserSettings().catch(e => {
+      actions.getUserSettings().catch((e) => {
         console.log(e);
       });
     }
@@ -243,6 +243,7 @@ class App extends Component {
         deviceAccessPoint) ? null : (
         <ChatApp />
       );
+
     return (
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
@@ -405,7 +406,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

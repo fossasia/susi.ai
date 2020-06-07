@@ -22,7 +22,7 @@ const CodeView = ({ actions, code }) => {
   return (
     <AceEditorComponent
       value={code}
-      onChange={event => actions.setDesignData({ code: event })}
+      onChange={(event) => actions.setDesignData({ code: event })}
       height="12.5rem"
     />
   );
@@ -45,7 +45,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CodeView);
+export default connect(mapStateToProps, mapDispatchToProps)(CodeView);

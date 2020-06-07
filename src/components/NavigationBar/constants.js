@@ -1,6 +1,6 @@
 import Dashboard from '@material-ui/icons/Dashboard';
 
-const LINKS = accessToken => {
+const LINKS = (accessToken) => {
   return [
     {
       label: 'Skills',

@@ -96,7 +96,7 @@ class ControlSection extends React.Component {
     setVolumeAction({ volume });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -119,13 +119,13 @@ class ControlSection extends React.Component {
     }
   };
 
-  handleDeviceSelect = e => {
+  handleDeviceSelect = (e) => {
     this.setState({
       selectedDevice: e.target.value,
     });
   };
 
-  handleRadioChange = async e => {
+  handleRadioChange = async (e) => {
     const { actions } = this.props;
     const { name, value } = e.target;
     this.setState({ [name]: value }, async () => {
@@ -162,7 +162,7 @@ class ControlSection extends React.Component {
     }
   };
 
-  handleCheck = event => {
+  handleCheck = (event) => {
     this.setState({
       [event.target.name]: event.target.checked,
     });
@@ -517,8 +517,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ControlSection),
+  connect(mapStateToProps, mapDispatchToProps)(ControlSection),
 );

@@ -123,7 +123,7 @@ const NavigateButtonWrapper = styled.div`
   padding: 0.5rem 0.75rem;
   bottom: 0.625rem;
   cursor: pointer;
-  ${props =>
+  ${(props) =>
     props.status === 'active'
       ? css`
           ${EnabledButtonStyles}
@@ -135,7 +135,7 @@ const NavigateButtonWrapper = styled.div`
 `;
 
 const NavigateButton = styled.div`
-  ${props =>
+  ${(props) =>
     props.status === 'disabled' &&
     css`
       color: #999;
@@ -157,7 +157,7 @@ const PageLink = styled.div`
   ${PageLinkStyles}
   ${EnabledButtonStyles}
 
-  ${props =>
+  ${(props) =>
     props.status === 'active' &&
     css`
       font-weight: 700;
@@ -210,7 +210,7 @@ class SkillFeedbackPage extends Component {
     this.skillName = this.skillTag
       ? this.skillTag
           .split('_')
-          .map(data => {
+          .map((data) => {
             const s = data.charAt(0).toUpperCase() + data.substring(1);
             return s;
           })
@@ -291,7 +291,7 @@ class SkillFeedbackPage extends Component {
     }
   }
 
-  onPageChanged = data => {
+  onPageChanged = (data) => {
     const { currentPage } = this.state;
     const { skillFeedbacks } = this.props;
     const offset = (currentPage - 1) * pageLimit;
@@ -299,7 +299,7 @@ class SkillFeedbackPage extends Component {
     this.setState({ currentPage, currentRecords });
   };
 
-  gotoPage = page => {
+  gotoPage = (page) => {
     const { skillFeedbacks } = this.props;
     const currentPage = Math.max(0, page);
     const paginationData = {
@@ -311,12 +311,12 @@ class SkillFeedbackPage extends Component {
     this.setState({ currentPage }, () => this.onPageChanged(paginationData));
   };
 
-  handleClick = page => evt => {
+  handleClick = (page) => (evt) => {
     evt.preventDefault();
     this.gotoPage(page);
   };
 
-  handleMoveLeft = evt => {
+  handleMoveLeft = (evt) => {
     const { currentPage } = this.state;
     evt.preventDefault();
     if (currentPage !== 1) {
@@ -324,7 +324,7 @@ class SkillFeedbackPage extends Component {
     }
   };
 
-  handleMoveRight = evt => {
+  handleMoveRight = (evt) => {
     const { currentPage } = this.state;
     const { skillFeedbacks } = this.props;
     evt.preventDefault();
@@ -341,7 +341,7 @@ class SkillFeedbackPage extends Component {
     });
   };
 
-  handleEditModal = previousFeedback => {
+  handleEditModal = (previousFeedback) => {
     this.handleMenuClose();
     this.setState({ feedbackValue: previousFeedback }, () => {
       this.props.actions.openModal({
@@ -357,7 +357,7 @@ class SkillFeedbackPage extends Component {
     });
   };
 
-  editRating = rating => {
+  editRating = (rating) => {
     this.setState({ rating });
   };
 
@@ -366,7 +366,7 @@ class SkillFeedbackPage extends Component {
     this.setState({ feedbackValue: feedbackText });
   };
 
-  setFeedback = event => {
+  setFeedback = (event) => {
     this.setState({ feedbackValue: event.target.value });
   };
 
@@ -442,7 +442,7 @@ class SkillFeedbackPage extends Component {
     }
   };
 
-  handleMenuOpen = event => {
+  handleMenuOpen = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
     });
@@ -498,7 +498,7 @@ class SkillFeedbackPage extends Component {
         name: userName === '' ? userEmail : userName,
       };
       userFeedback =
-        skillFeedbacks[skillFeedbacks.findIndex(x => x.email === email)];
+        skillFeedbacks[skillFeedbacks.findIndex((x) => x.email === email)];
       if (userFeedback) {
         userFeedbackValue = userFeedback.feedback;
       }
@@ -618,7 +618,7 @@ class SkillFeedbackPage extends Component {
                       widgetHoverColors="#ffbb28"
                       widgetDimensions={mobileView ? '30px' : '50px'}
                       widgetSpacings="5px"
-                      changeRating={Rating => {
+                      changeRating={(Rating) => {
                         this.setState({ rating: Rating });
                       }}
                     />
@@ -784,15 +784,17 @@ class SkillFeedbackPage extends Component {
                 style={{ color: '#417DDE' }}
               >
                 <b>
-                  {`‹ See all details for ${this.skillTag &&
+                  {`‹ See all details for ${
+                    this.skillTag &&
                     this.skillTag
                       .split(' ')
-                      .map(data => {
+                      .map((data) => {
                         let s =
                           data.charAt(0).toUpperCase() + data.substring(1);
                         return s;
                       })
-                      .join(' ')}`}
+                      .join(' ')
+                  }`}
                 </b>
               </Link>
             </Footer>
@@ -850,7 +852,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillFeedbackPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillFeedbackPage);

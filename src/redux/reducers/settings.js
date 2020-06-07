@@ -82,7 +82,7 @@ export default handleActions(
       } = settings;
       let { customThemeValue } = settings;
       const themeArray = customThemeValue
-        ? customThemeValue.split(',').map(value => `#${value}`)
+        ? customThemeValue.split(',').map((value) => `#${value}`)
         : defaultState.customThemeValue;
 
       let userSettings = {

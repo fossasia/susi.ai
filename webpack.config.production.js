@@ -26,15 +26,17 @@ module.exports = () => ({
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new CopyWebpackPlugin([
-      { from: 'public/fonts', to: 'fonts' },
-      { from: 'public/favicon.ico', to: '' },
-      { from: 'public/susi-chatbot.js', to: '' },
-      { from: 'public/CNAME', to: '' },
-      { from: 'public/favicon.ico', to: '' },
-      { from: 'public/favicon-16x16.png', to: '' },
-      { from: 'public/favicon-32x32.png', to: '' },
-      { from: 'public/403.html', to: '' },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/fonts', to: 'static/fonts' },
+        { from: 'public/favicon.ico', to: '' },
+        { from: 'public/susi-chatbot.js', to: '' },
+        { from: 'public/CNAME', to: '' },
+        { from: 'public/favicon.ico', to: '' },
+        { from: 'public/favicon-16x16.png', to: '' },
+        { from: 'public/favicon-32x32.png', to: '' },
+        { from: 'public/403.html', to: '' },
+      ],
+    }),
   ],
 });

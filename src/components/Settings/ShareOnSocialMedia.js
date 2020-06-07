@@ -83,7 +83,7 @@ class ShareOnSocialMedia extends Component {
     shareText: defaultShareTitle + ' ' + shareUrl,
   };
 
-  handleChange = event => this.setState({ shareText: event.target.value });
+  handleChange = (event) => this.setState({ shareText: event.target.value });
 
   render() {
     return (

@@ -110,10 +110,10 @@ class Carousel extends React.Component {
   render() {
     const { slideshowData } = this.state;
     const { actions, speechOutputAlways, mode } = this.props;
-    const renderSlides = slideshowData.map(obj => {
+    const renderSlides = slideshowData.map((obj) => {
       return obj.redirectLink.includes('testExample') ? (
         <span
-          onClick={event => {
+          onClick={(event) => {
             generateMessage({
               text: obj.redirectLink.split('=')[1],
               voice: speechOutputAlways,
@@ -171,8 +171,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Carousel),
+  connect(mapStateToProps, mapDispatchToProps)(Carousel),
 );

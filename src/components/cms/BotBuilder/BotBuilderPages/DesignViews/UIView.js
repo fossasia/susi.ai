@@ -36,7 +36,7 @@ const AvatarUploadButton = styled.label`
   cursor: pointer;
   display: inline-block;
   position: relative;
-  top: ${props => (props.top ? props.top + 'px' : '10px')};
+  top: ${(props) => (props.top ? props.top + 'px' : '10px')};
 `;
 
 const DesignContainer = styled.div`
@@ -135,11 +135,11 @@ const IconWrap = styled.span`
   display: inline-block;
   position: relative;
   ${BotAvatarImg} {
-    border: ${props => (props.icon ? 'solid 2px #4285f5' : 'none')};
+    border: ${(props) => (props.icon ? 'solid 2px #4285f5' : 'none')};
   }
 
   ${Check} {
-    display: ${props => (props.icon ? 'block' : 'none')};
+    display: ${(props) => (props.icon ? 'block' : 'none')};
   }
 `;
 
@@ -209,7 +209,7 @@ class UIView extends Component {
     }
   };
 
-  handleChangeBodyBackgroundImage = event => {
+  handleChangeBodyBackgroundImage = (event) => {
     const file = this.backgroundImage.files[0];
     const imageName = file.name;
     const image = window.URL.createObjectURL(file);
@@ -273,7 +273,7 @@ class UIView extends Component {
     });
   };
 
-  handleChangeIconImage = event => {
+  handleChangeIconImage = (event) => {
     const file = this.botBuilderIcon.files[0];
     if (!event.target.files || !event.target.files[0]) {
       this.handleRemoveUrlIcon();
@@ -361,7 +361,7 @@ class UIView extends Component {
     });
   };
 
-  handleIconSelect = icon => {
+  handleIconSelect = (icon) => {
     let { actions } = this.props;
     actions.setBotAvatar({
       botbuilderIconImg: icon.url,
@@ -370,7 +370,7 @@ class UIView extends Component {
     });
   };
 
-  handleClickColorBox = id => {
+  handleClickColorBox = (id) => {
     document.getElementById(`colorPicker${id}`).click();
   };
 
@@ -418,7 +418,7 @@ class UIView extends Component {
       Array.isArray(customiseOptionsList) &&
       customiseOptionsList.length > 0
     ) {
-      customizeComponents = customiseOptionsList.map(component => {
+      customizeComponents = customiseOptionsList.map((component) => {
         return (
           <div key={component.id} className="circleChoose">
             <Row>
@@ -483,7 +483,7 @@ class UIView extends Component {
                             <Input
                               disabled={uploadingBodyBackgroundImg}
                               type="file"
-                              ref={c => {
+                              ref={(c) => {
                                 this.backgroundImage = c;
                               }}
                               onChange={this.handleChangeBodyBackgroundImage}
@@ -526,7 +526,7 @@ class UIView extends Component {
                 {avatars &&
                   Array.isArray(avatars) &&
                   avatars.length > 0 &&
-                  avatars.map(icon => {
+                  avatars.map((icon) => {
                     return (
                       <IconWrap
                         id={icon.id}
@@ -547,7 +547,7 @@ class UIView extends Component {
                     <Input
                       disabled={uploadingBotbuilderIconImg}
                       type="file"
-                      ref={c => {
+                      ref={(c) => {
                         this.botBuilderIcon = c;
                       }}
                       onChange={
@@ -616,7 +616,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UIView);
+export default connect(mapStateToProps, mapDispatchToProps)(UIView);

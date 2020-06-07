@@ -157,7 +157,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SkillUsageCard);
+export default connect(mapStateToProps, null)(SkillUsageCard);

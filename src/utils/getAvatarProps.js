@@ -2,7 +2,7 @@ import md5 from 'md5';
 import { urls } from './';
 import store from '../store';
 
-export const getUserAvatarLink = payload => {
+export const getUserAvatarLink = (payload) => {
   const { getThumbnail = false, userEmailId } = payload || {};
   const { accessToken } = store.getState().app;
   let link = `${
@@ -13,7 +13,7 @@ export const getUserAvatarLink = payload => {
   return link;
 };
 
-export const getGravatarProps = emailId => {
+export const getGravatarProps = (emailId) => {
   const emailHash = md5(emailId);
   const GRAVATAR_IMAGE_URL = `${urls.GRAVATAR_URL}/${emailHash}.jpg`;
   const avatarProps = {

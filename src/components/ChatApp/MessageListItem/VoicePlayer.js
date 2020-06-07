@@ -73,7 +73,7 @@ class VoicePlayer extends Component {
   componentDidMount() {
     const events = [{ name: 'start', action: this.props.onStart }];
 
-    events.forEach(e => {
+    events.forEach((e) => {
       if (this.speech) {
         this.speech.addEventListener(e.name, e.action);
       }
@@ -118,7 +118,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(VoicePlayer);
+export default connect(mapStateToProps, null)(VoicePlayer);

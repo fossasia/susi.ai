@@ -9,7 +9,7 @@ import create from './create';
 import dashboard from './dashboard';
 import { connectRouter } from 'connected-react-router';
 
-export default history =>
+export default (history) =>
   combineReducers({
     router: connectRouter(history),
     app,

@@ -16,7 +16,7 @@ const ExampleComment = styled.div`
   border-radius: 8px;
   border: 1px solid #eaeded;
   background-color: #f4f6f6;
-  margin: ${props => props.margin};
+  margin: ${(props) => props.margin};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@ const SkillExampleBubble = ({
   return (
     <ExampleComment
       margin={margin}
-      onClick={event => {
+      onClick={(event) => {
         generateMessage({
           text: data,
           voice: speechOutputAlways,
@@ -103,7 +103,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillExampleBubble);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillExampleBubble);

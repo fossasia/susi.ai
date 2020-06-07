@@ -18,21 +18,21 @@ const defaultColors = [
 
 const Avatar = styled(_Avatar)`
   margin-right: 10px;
-  width: ${props => props.size + 'px'};
-  height: ${props => props.size + 'px'};
+  width: ${(props) => props.size + 'px'};
+  height: ${(props) => props.size + 'px'};
   align-items: center;
   display: flex;
-  ${props =>
+  ${(props) =>
     props.src ||
     (props.srcSet &&
       css`
-        src: ${props => props.src};
-        srcset: ${props => props.srcSet};
+        src: ${(props) => props.src};
+        srcset: ${(props) => props.srcSet};
         color: '#fff';
       `)}
 `;
 
-const CircleImage = props => {
+const CircleImage = (props) => {
   const { src, srcset, name, size } = props;
 
   let innerElement = null;

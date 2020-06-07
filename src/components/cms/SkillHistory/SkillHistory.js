@@ -39,7 +39,7 @@ const ErrorNotification = () => {
 export const VersionContainer = styled.div`
   margin-top: 20px;
   text-align: center;
-  ${props =>
+  ${(props) =>
     props.floatLeft &&
     css`
       width: 50%;
@@ -131,7 +131,7 @@ class SkillHistory extends Component {
     }
   }
 
-  getCommitMeta = commitID => {
+  getCommitMeta = (commitID) => {
     let allCommits = this.state.allCommitsData;
     for (let i = 0; i < allCommits.length; i++) {
       let commitData = allCommits[i];
@@ -186,7 +186,7 @@ class SkillHistory extends Component {
     }
   };
 
-  updateData = commitData => {
+  updateData = (commitData) => {
     this.setState({
       commitData: commitData,
     });
@@ -341,7 +341,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SkillHistory);
+export default connect(null, mapDispatchToProps)(SkillHistory);

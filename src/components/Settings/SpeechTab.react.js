@@ -63,7 +63,7 @@ class SpeechTab extends React.Component {
   };
 
   // Save new TTS settings
-  handleNewTextToSpeech = settings => {
+  handleNewTextToSpeech = (settings) => {
     this.setState({
       speechRate: settings.speechRate,
       speechPitch: settings.speechPitch,
@@ -218,7 +218,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SpeechTab);
+export default connect(mapStateToProps, mapDispatchToProps)(SpeechTab);

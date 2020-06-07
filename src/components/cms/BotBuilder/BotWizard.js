@@ -262,7 +262,7 @@ class BotWizard extends React.Component {
     }
   };
 
-  getDraftBotDetails = async id => {
+  getDraftBotDetails = async (id) => {
     const { actions } = this.props;
     try {
       await readDraft({ id });
@@ -370,7 +370,7 @@ class BotWizard extends React.Component {
     }
   };
 
-  handleCommitMessageChange = event => {
+  handleCommitMessageChange = (event) => {
     this.setState({
       commitMessage: event.target.value,
     });
@@ -565,7 +565,7 @@ class BotWizard extends React.Component {
                       activeStep={stepIndex}
                       alternativeLabel={!!isMobile}
                     >
-                      {steps.map(step => {
+                      {steps.map((step) => {
                         return (
                           <Step key={step}>
                             <StepLabel>{step}</StepLabel>
@@ -611,14 +611,19 @@ class BotWizard extends React.Component {
                                   minWidth: '11rem',
                                 }}
                               >
-                                {// eslint-disable-next-line
-                                savingSkill ? (
-                                  <CircularProgress color="inherit" size={24} />
-                                ) : updateSkillNow ? (
-                                  'Update and Deploy'
-                                ) : (
-                                  'Save and Deploy'
-                                )}
+                                {
+                                  // eslint-disable-next-line
+                                  savingSkill ? (
+                                    <CircularProgress
+                                      color="inherit"
+                                      size={24}
+                                    />
+                                  ) : updateSkillNow ? (
+                                    'Update and Deploy'
+                                  ) : (
+                                    'Save and Deploy'
+                                  )
+                                }
                               </NextButton>
                             ) : null}
                             {stepIndex < 2 ? (
@@ -723,7 +728,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BotWizard);
+export default connect(mapStateToProps, mapDispatchToProps)(BotWizard);

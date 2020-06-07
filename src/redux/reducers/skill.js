@@ -125,8 +125,8 @@ export default handleActions(
     [actionTypes.SKILL_GET_DATEWISE_SKILL_USAGE](state, { payload }) {
       if (payload.skillUsage) {
         const { skillUsage } = payload;
-        const filterSkillUsage = skillUsage.filter(day => day !== undefined);
-        const dateWiseSkillUsage = filterSkillUsage.map(usage => {
+        const filterSkillUsage = skillUsage.filter((day) => day !== undefined);
+        const dateWiseSkillUsage = filterSkillUsage.map((usage) => {
           if (usage !== null) {
             usage.date = moment(usage.date, 'YYYY-MM-DD').format('DD MMM YY');
             usage.count = parseInt(usage.count, 10);
@@ -147,7 +147,7 @@ export default handleActions(
     [actionTypes.SKILL_GET_COUNTRYWISE_SKILL_USAGE](state, { payload }) {
       if (payload.skillUsage) {
         const { skillUsage } = payload;
-        const countryWiseSkillUsage = skillUsage.map(country => [
+        const countryWiseSkillUsage = skillUsage.map((country) => [
           country.countryCode,
           parseInt(country.count, 10),
         ]);
@@ -163,7 +163,7 @@ export default handleActions(
     [actionTypes.SKILL_GET_DEVICEWISE_SKILL_USAGE](state, { payload }) {
       if (payload.skillUsage) {
         let { skillUsage: deviceWiseSkillUsage } = payload;
-        deviceWiseSkillUsage.map(device => {
+        deviceWiseSkillUsage.map((device) => {
           switch (device.deviceType) {
             case 'Web Client':
               device.color = '#0088FE';
@@ -198,7 +198,7 @@ export default handleActions(
     [actionTypes.SKILL_GET_RATINGS_OVER_TIME](state, { payload }) {
       if (payload.ratingsOverTime) {
         const { ratingsOverTime: _ratingsOverTime } = payload;
-        const ratingsOverTime = _ratingsOverTime.map(item => {
+        const ratingsOverTime = _ratingsOverTime.map((item) => {
           return {
             rating: item.rating,
             count: item.count,
@@ -242,7 +242,7 @@ export default handleActions(
     [actionTypes.SKILL_GET_AUTHOR_SKILLS](state, { payload }) {
       let skillKeys = Object.keys(payload);
       skillKeys = skillKeys && skillKeys.slice(0, skillKeys.length - 5);
-      const authorSkills = skillKeys.map(skillKey => {
+      const authorSkills = skillKeys.map((skillKey) => {
         const dataPoints = payload[skillKey].toString().split('/');
         let name = dataPoints[6].split('.')[0];
         let language = dataPoints[5];

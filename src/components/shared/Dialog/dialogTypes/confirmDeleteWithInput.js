@@ -34,7 +34,7 @@ class ConfirmDeleteWithInput extends Component {
   };
 
   // Handle changes in input
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
       inputValue: event.target.value,
     });

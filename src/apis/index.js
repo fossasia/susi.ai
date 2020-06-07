@@ -113,7 +113,7 @@ export async function getContributors() {
   try {
     const settings = { isTokenRequired: false };
     let res = await Promise.all(
-      repos.map(repo =>
+      repos.map((repo) =>
         ajax.get(
           `https://api.github.com/repos/fossasia/${repo}/contributors`,
           null,
@@ -122,7 +122,7 @@ export async function getContributors() {
       ),
     );
 
-    res.forEach(value => {
+    res.forEach((value) => {
       for (let key in value) {
         if (key.toString() !== 'statusCode') {
           let contributor = value[key];

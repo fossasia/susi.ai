@@ -1,7 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const path = require('path');
-const webpackExtension = mode => require(`./webpack.config.${mode}.js`)();
+const webpackExtension = (mode) => require(`./webpack.config.${mode}.js`)();
 
 module.exports = ({ mode }) => {
   var mergedConfig = merge(
@@ -26,7 +26,7 @@ module.exports = ({ mode }) => {
               {
                 loader: 'file-loader',
                 options: {
-                  name: '[name].[ext]',
+                  name: 'static/images/[name].[ext]',
                   esModule: false,
                 },
               },
@@ -38,7 +38,7 @@ module.exports = ({ mode }) => {
               {
                 loader: 'file-loader',
                 options: {
-                  name: '[name].[ext]',
+                  name: 'static/fonts/[name].[ext]',
                   esModule: false,
                 },
               },
@@ -50,7 +50,7 @@ module.exports = ({ mode }) => {
               {
                 loader: 'file-loader',
                 options: {
-                  name: '[name].[ext]',
+                  name: 'static/videos/[name].[ext]',
                 },
               },
             ],

@@ -64,7 +64,7 @@ class ConfigKeys extends React.Component {
     });
   };
 
-  handleDelete = keyName => {
+  handleDelete = (keyName) => {
     this.setState({ keyName: keyName });
     this.props.actions.openModal({
       modalType: 'deleteSystemSettings',
@@ -84,7 +84,7 @@ class ConfigKeys extends React.Component {
       let payload = await fetchApiKeys({ apiType });
       let apiKeys = [];
       let keys = Object.keys(payload.keys);
-      keys.forEach(j => {
+      keys.forEach((j) => {
         const apiKey = {
           keyName: j,
           value: payload.keys[j].value,
@@ -117,13 +117,13 @@ class ConfigKeys extends React.Component {
             padding: '1rem',
           }}
           actions={[
-            rowData => ({
+            (rowData) => ({
               icon: 'update',
               tooltip: 'Update Key',
               onClick: (event, rowData) =>
                 this.handleUpdate(rowData.keyName, rowData.value),
             }),
-            rowData => ({
+            (rowData) => ({
               icon: 'delete',
               tooltip: 'Delete Key',
               onClick: (event, rowData) => this.handleDelete(rowData.keyName),
@@ -158,7 +158,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ConfigKeys);
+export default connect(null, mapDispatchToProps)(ConfigKeys);

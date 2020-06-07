@@ -42,7 +42,7 @@ const LeftFab = styled(Fab)`
   left: 16rem;
   margin-top: 4.6rem;
   z-index: 1;
-  display: ${props => props.display};
+  display: ${(props) => props.display};
   @media (max-width: 430px) {
     left: 8px !important;
   }
@@ -54,7 +54,7 @@ const RightFab = styled(Fab)`
   margin-top: 4.6rem;
   margin-right: 0.625rem;
   z-index: 1;
-  display: ${props => props.display};
+  display: ${(props) => props.display};
 `;
 
 const Container = styled.div`
@@ -139,7 +139,7 @@ class SkillCard extends Component {
   loadSkillCards = () => {
     let cards = [];
     Object.keys(this.props.metricSkills[this.props.scrollSkills]).forEach(
-      el => {
+      (el) => {
         let skill = this.props.metricSkills[this.props.scrollSkills][el];
         let skillName,
           examples,
@@ -318,7 +318,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SkillCard);
+export default connect(mapStateToProps, null)(SkillCard);

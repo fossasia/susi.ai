@@ -115,11 +115,11 @@ export default handleActions(
       let messagesByID = {};
       if (Array.isArray(messagePairArray)) {
         messagePairArray = messagePairArray.reverse();
-        messagePairArray.forEach(messagePair => {
+        messagePairArray.forEach((messagePair) => {
           const { userMessage, susiMessage } = messagePair;
           messages.push(userMessage.id);
           messagesByID[userMessage.id] = userMessage;
-          susiMessage.forEach(eachSusiMessage => {
+          susiMessage.forEach((eachSusiMessage) => {
             messages.push(eachSusiMessage.id);
             messagesByID[eachSusiMessage.id] = eachSusiMessage;
           });

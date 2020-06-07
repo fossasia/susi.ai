@@ -72,7 +72,7 @@ function renderTooltip(selectedPlace) {
   return <h3>{selectedPlace.title}</h3>;
 }
 
-const Contact = props => {
+const Contact = (props) => {
   document.title =
     'Contact Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   scrollToTopAnimation();

@@ -47,7 +47,7 @@ class DeleteAccount extends Component {
     }
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     let password;
     let state = this.state;
     password = event.target.value;
@@ -63,7 +63,7 @@ class DeleteAccount extends Component {
     this.setState(state);
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const password = event.target.value;
     const passwordError = !password;
     if (passwordError) {
@@ -84,7 +84,7 @@ class DeleteAccount extends Component {
     actions.closeModal();
   };
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     this.setState({ loading: true });
     const { actions, email } = this.props;
     let password = this.state.password.trim();
@@ -186,7 +186,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DeleteAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccount);

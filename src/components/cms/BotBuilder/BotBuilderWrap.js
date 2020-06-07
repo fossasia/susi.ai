@@ -31,7 +31,7 @@ export const templates = [
   },
 ];
 
-const BotBuilderWrap = props => {
+const BotBuilderWrap = (props) => {
   document.title = 'SUSI.AI - Botbuilder';
   return <BotWizard templates={templates} />;
 };

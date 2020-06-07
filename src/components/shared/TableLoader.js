@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const TableSleletonRow = props => {
+const TableSleletonRow = (props) => {
   return (
     <ContentLoader
       height={40}

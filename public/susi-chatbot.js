@@ -1,30 +1,28 @@
-const susi_skills_deployed_url = 'https://skills.susi.ai/';
-const api_url = 'https://api.susi.ai';
-//Appending CSS
+const SUSI_SKILLS_URL = 'https://skills.susi.ai/';
+const API_URL = 'https://api.susi.ai';
+// Appending CSS
 let headTag = document.getElementsByTagName('head')[0];
 let link = document.createElement('link');
 link.rel = 'stylesheet';
 link.type = 'text/css';
-link.href = `${susi_skills_deployed_url}chatbox-style.min.css`;
+link.href = `${SUSI_SKILLS_URL}chatbox-style.min.css`;
 link.media = 'all';
 headTag.appendChild(link);
 link = document.createElement('link');
 link.rel = 'stylesheet';
 link.type = 'text/css';
-link.href = `${susi_skills_deployed_url}chat-style.css`;
+link.href = `${SUSI_SKILLS_URL}chat-style.css`;
 link.media = 'all';
 headTag.appendChild(link);
-let script_tag, userid, group, skill, language, botWindow;
+let scriptTag, userid, group, skill, language, botWindow;
 if (document.getElementById('susi-bot-script')) {
-  script_tag = document.getElementById('susi-bot-script');
-  userid = script_tag.getAttribute('data-userid');
-  group = script_tag.getAttribute('data-group');
-  language = script_tag.getAttribute('data-language');
-  skill = script_tag.getAttribute('data-skill');
-  botWindow = script_tag.getAttribute('data-bot-type')
-    ? script_tag.getAttribute('data-bot-type') === 'botWindow'
-      ? true
-      : false
+  scriptTag = document.getElementById('susi-bot-script');
+  userid = scriptTag.getAttribute('data-userid');
+  group = scriptTag.getAttribute('data-group');
+  language = scriptTag.getAttribute('data-language');
+  skill = scriptTag.getAttribute('data-skill');
+  botWindow = scriptTag.getAttribute('data-bot-type')
+    ? scriptTag.getAttribute('data-bot-type') === 'botWindow'
     : false;
 }
 // custom theme variables
@@ -35,7 +33,7 @@ let botbuilderUserMessageTextColor = '#ffffff';
 let botbuilderBotMessageBackground = '#f8f8f8';
 let botbuilderBotMessageTextColor = '#455a64';
 let botbuilderIconColor = '';
-let botbuilderIconImg = `${susi_skills_deployed_url}customAvatars/0.png`;
+let botbuilderIconImg = `${SUSI_SKILLS_URL}customAvatars/0.png`;
 
 // get custom theme from user
 function getThemeCallBack(data) {
@@ -75,17 +73,19 @@ function getThemeCallBack(data) {
   }
 }
 
-(function() {
-  let url = `${api_url}/cms/getSkillMetadata.json?userid=${userid}&group=${group}&language=${language}&skill=${skill}`;
+(function () {
+  let url =
+    `${API_URL}/cms/getSkillMetadata.json?userid=${userid}` +
+    `&group=${group}&language=${language}&skill=${skill}`;
   fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       getThemeCallBack(data);
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e);
     });
 })();
@@ -115,8 +115,8 @@ function applyTheme() {
   head.insertAdjacentHTML(
     'beforeend',
     `<style>
-      .susi-comment-body-container-user:after { 
-        border-color:' transparent transparent ${botbuilderUserMessageBackground} ${botbuilderUserMessageBackground} !important'
+      .susi-comment-body-container-user:after {
+        border-color: 'transparent transparent ${botbuilderUserMessageBackground} ${botbuilderUserMessageBackground} !important'
       }
     </style>`,
   );
@@ -125,7 +125,7 @@ function applyTheme() {
     document.querySelector(
       '.susi-comment-by-user .susi-comment-body-container',
     ),
-  )['color'] = botbuilderUserMessageTextColor;
+  ).color = botbuilderUserMessageTextColor;
 
   // bot message container
 
@@ -139,7 +139,7 @@ function applyTheme() {
     document.querySelector(
       '.susi-comment-by-susi .susi-comment-body-container',
     ),
-  )['color'] = botbuilderBotMessageTextColor;
+  ).color = botbuilderBotMessageTextColor;
 
   // bot icon
   getComputedStyle(document.querySelector('.susi-launcher-button'))[
@@ -162,14 +162,17 @@ function applyTheme() {
 }
 
 function enableBot() {
-  let ready = callback => {
-    if (document.readyState != 'loading') callback();
-    else document.addEventListener('DOMContentLoaded', callback);
+  let ready = (callback) => {
+    if (document.readyState != 'loading') {
+      callback();
+    } else {
+      document.addEventListener('DOMContentLoaded', callback);
+    }
   };
 
   ready(() => {
-    const baseUrl = `${api_url}/susi/chat.json?q=`;
-    let msgNumber = 0; //stores the message number to set id
+    const baseUrl = `${API_URL}/susi/chat.json?q=`;
+    let msgNumber = 0; // stores the message number to set id
 
     // Add dynamic html bot content(Widget style)
     let frameStyle = botWindow ? 'height:460px;top: inherit;' : '';
@@ -197,7 +200,7 @@ function enableBot() {
 
     document.querySelector('body').insertAdjacentHTML('beforeend', mybot);
 
-    document.getElementById('susi-launcher').addEventListener('click', e => {
+    document.getElementById('susi-launcher').addEventListener('click', (e) => {
       document.querySelector('.susi-frame-container-active').toggle();
       document.querySelector('#susi-avatar-text').toggle();
       document.querySelector('#susi-launcher-close').toggle();
@@ -206,7 +209,7 @@ function enableBot() {
 
     document
       .getElementById('susi-launcher-close')
-      .addEventListener('click', e => {
+      .addEventListener('click', (e) => {
         document.querySelector('.susi-frame-container-active').toggle();
         document.querySelector('#susi-avatar-text').toggle();
         document.querySelector('#susi-launcher-close').toggle();
@@ -214,31 +217,32 @@ function enableBot() {
 
     // on input/text enter
     document
-      .getElementById(`susiTextMessage`)
-      .addEventListener('keyup keypress', function(e) {
+      .getElementById('susiTextMessage')
+      .addEventListener('keyup keypress', function (e) {
         const keyCode = e.keyCode || e.which;
-        const text = document.querySelector(`#susiTextMessage`).value;
+        const text = document.querySelector('#susiTextMessage').value;
         if (keyCode === 13) {
           if (text == '' || text.trim() == '') {
             e.preventDefault();
             return false;
-          } else {
-            setUserResponse(text);
-            send(text);
-            e.preventDefault();
-            return false;
           }
+          setUserResponse(text);
+          send(text);
+          e.preventDefault();
+          return false;
         }
       });
 
-    document.querySelector(`.susi-send-button`).addEventListener('click', e => {
-      const text = document.querySelector(`#susiTextMessage`).value;
-      if (text !== '') {
-        document.getElementById(`chat-input`).blur();
-        setUserResponse(text);
-        send(text);
-      }
-    });
+    document
+      .querySelector('.susi-send-button')
+      .addEventListener('click', (e) => {
+        const text = document.querySelector('#susiTextMessage').value;
+        if (text !== '') {
+          document.getElementById('chat-input').blur();
+          setUserResponse(text);
+          send(text);
+        }
+      });
 
     // Send request to SUSI API
     function send(text) {
@@ -251,11 +255,11 @@ function enableBot() {
       setLoadingMessage(thisMsgNumber);
 
       fetch(url, { headers: { 'Content-Type': 'application/json' } })
-        .then(res => res.json()) // parse response as JSON (can be res.text() for plain response)
-        .then(data => {
+        .then((res) => res.json()) // parse response as JSON (can be res.text() for plain response)
+        .then((data) => {
           main(data, thisMsgNumber);
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           main(null, thisMsgNumber);
         });
@@ -272,15 +276,11 @@ function enableBot() {
       }
       const actions = data.answers[0].actions;
 
-      for (
-        let action_index = 0;
-        action_index < actions.length;
-        action_index++
-      ) {
-        let action = actions[action_index];
+      for (let actionIndex = 0; actionIndex < actions.length; actionIndex++) {
+        let action = actions[actionIndex];
         let type = action.type;
         let expression = '';
-        if (action_index !== 0) {
+        if (actionIndex !== 0) {
           thisMsgNumber = ++msgNumber;
           if (type === 'answer' || type === 'anchor' || type === 'table') {
             setLoadingMessage(thisMsgNumber);
@@ -313,12 +313,12 @@ function enableBot() {
       <div class="susi-comment-body ">
       <div class="susi-comment-content">
       <div class="susi-question-label">
-      <div class="susi-msg-content-div"> 
-      <img src="${susi_skills_deployed_url}loading.gif" style="height:13px;" />
+      <div class="susi-msg-content-div">
+      <img src="${SUSI_SKILLS_URL}loading.gif" style="height:13px;" />
       </div></div></div></div></div></div></div></div></div>`;
 
       document
-        .querySelector(`.susi-conversation-parts`)
+        .querySelector('.susi-conversation-parts')
         .appendChild(BotResponse);
 
       scrollToBottomOfResults();
@@ -365,11 +365,11 @@ function enableBot() {
       columnsData,
       msgNumber,
     ) {
-      let table = `<div style='overflow-x: scroll'><table><tbody><tr>`;
+      let table = "<div style='overflow-x: scroll'><table><tbody><tr>";
       let i = 0;
       let j = 0;
 
-      //create headers for the table
+      // create headers for the table
       for (i = 0; i < columnsData.length; i++) {
         table = table.concat(`<th>${columnsData[i]}</th>`);
       }
@@ -379,7 +379,7 @@ function enableBot() {
         table = table.concat('<tr>');
 
         for (j = 0; j < columns.length; j++) {
-          //check if such column value exists for that record
+          // check if such column value exists for that record
           if (tableData[i][columns[j]]) {
             let cellData = tableData[i][columns[j]];
             if (typeof cellData === 'object') {

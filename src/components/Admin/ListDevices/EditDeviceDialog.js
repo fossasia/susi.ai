@@ -27,7 +27,7 @@ export default class EditDeviceDialog extends Component {
     loading: false,
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 

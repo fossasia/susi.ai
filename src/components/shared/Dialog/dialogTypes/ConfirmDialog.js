@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '../../../shared/Button';
 
-const ConfirmDialog = props => {
+const ConfirmDialog = (props) => {
   const { title, content, handleConfirm, handleClose, confirmText } = props;
   const [loading, setLoading] = useState(false);
 

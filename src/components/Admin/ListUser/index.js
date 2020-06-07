@@ -34,7 +34,7 @@ class ListUser extends Component {
   deleteUser = () => {
     const { userEmail: email } = this.state;
     deleteUserAccount({ email })
-      .then(payload => {
+      .then((payload) => {
         this.props.actions.openModal({
           modalType: 'confirm',
           content: (
@@ -52,7 +52,7 @@ class ListUser extends Component {
         this.setState({ search: '' });
         this.loadUsers();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         this.props.actions.openModal({
           modalType: 'confirm',
@@ -71,7 +71,7 @@ class ListUser extends Component {
       });
   };
 
-  handleSearch = value => {
+  handleSearch = (value) => {
     const { search } = this.state;
     value = value.trim();
     if (value === '' && search !== value) {
@@ -79,14 +79,14 @@ class ListUser extends Component {
     }
     this.setState({ search: value });
     fetchAdminUserStats({ search: value })
-      .then(payload => {
+      .then((payload) => {
         let userList = payload.users;
         let users = [];
         if (userList && Array.isArray(userList) && userList.length > 0) {
           userList.map((data, dataIndex) => {
             let devices = [];
             let keys = Object.keys(data.devices);
-            keys.forEach(deviceIndex => {
+            keys.forEach((deviceIndex) => {
               let device = {
                 macid: deviceIndex,
                 devicename: data.devices[deviceIndex].name,
@@ -121,7 +121,7 @@ class ListUser extends Component {
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -135,7 +135,7 @@ class ListUser extends Component {
     Promise.all([
       this.fetch({ page: 0 }),
       fetchAdminUserStats({ getUserStats: 'true' })
-        .then(payload => {
+        .then((payload) => {
           const {
             userStats: { totalUsers },
           } = payload;
@@ -143,7 +143,7 @@ class ListUser extends Component {
             totalUsers,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         }),
     ]);
@@ -159,14 +159,14 @@ class ListUser extends Component {
   fetch = ({ page }) => {
     this.setState({ loading: true });
     fetchAdminUserStats({ page: page + 1 })
-      .then(payload => {
+      .then((payload) => {
         let userList = payload.users;
         let users = [];
         if (userList && Array.isArray(userList) && userList.length > 0) {
           userList.map((data, dataIndex) => {
             let devices = [];
             let keys = Object.keys(data.devices);
-            keys.forEach(deviceIndex => {
+            keys.forEach((deviceIndex) => {
               let device = {
                 macid: deviceIndex,
                 devicename: data.devices[deviceIndex].name,
@@ -209,7 +209,7 @@ class ListUser extends Component {
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -224,7 +224,7 @@ class ListUser extends Component {
     });
   };
 
-  handleDelete = userEmail => {
+  handleDelete = (userEmail) => {
     this.setState({ userEmail });
     this.props.actions.openModal({
       modalType: 'deleteUserAccount',
@@ -250,7 +250,7 @@ class ListUser extends Component {
         <SearchBar
           placeholder="Search by email"
           value={search}
-          onChange={value => this.handleSearch(value)}
+          onChange={(value) => this.handleSearch(value)}
           closeIcon={<CloseIcon />}
           onCancelSearch={this.onClose}
         />
@@ -266,7 +266,7 @@ class ListUser extends Component {
           data={data}
           title=""
           actions={[
-            rowData => ({
+            (rowData) => ({
               onEdit: (event, rowData) => {
                 this.handleEdit(rowData.email, rowData.userRole);
               },
@@ -276,26 +276,26 @@ class ListUser extends Component {
             }),
           ]}
           components={{
-            Action: props => (
+            Action: (props) => (
               <React.Fragment>
                 <Link to={`/settings?email=${props.data.email}`}>
                   <ActionSpan>Edit</ActionSpan>
                 </Link>
                 <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
-                  onClick={event => props.action.onEdit(event, props.data)}
+                  onClick={(event) => props.action.onEdit(event, props.data)}
                 >
                   Role
                 </ActionSpan>
                 <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
-                  onClick={event => props.action.onDelete(event, props.data)}
+                  onClick={(event) => props.action.onDelete(event, props.data)}
                 >
                   Delete
                 </ActionSpan>
               </React.Fragment>
             ),
-            Pagination: e => (
+            Pagination: (e) => (
               <TablePagination
                 rowsPerPageOptions={[50]}
                 colSpan={3}
@@ -310,11 +310,11 @@ class ListUser extends Component {
               />
             ),
           }}
-          detailPanel={rowData => {
+          detailPanel={(rowData) => {
             return <DevicePanel data={rowData.devices} email={rowData.email} />;
           }}
           onRowClick={(event, rowData, togglePanel) => togglePanel()}
-          onChangePage={page => {
+          onChangePage={(page) => {
             this.fetch({ page: page + 1 });
           }}
         />
@@ -334,7 +334,4 @@ function mapDispatchToProps(store) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ListUser);
+export default connect(null, mapDispatchToProps)(ListUser);

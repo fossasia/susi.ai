@@ -24,7 +24,7 @@ const HomeDiv = styled.div`
   }
 `;
 
-const Privacy = props => {
+const Privacy = (props) => {
   // Adding title tag to page
   document.title =
     'Privacy Policy - SUSI.AI, Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';

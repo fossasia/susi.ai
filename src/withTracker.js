@@ -3,7 +3,7 @@ import GoogleAnalytics from 'react-ga';
 import PropTypes from 'prop-types';
 
 const withTracker = (WrappedComponent, options = {}) => {
-  const trackPage = page => {
+  const trackPage = (page) => {
     GoogleAnalytics.set({
       page,
       ...options,

@@ -55,7 +55,7 @@ class SkillSlideshowDialog extends React.Component {
     this.props.actions.closeModal();
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -90,7 +90,7 @@ class SkillSlideshowDialog extends React.Component {
     }
   };
 
-  handleImageChange = e => {
+  handleImageChange = (e) => {
     e.preventDefault();
     // eslint-disable-next-line no-undef
     let reader = new FileReader();
@@ -208,9 +208,9 @@ class SkillSlideshowDialog extends React.Component {
           <input
             id="file-opener"
             type="file"
-            onChange={e => this.handleImageChange(e)}
+            onChange={(e) => this.handleImageChange(e)}
             accept="image/x-png,image/gif,image/jpeg"
-            onClick={event => {
+            onClick={(event) => {
               event.target.value = null;
             }}
             style={{ display: 'none' }}

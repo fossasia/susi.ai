@@ -122,7 +122,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ThemeChangeTab);
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeChangeTab);
