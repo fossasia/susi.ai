@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import skillActions from '../../../redux/actions/skill';
 import uiActions from '../../../redux/actions/ui';
-import Img from 'react-image';
+import { Img } from 'react-image';
 import ISO6391 from 'iso-639-1';
 import CircleImage from '../../shared/CircleImage';
 import { urls } from '../../../utils';
@@ -195,7 +195,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AuthorSkills);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorSkills);

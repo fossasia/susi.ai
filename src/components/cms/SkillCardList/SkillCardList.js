@@ -317,7 +317,7 @@ class SkillCardList extends Component {
 
   loadSkillCards = () => {
     let cards = [];
-    Object.keys(this.props.skills).forEach(el => {
+    Object.keys(this.props.skills).forEach((el) => {
       let skill = this.props.skills[el];
       let skillName = 'Name not available',
         examples = [],
@@ -402,9 +402,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    null,
-  )(SkillCardList),
-);
+export default withRouter(connect(mapStateToProps, null)(SkillCardList));

@@ -134,7 +134,7 @@ class SkillRollBack extends Component {
     }
   }
 
-  updateData = commitData => {
+  updateData = (commitData) => {
     this.setState({
       commitData: commitData,
     });
@@ -142,11 +142,11 @@ class SkillRollBack extends Component {
     this.commitMessage = `Reverting to Commit - ${commitData[1].commitID}`;
   };
 
-  updateCode = newCode => {
+  updateCode = (newCode) => {
     this.code = newCode;
   };
 
-  handleCommitMessageChange = event => {
+  handleCommitMessageChange = (event) => {
     this.commitMessage = event.target.value;
   };
 
@@ -367,7 +367,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillRollBack);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillRollBack);

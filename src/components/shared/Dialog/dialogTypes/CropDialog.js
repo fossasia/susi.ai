@@ -53,7 +53,7 @@ class CropDialog extends Component {
     );
 
     return new Promise((resolve, reject) => {
-      canvas.toBlob(blob => {
+      canvas.toBlob((blob) => {
         if (!blob) {
           console.error('Canvas is empty');
           return;
@@ -81,15 +81,15 @@ class CropDialog extends Component {
     }
   }
 
-  onImageLoaded = image => {
+  onImageLoaded = (image) => {
     this.imageRef = image;
   };
 
-  onCropComplete = crop => {
+  onCropComplete = (crop) => {
     this.makeClientCrop(crop);
   };
 
-  onCropChange = crop => {
+  onCropChange = (crop) => {
     this.setState({
       crop,
     });

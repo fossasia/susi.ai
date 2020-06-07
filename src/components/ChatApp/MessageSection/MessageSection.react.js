@@ -44,26 +44,26 @@ const Date = styled.div`
 `;
 
 const MessageList = styled.div`
-  background: ${props => props.pane};
-  position: ${props => (props.showChatPreview ? 'inherit' : 'fixed')};
+  background: ${(props) => props.pane};
+  position: ${(props) => (props.showChatPreview ? 'inherit' : 'fixed')};
   top: 3rem;
   left: 0;
   background-size: cover;
   background-repeat: no-repeat;
   bottom: 4.6rem;
   right: 0;
-  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
+  width: ${(props) => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
-  margin: ${props => (props.showChatPreview ? '0px' : '0 auto')};
-  height: ${props =>
+  margin: ${(props) => (props.showChatPreview ? '0px' : '0 auto')};
+  height: ${(props) =>
     props.showChatPreview ? props.height - 270 + 'px' : 'auto'};
-  background-image: ${props => `url(${props.messageBackgroundImage})`};
+  background-image: ${(props) => `url(${props.messageBackgroundImage})`};
   background-repeat: 'no-repeat';
   background-size: '100% 100%';
-  max-height: ${props => (props.showChatPreview ? '593px' : 'auto')};
+  max-height: ${(props) => (props.showChatPreview ? '593px' : 'auto')};
   box-shadow: rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
 `;
@@ -73,7 +73,7 @@ const ScrollBottomFab = styled(Fab)`
   margin-right: 0.4rem;
   margin-bottom: 0.5rem;
   box-shadow: none;
-  background-color: ${props => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor};
   border: 0.45px solid darkgray;
 `;
 
@@ -82,12 +82,12 @@ const ScrollTopFab = styled(Fab)`
   margin-left: 0.4rem;
   margin-top: 0.5rem;
   box-shadow: none;
-  background-color: ${props => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor};
   border: 0.45px solid darkgray;
 `;
 
 const MessageComposeContainer = styled.div`
-  position: ${props => (props.showChatPreview ? 'absolute' : 'fixed')};
+  position: ${(props) => (props.showChatPreview ? 'absolute' : 'fixed')};
   bottom: 0;
   margin: 0;
   border: none;
@@ -99,42 +99,42 @@ const MessageComposeContainer = styled.div`
   transition: transform 0.25s cubic-bezier(0, 0, 0.3, 1) 0.3s;
   pointer-events: auto;
   opacity: 1;
-  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
+  width: ${(props) => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
-  background: ${props => props.$backgroundColor};
-  color: ${props => (props.theme === 'dark' ? 'white' : 'black')};
+  background: ${(props) => props.$backgroundColor};
+  color: ${(props) => (props.theme === 'dark' ? 'white' : 'black')};
   min-height: 4.625rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
 `;
 
 const MessageSectionContainer = styled.div`
-  position: ${props => (props.showChatPreview ? 'absolute' : 'relative')};
-  left: ${props => (props.showChatPreview ? '-75px' : '0px')};
+  position: ${(props) => (props.showChatPreview ? 'absolute' : 'relative')};
+  left: ${(props) => (props.showChatPreview ? '-75px' : '0px')};
   bottom: 0;
   right: 0;
-  height: ${props =>
+  height: ${(props) =>
     props.showChatPreview ? props.height - 160 + 'px' : 'auto'};
-  margin: ${props => (props.showChatPreview ? '0px' : '0 auto')};
-  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
+  margin: ${(props) => (props.showChatPreview ? '0px' : '0 auto')};
+  width: ${(props) => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 44rem;
   overflow-x: hidden;
   overflow-y: hidden;
-  max-height: ${props => (props.showChatPreview ? '704px' : 'auto')};
-  box-shadow: ${props =>
+  max-height: ${(props) => (props.showChatPreview ? '704px' : 'auto')};
+  box-shadow: ${(props) =>
     props.showChatPreview
       ? 'rgba(0, 0, 0, 0.16) 0px 0.1875rem 0.375rem,rgba(0, 0, 0, 0.23) 0px 3px 6px'
       : '0px'};
-  border-radius: ${props => (props.showChatPreview ? '4px' : '0px')};
+  border-radius: ${(props) => (props.showChatPreview ? '4px' : '0px')};
 `;
 
 const ScrollBottomContainer = styled.div`
   position: fixed;
   margin: 0;
   border: none;
-  width: ${props => (props.showChatPreview ? '376px' : '100vw')};
+  width: ${(props) => (props.showChatPreview ? '376px' : '100vw')};
   max-width: 43.75rem;
   bottom: 4.7rem;
   overflow-x: hidden;
@@ -199,9 +199,10 @@ const SUSILauncherWrapper = styled.div`
   border-radius: 5em;
   cursor: pointer;
   position: absolute;
-  transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
-  transform: translateY(150px);
-  animation: ${launcherFrameAppearKeyframe} .25s ease forwards
+  // TODO: Fix this animation
+  // transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
+  // transform: translateY(150px);
+  // animation: ${launcherFrameAppearKeyframe} .25s ease forwards
   padding: 0;
   height: auto;
   :hover {
@@ -229,7 +230,7 @@ const ActionBar = styled.div`
   width: auto;
   height: 48px;
   background-color: #4285f4;
-  padding: ${props =>
+  padding: ${(props) =>
     props.showFullScreenChat ? '0.5rem 1rem' : '0.3rem 0.5rem'};
   top: 0px;
   display: flex;
@@ -237,13 +238,13 @@ const ActionBar = styled.div`
   align-items: center;
   font-size: 1rem;
   justify-content: space-between;
-  background: ${props => props.headerColor};
+  background: ${(props) => props.headerColor};
 `;
 
 const ChatBubbleContainer = styled.div`
   position: fixed;
-  top: ${props => props.height - 95 + 'px'};
-  right: ${props => (props.width < 1100 ? '80px' : '100px')};
+  top: ${(props) => props.height - 95 + 'px'};
+  right: ${(props) => (props.width < 1100 ? '80px' : '100px')};
 `;
 
 const IconButton = styled(_IconButton)`
@@ -254,7 +255,7 @@ const IconButton = styled(_IconButton)`
 const CustomIconButton = styled(_IconButton)`
   padding: 3.5px;
   color: #fff;
-  display: ${props => (props.width < 500 ? 'none' : 'inline')};
+  display: ${(props) => (props.width < 500 ? 'none' : 'inline')};
 `;
 
 class MessageSection extends Component {
@@ -366,7 +367,7 @@ class MessageSection extends Component {
 
   pauseAllVideos = () => {
     const { player } = this.state;
-    player.forEach(event => {
+    player.forEach((event) => {
       try {
         if (event.target.getPlayerState() === 1) {
           event.target.pauseVideo();
@@ -377,10 +378,12 @@ class MessageSection extends Component {
     });
   };
 
-  addYouTube = newPlayer => {
+  addYouTube = (newPlayer) => {
     this.pauseAllVideos();
     this.scrollToBottom();
-    this.setState(prevState => ({ player: [...prevState.player, newPlayer] }));
+    this.setState((prevState) => ({
+      player: [...prevState.player, newPlayer],
+    }));
   };
 
   onScroll = () => {
@@ -438,7 +441,7 @@ class MessageSection extends Component {
     }
   };
 
-  searchTextChanged = event => {
+  searchTextChanged = (event) => {
     const { messages, messagesByID, actions } = this.props;
     let { searchState } = this.state;
     const searchText = event.target.value;
@@ -600,7 +603,7 @@ class MessageSection extends Component {
     // markID indicates search mode on
     const { mode } = this.props;
     if (markID) {
-      return messages.map(id => {
+      return messages.map((id) => {
         return (
           <MessageListItem
             key={id}
@@ -627,7 +630,7 @@ class MessageSection extends Component {
       messages &&
       Array.isArray(messages) &&
       messages.length > 0 &&
-      messages.map(id => {
+      messages.map((id) => {
         const currentDate = messagesByID[id].date.toLocaleDateString('en-US');
         let updateDate = null;
         if (currentDate !== previousDate) {
@@ -827,7 +830,7 @@ class MessageSection extends Component {
           <div>
             {mode === 'preview' && actionBar}
             <MessageList
-              ref={c => {
+              ref={(c) => {
                 this.messageList = c;
               }}
               pane={pane}
@@ -839,7 +842,7 @@ class MessageSection extends Component {
                 style={{ height: '97%' }}
                 renderThumbHorizontal={this.renderThumb}
                 renderThumbVertical={this.renderThumb}
-                ref={ref => {
+                ref={(ref) => {
                   this.scrollarea = ref;
                 }}
                 onScroll={this.onScroll}
@@ -892,32 +895,24 @@ class MessageSection extends Component {
       </MessageSectionContainer>
     );
 
-    const ChatBubble = (
+    console.log(mode);
+
+    return mode === 'fullScreen' ? (
+      <Fragment>
+        {actionBar}
+        {messageSection}
+      </Fragment>
+    ) : (
       <ChatBubbleContainer className="chatbubble" height={height} width={width}>
         {mode === 'preview' ? messageSection : null}
-        {mode !== 'fullScreen' ? (
-          <SUSILauncherContainer>
-            <SUSILauncherWrapper
-              onClick={width < 500 ? this.openFullScreen : this.toggleChat}
-            >
-              <SUSILauncherButton data-tip="Toggle Launcher" />
-            </SUSILauncherWrapper>
-          </SUSILauncherContainer>
-        ) : null}
+        <SUSILauncherContainer>
+          <SUSILauncherWrapper
+            onClick={width < 500 ? this.openFullScreen : this.toggleChat}
+          >
+            <SUSILauncherButton data-tip="Toggle Launcher" />
+          </SUSILauncherWrapper>
+        </SUSILauncherContainer>
       </ChatBubbleContainer>
-    );
-
-    return (
-      <Fragment>
-        {mode === 'fullScreen' ? (
-          <Fragment>
-            {actionBar}
-            {messageSection}
-          </Fragment>
-        ) : (
-          ChatBubble
-        )}
-      </Fragment>
     );
   }
 }

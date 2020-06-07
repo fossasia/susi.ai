@@ -21,7 +21,7 @@ class LeftMenu extends React.Component {
   };
   state = {};
 
-  handleClick = label => {
+  handleClick = (label) => {
     this.setState({ [label]: !this.state[label] });
   };
 
@@ -105,7 +105,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(LeftMenu);
+export default connect(mapStateToProps, null)(LeftMenu);

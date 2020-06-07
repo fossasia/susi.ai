@@ -26,7 +26,7 @@ const Container = styled.div`
 `;
 
 const Text = styled.textarea`
-  width: ${props => (props.width ? props.width : '80%')};
+  width: ${(props) => (props.width ? props.width : '80%')};
   flex: 2;
   min-height: 5rem;
   font-size: 1rem;
@@ -47,7 +47,7 @@ class CopyWithButton extends React.Component {
         <Text
           value={this.props.value}
           width={this.props.width}
-          onChange={event => this.props.handleChange(event)}
+          onChange={(event) => this.props.handleChange(event)}
         />
         <CopyToClipboard
           text={this.props.value}

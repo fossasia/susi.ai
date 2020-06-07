@@ -110,13 +110,13 @@ class Mail extends React.Component {
     this.getMailSettings();
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
-  handleMailTypeChange = event => {
+  handleMailTypeChange = (event) => {
     this.setState({ type: event.target.value });
   };
 
@@ -457,7 +457,4 @@ function mapStateToDispatch(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapStateToDispatch,
-)(Mail);
+export default connect(mapStateToProps, mapStateToDispatch)(Mail);

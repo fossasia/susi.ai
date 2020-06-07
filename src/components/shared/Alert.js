@@ -14,9 +14,10 @@ const common = css`
 
 const Container = styled.div`
   padding: 1rem 1rem 1rem 4rem;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.type === 'error' ? '#fff1f0' : '#f6ffed'};
-  border: 1px solid ${props => (props.type === 'error' ? '#ffa39e' : '#b7eb8f')};
+  border: 1px solid
+    ${(props) => (props.type === 'error' ? '#ffa39e' : '#b7eb8f')};
   font-size: 1.25rem;
   line-height: 2;
   overflow-wrap: break-word;

@@ -1,4 +1,5 @@
-const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 module.exports = () => ({
   module: {
     rules: [
@@ -9,7 +10,7 @@ module.exports = () => ({
     ],
   },
   plugins: [
-    new InterpolateHtmlPlugin({
+    new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
       PUBLIC_URL: '',
     }),
   ],

@@ -92,7 +92,7 @@ const CodeBox = styled.div`
 `;
 
 const api = window.location.protocol + '//' + window.location.host;
-const Deploy = props => {
+const Deploy = (props) => {
   const { category, language, name, actions, uuid } = props;
   const part = `data-skill=&quot;
     ${name}
@@ -185,7 +185,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Deploy);
+export default connect(mapStateToProps, mapDispatchToProps)(Deploy);

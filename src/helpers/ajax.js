@@ -7,8 +7,8 @@ const cookies = new Cookies();
 
 const obj = {};
 
-['get', 'post', 'postJSON', 'all'].forEach(function(method) {
-  obj[method] = function(url, payload, settings = {}) {
+['get', 'post', 'postJSON', 'all'].forEach(function (method) {
+  obj[method] = function (url, payload, settings = {}) {
     /* Request will be aborted after 30 seconds */
     settings = {
       timeout: 30000,
@@ -27,7 +27,7 @@ const obj = {};
       };
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       let methodArgs = [];
       /*
           If ajax.post is used, by default sending form data
@@ -45,7 +45,7 @@ const obj = {};
       } else if (method === 'get') {
         if (payload) {
           url += `?${Object.keys(payload)
-            .map(key => key + '=' + payload[key])
+            .map((key) => key + '=' + payload[key])
             .join('&')}`;
         }
       }
@@ -66,7 +66,7 @@ const obj = {};
       }
 
       axios[methodsToAxiosMethodsMap[method]].apply({}, methodArgs).then(
-        function(data = {}, ...restSuccessArgs) {
+        function (data = {}, ...restSuccessArgs) {
           const statusCode = _.get(data, 'status');
           /*
               Send only api resonse
@@ -89,7 +89,7 @@ const obj = {};
             ...restSuccessArgs,
           );
         },
-        function(data = {}, ...restErrorArgs) {
+        function (data = {}, ...restErrorArgs) {
           // If request is canceled by user
           if (axios.isCancel(data)) {
             reject(data);

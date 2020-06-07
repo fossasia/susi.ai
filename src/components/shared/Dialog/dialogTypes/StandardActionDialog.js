@@ -10,7 +10,7 @@ const DialogActions = styled(_DialogActions)`
   justify-content: space-around;
 `;
 
-const StandardActionDialog = props => {
+const StandardActionDialog = (props) => {
   const { handleConfirm, handleClose, entityType, actionType, name } = props;
   const [loading, setLoading] = useState(false);
   return (

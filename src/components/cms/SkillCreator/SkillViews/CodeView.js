@@ -12,7 +12,7 @@ class CodeView extends React.Component {
     loading: false,
   };
 
-  onChange = newValue => {
+  onChange = (newValue) => {
     const { actions } = this.props;
     const match = newValue.match(/^::image\s(.*)$/m);
     const nameMatch = newValue.match(/^::name\s(.*)$/m);
@@ -63,7 +63,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CodeView);
+export default connect(mapStateToProps, mapDispatchToProps)(CodeView);

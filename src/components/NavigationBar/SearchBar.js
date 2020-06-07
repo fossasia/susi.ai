@@ -24,7 +24,7 @@ const StyledSearchBar = styled(_SearchBar)`
   display: flex;
   align-items: center;
   height: 35px;
-  padding-left: ${props => `${props['padding-left']}rem`};
+  padding-left: ${(props) => `${props['padding-left']}rem`};
   width: 39rem;
   @media (max-width: 1380px) {
     width: 30rem;
@@ -60,7 +60,7 @@ const StyledSearchBar = styled(_SearchBar)`
 
 const Select = styled(_Select)`
   ${OutlinedSelectStyles}
-  width: ${props => `${props.width}rem`};
+  width: ${(props) => `${props.width}rem`};
   position: absolute;
   margin-left: 0.5rem;
   border-radius: 4px 0px 0px 4px;
@@ -80,7 +80,7 @@ const Container = styled.div`
   }
 `;
 
-const SearchBar = props => {
+const SearchBar = (props) => {
   const {
     searchType,
     searchSelectWidth,
@@ -91,7 +91,7 @@ const SearchBar = props => {
   } = props;
   let renderSelectMenu;
 
-  renderSelectMenu = Object.keys(SEARCHTYPES).map(key => {
+  renderSelectMenu = Object.keys(SEARCHTYPES).map((key) => {
     let value = SEARCHTYPES[key];
     return (
       <MenuItem key={key} value={key}>
@@ -122,9 +122,9 @@ const SearchBar = props => {
       <Select
         multiple
         displayEmpty={true}
-        renderValue={selected => renderSelectText(selected)}
+        renderValue={(selected) => renderSelectText(selected)}
         value={searchType}
-        onChange={e => handleSearchTypeChange(e)}
+        onChange={(e) => handleSearchTypeChange(e)}
         input={<OutlinedInput />}
         width={searchSelectWidth}
         MenuProps={{

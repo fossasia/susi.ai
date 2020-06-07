@@ -34,7 +34,7 @@ const COLUMNS = [
   { title: 'Location', field: 'location', isEditable: false },
 ];
 
-const DevicesTable = props => {
+const DevicesTable = (props) => {
   const {
     tableData,
     editIdx,
@@ -53,7 +53,7 @@ const DevicesTable = props => {
             {COLUMNS &&
               Array.isArray(COLUMNS) &&
               COLUMNS.length > 0 &&
-              COLUMNS.map(eachColumn => (
+              COLUMNS.map((eachColumn) => (
                 <TableCell key={eachColumn.field}>{eachColumn.title}</TableCell>
               ))}
             <TableCell>Actions</TableCell>
@@ -75,7 +75,7 @@ const DevicesTable = props => {
                         {editIdx === rowIndex && isEditable ? (
                           <TextField
                             name={index.toString()}
-                            onChange={e => handleChange(e, field, rowIndex)}
+                            onChange={(e) => handleChange(e, field, rowIndex)}
                             value={eachRow[field]}
                           />
                         ) : (

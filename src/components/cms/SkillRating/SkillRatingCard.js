@@ -92,7 +92,7 @@ class SkillRatingCard extends Component {
     offset: 0,
   };
 
-  changeRating = async userRating => {
+  changeRating = async (userRating) => {
     const { group, language, skillTag: skill, actions } = this.props;
     const skillData = {
       model: 'general',
@@ -142,8 +142,8 @@ class SkillRatingCard extends Component {
     });
   };
 
-  roundOffRating = ratingsOverTime => {
-    ratingsOverTime = ratingsOverTime.map(obj => {
+  roundOffRating = (ratingsOverTime) => {
+    ratingsOverTime = ratingsOverTime.map((obj) => {
       return { ...obj, rating: parseFloat(obj.rating.toFixed(1)) };
     });
     return ratingsOverTime;
@@ -289,7 +289,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillRatingCard);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillRatingCard);

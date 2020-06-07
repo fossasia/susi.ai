@@ -80,7 +80,7 @@ class SkillVersion extends Component {
     }
   };
 
-  setCommitHistory = commitsData => {
+  setCommitHistory = (commitsData) => {
     if (commitsData.accepted) {
       let commits = commitsData.commits ? commitsData.commits : [];
       this.setState({
@@ -94,12 +94,12 @@ class SkillVersion extends Component {
     const { commits, checks } = this.state;
     let checkedCommits = null;
     if (checks && Array.isArray(checks) && checks.length > 0) {
-      checkedCommits = checks.map(check => commits[check]);
+      checkedCommits = checks.map((check) => commits[check]);
     }
     return checkedCommits;
   };
 
-  onCheck = e => {
+  onCheck = (e) => {
     const { checks } = this.state;
     const { id, checked } = e.currentTarget;
     let currentChecks = [...checks];
@@ -112,7 +112,7 @@ class SkillVersion extends Component {
     } else {
       let checks = checked
         ? [...currentChecks, id]
-        : currentChecks.filter(check => check !== id);
+        : currentChecks.filter((check) => check !== id);
       this.setState({
         checks: [...checks],
       });
@@ -237,7 +237,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SkillVersion);
+export default connect(null, mapDispatchToProps)(SkillVersion);

@@ -19,7 +19,7 @@ const styles = {
   },
 };
 
-const SocialLinkButtons = props => {
+const SocialLinkButtons = (props) => {
   const { github = '#', twitter = '#', linkedin = '#', blog = '#' } =
     props.member || {};
   const { contentStyle, emptyStyle } = styles;

@@ -4,7 +4,7 @@ import _ReactTooltip from 'react-tooltip';
 
 export const Card = styled(_Card)`
   width: 16.25rem;
-  height: ${props => (props.grid ? '12.5rem' : '10.5rem')};
+  height: ${(props) => (props.grid ? '12.5rem' : '10.5rem')};
   min-height: 9.375rem;
   margin: 0.625rem;
   overflow: hidden;

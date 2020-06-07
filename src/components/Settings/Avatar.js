@@ -65,7 +65,7 @@ const EmptyAvatarContainer = styled.div`
   }
 `;
 
-const Avatar = props => {
+const Avatar = (props) => {
   const handleFileUpload = () => {
     const fileUpload = document.getElementById('file-opener');
     fileUpload.click();
@@ -89,7 +89,7 @@ const Avatar = props => {
   switch (avatarType) {
     case 'server':
       return (
-        <Form onSubmit={e => handleAvatarSubmit(e)}>
+        <Form onSubmit={(e) => handleAvatarSubmit(e)}>
           {imagePreviewUrl !== '' && (
             <PreviewContainer>
               <AvatarImage
@@ -105,9 +105,9 @@ const Avatar = props => {
                 id="file-opener"
                 type="file"
                 className="input-avatar"
-                onChange={e => handleAvatarImageChange(e)}
+                onChange={(e) => handleAvatarImageChange(e)}
                 accept="image/x-png,image/gif,image/jpeg"
-                onClick={event => {
+                onClick={(event) => {
                   event.target.value = null;
                 }}
               />
@@ -137,7 +137,7 @@ const Avatar = props => {
           )}
           {imagePreviewUrl === '' && !isAvatarAdded && (
             <label htmlFor="fileOpener">
-              <div onSubmit={e => handleAvatarImageChange(e)}>
+              <div onSubmit={(e) => handleAvatarImageChange(e)}>
                 {!isAvatarAdded && (
                   <EmptyAvatarContainer>
                     <AvatarDiv>
@@ -150,9 +150,9 @@ const Avatar = props => {
                 id="fileOpener"
                 type="file"
                 className="input-avatar"
-                onChange={e => handleAvatarImageChange(e)}
+                onChange={(e) => handleAvatarImageChange(e)}
                 accept="image/x-png,image/gif,image/jpeg"
-                onClick={event => {
+                onClick={(event) => {
                   event.target.value = null;
                 }}
               />

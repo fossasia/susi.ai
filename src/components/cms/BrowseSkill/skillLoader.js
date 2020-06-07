@@ -9,8 +9,8 @@ const Container = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   margin: 8px;
   border: 0.5px solid #eaeded;
 `;
@@ -106,7 +106,7 @@ const SkillSearchLoader = () => {
   );
 };
 
-const SkillLoader = props => {
+const SkillLoader = (props) => {
   const isMobile = isMobileView();
   const { isSkillSearch } = props;
   return (

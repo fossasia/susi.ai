@@ -1,4 +1,4 @@
-export default function(arr) {
+export default function (arr) {
   return arr.findIndex(checkUnixEpoch);
 }
 

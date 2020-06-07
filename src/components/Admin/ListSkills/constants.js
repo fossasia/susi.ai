@@ -1,6 +1,6 @@
 import tableStyles from '../../shared/table';
 
-export const getColumnConfig = groups => {
+export const getColumnConfig = (groups) => {
   return [
     {
       title: 'Name',

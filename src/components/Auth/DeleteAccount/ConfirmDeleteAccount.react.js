@@ -56,11 +56,11 @@ class ConfirmDeleteAccount extends React.Component {
     loading: false,
   };
 
-  handleClose = event => {
+  handleClose = (event) => {
     this.props.actions.closeModal();
   };
 
-  handleConfirm = async event => {
+  handleConfirm = async (event) => {
     this.setState({ loading: true });
     const { confirmed } = this.state;
     const { actions, history } = this.props;
@@ -86,7 +86,7 @@ class ConfirmDeleteAccount extends React.Component {
     }
   };
 
-  handleEmailChange = event => {
+  handleEmailChange = (event) => {
     let { email } = this.props;
     email = email.toLowerCase().trim();
     let { value } = event.target;
@@ -166,8 +166,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ConfirmDeleteAccount),
+  connect(mapStateToProps, mapDispatchToProps)(ConfirmDeleteAccount),
 );

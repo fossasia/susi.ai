@@ -8,7 +8,7 @@ let tasks = new TaskRunner();
 
 const isMobileView = mobileView();
 
-export default async function({
+export default async function ({
   text,
   voice,
   createMessage,
@@ -39,7 +39,7 @@ export default async function({
         response,
         voice,
       });
-      susiMessages.forEach(eachMessage => {
+      susiMessages.forEach((eachMessage) => {
         if (eachMessage.planDelay) {
           tasks.push(
             plannedFunction,

@@ -80,7 +80,7 @@ class MyRatings extends Component {
                     {
                       title: 'Skill Name',
                       field: 'skillName',
-                      render: rowData => {
+                      render: (rowData) => {
                         return (
                           <Link
                             to={{
@@ -100,7 +100,7 @@ class MyRatings extends Component {
                     {
                       title: 'Rating',
                       field: 'rating',
-                      render: rowData => {
+                      render: (rowData) => {
                         return (
                           <Ratings
                             rating={rowData.skillStar}
@@ -120,7 +120,7 @@ class MyRatings extends Component {
                     {
                       title: 'Timestamp',
                       field: 'timestamp',
-                      render: rowData => {
+                      render: (rowData) => {
                         return parseDate(rowData.ratingTimestamp);
                       },
                     },
@@ -184,7 +184,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MyRatings);
+export default connect(mapStateToProps, mapDispatchToProps)(MyRatings);

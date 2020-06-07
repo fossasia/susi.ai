@@ -49,10 +49,10 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const SkillCardGrid = props => {
+const SkillCardGrid = (props) => {
   const loadSkillCards = () => {
     let cards = [];
-    Object.keys(props.skills).forEach(el => {
+    Object.keys(props.skills).forEach((el) => {
       let skill = props.skills[el];
       const dataId = `index-${el}`;
       const skillPathname = `/${skill.group}/${skill.skillTag}/${skill.language}`;
@@ -211,7 +211,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SkillCardGrid);
+export default connect(mapStateToProps, null)(SkillCardGrid);

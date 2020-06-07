@@ -52,10 +52,10 @@ const MessageContainer = styled.div`
   display: flex;
   margin: 0.3125rem;
   overflow-wrap: break-word;
-  ${props =>
+  ${(props) =>
     props.height &&
     css`
-      height: ${props => props.height + '56'};
+      height: ${(props) => props.height + '56'};
     `};
   &a {
     white-space: nowrap;
@@ -147,7 +147,7 @@ const PostDate = injectIntl(({ date, intl }) => (
   </span>
 ));
 
-const generateDateBubble = message => {
+const generateDateBubble = (message) => {
   return (
     <MessageContainer>
       <DateContainer>
@@ -418,7 +418,11 @@ export const generateMessageBubble = (
 
   let replacedText = '';
   let markMsgID = markID;
-  if (message && message.hasOwnProperty('mark') && markMsgID) {
+  if (
+    message &&
+    Object.prototype.hasOwnProperty.call(message, 'mark') &&
+    markMsgID
+  ) {
     let matchString = message.mark.searchText;
     let isCaseSensitive = message.mark.isCaseSensitive;
     if (stringWithLinks) {
@@ -458,7 +462,7 @@ export const generateMessageBubble = (
   } else if (stringWithLinks) {
     replacedText = processText(stringWithLinks);
   }
-  if (message && message.hasOwnProperty('action')) {
+  if (message && Object.prototype.hasOwnProperty.call(message, 'action')) {
     const answer = message.answer;
     let action = message.action;
     let actionType = message.actionType;

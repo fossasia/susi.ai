@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import NotFound from '../NotFound/NotFound.react';
 
-const ProtectedRoute = props => {
+const ProtectedRoute = (props) => {
   const { accessToken, isAdmin, component: Component, ...restProps } = props;
   return (
     <Route
       {...restProps}
-      render={routeProps =>
+      render={(routeProps) =>
         accessToken ? (
           <Component {...routeProps} />
         ) : (
@@ -40,7 +40,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(ProtectedRoute);
+export default connect(mapStateToProps, null)(ProtectedRoute);

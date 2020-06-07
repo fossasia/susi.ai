@@ -94,7 +94,7 @@ const VoiceOutputText = styled.h1`
   max-width: 25rem;
   text-align: left;
   padding-right: 1.25rem;
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   @media (max-width: 768px) {
     width: 100%;
     text-align: center;
@@ -114,10 +114,10 @@ const TextAreaContainer = styled.div`
   min-height: 20px;
   border: none;
   padding: 0.625rem 0.75rem;
-  background-color: ${props => props.$backgroundColor};
-  color: ${props => props.color};
+  background-color: ${(props) => props.$backgroundColor};
+  color: ${(props) => props.color};
   max-height: 5rem;
-  width: ${props => (props.showChatPreview ? '81%' : 'auto')};
+  width: ${(props) => (props.showChatPreview ? '81%' : 'auto')};
   @media (max-width: 768px) {
     width: 81%;
   }
@@ -125,8 +125,8 @@ const TextAreaContainer = styled.div`
 
 const TextareaAutosize = styled(_TextareaAutosize)`
   line-height: 1rem;
-  background-color: ${props => props.$backgroundColor};
-  color: ${props => props.color};
+  background-color: ${(props) => props.$backgroundColor};
+  color: ${(props) => props.color};
   border: none;
   width: 100%;
   outline: none;
@@ -344,7 +344,7 @@ class MessageComposer extends Component {
     this.setState({ text: event.target.value, currentMessageIndex: -1 });
   };
 
-  onKeyDown = event => {
+  onKeyDown = (event) => {
     let { text, currentMessageIndex } = this.state;
     const { enterAsSend, speechOutputAlways, exitSearch } = this.props;
     exitSearch();
@@ -408,7 +408,7 @@ class MessageComposer extends Component {
             value={text}
             onChange={this.onTextFieldChange}
             onKeyDown={this.onKeyDown}
-            ref={textarea => {
+            ref={(textarea) => {
               this.nameInput = textarea;
             }}
             autoFocus={focus}
@@ -476,7 +476,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MessageComposer);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageComposer);

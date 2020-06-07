@@ -1,5 +1,5 @@
 let storageService = {
-  getStorageFromType: function(storageType) {
+  getStorageFromType: function (storageType) {
     let storage = null;
     if (storageType === 'local') {
       storage = window.localStorage;
@@ -10,7 +10,7 @@ let storageService = {
     return storage;
   },
 
-  set: function(key, value, storageType) {
+  set: function (key, value, storageType) {
     try {
       let storage = this.getStorageFromType(storageType);
       storage.setItem(key, value);
@@ -18,7 +18,7 @@ let storageService = {
     } catch (error) {}
   },
 
-  get: function(key, storageType) {
+  get: function (key, storageType) {
     try {
       let storage = this.getStorageFromType(storageType);
       return storage.getItem(key);

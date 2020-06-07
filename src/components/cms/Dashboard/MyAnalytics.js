@@ -40,13 +40,13 @@ class MyAnalytics extends Component {
     }
   };
 
-  saveUsageData = data => {
+  saveUsageData = (data) => {
     const { dashboardActions } = this.props;
 
     let skillUsageCount = 0;
     let skillUsage = null;
     if (data && Array.isArray(data) && data.length > 0) {
-      skillUsage = data.map(skill => {
+      skillUsage = data.map((skill) => {
         let dataObject = {};
         dataObject.skillName = skill.skillName;
         dataObject.usageCount = skill.usageCount || 0;
@@ -150,7 +150,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MyAnalytics);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAnalytics);

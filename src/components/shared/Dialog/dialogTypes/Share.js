@@ -27,7 +27,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Share);
+export default connect(null, mapDispatchToProps)(Share);

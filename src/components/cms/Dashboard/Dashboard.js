@@ -40,7 +40,7 @@ const Container = styled.div`
   }
 `;
 
-const Dashboard = props => {
+const Dashboard = (props) => {
   document.title = 'SUSI.AI - Dashboard';
   const { showTitle = true } = props;
   return (

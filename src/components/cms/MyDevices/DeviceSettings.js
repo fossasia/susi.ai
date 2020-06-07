@@ -119,11 +119,11 @@ class DeviceSettings extends React.Component {
       const { devices } = payload;
       let devicesData = [];
       let invalidLocations = 0;
-      devices.forEach(device => {
+      devices.forEach((device) => {
         const email = device.name;
         const devices = device.devices;
         const macIdArray = Object.keys(devices);
-        macIdArray.forEach(macId => {
+        macIdArray.forEach((macId) => {
           const device = devices[macId];
           let deviceName = device.name !== undefined ? device.name : '-';
           deviceName =
@@ -167,7 +167,7 @@ class DeviceSettings extends React.Component {
     }
   };
 
-  handleRemoveDevice = async rowIndex => {
+  handleRemoveDevice = async (rowIndex) => {
     const data = this.state.devicesData;
     const { email } = this.state;
     try {
@@ -181,7 +181,7 @@ class DeviceSettings extends React.Component {
     }
   };
 
-  startEditing = rowIndex => {
+  startEditing = (rowIndex) => {
     this.setState({ editIdx: rowIndex });
   };
 
@@ -195,7 +195,7 @@ class DeviceSettings extends React.Component {
     });
   };
 
-  handleRemoveConfirmation = rowIndex => {
+  handleRemoveConfirmation = (rowIndex) => {
     this.props.actions.openModal({
       modalType: 'deleteDevice',
       name: this.state.devicesData[rowIndex].deviceName,
@@ -204,7 +204,7 @@ class DeviceSettings extends React.Component {
     });
   };
 
-  handleDeviceSave = async rowIndex => {
+  handleDeviceSave = async (rowIndex) => {
     this.setState({
       editIdx: -1,
     });
@@ -217,7 +217,7 @@ class DeviceSettings extends React.Component {
     }
   };
 
-  handleEditByAdmin = async rowIndex => {
+  handleEditByAdmin = async (rowIndex) => {
     this.setState({
       editIdx: -1,
     });
@@ -230,7 +230,7 @@ class DeviceSettings extends React.Component {
     }
   };
 
-  handleView = rowIndex => {
+  handleView = (rowIndex) => {
     const { history } = this.props;
     const macId = this.state.devicesData[rowIndex].macId;
     this.setState({ macId, value: macId });
@@ -245,7 +245,7 @@ class DeviceSettings extends React.Component {
       let deviceIds = Object.keys(devices);
       let invalidLocations = 0;
 
-      deviceIds.forEach(eachDevice => {
+      deviceIds.forEach((eachDevice) => {
         const {
           name,
           room,
@@ -391,7 +391,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const LoadingContainer = props => <CircularLoader height={27} />;
+const LoadingContainer = (props) => <CircularLoader height={27} />;
 
 export default withRouter(
   connect(

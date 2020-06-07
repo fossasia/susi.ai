@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const RatingLabel = styled.div`
   font-size: 14px;
   margin-left: 4px;
-  font-weight: ${props => (props.bold ? 'bold' : 'normal')};
+  font-weight: ${(props) => (props.bold ? 'bold' : 'normal')};
 `;
 
 const SingleRating = styled.div`
@@ -14,7 +14,7 @@ const SingleRating = styled.div`
   cursor: pointer;
 `;
 
-const SkillRating = props => {
+const SkillRating = (props) => {
   return (
     <SingleRating onClick={() => props.handleRatingRefine(props.rating)}>
       <Ratings

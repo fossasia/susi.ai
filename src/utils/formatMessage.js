@@ -54,7 +54,7 @@ const susiMessageGenerator = (timestamp, voice, response) => {
       response: {},
       actionType: actionObj.type,
       action: actionObj,
-      allActions: actions.map(eachAction => eachAction.type),
+      allActions: actions.map((eachAction) => eachAction.type),
       websearchresults: [],
       rssResults: [],
       type: 'message',
@@ -169,34 +169,36 @@ const susiMessageGenerator = (timestamp, voice, response) => {
   return Promise.resolve(generatedMessages);
 };
 
-export const formatUserMessage = payload => {
+export const formatUserMessage = (payload) => {
   const timestamp = Date.now();
   const { text, voice } = payload;
   payload.message = userMessageGenerator(text, timestamp, voice);
   return new Promise((resolve, reject) => {
-    userMessageGenerator(text, timestamp, voice).then(message => {
+    userMessageGenerator(text, timestamp, voice).then((message) => {
       payload.message = message;
       resolve(payload);
     });
   });
 };
 
-export const formatSusiMessage = payload => {
+export const formatSusiMessage = (payload) => {
   const { voice } = payload;
   let { response } = payload;
 
   const timestamp = Date.now();
 
   return new Promise((resolve, reject) => {
-    susiMessageGenerator(timestamp, voice, response).then(generatedMessages => {
-      resolve(generatedMessages);
-    });
+    susiMessageGenerator(timestamp, voice, response).then(
+      (generatedMessages) => {
+        resolve(generatedMessages);
+      },
+    );
   });
 };
 
-export const createMessagePairArray = response => {
+export const createMessagePairArray = (response) => {
   let promisePairArray = [];
-  response.cognitions.forEach(cognition => {
+  response.cognitions.forEach((cognition) => {
     const userMessage = userMessageGenerator(
       cognition.query,
       Date.parse(cognition.queryDate),
@@ -210,7 +212,7 @@ export const createMessagePairArray = response => {
     );
 
     const promisePair = new Promise((resolve, reject) => {
-      Promise.all([userMessage, susiMessage]).then(resolvedPair => {
+      Promise.all([userMessage, susiMessage]).then((resolvedPair) => {
         resolve({
           userMessage: resolvedPair[0],
           susiMessage: resolvedPair[1],
@@ -222,7 +224,7 @@ export const createMessagePairArray = response => {
   });
 
   return new Promise((resolve, reject) => {
-    Promise.all(promisePairArray).then(resolvedPairArray => {
+    Promise.all(promisePairArray).then((resolvedPairArray) => {
       resolve({ messagePairArray: resolvedPairArray });
     });
   });

@@ -388,9 +388,13 @@ class SkillWizard extends Component {
       this.languageValue = pathname.split('/')[4];
       this.skillTag = pathname.split('/')[2];
       this.commitId = pathname.split('/')[5];
+      const isRevertingCommit = Object.prototype.hasOwnProperty.call(
+        this.props,
+        'revertingCommit',
+      );
 
       let commitMessage = `Updated Skill ${this.skillTag}`;
-      if (this.props.hasOwnProperty('revertingCommit')) {
+      if (isRevertingCommit) {
         commitMessage = 'Reverting to commit - ' + this.props.revertingCommit;
       } else if (this.commitId) {
         commitMessage = `Reverting to commit - ${this.commitId}`;
@@ -405,8 +409,8 @@ class SkillWizard extends Component {
         oldImageUrl: '',
         imageNameChanged: false,
         slideState: 1, // 1 means in middle, 2 means preview collapsed
-        colSkill: this.props.hasOwnProperty('revertingCommit') ? 12 : 8,
-        colPreview: this.props.hasOwnProperty('revertingCommit') ? 0 : 4,
+        colSkill: isRevertingCommit ? 12 : 8,
+        colPreview: isRevertingCommit ? 0 : 4,
         prevButton: 0, // 0 means disappear, 1 means appear
       };
     } else {
@@ -435,7 +439,7 @@ class SkillWizard extends Component {
       try {
         let payload = await fetchAllLanguageOptions();
         const data = payload.languagesArray;
-        let languages = data.map(language => {
+        let languages = data.map((language) => {
           if (ISO6391.getNativeName(language)) {
             return (
               <MenuItem value={language} key={language}>
@@ -449,7 +453,7 @@ class SkillWizard extends Component {
             </MenuItem>
           );
         });
-        languages.sort(function(a, b) {
+        languages.sort(function (a, b) {
           if (a.props.primaryText < b.props.primaryText) {
             return -1;
           }
@@ -639,7 +643,7 @@ class SkillWizard extends Component {
     }
   }
 
-  handleExpertChange = event => {
+  handleExpertChange = (event) => {
     const { actions } = this.props;
     let { code } = this.props;
     const { value: name } = event.target;
@@ -671,7 +675,7 @@ class SkillWizard extends Component {
     actions.setSkillData({ language: event.target.value, code });
   };
 
-  handleExpertChange = event => {
+  handleExpertChange = (event) => {
     const { actions } = this.props;
     let { code } = this.props;
     const { value: name } = event.target;
@@ -820,6 +824,11 @@ class SkillWizard extends Component {
       return 0;
     }
     let form = new FormData();
+
+    const isRevertingCommit = Object.prototype.hasOwnProperty.call(
+      this.props,
+      'revertingCommit',
+    );
     if (this.mode === 'create') {
       form.append('model', 'general');
       form.append('group', category);
@@ -847,7 +856,7 @@ class SkillWizard extends Component {
               variant: 'success',
             });
           }
-          if (!this.props.hasOwnProperty('revertingCommit')) {
+          if (!isRevertingCommit) {
             this.props.history.push({
               pathname:
                 '/' +
@@ -910,7 +919,7 @@ class SkillWizard extends Component {
             snackBarPosition: { vertical: 'top', horizontal: 'right' },
             variant: 'success',
           });
-          if (!this.props.hasOwnProperty('revertingCommit')) {
+          if (!isRevertingCommit) {
             this.props.history.push({
               pathname:
                 '/' +
@@ -952,7 +961,7 @@ class SkillWizard extends Component {
     // console.log(imageUrl.replace('images/', ''));
   };
 
-  _onChange = async event => {
+  _onChange = async (event) => {
     const { actions } = this.props;
     let { code } = this.props;
     // Assuming only image
@@ -964,7 +973,7 @@ class SkillWizard extends Component {
     await actions.openModal({
       modalType: 'crop',
       title: `Crop ${this.isBotBuilder ? 'bot' : 'skill'} image`,
-      handleConfirm: cropImageUrl => {
+      handleConfirm: (cropImageUrl) => {
         image = cropImageUrl;
         const fileExt = imageName.split('.')[1];
         file = urltoFile(image, imageName, `image/${fileExt}`);
@@ -984,7 +993,7 @@ class SkillWizard extends Component {
     });
   };
 
-  handleCommitMessageChange = event => {
+  handleCommitMessageChange = (event) => {
     this.setState({
       commitMessage: event.target.value,
     });
@@ -1039,7 +1048,7 @@ class SkillWizard extends Component {
     return 'Create';
   };
 
-  handleClick = event => {
+  handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
     });
@@ -1049,7 +1058,7 @@ class SkillWizard extends Component {
     this.setState({ anchorEl: null });
   };
 
-  handleChangePublicSkill = event => {
+  handleChangePublicSkill = (event) => {
     this.setState({
       publicSkill: event.target.checked,
     });
@@ -1070,7 +1079,7 @@ class SkillWizard extends Component {
     const { loadViews, anchorEl, publicSkill } = this.state;
     const open = !!anchorEl;
     let showTopBar = true;
-    if (this.props.hasOwnProperty('showTopBar')) {
+    if (Object.prototype.hasOwnProperty.call(this.props, 'showTopBar')) {
       showTopBar = this.props.showTopBar;
     }
 
@@ -1213,7 +1222,7 @@ class SkillWizard extends Component {
                         <Input
                           accept="image/*"
                           type="file"
-                          ref={c => {
+                          ref={(c) => {
                             this.file = c;
                           }}
                           name="user[image]"
@@ -1459,7 +1468,4 @@ function mapDispatchToActions(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToActions,
-)(SkillWizard);
+export default connect(mapStateToProps, mapDispatchToActions)(SkillWizard);

@@ -72,7 +72,4 @@ function mapDispatchToActions(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToActions,
-)(Design);
+export default connect(mapStateToProps, mapDispatchToActions)(Design);

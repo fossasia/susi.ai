@@ -78,7 +78,7 @@ class ConversationView extends Component {
     this.setState({ userInputs }, () => this.getResponses(0));
   };
 
-  getResponses = async responseNumber => {
+  getResponses = async (responseNumber) => {
     const { actions, code } = this.props;
     let { userInputs, conversationsData } = this.state;
     let userQuery = userInputs[responseNumber];
@@ -105,7 +105,7 @@ class ConversationView extends Component {
           id: 'b' + responseNumber,
         });
         this.setState(
-          prevState => ({
+          (prevState) => ({
             loaded:
               responseNumber + 1 === userInputs.length
                 ? true
@@ -133,7 +133,7 @@ class ConversationView extends Component {
           conversationsData &&
           Array.isArray(conversationsData) &&
           conversationsData.length > 0 &&
-          conversationsData.map(item => {
+          conversationsData.map((item) => {
             let text = item.name;
             let messageArr = text.match(/.{1,28}/g);
             let message = [];
@@ -184,7 +184,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConversationView);
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationView);

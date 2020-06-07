@@ -7,12 +7,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${props =>
+  ${(props) =>
     props.height !== 'auto'
       ? css`
-          height: ${props => props.height + 'rem'};
+          height: ${(props) => props.height + 'rem'};
           @media (max-width: 512px) {
-            height: ${props =>
+            height: ${(props) =>
               props.height > 20
                 ? props.height - 15 + 'rem'
                 : props.height + 'rem'};

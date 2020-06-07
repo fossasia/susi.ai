@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 import actionTypes from '../actionTypes';
 
-const returnArgumentsFn = function(payload) {
+const returnArgumentsFn = function (payload) {
   return Promise.resolve(payload);
 };
 

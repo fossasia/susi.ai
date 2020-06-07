@@ -57,7 +57,7 @@ class SystemLogs extends React.Component {
     this.loadSystemLogs(1000);
   }
 
-  loadSystemLogs = async count => {
+  loadSystemLogs = async (count) => {
     const { accessToken } = this.props;
     try {
       let response = await axios.get(
@@ -84,7 +84,7 @@ class SystemLogs extends React.Component {
     }
   };
 
-  handleCountChange = event => {
+  handleCountChange = (event) => {
     const { value } = event.target;
     this.setState({
       currentCount: value,
@@ -97,7 +97,7 @@ class SystemLogs extends React.Component {
     const { loading } = this.state;
     let renderMenu = null;
     if (menuObj && Array.isArray(menuObj) && menuObj.length > 0) {
-      renderMenu = menuObj.map(menu => (
+      renderMenu = menuObj.map((menu) => (
         <MenuItem key={menu.value} value={menu.value}>
           {menu.text}
         </MenuItem>
@@ -137,7 +137,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SystemLogs);
+export default connect(mapStateToProps, null)(SystemLogs);

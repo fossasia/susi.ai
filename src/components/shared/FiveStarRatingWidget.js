@@ -2,7 +2,7 @@ import React from 'react';
 import Ratings from 'react-ratings-declarative';
 import PropTypes from 'prop-types';
 
-const FiveStarRatingWidget = props => {
+const FiveStarRatingWidget = (props) => {
   const { rating, ...otherProps } = props;
   return (
     <Ratings rating={rating} {...otherProps}>

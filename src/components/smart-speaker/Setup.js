@@ -91,7 +91,7 @@ class ControlPage extends React.Component {
     }
   };
 
-  handleInputFieldChange = e => {
+  handleInputFieldChange = (e) => {
     const { name, value } = e.target;
     if (name === 'email') {
       isEmail(value)

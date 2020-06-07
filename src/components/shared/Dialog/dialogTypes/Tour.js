@@ -9,7 +9,7 @@ import appActions from '../../../../redux/actions/app';
 
 const cookies = new Cookies();
 
-const Tour = props => {
+const Tour = (props) => {
   const { actions } = props;
   const handleCloseTour = () => {
     cookies.set('visited', true, { path: '/' });
@@ -42,7 +42,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Tour);
+export default connect(null, mapDispatchToProps)(Tour);

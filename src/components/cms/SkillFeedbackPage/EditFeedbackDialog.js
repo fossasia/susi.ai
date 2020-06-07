@@ -10,7 +10,7 @@ import FiveStarRatingWidget from '../../shared/FiveStarRatingWidget';
 import { RATING_TO_HINT_MAP } from '../../../constants/ratingHints';
 import isMobileView from '../../../utils/isMobileView';
 
-const EditFeedback = props => {
+const EditFeedback = (props) => {
   const {
     handleConfirm,
     handleClose,
@@ -31,7 +31,7 @@ const EditFeedback = props => {
     handleConfirm();
   };
 
-  const handelChange = e => {
+  const handelChange = (e) => {
     updateNewFeedback(e.target.value);
   };
 
@@ -45,7 +45,7 @@ const EditFeedback = props => {
           widgetHoverColors="#ffbb28"
           widgetSpacings="5px"
           widgetDimensions={mobileView ? '30px' : '50px'}
-          changeRating={Rating => {
+          changeRating={(Rating) => {
             updateRating(Rating);
           }}
         />
@@ -61,7 +61,7 @@ const EditFeedback = props => {
             multiLine={true}
             disabled={loader}
             fullWidth={true}
-            onChange={e => {
+            onChange={(e) => {
               handleEditFeedback();
               handelChange(e);
             }}

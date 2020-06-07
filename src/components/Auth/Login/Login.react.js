@@ -73,7 +73,7 @@ class Login extends Component {
     actions.closeModal();
   };
 
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     const { actions, location, history } = this.props;
     let { password, email, captchaResponse } = this.state;
     email = email.toLowerCase().trim();
@@ -127,7 +127,7 @@ class Login extends Component {
           this.handleDialogClose();
         } else {
           snackBarMessage = 'Login Failed. Try Again';
-          this.setState(prevState => ({
+          this.setState((prevState) => ({
             password: '',
             success: false,
             loading: false,
@@ -138,7 +138,7 @@ class Login extends Component {
         actions.openSnackBar({ snackBarMessage });
       } catch (error) {
         console.log(error);
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           password: '',
           success: false,
           loading: false,
@@ -153,7 +153,7 @@ class Login extends Component {
   };
 
   // Handle changes in email and password
-  handleTextFieldChange = event => {
+  handleTextFieldChange = (event) => {
     this.setState({
       errorMessage: '',
     });
@@ -182,7 +182,7 @@ class Login extends Component {
     }
   };
 
-  setCookies = payload => {
+  setCookies = (payload) => {
     const { accessToken, time, email, uuid } = payload;
     const { serverUrl } = this.props;
     cookies.set('serverUrl', serverUrl, {
@@ -206,7 +206,7 @@ class Login extends Component {
     });
   };
 
-  onEnterKey = e => {
+  onEnterKey = (e) => {
     if (e.keyCode === 13) {
       this.handleSubmit();
     }
@@ -218,7 +218,7 @@ class Login extends Component {
     });
   };
 
-  onCaptchaSuccess = captchaResponse => {
+  onCaptchaSuccess = (captchaResponse) => {
     if (captchaResponse) {
       this.setState({
         showCaptchaErrorMessage: false,
@@ -346,7 +346,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -91,7 +91,7 @@ const ImgContainer = styled.div`
   }
 `;
 
-const Devices = props => {
+const Devices = (props) => {
   // Adding title tag to page
   document.title =
     'SUSI.AI - Open Source AI for Any Device, Android, iOS, Robots, Help Desks, Linux';
@@ -106,7 +106,7 @@ const Devices = props => {
       {DEVICES_DATA &&
         Array.isArray(DEVICES_DATA) &&
         DEVICES_DATA.length > 0 &&
-        DEVICES_DATA.map(deviceSection => {
+        DEVICES_DATA.map((deviceSection) => {
           const {
             heading,
             description,

@@ -5,7 +5,7 @@ import MaterialTable from 'material-table';
 import { getColumnConfig } from './constants';
 import { ActionSpan, ActionSeparator } from '../../shared/TableActionStyles';
 
-const SkillTable = props => {
+const SkillTable = (props) => {
   const { data, groups, loading, handleOpen, handleDelete } = props;
   return (
     <MaterialTable
@@ -22,7 +22,7 @@ const SkillTable = props => {
         padding: '1rem',
       }}
       actions={[
-        rowData => ({
+        (rowData) => ({
           onEdit: (event, rowData) => {
             handleOpen(
               rowData.skillName,
@@ -51,7 +51,7 @@ const SkillTable = props => {
         Action: ({ action }) => (
           <React.Fragment>
             <ActionSpan
-              onClick={event => {
+              onClick={(event) => {
                 action.action(props.data).onEdit(event, props.data);
               }}
             >
@@ -59,7 +59,7 @@ const SkillTable = props => {
             </ActionSpan>
             <ActionSeparator> | </ActionSeparator>
             <ActionSpan
-              onClick={event =>
+              onClick={(event) =>
                 action.action(props.data).onDelete(event, props.data)
               }
             >

@@ -36,7 +36,7 @@ class VoiceRecognition extends Component {
     }
   }
 
-  createRecognition = SpeechRecognition => {
+  createRecognition = (SpeechRecognition) => {
     const options = Object.assign({}, speechDefaults, this.props);
 
     let recognition = new SpeechRecognition();
@@ -48,7 +48,7 @@ class VoiceRecognition extends Component {
     return recognition;
   };
 
-  bindResult = event => {
+  bindResult = (event) => {
     let interimTranscript = '';
     let finalTranscript = '';
     for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -84,7 +84,7 @@ class VoiceRecognition extends Component {
       { name: 'end', action: onEnd },
       { name: 'result', action: this.bindResult },
     ];
-    events.forEach(event => {
+    events.forEach((event) => {
       if (this.recognition) {
         this.recognition.addEventListener(event.name, event.action);
       }

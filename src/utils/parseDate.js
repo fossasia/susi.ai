@@ -1,4 +1,4 @@
-let parseDate = dtstr => {
+let parseDate = (dtstr) => {
   if (dtstr) {
     // replace anything but numbers by spaces
     dtstr = dtstr.replace(/\D/g, ' ');

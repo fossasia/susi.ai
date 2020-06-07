@@ -1,4 +1,4 @@
-export default function(phone = '') {
+export default function (phone = '') {
   if (!phone) {
     return false;
   }
