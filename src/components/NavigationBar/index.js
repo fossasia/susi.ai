@@ -138,7 +138,6 @@ const Toolbar = styled(_Toolbar)`
 `;
 
 const checkIcon = {
-  marginLeft: 'auto',
   fontSize: '20',
 };
 
@@ -332,14 +331,14 @@ class NavigationBar extends Component {
         checked={values && values.indexOf(name) > -1}
         value={name}
       >
-        {ISO6391.getNativeName(name)
-          ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
-          : 'Universal'}
         {this.props.languageValue.indexOf(name) > -1 ? (
           <Checkbox checked={true} style={checkIcon} />
         ) : (
           <Checkbox checked={false} style={checkIcon} />
         )}
+        {ISO6391.getNativeName(name)
+          ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
+          : 'Universal'}
       </MenuItem>
     ));
   };
