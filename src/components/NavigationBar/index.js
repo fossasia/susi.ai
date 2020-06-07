@@ -100,7 +100,7 @@ const ExpandMore = styled(_ExpandMore)`
 const SusiLogo = styled.img`
   height: 1.5rem;
   display: block;
-  ${(props) =>
+  ${props =>
     props.marginRight &&
     css`
       margin-right: ${props => props.marginRight + 'px'};
@@ -116,7 +116,7 @@ const TopRightMenuContainer = styled.div`
 
 const SusiLogoContainer = styled.div`
   @media (max-width: 680px) {
-    ${(props) =>
+    ${props =>
       props.isSearchOpen &&
       css`
         display: none;
@@ -225,7 +225,7 @@ class NavigationBar extends Component {
     actions.openModal({ modalType: 'login' });
   };
 
-  handleSearchTypeChange = async (e) => {
+  handleSearchTypeChange = async e => {
     const { actions, searchQuery } = this.props;
     const { value: searchType } = e.target;
     if (searchType.length === 0) {
@@ -240,7 +240,7 @@ class NavigationBar extends Component {
     }
   };
 
-  handleSearch = async (value) => {
+  handleSearch = async value => {
     if (typeof value !== 'string') {
       value = '';
     }
@@ -256,10 +256,10 @@ class NavigationBar extends Component {
     this.loadLanguages('All');
   }
 
-  loadLanguages = (value) => {
+  loadLanguages = value => {
     this.props.actions
       .getLanguageOptions({ groupValue: value })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -306,7 +306,7 @@ class NavigationBar extends Component {
     this.props.actions.getSkills(payload);
   };
 
-  getSelectMenuWidth = (searchTypes) => {
+  getSelectMenuWidth = searchTypes => {
     if (searchTypes.length === 4) {
       return '4.1';
     }
@@ -324,8 +324,8 @@ class NavigationBar extends Component {
       : addedWidth.toString();
   };
 
-  languageMenuItems = (values) => {
-    return this.props.languages.map((name) => (
+  languageMenuItems = values => {
+    return this.props.languages.map(name => (
       <MenuItem
         key={name}
         checked={values && values.indexOf(name) > -1}
@@ -369,7 +369,7 @@ class NavigationBar extends Component {
   };
 
   toggleSearchBar = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       showSearchBar: !prevState.showSearchBar,
       rightContainer: !prevState.rightContainer,
     }));
@@ -415,7 +415,7 @@ class NavigationBar extends Component {
       languageValue,
     } = this.props;
     const { searchSelectWidth, showSearchBar } = this.state;
-    const Logged = (props) => (
+    const Logged = props => (
       <React.Fragment>
         <Link to="/dashboard">
           <MenuItem>
@@ -533,7 +533,7 @@ class NavigationBar extends Component {
             }}
             input={<OutlinedInput />}
             displayEmpty={true}
-            renderValue={(selected) => {
+            renderValue={selected => {
               let transformedArray = [];
               for (let i = 0; i < selected.length; i++) {
                 transformedArray.push(selected[i].toUpperCase());
@@ -792,7 +792,7 @@ function mapStateToProps(store) {
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       { ...skillsAction, ...uiActions, ...skillAction },
@@ -802,5 +802,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NavigationBar),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(NavigationBar),
 );
