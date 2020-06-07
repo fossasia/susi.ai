@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import VoicePlayer from '../ChatApp/MessageListItem/VoicePlayer';
 import Icon from '@material-ui/core/Icon';
@@ -111,7 +111,7 @@ class TextToSpeechSettings extends Component {
     speechSynthesis.onvoiceschanged = () => {
       const speechSynthesisVoices = speechSynthesis.getVoices();
       let speechName = '';
-      speechSynthesisVoices.forEach(item => {
+      speechSynthesisVoices.forEach((item) => {
         if (item.lang === this.props.lang) {
           speechName = item.name;
         }
@@ -168,7 +168,7 @@ class TextToSpeechSettings extends Component {
     return voiceOutput;
   };
 
-  handleTTSVoices = event => {
+  handleTTSVoices = (event) => {
     const { value } = event.target;
     // eslint-disable-next-line no-useless-escape
     const lang = value.match(/\(\w+\-\w+\)/g);
@@ -176,7 +176,7 @@ class TextToSpeechSettings extends Component {
       .match(/(.*)\(/g)[0]
       .replace('(', '')
       .trim();
-    speechName = this.state.voiceList.filter(item => {
+    speechName = this.state.voiceList.filter((item) => {
       return item.name === speechName;
     });
 

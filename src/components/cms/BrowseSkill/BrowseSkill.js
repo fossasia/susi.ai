@@ -176,7 +176,7 @@ const PageNavigationContainer = styled.div`
 `;
 
 const MobileMenuItem = styled(MenuItem)`
-  color: ${props => (props.color ? props.color : null)};
+  color: ${(props) => (props.color ? props.color : null)};
   min-height: 24px;
   line-height: 24px;
   font-size: 14px;
@@ -236,7 +236,7 @@ const MobileBackButton = styled(Button)`
 
 const commonListIconStyles = css`
   font-size: 50px;
-  fill: ${props => (props['is-active'] ? '#4285f4' : '#e0e0e0')};
+  fill: ${(props) => (props['is-active'] ? '#4285f4' : '#e0e0e0')};
   @media (max-width: 1260px) {
     font-size: 30px;
   }
@@ -362,7 +362,7 @@ class BrowseSkill extends React.Component {
   };
 
   // FilterChange
-  handleFilterChange = async event => {
+  handleFilterChange = async (event) => {
     const { value } = event.target;
     const { location, history, actions } = this.props;
     appendQueryString(location, history, 'sort_by', value);
@@ -375,7 +375,7 @@ class BrowseSkill extends React.Component {
     this.loadCards();
   };
 
-  handleEntriesPerPageChange = event => {
+  handleEntriesPerPageChange = (event) => {
     const { actions } = this.props;
     const { value } = event.target;
     actions.setSkillsPerPage({ entriesPerPage: value });
@@ -405,7 +405,7 @@ class BrowseSkill extends React.Component {
     actions.setSkillsViewType({ viewType: value });
   };
 
-  handleArrivalTimeChange = async value => {
+  handleArrivalTimeChange = async (value) => {
     const { actions, history, location } = this.props;
     if (value) {
       appendQueryString(location, history, 'creation_date&duration', value);
@@ -423,16 +423,16 @@ class BrowseSkill extends React.Component {
   loadGroups = () => {
     const { groups } = this.props;
     if (groups.length === 0) {
-      this.props.actions.getGroupOptions().catch(error => {
+      this.props.actions.getGroupOptions().catch((error) => {
         console.log(error);
       });
     }
   };
 
-  loadLanguages = value => {
+  loadLanguages = (value) => {
     this.props.actions
       .getLanguageOptions({ groupValue: value })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -487,7 +487,7 @@ class BrowseSkill extends React.Component {
     window.scrollTo(0, 0);
   };
 
-  handleRatingRefine = async ratingRefine => {
+  handleRatingRefine = async (ratingRefine) => {
     const { skills = [], actions, history, location } = this.props;
     if (skills.length === 0) {
       await actions.setSkillsLoading();
@@ -502,7 +502,7 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  pageMenuItems = values => {
+  pageMenuItems = (values) => {
     const { skills = [], entriesPerPage } = this.props;
     let menuItems = [];
     for (let i = 1; i <= Math.ceil(skills.length / entriesPerPage); i += 1) {
@@ -512,7 +512,7 @@ class BrowseSkill extends React.Component {
       menuItems &&
       Array.isArray(menuItems) &&
       menuItems.length > 0 &&
-      menuItems.map(menuItem => (
+      menuItems.map((menuItem) => (
         <MenuItem key={menuItem} value={menuItem}>
           {menuItem.toString()}
         </MenuItem>
@@ -528,7 +528,7 @@ class BrowseSkill extends React.Component {
     this.loadCards();
   };
 
-  handleReviewFilterChange = async e => {
+  handleReviewFilterChange = async (e) => {
     const { actions, history, location } = this.props;
     const { checked } = e.target;
     appendQueryString(location, history, 'reviewed', checked);
@@ -538,7 +538,7 @@ class BrowseSkill extends React.Component {
     this.loadCards();
   };
 
-  handleStaffFilterChange = async e => {
+  handleStaffFilterChange = async (e) => {
     const { actions, history, location } = this.props;
     const { checked } = e.target;
     appendQueryString(location, history, 'staff_picks', checked);
@@ -548,11 +548,11 @@ class BrowseSkill extends React.Component {
     this.loadCards();
   };
 
-  handleMenuClick = event => {
-    this.setState(prevState => ({ open: !prevState.open }));
+  handleMenuClick = (event) => {
+    this.setState((prevState) => ({ open: !prevState.open }));
   };
 
-  handleMenuClose = event => {
+  handleMenuClose = (event) => {
     if (this.anchorEl.contains(event.target)) {
       return;
     }
@@ -560,7 +560,7 @@ class BrowseSkill extends React.Component {
     this.setState({ open: false });
   };
 
-  handleCreateSkillClick = e => {
+  handleCreateSkillClick = (e) => {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose(e);
     if (accessToken) {
@@ -570,7 +570,7 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  handleCreateBotClick = e => {
+  handleCreateBotClick = (e) => {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose(e);
     if (accessToken) {
@@ -580,7 +580,7 @@ class BrowseSkill extends React.Component {
     }
   };
 
-  handleAddDeviceClick = e => {
+  handleAddDeviceClick = (e) => {
     const { history, actions, accessToken } = this.props;
     this.handleMenuClose(e);
     if (accessToken) {
@@ -624,7 +624,7 @@ class BrowseSkill extends React.Component {
         groups &&
         Array.isArray(groups) &&
         groups.length > 0 &&
-        groups.map(categoryName => {
+        groups.map((categoryName) => {
           const linkValue = '/category/' + categoryName;
           return (
             <Link to={linkValue} key={linkValue}>
@@ -640,7 +640,7 @@ class BrowseSkill extends React.Component {
       groups &&
       Array.isArray(groups) &&
       groups.length > 0 &&
-      groups.map(categoryName => {
+      groups.map((categoryName) => {
         const linkValue = '/category/' + categoryName;
         return (
           <Link to={linkValue} key={linkValue}>
@@ -751,7 +751,7 @@ class BrowseSkill extends React.Component {
       );
 
     const renderTimeFilter = (
-      <>
+      <div>
         {timeFilter ? (
           <div>
             <ListSubheader>
@@ -788,10 +788,10 @@ class BrowseSkill extends React.Component {
             Last 90 Days
           </SidebarItem>
         )}
-      </>
+      </div>
     );
     const renderRatingsFilter = (
-      <>
+      <div>
         <ListSubheader>Refine by</ListSubheader>
         {metricsHidden && (
           <div
@@ -865,7 +865,7 @@ class BrowseSkill extends React.Component {
             />
           </SidebarItem>
         </SkillRatingContainer>
-      </>
+      </div>
     );
     const { open } = this.state;
     return (
@@ -879,7 +879,7 @@ class BrowseSkill extends React.Component {
               variant="contained"
               color="primary"
               style={{ margin: '1rem 1rem 0' }}
-              buttonRef={node => {
+              buttonRef={(node) => {
                 this.anchorEl = node;
               }}
             >
@@ -954,18 +954,16 @@ class BrowseSkill extends React.Component {
               {routeType !== 'category' && isMobile && (
                 <Fragment>
                   <SideDrawer>
-                    <>{renderTimeFilter}</>
+                    {renderTimeFilter}
                     <Divider
                       style={{ marginLeft: '16px', marginRight: '16px' }}
                     />
-                    <>
-                      <ListSubheader>SUSI Skills</ListSubheader>
-                      {renderMenu}
-                    </>
+                    <ListSubheader>SUSI Skills</ListSubheader>
+                    {renderMenu}
                     <Divider
                       style={{ marginLeft: '16px', marginRight: '16px' }}
                     />
-                    <>{renderRatingsFilter}</>
+                    {renderRatingsFilter}
                   </SideDrawer>
                 </Fragment>
               )}
@@ -1146,7 +1144,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BrowseSkill);
+export default connect(mapStateToProps, mapDispatchToProps)(BrowseSkill);
