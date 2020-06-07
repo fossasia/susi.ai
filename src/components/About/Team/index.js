@@ -212,12 +212,6 @@ const Team = (props) => {
   const managers = TEAM_MEMBERS.MANAGERS.map((manager, i) => {
     return createMemberCard(manager, i);
   });
-  const developers = TEAM_MEMBERS.DEVELOPERS.map((developer, i) => {
-    return createMemberCard(developer, i);
-  });
-  const alumnis = TEAM_MEMBERS.ALUMNIS.map((alum, i) => {
-    return createMemberCard(alum, i);
-  });
 
   return (
     <div>
@@ -229,14 +223,6 @@ const Team = (props) => {
       <Section>
         <Heading>Project Managers</Heading>
         <TeamContainer>{managers}</TeamContainer>
-      </Section>
-      <Section>
-        <Heading>Developers</Heading>
-        <TeamContainer>{developers}</TeamContainer>
-      </Section>
-      <Section>
-        <Heading>Alumni</Heading>
-        <TeamContainer>{alumnis}</TeamContainer>
       </Section>
       <Section>
         <Heading>Contributors</Heading>
