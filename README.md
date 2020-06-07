@@ -19,7 +19,7 @@ Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webch
 
 ### Components
 * CSS: Styling web pages, html files
-* Javascript: Primary programing language 
+* Javascript: Primary programing language
 * ReactJS: Javascript library for building User Interfaces
 * Redux: Managing global state
 * Material-UI: UI library for design system
@@ -48,8 +48,8 @@ SUSI.AI is written in JavaScript with React. To get started with the code, follo
 git clone https://github.com/USERNAME/susi.ai.git
 cd susi.ai
 ```
-* Install all the dependecies with `npm install`
-* Start the server with `npm start`
+* Install all the dependencies with `yarn install`
+* Start the server with `yarn start`
 * Visit your app at [http://localhost:3000](http://localhost:3000).
 
 ## How to deploy?
