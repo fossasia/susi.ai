@@ -28,7 +28,7 @@ module.exports = () => ({
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'public/fonts', to: 'fonts' },
+        { from: 'public/fonts', to: 'static/fonts' },
         { from: 'public/favicon.ico', to: '' },
         { from: 'public/susi-chatbot.js', to: '' },
         { from: 'public/CNAME', to: '' },
