@@ -71,7 +71,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(CookiePolicy);
+export default connect(null, mapDispatchToProps)(CookiePolicy);

@@ -86,7 +86,7 @@ export default handleActions(
       const { languagesArray } = payload;
       let languages = [];
       languagesArray.sort();
-      languagesArray.forEach(language => {
+      languagesArray.forEach((language) => {
         if (language.length === 2 && language !== 'xx') {
           languages.push(language);
         }
@@ -234,7 +234,7 @@ export default handleActions(
       return {
         ...state,
         skills: state.skills.filter(
-          skill =>
+          (skill) =>
             skill.skillRating &&
             skill.skillRating.stars.avgStar >= ratingRefine,
         ),

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import AceEditorComponent from '../../../../shared/AceEditor.js';
 
 const CodeView = ({ actions, configCode }) => {
-  const handleChangeCode = event => {
+  const handleChangeCode = (event) => {
     actions.setConfigureData({ configCode: event });
   };
   return (
@@ -37,7 +37,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CodeView);
+export default connect(mapStateToProps, mapDispatchToProps)(CodeView);

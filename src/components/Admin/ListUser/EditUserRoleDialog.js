@@ -18,7 +18,7 @@ class EditUserRole extends React.Component {
     userRole: this.props.userRole,
     loading: false,
   };
-  handleUserRoleChange = event => {
+  handleUserRoleChange = (event) => {
     this.setState({ userRole: event.target.value });
   };
 
@@ -50,7 +50,7 @@ class EditUserRole extends React.Component {
         title: 'Success',
         handleConfirm: this.props.actions.closeModal,
       })
-      .catch(error => {
+      .catch((error) => {
         const { statusCode } = error;
         if (statusCode === 401) {
           if (window.console) {
@@ -142,7 +142,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EditUserRole);
+export default connect(null, mapDispatchToProps)(EditUserRole);

@@ -1,4 +1,4 @@
-export default function(str) {
+export default function (str) {
   if (!str) {
     return false;
   }

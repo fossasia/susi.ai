@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const SkillRatingPopover = props => {
+const SkillRatingPopover = (props) => {
   const {
     oneStar,
     twoStar,

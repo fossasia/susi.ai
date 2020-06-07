@@ -203,7 +203,7 @@ class BotBuilder extends React.Component {
     let chatbots = [];
     let bots = this.state.chatbots;
     if (bots) {
-      bots.forEach(bot => {
+      bots.forEach((bot) => {
         let imageUrl;
         if (bot.image === 'images/<image_name>') {
           imageUrl = pngOne;
@@ -305,7 +305,7 @@ class BotBuilder extends React.Component {
     }
   };
 
-  showDrafts = drafts => {
+  showDrafts = (drafts) => {
     if (drafts) {
       let draftsOfBots = [];
       for (let draft in drafts) {
@@ -356,7 +356,7 @@ class BotBuilder extends React.Component {
     }
   };
 
-  deleteDrafts = async id => {
+  deleteDrafts = async (id) => {
     const { actions } = this.props;
     try {
       await deleteDraft({ id });
@@ -442,7 +442,7 @@ class BotBuilder extends React.Component {
               {this.props.templates &&
                 Array.isArray(this.props.templates) &&
                 this.props.templates.length > 0 &&
-                this.props.templates.map(template => {
+                this.props.templates.map((template) => {
                   return (
                     <Link
                       key={template.id}
@@ -486,7 +486,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BotBuilder);
+export default connect(mapStateToProps, mapDispatchToProps)(BotBuilder);

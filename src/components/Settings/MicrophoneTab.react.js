@@ -127,7 +127,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MicrophoneTab);
+export default connect(mapStateToProps, mapDispatchToProps)(MicrophoneTab);

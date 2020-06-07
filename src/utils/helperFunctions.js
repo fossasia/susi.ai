@@ -9,15 +9,15 @@ export const cookieDomain = isProduction() ? '.susi.ai' : '';
 
 export const urltoFile = (url, filename, mimeType) => {
   return fetch(url)
-    .then(function(res) {
+    .then(function (res) {
       return res.arrayBuffer();
     })
-    .then(function(buf) {
+    .then(function (buf) {
       return new File([buf], filename, { type: mimeType });
     });
 };
 
-export const extractImageFileExtensionFromBase64 = base64Data => {
+export const extractImageFileExtensionFromBase64 = (base64Data) => {
   return base64Data.substring(
     'data:image/'.length,
     base64Data.indexOf(';base64'),
@@ -33,8 +33,8 @@ export const getAvatarProps = (emailId, accessToken) => {
   return avatarProps;
 };
 
-export const sortCountryLexographical = countryData => {
-  countryData.countries.all.sort(function(a, b) {
+export const sortCountryLexographical = (countryData) => {
+  countryData.countries.all.sort(function (a, b) {
     if (a.name < b.name) {
       return -1;
     }
@@ -45,7 +45,7 @@ export const sortCountryLexographical = countryData => {
   });
 };
 
-export const urlParam = param => {
+export const urlParam = (param) => {
   let results = new RegExp('[?&]' + param + '=([^&#]*)').exec(
     window.location.href,
   );

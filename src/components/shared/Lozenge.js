@@ -6,7 +6,7 @@ const Box = styled.div`
   height: 40px;
   width: auto;
   max-width: fit-content;
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   border-radius: 4px;
   text-align: center;
   margin: 0 auto;

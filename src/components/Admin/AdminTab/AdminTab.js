@@ -58,14 +58,14 @@ const Container = styled.div`
 `;
 
 const Card = styled(_Card)`
-  width: ${props => (props.width ? props.width : '400px')};
-  height: ${props => (props.height ? props.height + 'px' : '310px')};
+  width: ${(props) => (props.width ? props.width : '400px')};
+  height: ${(props) => (props.height ? props.height + 'px' : '310px')};
   font-size: 18px;
   line-height: 2;
-  ${props =>
+  ${(props) =>
     props.margin &&
     css`
-      margin: ${props => props.margin};
+      margin: ${(props) => props.margin};
       padding-right: 1rem;
     `}
   & {
@@ -208,7 +208,7 @@ class AdminTab extends React.Component {
       },
     ];
 
-    return CONFIG.map(chart => {
+    return CONFIG.map((chart) => {
       if (chart.data && chart.data.length > 0) {
         return this.renderChart(chart);
       }
@@ -221,7 +221,7 @@ class AdminTab extends React.Component {
     if (sort) {
       dataOverTime = sortByDate(data);
     }
-    let chartData = dataOverTime.map(data => {
+    let chartData = dataOverTime.map((data) => {
       const chatObj = {};
       chatObj.timestamp = moment(data.timeStamp).format('MM/YY');
       chatObj.count = data.count;

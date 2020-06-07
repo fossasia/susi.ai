@@ -32,7 +32,7 @@ class ListBots extends React.Component {
       let payload = await fetchBots();
       const { chatbots } = payload;
       let bots = [];
-      chatbots.forEach(chatBot => {
+      chatbots.forEach((chatBot) => {
         const { configure } = chatBot;
         chatBot.displaySkills = configure.enableDefaultSkills
           ? 'true'
@@ -43,7 +43,7 @@ class ListBots extends React.Component {
 
         if (allowedSites) {
           allowedSites = allowedSites.split(',');
-          allowedSites.forEach(site => {
+          allowedSites.forEach((site) => {
             botSites.push(
               <li>
                 <a href={site} target="_blank" rel="noopener noreferrer">
@@ -123,7 +123,7 @@ class ListBots extends React.Component {
             data={bots}
             title=""
             actions={[
-              rowData => ({
+              (rowData) => ({
                 onDelete: (event, rowData) => {
                   this.handleDelete(
                     rowData.name,
@@ -135,7 +135,7 @@ class ListBots extends React.Component {
               }),
             ]}
             components={{
-              Action: props => (
+              Action: (props) => (
                 <React.Fragment>
                   <Link
                     to={
@@ -151,7 +151,9 @@ class ListBots extends React.Component {
                   </Link>
                   <ActionSeparator> | </ActionSeparator>
                   <ActionSpan
-                    onClick={event => props.action.onDelete(event, props.data)}
+                    onClick={(event) =>
+                      props.action.onDelete(event, props.data)
+                    }
                   >
                     Delete
                   </ActionSpan>
@@ -175,7 +177,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ListBots);
+export default connect(null, mapDispatchToProps)(ListBots);

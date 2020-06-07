@@ -84,7 +84,7 @@ class ChangePassword extends Component {
     });
   };
 
-  onCaptchaSuccess = captchaResponse => {
+  onCaptchaSuccess = (captchaResponse) => {
     if (captchaResponse) {
       this.setState({
         showCaptchaErrorMessage: false,
@@ -114,7 +114,7 @@ class ChangePassword extends Component {
   };
 
   // Handle changes to current, new and confirm new passwords
-  handleTextFieldChange = event => {
+  handleTextFieldChange = (event) => {
     switch (event.target.name) {
       case 'password': {
         const password = event.target.value.trim();
@@ -185,7 +185,7 @@ class ChangePassword extends Component {
     }
   };
 
-  changePassword = async event => {
+  changePassword = async (event) => {
     event.preventDefault();
     const {
       password,
@@ -367,8 +367,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ChangePassword),
+  connect(mapStateToProps, mapDispatchToProps)(ChangePassword),
 );

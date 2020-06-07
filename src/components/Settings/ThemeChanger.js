@@ -116,7 +116,7 @@ class ThemeChanger extends Component {
     };
   }
 
-  handleChangeMessageBackgroundImage = name => e => {
+  handleChangeMessageBackgroundImage = (name) => (e) => {
     const { value } = e.target;
     this.setState({ [name]: value });
   };
@@ -155,7 +155,7 @@ class ThemeChanger extends Component {
 
   handleReset = () => {
     const { actions } = this.props;
-    this.setState(prevState => ({ ...prevState, ...this.initialValue }));
+    this.setState((prevState) => ({ ...prevState, ...this.initialValue }));
     actions.openSnackBar({ snackBarMessage: 'Custom theme settings reset' });
   };
 
@@ -224,12 +224,12 @@ class ThemeChanger extends Component {
     }
   };
 
-  handleClickColorBox = id => {
+  handleClickColorBox = (id) => {
     document.getElementById(`colorPicker${id}`).click();
   };
 
   showMessageBackgroundImageToggle = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       showMessageBackgroundImage: !prevState.showMessageBackgroundImage,
     }));
   };
@@ -273,7 +273,7 @@ class ThemeChanger extends Component {
       Array.isArray(componentsList) &&
       componentsList.length > 0
     ) {
-      components = componentsList.map(component => {
+      components = componentsList.map((component) => {
         return (
           <ThemePropertyContainer key={component.id}>
             <Row>
@@ -402,7 +402,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ThemeChanger);
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeChanger);

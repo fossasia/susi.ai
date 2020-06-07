@@ -17,7 +17,7 @@ const variantIcon = {
   error: ErrorIcon,
 };
 
-const snackbarStyles = makeStyles(theme => ({
+const snackbarStyles = makeStyles((theme) => ({
   success: {
     backgroundColor: green[600],
   },

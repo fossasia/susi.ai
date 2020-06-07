@@ -1,4 +1,4 @@
-const getQueryStringValue = key => {
+const getQueryStringValue = (key) => {
   return decodeURIComponent(
     window.location.search.replace(
       new RegExp(

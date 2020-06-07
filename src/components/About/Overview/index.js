@@ -564,7 +564,7 @@ class Overview extends Component {
   // Toggle Video dialog
 
   toggleVideoModal = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isVideoModalOpen: !prevState.isVideoModalOpen,
     }));
   };
@@ -595,7 +595,7 @@ class Overview extends Component {
     });
   }
 
-  handleGIFChange = index => {
+  handleGIFChange = (index) => {
     this.changeGIF(index);
     clearInterval(this.exampleTime);
   };
@@ -671,7 +671,7 @@ class Overview extends Component {
                           }
                     }
                     variant="contained"
-                    onClick={e => this.handleGIFChange(index)}
+                    onClick={(e) => this.handleGIFChange(index)}
                   >
                     {button.icon}
                     {button.label}

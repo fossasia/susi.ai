@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Legend, PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
 import styled from 'styled-components';
 
-const renderActiveShape = props => {
+const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,

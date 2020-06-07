@@ -425,7 +425,7 @@ class ListSkills extends React.Component {
             data={reportedSkills}
             title=""
             actions={[
-              rowData => ({
+              (rowData) => ({
                 onDelete: (event, rowData) => {
                   this.handleDelete(
                     rowData.skillName,
@@ -437,15 +437,15 @@ class ListSkills extends React.Component {
               }),
             ]}
             components={{
-              Action: props => (
+              Action: (props) => (
                 <ActionDiv
-                  onClick={event => props.action.onDelete(event, props.data)}
+                  onClick={(event) => props.action.onDelete(event, props.data)}
                 >
                   Delete
                 </ActionDiv>
               ),
             }}
-            detailPanel={rowData => {
+            detailPanel={(rowData) => {
               return <ReportPanel reports={rowData.reports} />;
             }}
             onRowClick={(event, rowData, togglePanel) => togglePanel()}
@@ -463,7 +463,7 @@ class ListSkills extends React.Component {
             data={deletedSkills}
             title=""
             actions={[
-              rowData => ({
+              (rowData) => ({
                 onClick: (event, rowData) => {
                   this.handleRestore(
                     rowData.skillName,
@@ -475,9 +475,9 @@ class ListSkills extends React.Component {
               }),
             ]}
             components={{
-              Action: props => (
+              Action: (props) => (
                 <ActionDiv
-                  onClick={event => props.action.onClick(event, props.data)}
+                  onClick={(event) => props.action.onClick(event, props.data)}
                 >
                   Restore
                 </ActionDiv>
@@ -519,7 +519,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ListSkills);
+export default connect(null, mapDispatchToProps)(ListSkills);

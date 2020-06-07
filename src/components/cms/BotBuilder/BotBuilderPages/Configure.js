@@ -68,7 +68,4 @@ function mapDispatchToActions(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToActions,
-)(Configure);
+export default connect(mapStateToProps, mapDispatchToActions)(Configure);

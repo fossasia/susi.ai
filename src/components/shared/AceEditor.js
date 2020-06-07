@@ -31,7 +31,7 @@ const AceEditor = styled(_AceEditor)`
   }
 `;
 
-const AceEditorComponent = props => {
+const AceEditorComponent = (props) => {
   const {
     theme = 'github',
     fontSize = 14,

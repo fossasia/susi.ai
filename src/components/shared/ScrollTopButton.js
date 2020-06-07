@@ -7,8 +7,8 @@ import Fade from '@material-ui/core/Fade';
 
 const ScrollTopFab = styled(Fab)`
   position: fixed;
-  top: ${props => props.height - 95 + 'px'};
-  right: ${props => (props.width < 1100 ? '70px' : '100px')};
+  top: ${(props) => props.height - 95 + 'px'};
+  right: ${(props) => (props.width < 1100 ? '70px' : '100px')};
   margin: 15px;
   z-index: 2;
 `;

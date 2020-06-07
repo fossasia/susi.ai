@@ -50,7 +50,7 @@ class MessageListItem extends React.Component {
     });
   };
 
-  onYouTubePlayerReady = event => {
+  onYouTubePlayerReady = (event) => {
     const { addYouTube } = this.props;
     addYouTube(event);
   };
@@ -151,7 +151,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MessageListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageListItem);

@@ -72,7 +72,7 @@ class MobileTab extends React.Component {
     loading: false,
   };
 
-  handleTelephoneNoChange = event => {
+  handleTelephoneNoChange = (event) => {
     const { value } = event.target;
     const re = /^\d*$/;
     if (value === '' || re.test(value)) {
@@ -248,7 +248,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MobileTab);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileTab);

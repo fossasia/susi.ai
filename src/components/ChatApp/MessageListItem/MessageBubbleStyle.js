@@ -26,10 +26,10 @@ const MessageBubble = styled.section`
   position: relative;
   min-width: 5rem;
   max-width: 80%;
-  ${props =>
+  ${(props) =>
     props.width
       ? css`
-          width: ${props => props.width};
+          width: ${(props) => props.width};
         `
       : css`
           width: auto;
@@ -45,21 +45,21 @@ const MessageBubble = styled.section`
   border-radius: 0.875rem;
   font-family: 'Product Sans', sans-serif;
   animation-iteration-count: 1;
-  ${props =>
+  ${(props) =>
     props.author === 'SUSI'
       ? css`
           animation: ${SUSIKeyframe} 700ms ease-out;
           margin-left: 0.75rem;
           margin-right: 0.42rem;
-          background: ${props =>
+          background: ${(props) =>
             props.$backgroundColor ? props.$backgroundColor : '#f3f2f4'};
-          color: ${props => (props.color ? props.color : '#000000')};
+          color: ${(props) => (props.color ? props.color : '#000000')};
         `
       : css`
           animation: ${UserKeyframe} 700ms ease;
-          background: ${props =>
+          background: ${(props) =>
             props.$backgroundColor ? props.$backgroundColor : '#4285f4'};
-          color: ${props => (props.color ? props.color : '#ffffff')};
+          color: ${(props) => (props.color ? props.color : '#ffffff')};
         `};
   &::after {
     content: '';
@@ -68,7 +68,7 @@ const MessageBubble = styled.section`
     left: 100%;
     top: 2.5rem;
     transform: rotate(-135deg);
-    ${props =>
+    ${(props) =>
       props.author === 'SUSI' &&
       css`
         transform: rotate(-315deg);
@@ -84,25 +84,25 @@ const MessageBubble = styled.section`
     height: 0px;
     top: 0px;
     position: absolute;
-    ${props =>
+    ${(props) =>
       props.author === 'SUSI'
         ? css`
             left: -0.5625rem;
             border-left: 1rem solid transparent;
             border-right: 0.3rem solid
-              ${props =>
+              ${(props) =>
                 props.$backgroundColor ? props.$backgroundColor : '#f3f2f4'};
             border-top: 1.5rem solid
-              ${props =>
+              ${(props) =>
                 props.$backgroundColor ? props.$backgroundColor : '#f3f2f4'};
           `
         : css`
             border-left: 0.3rem solid
-              ${props =>
+              ${(props) =>
                 props.$backgroundColor ? props.$backgroundColor : '#4285f4'};
             border-right: 1rem solid transparent;
             border-top: 1.5rem solid
-              ${props =>
+              ${(props) =>
                 props.$backgroundColor ? props.$backgroundColor : '#4285f4'};
             right: -0.5625rem;
           `};

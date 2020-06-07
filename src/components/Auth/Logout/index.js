@@ -6,7 +6,7 @@ import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 
 // Clear cookie by setting expiry date
-const deleteCookie = function(name, options = {}) {
+const deleteCookie = function (name, options = {}) {
   let cookieString = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   if (options.domain) {
     cookieString = `${cookieString}domain=${options.domain};`;
@@ -48,7 +48,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);

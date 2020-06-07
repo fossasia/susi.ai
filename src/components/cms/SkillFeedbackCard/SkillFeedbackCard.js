@@ -51,7 +51,7 @@ class SkillFeedbackCard extends Component {
     rating: 0,
   };
 
-  handleMenuOpen = event => {
+  handleMenuOpen = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
     });
@@ -63,11 +63,11 @@ class SkillFeedbackCard extends Component {
     });
   };
 
-  handleFeedbackChange = event => {
+  handleFeedbackChange = (event) => {
     this.setState({ newFeedbackValue: event.target.value });
   };
 
-  handleEditOpen = previousFeedback => {
+  handleEditOpen = (previousFeedback) => {
     this.handleMenuClose();
     this.setState({ newFeedbackValue: previousFeedback }, () => {
       this.props.actions.openModal({
@@ -87,7 +87,7 @@ class SkillFeedbackCard extends Component {
     this.setState({ newFeedbackValue: feedbackText });
   };
 
-  editRating = rating => {
+  editRating = (rating) => {
     this.setState({ rating });
   };
 
@@ -331,7 +331,7 @@ class SkillFeedbackCard extends Component {
                 widgetHoverColors="#ffbb28"
                 widgetDimensions={mobileView ? '30px' : '50px'}
                 widgetSpacings="5px"
-                changeRating={Rating => {
+                changeRating={(Rating) => {
                   this.setState({ rating: Rating });
                 }}
               />
@@ -424,7 +424,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillFeedbackCard);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillFeedbackCard);

@@ -9,7 +9,7 @@ const StyledButton = styled(_Button)`
   width: 10rem;
 `;
 
-const Button = props => {
+const Button = (props) => {
   const { buttonText, isLoading, handleClick, ...otherProps } = props;
   return (
     <StyledButton onClick={handleClick} {...otherProps}>

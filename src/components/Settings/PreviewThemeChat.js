@@ -39,7 +39,7 @@ const Message = styled.div`
   max-width: 9.3rem;
   padding: 0.75rem 1rem;
   text-align: left;
-  ${props =>
+  ${(props) =>
     props.author === 'SUSI'
       ? css`
           background-color: ${props.backgroundColor};
@@ -56,8 +56,8 @@ const ChatContainer = styled.div`
   border: 1px solid #000000;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: ${props => props.$backgroundColor}
-    ${props =>
+  background-color: ${(props) => props.$backgroundColor}
+    ${(props) =>
       props.$backgroundImageUrl &&
       css`
         background-image: url(${props.$backgroundImageUrl});
@@ -70,7 +70,7 @@ const ChatComposerContainer = styled.div`
   padding: 1rem;
   justify-content: space-evenly;
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: ${props => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor};
 `;
 
 const TextArea = styled.textarea.attrs({
@@ -81,14 +81,14 @@ const TextArea = styled.textarea.attrs({
   border: none;
   font-size: 0.875rem;
   border-radius: 6px;
-  background-color: ${props => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor};
 `;
 
 const NavBar = styled.div`
   display: flex;
   height: 1.875rem;
   justify-content: space-between;
-  background-color: ${props => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor};
 `;
 
 const ChatWindow = styled.div`
@@ -97,9 +97,9 @@ const ChatWindow = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
 
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.$backgroundColor ? props.$backgroundColor : 'black'};
-  ${props =>
+  ${(props) =>
     props.$backgroundImageUrl &&
     css`
       background-image: url(${props.$backgroundImageUrl});
@@ -122,7 +122,7 @@ class PreviewThemeChat extends Component {
     messageText: '',
   };
 
-  sendMessage = async event => {
+  sendMessage = async (event) => {
     const { messageText } = this.state;
     if (messageText.trim().length > 0) {
       this.addMessage(messageText, 'You');
@@ -152,7 +152,7 @@ class PreviewThemeChat extends Component {
             loading: false,
           };
         }
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           messages: [
             ...prevState.messages.slice(0, index),
             messageObj,
@@ -248,13 +248,15 @@ class PreviewThemeChat extends Component {
             <ChatComposerContainer $backgroundColor={colors.composerColor}>
               <TextArea
                 value={messageText}
-                onChange={ev => this.setState({ messageText: ev.target.value })}
-                onKeyDown={event => {
+                onChange={(ev) =>
+                  this.setState({ messageText: ev.target.value })
+                }
+                onKeyDown={(event) => {
                   if (event.keyCode === 13) {
                     this.sendMessage();
                   }
                 }}
-                onKeyPress={event => {
+                onKeyPress={(event) => {
                   if (event.which === 13) {
                     event.preventDefault();
                   }

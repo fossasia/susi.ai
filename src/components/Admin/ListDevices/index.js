@@ -44,7 +44,7 @@ class ListDevices extends React.Component {
       let payload = await fetchDevices();
       const { devices } = payload;
       let devicesArray = [];
-      devices.forEach(device => {
+      devices.forEach((device) => {
         const email = device.name;
         const devices = device.devices;
         const macIdArray = Object.keys(devices);
@@ -56,7 +56,7 @@ class ListDevices extends React.Component {
                 'MMMM Do YYYY, H:mm:ss',
               )
             : '-';
-        macIdArray.forEach(macId => {
+        macIdArray.forEach((macId) => {
           const device = devices[macId];
           let deviceName = device.name !== undefined ? device.name : '-';
           let location = 'Location not given';
@@ -172,10 +172,10 @@ class ListDevices extends React.Component {
     });
   };
 
-  handleClick = event => {
+  handleClick = (event) => {
     let displayDeviceOnMap = [];
     const { devices } = this.state;
-    devices.forEach(device => {
+    devices.forEach((device) => {
       if (device.macId === event.currentTarget.name) {
         const { deviceName, room, macId, latitude, longitude } = device;
         let deviceObj = {
@@ -242,7 +242,7 @@ class ListDevices extends React.Component {
           data={devices}
           title=""
           actions={[
-            rowData => ({
+            (rowData) => ({
               onEdit: (event, rowData) => {
                 this.handleEdit(
                   rowData.email,
@@ -261,7 +261,7 @@ class ListDevices extends React.Component {
             }),
           ]}
           components={{
-            Action: props => (
+            Action: (props) => (
               <React.Fragment>
                 <Link
                   to={`/mydevices?email=${props.data.email}&macId=${props.data.macId}`}
@@ -270,13 +270,13 @@ class ListDevices extends React.Component {
                 </Link>
                 <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
-                  onClick={event => props.action.onEdit(event, props.data)}
+                  onClick={(event) => props.action.onEdit(event, props.data)}
                 >
                   Edit
                 </ActionSpan>
                 <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
-                  onClick={event => props.action.onDelete(event, props.data)}
+                  onClick={(event) => props.action.onDelete(event, props.data)}
                 >
                   Delete
                 </ActionSpan>

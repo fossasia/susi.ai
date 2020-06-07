@@ -33,7 +33,7 @@ export default class EditSkillDialog extends Component {
     loading: false,
   };
 
-  handleChange = name => event => {
+  handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.checked });
   };
 

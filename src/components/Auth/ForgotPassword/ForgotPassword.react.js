@@ -45,7 +45,7 @@ class ForgotPassword extends Component {
     actions.closeModal();
   };
 
-  handleTextFieldChange = event => {
+  handleTextFieldChange = (event) => {
     const email = event.target.value.trim();
     const emailError = !isEmail(email);
     this.setState({
@@ -54,7 +54,7 @@ class ForgotPassword extends Component {
     });
   };
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     const { actions } = this.props;
     let { email, emailErrorMessage } = this.state;
 
@@ -99,7 +99,7 @@ class ForgotPassword extends Component {
     }
   };
 
-  onEnterKey = e => {
+  onEnterKey = (e) => {
     if (e.keyCode === 13) {
       this.handleSubmit();
     }
@@ -164,7 +164,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ForgotPassword);
+export default connect(null, mapDispatchToProps)(ForgotPassword);

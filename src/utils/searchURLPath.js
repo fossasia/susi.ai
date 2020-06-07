@@ -1,4 +1,4 @@
-const searchURLPath = key => {
+const searchURLPath = (key) => {
   if (window.location.href.indexOf(key) > -1) {
     return true;
   }

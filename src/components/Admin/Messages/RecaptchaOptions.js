@@ -23,7 +23,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(RecaptchaOptions);
+export default connect(mapStateToProps, null)(RecaptchaOptions);
