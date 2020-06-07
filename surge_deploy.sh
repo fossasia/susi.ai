@@ -4,10 +4,10 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     exit 0
 fi
 
-npm i -g surge
+yarn global add surge
 # Actual building and setup of current push or PR.
-npm install
-npm run build
+yarn install
+yarn build
 rm -rf node_modules/
 cp build/index.html build/404.html
 

@@ -143,9 +143,9 @@
     "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "npm run lint && react-scripts test --env=jsdom",
+    "test": "yarn lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "yarn build",
     "deploy": "surge"
   },
   "lint-staged": {
