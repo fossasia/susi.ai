@@ -196,18 +196,6 @@ export function getSusiPreviewReply(message) {
   return ajax.get(url, { q: message });
 }
 
-export function getBlogReponse(blogKey, limit, offset) {
-  const url = 'https://api.rss2json.com/v1/api.json';
-  return ajax.get(url, {
-    limit: limit,
-    offset: offset,
-    // eslint-disable-next-line
-    api_key: blogKey,
-    // eslint-disable-next-line
-    rss_url: 'http://blog.fossasia.org/tag/susi-ai/feed/',
-  });
-}
-
 export function getHistory() {
   const url = `${API_URL}/${CHAT_API_PREFIX}/memory.json`;
   return ajax.get(url, {});

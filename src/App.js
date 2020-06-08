@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './MUItheme';
 import VerifyAccount from './components/Auth/VerifyAccount/VerifyAccount';
-import Blog from './components/About/Blog';
 import ChatApp from './components/ChatApp/ChatApp.react';
 import Contact from './components/About/Contact/Contact.react';
 import Devices from './components/About/Devices';
@@ -71,7 +70,6 @@ const EnhancedBotBuilderWrap = withTracker(BotBuilderWrap);
 const EnhancedOverview = withTracker(Overview);
 const EnhancedDevices = withTracker(Devices);
 const EnhancedTeam = withTracker(Team);
-const EnhancedBlog = withTracker(Blog);
 const EnhancedContact = withTracker(Contact);
 const EnhancedSupport = withTracker(Support);
 const EnhancedConfigureSpeaker = withTracker(ConfigureSpeaker);
@@ -198,7 +196,6 @@ class App extends Component {
       deviceAccessPoint ? null : '/',
       '/about',
       '/team',
-      '/blog',
       '/devices',
       '/support',
       '/privacy',
@@ -351,7 +348,6 @@ class App extends Component {
                 <Route exact path="/about" component={EnhancedOverview} />
                 <Route exact path="/devices" component={EnhancedDevices} />
                 <Route exact path="/team" component={EnhancedTeam} />
-                <Route exact path="/blog" component={EnhancedBlog} />
                 <Route exact path="/contact" component={EnhancedContact} />
                 <Route exact path="/support" component={EnhancedSupport} />
                 <Route exact path="/terms" component={EnhancedTerms} />
