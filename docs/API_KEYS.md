@@ -2,7 +2,6 @@
 
 * SUSI.AI uses various third party endpoints for fetching, submiting data, list of keys used are:
   *  `captchaKey`: recaptcha client side validation
-  *  `blogKey`: rss to json key for blogs
   *  `mapKey`: google key for device maps
   *  `googleAnalyticsKey`: google analytics
   *  `wolframalphaKey`: wolfram computational knowledge

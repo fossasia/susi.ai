@@ -124,7 +124,7 @@ const Footer = () => {
                 <Link to="/devices">Devices</Link>
               </li>
               <li>
-                <Link to="/blog">Blog</Link>
+                <a href="http://blog.fossasia.org/category/susi.ai">Blog</a>
               </li>
               <li>
                 <a href={urls.API_URL}>API</a>
