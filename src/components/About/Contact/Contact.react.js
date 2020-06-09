@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Header } from '../../shared/About';
 import { scrollToTopAnimation } from '../../../utils/animateScroll';
-import MapContainer from '../../cms/MyDevices/MapContainer';
-import withGoogleApiWrapper from '../../../utils/withGoogleApiWrapper';
 
 const Address = styled.div`
   height: 70vh;
@@ -16,11 +13,6 @@ const Address = styled.div`
   @media (max-width: 1000px) {
     height: 90vh;
   }
-`;
-
-const MapBox = styled.div`
-  position: absolute;
-  margin-bottom: 10vh;
 `;
 
 const commonContactContent = css`
@@ -68,24 +60,11 @@ const Text = styled.p`
   font-weight: 500;
 `;
 
-function renderTooltip(selectedPlace) {
-  return <h3>{selectedPlace.title}</h3>;
-}
-
 const Contact = (props) => {
   document.title =
     'Contact Developer Team of SUSI.AI - Open Source Artificial Intelligence for Personal Assistants, Robots, Help Desks and Chatbots';
   scrollToTopAnimation();
   document.body.style.setProperty('background-image', 'none');
-
-  const { google, mapKey } = props;
-
-  const locationFossasia = {
-    deviceName: 'fossasia',
-    latitude: 1.2879848,
-    longitude: 103.84602,
-    location: `${1.2879848}, ${103.84602}`,
-  };
 
   return (
     <div>
@@ -113,18 +92,6 @@ const Contact = (props) => {
               <br />
             </Text>
           </div>
-          <MapBox>
-            {mapKey && (
-              <MapContainer
-                google={google}
-                style={{
-                  width: '65vw',
-                }}
-                tooltipRenderer={renderTooltip}
-                data={[locationFossasia]}
-              />
-            )}
-          </MapBox>
         </Address>
         <ContactContent>
           Report a safety or abuse issue affecting our products.
@@ -143,15 +110,6 @@ Contact.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   google: PropTypes.object,
-  mapKey: PropTypes.string,
 };
 
-function mapStateToProps(store) {
-  return {
-    mapKey: store.app.apiKeys.mapKey || '',
-  };
-}
-
-export default withRouter(
-  connect(mapStateToProps)(withGoogleApiWrapper(Contact)),
-);
+export default withRouter(Contact);
