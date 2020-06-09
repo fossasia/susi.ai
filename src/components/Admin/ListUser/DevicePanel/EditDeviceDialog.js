@@ -21,7 +21,7 @@ class EditDeviceSettings extends React.Component {
     this.props.actions.closeModal();
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -137,7 +137,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EditDeviceSettings);
+export default connect(null, mapDispatchToProps)(EditDeviceSettings);

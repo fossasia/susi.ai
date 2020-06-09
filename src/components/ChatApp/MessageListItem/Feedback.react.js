@@ -57,7 +57,7 @@ class Feedback extends React.Component {
     this.setState({ feedbackInProgress: false });
   };
 
-  postSkillReplyFeedback = async feedback => {
+  postSkillReplyFeedback = async (feedback) => {
     const skillInfo = this.state.skill;
     const { actions, message, countryCode, countryName } = this.props;
     const query = _.get(message, 'response.query', '');
@@ -89,7 +89,7 @@ class Feedback extends React.Component {
     }
   };
 
-  saveSkillFeedback = async feedback => {
+  saveSkillFeedback = async (feedback) => {
     const { actions, message } = this.props;
     await actions.saveSkillFeedback({ messageId: message.id, feedback });
     this.setState({
@@ -153,7 +153,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

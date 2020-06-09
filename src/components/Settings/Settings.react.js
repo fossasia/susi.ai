@@ -56,7 +56,7 @@ const Container = styled.div`
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
   scrollbar-width: none;
-  background: ${props => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
+  background: ${(props) => (props.theme === 'dark' ? '#000012' : '#f2f2f2')};
   @media only screen and (max-width: 1060px) {
     height: 100vh;
   }
@@ -79,7 +79,7 @@ const SettingsOptionsContainer = styled(Paper)`
   overflow-x: hidden;
   margin-right: 12px;
   height: fit-content;
-  ${props =>
+  ${(props) =>
     props.theme === 'dark'
       ? css`
           background: #19324c;
@@ -114,7 +114,7 @@ const MenuList = styled(_MenuList)`
 
 const SettingsBodyContainer = styled(Paper)`
   width: 70%;
-  ${props =>
+  ${(props) =>
     props.theme === 'dark'
       ? css`
           background: #19324c;
@@ -230,7 +230,7 @@ class Settings extends Component {
       settingsOptions &&
       Array.isArray(settingsOptions) &&
       settingsOptions.length > 0 &&
-      settingsOptions.map(eachOption => (
+      settingsOptions.map((eachOption) => (
         <MenuItem
           key={eachOption.name}
           onClick={this.loadSettings}
@@ -254,7 +254,7 @@ class Settings extends Component {
       settingsOptions &&
       Array.isArray(settingsOptions) &&
       settingsOptions.length > 0 &&
-      settingsOptions.map(eachOption => {
+      settingsOptions.map((eachOption) => {
         return (
           <SettingsMenuItem key={eachOption.name} value={eachOption.name}>
             {eachOption.name}
@@ -363,7 +363,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -1,7 +1,7 @@
-const getSkillNameFromSkillTag = skillTag => {
+const getSkillNameFromSkillTag = (skillTag) => {
   var name = skillTag.replace(/_/g, ' ');
   var regularExpression = /(\b[a-z](?!\s))/g;
-  name = name.replace(regularExpression, function(x) {
+  name = name.replace(regularExpression, function (x) {
     return x.toUpperCase();
   });
   return name;

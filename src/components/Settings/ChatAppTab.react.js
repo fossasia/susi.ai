@@ -107,7 +107,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ChatAppTab);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatAppTab);

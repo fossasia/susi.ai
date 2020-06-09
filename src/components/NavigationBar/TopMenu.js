@@ -28,7 +28,7 @@ const NavButton = styled(StyledIconButton)`
   word-spacing: 2px;
   font-size: 1rem;
   padding: 0.75rem;
-  ${props =>
+  ${(props) =>
     props.isActive === true &&
     css`
       border-bottom: 2px solid #ffffff;
@@ -118,7 +118,7 @@ const WithRouterMenu = withRouter(NavMenu);
 const TopMenu = ({ isAdmin, accessToken }) => {
   let navLinks = null;
   if (LINKS(accessToken, isAdmin)) {
-    navLinks = LINKS(accessToken, isAdmin).map(link => {
+    navLinks = LINKS(accessToken, isAdmin).map((link) => {
       return <WithRouterMenu key={link.label} link={link} />;
     });
   }
@@ -137,7 +137,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(TopMenu);
+export default connect(mapStateToProps, null)(TopMenu);

@@ -1,4 +1,4 @@
-export default function(arr) {
+export default function (arr) {
   return arr.sort((a, b) => {
     let [aYear, aMonth] = a.timeStamp.split('-');
     let [bYear, bMonth] = b.timeStamp.split('-');

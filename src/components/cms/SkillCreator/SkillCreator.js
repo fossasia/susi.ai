@@ -145,7 +145,7 @@ class SkillCreator extends Component {
     }
   };
 
-  handleDeleteSkill = async skill => {
+  handleDeleteSkill = async (skill) => {
     this.props.actions.openModal({
       modalType: 'confirm',
       title: `Delete Skill ${skill.skillName}`,
@@ -163,7 +163,7 @@ class SkillCreator extends Component {
     });
   };
 
-  onConfirmDelete = async skill => {
+  onConfirmDelete = async (skill) => {
     const { group, language, model, skillName } = skill;
     const { actions } = this.props;
     this.setState({ loading: true }, () => {
@@ -208,7 +208,7 @@ class SkillCreator extends Component {
     let skillsArray = [];
     let skills = this.props.userSkills;
     if (skills.length > 0) {
-      skills.forEach(skill => {
+      skills.forEach((skill) => {
         const { group, skillTag, language, image, skillName } = skill;
         const imageUrl = getImageSrc({
           relativePath: `model=general&language=${language}&group=${group.replace(
@@ -341,7 +341,4 @@ function mapStateToProps({ app }) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillCreator);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillCreator);

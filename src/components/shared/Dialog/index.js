@@ -112,7 +112,7 @@ const DialogData = {
   },
 };
 
-const DialogSection = props => {
+const DialogSection = (props) => {
   const {
     actions,
     modalProps: { isModalOpen, modalType, ...otherProps },
@@ -186,8 +186,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(DialogSection),
+  connect(mapStateToProps, mapDispatchToProps)(DialogSection),
 );

@@ -4,8 +4,8 @@ import { Map as _Map, InfoWindow, Marker } from 'google-maps-react';
 import PropTypes from 'prop-types';
 
 const Container = styled.div`
-  width: ${props => (props.adminTable ? '250px' : '100%')};
-  height: ${props => (props.adminTable ? '250px' : '300px')};
+  width: ${(props) => (props.adminTable ? '250px' : '100%')};
+  height: ${(props) => (props.adminTable ? '250px' : '300px')};
   display: flex;
   justify-content: center;
 `;
@@ -13,7 +13,7 @@ const Container = styled.div`
 const Map = styled(_Map)`
   height: 300px !important;
   position: relative;
-  width: ${props => (props.adminTable ? '250px' : '85% !important')};
+  width: ${(props) => (props.adminTable ? '250px' : '85% !important')};
 
   @media (max-width: 1060px) {
     width: 80% !important;
@@ -108,7 +108,7 @@ class MapContainer extends Component {
           {data &&
             Array.isArray(data) &&
             data.length > 0 &&
-            data.map(eachDevice => (
+            data.map((eachDevice) => (
               <Marker
                 key={eachDevice.deviceName}
                 title={eachDevice.deviceName}

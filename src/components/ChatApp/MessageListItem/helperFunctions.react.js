@@ -25,10 +25,10 @@ import { FlexContainer } from '../../shared/Container';
 
 const FooterList = styled.div`
   font-size: 0.75rem;
-  color: ${props => (props.author === 'SUSI' ? '#AAA9AA' : '#C6DAFB')};
+  color: ${(props) => (props.author === 'SUSI' ? '#AAA9AA' : '#C6DAFB')};
   padding: 0;
   text-align: right;
-  float: ${props => (props.author === 'SUSI' ? 'right' : 'left')};
+  float: ${(props) => (props.author === 'SUSI' ? 'right' : 'left')};
   list-style-type: none;
   align-items: center;
   margin-top: 5px;
@@ -177,7 +177,8 @@ export function imageParse(stringWithLinks) {
       let htmlParseItem = Parser(item);
       if (
         (Array.isArray(htmlParseItem) && htmlParseItem.length === 0) ||
-        (htmlParseItem.hasOwnProperty('props') && !htmlParseItem.props.children)
+        (Object.prototype.hasOwnProperty.call(htmlParseItem, 'props') &&
+          !htmlParseItem.props.children)
       ) {
         result.push(item);
       } else {
@@ -307,7 +308,7 @@ export function drawTable(columns, tableData, count) {
       let validRow = true;
       for (let keyInd = 0; keyInd < parseKeys.length; keyInd++) {
         let colKey = parseKeys[keyInd];
-        if (!eachrow.hasOwnProperty(colKey)) {
+        if (!Object.prototype.hasOwnProperty.call(eachrow, colKey)) {
           validRow = false;
           break;
         }

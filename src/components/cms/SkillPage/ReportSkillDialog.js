@@ -15,7 +15,7 @@ class ReportSkill extends React.Component {
     loading: false,
   };
 
-  saveReportFeedback = feedbackMessage => {
+  saveReportFeedback = (feedbackMessage) => {
     this.setState({
       feedbackMessage,
     });
@@ -80,7 +80,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ReportSkill);
+export default connect(null, mapDispatchToProps)(ReportSkill);

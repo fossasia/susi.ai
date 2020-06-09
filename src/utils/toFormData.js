@@ -4,7 +4,7 @@ function serialize(params, obj, traditional, scope) {
   let type,
     array = _.isArray(obj),
     hash = _.isObject(obj);
-  _.each(obj, function(value, key) {
+  _.each(obj, function (value, key) {
     type = typeof value;
     if (scope) {
       if (array) {
@@ -32,7 +32,7 @@ function serialize(params, obj, traditional, scope) {
 
 export default function param(obj, traditional) {
   let params = [];
-  params.add = function(key, value) {
+  params.add = function (key, value) {
     if (_.isFunction(value)) {
       value = value();
     }

@@ -37,8 +37,8 @@ const Container = styled.div`
   }
 `;
 
-const getCountryName = countryCode => {
-  if (isoCountries.hasOwnProperty(countryCode)) {
+const getCountryName = (countryCode) => {
+  if (Object.prototype.hasOwnProperty.call(isoCountries, countryCode)) {
     return isoCountries[countryCode];
   }
 };

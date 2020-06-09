@@ -55,7 +55,7 @@ class ResetPassword extends Component {
     this.props.history.push('/');
   }
 
-  handleTextFieldChange = event => {
+  handleTextFieldChange = (event) => {
     switch (event.target.name) {
       case 'newPassword': {
         const {
@@ -119,7 +119,7 @@ class ResetPassword extends Component {
     }
   };
 
-  onEnterKey = e => {
+  onEnterKey = (e) => {
     if (e.keyCode === 13) {
       this.handleSubmit();
     }
@@ -232,9 +232,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps,
-  )(ResetPassword),
-);
+export default withRouter(connect(null, mapDispatchToProps)(ResetPassword));

@@ -11,11 +11,11 @@ export const Divider = styled.hr`
   width: 100%;
   height: 1px;
   border: 0 none;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.theme === 'light' ? '#f2f2f2' : '#ffffff'};
-  ${props =>
+  ${(props) =>
     props.marginTop &&
     css`
-      margin-top: ${props => props.marginTop};
+      margin-top: ${(props) => props.marginTop};
     `};
 `;

@@ -91,7 +91,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SkillCardScrollList);
+export default connect(mapStateToProps, null)(SkillCardScrollList);

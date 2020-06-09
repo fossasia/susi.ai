@@ -30,12 +30,12 @@ const Translate = ({ text, prefLanguage }) => {
     'ge-GE': ge,
   };
 
-  const getTranslation = text => {
+  const getTranslation = (text) => {
     const defaultPrefLanguage = prefLanguage;
     let translatedText;
 
     if (defaultPrefLanguage !== 'en-US') {
-      if (lang.hasOwnProperty(defaultPrefLanguage)) {
+      if (Object.prototype.hasOwnProperty.call(lang, defaultPrefLanguage)) {
         translatedText = lang[defaultPrefLanguage][text];
       }
     }
@@ -57,7 +57,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(Translate);
+export default connect(mapStateToProps, null)(Translate);

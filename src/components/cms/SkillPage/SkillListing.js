@@ -127,7 +127,7 @@ class SkillListing extends Component {
   skillName = this.skillTag
     ? this.skillTag
         .split('_')
-        .map(data => {
+        .map((data) => {
           const s = data.charAt(0).toUpperCase() + data.substring(1);
           return s;
         })
@@ -495,7 +495,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SkillListing);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillListing);

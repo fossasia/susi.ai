@@ -98,7 +98,7 @@ class Slideshow extends React.Component {
             padding: '1rem',
           }}
           actions={[
-            rowData => ({
+            (rowData) => ({
               onEdit: (event, rowData) => {
                 this.handleUpdate(
                   rowData.redirectLink,
@@ -112,23 +112,23 @@ class Slideshow extends React.Component {
             }),
           ]}
           components={{
-            Action: props => (
+            Action: (props) => (
               <React.Fragment>
                 <ActionSpan
-                  onClick={event => props.action.onEdit(event, props.data)}
+                  onClick={(event) => props.action.onEdit(event, props.data)}
                 >
                   Edit
                 </ActionSpan>
                 <ActionSeparator> | </ActionSeparator>
                 <ActionSpan
-                  onClick={event => props.action.onDelete(event, props.data)}
+                  onClick={(event) => props.action.onDelete(event, props.data)}
                 >
                   Delete
                 </ActionSpan>
               </React.Fragment>
             ),
           }}
-          detailPanel={rowData => (
+          detailPanel={(rowData) => (
             <SliderImage
               src={getImageSrc({ relativePath: `image=${rowData.image_name}` })}
             />
@@ -158,7 +158,4 @@ function mapStateToDispatch(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapStateToDispatch,
-)(Slideshow);
+export default connect(null, mapStateToDispatch)(Slideshow);

@@ -66,7 +66,7 @@ class DevicesTab extends React.Component {
       let deviceIds = Object.keys(devices);
       let invalidLocationDevices = 0;
 
-      deviceIds.forEach(eachDevice => {
+      deviceIds.forEach((eachDevice) => {
         const {
           name,
           room,
@@ -169,8 +169,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(DevicesTab),
+  connect(mapStateToProps, mapDispatchToProps)(DevicesTab),
 );

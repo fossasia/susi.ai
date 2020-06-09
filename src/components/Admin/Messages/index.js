@@ -31,7 +31,7 @@ const Text = styled.span`
   font-size: 12px;
 `;
 
-const generateRowsOption = total => {
+const generateRowsOption = (total) => {
   let array = [];
   for (let i = Math.max(10, total); i <= total; i += 10) {
     array.push(i);
@@ -88,7 +88,7 @@ const Messages = ({ actions }) => {
         margin: '2rem',
       }}
       actions={[
-        rowData => ({
+        (rowData) => ({
           onClick: (event, rowData) => {
             handleView(
               rowData.recipients,
@@ -101,8 +101,10 @@ const Messages = ({ actions }) => {
       ]}
       components={{
         /* eslint-disable */
-        Action: props => (
-          <ActionDiv onClick={event => props.action.onClick(event, props.data)}>
+        Action: (props) => (
+          <ActionDiv
+            onClick={(event) => props.action.onClick(event, props.data)}
+          >
             View
           </ActionDiv>
         ),
@@ -121,7 +123,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Messages);
+export default connect(null, mapDispatchToProps)(Messages);

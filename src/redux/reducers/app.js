@@ -127,7 +127,7 @@ export default handleActions(
           ...i,
         });
       }
-      const userSkills = skillsData.filter(item => {
+      const userSkills = skillsData.filter((item) => {
         if (item.authorEmail === state.email) {
           return item;
         }

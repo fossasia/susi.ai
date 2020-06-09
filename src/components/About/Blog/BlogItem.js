@@ -159,7 +159,7 @@ const CustomTypography = styled(Typography)`
   font-size: 0.875rem;
 `;
 
-const getShortDescription = content => {
+const getShortDescription = (content) => {
   var dummyNode = document.createElement('div'),
     resultText = '';
 
@@ -175,7 +175,7 @@ const BlogItem = ({ posts }) => {
   const description = htmlToText.fromString(posts.description).split('…');
   const content = posts.content;
   let category = [];
-  posts.categories.forEach(cat => {
+  posts.categories.forEach((cat) => {
     let k = 0;
     for (k = 0; k < allCategories.length; k++) {
       if (cat === allCategories[k]) {
@@ -186,7 +186,7 @@ const BlogItem = ({ posts }) => {
 
   const tags = arrDiff(category, posts.categories);
   const fCategory = category
-    .map(cat => (
+    .map((cat) => (
       <BlogFooterLink
         key={cat}
         href={
@@ -200,7 +200,7 @@ const BlogItem = ({ posts }) => {
     ))
     .reduce((prev, curr) => [prev, ', ', curr]);
   const ftags = tags
-    .map(tag => (
+    .map((tag) => (
       <BlogFooterLink
         key={tag}
         href={

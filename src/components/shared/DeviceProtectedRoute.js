@@ -62,12 +62,12 @@ RenderAccessFromSUSI.propTypes = {
   pathname: PropTypes.string,
 };
 
-const DeviceProtectedRoute = props => {
+const DeviceProtectedRoute = (props) => {
   const { isLocalEnv, component: Component, location, ...restProps } = props;
   return (
     <Route
       {...restProps}
-      render={routeProps =>
+      render={(routeProps) =>
         !isLocalEnv ? (
           <Component {...routeProps} />
         ) : (
@@ -96,7 +96,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(DeviceProtectedRoute);
+export default connect(mapStateToProps, null)(DeviceProtectedRoute);

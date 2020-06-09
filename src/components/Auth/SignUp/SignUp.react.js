@@ -89,7 +89,7 @@ class SignUp extends Component {
     });
   };
 
-  onCaptchaSuccess = captchaResponse => {
+  onCaptchaSuccess = (captchaResponse) => {
     if (captchaResponse) {
       this.setState({
         showCaptchaErrorMessage: false,
@@ -119,7 +119,7 @@ class SignUp extends Component {
     }
   };
 
-  handleTextFieldChange = event => {
+  handleTextFieldChange = (event) => {
     switch (event.target.name) {
       case 'email': {
         const email = event.target.value.trim();
@@ -182,7 +182,7 @@ class SignUp extends Component {
     }
   };
 
-  onSignup = async event => {
+  onSignup = async (event) => {
     this.setState({
       signupErrorMessage: '',
     });
@@ -256,7 +256,7 @@ class SignUp extends Component {
     }
   };
 
-  onEnterKey = e => {
+  onEnterKey = (e) => {
     if (e.keyCode === 13) {
       this.onSignup();
     }
@@ -394,7 +394,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

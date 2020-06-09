@@ -67,7 +67,7 @@ class Blog extends Component {
     }
   }
 
-  componentWillReceiveProps = props => {
+  componentWillReceiveProps = (props) => {
     const { blogKey } = props;
     this.blogKey = blogKey;
     const { posts } = this.state;
@@ -76,7 +76,7 @@ class Blog extends Component {
     }
   };
 
-  getPosts = async offset => {
+  getPosts = async (offset) => {
     this.setState({ postRendered: false });
     let payload = null;
     if (this.state.nextPosts.length === 0 || offset <= this.state.startPage) {
@@ -189,7 +189,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(Blog);
+export default connect(mapStateToProps, null)(Blog);

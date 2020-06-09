@@ -16,7 +16,7 @@ import onChatComposerKeyDown from '../../../../utils/onChatComposerKeyDown';
 const ENTER_KEY_CODE = 13;
 
 const Paper = styled(_Paper)`
-  width: ${props => props.width};
+  width: ${(props) => props.width};
   position: relative;
   background-color: #ffffff;
   padding: 15px 0px;
@@ -44,7 +44,7 @@ const BR = styled.br`
 `;
 
 const PreviewContainer = styled.div`
-  height: ${props => (props.width < 1200 ? '740px' : '100%')};
+  height: ${(props) => (props.width < 1200 ? '740px' : '100%')};
   max-width: 95%;
   width: 360px;
   margin: 14px auto auto auto;
@@ -58,7 +58,7 @@ const PreviewContainer = styled.div`
 `;
 
 const PreviewChatContainer = styled.div`
-  min-height: ${props =>
+  min-height: ${(props) =>
     props.width > 1200 ? props.height - 250 + 'px' : '100%'};
   @media (max-width: 520px) {
     width: 100%;
@@ -81,7 +81,7 @@ const SUSIFrameContainer = styled.div`
   border-radius: 4px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.16);
   overflow-x: hidden;
-  height: ${props =>
+  height: ${(props) =>
     props.width > 1200 ? props.height - 250 + 'px' : '630px'};
   width: 100%;
   animation: ${moveFromBottomFadeKeyframe} 0.3s ease both;
@@ -105,8 +105,8 @@ const SUSIFrameWrapper = styled.div`
 
 const SUSIMessageContainer = styled.div`
   && {
-    background-color: ${props => props.$backgroundColor};
-    background-image: ${props => `url(${props.$backgroundImage})`};
+    background-color: ${(props) => props.$backgroundColor};
+    background-image: ${(props) => `url(${props.$backgroundImage})`};
   }
 `;
 
@@ -153,8 +153,8 @@ const SUSILauncherWrapper = styled.div`
 `;
 
 const SUSILauncherButton = styled.div`
-  background-color: ${props => props.$backgroundColor};
-  background-image: ${props => `url(${props.$backgroundImage})`};
+  background-color: ${(props) => props.$backgroundColor};
+  background-image: ${(props) => `url(${props.$backgroundImage})`};
   width: 60px;
   height: 60px;
   background-size: 60px;
@@ -263,12 +263,12 @@ class Preview extends Component {
   }
 
   togglePreview = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       previewChat: !prevState.previewChat,
     }));
   };
 
-  sendMessage = async event => {
+  sendMessage = async (event) => {
     const { message, messageHistory } = this.state;
     const { code } = this.props;
     if (message.trim().length > 0) {
@@ -308,7 +308,7 @@ class Preview extends Component {
             loading: false,
           };
         }
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           messages: [
             ...prevState.messages.slice(0, index),
             messageObj,
@@ -322,7 +322,7 @@ class Preview extends Component {
     }
   };
 
-  onKeydown = event => {
+  onKeydown = (event) => {
     if (event.keyCode === ENTER_KEY_CODE) {
       event.preventDefault();
       this.sendMessage();
@@ -362,7 +362,7 @@ class Preview extends Component {
     });
   };
 
-  escapeRegExp = str => {
+  escapeRegExp = (str) => {
     return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
   };
 
@@ -496,17 +496,17 @@ class Preview extends Component {
                                     placeholder="Type a message..."
                                     rows="1"
                                     value={message}
-                                    onKeyPress={event => {
+                                    onKeyPress={(event) => {
                                       if (event.which === ENTER_KEY_CODE) {
                                         event.preventDefault();
                                       }
                                     }}
-                                    onChange={ev =>
+                                    onChange={(ev) =>
                                       this.setState({
                                         message: ev.target.value,
                                       })
                                     }
-                                    onKeyDown={event => {
+                                    onKeyDown={(event) => {
                                       this.onKeydown(event);
                                     }}
                                   />
@@ -565,7 +565,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(Preview);
+export default connect(mapStateToProps, null)(Preview);

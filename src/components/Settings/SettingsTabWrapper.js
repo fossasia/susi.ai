@@ -55,7 +55,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(SettingsTabWrapper);
+export default connect(mapStateToProps, null)(SettingsTabWrapper);

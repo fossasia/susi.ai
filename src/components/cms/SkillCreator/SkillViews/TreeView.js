@@ -85,7 +85,7 @@ class TreeView extends Component {
     this.setState({ userInputs }, () => this.getResponses(0));
   };
 
-  getResponses = async responseNumber => {
+  getResponses = async (responseNumber) => {
     const { actions, code } = this.props;
     const { userInputs } = this.state;
     let userQuery = userInputs[responseNumber];
@@ -127,7 +127,7 @@ class TreeView extends Component {
         }
         skillData.children = nodeData;
         this.setState(
-          prevState => ({
+          (prevState) => ({
             loaded:
               responseNumber + 1 === userInputs.length
                 ? true
@@ -145,7 +145,7 @@ class TreeView extends Component {
     }
   };
 
-  getNodeText = text => {
+  getNodeText = (text) => {
     if (text.indexOf(' ') > 0) {
       return text.substr(0, text.indexOf(' ')) + '...';
     }
@@ -211,7 +211,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TreeView);
+export default connect(mapStateToProps, mapDispatchToProps)(TreeView);

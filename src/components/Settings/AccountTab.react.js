@@ -158,19 +158,19 @@ class AccountTab extends React.Component {
     return voiceOutput;
   };
 
-  handlePrefLang = event => {
+  handlePrefLang = (event) => {
     this.setState({
       prefLanguage: event.target.value,
     });
   };
 
-  handleTimeZone = value => {
+  handleTimeZone = (value) => {
     this.setState({
       timeZone: value,
     });
   };
 
-  handleUserName = event => {
+  handleUserName = (event) => {
     let { value: userName } = event.target;
     userName = userName.trim();
     this.setState({ userName });
@@ -183,7 +183,7 @@ class AccountTab extends React.Component {
     }
   };
 
-  handleAvatarTypeChange = event => {
+  handleAvatarTypeChange = (event) => {
     this.setState({
       avatarType: event.target.value,
       settingsChanged: true,
@@ -227,7 +227,7 @@ class AccountTab extends React.Component {
     }
   };
 
-  handleAvatarImageChange = e => {
+  handleAvatarImageChange = (e) => {
     e.preventDefault();
     // eslint-disable-next-line no-undef
     let reader = new FileReader();
@@ -260,7 +260,7 @@ class AccountTab extends React.Component {
     });
   };
 
-  getCroppedImage = croppedImg => {
+  getCroppedImage = (croppedImg) => {
     this.setState(
       {
         imagePreviewUrl: croppedImg,
@@ -281,7 +281,7 @@ class AccountTab extends React.Component {
     });
   };
 
-  handleMenuClick = event => {
+  handleMenuClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
     });
@@ -351,7 +351,7 @@ class AccountTab extends React.Component {
     }
   };
 
-  handleDelete = deleteUserByAdminEmail => {
+  handleDelete = (deleteUserByAdminEmail) => {
     this.setState({ deleteUserByAdminEmail });
     this.props.actions.openModal({
       modalType: 'deleteUserAccount',
@@ -453,7 +453,7 @@ class AccountTab extends React.Component {
                 <TimezonePicker
                   className="time-zone-picker"
                   value={timeZone}
-                  onChange={timezone => this.handleTimeZone(timezone)}
+                  onChange={(timezone) => this.handleTimeZone(timezone)}
                   inputProps={{
                     placeholder: 'Select Timezone...',
                     name: 'timezone',
@@ -566,7 +566,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AccountTab);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountTab);

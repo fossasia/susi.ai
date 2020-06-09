@@ -45,7 +45,7 @@ const defaultState = {
   loading: true,
 };
 
-const generateDesignData = code => {
+const generateDesignData = (code) => {
   const bodyBackgroundMatch = code.match(/^::bodyBackground\s(.*)$/m);
   const bodyBackgroundImageMatch = code.match(/^::bodyBackgroundImage\s(.*)$/m);
   const userMessageBoxBackgroundMatch = code.match(
@@ -318,7 +318,7 @@ export default handleActions(
     },
     [actionTypes.CREATE_GET_DRAFT_BOT_DETAILS](state, { payload }) {
       if (Object.keys(payload.drafts).length > 0) {
-        Object.keys(payload.drafts).forEach(key => {
+        Object.keys(payload.drafts).forEach((key) => {
           const draft = payload.drafts[key];
           const {
             name,

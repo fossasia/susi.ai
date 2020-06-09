@@ -22,7 +22,7 @@ const H3 = styled.h3`
 `;
 
 const RecaptchaOptions = ({ actions, captchaConfig }) => {
-  const handleRecaptchaChange = async e => {
+  const handleRecaptchaChange = async (e) => {
     const { checked, name } = e.target;
     try {
       await setRecaptchaConfig({
@@ -110,7 +110,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RecaptchaOptions);
+export default connect(mapStateToProps, mapDispatchToProps)(RecaptchaOptions);

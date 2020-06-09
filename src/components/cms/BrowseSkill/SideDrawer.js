@@ -38,7 +38,7 @@ export default function SideDrawer(props) {
     right: false,
   });
 
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = (side, open) => (event) => {
     if (
       event &&
       event.type === 'keydown' &&
@@ -50,7 +50,7 @@ export default function SideDrawer(props) {
     setState({ ...state, [side]: open });
   };
 
-  const sideList = props => (
+  const sideList = (props) => (
     <div
       className={classes.list}
       role="presentation"
