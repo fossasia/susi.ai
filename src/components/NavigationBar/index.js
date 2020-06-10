@@ -52,6 +52,7 @@ import isMobileView from '../../utils/isMobileView';
 import ToolTip from '../shared/ToolTip';
 import Devices from '@material-ui/icons/Devices';
 import Person from '@material-ui/icons/Person';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const LanguageSelect = styled(Select)`
   ${OutlinedSelectStyles}
@@ -103,7 +104,7 @@ const SusiLogo = styled.img`
     props.marginRight &&
     css`
       margin-right: ${(props) => props.marginRight + 'px'};
-    `}
+    `};
 `;
 
 const TopRightMenuContainer = styled.div`
@@ -119,7 +120,7 @@ const SusiLogoContainer = styled.div`
       props.isSearchOpen &&
       css`
         display: none;
-      `}
+      `};
   }
 `;
 
@@ -135,6 +136,10 @@ const Toolbar = styled(_Toolbar)`
     padding-left: 15px;
   }
 `;
+
+const checkIcon = {
+  fontSize: '20',
+};
 
 const HideOnScroll = ({ children }) => {
   const trigger = useScrollTrigger();
@@ -326,6 +331,11 @@ class NavigationBar extends Component {
         checked={values && values.indexOf(name) > -1}
         value={name}
       >
+        {this.props.languageValue.indexOf(name) > -1 ? (
+          <Checkbox checked={true} style={checkIcon} />
+        ) : (
+          <Checkbox checked={false} style={checkIcon} />
+        )}
         {ISO6391.getNativeName(name)
           ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
           : 'Universal'}
@@ -720,7 +730,7 @@ class NavigationBar extends Component {
                     </IconButton>
                   </ToolTip>
                 ) : (
-                  <span></span>
+                  <span />
                 )}
 
                 <div data-tip="custom" data-for={'right-menu-about'}>
