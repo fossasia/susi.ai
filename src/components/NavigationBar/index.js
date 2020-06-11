@@ -331,11 +331,11 @@ class NavigationBar extends Component {
         checked={values && values.indexOf(name) > -1}
         value={name}
       >
-        {this.props.languageValue.indexOf(name) > -1 ? (
-          <Checkbox checked={true} style={checkIcon} />
-        ) : (
-          <Checkbox checked={false} style={checkIcon} />
-        )}
+        <Checkbox
+          checked={this.props.languageValue.indexOf(name) > -1}
+          style={checkIcon}
+        />
+
         {ISO6391.getNativeName(name)
           ? `${ISO6391.getNativeName(name)} - ${name.toUpperCase()}`
           : 'Universal'}
