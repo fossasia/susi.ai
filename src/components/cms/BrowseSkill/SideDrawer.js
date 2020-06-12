@@ -59,11 +59,7 @@ export default function SideDrawer(props) {
 
   return (
     <div>
-      <Button
-        color="primary"
-        onClick={toggleDrawer('left', true)}
-        disable={false}
-      >
+      <Button color="primary" onClick={toggleDrawer('left', true)}>
         <FilterList />
       </Button>
       <SwipeableDrawer
