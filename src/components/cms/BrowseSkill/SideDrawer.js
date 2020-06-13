@@ -4,6 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { FilterList } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   list: {
@@ -22,11 +23,6 @@ const Button = styled(Fab)`
   border-radius: 50%;
   background-color: #4285f4;
   z-index: 89;
-`;
-
-const Icon = styled.i`
-  padding: 0.4rem 0.4rem;
-  color: #fff;
 `;
 
 export default function SideDrawer(props) {
@@ -63,8 +59,8 @@ export default function SideDrawer(props) {
 
   return (
     <div>
-      <Button onClick={toggleDrawer('left', true)} disable={false}>
-        <Icon className="material-icons">filter_list</Icon>
+      <Button color="primary" onClick={toggleDrawer('left', true)}>
+        <FilterList />
       </Button>
       <SwipeableDrawer
         open={state.left}
