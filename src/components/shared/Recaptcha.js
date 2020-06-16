@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactRecaptcha from 'react-recaptcha';
+import ReactRecaptcha from 'react-google-recaptcha';
 import styled from 'styled-components';
 import Translate from '../Translate/Translate.react';
 
