@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+language: node_js
+
+node_js:
+  - 12
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+matrix:
+  include:
+    # Run yarn test and get code coverage matrix
+    - script:
+      - yarn test
+      - bash <(curl -s https://codecov.io/bash)
+
+    # Deploy PR to surge
+    - script: bash ./surge_deploy.sh
+
+    # Deploy on non-prs
+    - script: bash ./deploy.sh

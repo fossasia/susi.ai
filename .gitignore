@@ -1,0 +1,24 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# docker
+.dockerignore
+.8.dockerfile
+
+# production
+/build
+
+# misc
+.idea
+.DS_Store
+npm-debug.log*
+package-log.json*
+yarn-debug.log*
+yarn-error.log*
+jest
+.vscode/

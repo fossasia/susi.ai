@@ -1,0 +1,53 @@
+.circleChoose{
+  margin: 0 auto;
+  position: relative;
+  text-align: left;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+ }
+
+.scroll {
+  overflow: -moz-scrollbars-none;
+}
+
+.map-marker-icon {
+  background: url('../../images/map_marker_icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 25px;
+  height: 25px;
+}
+
+.slick-slide{
+  margin: 0 4px;
+}
+
+.slick-list{
+  min-height: 130px;
+}
+
+.slick-prev.slick-disabled:before, .slick-next.slick-disabled:before {
+  color: grey;
+  opacity: 0.25;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: grey;
+  opacity: 1;
+}
+
+.leaflet-container {
+  height: 10rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.leaflet-popup-content {
+  color: black;
+}
+
+.chatbubble {
+  z-index:100;
+}

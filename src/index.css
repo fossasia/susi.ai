@@ -1,0 +1,44 @@
+@import "../src/helpers/slick/slick.css";
+@import "../src/helpers/slick/slick-theme.css";
+
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-family: 'Lato', sans-serif;
+  background-color: #fff;
+}
+
+a {
+  color: #1890ff;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+input {
+  font-weight: 400 !important;
+}
+
+.MuiListSubheader-sticky {
+  position: inherit;
+}
+
+/* Remove input autofill yellow background */
+@-webkit-keyframes autofill {
+  to {
+    color: inherit;
+    background: rgba(0,0,0,0);
+  }
+}
+
+input:-webkit-autofill {
+  -webkit-animation-name: autofill;
+  -webkit-animation-fill-mode: both;
+}
+
+a{
+  color: rgb(66, 133, 244);
+  text-decoration: none;
+}

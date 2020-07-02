@@ -1,0 +1,167 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+  Button,
+  OutlinedInput,
+  StyledLink,
+  LinkContainer,
+} from '../AuthStyles';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import CloseButton from '../../shared/CloseButton';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Translate from '../../Translate/Translate.react';
+import appActions from '../../../redux/actions/app';
+import uiActions from '../../../redux/actions/ui';
+import { isEmail } from '../../../utils';
+
+class ForgotPassword extends Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    openSnackBar: PropTypes.func,
+  };
+
+  state = {
+    email: '',
+    emailErrorMessage: '',
+    success: false,
+    loading: false,
+  };
+
+  handleDialogClose = () => {
+    const { actions } = this.props;
+
+    this.setState({
+      email: '',
+      emailErrorMessage: '',
+      success: false,
+      loading: false,
+    });
+
+    actions.closeModal();
+  };
+
+  handleTextFieldChange = (event) => {
+    const email = event.target.value.trim();
+    const emailError = !isEmail(email);
+    this.setState({
+      email,
+      emailErrorMessage: emailError ? <Translate text="Invalid Email" /> : '',
+    });
+  };
+
+  handleSubmit = async (event) => {
+    const { actions } = this.props;
+    let { email, emailErrorMessage } = this.state;
+
+    email = email.toLowerCase().trim();
+
+    if (email && !emailErrorMessage) {
+      this.setState({ loading: true });
+      try {
+        let { payload } = await actions.getForgotPassword({ email });
+        let snackBarMessage = payload.message;
+        let success;
+        if (payload.accepted) {
+          success = true;
+        } else {
+          success = false;
+          snackBarMessage = 'Please Try Again';
+        }
+        this.setState({
+          success,
+          loading: false,
+        });
+        actions.closeModal();
+        actions.openSnackBar({
+          snackBarMessage,
+        });
+      } catch (error) {
+        actions.closeModal();
+        this.setState({
+          loading: false,
+          success: false,
+        });
+        if (error.statusCode === 422) {
+          actions.openSnackBar({
+            snackBarMessage: 'Email does not exist.',
+          });
+        } else {
+          actions.openSnackBar({
+            snackBarMessage: 'Failed. Try Again',
+          });
+        }
+      }
+    }
+  };
+
+  onEnterKey = (e) => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
+  render() {
+    const { email, emailErrorMessage, loading } = this.state;
+    const { actions } = this.props;
+    const isValid = !emailErrorMessage && email;
+    return (
+      <React.Fragment>
+        <DialogTitle>
+          <div>
+            <Translate text="Forgot Password ?" />
+          </div>
+          <CloseButton onClick={this.handleDialogClose} />
+        </DialogTitle>
+        <DialogContent>
+          <FormControl error={emailErrorMessage !== ''} disabled={loading}>
+            <OutlinedInput
+              name="email"
+              value={email}
+              onChange={this.handleTextFieldChange}
+              aria-describedby="email-error-text"
+              placeholder="Email"
+              onKeyUp={this.onEnterKey}
+              autoFocus={true}
+            />
+            <FormHelperText error={emailErrorMessage !== ''}>
+              {emailErrorMessage}
+            </FormHelperText>
+          </FormControl>
+          {/* Reset Button */}
+          <Button
+            onClick={this.handleSubmit}
+            color="primary"
+            variant="contained"
+            disabled={!isValid || loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Reset'}
+          </Button>
+          {window.location.pathname === '/settings' ? (
+            <div />
+          ) : (
+            <LinkContainer>
+              <StyledLink
+                onClick={() => actions.openModal({ modalType: 'login' })}
+              >
+                <Translate text="Back to Login" />
+              </StyledLink>
+            </LinkContainer>
+          )}
+        </DialogContent>
+      </React.Fragment>
+    );
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...appActions, ...uiActions }, dispatch),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(ForgotPassword);

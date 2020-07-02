@@ -1,0 +1,290 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Slider from '@material-ui/core/Slider';
+import Button from '@material-ui/core/Button';
+import VoicePlayer from '../ChatApp/MessageListItem/VoicePlayer';
+import Icon from '@material-ui/core/Icon';
+import Select from '../shared/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Translate from '../Translate/Translate.react';
+import { connect } from 'react-redux';
+import { TabHeading } from './SettingStyles';
+import { bindActionCreators } from 'redux';
+import messageActions from '../../redux/actions/messages';
+import styled from 'styled-components';
+
+const PlayButtonContainer = styled.div`
+  text-align: center;
+  margin-top: 1rem;
+  @media (max-width: 520px) {
+    text-align: left;
+  }
+`;
+
+class TextToSpeechSettings extends Component {
+  state = {
+    rate: this.props.rate,
+    pitch: this.props.pitch,
+    play: false,
+    playExample: false,
+    ttsLanguage: this.props.lang,
+    currVoice: '',
+    voiceList: speechSynthesis.getVoices(),
+  };
+
+  speechSynthesisExample = 'This is an example of speech synthesis';
+  speechDemo = 'Hi! I am SUSI';
+  // Triggered when the voice player is started
+  onStart = () => {
+    this.setState({
+      play: true,
+    });
+  };
+
+  // Triggered when the voice player has finished
+  onEnd = () => {
+    this.setState({
+      play: false,
+      playExample: false,
+    });
+  };
+
+  // Handle changes to speech rate
+  handleRate = (event, value) => {
+    this.setState(
+      {
+        rate: value,
+      },
+      () => this.handleSettingsChange(),
+    );
+  };
+
+  // Handle changes to speech pitch
+  handlePitch = (event, value) => {
+    this.setState(
+      {
+        pitch: value,
+      },
+      () => this.handleSettingsChange(),
+    );
+  };
+
+  // Reset speech rate to default value
+  resetRate = () => {
+    this.setState(
+      {
+        rate: 1,
+      },
+      () => this.handleSettingsChange(),
+    );
+  };
+
+  // Reset speech pitch to default value
+  resetPitch = () => {
+    this.setState(
+      {
+        pitch: 1,
+      },
+      () => this.handleSettingsChange(),
+    );
+  };
+
+  // Set state to play speech synthesis example
+  playDemo = () => {
+    this.setState({
+      playExample: true,
+      play: true,
+    });
+  };
+
+  // save new settings to props
+  handleSettingsChange = () => {
+    this.props.newTtsSettings({
+      speechRate: this.state.rate,
+      speechPitch: this.state.pitch,
+      speechVoice: this.state.speechName,
+      ttsLanguage: this.state.ttsLanguage,
+    });
+  };
+
+  componentDidMount() {
+    speechSynthesis.onvoiceschanged = () => {
+      const speechSynthesisVoices = speechSynthesis.getVoices();
+      let speechName = '';
+      speechSynthesisVoices.forEach((item) => {
+        if (item.lang === this.props.lang) {
+          speechName = item.name;
+        }
+      });
+      this.setState({
+        voiceList: speechSynthesisVoices,
+        currSpeechText: speechName + ' (' + this.props.lang + ')',
+      });
+    };
+  }
+
+  // Generate language list drop down menu items
+  populateVoiceList = () => {
+    let voices = this.state.voiceList;
+    let langCodes = [];
+    let voiceMenu = voices.map((voice, index) => {
+      if (voice.translatedText === null) {
+        voice.translatedText = this.speechSynthesisExample;
+      }
+      langCodes.push(voice.lang);
+      return (
+        <MenuItem value={voice.name + ' (' + voice.lang + ')'} key={index}>
+          {voice.name + ' (' + voice.lang + ')'}
+        </MenuItem>
+      );
+    });
+    let currLang = this.state.ttsLanguage;
+    let voiceOutput = {
+      voiceMenu: voiceMenu,
+      voiceLang: currLang,
+      voiceText: this.speechSynthesisExample,
+    };
+    // `-` and `_` replacement check of lang codes
+    if (langCodes.indexOf(currLang) === -1) {
+      if (
+        currLang &&
+        currLang.indexOf('-') > -1 &&
+        langCodes.indexOf(currLang.replace('-', '_')) > -1
+      ) {
+        voiceOutput.voiceLang = currLang.replace('-', '_');
+      } else if (
+        currLang &&
+        currLang.indexOf('_') > -1 &&
+        langCodes.indexOf(currLang.replace('_', '-')) > -1
+      ) {
+        voiceOutput.voiceLang = currLang.replace('_', '-');
+      }
+    }
+    // Get the translated text for TTS in selected lang
+    let langCodeIndex = langCodes.indexOf(voiceOutput.voiceLang);
+    if (langCodeIndex > -1) {
+      voiceOutput.voiceText = voices[langCodeIndex].translatedText;
+    }
+    return voiceOutput;
+  };
+
+  handleTTSVoices = (event) => {
+    const { value } = event.target;
+    // eslint-disable-next-line no-useless-escape
+    const lang = value.match(/\(\w+\-\w+\)/g);
+    let speechName = value
+      .match(/(.*)\(/g)[0]
+      .replace('(', '')
+      .trim();
+    speechName = this.state.voiceList.filter((item) => {
+      return item.name === speechName;
+    });
+
+    this.setState(
+      {
+        ttsLanguage: lang[0].replace('(', '').replace(')', ''),
+        speechName: speechName[0],
+        currSpeechText: value,
+      },
+      () => this.handleSettingsChange(),
+    );
+  };
+
+  render() {
+    const { rate, pitch, playExample, play, ttsLanguage } = this.state;
+    let voiceOutput = this.populateVoiceList();
+    return (
+      <div>
+        <div>
+          <TabHeading>
+            <Translate text="Speech Output Language" />
+          </TabHeading>
+          <Select
+            value={this.state.currSpeechText || 0}
+            onChange={this.handleTTSVoices}
+          >
+            {voiceOutput.voiceMenu}
+          </Select>
+        </div>
+        <div>
+          <TabHeading>
+            <Translate text="Speech Output Rate" />
+          </TabHeading>
+          <Slider
+            min={0.5}
+            max={2}
+            value={rate}
+            onChange={this.handleRate}
+            style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
+          />
+          <Button variant="contained" color="primary" onClick={this.resetRate}>
+            <Translate text="Reset to normal" />
+          </Button>
+        </div>
+        <div>
+          <TabHeading>
+            <Translate text="Speech Output Pitch" />
+          </TabHeading>
+          <Slider
+            min={0}
+            max={2}
+            value={pitch}
+            onChange={this.handlePitch}
+            style={{ paddingBottom: '1.6rem', paddingTop: '1.6rem' }}
+          />
+          <Button variant="contained" color="primary" onClick={this.resetPitch}>
+            <Translate text="Reset to normal" />
+          </Button>
+        </div>
+
+        <PlayButtonContainer>
+          <Button variant="contained" color="primary" onClick={this.playDemo}>
+            <Icon
+              style={{ marginRight: '0.7rem' }}
+              className="fa fa-volume-up"
+            />
+            <Translate text="Play Demonstration" />
+          </Button>
+        </PlayButtonContainer>
+
+        {playExample && (
+          <VoicePlayer
+            play={play}
+            text={this.speechDemo}
+            rate={rate}
+            pitch={pitch}
+            lang={ttsLanguage}
+            voice={this.state.speechName}
+            onStart={this.onStart}
+            onEnd={this.onEnd}
+          />
+        )}
+      </div>
+    );
+  }
+}
+
+TextToSpeechSettings.propTypes = {
+  rate: PropTypes.number,
+  pitch: PropTypes.number,
+  lang: PropTypes.string,
+  newTtsSettings: PropTypes.func,
+  TTSVoices: PropTypes.array,
+};
+
+function mapStateToProps(store) {
+  return {
+    TTSVoices: store.messages.TTSVoices,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(messageActions, dispatch),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TextToSpeechSettings);
