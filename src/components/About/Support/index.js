@@ -185,8 +185,7 @@ const SignUpFooter = styled.div`
 
   @media (min-width: 1400px) {
     position: relative;
-    top: 6.25rem;
-    padding: 0 0 9.375rem 0;
+    padding: 3.125rem 0 3.125rem 0;
   }
 
   @media (max-width: 1000px) {
