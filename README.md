@@ -1,10 +1,26 @@
-# SUSI.AI Web Application
+<p align="center">
+  <img src="https://susi.ai/static/images/susi-logo.svg" alt="logo" width="35%" />
+</p>
+<h1 align="center">SUSI.AI Web Application</h1>
+<p align="center">
+  <a href="https://hosted.weblate.org/engage/susi-ai/?utm_source=widget">
+    <img src="https://hosted.weblate.org/widgets/susi-ai/-/chat/svg-badge.svg" alt="Weblate" />
+  </a>
+  <a href="https://www.codacy.com/app/rishiraj824/susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/susi.ai&utm_campaign=badger">
+    <img src="https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf" alt="Codacy Badge" />
+  </a>
+  <a href="https://travis-ci.org/fossasia/susi.ai">
+    <img src="https://travis-ci.org/fossasia/susi.ai.svg?branch=master" alt="Build Status" />
+  </a>
+  <a href="https://gitter.im/fossasia/susi_webclient?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+    <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter" />
+  </a>
+  <a href="https://twitter.com/susiai_">
+    <img src="https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square" alt="Twitter Follow" />
+  </a>
+</p>
 
-[![Weblate](https://hosted.weblate.org/widgets/susi-ai/-/chat/svg-badge.svg)](https://hosted.weblate.org/engage/susi-ai/?utm_source=widget)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf)](https://www.codacy.com/app/rishiraj824/susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/susi.ai&utm_campaign=badger)
-[![Build Status](https://travis-ci.org/fossasia/susi.ai.svg?branch=master)](https://travis-ci.org/fossasia/susi.ai)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fossasia/susi_webclient?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
+-------------
 
 SUSI.AI is an artificial intelligence system, combining pattern matching, internet data, data flow, and inference engine principles. Through some abilities to reflect, it can remember the user input to produce deductions and personalized feedback. Its purpose is to explore the abilities of an artificial companion and to answer the remaining unanswered questions. The SUSI.AI web is a front-end developed for web access of SUSI.
 
