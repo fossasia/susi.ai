@@ -690,7 +690,7 @@ class NavigationBar extends Component {
                           />
                         ) : (
                           <CreateDetail style={{ padding: '7px' }}>
-                            Crea
+                            Create
                           </CreateDetail>
                         )}
                       </div>
@@ -720,7 +720,7 @@ class NavigationBar extends Component {
                     <IconButton
                       color="inherit"
                       onClick={
-                        isMobileView(400)
+                        isMobileView(500)
                           ? this.openFullScreen
                           : this.openPreview
                       }
