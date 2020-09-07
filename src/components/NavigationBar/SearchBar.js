@@ -50,13 +50,23 @@ const StyledSearchBar = styled(_SearchBar)`
   @media (max-width: 550px) {
     min-width: 250px;
   }
-  @media (max-width: 400px) {
+  @media (max-width: 450px) {
     min-width: 220px;
+    padding-left: ${(props) => forPadding(props['padding-left'])};
   }
   @media (max-width: 370px) {
-    min-width: 200px;
+    min-width: 120px;
+    padding-left: ${(props) => forPadding(props['padding-left'])};
   }
 `;
+
+const forPadding = (p) => {
+  console.log(p);
+  if (p > 4.5) {
+    return '90px';
+  }
+  return '50px';
+};
 
 const Select = styled(_Select)`
   ${OutlinedSelectStyles}
@@ -64,6 +74,17 @@ const Select = styled(_Select)`
   position: absolute;
   margin-left: 0.5rem;
   border-radius: 4px 0px 0px 4px;
+  @media (max-width: 450px) {
+    font-size : 15px;
+    max-width: 90px;
+    overflow : hidden; 
+    padding: 2px;
+  }
+  @media (max-width: 370px) {
+    max-width: 90px;
+    font-size : 13px;
+    padding: 2px;
+  }
   .MuiOutlinedInput-notchedOutline {
     border-left: 1px solid #f3f3f3;
     border-top: 1px solid #f3f3f3;
@@ -78,6 +99,9 @@ const Container = styled.div`
   @media (max-width: 400px) {
     margin-left: -0.9rem;
   }
+  @media (max-width: 370px) {
+    font-size: 10px;
+  }
 `;
 
 const SearchBar = (props) => {
@@ -90,7 +114,6 @@ const SearchBar = (props) => {
     onClose,
   } = props;
   let renderSelectMenu;
-
   renderSelectMenu = Object.keys(SEARCHTYPES).map((key) => {
     let value = SEARCHTYPES[key];
     return (
