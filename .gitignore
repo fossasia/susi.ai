@@ -21,4 +21,5 @@ package-log.json*
 yarn-debug.log*
 yarn-error.log*
 jest
+package-lock.json
 .vscode/
