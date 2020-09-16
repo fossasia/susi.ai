@@ -603,7 +603,7 @@ class BrowseSkill extends React.Component {
       loadingSkills,
     } = this.props;
     const { routeType, routeValue, history } = this.props;
-    let isMobile = isMobileView();
+    let isMobile = isMobileView(768);
     let backToHome = null;
     let renderMenu = null;
     let renderMobileMenu = null;
