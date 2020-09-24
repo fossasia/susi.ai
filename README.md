@@ -1,4 +1,4 @@
-<div styel="margin-left: auto;margin-right: auto;"><img src="src/images/susi-logo.svg"></div>
+<div styel="margin-left: auto;margin-right: auto;width: 50%;"><img src="src/images/susi-logo.svg"></div>
 <div style="text-align: center;"><h2>SUSI.AI Web Application</h2></div> 
 
 
