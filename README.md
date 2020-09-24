@@ -1,4 +1,6 @@
-# SUSI.AI Web Application
+<div styel="margin-left: auto;margin-right: auto;"><img src="src/images/susi-logo.svg"></div>
+<div style="text-align: center;"><h2>SUSI.AI Web Application</h2></div> 
+
 
 [![Weblate](https://hosted.weblate.org/widgets/susi-ai/-/chat/svg-badge.svg)](https://hosted.weblate.org/engage/susi-ai/?utm_source=widget)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf)](https://www.codacy.com/app/rishiraj824/susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/susi.ai&utm_campaign=badger)
