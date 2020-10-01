@@ -54,7 +54,7 @@ const StyledSearchBar = styled(_SearchBar)`
     min-width: 220px;
   }
   @media (max-width: 370px) {
-    min-width: 200px;
+    min-width: 70x;
   }
 `;
 
@@ -112,7 +112,7 @@ const SearchBar = (props) => {
     }
     let transformedArray = [];
     for (let i = 0; i < selected.length; i++) {
-      transformedArray.push(SEARCHTYPES[selected[i]]);
+      transformedArray.push(SEARCHTYPES[selected[i]].substr(0, 2));
     }
     return transformedArray.join(', ');
   };

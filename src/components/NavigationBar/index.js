@@ -156,10 +156,10 @@ HideOnScroll.propTypes = {
 
 const selectMenuWidth = {
   // eslint-disable-next-line camelcase
-  skill_name: 4.8,
-  descriptions: 8,
-  examples: 7.4,
-  author: 5.9,
+  skill_name: 3.0,
+  descriptions: 5,
+  examples: 3,
+  author: 5.0,
 };
 
 class NavigationBar extends Component {
