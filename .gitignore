@@ -20,5 +20,6 @@ npm-debug.log*
 package-log.json*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json*
 jest
 .vscode/
