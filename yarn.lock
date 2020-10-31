@@ -9293,10 +9293,10 @@ material-ui-color-picker@3.5.0:
     react-color "^2.18.0"
     recompose "^0.30.0"
 
-material-ui-password-field@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/material-ui-password-field/-/material-ui-password-field-2.1.1.tgz#777126900236f30f54913e1d23bf57fdd95a2591"
-  integrity sha512-+PnFzhcEtaksQDdEZCv0y8qeFSjixPjvpkJlbZCPDiN65SD0bU3jLOX9e/6/5OpZFOqQ6zfMxtHosCLqqMK2jw==
+material-ui-password-field@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/material-ui-password-field/-/material-ui-password-field-2.1.2.tgz#9f5abcc540a9bf46f8def3e2eea09bba905c8db6"
+  integrity sha512-7xRCxn4gub+6jiFUDtoPDDqEsWiDsSZnRJPAhO8SzKokqv4wp8efGQ1OoQ7gL2bRM+Vd4Q5ie82BYlwPaYYNYQ==
   dependencies:
     "@material-ui/icons" "^1.0.0"
     material-ui-toggle-icon "^1.0.6"
