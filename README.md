@@ -27,9 +27,9 @@ SUSI.AI is an artificial intelligence system, combining pattern matching, intern
 
 ## Communication
 
-Please join our mailing list to discuss questions regarding the project: https://groups.google.com/group/susiai/
+Please join our mailing list to discuss questions regarding the project:[Susi.ai Mailing list 📧](https://groups.google.com/group/susiai/)
 
-Our chat channel is to be found on Gitter: https://gitter.im/fossasia/susi_webchat
+Our chat channel is to be found on Gitter: [Gitter💬](https://gitter.im/fossasia/susi_webchat)
 
 ## Technology Stack
 
