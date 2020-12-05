@@ -1,22 +1,18 @@
-FROM node:boron-alpine
-MAINTAINER Mario Behling <mb@mariobehling.de>
+FROM node:lts-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # copy requirements
 COPY package.json /usr/src/app/
-COPY .eslintrc /usr/src/app/
-COPY .angular-cli.json /usr/src/app/
 
 # install requirements
-RUN npm install -g @angular/cli@latest
 RUN npm install
 
 # Bundle app source
 COPY . /usr/src/app
 
-EXPOSE 4200
+EXPOSE 3000
 
-CMD [ "ng", "serve" ]
+CMD [ "npm", "run" , "docker-start" ]
 

@@ -68,6 +68,18 @@ cd susi.ai
 * Start the server with `yarn start`
 * Visit your app at [http://localhost:3000](http://localhost:3000).
 
+## Installation with docker
+### Steps
+* `git clone <repository-url>`, where `<respository-url>` is link to the forked repository
+* `cd susi.ai`
+```sh
+git clone https://github.com/USERNAME/susi.ai.git
+cd susi.ai
+docker build --tag susi.ai:1.0 .
+docker run -p 3000:3000 -d susi.ai:1.0
+```
+* Visit your app at [http://localhost:3000](http://localhost:3000).
+
 ## How to deploy?
 [Click Here to read how to deploy](https://github.com/fossasia/susi.ai/blob/master/docs/DEPLOY.md)
 
