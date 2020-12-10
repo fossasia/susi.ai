@@ -135,7 +135,8 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "yarn": "^1.22.10"
   },
   "scripts": {
     "start": "webpack-dev-server --open --env.mode development",
@@ -144,9 +145,9 @@
     "lint": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "yarn lint && react-scripts test --env=jsdom",
+    "test": "yarn || npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "yarn build",
+    "predeploy": "yarn || npm run build",
     "deploy": "surge"
   },
   "lint-staged": {
