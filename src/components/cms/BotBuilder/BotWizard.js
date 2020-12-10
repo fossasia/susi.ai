@@ -210,6 +210,7 @@ class BotWizard extends React.Component {
     commitMessage: '',
     image: avatars.slice()[1].url,
     newBot: true,
+    draftID: '',
   };
 
   componentWillUnmount() {
@@ -226,6 +227,7 @@ class BotWizard extends React.Component {
       buildCode,
       configCode,
     } = this.props;
+    let { draftID } = this.state;
     let { designCode, imageUrl: image } = this.props;
     designCode = designCode.replace(/#/g, '');
     if (image.search('images/') === -1) {
@@ -239,14 +241,16 @@ class BotWizard extends React.Component {
       designCode,
       configCode,
       image,
+      id: draftID,
     };
-    let object = JSON.stringify(skillData);
     if (skillData.category !== null) {
       try {
-        await storeDraft({ object });
-        actions.openSnackBar({
-          snackBarMessage: 'Successfully saved draft of your chatbot.',
-          snackBarDuration: 2000,
+        let res = await storeDraft(skillData);
+        this.setState({ draftID: res.id }, () => {
+          actions.openSnackBar({
+            snackBarMessage: 'Successfully saved draft of your chatbot.',
+            snackBarDuration: 2000,
+          });
         });
       } catch (error) {
         actions.openSnackBar({

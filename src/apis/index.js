@@ -618,9 +618,27 @@ export function deleteDraft(payload) {
 }
 
 export function storeDraft(payload) {
-  const { object } = payload;
+  const {
+    category,
+    language,
+    name,
+    buildCode,
+    designCode,
+    configCode,
+    image,
+    id,
+  } = payload;
   const url = `${API_URL}/${CMS_API_PREFIX}/storeDraft.json`;
-  return ajax.get(url, { object });
+  return ajax.post(url, {
+    category,
+    language,
+    name,
+    buildCode,
+    designCode,
+    configCode,
+    image,
+    id,
+  });
 }
 
 export function fetchUserRatings(payload) {
