@@ -579,9 +579,9 @@ class NavigationBar extends Component {
             <Toolbar variant="dense">
               <FlexContainer>
                 <SusiLogoContainer isSearchOpen={search}>
-                  <a href="/" style={{ outline: '0' }}>
+                  <Link to="/" style={{ outline: '0' }}>
                     {renderSusiIcon}
-                  </a>
+                  </Link>
                 </SusiLogoContainer>
               </FlexContainer>
               {renderSearchBar}
