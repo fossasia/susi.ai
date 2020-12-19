@@ -138,9 +138,10 @@ const SidebarItem = styled(MenuItem)`
 `;
 
 const Sidebar = styled.div`
-  width: 16rem;
+  width: 15%;
   display: block;
   z-index: 2;
+  flex: 1 1 0;
   border-right: 1px solid #ddd;
   border-spacing: 1px;
   @media (max-width: 768px) {
@@ -215,15 +216,8 @@ const FlexContainer = styled.div`
 
 const RightContainer = styled.div`
   margin: 1rem 0;
-  @media (max-width: 2400px) {
-    width: 89%;
-  }
-  @media (max-width: 1900px) {
-    width: 86%;
-  }
-  @media (max-width: 1600px) {
-    width: 83.5%;
-  }
+  flex: 1 1 0;
+  width: 85%;
   @media (max-width: 768px) {
     width: 100%;
   }

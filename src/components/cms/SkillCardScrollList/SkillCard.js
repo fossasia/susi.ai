@@ -74,27 +74,44 @@ class SkillCard extends Component {
   };
 
   componentDidMount = () => {
+    window.addEventListener('resize', () => {
+      this.updateWindowDimensions();
+      this.updateBtnsDisplay();
+    });
     this.updateWindowDimensions();
   };
 
   updateWindowDimensions = () => {
     let scrollCards = 1;
-    switch (true) {
-      case window.innerWidth >= 1680:
-        scrollCards = 5;
+    /*          X coordinate of end of a skillCard placed at nth position in a row is calculated
+                using formula `window.innerWidth * 0.15 + 19 + n * 280`
+                Formula is explained pictorially with the diagram below:
+
+                =================================================================================================
+                ||                      SUSI.AI (HOME PAGE) URL - https://susi.ai/                             ||
+                =================================================================================================
+                ||      SIDEBAR (15% width)       |  M   |               RIGHT CONTAINER                       ||
+                ||                                |  A   |--------                                             ||
+                ||                                |  R   | 280   | <-- SkillCard (margin is included in 280px) ||                                           ||
+                ||  css ->  `width : 15%`         |  G   | PX    |                                             ||
+                ||  converts to                   |  I   |--------                                             ||
+                ||  `window.innerWidth * 0.15`    |  N   |-------------------------------                      ||
+                ||   in javascript                |      | 280   |  280 |  280  |  nth  |                      ||
+                ||                                |  19  |  PX   |   PX |  PX   |  card |                      ||
+                ||                                |  px  |------------------------------|                      ||
+                =================================================================================================
+ X coordinate = ||<--  window.innerWidth * 0.15-->|<19px>|<---        280 * n        --->                      ||
+                =================================================================================================
+                When window.innerWidth is more than x coordinate of right end of card at nth position.
+                Maximum scrollCards that can be viewed on that viewport is set to n
+      */
+    // Correct positioning of Right arrow for SkillCards upto MAX_CARDS_SUPPORTED is supported with this for loop.
+    const MAX_CARDS_SUPPORTED = 20;
+    for (let i = MAX_CARDS_SUPPORTED; i > 1; i--) {
+      if (window.innerWidth >= window.innerWidth * 0.15 + 19 + i * 280) {
+        scrollCards = i;
         break;
-      case window.innerWidth >= 1400:
-        scrollCards = 4;
-        break;
-      case window.innerWidth >= 1120:
-        scrollCards = 3;
-        break;
-      case window.innerWidth >= 840:
-        scrollCards = 2;
-        break;
-      default:
-        scrollCards = 1;
-        this.setState({ rightBtnDisplay: 'inline' });
+      }
     }
 
     this.setState(
@@ -264,13 +281,23 @@ class SkillCard extends Component {
         );
       },
     );
-    if (cards.length <= this.state.scrollCards) {
-      this.setState({ rightBtnDisplay: 'none', leftBtnDisplay: 'none' });
-    }
-    this.setState({
-      cards,
-    });
+    this.setState(
+      {
+        cards,
+      },
+      () => {
+        this.updateBtnsDisplay();
+      },
+    );
   };
+
+  updateBtnsDisplay() {
+    if (this.state.cards.length <= this.state.scrollCards) {
+      this.setState({ rightBtnDisplay: 'none', leftBtnDisplay: 'none' });
+    } else if (this.state.cards.length > this.state.scrollCards) {
+      this.setState({ rightBtnDisplay: 'inline' });
+    }
+  }
 
   render() {
     const { leftBtnDisplay, rightBtnDisplay, cards } = this.state;
