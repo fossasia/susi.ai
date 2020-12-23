@@ -139,6 +139,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open --env.mode development",
+    "debug": "webpack-dev-server --open --env.mode development --devtool source-map",
     "docker-start": "webpack-dev-server --host 0.0.0.0 --open --env.mode development",
     "build": "webpack --env.mode production",
     "lint": "eslint \"src/**/*.js\"",
