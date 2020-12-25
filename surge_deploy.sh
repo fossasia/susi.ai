@@ -6,6 +6,8 @@ fi
 
 yarn global add surge
 # Actual building and setup of current push or PR.
+wget "https://www.google.com/recaptcha/api.js"
+mv api.js public/js/recaptcha.js
 yarn install
 yarn build
 rm -rf node_modules/
