@@ -35,6 +35,10 @@ git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 cd repo
 
+# Getting latest version of google recaptcha library
+wget "https://www.google.com/recaptcha/api.js"
+mv api.js public/js/recaptcha.js 
+
 # Actual building and setup of current push or PR.
 yarn install
 yarn build
