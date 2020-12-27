@@ -50,7 +50,6 @@ const PreviewContainer = styled.div`
   margin: 14px auto auto auto;
   padding: 0px 10px 10px;
   position: relative;
-  overflow: hidden;
   @media (max-width: 520px) {
     width: 100%;
     padding: 0 10px;
@@ -58,8 +57,7 @@ const PreviewContainer = styled.div`
 `;
 
 const PreviewChatContainer = styled.div`
-  min-height: ${(props) =>
-    props.width > 1200 ? props.height - 250 + 'px' : '100%'};
+  min-height: ${(props) => (props.width > 1200 ? 720 + 'px' : '93%')};
   @media (max-width: 520px) {
     width: 100%;
   }
@@ -81,8 +79,7 @@ const SUSIFrameContainer = styled.div`
   border-radius: 4px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.16);
   overflow-x: hidden;
-  height: ${(props) =>
-    props.width > 1200 ? props.height - 250 + 'px' : '630px'};
+  height: ${(props) => (props.width > 1200 ? 680 + 'px' : '630px')};
   width: 100%;
   animation: ${moveFromBottomFadeKeyframe} 0.3s ease both;
   media(max-width: 667px) {
@@ -127,26 +124,20 @@ to {
 }
 `;
 
-const SUSILauncherContainer = styled.div`
-  right: 0;
-  direction: ltr;
-  bottom: 15px;
-`;
-
 const SUSILauncherWrapper = styled.div`
   width: 60px;
   background-size: 60px;
-  text-align: right;
-  float: right;
   margin-right: 0%;
-  margin-top: 15px;
+  margin-top: 0px;
   border-radius: 5em;
   cursor: pointer;
   transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
-  transform: translateY(150px);
   animation: ${launcherFrameAppearKeyframe} .25s ease forwards
   padding: 0;
   height: auto;
+  display: inline-block;
+  position: relative;
+  left: 300px;
   :hover {
     box-shadow: 0 4px 42px 0 rgba(0, 0, 0, .25);
   }
@@ -161,11 +152,11 @@ const SUSILauncherButton = styled.div`
   border-radius: 50%;
   margin: -1px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
-  right: 0;
   background-position: 50%;
   background-repeat: no-repeat;
   cursor: pointer;
-  bottom: 15px;
+  display: inline-block;
+  position: relative;
   :after {
     content: '';
     position: absolute;
@@ -526,17 +517,13 @@ class Preview extends Component {
                 </SUSIFrameContainer>
               )}
             </PreviewChatContainer>
-            <div style={{ textAlign: 'right' }}>
-              <SUSILauncherContainer>
-                <SUSILauncherWrapper onClick={this.togglePreview}>
-                  <SUSILauncherButton
-                    data-tip="Toggle Launcher"
-                    $backgroundColor={botbuilderIconColor}
-                    $backgroundImage={botbuilderIconImg}
-                  />
-                </SUSILauncherWrapper>
-              </SUSILauncherContainer>
-            </div>
+            <SUSILauncherWrapper onClick={this.togglePreview}>
+              <SUSILauncherButton
+                data-tip="Toggle Launcher"
+                $backgroundColor={botbuilderIconColor}
+                $backgroundImage={botbuilderIconImg}
+              />
+            </SUSILauncherWrapper>
           </PreviewContainer>
         </Paper>
       </Container>
