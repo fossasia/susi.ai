@@ -110,11 +110,11 @@ const SkillTable = (props) => {
       ]}
       components={{
         // eslint-disable-next-line react/display-name
-        Action: ({ action }) => (
+        Action: (props) => (
           <React.Fragment>
             <ActionSpan
               onClick={(event) => {
-                action.action(props.data).onEdit(event, props.data);
+                props.action.action(props.data).onEdit(event, props.data);
               }}
             >
               Edit
@@ -122,7 +122,7 @@ const SkillTable = (props) => {
             <ActionSeparator> | </ActionSeparator>
             <ActionSpan
               onClick={(event) =>
-                action.action(props.data).onDelete(event, props.data)
+                props.action.action(props.data).onDelete(event, props.data)
               }
             >
               Delete
