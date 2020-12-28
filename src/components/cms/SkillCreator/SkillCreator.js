@@ -70,7 +70,8 @@ const SkillActions = styled.div`
 const SkillCard = styled(Card)`
   display: block;
   margin: 0.625rem;
-  width: 16.25rem;
+  width: 100%;
+  max-width: 16.25rem;
   height: 11.188rem;
   padding: 4.125rem 0.625rem 0.625rem;
   position: relative;
@@ -88,7 +89,7 @@ const SkillCard = styled(Card)`
   }
 
   @media (max-width: 320px) {
-    width: 13.75rem;
+    max-width: 13.75rem;
   }
 `;
 
@@ -283,7 +284,10 @@ class SkillCreator extends Component {
           ) : (
             <SkillCardWrap>
               {this.showSkills()}
-              <Link to="/skillWizard">
+              <Link
+                to="/skillWizard"
+                style={{ width: '100%', maxWidth: '16.25rem' }}
+              >
                 <SkillCard
                   style={{
                     backgroundImage: `url(${chatBot})`,
