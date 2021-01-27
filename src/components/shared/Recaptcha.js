@@ -29,7 +29,7 @@ const Recaptcha = ({ captchaKey, onCaptchaLoad, onCaptchaSuccess, error }) => (
           verifyCallback={onCaptchaSuccess}
           badge="inline"
           type="audio"
-          size={window.innerWidth > 447 ? 'normal' : 'compact'}
+          size={window.innerWidth > 512 ? 'normal' : 'compact'}
         />
       )}
     </Container>
