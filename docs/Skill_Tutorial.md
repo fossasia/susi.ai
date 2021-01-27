@@ -271,7 +271,7 @@ eol
 
 This will call the loklak search API and gets back a big list of tweets from the given query in $1$. That list is somewhere inside the
 answer json of the API call, and we must tell SUSI where it can find that list. This hint is given in the attribute 'path' which has
-the syntax of a JSONPath. Here, the statuses object contains a list of objects, which always contains the same attribute keys.
+the syntax of a JSONPath (see: https://goessner.net/articles/JsonPath/ ) Here, the statuses object contains a list of objects, which always contains the same attribute keys.
 One of these attributes has the name 'text' and that attribute is selected with the $text$ pattern.
 Note that the bang definition part until the eol line must be given in JSON.
 
