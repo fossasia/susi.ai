@@ -65,6 +65,9 @@ const Container = styled.div`
 
 const Button = styled(_Button)`
   width: 10rem;
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
 `;
 
 const Link = styled(_Link)`
