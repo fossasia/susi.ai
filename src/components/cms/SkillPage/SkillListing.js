@@ -55,7 +55,7 @@ const Paper = styled(_Paper)`
 `;
 
 const ExampleWrapper = styled.div`
-  width: 55%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -359,7 +359,7 @@ class SkillListing extends Component {
                       key={index}
                       data={data}
                       history={history}
-                      margin={'1.5% 2.85% 1.5% 0'}
+                      margin={'12px 10px 12px 0'}
                     />
                   );
                 })}
