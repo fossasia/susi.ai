@@ -864,7 +864,14 @@ class BrowseSkill extends React.Component {
     const { open } = this.state;
     return (
       <Container>
-        <Sidebar>
+        <Sidebar
+          style={{
+            position: 'fixed',
+            height: '100%',
+            width: '15%',
+            background: '#ffff',
+          }}
+        >
           <div>
             <Button
               aria-owns={open ? 'create-list-grow' : null}
@@ -939,7 +946,7 @@ class BrowseSkill extends React.Component {
             </MenuList>
           </Paper>
         </Sidebar>
-        <RightContainer>
+        <RightContainer style={{ marginLeft: '15%' }}>
           {loadingSkills ? (
             <SkillLoader isSkillSearch={!isSkillSearch} />
           ) : (
