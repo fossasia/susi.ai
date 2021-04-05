@@ -24,6 +24,9 @@ const DeleteButton = styled(Button)`
   :hover {
     background-color: #b20000;
   }
+  @media (max-width: 430px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 class DeleteAccount extends Component {
