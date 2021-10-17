@@ -8,6 +8,7 @@ import SkillLoader from './skillLoader';
 import skillActions from '../../../redux/actions/skills';
 import uiActions from '../../../redux/actions/ui';
 import FormControl from '@material-ui/core/FormControl';
+import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '../../shared/Select';
 import _FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -144,7 +145,7 @@ const Sidebar = styled.div`
   flex: 1 1 0;
   border-right: 1px solid #ddd;
   border-spacing: 1px;
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     display: none;
   }
 `;
@@ -250,6 +251,31 @@ const RadioGroup = styled(_RadioGroup)`
     margin: 0rem;
   }
 `;
+
+const styles = (theme) => ({
+  ['@media (max-width:960px)']: {
+    setNone: {
+      display: 'none',
+    },
+  },
+  correctWidth: {
+    position: 'fixed',
+    overflowY: 'scroll',
+    maxHeight: '75vh',
+    minWidth: '20%',
+    overflowX: 'hidden',
+  },
+  ['@media (max-height:800px)']: {
+    correctWidth: {
+      maxHeight: '71vh',
+    },
+  },
+  ['@media (max-height:660px)']: {
+    correctWidth: {
+      maxHeight: '65vh',
+    },
+  },
+});
 
 const params = new URLSearchParams(window.location.search);
 
@@ -601,9 +627,10 @@ class BrowseSkill extends React.Component {
       orderBy,
       filterType,
       loadingSkills,
+      classes,
     } = this.props;
     const { routeType, routeValue, history } = this.props;
-    let isMobile = isMobileView(768);
+    let isMobile = isMobileView(960);
     let backToHome = null;
     let renderMenu = null;
     let renderMobileMenu = null;
@@ -863,262 +890,292 @@ class BrowseSkill extends React.Component {
     );
     const { open } = this.state;
     return (
-      <Container>
-        <Sidebar>
-          <div>
-            <Button
-              aria-owns={open ? 'create-list-grow' : null}
-              aria-haspopup="true"
-              onClick={this.handleMenuClick}
-              variant="contained"
-              color="primary"
-              style={{ margin: '1rem 1rem 0' }}
-              buttonRef={(node) => {
-                this.anchorEl = node;
+      <Container style={{ maxHeight: '100%' }}>
+        <Grid container>
+          {/* eslint-disable-next-line react/prop-types*/}
+          <Grid item xs={0} sm={0} md={3} lg={3} className={classes.setNone}>
+            <Sidebar className={classes.correctWidth}>
+              <div>
+                <Button
+                  aria-owns={open ? 'create-list-grow' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleMenuClick}
+                  variant="contained"
+                  color="primary"
+                  style={{ margin: '1rem 1rem 0' }}
+                  buttonRef={(node) => {
+                    this.anchorEl = node;
+                  }}
+                >
+                  <Add /> Create
+                </Button>
+                <Popper
+                  open={open}
+                  transition
+                  disablePortal
+                  style={{ zIndex: '2', position: 'absolute', left: '1rem' }}
+                >
+                  {({ TransitionProps }) => (
+                    <Grow {...TransitionProps} id="create-list-grow">
+                      <Paper>
+                        <ClickAwayListener onClickAway={this.handleMenuClose}>
+                          <MenuList>
+                            <MenuItem onClick={this.handleCreateSkillClick}>
+                              <ListItemIcon>
+                                <Add />
+                              </ListItemIcon>
+                              <ListItemText>Create Skill</ListItemText>
+                            </MenuItem>
+                            <MenuItem onClick={this.handleCreateBotClick}>
+                              <ListItemIcon>
+                                <Person />
+                              </ListItemIcon>
+                              <ListItemText>Create Bot</ListItemText>
+                            </MenuItem>
+                            <MenuItem onClick={this.handleAddDeviceClick}>
+                              <ListItemIcon>
+                                <Devices />
+                              </ListItemIcon>
+                              <ListItemText>Add Device</ListItemText>
+                            </MenuItem>
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
+              </div>
+              <Paper style={{ boxShadow: 'none' }}>
+                <MenuList style={{ outline: 'none' }}>
+                  {renderTimeFilter}
+
+                  <Divider
+                    style={{ marginLeft: '16px', marginRight: '16px' }}
+                  />
+                  {routeType === 'category' ? (
+                    <div>
+                      <ListSubheader>
+                        <SidebarLink to="/">{'< SUSI Skills'}</SidebarLink>
+                      </ListSubheader>
+                      <SelectedText>{routeValue}</SelectedText>
+                    </div>
+                  ) : (
+                    <div>
+                      <ListSubheader>SUSI Skills</ListSubheader>
+                      {renderMenu}
+                    </div>
+                  )}
+                  <Divider
+                    style={{ marginLeft: '16px', marginRight: '16px' }}
+                  />
+                  {/* Refine by rating section*/}
+                  {renderRatingsFilter}
+                </MenuList>
+              </Paper>
+            </Sidebar>
+          </Grid>
+          <Grid item xs={12} sm={12} md={9} lg={9}>
+            <RightContainer
+              style={{
+                // maxHeight: '90vh',
+                overflowY: 'scroll',
+                minWidth: '100%',
+                overflowX: 'hidden',
               }}
             >
-              <Add /> Create
-            </Button>
-            <Popper
-              open={open}
-              transition
-              disablePortal
-              style={{ zIndex: '2', position: 'absolute', left: '1rem' }}
-            >
-              {({ TransitionProps }) => (
-                <Grow {...TransitionProps} id="create-list-grow">
-                  <Paper>
-                    <ClickAwayListener onClickAway={this.handleMenuClose}>
-                      <MenuList>
-                        <MenuItem onClick={this.handleCreateSkillClick}>
-                          <ListItemIcon>
-                            <Add />
-                          </ListItemIcon>
-                          <ListItemText>Create Skill</ListItemText>
-                        </MenuItem>
-                        <MenuItem onClick={this.handleCreateBotClick}>
-                          <ListItemIcon>
-                            <Person />
-                          </ListItemIcon>
-                          <ListItemText>Create Bot</ListItemText>
-                        </MenuItem>
-                        <MenuItem onClick={this.handleAddDeviceClick}>
-                          <ListItemIcon>
-                            <Devices />
-                          </ListItemIcon>
-                          <ListItemText>Add Device</ListItemText>
-                        </MenuItem>
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </div>
-          <Paper style={{ boxShadow: 'none' }}>
-            <MenuList style={{ outline: 'none' }}>
-              {renderTimeFilter}
-
-              <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
-              {routeType === 'category' ? (
-                <div>
-                  <ListSubheader>
-                    <SidebarLink to="/">{'< SUSI Skills'}</SidebarLink>
-                  </ListSubheader>
-                  <SelectedText>{routeValue}</SelectedText>
-                </div>
+              {loadingSkills ? (
+                <SkillLoader isSkillSearch={!isSkillSearch} />
               ) : (
-                <div>
-                  <ListSubheader>SUSI Skills</ListSubheader>
-                  {renderMenu}
-                </div>
-              )}
-              <Divider style={{ marginLeft: '16px', marginRight: '16px' }} />
-              {/* Refine by rating section*/}
-              {renderRatingsFilter}
-            </MenuList>
-          </Paper>
-        </Sidebar>
-        <RightContainer>
-          {loadingSkills ? (
-            <SkillLoader isSkillSearch={!isSkillSearch} />
-          ) : (
-            <React.Fragment>
-              {renderSkillSlideshow}
-              {routeType !== 'category' && isMobile && (
-                <Fragment>
-                  <SideDrawer>
-                    {renderTimeFilter}
-                    <Divider
-                      style={{ marginLeft: '16px', marginRight: '16px' }}
-                    />
-                    <ListSubheader>SUSI Skills</ListSubheader>
-                    {renderMenu}
-                    <Divider
-                      style={{ marginLeft: '16px', marginRight: '16px' }}
-                    />
-                    {renderRatingsFilter}
-                  </SideDrawer>
-                </Fragment>
-              )}
-              <ContentContainer>
-                {metricsHidden ? (
-                  <div>
-                    {noSkillFound}
-                    <Grid
-                      container
-                      spacing={3}
-                      direction={isMobile ? 'column-reverse' : 'row'}
-                    >
-                      <Grid
-                        item
-                        container
-                        alignItems="center"
-                        sm={6}
-                        style={{
-                          textAlign: 'center',
-                          padding: isMobile ? '10px 30px' : '30px 25px 0',
-                          fontSize: isMobile ? '14px' : '16px',
-                        }}
-                      >
-                        {renderSkillCount}
-                      </Grid>
-                      <Grid item sm={6} container alignItems="center">
-                        {skills.length > 0 && (
-                          <FlexContainer>
-                            {filterType !== '' && (
-                              <IconButton
-                                color="primary"
-                                onClick={this.handleOrderByChange}
-                              >
-                                {renderOrderBy}
-                              </IconButton>
-                            )}
+                <React.Fragment>
+                  {renderSkillSlideshow}
+                  {routeType !== 'category' && isMobile && (
+                    <Fragment>
+                      <SideDrawer>
+                        {renderTimeFilter}
+                        <Divider
+                          style={{ marginLeft: '16px', marginRight: '16px' }}
+                        />
+                        <ListSubheader>SUSI Skills</ListSubheader>
+                        {renderMenu}
+                        <Divider
+                          style={{ marginLeft: '16px', marginRight: '16px' }}
+                        />
+                        {renderRatingsFilter}
+                      </SideDrawer>
+                    </Fragment>
+                  )}
+                  <ContentContainer>
+                    {metricsHidden ? (
+                      <div>
+                        {noSkillFound}
+                        <Grid
+                          container
+                          spacing={3}
+                          direction={isMobile ? 'column-reverse' : 'row'}
+                        >
+                          <Grid
+                            item
+                            container
+                            alignItems="center"
+                            sm={6}
+                            style={{
+                              textAlign: 'center',
+                              padding: isMobile ? '10px 30px' : '30px 25px 0',
+                              fontSize: isMobile ? '14px' : '16px',
+                            }}
+                          >
+                            {renderSkillCount}
+                          </Grid>
+                          <Grid item sm={6} container alignItems="center">
+                            {skills.length > 0 && (
+                              <FlexContainer>
+                                {filterType !== '' && (
+                                  <IconButton
+                                    color="primary"
+                                    onClick={this.handleOrderByChange}
+                                  >
+                                    {renderOrderBy}
+                                  </IconButton>
+                                )}
 
-                            <FilterFormControl>
-                              <InputLabel>Sort By</InputLabel>
-                              <Select
-                                value={filterType}
-                                onChange={this.handleFilterChange}
-                              >
-                                <MenuItem value={'lexicographical'}>
-                                  Name (A-Z)
-                                </MenuItem>
-                                <MenuItem value={'top_rated'}>
-                                  Top Rated
-                                </MenuItem>
-                                <MenuItem value={'rating'}>Most Rated</MenuItem>
-                                <MenuItem value={'creation_date'}>
-                                  Newly Created
-                                </MenuItem>
-                                <MenuItem value={'modified_date'}>
-                                  Recently updated
-                                </MenuItem>
-                                <MenuItem value={'feedback'}>
-                                  Feedback Count
-                                </MenuItem>
-                                <MenuItem value={'usage&duration=7'}>
-                                  This Week Usage
-                                </MenuItem>
-                                <MenuItem value={'usage&duration=30'}>
-                                  This Month Usage
-                                </MenuItem>
-                              </Select>
-                            </FilterFormControl>
-                            {skills.length > 10 && (
-                              <SkillsFormControl>
-                                <InputLabel>Skills per page</InputLabel>
-                                <Select
-                                  value={entriesPerPage}
-                                  onChange={this.handleEntriesPerPageChange}
-                                  style={{
-                                    width: '5.1rem',
-                                    marginTop: '1.5rem',
-                                  }}
+                                <FilterFormControl>
+                                  <InputLabel>Sort By</InputLabel>
+                                  <Select
+                                    value={filterType}
+                                    onChange={this.handleFilterChange}
+                                  >
+                                    <MenuItem value={'lexicographical'}>
+                                      Name (A-Z)
+                                    </MenuItem>
+                                    <MenuItem value={'top_rated'}>
+                                      Top Rated
+                                    </MenuItem>
+                                    <MenuItem value={'rating'}>
+                                      Most Rated
+                                    </MenuItem>
+                                    <MenuItem value={'creation_date'}>
+                                      Newly Created
+                                    </MenuItem>
+                                    <MenuItem value={'modified_date'}>
+                                      Recently updated
+                                    </MenuItem>
+                                    <MenuItem value={'feedback'}>
+                                      Feedback Count
+                                    </MenuItem>
+                                    <MenuItem value={'usage&duration=7'}>
+                                      This Week Usage
+                                    </MenuItem>
+                                    <MenuItem value={'usage&duration=30'}>
+                                      This Month Usage
+                                    </MenuItem>
+                                  </Select>
+                                </FilterFormControl>
+                                {skills.length > 10 && (
+                                  <SkillsFormControl>
+                                    <InputLabel>Skills per page</InputLabel>
+                                    <Select
+                                      value={entriesPerPage}
+                                      onChange={this.handleEntriesPerPageChange}
+                                      style={{
+                                        width: '5.1rem',
+                                        marginTop: '1.5rem',
+                                      }}
+                                    >
+                                      <MenuItem value={10}>10</MenuItem>
+                                      <MenuItem value={20}>20</MenuItem>
+                                      <MenuItem value={50}>50</MenuItem>
+                                      <MenuItem value={100}>100</MenuItem>
+                                    </Select>
+                                  </SkillsFormControl>
+                                )}
+                                <RadioGroup
+                                  defaultValue="list"
+                                  value={viewType}
+                                  onChange={this.handleViewChange}
+                                  style={{ flexDirection: 'row' }}
                                 >
-                                  <MenuItem value={10}>10</MenuItem>
-                                  <MenuItem value={20}>20</MenuItem>
-                                  <MenuItem value={50}>50</MenuItem>
-                                  <MenuItem value={100}>100</MenuItem>
-                                </Select>
-                              </SkillsFormControl>
+                                  <Radio
+                                    value="list"
+                                    style={{
+                                      width: 'fit-content',
+                                      padding: '0px',
+                                    }}
+                                    checkedIcon={
+                                      <ActionViewStream is-active={1} />
+                                    }
+                                    icon={<ActionViewStream />}
+                                  />
+                                  <Radio
+                                    value="grid"
+                                    style={{
+                                      width: 'fit-content',
+                                      padding: '0px',
+                                    }}
+                                    checkedIcon={
+                                      <ActionViewModule is-active={1} />
+                                    }
+                                    icon={<ActionViewModule />}
+                                  />
+                                </RadioGroup>
+                              </FlexContainer>
                             )}
-                            <RadioGroup
-                              defaultValue="list"
-                              value={viewType}
-                              onChange={this.handleViewChange}
-                              style={{ flexDirection: 'row' }}
-                            >
-                              <Radio
-                                value="list"
-                                style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={<ActionViewStream is-active={1} />}
-                                icon={<ActionViewStream />}
-                              />
-                              <Radio
-                                value="grid"
-                                style={{ width: 'fit-content', padding: '0px' }}
-                                checkedIcon={<ActionViewModule is-active={1} />}
-                                icon={<ActionViewModule />}
-                              />
-                            </RadioGroup>
-                          </FlexContainer>
-                        )}
-                      </Grid>
-                    </Grid>
-                    <div>
-                      {viewType === 'list' ? (
-                        <SkillCardList />
-                      ) : (
-                        <SkillCardGrid history={history} />
-                      )}
-                    </div>
-                    {skills.length > this.props.entriesPerPage && (
-                      <PageNavigationContainer>
+                          </Grid>
+                        </Grid>
                         <div>
-                          Page: {listPage} out of{' '}
-                          {Math.ceil(skills.length / entriesPerPage)}
+                          {viewType === 'list' ? (
+                            <SkillCardList />
+                          ) : (
+                            <SkillCardGrid history={history} />
+                          )}
                         </div>
-                        <br />
-                        <Fab
-                          disabled={listPage === 1}
-                          color="primary"
-                          style={{ marginRight: '15px' }}
-                          onClick={this.handleNavigationBackward}
-                        >
-                          <NavigationArrowBack />
-                        </Fab>
-                        <Fab
-                          disabled={
-                            listPage ===
-                            Math.ceil(skills.length / entriesPerPage)
-                          }
-                          color="primary"
-                          onClick={this.handleNavigationForward}
-                        >
-                          <NavigationArrowForward />
-                        </Fab>
-                      </PageNavigationContainer>
+                        {skills.length > this.props.entriesPerPage && (
+                          <PageNavigationContainer>
+                            <div>
+                              Page: {listPage} out of{' '}
+                              {Math.ceil(skills.length / entriesPerPage)}
+                            </div>
+                            <br />
+                            <Fab
+                              disabled={listPage === 1}
+                              color="primary"
+                              style={{ marginRight: '15px' }}
+                              onClick={this.handleNavigationBackward}
+                            >
+                              <NavigationArrowBack />
+                            </Fab>
+                            <Fab
+                              disabled={
+                                listPage ===
+                                Math.ceil(skills.length / entriesPerPage)
+                              }
+                              color="primary"
+                              onClick={this.handleNavigationForward}
+                            >
+                              <NavigationArrowForward />
+                            </Fab>
+                          </PageNavigationContainer>
+                        )}
+                      </div>
+                    ) : (
+                      ''
                     )}
-                  </div>
-                ) : (
-                  ''
-                )}
-                <div>{renderCardScrollList}</div>
-                {/* Check if mobile view is currently active*/}
-                {routeType === 'category'
-                  ? backToHome
-                  : isMobile && (
-                      <Fragment>
-                        <MobileMenuContainer>
-                          {renderMobileMenu}
-                        </MobileMenuContainer>
-                      </Fragment>
-                    )}
-              </ContentContainer>
-            </React.Fragment>
-          )}
-        </RightContainer>
+                    <div>{renderCardScrollList}</div>
+                    {/* Check if mobile view is currently active*/}
+                    {routeType === 'category'
+                      ? backToHome
+                      : isMobile && (
+                          <Fragment>
+                            <MobileMenuContainer>
+                              {renderMobileMenu}
+                            </MobileMenuContainer>
+                          </Fragment>
+                        )}
+                  </ContentContainer>
+                </React.Fragment>
+              )}
+            </RightContainer>
+          </Grid>
+        </Grid>
       </Container>
     );
   }
@@ -1138,4 +1195,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BrowseSkill);
+BrowseSkill.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles, { withTheme: true })(BrowseSkill));
