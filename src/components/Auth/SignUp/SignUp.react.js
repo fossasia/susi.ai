@@ -381,7 +381,7 @@ class SignUp extends Component {
 
 function mapStateToProps(store) {
   const { captchaKey } = store.app.apiKeys;
-  const { signup: isCaptchaEnabled = true } = store.app.captchaConfig;
+  const { signup: isCaptchaEnabled = false } = store.app.captchaConfig;
   return {
     captchaKey,
     isCaptchaEnabled,
