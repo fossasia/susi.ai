@@ -16,7 +16,7 @@ This means:
 
 ### What you have to do
 
-We have a SUSI Skill Wizard at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simple editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a Javascript embedded code, which you can add to your website. You can configure colors and icons to suit your style.
+We have a SUSI Skill Wizard at https://susi.ai/skillWizard. Here you can create public SUSI.AI skills in a simple editor window or private skill bots and check the new changes immediately in the preview at the right. Both can be created in the same way except that one is public and can be edited by anyone and the other is private, which can be edited only by you. The private skill bot also provides a JavaScript embedded code, which you can add to your website. You can configure colors and icons to suit your style.
 
 ### Preparation to start testing
 
@@ -93,7 +93,7 @@ With that file, SUSI.AI would respond on "roses are red" the answer "SUSI is a h
 
 ### Tutorial Level 1: Random Answers
 Skills without a deterministic behavior will create less predictable results.
-That can easily be defined with intents. Lets consider you want a intent where different answers
+That can easily be defined with intents. Let's consider you want a intent where different answers
 on "What is your favorite dish?" are "Potatoes", "Vegetables" or "Fish". That's easy: add an empty line
 to the end of your test file and then:
 ```
@@ -114,7 +114,7 @@ In some cases, the query lines may be so similar, that you want to use a pattern
 
 ```
 May I * you?
-Yes you may.
+Yes, you may.
 ```
 
 ### Tutorial Level 4: Using Query-Patterns in Answers
@@ -123,7 +123,7 @@ Every pattern that matched has a pattern number: the first pattern has the numbe
 we want to use that pattern in the result, we can denote that with the term `$1$`:
 ```
 May I get a *?
-Yes you may get a $1$!
+Yes, you may get a $1$!
 ```
 It is, of course, possible to combine Query-Patterns with alternatives
 in the query part and the response part.
@@ -172,7 +172,7 @@ I bet you like $_beerbrand$ beer!
 Note that the `*` wildcards in the query are not used at all. They are just there
 to make it easy that this rule matches. It will i.e. match on "What beer brand is the best?"
 
-Variables are only visible within the same user session. Therefore we need
+Variables are only visible within the same user session. Therefore, we need
 authenticated users and that is the main reason that you have to log on to use SUSI.AI
 
 
@@ -230,10 +230,10 @@ What is your favorite color?
 
 Here, the colour is randomly generated with the `function colour` call, but only if SUSI.AI has not done that yet. If SUSI.AI just generated a colour in the answer, that answer will be stored in the variable `_mycolour`. But if that variable already existed, it will be used to make the answer without the `function colour`.
 
-### Tutorial Level 10: Embed Javascript into an intent
+### Tutorial Level 10: Embed JavaScript into an intent
 
 If you are able to compute whatever you want to inside a rule, there are billions of possibilities of what you can do with SUSI Skills.
-Embedding Javascript is extremely easy, for example:
+Embedding JavaScript is extremely easy, for example:
 
 ```
 javascript hello
@@ -479,7 +479,7 @@ This action can be performed by doing a web search on the client side:
 }
 ```
 
-A websearch action is usually combined with an answer action type which introduces the web search result as a headline. The query attribute for the web search can be found in the query object. Like in table actions, the count object denotes the maximum number of results. -1 means unlimited, meaning that all the results from the web search results are used. The API for the web search can be choosen by the client. A typical rendering of such a search results has three lines:
+A websearch action is usually combined with an answer action type which introduces the web search result as a headline. The query attribute for the web search can be found in the query object. Like in table actions, the count object denotes the maximum number of results. -1 means unlimited, meaning that all the results from the web search results are used. The API for the web search can be chosen by the client. A typical rendering of such a search results has three lines:
 
 * a Headline
 * a Snippet or Description line (showing the content of the found document where the searched word appears)
@@ -504,7 +504,7 @@ The actual presentation can differ from this, i.e. using anchor tags it should b
 
 ### Video Actions
 
-A video action to play a youtube video would look like:
+A video action to play a YouTube video would look like:
 ```
 snore
 !console:I am snoring
@@ -530,7 +530,7 @@ Using SUSI's variables and if rules can be used to create experts which are able
 
 ### Tutorial Level 14: Expert Systems with Backtracking
 
-Backtracking is the ability of a program to revert a already made setting and take an alternative option. If we consider this behaviour at different states of a computation, then this produces a tree-like parameter graph, which is called a decision tree. SUSI's data structures are made in such a way, that result tables are an element of 'thinking'. Such result tables are 'bags' for backtracking options. We will learn how to use that principle to create loops which are useful for problem-solving.
+Backtracking is the ability of a program to revert a already made setting and take an alternative option. If we consider this behavior at different states of a computation, then this produces a tree-like parameter graph, which is called a decision tree. SUSI's data structures are made in such a way, that result tables are an element of 'thinking'. Such result tables are 'bags' for backtracking options. We will learn how to use that principle to create loops which are useful for problem-solving.
 
 (to be implemented)
 
@@ -559,7 +559,7 @@ Every skill can be given an example query using the bang-notion which always sta
 
 ```
 what is your name? | What's your name? | Who are you?| what should i call you? | do you have a name
-!example:what is your name?
+!example: what is your name?
 My name is SUSI.
 ```
 
