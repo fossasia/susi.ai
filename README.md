@@ -6,8 +6,8 @@
   <a href="https://hosted.weblate.org/engage/susi-ai/?utm_source=widget">
     <img src="https://hosted.weblate.org/widgets/susi-ai/-/chat/svg-badge.svg" alt="Weblate" />
   </a>
-  <a href="https://www.codacy.com/app/rishiraj824/susi.ai?utm_source=github.com&utm_medium=referral&utm_content=fossasia/susi.ai&utm_campaign=badger">
-    <img src="https://api.codacy.com/project/badge/Grade/db948e1eb4b2457386ba80388e8390cf" alt="Codacy Badge" />
+  <a href="https://www.codacy.com/">
+    <img src="https://app.codacy.com/project/badge/Grade/cba8fd0874ac4f569f4f880e473cbac9?branch=dev" alt="Codacy Badge" />
   </a>
   <a href="https://travis-ci.org/fossasia/susi.ai">
     <img src="https://travis-ci.org/fossasia/susi.ai.svg?branch=master" alt="Build Status" />
