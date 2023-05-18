@@ -14,7 +14,7 @@ a {
   text-decoration: none;
   background-color: transparent;
   outline: none;
-  cursor: pointer;
+  cursor: auto;
 }
 
 input {
