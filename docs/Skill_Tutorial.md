@@ -39,6 +39,13 @@ Within the SUSI.AI skills editor window you find fields for meta-information, th
 ::image <image_url>
 ::term_of_use <link>
 
+#### About ::description
+
+The `::description` field provides a short explanation of what the skill does.  
+It helps users and developers understand the purpose of the skill when browsing skills in the Skill CMS.
+
+This field should contain a clear and concise summary of the skill functionality.
+
 #Intent
 User query1|query2|quer3....
 Answer answer1|answer2|answer3...
