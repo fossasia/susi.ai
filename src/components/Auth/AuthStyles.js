@@ -42,7 +42,8 @@ const PasswordFieldBase = ({ className, ...props }) => {
             edge="end"
             onClick={() => setShowPassword((prev) => !prev)}
             onMouseDown={(event) => event.preventDefault()}
-            tabIndex={-1}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-pressed={showPassword}
           >
             {showPassword ? <_VisibilityOff /> : <_Visibility />}
           </_IconButton>
