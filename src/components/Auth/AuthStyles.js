@@ -1,6 +1,10 @@
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import _PasswordField from 'material-ui-password-field';
 import _OutlinedInput from '@material-ui/core/OutlinedInput';
+import _InputAdornment from '@material-ui/core/InputAdornment';
+import _IconButton from '@material-ui/core/IconButton';
+import _Visibility from '@material-ui/icons/Visibility';
+import _VisibilityOff from '@material-ui/icons/VisibilityOff';
 import _Button from '@material-ui/core/Button';
 import _FormControl from '@material-ui/core/FormControl';
 
@@ -23,7 +27,32 @@ export const FormControl = styled(_FormControl)`
   align-items: center;
 `;
 
-export const PasswordField = styled(_PasswordField)`
+const PasswordFieldBase = ({ className, ...props }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  return (
+    <_OutlinedInput
+      {...props}
+      className={className}
+      type={showPassword ? 'text' : 'password'}
+      labelWidth={0}
+      endAdornment={
+        <_InputAdornment position="end">
+          <_IconButton
+            edge="end"
+            onClick={() => setShowPassword((prev) => !prev)}
+            onMouseDown={(event) => event.preventDefault()}
+            tabIndex={-1}
+          >
+            {showPassword ? <_VisibilityOff /> : <_Visibility />}
+          </_IconButton>
+        </_InputAdornment>
+      }
+    />
+  );
+};
+
+export const PasswordField = styled(PasswordFieldBase)`
   ${responsiveInputStyle};
   border-radius: 4px;
   border: 1px solid #ced4da;
