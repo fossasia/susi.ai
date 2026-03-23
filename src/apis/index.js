@@ -45,7 +45,7 @@ export function fetchCaptchaConfig() {
 export function getLogin(payload) {
   const { email, password, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/login.json`;
-  return ajax.get(url, {
+  return ajax.post(url, {
     login: email,
     password,
     type: 'access-token',
@@ -56,7 +56,7 @@ export function getLogin(payload) {
 export function getSignup(payload) {
   const { email, password, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/signup.json`;
-  return ajax.get(url, {
+  return ajax.post(url, {
     signup: email,
     password,
     'g-recaptcha-response': captchaResponse,
@@ -82,7 +82,7 @@ export function verifyEmail(payload) {
 export function getChangePassword(payload) {
   const { email, password, newPassword, captchaResponse } = payload;
   const url = `${API_URL}/${AUTH_API_PREFIX}/changepassword.json`;
-  return ajax.get(url, {
+  return ajax.post(url, {
     changepassword: email,
     password,
     newpassword: newPassword,
