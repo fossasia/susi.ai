@@ -8,25 +8,13 @@ import styled from 'styled-components';
 import Button from '../../shared/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import _PasswordField from 'material-ui-password-field';
 import Translate from '../../Translate/Translate.react';
 import appActions from '../../../redux/actions/app';
 import uiActions from '../../../redux/actions/ui';
 import PasswordStrengthBar from '../../shared/PasswordStrengthBar';
 import isPassword from '../../../utils/isPassword';
 import Recaptcha from '../../shared/Recaptcha';
-
-const PasswordField = styled(_PasswordField)`
-  height: 35px;
-  border-radius: 4;
-  border: 1px solid #ced4da;
-  padding: 0px 12px;
-  width: 22.5rem;
-  @media (max-width: 520px) {
-    width: 100%;
-    max-width: 17rem;
-  }
-`;
+import { PasswordField as AuthPasswordField } from '../AuthStyles';
 
 const Form = styled(FormControl)`
   @media (max-width: 520px) {
@@ -277,7 +265,7 @@ class ChangePassword extends Component {
         <form autoComplete="false">
           <LabelContainer>Current Password</LabelContainer>
           <Form disabled={loading}>
-            <PasswordField
+            <AuthPasswordField
               name="password"
               value={password}
               onChange={this.handleTextFieldChange}
@@ -286,7 +274,7 @@ class ChangePassword extends Component {
           </Form>
           <LabelContainer>New Password</LabelContainer>
           <Form error={newPasswordErrorMessage !== ''} disabled={loading}>
-            <PasswordField
+            <AuthPasswordField
               name="newPassword"
               placeholder="Must be between 8-64 characters"
               value={newPassword}
@@ -306,7 +294,7 @@ class ChangePassword extends Component {
               error={newPasswordConfirmErrorMessage !== ''}
               disabled={loading}
             >
-              <PasswordField
+              <AuthPasswordField
                 name="confirmNewPassword"
                 placeholder="Must match the new password"
                 value={confirmNewPassword}
