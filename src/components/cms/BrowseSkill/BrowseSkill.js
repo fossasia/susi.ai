@@ -137,7 +137,6 @@ const ListSubheader = styled(_ListSubheader)`
 const SidebarItem = styled(MenuItem)`
   ${SidebarTextStyles}
 
-  /* ✅ FIX: Added margin for spacing between items */
   margin-bottom: 8px;
 `;
 
