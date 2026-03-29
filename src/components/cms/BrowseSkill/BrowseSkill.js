@@ -135,6 +135,7 @@ const ListSubheader = styled(_ListSubheader)`
 
 const SidebarItem = styled(MenuItem)`
   ${SidebarTextStyles}
+  margin-bottom: 8px;
 `;
 
 const Sidebar = styled.div`
@@ -142,6 +143,7 @@ const Sidebar = styled.div`
   display: block;
   z-index: 2;
   flex: 1 1 0;
+  padding: 15px;
   border-right: 1px solid #ddd;
   border-spacing: 1px;
   @media (max-width: 768px) {
