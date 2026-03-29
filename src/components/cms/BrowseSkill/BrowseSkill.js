@@ -133,10 +133,15 @@ const ListSubheader = styled(_ListSubheader)`
   margin: 1rem 0;
 `;
 
+//  UPDATED SIDEBAR ITEM (spacing between items)
 const SidebarItem = styled(MenuItem)`
   ${SidebarTextStyles}
+
+  /* ✅ FIX: Added margin for spacing between items */
+  margin-bottom: 8px;
 `;
 
+//  UPDATED SIDEBAR (spacing fix added)
 const Sidebar = styled.div`
   width: 15%;
   display: block;
@@ -144,6 +149,10 @@ const Sidebar = styled.div`
   flex: 1 1 0;
   border-right: 1px solid #ddd;
   border-spacing: 1px;
+
+  /*  FIX: Added padding for better spacing */
+  padding: 15px;
+
   @media (max-width: 768px) {
     display: none;
   }
